@@ -50,7 +50,7 @@
   border-radius: 3px;
 }
 
-.limit-type-wordcount {
+.limit-type-wordcount,.limit-type-wordcount1 {
   display: none;
   font-size: 14px;
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
@@ -1911,9 +1911,16 @@ span.detail-dot,span.detail-dot1 {
   line-height: 1.43;
   border-bottom: 1px solid #edeff0;
   padding-bottom: 12px;
+  /* padding-left: 12px; */
+}
+.mb-0.list-dot-wrap.detail-line.collection-desc1.w-100{
+  font-size: 14px;
+  color: #2e3d4d;
+  line-height: 1.43;
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 12px;
   padding-left: 12px;
 }
-
 span.tagName {
   color: #64707d;
   font-size: 12px;
@@ -1927,6 +1934,7 @@ span.tagName {
   max-height: 128px;
   padding-left: 16px;
   padding-right: 16px;
+  padding-top: 10px;
 }
 
 .hide-border {
@@ -1948,6 +1956,7 @@ span.tagName {
   color: #2e3d4d;
   max-height: 185px;
   overflow: overlay;
+  padding-top: 10px;
 }
 
 .single-collectin-footer1 {
@@ -2203,6 +2212,10 @@ span.tagName_collection {
 .single-collection-list1-group {
   max-height: 212px;
   overflow: overlay;
+}
+label.form-title.input-label-collection {
+  font-size: 18px;
+  font-weight: 600;
 }
 /* end selected concept */
 

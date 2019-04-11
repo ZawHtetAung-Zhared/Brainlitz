@@ -67,6 +67,7 @@ export class TestwerkzComponent implements OnInit {
   };
   public goBackCat = false;
   public wordLength: any;
+  public des_wordLength: any;
   public navIsFixed: boolean = false;
   public iseditfocus = false;
   public otherfocus = false;
@@ -126,6 +127,7 @@ export class TestwerkzComponent implements OnInit {
   public collectionarr:any=[];
   public isTestwerkztitle:boolean=true;
   public collectionName:string='';
+  public collectionDescription:string='';
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -412,9 +414,13 @@ export class TestwerkzComponent implements OnInit {
     );
   }
   focusMethod(e, status, word) {
-    this.wordLength = word.length;
     if (status == "name") {
+      this.wordLength = word.length;
       $(".limit-type-wordcount").show("slow");
+    }
+    if (status == "Description") {
+      this.des_wordLength = word.length;
+      $(".limit-type-wordcount1").show("slow");
     }
   }
 
@@ -433,14 +439,25 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   blurMethod(e, status) {
-    console.log("blur", e);
-    let wp = this.wordLength;
-    $(".limit-type-wordcount").hide("slow");
-    $(".limit-word").hide("slow");
-    this.wordLength = 0;
+    console.log("blur", e,status);
+    if(status=="name"){
+      let wp = this.wordLength;
+      $(".limit-type-wordcount").hide("slow");
+      $(".limit-word").hide("slow");
+      this.wordLength = 0;
+    }else{
+      let wp = this.wordLength;
+      $(".limit-type-wordcount1").hide("slow");
+      this.des_wordLength = 0;
+    }
+   
   }
   changeMethod(val: string) {
     this.wordLength = val.length;
+  }
+  changeMethodDes(val:string){
+    console.log(val)
+    this.des_wordLength=val.length
   }
   close(status, id) {
     if (status == "create") {
@@ -506,6 +523,7 @@ export class TestwerkzComponent implements OnInit {
     };
     this.selectedConcept=[];
     this.collectionName="";
+    this.collectionDescription="";
     this.collectionId="";
     this.ischecked = "";
     this.isCollectionList=true;
@@ -1220,7 +1238,7 @@ export class TestwerkzComponent implements OnInit {
           console.log("to call onselecedImgDiv~~~")
             this.onslectedImgDiv(
               this.tempContentArr[j]._id,
-              this.tempContentArr[j],1
+              this.tempContentArr[j]
             );
           // break;
         }
@@ -1230,8 +1248,8 @@ export class TestwerkzComponent implements OnInit {
 
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
-  onslectedImgDiv(i, img,id) {
-    console.log("onslectedImgDiv",img)
+  onslectedImgDiv(i, img) {
+    console.log("onslectedImgDiv",img,i)
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
@@ -1243,16 +1261,18 @@ export class TestwerkzComponent implements OnInit {
     }else if (this.modelType == "video" || this.modelType == "ansVideo") {
       console.log("else if")
       if (this.isRemove) {
-        // console.log("is remove");
-        this.selectedVideoArr.splice(this.selectedImgArr.indexOf(i), 1);
-        this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
+        console.log("is remove",this.vidIdArr);
+        console.log(i)
+        this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
+        this.vidIdArr.splice(this.vidIdArr.indexOf(i));
         // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
         console.log(this.vidIdArr.includes(i));
         if (this.vidIdArr.includes(i)) {
-          // console.log("is remove seleccted");
-          this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(i), 1);
+          console.log(this.vidIdArr)
+          console.log("is remove seleccted",this.selectedVideoArr.map(x => x._id).indexOf(i));
+          this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
           this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
           // this.removerSelected(i);
         } else {
@@ -3178,6 +3198,7 @@ export class TestwerkzComponent implements OnInit {
     this.selectedConcept=[];
     this.collectionId="";
     this.collectionName="";
+    this.collectionDescription="";
   }
   // start concept search
   focusSearch(e) {
@@ -3294,6 +3315,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(idArr)
     let obj={
       "name":this.collectionName,
+      "description":this.collectionDescription,
       "concepts":idArr
     };
     console.log(this.collectionName);
@@ -3326,6 +3348,7 @@ export class TestwerkzComponent implements OnInit {
         this.isCollectionEdit=true;
         this.isCollection=false;
         this.collectionName=res.name;
+        this.collectionDescription=res.description;
         this.collectionId=res._id;
         res.concepts.map(obj=>{
           this.getConceptByIdForCollection(obj.conceptId)
@@ -3363,6 +3386,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(idArr)
     let obj={
       "name":this.collectionName,
+      "description":this.collectionDescription,
       "concepts":idArr
     };
     this._service.updateCollection(this.regionID,obj,id).subscribe(
@@ -3390,6 +3414,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.selectedConcept=[];
     this.collectionName="";
+    this.collectionDescription="";
     console.log("cancel")
   }
   showmoreConcept(length){

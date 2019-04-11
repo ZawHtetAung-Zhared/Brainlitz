@@ -55,7 +55,8 @@
           
           <div class="single-collection-group">
             <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
-              <span class="tagName">{{concept.tag[0].name}}</span>
+              <!-- {{concept.tag[0].name  | json}} -->
+               <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
@@ -178,10 +179,10 @@
           
           <div class="single-collection-list1-group">
             <div class="single-collection-list1"  *ngFor="let concept of col.concepts;let ci = index">
-              <span class="tagName">{{concept.tag[0].name}}</span>
+              <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot1"></span>
-                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc1 w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
                 </div>
             </div>
           </div>
@@ -233,7 +234,23 @@
           </div>
         </div>
       </div>
-    <!-- </div> -->
+      <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
+        <div class="d-flex justify-content-between collection-description">
+          <label class="form-title input-label-collection" for="address">
+            Description
+          </label>
+          <div class="limit-type-wordcount1">
+            <span>{{ des_wordLength }}/280characters</span>
+          </div>
+        </div>
+  
+        <textarea type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
+          placeholder="Type Plan name here" name="name" maxlength="280" [(ngModel)]="collectionDescription"
+          (focus)="focusMethod($event, 'Description', $event.target.value)" (blur)="blurMethod($event, 'Description')"
+          (input)="changeMethodDes($event.target.value)"></textarea>
+        <!-- </div> -->
+      </div>
+      
   </div>
   <div class="custom-dropdown-width input-group col-md-12 all-title-font">
     <div class="input-group w-100">
@@ -298,7 +315,7 @@
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
     <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
-      <span class="tagName_collection">{{sConcept.tag[0].name}}</span>
+      <span class="tagName_collection">{{sConcept.tag.name}}</span>
       <div class="d-flex flex-row justify-content-between">
         <div class="d-flex group-text">
             <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
