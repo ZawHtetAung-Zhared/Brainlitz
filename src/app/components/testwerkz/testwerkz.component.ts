@@ -1888,10 +1888,15 @@ export class TestwerkzComponent implements OnInit {
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
+        var ansContent = this.performanceDemands[idx1].questions[idx2].answers[idx3].contents;
+        if(ansContent!=undefined){
+          this.isCollapseVid(ansContent)
+        }
         this.showID = "";
         this.focusPlace = "a" + idx1 + idx2 + idx3;
-        this.focusType.no = idx2;
+        this.focusType.no = idx3;
         this.focusType.parentIdx = idx1;
+        this.focusType["parentQuesIdx"] = idx2; 
         if (type == "check") {
           this.focusType.type = "answer";
         }
@@ -2038,12 +2043,16 @@ export class TestwerkzComponent implements OnInit {
       if (this.performanceDemands.length > 1) {
         this.performanceDemands.splice(itemType.no, 1);
       }
-    } else if (itemType.type == "question" || itemType.type == "answer") {
+    } else if (itemType.type == "question") {
       if (this.performanceDemands[itemType.parentIdx].questions.length > 1) {
         this.performanceDemands[itemType.parentIdx].questions.splice(
           itemType.no,
           1
         );
+      }
+    }else{
+      if(this.performanceDemands[itemType.parentIdx].questions[itemType.parentQuesIdx].answers.length > 1){
+        this.performanceDemands[itemType.parentIdx].questions[itemType.parentQuesIdx].answers.splice(itemType.no,1);
       }
     }
     this.focusType = {};
