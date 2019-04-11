@@ -39,15 +39,15 @@
   <h2 class="testwerkzTitle mt-3" *ngIf="isTestwerkztitle">TestWerkz</h2>
     <!-- Start Collection -->
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
-      <label class="cTitle mb-0">Collection</label>
+      <label class="cTitle mb-0">Plan</label>
       <div>
         <button class="btn btn-create" (click)="goToaddNewCollection()">
-          Add new collection
+          Add new Plan
         </button>
       </div>
     </div>
     <div class="d-flex collection-wrappe " *ngIf="isCollectionList">
-      <div  *ngFor="let col of collectionarr">
+      <div  *ngFor="let col of collectionArr_slice">
         <div class="single-collection">
           <div class="single-collectin-header">
             <p class="single-collection-title">{{col.name}}</p>
@@ -160,10 +160,10 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-        <label class="cTitle mb-0">Collection</label>
+        <label class="cTitle mb-0">Plan</label>
         <div>
           <button class="btn btn-create" (click)="goToaddNewCollection()">
-            Add new collection
+            Add new plan
           </button>
         </div>
     </div>
@@ -187,7 +187,10 @@
           </div>
         </div>
         <div class="d-flex justify-content-end single-collectin-footer1">
+          <div style="padding-top: 13px;">
             <button class="btn-action remove-outline" (click)="goTocollectionEdit(col._id)">Edit</button>
+            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(col._id)">Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -205,15 +208,15 @@
         </div>
       </div>
       <h3 class="collection-title" *ngIf="isCollectionCreate">
-        Create Collection
+        Create Plan
       </h3>
       <h3 class="collection-title" *ngIf="isCollectionEdit">
-        Update Collection
+        Update Plan
       </h3>
       <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
         <div class="d-flex justify-content-between collection-title">
           <label class="form-title input-label-collection" for="address">
-            Collection name
+            Plan name
           </label>
           <div class="limit-type-wordcount">
             <span>{{ wordLength }}/60characters</span>
@@ -221,7 +224,7 @@
         </div>
 
         <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
-          placeholder="Type Collection name here" name="name" maxlength="60" [(ngModel)]="collectionName"
+          placeholder="Type Plan name here" name="name" maxlength="60" [(ngModel)]="collectionName"
           (focus)="focusMethod($event, 'name', $event.target.value)" (blur)="blurMethod($event, 'name')"
           (input)="changeMethod($event.target.value)" required #name="ngModel" />
         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
@@ -239,7 +242,7 @@
           <i class="fa fa-search search-size"></i>
         </button>
       </span>
-      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this collection" 
+      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this plan" 
       id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
       (input)="changeSearch($event.target.value, 'apg')"
       autocomplete="off"
@@ -284,7 +287,7 @@
     </div>
     <div class="d-flex flex-row">
         <div class="txt-default">
-            <h3>Add Concept to this Collection</h3>
+            <h3>Add Concept to this Plan</h3>
           </div>
       <div class="arrow-pos">
         <img src="assets/images/arrow.png">
@@ -1161,7 +1164,7 @@
         <div class="row imgGp pb-3">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr; let i = index">
             <div class="d-flex justify-content-center align-items-center inner-imgDiv"
-              (click)="onslectedImgDiv(img._id, img)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
+              (click)="onslectedImgDiv(img._id, img,i)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
               (mouseenter)="onImgMouseEvent($event, img._id, 'mouseenter')" (mouseleave)="onImgMouseEvent($event, img._id,'mouseleave')">
               <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
                 <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>
