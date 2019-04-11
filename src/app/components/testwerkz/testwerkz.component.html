@@ -1087,9 +1087,12 @@
             Delete
           </button>
           <button *ngIf="
-              (focusType.type == 'question' || focusType.type == 'answer') &&
+              (focusType.type == 'question') &&
               performanceDemands[focusType.parentIdx].questions.length > 1
             " (click)="delete(focusType)">
+            Delete
+          </button>
+          <button *ngIf="(focusType.type == 'answer') && performanceDemands[focusType.parentIdx].questions[focusType.parentQuesIdx].answers.length > 1" (click)="delete(focusType)">
             Delete
           </button>
         </div>
