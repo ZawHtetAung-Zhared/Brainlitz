@@ -55,8 +55,7 @@
           
           <div class="single-collection-group">
             <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
-              <!-- <span class="tagName">{{concept.tag[0].name}}</span> -->
-              <span *ngFor="let tag of concept.tag">{{tag.name}}</span>
+              <span class="tagName">{{concept.tag[0].name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
