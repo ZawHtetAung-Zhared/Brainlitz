@@ -2108,17 +2108,24 @@ export class TestwerkzComponent implements OnInit {
       turndownService.addRule("Tada", {
         filter: "div",
         replacement: function(content) {
-          return content + "";
+          return content + '  \n';
         }
       });
+      // turndownService.addRule("Test", {
+      //   filter: "p",
+      //   replacement: function(content) {
+      //     return content + '  \n';
+      //   }
+      // });
       var tempStr = turndownService.turndown(myDiv);
-      console.log("tempStr",tempStr)
+      // console.log("tempStr",tempStr)
       if(tempStr.includes("![](./assets/images/remove-white.png)")){
         markdownQues = this.replaceAll('![](./assets/images/remove-white.png)','',tempStr);
         // markdownQues = tempStr.replace("![](./assets/images/remove-white.png)", "");
       }else{
         markdownQues = tempStr;
       }
+      // console.log("html",myDiv.innerHTML)
       console.log("turn to markdown", markdownQues);
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
@@ -2126,7 +2133,7 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
       ].question = markdownQues;
-      // console.log("performanceDemands", this.performanceDemands);
+      console.log("questions", this.performanceDemands[fType.parentIdx].questions);
     }, 200);
   }
 
