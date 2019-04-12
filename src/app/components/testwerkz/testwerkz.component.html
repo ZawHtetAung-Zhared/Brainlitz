@@ -36,18 +36,18 @@
   </div>
 </div> -->
 <div  class="pdLR-15">
-  <h2 class="testwerkzTitle pdLR-15 mt-3" *ngIf="isTestwerkztitle">TestWerkz</h2>
+  <h2 class="testwerkzTitle mt-3 pdLR-15" *ngIf="isTestwerkztitle">TestWerkz</h2>
     <!-- Start Collection -->
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
-      <label class="cTitle mb-0">Collection</label>
+      <label class="cTitle mb-0">Plan</label>
       <div>
         <button class="btn btn-create" (click)="goToaddNewCollection()">
-          Add new collection
+          Add new Plan
         </button>
       </div>
     </div>
-    <div class="d-flex collection-wrappe " *ngIf="isCollectionList">
-      <div  *ngFor="let col of collectionarr">
+    <div class="d-flex collection-wrappe latestPlanLists" *ngIf="isCollectionList">
+      <div  *ngFor="let col of collectionArr_slice">
         <div class="single-collection">
           <div class="single-collectin-header">
             <p class="single-collection-title">{{col.name}}</p>
@@ -55,7 +55,8 @@
           
           <div class="single-collection-group">
             <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
-              <span class="tagName">{{concept.tag[0].name}}</span>
+              <!-- {{concept.tag[0].name  | json}} -->
+               <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
@@ -65,7 +66,7 @@
         </div>
       </div>
     </div>
-    <div class="viewAllDiv" *ngIf="isCollectionList">
+    <div class="viewAllDiv pdLR-15" *ngIf="isCollectionList">
       <button  class="btn-action remove-outline viewallBtn" (click)="goToCollection()">View All 
         <span class="lists-down-arrow">
             <i class="fa fa-angle-right rightArrow"></i>
@@ -149,8 +150,8 @@
 </div>
 
 <!-- start collection group -->
-<div *ngIf="isCollection">
-  <header [ngClass]="{ blury: isfocus == true || iseditfocus == true }" style="height: 115px;" class="pl-5">
+<div *ngIf="isCollection" class="plan-list-wrapper">
+  <header [ngClass]="{ blury: isfocus == true || iseditfocus == true }" style="height: 115px;">
     <div class="d-flex" [ngClass]="{ stickywrap: navIsFixed == true }">
       <div class="mr-auto p-2 pl-0 pb-0" >
         <div class="back-to d-flex" (click)="backToList()">
@@ -160,15 +161,15 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-        <label class="cTitle mb-0">Collection</label>
+        <label class="cTitle mb-0">Plan</label>
         <div>
           <button class="btn btn-create" (click)="goToaddNewCollection()">
-            Add new collection
+            Add new plan
           </button>
         </div>
     </div>
   </header>
-  <div class="collection-wrapper1 card-columns pl-5">
+  <div class="collection-wrapper1 card-columns">
     <div class="card" *ngFor="let col of collectionarr">
       <div class="single-collection1">
         <div class="info-section">
@@ -178,16 +179,19 @@
           
           <div class="single-collection-list1-group">
             <div class="single-collection-list1"  *ngFor="let concept of col.concepts;let ci = index">
-              <span class="tagName">{{concept.tag[0].name}}</span>
+              <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot1"></span>
-                  <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
+                  <div class="mb-0 list-dot-wrap detail-line collection-desc1 w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
                 </div>
             </div>
           </div>
         </div>
         <div class="d-flex justify-content-end single-collectin-footer1">
+          <div style="padding-top: 13px;">
             <button class="btn-action remove-outline" (click)="goTocollectionEdit(col._id)">Edit</button>
+            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(col._id)">Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -205,15 +209,15 @@
         </div>
       </div>
       <h3 class="collection-title" *ngIf="isCollectionCreate">
-        Create Collection
+        Create Plan
       </h3>
       <h3 class="collection-title" *ngIf="isCollectionEdit">
-        Update Collection
+        Update Plan
       </h3>
       <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
         <div class="d-flex justify-content-between collection-title">
           <label class="form-title input-label-collection" for="address">
-            Collection name
+            Plan name
           </label>
           <div class="limit-type-wordcount">
             <span>{{ wordLength }}/60characters</span>
@@ -221,7 +225,7 @@
         </div>
 
         <input type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
-          placeholder="Type Collection name here" name="name" maxlength="60" [(ngModel)]="collectionName"
+          placeholder="Type Plan name here" name="name" maxlength="60" [(ngModel)]="collectionName"
           (focus)="focusMethod($event, 'name', $event.target.value)" (blur)="blurMethod($event, 'name')"
           (input)="changeMethod($event.target.value)" required #name="ngModel" />
         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
@@ -230,7 +234,23 @@
           </div>
         </div>
       </div>
-    <!-- </div> -->
+      <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
+        <div class="d-flex justify-content-between collection-description">
+          <label class="form-title input-label-collection" for="address">
+            Description
+          </label>
+          <div class="limit-type-wordcount1">
+            <span>{{ des_wordLength }}/280characters</span>
+          </div>
+        </div>
+  
+        <textarea type="text" class="form-control selfAssessmentName col-12" autocomplete="off"
+          placeholder="Type Plan name here" name="name" maxlength="280" [(ngModel)]="collectionDescription"
+          (focus)="focusMethod($event, 'Description', $event.target.value)" (blur)="blurMethod($event, 'Description')"
+          (input)="changeMethodDes($event.target.value)"></textarea>
+        <!-- </div> -->
+      </div>
+      
   </div>
   <div class="custom-dropdown-width input-group col-md-12 all-title-font">
     <div class="input-group w-100">
@@ -239,7 +259,7 @@
           <i class="fa fa-search search-size"></i>
         </button>
       </span>
-      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this collection" 
+      <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this plan" 
       id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
       (input)="changeSearch($event.target.value, 'apg')"
       autocomplete="off"
@@ -278,13 +298,15 @@
     position: absolute;
   "></div> -->
   </div>
-  <div  class="d-flex flex-row empty-concept" *ngIf="selectedConcept.length== 0">
-    <div class="d-flex img-pos">
-      <img src="assets/img/apg-list-default.png">
+  <div  class="col-md-12 row empty-concept" *ngIf="selectedConcept.length== 0" >
+    <div class="col-md-6">
+      <div class="img-pos">
+        <img src="assets/img/apg-list-default.png">
+      </div>
     </div>
-    <div class="d-flex flex-row">
+    <div class="col-md-6 flex-row">
         <div class="txt-default">
-            <h3>Add Concept to this Collection</h3>
+            <h3>Add Concept to this Plan</h3>
           </div>
       <div class="arrow-pos">
         <img src="assets/images/arrow.png">
@@ -295,7 +317,7 @@
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
     <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
-      <span class="tagName_collection">{{sConcept.tag[0].name}}</span>
+      <span class="tagName_collection">{{sConcept.tag.name}}</span>
       <div class="d-flex flex-row justify-content-between">
         <div class="d-flex group-text">
             <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
@@ -319,7 +341,7 @@
           <div class="flashImg">
               <img src="/assets/images/un-thunder-flash-w.png" />
           </div>
-          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{sConcept.name}}</div>
+          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
         </div>
       </div>
       <!-- <hr class="hr-style"> -->
@@ -730,7 +752,7 @@
                           data-placeholder="Type question here" (focus)="onFocus('question', i, j, '', t)"
                           (input)="onInput(t, $event, editableId, focusType)" (focusout)="onFocusOut($event)"
                           (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)"></div>
-                        <div class="question-vd-wrapper row">
+                        <!-- <div class="question-vd-wrapper row">
                           <div *ngFor="let video of  question.contents; let idx = index"
                             class="position-relative mr-2 ml-2 question-vd innerPd" 
                             (mouseenter)="mouseOver($event, 'qRMI', i, j, idx)"
@@ -742,7 +764,7 @@
                               <img *ngIf="showRemove && hoverIcon == 'qRMI-' + i + j + idx" (click)="removeQuestionVideo(video, idx)" class="img-qpd rmIcon"
                               src="./assets/img/remove-white.png" />
                           </div>
-                        </div>
+                        </div> -->
                         <!-- <textarea name="" id="" class="w-100 question-name" placeholder="type question here" (input)="autoResize($event)"></textarea> -->
                         <div class="" style="padding-top: 20px;" *ngFor="
                             let answer of question.answers;
@@ -1067,9 +1089,12 @@
             Delete
           </button>
           <button *ngIf="
-              (focusType.type == 'question' || focusType.type == 'answer') &&
+              (focusType.type == 'question') &&
               performanceDemands[focusType.parentIdx].questions.length > 1
             " (click)="delete(focusType)">
+            Delete
+          </button>
+          <button *ngIf="(focusType.type == 'answer') && performanceDemands[focusType.parentIdx].questions[focusType.parentQuesIdx].answers.length > 1" (click)="delete(focusType)">
             Delete
           </button>
         </div>
@@ -1083,8 +1108,11 @@
         </button>
       </div>
       <div class="d-flex">
-        <button type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">
+        <button *ngIf="!conceptEdit" type="button" class="btn btn-cancel" (click)="cancelConcept('cancel')">
           Cancel
+        </button>
+        <button *ngIf="conceptEdit" type="button" class="btn btn-cancel" (click)="cancelConcept('redirect')">
+          Close
         </button>
         <div *ngIf="!conceptEdit">
           <div class="d-none">{{ validateForm() }}</div>
@@ -1096,7 +1124,7 @@
           <div class="d-none">{{ validateForm() }}</div>
           <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid"
             (click)="updateConcept(conceptId)">
-            Update
+            Save
           </button>
         </div>
       </div>
@@ -1155,7 +1183,7 @@
         <div class="row imgGp pb-3">
           <div class="col-md-2 imgDiv" *ngFor="let img of ImgArr; let i = index">
             <div class="d-flex justify-content-center align-items-center inner-imgDiv"
-              (click)="onslectedImgDiv(img._id, img)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
+              (click)="onslectedImgDiv(img._id, img,i)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
               (mouseenter)="onImgMouseEvent($event, img._id, 'mouseenter')" (mouseleave)="onImgMouseEvent($event, img._id,'mouseleave')">
               <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
                 <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>

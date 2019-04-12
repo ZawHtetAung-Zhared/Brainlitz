@@ -67,6 +67,7 @@ export class TestwerkzComponent implements OnInit {
   };
   public goBackCat = false;
   public wordLength: any;
+  public des_wordLength: any;
   public navIsFixed: boolean = false;
   public iseditfocus = false;
   public otherfocus = false;
@@ -126,6 +127,7 @@ export class TestwerkzComponent implements OnInit {
   public collectionarr:any=[];
   public isTestwerkztitle:boolean=true;
   public collectionName:string='';
+  public collectionDescription:string='';
   // public focusType = {
   //   'type': "",
   //   'no': "",
@@ -148,6 +150,7 @@ export class TestwerkzComponent implements OnInit {
   public showRemove:boolean =false;
   public hoverIcon:any=""
   public pageConcept:any=1;
+  public collectionArr_slice:any;
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -411,9 +414,13 @@ export class TestwerkzComponent implements OnInit {
     );
   }
   focusMethod(e, status, word) {
-    this.wordLength = word.length;
     if (status == "name") {
+      this.wordLength = word.length;
       $(".limit-type-wordcount").show("slow");
+    }
+    if (status == "Description") {
+      this.des_wordLength = word.length;
+      $(".limit-type-wordcount1").show("slow");
     }
   }
 
@@ -432,14 +439,25 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   blurMethod(e, status) {
-    console.log("blur", e);
-    let wp = this.wordLength;
-    $(".limit-type-wordcount").hide("slow");
-    $(".limit-word").hide("slow");
-    this.wordLength = 0;
+    console.log("blur", e,status);
+    if(status=="name"){
+      let wp = this.wordLength;
+      $(".limit-type-wordcount").hide("slow");
+      $(".limit-word").hide("slow");
+      this.wordLength = 0;
+    }else{
+      let wp = this.wordLength;
+      $(".limit-type-wordcount1").hide("slow");
+      this.des_wordLength = 0;
+    }
+   
   }
   changeMethod(val: string) {
     this.wordLength = val.length;
+  }
+  changeMethodDes(val:string){
+    console.log(val)
+    this.des_wordLength=val.length
   }
   close(status, id) {
     if (status == "create") {
@@ -505,6 +523,7 @@ export class TestwerkzComponent implements OnInit {
     };
     this.selectedConcept=[];
     this.collectionName="";
+    this.collectionDescription="";
     this.collectionId="";
     this.ischecked = "";
     this.isCollectionList=true;
@@ -1044,6 +1063,7 @@ export class TestwerkzComponent implements OnInit {
     this.contentPage=0;
     this.ImgArr=[];
     this.isDisabelInsert=false;
+    this.uploadedVid = [];
   }
   public searchWord:any;
   public isSearch:any;
@@ -1229,47 +1249,30 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
-    console.log("onslectedImgDiv")
-    // console.log(i,img)
-    // console.error(this.modelType)
-    const imgDiv: HTMLElement = document.getElementById("img-" + i);
-    const gShowImag: HTMLElement = document.getElementById("gShowImag-" + i);
-    const circle: HTMLElement = document.getElementById("cricle" + i);
-    const check: HTMLElement = document.getElementById("check" + i);
-    const trash: HTMLElement = document.getElementById("trash" + i);
-    const trashdiv: HTMLElement = document.getElementById("trashdiv-" + i);
-    const overlay: HTMLElement = document.getElementById("Imgoverlay" + i);
+    console.log("onslectedImgDiv",img,i)
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
-        // console.log(img);
         this.selectedImgArr = img;
         this.imgIdArr = i;
-        console.log(imgDiv)
-        // console.error( $(imgDiv).hasClass("addImgDivBorder"))
-        // console.error(imgDiv.style.border == "solid");
         this.isDisabelInsert = true;
         this.imgId = i;
       }
     }else if (this.modelType == "video" || this.modelType == "ansVideo") {
-      // if(!this.isRemove){
-      //   this.selectedVideoArr = img;
-      //   this.vidIdArr = i;
-      //   this.isDisabelInsert = true;
-      //   console.log("selectedVideoArr",this.selectedVideoArr)
-      //   console.log("vidIdArr",this.vidIdArr)
-      // }
+      console.log("else if")
       if (this.isRemove) {
-        // console.log("is remove");
-        this.selectedVideoArr.splice(this.selectedImgArr.indexOf(i), 1);
-        this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
+        console.log("is remove",this.vidIdArr);
+        console.log(i)
+        this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
+        this.vidIdArr.splice(this.vidIdArr.indexOf(i));
         // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
         console.log(this.vidIdArr.includes(i));
         if (this.vidIdArr.includes(i)) {
-          // console.log("is remove seleccted");
-          this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(i), 1);
+          console.log(this.vidIdArr)
+          console.log("is remove seleccted",this.selectedVideoArr.map(x => x._id).indexOf(i));
+          this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
           this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
           // this.removerSelected(i);
         } else {
@@ -1279,56 +1282,19 @@ export class TestwerkzComponent implements OnInit {
           // this.autoImgLoop(this.imgIdArr);
         }
       }
-      // console.log(i, img);
-      // console.log(imgDiv);
-      // if ($(imgDiv).hasClass("highlight")) {
-      //   console.log("hasClass highlight")
-      //   $(imgDiv).removeClass("highlight");
-      //   console.log(circle , check)
-      //   this.selectedVideoArr.splice(this.selectedVideoArr.indexOf(img), 1);
-      //   circle.setAttribute(
-      //     "style",
-      //     "border: transparent; border-radius: 50%;width: 16px; height: 16px;position: absolute;background:transparent;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      //   );
-      //   check.setAttribute("style", "color:transparent;");
-      //   trash.setAttribute("style", "opacity: 0;");
-
-      // } else {
-      //   console.log("no class highlight")
-      //   $(imgDiv).addClass("highlight");
-      //   this.selectedVideoArr.push(img);
-      //   trash.setAttribute("style", "opacity: 1;");
-      //   overlay.setAttribute(
-      //     "style",
-      //     "display:block;  background: rgba(0, 0, 0, .3);"
-      //   );
-      //   circle.setAttribute(
-      //     "style",
-      //     "border: solid #007fff; border-radius: 50%;width: 16px; height: 16px;position: absolute;background: #007fff;margin-top: 8px;margin-left: 8px;z-index: 2;"
-      //   );
-      //   check.setAttribute("style", "color:white;");
-      // }
-
-      // console.log(this.selectedVideoArr);
     } else {
       if (this.isRemove) {
-        // console.log("is remove");
-        this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+        console.log("is remove image");
+        this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-        // this.autoImgLoop(this.imgIdArr);
         this.isRemove = false;
       } else {
-        console.log(this.imgIdArr.includes(i));
         if (this.imgIdArr.includes(i)) {
-          // console.log("is remove seleccted");
-          this.selectedImgArr.splice(this.selectedImgArr.indexOf(i), 1);
+          this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(i), 1);
           this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
-          // this.removerSelected(i);
         } else {
-          // console.log("else");
           this.imgIdArr.push(i);
           this.selectedImgArr.push(img);
-          // this.autoImgLoop(this.imgIdArr);
         }
       }
     }
@@ -1571,40 +1537,46 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    // console.log(element)
-    // console.error(element.start)
-    // console.error(element.end)
-    // console.error(element.start && element.end)
-
-    // if(element.start && element.end){
-    //   console.log("is me")
-    // }else{
-      if(this.isVideo(element)){
-        if(type == 'toString'){
-          element.start = 0;
-          console.log("~~~duration",element.duration)
-          var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-          console.log("time string",timeString);
-          var res= timeString.split(":");
-          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    if(this.isVideo(element)){
+      if(type == 'toString'){
+        var timeString;
+        var res;
+        //validate for custom start time
+        if(typeof element.start == "number"){
           timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
           res= timeString.split(":");
           element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }else if(element.start == undefined){
+          element.start = 0;
+          timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+          res= timeString.split(":");
+          element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }
+        timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        console.log("time string",timeString);
+        res= timeString.split(":");
+        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+
+        // element.start = 0;
+        // console.log("~~~duration",element.duration)
+        // var timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+        // console.log("time string",timeString);
+        // var res= timeString.split(":");
+        // element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        // timeString = String(new Date(element.start * 1000).toISOString().substr(11, 8));
+        // res= timeString.split(":");
+        // element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
       }
       else{
         let res = element.start.split(" ");
         let total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-        element.start = total;
-  
+        element.startNumber = total;
+
         res =  element.end.split(" ");
         total = Number(res[0].slice(0, -1)) * 3600 +  Number(res[1].slice(0, -1)) * 60 + Number(res[2].slice(0, -1));
-        element.end  = total;
+        element.endNumber  = total;
       }
-      }
-    
-    // }
-    
-    
+    } 
   }
   isCollapseVid(content){
     var videoCount = 0;
@@ -1626,6 +1598,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   insertImg() {
+    this.uploadedVid = [];
     var inImageWrapper = this.checkFocusPosition();
     console.log("###inImageWrapper",inImageWrapper)
     // console.log("editableID", this.editableId);
@@ -1880,10 +1853,15 @@ export class TestwerkzComponent implements OnInit {
         // this.performanceDemands[idx1].question[idx2].showTooltip = true;
         break;
       case "check":
+        var ansContent = this.performanceDemands[idx1].questions[idx2].answers[idx3].contents;
+        if(ansContent!=undefined){
+          this.isCollapseVid(ansContent)
+        }
         this.showID = "";
         this.focusPlace = "a" + idx1 + idx2 + idx3;
-        this.focusType.no = idx2;
+        this.focusType.no = idx3;
         this.focusType.parentIdx = idx1;
+        this.focusType["parentQuesIdx"] = idx2; 
         if (type == "check") {
           this.focusType.type = "answer";
         }
@@ -2030,12 +2008,16 @@ export class TestwerkzComponent implements OnInit {
       if (this.performanceDemands.length > 1) {
         this.performanceDemands.splice(itemType.no, 1);
       }
-    } else if (itemType.type == "question" || itemType.type == "answer") {
+    } else if (itemType.type == "question") {
       if (this.performanceDemands[itemType.parentIdx].questions.length > 1) {
         this.performanceDemands[itemType.parentIdx].questions.splice(
           itemType.no,
           1
         );
+      }
+    }else{
+      if(this.performanceDemands[itemType.parentIdx].questions[itemType.parentQuesIdx].answers.length > 1){
+        this.performanceDemands[itemType.parentIdx].questions[itemType.parentQuesIdx].answers.splice(itemType.no,1);
       }
     }
     this.focusType = {};
@@ -2146,17 +2128,24 @@ export class TestwerkzComponent implements OnInit {
       turndownService.addRule("Tada", {
         filter: "div",
         replacement: function(content) {
-          return content + "";
+          return content + '  \n';
         }
       });
+      // turndownService.addRule("Test", {
+      //   filter: "p",
+      //   replacement: function(content) {
+      //     return content + '  \n';
+      //   }
+      // });
       var tempStr = turndownService.turndown(myDiv);
-      console.log("tempStr",tempStr)
+      // console.log("tempStr",tempStr)
       if(tempStr.includes("![](./assets/images/remove-white.png)")){
         markdownQues = this.replaceAll('![](./assets/images/remove-white.png)','',tempStr);
         // markdownQues = tempStr.replace("![](./assets/images/remove-white.png)", "");
       }else{
         markdownQues = tempStr;
       }
+      // console.log("html",myDiv.innerHTML)
       console.log("turn to markdown", markdownQues);
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
@@ -2164,7 +2153,7 @@ export class TestwerkzComponent implements OnInit {
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
       ].question = markdownQues;
-      // console.log("performanceDemands", this.performanceDemands);
+      console.log("questions", this.performanceDemands[fType.parentIdx].questions);
     }, 200);
   }
 
@@ -2239,8 +2228,8 @@ export class TestwerkzComponent implements OnInit {
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2279,8 +2268,8 @@ export class TestwerkzComponent implements OnInit {
             };
             tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
-            tempVideoContentObj.start =  ansCont.start;
-            tempVideoContentObj.end = ansCont.end;
+            tempVideoContentObj.start =  ansCont.startNumber;
+            tempVideoContentObj.end = ansCont.endNumber;
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -2363,8 +2352,8 @@ export class TestwerkzComponent implements OnInit {
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2794,7 +2783,8 @@ export class TestwerkzComponent implements OnInit {
     this._service.updateConcept(this.regionID, conceptFormat, cid).subscribe(
       res => {
         console.log("FINALLY", res);
-        this.cancelConcept("redirect");
+
+        // this.cancelConcept("redirect");
       },
       err => {
         console.log("err");
@@ -2848,8 +2838,8 @@ export class TestwerkzComponent implements OnInit {
         }
         // tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2899,8 +2889,8 @@ export class TestwerkzComponent implements OnInit {
             }
             // tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
-            tempVideoContentObj.start =  ansCont.start;
-            tempVideoContentObj.end = ansCont.end;
+            tempVideoContentObj.start =  ansCont.startNumber;
+            tempVideoContentObj.end = ansCont.endNumber;
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -3023,8 +3013,8 @@ export class TestwerkzComponent implements OnInit {
         // tempContentObj.contentId = contentObj.contentId;
         // tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
-        tempVideoContentObj.start =  contentObj.start;
-        tempVideoContentObj.end = contentObj.end;
+        tempVideoContentObj.start =  contentObj.startNumber;
+        tempVideoContentObj.end = contentObj.endNumber;
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -3184,7 +3174,9 @@ export class TestwerkzComponent implements OnInit {
   getCollectionlist() {
     this.blockUI.start("Loading");
     this._service.getAllCollection(this.regionID).subscribe((res: any) => {
-      console.log(res);
+      console.log(res)
+      console.log(res.slice(0,3));
+      this.collectionArr_slice=res.slice(0,3);
       this.collectionarr=res;
       setTimeout(() => {
         this.blockUI.stop();
@@ -3222,6 +3214,7 @@ export class TestwerkzComponent implements OnInit {
     this.selectedConcept=[];
     this.collectionId="";
     this.collectionName="";
+    this.collectionDescription="";
   }
   // start concept search
   focusSearch(e) {
@@ -3230,6 +3223,8 @@ export class TestwerkzComponent implements OnInit {
     this.isFocus_collection = true;
     // this.showfixedcreate = true;
     // this.apgList = [];
+    this.concept_in_collection=[];
+    // this.conceptsArr=[];
   }
 
   hideSearch(e) {
@@ -3336,6 +3331,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(idArr)
     let obj={
       "name":this.collectionName,
+      "description":this.collectionDescription,
       "concepts":idArr
     };
     console.log(this.collectionName);
@@ -3347,11 +3343,11 @@ export class TestwerkzComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.getCollectionlist();
-        this.toastr.success("Successfully Collection created.");
+        this.toastr.success("Successfully Plan created.");
       },
       err => {
         console.log(err);
-        this.toastr.error("Fail Collection created.");
+        this.toastr.error("Fail Plan created.");
       }
     );
     this.isCollectionCreate=false;
@@ -3368,6 +3364,7 @@ export class TestwerkzComponent implements OnInit {
         this.isCollectionEdit=true;
         this.isCollection=false;
         this.collectionName=res.name;
+        this.collectionDescription=res.description;
         this.collectionId=res._id;
         res.concepts.map(obj=>{
           this.getConceptByIdForCollection(obj.conceptId)
@@ -3405,16 +3402,17 @@ export class TestwerkzComponent implements OnInit {
     console.log(idArr)
     let obj={
       "name":this.collectionName,
+      "description":this.collectionDescription,
       "concepts":idArr
     };
     this._service.updateCollection(this.regionID,obj,id).subscribe(
       (res: any) => {
         console.log(res);
-        this.toastr.success("Successfully Collection updated.");
+        this.toastr.success("Successfully Plan updated.");
       },
       err => {
         console.log(err);
-        this.toastr.error("Fail Collection updated.");
+        this.toastr.error("Fail Plan updated.");
       }
     );
     this.backToList();
@@ -3432,6 +3430,7 @@ export class TestwerkzComponent implements OnInit {
     this.conceptList = true;
     this.selectedConcept=[];
     this.collectionName="";
+    this.collectionDescription="";
     console.log("cancel")
   }
   showmoreConcept(length){
@@ -3439,6 +3438,21 @@ export class TestwerkzComponent implements OnInit {
     console.log(length)
     console.log(this.pageConcept)
     this.getConceptLists(1,this.pageConcept*20);
+  }
+
+  onclickCollectionDelete(id){
+    console.log(id)
+    this._service.deleteCollection(this.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getCollectionlist();
+        this.toastr.success("Successfully Plan Delete.");
+      },
+      err => {
+        console.log(err);
+        this.toastr.error("Fail Plan Delete.");
+      }
+    );
   }
   //end collection group
 

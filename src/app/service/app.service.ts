@@ -2569,5 +2569,20 @@ export class appService{
         return result;
       })
     }
+
+    deleteCollection(regionId:string,planId:string){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans/' + planId;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
 }
 
