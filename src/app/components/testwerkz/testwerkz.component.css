@@ -2016,22 +2016,45 @@ button.btn-action.remove-outline.viewallBtn {
 
 
 
-.txt-default {
+/* .txt-default {
   padding-top: 136px;
   padding-left: 32px;
   /* width: 271px; */
-  font-size: 28px;
+   /* font-size: 28px;
   font-weight: 600;
   color: #2e3d4d;
-}
+} */
 
-.d-flex.img-pos {
+.txt-default {
+    position: absolute;
+    /*bottom: 31%; */
+    width: 54%;
+    bottom: 25%;
+}
+/* .d-flex.img-pos {
   padding-top: 10px;
+} */
+
+
+.img-pos img {
+  float: right;
+    width: 100%;
+    /* height: 100%; */
+    padding-top: 10px;
 }
 
-.arrow-pos[_ngcontent-c7] {
-  padding-left: 58px;
-  padding-top: 22px;
+.arrow-pos {
+  float: right; 
+  width: 24%;
+}
+
+.arrow-pos img {
+  float: right;
+  width: 100%;
+}
+
+.empty-concept{
+  padding-top: 18px;
 }
 
 /*end empty search condition */
@@ -2136,7 +2159,7 @@ button.btn-action.remove-outline.viewallBtn {
   width: 100%;
 }
 
-.all-title-font {
+.all-title-font,.txt-default {
   font-family: "Inter-UI-SemiBold",Arial,sans-serif;
   color: #2e3e4d;
 }
