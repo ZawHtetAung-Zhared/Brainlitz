@@ -2240,6 +2240,12 @@ label.form-title.input-label-collection {
   font-size: 18px;
   font-weight: 600;
 }
+.plan-list-wrapper{
+  padding: 0px 30px;
+}
+.latestPlanLists{
+  margin: 0px 15px;
+}
 /* end selected concept */
 
 /* end collection  */
