@@ -933,6 +933,13 @@ export class TestwerkzComponent implements OnInit {
     //   this.getAllContent();
 
     // }
+    // $('[contenteditable]').on('paste', function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     var plaintext = e.clipboardData.getData('text/plain');
+    //     document.execCommand('inserttext', false, plaintext);
+    // });
+
     this.turn(editableId, focusType);
   }
   // if ($(window.getSelection().focusNode).children("img").length > 0) {
@@ -3455,5 +3462,13 @@ export class TestwerkzComponent implements OnInit {
     );
   }
   //end collection group
+
+  // test
+  pastePlainText(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var plaintext = event.clipboardData.getData('text/plain');
+    document.execCommand('inserttext', false, plaintext);
+  }
 
 }
