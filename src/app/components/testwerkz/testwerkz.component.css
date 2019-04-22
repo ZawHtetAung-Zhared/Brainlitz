@@ -1539,7 +1539,7 @@ p.g_title {
   position: absolute;
   right: 50px;
   top: 18px;
-  opacity: 0;
+  /*opacity: 0;*/
 }
 
 .card {

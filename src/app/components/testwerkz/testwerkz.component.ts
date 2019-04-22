@@ -1426,6 +1426,7 @@ export class TestwerkzComponent implements OnInit {
   }
   isMouseOverID:any;
   onVidMouseEvent(e,vID, type){
+    console.log("onVidMouseEvent",type,vID)
     if(type == "mouseenter"){
       this.isMouseOverID = vID;
     }else{
@@ -2231,12 +2232,16 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2271,12 +2276,16 @@ export class TestwerkzComponent implements OnInit {
               contentId: "",
               sequence: 0,
               start:0,
-              end: 0
+              end: 0,
+              duration: 0
             };
             tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
             tempVideoContentObj.start =  ansCont.startNumber;
             tempVideoContentObj.end = ansCont.endNumber;
+            if(ansCont.duration!= undefined){
+              tempVideoContentObj.duration = ansCont.duration;
+            }
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -2355,12 +2364,16 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2675,7 +2688,12 @@ export class TestwerkzComponent implements OnInit {
     console.log("assign PD",_that.performanceDemands[pdIndex].name)
     _that.performanceDemands[pdIndex].contents.map((cont)=>{
       if(_that.isVideo(cont)){
-        cont["duration"] = cont.end
+        // cont["duration"] = cont.end
+        if(cont.duration != undefined){
+          cont["duration"] = cont.duration
+        }else{
+          cont["duration"] = cont.end
+        }
         setTimeout(()=>{
           _that.changeTimeFormat(cont,'toString')
         },50)
@@ -2687,7 +2705,12 @@ export class TestwerkzComponent implements OnInit {
         question.contents.map((quesCont)=>{
           // console.log("###Q content",quesCont)
           if(_that.isVideo(quesCont)){
-            quesCont["duration"] = quesCont.end
+            // quesCont["duration"] = quesCont.end
+            if(quesCont.duration != undefined){
+              quesCont["duration"] = quesCont.duration
+            }else{
+              quesCont["duration"] = quesCont.end
+            }
             setTimeout(()=>{
               _that.changeTimeFormat(quesCont,'toString')
             },50)
@@ -2706,7 +2729,12 @@ export class TestwerkzComponent implements OnInit {
           ans.contents.map((ansCont)=> {
             if(_that.isVideo(ansCont)){
               console.log("ansCont~~~",ansCont)
-              ansCont["duration"] = ansCont.end
+              // ansCont["duration"] = ansCont.end
+              if(ansCont.duration != undefined){
+                ansCont["duration"] = ansCont.duration
+              }else{
+                ansCont["duration"] = ansCont.end
+              }
               setTimeout(()=>{
                 _that.changeTimeFormat(ansCont,'toString')
               },50)
@@ -2836,7 +2864,8 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         if(contentObj._id == undefined){
           tempVideoContentObj.contentId = contentObj.contentId;
@@ -2847,6 +2876,9 @@ export class TestwerkzComponent implements OnInit {
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2887,7 +2919,8 @@ export class TestwerkzComponent implements OnInit {
               contentId: "",
               sequence: 0,
               start:0,
-              end: 0
+              end: 0,
+              duration: 0
             };
             if(ansCont._id == undefined){
               tempVideoContentObj.contentId = ansCont.contentId;
@@ -2898,6 +2931,9 @@ export class TestwerkzComponent implements OnInit {
             tempVideoContentObj.sequence = ++index;
             tempVideoContentObj.start =  ansCont.startNumber;
             tempVideoContentObj.end = ansCont.endNumber;
+            if(ansCont.duration!= undefined){
+              tempVideoContentObj.duration = ansCont.duration;
+            }
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -3010,7 +3046,8 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration:0
         };
         if(contentObj._id == undefined){
           tempVideoContentObj.contentId = contentObj.contentId;
@@ -3022,6 +3059,9 @@ export class TestwerkzComponent implements OnInit {
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -3136,14 +3176,14 @@ export class TestwerkzComponent implements OnInit {
     // console.log(e.target)
     // console.log($(e.target).children("video"))
     // console.log($(e.target).children("i"))
-    if(e.type == "mouseenter"){
-      if($(e.target).children("video").hasClass("highlight-video"))
-        $(e.target).children(".setting-trash").css('opacity','1');
-      else
-        $(e.target).children(".setting-trash").css('opacity','0');
-    }
-    else
-      $(e.target).children(".setting-trash").css('opacity','0');
+    // if(e.type == "mouseenter"){
+    //   if($(e.target).children("video").hasClass("highlight-video"))
+    //     $(e.target).children(".setting-trash").css('opacity','1');
+    //   else
+    //     $(e.target).children(".setting-trash").css('opacity','0');
+    // }
+    // else
+    //   $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
     // this.settingContents[this.focusType.no].contents.splice(i, 1)
