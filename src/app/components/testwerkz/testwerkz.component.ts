@@ -1426,9 +1426,20 @@ export class TestwerkzComponent implements OnInit {
   }
   isMouseOverID:any;
   onVidMouseEvent(e,vID, type){
-    console.log("onVidMouseEvent",type,vID)
+    var videoId:any;
+    console.log("===>",vID)
+    if(typeof vID == 'object'){
+      if(vID._id == undefined){
+        videoId = vID.contentId
+      }else{
+        videoId = vID._id
+      }
+    }else{
+      videoId = vID;
+    }
     if(type == "mouseenter"){
-      this.isMouseOverID = vID;
+      console.log("onVidMouseEvent",videoId)
+      this.isMouseOverID = videoId;
     }else{
       this.isMouseOverID = "";
     }
@@ -3163,11 +3174,11 @@ export class TestwerkzComponent implements OnInit {
       // video.start = 0;
       videoDiv.children(".duration-wrapper").show();
       videoDiv.children("video").toggleClass("highlight-video");
-      if(videoDiv.children("video").hasClass("highlight-video")){
-        videoDiv.children(".setting-trash").css('opacity','1');
+      // if(videoDiv.children("video").hasClass("highlight-video")){
+      //   videoDiv.children(".setting-trash").css('opacity','1');
         
-      }else
-      videoDiv.children("i").css('opacity','0');
+      // }else
+      // videoDiv.children("i").css('opacity','0');
     }
     
   }
