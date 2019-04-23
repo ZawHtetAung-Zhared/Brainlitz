@@ -998,18 +998,12 @@
             </div>
             <div class="vd-wrapper" *ngIf="!isCollapse && focusType.type == 'pd'">
               <div *ngFor="let video of performanceDemands[focusType.no].contents; let i = index">
-                <div class="vd" *ngIf="isVideo(video)" (click)="onselectedVideoDiv($event, i, video)"
-                  (mouseenter)="onHoverVideoDiv($event, video._id)" (mouseleave)="onHoverVideoDiv($event, video._id)"
-                  id="img-s-{{ video._id }}">
+                <div class="vd" *ngIf="isVideo(video)" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')" (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                   <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
                   <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                  <!-- <div
-                (click)="onremoveClick(video._id)"
-                id="trashdiv-{{ video._id }}"
-                class="trashDiv"
-              > -->
-                  <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                  <img *ngIf="(video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
                     (click)="deleteSettingContents(i)" />
+                  <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)}"></div>
                   <div class="row duration-wrapper">
                     <div class="col-md-5 start-duration">
                       <label>Start</label>
@@ -1020,7 +1014,6 @@
                       <input type="text" [(ngModel)]="video.end" class="duration" />
                     </div>
                   </div>
-                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -1028,17 +1021,13 @@
 
               <div class="vd"
                 *ngFor="let video of performanceDemands[focusType.parentIdx].questions[focusType.no].contents; let i = index"
-                (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onHoverVideoDiv($event, video._id)"
-                (mouseleave)="onHoverVideoDiv($event, video._id)" id="img-s-{{ video._id }}">
+                (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')"
+                (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                 <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
                 <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                <!-- <div
-                  (click)="onremoveClick(video._id)"
-                  id="trashdiv-{{ video._id }}"
-                  class="trashDiv"
-                > -->
-                <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                <img *ngIf="(video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
                   (click)="deleteSettingContents(i)" />
+                  <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)}"></div>
                 <div class="row duration-wrapper">
                   <div class="col-md-5 start-duration">
                     <label>Start</label>
@@ -1054,12 +1043,12 @@
             </div>
             <div class="vd-wrapper" *ngIf="!isCollapse && focusType.type == 'answer'">
               <div *ngFor="let video of this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents; let i = index">
-                <div class="vd" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onHoverVideoDiv($event, video._id)"
-                (mouseleave)="onHoverVideoDiv($event, video._id)" id="img-s-{{ video._id }}">
+                <div class="vd" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')" (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                   <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
                   <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                  <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                  <img *ngIf="(video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
                   (click)="deleteSettingContents(i)" />
+                  <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id) || (video._id == undefined && isMouseOverID == video.contentId)}"></div>
                   <div class="row duration-wrapper">
                     <div class="col-md-5 start-duration">
                       <label>Start</label>
