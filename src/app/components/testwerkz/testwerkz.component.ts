@@ -3418,11 +3418,11 @@ export class TestwerkzComponent implements OnInit {
 
   // collection edit
   pdLoop1(_that,pd,callback){
-    console.log(pd, 'getPDID function ')
+    // console.log(pd, 'getPDID function ')
     callback(null,pd.conceptId)
   }
   pdLoopDone1(_that, error, result) {
-    console.log(result);  
+    // console.log(result);  
     if(error){
       console.log(error, 'error in getPDbyID function')
     }
@@ -3436,7 +3436,6 @@ export class TestwerkzComponent implements OnInit {
   loopConcept(_this,concept,callback){
     _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
-        console.log(conceptRes)
         callback(_this,conceptRes)
         // this.selectedConcept.push(conceptRes);
       },
@@ -3447,9 +3446,10 @@ export class TestwerkzComponent implements OnInit {
   }
   
   conceptLoopDone(_this, error, pdIds){
-    console.log(pdIds);
+    // console.log(pdIds);
     setTimeout(() => {
-      _this.selectedConcept = pdIds
+      _this.selectedConcept = pdIds;
+       _this.blockUI.stop();
       console.log( _this.selectedConcept)
     }, 200);
   
@@ -3457,11 +3457,11 @@ export class TestwerkzComponent implements OnInit {
   
   goTocollectionEdit(id){
     const _that = this;
-    console.log(id);
+    // console.log(id);
     _that.blockUI.start("Loading...");
     _that._service.getCollectionById(_that.regionID,id).subscribe(
       (res: any) => {
-        console.log(res)
+        // console.log(res)
         _that.isCollectionEdit=true;
         _that.isCollection=false;
         _that.collectionName=res.name;
@@ -3475,7 +3475,7 @@ export class TestwerkzComponent implements OnInit {
           _that.pdLoop1.bind(null, _that),
           _that.pdLoopDone1.bind(null, _that)
         );
-        _that.blockUI.stop();
+        // _that.blockUI.stop();
       },
       err => {
         console.log(err);
@@ -3484,7 +3484,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateCollection(id){
-    console.log(id)
+    // console.log(id)
+    this.blockUI.start("Loading...");
     let idArr=[];
     this.isCollectionEdit=false;
     for(let i=0;i<this.selectedConcept.length;i++){
@@ -3501,8 +3502,10 @@ export class TestwerkzComponent implements OnInit {
     };
     this._service.updateCollection(this.regionID,obj,id).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
+        this.blockUI.stop();
         this.toastr.success("Successfully Plan updated."); 
+  
       },
       err => {
         console.log(err);
