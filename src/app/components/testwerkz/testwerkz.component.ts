@@ -16,6 +16,7 @@ import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable
 import { nsend } from "q";
 import { resolve } from "path";
 import { connect } from 'tls';
+import { LoggedInGuard } from '../../service/loggedIn.guard';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -151,6 +152,9 @@ export class TestwerkzComponent implements OnInit {
   public hoverIcon:any=""
   public pageConcept:any=1;
   public collectionArr_slice:any;
+  public deleteCollection:string;
+
+  
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -2574,7 +2578,7 @@ export class TestwerkzComponent implements OnInit {
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
-      setTimeout(() => {
+      setTimeout(() => {  
         _that.blockUI.stop()
       }, 500);
     },err =>{
@@ -3362,38 +3366,70 @@ export class TestwerkzComponent implements OnInit {
   }
 
   // collection edit
-  goTocollectionEdit(id){
-    console.log(id);
-    this.blockUI.start("Loading...");
-    this._service.getCollectionById(this.regionID,id).subscribe(
-      (res: any) => {
-        console.log(res)
-        this.isCollectionEdit=true;
-        this.isCollection=false;
-        this.collectionName=res.name;
-        this.collectionDescription=res.description;
-        this.collectionId=res._id;
-        res.concepts.map(obj=>{
-          this.getConceptByIdForCollection(obj.conceptId)
-        })
-        this.blockUI.stop();
-      },
-      err => {
-        console.log(err);
-      }
-    );
+  pdLoop1(_that,pd,callback){
+    console.log(pd, 'getPDID function ')
+    callback(null,pd.conceptId)
   }
-
-  getConceptByIdForCollection(id){
-    this._service.getConceptById(this.regionID,id).subscribe(
+  pdLoopDone1(_that, error, result) {
+    console.log(result);  
+    if(error){
+      console.log(error, 'error in getPDbyID function')
+    }
+    async.map(
+      result,
+      _that.loopConcept.bind(null,_that),
+      _that.conceptLoopDone.bind(null,_that)
+    )
+  }
+  
+  loopConcept(_this,concept,callback){
+    _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
         console.log(conceptRes)
-        this.selectedConcept.push(conceptRes);
+        callback(_this,conceptRes)
+        // this.selectedConcept.push(conceptRes);
       },
       err => {
         console.log(err);
       });
     
+  }
+  
+  conceptLoopDone(_this, error, pdIds){
+    console.log(pdIds);
+    setTimeout(() => {
+      _this.selectedConcept = pdIds
+      console.log( _this.selectedConcept)
+    }, 200);
+  
+  }
+  
+  goTocollectionEdit(id){
+    const _that = this;
+    console.log(id);
+    _that.blockUI.start("Loading...");
+    _that._service.getCollectionById(_that.regionID,id).subscribe(
+      (res: any) => {
+        console.log(res)
+        _that.isCollectionEdit=true;
+        _that.isCollection=false;
+        _that.collectionName=res.name;
+        _that.collectionDescription=res.description;
+        _that.collectionId=res._id;
+        // res.concepts.map(obj=>{
+        //   _that.getConceptByIdForCollection(obj.conceptId)
+        // })
+        async.map(
+          res.concepts,
+          _that.pdLoop1.bind(null, _that),
+          _that.pdLoopDone1.bind(null, _that)
+        );
+        _that.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   updateCollection(id){
@@ -3415,7 +3451,7 @@ export class TestwerkzComponent implements OnInit {
     this._service.updateCollection(this.regionID,obj,id).subscribe(
       (res: any) => {
         console.log(res);
-        this.toastr.success("Successfully Plan updated.");
+        this.toastr.success("Successfully Plan updated."); 
       },
       err => {
         console.log(err);
@@ -3423,7 +3459,6 @@ export class TestwerkzComponent implements OnInit {
       }
     );
     this.backToList();
-    this.getCollectionlist();
   }
 
   cancelCollection(){
@@ -3447,8 +3482,17 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists(1,this.pageConcept*20);
   }
 
-  onclickCollectionDelete(id){
-    console.log(id)
+  onclickCollectionDelete(alertDelete,col){
+    this.deleteCollection=col;
+    this.modalReference = this.modalService.open(alertDelete, {
+      backdrop: 'static',
+      windowClass: 'deleteModal d-flex justify-content-center align-items-center'
+    });
+    
+  }
+
+  collectionDelete(id){
+    this.modalReference.close();
     this._service.deleteCollection(this.regionID,id).subscribe(
       (res: any) => {
         console.log(res);

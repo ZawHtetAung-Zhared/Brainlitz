@@ -190,7 +190,7 @@
         <div class="d-flex justify-content-end single-collectin-footer1">
           <div style="padding-top: 13px;">
             <button class="btn-action remove-outline" (click)="goTocollectionEdit(col._id)">Edit</button>
-            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(col._id)">Delete</button>
+            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(colDeleteModal,col)">Delete</button>
           </div>
         </div>
       </div>
@@ -317,7 +317,8 @@
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
     <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
-      <span class="tagName_collection">{{sConcept.tag.name}}</span>
+      {{ sConcept.tag.length}}
+      <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span>
       <div class="d-flex flex-row justify-content-between">
         <div class="d-flex group-text">
             <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
@@ -1362,3 +1363,26 @@
     </div>
   </ng-template>
 </div>
+
+<ng-template #colDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Confirm delete?</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body pdf-confirm">
+    <p>
+      Are You sure you want to delete
+      <span class="target">"{{ deleteCollection.name }}"</span>?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn modal-cancel-btn" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="submit" class="btn modal-delete-btn" (click)="collectionDelete(deleteCollection._id)">
+      Delete
+    </button>
+  </div>
+</ng-template>

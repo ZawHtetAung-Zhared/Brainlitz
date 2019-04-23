@@ -1081,6 +1081,7 @@ p.g_title {
 .row.imgGp {
   overflow: overlay;
   max-height: 340px;
+  padding-right: 6px;
 }
 
 .imgDiv {
