@@ -535,6 +535,7 @@ export class TestwerkzComponent implements OnInit {
     this.isCollection=false;
     this.isCollectionCreate=false;
     this.isCollectionEdit=false;
+    this.getConceptLists(1,20);
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
@@ -1178,7 +1179,7 @@ export class TestwerkzComponent implements OnInit {
   //image upload
   onMetadata(e, id,type) {
     // console.log("metadata: ", e);
-    // console.log("duration: ", e.target.duration);
+    console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     return true;
   }
@@ -2588,9 +2589,9 @@ export class TestwerkzComponent implements OnInit {
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
-      setTimeout(() => {  
-        _that.blockUI.stop()
-      }, 500);
+      // setTimeout(() => {  
+      //   _that.blockUI.stop()
+      // }, 500);
     },err =>{
       console.log(err)
     })
@@ -2744,6 +2745,9 @@ export class TestwerkzComponent implements OnInit {
         }
       })
     })
+    setTimeout(()=>{
+      _that.blockUI.stop()
+    },500)
   }
   //end get method
 // WaiYan code end(getSingleConcept)
