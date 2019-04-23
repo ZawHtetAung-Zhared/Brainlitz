@@ -1417,7 +1417,7 @@ export class TestwerkzComponent implements OnInit {
   isMouseOverID:any;
   onVidMouseEvent(e,vID, type){
     var videoId:any;
-    console.log("===>",vID)
+    // console.log("===>",vID)
     if(typeof vID == 'object'){
       if(vID._id == undefined){
         videoId = vID.contentId
@@ -1428,7 +1428,7 @@ export class TestwerkzComponent implements OnInit {
       videoId = vID;
     }
     if(type == "mouseenter"){
-      console.log("onVidMouseEvent",videoId)
+      // console.log("onVidMouseEvent",videoId)
       this.isMouseOverID = videoId;
     }else{
       this.isMouseOverID = "";
@@ -2726,7 +2726,7 @@ export class TestwerkzComponent implements OnInit {
       }, 200);
       question.answers.map((ans)=>{
         if(ans.contents != undefined){
-          console.log("answerContents",ans.contents)
+          // console.log("answerContents",ans.contents)
           ans.contents.map((ansCont)=> {
             if(_that.isVideo(ansCont)){
               console.log("ansCont~~~",ansCont)

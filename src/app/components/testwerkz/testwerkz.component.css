@@ -366,7 +366,7 @@ h3.category-h3 {
 
 .inform-text {
   font-size: 14px;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #64707d;
   font-weight: 500;
 }
@@ -375,7 +375,7 @@ h3.category-h3 {
   font-size: 14px;
   font-weight: 500;
   color: #2e3d4d;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .back-to {
@@ -1105,7 +1105,7 @@ img.gShowImag {
   z-index: 9;
   bottom: 8px;
   color: #ffffff;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
 
@@ -1198,7 +1198,7 @@ p.g_title {
 
 .contentEditQues{
   font-size: 16px!important;
-  font-family: 'InterUI-Medium', Arial, sans-serif!important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif!important;
 }
 
 .question-wrap {
@@ -1360,7 +1360,7 @@ p.g_title {
 
 .answer-text {
   color: #0080ff;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
   font-weight: 500;
 }
@@ -1542,11 +1542,22 @@ p.g_title {
 }
 
 .setting-trash {
-  position: absolute;
+  position: absolute!important;
   right: 50px;
   top: 18px;
   z-index: 9;
   /*opacity: 0;*/
+}
+
+.sidebarVid-name{
+  position: absolute!important;
+  z-index: 9;
+  top: 100px;
+  margin-bottom: 0px;
+  color: #fff;
+  font-size: 16px;
+  padding-left: 10px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .card {
@@ -1614,7 +1625,7 @@ p.g_title {
 }
 
 .pd-text {
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .onePD {
@@ -1792,7 +1803,7 @@ div.pdLine-wrap:last-child {
 }
 .slected-content-text{
   color: #004080;
-  font-family: 'InterUI-Medium',Arial, Helvetica;
+  font-family: 'Inter-UI-Medium',Arial, Helvetica;
   font-size: 14px;
 }
 .question-vd .play-img {
