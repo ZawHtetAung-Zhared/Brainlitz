@@ -1317,7 +1317,7 @@ p.g_title {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: #fff!important;
 }
 
 .img-pd {
@@ -1499,7 +1499,7 @@ p.g_title {
   font-size:12px;
 }
 .duration-wrapper{
-  display:none;
+  /*display:none;*/
 }
 
 .start-duration input,
