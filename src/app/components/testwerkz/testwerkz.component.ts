@@ -1172,25 +1172,11 @@ export class TestwerkzComponent implements OnInit {
     console.log(length)
   }
   //image upload
-  onMetadata(e, id) {
-    console.log("metadata: ", e);
-    console.log("duration: ", e.target.duration);
-    console.log(this.conceptEdit)
-    // if(this.conceptEdit){
-    //   let obj={duration:''};
-    //   obj.duration=e.target.duration;
-    //   this.videoArr.push(obj);
-    // }else{
-      this.videoArr[id]["duration"] = e.target.duration;
-    // }
-   
-    console.log(this.videoArr);
+  onMetadata(e, id,type) {
+    // console.log("metadata: ", e);
+    // console.log("duration: ", e.target.duration);
+    this.videoArr[id]["duration"] = e.target.duration;
     return true;
-    // var canvas1 = document.getElementById('canvas-' + id);
-    // var ctx = canvas1.getContext('2d');
-    // var video :any = e.target;
-    // canvas1.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    // console.log(canvas1)
   }
   uploadedVid = [];
   onloadImg(event, ele?) {
@@ -3157,29 +3143,40 @@ export class TestwerkzComponent implements OnInit {
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
   }
+  onselectedVid:any;
   onselectedVideoDiv(e,id,video){
-    if($(e.target).hasClass('duration')){
-
+    var videoId:any;
+    if(video._id == undefined){
+      videoId = video.contentId;
+      this.onselectedVid = videoId; 
     }else{
-      $(".vd").children("video").removeClass("highlight-video")
-      $(".duration-wrapper").hide();
-      console.log(this.focusType)
-      console.log(this.performanceDemands)
-      var videoDiv = $(e.target).parents(".vd");
-      // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
-      // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
-      // // console.log(timeString)
-      // var res= timeString.split(":");
-      // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-      // video.start = 0;
-      videoDiv.children(".duration-wrapper").show();
-      videoDiv.children("video").toggleClass("highlight-video");
-      // if(videoDiv.children("video").hasClass("highlight-video")){
-      //   videoDiv.children(".setting-trash").css('opacity','1');
-        
-      // }else
-      // videoDiv.children("i").css('opacity','0');
+      videoId = video._id;
+      this.onselectedVid = videoId; 
     }
+
+    // this.onselectedVid = videoId; 
+    // if($(e.target).hasClass('duration')){
+
+    // }else{
+    //   // $(".vd").children("video").removeClass("highlight-video")
+    //   $(".duration-wrapper").hide();
+    //   console.log(this.focusType)
+    //   console.log(this.performanceDemands)
+    //   var videoDiv = $(e.target).parents(".vd");
+    //   // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
+    //   // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
+    //   // // console.log(timeString)
+    //   // var res= timeString.split(":");
+    //   // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    //   // video.start = 0;
+    //   videoDiv.children(".duration-wrapper").show();
+    //   // videoDiv.children("video").toggleClass("highlight-video");
+    //   // if(videoDiv.children("video").hasClass("highlight-video")){
+    //   //   videoDiv.children(".setting-trash").css('opacity','1');
+        
+    //   // }else
+    //   // videoDiv.children("i").css('opacity','0');
+    // }
     
   }
   onHoverVideoDiv(e,id){
