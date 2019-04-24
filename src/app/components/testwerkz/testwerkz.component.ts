@@ -3448,6 +3448,8 @@ export class TestwerkzComponent implements OnInit {
   loopConcept(_this,concept,callback){
     _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
+        conceptRes.isExpand=false;
+        // console.error(conceptRes)
         callback(_this,conceptRes)
         // this.selectedConcept.push(conceptRes);
       },
@@ -3517,6 +3519,7 @@ export class TestwerkzComponent implements OnInit {
         // console.log(res);
         this.blockUI.stop();
         this.toastr.success("Successfully Plan updated."); 
+        this.getCollectionlist();
   
       },
       err => {
