@@ -3116,18 +3116,19 @@ export class TestwerkzComponent implements OnInit {
           console.log(err);
         }
       );
-    }
-    _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
-      res => {
-        const createdPdId = JSON.parse(JSON.stringify(res));
+    }else{
+      _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
+        res => {
+          const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.log(createdPdId.meta._id);
-        pdCallback(null, createdPdId.meta._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          console.log(createdPdId.meta._id);
+          pdCallback(null, createdPdId.meta._id);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
