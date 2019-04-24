@@ -368,7 +368,7 @@
   margin-bottom: 6px;
 }
 
-.single-apg .apg-desc {
+.single-apg .apg-desc,.apg-desc {
   color: #64707d;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
@@ -409,7 +409,7 @@ div.ap-wrapper:last-child {
 }
 
 .detail-line{
-  line-height: 0.7;
+  /*line-height: 0.7;*/
   border-bottom: 1px solid #edeff0;
 }
 
@@ -1827,9 +1827,8 @@ li.optionlist {
 }
 
 .accesspoint-name>.head {
-
   border-bottom: 1px solid #edeff0;
-  padding-bottom: 16px;
+  /*padding-bottom: 16px;*/
 }
 
 .accesspoint-name>.head>.down-arrow,.lists-down-arrow {
@@ -1861,12 +1860,14 @@ li.optionlist {
 }
 
 .detail-dot{
-  margin-top: 17px;
-  margin-bottom: 17px;
+  /*margin-top: 17px;
+  margin-bottom: 17px;*/
+  margin-top: 22px;
 }
 
 .dot-wrapper {
   margin-top: 12px;
+  padding-bottom: 16px;
   display: flex;
   -webkit-transition: -webkit-transform .5s ease-in-out;
     -ms-transition: -ms-transform .5s ease-in-out;

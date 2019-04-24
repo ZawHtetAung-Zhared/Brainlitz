@@ -535,6 +535,7 @@ export class TestwerkzComponent implements OnInit {
     this.isCollection=false;
     this.isCollectionCreate=false;
     this.isCollectionEdit=false;
+    this.getConceptLists(1,20);
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
@@ -1178,7 +1179,7 @@ export class TestwerkzComponent implements OnInit {
   //image upload
   onMetadata(e, id,type) {
     // console.log("metadata: ", e);
-    // console.log("duration: ", e.target.duration);
+    console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     return true;
   }
@@ -1417,7 +1418,7 @@ export class TestwerkzComponent implements OnInit {
   isMouseOverID:any;
   onVidMouseEvent(e,vID, type){
     var videoId:any;
-    console.log("===>",vID)
+    // console.log("===>",vID)
     if(typeof vID == 'object'){
       if(vID._id == undefined){
         videoId = vID.contentId
@@ -1428,7 +1429,7 @@ export class TestwerkzComponent implements OnInit {
       videoId = vID;
     }
     if(type == "mouseenter"){
-      console.log("onVidMouseEvent",videoId)
+      // console.log("onVidMouseEvent",videoId)
       this.isMouseOverID = videoId;
     }else{
       this.isMouseOverID = "";
@@ -1561,10 +1562,18 @@ export class TestwerkzComponent implements OnInit {
           res= timeString.split(":");
           element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
         }
-        timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-        console.log("time string",timeString);
-        res= timeString.split(":");
-        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        if(typeof element.end == "number"){
+          timeString = String(new Date(element.end * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }else if(element.end == undefined){
+          timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }
+        
 
         // element.start = 0;
         // console.log("~~~duration",element.duration)
@@ -2566,9 +2575,11 @@ export class TestwerkzComponent implements OnInit {
 
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
+    console.log("getSingleConcept works");
     const _that =this;
     _that.conceptEdit = true;
     _that.isCollectionList=false;
+    _that.blockUI.start('Loading');
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -2577,7 +2588,7 @@ export class TestwerkzComponent implements OnInit {
       _that.pickedTag.id = res.tag[0].tagId;
       _that.pickedTag.name = res.tag[0].name;
       _that.ischecked = res.tag[0].tagId;
-      _that.blockUI.start('Loading') 
+      // _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
@@ -2588,9 +2599,9 @@ export class TestwerkzComponent implements OnInit {
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
-      setTimeout(() => {  
-        _that.blockUI.stop()
-      }, 500);
+      // setTimeout(() => {  
+      //   _that.blockUI.stop()
+      // }, 500);
     },err =>{
       console.log(err)
     })
@@ -2726,7 +2737,7 @@ export class TestwerkzComponent implements OnInit {
       }, 200);
       question.answers.map((ans)=>{
         if(ans.contents != undefined){
-          console.log("answerContents",ans.contents)
+          // console.log("answerContents",ans.contents)
           ans.contents.map((ansCont)=> {
             if(_that.isVideo(ansCont)){
               console.log("ansCont~~~",ansCont)
@@ -2744,6 +2755,9 @@ export class TestwerkzComponent implements OnInit {
         }
       })
     })
+    setTimeout(()=>{
+      _that.blockUI.stop()
+    },500)
   }
   //end get method
 // WaiYan code end(getSingleConcept)
@@ -3568,5 +3582,4 @@ export class TestwerkzComponent implements OnInit {
     var plaintext = event.clipboardData.getData('text/plain');
     document.execCommand('inserttext', false, plaintext);
   }
-
 }
