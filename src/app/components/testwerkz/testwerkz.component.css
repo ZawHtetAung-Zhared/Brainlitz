@@ -499,7 +499,7 @@ h3.category-h3 {
 
 .assessment-title {
   font-size: 28px;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-weight: 600;
   color: #2e3d4d;
   margin-bottom: 36px;
@@ -507,7 +507,7 @@ h3.category-h3 {
 }
 
 .input-label {
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 18px;
   color: #2e3e4d;
   font-weight: 600;
@@ -742,7 +742,7 @@ h3.category-h3 {
 
 .pd-setting {
   color: #2e3d4d;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
 }
@@ -1161,7 +1161,7 @@ p.g_title {
 .videoNameShort,.videoNameLong{
   position: absolute;
   z-index: 9;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 14px;
   color: #2e3d4d;
   width: 216px;
