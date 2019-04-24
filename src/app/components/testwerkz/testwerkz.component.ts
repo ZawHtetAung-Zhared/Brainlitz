@@ -1562,10 +1562,18 @@ export class TestwerkzComponent implements OnInit {
           res= timeString.split(":");
           element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
         }
-        timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-        console.log("time string",timeString);
-        res= timeString.split(":");
-        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        if(typeof element.end == "number"){
+          timeString = String(new Date(element.end * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }else if(element.end == undefined){
+          timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }
+        
 
         // element.start = 0;
         // console.log("~~~duration",element.duration)
@@ -3571,5 +3579,4 @@ export class TestwerkzComponent implements OnInit {
     var plaintext = event.clipboardData.getData('text/plain');
     document.execCommand('inserttext', false, plaintext);
   }
-
 }
