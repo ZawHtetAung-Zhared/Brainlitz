@@ -2567,9 +2567,11 @@ export class TestwerkzComponent implements OnInit {
 
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
+    console.log("getSingleConcept works");
     const _that =this;
     _that.conceptEdit = true;
     _that.isCollectionList=false;
+    _that.blockUI.start('Loading');
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -2578,7 +2580,7 @@ export class TestwerkzComponent implements OnInit {
       _that.pickedTag.id = res.tag[0].tagId;
       _that.pickedTag.name = res.tag[0].name;
       _that.ischecked = res.tag[0].tagId;
-      _that.blockUI.start('Loading') 
+      // _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
