@@ -35,7 +35,7 @@
     </button>
   </div>
 </div> -->
-<div  class="pdLR-15">
+<div *ngIf="isCollectionList && conceptList" class="pdLR-15 mb100">
   <h2 class="testwerkzTitle mt-3 pdLR-15" *ngIf="isTestwerkztitle">TestWerkz</h2>
     <!-- Start Collection -->
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
@@ -56,7 +56,7 @@
           <div class="single-collection-group">
             <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
               <!-- {{concept.tag[0].name  | json}} -->
-               <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
+              <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>

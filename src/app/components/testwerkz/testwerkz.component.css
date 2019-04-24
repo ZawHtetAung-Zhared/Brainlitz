@@ -1535,6 +1535,10 @@ p.g_title {
   padding: 15px 15px 0px 15px;
 }
 
+.mb100{
+  margin-bottom: 100px;
+}
+
 .setting-play-icon {
   position: absolute;
   padding-left: 20px;
