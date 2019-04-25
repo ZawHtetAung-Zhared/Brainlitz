@@ -116,13 +116,12 @@
                   <div class="onePD" *ngFor="let content of pd.contents">
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'image'
-                      " class="imgWrap">
+                        'image'" class="imgWrap">
                       <img src="{{ content.url }}" />
                     </div>
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'video' "
+                        'video'"
                       class="vidWrap"
                     >
                       <img src="/assets/img/play-16-x-16.png">

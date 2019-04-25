@@ -208,11 +208,15 @@ export class TestwerkzComponent implements OnInit {
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     var clickedEle = $event;
-    // console.log("clickedEle~~~",clickedEle)
-    if (clickedEle.className == "question-insert-img") {
-      console.log("####clickEle",clickedEle.className);
+    console.log("clickedEle~~~",clickedEle)
+    console.log("clickedEle className~~~",clickedEle.className)
+    if (clickedEle.className.includes("question-insert-img")) {
+      console.log("####click on tooltip",clickedEle.className);
       this.selectEle = this.clickEle;
+    }else{
+      console.log("####click on text")
     }
+
     if (
       clickedEle.className == "tooltip-wrap" ||
       $(clickedEle).parents(".tooltip-wrap").length > 0 ||
@@ -1672,6 +1676,7 @@ export class TestwerkzComponent implements OnInit {
           this.range.collapse(true);
           this.sel.removeAllRanges();
           this.sel.addRange(this.range);
+          this.clickEle = tempWrapperDiv;
           console.log(this.sel)
           var k = document.getElementById(imgWrapperId);
           for (var i in this.selectedImgArr) {
@@ -3117,18 +3122,19 @@ export class TestwerkzComponent implements OnInit {
           console.log(err);
         }
       );
-    }
-    _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
-      res => {
-        const createdPdId = JSON.parse(JSON.stringify(res));
+    }else{
+      _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
+        res => {
+          const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.log(createdPdId.meta._id);
-        pdCallback(null, createdPdId.meta._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          console.log(createdPdId.meta._id);
+          pdCallback(null, createdPdId.meta._id);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
