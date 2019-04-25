@@ -54,7 +54,7 @@
           </div>
           
           <div class="single-collection-group">
-            <div class="s ingle-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
+            <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
               <!-- {{concept.tag[0].name  | json}} -->
               <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
