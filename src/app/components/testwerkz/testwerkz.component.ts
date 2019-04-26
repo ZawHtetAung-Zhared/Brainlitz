@@ -153,7 +153,7 @@ export class TestwerkzComponent implements OnInit {
   public pageConcept:any=1;
   public collectionArr_slice:any;
   public deleteCollection:string;
-
+  public isExpandExit:boolean=false;
   
   
   @BlockUI() blockUI: NgBlockUI;
@@ -1455,6 +1455,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
+                this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(id), 1);
                 // this.autoImgLoop(this.imgIdArr);
               } else if(this.modelType == "single") {
                 this.imgId = undefined;
@@ -3266,6 +3267,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   goToCollection(){
+    console.log(this.collectionarr)
     this.isCollection=true;
     this.isCollectionList=false;
     this.conceptList=false;
@@ -3422,7 +3424,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(obj)
     this._service.createCollection(this.regionID,obj).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.getCollectionlist();
         this.toastr.success("Successfully Plan created.");
       },
@@ -3437,7 +3439,7 @@ export class TestwerkzComponent implements OnInit {
 
   // collection edit
   pdLoop1(_that,pd,callback){
-    // console.log(pd, 'getPDID function ')
+    // console.log(pd, 'getPDID function ')sq
     callback(null,pd.conceptId)
   }
   pdLoopDone1(_that, error, result) {
@@ -3455,7 +3457,6 @@ export class TestwerkzComponent implements OnInit {
   loopConcept(_this,concept,callback){
     _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
-        conceptRes.isExpand=false;
         // console.error(conceptRes)
         callback(_this,conceptRes)
         // this.selectedConcept.push(conceptRes);
@@ -3467,10 +3468,10 @@ export class TestwerkzComponent implements OnInit {
   }
   
   conceptLoopDone(_this, error, pdIds){
-    // console.log(pdIds);
+    console.log(pdIds);
     setTimeout(() => {
       _this.selectedConcept = pdIds;
-       _this.blockUI.stop();
+      _this.blockUI.stop();
       console.log( _this.selectedConcept)
     }, 200);
   
@@ -3482,7 +3483,7 @@ export class TestwerkzComponent implements OnInit {
     _that.blockUI.start("Loading...");
     _that._service.getCollectionById(_that.regionID,id).subscribe(
       (res: any) => {
-        // console.log(res)
+        console.log(res)
         _that.isCollectionEdit=true;
         _that.isCollection=false;
         _that.collectionName=res.name;
@@ -3503,6 +3504,40 @@ export class TestwerkzComponent implements OnInit {
       }
     );
   }
+
+  // goTocollectionEdit(id){
+  //   console.log(id);
+  //   this.blockUI.start("Loading...");
+  //   this._service.getCollectionById(this.regionID,id).subscribe(
+  //     (res: any) => {
+  //       console.log(res)
+  //       this.isCollectionEdit=true;
+  //       this.isCollection=false;
+  //       this.collectionName=res.name;
+  //       this.collectionDescription=res.description;
+  //       this.collectionId=res._id;
+  //       res.concepts.map(obj=>{
+  //         this.getConceptByIdForCollection(obj.conceptId)
+  //       })
+  //       this.blockUI.stop();
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
+  // getConceptByIdForCollection(id){
+  //   this._service.getConceptById(this.regionID,id).subscribe(
+  //     (conceptRes: any) => {
+  //       console.log(conceptRes)
+  //       this.selectedConcept.push(conceptRes);
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     });
+    
+  // }
 
   updateCollection(id){
     // console.log(id)
@@ -3572,8 +3607,8 @@ export class TestwerkzComponent implements OnInit {
     this._service.deleteCollection(this.regionID,id).subscribe(
       (res: any) => {
         console.log(res);
-        this.getCollectionlist();
         this.toastr.success("Successfully Plan Delete.");
+        this.getCollectionlist();
       },
       err => {
         console.log(err);
