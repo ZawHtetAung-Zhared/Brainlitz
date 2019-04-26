@@ -2203,6 +2203,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   onclickDelete(id, alertDelete) {
+    console.log(alertDelete)
     this.deleteId = id;
     for (var i in this.apgList) {
       if (this.apgList[i]._id == id) {

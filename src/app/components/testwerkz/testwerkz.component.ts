@@ -16,6 +16,7 @@ import { BoundCallbackObservable } from "rxjs/observable/BoundCallbackObservable
 import { nsend } from "q";
 import { resolve } from "path";
 import { connect } from 'tls';
+import { LoggedInGuard } from '../../service/loggedIn.guard';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -151,6 +152,9 @@ export class TestwerkzComponent implements OnInit {
   public hoverIcon:any=""
   public pageConcept:any=1;
   public collectionArr_slice:any;
+  public deleteCollection:string;
+  public isExpandExit:boolean=false;
+  
   
   @BlockUI() blockUI: NgBlockUI;
 
@@ -204,11 +208,15 @@ export class TestwerkzComponent implements OnInit {
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     var clickedEle = $event;
-    // console.log("clickedEle~~~",clickedEle)
-    if (clickedEle.className == "question-insert-img") {
-      console.log("####clickEle",clickedEle.className);
+    console.log("clickedEle~~~",clickedEle)
+    console.log("clickedEle className~~~",clickedEle.className)
+    if (clickedEle.className.includes("question-insert-img")) {
+      console.log("####click on tooltip",clickedEle.className);
       this.selectEle = this.clickEle;
+    }else{
+      console.log("####click on text")
     }
+
     if (
       clickedEle.className == "tooltip-wrap" ||
       $(clickedEle).parents(".tooltip-wrap").length > 0 ||
@@ -531,6 +539,7 @@ export class TestwerkzComponent implements OnInit {
     this.isCollection=false;
     this.isCollectionCreate=false;
     this.isCollectionEdit=false;
+    this.getConceptLists(1,20);
   }
   backToTag(type) {
     console.log("TYPE~~~",type)
@@ -933,6 +942,13 @@ export class TestwerkzComponent implements OnInit {
     //   this.getAllContent();
 
     // }
+    // $('[contenteditable]').on('paste', function (e) {
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     var plaintext = e.clipboardData.getData('text/plain');
+    //     document.execCommand('inserttext', false, plaintext);
+    // });
+
     this.turn(editableId, focusType);
   }
   // if ($(window.getSelection().focusNode).children("img").length > 0) {
@@ -1165,25 +1181,11 @@ export class TestwerkzComponent implements OnInit {
     console.log(length)
   }
   //image upload
-  onMetadata(e, id) {
-    console.log("metadata: ", e);
+  onMetadata(e, id,type) {
+    // console.log("metadata: ", e);
     console.log("duration: ", e.target.duration);
-    console.log(this.conceptEdit)
-    // if(this.conceptEdit){
-    //   let obj={duration:''};
-    //   obj.duration=e.target.duration;
-    //   this.videoArr.push(obj);
-    // }else{
-      this.videoArr[id]["duration"] = e.target.duration;
-    // }
-   
-    console.log(this.videoArr);
+    this.videoArr[id]["duration"] = e.target.duration;
     return true;
-    // var canvas1 = document.getElementById('canvas-' + id);
-    // var ctx = canvas1.getContext('2d');
-    // var video :any = e.target;
-    // canvas1.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    // console.log(canvas1)
   }
   uploadedVid = [];
   onloadImg(event, ele?) {
@@ -1419,8 +1421,20 @@ export class TestwerkzComponent implements OnInit {
   }
   isMouseOverID:any;
   onVidMouseEvent(e,vID, type){
+    var videoId:any;
+    // console.log("===>",vID)
+    if(typeof vID == 'object'){
+      if(vID._id == undefined){
+        videoId = vID.contentId
+      }else{
+        videoId = vID._id
+      }
+    }else{
+      videoId = vID;
+    }
     if(type == "mouseenter"){
-      this.isMouseOverID = vID;
+      // console.log("onVidMouseEvent",videoId)
+      this.isMouseOverID = videoId;
     }else{
       this.isMouseOverID = "";
     }
@@ -1441,6 +1455,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
+                this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(id), 1);
                 // this.autoImgLoop(this.imgIdArr);
               } else if(this.modelType == "single") {
                 this.imgId = undefined;
@@ -1552,10 +1567,18 @@ export class TestwerkzComponent implements OnInit {
           res= timeString.split(":");
           element.start = `${res[0]}h ${res[1]}m ${res[2]}s`;
         }
-        timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
-        console.log("time string",timeString);
-        res= timeString.split(":");
-        element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        if(typeof element.end == "number"){
+          timeString = String(new Date(element.end * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }else if(element.end == undefined){
+          timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
+          console.log("time string",timeString);
+          res= timeString.split(":");
+          element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+        }
+        
 
         // element.start = 0;
         // console.log("~~~duration",element.duration)
@@ -1622,6 +1645,7 @@ export class TestwerkzComponent implements OnInit {
 
         var e = document.getElementById(this.editableId);
         if (inImageWrapper) {
+          console.log("this.range",this.range)
           for (var i in this.selectedImgArr) {
             // console.log(this.selectedImgArr[i].url, "img");
             var url = this.selectedImgArr[i].url;
@@ -1632,7 +1656,8 @@ export class TestwerkzComponent implements OnInit {
               $('<img class="editableImg" src="' + url + '"  ></img>')
             );
             k = this.selectEle;
-          }
+            this.clickEle = this.selectEle
+          }         
         } else {
           // var tempWrapperDiv = $(
           //   `<div id="${imgWrapperId}" class="img-wrapper"></div>`
@@ -1653,6 +1678,7 @@ export class TestwerkzComponent implements OnInit {
           this.range.collapse(true);
           this.sel.removeAllRanges();
           this.sel.addRange(this.range);
+          this.clickEle = tempWrapperDiv;
           console.log(this.sel)
           var k = document.getElementById(imgWrapperId);
           for (var i in this.selectedImgArr) {
@@ -2224,12 +2250,16 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2264,12 +2294,16 @@ export class TestwerkzComponent implements OnInit {
               contentId: "",
               sequence: 0,
               start:0,
-              end: 0
+              end: 0,
+              duration: 0
             };
             tempVideoContentObj.contentId = ansCont._id;
             tempVideoContentObj.sequence = ++index;
             tempVideoContentObj.start =  ansCont.startNumber;
             tempVideoContentObj.end = ansCont.endNumber;
+            if(ansCont.duration!= undefined){
+              tempVideoContentObj.duration = ansCont.duration;
+            }
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -2348,12 +2382,16 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         tempVideoContentObj.contentId = contentObj._id;
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2545,9 +2583,11 @@ export class TestwerkzComponent implements OnInit {
 
 // WaiYan code Start(getSingleConcept)
   getSingleConcept(cID){
+    console.log("getSingleConcept works");
     const _that =this;
     _that.conceptEdit = true;
     _that.isCollectionList=false;
+    _that.blockUI.start('Loading');
     _that._service.getConceptById(_that.regionID, cID).subscribe((res:any) => {
       console.log("SingleConcept",res)
       _that.conceptsObj = res;
@@ -2556,7 +2596,7 @@ export class TestwerkzComponent implements OnInit {
       _that.pickedTag.id = res.tag[0].tagId;
       _that.pickedTag.name = res.tag[0].name;
       _that.ischecked = res.tag[0].tagId;
-      _that.blockUI.start('Loading') 
+      // _that.blockUI.start('Loading') 
       async.map(
         res.pd, 
         _that.getPDID.bind(null,_that), 
@@ -2567,9 +2607,9 @@ export class TestwerkzComponent implements OnInit {
       _that.showSettingSidebar = false;
       _that.testWerkzCategory = false;
       _that.conceptList = false;  
-      setTimeout(() => {
-        _that.blockUI.stop()
-      }, 500);
+      // setTimeout(() => {  
+      //   _that.blockUI.stop()
+      // }, 500);
     },err =>{
       console.log(err)
     })
@@ -2668,7 +2708,12 @@ export class TestwerkzComponent implements OnInit {
     console.log("assign PD",_that.performanceDemands[pdIndex].name)
     _that.performanceDemands[pdIndex].contents.map((cont)=>{
       if(_that.isVideo(cont)){
-        cont["duration"] = cont.end
+        // cont["duration"] = cont.end
+        if(cont.duration != undefined){
+          cont["duration"] = cont.duration
+        }else{
+          cont["duration"] = cont.end
+        }
         setTimeout(()=>{
           _that.changeTimeFormat(cont,'toString')
         },50)
@@ -2680,7 +2725,12 @@ export class TestwerkzComponent implements OnInit {
         question.contents.map((quesCont)=>{
           // console.log("###Q content",quesCont)
           if(_that.isVideo(quesCont)){
-            quesCont["duration"] = quesCont.end
+            // quesCont["duration"] = quesCont.end
+            if(quesCont.duration != undefined){
+              quesCont["duration"] = quesCont.duration
+            }else{
+              quesCont["duration"] = quesCont.end
+            }
             setTimeout(()=>{
               _that.changeTimeFormat(quesCont,'toString')
             },50)
@@ -2695,11 +2745,16 @@ export class TestwerkzComponent implements OnInit {
       }, 200);
       question.answers.map((ans)=>{
         if(ans.contents != undefined){
-          console.log("answerContents",ans.contents)
+          // console.log("answerContents",ans.contents)
           ans.contents.map((ansCont)=> {
             if(_that.isVideo(ansCont)){
               console.log("ansCont~~~",ansCont)
-              ansCont["duration"] = ansCont.end
+              // ansCont["duration"] = ansCont.end
+              if(ansCont.duration != undefined){
+                ansCont["duration"] = ansCont.duration
+              }else{
+                ansCont["duration"] = ansCont.end
+              }
               setTimeout(()=>{
                 _that.changeTimeFormat(ansCont,'toString')
               },50)
@@ -2708,6 +2763,9 @@ export class TestwerkzComponent implements OnInit {
         }
       })
     })
+    setTimeout(()=>{
+      _that.blockUI.stop()
+    },500)
   }
   //end get method
 // WaiYan code end(getSingleConcept)
@@ -2829,7 +2887,8 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration: 0
         };
         if(contentObj._id == undefined){
           tempVideoContentObj.contentId = contentObj.contentId;
@@ -2840,6 +2899,9 @@ export class TestwerkzComponent implements OnInit {
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -2880,7 +2942,8 @@ export class TestwerkzComponent implements OnInit {
               contentId: "",
               sequence: 0,
               start:0,
-              end: 0
+              end: 0,
+              duration: 0
             };
             if(ansCont._id == undefined){
               tempVideoContentObj.contentId = ansCont.contentId;
@@ -2891,6 +2954,9 @@ export class TestwerkzComponent implements OnInit {
             tempVideoContentObj.sequence = ++index;
             tempVideoContentObj.start =  ansCont.startNumber;
             tempVideoContentObj.end = ansCont.endNumber;
+            if(ansCont.duration!= undefined){
+              tempVideoContentObj.duration = ansCont.duration;
+            }
             tempAnsContentArr.push(tempVideoContentObj);
           }else{
             var tempImgContentObj = {
@@ -3003,7 +3069,8 @@ export class TestwerkzComponent implements OnInit {
           contentId: "",
           sequence: 0,
           start:0,
-          end: 0
+          end: 0,
+          duration:0
         };
         if(contentObj._id == undefined){
           tempVideoContentObj.contentId = contentObj.contentId;
@@ -3015,6 +3082,9 @@ export class TestwerkzComponent implements OnInit {
         tempVideoContentObj.sequence = ++index;
         tempVideoContentObj.start =  contentObj.startNumber;
         tempVideoContentObj.end = contentObj.endNumber;
+        if(contentObj.duration!= undefined){
+          tempVideoContentObj.duration = contentObj.duration;
+        }
         tempContentArray.push(tempVideoContentObj);
       }else{
         var tempImgContentObj = {
@@ -3054,18 +3124,19 @@ export class TestwerkzComponent implements OnInit {
           console.log(err);
         }
       );
-    }
-    _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
-      res => {
-        const createdPdId = JSON.parse(JSON.stringify(res));
+    }else{
+      _this._service.updatePD(_this.regionID, pdCreateFormat, pd._id).subscribe(
+        res => {
+          const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.log(createdPdId.meta._id);
-        pdCallback(null, createdPdId.meta._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          console.log(createdPdId.meta._id);
+          pdCallback(null, createdPdId.meta._id);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
   }
   //end put method
   /** ************** *** ************** *** **************  start conept  update *** ************** *** ************** *** ************** *** ************** */
@@ -3099,29 +3170,40 @@ export class TestwerkzComponent implements OnInit {
     //   this.getAllContent();
     this.isCollapse = !this.isCollapse;
   }
+  onselectedVid:any;
   onselectedVideoDiv(e,id,video){
-    if($(e.target).hasClass('duration')){
-
+    var videoId:any;
+    if(video._id == undefined){
+      videoId = video.contentId;
+      this.onselectedVid = videoId; 
     }else{
-      $(".vd").children("video").removeClass("highlight-video")
-      $(".duration-wrapper").hide();
-      console.log(this.focusType)
-      console.log(this.performanceDemands)
-      var videoDiv = $(e.target).parents(".vd");
-      // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
-      // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
-      // // console.log(timeString)
-      // var res= timeString.split(":");
-      // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
-      // video.start = 0;
-      videoDiv.children(".duration-wrapper").show();
-      videoDiv.children("video").toggleClass("highlight-video");
-      if(videoDiv.children("video").hasClass("highlight-video")){
-        videoDiv.children(".setting-trash").css('opacity','1');
-        
-      }else
-      videoDiv.children("i").css('opacity','0');
+      videoId = video._id;
+      this.onselectedVid = videoId; 
     }
+
+    // this.onselectedVid = videoId; 
+    // if($(e.target).hasClass('duration')){
+
+    // }else{
+    //   // $(".vd").children("video").removeClass("highlight-video")
+    //   $(".duration-wrapper").hide();
+    //   console.log(this.focusType)
+    //   console.log(this.performanceDemands)
+    //   var videoDiv = $(e.target).parents(".vd");
+    //   // console.log(new Date(video.duration * 1000).toISOString().substr(11, 8));
+    //   // var timeString = String(new Date(video.end * 1000).toISOString().substr(11, 8));
+    //   // // console.log(timeString)
+    //   // var res= timeString.split(":");
+    //   // video.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
+    //   // video.start = 0;
+    //   videoDiv.children(".duration-wrapper").show();
+    //   // videoDiv.children("video").toggleClass("highlight-video");
+    //   // if(videoDiv.children("video").hasClass("highlight-video")){
+    //   //   videoDiv.children(".setting-trash").css('opacity','1');
+        
+    //   // }else
+    //   // videoDiv.children("i").css('opacity','0');
+    // }
     
   }
   onHoverVideoDiv(e,id){
@@ -3129,14 +3211,14 @@ export class TestwerkzComponent implements OnInit {
     // console.log(e.target)
     // console.log($(e.target).children("video"))
     // console.log($(e.target).children("i"))
-    if(e.type == "mouseenter"){
-      if($(e.target).children("video").hasClass("highlight-video"))
-        $(e.target).children(".setting-trash").css('opacity','1');
-      else
-        $(e.target).children(".setting-trash").css('opacity','0');
-    }
-    else
-      $(e.target).children(".setting-trash").css('opacity','0');
+    // if(e.type == "mouseenter"){
+    //   if($(e.target).children("video").hasClass("highlight-video"))
+    //     $(e.target).children(".setting-trash").css('opacity','1');
+    //   else
+    //     $(e.target).children(".setting-trash").css('opacity','0');
+    // }
+    // else
+    //   $(e.target).children(".setting-trash").css('opacity','0');
   }
   deleteSettingContents(i){
     // this.settingContents[this.focusType.no].contents.splice(i, 1)
@@ -3185,6 +3267,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   goToCollection(){
+    console.log(this.collectionarr)
     this.isCollection=true;
     this.isCollectionList=false;
     this.conceptList=false;
@@ -3341,7 +3424,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log(obj)
     this._service.createCollection(this.regionID,obj).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.getCollectionlist();
         this.toastr.success("Successfully Plan created.");
       },
@@ -3355,21 +3438,66 @@ export class TestwerkzComponent implements OnInit {
   }
 
   // collection edit
+  pdLoop1(_that,pd,callback){
+    // console.log(pd, 'getPDID function ')sq
+    callback(null,pd.conceptId)
+  }
+  pdLoopDone1(_that, error, result) {
+    // console.log(result);  
+    if(error){
+      console.log(error, 'error in getPDbyID function')
+    }
+    async.map(
+      result,
+      _that.loopConcept.bind(null,_that),
+      _that.conceptLoopDone.bind(null,_that)
+    )
+  }
+  
+  loopConcept(_this,concept,callback){
+    _this._service.getConceptById(_this.regionID,concept).subscribe(
+      (conceptRes: any) => {
+        // console.error(conceptRes)
+        callback(_this,conceptRes)
+        // this.selectedConcept.push(conceptRes);
+      },
+      err => {
+        console.log(err);
+      });
+    
+  }
+  
+  conceptLoopDone(_this, error, pdIds){
+    console.log(pdIds);
+    setTimeout(() => {
+      _this.selectedConcept = pdIds;
+      _this.blockUI.stop();
+      console.log( _this.selectedConcept)
+    }, 200);
+  
+  }
+  
   goTocollectionEdit(id){
-    console.log(id);
-    this.blockUI.start("Loading...");
-    this._service.getCollectionById(this.regionID,id).subscribe(
+    const _that = this;
+    // console.log(id);
+    _that.blockUI.start("Loading...");
+    _that._service.getCollectionById(_that.regionID,id).subscribe(
       (res: any) => {
         console.log(res)
-        this.isCollectionEdit=true;
-        this.isCollection=false;
-        this.collectionName=res.name;
-        this.collectionDescription=res.description;
-        this.collectionId=res._id;
-        res.concepts.map(obj=>{
-          this.getConceptByIdForCollection(obj.conceptId)
-        })
-        this.blockUI.stop();
+        _that.isCollectionEdit=true;
+        _that.isCollection=false;
+        _that.collectionName=res.name;
+        _that.collectionDescription=res.description;
+        _that.collectionId=res._id;
+        // res.concepts.map(obj=>{
+        //   _that.getConceptByIdForCollection(obj.conceptId)
+        // })
+        async.map(
+          res.concepts,
+          _that.pdLoop1.bind(null, _that),
+          _that.pdLoopDone1.bind(null, _that)
+        );
+        // _that.blockUI.stop();
       },
       err => {
         console.log(err);
@@ -3377,20 +3505,43 @@ export class TestwerkzComponent implements OnInit {
     );
   }
 
-  getConceptByIdForCollection(id){
-    this._service.getConceptById(this.regionID,id).subscribe(
-      (conceptRes: any) => {
-        console.log(conceptRes)
-        this.selectedConcept.push(conceptRes);
-      },
-      err => {
-        console.log(err);
-      });
+  // goTocollectionEdit(id){
+  //   console.log(id);
+  //   this.blockUI.start("Loading...");
+  //   this._service.getCollectionById(this.regionID,id).subscribe(
+  //     (res: any) => {
+  //       console.log(res)
+  //       this.isCollectionEdit=true;
+  //       this.isCollection=false;
+  //       this.collectionName=res.name;
+  //       this.collectionDescription=res.description;
+  //       this.collectionId=res._id;
+  //       res.concepts.map(obj=>{
+  //         this.getConceptByIdForCollection(obj.conceptId)
+  //       })
+  //       this.blockUI.stop();
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
+  // getConceptByIdForCollection(id){
+  //   this._service.getConceptById(this.regionID,id).subscribe(
+  //     (conceptRes: any) => {
+  //       console.log(conceptRes)
+  //       this.selectedConcept.push(conceptRes);
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     });
     
-  }
+  // }
 
   updateCollection(id){
-    console.log(id)
+    // console.log(id)
+    this.blockUI.start("Loading...");
     let idArr=[];
     this.isCollectionEdit=false;
     for(let i=0;i<this.selectedConcept.length;i++){
@@ -3407,8 +3558,11 @@ export class TestwerkzComponent implements OnInit {
     };
     this._service.updateCollection(this.regionID,obj,id).subscribe(
       (res: any) => {
-        console.log(res);
-        this.toastr.success("Successfully Plan updated.");
+        // console.log(res);
+        this.blockUI.stop();
+        this.toastr.success("Successfully Plan updated."); 
+        this.getCollectionlist();
+  
       },
       err => {
         console.log(err);
@@ -3416,7 +3570,6 @@ export class TestwerkzComponent implements OnInit {
       }
     );
     this.backToList();
-    this.getCollectionlist();
   }
 
   cancelCollection(){
@@ -3440,13 +3593,22 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists(1,this.pageConcept*20);
   }
 
-  onclickCollectionDelete(id){
-    console.log(id)
+  onclickCollectionDelete(alertDelete,col){
+    this.deleteCollection=col;
+    this.modalReference = this.modalService.open(alertDelete, {
+      backdrop: 'static',
+      windowClass: 'deleteModal d-flex justify-content-center align-items-center'
+    });
+    
+  }
+
+  collectionDelete(id){
+    this.modalReference.close();
     this._service.deleteCollection(this.regionID,id).subscribe(
       (res: any) => {
         console.log(res);
-        this.getCollectionlist();
         this.toastr.success("Successfully Plan Delete.");
+        this.getCollectionlist();
       },
       err => {
         console.log(err);
@@ -3456,4 +3618,11 @@ export class TestwerkzComponent implements OnInit {
   }
   //end collection group
 
+  // test
+  pastePlainText(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var plaintext = event.clipboardData.getData('text/plain');
+    document.execCommand('inserttext', false, plaintext);
+  }
 }
