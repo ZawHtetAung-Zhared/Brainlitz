@@ -35,8 +35,8 @@
     </button>
   </div>
 </div> -->
-<div  class="pdLR-15">
-  <h2 class="testwerkzTitle mt-3 pdLR-15" *ngIf="isTestwerkztitle">TestWerkz</h2>
+<div *ngIf="isCollectionList && conceptList" class="pdLR-15 mb100">
+  <h2 class="testwerkzTitle mt-3 pdLR-15" *ngIf="isCollectionList && conceptList">TestWerkz</h2>
     <!-- Start Collection -->
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
       <label class="cTitle mb-0">Plan</label>
@@ -56,7 +56,7 @@
           <div class="single-collection-group">
             <div class="single-collection-list"  *ngFor="let concept of col.concepts;let ci = index">
               <!-- {{concept.tag[0].name  | json}} -->
-               <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
+              <span class="tagName" *ngFor="let tag of concept.tag;">{{tag.name}}</span>
               <div class="d-flex flex-row">
                   <span class="detail-dot"></span>
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
@@ -116,13 +116,12 @@
                   <div class="onePD" *ngFor="let content of pd.contents">
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'image'
-                      " class="imgWrap">
+                        'image'" class="imgWrap">
                       <img src="{{ content.url }}" />
                     </div>
                     <div *ngIf="
                         content.type.substring(0, content.type.search('/')) ==
-                        'video' "
+                        'video'"
                       class="vidWrap"
                     >
                       <img src="/assets/img/play-16-x-16.png">
@@ -190,7 +189,7 @@
         <div class="d-flex justify-content-end single-collectin-footer1">
           <div style="padding-top: 13px;">
             <button class="btn-action remove-outline" (click)="goTocollectionEdit(col._id)">Edit</button>
-            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(col._id)">Delete</button>
+            | <button class="btn-action remove-outline" (click)="onclickCollectionDelete(colDeleteModal,col)">Delete</button>
           </div>
         </div>
       </div>
@@ -317,7 +316,10 @@
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
     <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
-      <span class="tagName_collection">{{sConcept.tag.name}}</span>
+      <!-- <div *ngIf="sConcept.tag != undefined"> -->
+          <span class="tagName_collection">  {{sConcept.tag[0].name}}</span>
+        <!-- <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span> -->
+      <!-- </div> -->
       <div class="d-flex flex-row justify-content-between">
         <div class="d-flex group-text">
             <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
@@ -538,7 +540,7 @@
       <div class="d-none">{{ validateForm() }}</div>
       <button type="button" class="btn btn-submit" [disabled]="!isConceptFormValid"
         (click)="updateConcept(conceptId)">
-        Update
+        Save
       </button>
     </div>
   </div>
@@ -751,7 +753,7 @@
                         <div id="q-{{ i }}-{{ j }}" class="mt-3 question contentEditQues" #t contenteditable="true"
                           data-placeholder="Type question here" (focus)="onFocus('question', i, j, '', t)"
                           (input)="onInput(t, $event, editableId, focusType)" (focusout)="onFocusOut($event)"
-                          (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)"></div>
+                          (dragstart)="onDragStart($event)" (drop)="onDrop($event)" (keyup)="getCaretPosition($event)" (keydown)="getCaretPosition($event)" (mouseup)="getCaretPosition($event)" (mousedown)="getCaretPosition($event)" (paste)="pastePlainText($event)"></div>
                         <!-- <div class="question-vd-wrapper row">
                           <div *ngFor="let video of  question.contents; let idx = index"
                             class="position-relative mr-2 ml-2 question-vd innerPd" 
@@ -997,19 +999,16 @@
             </div>
             <div class="vd-wrapper" *ngIf="!isCollapse && focusType.type == 'pd'">
               <div *ngFor="let video of performanceDemands[focusType.no].contents; let i = index">
-                <div class="vd" *ngIf="isVideo(video)" (click)="onselectedVideoDiv($event, i, video)"
-                  (mouseenter)="onHoverVideoDiv($event, video._id)" (mouseleave)="onHoverVideoDiv($event, video._id)"
-                  id="img-s-{{ video._id }}">
+                <div class="vd" *ngIf="isVideo(video)" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')" (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                   <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
-                  <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                  <!-- <div
-                (click)="onremoveClick(video._id)"
-                id="trashdiv-{{ video._id }}"
-                class="trashDiv"
-              > -->
-                  <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                  <video width="224" height="126" preload="metadata" src="{{ video.url }}" [ngClass]="{'highlight-video': (video._id != undefined &&  onselectedVid == video._id) || (video._id == undefined && onselectedVid == video.contentId)}"></video>
+                  <div *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id ==  undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" class="sidebarVid-name">
+                    {{ (video.name.length > 17) ? (video.name | slice:0:14)+'...' : (video.name) }}
+                  </div>
+                  <img *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
                     (click)="deleteSettingContents(i)" />
-                  <div class="row duration-wrapper">
+                  <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)}"></div>
+                  <div *ngIf="onselectedVid == video._id || onselectedVid == video.contentId" class="row duration-wrapper">
                     <div class="col-md-5 start-duration">
                       <label>Start</label>
                       <input type="text" [(ngModel)]="video.start" class="duration" />
@@ -1024,21 +1023,19 @@
               </div>
             </div>
             <div class="vd-wrapper" *ngIf="!isCollapse && focusType.type == 'question'">
-
               <div class="vd"
                 *ngFor="let video of performanceDemands[focusType.parentIdx].questions[focusType.no].contents; let i = index"
-                (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onHoverVideoDiv($event, video._id)"
-                (mouseleave)="onHoverVideoDiv($event, video._id)" id="img-s-{{ video._id }}">
+                (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')"
+                (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                 <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
-                <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                <!-- <div
-                  (click)="onremoveClick(video._id)"
-                  id="trashdiv-{{ video._id }}"
-                  class="trashDiv"
-                > -->
-                <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
-                  (click)="deleteSettingContents(i)" />
-                <div class="row duration-wrapper">
+                <video width="224" height="126" preload="metadata" src="{{ video.url }}" [ngClass]="{'highlight-video': (video._id != undefined &&  onselectedVid == video._id) || (video._id == undefined && onselectedVid == video.contentId)}"></video>
+                <div *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" class="sidebarVid-name">
+                  {{ (video.name.length > 17) ? (video.name | slice:0:14)+'...' : (video.name) }}
+                </div>
+                <img *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                    (click)="deleteSettingContents(i)" />
+                <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)}"></div>
+                <div *ngIf="onselectedVid == video._id || onselectedVid == video.contentId" class="row duration-wrapper" class="row duration-wrapper">
                   <div class="col-md-5 start-duration">
                     <label>Start</label>
                     <input type="text" [(ngModel)]="video.start" class="duration" />
@@ -1053,13 +1050,16 @@
             </div>
             <div class="vd-wrapper" *ngIf="!isCollapse && focusType.type == 'answer'">
               <div *ngFor="let video of this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents; let i = index">
-                <div class="vd" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onHoverVideoDiv($event, video._id)"
-                (mouseleave)="onHoverVideoDiv($event, video._id)" id="img-s-{{ video._id }}">
+                <div class="vd" (click)="onselectedVideoDiv($event, i, video)" (mouseenter)="onVidMouseEvent($event,video,'mouseenter')" (mouseleave)="onVidMouseEvent($event,video,'mouseleave')" id="img-s-{{ video._id }}">
                   <img src="../../../assets/images/play-icon.png" class="setting-play-icon" />
-                  <video width="224" height="126" preload="metadata" src="{{ video.url }}"></video>
-                  <img src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
+                  <video width="224" height="126" preload="metadata" src="{{ video.url }}" [ngClass]="{'highlight-video': (video._id != undefined &&  onselectedVid == video._id) || (video._id == undefined && onselectedVid == video.contentId)}"></video>
+                  <div *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" class="sidebarVid-name">
+                    {{ (video.name.length > 17) ? (video.name | slice:0:14)+'...' : (video.name) }}
+                  </div>
+                  <img *ngIf="(video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)" src="../../../assets/images/trash-ico.png" id="trashdiv-{{ video._id }}" class="setting-trash"
                   (click)="deleteSettingContents(i)" />
-                  <div class="row duration-wrapper">
+                  <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)}"></div>
+                  <div *ngIf="onselectedVid == video._id || onselectedVid == video.contentId" class="row duration-wrapper" class="row duration-wrapper">
                     <div class="col-md-5 start-duration">
                       <label>Start</label>
                       <input type="text" [(ngModel)]="video.start" class="duration" />
@@ -1304,7 +1304,7 @@
                 <i class="fa fa-trash" id="trash{{ video._id }}" [ngStyle]="vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id ?{'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <video width="216" height="130" preload="metadata" src="{{ video.url }}"
-                (loadedmetadata)="onMetadata($event, i)"></video>
+                (loadedmetadata)="onMetadata($event, i, 'gallery')"></video>
               <!-- <canvas id="canvas-{{video._id}}" ></canvas> -->
               <div id="play{{ video._id }}" class="play-circle">
                 <img src="../../../assets/images/play-icon.png" />
@@ -1362,3 +1362,26 @@
     </div>
   </ng-template>
 </div>
+
+<ng-template #colDeleteModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Confirm delete?</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body pdf-confirm">
+    <p>
+      Are You sure you want to delete
+      <span class="target">"{{ deleteCollection.name }}"</span>?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn modal-cancel-btn" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="submit" class="btn modal-delete-btn" (click)="collectionDelete(deleteCollection._id)">
+      Delete
+    </button>
+  </div>
+</ng-template>

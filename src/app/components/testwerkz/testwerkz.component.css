@@ -366,7 +366,7 @@ h3.category-h3 {
 
 .inform-text {
   font-size: 14px;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #64707d;
   font-weight: 500;
 }
@@ -375,7 +375,7 @@ h3.category-h3 {
   font-size: 14px;
   font-weight: 500;
   color: #2e3d4d;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .back-to {
@@ -499,7 +499,7 @@ h3.category-h3 {
 
 .assessment-title {
   font-size: 28px;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-weight: 600;
   color: #2e3d4d;
   margin-bottom: 36px;
@@ -507,7 +507,7 @@ h3.category-h3 {
 }
 
 .input-label {
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 18px;
   color: #2e3e4d;
   font-weight: 600;
@@ -742,7 +742,7 @@ h3.category-h3 {
 
 .pd-setting {
   color: #2e3d4d;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
 }
@@ -1081,6 +1081,7 @@ p.g_title {
 .row.imgGp {
   overflow: overlay;
   max-height: 340px;
+  padding-right: 6px;
 }
 
 .imgDiv {
@@ -1104,7 +1105,7 @@ img.gShowImag {
   z-index: 9;
   bottom: 8px;
   color: #ffffff;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
 
@@ -1122,8 +1123,8 @@ p.g_title {
   padding-top: 24px;
 }
 
-.Imgoverlay,.VidOverlay {
-  position: absolute;
+.Imgoverlay,.VidOverlay,.sidebarVidOverlay {
+  position: absolute!important;
   top: 0;
   height: 100%;
   /* background: rgba(0, 0, 0, 0); */
@@ -1137,6 +1138,11 @@ p.g_title {
 
 .VidOverlay{
   width: 216px;
+}
+
+.sidebarVidOverlay{
+  width: 224px;
+  height: 126px;
 }
 
 .video.Imgoverlay {
@@ -1155,7 +1161,7 @@ p.g_title {
 .videoNameShort,.videoNameLong{
   position: absolute;
   z-index: 9;
-  font-family: 'InterUI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 14px;
   color: #2e3d4d;
   width: 216px;
@@ -1192,7 +1198,7 @@ p.g_title {
 
 .contentEditQues{
   font-size: 16px!important;
-  font-family: 'InterUI-Medium', Arial, sans-serif!important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif!important;
 }
 
 .question-wrap {
@@ -1311,7 +1317,7 @@ p.g_title {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: #fff!important;
 }
 
 .img-pd {
@@ -1354,7 +1360,7 @@ p.g_title {
 
 .answer-text {
   color: #0080ff;
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
   font-weight: 500;
 }
@@ -1493,7 +1499,7 @@ p.g_title {
   font-size:12px;
 }
 .duration-wrapper{
-  display:none;
+  /*display:none;*/
 }
 
 .start-duration input,
@@ -1529,6 +1535,10 @@ p.g_title {
   padding: 15px 15px 0px 15px;
 }
 
+.mb100{
+  margin-bottom: 100px;
+}
+
 .setting-play-icon {
   position: absolute;
   padding-left: 20px;
@@ -1536,10 +1546,22 @@ p.g_title {
 }
 
 .setting-trash {
-  position: absolute;
+  position: absolute!important;
   right: 50px;
   top: 18px;
-  opacity: 0;
+  z-index: 9;
+  /*opacity: 0;*/
+}
+
+.sidebarVid-name{
+  position: absolute!important;
+  z-index: 9;
+  top: 100px;
+  margin-bottom: 0px;
+  color: #fff;
+  font-size: 16px;
+  padding-left: 10px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .card {
@@ -1607,7 +1629,7 @@ p.g_title {
 }
 
 .pd-text {
-  font-family: 'InterUI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .onePD {
@@ -1785,7 +1807,7 @@ div.pdLine-wrap:last-child {
 }
 .slected-content-text{
   color: #004080;
-  font-family: 'InterUI-Medium',Arial, Helvetica;
+  font-family: 'Inter-UI-Medium',Arial, Helvetica;
   font-size: 14px;
 }
 .question-vd .play-img {
