@@ -1644,6 +1644,7 @@ export class TestwerkzComponent implements OnInit {
 
         var e = document.getElementById(this.editableId);
         if (inImageWrapper) {
+          console.log("this.range",this.range)
           for (var i in this.selectedImgArr) {
             // console.log(this.selectedImgArr[i].url, "img");
             var url = this.selectedImgArr[i].url;
@@ -1654,7 +1655,8 @@ export class TestwerkzComponent implements OnInit {
               $('<img class="editableImg" src="' + url + '"  ></img>')
             );
             k = this.selectEle;
-          }
+            this.clickEle = this.selectEle
+          }         
         } else {
           // var tempWrapperDiv = $(
           //   `<div id="${imgWrapperId}" class="img-wrapper"></div>`
