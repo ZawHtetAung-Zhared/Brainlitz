@@ -1964,6 +1964,11 @@ span.tagName {
   border-bottom: none!important;
 }
 
+.collection-wrapper1{
+  padding-top: 20px;
+  margin-bottom: 33px;
+  padding-bottom: 60px;
+}
 .single-collection1 {
   /* width: 428px !important; */
   max-height: 312px !important;
