@@ -168,6 +168,15 @@
         </div>
     </div>
   </header>
+  <div class="input-group pad-0">
+    <span class="input-group-append">
+      <button class="bt btn-design btn-outline-secondary" type="button">
+        <i class="fa fa-search search-size"></i>
+      </button>
+    </span>
+    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Plan" id="example-search-input"
+      (input)="getCollectionSearch($event.target.value)" autocomplete="off">
+  </div>
   <div class="collection-wrapper1 card-columns">
     <div class="card" *ngFor="let col of collectionarr">
       <div class="single-collection1">
@@ -193,6 +202,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="collectionarr.length == pageCollection*20" class="load-more">
+      <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
+      <button class="btn remove-outline" (click)="showmoreCollection(conceptsArr.length)">load more</button>
     </div>
   </div>
 </div>

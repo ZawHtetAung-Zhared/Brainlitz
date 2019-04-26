@@ -151,6 +151,7 @@ export class TestwerkzComponent implements OnInit {
   public showRemove:boolean =false;
   public hoverIcon:any=""
   public pageConcept:any=1;
+  public pageCollection:any=1;
   public collectionArr_slice:any;
   public deleteCollection:string;
   public isExpandExit:boolean=false;
@@ -199,7 +200,7 @@ export class TestwerkzComponent implements OnInit {
 
     console.log(this.pdLists);
     this.getConceptLists(1,20);
-    this.getCollectionlist();
+    this.getCollectionlist(1,20);
     console.log(this.focusType = {
       'no' : 0,
       'type' : 'pd'
@@ -3251,9 +3252,10 @@ export class TestwerkzComponent implements OnInit {
   }
 
   //start collection group
-  getCollectionlist() {
+  getCollectionlist(page,size) {
     this.blockUI.start("Loading");
-    this._service.getAllCollection(this.regionID).subscribe((res: any) => {
+    console.log(page,size)
+    this._service.getAllCollection(this.regionID,1,size).subscribe((res: any) => {
       console.log(res)
       console.log(res.slice(0,3));
       this.collectionArr_slice=res.slice(0,3);
@@ -3262,6 +3264,20 @@ export class TestwerkzComponent implements OnInit {
         this.blockUI.stop();
       }, 300);
     });
+  }
+
+  getCollectionSearch(keyword){
+    this.blockUI.start("Loading...");
+    this._service.getCollectionBySearch(this.regionID,keyword).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.collectionarr=res;
+        this.blockUI.stop();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   goToCollection(){
@@ -3346,6 +3362,7 @@ export class TestwerkzComponent implements OnInit {
     );
   }
 
+
   
 
   selectData(id) {
@@ -3423,7 +3440,7 @@ export class TestwerkzComponent implements OnInit {
     this._service.createCollection(this.regionID,obj).subscribe(
       (res: any) => {
         // console.log(res);
-        this.getCollectionlist();
+        this.getCollectionlist(1,20);
         this.toastr.success("Successfully Plan created.");
       },
       err => {
@@ -3559,7 +3576,7 @@ export class TestwerkzComponent implements OnInit {
         // console.log(res);
         this.blockUI.stop();
         this.toastr.success("Successfully Plan updated."); 
-        this.getCollectionlist();
+        this.getCollectionlist(1,20);
   
       },
       err => {
@@ -3585,10 +3602,17 @@ export class TestwerkzComponent implements OnInit {
     console.log("cancel")
   }
   showmoreConcept(length){
-    this.pageConcept+=1;
+    this.pageCollection+=1;
     console.log(length)
     console.log(this.pageConcept)
-    this.getConceptLists(1,this.pageConcept*20);
+    this.getCollectionlist(1,this.pageConcept*20);
+  }
+
+  showmoreCollection(length){
+    this.pageCollection+=1;
+    console.log(length)
+    console.log(this.pageConcept)
+    this.getCollectionlist(1,this.pageCollection*20);
   }
 
   onclickCollectionDelete(alertDelete,col){
@@ -3606,7 +3630,7 @@ export class TestwerkzComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.toastr.success("Successfully Plan Delete.");
-        this.getCollectionlist();
+        this.getCollectionlist(1,this.pageCollection);
       },
       err => {
         console.log(err);
