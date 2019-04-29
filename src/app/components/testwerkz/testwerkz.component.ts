@@ -1103,6 +1103,7 @@ export class TestwerkzComponent implements OnInit {
   //get all content
   getAllContent(page,size,keyword) {
     console.log(page,size,keyword);
+    console.error(this.modelType)
     // this.ImgArr = [];
     // this.videoArr = [];
   //  console.error(page,size)
@@ -1137,23 +1138,25 @@ export class TestwerkzComponent implements OnInit {
                 }
                 this.tempContentArr=this.ImgArr;
                 console.log("ImgArr",this.tempContentArr)
-                resolve();
               }else{
                 this.ImgArr=this.ImgArr;
                 console.log('ImgArr####',this.ImgArr)
               }
 
             }else{
+              console.error("is video")
               if (isFirst == true) {
+                console.error("first time searching")
                 this.videoArr = res;
                 // this.isSearch = true;
                 this.contentPage = 1;
                 console.log(this.videoArr,'first time searching');
                 this.tempContentArr = this.videoArr;
-                if(this.videoArr.length >= 1){
-                  this.autoSelectedImg(this.uploadedVid,"video")
-                }
+                // if(this.videoArr.length >= 1){
+                //   this.autoSelectedImg(this.uploadedVid,"video")
+                // }
               }else{
+                console.error("else time searching")
                 this.isSearch = false;
                 res.map(content => {
                   this.videoArr.push(content)
@@ -1161,7 +1164,7 @@ export class TestwerkzComponent implements OnInit {
                 console.log(this.videoArr,'not first time searching');
               }
             }
-            
+            resolve();
             this.blockUI.stop();
           },
           err => {
@@ -1184,7 +1187,7 @@ export class TestwerkzComponent implements OnInit {
   //image upload
   onMetadata(e, id,type) {
     // console.log("metadata: ", e);
-    console.log("duration: ", e.target.duration);
+    // console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     return true;
   }
@@ -1196,6 +1199,7 @@ export class TestwerkzComponent implements OnInit {
     } else {
       var file = event.target.files;
     }
+    console.log(this.modelType)
     // console.error(this.contentPage)
     // console.error(this.selectedImgArr);
     // console.error(20*this.contentPage)
@@ -1213,8 +1217,13 @@ export class TestwerkzComponent implements OnInit {
             }, 300);
           });
         }else{
+          console.log("video upload")
           this.uploadedVid = res.meta
           this.getAllContent(1,20*this.contentPage,'').then(()=>{
+            setTimeout(() => {
+              console.log("res.meta~~~",res.meta)
+              this.autoSelectedImg(res.meta,"img");
+            }, 300);
           })
         }
       
@@ -1228,7 +1237,8 @@ export class TestwerkzComponent implements OnInit {
 
   //this is use for autoselected when upload finish or deleted finsih (this is only selected previous selection image after upload)
   autoSelectedImg(resturnobj,type) {
-    console.log("autoSelectedImg")
+    console.error("autoSelectedImg",resturnobj)
+    console.error(this.tempContentArr)
     // console.log(this.modelType);
     // console.log(this.selectedImgArr);
     // console.log(resturnobj);
@@ -1262,26 +1272,26 @@ export class TestwerkzComponent implements OnInit {
         this.imgId = i;
       }
     }else if (this.modelType == "video" || this.modelType == "ansVideo") {
-      console.log("else if")
+      console.error("here video")
       if (this.isRemove) {
-        console.log("is remove",this.vidIdArr);
-        console.log(i)
         this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
-        this.vidIdArr.splice(this.vidIdArr.indexOf(i));
+        this.vidIdArr.splice(this.vidIdArr.indexOf(i),1);
         // this.autoImgLoop(this.imgIdArr);
+        console.log("is remove",this.vidIdArr);
         this.isRemove = false;
       } else {
-        console.log(this.vidIdArr.includes(i));
+        console.error(this.vidIdArr.includes(i));
         if (this.vidIdArr.includes(i)) {
-          console.log(this.vidIdArr)
-          console.log("is remove seleccted",this.selectedVideoArr.map(x => x._id).indexOf(i));
+          // console.log("is remove seleccted",this.selectedVideoArr.map(x => x._id).indexOf(i));
           this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
           this.vidIdArr.splice(this.vidIdArr.indexOf(i), 1);
+          console.error("include video",this.vidIdArr);
+          this.isRemove = false;
           // this.removerSelected(i);
         } else {
-          // console.log("else");
           this.vidIdArr.push(i);
           this.selectedVideoArr.push(img);
+          console.error("add vidIdArr",this.vidIdArr);
           // this.autoImgLoop(this.imgIdArr);
         }
       }
@@ -1443,16 +1453,19 @@ export class TestwerkzComponent implements OnInit {
   //delete image
   onremoveClick(id) {
     console.log(id);
+    console.log(this.vidIdArr)
+    console.log(this.selectedVideoArr)
     this.ImgArr=[];
     this.isRemove = true;
     // console.error(this.contentPage*20)
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
-        // console.log(res);
+        console.error(res);
         // this.contentArr=res.meta;
         this.toastr.success("Successfully Content deleted.");
         //getAllContent() use pormise because of html create value after use in ts
           this.getAllContent(1,(20*this.contentPage),'').then(() => {
+            console.error("delete in here get all")
             setTimeout(() => {
               if (this.modelType == "multiple") {
                 this.imgIdArr.splice(this.imgIdArr.indexOf(id), 1);
@@ -1461,13 +1474,18 @@ export class TestwerkzComponent implements OnInit {
               } else if(this.modelType == "single") {
                 this.imgId = undefined;
               }else if(this.modelType == "video" || this.modelType == "ansVideo"){
+                console.log("video delete before",this.vidIdArr)
+                console.log("video delete before",this.selectedVideoArr)
                 this.vidIdArr.splice(this.vidIdArr.indexOf(id),1);
+                this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(id), 1);
+                console.log("video deleten after",this.vidIdArr)
+                console.log("video delete after",this.selectedVideoArr)
               }
             }, 300);
           });
       },
       err => {
-        console.log(err);
+        console.error(err);
         this.toastr.error("Fail Content deleted.");
       }
     );
