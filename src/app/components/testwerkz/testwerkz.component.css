@@ -1535,8 +1535,8 @@ p.g_title {
   padding: 15px 15px 0px 15px;
 }
 
-.mb100{
-  margin-bottom: 100px;
+.mb80{
+  margin-bottom: 80px;
 }
 
 .setting-play-icon {
@@ -1693,6 +1693,7 @@ div.pdLine-wrap:last-child {
 
 .vidWrap{
   position: relative;
+  z-index: 0;
 }
 
 .vidWrap img{
