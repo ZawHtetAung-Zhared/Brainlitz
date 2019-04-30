@@ -2491,7 +2491,20 @@ export class appService{
     }
 
 
-    
+    getCollectionBySearch(regionId:string,keyword:string){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans?keyword='+keyword;
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
 
     deleteConcept(regionId:string,conceptId:string){
       let url = this.baseUrl + '/' + regionId + '/concepts/' + conceptId;
@@ -2508,8 +2521,9 @@ export class appService{
       }) 
     }
 
-    getAllCollection(regionId:string){
-      let url = this.baseUrl + '/' + regionId + '/assessment-plans';
+    getAllCollection(regionId:string,page,size){
+      let url = this.baseUrl + '/' + regionId + '/assessment-plans?&page='+page+'&size='+size;
+      // let url = this.baseUrl + '/' + regionId + '/assessment-plans';
       const httpOptions = {
           headers: new HttpHeaders({ 
             'Content-Type': 'application/json', 
