@@ -3585,10 +3585,10 @@ export class TestwerkzComponent implements OnInit {
     console.log("cancel")
   }
   showmoreConcept(length){
-    this.pageCollection+=1;
+    this.pageConcept+=1;
     console.log(length)
     console.log(this.pageConcept)
-    this.getCollectionlist(1,this.pageConcept*20);
+    this.getConceptLists(1,this.pageConcept*20);
   }
 
   showmoreCollection(length){
