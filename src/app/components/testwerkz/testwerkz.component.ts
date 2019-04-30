@@ -272,7 +272,7 @@ export class TestwerkzComponent implements OnInit {
         // var x = document.getElementById(temp).previousSibling;
         // console.log("x####",x)
         var x = document.getElementById(temp).parentElement;
-        console.log("x###",x)
+        // console.log("x###",x)
         $(".img-span").click(function() {
           // console.log($(img).siblings(".editableImg"));
           // console.log($(img).parent());
