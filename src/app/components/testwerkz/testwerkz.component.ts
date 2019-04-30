@@ -271,6 +271,8 @@ export class TestwerkzComponent implements OnInit {
         console.log("temp",temp);
         // var x = document.getElementById(temp).previousSibling;
         // console.log("x####",x)
+        var x = document.getElementById(temp).parentElement;
+        console.log("x###",x)
         $(".img-span").click(function() {
           // console.log($(img).siblings(".editableImg"));
           // console.log($(img).parent());
@@ -279,7 +281,9 @@ export class TestwerkzComponent implements OnInit {
             $(img)
               .parent()
               .remove();
+              // console.log("Remove wrapper~~~",temp)
           }else{
+            // console.log("Has wrapper~~~",temp)
             _this.tempClick = document.getElementById(temp); 
           }
           // console.log($(img).remove());
@@ -1201,6 +1205,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log("metadata: ", e);
     // console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
+    console.log(this.videoArr)
     return true;
   }
   uploadedVid = [];
@@ -1522,6 +1527,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
+    console.log("element",element)
     if(this.isVideo(element)){
       if(type == 'toString'){
         var timeString;
@@ -1543,6 +1549,7 @@ export class TestwerkzComponent implements OnInit {
           res= timeString.split(":");
           element.end = `${res[0]}h ${res[1]}m ${res[2]}s`;
         }else if(element.end == undefined){
+          console.log("element duration",element.duration)
           timeString = String(new Date(element.duration * 1000).toISOString().substr(11, 8));
           console.log("time string",timeString);
           res= timeString.split(":");
@@ -1708,7 +1715,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(this.performanceDemands)
         this.isCollapseVid(this.performanceDemands[this.focusType.parentIdx].questions[this.focusType.parentQuesIdx].answers[this.focusType.no].contents)
       }else if(this.modelType == "video"){
-        console.log("pd Insert Video======");
+        console.log("pd Insert Video======",this.selectedVideoArr);
         var contArr = this.performanceDemands[this.focusType.no].contents;
         Array.prototype.push.apply(contArr, this.selectedVideoArr);
         console.log("contArr",contArr);
@@ -2142,14 +2149,14 @@ export class TestwerkzComponent implements OnInit {
         markdownQues = tempStr;
       }
       // console.log("html",myDiv.innerHTML)
-      console.log("turn to markdown", markdownQues);
+      // console.log("turn to markdown", markdownQues);
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
       ].html.question = String(myDiv.innerHTML);
       this.performanceDemands[fType.parentIdx].questions[
         fType.no
       ].question = markdownQues;
-      console.log("questions", this.performanceDemands[fType.parentIdx].questions);
+      // console.log("questions", this.performanceDemands[fType.parentIdx].questions);
     }, 200);
   }
 
