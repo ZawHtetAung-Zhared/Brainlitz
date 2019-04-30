@@ -35,7 +35,7 @@
     </button>
   </div>
 </div> -->
-<div *ngIf="isCollectionList && conceptList" class="pdLR-15 mb100">
+<div *ngIf="isCollectionList && conceptList" class="pdLR-15 mb80">
   <h2 class="testwerkzTitle mt-3 pdLR-15" *ngIf="isCollectionList && conceptList">TestWerkz</h2>
     <!-- Start Collection -->
     <div class="d-flex justify-content-between pdLR-15 w-100 mt-3 mb-3" *ngIf="isCollectionList">
@@ -168,6 +168,15 @@
         </div>
     </div>
   </header>
+  <div class="input-group pad-0">
+    <span class="input-group-append">
+      <button class="bt btn-design btn-outline-secondary" type="button">
+        <i class="fa fa-search search-size"></i>
+      </button>
+    </span>
+    <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Plan" id="example-search-input"
+      (input)="getCollectionSearch($event.target.value)" autocomplete="off">
+  </div>
   <div class="collection-wrapper1 card-columns">
     <div class="card" *ngFor="let col of collectionarr">
       <div class="single-collection1">
@@ -193,6 +202,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="collectionarr.length == pageCollection*20" class="load-more">
+      <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
+      <button class="btn remove-outline" (click)="showmoreCollection(conceptsArr.length)">load more</button>
     </div>
   </div>
 </div>
@@ -1186,10 +1199,10 @@
               (click)="onslectedImgDiv(img._id, img,i)" id="img-{{ img._id }}" [ngClass]="{'addImgDivBorder': imgIdArr.indexOf(img._id) != -1}"
               (mouseenter)="onImgMouseEvent($event, img._id, 'mouseenter')" (mouseleave)="onImgMouseEvent($event, img._id,'mouseleave')">
               <div id="cricle{{ img._id }}" [ngClass]="{'iconCheck': imgIdArr.indexOf(img._id) != -1}">
-                <i _ngcontent-c1="" class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>
+                <i   class="fa fa-check" id="check{{ img._id }}" [ngClass]="{'check': imgIdArr.indexOf(img._id) != -1}"></i>
               </div>
               <div (click)="onremoveClick(img._id)" id="trashdiv-{{ img._id }}" class="trashdivClass">
-                <i _ngcontent-c1="" class="fa fa-trash" id="trash{{ img._id }}" [ngStyle]="imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id ? {'opacity': 1} : {'opacity': 0}"></i>
+                <i class="fa fa-trash" id="trash{{ img._id }}" [ngStyle]="imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id ? {'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <img src="{{ img.url }}" class="gShowImag" id="gShowImag-{{ img._id }}"  [ngClass]="{'addgshwoImg': imgIdArr.indexOf(img._id) != -1}"/>
               <div class="imgName" *ngIf="imgIdArr.indexOf(img._id) != -1 && isMouseOverID == img._id">
@@ -1241,7 +1254,7 @@
     <!-- <div class="modal-header">
     
     </div> -->
-    <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
+    <div class="modal-body img_upload" *ngIf="contentArr.length == 0 && !isVideoSearch">
       <div class="d-flex justify-content-center drop_zone for-video">
         <div class="d-flex flex-column drop_zone_middle">
           <img src="../../../assets/images/video-drop.png" class="img_drop" />
@@ -1258,8 +1271,7 @@
         </div>
       </div>
     </div>
-
-    <div class="modal-body eimg_upload_video" *ngIf="contentArr.length != 0" appDnd
+    <div class="modal-body eimg_upload_video" *ngIf="contentArr.length != 0 || isVideoSearch" appDnd
       (filesChangeEmiter)="onFilesChange($event)" (filesInvalidEmiter)="onFileInvalids($event)"
       [allowed_extensions]="['mp4', 'mov']">
       <div class="d-flex drop_zone_middle_eixtData for-video">
@@ -1295,24 +1307,22 @@
         </div>
         <div class="row imgGp pt-3">
           <div class="col-md-3 vidDiv" *ngFor="let video of videoArr; let i = index" [class.disabled]="!video.duration">
-            <div class="inner-imgVideo" (click)="onslectedImgDiv(video._id, video)" id="img-{{ video._id }}" [ngClass]="{'hightlight': vidIdArr.indexOf(video._id) != -1, 'not-selected':vidIdArr.indexOf(video._id) == -1 }"
-              (mouseenter)="onVidMouseEvent($event, video._id,'mouseenter')" (mouseleave)="onVidMouseEvent($event, video._id,'mouseleave')">
+            <div class="inner-imgVideo" (click)="onslectedVideoDiv(video._id, video)" id="img-{{ video._id }}" [ngClass]="{'hightlight': vidIdArr.indexOf(video._id) != -1, 'not-selected':vidIdArr.indexOf(video._id) == -1 }"
+            (mouseenter)="onVidMouseEvent($event, video._id,'mouseenter')" (mouseleave)="onVidMouseEvent($event, video._id,'mouseleave')">
               <div id="cricle{{ video._id }}" [ngClass]="{'video-circle': vidIdArr.indexOf(video._id) != -1}">
                 <i class="fa fa-check" id="check{{ video._id }}" [ngClass]="{'checkedVid': vidIdArr.indexOf(video._id) != -1}"></i>
               </div>
-              <div (click)="onremoveClick(video._id)" id="trashdiv-{{ video._id }}" class="video-trashDiv">
+              <div (click)="onVideoRemoveClick(video._id)" id="trashdiv-{{ video._id }}" class="video-trashDiv">
                 <i class="fa fa-trash" id="trash{{ video._id }}" [ngStyle]="vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id ?{'opacity': 1} : {'opacity': 0}"></i>
               </div>
               <video width="216" height="130" preload="metadata" src="{{ video.url }}"
-                (loadedmetadata)="onMetadata($event, i, 'gallery')"></video>
-              <!-- <canvas id="canvas-{{video._id}}" ></canvas> -->
+              (loadedmetadata)="onMetadata($event, i, 'gallery')"></video>
               <div id="play{{ video._id }}" class="play-circle">
                 <img src="../../../assets/images/play-icon.png" />
               </div>
               <div class="videoNameShort" [ngClass]="{'videoNameLong': video.name.length > 26}">
                 {{ (video.name.length > 40) ? (video.name | slice:0:40)+'...':(video.name) }}
               </div>
-
               <div class="VidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': vidIdArr.indexOf(video._id) != -1 && isMouseOverID == video._id}"></div>
             </div>
           </div>
