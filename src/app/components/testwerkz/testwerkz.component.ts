@@ -211,6 +211,7 @@ export class TestwerkzComponent implements OnInit {
     var clickedEle = $event;
     console.log("clickedEle~~~",clickedEle)
     console.log("clickedEle className~~~",clickedEle.className)
+    console.log("this.clickEle",this.clickEle)
     if (clickedEle.className.includes("question-insert-img")) {
       console.log("####click on tooltip",clickedEle.className);
       this.selectEle = this.clickEle;
@@ -230,9 +231,17 @@ export class TestwerkzComponent implements OnInit {
       this.showID = "";
       this.dragItem = "";
     }
-
-    this.clickEle = $event;
+    if(clickedEle.className.includes("removeIcon")){
+      this.clickEle = this.tempClick;
+      console.log("this.clickEle~~~~~~~~~",this.clickEle);
+    }else{
+      this.clickEle = $event;
+      this.tempClick = null;
+      console.log("this.clickEle#######",this.clickEle);
+    }
+    // this.clickEle = $event;
   }
+  tempClick:any;
   @HostListener("mouseover", ["$event"])
   onMouseEnter(event: any) {
     // Logs the id of the element
@@ -254,10 +263,14 @@ export class TestwerkzComponent implements OnInit {
            cursor: pointer;
            padding-top: 10px;'
            >
-            <img src='./assets/images/remove-white.png'>
+            <img class="removeIcon" src='./assets/images/remove-white.png'>
            </span>`)
         );
 
+        var temp = $(".img-span").parent().attr("id");
+        console.log("temp",temp);
+        // var x = document.getElementById(temp).previousSibling;
+        // console.log("x####",x)
         $(".img-span").click(function() {
           // console.log($(img).siblings(".editableImg"));
           // console.log($(img).parent());
@@ -266,6 +279,8 @@ export class TestwerkzComponent implements OnInit {
             $(img)
               .parent()
               .remove();
+          }else{
+            _this.tempClick = document.getElementById(temp); 
           }
           // console.log($(img).remove());
           $(img).remove();
