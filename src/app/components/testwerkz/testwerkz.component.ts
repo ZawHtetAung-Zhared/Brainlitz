@@ -1105,7 +1105,6 @@ export class TestwerkzComponent implements OnInit {
   //get all content
   getAllContent(page,size,keyword) {
     console.log(page,size,keyword);
-    console.error(this.modelType)
     // this.ImgArr = [];
     // this.videoArr = [];
   //  console.error(page,size)
@@ -1183,8 +1182,8 @@ export class TestwerkzComponent implements OnInit {
   }
   //image upload
   onMetadata(e, id,type) {
-    // console.log("metadata: ", e);
-    // console.log("duration: ", e.target.duration);
+    console.log("metadata: ", e);
+    console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
     return true;
   }
@@ -1249,11 +1248,17 @@ export class TestwerkzComponent implements OnInit {
   }
 
   autoSelectedVideo(resturnobj,type) {
-    for(let i=0;i<resturnobj.length;i++){
-      this.onslectedVideoDiv(
-        resturnobj[i]._id,
-        resturnobj[i]
-      );
+    for (let i = 0; i < resturnobj.length; i++) {
+      for (let j = 0; j < this.tempContentArr.length; j++) {
+        if (resturnobj[i]._id == this.tempContentArr[j]._id) {
+          console.log("to call onselecedImgDiv~~~")
+            this.onslectedVideoDiv(
+              this.tempContentArr[j]._id,
+              this.tempContentArr[j]
+            );
+          // break;
+        }
+      }
     }
   }
 
