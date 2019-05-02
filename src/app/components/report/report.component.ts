@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-
 	//report permission
 	public reportPermission:any = [];
 	public reportDemo:any = [];
@@ -22,14 +21,15 @@ export class ReportComponent implements OnInit {
 
   constructor( private _service: appService, private router: Router) { 
     this._service.itemValue.subscribe((nextValue) => {
-         this.locationID = nextValue;
-         this.getStaffRating(20,0);
-         this.showDetail = false;
-      })
-    window.scroll(0,0);
+      this.locationID = nextValue;
+      this.getStaffRating(20, 0);
+      this.showDetail = false;
+    })
+    window.scroll(0, 0);
   }
-  	public regionID = localStorage.getItem('regionId');
-  	feedbackLists: any;
+
+	public regionID = localStorage.getItem('regionId');
+	feedbackLists: any;
 	ratingLists: Array<any> = [];
 	showFeedback: any;
 	showDetail: boolean = false;
@@ -42,31 +42,31 @@ export class ReportComponent implements OnInit {
 	public isMidStick: boolean = false;
 	public navIsFixed: boolean = false;
 	CreatedDate: any[] = [];
-  	teacherProfile: any;
-  	teacherPreferredName: any;
-  	teacherRating: any;
-  	teacherVote: any;
-  	feedBackUserGroup: any[] = [];
-  	reportType: any;
+	teacherProfile: any;
+	teacherPreferredName: any;
+	teacherRating: any;
+	teacherVote: any;
+	feedBackUserGroup: any[] = [];
+	reportType: any;
 
-  	ngOnInit() {
-  		this.reportType = 'averageRating';
-  		setTimeout(() => {
-			console.log('~~~', this.locationName)	
-			this.locationName = localStorage.getItem('locationName');
-	    }, 300);
-  		window.addEventListener('scroll', this.scroll, true);
-  		this.dropDownShow = false;
+	ngOnInit() {
+		this.reportType = 'averageRating';
+		setTimeout(() => {
+		console.log('~~~', this.locationName)	
+		this.locationName = localStorage.getItem('locationName');
+    }, 300);
+		window.addEventListener('scroll', this.scroll, true);
+		this.dropDownShow = false;
 
-  		this._service.permissionList.subscribe((data) => {
-  		  if(this.router.url === '/report'){
-  		    this.permissionType = data;
-  		    this.checkPermission();
-  		  }
-  		});
-  	}
+		this._service.permissionList.subscribe((data) => {
+		  if(this.router.url === '/report'){
+		    this.permissionType = data;
+		    this.checkPermission();
+		  }
+		});
+	}
 
-  	checkPermission(){
+  checkPermission(){
 		console.log(this.permissionType)
 		this.reportPermission = ["VIEWREPORT","EXPORTREPORT"];
 		this.reportPermission = this.reportPermission.filter(value => -1 !== this.permissionType.indexOf(value));
@@ -79,32 +79,32 @@ export class ReportComponent implements OnInit {
 			this.getStaffRating(20,0);
 			this.hasReport = false;
 		}else{
-	      console.log('permission deny')
-	      this.ratingLists = [];
-	      this.hasReport = true;
-	    }
+      console.log('permission deny')
+      this.ratingLists = [];
+      this.hasReport = true;
+	   }
 	}
 
-  	scroll = (e): void => {
-  	};
+	scroll = (e): void => {
+	};
 
-  	@HostListener('window:scroll', ['$event']) onScroll($event){    
-	    console.log(window.pageYOffset)
-	    if(window.pageYOffset > 81){
-	    	console.log('true')
-	      	this.navIsFixed = true;
-	      	this.isMidStick = false
-	    }else{
-	    	console.log('false')
-	      	this.navIsFixed = false;
-	    }
+	@HostListener('window:scroll', ['$event']) onScroll($event){    
+    console.log(window.pageYOffset)
+    if(window.pageYOffset > 81){
+    	console.log('true')
+      	this.navIsFixed = true;
+      	this.isMidStick = false
+    }else{
+    	console.log('false')
+      	this.navIsFixed = false;
+    }
 
-	    if (window.pageYOffset > 45) {
-	      this.isMidStick = true;
-	    }else{
-	      this.isMidStick = false;
-	    }
-	  }
+    if (window.pageYOffset > 45) {
+      this.isMidStick = true;
+    }else{
+      this.isMidStick = false;
+    }
+  }
 
   	getFeedBack(teacherId, data){
   		console.log(data)
@@ -194,28 +194,28 @@ export class ReportComponent implements OnInit {
 	dropDownShow: boolean = false;
 
 	@HostListener('document:click', ['$event'])
-    public documentClick(event): void {
-        if(this.dropDownShow == false){
-           $('.dropdown-menu').css('display', 'none');
-           $('.bg-box').css('display', 'none');  
-        }
-        else {
-            $('.dropdown-menu').css('display', 'block');
-            $('.bg-box').css('display', 'block');
-            this.dropDownShow = false;
-
-        }
+  public documentClick(event): void {
+    if(this.dropDownShow == false){
+       $('.dropdown-menu').css('display', 'none');
+       $('.bg-box').css('display', 'none');  
     }
-  	
-	dropDown(){
-        var x = document.getElementsByClassName('dropdown-menu');
-        if( (x[0]as HTMLElement).style.display == 'block'){
-        	(x[0]as HTMLElement).style.display = 'none';
-        }
-        else {
-        	 (x[0]as HTMLElement).style.display = 'block';
-        	 this.dropDownShow = true;
-        }
-	}
+    else {
+        $('.dropdown-menu').css('display', 'block');
+        $('.bg-box').css('display', 'block');
+        this.dropDownShow = false;
+    }
+  }
+
+
+  dropDown() {
+    var x = document.getElementsByClassName('dropdown-menu');
+    if ((x[0]as HTMLElement).style.display == 'block') {
+      (x[0]as HTMLElement).style.display = 'none';
+    }
+    else {
+      (x[0]as HTMLElement).style.display = 'block';
+      this.dropDownShow = true;
+    }
+  }
 
 }
