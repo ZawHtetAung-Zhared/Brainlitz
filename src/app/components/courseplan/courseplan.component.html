@@ -211,23 +211,6 @@
 									<p class="step-font">Step 3</p>
 									<h5 class="all-title-font text-font-align">Payment policy</h5>
 								</div>
-								<!-- <div class="display-style" style="padding-top: 40px;">
-									<div class="col-md-6">
-										<div>
-											<label class="all-title-font"> Course fee </label>
-											<div style="margin-left: -10px;">
-												<label class="sr-only" for="inlineFormInputGroupcourseFee">0</label>
-												<div class="input-group input-group-bg mb-2 mr-sm-2">
-													<div class="input-group-prepend">
-													  <div class="input-group-text cfee-bg">S$</div>
-													</div>
-													<input type="number" class="form-control" id="inlineFormInputGroupcourseFee" (keypress)="numberOnly($event, 'courseFee')" (click)='toKnowFocus("cFee")' [(ngModel)]="formField.paymentPolicy.courseFee" (mouseleave)="leaveHover($event)" (mouseenter)="enterHover($event)" min="0" placeholder="0" name="courseFee" #courseFee="ngModel" >			    
-												</div>
-											</div>
-											<hr class="limit-hr-100">
-										</div>
-									</div>
-								</div> -->
 								<div class="step_height">
 									<label class="all-title-font" style="padding-left: 15px; padding-top: 40px"> Course fee Options</label>
 									<div class="d-flex">
@@ -258,12 +241,23 @@
 											<div *ngIf="testObj.name && testObj.fees" class="circle1 plus"></div>
 											<div *ngIf="!testObj.fees || !testObj.name || !testObj" class="circle3 plus"></div>
 										</button>
-											<!-- <button type="button" (click)="addOptionFees(name.value,fees.value)">Add</button> -->
 										</div>
 									</div>
-									<div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
+									<!-- <div class="d-flex" style="width: 60%;">
+										<div class="d-flex  optInput-wrap">
+											<input type="text" name="optname" class="col-md-9 taxopt-input feeName-input" placeholder="Type option name" [(ngModel)]="testObj.name" #name>
+											<div class="d-flex col-md-3 p-0 cfee-wrap">
+												<div class="currencySign">{{ currency.invCurrencySign }}</div>
+												<input type="number" [(ngModel)]="testObj.fees" class="taxopt-input c-fee" placeholder="Course fee" name="fee" #fees>
+											</div>
+										</div>
+										<div class="removeBtn-wrap">
+											<div class="removeIcon"></div>
+										</div>
+									</div> -->
+									<!-- <div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
 										<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{ currency.invCurrencySign }} {{opt.fees}}</p>
-									</div>
+									</div> -->
 								</div>
 								<div class="button-wrapper">
 										<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
