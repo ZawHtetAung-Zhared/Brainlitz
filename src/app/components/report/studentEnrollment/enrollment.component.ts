@@ -27,6 +27,7 @@ export class StudentEnrollmentReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
@@ -64,32 +65,83 @@ export class StudentEnrollmentReport implements OnInit {
     this.showReportByLocation();
   }
   showReportByLocation(){
-    if (courseSampleData) { //check if we have data to show report
-      this.reportData = this.getFilteredDataGroupByLocation(courseSampleData.location);
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStudentReport(this.regionID,"location",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByLocation(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (courseSampleData) { //check if we have data to show report
+    //   this.reportData = this.getFilteredDataGroupByLocation(courseSampleData.location);
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
   showReportByCategory(){
-    if (courseSampleData) { //check if we have data to show report
-      console.log("show Report by category");
-      console.log(courseSampleData.category);
-      this.reportData = [];
-      this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
-      console.log(this.reportData);
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStudentReport(this.regionID,"category",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByCategory(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (courseSampleData) { //check if we have data to show report
+    //   console.log("show Report by category");
+    //   console.log(courseSampleData.category);
+    //   this.reportData = [];
+    //   this.reportData = this.getFilteredDataGroupByCategory(courseSampleData.category);
+    //   console.log(this.reportData);
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
   showReportByCoursePlan(){
-    if (courseSampleData) { //check if we have data to show report
-      this.reportData = this.getFilteredDataGroupByCoursePlan(courseSampleData.coursePlan);
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStudentReport(this.regionID,"courseplan",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByCoursePlan(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (courseSampleData) { //check if we have data to show report
+    //   this.reportData = this.getFilteredDataGroupByCoursePlan(courseSampleData.coursePlan);
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
   getFilteredDataGroupByLocation(data){
     let filter = this.filter;

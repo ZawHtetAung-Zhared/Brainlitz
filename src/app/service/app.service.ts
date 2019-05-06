@@ -1614,6 +1614,20 @@ export class appService{
         return result;
       })
   }
+  getStudentReport(regionid:string,type:string,start:string,end:string):Observable<any>{
+    let apiUrl = this.baseUrl +'/regions/'+ regionid + '/report/students/enrollment/' + type+"?start="+start+"&end="+end;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'authorization': this.tokenType + ' ' + this.accessToken})
+    };
+    return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+  }
+
 
 }
 
