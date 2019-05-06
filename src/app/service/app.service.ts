@@ -208,6 +208,22 @@ export class appService{
       // }
     }
 
+    logOff(){
+      console.log("service logOFF")
+      let url = this.baseUrl + '/logout';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.delete(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log("result",result);        
+          return result;
+      }) 
+    }
+
     getOrgCredentials(orgCode, hostName){
       let url = this.baseUrl1 + '/organization-credentials/' + orgCode;      
       const httpOptions = {
