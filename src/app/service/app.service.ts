@@ -1572,7 +1572,19 @@ export class appService{
       return this.httpClient.get(apiUrl, httpOptions)
         .map((res:Response) => {
           let result = res;
-          console.log(result)
+          return result;
+        })
+    }
+    getMASReport(regionid:string,start:string,end:string):Observable<any>{
+      let apiUrl = this.baseUrl +'/regions/'+ regionid + '/report/students/activities?start='+start+"&end="+end;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(apiUrl, httpOptions)
+        .map((res:Response) => {
+          let result = res;
           return result;
         })
     }

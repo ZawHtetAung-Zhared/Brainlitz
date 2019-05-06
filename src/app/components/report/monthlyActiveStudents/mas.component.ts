@@ -26,6 +26,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
@@ -72,12 +73,29 @@ export class MonthlyActiveStudentsReport implements OnInit {
       });
   }
   showReport(){
-    if (masSampleData) { //check if we have data to show report
-      this.reportData = this.getfilteredData(masSampleData);
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getMASReport(this.regionID,start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getfilteredData(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (masSampleData) { //check if we have data to show report
+    //   this.reportData = this.getfilteredData(masSampleData);
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
   getfilteredData(inputData){
     let filter = this.filter;
