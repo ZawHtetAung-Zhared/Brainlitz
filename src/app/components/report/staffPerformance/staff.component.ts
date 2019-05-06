@@ -37,6 +37,7 @@ export class StaffPerformanceReport implements OnInit {
   // see original project for full list of options
   // can also be setup using the config service to apply to multiple pickers
   options: any;
+  public regionID = localStorage.getItem('regionId');
 
   /**
    * Initialize the StaffPerformanceReport
@@ -130,18 +131,34 @@ export class StaffPerformanceReport implements OnInit {
     //   })
 
     //[TODO:Update better way to iterate data]
-
-    if (staffData) { //check if we have data to show report
-      this.reportData = this.getFilteredDataGroupByLocation(staffData.location);
-      // if (result.length && this.filter.type && this.filter.type != 'location') {
-      //   this.reportData = this.mergeDuplicateObject(result);
-      // } else {
-      //   this.reportData = result;
-      // }
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStaffPerformanceReport(this.regionID,"location",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByLocation(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (staffData) { //check if we have data to show report
+    //   this.reportData = this.getFilteredDataGroupByLocation(staffData.location);
+    //   // if (result.length && this.filter.type && this.filter.type != 'location') {
+    //   //   this.reportData = this.mergeDuplicateObject(result);
+    //   // } else {
+    //   //   this.reportData = result;
+    //   // }
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
 
   }
 
@@ -149,38 +166,72 @@ export class StaffPerformanceReport implements OnInit {
    * showReportByCategory :[fetch and create report groupBy Category]
    */
   showReportByCategory() {
-    if (staffData) { //check if we have data to show report
-      this.reportData = this.getFilteredDataGroupByCategory(staffData.category);
-      console.log("result after filter");
-      //console.log(result);
-      // if (result.length && this.filter.type && this.filter.type != 'category') {
-      //   this.reportData = this.mergeDuplicateObject(result);
-      // } else {
-      //   this.reportData = result;
-      // }
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStaffPerformanceReport(this.regionID,"category",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByCategory(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (staffData) { //check if we have data to show report
+    //   this.reportData = this.getFilteredDataGroupByCategory(staffData.category);
+    //   console.log("result after filter");
+    //   //console.log(result);
+    //   // if (result.length && this.filter.type && this.filter.type != 'category') {
+    //   //   this.reportData = this.mergeDuplicateObject(result);
+    //   // } else {
+    //   //   this.reportData = result;
+    //   // }
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
 
   /**
    * showReportByCoursePlan :[fetch and create report groupBy CoursePlan]
    */
   showReportByCoursePlan() {
-    if (staffData) { //check if we have data to show report
-      this.reportData = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
-      console.log("result after filter");
-      //console.log(result);
-      // if (result.length && this.filter.value && this.filter.value.length && this.filter.type != 'coursePlan') {
-      //   this.reportData = this.mergeDuplicateObject(result);
-      // } else {
-      //   this.reportData = result;
-      // }
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    var d = new Date();
+    var end = d.toISOString();
+    var ed = new Date("2018-05-06");
+    var start = ed.toISOString();
+    this.reportData = [];
+    this._service.getStaffPerformanceReport(this.regionID,"courseplan",start,end)
+      .subscribe((res:any) => {
+        console.log("report response");
+        console.log(res);
+        if(res.length){
+          this.reportData = this.getFilteredDataGroupByCoursePlan(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (staffData) { //check if we have data to show report
+    //   this.reportData = this.getFilteredDataGroupByCoursePlan(staffData.coursePlan);
+    //   console.log("result after filter");
+    //   //console.log(result);
+    //   // if (result.length && this.filter.value && this.filter.value.length && this.filter.type != 'coursePlan') {
+    //   //   this.reportData = this.mergeDuplicateObject(result);
+    //   // } else {
+    //   //   this.reportData = result;
+    //   // }
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
 
   /**
