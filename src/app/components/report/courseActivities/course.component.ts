@@ -15,7 +15,7 @@ import courseSampleData from './sampleData';
 export class CourseActivitiesReport implements OnInit{
   courseGroupByList = ['Location', 'Category', 'Course Plan'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
-  categoryList = ['Art & Science', 'Dance', 'Education', 'Sports', 'Technology'];
+  categoryList = [];
   locationList = ['Woodland', 'Yishun', 'Admiralty', 'Bedok', 'Sembawang'];
   coursePlanList = ['Advanced', 'Beginner', 'Individual', 'Weekend'];
   courseNameList = ['Business Administration', 'Management Studies', '3D Animation', 'Facebook Marketing', 'Cyber Security', 'Math Classes', 'Orchestra', 'Guitar', 'Hip Hop', 'Piano', 'Meditation & Yoga', 'Health & Fitness', 'Sports Science'];
@@ -63,6 +63,8 @@ export class CourseActivitiesReport implements OnInit{
     };
     console.log(courseSampleData);
     this.showReportByLocation();
+    this.updateFilterType("Category");
+
   }
   showReportByLocation(){
     var d = new Date();
@@ -76,6 +78,7 @@ export class CourseActivitiesReport implements OnInit{
         console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
+          //this.searchResult.value = this.categoryList;
         }else{
           this.reportData = [];
         }
@@ -147,6 +150,12 @@ export class CourseActivitiesReport implements OnInit{
     let filter = this.filter;
     let _self = this;
     let res = [];
+
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
+
     if(filter.type == "location" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.locationName) > -1;
@@ -162,6 +171,7 @@ export class CourseActivitiesReport implements OnInit{
           "count": 0
         }
       };
+      _self.locationList.push(location.locationName);
       //if filter type is location, we will push to end of this loop
       let categories = location.categories || [];
 
@@ -171,8 +181,8 @@ export class CourseActivitiesReport implements OnInit{
         });
       }
       categories.forEach(function (category) {
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
-
         if(filter.type == "coursePlan" && filter.value.length){
           coursePlans = coursePlans.filter(function (d) {
             return filter.value.indexOf(d.coursePlanName) > -1;
@@ -182,7 +192,7 @@ export class CourseActivitiesReport implements OnInit{
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
           let courses = coursePlan.courses || [];
-
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           if(filter.type == "course" && filter.value.length){
             courses = courses.filter(function (d) {
               return filter.value.indexOf(d.courseName) > -1;
@@ -190,6 +200,7 @@ export class CourseActivitiesReport implements OnInit{
           }
           //iterate courses under coursePlans
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
             let lessons = course.lessons || [];
             Object.keys(lessons).forEach(function(key,index) {
               obj.lessons[key] += lessons[key];
@@ -202,6 +213,12 @@ export class CourseActivitiesReport implements OnInit{
         res.push(obj);
       }
     });
+
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
     return res;
   }
 
@@ -209,6 +226,12 @@ export class CourseActivitiesReport implements OnInit{
     let filter = this.filter;
     let _self = this;
     let result = [];
+
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
+
     if(filter.type == "category" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.catName) > -1;
@@ -224,6 +247,7 @@ export class CourseActivitiesReport implements OnInit{
           "count": 0
         }
       };
+      _self.categoryList.push(category.catName);
       let coursePlans = category.coursePlans || [];
       if(filter.type == "coursePlan" && filter.value.length){
         coursePlans = coursePlans.filter(function (d) {
@@ -233,6 +257,7 @@ export class CourseActivitiesReport implements OnInit{
 
       //iterate coursePlans under categories
       coursePlans.forEach(function (coursePlan) {
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let courses = coursePlan.courses || [];
         if(filter.type == "course" && filter.value.length){
           courses = courses.filter(function (d) {
@@ -247,6 +272,8 @@ export class CourseActivitiesReport implements OnInit{
 
         //iterate courses under coursePlans
         courses.forEach(function (course) {
+          _self.courseNameList.push(course.courseName);
+          _self.locationList.push(course.location);
           let lessons = course.lessons || [];
           Object.keys(lessons).forEach(function(key) {
             obj.lessons[key] += lessons[key];
@@ -257,6 +284,12 @@ export class CourseActivitiesReport implements OnInit{
         result.push(obj);
       }
     });
+
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
     return result;
   }
 
@@ -264,6 +297,12 @@ export class CourseActivitiesReport implements OnInit{
     let result = [];
     let filter = this.filter;
     let _self = this;
+
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
+
     if(filter.type == "coursePlan" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.coursePlanName) > -1;
@@ -279,6 +318,7 @@ export class CourseActivitiesReport implements OnInit{
           "count": 0
         }
       };
+      _self.coursePlanList.push(coursePlan.coursePlanName);
       let categories = coursePlan.categories || [];
 
       if(filter.type == "category" && filter.value.length){
@@ -289,6 +329,7 @@ export class CourseActivitiesReport implements OnInit{
       //iterate coursePlans under categories
       categories.forEach(function (category) {
         let courses = category.courses || [];
+        _self.categoryList.push(category.catName);
         //iterate courses under coursePlans
         if(filter.type == "course" && filter.value.length){
           courses = courses.filter(function (d) {
@@ -302,6 +343,8 @@ export class CourseActivitiesReport implements OnInit{
         }
 
         courses.forEach(function (course) {
+          _self.courseNameList.push(course.courseName);
+          _self.locationList.push(course.location);
           let lessons = course.lessons || [];
           Object.keys(lessons).forEach(function(key) {
             obj.lessons[key] += lessons[key];
@@ -312,6 +355,10 @@ export class CourseActivitiesReport implements OnInit{
         result.push(obj);
       }
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return result;
   }
   updateGraphUsingGroupBy(event) {
