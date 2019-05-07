@@ -69,8 +69,6 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.reportData = [];
     this._service.getStaffTeachingReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
         }else{
@@ -91,8 +89,6 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.reportData = [];
     this._service.getStaffTeachingReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -117,8 +113,6 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.reportData = [];
     this._service.getStaffTeachingReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{

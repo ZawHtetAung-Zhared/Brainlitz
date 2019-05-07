@@ -86,8 +86,6 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.reportData = [];
     this._service.getMASReport(this.regionID,this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getfilteredData(res);
         }else{

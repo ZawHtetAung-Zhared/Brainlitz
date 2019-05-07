@@ -72,8 +72,6 @@ export class StudentEnrollmentReport implements OnInit {
     this.reportData = [];
     this._service.getStudentReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
         }else{
@@ -93,8 +91,6 @@ export class StudentEnrollmentReport implements OnInit {
     this.reportData = [];
     this._service.getStudentReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -118,8 +114,6 @@ export class StudentEnrollmentReport implements OnInit {
     this.reportData = [];
     this._service.getStudentReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{

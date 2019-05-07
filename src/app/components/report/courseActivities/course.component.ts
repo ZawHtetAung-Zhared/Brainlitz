@@ -74,8 +74,6 @@ export class CourseActivitiesReport implements OnInit{
     this.reportData = [];
     this._service.getCourseReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
           //this.searchResult.value = this.categoryList;
@@ -96,8 +94,6 @@ export class CourseActivitiesReport implements OnInit{
     this.reportData = [];
     this._service.getCourseReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -121,8 +117,6 @@ export class CourseActivitiesReport implements OnInit{
     this.reportData = [];
     this._service.getCourseReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
-        console.log("report response");
-        console.log(res);
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
