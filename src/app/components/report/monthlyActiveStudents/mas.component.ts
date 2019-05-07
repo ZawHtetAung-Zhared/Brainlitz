@@ -26,6 +26,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  startDate:any;
+  endDate:any;
   public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
@@ -52,6 +54,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
       show: false,
       value: this.categoryList
     };
+    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.endDate = (new Date()).toISOString();
     this.options = {
       startDate: moment('04-01-2018').startOf('hour'),
       endDate: moment('11-30-2018').startOf('hour'),
@@ -62,23 +66,25 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.showReport();
   }
   ngAfterViewInit(){
+    let _self = this;
     $('#monthRangePicker')
       .rangePicker({  setDate:[[2,2015],[12,2018]],minDate:[2,2015], maxDate:[1,2019],closeOnSelect:true, RTL:false })
       // subscribe to the "done" event after user had selected a date
       .on('datePicker.done', function(e, result){
-        if( result instanceof Array )
+        if( result instanceof Array ){
           console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
-        else
+          _self.startDate = (new Date(result[0][1], result[0][0] - 1)).toISOString();
+          _self.endDate = (new Date(result[1][1], result[1][0] - 1)).toISOString();
+          _self.showReport();
+        }
+        else{
           console.log(result);
+        }
       });
   }
   showReport(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getMASReport(this.regionID,start,end)
+    this._service.getMASReport(this.regionID,this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
