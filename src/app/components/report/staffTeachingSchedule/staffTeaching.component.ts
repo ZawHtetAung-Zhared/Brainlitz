@@ -24,6 +24,8 @@ export class StaffTeachingScheduleReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  startDate:any;
+  endDate:any;
   public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
@@ -50,6 +52,8 @@ export class StaffTeachingScheduleReport implements OnInit {
       show: false,
       value: this.categoryList
     };
+    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.endDate = (new Date()).toISOString();
     this.options = {
       startDate: moment('04-01-2018').startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -62,12 +66,8 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   showReportByLocation(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStaffTeachingReport(this.regionID,"location",start,end)
+    this._service.getStaffTeachingReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -88,12 +88,8 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   showReportByCategory(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStaffTeachingReport(this.regionID,"category",start,end)
+    this._service.getStaffTeachingReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -118,12 +114,8 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   showReportByCoursePlan(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStaffTeachingReport(this.regionID,"courseplan",start,end)
+    this._service.getStaffTeachingReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -438,5 +430,21 @@ export class StaffTeachingScheduleReport implements OnInit {
     }
 
     this.modalReference.close();
+  }
+  applyDateRange(evt){
+    this.startDate = (new Date(evt.picker.startDate)).toISOString();
+    this.endDate = (new Date(evt.picker.endDate)).toISOString();
+    switch (this.groupBy) {
+      case "location":
+        this.showReportByLocation();
+        break;
+      case "category":
+        this.showReportByCategory();
+        break;
+      case "coursePlan":
+        this.showReportByCoursePlan();
+        break;
+    }
+
   }
 }
