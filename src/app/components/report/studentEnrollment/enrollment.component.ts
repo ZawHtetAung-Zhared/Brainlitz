@@ -27,6 +27,8 @@ export class StudentEnrollmentReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  startDate:any;
+  endDate:any;
   public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
@@ -55,6 +57,8 @@ export class StudentEnrollmentReport implements OnInit {
       show: false,
       value: this.categoryList
     };
+    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.endDate = (new Date()).toISOString();
     this.options = {
       startDate: moment('04-01-2018').startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -65,12 +69,8 @@ export class StudentEnrollmentReport implements OnInit {
     this.showReportByLocation();
   }
   showReportByLocation(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStudentReport(this.regionID,"location",start,end)
+    this._service.getStudentReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -90,12 +90,8 @@ export class StudentEnrollmentReport implements OnInit {
     // }
   }
   showReportByCategory(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStudentReport(this.regionID,"category",start,end)
+    this._service.getStudentReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -119,12 +115,8 @@ export class StudentEnrollmentReport implements OnInit {
     // }
   }
   showReportByCoursePlan(){
-    var d = new Date();
-    var end = d.toISOString();
-    var ed = new Date("2018-05-06");
-    var start = ed.toISOString();
     this.reportData = [];
-    this._service.getStudentReport(this.regionID,"courseplan",start,end)
+    this._service.getStudentReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
         console.log("report response");
         console.log(res);
@@ -420,5 +412,21 @@ export class StudentEnrollmentReport implements OnInit {
     }
 
     this.modalReference.close();
+  }
+  applyDateRange(evt){
+    this.startDate = (new Date(evt.picker.startDate)).toISOString();
+    this.endDate = (new Date(evt.picker.endDate)).toISOString();
+    switch (this.groupBy) {
+      case "location":
+        this.showReportByLocation();
+        break;
+      case "category":
+        this.showReportByCategory();
+        break;
+      case "coursePlan":
+        this.showReportByCoursePlan();
+        break;
+    }
+
   }
 }
