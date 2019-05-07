@@ -146,6 +146,12 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
+
     if(filter.type == "location" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.locationName) > -1;
@@ -157,6 +163,7 @@ export class StaffTeachingScheduleReport implements OnInit {
         staffCount:0,
         staffHours:0
       };
+      _self.locationList.push(location.locationName);
       //if filter type is location, we will push to end of this loop
       let categories = location.categories || [];
       if(filter.type == "category" && filter.value.length){
@@ -166,6 +173,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       }
 
       categories.forEach(function (category) {
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
 
         if(filter.type == "coursePlan" && filter.value.length){
@@ -176,6 +184,7 @@ export class StaffTeachingScheduleReport implements OnInit {
 
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           if(filter.type == "course" && filter.value.length){
@@ -185,6 +194,7 @@ export class StaffTeachingScheduleReport implements OnInit {
           }
 
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
             let staff = course.staff || [];
             obj.staffCount +=1;
             obj.staffHours += staff.hours;
@@ -195,6 +205,10 @@ export class StaffTeachingScheduleReport implements OnInit {
         res.push(obj);
       }
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return res;
   }
 
@@ -202,6 +216,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let result = [];
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
     if(filter.type == "category" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.catName) > -1;
@@ -214,7 +232,7 @@ export class StaffTeachingScheduleReport implements OnInit {
         staffHours:0
       };
       let coursePlans = category.coursePlans || [];
-
+      _self.categoryList.push(category.catName);
       if(filter.type == "coursePlan" && filter.value.length){
         coursePlans = coursePlans.filter(function (d) {
           return filter.value.indexOf(d.coursePlanName) > -1;
@@ -223,6 +241,7 @@ export class StaffTeachingScheduleReport implements OnInit {
 
       //iterate coursePlans under categories
       coursePlans.forEach(function (coursePlan) {
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let courses = coursePlan.courses || [];
         //iterate courses under coursePlans
 
@@ -238,6 +257,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         }
 
         courses.forEach(function (course) {
+          _self.locationList.push(course.locationName);
+          _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
           obj.staffCount +=1;
           obj.staffHours += staff.hours;
@@ -247,6 +268,10 @@ export class StaffTeachingScheduleReport implements OnInit {
         result.push(obj);
       }
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return result;
   }
 
@@ -254,6 +279,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     let result = [];
     let filter = this.filter;
     let _self = this;
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
     if(filter.type == "coursePlan" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.coursePlanName) > -1;
@@ -265,6 +294,7 @@ export class StaffTeachingScheduleReport implements OnInit {
         staffCount:0,
         staffHours:0
       };
+      _self.coursePlanList.push(coursePlan.coursePlanName);
       let categories = coursePlan.categories || [];
 
       if(filter.type == "category" && filter.value.length){
@@ -274,6 +304,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       }
       //iterate coursePlans under categories
       categories.forEach(function (category) {
+        _self.categoryList.push(category.catName);
         let courses = category.courses || [];
         //iterate courses under coursePlans
         if(filter.type == "course" && filter.value.length){
@@ -288,6 +319,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         }
 
         courses.forEach(function (course) {
+          _self.locationList.push(course.location);
+          _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
           obj.staffCount +=1;
           obj.staffHours += staff.hours;
@@ -297,6 +330,10 @@ export class StaffTeachingScheduleReport implements OnInit {
         result.push(obj);
       }
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return result;
   }
   updateGraphUsingGroupBy(event) {
