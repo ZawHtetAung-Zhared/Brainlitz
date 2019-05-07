@@ -101,6 +101,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
+
     inputData.forEach(function(data, i) {
       Object.keys(data).forEach(function(k,i){
         data = data[k];
@@ -114,6 +120,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
           });
         }
         data.forEach(function (location) {
+          _self.locationList.push(location.locationName);
           let categories = location.categories || [];
           if(filter.type == "category" && filter.value.length){
             categories = categories.filter(function (d) {
@@ -121,6 +128,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
             });
           }
           categories.forEach(function (category) {
+            _self.categoryList.push(category.catName);
             let coursePlans = category.coursePlans || [];
 
             if(filter.type == "coursePlan" && filter.value.length){
@@ -131,6 +139,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
             //iterate coursePlans under categories
             coursePlans.forEach(function (coursePlan) {
+              _self.coursePlanList.push(coursePlan.coursePlanName);
               let courses = coursePlan.courses || [];
               //iterate courses under coursePlans
               if(filter.type == "course" && filter.value.length){
@@ -140,6 +149,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
               }
 
               courses.forEach(function (course) {
+                _self.courseNameList.push(course.courseName);
                 obj.students += course.students;
               });
             });
@@ -148,6 +158,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
         res.push(obj);
       });
     });
+
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
     return res;
   }
   updateFilterType(value) {
