@@ -125,6 +125,7 @@ export class CourseplanComponent implements OnInit {
   public chooseTax;
   public clickableSteps: Array<any> = ['step1'];
   public optArray = [];
+  public shadowIdx:any = null;
   ngOnInit() {
     this.formField.lesson.duration = '0 min'
     this.showModal = true;
@@ -259,16 +260,17 @@ export class CourseplanComponent implements OnInit {
   }
 
   addFeeOption(){
-    var obj = {
+    const obj = {
       "name": "",
       "fees": null
     }
     this.optArray.push(obj)
+    console.log("optArray in addFeeOption",this.optArray)
   }
 
   removeFeeOption(idx){
     this.optArray.splice(idx,1);
-    console.log("optArray~~~",this.optArray)
+    console.log("optArray for removeFee~~~",this.optArray)
   }
 
   setFeeOptionArray(obj) {
@@ -1374,25 +1376,6 @@ export class CourseplanComponent implements OnInit {
   }
 
   checkEmptyOption(){
-    // return new Promise((resolve, reject) => {
-    //   for(var i = 0; i<this.optArray.length;i++){
-    //     console.log(i,"==>",this.optArray[i])
-    //     if(this.optArray[i].fees == null || this.optArray[i].name == "" || (this.optArray[i].fees == null && this.optArray[i].name == "")){
-    //       this.optArray.splice(i,1);
-    //       i--;
-    //     }
-    //   }
-    //   console.log("arr length",this.optArray.length)
-    //   resolve()
-    // }).then(()=>{
-    //   console.log("arr length",this.optArray.length)
-    //   if(this.optArray.length==0){
-    //     console.log("array length 0")
-    //     setTimeout(()=>{
-    //       this.addOption();
-    //     },100)
-    //   }
-    // })
     for(var i = 0; i<this.optArray.length;i++){
       console.log(i,"==>",this.optArray[i])
       if(this.optArray[i].fees == null || this.optArray[i].name == "" || (this.optArray[i].fees == null && this.optArray[i].name == "")){
@@ -1400,7 +1383,14 @@ export class CourseplanComponent implements OnInit {
         i--;
       }
     }
+  }
+  
+  mouseEnter(idx){
+    this.shadowIdx = idx;
+  }
 
+  mouseLeave(){
+    this.shadowIdx = null;
   }
 
   getAllModule() {

@@ -212,7 +212,7 @@
 								<h5 class="all-title-font text-font-align">Payment policy</h5>
 							</div>
 							<div class="step_height">
-								<label class="all-title-font" style="padding-left: 15px; padding-top: 40px"> Course fee Options</label>
+								<label class="cfOpt-title" style="padding-left: 15px; padding-top: 40px"> Course fee options</label>
 								<!-- <div class="d-flex">
 									<div class="col-md-4">
 										<div>
@@ -246,20 +246,25 @@
 								<div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
 									<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{ currency.invCurrencySign }} {{opt.fees}}</p>
 								</div> -->
-								==>{{optArray|json}}
+								<!-- ==>{{optArray|json}} -->
 								<div *ngFor="let opt of optArray;let idx = index" class="d-flex" style="width: 60%;">
-									<div class="d-flex  optInput-wrap">
-										<input type="text" name="optname{{idx}}" class="col-md-9 taxopt-input feeName-input" placeholder="Type option name" [(ngModel)]="opt.name" #name>
-										<div class="d-flex col-md-3 p-0 cfee-wrap">
-											<div class="currencySign">{{ currency.invCurrencySign }}</div>
-											<input type="number" [(ngModel)]="opt.fees" class="taxopt-input c-fee" placeholder="Course fee" name="fee{{idx}}" #fees>
+									<div>
+										<div [ngClass]="{'shadow-bg': shadowIdx == idx}" (mouseenter)="mouseEnter(idx)" (mouseleave)="mouseLeave(idx)" class="d-flex  optInput-wrap">
+											<input type="text" name="{{'name'+idx}}" class="form-control col-md-8 taxopt-input feeName-input" [ngClass]="{'shadow-bg': shadowIdx == idx}"placeholder="Type option name" [(ngModel)]="opt.name" id="{{'nameInput'+idx}}">
+											<div class="d-flex col-md-4 p-0 cfee-wrap">
+												<div class="currencySign" [ngStyle]="{'background': shadowIdx == idx ? '#8fa1b3' : '#f2f4f5'}">{{ currency.invCurrencySign }}</div>
+												<input type="number" [(ngModel)]="opt.fees" class="form-control taxopt-input c-fee" placeholder="Course fee" name="{{'fee'+idx}}" id="{{'feeInput'+idx}}">
+											</div>
 										</div>
+										<hr class="opt-hr-length">
 									</div>
 									<div *ngIf="optArray?.length>1" class="removeBtn-wrap">
-										<div class="removeIcon" (click)="removeFeeOption(idx)"></div>
+										<div class="removeIcon-shadow">
+											<div class="removeIcon" (click)="removeFeeOption(idx)"></div>
+										</div>
 									</div>
 								</div>
-								<button (click)="addFeeOption()">
+								<button class="addOpt-btn" (click)="addFeeOption()">
 									Add new option
 								</button>
 							</div>
