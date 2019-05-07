@@ -90,6 +90,10 @@ export class StaffPerformanceReport implements OnInit {
       show: false,
       value: this.categoryList
     };
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
     this.startDate = (new Date('04-01-2018')).toISOString();
     this.endDate = (new Date()).toISOString();
     this.options= {
