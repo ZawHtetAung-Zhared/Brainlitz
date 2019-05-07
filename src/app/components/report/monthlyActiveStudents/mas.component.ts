@@ -102,10 +102,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let _self = this;
     let res = [];
 
-    this.locationList = [];
-    this.categoryList = [];
-    this.coursePlanList = [];
-    this.courseNameList = [];
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
 
     inputData.forEach(function(data, i) {
       Object.keys(data).forEach(function(k,i){

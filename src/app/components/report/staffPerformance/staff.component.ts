@@ -243,6 +243,9 @@ export class StaffPerformanceReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+
+
+
     switch (filter.type) {
       case "location":
         if(filter.value.length){
@@ -267,6 +270,10 @@ export class StaffPerformanceReport implements OnInit {
     }
     return res;
     function getLocationData(data) {
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       console.log(data);
       let result = [];
       data.forEach(function (location) {
@@ -285,15 +292,19 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.locationList.push(location.locationName);
         //if filter type is location, we will push to end of this loop
         let categories = location.categories || [];
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
           coursePlans.forEach(function (coursePlan) {
+            _self.coursePlanList.push(coursePlan.coursePlanName);
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
             courses.forEach(function (course) {
+              _self.courseNameList.push(course.courseName);
               let rating = course.rating || [];
               rating.forEach(function (value) {
                 obj.rating[value.type] += value.count;
@@ -309,10 +320,22 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
       return result;
     }
 
     function filterDataByCategory(data) {
+
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
+
       let result = [];
       data.forEach(function (location) {
         let obj = {
@@ -330,22 +353,24 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.locationList.push(location.locationName);
         let categories = location.categories || [];
         if(filter.value.length){
           categories = categories.filter(function (d) {
             return filter.value.indexOf(d.catName) > -1;
           });
         }
-        console.log("category filter groupBy location");
-        console.log(categories);
-        categories.forEach(function (category) {
 
+        categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
           coursePlans.forEach(function (coursePlan) {
             let courses = coursePlan.courses || [];
+            _self.coursePlanList.push(coursePlan.coursePlanName);
             //iterate courses under coursePlans
             courses.forEach(function (course) {
+              _self.courseNameList.push(course.courseName);
               let rating = course.rating || [];
               rating.forEach(function (value) {
                 obj.rating[value.type] += value.count;
@@ -360,10 +385,18 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
     function filterDataByCoursePlan(data) {
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       let result = [];
       data.forEach(function (location) {
         let obj = {
@@ -381,8 +414,10 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: '',
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.locationList.push(location.locationName);
         let categories = location.categories || [];
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
           if(filter.value.length) {
@@ -391,10 +426,11 @@ export class StaffPerformanceReport implements OnInit {
             });
           }
           coursePlans.forEach(function (coursePlan) {
-
+            _self.coursePlanList.push(coursePlan.coursePlanName);
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
             courses.forEach(function (course) {
+              _self.courseNameList.push(course.courseName);
               let rating = course.rating || [];
               rating.forEach(function (value) {
                 obj.rating[value.type] += value.count;
@@ -410,6 +446,10 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
@@ -431,11 +471,14 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.locationList.push(location.locationName);
         let categories = location.categories || [];
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let coursePlans = category.coursePlans || [];
           //iterate coursePlans under categories
           coursePlans.forEach(function (coursePlan) {
+            _self.coursePlanList.push(coursePlan.coursePlanName);
             let courses = coursePlan.courses || [];
             //iterate courses under coursePlans
             if(filter.value.length) {
@@ -444,7 +487,7 @@ export class StaffPerformanceReport implements OnInit {
               });
             }
             courses.forEach(function (course) {
-
+              _self.courseNameList.push(course.courseName);
               let rating = course.rating || [];
               rating.forEach(function (value) {
                 obj.rating[value.type] += value.count;
@@ -461,6 +504,12 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
       return result;
     }
   }
@@ -499,7 +548,10 @@ export class StaffPerformanceReport implements OnInit {
     return res;
 
     function getCategoryData(data) {
-      console.log(data);
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       let result = [];
       data.forEach(function (category) {
         let obj = {
@@ -517,12 +569,16 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -537,11 +593,19 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
 
     function filterDataByLocation(data) {
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       let result = [];
       data.forEach(function (category) {
         let obj = {
@@ -559,9 +623,11 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           if(filter.value.length) {
@@ -570,6 +636,8 @@ export class StaffPerformanceReport implements OnInit {
             });
           }
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -584,10 +652,18 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
     function filterDataByCoursePlan(data) {
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       let result = [];
       data.forEach(function (category) {
         let obj = {
@@ -605,6 +681,7 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: '',
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         if(filter.value.length) {
@@ -613,9 +690,12 @@ export class StaffPerformanceReport implements OnInit {
           });
         }
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -629,11 +709,19 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
     function filterDataByCourse(data) {
       let result = [];
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       data.forEach(function (category) {
         let obj = {
           groupTypeValue: category.catName,
@@ -650,9 +738,11 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.categoryList.push(category.catName);
         let coursePlans = category.coursePlans || [];
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           if(filter.value.length) {
@@ -661,7 +751,8 @@ export class StaffPerformanceReport implements OnInit {
             });
           }
           courses.forEach(function (course) {
-
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -677,6 +768,10 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
   }
@@ -717,6 +812,10 @@ export class StaffPerformanceReport implements OnInit {
     function getCoursePlanData(data) {
       console.log(data);
       let result = [];
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       data.forEach(function (coursePlan) {
         let obj = {
           groupTypeValue: coursePlan.coursePlanName,
@@ -733,12 +832,16 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let courses = category.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -753,10 +856,20 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
       return result;
     }
 
     function filterDataByCategory(data) {
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       let result = [];
       data.forEach(function (coursePlan) {
         let obj = {
@@ -774,6 +887,7 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let categories = coursePlan.categories || [];
         if(filter.value.length) {
           categories = categories.filter(function (d) {
@@ -781,10 +895,12 @@ export class StaffPerformanceReport implements OnInit {
           });
         }
         categories.forEach(function (category) {
-
+          _self.categoryList.push(category.catName);
           let courses = category.courses || [];
           //iterate courses under coursePlans
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -799,12 +915,22 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
       return result;
     }
 
     function filterDataByLocation(data) {
       console.log("going to filte data by location");
       let result = [];
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       data.forEach(function (coursePlan) {
         let obj = {
           groupTypeValue: coursePlan.coursePlanName,
@@ -821,9 +947,11 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let courses = category.courses || [];
           //iterate courses under coursePlans
           if(filter.value.length) {
@@ -832,6 +960,8 @@ export class StaffPerformanceReport implements OnInit {
             });
           }
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -846,12 +976,20 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
 
 
     function filterDataByCourse(data) {
       let result = [];
+      _self.locationList = [];
+      _self.categoryList = [];
+      _self.coursePlanList = [];
+      _self.courseNameList = [];
       data.forEach(function (coursePlan) {
         let obj = {
           groupTypeValue: coursePlan.coursePlanName,
@@ -868,9 +1006,11 @@ export class StaffPerformanceReport implements OnInit {
           filterValue: "",
           id: "graph" + Math.floor(Math.random() * 10000)
         };
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         let categories = coursePlan.categories || [];
         //iterate coursePlans under categories
         categories.forEach(function (category) {
+          _self.categoryList.push(category.catName);
           let courses = category.courses || [];
           //iterate courses under coursePlans
           if(filter.value.length) {
@@ -879,6 +1019,8 @@ export class StaffPerformanceReport implements OnInit {
             });
           }
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.location);
             let rating = course.rating || [];
             rating.forEach(function (value) {
               obj.rating[value.type] += value.count;
@@ -893,6 +1035,10 @@ export class StaffPerformanceReport implements OnInit {
           result.push(obj);
         }
       });
+      _self.categoryList =  Array.from(new Set(_self.categoryList));
+      _self.locationList = Array.from(new Set(_self.locationList));
+      _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+      _self.courseNameList = Array.from(new Set(_self.courseNameList));
       return result;
     }
   }
