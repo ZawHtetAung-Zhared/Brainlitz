@@ -124,6 +124,7 @@ export class CourseplanComponent implements OnInit {
   public taxOptShow: boolean = false;
   public chooseTax;
   public clickableSteps: Array<any> = ['step1'];
+  public optArray = [];
   ngOnInit() {
     this.formField.lesson.duration = '0 min'
     this.showModal = true;
@@ -163,6 +164,8 @@ export class CourseplanComponent implements OnInit {
       console.log("editPlan", this.editPlanId);
 
       this.editCPlan(this.editPlanId);
+    }else{
+      this.addFeeOption()
     }
 
     if (this.currency == undefined || this.currency == null) {
@@ -196,8 +199,13 @@ export class CourseplanComponent implements OnInit {
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
-        if (optObj) {
+        // if (optObj) {
+        //   this.setFeeOptionArray(optObj);
+        // }
+        if (optObj != undefined) {
           this.setFeeOptionArray(optObj);
+        }else{
+          this.addFeeOption();
         }
         // this.getAllHolidaysCalendar();
         console.log("calendar", this.holidayCalendarLists);
@@ -250,6 +258,19 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
+  addFeeOption(){
+    var obj = {
+      "name": "",
+      "fees": null
+    }
+    this.optArray.push(obj)
+  }
+
+  removeFeeOption(idx){
+    this.optArray.splice(idx,1);
+    console.log("optArray~~~",this.optArray)
+  }
+
   setFeeOptionArray(obj) {
     console.log("~~~obj", obj)
     for (var key in obj) {
@@ -258,10 +279,24 @@ export class CourseplanComponent implements OnInit {
         "name": key,
         "fees": obj[key]
       }
-      this.optArr.push(data);
+      this.optArray.push(data);
     }
-    console.log("optArr", this.optArr);
+    console.log("optArr", this.optArray);
   }
+
+
+  // setFeeOptionArray(obj) {
+  //   console.log("~~~obj", obj)
+  //   for (var key in obj) {
+  //     console.log(key, obj[key]);
+  //     let data = {
+  //       "name": key,
+  //       "fees": obj[key]
+  //     }
+  //     this.optArr.push(data);
+  //   }
+  //   console.log("optArr", this.optArr);
+  // }
 
   convertMinsToHrsMins(mins) {
     console.log("duration", mins)
@@ -396,9 +431,13 @@ export class CourseplanComponent implements OnInit {
     // }
     console.log(formData)
     console.log(this.step2FormaData)
+    // let obj: any = {};
+    // for (var i = 0; i < this.optArr.length; i++) {
+    //   obj[this.optArr[i].name] = this.optArr[i].fees;
+    // }
     let obj: any = {};
-    for (var i = 0; i < this.optArr.length; i++) {
-      obj[this.optArr[i].name] = this.optArr[i].fees;
+    for (var i = 0; i < this.optArray.length; i++) {
+      obj[this.optArray[i].name] = this.optArray[i].fees;
     }
     console.log("Obj", obj);
     console.log('allow por', this.formField.paymentPolicy.allowProrated)
@@ -1117,8 +1156,8 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = true;
       this.step3 = false;
-      this.testObj.name = null;
-      this.testObj.fees = null;
+      this.checkEmptyOption();
+      // console.log("name",this.optArray[i].name.trim(),",fees",this.optArray[i].fees)
       if (this.step2 == true) {
         $("#step3").removeClass('active');
         $("#step2").removeClass('done');
@@ -1132,6 +1171,10 @@ export class CourseplanComponent implements OnInit {
       this.step3 = true;
       this.step4 = false;
       if (this.step3 == true) {
+        if(this.optArray.length == 0){
+          this.addFeeOption();
+        }
+        // console.log("this.optAtrray length",this.optArray.length);
         $("#step4").removeClass('active');
         $("#step3").removeClass('done');
         $("#step1, #step2").addClass('done');
@@ -1215,6 +1258,9 @@ export class CourseplanComponent implements OnInit {
       console.log(this.step2FormaData)
       this.step1 = false;
       this.step2 = false;
+      if(this.optArray.length == 0){
+          this.addFeeOption();
+        }
       if (this.step2 == false) {
         $("#step2").removeClass('active');
         $("#step1").addClass('done');
@@ -1229,8 +1275,7 @@ export class CourseplanComponent implements OnInit {
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
-      this.testObj.name = null;
-      this.testObj.fees = null;
+      this.checkEmptyOption();
       if (this.step3 == false) {
         $("#step3").removeClass('active');
         $("#step1").addClass('done');
@@ -1326,6 +1371,36 @@ export class CourseplanComponent implements OnInit {
         $("#step7").addClass('active');
       }
     }
+  }
+
+  checkEmptyOption(){
+    // return new Promise((resolve, reject) => {
+    //   for(var i = 0; i<this.optArray.length;i++){
+    //     console.log(i,"==>",this.optArray[i])
+    //     if(this.optArray[i].fees == null || this.optArray[i].name == "" || (this.optArray[i].fees == null && this.optArray[i].name == "")){
+    //       this.optArray.splice(i,1);
+    //       i--;
+    //     }
+    //   }
+    //   console.log("arr length",this.optArray.length)
+    //   resolve()
+    // }).then(()=>{
+    //   console.log("arr length",this.optArray.length)
+    //   if(this.optArray.length==0){
+    //     console.log("array length 0")
+    //     setTimeout(()=>{
+    //       this.addOption();
+    //     },100)
+    //   }
+    // })
+    for(var i = 0; i<this.optArray.length;i++){
+      console.log(i,"==>",this.optArray[i])
+      if(this.optArray[i].fees == null || this.optArray[i].name == "" || (this.optArray[i].fees == null && this.optArray[i].name == "")){
+        this.optArray.splice(i,1);
+        i--;
+      }
+    }
+
   }
 
   getAllModule() {

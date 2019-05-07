@@ -206,65 +206,69 @@
 		<div *ngIf="step3" class="div_step3">
 			<div class="d-flex justify-content-center">
 					<form class="form-wrap" #childForm3="ngForm" novalidate>
-							<div class="inside-data-wrapper">
-								<div class="col-md-12">
-									<p class="step-font">Step 3</p>
-									<h5 class="all-title-font text-font-align">Payment policy</h5>
-								</div>
-								<div class="step_height">
-									<label class="all-title-font" style="padding-left: 15px; padding-top: 40px"> Course fee Options</label>
-									<div class="d-flex">
-										<div class="col-md-4">
-											<div>
-												<div class="input-group input-group-bg mb-2 mr-sm-2">
-													<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
-													<hr class="limit-hr-length">
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div>
-												<div class="input-group input-group-bg mb-2 mr-sm-2">
-													<div class="input-group-prepend">
-													  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">{{ currency.invCurrencySign }}</div>
-													</div>
-													<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
-													(focus)="showFocus($event,'optionFee')"
-												  (focusout)="hideFocus($event,'optionFee')"
-													>
-													<hr class="limit-hr-length">
-												</div>
-											</div>
-										</div>
-										<div>
-										<button [disabled]="!testObj.fees && testObj.name == '' && testObj.name == undefined && testObj.fees == undefined" type="button" class="add-fee-option" (click)="addOption()">
-											<div *ngIf="testObj.name && testObj.fees" class="circle1 plus"></div>
-											<div *ngIf="!testObj.fees || !testObj.name || !testObj" class="circle3 plus"></div>
-										</button>
-										</div>
-									</div>
-									<!-- <div class="d-flex" style="width: 60%;">
-										<div class="d-flex  optInput-wrap">
-											<input type="text" name="optname" class="col-md-9 taxopt-input feeName-input" placeholder="Type option name" [(ngModel)]="testObj.name" #name>
-											<div class="d-flex col-md-3 p-0 cfee-wrap">
-												<div class="currencySign">{{ currency.invCurrencySign }}</div>
-												<input type="number" [(ngModel)]="testObj.fees" class="taxopt-input c-fee" placeholder="Course fee" name="fee" #fees>
-											</div>
-										</div>
-										<div class="removeBtn-wrap">
-											<div class="removeIcon"></div>
-										</div>
-									</div> -->
-									<div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
-										<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{ currency.invCurrencySign }} {{opt.fees}}</p>
-									</div>
-								</div>
-								<div class="button-wrapper">
-										<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
-										<div [hidden]="!step3" class="back-modal" (click)="backStep('step3')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
-								</div>
+						<div class="inside-data-wrapper">
+							<div class="col-md-12">
+								<p class="step-font">Step 3</p>
+								<h5 class="all-title-font text-font-align">Payment policy</h5>
 							</div>
-						</form>
+							<div class="step_height">
+								<label class="all-title-font" style="padding-left: 15px; padding-top: 40px"> Course fee Options</label>
+								<!-- <div class="d-flex">
+									<div class="col-md-4">
+										<div>
+											<div class="input-group input-group-bg mb-2 mr-sm-2">
+												<input type="text" placeholder="Type option name" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" [(ngModel)]="testObj.name" #name name="optname" style="background: none;">
+												<hr class="limit-hr-length">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div>
+											<div class="input-group input-group-bg mb-2 mr-sm-2">
+												<div class="input-group-prepend">
+												  <div [ngClass]="{'focus-bg': optionFee== true}" class="input-group-text optfee-bg">{{ currency.invCurrencySign }}</div>
+												</div>
+												<input type="number" placeholder="Type option fees" class="form-control br-bshadow-none hoverReadonly all-left-box-10 mb-0" style="background: none; margin-left: 2.1px;" [(ngModel)]="testObj.fees" name="fee" #fees 
+												(focus)="showFocus($event,'optionFee')"
+											  (focusout)="hideFocus($event,'optionFee')"
+												>
+												<hr class="limit-hr-length">
+											</div>
+										</div>
+									</div>
+									<div>
+									<button [disabled]="!testObj.fees && testObj.name == '' && testObj.name == undefined && testObj.fees == undefined" type="button" class="add-fee-option" (click)="addOption()">
+										<div *ngIf="testObj.name && testObj.fees" class="circle1 plus"></div>
+										<div *ngIf="!testObj.fees || !testObj.name || !testObj" class="circle3 plus"></div>
+									</button>
+									</div>
+								</div>
+								<div class="d-flex pdLeft-15" *ngFor="let opt of optArr">
+									<div style="margin-right: 10px;" class="remove-user" (click)="removeOpt(opt)"></div><p>{{opt.name}} - {{ currency.invCurrencySign }} {{opt.fees}}</p>
+								</div> -->
+								==>{{optArray|json}}
+								<div *ngFor="let opt of optArray;let idx = index" class="d-flex" style="width: 60%;">
+									<div class="d-flex  optInput-wrap">
+										<input type="text" name="optname{{idx}}" class="col-md-9 taxopt-input feeName-input" placeholder="Type option name" [(ngModel)]="opt.name" #name>
+										<div class="d-flex col-md-3 p-0 cfee-wrap">
+											<div class="currencySign">{{ currency.invCurrencySign }}</div>
+											<input type="number" [(ngModel)]="opt.fees" class="taxopt-input c-fee" placeholder="Course fee" name="fee{{idx}}" #fees>
+										</div>
+									</div>
+									<div *ngIf="optArray?.length>1" class="removeBtn-wrap">
+										<div class="removeIcon" (click)="removeFeeOption(idx)"></div>
+									</div>
+								</div>
+								<button (click)="addFeeOption()">
+									Add new option
+								</button>
+							</div>
+							<div class="button-wrapper">
+									<button type="button" class="btn sticky-create" [disabled]="!childForm3.valid" (click)="continueStep('step3',childForm3.value)">Continue</button>
+									<div [hidden]="!step3" class="back-modal" (click)="backStep('step3')"> <i class="fa fa-angle-left"></i> <p>Back</p></div>
+							</div>
+						</div>
+					</form>
 			</div>
 		</div>
 		<div *ngIf="step4" class="div_step4">

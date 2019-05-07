@@ -175,11 +175,11 @@ export class TestwerkzComponent implements OnInit {
 
   ngOnInit() {
     // this.testing()
-    console.log(Promise);
+    // console.log(Promise);
     var turndownService = new TurndownService();
     // for div
     this.dragulaService.cloned().subscribe(({name,clone,original})=>{
-      console.log(name,clone,original)
+      // console.log(name,clone,original)
       console.log($(original).children().children(".rmIcon"))
       $(original).children().children(".rmIcon").css('display','none');
     })  
@@ -198,25 +198,25 @@ export class TestwerkzComponent implements OnInit {
       this.classCreate = false;
     }
 
-    console.log(this.pdLists);
+    // console.log(this.pdLists);
     this.getConceptLists(1,20);
     this.getCollectionlist(1,20);
-    console.log(this.focusType = {
-      'no' : 0,
-      'type' : 'pd'
-    })
+    // console.log(this.focusType = {
+    //   'no' : 0,
+    //   'type' : 'pd'
+    // })
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     var clickedEle = $event;
-    console.log("clickedEle~~~",clickedEle)
-    console.log("clickedEle className~~~",clickedEle.className)
-    console.log("this.clickEle",this.clickEle)
+    // console.log("clickedEle~~~",clickedEle)
+    // console.log("clickedEle className~~~",clickedEle.className)
+    // console.log("this.clickEle",this.clickEle)
     if (clickedEle.className.includes("question-insert-img")) {
-      console.log("####click on tooltip",clickedEle.className);
+      // console.log("####click on tooltip",clickedEle.className);
       this.selectEle = this.clickEle;
     }else{
-      console.log("####click on text")
+      // console.log("####click on text")
     }
 
     if (
@@ -233,11 +233,11 @@ export class TestwerkzComponent implements OnInit {
     }
     if(clickedEle.className.includes("removeIcon")){
       this.clickEle = this.tempClick;
-      console.log("this.clickEle~~~~~~~~~",this.clickEle);
+      // console.log("this.clickEle~~~~~~~~~",this.clickEle);
     }else{
       this.clickEle = $event;
       this.tempClick = null;
-      console.log("this.clickEle#######",this.clickEle);
+      // console.log("this.clickEle#######",this.clickEle);
     }
     // this.clickEle = $event;
   }
@@ -268,7 +268,7 @@ export class TestwerkzComponent implements OnInit {
         );
 
         var temp = $(".img-span").parent().attr("id");
-        console.log("temp",temp);
+        // console.log("temp",temp);
         // var x = document.getElementById(temp).previousSibling;
         // console.log("x####",x)
         var x = document.getElementById(temp).parentElement;
@@ -317,10 +317,10 @@ export class TestwerkzComponent implements OnInit {
     // console.log("scrolling");
     // console.log(window.pageYOffset)
     if (window.pageYOffset > 90) {
-      console.log("greater than 100");
+      // console.log("greater than 100");
       this.navIsFixed = true;
     } else {
-      console.log("less than 100");
+      // console.log("less than 100");
       this.navIsFixed = false;
     }
     if (window.pageYOffset > 81) {
@@ -2184,9 +2184,9 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code start
   createConcept() {
-    console.log("---------------------");
-    console.log(this.performanceDemands);
-    console.log("---------------------");
+    // console.log("---------------------");
+    // console.log(this.performanceDemands);
+    // console.log("---------------------");
     this.blockUI.start("Loading...");
     async.map(
       this.performanceDemands,
@@ -2224,7 +2224,7 @@ export class TestwerkzComponent implements OnInit {
     };
     var tempContentArray = [];
     var tempAnsContentArr = [];
-    console.log("question contents~~~",question.contents)
+    // console.log("question contents~~~",question.contents)
     question.contents.map( (contentObj,index) => {
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
@@ -2269,7 +2269,7 @@ export class TestwerkzComponent implements OnInit {
       tempObj.correctness = answer.correctness;
       if(answer.contents.length >=1){
         answer.contents.map((ansCont,index) => {
-          console.log("idx",index,"ansCont",ansCont)
+          // console.log("idx",index,"ansCont",ansCont)
           _this.changeTimeFormat(ansCont,'temp');
           if(ansCont.duration){
             var tempVideoContentObj = {
@@ -2299,10 +2299,10 @@ export class TestwerkzComponent implements OnInit {
         })
         tempObj.contents = tempAnsContentArr;
       }
-      console.log("~~~",tempObj);
+      // console.log("~~~",tempObj);
       tempArr.push(tempObj);
-      console.log(tempArr);
-      console.log("ques answer~~~",answer)
+      // console.log(tempArr);
+      // console.log("ques answer~~~",answer)
 
       // tempObj.contents = tempContentArray;
       
@@ -2315,10 +2315,10 @@ export class TestwerkzComponent implements OnInit {
     questionFormat.contents = tempContentArray;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         var questionId = JSON.parse(JSON.stringify(res));
 
-        console.log(questionId.meta._id);
+        // console.log(questionId.meta._id);
         callback(null, questionId.meta._id);
       },
       err => {
@@ -2330,8 +2330,8 @@ export class TestwerkzComponent implements OnInit {
   pdLoop(_this, pd, pdCallback) {
     // API CALL
     // Question Creatoion Loop
-    console.log(pd);
-    console.log("PD LOOP", JSON.stringify(pd.questions));
+    // console.log(pd);
+    // console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
       _this.createQuestions.bind(null, _this, pd),
@@ -2357,7 +2357,7 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
-      console.log(contentObj)
+      // console.log(contentObj)
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
@@ -2397,7 +2397,7 @@ export class TestwerkzComponent implements OnInit {
       res => {
         const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.log(createdPdId.meta._id);
+        // console.log(createdPdId.meta._id);
         pdCallback(null, createdPdId.meta._id);
       },
       err => {
@@ -2408,7 +2408,7 @@ export class TestwerkzComponent implements OnInit {
 
   //file drop method for valids
   onFilesChange(fileList: Array<File>) {
-    console.log(fileList.length);
+    // console.log(fileList.length);
     if (fileList.length != 0) {
       this.isDrop = true;
       this.fileList = fileList;
@@ -2754,9 +2754,9 @@ export class TestwerkzComponent implements OnInit {
 
   //start put method
   updateConcept(id) {
-    console.log("---------------------");
-    console.log(this.performanceDemands);
-    console.log("---------------------", id);
+    // console.log("---------------------");
+    // console.log(this.performanceDemands);
+    // console.log("---------------------", id);
     this.blockUI.start("Loading...");
 
     async.map(
@@ -2774,7 +2774,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(id);
     // API CALL
     // Question Creatoion Loop
-    console.log("PD LOOP", JSON.stringify(pd.questions));
+    // console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
       _this.updateQuestions.bind(null, _this, pd, id),
@@ -2833,8 +2833,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateQuestions(_this, pd, id, question, callback) {
-    console.log(pd);
-    console.log(question._id);
+    // console.log(pd);
+    // console.log(question._id);
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -2957,24 +2957,24 @@ export class TestwerkzComponent implements OnInit {
         })
         tempObj.contents = tempAnsContentArr;
       }
-      console.log(tempObj);
+      // console.log(tempObj);
       testArr.push(tempObj);
-      console.log(testArr);
+      // console.log(testArr);
     });
     questionFormat.answers = testArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
     questionFormat.contents=tempContentArray;
-    console.log(question._id);
+    // console.log(question._id);
     if (question._id == "" || question._id == undefined) {
-      console.log("is create");
+      // console.log("is create");
       _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
         res => {
-          console.log(res);
+          // console.log(res);
           var questionId = JSON.parse(JSON.stringify(res));
 
-          console.log(questionId.meta._id);
+          // console.log(questionId.meta._id);
           callback(null, questionId.meta._id);
         },
         err => {
@@ -2987,7 +2987,7 @@ export class TestwerkzComponent implements OnInit {
         .updatePDQuestion(_this.regionID, questionFormat, question._id)
         .subscribe(
           res => {
-            console.log(res);
+            // console.log(res);
             var questionId = JSON.parse(JSON.stringify(res));
 
             console.log(questionId.meta._id);
@@ -3013,12 +3013,12 @@ export class TestwerkzComponent implements OnInit {
     imgId[0].style.display = "none";
   }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
-    console.log(pd);
-    console.log(_this);
-    console.log(error);
-    console.log(questionIds);
+    // console.log(pd);
+    // console.log(_this);
+    // console.log(error);
+    // console.log(questionIds);
     // const questionIds = questionIds;
-    console.log(pd.contentsArr);
+    // console.log(pd.contentsArr);
     const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
 
     _this.updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback);
@@ -3031,8 +3031,8 @@ export class TestwerkzComponent implements OnInit {
       questions: [],
       contents: []
     };
-    console.log(formattedQuestionIDs);
-    console.log(pd);
+    // console.log(formattedQuestionIDs);
+    // console.log(pd);
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
       var tempContentObj = {
@@ -3082,8 +3082,8 @@ export class TestwerkzComponent implements OnInit {
         tempImgContentObj.sequence = ++index;
         tempContentArray.push(tempImgContentObj);
       }
-      console.log("###############contentObj._id",contentObj._id);
-      console.log("###",contentObj.contentId)
+      // console.log("###############contentObj._id",contentObj._id);
+      // console.log("###",contentObj.contentId)
       
       // tempContentArray.push(tempContentObj);
     });
@@ -3144,9 +3144,9 @@ export class TestwerkzComponent implements OnInit {
       return false;
   }
   onClickSettingArrow(e){
-    console.log(e)
-    console.log(this.focusType)
-    console.log(this.performanceDemands)
+    // console.log(e)
+    // console.log(this.focusType)
+    // console.log(this.performanceDemands)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();
