@@ -146,6 +146,10 @@ export class StudentEnrollmentReport implements OnInit {
   getFilteredDataGroupByLocation(data){
     let filter = this.filter;
     let _self = this;
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
     let res = [];
     if(filter.type == "location" && filter.value.length){
       data = data.filter(function (d) {
@@ -164,7 +168,7 @@ export class StudentEnrollmentReport implements OnInit {
           return filter.value.indexOf(d.catName) > -1;
         });
       }
-
+      _self.locationList.push(location.locationName);
       categories.forEach(function (category) {
         let coursePlans = category.coursePlans || [];
 
@@ -173,18 +177,20 @@ export class StudentEnrollmentReport implements OnInit {
             return filter.value.indexOf(d.coursePlanName) > -1;
           });
         }
-
+        _self.categoryList.push(category.catName);
         //iterate coursePlans under categories
         coursePlans.forEach(function (coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
           let courses = coursePlan.courses || [];
           //iterate courses under coursePlans
           if(filter.type == "course" && filter.value.length){
             courses = courses.filter(function (d) {
-              return filter.value.indexOf(d.locationName) > -1;
+              return filter.value.indexOf(d.courseName) > -1;
             });
           }
 
           courses.forEach(function (course) {
+            _self.courseNameList.push(course.courseName);
             obj.students += course.students;
           });
         });
@@ -192,6 +198,10 @@ export class StudentEnrollmentReport implements OnInit {
       obj.groupTypeValue = location.locationName;
       res.push(obj);
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return res;
   }
 
@@ -199,6 +209,10 @@ export class StudentEnrollmentReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let result = [];
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
     if(filter.type == "category" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.catName) > -1;
@@ -210,7 +224,7 @@ export class StudentEnrollmentReport implements OnInit {
         students: 0
       };
       let coursePlans = category.coursePlans || [];
-
+      _self.categoryList.push(category.catName);
       if(filter.type == "coursePlan" && filter.value.length){
         coursePlans = coursePlans.filter(function (d) {
           return filter.value.indexOf(d.coursePlanName) > -1;
@@ -221,7 +235,7 @@ export class StudentEnrollmentReport implements OnInit {
       coursePlans.forEach(function (coursePlan) {
         let courses = coursePlan.courses || [];
         //iterate courses under coursePlans
-
+        _self.coursePlanList.push(coursePlan.coursePlanName);
         if(filter.type == "course" && filter.value.length){
           courses = courses.filter(function (d) {
             return filter.value.indexOf(d.courseName) > -1;
@@ -229,16 +243,22 @@ export class StudentEnrollmentReport implements OnInit {
         }
         if(filter.type == "location" && filter.value.length){
           courses = courses.filter(function (d) {
-            return filter.value.indexOf(d.locationName) > -1;
+            return filter.value.indexOf(d.location) > -1;
           });
         }
 
         courses.forEach(function (course) {
+          _self.courseNameList.push(course.courseName);
+          _self.locationList.push(course.location);
           obj.students += course.students;
         });
       });
       result.push(obj);
     });
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
     return result;
   }
 
@@ -246,6 +266,10 @@ export class StudentEnrollmentReport implements OnInit {
     let result = [];
     let filter = this.filter;
     let _self = this;
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
     if(filter.type == "coursePlan" && filter.value.length){
       data = data.filter(function (d) {
         return filter.value.indexOf(d.coursePlanName) > -1;
@@ -257,7 +281,7 @@ export class StudentEnrollmentReport implements OnInit {
         students: 0
       };
       let categories = coursePlan.categories || [];
-
+      _self.coursePlanList.push(coursePlan.coursePlanName);
       if(filter.type == "category" && filter.value.length){
         categories = categories.filter(function (d) {
           return filter.value.indexOf(d.catName) > -1;
@@ -265,6 +289,7 @@ export class StudentEnrollmentReport implements OnInit {
       }
       //iterate coursePlans under categories
       categories.forEach(function (category) {
+        _self.categoryList.push(category.catName);
         let courses = category.courses || [];
         //iterate courses under coursePlans
         if(filter.type == "course" && filter.value.length){
@@ -279,6 +304,8 @@ export class StudentEnrollmentReport implements OnInit {
         }
 
         courses.forEach(function (course) {
+          _self.courseNameList.push(course.courseName);
+          _self.locationList.push(course.location);
           obj.students += course.students;
         });
       });
@@ -286,6 +313,12 @@ export class StudentEnrollmentReport implements OnInit {
         result.push(obj);
       }
     });
+
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
     return result;
   }
   updateGraphUsingGroupBy(event) {
