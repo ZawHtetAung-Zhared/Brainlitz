@@ -28,7 +28,7 @@
     </div>
   </div>
   </div>
-  <div class="d-flex flex-column w-100 h-100" style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 30px;">
+  <div class="d-flex flex-column w-100 h-100" style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 30px;" *ngIf="reportData.length">
     <div style="padding:15px;">
       <button class="btn btn-filter" (click)="showFilterModal(filterFields)">Filter Fields</button>
     </div>
@@ -47,6 +47,9 @@
         <staff-graph  [reportItem]="reportItem"></staff-graph>
       </div>
     </div>
+  </div>
+  <div class="d-flex flex-column w-100 h-100" style="margin-top: 30px;" *ngIf="!reportData.length">
+    No data
   </div>
 </div>
 
