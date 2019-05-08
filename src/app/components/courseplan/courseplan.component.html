@@ -250,10 +250,10 @@
 								<div *ngFor="let opt of optArray;let idx = index" class="d-flex" style="width: 60%;">
 									<div>
 										<div [ngClass]="{'shadow-bg': shadowIdx == idx}" (mouseenter)="mouseEnter(idx)" (mouseleave)="mouseLeave(idx)" class="d-flex  optInput-wrap">
-											<input type="text" name="{{'name'+idx}}" class="form-control col-md-8 taxopt-input feeName-input" [ngClass]="{'shadow-bg': shadowIdx == idx}"placeholder="Type option name" [(ngModel)]="opt.name" id="{{'nameInput'+idx}}">
+											<input type="text" name="{{'name'+idx}}" class="form-control col-md-8 taxopt-input feeName-input" [ngClass]="{'shadow-bg': shadowIdx == idx}"placeholder="Type option name" [value]="opt.name" (input)="this.optArray[idx].name=$event.target.value">
 											<div class="d-flex col-md-4 p-0 cfee-wrap">
 												<div class="currencySign" [ngStyle]="{'background': shadowIdx == idx ? '#8fa1b3' : '#f2f4f5'}">{{ currency.invCurrencySign }}</div>
-												<input type="number" [(ngModel)]="opt.fees" class="form-control taxopt-input c-fee" placeholder="Course fee" name="{{'fee'+idx}}" id="{{'feeInput'+idx}}">
+												<input type="number" [value]="opt.fees" (input)="optArray[idx].fees = $event.target.value" class="form-control taxopt-input c-fee" placeholder="Course fee" name="{{'fee'+idx}}">
 											</div>
 										</div>
 										<hr class="opt-hr-length">

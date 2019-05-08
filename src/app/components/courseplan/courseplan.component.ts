@@ -1483,40 +1483,40 @@ export class CourseplanComponent implements OnInit {
       });
   }
 
-  addOption() {
-    console.log("option", this.testObj)
-    let data = {
-      "name": this.testObj.name,
-      "fees": this.testObj.fees
-    }
-    console.log(data);
-    if (data.name != undefined && data.fees != undefined && data.name != '' && data.fees != '') {
-      this.optArr.push(data);
-      console.log(this.optArr)
-      this.testObj.name = "";
-      this.testObj.fees = "";
-    }
+  // addOption() {
+  //   console.log("option", this.testObj)
+  //   let data = {
+  //     "name": this.testObj.name,
+  //     "fees": this.testObj.fees
+  //   }
+  //   console.log(data);
+  //   if (data.name != undefined && data.fees != undefined && data.name != '' && data.fees != '') {
+  //     this.optArr.push(data);
+  //     console.log(this.optArr)
+  //     this.testObj.name = "";
+  //     this.testObj.fees = "";
+  //   }
 
-    if (data.name == undefined || data.name == '') {
-      this.toastr.error('Course fee option name is empty');
-    } else if (data.fees == undefined || data.fees == '') {
-      this.toastr.error('Course fee option value is empty');
-    } else if (data.name == undefined && data.fees == undefined) {
-      this.toastr.error('Please insert data to create course fee option');
-    }
-  }
+  //   if (data.name == undefined || data.name == '') {
+  //     this.toastr.error('Course fee option name is empty');
+  //   } else if (data.fees == undefined || data.fees == '') {
+  //     this.toastr.error('Course fee option value is empty');
+  //   } else if (data.name == undefined && data.fees == undefined) {
+  //     this.toastr.error('Please insert data to create course fee option');
+  //   }
+  // }
 
-  removeOpt(opt) {
-    var index;
-    console.log("remove", opt)
-    for (let x in this.optArr) {
-      if (this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees) {
-        index = x;
-      }
-    }
-    this.optArr.splice(index, 1);
-    console.log("arr", this.optArr);
-  }
+  // removeOpt(opt) {
+  //   var index;
+  //   console.log("remove", opt)
+  //   for (let x in this.optArr) {
+  //     if (this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees) {
+  //       index = x;
+  //     }
+  //   }
+  //   this.optArr.splice(index, 1);
+  //   console.log("arr", this.optArr);
+  // }
   addOrRemoveClassOfStep(ele){
     var max=this.clickableSteps[this.clickableSteps.length -1];
     ele.parents("li").removeClass("done");
