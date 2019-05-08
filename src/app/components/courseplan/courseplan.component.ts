@@ -97,6 +97,7 @@ export class CourseplanComponent implements OnInit {
   step5: boolean = false;
   step6: boolean = false;
   step7: boolean = false;
+  step8:boolean = false;
   moduleList: Array<any> = [];
   showSearchAPG: boolean = true;
   createAPGform: boolean = false;
@@ -126,6 +127,7 @@ export class CourseplanComponent implements OnInit {
   public clickableSteps: Array<any> = ['step1'];
   public optArray = [];
   public shadowIdx:any = null;
+  public assessmentPlans:any = [];
   ngOnInit() {
     this.formField.lesson.duration = '0 min'
     this.showModal = true;
@@ -473,7 +475,8 @@ export class CourseplanComponent implements OnInit {
       },
       "quizwerkz": this.pdfId,
       "holidayCalendarId": this.formField.holidayCalendarId,
-      "accessPointGroup": this.selectedAPGidArray
+      "accessPointGroup": this.selectedAPGidArray,
+      "assessmentPlans":this.selectedAPidList
     }
 
     if (Object.keys(obj).length != 0) {
@@ -575,21 +578,21 @@ export class CourseplanComponent implements OnInit {
   //  }
 
   //  deleteCoursePlan(id) {
-  // 	console.log(id)
+  //   console.log(id)
   //    this.blockUI.start('Loading...');
   //    this.modalReference1.close();
-  // 	this._service.deleteCoursePlan(id)
-  // 	.subscribe((res:any) => {
-  // 		console.log(res);
+  //   this._service.deleteCoursePlan(id)
+  //   .subscribe((res:any) => {
+  //     console.log(res);
   //      setTimeout(() => {
   //        this.blockUI.stop(); // Stop blocking
   //      }, 300);
   //      this.toastr.success('Successfully Deleted.');
-  // 		this.getAllCoursePlan();
-  // 	},err => {
+  //     this.getAllCoursePlan();
+  //   },err => {
   //     this.toastr.error('Delete Fail');
-  // 		console.log(err);
-  // 	})
+  //     console.log(err);
+  //   })
   // }
 
   ChangeValue(data, e, type) {
@@ -719,29 +722,75 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
-  focusSearch(e) {
-    console.log(e)
-  
-    this.isfocus = true;
-    this.showfixedcreate = true;
-    this.apgList = [];
-  }
-
-  hideSearch(e) {
-    setTimeout(() => {
-      this.isfocus = false;
-      this.showfixedcreate = false;
-    }, 300);
-  }
-
-  changeSearch(keyword, type) {
-    console.log(keyword)
-    if (keyword == 0) {
-      this.apgList = [];
-      // this.getAllAPG(20, 0)
-    } else {
-      this.getApgSearch(keyword, 'apg');
+  focusSearch(e,type) {
+    switch (type) {
+      case ('apg'):
+        this.isfocus = true;
+        this.showfixedcreate = true;
+        this.apgList = [];
+        break;
+      case ('plan'):
+        this.showPlans =true;
+        break;
     }
+  }
+
+  hideSearch(e,type) {
+    switch (type) {
+      case ('apg'):
+        setTimeout(() => {
+          this.isfocus = false;
+          this.showfixedcreate = false;
+        }, 300);
+        break;
+      case ('plan'):
+        setTimeout(()=>{
+          this.showPlans =false;
+        },300)
+        break;
+    }
+  }
+  showPlans:boolean = false;
+  selectedAPlans=[];
+  changeSearch(keyword, type) {
+    switch (type) {
+      case ('apg'):
+        if (keyword == 0) {
+          this.apgList = [];
+          // this.getAllAPG(20, 0)
+        } else {
+          this.getApgSearch(keyword, 'apg');
+        }
+        break;
+      case ('plan'):
+        if(keyword == 0){
+          this.assessmentPlans = [];
+        }else{
+          this.assessmentPlanSearch(keyword)
+        }
+        break;
+    }
+  }
+
+  assessmentPlanSearch(keyword){
+    this._service.getCollectionBySearch(this.regionID,keyword)
+    .subscribe((res:any)=>{
+      this.assessmentPlans = res;
+    })
+  }
+ selectedAPidList=[];
+  selectAssessmentPlan(plan){
+    this.showPlans = false;
+    this.selectedAPlans.push(plan);
+    this.selectedAPidList.push(plan._id);
+  }
+
+  removeSelectedAPlan(data){
+    var index = this.selectedAPlans.findIndex(function (element) {
+      return element._id === data._id;;
+    })
+    this.selectedAPlans.splice(index,1);
+    this.selectedAPidList.splice(index,1)
   }
 
   selectData(id, name) {
@@ -1203,6 +1252,7 @@ export class CourseplanComponent implements OnInit {
       this.step4 = false;
       this.step5 = true;
       this.step6 = false;
+       this.step8 = false;
       if (this.step5 == true) {
         $("#step6").removeClass('active');
         $("#step5").removeClass('done');
@@ -1218,11 +1268,28 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = true;
       this.step7 = false;
+       this.step8 = false;
       if (this.step6 == true) {
         $("#step7").removeClass('active');
         $("#step6").removeClass('done');
         $("#step1, #step2, #step3, #step4, #step5").addClass('done');
         $("#step6").addClass('active');
+      }
+    }
+    if (type == 'step8') {
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = false;
+      this.step7 = true;
+      this.step8 = false;
+      if (this.step7 == true) {
+        $("#step8").removeClass('active');
+        $("#step7").removeClass('done');
+        $("#step1, #step2, #step3, #step4, #step5,#step6").addClass('done');
+        $("#step7").addClass('active');
       }
     }
   }
@@ -1370,7 +1437,29 @@ export class CourseplanComponent implements OnInit {
         $("#step4").addClass('done');
         $("#step5").addClass('done');
         $("#step6").addClass('done');
-        $("#step7").addClass('active');
+        $("#step7").addClass('done');
+        $("#step8").addClass('active');
+        this.step8 = true;
+      }
+    }
+    if (type == 'step8') {
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step7 = false;
+      this.step8 = false;
+      if (this.step7 == false) {
+        $("#step6").removeClass('active');
+        $("#step1").addClass('done');
+        $("#step2").addClass('done');
+        $("#step3").addClass('done');
+        $("#step4").addClass('done');
+        $("#step5").addClass('done');
+        $("#step6").addClass('done');
+        $("#step7").addClass('done');
+        $("#step8").addClass('active');
       }
     }
   }
@@ -1539,6 +1628,7 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = false;
       this.step7 = false;
+      this.step8 = false;
 
       switch (step) {
         case ('step1'):
@@ -1561,6 +1651,9 @@ export class CourseplanComponent implements OnInit {
           break;
         case ('step7'):
           this.step7 = true;
+          break;
+        case ('step8'):
+          this.step8 = true;
           break;
       }
       $("#" + step).addClass('active');
