@@ -197,7 +197,7 @@ export class CourseplanComponent implements OnInit {
         }
         if(this.formField.paymentPolicy.taxInclusive == null ){
           this.chooseTax = 'none';
-        }
+        } 
         this.tempDuration = res.lesson.duration;
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
@@ -209,6 +209,10 @@ export class CourseplanComponent implements OnInit {
           this.setFeeOptionArray(optObj);
         }else{
           this.addFeeOption();
+        }
+        this.selectedAPlans = res.assessmentPlans;
+        for(var i in res.assessmentPlans){
+          this.selectedAPidList.push(res.assessmentPlans[i]._id)
         }
         // this.getAllHolidaysCalendar();
         console.log("calendar", this.holidayCalendarLists);
@@ -239,9 +243,9 @@ export class CourseplanComponent implements OnInit {
 
         if (this.formField.accessPointGroup.length > 0) {
           this.selectedAPGlists = true;
-          for (var i = 0; i < this.formField.accessPointGroup.length; i++) {
-            console.log("selectedAPG", this.formField.accessPointGroup[i]);
-            this.singleAPG(this.formField.accessPointGroup[i]);
+          for (var x = 0; x < this.formField.accessPointGroup.length; x++){
+            console.log("selectedAPG", this.formField.accessPointGroup[x]);
+            this.singleAPG(this.formField.accessPointGroup[x]);
           }
         }
 
@@ -789,8 +793,11 @@ export class CourseplanComponent implements OnInit {
     var index = this.selectedAPlans.findIndex(function (element) {
       return element._id === data._id;;
     })
+    var idx = this.selectedAPidList.findIndex(function (element) {
+      return element === data._id;;
+    })
     this.selectedAPlans.splice(index,1);
-    this.selectedAPidList.splice(index,1)
+    this.selectedAPidList.splice(idx,1)
   }
 
   selectData(id, name) {
