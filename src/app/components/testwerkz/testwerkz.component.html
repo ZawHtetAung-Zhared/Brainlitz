@@ -62,11 +62,12 @@
                   <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': col.concepts?.length == ci+1}">{{concept.name}}</div>
               </div>
             </div>
+            <div class="fade-div"></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="viewAllDiv pdLR-15" *ngIf="isCollectionList">
+    <div class="viewAllDiv" *ngIf="isCollectionList">
       <button  class="btn-action remove-outline viewallBtn" (click)="goToCollection()">View All 
         <span class="lists-down-arrow">
             <i class="fa fa-angle-right rightArrow"></i>

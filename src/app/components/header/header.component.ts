@@ -62,7 +62,14 @@ export class HeaderComponent implements OnInit {
   logoff(){
   	console.log('log out');
   	localStorage.clear();
-	  this._router.navigateByUrl('/login');
+    this._service.logOff()
+    .subscribe((res:any)=>{
+      console.log("logout");
+      this._router.navigateByUrl('/login');
+    },err=>{
+      console.log(err);
+      this._router.navigateByUrl('/login');
+    });
 	}
 
   getAllLocation(){

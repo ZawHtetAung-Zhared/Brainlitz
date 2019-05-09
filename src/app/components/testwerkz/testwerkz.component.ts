@@ -175,12 +175,12 @@ export class TestwerkzComponent implements OnInit {
 
   ngOnInit() {
     // this.testing()
-    console.log(Promise);
+    // console.log(Promise);
     var turndownService = new TurndownService();
     // for div
     this.dragulaService.cloned().subscribe(({name,clone,original})=>{
-      console.log(name,clone,original)
-      console.log($(original).children().children(".rmIcon"))
+      // console.log(name,clone,original)
+      // console.log($(original).children().children(".rmIcon"))
       $(original).children().children(".rmIcon").css('display','none');
     })  
 
@@ -198,25 +198,25 @@ export class TestwerkzComponent implements OnInit {
       this.classCreate = false;
     }
 
-    console.log(this.pdLists);
+    // console.log(this.pdLists);
     this.getConceptLists(1,20);
     this.getCollectionlist(1,20);
-    console.log(this.focusType = {
-      'no' : 0,
-      'type' : 'pd'
-    })
+    // console.log(this.focusType = {
+    //   'no' : 0,
+    //   'type' : 'pd'
+    // })
 
   }
   @HostListener("click", ["$event.target"]) onClick($event) {
     var clickedEle = $event;
-    console.log("clickedEle~~~",clickedEle)
-    console.log("clickedEle className~~~",clickedEle.className)
-    console.log("this.clickEle",this.clickEle)
+    // console.log("clickedEle~~~",clickedEle)
+    // console.log("clickedEle className~~~",clickedEle.className)
+    // console.log("this.clickEle",this.clickEle)
     if (clickedEle.className.includes("question-insert-img")) {
-      console.log("####click on tooltip",clickedEle.className);
+      // console.log("####click on tooltip",clickedEle.className);
       this.selectEle = this.clickEle;
     }else{
-      console.log("####click on text")
+      // console.log("####click on text")
     }
 
     if (
@@ -226,18 +226,18 @@ export class TestwerkzComponent implements OnInit {
       $(clickedEle).parents(".question").length > 0 ||
       $(this.dragItem).hasClass("question")
     ) {
-      console.log("dddd");
+      // console.log("dddd");
     } else {
       this.showID = "";
       this.dragItem = "";
     }
     if(clickedEle.className.includes("removeIcon")){
       this.clickEle = this.tempClick;
-      console.log("this.clickEle~~~~~~~~~",this.clickEle);
+      // console.log("this.clickEle~~~~~~~~~",this.clickEle);
     }else{
       this.clickEle = $event;
       this.tempClick = null;
-      console.log("this.clickEle#######",this.clickEle);
+      // console.log("this.clickEle#######",this.clickEle);
     }
     // this.clickEle = $event;
   }
@@ -268,7 +268,7 @@ export class TestwerkzComponent implements OnInit {
         );
 
         var temp = $(".img-span").parent().attr("id");
-        console.log("temp",temp);
+        // console.log("temp",temp);
         // var x = document.getElementById(temp).previousSibling;
         // console.log("x####",x)
         var x = document.getElementById(temp).parentElement;
@@ -317,10 +317,10 @@ export class TestwerkzComponent implements OnInit {
     // console.log("scrolling");
     // console.log(window.pageYOffset)
     if (window.pageYOffset > 90) {
-      console.log("greater than 100");
+      // console.log("greater than 100");
       this.navIsFixed = true;
     } else {
-      console.log("less than 100");
+      // console.log("less than 100");
       this.navIsFixed = false;
     }
     if (window.pageYOffset > 81) {
@@ -342,7 +342,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists(page,size) {
-    console.log(page,size)
+    // console.log(page,size)
     this.blockUI.start("Loading");
     this._service.getAllConcept(this.regionID,1,size).subscribe((res: any) => {
       console.log("Concept lists", res);
@@ -430,7 +430,7 @@ export class TestwerkzComponent implements OnInit {
     this.editValue = "";
     this._service.updateTagsWerkz(this.regionID, data._id, obj).subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.getAllTag();
         this.tagWerkz = {
           name: ""
@@ -453,7 +453,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   focusFunction(status, val, word) {
-    console.log(word);
+    // console.log(word);
     if (status == "create") {
       this.isfocus = true;
       this.wordLength = word.length;
@@ -467,7 +467,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   blurMethod(e, status) {
-    console.log("blur", e,status);
+    // console.log("blur", e,status);
     if(status=="name"){
       let wp = this.wordLength;
       $(".limit-type-wordcount").hide("slow");
@@ -491,7 +491,7 @@ export class TestwerkzComponent implements OnInit {
     if (status == "create") {
       this.isfocus = !this.isfocus;
     } else {
-      console.log("edit", id);
+      // console.log("edit", id);
       this.iseditfocus = !this.iseditfocus;
       this.editValue = "";
     }
@@ -502,19 +502,19 @@ export class TestwerkzComponent implements OnInit {
   }
 
   somethingChanged(val, name) {
-    console.log("hi", val);
+    // console.log("hi", val);
     // this.conceptCreate = true;
     this.testWerkzCategory = false;
     this.ischecked = val;
     this.pickedTag.id = val;
     this.pickedTag.name = name;
-    console.log(this.performanceDemands);
+    // console.log(this.performanceDemands);
     if((this.pickedTag.state != "" && this.pickedTag.state == 'conceptCreate') || this.pickedTag.state == ""){
       this.conceptCreate = true;
       this.addPd();
     }else if(this.pickedTag.state != "" && this.pickedTag.state == 'conceptEdit'){
       this.conceptEdit = true;
-      console.log(this.performanceDemands)
+      // console.log(this.performanceDemands)
       setTimeout(()=>{
         var pd = this.performanceDemands;
         for(var i=0;i<pd.length;i++){
@@ -562,7 +562,7 @@ export class TestwerkzComponent implements OnInit {
     this.getConceptLists(1,20);
   }
   backToTag(type) {
-    console.log("TYPE~~~",type)
+    // console.log("TYPE~~~",type)
     this.conceptList = false;
     this.isCollectionList=false;
     this.conceptCreate = false;
@@ -586,11 +586,11 @@ export class TestwerkzComponent implements OnInit {
     this.isEditComplete = !this.isEditComplete;
   }
   translate(e, t, i?, j?) {
-    console.log(e);
-    console.log(window.getSelection());
+    // console.log(e);
+    // console.log(window.getSelection());
     // console.log(t.children('medium-editor-element'))
     if (e.inputType == "insertParagraph") {
-      console.log("ddfdfdfdfdfdfdf");
+      // console.log("ddfdfdfdfdfdfdf");
       this.pdLists[i].question[j].answers.push({ answer: "" });
     } else {
       var toChild = $(t).children();
@@ -693,7 +693,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   trueAnswerRadio(i, j, index, answer) {
-    console.log(this.performanceDemands);
+    // console.log(this.performanceDemands);
     const dataArray = this.performanceDemands[i].questions[j];
     dataArray.answers.map(answer => (answer.correctness = 0));
     // console.log( JSON.stringify(dataArray));
@@ -702,7 +702,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log( JSON.stringify(dataArray));
   }
   addQuestion(j) {
-    console.log("add querstion");
+    // console.log("add querstion");
     // console.log(this.pdLists[j].question);
     // this.pdLists[j].question.push({
     //   questionName: "",
@@ -898,10 +898,10 @@ export class TestwerkzComponent implements OnInit {
     //   $(window.getSelection().focusNode).parents(".img-wrapper").length ||
     //     $(window.getSelection().focusNode).hasClass("img-wrapper")
     // );
-    console.log("####", $(this.clickEle).parents(".img-wrapper").length > 0 ||
-      $(this.clickEle).hasClass("img-wrapper") ||
-      $(window.getSelection().focusNode).parents(".img-wrapper").length > 0 ||
-      $(window.getSelection().focusNode).hasClass("img-wrapper"))
+    // console.log("####", $(this.clickEle).parents(".img-wrapper").length > 0 ||
+    //   $(this.clickEle).hasClass("img-wrapper") ||
+    //   $(window.getSelection().focusNode).parents(".img-wrapper").length > 0 ||
+    //   $(window.getSelection().focusNode).hasClass("img-wrapper"))
     if (
       $(this.clickEle).parents(".img-wrapper").length > 0 ||
       $(this.clickEle).hasClass("img-wrapper") ||
@@ -933,7 +933,7 @@ export class TestwerkzComponent implements OnInit {
         sel.removeAllRanges();
         sel.addRange(range);
         this.clickEle = tempDiv;
-        console.log(sel);
+        // console.log(sel);
       }
     }
     // var divId=new Date().getTime();
@@ -1018,7 +1018,7 @@ export class TestwerkzComponent implements OnInit {
   // }
 
   resizeImage(ele) {
-    console.log(ele);
+    // console.log(ele);
     var maxWidth = 120; // Max width for the image
     var maxHeight = 120; // Max height for the image
     var ratio = 0; // Used for aspect ratio
@@ -1048,7 +1048,7 @@ export class TestwerkzComponent implements OnInit {
   openImgModal(content, type, t?) {
     this.contentType = "image";
     $(t).blur();
-    console.log("open modal>", type);
+    // console.log("open modal>", type);
     this.modelType = type;
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
@@ -1062,7 +1062,7 @@ export class TestwerkzComponent implements OnInit {
   openVideoModal(content,type) {
     // $(t).blur();
     this.contentType = "video";
-    console.log("open modal>", content);
+    // console.log("open modal>", content);
     this.modelType = type;
     this.modalReference = this.modalService.open(content, {
       backdrop: "static",
@@ -1075,7 +1075,7 @@ export class TestwerkzComponent implements OnInit {
   }
   answerOpenImgModal(content, type, i, j, index) {
     this.contentType = "image";
-    console.log("open modal>", type);
+    // console.log("open modal>", type);
     this.pdIndex = i;
     this.questionIndex = j;
     this.answerIndex = index;
@@ -1123,7 +1123,7 @@ export class TestwerkzComponent implements OnInit {
   /** ************** *** ************** *** **************  start Image Gallery Modal*** ************** *** ************** *** ************** *** ************** */
   //get all content
   getAllContent(page,size,keyword) {
-    console.log(page,size,keyword);
+    // console.log(page,size,keyword);
     // this.ImgArr = [];
     // this.videoArr = [];
   //  console.error(page,size)
@@ -1194,17 +1194,17 @@ export class TestwerkzComponent implements OnInit {
 
   showMoreContent(length){
     this.contentPage+=1;
-    console.log(this.contentPage)
-    console.log(this.ImgArr)
+    // console.log(this.contentPage)
+    // console.log(this.ImgArr)
     this.getAllContent(this.contentPage,20,'');
-    console.log(length)
+    // console.log(length)
   }
   //image upload
   onMetadata(e, id,type) {
-    console.log("metadata: ", e);
-    console.log("duration: ", e.target.duration);
+    // console.log("metadata: ", e);
+    // console.log("duration: ", e.target.duration);
     this.videoArr[id]["duration"] = e.target.duration;
-    console.log(this.videoArr)
+    // console.log(this.videoArr)
     return true;
   }
   uploadedVid = [];
@@ -1222,13 +1222,13 @@ export class TestwerkzComponent implements OnInit {
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
-        console.log("res.meta~~~",res.meta)
+        // console.log("res.meta~~~",res.meta)
         //getAllContent() use pormise because of html create value after use in ts
         this.ImgArr=[];
         if(this.modelType == "single" || this.modelType == "multiple"){
           this.getAllContent(1,20*this.contentPage,'').then(() => {
             setTimeout(() => {
-              console.log("res.meta~~~",res.meta)
+              // console.log("res.meta~~~",res.meta)
               this.autoSelectedImg(res.meta,"img");
             }, 300);
           });
@@ -1237,7 +1237,7 @@ export class TestwerkzComponent implements OnInit {
           this.uploadedVid = res.meta
           this.getAllContent(1,20*this.contentPage,'').then(()=>{
             setTimeout(() => {
-              console.log("res.meta~~~",res.meta)
+              // console.log("res.meta~~~",res.meta)
               this.autoSelectedVideo(res.meta,"video");
             }, 300);
           })
@@ -1271,7 +1271,7 @@ export class TestwerkzComponent implements OnInit {
     for (let i = 0; i < resturnobj.length; i++) {
       for (let j = 0; j < this.tempContentArr.length; j++) {
         if (resturnobj[i]._id == this.tempContentArr[j]._id) {
-          console.log("to call onselecedImgDiv~~~")
+          // console.log("to call onselecedImgDiv~~~")
             this.onslectedVideoDiv(
               this.tempContentArr[j]._id,
               this.tempContentArr[j]
@@ -1285,7 +1285,7 @@ export class TestwerkzComponent implements OnInit {
   //selected image use with css
   //when image selected from gallery modal this is storage selected value or unselected when remove selected value(single or multiple)
   onslectedImgDiv(i, img) {
-    console.log("onslectedImgDiv",img,i)
+    // console.log("onslectedImgDiv",img,i)
     if (this.modelType == "single") {
       //add selected
       if (!this.isRemove) {
@@ -1296,7 +1296,7 @@ export class TestwerkzComponent implements OnInit {
       }
     } else {
       if (this.isRemove) {
-        console.log("is remove image");
+        // console.log("is remove image");
         this.selectedImgArr.splice(this.selectedImgArr.map(x => x._id).indexOf(i), 1);
         this.imgIdArr.splice(this.imgIdArr.indexOf(i), 1);
         this.isRemove = false;
@@ -1316,11 +1316,11 @@ export class TestwerkzComponent implements OnInit {
   }
 
   onslectedVideoDiv(i,video){
-    console.log(this.isRemove)
+    // console.log(this.isRemove)
     if (this.isRemove) {
       // this.selectedVideoArr.splice(this.selectedVideoArr.map(x => x._id).indexOf(i), 1);
       // this.vidIdArr.splice(this.vidIdArr.indexOf(i),1);
-      console.log("is remove",this.vidIdArr);
+      // console.log("is remove",this.vidIdArr);
       this.isRemove = false;
     } else {
       if (this.vidIdArr.includes(i)) {
@@ -1521,7 +1521,7 @@ export class TestwerkzComponent implements OnInit {
   //   }
 
   checkFocusPosition() {
-    console.log("this.selectEle",this.selectEle);
+    // console.log("this.selectEle",this.selectEle);
     if (this.selectEle != undefined) {
       if (
         this.selectEle.className == "img-wrapper" ||
@@ -1532,7 +1532,7 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   changeTimeFormat(element , type){
-    console.log("element",element)
+    // console.log("element",element)
     if(this.isVideo(element)){
       if(type == 'toString'){
         var timeString;
@@ -1605,7 +1605,7 @@ export class TestwerkzComponent implements OnInit {
   insertImg() {
     this.uploadedVid = [];
     var inImageWrapper = this.checkFocusPosition();
-    console.log("###inImageWrapper",inImageWrapper)
+    // console.log("###inImageWrapper",inImageWrapper)
     // console.log("editableID", this.editableId);
     // console.log("model type",this.modelType)
     if(this.editableId != ""){
@@ -1685,7 +1685,7 @@ export class TestwerkzComponent implements OnInit {
               console.log(imgWidth, imgHeight);
               if (imgHeight < maxWidthAndHeight) {
                 var res = maxWidthAndHeight - imgHeight;
-                console.log(res);
+                // console.log(res);
                 $(e).css("padding-top", res / 2);
                 $(e).css("padding-bottom", res / 2);
               }
@@ -1703,7 +1703,7 @@ export class TestwerkzComponent implements OnInit {
     }else{
       // insert for pd and answer
       if(this.modelType == "single"){
-        console.log("answer Img === ", $(".answer-img"));
+        // console.log("answer Img === ", $(".answer-img"));
         this.performanceDemands[this.pdIndex].questions[
           this.questionIndex
         ].answers[this.answerIndex].imgUrl = this.selectedImgArr.url;
@@ -2184,9 +2184,9 @@ export class TestwerkzComponent implements OnInit {
 
   // waiyan's code start
   createConcept() {
-    console.log("---------------------");
-    console.log(this.performanceDemands);
-    console.log("---------------------");
+    // console.log("---------------------");
+    // console.log(this.performanceDemands);
+    // console.log("---------------------");
     this.blockUI.start("Loading...");
     async.map(
       this.performanceDemands,
@@ -2224,7 +2224,7 @@ export class TestwerkzComponent implements OnInit {
     };
     var tempContentArray = [];
     var tempAnsContentArr = [];
-    console.log("question contents~~~",question.contents)
+    // console.log("question contents~~~",question.contents)
     question.contents.map( (contentObj,index) => {
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
@@ -2269,7 +2269,7 @@ export class TestwerkzComponent implements OnInit {
       tempObj.correctness = answer.correctness;
       if(answer.contents.length >=1){
         answer.contents.map((ansCont,index) => {
-          console.log("idx",index,"ansCont",ansCont)
+          // console.log("idx",index,"ansCont",ansCont)
           _this.changeTimeFormat(ansCont,'temp');
           if(ansCont.duration){
             var tempVideoContentObj = {
@@ -2299,10 +2299,10 @@ export class TestwerkzComponent implements OnInit {
         })
         tempObj.contents = tempAnsContentArr;
       }
-      console.log("~~~",tempObj);
+      // console.log("~~~",tempObj);
       tempArr.push(tempObj);
-      console.log(tempArr);
-      console.log("ques answer~~~",answer)
+      // console.log(tempArr);
+      // console.log("ques answer~~~",answer)
 
       // tempObj.contents = tempContentArray;
       
@@ -2315,10 +2315,10 @@ export class TestwerkzComponent implements OnInit {
     questionFormat.contents = tempContentArray;
     _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         var questionId = JSON.parse(JSON.stringify(res));
 
-        console.log(questionId.meta._id);
+        // console.log(questionId.meta._id);
         callback(null, questionId.meta._id);
       },
       err => {
@@ -2330,8 +2330,8 @@ export class TestwerkzComponent implements OnInit {
   pdLoop(_this, pd, pdCallback) {
     // API CALL
     // Question Creatoion Loop
-    console.log(pd);
-    console.log("PD LOOP", JSON.stringify(pd.questions));
+    // console.log(pd);
+    // console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
       _this.createQuestions.bind(null, _this, pd),
@@ -2357,7 +2357,7 @@ export class TestwerkzComponent implements OnInit {
     };
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
-      console.log(contentObj)
+      // console.log(contentObj)
       _this.changeTimeFormat(contentObj,'temp')
       if(contentObj.duration){
         var tempVideoContentObj = {
@@ -2397,7 +2397,7 @@ export class TestwerkzComponent implements OnInit {
       res => {
         const createdPdId = JSON.parse(JSON.stringify(res));
 
-        console.log(createdPdId.meta._id);
+        // console.log(createdPdId.meta._id);
         pdCallback(null, createdPdId.meta._id);
       },
       err => {
@@ -2408,7 +2408,7 @@ export class TestwerkzComponent implements OnInit {
 
   //file drop method for valids
   onFilesChange(fileList: Array<File>) {
-    console.log(fileList.length);
+    // console.log(fileList.length);
     if (fileList.length != 0) {
       this.isDrop = true;
       this.fileList = fileList;
@@ -2607,7 +2607,7 @@ export class TestwerkzComponent implements OnInit {
       // console.error(error, 'error in getPDbyID function')
       console.log(error, 'error in getPDbyID function')
     }
-    console.log('getPDbyID function',result)
+    // console.log('getPDbyID function',result)
     async.map(
       result,
       _that.getPDObject.bind(null,_that),
@@ -2629,7 +2629,7 @@ export class TestwerkzComponent implements OnInit {
     }
     // console.log(result,'pdObjectArray function')
     _that.ptest = result
-    console.log(_that.ptest);
+    // console.log(_that.ptest);
     async.map(
       result,
       _that.getSinglePd.bind(null,_that,result),
@@ -2687,7 +2687,7 @@ export class TestwerkzComponent implements OnInit {
     _that.ptest[pdIndex].questions = result;
     _that.performanceDemands = _that.ptest;
 
-    console.log("assign PD",_that.performanceDemands[pdIndex].name)
+    // console.log("assign PD",_that.performanceDemands[pdIndex].name)
     _that.performanceDemands[pdIndex].contents.map((cont)=>{
       if(_that.isVideo(cont)){
         // cont["duration"] = cont.end
@@ -2730,7 +2730,7 @@ export class TestwerkzComponent implements OnInit {
           // console.log("answerContents",ans.contents)
           ans.contents.map((ansCont)=> {
             if(_that.isVideo(ansCont)){
-              console.log("ansCont~~~",ansCont)
+              // console.log("ansCont~~~",ansCont)
               // ansCont["duration"] = ansCont.end
               if(ansCont.duration != undefined){
                 ansCont["duration"] = ansCont.duration
@@ -2754,9 +2754,9 @@ export class TestwerkzComponent implements OnInit {
 
   //start put method
   updateConcept(id) {
-    console.log("---------------------");
-    console.log(this.performanceDemands);
-    console.log("---------------------", id);
+    // console.log("---------------------");
+    // console.log(this.performanceDemands);
+    // console.log("---------------------", id);
     this.blockUI.start("Loading...");
 
     async.map(
@@ -2774,7 +2774,7 @@ export class TestwerkzComponent implements OnInit {
     console.log(id);
     // API CALL
     // Question Creatoion Loop
-    console.log("PD LOOP", JSON.stringify(pd.questions));
+    // console.log("PD LOOP", JSON.stringify(pd.questions));
     async.map(
       pd.questions,
       _this.updateQuestions.bind(null, _this, pd, id),
@@ -2804,9 +2804,9 @@ export class TestwerkzComponent implements OnInit {
   updateConceptProcess(formattedPdIds, hello, cid) {
     // Create Concept
     // var moduleId = localStorage.getItem('moduleID')
-    console.log("this", hello);
-    console.log(formattedPdIds);
-    console.log(cid);
+    // console.log("this", hello);
+    // console.log(formattedPdIds);
+    // console.log(cid);
     const conceptFormat = {
       // "moduleId": moduleId,
       name: this.concept.name,
@@ -2833,8 +2833,8 @@ export class TestwerkzComponent implements OnInit {
   }
 
   updateQuestions(_this, pd, id, question, callback) {
-    console.log(pd);
-    console.log(question._id);
+    // console.log(pd);
+    // console.log(question._id);
     // Update quesiton object and pass it to api
     const testArr = [];
     const questionFormat = {
@@ -2957,24 +2957,24 @@ export class TestwerkzComponent implements OnInit {
         })
         tempObj.contents = tempAnsContentArr;
       }
-      console.log(tempObj);
+      // console.log(tempObj);
       testArr.push(tempObj);
-      console.log(testArr);
+      // console.log(testArr);
     });
     questionFormat.answers = testArr;
     questionFormat.questionType = question.questionType;
     questionFormat.question = question.question;
     questionFormat.html = question.html;
     questionFormat.contents=tempContentArray;
-    console.log(question._id);
+    // console.log(question._id);
     if (question._id == "" || question._id == undefined) {
-      console.log("is create");
+      // console.log("is create");
       _this._service.createPDQuestion(_this.regionID, questionFormat).subscribe(
         res => {
-          console.log(res);
+          // console.log(res);
           var questionId = JSON.parse(JSON.stringify(res));
 
-          console.log(questionId.meta._id);
+          // console.log(questionId.meta._id);
           callback(null, questionId.meta._id);
         },
         err => {
@@ -2987,7 +2987,7 @@ export class TestwerkzComponent implements OnInit {
         .updatePDQuestion(_this.regionID, questionFormat, question._id)
         .subscribe(
           res => {
-            console.log(res);
+            // console.log(res);
             var questionId = JSON.parse(JSON.stringify(res));
 
             console.log(questionId.meta._id);
@@ -3013,12 +3013,12 @@ export class TestwerkzComponent implements OnInit {
     imgId[0].style.display = "none";
   }
   updateQuesitonsDone(pd, _this, pdCallback, error, questionIds) {
-    console.log(pd);
-    console.log(_this);
-    console.log(error);
-    console.log(questionIds);
+    // console.log(pd);
+    // console.log(_this);
+    // console.log(error);
+    // console.log(questionIds);
     // const questionIds = questionIds;
-    console.log(pd.contentsArr);
+    // console.log(pd.contentsArr);
     const formattedQuestionIDs = questionIds.map(id => ({ questionId: id }));
 
     _this.updatePDProcess(_this, pd, formattedQuestionIDs, pdCallback);
@@ -3031,8 +3031,8 @@ export class TestwerkzComponent implements OnInit {
       questions: [],
       contents: []
     };
-    console.log(formattedQuestionIDs);
-    console.log(pd);
+    // console.log(formattedQuestionIDs);
+    // console.log(pd);
     const tempContentArray = [];
     pd.contents.map((contentObj, index) => {
       var tempContentObj = {
@@ -3082,8 +3082,8 @@ export class TestwerkzComponent implements OnInit {
         tempImgContentObj.sequence = ++index;
         tempContentArray.push(tempImgContentObj);
       }
-      console.log("###############contentObj._id",contentObj._id);
-      console.log("###",contentObj.contentId)
+      // console.log("###############contentObj._id",contentObj._id);
+      // console.log("###",contentObj.contentId)
       
       // tempContentArray.push(tempContentObj);
     });
@@ -3144,9 +3144,9 @@ export class TestwerkzComponent implements OnInit {
       return false;
   }
   onClickSettingArrow(e){
-    console.log(e)
-    console.log(this.focusType)
-    console.log(this.performanceDemands)
+    // console.log(e)
+    // console.log(this.focusType)
+    // console.log(this.performanceDemands)
     this.contentType = 'video';
     // if(this.isCollapse)
     //   this.getAllContent();

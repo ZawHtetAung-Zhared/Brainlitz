@@ -1,0 +1,118 @@
+<h3 class="pd-lft-15">Course Activities</h3>
+<div class="pd-lft-15 report-content">
+  <div class="row">
+    <div class="report-time-range d-flex flex-column col-md-4">
+      <div class="rpt-input-title">
+        Time
+      </div>
+      <div style="padding-top: 15px;position:relative;">
+
+        <span class="fa fa-calendar" id="calendarIcon"></span>
+        <input type="text" name="daterangeInput" daterangepicker [options]="options" (applyDaterangepicker)="applyDateRange($event,daterange)"  style="padding-left:30px;width:100%;" />
+      </div>
+    </div>
+    <div class="report-location-input d-flex flex-column col-md-8">
+      <div class="rpt-input-title">
+        Group by
+      </div>
+      <div style="padding-top: 15px">
+        <select id="courseGroupBy" class="form-control rpt-groupBy-opt" name="courseGroupBy" (change)="updateGraphUsingGroupBy($event)">
+          <option [selected]="0" *ngFor="let courseGroupBy of courseGroupByList; let i = index" value="{{courseGroupBy}}">{{
+            courseGroupBy }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column w-100 h-100" style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 30px;" *ngIf="reportData.length">
+    <div style="padding:15px;" class="row">
+      <div class="col-md-4">
+      <button class="btn btn-filter" (click)="showFilterModal(filterFields)">Filter Fields</button>
+      </div>
+        <div *ngIf="reportData.length" class="course-rpt-att-header col-md-8">
+          <div class="row">
+          <div class="col-md-4">
+            <div class="present-icon"></div>
+            <span>Present</span>
+          </div>
+          <div class="col-md-4">
+            <div class="absent-icon"></div>
+            <span>Absent</span>
+          </div>
+          <div class="col-md-4">
+            <div class="nottaken-icon"></div>
+            <span>Not Taken</span>
+          </div>
+          </div>
+      </div>
+    </div>
+    <div class="selected-filter-content" style="background: #f2f4f5;padding: 15px 0;" *ngIf="filter.value.length">
+      <div style="padding:15px;padding: 15px;width: 100%;height: 50px;">
+        <div style="float:left;"><span style="text-transform: capitalize">{{filter.type}} </span>is</div>
+        <div style="float:right;" class="remove-selected-filter remove-all-filters"  (click)="removeAllFilters()"><span>-</span></div>
+      </div>
+      <div *ngFor="let selectedItem of filter.value" class="selected-filter-value" style="display:inline-block;">
+        {{selectedItem}}
+        <div class="remove-selected-filter"  (click)="removeCurrentFilter(selectedItem)"><span>-</span></div>
+      </div>
+    </div>
+    <div class="rpt-content">
+      <course-graph  [reportItems]="reportData"></course-graph>
+    </div>
+  </div>
+  <div class="d-flex flex-column w-100 h-100" style="margin-top: 30px;" *ngIf="!reportData.length">
+    No data
+  </div>
+</div>
+
+<ng-template #filterFields let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title " id="modal-basic-title">Filter Fields</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
+    <div class="pd-top-15">
+      <select id="filterType" class="form-control" name="filterType" [(ngModel)]="filterModel" (change)="updateFilterType($event.target.value)">
+        <option [selected]="0" *ngFor="let filter of filterList; let i = index" value="{{filter}}">{{
+          filter }}
+        </option>
+      </select>
+    </div>
+    <div class="input-group col-md-12" style="padding:15px 0;">
+      <input
+        class="form-control py-2 input-search-bg"
+        type="search"
+        placeholder="Search"
+        id="staff-filter-search-input"
+        (focusout)="clearSearch($event)"
+        (input)="filterSearch($event.target.value)"
+        autocomplete="off"
+      >
+		    <span class="input-group-append">
+		        <button class="bt btn-design btn-outline-secondary" type="button">
+		            <i class="fa fa-search search-size"></i>
+		        </button>
+		     </span>
+    </div>
+    <div style="" class="search-result-box" *ngIf="searchResult.show == true">
+      <div class="single-result"  *ngFor="let suggestedItem of searchResult.value" (click)="selectFilter(suggestedItem)">
+        {{suggestedItem}}
+      </div>
+    </div>
+    <div class="selected-filter-content">
+        <span *ngFor="let selectedItem of filter.value" class="selected-filter-value">
+          {{selectedItem}}
+          <div class="remove-selected-filter"  (click)="removeCurrentFilter(selectedItem)"><span>-</span></div>
+        </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button class="btn btn-primary confirm-filter" (click)="applyFilters()">Confirm</button>
+      <button class="btn btn-default cancel-filter" (click)="modalReference.close()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

@@ -23,12 +23,14 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
         "../node_modules/select2/dist/css/select2.min.css",
-        "../node_modules/currency-flags/dist/currency-flags.min.css"
+        "../node_modules/currency-flags/dist/currency-flags.min.css",
+        "../node_modules/month-range-picker/picker.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-        "../node_modules/upndown/lib/upndown.bundle.js"
+        "../node_modules/upndown/lib/upndown.bundle.js",
+        "../node_modules/month-range-picker/datePicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
