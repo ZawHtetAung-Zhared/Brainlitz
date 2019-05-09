@@ -120,8 +120,8 @@ main {
 }
 
 .holidayModal .modal-dialog {
-  margin: 0 auto !important;
-  top: 30% !important;
+    margin: 0 auto !important;
+    top: 30%!important;
 }
 
 .modal-xl .modal-title {
@@ -178,7 +178,6 @@ main {
 
 ::-ms-input-placeholder {
   color: #c4c4c4 !important;
-
 }
 
 .select2-container .select2-selection--single {
@@ -514,8 +513,8 @@ span.scrollup.show:hover:before {
   border-radius: 50%;
   max-width: 100%;
   margin-top: -7px;
-  box-shadow: 5px 0px 0px -7px #d4d5d6, 6px 0px 0px -7px #d4d5d6, 7px 0px 0px -7px #d4d5d6, 8px 0px 0px -7px #d4d5d6, 9px 0px 0px -7px #d4d5d6, 10px 0px 0px -7px #d4d5d6, 11px 0px 0px -7px #d4d5d6, 12px 0px 0px -7px #d4d5d6, 13px 0px 0px -7px #d4d5d6, 14px 0px 0px -7px #d4d5d6, 15px 0px 0px -7px #d4d5d6, 16px 0px 0px -7px #d4d5d6, 17px 0px 0px -7px #d4d5d6, 18px 0px 0px -7px #d4d5d6, 19px 0px 0px -7px #d4d5d6, 20px 0px 0px -7px #d4d5d6, 21px 0px 0px -7px #d4d5d6, 22px 0px 0px -7px #d4d5d6, 23px 0px 0px -7px #d4d5d6, 24px 0px 0px -7px #d4d5d6, 25px 0px 0px -7px #d4d5d6, 26px 0px 0px -7px #d4d5d6, 27px 0px 0px -7px #d4d5d6, 28px 0px 0px -7px #d4d5d6, 29px 0px 0px -7px #d4d5d6, 30px 0px 0px -7px #d4d5d6, 31px 0px 0px -7px #d4d5d6, 32px 0px 0px -7px #d4d5d6, 33px 0px 0px -7px #d4d5d6, 34px 0px 0px -7px #d4d5d6, 35px 0px 0px -7px #d4d5d6, 36px 0px 0px -7px #d4d5d6, 37px 0px 0px -7px #d4d5d6, 38px 0px 0px -7px #d4d5d6, 39px 0px 0px -7px #d4d5d6, 40px 0px 0px -7px #d4d5d6, 41px 0px 0px -7px #d4d5d6, 42px 0px 0px -7px #d4d5d6, 43px 0px 0px -7px #d4d5d6, 44px 0px 0px -7px #d4d5d6, 45px 0px 0px -7px #d4d5d6, 46px 0px 0px -7px #d4d5d6, 47px 0px 0px -7px #d4d5d6, 48px 0px 0px -7px #d4d5d6, 49px 0px 0px -7px #d4d5d6, 50px 0px 0px -7px #d4d5d6, 51px 0px 0px -7px #d4d5d6, 52px 0px 0px -7px #d4d5d6, 53px 0px 0px -7px #d4d5d6, 54px 0px 0px -7px #d4d5d6, 55px 0px 0px -7px #d4d5d6, 56px 0px 0px -7px #d4d5d6, 57px 0px 0px -7px #d4d5d6, 58px 0px 0px -7px #d4d5d6, 59px 0px 0px -7px #d4d5d6, 60px 0px 0px -7px #d4d5d6, 61px 0px 0px -7px #d4d5d6, 62px 0px 0px -7px #d4d5d6, 63px 0px 0px -7px #d4d5d6, 64px 0px 0px -7px #d4d5d6, 65px 0px 0px -7px #d4d5d6, 66px 0px 0px -7px #d4d5d6, 67px 0px 0px -7px #d4d5d6, 68px 0px 0px -7px #d4d5d6, 69px 0px 0px -7px #d4d5d6, 70px 0px 0px -7px #d4d5d6, 71px 0px 0px -7px #d4d5d6, 72px 0px 0px -7px #d4d5d6, 73px 0px 0px -7px #d4d5d6, 74px 0px 0px -7px #d4d5d6, 75px 0px 0px -7px #d4d5d6, 76px 0px 0px -7px #d4d5d6, 77px 0px 0px -7px #d4d5d6, 78px 0px 0px -7px #d4d5d6, 79px 0px 0px -7px #d4d5d6, 80px 0px 0px -7px #d4d5d6, 81px 0px 0px -7px #d4d5d6, 82px 0px 0px -7px #d4d5d6, 83px 0px 0px -7px #d4d5d6, 84px 0px 0px -7px #d4d5d6, 85px 0px 0px -7px #d4d5d6, 86px 0px 0px -7px #d4d5d6, 87px 0px 0px -7px #d4d5d6, 88px 0px 0px -7px #d4d5d6, 89px 0px 0px -7px #d4d5d6, 90px 0px 0px -7px #d4d5d6, 91px 0px 0px -7px #d4d5d6, 92px 0px 0px -7px #d4d5d6, 93px 0px 0px -7px #d4d5d6, 94px 0px 0px -7px #d4d5d6, 95px 0px 0px -7px #d4d5d6, 96px 0px 0px -7px #d4d5d6, 97px 0px 0px -7px #d4d5d6, 98px 0px 0px -7px #d4d5d6, 99px 0px 0px -7px #d4d5d6, 100px 0px 0px -7px #d4d5d6, 101px 0px 0px -7px #d4d5d6, 102px 0px 0px -7px #d4d5d6, 103px 0px 0px -7px #d4d5d6, 104px 0px 0px -7px #d4d5d6, 105px 0px 0px -7px #d4d5d6, 106px 0px 0px -7px #d4d5d6, 107px 0px 0px -7px #d4d5d6, 108px 0px 0px -7px #d4d5d6, 109px 0px 0px -7px #d4d5d6, 110px 0px 0px -7px #d4d5d6, 111px 0px 0px -7px #d4d5d6, 112px 0px 0px -7px #d4d5d6, 113px 0px 0px -7px #d4d5d6, 114px 0px 0px -7px #d4d5d6, 115px 0px 0px -7px #d4d5d6, 116px 0px 0px -7px #d4d5d6, 117px 0px 0px -7px #d4d5d6, 118px 0px 0px -7px #d4d5d6, 119px 0px 0px -7px #d4d5d6, 120px 0px 0px -7px #d4d5d6, 121px 0px 0px -7px #d4d5d6, 122px 0px 0px -7px #d4d5d6, 123px 0px 0px -7px #d4d5d6, 124px 0px 0px -7px #d4d5d6, 125px 0px 0px -7px #d4d5d6, 126px 0px 0px -7px #d4d5d6, 127px 0px 0px -7px #d4d5d6, 128px 0px 0px -7px #d4d5d6, 129px 0px 0px -7px #d4d5d6, 130px 0px 0px -7px #d4d5d6, 131px 0px 0px -7px #d4d5d6, 132px 0px 0px -7px #d4d5d6, 133px 0px 0px -7px #d4d5d6, 134px 0px 0px -7px #d4d5d6, 135px 0px 0px -7px #d4d5d6, 136px 0px 0px -7px #d4d5d6, 137px 0px 0px -7px #d4d5d6, 138px 0px 0px -7px #d4d5d6, 139px 0px 0px -7px #d4d5d6, 140px 0px 0px -7px #d4d5d6, 141px 0px 0px -7px #d4d5d6, 142px 0px 0px -7px #d4d5d6, 143px 0px 0px -7px #d4d5d6, 144px 0px 0px -7px #d4d5d6, 145px 0px 0px -7px #d4d5d6, 146px 0px 0px -7px #d4d5d6, 147px 0px 0px -7px #d4d5d6, 148px 0px 0px -7px #d4d5d6, 149px 0px 0px -7px #d4d5d6, 150px 0px 0px -7px #d4d5d6, 151px 0px 0px -7px #d4d5d6, 152px 0px 0px -7px #d4d5d6, 153px 0px 0px -7px #d4d5d6, 154px 0px 0px -7px #d4d5d6, 155px 0px 0px -7px #d4d5d6, 156px 0px 0px -7px #d4d5d6, 157px 0px 0px -7px #d4d5d6, 158px 0px 0px -7px #d4d5d6, 159px 0px 0px -7px #d4d5d6, 160px 0px 0px -7px #d4d5d6, 161px 0px 0px -7px #d4d5d6, 162px 0px 0px -7px #d4d5d6, 163px 0px 0px -7px #d4d5d6, 164px 0px 0px -7px #d4d5d6, 165px 0px 0px -7px #d4d5d6, 166px 0px 0px -7px #d4d5d6, 167px 0px 0px -7px #d4d5d6, 168px 0px 0px -7px #d4d5d6, 169px 0px 0px -7px #d4d5d6, 170px 0px 0px -7px #d4d5d6, 171px 0px 0px -7px #d4d5d6, 172px 0px 0px -7px #d4d5d6, 173px 0px 0px -7px #d4d5d6, 174px 0px 0px -7px #d4d5d6, 175px 0px 0px -7px #d4d5d6, 176px 0px 0px -7px #d4d5d6, 177px 0px 0px -7px #d4d5d6, 178px 0px 0px -7px #d4d5d6, 179px 0px 0px -7px #d4d5d6, 180px 0px 0px -7px #d4d5d6, 181px 0px 0px -7px #d4d5d6, 182px 0px 0px -7px #d4d5d6, 183px 0px 0px -7px #d4d5d6, 184px 0px 0px -7px #d4d5d6, 185px 0px 0px -7px #d4d5d6, 186px 0px 0px -7px #d4d5d6, 187px 0px 0px -7px #d4d5d6, 188px 0px 0px -7px #d4d5d6, 189px 0px 0px -7px #d4d5d6, 190px 0px 0px -7px #d4d5d6, 191px 0px 0px -7px #d4d5d6, 192px 0px 0px -7px #d4d5d6, 193px 0px 0px -7px #d4d5d6, 194px 0px 0px -7px #d4d5d6, 195px 0px 0px -7px #d4d5d6, 196px 0px 0px -7px #d4d5d6, 197px 0px 0px -7px #d4d5d6, 198px 0px 0px -7px #d4d5d6, 199px 0px 0px -7px #d4d5d6, 200px 0px 0px -7px #d4d5d6, 201px 0px 0px -7px #d4d5d6, 202px 0px 0px -7px #d4d5d6, 203px 0px 0px -7px #d4d5d6, 204px 0px 0px -7px #d4d5d6, 205px 0px 0px -7px #d4d5d6, 206px 0px 0px -7px #d4d5d6, 207px 0px 0px -7px #d4d5d6, 208px 0px 0px -7px #d4d5d6, 209px 0px 0px -7px #d4d5d6, 210px 0px 0px -7px #d4d5d6, 211px 0px 0px -7px #d4d5d6, 212px 0px 0px -7px #d4d5d6, 213px 0px 0px -7px #d4d5d6, 214px 0px 0px -7px #d4d5d6, 215px 0px 0px -7px #d4d5d6, 216px 0px 0px -7px #d4d5d6, 217px 0px 0px -7px #d4d5d6, 218px 0px 0px -7px #d4d5d6, 219px 0px 0px -7px #d4d5d6, 220px 0px 0px -7px #d4d5d6, 221px 0px 0px -7px #d4d5d6, 222px 0px 0px -7px #d4d5d6, 223px 0px 0px -7px #d4d5d6, 224px 0px 0px -7px #d4d5d6, 225px 0px 0px -7px #d4d5d6, 226px 0px 0px -7px #d4d5d6, 227px 0px 0px -7px #d4d5d6, 228px 0px 0px -7px #d4d5d6, 229px 0px 0px -7px #d4d5d6, 230px 0px 0px -7px #d4d5d6, 231px 0px 0px -7px #d4d5d6, 232px 0px 0px -7px #d4d5d6, 233px 0px 0px -7px #d4d5d6, 234px 0px 0px -7px #d4d5d6, 235px 0px 0px -7px #d4d5d6, 236px 0px 0px -7px #d4d5d6, 237px 0px 0px -7px #d4d5d6, 238px 0px 0px -7px #d4d5d6, 239px 0px 0px -7px #d4d5d6, 240px 0px 0px -7px #d4d5d6,
-    241px 0px 0px -7px #d4d5d6, 242px 0px 0px -7px #d4d5d6, 243px 0px 0px -7px #d4d5d6, 244px 0px 0px -7px #d4d5d6, 245px 0px 0px -7px #d4d5d6, 246px 0px 0px -7px #d4d5d6, 247px 0px 0px -7px #d4d5d6, 248px 0px 0px -7px #d4d5d6, 249px 0px 0px -7px #d4d5d6, 250px 0px 0px -7px #d4d5d6, 251px 0px 0px -7px #d4d5d6, 252px 0px 0px -7px #d4d5d6, 253px 0px 0px -7px #d4d5d6, 254px 0px 0px -7px #d4d5d6, 255px 0px 0px -7px #d4d5d6, 256px 0px 0px -7px #d4d5d6, 257px 0px 0px -7px #d4d5d6, 258px 0px 0px -7px #d4d5d6, 259px 0px 0px -7px #d4d5d6, 260px 0px 0px -7px #d4d5d6, 261px 0px 0px -7px #d4d5d6, 262px 0px 0px -7px #d4d5d6, 263px 0px 0px -7px #d4d5d6, 264px 0px 0px -7px #d4d5d6, 265px 0px 0px -7px #d4d5d6, 266px 0px 0px -7px #d4d5d6, 267px 0px 0px -7px #d4d5d6, 268px 0px 0px -7px #d4d5d6, 269px 0px 0px -7px #d4d5d6, 270px 0px 0px -7px #d4d5d6, 271px 0px 0px -7px #d4d5d6, 272px 0px 0px -7px #d4d5d6, 273px 0px 0px -7px #d4d5d6, 274px 0px 0px -7px #d4d5d6, 275px 0px 0px -7px #d4d5d6, 276px 0px 0px -7px #d4d5d6, 277px 0px 0px -7px #d4d5d6, 278px 0px 0px -7px #d4d5d6, 279px 0px 0px -7px #d4d5d6, 280px 0px 0px -7px #d4d5d6, 281px 0px 0px -7px #d4d5d6, 282px 0px 0px -7px #d4d5d6, 283px 0px 0px -7px #d4d5d6, 284px 0px 0px -7px #d4d5d6, 285px 0px 0px -7px #d4d5d6, 286px 0px 0px -7px #d4d5d6, 287px 0px 0px -7px #d4d5d6, 288px 0px 0px -7px #d4d5d6, 289px 0px 0px -7px #d4d5d6, 290px 0px 0px -7px #d4d5d6, 291px 0px 0px -7px #d4d5d6, 292px 0px 0px -7px #d4d5d6, 293px 0px 0px -7px #d4d5d6, 294px 0px 0px -7px #d4d5d6, 295px 0px 0px -7px #d4d5d6, 296px 0px 0px -7px #d4d5d6, 297px 0px 0px -7px #d4d5d6, 298px 0px 0px -7px #d4d5d6, 299px 0px 0px -7px #d4d5d6, 300px 0px 0px -7px #d4d5d6, 301px 0px 0px -7px #d4d5d6, 302px 0px 0px -7px #d4d5d6, 303px 0px 0px -7px #d4d5d6, 304px 0px 0px -7px #d4d5d6, 305px 0px 0px -7px #d4d5d6, 306px 0px 0px -7px #d4d5d6, 307px 0px 0px -7px #d4d5d6, 308px 0px 0px -7px #d4d5d6, 309px 0px 0px -7px #d4d5d6, 310px 0px 0px -7px #d4d5d6;
+  box-shadow: 5px 0px 0px -7px #d4d5d6, 6px 0px 0px -7px #d4d5d6, 7px 0px 0px -7px #d4d5d6, 8px 0px 0px -7px #d4d5d6, 9px 0px 0px -7px #d4d5d6, 10px 0px 0px -7px #d4d5d6,11px 0px 0px -7px #d4d5d6, 12px 0px 0px -7px #d4d5d6, 13px 0px 0px -7px #d4d5d6,14px 0px 0px -7px #d4d5d6, 15px 0px 0px -7px #d4d5d6, 16px 0px 0px -7px #d4d5d6,17px 0px 0px -7px #d4d5d6, 18px 0px 0px -7px #d4d5d6, 19px 0px 0px -7px #d4d5d6,20px 0px 0px -7px #d4d5d6, 21px 0px 0px -7px #d4d5d6, 22px 0px 0px -7px #d4d5d6,23px 0px 0px -7px #d4d5d6, 24px 0px 0px -7px #d4d5d6, 25px 0px 0px -7px #d4d5d6,26px 0px 0px -7px #d4d5d6, 27px 0px 0px -7px #d4d5d6, 28px 0px 0px -7px #d4d5d6,29px 0px 0px -7px #d4d5d6, 30px 0px 0px -7px #d4d5d6, 31px 0px 0px -7px #d4d5d6,32px 0px 0px -7px #d4d5d6, 33px 0px 0px -7px #d4d5d6, 34px 0px 0px -7px #d4d5d6,35px 0px 0px -7px #d4d5d6, 36px 0px 0px -7px #d4d5d6, 37px 0px 0px -7px #d4d5d6,38px 0px 0px -7px #d4d5d6, 39px 0px 0px -7px #d4d5d6, 40px 0px 0px -7px #d4d5d6,41px 0px 0px -7px #d4d5d6, 42px 0px 0px -7px #d4d5d6, 43px 0px 0px -7px #d4d5d6,44px 0px 0px -7px #d4d5d6, 45px 0px 0px -7px #d4d5d6, 46px 0px 0px -7px #d4d5d6,47px 0px 0px -7px #d4d5d6, 48px 0px 0px -7px #d4d5d6, 49px 0px 0px -7px #d4d5d6,50px 0px 0px -7px #d4d5d6, 51px 0px 0px -7px #d4d5d6, 52px 0px 0px -7px #d4d5d6,53px 0px 0px -7px #d4d5d6, 54px 0px 0px -7px #d4d5d6, 55px 0px 0px -7px #d4d5d6,56px 0px 0px -7px #d4d5d6, 57px 0px 0px -7px #d4d5d6, 58px 0px 0px -7px #d4d5d6,59px 0px 0px -7px #d4d5d6, 60px 0px 0px -7px #d4d5d6, 61px 0px 0px -7px #d4d5d6,62px 0px 0px -7px #d4d5d6, 63px 0px 0px -7px #d4d5d6, 64px 0px 0px -7px #d4d5d6,65px 0px 0px -7px #d4d5d6, 66px 0px 0px -7px #d4d5d6, 67px 0px 0px -7px #d4d5d6,68px 0px 0px -7px #d4d5d6, 69px 0px 0px -7px #d4d5d6, 70px 0px 0px -7px #d4d5d6,71px 0px 0px -7px #d4d5d6, 72px 0px 0px -7px #d4d5d6, 73px 0px 0px -7px #d4d5d6,74px 0px 0px -7px #d4d5d6, 75px 0px 0px -7px #d4d5d6, 76px 0px 0px -7px #d4d5d6,77px 0px 0px -7px #d4d5d6, 78px 0px 0px -7px #d4d5d6, 79px 0px 0px -7px #d4d5d6,80px 0px 0px -7px #d4d5d6, 81px 0px 0px -7px #d4d5d6, 82px 0px 0px -7px #d4d5d6,83px 0px 0px -7px #d4d5d6, 84px 0px 0px -7px #d4d5d6, 85px 0px 0px -7px #d4d5d6,86px 0px 0px -7px #d4d5d6, 87px 0px 0px -7px #d4d5d6, 88px 0px 0px -7px #d4d5d6,89px 0px 0px -7px #d4d5d6, 90px 0px 0px -7px #d4d5d6, 91px 0px 0px -7px #d4d5d6,92px 0px 0px -7px #d4d5d6, 93px 0px 0px -7px #d4d5d6, 94px 0px 0px -7px #d4d5d6,95px 0px 0px -7px #d4d5d6, 96px 0px 0px -7px #d4d5d6, 97px 0px 0px -7px #d4d5d6,98px 0px 0px -7px #d4d5d6, 99px 0px 0px -7px #d4d5d6, 100px 0px 0px -7px #d4d5d6,101px 0px 0px -7px #d4d5d6, 102px 0px 0px -7px #d4d5d6, 103px 0px 0px -7px #d4d5d6,104px 0px 0px -7px #d4d5d6, 105px 0px 0px -7px #d4d5d6, 106px 0px 0px -7px #d4d5d6,107px 0px 0px -7px #d4d5d6, 108px 0px 0px -7px #d4d5d6, 109px 0px 0px -7px #d4d5d6,110px 0px 0px -7px #d4d5d6, 111px 0px 0px -7px #d4d5d6, 112px 0px 0px -7px #d4d5d6,113px 0px 0px -7px #d4d5d6, 114px 0px 0px -7px #d4d5d6, 115px 0px 0px -7px #d4d5d6,116px 0px 0px -7px #d4d5d6, 117px 0px 0px -7px #d4d5d6, 118px 0px 0px -7px #d4d5d6,119px 0px 0px -7px #d4d5d6, 120px 0px 0px -7px #d4d5d6, 121px 0px 0px -7px #d4d5d6,122px 0px 0px -7px #d4d5d6, 123px 0px 0px -7px #d4d5d6, 124px 0px 0px -7px #d4d5d6,125px 0px 0px -7px #d4d5d6, 126px 0px 0px -7px #d4d5d6, 127px 0px 0px -7px #d4d5d6,128px 0px 0px -7px #d4d5d6, 129px 0px 0px -7px #d4d5d6, 130px 0px 0px -7px #d4d5d6,131px 0px 0px -7px #d4d5d6, 132px 0px 0px -7px #d4d5d6, 133px 0px 0px -7px #d4d5d6,134px 0px 0px -7px #d4d5d6, 135px 0px 0px -7px #d4d5d6, 136px 0px 0px -7px #d4d5d6,137px 0px 0px -7px #d4d5d6, 138px 0px 0px -7px #d4d5d6, 139px 0px 0px -7px #d4d5d6,140px 0px 0px -7px #d4d5d6, 141px 0px 0px -7px #d4d5d6, 142px 0px 0px -7px #d4d5d6,143px 0px 0px -7px #d4d5d6, 144px 0px 0px -7px #d4d5d6, 145px 0px 0px -7px #d4d5d6,146px 0px 0px -7px #d4d5d6, 147px 0px 0px -7px #d4d5d6, 148px 0px 0px -7px #d4d5d6,149px 0px 0px -7px #d4d5d6, 150px 0px 0px -7px #d4d5d6, 151px 0px 0px -7px #d4d5d6,152px 0px 0px -7px #d4d5d6, 153px 0px 0px -7px #d4d5d6, 154px 0px 0px -7px #d4d5d6,155px 0px 0px -7px #d4d5d6, 156px 0px 0px -7px #d4d5d6, 157px 0px 0px -7px #d4d5d6,158px 0px 0px -7px #d4d5d6, 159px 0px 0px -7px #d4d5d6, 160px 0px 0px -7px #d4d5d6,161px 0px 0px -7px #d4d5d6, 162px 0px 0px -7px #d4d5d6, 163px 0px 0px -7px #d4d5d6,164px 0px 0px -7px #d4d5d6, 165px 0px 0px -7px #d4d5d6, 166px 0px 0px -7px #d4d5d6,167px 0px 0px -7px #d4d5d6, 168px 0px 0px -7px #d4d5d6, 169px 0px 0px -7px #d4d5d6,170px 0px 0px -7px #d4d5d6, 171px 0px 0px -7px #d4d5d6, 172px 0px 0px -7px #d4d5d6,173px 0px 0px -7px #d4d5d6, 174px 0px 0px -7px #d4d5d6, 175px 0px 0px -7px #d4d5d6,176px 0px 0px -7px #d4d5d6, 177px 0px 0px -7px #d4d5d6, 178px 0px 0px -7px #d4d5d6,179px 0px 0px -7px #d4d5d6, 180px 0px 0px -7px #d4d5d6, 181px 0px 0px -7px #d4d5d6,182px 0px 0px -7px #d4d5d6, 183px 0px 0px -7px #d4d5d6, 184px 0px 0px -7px #d4d5d6,185px 0px 0px -7px #d4d5d6, 186px 0px 0px -7px #d4d5d6, 187px 0px 0px -7px #d4d5d6,188px 0px 0px -7px #d4d5d6, 189px 0px 0px -7px #d4d5d6, 190px 0px 0px -7px #d4d5d6,191px 0px 0px -7px #d4d5d6, 192px 0px 0px -7px #d4d5d6, 193px 0px 0px -7px #d4d5d6,194px 0px 0px -7px #d4d5d6, 195px 0px 0px -7px #d4d5d6, 196px 0px 0px -7px #d4d5d6,197px 0px 0px -7px #d4d5d6, 198px 0px 0px -7px #d4d5d6, 199px 0px 0px -7px #d4d5d6,200px 0px 0px -7px #d4d5d6, 201px 0px 0px -7px #d4d5d6, 202px 0px 0px -7px #d4d5d6,203px 0px 0px -7px #d4d5d6, 204px 0px 0px -7px #d4d5d6, 205px 0px 0px -7px #d4d5d6,206px 0px 0px -7px #d4d5d6, 207px 0px 0px -7px #d4d5d6, 208px 0px 0px -7px #d4d5d6,209px 0px 0px -7px #d4d5d6, 210px 0px 0px -7px #d4d5d6, 211px 0px 0px -7px #d4d5d6,212px 0px 0px -7px #d4d5d6, 213px 0px 0px -7px #d4d5d6, 214px 0px 0px -7px #d4d5d6,215px 0px 0px -7px #d4d5d6, 216px 0px 0px -7px #d4d5d6, 217px 0px 0px -7px #d4d5d6,218px 0px 0px -7px #d4d5d6, 219px 0px 0px -7px #d4d5d6, 220px 0px 0px -7px #d4d5d6,221px 0px 0px -7px #d4d5d6, 222px 0px 0px -7px #d4d5d6, 223px 0px 0px -7px #d4d5d6,224px 0px 0px -7px #d4d5d6, 225px 0px 0px -7px #d4d5d6, 226px 0px 0px -7px #d4d5d6,227px 0px 0px -7px #d4d5d6, 228px 0px 0px -7px #d4d5d6, 229px 0px 0px -7px #d4d5d6,230px 0px 0px -7px #d4d5d6, 231px 0px 0px -7px #d4d5d6, 232px 0px 0px -7px #d4d5d6,233px 0px 0px -7px #d4d5d6, 234px 0px 0px -7px #d4d5d6, 235px 0px 0px -7px #d4d5d6,236px 0px 0px -7px #d4d5d6, 237px 0px 0px -7px #d4d5d6, 238px 0px 0px -7px #d4d5d6,239px 0px 0px -7px #d4d5d6, 240px 0px 0px -7px #d4d5d6,
+  241px 0px 0px -7px #d4d5d6, 242px 0px 0px -7px #d4d5d6, 243px 0px 0px -7px #d4d5d6, 244px 0px 0px -7px #d4d5d6, 245px 0px 0px -7px #d4d5d6, 246px 0px 0px -7px #d4d5d6,247px 0px 0px -7px #d4d5d6, 248px 0px 0px -7px #d4d5d6, 249px 0px 0px -7px #d4d5d6,250px 0px 0px -7px #d4d5d6,251px 0px 0px -7px #d4d5d6,252px 0px 0px -7px #d4d5d6,253px 0px 0px -7px #d4d5d6,254px 0px 0px -7px #d4d5d6,255px 0px 0px -7px #d4d5d6, 256px 0px 0px -7px #d4d5d6, 257px 0px 0px -7px #d4d5d6,258px 0px 0px -7px #d4d5d6, 259px 0px 0px -7px #d4d5d6, 260px 0px 0px -7px #d4d5d6,261px 0px 0px -7px #d4d5d6, 262px 0px 0px -7px #d4d5d6, 263px 0px 0px -7px #d4d5d6,264px 0px 0px -7px #d4d5d6, 265px 0px 0px -7px #d4d5d6, 266px 0px 0px -7px #d4d5d6,267px 0px 0px -7px #d4d5d6, 268px 0px 0px -7px #d4d5d6, 269px 0px 0px -7px #d4d5d6,270px 0px 0px -7px #d4d5d6, 271px 0px 0px -7px #d4d5d6, 272px 0px 0px -7px #d4d5d6,273px 0px 0px -7px #d4d5d6, 274px 0px 0px -7px #d4d5d6, 275px 0px 0px -7px #d4d5d6,276px 0px 0px -7px #d4d5d6, 277px 0px 0px -7px #d4d5d6, 278px 0px 0px -7px #d4d5d6,279px 0px 0px -7px #d4d5d6, 280px 0px 0px -7px #d4d5d6, 281px 0px 0px -7px #d4d5d6,282px 0px 0px -7px #d4d5d6, 283px 0px 0px -7px #d4d5d6, 284px 0px 0px -7px #d4d5d6,285px 0px 0px -7px #d4d5d6, 286px 0px 0px -7px #d4d5d6, 287px 0px 0px -7px #d4d5d6,288px 0px 0px -7px #d4d5d6, 289px 0px 0px -7px #d4d5d6, 290px 0px 0px -7px #d4d5d6,291px 0px 0px -7px #d4d5d6, 292px 0px 0px -7px #d4d5d6, 293px 0px 0px -7px #d4d5d6,294px 0px 0px -7px #d4d5d6, 295px 0px 0px -7px #d4d5d6, 296px 0px 0px -7px #d4d5d6,297px 0px 0px -7px #d4d5d6, 298px 0px 0px -7px #d4d5d6, 299px 0px 0px -7px #d4d5d6,300px 0px 0px -7px #d4d5d6, 301px 0px 0px -7px #d4d5d6, 302px 0px 0px -7px #d4d5d6, 303px 0px 0px -7px #d4d5d6, 304px 0px 0px -7px #d4d5d6, 305px 0px 0px -7px #d4d5d6, 306px 0px 0px -7px #d4d5d6, 307px 0px 0px -7px #d4d5d6, 308px 0px 0px -7px #d4d5d6, 309px 0px 0px -7px #d4d5d6, 310px 0px 0px -7px #d4d5d6;
 }
 
 .progress-bar {
@@ -586,4 +585,490 @@ border:0px !important;
     /* make visible modal body and header */
     /*display: block;*/
   }
+}
+.daterangepicker {
+  position: absolute;
+  font-family: 'Montserrat-Medium';
+  font-size: 16px;
+  color: #2e3d4d;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  width: 278px;
+  max-width: none;
+  padding: 0;
+  margin-top: 7px;
+  top: 100px;
+  left: 20px;
+  z-index: 3001;
+  display: none;
+  line-height: 1em
+}
+
+.daterangepicker:after, .daterangepicker:before {
+  position: absolute;
+  display: inline-block;
+  content: ''
+}
+
+.daterangepicker:before {
+  top: -7px;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 7px solid #ccc
+}
+
+.daterangepicker:after {
+  top: -6px;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fff;
+  border-left: 6px solid transparent
+}
+
+.daterangepicker.opensleft:before {
+  right: 9px
+}
+
+.daterangepicker.opensleft:after {
+  right: 10px
+}
+
+.daterangepicker.openscenter:after, .daterangepicker.openscenter:before {
+  left: 0;
+  right: 0;
+  width: 0;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.daterangepicker.opensright:before {
+  left: 9px
+}
+
+.daterangepicker.opensright:after {
+  left: 10px
+}
+
+.daterangepicker.drop-up {
+  margin-top: -7px
+}
+
+.daterangepicker.drop-up:before {
+  top: initial;
+  bottom: -7px;
+  border-bottom: initial;
+  border-top: 7px solid #ccc
+}
+
+.daterangepicker.drop-up:after {
+  top: initial;
+  bottom: -6px;
+  border-bottom: initial;
+  border-top: 6px solid #fff
+}
+
+.daterangepicker.single .daterangepicker .ranges, .daterangepicker.single .drp-calendar {
+  float: none
+}
+
+.daterangepicker.single .drp-selected {
+  display: none
+}
+
+.daterangepicker.show-calendar .drp-buttons, .daterangepicker.show-calendar .drp-calendar {
+  display: block
+}
+
+.daterangepicker.auto-apply .drp-buttons {
+  display: none
+}
+
+.daterangepicker .drp-calendar {
+  display: none;
+  /*max-width: 270px*/
+}
+
+.daterangepicker .drp-calendar.left {
+  padding: 8px 0 8px 8px
+}
+
+.daterangepicker .drp-calendar.right {
+  padding: 8px
+}
+
+.daterangepicker .drp-calendar.single .calendar-table {
+  border: none
+}
+
+.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+  color: #fff;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  border-radius: 0;
+  display: inline-block;
+  padding: 3px
+}
+
+.daterangepicker .calendar-table .next span {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg)
+}
+
+.daterangepicker .calendar-table .prev span {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg)
+}
+
+.daterangepicker .calendar-table td, .daterangepicker .calendar-table th {
+  text-align: center;
+  vertical-align: middle;
+  min-width: 48px;
+  width: 48px;
+  height: 42px;
+  line-height: 24px;
+  font-size: 12px;
+  /*border-radius: 4px;*/
+
+  white-space: nowrap;
+  cursor: pointer
+}
+
+.daterangepicker .calendar-table {
+  border: 1px solid #fff;
+  border-radius: 4px;
+  background-color: #fff
+}
+
+.daterangepicker .calendar-table table {
+  width: 100%;
+  margin: 0;
+  border-spacing: 0;
+  border-collapse: collapse
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+  background-color: #eee;
+  border-color: transparent;
+  color: inherit
+}
+
+.daterangepicker td.week, .daterangepicker th.week {
+  font-size: 80%;
+  color: #ccc
+}
+
+.daterangepicker td.off, .daterangepicker td.off.end-date, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date {
+  background-color: #fff;
+  /*border-color: transparent;*/
+  color: #999
+}
+
+td.available {
+  border: 1px solid#edeff0;
+}
+.daterangepicker td.in-range {
+  background-color: #cce6ff;
+  color: #000;
+  border-radius: 0;
+  border-style: double;
+}
+td.range.available{
+  border: 1px solid#80bfff;
+}
+td.off{
+  border: 1px solid#edeff0;
+
+}
+
+
+.daterangepicker td.start-date {
+  /*border-radius: 4px 0 0 4px*/
+}
+
+.daterangepicker td.end-date {
+  /*border-radius: 0 4px 4px 0*/
+}
+
+.daterangepicker td.start-date.end-date {
+  /*border-radius: 4px*/
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+  background-color: #357ebd;
+  border-color: transparent;
+  color: #fff
+}
+
+.daterangepicker th.month {
+  width: auto
+}
+
+.daterangepicker option.disabled, .daterangepicker td.disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: line-through
+}
+
+.daterangepicker select.monthselect, .daterangepicker select.yearselect {
+  font-size: 12px;
+  padding: 1px;
+  height: auto;
+  margin: 0;
+  cursor: default
+}
+
+.daterangepicker select.monthselect {
+  margin-right: 2%;
+  width: 56%
+}
+
+.daterangepicker select.yearselect {
+  width: 40%
+}
+
+.daterangepicker select.ampmselect, .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect {
+  width: 50px;
+  margin: 0 auto;
+  background: #eee;
+  border: 1px solid #eee;
+  padding: 2px;
+  outline: 0;
+  font-size: 12px
+}
+
+.daterangepicker .calendar-time {
+  text-align: center;
+  margin: 4px auto 0;
+  line-height: 30px;
+  position: relative
+}
+
+.daterangepicker .calendar-time select.disabled {
+  color: #ccc;
+  cursor: not-allowed
+}
+
+.daterangepicker .drp-buttons {
+  clear: both;
+  text-align: right;
+  padding: 8px;
+  border-top: 1px solid #ddd;
+  display: none;
+  line-height: 12px;
+  vertical-align: middle
+}
+
+.daterangepicker .drp-selected {
+  display: inline-block;
+  font-size: 12px;
+  padding-right: 8px
+}
+
+.daterangepicker .drp-buttons .btn {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 8px
+}
+
+.daterangepicker.show-ranges .drp-calendar.left {
+  /*border-left: 1px solid #ddd*/
+}
+
+.daterangepicker .ranges {
+  float: none;
+  text-align: left;
+  margin: 0
+}
+
+.daterangepicker.show-calendar .ranges {
+  margin-top: 8px
+}
+
+.daterangepicker .ranges ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%
+}
+
+.daterangepicker .ranges li {
+  font-size: 12px;
+  padding: 8px 12px;
+  cursor: pointer
+}
+
+.daterangepicker .ranges li:hover {
+  background-color: #eee
+}
+
+.daterangepicker .ranges li.active {
+  background-color: #08c;
+  color: #fff
+}
+
+@media (min-width: 564px) {
+  .daterangepicker.ltr .drp-calendar.right .calendar-table, .daterangepicker.rtl .drp-calendar.left .calendar-table {
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0
+  }
+
+  .daterangepicker.ltr .drp-calendar.left .calendar-table, .daterangepicker.rtl .drp-calendar.right .calendar-table {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0
+  }
+
+  .daterangepicker {
+    width: auto
+  }
+
+  .daterangepicker .ranges ul {
+    width: 140px
+  }
+
+  .daterangepicker.single .ranges ul {
+    width: 100%
+  }
+
+  .daterangepicker.single .drp-calendar.left {
+    clear: none
+  }
+
+  .daterangepicker.single.ltr .drp-calendar, .daterangepicker.single.ltr .ranges {
+    float: left
+  }
+
+  .daterangepicker.single.rtl .drp-calendar, .daterangepicker.single.rtl .ranges {
+    float: right
+  }
+
+  .daterangepicker.ltr {
+    direction: ltr;
+    text-align: left
+  }
+
+  .daterangepicker.ltr .drp-calendar.left {
+    clear: left;
+    margin-right: 0
+  }
+
+  .daterangepicker.ltr .drp-calendar.left .calendar-table {
+    padding-right: 8px
+  }
+
+  .daterangepicker.ltr .drp-calendar.right {
+    margin-left: 0
+  }
+
+  .daterangepicker.ltr .drp-calendar, .daterangepicker.ltr .ranges {
+    float: left
+  }
+
+  .daterangepicker.rtl {
+    direction: rtl;
+    text-align: right
+  }
+
+  .daterangepicker.rtl .drp-calendar.left {
+    clear: right;
+    margin-left: 0
+  }
+
+  .daterangepicker.rtl .drp-calendar.left .calendar-table {
+    padding-left: 12px
+  }
+
+  .daterangepicker.rtl .drp-calendar.right {
+    margin-right: 0
+  }
+
+  .daterangepicker.rtl .drp-calendar, .daterangepicker.rtl .ranges {
+    text-align: right;
+    float: right
+  }
+}
+
+@media (min-width: 730px) {
+  .daterangepicker .ranges {
+    width: auto
+  }
+
+  .daterangepicker.ltr .ranges {
+    float: left
+  }
+
+  .daterangepicker.rtl .ranges {
+    float: right
+  }
+
+  .daterangepicker .drp-calendar.left {
+    clear: none !important
+  }
+}
+
+.daterangepicker .calendar-table th {
+  font-size: 14px;
+  color:#788796;
+  font-weight: 500;
+}
+.daterangepicker th.month{
+  font-size: 18px;
+  color:#2e3e4d;
+  font-weight: 600;
+}
+.daterangepicker .applyBtn{
+  background-color: #007fff !important;
+  color: #ffffff !important;
+  min-width: 96px !important;
+  font-size: 16px !important;
+}
+.daterangepicker .cancelBtn{
+  color:#2e3d4d !important;
+  min-width: 96px !important;
+  font-size: 16px !important;
+}
+.daterangepicker .drp-selected{
+  width:100%;
+}
+.daterangepicker .drp-left,.daterangepicker .drp-right{
+  width:50%;
+  display: inline-block;
+  padding: 10px 20px 0;
+  text-align: left;
+}
+.startDate-title,.endDate-title{
+  font-size: 18px;
+  padding: 10px 0;
+}
+.drp-selected-startDate,.drp-selected-endDate{
+  background: #f2f4f5;
+  color:#2e3d4d;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px 0 15px 10px;
+}
+.daterangepicker .ranges select{
+  width: 100%;
+  height: 44px;
+  border-radius: 4px;
+  border: none;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: Montserrat-Semibold;
+  font-size: 16px;
+  font-weight: 600;
+}
+.daterangepicker .ranges{
+  width: 100%;
+  padding: 10px 0px;
+}
+.drp-range-selection{
+  padding: 15px 20px;
+}
+.drp-range-title {
+  font-size: 18px;
+  color: #64707d;
 }

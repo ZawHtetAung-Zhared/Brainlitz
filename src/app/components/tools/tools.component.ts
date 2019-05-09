@@ -23,6 +23,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('instance') instance: NgbTypeahead;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('mainScreen') elementView: ElementRef;
+  @ViewChild('notiForm') notiform;
 
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -757,6 +758,7 @@ export class ToolsComponent implements OnInit {
       if(this.isChecked == 'user' || this.isChecked == 'category' ||this.isChecked == 'course' ){
         this.userCount = 0;
       }
+      this.notiform.resetForm();
       // location.reload();
     }, err => {
       this.toastr.error('Notify fail');
