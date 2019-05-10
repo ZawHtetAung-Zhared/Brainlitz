@@ -1683,10 +1683,10 @@ ul.search-apg{
         -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
         background-color: #ffffff;
-        padding: 48px;
+        padding: 45px 45px 0px 45px;
         height: 640px;
         width: 1004px;
-        overflow: overlay;
+        /*overflow: overlay;*/
       }
 
       .button-wrapper{
@@ -1695,8 +1695,13 @@ ul.search-apg{
         bottom: 0;
         border-top: none;
         padding: unset;
+        padding-top: 20px;
       }
 
+      .overlay-wrapper{
+        height: 520px;
+        overflow: overlay;
+      }
       
       .div_step1,.div_step2,.div_step3,.div_step4,.div_step5,.div_step6,.div_step7,.div_step8{
         /*height: 77em;*/
@@ -1713,12 +1718,12 @@ ul.search-apg{
         height: 450px;
       }
 
-      .div_step2 .button-wrapper{
+      /*.div_step2 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 10px   ;
         padding-left: 0;
-      }
+      }*/
 
       .div_step2 .sticky-create{
         right: 12em;
@@ -1741,23 +1746,23 @@ ul.search-apg{
         right: 12em;
       }
 
-      .div_step4 .button-wrapper{
+      /*.div_step4 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 17.1em;
         padding-left: 0;
-      }
+      }*/
 
       .div_step5 .sticky-create{
         right: 12em;
       }
 
-      .div_step5 .button-wrapper{
+      /*.div_step5 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 10px;
         padding-left: 0;
-      }
+      }*/
       .not_allowPagewekz{
         height: 365px;
       }
@@ -1769,25 +1774,25 @@ ul.search-apg{
         right: 11em;
       }
 
-      .div_step6 .button-wrapper{
+      /*.div_step6 .button-wrapper{
         border-top: none;
         padding: 0;
         left: 12em;     
         background: no-repeat;
         padding-top: 63px;
-      }
+      }*/
       
 
       .div_step7 .sticky-create{
         right: 12em;
       }
 
-      .div_step7 .button-wrapper{
+     /* .div_step7 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 30px;
         padding-left: 0;
-      }
+      }*/
 
       .show-count{
         margin-right: 95px;
