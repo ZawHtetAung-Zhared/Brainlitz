@@ -347,7 +347,7 @@
       </div>
       <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
         <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
-            <img src="/assets/images/un-thunder-flash-w.png" />
+            <img src="/assets/images/thunder-flash-g.png" />
         </div>
         <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
       </div>
@@ -355,7 +355,7 @@
         <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
           <!-- <span class="detail-dot"></span> -->
           <div class="flashImg">
-              <img src="/assets/images/un-thunder-flash-w.png" />
+              <img src="/assets/images/thunder-flash-g.png" />
           </div>
           <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
         </div>

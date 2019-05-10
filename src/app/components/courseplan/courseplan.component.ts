@@ -210,9 +210,14 @@ export class CourseplanComponent implements OnInit {
         }else{
           this.addFeeOption();
         }
-        this.selectedAPlans = res.assessmentPlans;
-        for(var i in res.assessmentPlans){
-          this.selectedAPidList.push(res.assessmentPlans[i]._id)
+
+        this.selectedAPlans = this.formField.assessmentPlans;
+        for(var i = 0; i < this.selectedAPlans.length; i++){
+          this.selectedAPlans[i]["isExpand"] = false;
+        }
+        console.log("this.selectedAPlans",this.selectedAPlans)
+        for(var i=0;i<this.formField.assessmentPlans.length;i++){
+          this.selectedAPidList.push(this.formField.assessmentPlans[i]._id)
         }
         // this.getAllHolidaysCalendar();
         console.log("calendar", this.holidayCalendarLists);
@@ -785,8 +790,10 @@ export class CourseplanComponent implements OnInit {
  selectedAPidList=[];
   selectAssessmentPlan(plan){
     this.showPlans = false;
+    plan["isExpand"] = false;
     this.selectedAPlans.push(plan);
     this.selectedAPidList.push(plan._id);
+    console.log("this.selectedAPlans",this.selectedAPlans)
   }
 
   removeSelectedAPlan(data){
@@ -798,6 +805,10 @@ export class CourseplanComponent implements OnInit {
     })
     this.selectedAPlans.splice(index,1);
     this.selectedAPidList.splice(idx,1)
+  }
+
+  expandConcept(idx){
+    this.selectedAPlans[idx].isExpand = !this.selectedAPlans[idx].isExpand;
   }
 
   selectData(id, name) {

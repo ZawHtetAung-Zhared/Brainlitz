@@ -580,12 +580,30 @@
 							</div>
 							<div *ngIf="!showPlans && selectedAPlans?.length>0" class="col-md-12 pl-zero">
 								<div class="wrap-height">
-									<div *ngFor="let selectedPlan of selectedAPlans">
-										<div class="group-text">
-											<button type="button" class="bt btn-apg" (click)="removeSelectedAPlan(selectedPlan)">
+									<div *ngFor="let selectedPlan of selectedAPlans;let idx = index">
+										<div class="aPlan-group-text d-flex flex-row justify-content-between">
+											<button type="button" class="bt remove-aplan" (click)="removeSelectedAPlan(selectedPlan)">
 												<div class="circle2 minus"></div>
-												<div class="all-title-font">{{selectedPlan.name}}</div>
 											</button>
+											<div class="all-title-font aPlan-name">{{selectedPlan.name}}</div>
+											<span (click)="expandConcept(idx)" class="lists-down-arrow" [ngClass]="{'transform-y': !selectedPlan.isExpand}">
+									          <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;line-height: 1.4"></i>
+									        </span>
+										</div>
+										<div *ngIf="!selectedPlan.isExpand" class="d-flex icons-wrapper">
+											<div *ngFor="let concept of selectedPlan.concepts;let i=index;" class="pr-3">
+												<img src="/assets/images/thunder-flash-g.png">
+											</div>
+										</div>
+										<div *ngIf="selectedPlan.isExpand" class="concept-wrapper">
+											<div class="d-flex single-concept" *ngFor="let concept of selectedPlan.concepts;let i=index;">
+												<div>
+													<img src="/assets/images/thunder-flash-g.png">
+												</div>
+												<div class="concept-name" [ngClass]="{'hide-border': selectedPlan.concepts?.length == i+1}">
+													{{ concept.name }}
+												</div>
+											</div>
 										</div>
 										<hr class="hr-style">
 									</div>
