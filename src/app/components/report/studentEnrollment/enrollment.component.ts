@@ -4,6 +4,7 @@ import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
 import courseSampleData from './sampleData';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'student-enrollment-report',
@@ -30,7 +31,7 @@ export class StudentEnrollmentReport implements OnInit {
   startDate:any;
   endDate:any;
   public regionID = localStorage.getItem('regionId');
-
+  @BlockUI() blockUI: NgBlockUI;
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -74,8 +75,10 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByLocation(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStudentReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
         }else{
@@ -93,8 +96,10 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByCategory(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStudentReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -116,8 +121,10 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByCoursePlan(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStudentReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
