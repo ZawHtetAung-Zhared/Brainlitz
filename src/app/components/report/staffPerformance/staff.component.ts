@@ -9,6 +9,7 @@ import {appService} from '../../../service/app.service';
 import staffData from './sampleData';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import * as moment from 'moment';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class StaffPerformanceReport implements OnInit {
   startDate:any;
   endDate:any;
   public regionID = localStorage.getItem('regionId');
+  @BlockUI() blockUI: NgBlockUI;
 
   /**
    * Initialize the StaffPerformanceReport
@@ -140,8 +142,10 @@ export class StaffPerformanceReport implements OnInit {
 
     //[TODO:Update better way to iterate data]
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
         }else{
@@ -169,8 +173,10 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCategory() {
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -199,8 +205,10 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCoursePlan() {
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
