@@ -63,7 +63,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.endDate = (new Date()).toISOString();
     this.options = {
       startDate: moment('04-01-2018').startOf('hour'),
-      endDate: moment('11-30-2018').startOf('hour'),
+      endDate: moment().startOf('hour'),
       locale: {format: 'MMM YYYY'},
       alwaysShowCalendars: true,
     };
@@ -72,8 +72,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   ngAfterViewInit(){
     let _self = this;
+    var endMonth = moment().month();
+    var endYear = moment().year();
+    console.log(endMonth,endYear);
     $('#monthRangePicker')
-      .rangePicker({  setDate:[[2,2015],[12,2018]],minDate:[2,2015], maxDate:[1,2019],closeOnSelect:true, RTL:false })
+      .rangePicker({  setDate:[[2,2015],[endMonth,endYear]],minDate:[2,2015], maxDate:[endMonth,endYear],closeOnSelect:true, RTL:false })
       // subscribe to the "done" event after user had selected a date
       .on('datePicker.done', function(e, result){
         if( result instanceof Array ){
