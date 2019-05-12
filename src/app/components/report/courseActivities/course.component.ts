@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {appService} from '../../../service/app.service';
 import courseSampleData from './sampleData';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'course-activities-report',
@@ -32,6 +33,8 @@ export class CourseActivitiesReport implements OnInit{
   startDate:any;
   endDate:any;
   public regionID = localStorage.getItem('regionId');
+  @BlockUI() blockUI: NgBlockUI;
+  @BlockUI() blockUI: NgBlockUI;
   constructor(private daterangepickerOptions: DaterangepickerConfig,private modalService:NgbModal,private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -76,8 +79,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByLocation(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
           //this.searchResult.value = this.categoryList;
@@ -96,8 +101,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByCategory(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -119,8 +126,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByCoursePlan(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
