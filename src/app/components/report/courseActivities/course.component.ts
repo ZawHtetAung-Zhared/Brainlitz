@@ -34,7 +34,7 @@ export class CourseActivitiesReport implements OnInit{
   endDate:any;
   public regionID = localStorage.getItem('regionId');
   @BlockUI() blockUI: NgBlockUI;
-  @BlockUI() blockUI: NgBlockUI;
+
   constructor(private daterangepickerOptions: DaterangepickerConfig,private modalService:NgbModal,private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {

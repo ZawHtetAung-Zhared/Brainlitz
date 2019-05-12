@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
 import masSampleData from './sampleData';
 declare var $:any;
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'monthly-active-std-report',
@@ -29,7 +30,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
   startDate:any;
   endDate:any;
   public regionID = localStorage.getItem('regionId');
-
+  @BlockUI() blockUI: NgBlockUI;
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -88,8 +89,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   showReport(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getMASReport(this.regionID,this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getfilteredData(res);
         }else{
