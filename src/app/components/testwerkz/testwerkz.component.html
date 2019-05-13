@@ -1074,7 +1074,7 @@
                   (click)="deleteSettingContents(i)" />
                   <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)}"></div>
                   <div *ngIf="onselectedVid == video._id || onselectedVid == video.contentId" class="row duration-wrapper" class="row duration-wrapper">
-                    <div class="col-md-5 start-duration">
+                    <div class="col-md-5 start-duration"> 
                       <label>Start</label>
                       <input type="text" [(ngModel)]="video.start" class="duration" />
                     </div>

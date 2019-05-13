@@ -17,6 +17,7 @@ import { nsend } from "q";
 import { resolve } from "path";
 import { connect } from 'tls';
 import { LoggedInGuard } from '../../service/loggedIn.guard';
+import { flatMap } from 'rxjs/operators';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -1266,7 +1267,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               // console.log("res.meta~~~",res.meta)
               this.autoSelectedVideo(res.meta,"video");
-              // this.modalReference1.close();
+              this.modalReference1.close();
             }, 300);
           })
         }
@@ -3482,7 +3483,8 @@ export class TestwerkzComponent implements OnInit {
   loopConcept(_this,concept,callback){
     _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
-        // console.error(conceptRes)
+        console.log(conceptRes)
+        conceptRes.isExpand=false;
         callback(_this,conceptRes)
         // this.selectedConcept.push(conceptRes);
       },
@@ -3504,11 +3506,13 @@ export class TestwerkzComponent implements OnInit {
   
   goTocollectionEdit(id){
     const _that = this;
-    // console.log(id);
+    console.log(this)
+    console.log(id);
     _that.blockUI.start("Loading...");
     _that._service.getCollectionById(_that.regionID,id).subscribe(
       (res: any) => {
         console.log(res)
+  
         _that.isCollectionEdit=true;
         _that.isCollection=false;
         _that.collectionName=res.name;
