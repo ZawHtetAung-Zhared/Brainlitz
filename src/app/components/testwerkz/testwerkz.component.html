@@ -1232,7 +1232,7 @@
         </p>
       </div>
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
-      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="insertImg()">
+      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="onFilesChange()">
         Insert
       </button>
       <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length == 0" disabled="true">
@@ -1266,8 +1266,11 @@
               Upload video
             </button>
             <!-- <button class="btn btn-submit uploadImgBtn">Upload image</button> -->
-            <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
-              (change)="onloadImg($event)" />
+            <!-- <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
+              (change)="openVideoViewModal(videoViewModal,$event)" /> -->
+  
+              <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
+            (change)="onloadImg($event)" />
           </div>
         </div>
       </div>
@@ -1285,7 +1288,9 @@
           <button class="btn btn-submit uploadImgBtn exit-img">
             Upload video
           </button>
-          <input type="file" #fileInput (click)="fileInput.value = null" name="imgFile" accept=".mp4,.mov"
+          <!-- <input type="file" #fileInput (click)="fileInput.value = null" name="imgFile" accept=".mp4,.mov"
+            (change)="openVideoViewModal(videoViewModal,$event)" /> -->
+            <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
             (change)="onloadImg($event)" />
 
           <!-- <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'video'" accept="image/x-png,image/gif,image/jpeg"
@@ -1394,5 +1399,21 @@
     <button type="submit" class="btn modal-delete-btn" (click)="collectionDelete(deleteCollection._id)">
       Delete
     </button>
+  </div>
+</ng-template>
+
+
+<ng-template #videoViewModal let-modal>
+  <!-- <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  </div> -->
+  <div class="modal-body">
+    <div class="modal-body">
+        <app-video-trimmer source="{{url}}" (base64)="data($event)" id="yourImgTag"></app-video-trimmer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onloadImg(videoFile)">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="cancelModalVideoView()">Cancel</button>
   </div>
 </ng-template>
