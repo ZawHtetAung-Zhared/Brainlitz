@@ -46,6 +46,7 @@ export class TestwerkzComponent implements OnInit {
   public pdIndex: any;
   public questionIndex: any;
   public answerIndex: any;
+  public url: any;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -99,6 +100,7 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
+  public modalReference1: any;
   public content_size:any;
   public contentArr:any=[];
   public classCreate = false;
@@ -156,12 +158,14 @@ export class TestwerkzComponent implements OnInit {
   public deleteCollection:string;
   public isExpandExit:boolean=false;
   public isVideoSearch:boolean=false;
+  public videoFile:any;
   
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private _service: appService,
     private modalService: NgbModal,
+    private modalService1: NgbModal,
     private dragulaService: DragulaService,
     public toastr: ToastsManager
   ) {}
@@ -1088,6 +1092,10 @@ export class TestwerkzComponent implements OnInit {
     });
     this.getAllContent(1,20,'');
   }
+  cancelModalVideoView(){
+    console.log("here ")
+    this.modalReference1.close();
+  }
 
   cancelModal() {
     this.modalReference.close();
@@ -1100,6 +1108,7 @@ export class TestwerkzComponent implements OnInit {
     this.ImgArr=[];
     this.isDisabelInsert=false;
     this.uploadedVid = [];
+    this.videoFile="";
   }
   public searchWord:any;
   public isSearch:any;
@@ -1207,18 +1216,36 @@ export class TestwerkzComponent implements OnInit {
     // console.log(this.videoArr)
     return true;
   }
+
+  openVideoViewModal(content,event){
+    this.modalReference1 = this.modalService1.open(content, {
+      backdrop: "static",
+      keyboard: false,
+      windowClass:
+        "video-modal-view modal-xl modal-inv d-flex justify-content-center align-items-center "
+    });
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      console.log(event.target.files[0])
+      this.videoFile=event;
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event:any) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+      }
+    }
+  }
+
   uploadedVid = [];
   onloadImg(event, ele?) {
+    console.log(this.isDrop)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
     } else {
       var file = event.target.files;
+      console.log("is me",this.videoFile)
     }
-    console.log(this.modelType)
-    // console.error(this.contentPage)
-    // console.error(this.selectedImgArr);
-    // console.error(20*this.contentPage)
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
@@ -1239,6 +1266,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               // console.log("res.meta~~~",res.meta)
               this.autoSelectedVideo(res.meta,"video");
+              // this.modalReference1.close();
             }, 300);
           })
         }
@@ -1432,7 +1460,6 @@ export class TestwerkzComponent implements OnInit {
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
   onVideoRemoveClick(id){
-    console.error("on remove click")
     this.isRemove=true;
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
