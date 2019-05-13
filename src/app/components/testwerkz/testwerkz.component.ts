@@ -1267,7 +1267,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               // console.log("res.meta~~~",res.meta)
               this.autoSelectedVideo(res.meta,"video");
-              this.modalReference1.close();
+              // this.modalReference1.close();
             }, 300);
           })
         }
