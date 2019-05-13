@@ -33,6 +33,7 @@ export class cPlanField {
 	public depositAmount:any;
 	public courseFeeOptions:any = {};
 	public searchText:string;
+	public assessmentPlans:Array<any> = [];
 }
 
 export class apgForm {

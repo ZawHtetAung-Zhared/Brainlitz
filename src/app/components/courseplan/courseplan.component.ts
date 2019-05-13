@@ -197,7 +197,7 @@ export class CourseplanComponent implements OnInit {
         }
         if(this.formField.paymentPolicy.taxInclusive == null ){
           this.chooseTax = 'none';
-        }
+        } 
         this.tempDuration = res.lesson.duration;
         console.log(this.formField.lesson.duration)
         this.convertMinsToHrsMins(this.formField.lesson.duration);
@@ -209,6 +209,15 @@ export class CourseplanComponent implements OnInit {
           this.setFeeOptionArray(optObj);
         }else{
           this.addFeeOption();
+        }
+
+        this.selectedAPlans = this.formField.assessmentPlans;
+        for(var i = 0; i < this.selectedAPlans.length; i++){
+          this.selectedAPlans[i]["isExpand"] = false;
+        }
+        console.log("this.selectedAPlans",this.selectedAPlans)
+        for(var i=0;i<this.formField.assessmentPlans.length;i++){
+          this.selectedAPidList.push(this.formField.assessmentPlans[i]._id)
         }
         // this.getAllHolidaysCalendar();
         console.log("calendar", this.holidayCalendarLists);
@@ -239,9 +248,9 @@ export class CourseplanComponent implements OnInit {
 
         if (this.formField.accessPointGroup.length > 0) {
           this.selectedAPGlists = true;
-          for (var i = 0; i < this.formField.accessPointGroup.length; i++) {
-            console.log("selectedAPG", this.formField.accessPointGroup[i]);
-            this.singleAPG(this.formField.accessPointGroup[i]);
+          for (var x = 0; x < this.formField.accessPointGroup.length; x++){
+            console.log("selectedAPG", this.formField.accessPointGroup[x]);
+            this.singleAPG(this.formField.accessPointGroup[x]);
           }
         }
 
@@ -781,16 +790,25 @@ export class CourseplanComponent implements OnInit {
  selectedAPidList=[];
   selectAssessmentPlan(plan){
     this.showPlans = false;
+    plan["isExpand"] = false;
     this.selectedAPlans.push(plan);
     this.selectedAPidList.push(plan._id);
+    console.log("this.selectedAPlans",this.selectedAPlans)
   }
 
   removeSelectedAPlan(data){
     var index = this.selectedAPlans.findIndex(function (element) {
       return element._id === data._id;;
     })
+    var idx = this.selectedAPidList.findIndex(function (element) {
+      return element === data._id;;
+    })
     this.selectedAPlans.splice(index,1);
-    this.selectedAPidList.splice(index,1)
+    this.selectedAPidList.splice(idx,1)
+  }
+
+  expandConcept(idx){
+    this.selectedAPlans[idx].isExpand = !this.selectedAPlans[idx].isExpand;
   }
 
   selectData(id, name) {

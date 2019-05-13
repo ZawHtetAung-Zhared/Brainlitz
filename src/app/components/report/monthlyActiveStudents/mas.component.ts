@@ -26,6 +26,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
   daterange:any = {};
   options:any;
   filterModel:any;
+  startDate:any;
+  endDate:any;
+  public regionID = localStorage.getItem('regionId');
 
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
@@ -51,6 +54,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
       show: false,
       value: this.categoryList
     };
+    this.locationList = [];
+    this.categoryList = [];
+    this.coursePlanList = [];
+    this.courseNameList = [];
+    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.endDate = (new Date()).toISOString();
     this.options = {
       startDate: moment('04-01-2018').startOf('hour'),
       endDate: moment('11-30-2018').startOf('hour'),
@@ -61,28 +70,51 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.showReport();
   }
   ngAfterViewInit(){
+    let _self = this;
     $('#monthRangePicker')
       .rangePicker({  setDate:[[2,2015],[12,2018]],minDate:[2,2015], maxDate:[1,2019],closeOnSelect:true, RTL:false })
       // subscribe to the "done" event after user had selected a date
       .on('datePicker.done', function(e, result){
-        if( result instanceof Array )
+        if( result instanceof Array ){
           console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
-        else
+          _self.startDate = (new Date(result[0][1], result[0][0] - 1)).toISOString();
+          _self.endDate = (new Date(result[1][1], result[1][0] - 1)).toISOString();
+          _self.showReport();
+        }
+        else{
           console.log(result);
+        }
       });
   }
   showReport(){
-    if (masSampleData) { //check if we have data to show report
-      this.reportData = this.getfilteredData(masSampleData);
-    } else {
-      //Not enough data to show report
-      this.reportData = [];
-    }
+    this.reportData = [];
+    this._service.getMASReport(this.regionID,this.startDate,this.endDate)
+      .subscribe((res:any) => {
+        if(res.length){
+          this.reportData = this.getfilteredData(res);
+        }else{
+          this.reportData = [];
+        }
+      },err => {
+        this.reportData = [];
+      });
+    // if (masSampleData) { //check if we have data to show report
+    //   this.reportData = this.getfilteredData(masSampleData);
+    // } else {
+    //   //Not enough data to show report
+    //   this.reportData = [];
+    // }
   }
   getfilteredData(inputData){
     let filter = this.filter;
     let _self = this;
     let res = [];
+
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
+
     inputData.forEach(function(data, i) {
       Object.keys(data).forEach(function(k,i){
         data = data[k];
@@ -96,6 +128,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
           });
         }
         data.forEach(function (location) {
+          _self.locationList.push(location.locationName);
           let categories = location.categories || [];
           if(filter.type == "category" && filter.value.length){
             categories = categories.filter(function (d) {
@@ -103,6 +136,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
             });
           }
           categories.forEach(function (category) {
+            _self.categoryList.push(category.catName);
             let coursePlans = category.coursePlans || [];
 
             if(filter.type == "coursePlan" && filter.value.length){
@@ -113,6 +147,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
             //iterate coursePlans under categories
             coursePlans.forEach(function (coursePlan) {
+              _self.coursePlanList.push(coursePlan.coursePlanName);
               let courses = coursePlan.courses || [];
               //iterate courses under coursePlans
               if(filter.type == "course" && filter.value.length){
@@ -122,6 +157,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
               }
 
               courses.forEach(function (course) {
+                _self.courseNameList.push(course.courseName);
                 obj.students += course.students;
               });
             });
@@ -130,6 +166,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
         res.push(obj);
       });
     });
+
+    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+
     return res;
   }
   updateFilterType(value) {
