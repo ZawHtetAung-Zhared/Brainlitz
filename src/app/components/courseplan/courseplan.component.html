@@ -42,6 +42,7 @@
 		  	</div>
 		</div>
 		<div class="progress-box-wrap">
+			<!-- {{clickableSteps|json}} -->
 			<ol class="progress" data-steps="8">
 			    <li id="step1">
 			        <a class="step" [class.adisabled]="!clickableSteps.includes('step1')" (click)="stepClick($event, 'step1')">
@@ -227,7 +228,7 @@
 											<input type="text" name="{{'name'+idx}}" class="form-control col-md-8 taxopt-input feeName-input" [ngClass]="{'shadow-bg': shadowIdx == idx}"placeholder="Type option name" [value]="opt.name" (input)="this.optArray[idx].name=$event.target.value">
 											<div class="d-flex col-md-4 p-0 cfee-wrap">
 												<div class="currencySign" [ngStyle]="{'background': shadowIdx == idx ? '#8fa1b3' : '#f2f4f5'}">{{ currency.invCurrencySign }}</div>
-												<input type="number" [value]="opt.fees" (input)="optArray[idx].fees = $event.target.value" class="form-control taxopt-input c-fee" placeholder="Course fee" name="{{'fee'+idx}}">
+												<input type="number" [value]="opt.fees" (input)="inputOpt(idx,$event.target.value)"  class="form-control taxopt-input c-fee" placeholder="Course fee" (keypress)="numberOnly($event, 'feeOpt')" name="{{'fee'+idx}}">
 											</div>
 										</div>
 										<hr class="opt-hr-length">
