@@ -204,6 +204,8 @@
         </div>
       </div>
     </div>
+    {{collectionarr.length}}
+    {{pageCollection}}
     <div *ngIf="collectionarr.length == pageCollection*20" class="load-more">
       <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
       <button class="btn remove-outline" (click)="showmoreCollection(conceptsArr.length)">load more</button>
@@ -329,37 +331,40 @@
   </div>
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
-    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
+    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height"> 
       <!-- <div *ngIf="sConcept.tag != undefined"> -->
+      <div *ngIf="sConcept">
           <span class="tagName_collection">  {{sConcept.tag[0].name}}</span>
-        <!-- <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span> -->
-      <!-- </div> -->
-      <div class="d-flex flex-row justify-content-between">
-        <div class="d-flex group-text">
-            <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
-              <div class="circle2 minus"></div>
-            </button>	
-            <div class="conceptName_collection">{{sConcept.name}}</div>
+          <!-- <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span> -->
+        <!-- </div> -->
+        <div class="d-flex flex-row justify-content-between">
+          <div class="d-flex group-text">
+              <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
+                <div class="circle2 minus"></div>
+              </button>	
+              <div class="conceptName_collection">{{sConcept.name}}</div>
+          </div>
+          <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
+            <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
+          </span>
         </div>
-        <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
-          <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
-        </span>
-      </div>
-      <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
-        <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
-            <img src="/assets/images/thunder-flash-g.png" />
-        </div>
-        <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
-      </div>
-      <div *ngIf="sConcept.isExpand">
-        <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
-          <!-- <span class="detail-dot"></span> -->
-          <div class="flashImg">
+        <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
+          <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
               <img src="/assets/images/thunder-flash-g.png" />
           </div>
-          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
+          <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
         </div>
-      </div>
+        <div *ngIf="sConcept.isExpand">
+          <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
+            <!-- <span class="detail-dot"></span> -->
+            <div class="flashImg">
+                <img src="/assets/images/thunder-flash-g.png" />
+            </div>
+            <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
+          </div>
+        </div>
+       </div>
+     
       <!-- <hr class="hr-style"> -->
     </div>
   </div>

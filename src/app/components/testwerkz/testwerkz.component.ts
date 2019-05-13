@@ -3431,6 +3431,7 @@ export class TestwerkzComponent implements OnInit {
 
   createCollection(){
     let idArr=[];
+    this.pageCollection=1;
     for(let i=0;i<this.selectedConcept.length;i++){
       let conceptIdObj={
         "conceptId":this.selectedConcept[i]._id
@@ -3570,6 +3571,7 @@ export class TestwerkzComponent implements OnInit {
 
   updateCollection(id){
     // console.log(id)
+    this.pageCollection=1;
     this.blockUI.start("Loading...");
     let idArr=[];
     this.isCollectionEdit=false;
