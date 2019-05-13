@@ -219,6 +219,10 @@ export class CourseplanComponent implements OnInit {
         for(var i=0;i<this.formField.assessmentPlans.length;i++){
           this.selectedAPidList.push(this.formField.assessmentPlans[i]._id)
         }
+        
+        //enable to click for all step
+        this.enableClickAllStep();
+
         // this.getAllHolidaysCalendar();
         console.log("calendar", this.holidayCalendarLists);
         setTimeout(() => {
@@ -270,6 +274,23 @@ export class CourseplanComponent implements OnInit {
       })
   }
 
+  enableClickAllStep(){
+    this.clickableSteps = [];
+    for(var i=0;i<8;i++){
+      var no = i+1
+      this.clickableSteps.push("step"+ no)
+    }
+    $("#step1").addClass('done');
+    $("#step2").addClass('done');
+    $("#step3").addClass('done');
+    $("#step4").addClass('done');
+    $("#step5").addClass('done');
+    $("#step6").addClass('done');
+    $("#step7").addClass('done');
+    $("#step8").addClass('done');
+
+  }
+
   addFeeOption(){
     const obj = {
       "name": "",
@@ -279,13 +300,16 @@ export class CourseplanComponent implements OnInit {
     console.log("optArray in addFeeOption",this.optArray)
   }
 
+  inputOpt(idx,value){
+    this.optArray[idx].fees = Number(value)
+  }
+
   removeFeeOption(idx){
     this.optArray.splice(idx,1);
     console.log("optArray for removeFee~~~",this.optArray)
   }
 
   setFeeOptionArray(obj) {
-    console.log("~~~obj", obj)
     for (var key in obj) {
       console.log(key, obj[key]);
       let data = {
@@ -294,7 +318,6 @@ export class CourseplanComponent implements OnInit {
       }
       this.optArray.push(data);
     }
-    console.log("optArr", this.optArray);
   }
 
 
@@ -443,7 +466,7 @@ export class CourseplanComponent implements OnInit {
     //   formData.deposit = '';
     // }
     console.log(formData)
-    console.log(this.step2FormaData)
+    // console.log(this.step2FormaData)
     // let obj: any = {};
     // for (var i = 0; i < this.optArr.length; i++) {
     //   obj[this.optArr[i].name] = this.optArr[i].fees;
@@ -452,22 +475,21 @@ export class CourseplanComponent implements OnInit {
     for (var i = 0; i < this.optArray.length; i++) {
       obj[this.optArray[i].name] = this.optArray[i].fees;
     }
-    console.log("Obj", obj);
+    console.log("Obj===>", obj);
     console.log('allow por', this.formField.paymentPolicy.allowProrated)
     let data = {
       "regionId": this.regionID,
       "categoryId": this.categoryId,
-      "name": this.step1FormaData.coursename,
-      "description": this.step1FormaData.description,
-      "seats": this.step1FormaData.seats,
+      "name": this.formField.name,
+      "description": this.formField.description,
+      "seats": this.formField.seats,
       "makeupPolicy": {
-        "allowMakeupPass": this.step2FormaData.allowmakeup,
-        "maxPassPerUser": this.step2FormaData.makeupuser,
-        "maxDayPerPass": this.step2FormaData.makeuppass
+        "allowMakeupPass": this.formField.makeupPolicy.allowMakeupPass,
+        "maxPassPerUser": this.formField.makeupPolicy.maxPassPerUser,
+        "maxDayPerPass": this.formField.makeupPolicy.maxDayPerPass
       },
       "paymentPolicy": {
         "deposit": this.depositId,
-        "courseFee": this.step3FormaData.courseFee,
         "proratedLessonFee": formData.proratedLessonFee,
         "miscFee": formData.miscFee,
         "allowProrated": formData.allowProrated
@@ -477,7 +499,7 @@ export class CourseplanComponent implements OnInit {
         "max": formData.maxDuration,
         "duration": this.tempDuration
       },
-      "allowPagewerkz": this.step5FormaData.allowpagewerkz,
+      "allowPagewerkz": this.formField.allowPagewerkz,
       "age": {
         "min": formData.minage,
         "max": formData.maxage,
@@ -488,13 +510,45 @@ export class CourseplanComponent implements OnInit {
       "assessmentPlans":this.selectedAPidList
     }
 
+    // let data = {
+    //   "regionId": this.regionID,
+    //   "categoryId": this.categoryId,
+    //   "name": this.step1FormaData.coursename,
+    //   "description": this.step1FormaData.description,
+    //   "seats": this.step1FormaData.seats,
+    //   "makeupPolicy": {
+    //     "allowMakeupPass": this.step2FormaData.allowmakeup,
+    //     "maxPassPerUser": this.step2FormaData.makeupuser,
+    //     "maxDayPerPass": this.step2FormaData.makeuppass
+    //   },
+    //   "paymentPolicy": {
+    //     "deposit": this.depositId,
+    //     "courseFee": this.step3FormaData.courseFee,
+    //     "proratedLessonFee": formData.proratedLessonFee,
+    //     "miscFee": formData.miscFee,
+    //     "allowProrated": formData.allowProrated
+    //   },
+    //   "lesson": {
+    //     "min": formData.minDuration,
+    //     "max": formData.maxDuration,
+    //     "duration": this.tempDuration
+    //   },
+    //   "allowPagewerkz": this.step5FormaData.allowpagewerkz,
+    //   "age": {
+    //     "min": formData.minage,
+    //     "max": formData.maxage,
+    //   },
+    //   "quizwerkz": this.pdfId,
+    //   "holidayCalendarId": this.formField.holidayCalendarId,
+    //   "accessPointGroup": this.selectedAPGidArray,
+    //   "assessmentPlans":this.selectedAPidList
+    // }
+
     if (Object.keys(obj).length != 0) {
-      console.log("lll");
       data.paymentPolicy["courseFeeOptions"] = obj;
     }
 
     if (this.chooseTax != '') {
-      console.log("TTT", this.chooseTax);
       if (this.chooseTax == 'inclusive') {
         data.paymentPolicy["taxInclusive"] = true;
       } 
@@ -1217,7 +1271,7 @@ export class CourseplanComponent implements OnInit {
       this.step1 = true;
       if (this.step1 == true) {
         $("#step2").removeClass('active');
-        $("#step1").removeClass('done');
+        // $("#step1").removeClass('done');
         $("#step1").addClass('active');
       }
     }
@@ -1229,8 +1283,8 @@ export class CourseplanComponent implements OnInit {
       // console.log("name",this.optArray[i].name.trim(),",fees",this.optArray[i].fees)
       if (this.step2 == true) {
         $("#step3").removeClass('active');
-        $("#step2").removeClass('done');
-        $("#step1").addClass('done');
+        // $("#step2").removeClass('done');
+        // $("#step1").addClass('done');
         $("#step2").addClass('active');
       }
     }
@@ -1245,8 +1299,8 @@ export class CourseplanComponent implements OnInit {
         }
         // console.log("this.optAtrray length",this.optArray.length);
         $("#step4").removeClass('active');
-        $("#step3").removeClass('done');
-        $("#step1, #step2").addClass('done');
+        // $("#step3").removeClass('done');
+        // $("#step1, #step2").addClass('done');
         $("#step3").addClass('active');
       }
     }
@@ -1258,8 +1312,8 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       if (this.step4 == true) {
         $("#step5").removeClass('active');
-        $("#step4").removeClass('done');
-        $("#step1, #step2, #step3").addClass('done');
+        // $("#step4").removeClass('done');
+        // $("#step1, #step2, #step3").addClass('done');
         $("#step4").addClass('active');
       }
     }
@@ -1273,8 +1327,8 @@ export class CourseplanComponent implements OnInit {
        this.step8 = false;
       if (this.step5 == true) {
         $("#step6").removeClass('active');
-        $("#step5").removeClass('done');
-        $("#step1, #step2, #step3, #step4").addClass('done');
+        // $("#step5").removeClass('done');
+        // $("#step1, #step2, #step3, #step4").addClass('done');
         $("#step5").addClass('active');
       }
     }
@@ -1289,8 +1343,8 @@ export class CourseplanComponent implements OnInit {
        this.step8 = false;
       if (this.step6 == true) {
         $("#step7").removeClass('active');
-        $("#step6").removeClass('done');
-        $("#step1, #step2, #step3, #step4, #step5").addClass('done');
+        // $("#step6").removeClass('done');
+        // $("#step1, #step2, #step3, #step4, #step5").addClass('done');
         $("#step6").addClass('active');
       }
     }
@@ -1305,8 +1359,8 @@ export class CourseplanComponent implements OnInit {
       this.step8 = false;
       if (this.step7 == true) {
         $("#step8").removeClass('active');
-        $("#step7").removeClass('done');
-        $("#step1, #step2, #step3, #step4, #step5,#step6").addClass('done');
+        // $("#step7").removeClass('done');
+        // $("#step1, #step2, #step3, #step4, #step5,#step6").addClass('done');
         $("#step7").addClass('active');
       }
     }
@@ -1317,8 +1371,10 @@ export class CourseplanComponent implements OnInit {
     return str.slice(0, 4) + (Number(++res))
   }
   continueStep(type, data) {
-    this.clickableSteps.push(type)
-    this.clickableSteps.push(this.addStep(type))
+    if(!this.isEditCP){
+      this.clickableSteps.push(type)
+      this.clickableSteps.push(this.addStep(type))
+    }
     if (type == 'step1') {
       this.step1FormaData = data;
       console.log(this.step1FormaData)
@@ -1446,9 +1502,10 @@ export class CourseplanComponent implements OnInit {
       this.step3 = false;
       this.step4 = false;
       this.step5 = false;
+      this.step6=false;
       this.step7 = false;
       if (this.step7 == false) {
-        $("#step6").removeClass('active');
+        $("#step7").removeClass('active');
         $("#step1").addClass('done');
         $("#step2").addClass('done');
         $("#step3").addClass('done');
@@ -1456,6 +1513,7 @@ export class CourseplanComponent implements OnInit {
         $("#step5").addClass('done');
         $("#step6").addClass('done');
         $("#step7").addClass('done');
+        $("#step8").addClass('done');
         $("#step8").addClass('active');
         this.step8 = true;
       }
@@ -1469,7 +1527,7 @@ export class CourseplanComponent implements OnInit {
       this.step7 = false;
       this.step8 = false;
       if (this.step7 == false) {
-        $("#step6").removeClass('active');
+        $("#step7").removeClass('active');
         $("#step1").addClass('done');
         $("#step2").addClass('done');
         $("#step3").addClass('done');
