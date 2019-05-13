@@ -27,6 +27,7 @@ export class StaffTeachingScheduleReport implements OnInit {
   filterModel:any;
   startDate:any;
   endDate:any;
+  initFilter = true;
   public regionID = localStorage.getItem('regionId');
   @BlockUI() blockUI: NgBlockUI;
 
@@ -207,6 +208,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    if(_self.initFilter){
+      _self.searchResult.value = _self.categoryList;
+      _self.initFilter = false;
+    }
     return res;
   }
 
