@@ -21,14 +21,21 @@ export class StdEnrolmentReportGraph implements OnInit {
         trigger: 'item',
         formatter: "{a} <br/>{b}: {c} ({d}%)"
       },
+      grid:{
+        right:100
+      },
       legend: {
-        orient: 'vertical',
+        orient: 'horizontal',
         type:'scroll',
         axis:'right',
         top:10,
         right:0,
         avoidLabelOverlap: true,
         data:[],
+        formatter: function (name) {
+          var value = name.split(' ')[0];
+          return value;
+        }
         textStyle:{
           fontFamily:'Montserrat-Medium',
           color:'#2e3d4d',
@@ -40,9 +47,8 @@ export class StdEnrolmentReportGraph implements OnInit {
         {
           name:'Student Enrolment',
           type:'pie',
-          radius: ['50%', '95%'],
+          radius: ['30%', '75%'],
           avoidLabelOverlap: true,
-          center:['30%','50%'],
           label: {
             normal: {
               show: false,
