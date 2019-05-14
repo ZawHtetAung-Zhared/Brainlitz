@@ -37,6 +37,8 @@ export class TestwerkzComponent implements OnInit {
   // public id2:any;
   // public id3:any;
   // Component
+  public searchWords;
+  public selectedConceptIdArr = [];
   public conceptsArr = [];
   public showRMIcon: any = "";
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -3271,6 +3273,7 @@ export class TestwerkzComponent implements OnInit {
       console.log(res.slice(0,3));
       this.collectionArr_slice=res.slice(0,3);
       this.collectionarr=res;
+      this.result = res;
       setTimeout(() => {
         this.blockUI.stop();
       }, 300);
@@ -3300,6 +3303,8 @@ export class TestwerkzComponent implements OnInit {
     // this.selectedConcept=[];
     // this.collectionId="";
     // this.collectionName="";
+    this.getCollectionlist(1,20);
+    this.pageCollection = 1;
   }
 
   goToaddNewCollection(){
@@ -3312,7 +3317,8 @@ export class TestwerkzComponent implements OnInit {
   }
   
   backTocollectionList(){
-  
+    this.getCollectionlist(1, 20);
+    this.pageCollection = 1;
     this.isCollectionList=false;
     this.isCollection=true;
     this.conceptList=false;
@@ -3331,7 +3337,7 @@ export class TestwerkzComponent implements OnInit {
     this.isFocus_collection = true;
     // this.showfixedcreate = true;
     // this.apgList = [];
-    this.concept_in_collection=[];
+    // this.concept_in_collection=[];
     // this.conceptsArr=[];
   }
 
@@ -3345,6 +3351,7 @@ export class TestwerkzComponent implements OnInit {
 
   changeSearch(keyword, type) {
     console.log(keyword,type)
+    this.searchWords = keyword;
     if (keyword == 0 || keyword == "") {
       this.concept_in_collection=[];
       console.log(this.concept_in_collection)
@@ -3378,6 +3385,7 @@ export class TestwerkzComponent implements OnInit {
 
   selectData(id) {
     console.log(id)
+    // this.searchWords = '' //clear value in input box
       // this.singleAPG(id);
       // this.selectedAPGlists = true;
     this._service.getConceptById(this.regionID,id).subscribe(
@@ -3385,7 +3393,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res)
         res.isExpand=false;
         this.selectedConcept.push(res);
-     
+        this.selectedConceptIdArr.push(res._id)
         // this.blockUI.stop();
         this.isfocus = false;
       },
@@ -3404,9 +3412,15 @@ export class TestwerkzComponent implements OnInit {
     var index = this.selectedConcept.findIndex(function (element) {
       return element._id === data._id;
     })
+    // for hiding the selected concept in search box
+    var idIndex = this.selectedConceptIdArr.findIndex(function (element) {
+      return element._id === data._id;
+    })
     if (index !== -1) {
       this.selectedConcept.splice(index, 1)
     }
+    this.selectedConceptIdArr.splice(idIndex,1)
+    // for hiding the selected concept in search box
     console.log(this.selectedConcept)
   }
 
@@ -3500,6 +3514,9 @@ export class TestwerkzComponent implements OnInit {
     setTimeout(() => {
       _this.selectedConcept = pdIds;
       _this.blockUI.stop();
+      _this.selectedConcept.map(obj =>{
+        _this.selectedConceptIdArr.push(obj._id)
+      })
       console.log( _this.selectedConcept)
     }, 200);
   
@@ -3646,7 +3663,7 @@ export class TestwerkzComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.toastr.success("Successfully Plan Delete.");
-        this.getCollectionlist(1,this.pageCollection);
+        this.getCollectionlist(1,20);
       },
       err => {
         console.log(err);
