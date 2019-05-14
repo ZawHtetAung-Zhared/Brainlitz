@@ -43,11 +43,21 @@ export class StaffTeachingReportGraph implements OnInit {
         {
           name:'Staff Teaching Schedule',
           type:'pie',
-          radius : ['30%', '95%'],
+          radius : [70, 200],
           roseType : 'area',
           label: {
             normal: {
               position: 'outside',
+              formatter:function(params){
+                var value = '';
+                try{
+                  value = params.data.name.split(' ')[0];
+                }catch(e){
+                  console.log(e);
+                  value = params.data.name
+                }
+                return value;
+              },
             },
           },
           data:[]
@@ -73,7 +83,7 @@ export class StaffTeachingReportGraph implements OnInit {
         normal: {
           position: 'center',
           formatter:function(params){
-            let value = '{a|'+totalHours+' Hours}\n \n';
+            let value = '{a|'+totalHours.toFixed(2)+' Hours}\n \n';
             value += '{b|'+totalStaff+' teachers}';
             return value;
           },
