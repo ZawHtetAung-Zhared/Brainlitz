@@ -3385,7 +3385,7 @@ export class TestwerkzComponent implements OnInit {
 
   selectData(id) {
     console.log(id)
-    this.searchWords = '' //clear value in input box
+    // this.searchWords = '' //clear value in input box
       // this.singleAPG(id);
       // this.selectedAPGlists = true;
     this._service.getConceptById(this.regionID,id).subscribe(
