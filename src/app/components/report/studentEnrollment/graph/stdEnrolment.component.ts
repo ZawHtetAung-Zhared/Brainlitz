@@ -32,10 +32,6 @@ export class StdEnrolmentReportGraph implements OnInit {
         right:0,
         avoidLabelOverlap: true,
         data:[],
-        formatter: function (name) {
-          var value = name.split(' ')[0];
-          return value;
-        }
         textStyle:{
           fontFamily:'Montserrat-Medium',
           color:'#2e3d4d',
