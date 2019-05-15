@@ -60,10 +60,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.startDate = (new Date('02-28-2015')).toISOString();
     this.endDate = (new Date()).toISOString();
     this.options = {
-      startDate: moment('04-01-2018').startOf('hour'),
+      startDate: moment('28-02-2015').startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: {format: 'MMM YYYY'},
       alwaysShowCalendars: true,
@@ -73,7 +73,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   ngAfterViewInit(){
     let _self = this;
-    var endMonth = moment().month();
+    var endMonth = moment().month()+1;
     var endYear = moment().year();
     console.log(endMonth,endYear);
     $('#monthRangePicker')
@@ -81,9 +81,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
       // subscribe to the "done" event after user had selected a date
       .on('datePicker.done', function(e, result){
         if( result instanceof Array ){
+          console.log(result);
           console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
           _self.startDate = (new Date(result[0][1], result[0][0] - 1)).toISOString();
-          _self.endDate = (new Date(result[1][1], result[1][0] - 1)).toISOString();
+          _self.endDate = (new Date(result[1][1], result[1][0])).toISOString();
           _self.showReport();
         }
         else{

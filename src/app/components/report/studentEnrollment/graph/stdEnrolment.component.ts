@@ -21,8 +21,11 @@ export class StdEnrolmentReportGraph implements OnInit {
         trigger: 'item',
         formatter: "{a} <br/>{b}: {c} ({d}%)"
       },
+      grid:{
+        right:100
+      },
       legend: {
-        orient: 'vertical',
+        orient: 'horizontal',
         type:'scroll',
         axis:'right',
         top:10,
@@ -40,9 +43,8 @@ export class StdEnrolmentReportGraph implements OnInit {
         {
           name:'Student Enrolment',
           type:'pie',
-          radius: ['50%', '95%'],
+          radius: ['30%', '75%'],
           avoidLabelOverlap: true,
-          center:['30%','50%'],
           label: {
             normal: {
               show: false,
