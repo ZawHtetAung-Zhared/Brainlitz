@@ -658,6 +658,7 @@ h3.head-rating-count {
 .span-label{
   line-height: 1.8;
   padding-left: 5px;
+  white-space: normal;
 }
 
 .input-recommend{

@@ -1213,7 +1213,7 @@ ul.search-apg{
     box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
 }
 
-.top-para p, .top-para span,.cfOpt-title {
+.top-para p, .top-para span,.cfOpt-title,.concept-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #64707d;
 }
@@ -1292,6 +1292,13 @@ ul.search-apg{
   /*padding: 0;*/
 }
 
+.remove-aplan{
+  text-align: left; 
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
 .btn-apg:focus {
   outline: none;
 }
@@ -1309,6 +1316,11 @@ ul.search-apg{
 
 .group-text {
   padding: 15px 20px 0 20px; 
+  cursor: pointer;
+}
+
+.aPlan-group-text{
+  padding-top: 18px;
   cursor: pointer;
 }
 
@@ -1631,6 +1643,40 @@ ul.search-apg{
 .hide-plan{
   display: none;
 }
+.aPlan-name{
+  text-align: left;
+  width: 100%;
+  line-height: 2.1;
+}
+
+.concept-wrapper,.icons-wrapper{
+  padding-left: 40px;
+}
+
+.icons-wrapper{
+  padding-bottom: 18px;
+}
+
+.single-concept{
+  padding-top: 12px;
+}
+
+.concept-name{
+  width: 100%;
+  margin-left: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edeff0;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.hide-border{
+  border: none;
+}
+
+.transform-y{
+  transform: rotate(180deg);
+}
 
 @media only screen and (max-width: 768px){
   .down-arrow1 {
@@ -1683,10 +1729,10 @@ ul.search-apg{
         -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
         background-color: #ffffff;
-        padding: 48px;
+        padding: 45px 45px 0px 45px;
         height: 640px;
         width: 1004px;
-        overflow: overlay;
+        /*overflow: overlay;*/
       }
 
       .button-wrapper{
@@ -1695,10 +1741,15 @@ ul.search-apg{
         bottom: 0;
         border-top: none;
         padding: unset;
+        padding-top: 20px;
       }
 
+      .overlay-wrapper{
+        height: 520px;
+        overflow: overlay;
+      }
       
-      .div_step1,.div_step2,.div_step3,.div_step4,.div_step5,.div_step6,.div_step7{
+      .div_step1,.div_step2,.div_step3,.div_step4,.div_step5,.div_step6,.div_step7,.div_step8{
         /*height: 77em;*/
         height: 86vh;
         background: rgb(242,244,245);
@@ -1713,12 +1764,12 @@ ul.search-apg{
         height: 450px;
       }
 
-      .div_step2 .button-wrapper{
+      /*.div_step2 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 10px   ;
         padding-left: 0;
-      }
+      }*/
 
       .div_step2 .sticky-create{
         right: 12em;
@@ -1741,23 +1792,23 @@ ul.search-apg{
         right: 12em;
       }
 
-      .div_step4 .button-wrapper{
+      /*.div_step4 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 17.1em;
         padding-left: 0;
-      }
+      }*/
 
       .div_step5 .sticky-create{
         right: 12em;
       }
 
-      .div_step5 .button-wrapper{
+      /*.div_step5 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 10px;
         padding-left: 0;
-      }
+      }*/
       .not_allowPagewekz{
         height: 365px;
       }
@@ -1769,25 +1820,25 @@ ul.search-apg{
         right: 11em;
       }
 
-      .div_step6 .button-wrapper{
+      /*.div_step6 .button-wrapper{
         border-top: none;
         padding: 0;
         left: 12em;     
         background: no-repeat;
         padding-top: 63px;
-      }
+      }*/
       
 
       .div_step7 .sticky-create{
         right: 12em;
       }
 
-      .div_step7 .button-wrapper{
+     /* .div_step7 .button-wrapper{
         position: unset;
         border-top: none;
         padding-top: 30px;
         padding-left: 0;
-      }
+      }*/
 
       .show-count{
         margin-right: 95px;
@@ -1827,4 +1878,3 @@ a {
 a.adisabled:hover { text-decoration: none; }
 a.adisabled:focus { text-decoration: none; }
 a.adisabled:active { text-decoration: none; }
-

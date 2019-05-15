@@ -43,7 +43,9 @@ export class CourseActivitiesReportGraph implements OnInit {
           show:true,
           formatter: function (value) {
             var val = value.split(',');
-            return '{fregment1|'+val[0]+'}' + '\n' + '{fregment2|'+val[1]+' lessons}';
+            var text = val[0];
+            var count = 10;
+            return '{fregment1|'+text.slice(0, count) + (text.length > count ? "..." : "")+'}' + '\n' + '{fregment2|'+val[1]+' lessons}';
           },
           textStyle: {
             fontSize: 12,

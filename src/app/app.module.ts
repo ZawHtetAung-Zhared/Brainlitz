@@ -91,6 +91,8 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
 import {DndDirective} from './components/testwerkz/dnd.directive';
+import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
+import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
 
 
 @NgModule({
@@ -157,7 +159,9 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
     calculatePMPipe,
     TZDatePipe,
     InvoiceComponent,
-    DndDirective
+    DndDirective,
+    VideoTrimmerComponent,
+    SliderRangeComponent
   ],
   imports: [
     BrowserModule,

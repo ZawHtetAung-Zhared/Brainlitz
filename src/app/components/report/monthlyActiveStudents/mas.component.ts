@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {appService} from '../../../service/app.service';
 import masSampleData from './sampleData';
 declare var $:any;
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'monthly-active-std-report',
@@ -28,8 +29,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
   filterModel:any;
   startDate:any;
   endDate:any;
+  initFilter = true;
   public regionID = localStorage.getItem('regionId');
-
+  @BlockUI() blockUI: NgBlockUI;
   constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -58,11 +60,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.startDate = (new Date('02-28-2015')).toISOString();
     this.endDate = (new Date()).toISOString();
     this.options = {
-      startDate: moment('04-01-2018').startOf('hour'),
-      endDate: moment('11-30-2018').startOf('hour'),
+      startDate: moment('28-02-2015').startOf('hour'),
+      endDate: moment().startOf('hour'),
       locale: {format: 'MMM YYYY'},
       alwaysShowCalendars: true,
     };
@@ -71,14 +73,18 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   ngAfterViewInit(){
     let _self = this;
+    var endMonth = moment().month()+1;
+    var endYear = moment().year();
+    console.log(endMonth,endYear);
     $('#monthRangePicker')
-      .rangePicker({  setDate:[[2,2015],[12,2018]],minDate:[2,2015], maxDate:[1,2019],closeOnSelect:true, RTL:false })
+      .rangePicker({  setDate:[[2,2015],[endMonth,endYear]],minDate:[2,2015], maxDate:[endMonth,endYear],closeOnSelect:true, RTL:false })
       // subscribe to the "done" event after user had selected a date
       .on('datePicker.done', function(e, result){
         if( result instanceof Array ){
+          console.log(result);
           console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
           _self.startDate = (new Date(result[0][1], result[0][0] - 1)).toISOString();
-          _self.endDate = (new Date(result[1][1], result[1][0] - 1)).toISOString();
+          _self.endDate = (new Date(result[1][1], result[1][0])).toISOString();
           _self.showReport();
         }
         else{
@@ -88,8 +94,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   showReport(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getMASReport(this.regionID,this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getfilteredData(res);
         }else{
@@ -171,7 +179,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
-
+    if(_self.initFilter){
+      _self.searchResult.value = _self.categoryList;
+      _self.initFilter = false;
+    }
     return res;
   }
   updateFilterType(value) {
