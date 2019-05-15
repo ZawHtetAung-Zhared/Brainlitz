@@ -37,7 +37,8 @@ export class CoursecreateComponent implements OnInit {
   public courseObj: any = {};
   wordLength: any;
   model: any = {};
-  isChecked: any;
+  endOptChecked: any;
+  timeOptChecked:any;
   minDate: any;
   maxDate: any;
   public days = [
@@ -146,7 +147,8 @@ export class CoursecreateComponent implements OnInit {
       } 
     } else if (this.coursePlan) {
       console.log("course Create");
-      this.isChecked = 'end';
+      this.endOptChecked = 'end';
+      this.timeOptChecked = 'timeSlot';
       this.getAllLocations();
       this.model = [];
       this.planId = this.coursePlan.id;
@@ -289,11 +291,11 @@ export class CoursecreateComponent implements OnInit {
 
         }
         if (this.model.end) {
-          this.isChecked = 'end';
+          this.endOptChecked = 'end';
           this.tempVar = 'end';
           this.tempValue = this.changeDateStrtoObj(res.endDate, "end");
         } else if (this.model.lessonCount) {
-          this.isChecked = 'lesson';
+          this.endOptChecked = 'lesson';
           this.tempVar = 'lesson';
           this.tempValue = res.lessonCount;
         }
@@ -349,7 +351,7 @@ export class CoursecreateComponent implements OnInit {
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-        this.isChecked = 'end';
+        this.endOptChecked = 'end';
         this.model = res;
         this.model.end = "";
         this.model.lessonCount = "";
@@ -642,7 +644,7 @@ export class CoursecreateComponent implements OnInit {
     console.log(this.isthereLC)
   }
 
-  chooseEndOpt(type) {
+  chooseOpt(optType,itemType) {
     // this.isChecked = type;
     // if(type == 'end'){
     //   this.model.end = "";
@@ -655,29 +657,38 @@ export class CoursecreateComponent implements OnInit {
     //   }
     //   this.model.lessonCount = "";
     // }
-    console.log("type",type,"tempVar",this.tempVar)
-    this.isChecked = type;
-    if (this.tempVar) {
-      if (this.tempVar == this.isChecked) {
-        console.log("Draft Choose", this.tempVar);
-        if (this.tempVar == 'end') {
-          this.model.end = this.tempValue;
-          this.model.lessonCount = ""
-        } else {
-          this.model.lessonCount = this.tempValue;
-          this.model.end = ""
-        }
-      }
-    } else {
-      console.log("CREATE");
-      if (this.isChecked == 'end') {
-        this.model.lessonCount = "";
-      } else {
-        this.model.end = "";
-      }
+    // console.log("type",type,"tempVar",this.tempVar)
+    // this.isChecked = type;
+    // if (this.tempVar) {
+    //   if (this.tempVar == this.isChecked) {
+    //     console.log("Draft Choose", this.tempVar);
+    //     if (this.tempVar == 'end') {
+    //       this.model.end = this.tempValue;
+    //       this.model.lessonCount = ""
+    //     } else {
+    //       this.model.lessonCount = this.tempValue;
+    //       this.model.end = ""
+    //     }
+    //   }
+    // } else {
+    //   console.log("CREATE");
+    //   if (this.isChecked == 'end') {
+    //     this.model.lessonCount = "";
+    //   } else {
+    //     this.model.end = "";
+    //   }
+    // }
+
+    // chooseEndOpt function for including flexi and onlinecourse UI
+    switch (optType) {
+      case "endOpt":
+        this.endOptChecked = itemType
+        break;
+      
+      case "timeOpt":
+        this.timeOptChecked = itemType
+        break;
     }
-
-
   }
 
   setMinDate(event) {

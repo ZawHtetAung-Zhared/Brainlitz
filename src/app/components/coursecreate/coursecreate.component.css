@@ -72,7 +72,7 @@ header div{
   height: 1.4rem;
 }
 .create-container{
-  padding: 0px 15px;
+  padding: 0px 45px;
 }
 .header-wrapper{
   padding: 30px 15px;
@@ -211,7 +211,7 @@ header div{
   padding: 8px 15px;
   /*width: 90%;*/
   outline: none;
-  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
   background: #ffffff;
 }
 .input-day,.input-lesson {
@@ -230,7 +230,7 @@ header div{
   font-size: 14px; 
 }
 .input-day{
-  width: 90%;
+  width: 100%;
 }
 .input-lesson{
   width: 100%;
@@ -250,13 +250,48 @@ header div{
 }
 .tool-box label{
   /*width: 138px;*/
-  width: 50%;
+  /*width: 33%;*/
   padding: 8px 0px;
   text-align: center;
   font-size: 14px;
   color: #0080ff;
 }
-
+.radio-wrap,.timeslot-wrap{
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+  border-radius: 25px;
+}
+.radio-wrap label,.timeslot-wrap label{
+  font-family: Inter-UI-Regular;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  /*color: #fff;
+  background: #0080FF;*/
+  color: #0080FF;
+  border-radius: 25px;
+  text-align: center;
+  height: 32px;
+  line-height: 2.3;
+}
+.radio-wrap label:nth-child(1){
+  width: 20%;
+}
+.radio-wrap label:nth-child(2){
+  width: 25%;
+}
+.radio-wrap label:nth-child(3){
+  width: 55%;
+}
+.radio-wrap input,.timeslot-wrap input{
+  display: none;
+}
+.timeslot-wrap{
+  width: 70%;
+}
+.timeslot-wrap label{
+  width: 50%;
+}
 .selected{
   background: #0080ff;
   color: #fff!important;
