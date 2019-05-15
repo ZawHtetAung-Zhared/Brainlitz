@@ -141,21 +141,12 @@
 				</p>
 			</div>
 			<div class="col-md-7">
-				<!-- <div>
-					<label class="chk-label d-flex">
-					  <span class="input-title font-medium mb-2 flexi-label" [ngClass]="{'changeColor': flexiOn == true}">Flexible timetable</span>
-					  <input type="checkbox" (change)="flexiOnOff()" [checked]="flexiOn == true">
-					  <span class="checkmark"></span>
-					</label>
-					<p class="flexi-p font-medium">Lorem Ipsum is simply dummy text of the</p>
-				</div> -->
-				<div class="d-flex" *ngIf="flexiOn == false">				
-					<div class="col-md-6 p-0">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.start == '' || model.start == undefined}">Starts</label>
-						<div class="input-wrap">
-							<div class="cc-start">
-								<input type="text"
-									   placeholder="Start date"
+				<div class="pad-b">
+					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.start == '' || model.start == undefined}">Start date</label>
+					<div class="input-wrap">
+						<div class="cc-start">
+							<input type="text"
+									   placeholder="Starting date"
 									   class="input-day dropD startInput" 
 									   name="start" 
 									   required 
@@ -165,110 +156,15 @@
 									   [maxDate]="maxDate"  ngbDatepicker #start="ngbDatepicker" 
 									   (document:click)="closeDropdown($event, 'start', start)" 
 									   readonly>
-								<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start date" class="input-day" name="start" required [(ngModel)]="model.start" (ngModelChange)="setMinDate($event)" [maxDate]="maxDate" [autoClose]="true" ngbDatepicker #start="ngbDatepicker" (document:click)="closeStart($event, start)" readonly> -->
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 p-0">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': (model.end == '' || model.end == undefined) && (model.lessonCount == '' || model.lessonCount == undefined)}">Ends</label>
-						<div>
-							<div class="tool-box">
-								<label [ngClass]="{'selected':isChecked == 'end'}" class="mb-0 font-semi cursor-on">
-									<input  type="radio" name="prop" (click)="chooseEndOpt('end')"> End Date 
-								</label>
-								<label [ngClass]="{'selected':isChecked == 'lesson'}" class="mb-0 font-semi cursor-on">
-									<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseEndOpt('lesson')"> Lessons Count
-								</label>
-							</div>
-						</div>
-						<div *ngIf="isChecked == 'end'">
-							<div class="cc-end">
-								<input class="input-lesson dropD endInput" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeDropdown($event, 'end' , end)" readonly>
-								<!-- <input *ngIf="isEdit == true" class="input-lesson" type="text" placeholder="End date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" [autoClose]="true" name="end" [(ngModel)]="model.end" ngbDatepicker #end="ngbDatepicker" (document:click)="closeEnd($event, end)" readonly> -->
-							</div>
-						</div>
-						<div *ngIf="isChecked == 'lesson'">
-							<input class="input-lesson" type="number"  name="lesson" placeholder="Lesson Count" ng-pattern="/^(\d)+$/" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
-							<!-- <input *ngIf="isEdit == true" class="input-lesson" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)" readonly> -->
 						</div>
 					</div>
 				</div>
-				<div class="d-flex step-wrapper">
-					<div class="col-md-6 p-0" *ngIf="flexiOn == false">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.startT == '' || model.startT == undefined}">Starting Time</label>
-						<div class="input-wrap">
-							<input 
-								type="text" 
-								placeholder="Start time" 
-								class="input-day" 
-								name="starttime" 
-								required 
-								[(ngModel)]="model.startT" 
-								readonly 
-								(click)="durationProgress($event)" 
-								style="background: none;">
-							<!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
-							<div class="bg-box duration-progress">
-								<div id="rectangle"></div>
-								<div class="time-wrapper d-flex justify-content-center">
-									 <div class="d-flex flex-column justify-content-center showTime font-medium">
-									 	{{showFormat}}
-									 </div>
-									 <div>
-									 	<div class="time-box">
-											<label [ngClass]="{'selected':isSelected == 'AM'}" class="mb-0 font-semi"><input type="radio" name="prop" (click)="chooseTimeOpt('AM')"> AM </label>
-											<label [ngClass]="{'selected':isSelected == 'PM'}" class="mb-0 font-semi">
-												<input type="radio" [(ngModel)]= "model.prop" name="prop" (click)="chooseTimeOpt('PM')"> PM
-											</label>
-										</div>
-									 </div>
-								</div>
-								<div class="gap-box">
-									<label>
-										<div class="col-md-4 max-range">Hour</div>
-										<input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12" (input)="ChangedRangeValue($event.target.value, 'hr')" [(ngModel)]="rangeHr">
-										
-									</label>
-								</div>
-								<div class="gap-range-min">
-									<label>
-										<div class="col-md-4 min-range">Minute</div>
-										<input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="59" step="1" (input)="ChangedRangeValue($event.target.value, 'min')" [(ngModel)]="rangeMin">
-										<!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 p-0" *ngIf="flexiOn == true">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.lessonCount == '' || model.lessonCount == undefined}">Lessons Count</label>
-						<div class="input-wrap">
-							<input class="input-day" type="text" type="number" name="lesson" placeholder="Lesson Count" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
-						</div>
-					</div>
-					<div class="col-md-6 p-0">
-						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.duration == '' || model.duration == undefined}">Duration</label>
-						<div class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput" (click)="showDropdown('duration',isEdit)" >
-							{{ model.duration }} min
-							<span class="fa fa-angle-down d-flex justify-content-center flex-column icon durationDownOpt"></span>
-						</div>
-						<div class="dropdown-wrap" *ngIf="durationMenuShow == true">
-				          <ul class="duration-dropdown">
-				            <li *ngFor="let test of testList;let i = index;">
-				              <div class="w-100" (click)="onClickDuration(test,i)">{{ test }} min</div>
-				            </li>
-				          </ul>
-				        </div>
-				        <div *ngIf="classend" class="msg font-medium">It will end at {{ classend }}</div>
-					</div>
-				</div>
-				<div *ngIf="flexiOn == false" class="checkboxes-wrapper">
+				<div *ngIf="flexiOn == false" class="pad-b">
 					<label class="input-title font-medium" [ngClass]="{'changeColor': selectedDay?.length > 0 == false}">Repeated days</label>
 					<div>
 						<div>
 							<span *ngFor="let d of days">
 								<label class="cursor-on day" [ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1}">
-									<!-- <span><i class="fa fa-check"></i></span> -->
 									<div *ngIf="selectedDay.indexOf(d.val) == -1" class="rounded-box"></div> 
 								    <div *ngIf="selectedDay.indexOf(d.val) != -1" class="rounded-checked"><i  class="fa fa-check"></i></div> 
 									
