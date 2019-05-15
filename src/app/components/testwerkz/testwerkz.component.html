@@ -204,6 +204,9 @@
         </div>
       </div>
     </div>
+    <!-- {{collectionarr.length}}
+    {{pageCollection}}
+    {{pageCollection*20}} -->
     <div *ngIf="collectionarr.length == pageCollection*20" class="load-more">
       <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
       <button class="btn remove-outline" (click)="showmoreCollection(conceptsArr.length)">load more</button>
@@ -273,7 +276,7 @@
         </button>
       </span>
       <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this plan" 
-      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)" [(ngModel)]="searchWords"
       (input)="changeSearch($event.target.value, 'apg')"
       autocomplete="off"
       >
@@ -281,7 +284,7 @@
     <div>
   
       <div class="search-result-box" *ngIf="isFocus_collection == true">
-        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection">
+        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection" [ngClass]="{'d-none': selectedConceptIdArr.indexOf(concept._id) > -1}">
           <div class="d-flex">
             <div class="circle1 plus"></div>
             <div>
@@ -329,37 +332,40 @@
   </div>
   <div *ngIf="selectedConcept.length> 0" class="col-md-12 pl-zero">
     <!-- <div class="wrap-height"> -->
-    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height">
+    <div *ngFor="let sConcept of selectedConcept;let id = index" class="wrap-height"> 
       <!-- <div *ngIf="sConcept.tag != undefined"> -->
+      <div *ngIf="sConcept">
           <span class="tagName_collection">  {{sConcept.tag[0].name}}</span>
-        <!-- <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span> -->
-      <!-- </div> -->
-      <div class="d-flex flex-row justify-content-between">
-        <div class="d-flex group-text">
-            <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
-              <div class="circle2 minus"></div>
-            </button>	
-            <div class="conceptName_collection">{{sConcept.name}}</div>
-        </div>
-        <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
-          <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
-        </span>
-      </div>
-      <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
-        <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
-            <img src="/assets/images/un-thunder-flash-w.png" />
-        </div>
-        <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
-      </div>
-      <div *ngIf="sConcept.isExpand">
-        <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
-          <!-- <span class="detail-dot"></span> -->
-          <div class="flashImg">
-              <img src="/assets/images/un-thunder-flash-w.png" />
+          <!-- <span class="tagName_collection"  *ngFor="let tag of sConcept.tag;">{{tag.name}}</span> -->
+        <!-- </div> -->
+        <div class="d-flex flex-row justify-content-between">
+          <div class="d-flex group-text">
+              <button type="button" class="bt btn-concept" (click)="removeSelectedConcept(sConcept)">
+                <div class="circle2 minus"></div>
+              </button>	
+              <div class="conceptName_collection">{{sConcept.name}}</div>
           </div>
-          <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
+          <span class="lists-down-arrow" [ngClass]="{'transform-y': sConcept.isExpand}" (click)="expandAccessPoint(id,ind)">
+            <i class="fa fa-angle-down" style="font-size: 25px;color: #007fff;"></i>
+          </span>
         </div>
-      </div>
+        <div *ngIf="!sConcept.isExpand" class="d-flex flex-row list-dot-wrap">
+          <div  *ngFor="let pd of sConcept.pd"  class="flashImg">
+              <img src="/assets/images/thunder-flash-g.png" />
+          </div>
+          <!-- <span class="dot" *ngFor="let pd of sConcept.pd"></span> -->
+        </div>
+        <div *ngIf="sConcept.isExpand">
+          <div class="d-flex flex-row expandConcept" *ngFor="let pd of sConcept.pd;let idx = index">
+            <!-- <span class="detail-dot"></span> -->
+            <div class="flashImg">
+                <img src="/assets/images/thunder-flash-g.png" />
+            </div>
+            <div class="mb-0 list-dot-wrap detail-line collection-desc w-100" [ngClass]="{'hide-border': sConcept.pd?.length == idx+1}">{{pd.name}}</div>
+          </div>
+        </div>
+       </div>
+     
       <!-- <hr class="hr-style"> -->
     </div>
   </div>
@@ -1074,7 +1080,7 @@
                   (click)="deleteSettingContents(i)" />
                   <div class="sidebarVidOverlay video" id="Imgoverlay{{ video._id }}" [ngClass]="{'overlayDiv': (video._id != undefined && isMouseOverID == video._id && onselectedVid == video._id) || (video._id == undefined && isMouseOverID == video.contentId && onselectedVid == video.contentId)}"></div>
                   <div *ngIf="onselectedVid == video._id || onselectedVid == video.contentId" class="row duration-wrapper" class="row duration-wrapper">
-                    <div class="col-md-5 start-duration">
+                    <div class="col-md-5 start-duration"> 
                       <label>Start</label>
                       <input type="text" [(ngModel)]="video.start" class="duration" />
                     </div>
@@ -1232,7 +1238,7 @@
         </p>
       </div>
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
-      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="insertImg()">
+      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="onFilesChange()">
         Insert
       </button>
       <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length == 0" disabled="true">
@@ -1266,8 +1272,11 @@
               Upload video
             </button>
             <!-- <button class="btn btn-submit uploadImgBtn">Upload image</button> -->
-            <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
-              (change)="onloadImg($event)" />
+            <!-- <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
+              (change)="openVideoViewModal(videoViewModal,$event)" /> -->
+  
+              <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
+            (change)="onloadImg($event)" />
           </div>
         </div>
       </div>
@@ -1285,7 +1294,9 @@
           <button class="btn btn-submit uploadImgBtn exit-img">
             Upload video
           </button>
-          <input type="file" #fileInput (click)="fileInput.value = null" name="imgFile" accept=".mp4,.mov"
+          <!-- <input type="file" #fileInput (click)="fileInput.value = null" name="imgFile" accept=".mp4,.mov"
+            (change)="openVideoViewModal(videoViewModal,$event)" /> -->
+            <input type="file" name="imgFile" #fileInput (click)="fileInput.value = null" accept="video/mp4,video/*"
             (change)="onloadImg($event)" />
 
           <!-- <input type="file" #fileInput name="imgFile" *ngIf="modelType == 'video'" accept="image/x-png,image/gif,image/jpeg"
@@ -1394,5 +1405,21 @@
     <button type="submit" class="btn modal-delete-btn" (click)="collectionDelete(deleteCollection._id)">
       Delete
     </button>
+  </div>
+</ng-template>
+
+
+<ng-template #videoViewModal let-modal>
+  <!-- <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+  </div> -->
+  <div class="modal-body">
+    <div class="modal-body">
+        <app-video-trimmer source="{{url}}" (base64)="data($event)" id="yourImgTag"></app-video-trimmer>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onloadImg(videoFile)">Save</button>
+    <button type="button" class="btn btn-outline-dark" (click)="cancelModalVideoView()">Cancel</button>
   </div>
 </ng-template>

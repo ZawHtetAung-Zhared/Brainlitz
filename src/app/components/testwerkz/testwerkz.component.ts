@@ -17,6 +17,7 @@ import { nsend } from "q";
 import { resolve } from "path";
 import { connect } from 'tls';
 import { LoggedInGuard } from '../../service/loggedIn.guard';
+import { flatMap } from 'rxjs/operators';
 
 // declare var upndown:any;
 // var Promise = require("bluebird");
@@ -36,6 +37,8 @@ export class TestwerkzComponent implements OnInit {
   // public id2:any;
   // public id3:any;
   // Component
+  public searchWords;
+  public selectedConceptIdArr = [];
   public conceptsArr = [];
   public showRMIcon: any = "";
   public answerSymbols = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -46,6 +49,7 @@ export class TestwerkzComponent implements OnInit {
   public pdIndex: any;
   public questionIndex: any;
   public answerIndex: any;
+  public url: any;
   public greterThan = false;
   public lessThan = false;
   public forElse = false;
@@ -99,6 +103,7 @@ export class TestwerkzComponent implements OnInit {
     name: ""
   };
   public modalReference: any;
+  public modalReference1: any;
   public content_size:any;
   public contentArr:any=[];
   public classCreate = false;
@@ -156,12 +161,14 @@ export class TestwerkzComponent implements OnInit {
   public deleteCollection:string;
   public isExpandExit:boolean=false;
   public isVideoSearch:boolean=false;
+  public videoFile:any;
   
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private _service: appService,
     private modalService: NgbModal,
+    private modalService1: NgbModal,
     private dragulaService: DragulaService,
     public toastr: ToastsManager
   ) {}
@@ -1088,6 +1095,10 @@ export class TestwerkzComponent implements OnInit {
     });
     this.getAllContent(1,20,'');
   }
+  cancelModalVideoView(){
+    console.log("here ")
+    this.modalReference1.close();
+  }
 
   cancelModal() {
     this.modalReference.close();
@@ -1100,6 +1111,7 @@ export class TestwerkzComponent implements OnInit {
     this.ImgArr=[];
     this.isDisabelInsert=false;
     this.uploadedVid = [];
+    this.videoFile="";
   }
   public searchWord:any;
   public isSearch:any;
@@ -1207,18 +1219,36 @@ export class TestwerkzComponent implements OnInit {
     // console.log(this.videoArr)
     return true;
   }
+
+  openVideoViewModal(content,event){
+    this.modalReference1 = this.modalService1.open(content, {
+      backdrop: "static",
+      keyboard: false,
+      windowClass:
+        "video-modal-view modal-xl modal-inv d-flex justify-content-center align-items-center "
+    });
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      console.log(event.target.files[0])
+      this.videoFile=event;
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event:any) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+      }
+    }
+  }
+
   uploadedVid = [];
   onloadImg(event, ele?) {
+    console.log(this.isDrop)
     if (this.isDrop) {
       var file = event;
       this.isDrop = false;
     } else {
       var file = event.target.files;
+      console.log("is me",this.videoFile)
     }
-    console.log(this.modelType)
-    // console.error(this.contentPage)
-    // console.error(this.selectedImgArr);
-    // console.error(20*this.contentPage)
     this.blockUI.start("Loading...");
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
@@ -1239,6 +1269,7 @@ export class TestwerkzComponent implements OnInit {
             setTimeout(() => {
               // console.log("res.meta~~~",res.meta)
               this.autoSelectedVideo(res.meta,"video");
+              // this.modalReference1.close();
             }, 300);
           })
         }
@@ -1432,7 +1463,6 @@ export class TestwerkzComponent implements OnInit {
     // this.onslectedImgDiv(i,img,"exitBorder");
   }
   onVideoRemoveClick(id){
-    console.error("on remove click")
     this.isRemove=true;
     this._service.onDeleteContent(this.regionID, id).subscribe(
       (res: any) => {
@@ -3243,6 +3273,7 @@ export class TestwerkzComponent implements OnInit {
       console.log(res.slice(0,3));
       this.collectionArr_slice=res.slice(0,3);
       this.collectionarr=res;
+      this.result = res;
       setTimeout(() => {
         this.blockUI.stop();
       }, 300);
@@ -3272,6 +3303,8 @@ export class TestwerkzComponent implements OnInit {
     // this.selectedConcept=[];
     // this.collectionId="";
     // this.collectionName="";
+    this.getCollectionlist(1,20);
+    this.pageCollection = 1;
   }
 
   goToaddNewCollection(){
@@ -3284,7 +3317,8 @@ export class TestwerkzComponent implements OnInit {
   }
   
   backTocollectionList(){
-  
+    this.getCollectionlist(1, 20);
+    this.pageCollection = 1;
     this.isCollectionList=false;
     this.isCollection=true;
     this.conceptList=false;
@@ -3303,7 +3337,7 @@ export class TestwerkzComponent implements OnInit {
     this.isFocus_collection = true;
     // this.showfixedcreate = true;
     // this.apgList = [];
-    this.concept_in_collection=[];
+    // this.concept_in_collection=[];
     // this.conceptsArr=[];
   }
 
@@ -3317,6 +3351,7 @@ export class TestwerkzComponent implements OnInit {
 
   changeSearch(keyword, type) {
     console.log(keyword,type)
+    this.searchWords = keyword;
     if (keyword == 0 || keyword == "") {
       this.concept_in_collection=[];
       console.log(this.concept_in_collection)
@@ -3350,6 +3385,7 @@ export class TestwerkzComponent implements OnInit {
 
   selectData(id) {
     console.log(id)
+    // this.searchWords = '' //clear value in input box
       // this.singleAPG(id);
       // this.selectedAPGlists = true;
     this._service.getConceptById(this.regionID,id).subscribe(
@@ -3357,7 +3393,7 @@ export class TestwerkzComponent implements OnInit {
         console.log(res)
         res.isExpand=false;
         this.selectedConcept.push(res);
-     
+        this.selectedConceptIdArr.push(res._id)
         // this.blockUI.stop();
         this.isfocus = false;
       },
@@ -3376,9 +3412,15 @@ export class TestwerkzComponent implements OnInit {
     var index = this.selectedConcept.findIndex(function (element) {
       return element._id === data._id;
     })
+    // for hiding the selected concept in search box
+    var idIndex = this.selectedConceptIdArr.findIndex(function (element) {
+      return element._id === data._id;
+    })
     if (index !== -1) {
       this.selectedConcept.splice(index, 1)
     }
+    this.selectedConceptIdArr.splice(idIndex,1)
+    // for hiding the selected concept in search box
     console.log(this.selectedConcept)
   }
 
@@ -3403,6 +3445,7 @@ export class TestwerkzComponent implements OnInit {
 
   createCollection(){
     let idArr=[];
+    this.pageCollection=1;
     for(let i=0;i<this.selectedConcept.length;i++){
       let conceptIdObj={
         "conceptId":this.selectedConcept[i]._id
@@ -3455,7 +3498,8 @@ export class TestwerkzComponent implements OnInit {
   loopConcept(_this,concept,callback){
     _this._service.getConceptById(_this.regionID,concept).subscribe(
       (conceptRes: any) => {
-        // console.error(conceptRes)
+        console.log(conceptRes)
+        conceptRes.isExpand=false;
         callback(_this,conceptRes)
         // this.selectedConcept.push(conceptRes);
       },
@@ -3470,6 +3514,9 @@ export class TestwerkzComponent implements OnInit {
     setTimeout(() => {
       _this.selectedConcept = pdIds;
       _this.blockUI.stop();
+      _this.selectedConcept.map(obj =>{
+        _this.selectedConceptIdArr.push(obj._id)
+      })
       console.log( _this.selectedConcept)
     }, 200);
   
@@ -3477,11 +3524,13 @@ export class TestwerkzComponent implements OnInit {
   
   goTocollectionEdit(id){
     const _that = this;
-    // console.log(id);
+    console.log(this)
+    console.log(id);
     _that.blockUI.start("Loading...");
     _that._service.getCollectionById(_that.regionID,id).subscribe(
       (res: any) => {
         console.log(res)
+  
         _that.isCollectionEdit=true;
         _that.isCollection=false;
         _that.collectionName=res.name;
@@ -3539,6 +3588,7 @@ export class TestwerkzComponent implements OnInit {
 
   updateCollection(id){
     // console.log(id)
+    this.pageCollection=1;
     this.blockUI.start("Loading...");
     let idArr=[];
     this.isCollectionEdit=false;
@@ -3613,7 +3663,7 @@ export class TestwerkzComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.toastr.success("Successfully Plan Delete.");
-        this.getCollectionlist(1,this.pageCollection);
+        this.getCollectionlist(1,20);
       },
       err => {
         console.log(err);
