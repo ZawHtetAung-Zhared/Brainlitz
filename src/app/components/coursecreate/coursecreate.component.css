@@ -1273,9 +1273,16 @@ button:disabled {
       padding: 0px 15px 0px 0px;
     }
 
-    .radioBtn-disable{
-      opacity: .65;
-      cursor: not-allowed;
+    .disabled-bg{
+      background: #F2F4F5;
+    }
+
+    .selected-disabled{
+      background: #E3E4E6;
+    }
+
+    .disabled-color{
+      color: #B1B2B3!important;
     }
 
     @media only screen and  (min-width:1366px){

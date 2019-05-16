@@ -184,11 +184,11 @@
 					</div>
 				</div>
 				<div class="pb-3">
-					<div class="d-flex timeslot-wrap">
-						<label [ngClass]="{'selected':timeOptChecked == 'showTimeSlot','radioBtn-disable': endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'}" class="mb-0 cursor-on">
+					<div class="d-flex timeslot-wrap" [ngClass]="{'disabled-bg': endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'}">
+						<label [ngClass]="{'selected':timeOptChecked == 'showTimeSlot','selected-disabled': timeOptChecked == 'showTimeSlot' && (endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'),'disabled-color': endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'}" class="mb-0 cursor-on">
 							<input [disabled]="endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'" type="radio" name="prop" (click)="chooseOpt('timeOpt','showTimeSlot')"> Schedule time slot
 						</label>
-						<label [ngClass]="{'selected':timeOptChecked == 'hideTimeSlot','radioBtn-disable': endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'}" class="mb-0 cursor-on">
+						<label [ngClass]="{'selected':timeOptChecked == 'hideTimeSlot','selected-disabled': timeOptChecked == 'hideTimeSlot' && (endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'),'disabled-color': endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'}" class="mb-0 cursor-on">
 							<input [disabled]="endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'" type="radio" name="prop" (click)="chooseOpt('timeOpt','hideTimeSlot')"> No time slot required
 						</label>
 					</div>
