@@ -60,10 +60,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('02-28-2015')).toISOString();
-    this.endDate = (new Date()).toISOString();
+    this.startDate = (moment('02/28/2015')).toISOString();
+    this.endDate = (moment()).toISOString();
     this.options = {
-      startDate: moment('28-02-2015').startOf('hour'),
+      startDate: moment('28/02/2015').startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: {format: 'MMM YYYY'},
       alwaysShowCalendars: true,

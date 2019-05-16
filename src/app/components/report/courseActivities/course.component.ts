@@ -65,10 +65,10 @@ export class CourseActivitiesReport implements OnInit{
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('04-01-2018')).toISOString();
-    this.endDate = (new Date()).toISOString();
+    this.startDate = moment('04/01/2018').toISOString();
+    this.endDate = moment().toISOString();
     this.options= {
-      startDate: moment('04-01-2018').startOf('hour'),
+      startDate: moment('04/01/2018').startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true,
@@ -470,8 +470,8 @@ export class CourseActivitiesReport implements OnInit{
     this.modalReference.close();
   }
   applyDateRange(evt){
-    this.startDate = (new Date(evt.picker.startDate)).toISOString();
-    this.endDate = (new Date(evt.picker.endDate)).toISOString();
+    this.startDate = moment(evt.picker.startDate).toISOString();
+    this.endDate = moment(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
       case "location":
         this.showReportByLocation();
