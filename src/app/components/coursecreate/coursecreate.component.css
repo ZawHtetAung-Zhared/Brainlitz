@@ -59,7 +59,7 @@ input[type=number]::-webkit-outer-spin-button {
 input:-webkit-input-placeholder {
     font-size: 10px !important;
 }
-.font-medium{
+.font-medium,.radio-wrap label,.timeslot-wrap label{
   font-family: 'Inter-UI-Medium',Arial,sans-serif;
 }
 .font-semi{
@@ -262,17 +262,16 @@ header div{
   border-radius: 25px;
 }
 .radio-wrap label,.timeslot-wrap label{
-  font-family: Inter-UI-Regular;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
-  /*color: #fff;
-  background: #0080FF;*/
   color: #0080FF;
   border-radius: 25px;
   text-align: center;
-  height: 32px;
-  line-height: 2.3;
+  padding: 8px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .radio-wrap label:nth-child(1){
   width: 20%;
@@ -307,10 +306,10 @@ header div{
   border-radius: 50px 50px;
 }
 .day{
-    width: 65px;
-    padding: 2px;
+    width: 62px;
+    height: 62px;
     border-radius: 4px;
-    margin: 5px 10px 5px 0px;
+    margin: 5px 8px 5px 0px;
     color: #2e3e4d;
     padding: 10px;
     box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
@@ -1264,6 +1263,19 @@ button:disabled {
     .input-lesson[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
       margin: 0; 
+    }
+
+    .pLeft-15{
+      padding: 0px 0px 0px 15px;
+    }
+
+    .pRight-15{
+      padding: 0px 15px 0px 0px;
+    }
+
+    .radioBtn-disable{
+      opacity: .65;
+      cursor: not-allowed;
     }
 
     @media only screen and  (min-width:1366px){

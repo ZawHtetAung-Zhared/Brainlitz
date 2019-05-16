@@ -679,10 +679,34 @@ export class CoursecreateComponent implements OnInit {
     //   }
     // }
 
-    // chooseEndOpt function for including flexi and onlinecourse UI
+    // chooseOpt function for including flexi and onlinecourse UI
     switch (optType) {
       case "endOpt":
-        this.endOptChecked = itemType
+        this.endOptChecked = itemType;
+        if (this.tempVar) {
+          if (this.tempVar == this.endOptChecked) {
+            console.log("Draft Choose", this.tempVar);
+            if (this.tempVar == 'end') {
+              this.model.end = this.tempValue;
+              this.model.lessonCount = ""
+            } else {
+              this.model.lessonCount = this.tempValue;
+              this.model.end = ""
+            }
+          }
+        } else {
+          console.log("CREATE");
+          if (this.endOptChecked == 'end') {
+            this.model.lessonCount = "";
+            this.model.defaultLessonCount = ""
+          } else if(this.endOptChecked == 'lesson') {
+            this.model.end = "";
+            this.model.defaultLessonCount = ""
+          }else{
+            this.model.lessonCount = "";
+            this.model.end = "";
+          }
+        }
         break;
       
       case "timeOpt":
@@ -756,7 +780,7 @@ export class CoursecreateComponent implements OnInit {
       $('.misfee-bg').removeClass("focus-bg");
     }
     this.focusMisfee = false;
-    console.log(event)
+    // console.log(event)
     // for search dropdown
     // if(this.searchMenuShow == false){
     //    $('.search-dropdown').css('display', 'none'); 
@@ -816,7 +840,7 @@ export class CoursecreateComponent implements OnInit {
     //   }
     // }
     // else{
-    console.log(event.target.className)
+    // console.log(event.target.className)
     if (event.target.className.includes("dropD")) {
       this.feeOptShow = false;
       this.taxOptShow = false;
@@ -861,7 +885,7 @@ export class CoursecreateComponent implements OnInit {
       //   datePicker.close();
     }
     else {
-      console.log("##########",event.target.className)
+      // console.log("##########",event.target.className)
       this.searchMenuShow= false;
       // if (type == "start")
       //   datePicker.close();
