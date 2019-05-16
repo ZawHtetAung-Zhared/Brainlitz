@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 import {appService} from '../../../service/app.service';
 import courseSampleData from './sampleData';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
   selector: 'course-activities-report',
@@ -31,7 +32,10 @@ export class CourseActivitiesReport implements OnInit{
   filterModel:any;
   startDate:any;
   endDate:any;
+  initFilter = true;
   public regionID = localStorage.getItem('regionId');
+  @BlockUI() blockUI: NgBlockUI;
+
   constructor(private daterangepickerOptions: DaterangepickerConfig,private modalService:NgbModal,private _service:appService) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -61,10 +65,10 @@ export class CourseActivitiesReport implements OnInit{
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('04-01-2018')).toISOString();
-    this.endDate = (new Date()).toISOString();
+    this.startDate = moment('04/01/2018').toISOString();
+    this.endDate = moment().toISOString();
     this.options= {
-      startDate: moment('04-01-2018').startOf('hour'),
+      startDate: moment('04/01/2018').startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true,
@@ -76,8 +80,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByLocation(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
           //this.searchResult.value = this.categoryList;
@@ -96,8 +102,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByCategory(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -119,8 +127,10 @@ export class CourseActivitiesReport implements OnInit{
   }
   showReportByCoursePlan(){
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getCourseReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
@@ -208,7 +218,10 @@ export class CourseActivitiesReport implements OnInit{
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
-
+    if(_self.initFilter){
+      _self.searchResult.value = _self.categoryList;
+      _self.initFilter = false;
+    }
     return res;
   }
 
@@ -457,8 +470,8 @@ export class CourseActivitiesReport implements OnInit{
     this.modalReference.close();
   }
   applyDateRange(evt){
-    this.startDate = (new Date(evt.picker.startDate)).toISOString();
-    this.endDate = (new Date(evt.picker.endDate)).toISOString();
+    this.startDate = moment(evt.picker.startDate).toISOString();
+    this.endDate = moment(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
       case "location":
         this.showReportByLocation();

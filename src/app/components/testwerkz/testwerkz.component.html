@@ -204,8 +204,9 @@
         </div>
       </div>
     </div>
-    {{collectionarr.length}}
+    <!-- {{collectionarr.length}}
     {{pageCollection}}
+    {{pageCollection*20}} -->
     <div *ngIf="collectionarr.length == pageCollection*20" class="load-more">
       <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
       <button class="btn remove-outline" (click)="showmoreCollection(conceptsArr.length)">load more</button>
@@ -275,7 +276,7 @@
         </button>
       </span>
       <input class="form-control py-2 input-search-bg" type="search" placeholder="Search Concepts to add to this plan" 
-      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)"
+      id="search-concept" name="searchConcept" (focus)="focusSearch($event)" (focusout)="hideSearch($event)" [(ngModel)]="searchWords"
       (input)="changeSearch($event.target.value, 'apg')"
       autocomplete="off"
       >
@@ -283,7 +284,7 @@
     <div>
   
       <div class="search-result-box" *ngIf="isFocus_collection == true">
-        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection">
+        <div class="single-result" (click)="selectData(concept._id)" *ngFor="let concept of concept_in_collection" [ngClass]="{'d-none': selectedConceptIdArr.indexOf(concept._id) > -1}">
           <div class="d-flex">
             <div class="circle1 plus"></div>
             <div>

@@ -9,7 +9,7 @@ export class MonthlyActiveStdReportGraph implements OnInit {
   plotOption:any;
   echarts:any;
   barColor:any;
-  
+
   ngOnChanges() {
     this.setupOption();
   }
@@ -69,18 +69,21 @@ export class MonthlyActiveStdReportGraph implements OnInit {
         data: []
       }]
     };
+    var height = 50;
     this.reportItems.forEach(function(item){
+      height +=50;
       _self.plotOption.yAxis.data.push(item.groupTypeValue);
       _self.plotOption.series[0].data.push(item.students);
     });
-    this.plotGraph();
+    this.plotGraph(height);
   }
   ngOnInit(){
 
 
   }
-  plotGraph(){
+  plotGraph(h){
     var elem = document.getElementById('masGraph');
+    elem.setAttribute('style','height:'+h+'px');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
   }

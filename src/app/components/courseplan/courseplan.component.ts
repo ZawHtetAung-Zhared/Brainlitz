@@ -287,7 +287,7 @@ export class CourseplanComponent implements OnInit {
     $("#step5").addClass('done');
     $("#step6").addClass('done');
     $("#step7").addClass('done');
-    $("#step8").addClass('done');
+    $("#step8").children("a").css('background-color', '#0080ff');
 
   }
 
@@ -1513,7 +1513,6 @@ export class CourseplanComponent implements OnInit {
         $("#step5").addClass('done');
         $("#step6").addClass('done');
         $("#step7").addClass('done');
-        $("#step8").addClass('done');
         $("#step8").addClass('active');
         this.step8 = true;
       }

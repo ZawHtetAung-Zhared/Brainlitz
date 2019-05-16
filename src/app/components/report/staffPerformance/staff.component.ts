@@ -9,6 +9,7 @@ import {appService} from '../../../service/app.service';
 import staffData from './sampleData';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import * as moment from 'moment';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 
 @Component({
@@ -39,7 +40,9 @@ export class StaffPerformanceReport implements OnInit {
   options: any;
   startDate:any;
   endDate:any;
+  initFilter = true;
   public regionID = localStorage.getItem('regionId');
+  @BlockUI() blockUI: NgBlockUI;
 
   /**
    * Initialize the StaffPerformanceReport
@@ -94,10 +97,10 @@ export class StaffPerformanceReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (new Date('04-01-2018')).toISOString();
+    this.startDate = (new Date('04/01/2018')).toISOString();
     this.endDate = (new Date()).toISOString();
     this.options= {
-      startDate: moment('04-01-2018').startOf('hour'),
+      startDate: moment('04/01/2018').startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true,
@@ -140,8 +143,10 @@ export class StaffPerformanceReport implements OnInit {
 
     //[TODO:Update better way to iterate data]
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"location",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByLocation(res);
         }else{
@@ -169,8 +174,10 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCategory() {
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"category",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCategory(res);
         }else{
@@ -199,8 +206,10 @@ export class StaffPerformanceReport implements OnInit {
    */
   showReportByCoursePlan() {
     this.reportData = [];
+    this.blockUI.start('Loading...');
     this._service.getStaffPerformanceReport(this.regionID,"courseplan",this.startDate,this.endDate)
       .subscribe((res:any) => {
+        this.blockUI.stop();
         if(res.length){
           this.reportData = this.getFilteredDataGroupByCoursePlan(res);
         }else{
@@ -379,6 +388,10 @@ export class StaffPerformanceReport implements OnInit {
       _self.locationList = Array.from(new Set(_self.locationList));
       _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
       _self.courseNameList = Array.from(new Set(_self.courseNameList));
+      if(_self.initFilter){
+        _self.searchResult.value = _self.categoryList;
+        _self.initFilter = false;
+      }
       return result;
     }
 
