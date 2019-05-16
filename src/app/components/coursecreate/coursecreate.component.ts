@@ -148,7 +148,7 @@ export class CoursecreateComponent implements OnInit {
     } else if (this.coursePlan) {
       console.log("course Create");
       this.endOptChecked = 'end';
-      this.timeOptChecked = 'timeSlot';
+      this.timeOptChecked = 'showTimeSlot';
       this.getAllLocations();
       this.model = [];
       this.planId = this.coursePlan.id;
