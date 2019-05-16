@@ -93,6 +93,7 @@ import { MediumEditorModule } from 'angular2-medium-editor';
 import {DndDirective} from './components/testwerkz/dnd.directive';
 import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
 import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
+import { FlexyCourseComponent } from './components/flexy-course/flexy-course.component';
 
 
 @NgModule({
@@ -161,7 +162,8 @@ import { SliderRangeComponent } from './components/video-trimmer/slider-range/sl
     InvoiceComponent,
     DndDirective,
     VideoTrimmerComponent,
-    SliderRangeComponent
+    SliderRangeComponent,
+    FlexyCourseComponent
   ],
   imports: [
     BrowserModule,

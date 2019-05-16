@@ -53,7 +53,7 @@ export class CourseComponent implements OnInit {
   public categoryIDArray: Array<any> = [];
   public startTime:boolean = false;
   public endTime:boolean = false;
-
+  public showflexyCourse:boolean = false;
   public isChecked:any;
   public isEndChecked:any;
   public timeFrame:Array<any> = ['AM','PM'];
@@ -198,6 +198,85 @@ export class CourseComponent implements OnInit {
   public invStatus:any;
   public noSetting:boolean = false;
   public isoutSideClick:boolean = false;
+  public flexyObj=[
+    {
+      id:"1",
+      date:"8 May",
+      day:"Monday",
+      studentCount:20,
+      status:"normal"
+    },
+    {
+      id:"2",
+      date:"15 May",
+      day:"Monday",
+      studentCount:20,
+      status:"normal"
+    },
+    {
+      id:"3",
+      date:"20 May",
+      day:"Monday",
+      studentCount:20,
+      status:"conflict"
+    },
+    {
+      id:"4",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"holiday"
+    },
+    {
+      id:"5",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"leave"
+    },
+    {
+      id:"6",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"skipped"
+    },
+    {
+      id:"7",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"holiday"
+    },
+    {
+      id:"8",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"skipped"
+    },
+    {
+      id:"9",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"skipped"
+    },
+    {
+      id:"10",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"skipped"
+    },
+    {
+      id:"11",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"leave"
+    }
+  ];
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -2212,7 +2291,8 @@ export class CourseComponent implements OnInit {
          this.invoiceInfo = res.invoiceSettings;
        }
        this.invoice = res.invoice;
-       this.showInvoice = true;
+       this.showInvoice = false;
+       this.showflexyCourse=true;
        this.showOneInvoice(this.invoice);
        // for(var i in this.invoice){
        //   this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -3014,4 +3094,17 @@ export class CourseComponent implements OnInit {
       }, 500);
   }
 
+  lessionIdArr:any=[];
+  lessonCheck(id){
+    console.log(id);
+    console.log(this.lessionIdArr)
+    console.log(this.lessionIdArr.indexOf(id))
+    console.log(this.lessionIdArr.includes(id))
+    if(this.lessionIdArr.includes(id)){
+      this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
+    }else{
+      this.lessionIdArr.push(id);
+    }
+    console.log(this.lessionIdArr)
+  }
 }
