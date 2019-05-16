@@ -179,6 +179,9 @@
 							<input class="input-lesson" type="number"  name="lesson" placeholder="0 lesson" ng-pattern="/^(\d)+$/" [(ngModel)]="model.lessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
 						</div>
 						<div *ngIf="endOptChecked == 'defaultLesson'">
+							<div class="default-lesson pb-3">
+								Number of lessons to be allocated for each enrolment
+							</div>
 							<input class="input-lesson" type="number"  name="lesson" placeholder="0 lesson" ng-pattern="/^(\d)+$/" [(ngModel)]="model.defaultLessonCount" #lesson="ngModel" (input)="lCount($event.target.value)">
 						</div>
 					</div>
