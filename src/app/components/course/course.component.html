@@ -456,11 +456,14 @@
           </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
-          <div class="cdetail">
+          <div *ngIf="detailLists.type == null || detailLists.type == 'REGULAR' || detailLists.type == 'FLEXY'" class="cdetail">
             <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
               {{ day }}
             </h5>
             <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
+          </div>
+          <div *ngIf="detailLists.type == 'ONLINE'">
+            Test
           </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
