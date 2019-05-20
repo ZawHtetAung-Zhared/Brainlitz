@@ -111,6 +111,8 @@
             </div>
             <span *ngIf="apg.share.status== true"> <ul class="bullet-list-style"><li></li></ul> </span>
             <button class="apg-share remove-outline" [ngClass]="{'apg-share-padding': apg.share.status== true}" (click)="apgPublicShare(apg._id)">Share</button>
+            <span *ngIf="apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation'">|</span>
+            <button *ngIf="apg.module.name.toLowerCase() == 'assessment' || apg.module.name.toLowerCase() == 'evaluation'" (click)="exportCSV(apg._id)" class="apg-share remove-outline">Export</button>
           </div>
           <div>
             <button class="btn-action remove-outline" (click)="onclickUpdate(apg._id,apg)">Edit</button> | <button
