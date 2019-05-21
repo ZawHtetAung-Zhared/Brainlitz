@@ -1060,183 +1060,45 @@
       </div>
     </form>
   </div>
-
-  <div class="flexiModal" *ngIf="showInvoice == false && showflexyCourse == true" >
-    <div class="innerFlexiModal">
-        <div class="d-flex">
-            <div class="d-flex back" (click)="backToCourses('back','')">
-              <i class="fa fa-angle-left flexiBackicon"></i>
-              <p class="mb-0 font-medium ">Add customer</p>
-            </div>
-            <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
-              <span class="closemark">
-                <div class="closemark_stem"></div>
-                <div class="closemark_kick"></div>
-              </span>
-              <!-- <span aria-hidden="true" >×</span> -->
-            </button>
-        </div>
-        <p class="flexititle">Enroll lesson</p>
-        <div class="d-flex">
-          <div class="col-md-4 p-0">
-            <div class="d-flex">
-              <div class="flexi-img-div">
-                <div class="flexi-img-wrap">
-                  <img src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png">
-                </div>
-              </div>
-              <div class="flexi-name-div">
-                <p class="flexi-name">Emma Watson</p>
-                <label class="flexi-email">emmawatson@amdon.com</label>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 modal-cfees">
-            <h5 class="mt-03">
-              <i class="fa fa-map-marker" style="font-size:15px"></i>
-              Bedok Centre 
-            </h5>
-            <b>Beginner Piano cours</b>
-          </div>
-          <div class="col-md-4 modal-cfees">
-            <!-- <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
-              {{ day }}
-            </h5> -->
-            <h5 class="flexi-day">SUN & MON</h5>
-            <!-- <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate
-              | utcTime }}</div> -->
-            <div class="flexi-modal-duration">11:00 AM - 12:00 AM</div>
-          </div>
-        </div>
-        <div class="d-flex teacher-gp">
-          <div class="flexi-img-div teacherImg">
-            <div class="flexi-img-wrap teacherImg-wrap">
-              <img src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png">
-            </div>
-          </div>
-          <div class="flexi-teacher-div">
-            <p class="flexi-teacher-position">Senior Teacher</p>
-            <label class="flexi-teacher-name">Arron Wamsley</label>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="flexiCircle">
-            <i class="fa fa-plus circlePlus"></i>
-          </div>
-          <p class="previousDate">Load previous dates</p>
-        </div>
-        <div class="row lessonBoxgp">
-          <div class="col-md-2 lessonbox" *ngFor="let obj of flexyObj">
-            <div class="lessonbox-inner" (click)="lessonCheck(obj.id)" *ngIf="obj.status =='normal'"[ngStyle]="lessionIdArr.indexOf(obj.id) != -1  ? {'background': ' #007FFF'} : {'background': '#FFFFFF'}">
-              <div class="d-flex">
-                <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
-                    <i class="fa fa-check checkIcon"></i>
-                </div>
-                <div class="uncheckBox" *ngIf="lessionIdArr.indexOf(obj.id) == -1"> 
-                </div>
-                <div class="showDate" >
-                  <p class="date" [ngClass]="{'checkedDate':lessionIdArr.indexOf(obj.id) != -1}">8 May</p>
-                  <p class="day" [ngClass]="{'checkedDext':lessionIdArr.indexOf(obj.id) != -1}">Monday</p>
-                </div>
-              </div>
-              <div class="statusBox" [ngClass]="{'checkStudent':lessionIdArr.indexOf(obj.id) != -1}">
-                <p class="statusText">20 students</p>
-              </div>
-            </div>
-            <div class="lessonbox-conflict" *ngIf="obj.status=='conflict'">
-              <div class="d-flex justify-content-between">
-                <div class="d-flex">
-                  <div class="exIcon">
-                    <i class="fa fa-exclamation-circle exclamationIcon"></i>
-                  </div>
-                  <div class="showDate" >
-                    <p class="date" [ngClass]="{'checkedDate':lessionIdArr.indexOf(obj.id) != -1}">8 May</p>
-                    <p class="day" [ngClass]="{'checkedDext':lessionIdArr.indexOf(obj.id) != -1}">Monday</p>
-                  </div>
-                </div>
-                <div class="downArrow">
-                    <i class="fa fa-angle-down downIcon"></i>
-                </div>
-              </div>
-            
-              <div class="statusBox">
-                <p class="statusText">Skip: {{obj.status}}</p>
-              </div>
-            </div>
-            <div class="lessonbox-skipped"  *ngIf="obj.status=='skipped'">
-              <div class="d-flex justify-content-between">
-                <div class="d-flex">
-                  <div class="skippedIcon minus">
-                  </div>
-                  <div class="showDate skippedDate" >
-                    <p class="date" [ngClass]="{'checkedDate':lessionIdArr.indexOf(obj.id) != -1}">8 May</p>
-                    <p class="day" [ngClass]="{'checkedDext':lessionIdArr.indexOf(obj.id) != -1}">Monday</p>
-                  </div>
-                </div>
-                <div class="downArrow">
-                    <i class="fa fa-angle-down downIcon"></i>
-                </div>
-              </div>
-                
-              <div class="statusBox">
-                <p class="statusText">Skip: {{obj.status}}</p>
-              </div>
-            </div>
-            <div class="lessonbox-holiday"  *ngIf="obj.status== 'holiday'">
-              <div class="d-flex">
-                <div class="circleMinus minus">
-                </div>
-                <div class="showDate holidayDate" >
-                  <p class="date" [ngClass]="{'checkedDate':lessionIdArr.indexOf(obj.id) != -1}">8 May</p>
-                  <p class="day" [ngClass]="{'checkedDext':lessionIdArr.indexOf(obj.id) != -1}">Monday</p>
-                </div>
-              </div>
-              <div class="statusBox">
-                <p class="statusText">Skip: {{obj.status}}</p>
-              </div>
-            </div>
-            <div class="lessonbox-leave"  *ngIf="obj.status== 'leave'">
-              <div class="d-flex">
-                <div class="circleMinus minus">
-                </div>
-                <div class="showDate leaveDate" >
-                  <p class="date" [ngClass]="{'checkedDate':lessionIdArr.indexOf(obj.id) != -1}">8 May</p>
-                  <p class="day" [ngClass]="{'checkedDext':lessionIdArr.indexOf(obj.id) != -1}">Monday</p>
-                </div>
-              </div>
-              <div class="statusBox">
-                <p class="statusText">Skip: {{obj.status}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="flexiCircle">
-            <i class="fa fa-plus circlePlus"></i>
-          </div>
-          <p class="previousDate">Load More</p>
-        </div>
+<!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
+<div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+<div class="flexiModal" *ngIf="showInvoice == false && showflexyCourse == true" >
+  <div class="innerFlexiModal">
+    <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+      <div class="d-flex back" (click)="backtoCustomer()">
+        <i class="fa fa-angle-left flexiBackicon"></i>
+        <p class="mb-0 font-medium ">Add customer</p>
+      </div>
+      <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
+        <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+        </span>
+        <!-- <span aria-hidden="true" >×</span> -->
+      </button>
     </div>
-    <div class="p-3 modal-footer d-flex justify-content-between">
-        <div class="d-flex flex-column">
-          <p class="textCount">Number of lessons required: </p>
-          <div class="selectedCountBox">
-            <p class="selectedTest">
-                Selected lessons: {{lessionIdArr.length}}
-            </p>
-          </div>
+    <app-flexi [flexyObj]="flexyObj" [showcb]="showcb" (checkIdArr)="countChange($event)" (passDataconflictBoxShow)="conflictBoxShow($event)"></app-flexi>
+   
+  </div>
+  <div class="modal-footer d-flex justify-content-between" style=" padding: 18px 25px 18px 25px;">
+      <div class="d-flex flex-column">
+        <p class="textCount">Number of lessons required: </p>
+        <div class="selectedCountBox">
+          <p class="selectedTest">
+              Selected lessons: {{idarr.length}}
+          </p>
         </div>
-        <div class="">
-          <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-          <button type="submit" class="btn btn-submit">Confirm</button>
-        </div>
+      </div>
+      <div class="">
+        <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+        <button type="submit" class="btn btn-submit">Confirm</button>
+      </div>
     </div>
-  </div>
+</div>
 
-  <div class="invoice-wrap" *ngIf="showInvoice == true" >
-    <app-invoice [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
-  </div>
-
+<div class="invoice-wrap" *ngIf="showInvoice == true" >
+  <app-invoice [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
+</div>
 </ng-template>
 <ng-template #tabsModal let-c="close" let-d="dismiss">
   <div class="d-flex modal-header flex-column header-shadow">

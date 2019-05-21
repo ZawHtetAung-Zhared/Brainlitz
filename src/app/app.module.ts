@@ -93,8 +93,7 @@ import { MediumEditorModule } from 'angular2-medium-editor';
 import {DndDirective} from './components/testwerkz/dnd.directive';
 import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
 import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
-import { FlexyCourseComponent } from './components/flexy-course/flexy-course.component';
-
+import { FlexiComponent } from './components/flexi/flexi.component';
 
 @NgModule({
   declarations: [
@@ -163,7 +162,7 @@ import { FlexyCourseComponent } from './components/flexy-course/flexy-course.com
     DndDirective,
     VideoTrimmerComponent,
     SliderRangeComponent,
-    FlexyCourseComponent
+    FlexiComponent
   ],
   imports: [
     BrowserModule,

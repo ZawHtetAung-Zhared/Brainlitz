@@ -1,5 +1,5 @@
 import { InvoiceComponent } from './../invoice/invoice.component';
-import { Component, OnInit, ViewContainerRef, HostListener, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, HostListener, Inject,ViewChildren, QueryList } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,10 @@ import * as moment from 'moment-timezone';
 import {DatePipe} from '@angular/common';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { last } from 'rxjs/operator/last';
+import { ArrayType } from '@angular/compiler/src/output/output_ast';
+import { isDate } from 'moment';
+import { EmitterVisitorContext } from '@angular/compiler';
+import { FlexiComponent } from '../flexi/flexi.component';
 
 // import { start } from 'repl';
 declare var $:any;
@@ -22,6 +26,9 @@ declare var $:any;
   providers: [NgbDatepickerConfig]
 })
 export class CourseComponent implements OnInit {
+  @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<FlexiComponent>; 
+  // @ViewChild('childComponent') FlexiComponent;
+  
   courseList: Array<any> = [];
   code:any ;
   public reasonValue:any;
@@ -198,6 +205,8 @@ export class CourseComponent implements OnInit {
   public invStatus:any;
   public noSetting:boolean = false;
   public isoutSideClick:boolean = false;
+
+
   public flexyObj=[
     {
       id:"1",
@@ -276,7 +285,16 @@ export class CourseComponent implements OnInit {
       studentCount:20,
       status:"leave"
     }
+    ,
+    {
+      id:"11",
+      date:"1 May",
+      day:"Monday",
+      studentCount:20,
+      status:"enroll"
+    }
   ];
+
 
   constructor( @Inject(DOCUMENT) private doc: Document, private router: Router, private _service: appService, public dataservice: DataService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef,config: NgbDatepickerConfig, calendar: NgbCalendar ) {
     this.toastr.setRootViewContainerRef(vcr);
@@ -490,7 +508,8 @@ export class CourseComponent implements OnInit {
     this.invCurrency = {
       'sign': ''
     }
-
+    console.log(this.FlexiComponent)
+    
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event){
@@ -3094,17 +3113,35 @@ export class CourseComponent implements OnInit {
       }, 500);
   }
 
-  lessionIdArr:any=[];
-  lessonCheck(id){
-    console.log(id);
-    console.log(this.lessionIdArr)
-    console.log(this.lessionIdArr.indexOf(id))
-    console.log(this.lessionIdArr.includes(id))
-    if(this.lessionIdArr.includes(id)){
-      this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
-    }else{
-      this.lessionIdArr.push(id);
-    }
-    console.log(this.lessionIdArr)
+  idarr:any=[];
+  countChange(e){
+    console.log(e);
+    this.idarr=e;
+  }
+
+  showcb:boolean=false;
+
+  conflictBoxShow(e){
+    this.showcb=e;
+    console.log(e)
+    console.log($('.conflictPopUp'))
+    // $('.conflictPopUp').show();
+  }
+
+  clickOverlay(){
+    this.showcb=false;
+    console.log(this.FlexiComponent);
+    this.FlexiComponent.changes.subscribe( e => {
+      console.log(e);
+      $('.conflictPopUp').hide();
+      
+    })
+  }
+  
+
+  backtoCustomer(){
+    this.showflexyCourse=false;
+    this.invoice=false;
+    this.showPayment=false;
   }
 }

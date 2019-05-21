@@ -403,7 +403,7 @@
                       </div>
                       <div *ngIf="timetable.lesson.cancel">
                         <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" >
-                            <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
+                            <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box arrClasses" [ngClass]="arrClasses"></div>
                             <div class="w-100 popUpbox">
                               <div class="d-flex teacher-info">
                                 <div class="profile-wrap">

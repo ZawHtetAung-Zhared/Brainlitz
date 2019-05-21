@@ -1891,9 +1891,7 @@ button:disabled{
 .img-div{
   width: 70px;
 }
-.flexi-img-div{
-  width: 60px;
-}
+
 
 .pad-15{
   padding: 15px 15px;
@@ -2832,318 +2830,13 @@ button:focus {
   background: #801f19;
 }
 
-/* start flexy course modal*/
+/* start flexi modal */
+  
 i.fa.fa-angle-left.flexiBackicon {
   font-size: 20px;
   color: #3D5266;
   font-weight: bold;
   padding-right: 4px;
-}
-
-p.mb-0.font-medium {
-  color: #2E3D4D;
-  font-size: 16px;
-}
-
-
-p.flexititle {
-  font-size: 28px;
-  color: #2E3D4D;
-  padding-top: 8px;
-}
-
-.innerFlexiModal {
-  max-height: 60vh;
-  min-height: 60vh;
-  overflow: overlay;
-  padding: 20px 32px 0px 32px;
-}
-
-p.flexi-name {
-  font-size: 18px;
-  color: #2E3D4D;
-  font-weight: 600;
-}
-
-.flexi-name-div {
-  line-height: 10.2px;
-  padding-top: 7px;
-}
-
-label.flexi-email {
-  font-size: 14px;
-  color: #64707D;
-  font-weight: 500;
-}
-
-.col-md-4.modal-cfees {
-  border-left: 2px solid #edeff0;
-}
-h5.flexi-day {
-  font-size: 16px;
-  color: #2E3D4D;
-  font-weight: 600;
-}
-
-.d-flex.teacher-gp {
-  padding-top: 30px;
-  padding-bottom: 20px;
-}
-
-p.flexi-teacher-position {
-  font-weight: 500;
-  font-size: 12px;
-  color: #64707D;
-}
-label.flexi-teacher-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2E3D4D;
-}
-
-.flexi-teacher-div {
-  line-height: 5px;
-  padding-top: 7px;
-}
-
-.flexi-img-wrap.teacherImg-wrap {
-  width: 40px;
-  height: 40px;
-}
-.flexi-img-div.teacherImg {
-  width: 50px;
-}
-
-i.fa.fa-plus.circlePlus {
-  font-size: 16px;
-  color: #007FFF;
-}
-.flexiCircle {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  padding-top: 4px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.flexiCircle {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  padding-top: 6px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-p.previousDate {
-  font-weight: 500;
-  font-size: 16px;
-  color: #007FFF;
-  padding-top: 5px;
-  padding-left: 12px;
-}
-
-.lessonbox{
-  height: 88px;
-  margin-bottom: 16px;
-  padding-right: 0;
-}
-
-/* .lessonbox-inner-checked {
-  background: #007FFF;
-} */
-
-.lessonbox-holiday ,.lessonbox-leave
-{
-  background: #FFECEB;
-  height: 88px;
-  border-radius: 4px;
-  padding-left: 12px;
-}
-
-.lessonbox-skipped,.lessonbox-conflict {
-  background: #FFFFFF;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  height: 88px;
-  padding-left: 12px;
-}
-
-.lessonbox-inner{
-  /* background: #FFFFFF; */
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  height: 88px;
-  padding-left: 12px;
-}
-.uncheckBox{
-  width: 16px;
-  height: 16px;
-  border: 2px solid #64707D;
-  border-radius: 2px;
-  margin-top: 12px;
-}
-
-.showDate {
-  padding-left: 12px;
-  padding-top: 10px;
-}
-
-p.date {
-  margin-bottom: 4px;
-  color: #2E3D4D;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-}
-p.day {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  color: #64707D;
-  margin-bottom: 10px;
-}
-
-
-.statusBox {
-  width: 81px;
-  height: 20px;
-  background: #F2F4F5;
-  border-radius: 29px;
-  text-align: center;
-  padding-top: 2px;
-  margin-left: 23px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-  color: #64707D;
-}
-
-.checkBox {
-  background: #FFFFFF;
-  border-radius: 2px;
-  width: 16px;
-  height: 16px;
-  margin-top: 12px;
-}
-
-i.fa.fa-check.checkIcon {
-  color: #007FFF;
-  font-size: 12px;
-}
-p.date.checkedDate {
-  color: #FFFFFF;
-}
-
-p.day.checkedDext {
-  color: #E3E4E6;
-}
-
-.statusBox.checkStudent {
-  background: #80C0FF;
-}
-
-.statusBox.checkStudent {
-  background: #80C0FF;
-  color: #004080;
-}
-
-i.fa.fa-exclamation-circle.exclamationIcon {
-  color: #F26500;
-  font-size: 18px;
-}
-.exIcon {
-  padding-top: 8px;
-  padding-left: 6px;
-}
-.lessonbox-conflict .statusBox{
-  /* width: 89px; */
-  margin-left: 26px;
-}
-.leaveIcon {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #FF6E66;
-  border-radius: 50%;
-  margin-top: 10px;
-  color: #FF6E66;
-  margin-left: 12px;
-}
-
-.lessonbox-holiday .d-flex .showDate p.date,.lessonbox-leave .d-flex .showDate p.date {
-  color: #FF554D;
-}
-.lessonbox-holiday .d-flex .showDate p.day,.lessonbox-leave .d-flex .showDate p.day{
-  color: #FF554D;
-}
-
-.lessonbox-holiday .statusBox,.lessonbox-leave .statusBox{
-  background: #FFFFFF;
-  color: #FF6E66;
-  margin-left: 26px
-}
-.downArrow {
-  margin-right: 12px;
-  margin-top: 8px;
-}
-i.fa.fa-angle-down.downIcon {
-  color: #3D5261;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.circleMinus {
-  border: 2px solid #ff3d33;
-  width: 16px;
-  height: 16px;
-  border-radius: 100%;
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  float: left;
-  margin-top: 10px;
-  margin-left: 6px;
-}
-.circleMinus.minus:before  {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #ff3d33;
-  margin: auto 2px;
-  height: 2px;
-}
-
-
-.skippedIcon {
-  background: #788796;
-  width: 16px;
-  height: 16px;
-  border-radius: 100%;
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  float: left;
-  margin-top: 10px;
-  margin-left: 6px;
-}
-.skippedIcon.minus:before  {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #FFFFFF;
-  margin: auto 4px;
-  height: 2px;
-}
-
-.showDate.holidayDate , .showDate.leaveDate ,.showDate.skippedDate{
-  padding-left: 0;
 }
 
 p.textCount {
@@ -3154,6 +2847,7 @@ p.textCount {
   margin: 0;
   margin-bottom: 5px;
 }
+
 
 .selectedCountBox {
   width: 155px;
@@ -3167,4 +2861,18 @@ p.textCount {
   color: #004080;
   line-height: 16px;
 }
-/* end flexy course modal*/
+
+.overlayModal {
+  background: rgba(39, 49, 70, 0.4);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  border-radius: 9px;
+}
+
+/* end flexi modal */

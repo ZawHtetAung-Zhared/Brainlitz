@@ -2071,7 +2071,9 @@ export class ScheduleComponent implements OnInit {
     this.yPosition = e.layerY + 25;
     this.xPosition = e.layerX - 25;
 
-    console.log($(event.target))
+    console.log($(event.target).offset().left +"<left")
+    console.log($(event.target).offset().top +"<top")
+    console.log($(event.target).height() +"<height")
     this.xPosition = $(event.target).offset().left - 150 + $(event.target).width() / 2;
     this.yPosition = $(event.target).offset().top + $(event.target).height() + 10;
     this.arrTop = $(event.target).offset().top + $(event.target).height() - 10;
