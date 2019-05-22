@@ -1248,6 +1248,7 @@ li button{
   /*background: url(../../../../assets/src/img/wave-1@3x.png) no-repeat top;*/
   background-size: contain;
   background-repeat: no-repeat;
+  height: 110px;
 }
 .course-bg:nth-child(1) .cdetail{
   background-image: url("../../../assets/img/wave-1@3x.png");
