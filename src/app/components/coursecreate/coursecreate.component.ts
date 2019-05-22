@@ -340,6 +340,7 @@ export class CoursecreateComponent implements OnInit {
         this.temp["lessonCount"] = this.model.lessonCount;
         this.temp["repeatDays"] = this.selectedDay;
         this.temp["durationTimes"] = this.model.durationTimes;
+        this.temp["defaultCount"] = this.model.defaultlessonCount;
         localStorage.setItem("tempObj", JSON.stringify(this.temp));
         // setTimeout(() => {
         //    this.createCourse();
@@ -363,9 +364,7 @@ export class CoursecreateComponent implements OnInit {
           this.isEdit = false;
         } else {
           this.isEdit = true;
-        }
-
-        
+        }       
       });
   }
 
@@ -1405,88 +1404,146 @@ export class CoursecreateComponent implements OnInit {
       console.log("Temp obj", testObj)
       console.log("Not First Time");
       console.log(this.model.end,this.model.lessonCount, this.flexiOn)
-
-      if (this.model.end) {
-        console.log("this.model.end", this.model.end)
-        var endD = this.changeDateFormat(this.model.end, "23:59:59:999");
-        if (testObj.endDate != endD) {
-          console.log("Not same endD", testObj.endDate, "&&&", endD);
-          this.courseObj["endDate"] = endD;
-          this.temp["endDate"] = endD;
-          //other Obj
-          this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
-          this.courseObj["repeatDays"] = this.selectedDay;
-          localStorage.setItem("tempObj", JSON.stringify(this.temp));
-          this.tempVar = "end";
-          this.tempValue = this.model.end;
-          this.model.lessonCount = null;
+      if(this.timeOptChecked == 'showTimeSlot'){
+        // flexy and regular
+        if (this.model.end) {
+          console.log("this.model.end", this.model.end)
+          var endD = this.changeDateFormat(this.model.end, "23:59:59:999");
+          if (testObj.endDate != endD) {
+            console.log("Not same endD", testObj.endDate, "&&&", endD);
+            this.courseObj["endDate"] = endD;
+            this.temp["endDate"] = endD;
+            //other Obj
+            this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+            this.courseObj["repeatDays"] = this.selectedDay;
+            localStorage.setItem("tempObj", JSON.stringify(this.temp));
+            this.tempVar = "end";
+            this.tempValue = this.model.end;
+            this.model.lessonCount = null;
+            this.model.defaultlessonCount = null;
+          }
         }
-      }
 
-      if (this.model.lessonCount && this.flexiOn == false) {
-        console.log("LessonCount KKK");
-        if (testObj.lessonCount != this.model.lessonCount) {
-          console.log("Not Same", testObj.lessonCount, "&&&", this.model.lessonCount);
-          this.courseObj["lessonCount"] = this.model.lessonCount;
-          this.temp["lessonCount"] = this.model.lessonCount;
+        // if (this.model.lessonCount && this.flexiOn == false) {
+        if (this.model.lessonCount) {
+          console.log("LessonCount KKK");
+          if (testObj.lessonCount != this.model.lessonCount) {
+            console.log("Not Same", testObj.lessonCount, "&&&", this.model.lessonCount);
+            this.courseObj["lessonCount"] = this.model.lessonCount;
+            this.temp["lessonCount"] = this.model.lessonCount;
+            // other obj
+            this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+            this.courseObj["repeatDays"] = this.selectedDay;
+            localStorage.setItem("tempObj", JSON.stringify(this.temp));
+            this.tempVar = "lesson";
+            this.tempValue = this.model.lessonCount;
+            this.model.end = null;
+            this.model.defaultlessonCount = null;
+          }
+        } 
+        // else if (this.model.lessonCount && this.flexiOn == true) {
+        //   this.courseObj["lessonCount"] = this.model.lessonCount;
+        //   this.temp["lessonCount"] = this.model.lessonCount;
+        //   this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+        //   this.courseObj["repeatDays"] = this.selectedDay;
+        //   localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        //   this.tempVar = "lesson";
+        //   this.tempValue = this.model.lessonCount;
+        // }
+
+        if (testObj.defaultlessonCount != this.model.defaultlessonCount) {
+          console.log("Not Same", testObj.defaultlessonCount, "&&&", this.model.defaultlessonCount);
+          this.courseObj["defaultlessonCount"] = this.model.defaultlessonCount;
+          this.temp["defaultlessonCount"] = this.model.defaultlessonCount;
           // other obj
           this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
           this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem("tempObj", JSON.stringify(this.temp));
-          this.tempVar = "lesson";
-          this.tempValue = this.model.lessonCount;
+          this.tempVar = "defaultlessonCount";
+          this.tempValue = this.model.defaultlessonCount;
           this.model.end = null;
+          this.model.lessonCount = null;
         }
-      } else if (this.model.lessonCount && this.flexiOn == true) {
-        this.courseObj["lessonCount"] = this.model.lessonCount;
-        this.temp["lessonCount"] = this.model.lessonCount;
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
-        this.courseObj["repeatDays"] = this.selectedDay;
-        localStorage.setItem("tempObj", JSON.stringify(this.temp));
-        this.tempVar = "lesson";
-        this.tempValue = this.model.lessonCount;
-      }
 
-      var startD = this.changeDateFormat(this.model.start, this.model.starttime);
-      if (testObj.startDate != startD) {
-        console.log("Not Same StartD", testObj.lessonCount, "&&&", this.model.lessonCount);
-        this.courseObj["startDate"] = startD;
-        this.temp["startDate"] = startD;
-        // other obj
-        if (this.model.end) {
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-        } else if (this.model.lessonCount) {
-          this.courseObj["lessonCount"] = this.model.lessonCount;
+        var startD = this.changeDateFormat(this.model.start, this.model.starttime);
+        if (testObj.startDate != startD) {
+          console.log("Not Same StartD", testObj.lessonCount, "&&&", this.model.lessonCount);
+          this.courseObj["startDate"] = startD;
+          this.temp["startDate"] = startD;
+          // other obj
+          if (this.model.end) {
+            this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          } else if (this.model.lessonCount) {
+            this.courseObj["lessonCount"] = this.model.lessonCount;
+          }
+          this.courseObj["repeatDays"] = this.selectedDay;
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
         }
-        this.courseObj["repeatDays"] = this.selectedDay;
-        localStorage.setItem("tempObj", JSON.stringify(this.temp));
-      }
 
-      if (JSON.stringify(testObj.repeatDays) != JSON.stringify(this.selectedDay)) {
-        console.log("not same repeat", testObj.repeatDays, this.selectedDay);
-        this.courseObj["repeatDays"] = this.selectedDay;
-        this.temp["repeatDays"] = this.selectedDay;
-        if (this.model.end) {
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-        } else if (this.model.lessonCount) {
-          this.courseObj["lessonCount"] = this.model.lessonCount;
+        if (JSON.stringify(testObj.repeatDays) != JSON.stringify(this.selectedDay)) {
+          console.log("not same repeat", testObj.repeatDays, this.selectedDay);
+          this.courseObj["repeatDays"] = this.selectedDay;
+          this.temp["repeatDays"] = this.selectedDay;
+          if (this.model.end) {
+            this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          } else if (this.model.lessonCount) {
+            this.courseObj["lessonCount"] = this.model.lessonCount;
+          }
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
         }
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
-        localStorage.setItem("tempObj", JSON.stringify(this.temp));
-      }
 
-      if (testObj.durationTimes != this.model.durationTimes) {
-        console.log("Change Duration", testObj);
-        console.log("duration", this.model.durationTimes)
-        this.temp["durationTimes"] = this.model.durationTimes;
-        if (this.model.end) {
-          this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
-        } else if (this.model.lessonCount) {
-          this.courseObj["lessonCount"] = this.model.lessonCount;
+        if (testObj.durationTimes != this.model.durationTimes) {
+          console.log("Change Duration", testObj);
+          console.log("duration", this.model.durationTimes)
+          this.temp["durationTimes"] = this.model.durationTimes;
+          if (this.model.end) {
+            this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          } else if (this.model.lessonCount) {
+            this.courseObj["lessonCount"] = this.model.lessonCount;
+          }
+          this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
+          this.courseObj["repeatDays"] = this.selectedDay;
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
         }
-        this.courseObj["startDate"] = this.changeDateFormat(this.model.start, this.model.starttime);
-        this.courseObj["repeatDays"] = this.selectedDay;
-        localStorage.setItem("tempObj", JSON.stringify(this.temp));
+      }else{
+        // online course
+        if (this.model.end) {
+          console.log("this.model.end", this.model.end)
+          var endD = this.changeDateFormat(this.model.end, "23:59:59:999");
+          if (testObj.endDate != endD) {
+            console.log("Not same endD", testObj.endDate, "&&&", endD);
+            this.courseObj["endDate"] = endD;
+            this.temp["endDate"] = endD;
+            //other Obj
+            this.courseObj["startDate"] = this.changeDateFormat(this.model.start, "00:00:00:000");
+            localStorage.setItem("tempObj", JSON.stringify(this.temp));
+            this.tempVar = "end";
+            this.tempValue = this.model.end;
+            this.model.lessonCount = null;
+            this.model.defaultlessonCount = null;
+            // this.courseObj["repeatDays"] = this.selectedDay;
+          }
+        }
+
+        var startD = this.changeDateFormat(this.model.start, "00:00:00:000");
+        if (testObj.startDate != startD) {
+          console.log("Not Same StartD", testObj.lessonCount, "&&&", this.model.lessonCount);
+          this.courseObj["startDate"] = startD;
+          this.temp["startDate"] = startD;
+          if(this.model.end){
+            this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          }
+          // other obj
+          // if (this.model.end) {
+          //   this.courseObj["endDate"] = this.changeDateFormat(this.model.end, "23:59:59:999");
+          // } else if (this.model.lessonCount) {
+          //   this.courseObj["lessonCount"] = this.model.lessonCount;
+          // }
+          // this.courseObj["repeatDays"] = this.selectedDay;
+          localStorage.setItem("tempObj", JSON.stringify(this.temp));
+        }
+
       }
 
     }
@@ -1887,5 +1944,11 @@ export class CoursecreateComponent implements OnInit {
       
   //   })
   // }
+ // isValid:boolean = false;
+ //  testFunction(){
+ //    if(this.timeOptChecked == "showTimeSlot" && this.selectedTeacher != '' && this.chooseFee != "" && this.chooseTax != "" && (this.model.end || this.model.lessonCount || this.model.defaultlessonCount)){
+ //      this.isValid = true;
+ //    }
+ //  }
 
 }

@@ -14,13 +14,12 @@
 		</div>
 		<div class="d-flex justify-content-center flex-column">
 			<div>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
+				<button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="publishCourse()">Save</button>
+		        <!-- <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == '' || this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Save</button>
-		         <!-- for flexible -->
-		        <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Save</button> -->
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedDay.length == 0 || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end" (click)="publishCourse()">Save</button> -->
 	        </div>
 		</div>
 	</div>
@@ -164,11 +163,11 @@
 						<label [ngClass]="{'selected':endOptChecked == 'end'}" class="mb-0 cursor-on">
 							<input  type="radio" name="prop" (click)="chooseOpt('endOpt','end')"> End Date 
 						</label>
-						<label [ngClass]="{'selected':endOptChecked == 'lesson'}" class="mb-0 cursor-on">
-							<input type="radio" name="prop" (click)="chooseOpt('endOpt','lesson')"> Lessons Count
+						<label [ngClass]="{'selected':endOptChecked == 'lesson','disabled-endOpt': timeOptChecked == 'hideTimeSlot'}" class="mb-0 cursor-on">
+							<input type="radio" name="prop" (click)="chooseOpt('endOpt','lesson')" [disabled]="timeOptChecked == 'hideTimeSlot'"> Lessons Count
 						</label>
-						<label [ngClass]="{'selected':endOptChecked == 'defaultLesson'}" class="mb-0 cursor-on">
-							<input type="radio" name="prop" (click)="chooseOpt('endOpt','defaultLesson')"> Continuous lessons with no end date
+						<label [ngClass]="{'selected':endOptChecked == 'defaultLesson','disabled-endOpt': timeOptChecked == 'hideTimeSlot'}" class="mb-0 cursor-on">
+							<input type="radio" name="prop" (click)="chooseOpt('endOpt','defaultLesson')" [disabled]="timeOptChecked == 'hideTimeSlot'"> Continuous lessons with no end date
 						</label>
 					</div>
 					<div class="input-wrap">
@@ -652,9 +651,9 @@
 				</div>
 			</div>
 			<div>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount" (click)="saveDraft()">Save Draft</button>
-		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount" (click)="publishCourse()">Publish</button>
-		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid ||  selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount" (click)="publishCourse()">Save</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-savedraft font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="saveDraft()">Save Draft</button>
+		        <button *ngIf="isEdit == false && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="publishCourse()">Publish</button>
+		        <button *ngIf="isEdit == true && flexiOn == false" type="button" class="btn button-submit font-medium" [disabled]="(!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || selectedDay.length == 0 || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'showTimeSlot') && (!courseForm.form.valid || selectedTeacher == ''|| this.chooseFee == '' || this.chooseTax == '' || !model.lessonCount && !model.end && !model.defaultlessonCount || timeOptChecked != 'hideTimeSlot')" (click)="publishCourse()">Save</button>
 		        <!-- for flexible  -->
 		        <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>

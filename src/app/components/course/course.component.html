@@ -326,7 +326,7 @@
                       </span>
                     </div>
                     <div class="d-flex justify-content-between second-info">
-                      <div *ngIf="course.type == null">
+                      <div *ngIf="course.type == null || course.type == 'REGULAR' || course.type == 'FLEXY'">
                         <span class="semibold" *ngFor="let day of course.repeatDays | weekDays">
                           {{ day }}
                         </span>
@@ -336,9 +336,9 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="course.type == 'FLEXY'" class="flexy-status">
+                      <!-- <div *ngIf="course.type == 'FLEXY'" class="flexy-status">
                         <span>Flexible timetable</span>
-                      </div>
+                      </div> -->
                       <div *ngIf="!course.draft" class="btnCustomer-wrap">
                         <button *ngIf="course.seat_left != 0 && courseDemo.assignStudent != ''" class="btn-addC d-flex justify-content-center align-items-center"
                           (click)="addUserModal('customer',customerModal, 'outside', course._id)">
@@ -455,15 +455,12 @@
             <h5>{{detailLists.location.name}}</h5>
           </div>
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
-          <div *ngIf="detailLists.type == null || detailLists.type == 'REGULAR' || detailLists.type == 'FLEXY'" class="cdetail">
+        <div *ngIf="detailLists.type == null || detailLists.type == 'REGULAR' || detailLists.type == 'FLEXY'" class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
+          <div class="cdetail">
             <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
               {{ day }}
             </h5>
-            <p>{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
-          </div>
-          <div *ngIf="detailLists.type == 'ONLINE'">
-            Test
+            <p *ngIf="detailLists.type != 'FLEXY'">{{detailLists.duration.startDate | utcTime}} - {{detailLists.duration.endDate | utcTime}}</p>
           </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg">
@@ -490,8 +487,8 @@
       <div class="d-flex flex-column mt-32">
         <div class="d-flex c-border">
           <button [ngClass]="{'active': activeTab == 'People' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('People', 'course')">People</button>
-          <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class', 'course')">Class</button>
-          <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG', 'course')">APG</button>
+          <button [ngClass]="{'active': activeTab == 'Class' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('Class', 'course')" [disabled]="detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'">Class</button>
+          <button [ngClass]="{'active': activeTab == 'APG' || notiType == 'view'}" class="btn course-tab" (click)="clickTab('APG', 'course')" [disabled]="detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'">APG</button>
         </div>
         <div class="activeTab-content" *ngIf="activeTab == 'People'">
           <div class="activeTab-header d-flex justify-content-center align-items-center">
