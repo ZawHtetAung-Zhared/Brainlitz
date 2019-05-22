@@ -94,7 +94,6 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
 import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
 import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

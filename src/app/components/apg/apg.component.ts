@@ -2575,6 +2575,109 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("here max focus out")
     this.maxExit=false;
   }
+
+  // export csv for evaluation apg
+  exportCSV(apgId){
+    this._service.getEvaluationExport(apgId)
+    .subscribe((res:any)=>{
+      console.log("report json",res)
+      this.downloadFile(res)
+    })
+
+  // //   var testData = [
+  // //   {  
+  // //     "classStartTime": "12:00 AM",
+  // //     "courseName": "Assessment TESt 3 course Assessment TESt 3 course Assessment",
+  // //     "coursePlanName": "Assessment TEST III",
+  // //     "results": "IN-PROGRESS",
+  // //     "student": {fullName: "Jennie Kim", preferredName: "Ned Stark"},
+  // //     "submittedDate": "Thursday, February 28, 2019 6:21 AM",
+  // //     "teacher": {fullName: "guuci", preferredName: "House Stark 🐺"}
+  // //   },
+  // //   {
+  // //     "classStartTime": "12:00 AM",
+  // //     "courseName": "Assessment TESt 3 course Assessment TESt 3 course Assessment",
+  // //     "coursePlanName": "Assessment TEST III",
+  // //     "results": "IN-PROGRESS",
+  // //     "student": {fullName: "Lalisa Manoban", preferredName: "Catelyn Stark"},
+  // //     "submittedDate": "Invalid date",
+  // //     "teacher": {fullName: "guuci", preferredName: "House Stark 🐺"}
+  // //   }
+  // // ];
+  //   var testData = [
+  //     {
+  //       "courseName": "Assessment TESt 3 course Assessment TESt 3 course Assessment",
+  //       "studentName": {"fullName": "Jennie Kim", "preferredName": "Ned Stark"},
+  //       "teacherName": {"fullName": "guuci","preferredName": "House Stark"}
+  //     }
+  //   ]
+    // this.downloadFile(testData)
+  }
+
+  downloadFile(res){
+    var csvData = this.ConvertToCSV(res);
+    var a = document.createElement("a");
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([csvData], { type: 'text/csv' });
+    var url= window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = 'SampleExport.csv';
+    a.click();
+  }
+
+  ConvertToCSV(objArray){
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    console.log(array);
+    var str = '';
+    var row = "";
+
+    for (var index in objArray[0]) {
+        //Now convert each value to string and comma-separated
+        row += index + ',';
+        console.log(row);
+    }
+    row = row.slice(0, -1);
+    //append Label row with line break
+    str += row + '\r\n';
+    console.log(str);
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var index in array[i]) {
+          if (line != '') line += ','
+
+          if(typeof array[i][index] == "object"){
+            line += array[i][index].preferredName
+          }else{
+            line += array[i][index];
+          }
+          console.log("line~~~",line)
+        }
+        str += line + '\r\n';
+        console.log("str~~~",str);
+    }
+    return str;
+  }
+
+  // downloadFile(data: any) {
+  //   const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+  //   const header = Object.keys(data[0]);
+  //   let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+  //   csv.unshift(header.join(','));
+  //   let csvArray = csv.join('\r\n');
+
+  //   var a = document.createElement('a');
+  //   var blob = new Blob([csvArray], {type: 'text/csv' }),
+  //   url = window.URL.createObjectURL(blob);
+
+  //   a.href = url;
+  //   a.download = "myFile.csv";
+  //   a.click();
+  //   window.URL.revokeObjectURL(url);
+  //   a.remove();
+  // }
+
   // selectedTextFunc(t,e : MouseEvent){
   
   //   console.log(window.getSelection().getRangeAt(0))
