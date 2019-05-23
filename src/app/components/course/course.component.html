@@ -931,7 +931,7 @@
 </ng-template>
 
 <ng-template #customerModal let-c="close" let-d="dismiss">
-  <div *ngIf="showInvoice == false && showPayment == false">
+  <div *ngIf="showInvoice == false && showPayment == false && showflexyCourse == false">
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Add customer</h3>
       <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
@@ -1055,16 +1055,49 @@
         <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
         <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true"
           (click)="addCustomer(detailLists._id, userType)">Confirm</button>
+          <!-- <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true"
+          (click)="viewFlexyModal(flexyCourse)">Confirm</button> -->
       </div>
     </form>
   </div>
-  <div class="invoice-wrap" *ngIf="showInvoice == true" >
-    <app-invoice [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
-
+<!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
+<div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+<div class="flexiModal" *ngIf="showInvoice == false && showflexyCourse == true" >
+  <div class="innerFlexiModal">
+    <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+      <div class="d-flex back" (click)="backtoCustomer()">
+        <i class="fa fa-angle-left flexiBackicon"></i>
+        <p class="mb-0 font-medium ">Add customer</p>
+      </div>
+      <button (click)="cancelModal()" aria-label="Close" class="modal-close ml-auto" type="button">
+        <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+        </span>
+        <!-- <span aria-hidden="true" >×</span> -->
+      </button>
+    </div>
+    <app-flexi [flexyObj]="flexyObj" [selectedCustomer]="selectedCustomer" [showcb]="showcb" (checkIdArr)="countChange($event)" (passDataconflictBoxShow)="conflictBoxShow($event)"></app-flexi>
   </div>
+  <div class="modal-footer d-flex justify-content-between" style=" padding: 18px 25px 18px 25px;">
+      <div class="d-flex flex-column">
+        <p class="textCount">Number of lessons required: </p>
+        <div class="selectedCountBox">
+          <p class="selectedTest">
+              Selected lessons: {{idarr.length}}
+          </p>
+        </div>
+      </div>
+      <div class="">
+        <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
+        <button type="submit" class="btn btn-submit" (click)="flexicomfirm()">Confirm</button>
+      </div>
+    </div>
+</div>
 
-
-
+<div class="invoice-wrap" *ngIf="showInvoice == true" >
+  <app-invoice [custDetail]="custDetail" [course]="detailLists" (closed)="cancelInvoiceModal()"></app-invoice>
+</div>
 </ng-template>
 <ng-template #tabsModal let-c="close" let-d="dismiss">
   <div class="d-flex modal-header flex-column header-shadow">
@@ -1289,5 +1322,9 @@
     <button class="btn btn-done-crt" (click)="cancelClassFun(currentDateObj)" [disabled]="activeCourseInfo.CUSTOMER.length == 0">Confirm</button>
   </div>
 </ng-template>
+
+
+
+
 <block-ui message="Deafult Message"></block-ui>
 </div>
