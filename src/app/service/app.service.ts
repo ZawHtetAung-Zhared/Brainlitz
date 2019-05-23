@@ -1554,6 +1554,8 @@ export class appService{
       .map((res:Response) => {
         let result = res;
         return result;
+      },err=>{
+        return err;
       })
     }
 
