@@ -485,9 +485,9 @@ ul.pass-list li {
 }
 
 .left_box_box{
-  width: 65px;
+  /*width: 65px;*/
   height: 24px;
-
+  padding-right: 4px;
 }
 
 .div-left-arrow{
