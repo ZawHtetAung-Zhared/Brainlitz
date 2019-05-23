@@ -349,7 +349,7 @@ export class TestwerkzComponent implements OnInit {
   }
 
   getConceptLists(page,size) {
-    console.log(page,size)
+    // console.log(page,size)
     this.blockUI.start("Loading");
     this._service.getAllConcept(this.regionID,1,size).subscribe((res: any) => {
       console.log("Concept lists", res);
