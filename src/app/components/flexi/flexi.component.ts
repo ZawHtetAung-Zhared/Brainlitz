@@ -20,7 +20,7 @@ export class FlexiComponent implements OnInit {
   constructor() { }
   @Input() flexyObj;
   @Input() showcb;
-  
+  @Input() selectedCustomer;
   @Output() lessionIdArr:any=[];
   @Output() checkIdArr = new EventEmitter<number>();
   @Output() passDataconflictBoxShow =new EventEmitter();
@@ -28,6 +28,7 @@ export class FlexiComponent implements OnInit {
   ngOnInit() {
     console.log(this.flexyObj)
     console.log(this.showcb)
+    console.log(this.selectedCustomer)
   }
 
   lessonCheck(id){

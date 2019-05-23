@@ -2278,6 +2278,7 @@ export class CourseComponent implements OnInit {
   }
 
   addCustomer(courseId, userType){
+    console.log("err")
     this.stdLists = [];
     console.log("call from addCustomer",this.selectedCustomer);
     let body = {
@@ -2333,8 +2334,16 @@ export class CourseComponent implements OnInit {
      }, err => {
         console.log(err);
       })
-    // this.showInvoice = true;
 
+    //getflexi
+    console.error(this.selectedCustomer.userId +" "+courseId)
+    this._service.getFlexi(courseId,this.selectedCustomer.userId)
+    .subscribe((res:any) => {
+      console.log(res)
+    }, err => {
+       console.log(err);
+     })
+    // this.showInvoice = true;
   }
 
   dateFormat(dateStr){

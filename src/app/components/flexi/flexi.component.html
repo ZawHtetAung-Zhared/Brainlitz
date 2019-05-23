@@ -6,12 +6,12 @@
         <div class="d-flex">
           <div class="flexi-img-div">
             <div class="flexi-img-wrap">
-              <img src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png">
+              <img src="{{selectedCustomer.profilePic}}">
             </div>
           </div>
           <div class="flexi-name-div">
-            <p class="flexi-name">Emma Watson</p>
-            <label class="flexi-email">emmawatson@amdon.com</label>
+            <p class="flexi-name">{{selectedCustomer.preferredName}}</p>
+            <label class="flexi-email">{{selectedCustomer.email}}</label>
           </div>
         </div>
       </div>
