@@ -2311,8 +2311,8 @@ export class CourseComponent implements OnInit {
          this.invoiceInfo = res.invoiceSettings;
        }
        this.invoice = res.invoice;
-       this.showInvoice = false;
-       this.showflexyCourse=true;
+       this.showInvoice = true;
+      //  this.showflexyCourse=true;
        this.showOneInvoice(this.invoice);
        // for(var i in this.invoice){
        //   this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -2336,13 +2336,13 @@ export class CourseComponent implements OnInit {
       })
 
     //getflexi
-    console.error(this.selectedCustomer.userId +" "+courseId)
-    this._service.getFlexi(courseId,this.selectedCustomer.userId)
-    .subscribe((res:any) => {
-      console.log(res)
-    }, err => {
-       console.log(err);
-     })
+      // console.error(this.selectedCustomer.userId +" "+courseId)
+      // this._service.getFlexi(courseId,this.selectedCustomer.userId)
+      // .subscribe((res:any) => {
+      //   console.log(res)
+      // }, err => {
+      //    console.log(err);
+      //  })
     // this.showInvoice = true;
   }
 

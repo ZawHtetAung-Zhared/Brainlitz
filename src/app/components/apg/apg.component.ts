@@ -2575,6 +2575,63 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log("here max focus out")
     this.maxExit=false;
   }
+
+  // export csv for evaluation apg
+  exportCSV(apgId){
+    this._service.getEvaluationExport(apgId)
+    .subscribe((res:any)=>{
+      console.log("report json",res)
+      this.downloadFile(res)
+    })
+  }
+
+  downloadFile(res){
+    var csvData = this.ConvertToCSV(res);
+    var a = document.createElement("a");
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([csvData], { type: 'text/csv' });
+    var url= window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = 'Sample Export.csv';
+    a.click();
+  }
+
+  ConvertToCSV(objArray){
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    console.log(array);
+    var str = '';
+    var row = "";
+
+    for (var index in objArray[0]) {
+        //Now convert each value to string and comma-separated
+        row += index + ',';
+        // console.log(row);
+    }
+    row = row.slice(0, -1);
+    //append Label row with line break
+    str += row + '\r\n';
+    // console.log(str);
+
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var index in array[i]) {
+          if (line != '') line += ','
+          if(typeof array[i][index] == "object"){
+            line += array[i][index].preferredName
+          }else{
+            console.log("array idx", array[i][index])
+            var val = array[i][index].replace(/,/g, ' ');
+            line += val;
+          }
+          console.log("line~~~",line)
+        }
+        str += line + '\r\n';
+        // console.log("str~~~",str);
+    }
+    return str;
+  }
+
   // selectedTextFunc(t,e : MouseEvent){
   
   //   console.log(window.getSelection().getRangeAt(0))

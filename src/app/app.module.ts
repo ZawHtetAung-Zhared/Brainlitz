@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title} from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http'; 
 import { Routes, RouterModule} from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule }    from '@angular/forms';
@@ -35,7 +35,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToastModule} from 'ng5-toastr/ng5-toastr';
+import {ToastModule, ToastsManager} from 'ng5-toastr/ng5-toastr';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import {ToastOptions} from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -94,6 +94,7 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
 import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
 import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
 import { FlexiComponent } from './components/flexi/flexi.component';
+import { InterceptService } from "./service/intercept.service";
 
 @NgModule({
   declarations: [
@@ -193,7 +194,12 @@ import { FlexiComponent } from './components/flexi/flexi.component';
     appService,
     DataService,
     LoggedInGuard,
-    Title
+    Title,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
