@@ -70,7 +70,8 @@ export const routes: Routes = [
     },
     {
       path: 'report',
-      component: ReportComponent
+      component: ReportComponent,
+      canActivate: [LoggedInGuard]
     },
     {
       path:'**',
