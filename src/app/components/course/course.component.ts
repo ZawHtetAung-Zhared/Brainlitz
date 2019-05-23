@@ -3141,7 +3141,13 @@ export class CourseComponent implements OnInit {
 
   backtoCustomer(){
     this.showflexyCourse=false;
-    this.invoice=false;
+    this.showInvoice=false;
+    this.showPayment=false;
+  }
+
+  flexicomfirm(){
+    this.showInvoice=true;
+    this.showflexyCourse=false;
     this.showPayment=false;
   }
 }
