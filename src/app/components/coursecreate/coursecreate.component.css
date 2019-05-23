@@ -1296,6 +1296,20 @@ button:disabled {
       cursor: not-allowed;
     }
 
+    .cc-start,.cc-end,.start-wrap{
+      position: relative;
+    }
+
+    .dp-icon{
+      position: absolute;
+      top: 7px;
+      left: 12px;
+    }
+
+    .startInput,.endInput,.timeInput{
+      padding-left: 42px;
+    }
+
     @media only screen and  (min-width:1366px){
       .create-container{
         max-width: 1080px;

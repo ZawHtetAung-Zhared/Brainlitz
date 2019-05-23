@@ -144,6 +144,9 @@
 					<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.start == '' || model.start == undefined}">Start date</label>
 					<div class="input-wrap">
 						<div class="cc-start">
+							<span class="dp-icon">
+								<img src="./assets/img/course-dp.png">
+							</span>
 							<input type="text"
 									   placeholder="Starting date"
 									   class="input-day dropD startInput" 
@@ -172,6 +175,9 @@
 					</div>
 					<div class="input-wrap">
 						<div *ngIf="endOptChecked == 'end'" class="cc-end">
+							<span class="dp-icon">
+								<img src="./assets/img/course-dp.png">
+							</span>
 							<input class="input-lesson dropD endInput" type="text" placeholder="Ending date" (ngModelChange)="setMaxDate($event)" [minDate]="minDate" name="end" [(ngModel)]="model.end" (click)="end.toggle()" ngbDatepicker #end="ngbDatepicker" (document:click)="closeDropdown($event, 'end' , end)" readonly>
 						</div>
 						<div *ngIf="endOptChecked == 'lesson'">
@@ -198,11 +204,14 @@
 				<div class="d-flex pad-b" *ngIf="timeOptChecked == 'showTimeSlot'">
 					<div class="col-md-6 pRight-15">
 						<label for="course_name" class="input-title font-medium" [ngClass]="{'changeColor': model.startT == '' || model.startT == undefined}">Start Time</label>
-						<div class="input-wrap">
+						<div class="input-wrap start-wrap">
+							<span class="dp-icon">
+								<img src="./assets/img/clock.png">
+							</span>
 							<input 
 								type="text" 
 								placeholder="Starting time" 
-								class="input-day" 
+								class="input-day timeInput" 
 								name="starttime" 
 								required 
 								[(ngModel)]="model.startT" 
