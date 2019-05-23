@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
   public slicePathName: any;
   public randomKey: any;
   public host: any;
-  public islogin: boolean = false;
+  public islogin: boolean = true;
   public noOrginExit: boolean = false;
   public appName :any;
-
+  public redirectOption= localStorage.getItem('redirect')
 
   constructor(private titleService: Title,private _service: appService, @Inject(DOCUMENT) private document: any) {
      //  this._service.slicePath.subscribe((nextValue) => {
@@ -37,6 +37,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.redirectOption) {
+      this.islogin = false;
+      setTimeout(() => {
+        this.getSubdomain();
+      }, 30000);
+    }else{
+      this.getSubdomain();
+    }
+    // this.islogin = false;
     this.randomKey = localStorage.getItem('random');
     this.host = this.document.location.hostname;
     console.log(this.randomKey)
@@ -46,7 +55,12 @@ export class LoginComponent implements OnInit {
       console.log('key does not exit')
       this.generateRandom();
     }
-    this.getSubdomain();
+    // setTimeout(() => {
+    //   this.getSubdomain();
+    //   if(!this.islogin){
+    //     this.islogin = true;
+    // }
+    // }, 30000);
   }
 
   getSubdomain() {
@@ -128,6 +142,7 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
+    localStorage.removeItem('redirect')
     this.redirectUri = localStorage.getItem('redirectURL');
     this.redirectUri = encodeURIComponent(this.redirectUri);
     window.location.href = this.loginUrl + '/?client_id=' + this.clientId + '&clientSecret=' + this.clientSecret + '&response_type=' + this.responseType + '&redirect_uri=' + this.redirectUri

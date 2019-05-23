@@ -339,6 +339,11 @@ ul.qwbook-lists li p{
 .remove-outline{
     background: none;
 }
+.line-between{
+    border-left: 1px solid #d4d5d6;
+    height: 17px;
+    margin-top: 3px;
+}
 @media (min-width: 2000px){
     .col-xxl-3 {
         -ms-flex: 0 0 33.333333%;

@@ -168,16 +168,18 @@ main {
 
 ::placeholder {
   color: #c4c4c4 !important;
-
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
 :-ms-input-placeholder {
   color: #c4c4c4 !important;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 
 }
 
 ::-ms-input-placeholder {
   color: #c4c4c4 !important;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
 .select2-container .select2-selection--single {

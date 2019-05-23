@@ -61,7 +61,8 @@ export class HeaderComponent implements OnInit {
 
   logoff(){
   	console.log('log out');
-  	localStorage.clear();
+    localStorage.clear();
+    localStorage.setItem('redirect','true')
     this._service.logOff()
     .subscribe((res:any)=>{
       console.log("logout");
