@@ -326,6 +326,10 @@ export class CoursecreateComponent implements OnInit {
           this.endOptChecked = 'lesson';
           this.tempVar = 'lesson';
           this.tempValue = res.lessonCount;
+        }else if(this.model.defaultlessonCount){
+          this.endOptChecked = 'defaultLesson';
+          this.tempVar = 'defaultLesson'
+          this.tempValue = res.defaultlessonCount;
         }
         this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
         if(this.feesOptions == undefined){
