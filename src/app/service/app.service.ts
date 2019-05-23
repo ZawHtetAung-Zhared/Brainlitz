@@ -1554,6 +1554,8 @@ export class appService{
       .map((res:Response) => {
         let result = res;
         return result;
+      },err=>{
+        return err;
       })
     }
 
@@ -2701,6 +2703,21 @@ export class appService{
             'authorization': this.tokenType + ' ' + this.accessToken})
       };
       return this.httpClient.delete(url, httpOptions)
+        .map((res:Response) => {
+          let result = res;
+          console.log(result);        
+          return result;
+      }) 
+    }
+
+    getEvaluationExport(apgId:string){
+      let url = this.baseUrl + '/apg/' + apgId + '/evaluation:export';
+      const httpOptions = {
+          headers: new HttpHeaders({ 
+            'Content-Type': 'application/json', 
+            'authorization': this.tokenType + ' ' + this.accessToken})
+      };
+      return this.httpClient.get(url, httpOptions)
         .map((res:Response) => {
           let result = res;
           console.log(result);        
