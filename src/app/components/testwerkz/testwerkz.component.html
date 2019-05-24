@@ -1238,13 +1238,14 @@
         </p>
       </div>
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
-      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="onFilesChange()">
+      <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length != 0" (click)="insertImg()">
         Insert
       </button>
       <button type="button" class="btn btn-submit insertBtn" *ngIf="selectedImgArr.length == 0" disabled="true">
         Insert
       </button>
     </div>
+
     <div class="modal-footer" *ngIf="this.modelType == 'single'">
       <a class="cancelbtn" (click)="cancelModal()">Cancel</a>
       <button type="button" class="btn btn-submit insertBtn" *ngIf="isDisabelInsert" (click)="insertImg()">
