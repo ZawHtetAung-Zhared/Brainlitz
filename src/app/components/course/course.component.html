@@ -2018,69 +2018,9 @@
           >
             Confirm
           </button>
-          <!-- <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true"
-          (click)="viewFlexyModal(flexyCourse)">Confirm</button> -->
         </div>
       </form>
     </div>
-    <!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
-    <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
-    <div
-      class="flexiModal"
-      *ngIf="showInvoice == false && showflexyCourse == true"
-    >
-      <div class="innerFlexiModal">
-        <div class="d-flex" style="margin: 20px 20px 0px 32px;">
-          <div class="d-flex back" (click)="backtoCustomer()">
-            <i class="fa fa-angle-left flexiBackicon"></i>
-            <p class="mb-0 font-medium ">Add customer</p>
-          </div>
-          <button
-            (click)="cancelModal()"
-            aria-label="Close"
-            class="modal-close ml-auto"
-            type="button"
-          >
-            <span class="closemark">
-              <div class="closemark_stem"></div>
-              <div class="closemark_kick"></div>
-            </span>
-            <!-- <span aria-hidden="true" >×</span> -->
-          </button>
-        </div>
-        <app-flexi
-          [flexyObj]="flexyObj"
-          [selectedCustomer]="selectedCustomer"
-          [showcb]="showcb"
-          (checkIdArr)="countChange($event)"
-          (passDataconflictBoxShow)="conflictBoxShow($event)"
-        ></app-flexi>
-      </div>
-      <div
-        class="modal-footer d-flex justify-content-between"
-        style=" padding: 18px 25px 18px 25px;"
-      >
-        <div class="d-flex flex-column">
-          <p class="textCount">Number of lessons required:</p>
-          <div class="selectedCountBox">
-            <p class="selectedTest">Selected lessons: {{ idarr.length }}</p>
-          </div>
-        </div>
-        <div class="">
-          <button
-            type="button"
-            class="btn modal-cancel-btn"
-            (click)="cancelModal()"
-          >
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-submit" (click)="flexicomfirm()">
-            Confirm
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div class="invoice-wrap" *ngIf="showInvoice == true">
       <app-invoice
         [custDetail]="custDetail"
@@ -2135,58 +2075,145 @@
         </button>
       </div>
     </div>
-    <form
-      *ngIf="activeUserTab == 'makeup'"
-      class="form-wrap"
-      novalidate
-      #makeupF="ngForm"
-    >
-      <div class="modal-body">
-        <div class="col-md-8 input-wrap">
-          <div class="form-group">
-            <label for="name" class="input-label">Name</label>
-            <input
-              type="text"
-              class="form-control create-input"
-              placeholder="Type makeup pass name here"
-              name="name"
-              [(ngModel)]="makeupForm.name"
-              required
-              #name="ngModel"
-            />
-          </div>
-          <div class="form-group">
-            <label for="reason" class="input-label">Reason</label>
-            <textarea
-              class="form-control create-input"
-              rows="4"
-              placeholder="Got any reasons?"
-              name="reason"
-              [(ngModel)]="makeupForm.reason"
-              #reason="ngModel"
-              required
-            ></textarea>
+    <div *ngIf="activeUserTab == 'makeup'" class="d-flex w-100">
+      <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
+        <div class="modal-body">
+          <div class="col-md-12 input-wrap">
+            <div class="form-group">
+              <label for="name" class="input-label">Name</label>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="Type makeup pass name here"
+                name="name"
+                [(ngModel)]="makeupForm.name"
+                required
+                #name="ngModel"
+              />
+            </div>
+            <div class="form-group">
+              <label for="reason" class="input-label">Reason</label>
+              <textarea
+                class="form-control create-input"
+                rows="4"
+                placeholder="Got any reasons?"
+                name="reason"
+                [(ngModel)]="makeupForm.reason"
+                #reason="ngModel"
+                required
+              ></textarea>
+            </div>
           </div>
         </div>
+        <div class="modal-footer fixed-bottom">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            [disabled]="!makeupF.valid"
+            (click)="issuePass(makeupForm, singleUserData.userId)"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+      <div class="d-flex flex-column makeup-sidebar" style="width:50%;">
+        <h1 class="release-text container">Released makeup passes</h1>
+        <div class="" *ngFor="let makeup of makeupLists">
+          <!--for valid start-->
+          <div *ngIf="true" class="col-md-12 av-block">
+            <div class="single-makeup">
+              <div
+                class="makeup-head"
+                [ngClass]="{ 'claimed-header': true, 'expired-header': false }"
+              >
+                <p>
+                  <span *ngIf="false">
+                    Valid until
+                    <span class="valid-date"
+                      >{{ makeup.expirationDate.day }}
+                      {{ makeup.expirationDate.month - 1 | TTmonth }}
+                      {{ makeup.expirationDate.year }}</span
+                    >
+                  </span>
+                  <span *ngIf="false">
+                    <span>
+                      <img src="../../../assets/icons/badge_tick.svg" alt="" />
+                    </span>
+                    Claimed pass
+                  </span>
+                  <span>
+                    <span>
+                      <img src="../../../assets/icons/badge_minus.svg" alt="" />
+                    </span>
+                    Expired pass
+                  </span>
+                </p>
+              </div>
+              <div class="makeup-body">
+                <h5 class="makeup-title">{{ makeup.name }}</h5>
+                <p class="makeup-desc">{{ makeup.reason }}</p>
+                <div class="makeup-box">
+                  <p>
+                    Issued on {{ makeup.issueDate.day }}
+                    {{ makeup.issueDate.month - 1 | TTmonth }}
+                    {{ makeup.issueDate.year }}
+                  </p>
+                  <div class="issue-box d-flex flex-column">
+                    <strong>{{ makeup.course.name }}</strong>
+                    <label>
+                      <span
+                        >{{ makeup.course.startTime.hr | timeFormat }} :
+                        {{ makeup.course.startTime.min | timeFormat }}
+                        {{ makeup.course.startTime.meridiem }}</span
+                      >
+                      -
+                      <span
+                        >{{ makeup.course.endTime.hr | timeFormat }} :
+                        {{ makeup.course.endTime.min | timeFormat }}
+                        {{ makeup.course.endTime.meridiem }}</span
+                      ></label
+                    >
+                  </div>
+                  <div *ngIf="false">
+                    <p>
+                      Issued on {{ makeup.claimedDateFor.day }}
+                      {{ makeup.claimedDateFor.month - 1 | TTmonth }}
+                      {{ makeup.claimedDateFor.year }}
+                    </p>
+                    <div class="issue-box d-flex flex-column">
+                      <strong>{{ makeup.makeupCourse.name }}</strong>
+                      <label>
+                        <span
+                          >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
+                          {{ makeup.makeupCourse.startTime.min | timeFormat }}
+                          {{ makeup.makeupCourse.startTime.meridiem }}</span
+                        >
+                        -
+                        <span
+                          >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
+                          {{ makeup.makeupCourse.endTime.min | timeFormat }}
+                          {{ makeup.makeupCourse.endTime.meridiem }}</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="left-scoope"></div>
+              <div class="right-scoope"></div>
+            </div>
+          </div>
+          <!--for valid end-->
+        </div>
       </div>
-      <div class="modal-footer fixed-bottom">
-        <button
-          type="button"
-          class="btn modal-cancel-btn"
-          (click)="cancelModal()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="btn btn-submit"
-          [disabled]="!makeupF.valid"
-          (click)="issuePass(makeupForm, singleUserData.userId)"
-        >
-          Confirm
-        </button>
-      </div>
-    </form>
+    </div>
 
     <div *ngIf="activeUserTab == 'transfer'">
       <div class="modal-body">
@@ -2194,8 +2221,8 @@
           <!-- <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
         <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
             <div class="user-image">
-              <img *ngIf="singleUserData.profilePic == undefined" src="assets/img/user.svg">
-              <img *ngIf="singleUserData.profilePic != undefined" src="{{ singleUserData.profilePic }}">
+              <img *ngIf="{{singleUserData.profilePic == undefined" src="assets/img/user.svg">
+              <img *ngIf="{{singleUserData.profilePic != undefined" src=" singleUserData.profilePic }}">
             </div>      
           <p class="user-name">{{ singleUserData.preferredName }}</p>
         </div> -->
@@ -2497,6 +2524,5 @@
       </button>
     </div>
   </ng-template>
-
   <block-ui message="Deafult Message"></block-ui>
 </div>
