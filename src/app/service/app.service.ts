@@ -2710,6 +2710,20 @@ export class appService{
       }) 
     }
 
+  getFlexi(courseId:string,userid:string){
+    let apiUrl = this.baseUrl +'/courses/'+ courseId + '/users/' +userid+"/flexy-lessons";
+    console.log(apiUrl)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'authorization': this.tokenType + ' ' + this.accessToken})
+    };
+    return this.httpClient.get(apiUrl, httpOptions)
+      .map((res:Response) => {
+        let result = res;
+        return result;
+      })
+  }
     getEvaluationExport(apgId:string){
       let url = this.baseUrl + '/apg/' + apgId + '/evaluation:export';
       const httpOptions = {

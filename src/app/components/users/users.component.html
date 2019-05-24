@@ -1,4 +1,7 @@
-<app-header *ngIf="isCourse == false" [ngClass]="{'stick': isSticky == true, 'hide': hideMenu}"></app-header>
+<app-header
+  *ngIf="isCourse == false"
+  [ngClass]="{ stick: isSticky == true, hide: hideMenu }"
+></app-header>
 <!-- <app-course *ngIf="isCourse == true"></app-course> -->
 <!-- <div *ngIf="!showFormCreate" class="full-width">
 	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
@@ -13,28 +16,54 @@
 	</div>
 </div>	 -->
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <div *ngIf="!showFormCreate && !showCustDetail && customerPermission.length > 0 && !isCourse" class="inner-wrapper "
-    [ngClass]="{'pdactive': isSticky == true}">
+  <div
+    *ngIf="
+      !showFormCreate &&
+      !showCustDetail &&
+      customerPermission.length > 0 &&
+      !isCourse
+    "
+    class="inner-wrapper "
+    [ngClass]="{ pdactive: isSticky == true }"
+  >
     <div class="d-flex mr-top-menu">
       <div class="col-md-5 pad-0">
         <div class="d-flex flex-row">
           <h3>Customers</h3>
-          <span class="location-name">{{locationName}}</span>
+          <span class="location-name">{{ locationName }}</span>
         </div>
       </div>
       <div class="col-md-7 pad-0">
-        <button *ngIf="customerDemo.createCustomer != ''" type="button" class="btn btn-primary create-button-pos"
-          (click)="goCreateForm('create')">Add new customer</button>
+        <button
+          *ngIf="customerDemo.createCustomer != ''"
+          type="button"
+          class="btn btn-primary create-button-pos"
+          (click)="goCreateForm('create')"
+        >
+          Add new customer
+        </button>
       </div>
     </div>
     <p class="input-recommend col-md-9 pl-0 col-lg-9 col-xl-9 col-sm-9">
-      See the list of all your customers. ‘Customers’ include students or parents whose email ID has been registered.
-      Click on a ‘customer’ to see their profile details, classes enrolled, progress, activity etc.
+      See the list of all your customers. ‘Customers’ include students or
+      parents whose email ID has been registered. Click on a ‘customer’ to see
+      their profile details, classes enrolled, progress, activity etc.
     </p>
-    <div *ngIf="customerDemo.viewCustomer != ''" class="col-md-12 pad-0" style="margin-top: 35px;">
+    <div
+      *ngIf="customerDemo.viewCustomer != ''"
+      class="col-md-12 pad-0"
+      style="margin-top: 35px;"
+    >
       <div class="input-group col-md-12 pad-0">
-        <input class="form-control py-2 input-search-bg" type="search" placeholder="Search customer here" id="customer-search-input"
-          (focusout)="clearSearch($event)" (input)="userSearch($event.target.value, 'customer','','')" autocomplete="off">
+        <input
+          class="form-control py-2 input-search-bg"
+          type="search"
+          placeholder="Search customer here"
+          id="customer-search-input"
+          (focusout)="clearSearch($event)"
+          (input)="userSearch($event.target.value, 'customer', '', '')"
+          autocomplete="off"
+        />
         <span class="input-group-append">
           <button class="bt btn-design btn-outline-secondary" type="button">
             <i class="fa fa-search search-size"></i>
@@ -43,23 +72,50 @@
       </div>
     </div>
     <div class="row display-flex user-group">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block" *ngFor="let customer of customerLists; let i = index">
-        <div class="box-design d-flex flex-row align-items-center" (click)="showDetails( customer.userId)">
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+        *ngFor="let customer of customerLists; let i = index"
+      >
+        <div
+          class="box-design d-flex flex-row align-items-center"
+          (click)="showDetails(customer.userId)"
+        >
           <div class="profileimg-wrap">
             <div class="circular-image">
-              <img *ngIf="customer.profilePic == 'undefined'" src="assets/img/user.svg">
-              <img *ngIf="customer.profilePic != 'undefined'" src="{{customer.profilePic}}">
+              <img
+                *ngIf="customer.profilePic == 'undefined'"
+                src="assets/img/user.svg"
+              />
+              <img
+                *ngIf="customer.profilePic != 'undefined'"
+                src="{{ customer.profilePic }}"
+              />
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">{{ (customer.preferredName.length > 20)?
-              (customer.preferredName | slice:0:20)+'...':(customer.preferredName) }}</h5>
-            <p class="info-mail" style="margin-bottom: 0.8rem">{{customer.email}}</p>
+            <h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">
+              {{
+                customer.preferredName.length > 20
+                  ? (customer.preferredName | slice: 0:20) + '...'
+                  : customer.preferredName
+              }}
+            </h5>
+            <p class="info-mail" style="margin-bottom: 0.8rem">
+              {{ customer.email }}
+            </p>
             <p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
-            <p class="info-about" *ngIf="customer.about != 'undefined'">{{ (customer.about.length>25)? (customer.about
-              | slice:0:25)+'...':(customer.about) }}</p>
+            <p class="info-about" *ngIf="customer.about != 'undefined'">
+              {{
+                customer.about.length > 25
+                  ? (customer.about | slice: 0:25) + '...'
+                  : customer.about
+              }}
+            </p>
           </div>
-          <div *ngIf="customerDemo.viewCustomer != ''" class="ml-auto right-arrow">
+          <div
+            *ngIf="customerDemo.viewCustomer != ''"
+            class="ml-auto right-arrow"
+          >
             <i class="fa fa-angle-right"></i>
           </div>
         </div>
@@ -68,19 +124,45 @@
   </div>
 </div>
 
-<div *ngIf="customerLists.length >= 20 && !showFormCreate && !showCustDetail && result?.length>0" class="d-flex justify-content-center load-more">
-  <button type="button" class="btn" (click)="showMore('customer', customerLists.length)">load more</button>
+<div
+  *ngIf="
+    customerLists.length >= 20 &&
+    !showFormCreate &&
+    !showCustDetail &&
+    result?.length > 0
+  "
+  class="d-flex justify-content-center load-more"
+>
+  <button
+    type="button"
+    class="btn"
+    (click)="showMore('customer', customerLists.length)"
+  >
+    load more
+  </button>
 </div>
 <div class="d-flex flex-column justify-content-center align-items-center">
-
-  <div *ngIf="showCustDetail" class="content-wrapper w-100" [ngClass]="{'pdactive': isSticky == true}">
+  <div
+    *ngIf="showCustDetail"
+    class="content-wrapper w-100"
+    [ngClass]="{ pdactive: isSticky == true }"
+  >
     <div class="main-wrapper">
       <div class="d-flex heading-space">
         <div class="back" (click)="backToCustomer()">
-          <i class="fa fa-angle-left" style="color: #3d5266;font-size: 20px;"></i><span>Customers</span>
+          <i
+            class="fa fa-angle-left"
+            style="color: #3d5266;font-size: 20px;"
+          ></i
+          ><span>Customers</span>
         </div>
         <div class="ml-auto">
-          <span *ngIf="customerDemo.editCustomer != ''" class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+          <span
+            *ngIf="customerDemo.editCustomer != ''"
+            class="back"
+            (click)="getSingleInfo(editId)"
+            >Edit Profile</span
+          >
         </div>
       </div>
       <div class="user-info-wrap d-flex -justify-content-between">
@@ -88,14 +170,14 @@
           <div class="img-wrap">
             <div class="circular-image">
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
-              <img src="{{custDetail.user.profilePic}}">
+              <img src="{{ custDetail.user.profilePic }}" />
             </div>
           </div>
           <div class="pad-left-15" style="width: 80%">
             <div class="infoGp-wrap">
               <!-- <p>{{custDetail.user.profilePic}}</p> -->
-              <h5>{{custDetail.user.preferredName}}</h5>
-              <p class="info-mail mb-0">{{custDetail.user.email}}</p>
+              <h5>{{ custDetail.user.preferredName }}</h5>
+              <p class="info-mail mb-0">{{ custDetail.user.email }}</p>
             </div>
             <div class="infoGp-wrap mb-0 info-p">
               <p *ngIf="custDetail.user.about" class="mb-0">
@@ -105,15 +187,37 @@
                 -
               </p>
             </div>
-            <div *ngIf="custDetail.user.guardians?.length > 0" class="infoGp-wrap" style="border-top: 1px dotted #64707d;">
+            <div
+              *ngIf="custDetail.user.guardians?.length > 0"
+              class="infoGp-wrap"
+              style="border-top: 1px dotted #64707d;"
+            >
               <label class="info-mail">Guardians</label>
               <div class="guardian-main-wrap d-flex">
-                <div *ngFor="let guardian of custDetail.user.guardians" class="g-inner-wrap d-flex">
+                <div
+                  *ngFor="let guardian of custDetail.user.guardians"
+                  class="g-inner-wrap d-flex"
+                >
                   <div class="small-circular-image">
-                    <img *ngIf="guardian.profilePic == undefined || guardian.profilePic == ''" src="assets/img/user.svg">
-                    <img *ngIf="guardian.profilePic != undefined" src="{{guardian.profilePic}}">
+                    <img
+                      *ngIf="
+                        guardian.profilePic == undefined ||
+                        guardian.profilePic == ''
+                      "
+                      src="assets/img/user.svg"
+                    />
+                    <img
+                      *ngIf="guardian.profilePic != undefined"
+                      src="{{ guardian.profilePic }}"
+                    />
                   </div>
-                  <div class="guar-name">{{ (guardian.fullName == "" ||  guardian.fullName == null)? (guardian.email) : (guardian.fullName) }}</div>
+                  <div class="guar-name">
+                    {{
+                      guardian.fullName == '' || guardian.fullName == null
+                        ? guardian.email
+                        : guardian.fullName
+                    }}
+                  </div>
                 </div>
               </div>
               <!-- <div class="" style="overflow-x: scroll;">
@@ -137,7 +241,6 @@
 											{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}
 										</div>
 									</div> -->
-
             </div>
           </div>
         </div>
@@ -150,9 +253,12 @@
             </div>
             <div class="d-flex info-wrap details-list-wrap">
               <div class="list-wrapper detail-list">
-                <div *ngFor="let detail of custDetail.user.details" class="child-detail">
-                  <label class="info-mail">{{detail.name}}</label>
-                  <p class="mb-0 info-p">{{detail.value}}</p>
+                <div
+                  *ngFor="let detail of custDetail.user.details"
+                  class="child-detail"
+                >
+                  <label class="info-mail">{{ detail.name }}</label>
+                  <p class="mb-0 info-p">{{ detail.value }}</p>
                 </div>
               </div>
             </div>
@@ -174,95 +280,231 @@
       </div>
       <div class="section-wrap">
         <div class="d-flex tab-section">
-          <button [ngClass]="{'active': activeTab == 'class'}" class="btn tab-btn" (click)="clickTab('class')">Class</button>
-          <button [ngClass]="{'active': activeTab == 'makeup'}" class="btn tab-btn" (click)="clickTab('makeup')">Makeup
-            pass</button>
+          <button
+            [ngClass]="{ active: activeTab == 'class' }"
+            class="btn tab-btn"
+            (click)="clickTab('class')"
+          >
+            Class
+          </button>
+          <button
+            [ngClass]="{ active: activeTab == 'makeup' }"
+            class="btn tab-btn"
+            (click)="clickTab('makeup')"
+          >
+            Makeup pass
+          </button>
         </div>
         <div *ngIf="activeTab == 'class'" class="pb-20">
           <div class="d-flex title-space">
             <div class="d-flex flex-column justify-content-center">
               <h4 class="mb-0 tab-title">Attending Classes</h4>
             </div>
-            <button *ngIf="customerDemo.enrollStudent != ''" (click)="callEnrollModal(classEnrollModal, custDetail.user.userId, 'enroll')"
-              class="ml-auto enroll-btn">Enroll new class</button>
+            <button
+              *ngIf="customerDemo.enrollStudent != ''"
+              (click)="
+                callEnrollModal(
+                  classEnrollModal,
+                  custDetail.user.userId,
+                  'enroll'
+                )
+              "
+              class="ml-auto enroll-btn"
+            >
+              Enroll new class
+            </button>
           </div>
           <div>
             <div class="list-wrapper">
-              <div class="btn-wrap no-item" *ngIf="custDetail.courses?.length<=0">
+              <div
+                class="btn-wrap no-item"
+                *ngIf="custDetail.courses?.length <= 0"
+              >
                 There is no course from this customer!
               </div>
-              <div class="child_two" *ngFor="let course of custDetail.courses| slice:0:[selectedId.indexOf('course') != -1 ? custDetail.courses.length : 2]">
+              <div
+                class="child_two"
+                *ngFor="
+                  let course of custDetail.courses
+                    | slice
+                      : 0
+                      : [
+                          selectedId.indexOf('course') != -1
+                            ? custDetail.courses.length
+                            : 2
+                        ]
+                "
+              >
                 <div class="section-one">
                   <div class="d-flex justify-content-between">
-                      <label class="class-label-12"><i class="fa fa-map-marker" style="font-size:12px;padding-right: 4px"></i>{{
-                        course.location.name }}</label>
+                    <label class="class-label-12"
+                      ><i
+                        class="fa fa-map-marker"
+                        style="font-size:12px;padding-right: 4px"
+                      ></i
+                      >{{ course.location.name }}</label
+                    >
 
-                        <div class="d-flex flex-row arrowBox" *ngIf="course.invoice != null">
-                            <div class="div-left-arrow"></div>
-                            <div class="left_box_box" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940'} && {'background-color':course.invoice.status == 'UNPAID' ? '#ffdbd9' : '#c2f2d6'}">
-                              <label *ngIf="course.invoice.status == 'UNPAID'" class="unpaid-text">Unpaid</label>
-											      	<label *ngIf="course.invoice.status == 'PAID'" class="paid-text">Paid</label>
-												      <label *ngIf="course.invoice.status == 'PAID[PARTIAL]'" class="paid-text">Paid[Partial]</label>
-                            </div>
-                        </div>
+                    <div
+                      class="d-flex flex-row arrowBox"
+                      *ngIf="course.invoice != null"
+                    >
+                      <div class="div-left-arrow"></div>
+                      <div
+                        class="left_box_box"
+                        [ngStyle]="
+                          {
+                            color:
+                              course.invoice.status == 'UNPAID'
+                                ? '#f23a30'
+                                : '#009940'
+                          } && {
+                            'background-color':
+                              course.invoice.status == 'UNPAID'
+                                ? '#ffdbd9'
+                                : '#c2f2d6'
+                          }
+                        "
+                      >
+                        <label
+                          *ngIf="course.invoice.status == 'UNPAID'"
+                          class="unpaid-text"
+                          >Unpaid</label
+                        >
+                        <label
+                          *ngIf="course.invoice.status == 'PAID'"
+                          class="paid-text"
+                          >Paid</label
+                        >
+                        <label
+                          *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
+                          class="paid-text"
+                          >Paid[Partial]</label
+                        >
+                      </div>
+                    </div>
                   </div>
-                 <div class="div-dotted-box">
-                    <p class="info-p clickable" (click)="onClickCourse(course)">{{ course.name }}</p>
-                    <label class="rollover-btn" (click)="rolloverCourse(course._id,course)">Rollover this course</label>
+                  <div class="div-dotted-box">
+                    <p class="info-p clickable" (click)="onClickCourse(course)">
+                      {{ course.name }}
+                    </p>
+                    <label
+                      class="rollover-btn"
+                      (click)="rolloverCourse(course._id, course)"
+                      >Rollover this course</label
+                    >
                     <div class="d-flex align-items-center">
                       <div>
                         <div *ngIf="course.teacher" class="tr-img-wrap">
-                          <img src="{{course.teacher.profilePic}}">
+                          <img src="{{ course.teacher.profilePic }}" />
                         </div>
                       </div>
-                      <p class="tr-name" *ngIf="course.teacher" style="word-break: break-all;">{{
-                        course.teacher.preferredName }}</p>
+                      <p
+                        class="tr-name"
+                        *ngIf="course.teacher"
+                        style="word-break: break-all;"
+                      >
+                        {{ course.teacher.preferredName }}
+                      </p>
                     </div>
                     <div class="d-flex info-wrap">
-                      <div class="timetable-col">
-                        <label class="class-label-14 mb-0" *ngFor="let day of course.repeatDays | weekDays">{{ day }}</label>
-                        <p *ngIf="course.duration" class="medium-label-14 mb-0">{{ course.duration.startDate | utcTime }}
-                          - {{ course.duration.endDate | utcTime }}</p>
+                      <div
+                        *ngIf="course.type != 'ONLINE'"
+                        class="timetable-col"
+                      >
+                        <label
+                          class="class-label-14 mb-0"
+                          *ngFor="let day of course.repeatDays | weekDays"
+                          >{{ day }}</label
+                        >
+                        <p
+                          *ngIf="course.duration != undefined"
+                          class="medium-label-14 mb-0"
+                        >
+                          {{ course.duration.startDate | utcTime }} -
+                          {{ course.duration.endDate | utcTime }}
+                        </p>
                       </div>
                       <div class="d-flex timetable-col day-wrap info-wrap">
                         <div *ngIf="course.startDate" class="timetable-col">
                           <label class="medium-label-14 mb-0">From</label>
-                          <p class="class-label-14 mb-0">{{ course.startDate | utcDate }}</p>
+                          <p class="class-label-14 mb-0">
+                            {{ course.startDate | utcDate }}
+                          </p>
                         </div>
                         <div class="timetable-col">
-                          <label *ngIf="course.endDate" class="medium-label-14 mb-0">To</label>
-                          <label *ngIf="course.lessonCount" class="medium-label-14 mb-0"></label>
-                          <p *ngIf="course.endDate" class="class-label-14 mb-0">{{ course.endDate | utcDate }}</p>
-                          <p *ngIf="course.lessonCount" class="class-label-14 mb-0">{{ course.lessonCount }} Lessons</p>
+                          <label
+                            *ngIf="course.endDate"
+                            class="medium-label-14 mb-0"
+                            >To</label
+                          >
+                          <label
+                            *ngIf="course.lessonCount"
+                            class="medium-label-14 mb-0"
+                          ></label>
+                          <p *ngIf="course.endDate" class="class-label-14 mb-0">
+                            {{ course.endDate | utcDate }}
+                          </p>
+                          <p
+                            *ngIf="course.lessonCount"
+                            class="class-label-14 mb-0"
+                          >
+                            {{ course.lessonCount }} Lessons
+                          </p>
                         </div>
                       </div>
                     </div>
-                </div>
-                <div  *ngIf="course.invoice != null" class="d-flex justify-content-end fees" [ngStyle]="{'color':course.invoice.status == 'UNPAID' ? '#f23a30' : '#009940' }">
-                      <span *ngIf="course.invoice.currency.code == 'sgd'">S</span><span>{{course.invoice.currency.sign}}</span>
-                    {{course.invoice.total}}
                   </div>
-                <div class="d-flex justify-content-between section-two">
-
-                  <button class="float-left btn view-invoice" (click)="viewJournal(journalContent,course,course.teacher.preferredName)"
+                  <div
+                    *ngIf="course.invoice != null"
+                    class="d-flex justify-content-end fees"
+                    [ngStyle]="{
+                      color:
+                        course.invoice.status == 'UNPAID'
+                          ? '#f23a30'
+                          : '#009940'
+                    }"
+                  >
+                    <span *ngIf="course.invoice.currency.code == 'sgd'">S</span
+                    ><span>{{ course.invoice.currency.sign }}</span>
+                    {{ course.invoice.total }}
+                  </div>
+                  <div class="d-flex justify-content-between section-two">
+                    <button
+                      class="float-left btn view-invoice"
+                      (click)="
+                        viewJournal(
+                          journalContent,
+                          course,
+                          course.teacher.preferredName
+                        )
+                      "
                     >
-                    View Progress Book
-                  </button>
-                
-                  <button class="btn view-invoice" (click)="viewInvoice(classEnrollModal,course)" [disabled]="course.invoice == null">
-                    View invoice
-                  </button>
-                </div>
-                 </div>
-                  
+                      View Progress Book
+                    </button>
 
+                    <button
+                      class="btn view-invoice"
+                      (click)="viewInvoice(classEnrollModal, course)"
+                      [disabled]="course.invoice == null"
+                    >
+                      View invoice
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div>
-            <div *ngIf="custDetail.courses?.length>2">
-              <button *ngIf="selectedId.indexOf('course') == -1" class="btn-showmore pad-0" (click)="showMoreItem('course')"><span>Show
-                  More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+            <div *ngIf="custDetail.courses?.length > 2">
+              <button
+                *ngIf="selectedId.indexOf('course') == -1"
+                class="btn-showmore pad-0"
+                (click)="showMoreItem('course')"
+              >
+                <span>Show More</span
+                ><i class="fa fa-angle-down" aria-hidden="true"></i>
+              </button>
             </div>
             <div></div>
           </div>
@@ -270,60 +512,115 @@
         <div *ngIf="activeTab == 'makeup'" class="pb-20">
           <div class="d-flex justify-content-center">
             <ul class="pass-list">
-              <li [ngClass]="{'active': activePass == 'available'}" (click)="clickPass('available')">Available</li>
-              <li [ngClass]="{'active': activePass == 'claimed'}" (click)="clickPass('claimed')">Claimed</li>
-              <li [ngClass]="{'active': activePass == 'expired'}" (click)="clickPass('expired')">Expired</li>
+              <li
+                [ngClass]="{ active: activePass == 'available' }"
+                (click)="clickPass('available')"
+              >
+                Available
+              </li>
+              <li
+                [ngClass]="{ active: activePass == 'claimed' }"
+                (click)="clickPass('claimed')"
+              >
+                Claimed
+              </li>
+              <li
+                [ngClass]="{ active: activePass == 'expired' }"
+                (click)="clickPass('expired')"
+              >
+                Expired
+              </li>
             </ul>
           </div>
           <div *ngIf="makeupLists" class="row makeup-wrap">
-            <div class="col-md-4" *ngFor="let list of makeupLists;">
+            <div class="col-md-4" *ngFor="let list of makeupLists">
               <div class="single-makeup">
                 <div *ngIf="activePass == 'available'" class="makeup-head">
-                  <p>Valid until <span class="valid-date">{{list.expirationDate.day}} {{list.expirationDate.month -1 |
-                      TTmonth}} {{list.expirationDate.year}}</span></p>
+                  <p>
+                    Valid until
+                    <span class="valid-date"
+                      >{{ list.expirationDate.day }}
+                      {{ list.expirationDate.month - 1 | TTmonth }}
+                      {{ list.expirationDate.year }}</span
+                    >
+                  </p>
                 </div>
                 <div class="makeup-body">
-                  <h5 class="makeup-title">{{list.name}}</h5>
-                  <p class="makeup-desc">{{list.reason}}</p>
+                  <h5 class="makeup-title">{{ list.name }}</h5>
+                  <p class="makeup-desc">{{ list.reason }}</p>
                   <div class="makeup-box">
-                    <p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
+                    <p>
+                      Issued on {{ list.issueDate.day }}
+                      {{ list.issueDate.month - 1 | TTmonth }}
+                      {{ list.issueDate.year }}
+                    </p>
                     <div class="issue-box d-flex flex-column">
-                      <strong>{{list.course.name}}</strong>
+                      <strong>{{ list.course.name }}</strong>
                       <label>
-                        <span>{{list.course.startTime.hr | timeFormat}} : {{list.course.startTime.min | timeFormat}}
-                          {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr | timeFormat}} :
-                          {{list.course.endTime.min | timeFormat}} {{list.course.endTime.meridiem}}</span></label>
-
-
+                        <span
+                          >{{ list.course.startTime.hr | timeFormat }} :
+                          {{ list.course.startTime.min | timeFormat }}
+                          {{ list.course.startTime.meridiem }}</span
+                        >
+                        -
+                        <span
+                          >{{ list.course.endTime.hr | timeFormat }} :
+                          {{ list.course.endTime.min | timeFormat }}
+                          {{ list.course.endTime.meridiem }}</span
+                        ></label
+                      >
 
                       <div *ngIf="list.cancelledLesson">
-                        <strong *ngIf="list.cancelledLesson.startDate != undefined">
-                          <span>{{list.cancelledLesson.startDate | timelineDate}}</span> <span>{{
-                            list.cancelledLesson.startDate | yearFormat}}</span>
+                        <strong
+                          *ngIf="list.cancelledLesson.startDate != undefined"
+                        >
+                          <span>{{
+                            list.cancelledLesson.startDate | timelineDate
+                          }}</span>
+                          <span>{{
+                            list.cancelledLesson.startDate | yearFormat
+                          }}</span>
                         </strong>
 
-                        <strong *ngIf="list.cancelledLesson.startDate == undefined">-</strong>
+                        <strong
+                          *ngIf="list.cancelledLesson.startDate == undefined"
+                          >-</strong
+                        >
                       </div>
                       <strong *ngIf="!list.cancelledLesson">-</strong>
                     </div>
                     <div *ngIf="activePass == 'claimed'">
-                      <p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}}
-                        {{list.filingDate.year}}</p>
-                      <div class="claimed-box d-flex flex-column" *ngIf="list.makeupCourse">
-                        <strong>{{list.makeupCourse.name}}</strong>
+                      <p>
+                        Claimed on {{ list.filingDate.day }}
+                        {{ list.filingDate.month - 1 | TTmonth }}
+                        {{ list.filingDate.year }}
+                      </p>
+                      <div
+                        class="claimed-box d-flex flex-column"
+                        *ngIf="list.makeupCourse"
+                      >
+                        <strong>{{ list.makeupCourse.name }}</strong>
                         <label *ngIf="list.makeupCourse.startTime">
-                          <span>{{list.makeupCourse.startTime.hr | timeFormat}} : {{list.makeupCourse.startTime.min |
-                            timeFormat}} {{list.makeupCourse.startTime.meridiem}}</span> -
+                          <span
+                            >{{ list.makeupCourse.startTime.hr | timeFormat }} :
+                            {{
+                              list.makeupCourse.startTime.min | timeFormat
+                            }}
+                            {{ list.makeupCourse.startTime.meridiem }}</span
+                          >
+                          -
                           <span>
-                            {{list.makeupCourse.endTime.hr | timeFormat}} : {{list.makeupCourse.endTime.min |
-                            timeFormat}} {{list.makeupCourse.endTime.meridiem}}
+                            {{ list.makeupCourse.endTime.hr | timeFormat }} :
+                            {{ list.makeupCourse.endTime.min | timeFormat }}
+                            {{ list.makeupCourse.endTime.meridiem }}
                           </span>
                         </label>
 
                         <div *ngIf="list.claimedDateFor">
                           <strong *ngIf="list.claimedDateFor.day != null">
-                            {{list.claimedDateFor.day}} {{list.claimedDateFor.month -1 | TTmonth}}
-                            {{list.claimedDateFor.year}}
+                            {{ list.claimedDateFor.day }}
+                            {{ list.claimedDateFor.month - 1 | TTmonth }}
+                            {{ list.claimedDateFor.year }}
                           </strong>
                           <strong *ngIf="list.claimedDateFor.day == null">
                             -
@@ -335,15 +632,29 @@
                 </div>
                 <div class="left-scoope"></div>
                 <div class="right-scoope"></div>
-                <div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
-                  <p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
+                <div
+                  *ngIf="activePass == 'available'"
+                  class="makeup-footer d-flex justify-content-center"
+                >
+                  <p
+                    (click)="openClaimModal(claimModal, list)"
+                    class="claim-text"
+                  >
+                    Claim this pass
+                  </p>
                 </div>
-                <div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
-                  <img src="./assets/img/badge-tick.png" class="claim-img">
+                <div
+                  *ngIf="activePass == 'claimed'"
+                  class="makeup-footer d-flex justify-content-center"
+                >
+                  <img src="./assets/img/badge-tick.png" class="claim-img" />
                   <p class="pass-text">Claimed pass</p>
                 </div>
-                <div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
-                  <img src="./assets/img/badge-minus.png" class="claim-img">
+                <div
+                  *ngIf="activePass == 'expired'"
+                  class="makeup-footer d-flex justify-content-center"
+                >
+                  <img src="./assets/img/badge-minus.png" class="claim-img" />
                   <p class="expired-text">Expired</p>
                 </div>
               </div>
@@ -414,20 +725,36 @@
         <div class="firstCol">
           <div *ngFor="let widget of custDetail.widgets">
             <h6 class="title-space">{{ widget.name }}</h6>
-            <div class="btn-wrap no-item" *ngIf="widget.APG.length<=0">
-              There is no {{ widget.name | lowercase}} for this customer!
+            <div class="btn-wrap no-item" *ngIf="widget.APG.length <= 0">
+              There is no {{ widget.name | lowercase }} for this customer!
             </div>
             <div>
               <div class="list-wrapper">
-                <div *ngFor="let apg of widget.APG|slice:0:[selectedId.indexOf(widget._id) != -1 ? widget.APG.length : 2]">
+                <div
+                  *ngFor="
+                    let apg of widget.APG
+                      | slice
+                        : 0
+                        : [
+                            selectedId.indexOf(widget._id) != -1
+                              ? widget.APG.length
+                              : 2
+                          ]
+                  "
+                >
                   <div>
                     <div class="child">
                       <label class="info-p">{{ apg.name }}</label>
                       <div *ngFor="let accessPoint of apg.accessPoints">
                         <div class="bar-wrapper">
-                          <ngb-progressbar [value]="accessPoint.score" height="0.3rem"></ngb-progressbar>
+                          <ngb-progressbar
+                            [value]="accessPoint.score"
+                            height="0.3rem"
+                          ></ngb-progressbar>
                         </div>
-                        <span class="class-label-12">{{ accessPoint.score }}% accomplished</span>
+                        <span class="class-label-12"
+                          >{{ accessPoint.score }}% accomplished</span
+                        >
                       </div>
                     </div>
                   </div>
@@ -436,8 +763,14 @@
             </div>
             <div class="btn-wrap">
               <div *ngIf="widget.APG.length > 2">
-                <button *ngIf="selectedId.indexOf(widget._id) == -1" class="btn-showmore pad-0" (click)="showMoreItem(widget._id)"><span>Show
-                    More {{widget.name}}</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+                <button
+                  *ngIf="selectedId.indexOf(widget._id) == -1"
+                  class="btn-showmore pad-0"
+                  (click)="showMoreItem(widget._id)"
+                >
+                  <span>Show More {{ widget.name }}</span
+                  ><i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
               </div>
               <div></div>
             </div>
@@ -445,48 +778,97 @@
           <div>
             <h6 class="title-space">Ratings and reviews</h6>
             <div>
-              <div class="btn-wrap no-item" *ngIf="custDetail.ratings?.length<=0">
+              <div
+                class="btn-wrap no-item"
+                *ngIf="custDetail.ratings?.length <= 0"
+              >
                 There is no rating and review from this customer!
               </div>
               <div class="card-columns">
-                <div *ngFor="let rating of custDetail.ratings| slice:0:[selectedId.indexOf('rating') != -1 ? custDetail.ratings?.length : 2]"
-                  class="card card-wrap">
+                <div
+                  *ngFor="
+                    let rating of custDetail.ratings
+                      | slice
+                        : 0
+                        : [
+                            selectedId.indexOf('rating') != -1
+                              ? custDetail.ratings?.length
+                              : 2
+                          ]
+                  "
+                  class="card card-wrap"
+                >
                   <div class="d-flex">
-                    <ngb-rating [(rate)]="rating.rating" readonly ="true" max="5" >
+                    <ngb-rating
+                      [(rate)]="rating.rating"
+                      readonly="true"
+                      max="5"
+                    >
                       <ng-template let-fill="fill" let-index="index">
-                        <span *ngIf="fill === 100" class="star" [class.filled]="fill === 100" >&#9733;</span>
-                        <span *ngIf="fill !== 100" class="star" [class.notfilled]="fill !== 100" >&#9734;</span>
-
+                        <span
+                          *ngIf="fill === 100"
+                          class="star"
+                          [class.filled]="fill === 100"
+                          >&#9733;</span
+                        >
+                        <span
+                          *ngIf="fill !== 100"
+                          class="star"
+                          [class.notfilled]="fill !== 100"
+                          >&#9734;</span
+                        >
                       </ng-template>
-                      </ngb-rating> <span class="ml-auto medium-label-12">{{ rating.updatedDate }}</span>
+                    </ngb-rating>
+                    <span class="ml-auto medium-label-12">{{
+                      rating.updatedDate
+                    }}</span>
                   </div>
                   <p class="medium-label-14" style="color: #2e3d4d">
-                    <read-more class="cust-readmore" [text]="rating.message"></read-more>
+                    <read-more
+                      class="cust-readmore"
+                      [text]="rating.message"
+                    ></read-more>
                   </p>
                   <div class="d-flex info-wrap">
                     <div class="timetable-col d-flex">
                       <div class="small-circular-image">
-                        <img src="{{ rating.teacher_info.profilePic }}">
+                        <img src="{{ rating.teacher_info.profilePic }}" />
                       </div>
                       <div class="padL-5">
                         <label class="medium-label-12 mb-0">Teacher</label>
-                        <p *ngIf="rating.teacher_info.preferredName" class="teacher-label-12 mb-0">{{
-                          (rating.teacher_info.preferredName.length>20)? (rating.teacher_info.preferredName |
-                          slice:0:20)+'...':(rating.teacher_info.preferredName) }}</p>
+                        <p
+                          *ngIf="rating.teacher_info.preferredName"
+                          class="teacher-label-12 mb-0"
+                        >
+                          {{
+                            rating.teacher_info.preferredName.length > 20
+                              ? (rating.teacher_info.preferredName
+                                  | slice: 0:20) + '...'
+                              : rating.teacher_info.preferredName
+                          }}
+                        </p>
                       </div>
                     </div>
                     <div class="timetable-col course-wrap">
                       <label class="medium-label-12 mb-0">Course</label>
-                      <p class="teacher-label-12 mb-0">{{ rating.course_info.name }}</p>
+                      <p class="teacher-label-12 mb-0">
+                        {{ rating.course_info.name }}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="btn-wrap">
-              <div *ngIf="custDetail.ratings?.length>2">
-                <button *ngIf="selectedId.indexOf('rating') == -1" class="btn-showmore pad-0" (click)="showMoreItem('rating')"><span>Show
-                    More</span><i class="fa fa-angle-down" aria-hidden="true"></i></button>
+              <div *ngIf="custDetail.ratings?.length > 2">
+                <button
+                  *ngIf="selectedId.indexOf('rating') == -1"
+                  class="btn-showmore pad-0"
+                  (click)="showMoreItem('rating')"
+                >
+                  <span>Show More</span
+                  ><i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -494,24 +876,42 @@
         <div class="secondCol">
           <div class="inner-secondCol">
             <h6>Activity</h6>
-            <div class="no-item" *ngIf="custDetail.journals?.length<=0">
+            <div class="no-item" *ngIf="custDetail.journals?.length <= 0">
               There is no activity for this customer!
             </div>
             <div style="overflow: scroll;" [style.height.px]="divHeight">
-              <div class="activity-wrapper" *ngFor="let activity of custDetail.journals| slice: 0:[selectedId.indexOf('activity') != -1 ? custDetail.journals?.length : 2]">
+              <div
+                class="activity-wrapper"
+                *ngFor="
+                  let activity of custDetail.journals
+                    | slice
+                      : 0
+                      : [
+                          selectedId.indexOf('activity') != -1
+                            ? custDetail.journals?.length
+                            : 2
+                        ]
+                "
+              >
                 <div class="d-flex">
-                  <div class="teacher-label-12" style="width: 100%">{{ activity.message }}</div>
-                  <div class="icon-img">
-
+                  <div class="teacher-label-12" style="width: 100%">
+                    {{ activity.message }}
                   </div>
+                  <div class="icon-img"></div>
                 </div>
                 <label class="medium-label-12 mb-0">{{ activity.time }}</label>
               </div>
               <div>
-                <div *ngIf="custDetail.journals?.length>4">
-                  <button *ngIf="selectedId.indexOf('activity') == -1" class="btn-showmore pad-0" style="font-size: 14px"
-                    (click)="showMoreItem('activity')"><span>See all activities</span><i class="fa fa-angle-right"
-                      aria-hidden="true"></i></button>
+                <div *ngIf="custDetail.journals?.length > 4">
+                  <button
+                    *ngIf="selectedId.indexOf('activity') == -1"
+                    class="btn-showmore pad-0"
+                    style="font-size: 14px"
+                    (click)="showMoreItem('activity')"
+                  >
+                    <span>See all activities</span
+                    ><i class="fa fa-angle-right" aria-hidden="true"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -522,8 +922,16 @@
   </div>
 </div>
 
-<div *ngIf="showFormCreate" class="sticky-back-user" [ngClass]="{'sticky-bar' : isCreateFix == true}">
-  <button type="button" class="back-button display-flex" (click)="backToCustomer()">
+<div
+  *ngIf="showFormCreate"
+  class="sticky-back-user"
+  [ngClass]="{ 'sticky-bar': isCreateFix == true }"
+>
+  <button
+    type="button"
+    class="back-button display-flex"
+    (click)="backToCustomer()"
+  >
     <i class="fa fa-angle-left left-arrow"></i>
     <p class="back-staff-txt fl-txt-rt">Customers</p>
   </button>
@@ -531,7 +939,11 @@
 
 <div class="d-flex justify-content-center">
   <div class="inner-wrapper-detail" *ngIf="showFormCreate">
-    <button type="button" class="back-button display-flex" (click)="backToCustomer()">
+    <button
+      type="button"
+      class="back-button display-flex"
+      (click)="backToCustomer()"
+    >
       <i class="fa fa-angle-left left-arrow"></i>
       <p class="back-staff-txt fl-txt-rt">Customers</p>
     </button>
@@ -544,16 +956,36 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7 pad-bottom">
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="prename" class="label-txt">What should we call you? <br> <span>e.g. How your call you or like
-                  your preferred name</span></label>
+              <label for="prename" class="label-txt"
+                >What should we call you? <br />
+                <span
+                  >e.g. How your call you or like your preferred name</span
+                ></label
+              >
               <div class="limit-wordcount">
-                <span>{{wordLength}}/15characters</span>
+                <span>{{ wordLength }}/15characters</span>
               </div>
             </div>
-            <input type="text" class="form-control " placeholder="Type preferred name here" name="preferredName"
-              [(ngModel)]="formFieldc.preferredName" #preferredName="ngModel" (focus)="focusMethod($event,'name', $event.target.value)"
-              (blur)="blurMethod($event,'name')" (input)="changeMethod($event.target.value)" maxlength="15" required>
-            <div *ngIf="preferredName.invalid && (preferredName.dirty || preferredName.touched)" class="alert alert-danger">
+            <input
+              type="text"
+              class="form-control "
+              placeholder="Type preferred name here"
+              name="preferredName"
+              [(ngModel)]="formFieldc.preferredName"
+              #preferredName="ngModel"
+              (focus)="focusMethod($event, 'name', $event.target.value)"
+              (blur)="blurMethod($event, 'name')"
+              (input)="changeMethod($event.target.value)"
+              maxlength="15"
+              required
+            />
+            <div
+              *ngIf="
+                preferredName.invalid &&
+                (preferredName.dirty || preferredName.touched)
+              "
+              class="alert alert-danger"
+            >
               <div [hidden]="!preferredName.errors.required">
                 Display name is required!
               </div>
@@ -563,13 +995,26 @@
             <div class="d-flex justify-content-between">
               <label for="fullName" class="label-txt">Full name</label>
               <div class="limit-wordcount2">
-                <span>{{wordLength}}/60characters</span>
+                <span>{{ wordLength }}/60characters</span>
               </div>
             </div>
-            <input type="text" class="form-control" placeholder="Type full name here" name="fullName" [(ngModel)]="formFieldc.fullName"
-              #fullName="ngModel" (focus)="focusMethod($event,'fullname', $event.target.value)" (blur)="blurMethod($event,'fullname')"
-              (input)="changeMethod($event.target.value)" maxlength="60" required>
-            <div *ngIf="fullName.errors && (fullName.dirty || fullName.touched)" class="alert alert-danger">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Type full name here"
+              name="fullName"
+              [(ngModel)]="formFieldc.fullName"
+              #fullName="ngModel"
+              (focus)="focusMethod($event, 'fullname', $event.target.value)"
+              (blur)="blurMethod($event, 'fullname')"
+              (input)="changeMethod($event.target.value)"
+              maxlength="60"
+              required
+            />
+            <div
+              *ngIf="fullName.errors && (fullName.dirty || fullName.touched)"
+              class="alert alert-danger"
+            >
               <div [hidden]="!fullName.errors.required">
                 Full name is required!
               </div>
@@ -588,26 +1033,52 @@
             <div class="d-flex justify-content-between">
               <label for="about" class="label-txt">About</label>
               <div class="limit-wordcount1">
-                <span>{{wordLength}}/280characters</span>
+                <span>{{ wordLength }}/280characters</span>
               </div>
             </div>
-            <textarea class="form-control" rows="3" placeholder="Type about here" name="about" (focus)="focusMethod($event, 'about', $event.target.value)"
-              (blur)="blurMethod($event, 'about')" maxlength="280" (input)="changeMethod($event.target.value)"
-              [(ngModel)]="formFieldc.about" #about="ngModel"></textarea>
+            <textarea
+              class="form-control"
+              rows="3"
+              placeholder="Type about here"
+              name="about"
+              (focus)="focusMethod($event, 'about', $event.target.value)"
+              (blur)="blurMethod($event, 'about')"
+              maxlength="280"
+              (input)="changeMethod($event.target.value)"
+              [(ngModel)]="formFieldc.about"
+              #about="ngModel"
+            ></textarea>
           </div>
           <div class="form-group form-divider">
             <label for="email" class="label-txt">Email address</label>
-            <input type="email" class="form-control" placeholder="Type email address here" (keyup)="validateEmail(formFieldc.email)"
-              name="email" [(ngModel)]="formFieldc.email" #email="ngModel">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Type email address here"
+              (keyup)="validateEmail(formFieldc.email)"
+              name="email"
+              [(ngModel)]="formFieldc.email"
+              #email="ngModel"
+            />
             <div *ngIf="emailAlert" class="alert alert-danger">
               Please provide a valid email
             </div>
           </div>
           <div class="form-group form-divider">
             <label for="password" class="label-txt">Password</label>
-            <input type="password" class="form-control" placeholder="Type password here" name="password" [(ngModel)]="formFieldc.password"
-              #password="ngModel" (anyEventName)="whateverEventHandler($event)">
-            <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Type password here"
+              name="password"
+              [(ngModel)]="formFieldc.password"
+              #password="ngModel"
+              (anyEventName)="whateverEventHandler($event)"
+            />
+            <div
+              *ngIf="password.errors && (password.dirty || password.touched)"
+              class="alert alert-danger"
+            >
               <div [hidden]="!password.errors.required">
                 Password is required!
               </div>
@@ -615,18 +1086,40 @@
           </div>
           <div class="form-group form-divider">
             <label for="guardmail" class="label-txt">Guardian email</label>
-            <input type="email" class="form-control" placeholder="Type guardian email here" name="guardianEmail"
-              [(ngModel)]="formFieldc.guardianEmail" (keyup)="validateGuarmail(formFieldc.guardianEmail)" #guardianEmail="ngModel">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Type guardian email here"
+              name="guardianEmail"
+              [(ngModel)]="formFieldc.guardianEmail"
+              (keyup)="validateGuarmail(formFieldc.guardianEmail)"
+              #guardianEmail="ngModel"
+            />
             <div *ngIf="guardianAlert" class="alert alert-danger">
               Please provide a valid email!
             </div>
           </div>
-          <div class="form-group form-divider" *ngFor="let field of customFields;">
+          <div
+            class="form-group form-divider"
+            *ngFor="let field of customFields"
+          >
             <label class="label-txt">{{ field.name }}</label>
-            <input *ngIf="field.dataType == 'Number'" type="number" placeholder="{{ field.description }}" name="{{field.name}}"
-              [(ngModel)]="field.value" class="date-field">
-            <textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}"
-              name="{{field.name}}" [(ngModel)]="field.value"></textarea>
+            <input
+              *ngIf="field.dataType == 'Number'"
+              type="number"
+              placeholder="{{ field.description }}"
+              name="{{ field.name }}"
+              [(ngModel)]="field.value"
+              class="date-field"
+            />
+            <textarea
+              *ngIf="field.dataType != 'Number'"
+              class="form-control"
+              rows="3"
+              placeholder="{{ field.description }}"
+              name="{{ field.name }}"
+              [(ngModel)]="field.value"
+            ></textarea>
           </div>
           <!-- <div class="form-group form-divider" *ngFor="let field of formFieldc.details;">
                 <label for="guardmail" class="label-txt">{{ field.name }}</label>
@@ -637,11 +1130,11 @@
           <label for="upload">
             <div *ngIf="!imgDemoSlider" class="profile-box label-txt">
               <div class="form-group">
-                <label for="upload" class="profile-label">Profile</label><br>
+                <label for="upload" class="profile-label">Profile</label><br />
                 <div class="circular-wrap">
                   <div class="circular-profile">
-                    <img *ngIf="isupdate == false" src="assets/img/user.svg">
-                    <img *ngIf="isupdate == true" src="{{returnProfile}}">
+                    <img *ngIf="isupdate == false" src="assets/img/user.svg" />
+                    <img *ngIf="isupdate == true" src="{{ returnProfile }}" />
                   </div>
                 </div>
                 <div class="demo-wrap upload-demo">
@@ -650,8 +1143,16 @@
                       <div class="col-1-2">
                         <div class="actions">
                           <a class="btn file-btn">
-                            <input type="file" class="upload-jpg form-control" id="upload" #cropper (change)='uploadCropImg($event)'
-                              value="Choose a file" accept="image/*" style="display:none" />
+                            <input
+                              type="file"
+                              class="upload-jpg form-control"
+                              id="upload"
+                              #cropper
+                              (change)="uploadCropImg($event)"
+                              value="Choose a file"
+                              accept="image/*"
+                              style="display:none"
+                            />
                           </a>
                         </div>
                       </div>
@@ -667,26 +1168,74 @@
               <div id="upload-demo"></div>
             </div>
             <div class="row mr-button">
-              <div class="col-md-6 crop-box" style="border-bottom-left-radius: 10px;">
+              <div
+                class="col-md-6 crop-box"
+                style="border-bottom-left-radius: 10px;"
+              >
                 <div class="br-right">
-                  <button *ngIf="blankCrop" class="upload-result btn1" (click)="backToUpload()">Cancel</button>
+                  <button
+                    *ngIf="blankCrop"
+                    class="upload-result btn1"
+                    (click)="backToUpload()"
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
-              <div class="col-md-6 crop-box" style="border-bottom-right-radius: 10px;">
-                <button *ngIf="blankCrop" class="upload-result btn2" id="sizeDisable" (click)="cropResult()" [value]="blankCrop">Crop</button>
+              <div
+                class="col-md-6 crop-box"
+                style="border-bottom-right-radius: 10px;"
+              >
+                <button
+                  *ngIf="blankCrop"
+                  class="upload-result btn2"
+                  id="sizeDisable"
+                  (click)="cropResult()"
+                  [value]="blankCrop"
+                >
+                  Crop
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-end button-group">
-        <button *ngIf="isupdate == false" type="button" class="bt cancel-button" (click)="back()">Cancel</button>
-        <button *ngIf="isupdate == true" type="button" class="bt cancel-button" (click)="backToDetails()">Cancel</button>
-        <button type="button" *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert ||guardianAlert">Create
+        <button
+          *ngIf="isupdate == false"
+          type="button"
+          class="bt cancel-button"
+          (click)="back()"
+        >
+          Cancel
         </button>
-        <button type="button" *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert || guardianAlert">Update
+        <button
+          *ngIf="isupdate == true"
+          type="button"
+          class="bt cancel-button"
+          (click)="backToDetails()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          *ngIf="isupdate == false"
+          type="submit"
+          (click)="createUser(formFieldc, 'create')"
+          class="btn create-button"
+          [disabled]="!customerForm.valid || emailAlert || guardianAlert"
+        >
+          Create
+        </button>
+        <button
+          type="button"
+          *ngIf="isupdate == true"
+          type="submit"
+          (click)="createUser(formFieldc, 'edit')"
+          class="btn create-button"
+          [disabled]="!customerForm.valid || emailAlert || guardianAlert"
+        >
+          Update
         </button>
       </div>
       <!-- <div class="d-flex justify-content-end button-group">
@@ -701,171 +1250,253 @@
 </div>
 
 <ng-template #journalContent let-modal let-c="close" let-d="dismiss">
-
-
   <div class="modal-body" style="padding-top:0px !important;">
-    
     <form>
-        
       <div class="form-group">
-          <div class="" style="padding-right:5px">
-              <p class="cus-name col-md-10">{{custDetail.user.preferredName}}</p>
-              <button (click)="closeModal()" aria-label="Close" class="modal-close ml-auto" type="button" style="width:15% ; text-align: right">
-                  <span class="closemark">
-                      <div class="closemark_stem"></div>
-                      <div class="closemark_kick"></div>
-                  </span>
-                  <!-- <span aria-hidden="true" >×</span> -->
-                </button>
-            </div>
-        
-            <p class="learn-journal  col-md-12" >Progress Book</p>
-            <p class="class-name  col-md-12">{{className}}</p>
-            <div class="no-journal" *ngIf="toShowNoJournl">
-                <img class="no-journal-img" src="./assets/images/noJournal@2x.png">
-                <div style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%">No Journal Yet</div>
+        <div class="" style="padding-right:5px">
+          <p class="cus-name col-md-10">{{ custDetail.user.preferredName }}</p>
+          <button
+            (click)="closeModal()"
+            aria-label="Close"
+            class="modal-close ml-auto"
+            type="button"
+            style="width:15% ; text-align: right"
+          >
+            <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+            </span>
+            <!-- <span aria-hidden="true" >×</span> -->
+          </button>
+        </div>
 
+        <p class="learn-journal  col-md-12">Progress Book</p>
+        <p class="class-name  col-md-12">{{ className }}</p>
+        <div class="no-journal" *ngIf="toShowNoJournl">
+          <img class="no-journal-img" src="./assets/images/noJournal@2x.png" />
+          <div
+            style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%"
+          >
+            No Journal Yet
+          </div>
+        </div>
+        <div class="bull-shit-gp">
+          <div
+            class="bull-shit"
+            *ngFor="let journal of journals; let last = last"
+          >
+            <div
+              class="row eachJournl"
+              *ngIf="journal.type == 1 && !journal.teacherOnly"
+            >
+              <div class="journal-side-bar">
+                <div class="img-container" style="background:#cce6ff">
+                  <img
+                    class="journal-img"
+                    src="./assets/images/msg-journal@2x.png"
+                    style="width:22px !important"
+                  />
+                </div>
+                <div class="side-line" [class.last-side-line]="last"></div>
+              </div>
+
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Message
+                  <div>
+                    <p class="from">from {{ journal.sender.preferredName }}</p>
+                    <p class="date float-right">
+                      {{ journal.updatedDate | date: 'd MMM y' }}
+                    </p>
+                  </div>
+                </div>
+                <div class="journal-detail">
+                  <p>
+                    {{ journal.message }}
+                  </p>
+                  <img
+                    class="message-img"
+                    *ngIf="journal.photo != null"
+                    src="{{ journal.photo }}"
+                  />
+                </div>
+              </div>
             </div>
-          <div class="bull-shit-gp">
-            <div class="bull-shit" *ngFor="let journal of journals ; let last = last">
-          
-              <div class="row eachJournl" *ngIf="journal.type == 1 && !journal.teacherOnly">
-                <div class="journal-side-bar">
-                  <div class="img-container" style="background:#cce6ff">
-                    <img class="journal-img" src="./assets/images/msg-journal@2x.png" style="width:22px !important">
-                  </div>
-                  <div class="side-line" [class.last-side-line]="last">
-    
+            <div
+              class="row eachJournl"
+              *ngIf="journal.type == 1 && journal.teacherOnly"
+            >
+              <div class="journal-side-bar">
+                <div class="img-container" style="background:#b7cfe6">
+                  <img
+                    class="journal-img"
+                    src="./assets/images/private-padlock@2x.png"
+                    style="width:14px;height:18px;margin-top:32%"
+                  />
+                </div>
+                <div class="side-line" [class.last-side-line]="last"></div>
+              </div>
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Private notes
+                  <div>
+                    <p class="from">from {{ journal.sender.preferredName }}</p>
+                    <p class="date float-right">
+                      {{ journal.updatedDate | date: 'd MMM y' }}
+                    </p>
                   </div>
                 </div>
-    
-                <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
-                    Message
-                    <div>
-                      <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
-                    </div>
-                  </div>
-                  <div class="journal-detail">
-                    <p>
-                      {{journal.message}}
-                    </p>
-                    <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-    
-                  </div>
+                <div class="journal-detail">
+                  <p>
+                    {{ journal.message }}
+                  </p>
+                  <img
+                    class="message-img"
+                    *ngIf="journal.photo != null"
+                    src="{{ journal.photo }}"
+                  />
                 </div>
               </div>
-              <div class="row eachJournl" *ngIf="journal.type == 1 && journal.teacherOnly">
-                <div class="journal-side-bar">
-    
-                  <div class="img-container" style="background:#b7cfe6">
-                    <img class="journal-img" src="./assets/images/private-padlock@2x.png" style="width:14px;height:18px;margin-top:32%">
-                  </div>
-                  <div class="side-line" [class.last-side-line]="last">
-    
+            </div>
+            <div class="row eachJournl" *ngIf="journal.type == 2">
+              <div class="journal-side-bar">
+                <div class="img-container" tyle="background:#f23a30">
+                  <img
+                    class="journal-img"
+                    src="./assets/images/journal-unpaid@2x.png"
+                  />
+                </div>
+                <div class="side-line" [class.last-side-line]="last"></div>
+              </div>
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Payment
+                  <div>
+                    <p class="from">from {{ journal.sender.preferredName }}</p>
+                    <p class="date float-right">
+                      {{ journal.updatedDate | date: 'd MMM y' }}
+                    </p>
                   </div>
                 </div>
-                <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
-                    Private notes
-                    <div>
-                      <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
-                    </div>
-                  </div>
-                  <div class="journal-detail">
-                    <p>
-                      {{journal.message}}
-                    </p>
-                    <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-    
-                  </div>
+                <div class="journal-detail">
+                  <p>
+                    {{ journal.message }}
+                  </p>
+                  <img
+                    class="message-img"
+                    *ngIf="journal.photo != null"
+                    src="{{ journal.photo }}"
+                  />
                 </div>
               </div>
-              <div class="row eachJournl" *ngIf="journal.type == 2">
-                <div class="journal-side-bar">
-    
-                  <div class="img-container" tyle="background:#f23a30">
-                    <img class="journal-img" src="./assets/images/journal-unpaid@2x.png">
-                  </div>
-                  <div class="side-line" [class.last-side-line]="last">
-    
+            </div>
+            <div class="row eachJournl" *ngIf="journal.type == 3">
+              <div class="journal-side-bar">
+                <div class="img-container" style="background:#c2f2d6">
+                  <img
+                    class="journal-img"
+                    src="./assets/images/journal-tick@2x.png"
+                  />
+                </div>
+                <div class="side-line" [class.last-side-line]="last"></div>
+              </div>
+              <div class="journal-content" [class.border-bott]="last">
+                <div class="journal-header">
+                  Attendance
+                  <div>
+                    <p class="from">from {{ journal.sender.preferredName }}</p>
+                    <p class="date float-right">
+                      {{ journal.updatedDate | timezoneDate }}
+                    </p>
                   </div>
                 </div>
-                <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
-                    Payment
-                    <div>
-                      <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | date:'d MMM y'}}</p>
-                    </div>
-                  </div>
-                  <div class="journal-detail">
-                    <p>
-                      {{journal.message}}
-                    </p>
-                    <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-    
-                  </div>
+                <div class="journal-detail">
+                  <p>
+                    {{ journal.message }}
+                  </p>
+                  <img
+                    class="message-img"
+                    *ngIf="journal.photo != null"
+                    src="{{ journal.photo }}"
+                  />
+                </div>
+                <div
+                  class="attendance-time"
+                  [ngSwitch]="journal.type_detail.attendance"
+                >
+                  <p class="atten-time">
+                    {{ journal.type_detail.date | utcTime }}
+                  </p>
+                  <img
+                    class="attendance-img"
+                    src="assets/images/journal-check@2x.png"
+                    *ngSwitchCase="true"
+                  />
+                  <img
+                    class="attendance-img"
+                    src="assets/images/journalCross@2x.png"
+                    *ngSwitchCase="false"
+                  />
+                  <img
+                    class="attendance-img"
+                    src="assets/images/journalMinus@2x.png"
+                    *ngSwitchCase="null"
+                  />
                 </div>
               </div>
-              <div class="row eachJournl" *ngIf="journal.type == 3">
-                <div class="journal-side-bar">
-                  <div class="img-container" style="background:#c2f2d6">
-                    <img class="journal-img" src="./assets/images/journal-tick@2x.png">
-                  </div>
-                  <div class="side-line" [class.last-side-line]="last"> 
-    
-                  </div>
-                </div>
-                <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
-                    Attendance
-                    <div>
-                      <p class="from">from {{journal.sender.preferredName}}</p>
-                      <p class="date float-right">{{journal.updatedDate | timezoneDate}}</p>
-                    </div>
-                  </div>
-                  <div class="journal-detail">
-                    <p>
-                      {{journal.message}}
-                    </p>
-                    <img class="message-img" *ngIf="journal.photo != null" src={{journal.photo}}>
-                  </div>
-                  <div class="attendance-time" [ngSwitch]="journal.type_detail.attendance">
-                    <p class="atten-time">{{journal.type_detail.date | utcTime}}</p>
-                    <img class="attendance-img" src="assets/images/journal-check@2x.png" *ngSwitchCase="true">
-                    <img class="attendance-img" src="assets/images/journalCross@2x.png" *ngSwitchCase="false">
-                    <img class="attendance-img" src="assets/images/journalMinus@2x.png" *ngSwitchCase="null">
-                  </div>
-                </div>
-              </div>
-    
-            
-              <div class="row j-load-more" *ngIf="toShowLoadMore && last" (click)="jLoadMore()"><span style="margin-left:auto; margin-right: auto">load more</span></div>
+            </div>
+
+            <div
+              class="row j-load-more"
+              *ngIf="toShowLoadMore && last"
+              (click)="jLoadMore()"
+            >
+              <span style="margin-left:auto; margin-right: auto"
+                >load more</span
+              >
             </div>
           </div>
-        
-        
-
+        </div>
       </div>
     </form>
   </div>
 </ng-template>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
-  <app-invoice *ngIf = "showInvoice == true || showPaidInvoice == true" [custDetail] = "custDetail" [course] ="selectedCourse" (closed)="closeModal('closeInv')" style="height:80vh;overflow: auto"></app-invoice>
-  <div *ngIf="showInvoice == false && showPayment == false && showPaidInvoice == false">
+  <app-invoice
+    *ngIf="showInvoice == true || showPaidInvoice == true"
+    [custDetail]="custDetail"
+    [course]="selectedCourse"
+    (closed)="closeModal('closeInv')"
+    style="height:80vh;overflow: auto"
+  ></app-invoice>
+  <div
+    *ngIf="
+      showInvoice == false && showPayment == false && showPaidInvoice == false
+    "
+  >
     <div class="d-flex modal-header">
       <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
-      <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
+      <div
+        class="d-flex flex-column justify-content-center align-items-center mr-auto"
+      >
         <div class="user-image">
-          <img *ngIf="custDetail.user.profilePic == undefined" src="assets/img/user.svg">
-          <img *ngIf="custDetail.user.profilePic != undefined" src="{{custDetail.user.profilePic}}">
+          <img
+            *ngIf="custDetail.user.profilePic == undefined"
+            src="assets/img/user.svg"
+          />
+          <img
+            *ngIf="custDetail.user.profilePic != undefined"
+            src="{{ custDetail.user.profilePic }}"
+          />
         </div>
-        <p class="user-name">{{custDetail.user.preferredName}}</p>
+        <p class="user-name">{{ custDetail.user.preferredName }}</p>
       </div>
-      <button (click)="closeModal('close')" aria-label="Close" class="modal-close ml-auto" type="button">
+      <button
+        (click)="closeModal('close')"
+        aria-label="Close"
+        class="modal-close ml-auto"
+        type="button"
+      >
         <span class="closemark">
           <div class="closemark_stem"></div>
           <div class="closemark_kick"></div>
@@ -876,95 +1507,179 @@
       <div class="modal-body confirm-text">
         <div class="d-flex flex-column mt-37" style="position: relative;">
           <div class="d-flex">
-            <input class="form-control py-2 input-search-bg" type="search" placeholder="Search class" id="example-search-input"
-              name="search" #search="ngModel" [(ngModel)]="searchData.searchText" (input)="changeSearch($event.target.value, custDetail.user.userId, '','')">
+            <input
+              class="form-control py-2 input-search-bg"
+              type="search"
+              placeholder="Search class"
+              id="example-search-input"
+              name="search"
+              #search="ngModel"
+              [(ngModel)]="searchData.searchText"
+              (input)="
+                changeSearch(
+                  $event.target.value,
+                  custDetail.user.userId,
+                  '',
+                  ''
+                )
+              "
+            />
             <span class="input-group-append">
-              <button class="bt btn-design btn-outline-secondary btn-right-radius" type="button">
+              <button
+                class="bt btn-design btn-outline-secondary btn-right-radius"
+                type="button"
+              >
                 <i class="fa fa-search search-size"></i>
               </button>
             </span>
           </div>
         </div>
-        <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+        <div *ngIf="noSetting == true" class="seat-taken">
+          You should set invoice setting and payment setting first.
+        </div>
         <div class="mt-20 class-group">
           <div class="card-columns pd-zero">
-            <div class="card" *ngFor="let course of availableCourses; let i = index">
+            <div
+              class="card"
+              *ngFor="let course of availableCourses; let i = index"
+            >
               <div class="single-class">
-                <div class="no-seat" *ngIf="course.seat_left == 0">All seat taken</div>
-                <div class="seat-left" *ngIf="course.seat_left != 0 && course.seat_left != null">{{course.seat_left}}
-                  seats left</div>
+                <div class="no-seat" *ngIf="course.seat_left == 0">
+                  All seat taken
+                </div>
+                <div
+                  class="seat-left"
+                  *ngIf="course.seat_left != 0 && course.seat_left != null"
+                >
+                  {{ course.seat_left }} seats left
+                </div>
                 <div class="class-info-head">
                   <h5 class="mt-03">
                     <i class="fa fa-map-marker" style="font-size:15px"></i>
-                    {{course.location.name}}
+                    {{ course.location.name }}
                   </h5>
-                  <b>{{course.name}}</b>
+                  <b>{{ course.name }}</b>
                 </div>
                 <div class="class-info-body">
-                  <div [hidden]="!course.paymentPolicy.courseFee && !course.paymentPolicy.deposit && !course.paymentPolicy.miscFee && !course.paymentPolicy.proratedLessonFee"
-                    class="class-body-one row">
+                  <div
+                    [hidden]="
+                      !course.paymentPolicy.courseFee &&
+                      !course.paymentPolicy.deposit &&
+                      !course.paymentPolicy.miscFee &&
+                      !course.paymentPolicy.proratedLessonFee
+                    "
+                    class="class-body-one row"
+                  >
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                       <div *ngIf="course.paymentPolicy.courseFee != null">
                         <h5>Course fee</h5>
-                        <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.courseFee}}</b>
+                        <sup>{{ currency.invCurrencySign }}</sup
+                        ><b>{{ course.paymentPolicy.courseFee }}</b>
                       </div>
-                      <div *ngIf="course.paymentPolicy.proratedLessonFee != null" class="mt-16">
+                      <div
+                        *ngIf="course.paymentPolicy.proratedLessonFee != null"
+                        class="mt-16"
+                      >
                         <h5>Prorate class fee</h5>
-                        <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.proratedLessonFee}}</b>
+                        <sup>{{ currency.invCurrencySign }}</sup
+                        ><b>{{ course.paymentPolicy.proratedLessonFee }}</b>
                       </div>
                     </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
+                    <div
+                      class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero"
+                    >
                       <div>
                         <div *ngIf="course.paymentPolicy.deposit">
                           <h5>Deposit</h5>
-                          <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.deposit.amount}}</b>
+                          <sup>{{ currency.invCurrencySign }}</sup
+                          ><b>{{ course.paymentPolicy.deposit.amount }}</b>
                         </div>
                       </div>
-                      <div class="mt-16" *ngIf="course.paymentPolicy.miscFee != null">
+                      <div
+                        class="mt-16"
+                        *ngIf="course.paymentPolicy.miscFee != null"
+                      >
                         <h5>Miscellaneous fee</h5>
-                        <sup>{{ currency.invCurrencySign }}</sup><b>{{course.paymentPolicy.miscFee}}</b>
+                        <sup>{{ currency.invCurrencySign }}</sup
+                        ><b>{{ course.paymentPolicy.miscFee }}</b>
                       </div>
                     </div>
                   </div>
                   <div class="class-body-two row">
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-                      <b *ngFor="let day of course.repeatDays | weekDays">{{day}}</b>
-                      <h5>{{ course.duration.startDate | utcTime }} - {{ course.duration.endDate | utcTime }}</h5>
+                    <div
+                      *ngIf="course.type != 'ONLINE'"
+                      class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6"
+                    >
+                      <b *ngFor="let day of course.repeatDays | weekDays">{{
+                        day
+                      }}</b>
+                      <h5 *ngIf="course.duration != undefined">
+                        {{ course.duration.startDate | utcTime }} -
+                        {{ course.duration.endDate | utcTime }}
+                      </h5>
                     </div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero">
+                    <div
+                      class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero"
+                    >
                       <div class="d-flex detail-fees">
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-03">
+                        <div
+                          class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-03"
+                        >
                           <h5>From</h5>
-                          <b>{{course.startDate | utcDate}}</b>
+                          <b>{{ course.startDate | utcDate }}</b>
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-zero">
-
-                          <h5 *ngIf="course.endDate != null" class="mt-03">To</h5>
+                        <div
+                          class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 pl-zero pr-zero"
+                        >
+                          <h5 *ngIf="course.endDate != null" class="mt-03">
+                            To
+                          </h5>
                           <h5 *ngIf="course.endDate == null" class="pt-13"></h5>
-                          <b *ngIf="course.endDate">{{course.endDate | utcDate}}</b>
+                          <b *ngIf="course.endDate">{{
+                            course.endDate | utcDate
+                          }}</b>
 
-                          <b *ngIf="course.endDate == null">{{ course.lessonCount }} Lessons</b>
-
+                          <b *ngIf="course.endDate == null"
+                            >{{ course.lessonCount }} Lessons</b
+                          >
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row d-flex justify-content-center class-info-footer">
-                  <button type="button" class="btn" (click)="enrollUser(course)" [disabled]="course.seat_left == 0 || noSetting == true">Enroll
-                    on this course</button>
+                <div
+                  class="row d-flex justify-content-center class-info-footer"
+                >
+                  <button
+                    type="button"
+                    class="btn"
+                    (click)="enrollUser(course)"
+                    [disabled]="course.seat_left == 0 || noSetting == true"
+                  >
+                    Enroll on this course
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <div *ngIf="availableCourses.length >= 20 && acResult?.length>0" class="load-more1 d-flex justify-content-center">
-            <button type="button" class="btn" (click)="showMoreAC(availableCourses.length, custDetail.user.userId)">load
-              more</button>
+          <div
+            *ngIf="availableCourses.length >= 20 && acResult?.length > 0"
+            class="load-more1 d-flex justify-content-center"
+          >
+            <button
+              type="button"
+              class="btn"
+              (click)="
+                showMoreAC(availableCourses.length, custDetail.user.userId)
+              "
+            >
+              load more
+            </button>
           </div>
         </div>
       </div>
     </form>
-  </div> 
+  </div>
   <!-- <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
     <div *ngIf="feesBox == true" class="overlayInv"></div>
     <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
@@ -1215,15 +1930,27 @@
   <div *ngIf="showPayment == true">
     <div class="invoice-container">
       <div class="logo-wrapper">
-        <img src="{{logo}}">
+        <img src="{{ logo }}" />
       </div>
       <div class="mt-40">
         <label class="payment-label">Choose payment method</label>
         <div class="d-flex mt-1">
           <div class="payment-item" *ngFor="let provider of paymentProviders">
-            <label [ngClass]="{'selectedItem': selectedPayment == provider.name}" class="form-check-label">
-              <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name"
-                [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider)"> {{provider.name}}
+            <label
+              [ngClass]="{ selectedItem: selectedPayment == provider.name }"
+              class="form-check-label"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="payment"
+                id="payment1"
+                value="provider.name"
+                [(ngModel)]="paymentItem.type"
+                #payment="ngModel"
+                (click)="choosePayment(provider)"
+              />
+              {{ provider.name }}
             </label>
           </div>
         </div>
@@ -1232,8 +1959,14 @@
             <div class="mt-30">
               <label class="payment-label">Reference number</label>
               <div>
-                <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="paymentItem.refNumber"
-                  #refNumber="ngModel">
+                <input
+                  type="text"
+                  name="ref"
+                  class="w-75 cash-input"
+                  placeholder="Reference number"
+                  [(ngModel)]="paymentItem.refNumber"
+                  #refNumber="ngModel"
+                />
               </div>
             </div>
             <div class="mt-30">
@@ -1242,10 +1975,20 @@
                 <div class="input-sign">
                   {{ currency.invCurrencySign }}
                 </div>
-                <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount"
-                  #amount="ngModel" required>
+                <input
+                  type="number"
+                  name="amount"
+                  class="w-100 cash-input"
+                  placeholder="0"
+                  [(ngModel)]="paymentItem.amount"
+                  #amount="ngModel"
+                  required
+                />
               </div>
-              <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger alert-m-right w-75 mt-3">
+              <div
+                *ngIf="amount.invalid && (amount.dirty || amount.touched)"
+                class="alert alert-danger alert-m-right w-75 mt-3"
+              >
                 <div [hidden]="!amount.errors.required">
                   Amount is required!
                 </div>
@@ -1266,28 +2009,50 @@
 	        </div> -->
       </div>
     </div>
-    <div *ngIf="selectedPayment != ''" class="modal-footer d-flex justify-content-between payment-footer">
+    <div
+      *ngIf="selectedPayment != ''"
+      class="modal-footer d-flex justify-content-between payment-footer"
+    >
       <button class="back-inv cursor-on" (click)="backToInvoice()">
         <i class="fa fa-angle-left"></i><span>Back</span>
       </button>
-      <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay
-        now</button>
+      <button
+        class="btn btn-submit cursor-on"
+        (click)="payNow(selectedPayment)"
+        [disabled]="
+          paymentItem.amount == '' ||
+          paymentItem.amount == undefined ||
+          paymentItem.amount <= 0
+        "
+      >
+        Pay now
+      </button>
       <!-- <button *ngIf="selectedPayment != 'Cash'" class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">
 	      	Pay now
 	      </button> -->
     </div>
   </div>
-  
 </ng-template>
 
 <ng-template #claimModal let-c="close" let-d="dismiss">
   <div class="modal-header d-flex justify-content-between">
     <div>
-      <p class="valid-until">Valid until <span>{{currentPassObj.expirationDate.day}}
-          {{currentPassObj.expirationDate.month -1 | TTmonth}} {{currentPassObj.expirationDate.year}}</span></p>
-      <h3 class="modal-title">{{currentPassObj.name}}</h3>
+      <p class="valid-until">
+        Valid until
+        <span
+          >{{ currentPassObj.expirationDate.day }}
+          {{ currentPassObj.expirationDate.month - 1 | TTmonth }}
+          {{ currentPassObj.expirationDate.year }}</span
+        >
+      </p>
+      <h3 class="modal-title">{{ currentPassObj.name }}</h3>
     </div>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal('close')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal('close')"
+    >
       <span class="closepass">
         <div class="closepass_stem"></div>
         <div class="closepass_kick"></div>
@@ -1296,45 +2061,89 @@
   </div>
   <div class="modal-body confirm-text">
     <div>
-      <input type="search" name="" class="form-control course-search-input" placeholder="Search courses" (input)="searchMakeup($event.target.value)">
+      <input
+        type="search"
+        name=""
+        class="form-control course-search-input"
+        placeholder="Search courses"
+        (input)="searchMakeup($event.target.value)"
+      />
     </div>
     <div class="mt-20 class-group">
       <div class="card-columns pd-zero" *ngIf="claimCourses">
         <div class="card" *ngFor="let claim of claimCourses; let i = index">
           <div class="single-class">
-            <div class="no-seat" *ngIf="claim.seat_left == 0">All seat taken</div>
-            <div class="seat-left" *ngIf="claim.seat_left != 0 && claim.seat_left != null">{{claim.seat_left}} seats
-              left</div>
-            <div class="seat-left" *ngIf="claim.seat_left == null">unlimited seats</div>
+            <div class="no-seat" *ngIf="claim.seat_left == 0">
+              All seat taken
+            </div>
+            <div
+              class="seat-left"
+              *ngIf="claim.seat_left != 0 && claim.seat_left != null"
+            >
+              {{ claim.seat_left }} seats left
+            </div>
+            <div class="seat-left" *ngIf="claim.seat_left == null">
+              unlimited seats
+            </div>
             <div class="class-info-head">
               <h5 class="mt-03">
                 <i class="fa fa-map-marker" style="font-size:15px"></i>
-                {{claim.location.name}}
+                {{ claim.location.name }}
               </h5>
-              <b>{{claim.name}}</b><br>
+              <b>{{ claim.name }}</b
+              ><br />
               <label class="makeup-plan">
-                <span *ngIf="claim.startTime">{{claim.startTime.hr | timeFormat}} : {{claim.startTime.min |
-                  timeFormat}} {{claim.startTime.meridiem}}</span> -
-                <span *ngIf="claim.endTime">{{claim.endTime.hr | timeFormat}} : {{claim.endTime.min | timeFormat}}
-                  {{claim.endTime.meridiem}}</span>
+                <span *ngIf="claim.startTime"
+                  >{{ claim.startTime.hr | timeFormat }} :
+                  {{ claim.startTime.min | timeFormat }}
+                  {{ claim.startTime.meridiem }}</span
+                >
+                -
+                <span *ngIf="claim.endTime"
+                  >{{ claim.endTime.hr | timeFormat }} :
+                  {{ claim.endTime.min | timeFormat }}
+                  {{ claim.endTime.meridiem }}</span
+                >
               </label>
             </div>
             <div class="d-flex flex-column count-wrap w-100">
               <div class="d-flex justify-content-between">
                 <p class="valid-until">Pick a date to claim makeup pass</p>
                 <div>
-                  <img src="./assets/img/chevron-right-s.png" (click)="backward('timeline-'+i)" class="mr-32">
-                  <img src="./assets/img/chevron-left-s.png" (click)="forward('timeline-'+i)">
+                  <img
+                    src="./assets/img/chevron-right-s.png"
+                    (click)="backward('timeline-' + i)"
+                    class="mr-32"
+                  />
+                  <img
+                    src="./assets/img/chevron-left-s.png"
+                    (click)="forward('timeline-' + i)"
+                  />
                 </div>
               </div>
 
-              <div id="timeline-{{i}}" class="timeline">
-                <div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
-                  <label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
-                    <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}"
-                      [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson, claim)">
-                    <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
-                    <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
+              <div id="timeline-{{ i }}" class="timeline">
+                <div
+                  *ngFor="let lesson of claim.lessons"
+                  class="form-check form-check-inline tool-checked"
+                >
+                  <label
+                    [ngClass]="{ selected: isChecked == lesson.startDate }"
+                    class="form-check-label"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="passForm"
+                      id="course"
+                      value="{{ lesson }}"
+                      [(ngModel)]="passForm.lesson"
+                      #course="ngModel"
+                      [checked]="false"
+                      (click)="chooseDate(lesson, claim)"
+                    />
+                    <p class="xxxdate">{{ lesson.startDate | timelineDate }}</p>
+                    <p class="xxxday">{{ lesson.startDate | timelineDay }}</p>
                   </label>
                 </div>
               </div>
@@ -1350,14 +2159,16 @@
 		    					</div>
 	    					</div>
 	    				</div> -->
-
-
-
             </div>
             <div class="row d-flex justify-content-center class-info-footer">
-              <button type="button" class="btn enroll-button" (click)="enrollPass(claim, currentPassObj.course.courseId)"
-                [disabled]="checkCourse != claim.courseId">Claim class</button>
-
+              <button
+                type="button"
+                class="btn enroll-button"
+                (click)="enrollPass(claim, currentPassObj.course.courseId)"
+                [disabled]="checkCourse != claim.courseId"
+              >
+                Claim class
+              </button>
             </div>
           </div>
         </div>
