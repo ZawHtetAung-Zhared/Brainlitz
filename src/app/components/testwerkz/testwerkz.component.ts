@@ -2438,7 +2438,7 @@ export class TestwerkzComponent implements OnInit {
 
   //file drop method for valids
   onFilesChange(fileList: Array<File>) {
-    // console.log(fileList.length);
+    console.log(fileList);
     if (fileList.length != 0) {
       this.isDrop = true;
       this.fileList = fileList;

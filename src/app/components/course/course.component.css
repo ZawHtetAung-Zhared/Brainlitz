@@ -1399,6 +1399,10 @@ label.room-name::before {
   width: 60px;
   height: 60px;
 }
+.irap{
+  width: 48px;
+  height: 48px;
+}
 .std-img-wrap{
   width: 40px;
   height: 40px;
@@ -1417,7 +1421,7 @@ label.room-name::before {
   object-fit: contain;
 }
 .std-img-wrap,.std-img-wrap1,
-.img-wrap,.user-img-wrap{
+.img-wrap,.user-img-wrap,.flexi-img-wrap{
   /* display: inline-block; */
   position: relative;
   overflow: hidden;
@@ -1426,7 +1430,7 @@ label.room-name::before {
 }
 .img-wrap img,
 .std-img-wrap img,
-.user-img-wrap img,.user-image img{
+.user-img-wrap img,.user-image img,.flexi-img-wrap img{
   width: 100%;
   height: 100%;
   object-fit: contain
@@ -1888,6 +1892,7 @@ button:disabled{
 .img-div{
   width: 70px;
 }
+
 
 .pad-15{
   padding: 15px 15px;
@@ -2414,11 +2419,11 @@ input[type=number]::-webkit-outer-spin-button {
   box-shadow: 0 7px 7px -4px rgba(0, 0, 0, 0.1);
 }
 
-.flexy-status{
+.flexi-status{
   line-height: 3.3;
 }
 
-.flexy-status span{
+.flexi-status span{
   background: #f2f4f5;
   border-radius: 45px;
   color: #64707d;
@@ -2826,4 +2831,49 @@ button:focus {
   background: #801f19;
 }
 
+/* start flexi modal */
+  
+i.fa.fa-angle-left.flexiBackicon {
+  font-size: 20px;
+  color: #3D5266;
+  font-weight: bold;
+  padding-right: 4px;
+}
 
+p.textCount {
+  color: #64707D;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+
+.selectedCountBox {
+  width: 155px;
+  height: 32px;
+  background: #CCE6FF;
+  border-radius: 27px;
+  text-align: center;
+  padding-top: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #004080;
+  line-height: 16px;
+}
+
+.overlayModal {
+  background: rgba(39, 49, 70, 0.4);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  
+}
+
+/* end flexi modal */
