@@ -2837,8 +2837,15 @@ export class appService {
       });
   }
 
-  getAllInvoices(regionId: string) {
-    let apiUrl = this.baseUrl + '/' + regionId + '/invoices';
+  getAllInvoices(regionId: string, limit: number, skip: number) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/invoices?limit=' +
+      limit +
+      '&skip=' +
+      skip;
 
     const httpOptions = {
       headers: new HttpHeaders({

@@ -9,15 +9,25 @@ import { Router } from '@angular/router';
 })
 export class InvoiceReportComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
+  public invoiceList: any = [];
   constructor(private _service: appService, private router: Router) {}
 
   ngOnInit() {
-    this.getInvoiceList();
+    this.getInvoiceList(20, 0);
   }
 
-  getInvoiceList() {
-    this._service.getAllInvoices(this.regionID).subscribe((res: any) => {
-      console.log(res);
-    });
+  getInvoiceList(limit, skip) {
+    this._service
+      .getAllInvoices(this.regionID, limit, skip)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.invoiceList = this.invoiceList.concat(res);
+        console.log(this.invoiceList);
+      });
+  }
+
+  showMore(skip) {
+    console.log('showmore');
+    this.getInvoiceList(20, skip);
   }
 }
