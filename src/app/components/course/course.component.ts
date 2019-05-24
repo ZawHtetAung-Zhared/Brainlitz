@@ -37,6 +37,7 @@ declare var $: any;
 export class CourseComponent implements OnInit {
   courseList: Array<any> = [];
   code: any;
+  public makeupLists = [];
   public reasonValue: any;
   public textAreaOption = false;
   public attendenceButton: any;
@@ -3122,6 +3123,7 @@ export class CourseComponent implements OnInit {
     } else if (type == 'makeup') {
       this.activeUserTab = type;
       console.log('ddddd');
+      this.getMakeupLists(data.userId, 'claimed', this.regionId);
     }
   }
 
@@ -3350,13 +3352,13 @@ export class CourseComponent implements OnInit {
     }, 500);
   }
 
-  callMakeupLists() {
+  getMakeupLists(userId, type, regionId) {
     this.blockUI.start('Loading...');
-    this._service.getMakeupLists('13123213', 'available', 'regionId').subscribe(
+    this._service.getMakeupLists(userId, type, regionId).subscribe(
       (res: any) => {
         this.blockUI.stop();
         console.log(res);
-        // this.makeupLists = res;
+        this.makeupLists = res;
       },
       err => {
         console.log(err);

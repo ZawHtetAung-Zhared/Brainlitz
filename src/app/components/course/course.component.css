@@ -2937,20 +2937,22 @@ button:focus {
   background: #801f19;
 }
 
+/* code start from here */
+
 .single-makeup,
 .single-expired {
   margin-bottom: 20px;
+  padding-bottom: 30px;
   background: #fff;
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  /*background-image: radial-gradient(15px circle, #f2f4f5 99%, transparent);*/
 }
 
 .makeup-head {
   padding: 12px;
-  background: #c2f2d6;
+  background: #cce5ff;
   border-radius: 4px 4px 0 0;
 }
 
@@ -3013,7 +3015,7 @@ button:focus {
   width: 30px;
   position: absolute;
   border-radius: 20px;
-  bottom: 57px;
+  bottom: 14px;
 }
 
 .right-scoope1,
@@ -3029,4 +3031,111 @@ button:focus {
 .left-scoope1,
 .left-scoope {
   right: 0px;
+}
+.av-block {
+  max-height: 400px;
+  min-height: 301px;
+}
+.makeup-sidebar {
+  background: #f2f4f5;
+  /* height: 100%; */
+  overflow: auto;
+  max-height: 63vh;
+  min-height: 63vh;
+}
+
+.makeup-footer {
+  padding: 16px;
+  border-top: 2px dotted #d4d5d6;
+  margin-left: 21px;
+  margin-right: 21px;
+  /* padding-bottom: 4px; */
+}
+.release-text {
+  font-size: 18px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-top: 32px;
+  margin-bottom: 24px;
+}
+.claim-text {
+  color: #0080ff;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 14px;
+}
+.valid-date {
+  color: #004080;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 14px;
+}
+.makeup-head p {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+  color: #004080;
+}
+.makeup-title {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 16px;
+}
+.makeup-desc {
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* claimed block start */
+
+.claimed-block {
+  height: 340px;
+  background: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* for before */
+.single-makeup:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  height: 50px;
+  background: radial-gradient(
+    closest-side,
+    #f2f4f5,
+    #f2f4f5 50%,
+    transparent 50%
+  );
+  background-size: 31px 40px;
+  background-position: 0 25px;
+  background-repeat: repeat-x;
+}
+
+.single-makeup:after {
+  background: radial-gradient(
+    closest-side,
+    #f2f4f5,
+    #f2f4f5 50%,
+    #f2f4f5 1000%
+  );
+  background-size: 20px 50px;
+  background-position: 43px -10px;
+  background-repeat: repeat-x;
+  bottom: -25px;
+}
+
+.single-makeup:before,
+.single-makeup:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px; /*h*/
+}
+
+.claimed-header {
+  background: #c2f2d6;
+}
+.expired-header {
+  background: #e3e4e6;
 }

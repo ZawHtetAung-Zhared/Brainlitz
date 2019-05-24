@@ -2066,7 +2066,7 @@
     <div *ngIf="activeUserTab == 'makeup'" class="d-flex w-100">
       <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
         <div class="modal-body">
-          <div class="col-md-8 input-wrap">
+          <div class="col-md-12 input-wrap">
             <div class="form-group">
               <label for="name" class="input-label">Name</label>
               <input
@@ -2111,79 +2111,98 @@
           </button>
         </div>
       </form>
-      <div class="bg-danger " style="width:50%;"></div>
-      <!-- <div class="col-md-4" *ngFor="let list of makeupLists;">
-        <div class="single-makeup">
-          <div *ngIf="activePass == 'available'" class="makeup-head">
-            <p>Valid until <span class="valid-date">{{list.expirationDate.day}} {{list.expirationDate.month -1 |
-                TTmonth}} {{list.expirationDate.year}}</span></p>
-          </div>
-          <div class="makeup-body">
-            <h5 class="makeup-title">{{list.name}}</h5>
-            <p class="makeup-desc">{{list.reason}}</p>
-            <div class="makeup-box">
-              <p>Issued on {{list.issueDate.day}} {{list.issueDate.month -1 | TTmonth}} {{list.issueDate.year}}</p>
-              <div class="issue-box d-flex flex-column">
-                <strong>{{list.course.name}}</strong>
-                <label>
-                  <span>{{list.course.startTime.hr | timeFormat}} : {{list.course.startTime.min | timeFormat}}
-                    {{list.course.startTime.meridiem}}</span> - <span>{{list.course.endTime.hr | timeFormat}} :
-                    {{list.course.endTime.min | timeFormat}} {{list.course.endTime.meridiem}}</span></label>
-
-
-
-                <div *ngIf="list.cancelledLesson">
-                  <strong *ngIf="list.cancelledLesson.startDate != undefined">
-                    <span>{{list.cancelledLesson.startDate | timelineDate}}</span> <span>{{
-                      list.cancelledLesson.startDate | yearFormat}}</span>
-                  </strong>
-
-                  <strong *ngIf="list.cancelledLesson.startDate == undefined">-</strong>
-                </div>
-                <strong *ngIf="!list.cancelledLesson">-</strong>
-              </div>
-              <div *ngIf="activePass == 'claimed'">
-                <p>Claimed on {{list.filingDate.day}} {{list.filingDate.month -1 | TTmonth}}
-                  {{list.filingDate.year}}</p>
-                <div class="claimed-box d-flex flex-column" *ngIf="list.makeupCourse">
-                  <strong>{{list.makeupCourse.name}}</strong>
-                  <label *ngIf="list.makeupCourse.startTime">
-                    <span>{{list.makeupCourse.startTime.hr | timeFormat}} : {{list.makeupCourse.startTime.min |
-                      timeFormat}} {{list.makeupCourse.startTime.meridiem}}</span> -
+      <div class="d-flex flex-column makeup-sidebar" style="width:50%;">
+        <h1 class="release-text container">Released makeup passes</h1>
+        <div class="" *ngFor="let makeup of makeupLists">
+          <!--for valid start-->
+          <div *ngIf="true" class="col-md-12 av-block">
+            <div class="single-makeup">
+              <div
+                class="makeup-head"
+                [ngClass]="{ 'claimed-header': true, 'expired-header': false }"
+              >
+                <p>
+                  <span *ngIf="false">
+                    Valid until
+                    <span class="valid-date"
+                      >{{ makeup.expirationDate.day }}
+                      {{ makeup.expirationDate.month - 1 | TTmonth }}
+                      {{ makeup.expirationDate.year }}</span
+                    >
+                  </span>
+                  <span *ngIf="false">
                     <span>
-                      {{list.makeupCourse.endTime.hr | timeFormat}} : {{list.makeupCourse.endTime.min |
-                      timeFormat}} {{list.makeupCourse.endTime.meridiem}}
+                      <img src="../../../assets/icons/badge_tick.svg" alt="" />
                     </span>
-                  </label>
-
-                  <div *ngIf="list.claimedDateFor">
-                    <strong *ngIf="list.claimedDateFor.day != null">
-                      {{list.claimedDateFor.day}} {{list.claimedDateFor.month -1 | TTmonth}}
-                      {{list.claimedDateFor.year}}
-                    </strong>
-                    <strong *ngIf="list.claimedDateFor.day == null">
+                    Claimed pass
+                  </span>
+                  <span>
+                    <span>
+                      <img src="../../../assets/icons/badge_minus.svg" alt="" />
+                    </span>
+                    Expired pass
+                  </span>
+                </p>
+              </div>
+              <div class="makeup-body">
+                <h5 class="makeup-title">{{ makeup.name }}</h5>
+                <p class="makeup-desc">{{ makeup.reason }}</p>
+                <div class="makeup-box">
+                  <p>
+                    Issued on {{ makeup.issueDate.day }}
+                    {{ makeup.issueDate.month - 1 | TTmonth }}
+                    {{ makeup.issueDate.year }}
+                  </p>
+                  <div class="issue-box d-flex flex-column">
+                    <strong>{{ makeup.course.name }}</strong>
+                    <label>
+                      <span
+                        >{{ makeup.course.startTime.hr | timeFormat }} :
+                        {{ makeup.course.startTime.min | timeFormat }}
+                        {{ makeup.course.startTime.meridiem }}</span
+                      >
                       -
-                    </strong>
+                      <span
+                        >{{ makeup.course.endTime.hr | timeFormat }} :
+                        {{ makeup.course.endTime.min | timeFormat }}
+                        {{ makeup.course.endTime.meridiem }}</span
+                      ></label
+                    >
+                  </div>
+                  <div *ngIf="false">
+                    <p>
+                      Issued on {{ makeup.claimedDateFor.day }}
+                      {{ makeup.claimedDateFor.month - 1 | TTmonth }}
+                      {{ makeup.claimedDateFor.year }}
+                    </p>
+                    <div class="issue-box d-flex flex-column">
+                      <strong>{{ makeup.makeupCourse.name }}</strong>
+                      <label>
+                        <span
+                          >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
+                          {{
+                            makeup.makeupCourse.startTime.min | timeFormat
+                          }}
+                          {{ makeup.makeupCourse.startTime.meridiem }}</span
+                        >
+                        -
+                        <span
+                          >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
+                          {{ makeup.makeupCourse.endTime.min | timeFormat }}
+                          {{ makeup.makeupCourse.endTime.meridiem }}</span
+                        ></label
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="left-scoope"></div>
+              <div class="right-scoope"></div>
             </div>
           </div>
-          <div class="left-scoope"></div>
-          <div class="right-scoope"></div>
-          <div *ngIf="activePass == 'available'" class="makeup-footer d-flex justify-content-center">
-            <p (click)="openClaimModal(claimModal, list)" class="claim-text">Claim this pass</p>
-          </div>
-          <div *ngIf="activePass == 'claimed'" class="makeup-footer d-flex justify-content-center">
-            <img src="./assets/img/badge-tick.png" class="claim-img">
-            <p class="pass-text">Claimed pass</p>
-          </div>
-          <div *ngIf="activePass == 'expired'" class="makeup-footer d-flex justify-content-center">
-            <img src="./assets/img/badge-minus.png" class="claim-img">
-            <p class="expired-text">Expired</p>
-          </div>
+          <!--for valid end-->
         </div>
-      </div> -->
+      </div>
     </div>
 
     <div *ngIf="activeUserTab == 'transfer'">
@@ -2192,8 +2211,8 @@
           <!-- <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
         <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
             <div class="user-image">
-              <img *ngIf="singleUserData.profilePic == undefined" src="assets/img/user.svg">
-              <img *ngIf="singleUserData.profilePic != undefined" src="{{ singleUserData.profilePic }}">
+              <img *ngIf="{{singleUserData.profilePic == undefined" src="assets/img/user.svg">
+              <img *ngIf="{{singleUserData.profilePic != undefined" src=" singleUserData.profilePic }}">
             </div>      
           <p class="user-name">{{ singleUserData.preferredName }}</p>
         </div> -->
