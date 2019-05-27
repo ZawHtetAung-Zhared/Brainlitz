@@ -320,6 +320,7 @@ export class CourseComponent implements OnInit {
   }
   cID: string;
   ngOnInit() {
+    console.error(moment().format('YYYY-MM-DD'));
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {

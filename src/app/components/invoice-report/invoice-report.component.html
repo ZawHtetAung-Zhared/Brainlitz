@@ -17,7 +17,7 @@
           {{ invoice.refInvoiceId }}
         </td>
         <td>
-          user name
+          {{ invoice.userDetails.preferredName }}
         </td>
         <td>
           {{ invoice.updatedDate | dateFormat }}
@@ -43,7 +43,12 @@
           >
         </td>
         <td>
-          <button class="view-inv-btn">View invoice</button>
+          <button
+            class="view-inv-btn"
+            (click)="openModal(invoice, classEnrollModal)"
+          >
+            View invoice
+          </button>
         </td>
       </tr>
     </table>
@@ -58,3 +63,11 @@
     load more
   </button>
 </div>
+<ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <app-invoice
+    [custDetail]="custDetail"
+    [course]="selectedCourse"
+    (closed)="closeModal('closeInv')"
+    style="height:80vh;overflow: auto"
+  ></app-invoice>
+</ng-template>

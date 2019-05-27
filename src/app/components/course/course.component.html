@@ -2127,14 +2127,17 @@
         <h1 class="release-text container">Released makeup passes</h1>
         <div class="" *ngFor="let makeup of makeupLists">
           <!--for valid start-->
-          <div *ngIf="true" class="col-md-12 av-block">
+          <div class="col-md-12 av-block">
             <div class="single-makeup">
               <div
                 class="makeup-head"
-                [ngClass]="{ 'claimed-header': true, 'expired-header': false }"
+                [ngClass]="{
+                  'claimed-header': makeup.passType === 'claimed',
+                  'expired-header': makeup.passType === 'expired'
+                }"
               >
                 <p>
-                  <span *ngIf="false">
+                  <span *ngIf="makeup.passType === 'available'">
                     Valid until
                     <span class="valid-date"
                       >{{ makeup.expirationDate.day }}
@@ -2142,13 +2145,13 @@
                       {{ makeup.expirationDate.year }}</span
                     >
                   </span>
-                  <span *ngIf="false">
+                  <span *ngIf="makeup.passType === 'claimed'">
                     <span>
                       <img src="../../../assets/icons/badge_tick.svg" alt="" />
                     </span>
                     Claimed pass
                   </span>
-                  <span>
+                  <span *ngIf="makeup.passType === 'expired'">
                     <span>
                       <img src="../../../assets/icons/badge_minus.svg" alt="" />
                     </span>
@@ -2181,7 +2184,7 @@
                       ></label
                     >
                   </div>
-                  <div *ngIf="false">
+                  <div *ngIf="makeup.passType === 'claimed'">
                     <p>
                       Issued on {{ makeup.claimedDateFor.day }}
                       {{ makeup.claimedDateFor.month - 1 | TTmonth }}
