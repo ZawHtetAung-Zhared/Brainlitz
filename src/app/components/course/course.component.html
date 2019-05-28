@@ -1580,7 +1580,7 @@
       <div class="modal-body confirm-text">
         <div class="d-flex">
           <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
-            <h5 class="mt-03">
+            <h5 class="mt-03 lname">
               <i class="fa fa-map-marker" style="font-size:15px"></i>
               {{ detailLists.location.name }}
             </h5>
@@ -2049,16 +2049,19 @@
           </button>
         </div>
         <app-flexi
-          [flexyObj]="flexyObj"
+          [flexyarr]="flexyarr"
           [selectedCustomer]="selectedCustomer"
+          [course]="detailLists"
           [showcb]="showcb"
           (checkIdArr)="countChange($event)"
+          (tempConflict)="tempConflictObj($event)"
           (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
         ></app-flexi>
       </div>
       <div
         class="modal-footer d-flex justify-content-between"
-        style=" padding: 18px 25px 18px 25px;"
+        style=" padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
       >
         <div class="d-flex flex-column">
           <p class="textCount">Number of lessons required:</p>

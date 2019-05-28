@@ -95,6 +95,8 @@ import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.
 import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
 import { FlexiComponent } from './components/flexi/flexi.component';
 import { InterceptService } from "./service/intercept.service";
+import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
+import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
 
 @NgModule({
   declarations: [
@@ -163,7 +165,9 @@ import { InterceptService } from "./service/intercept.service";
     DndDirective,
     VideoTrimmerComponent,
     SliderRangeComponent,
-    FlexiComponent
+    FlexiComponent,
+    UtcShortDatePipe,
+    UtcFullDayPipe
   ],
   imports: [
     BrowserModule,
