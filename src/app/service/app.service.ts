@@ -2922,29 +2922,29 @@ export class appService {
   }
   // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/user/makeup-pass/5c3d4b9fe720c4316ec2ef3a?filter=course/5ce4d739d0747d6499c49de8
 
-  getMakeupLists(userid, type, regionid) {
+  getMakeupLists(userid, type, regionid, courseId) {
     if (type === 'course') {
-      let apiUrl =
+      var apiUrl =
         this.baseUrl +
         '/' +
         regionid +
         '/user/makeup-pass/' +
         userid +
         '?filter=' +
+        type +
+        '&id=' +
+        courseId;
+    } else {
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/' +
+        'user/makeup-pass/' +
+        userid +
+        '?filter=' +
         type;
     }
-    let apiUrl =
-      this.baseUrl +
-      '/' +
-      regionid +
-      '/' +
-      'user/makeup-pass/' +
-      userid +
-      '?filter=' +
-      'course' +
-      '&' +
-      'id=' +
-      '5ce4d739d0747d6499c49de8';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

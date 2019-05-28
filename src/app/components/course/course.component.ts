@@ -3145,7 +3145,7 @@ export class CourseComponent implements OnInit {
     } else if (type == 'makeup') {
       this.activeUserTab = type;
       console.log('ddddd');
-      this.getMakeupLists(data.userId, 'claimed', this.regionId);
+      this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
   }
 
@@ -3374,9 +3374,9 @@ export class CourseComponent implements OnInit {
     }, 500);
   }
 
-  getMakeupLists(userId, type, regionId) {
+  getMakeupLists(userId, type, regionId, courseId) {
     this.blockUI.start('Loading...');
-    this._service.getMakeupLists(userId, type, regionId).subscribe(
+    this._service.getMakeupLists(userId, type, regionId, courseId).subscribe(
       (res: any) => {
         this.blockUI.stop();
         console.log(res);
