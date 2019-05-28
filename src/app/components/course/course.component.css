@@ -1,3 +1,12 @@
+.seat-text-wrapper {
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+}
+.seat-wrapper {
+  list-style-type: disc;
+  padding-left: 30px;
+}
 .users-wrap-box {
   max-height: 350px;
   overflow: overlay;

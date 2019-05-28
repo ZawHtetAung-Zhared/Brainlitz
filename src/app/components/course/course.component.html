@@ -1114,12 +1114,50 @@
               </div>
               <div class="student-section">
                 <div class="d-flex justify-content-between user-header">
-                  <div class="d-flex flex-row">
+                  <div class="d-flex flex-column">
                     <h2 class="title-heading">Customers</h2>
-                    <div *ngIf="detailLists.seat_left == null">
-                      <p class="seat">unlimited seat</p>
+                    <div class="d-flex">
+                      <p class="seat-text-wrapper">
+                        Total: {{ pplLists.CUSTOMER.length }} customers
+                      </p>
+                      <ul
+                        *ngIf="detailLists.seat_left == null"
+                        class="seat-wrapper"
+                      >
+                        <li class="seat-text-wrapper">unlimited seat</li>
+                      </ul>
+                      <ul
+                        *ngIf="detailLists.seat_left !== null"
+                        class="seat-wrapper"
+                      >
+                        <li
+                          *ngIf="
+                            pplLists.CUSTOMER.length >
+                            detailLists.coursePlan.seats
+                          "
+                          class="seat-text-wrapper"
+                        >
+                          0 seat left
+                        </li>
+                        <li
+                          *ngIf="
+                            pplLists.CUSTOMER.length <=
+                            detailLists.coursePlan.seats
+                          "
+                          class="seat-text-wrapper"
+                        >
+                          {{
+                            detailLists.coursePlan.seats -
+                              pplLists.CUSTOMER.length
+                          }}
+                          seat left
+                        </li>
+                      </ul>
                     </div>
-                    <div *ngIf="detailLists.seat_left != null">
+                    <!-- <div *ngIf="detailLists.seat_left == null">
+                      <p class="seat">unlimited seat</p>
+                    </div> -->
+                    <!-- <div *ngIf="detailLists.seat_left != null">
                       <div
                         *ngIf="
                           pplLists.CUSTOMER.length >
@@ -1145,7 +1183,7 @@
                           unlimited seat
                         </p>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <button
                     *ngIf="courseDemo.assignStudent != ''"
@@ -1154,6 +1192,7 @@
                     (click)="
                       addUserModal('customer', customerModal, 'inside', '')
                     "
+                    style="height:36px;"
                   >
                     Enroll class
                   </button>

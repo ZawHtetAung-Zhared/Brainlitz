@@ -320,7 +320,6 @@ export class CourseComponent implements OnInit {
   }
   cID: string;
   ngOnInit() {
-    console.error(moment().format('YYYY-MM-DD'));
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
@@ -1709,10 +1708,6 @@ export class CourseComponent implements OnInit {
     console.log(this.LASD);
     let lsessonTime = this.LASD.toLocaleString().substring(11, 19);
     let lessonDate = this.LASD.toLocaleString().substring(0, 10);
-    // console.error(this.LASD)
-
-    // console.warn(lsessonTime)
-    // console.warn(lessonDate)
 
     var todaydate = new Date();
     let onlytodayTime = todaydate.toString().substring(16, 24);

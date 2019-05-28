@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 @Component({
   selector: 'app-invoice-report',
   templateUrl: './invoice-report.component.html',
@@ -18,6 +18,10 @@ export class InvoiceReportComponent implements OnInit {
   ) {}
   public custDetail: any = {};
   public selectedCourse: any = {};
+  public modalReference: any;
+  public locationId = localStorage.getItem('locationId');
+  @BlockUI() blockUI: NgBlockUI;
+
   ngOnInit() {
     this.getInvoiceList(20, 0);
   }
@@ -38,11 +42,21 @@ export class InvoiceReportComponent implements OnInit {
     this.getInvoiceList(20, skip);
   }
   openModal(invoice, classEnrollModal) {
-    console.warn(invoice.userId);
+    this.blockUI.start('Loading');
+    this.selectedCourse = invoice.courseDetails;
     this.selectedCourse.invoice = invoice;
-    // this.modalService.open(classEnrollModal)
-    // this.modalService.open(classEnrollModal, { backdrop: 'static', windowClass: 'modal-xl modal-inv d-flex justify-content-center align-items-center' });
+    this.custDetail.user = invoice.userDetails;
+    if (invoice.user !== null || invoice.user !== undefined)
+      this.custDetail.user.email = invoice.user.email;
+    this.modalReference = this.modalService.open(classEnrollModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.blockUI.stop();
   }
 
-  closeModal(type) {}
+  closeModal(type) {
+    this.modalReference.close();
+  }
 }
