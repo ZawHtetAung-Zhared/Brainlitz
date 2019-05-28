@@ -2162,7 +2162,11 @@
           </button>
         </div>
       </form>
-      <div class="d-flex flex-column makeup-sidebar" style="width:50%;">
+      <div
+        *ngIf="makeupLists.length > 0"
+        class="d-flex flex-column makeup-sidebar"
+        style="width:50%;"
+      >
         <h1 class="release-text container">Released makeup passes</h1>
         <div class="" *ngFor="let makeup of makeupLists">
           <!--for valid start-->
