@@ -58,6 +58,7 @@ export class UsersComponent implements OnInit {
   public locationID = localStorage.getItem('locationId');
   public locationName: any;
   public className: any;
+  public showflexyCourse: boolean = false;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -1011,6 +1012,7 @@ export class UsersComponent implements OnInit {
   callEnrollModal(enrollModal, userId) {
     console.log(userId);
     console.log(enrollModal);
+    console.error('exit');
     this.showInvoice = false;
     this.showPaidInvoice = false;
     console.log(this.showInvoice, this.showPaidInvoice);
@@ -1028,6 +1030,7 @@ export class UsersComponent implements OnInit {
       .getAvailabelCourse(this.regionID, userId, limit, skip)
       .subscribe(
         (res: any) => {
+          console.log(res);
           this.acResult = res;
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
@@ -1037,67 +1040,90 @@ export class UsersComponent implements OnInit {
         }
       );
   }
-
-  enrollUser(course) {
-    console.log(course);
-    this.selectedCourse = course;
-    console.log(this.custDetail);
-    let courseId = course._id;
-    let body = {
-      courseId: course._id,
-      userId: this.custDetail.user.userId,
-      userType: 'customer'
-    };
-    this._service.assignUser(this.regionID, body, this.locationID).subscribe(
-      (res: any) => {
-        console.log(res);
-        console.log(this.custDetail);
-        this.toastr.success('Successfully Enrolled.');
-        Object.assign(this.selectedCourse, res);
-        // this.showDetails(this.custDetail.user.userId);
-        // this.closeModel();
-        /* for invoice*/
-        this.showInvoice = true;
-        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
-          console.log('no invoice setting');
-          this.invoiceInfo = {
-            address: '',
-            city: '',
-            companyName: '',
-            email: '',
-            prefix: '',
-            registration: ''
-          };
-        } else {
-          console.log('has invoice setting');
-          this.invoiceInfo = res.invoiceSettings;
+  flexyarr: any = [];
+  enrollUser(course, type) {
+    console.log(course, type);
+    if (type == 'FLEXY') {
+      this.blockUI.start('Loading...');
+      console.log('is flexy');
+      let startDate;
+      let endDate;
+      this._service
+        .getFlexi(course._id, this.custDetail.user.userId, startDate, endDate)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            this.flexyarr = res.lessons;
+            this.showInvoice = false;
+            this.showflexyCourse = true;
+            this.showPaidInvoice = false;
+            this.blockUI.stop();
+          },
+          err => {
+            console.log(err);
+            this.blockUI.stop();
+          }
+        );
+    } else {
+      this.selectedCourse = course;
+      console.log(this.custDetail);
+      let courseId = course._id;
+      let body = {
+        courseId: course._id,
+        userId: this.custDetail.user.userId,
+        userType: 'customer'
+      };
+      this._service.assignUser(this.regionID, body, this.locationID).subscribe(
+        (res: any) => {
+          console.log(res);
+          console.log(this.custDetail);
+          this.toastr.success('Successfully Enrolled.');
+          Object.assign(this.selectedCourse, res);
+          // this.showDetails(this.custDetail.user.userId);
+          // this.closeModel();
+          /* for invoice*/
+          this.showInvoice = true;
+          if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+            console.log('no invoice setting');
+            this.invoiceInfo = {
+              address: '',
+              city: '',
+              companyName: '',
+              email: '',
+              prefix: '',
+              registration: ''
+            };
+          } else {
+            console.log('has invoice setting');
+            this.invoiceInfo = res.invoiceSettings;
+          }
+          this.invoice = res.invoice;
+          this.showInvoice = true;
+          this.showOneInvoice(course, this.invoice);
+          // for(var i in this.invoice){
+          //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
+          //  this.dueDate = this.dateFormat(this.invoice[i].dueDate);
+          //  this.invoiceID = this.invoice[i]._id;
+          //  this.refInvID = this.invoice[i].refInvoiceId;
+          //  this.invTaxName = this.invoice[i].tax.name;
+          //  var n = this.invoice[i].total;
+          //  this.total = n.toFixed(2);
+          //  this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
+          //  console.log('n and total',n,this.total);
+          //  this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
+          //  if(this.invoice[i].courseId == course._id){
+          //    this.invoiceCourse["name"] = course.name;
+          //          this.invoiceCourse["startDate"] = course.startDate;
+          //          this.invoiceCourse["endDate"] = course.endDate;
+          //          this.invoiceCourse["lessonCount"] = course.lessonCount;
+          //  }
+          // }
+        },
+        err => {
+          console.log(err);
         }
-        this.invoice = res.invoice;
-        this.showInvoice = true;
-        this.showOneInvoice(course, this.invoice);
-        // for(var i in this.invoice){
-        //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
-        //  this.dueDate = this.dateFormat(this.invoice[i].dueDate);
-        //  this.invoiceID = this.invoice[i]._id;
-        //  this.refInvID = this.invoice[i].refInvoiceId;
-        //  this.invTaxName = this.invoice[i].tax.name;
-        //  var n = this.invoice[i].total;
-        //  this.total = n.toFixed(2);
-        //  this.invoice[i].subtotal = Number(Number(this.invoice[i].subtotal).toFixed(2));
-        //  console.log('n and total',n,this.total);
-        //  this.invoiceCourse["fees"] = this.invoice[i].courseFee.fee;
-        //  if(this.invoice[i].courseId == course._id){
-        //    this.invoiceCourse["name"] = course.name;
-        //          this.invoiceCourse["startDate"] = course.startDate;
-        //          this.invoiceCourse["endDate"] = course.endDate;
-        //          this.invoiceCourse["lessonCount"] = course.lessonCount;
-        //  }
-        // }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      );
+    }
   }
 
   dateFormat(dateStr) {

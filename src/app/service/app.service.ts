@@ -9,6 +9,7 @@ import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
+import { start } from 'repl';
 declare var $: any;
 
 @Injectable()
@@ -3479,15 +3480,18 @@ export class appService {
     });
   }
 
-  getFlexi(courseId: string, userid: string) {
-    let apiUrl =
-      this.baseUrl +
-      '/courses/' +
-      courseId +
-      '/users/' +
-      userid +
-      '/flexy-lessons';
-    console.log(apiUrl);
+  getFlexi(courseId:string,userid:string,startDate,endDate){
+    console.log(startDate,endDate)
+    let apiUrl;
+    if(startDate == undefined && endDate==undefined){
+       apiUrl = this.baseUrl +'/courses/'+ courseId + '/users/' +userid+"/flexy-lessons";
+      
+    }else if(startDate == undefined){
+      apiUrl = this.baseUrl +'/courses/'+ courseId + '/users/' +userid+"/flexy-lessons"+"?endAt=" + endDate;
+    }else{
+      apiUrl = this.baseUrl +'/courses/'+ courseId + '/users/' +userid+"/flexy-lessons"+"?startForm=" + startDate;
+    }
+    console.log(apiUrl)
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3512,5 +3516,6 @@ export class appService {
       console.log(result);
       return result;
     });
+
   }
 }

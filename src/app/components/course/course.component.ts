@@ -30,6 +30,7 @@ import { ArrayType } from '@angular/compiler/src/output/output_ast';
 import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
+import { start } from 'repl';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -188,6 +189,7 @@ export class CourseComponent implements OnInit {
   public showMailPopup: boolean = false;
   public invoiceInfo: any = {};
   public invoice: any;
+  checkobjArr:any=[];
   public updatedDate;
   public dueDate;
   public invoiceID;
@@ -220,9 +222,16 @@ export class CourseComponent implements OnInit {
   public paymentId: any;
   public showPaidInvoice: boolean = false;
   public invPayment = [];
-  public invStatus: any;
-  public noSetting: boolean = false;
-  public isoutSideClick: boolean = false;
+  public invStatus:any;
+  public noSetting:boolean = false;
+  public isoutSideClick:boolean = false;
+  public courseType:any;
+  public flexyarr=[];
+  idarr:any=[]; 
+  conflictObj:any=[];
+  tempObj:any=[];
+  dataObj:any=[];
+  flexiTemp:any=[];
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -235,14 +244,6 @@ export class CourseComponent implements OnInit {
     config: NgbDatepickerConfig,
     calendar: NgbCalendar
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
-    this._service.goback.subscribe(() => {
-      this.courseList = [];
-      console.log('goooo');
-      this.courseList = [];
-      this.isCategory = false;
-      window.scroll(0, 0);
-    });
 
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
@@ -1495,26 +1496,24 @@ export class CourseComponent implements OnInit {
     this.isCourseCreate = true;
     // this.router.navigate(['/courseCreate']);
   }
-
-  getCourseDetail(id) {
-    this._service.getSingleCourse(id, this.locationID).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.detailLists = res;
-        this.courseId = res._id;
-        this.locationId = res.locationId;
-        this.draft = res.draft;
-        // console.log("Draft",this.draft)
-        // console.log(res.locationId)
-        // if(this.draft == true){
-        //   this.router.navigate(['/courseCreate']);
-        // }
-        // console.log(this.locationId)
-      },
-      err => {
-        console.log(err);
-      }
-    );
+  getCourseDetail(id){
+    this._service.getSingleCourse(id,this.locationID)
+    .subscribe((res:any)=>{
+      console.log(res)
+      this.detailLists = res;
+      this.courseId = res._id;
+      this.locationId = res.locationId;
+      this.draft = res.draft;
+      this.courseType=res.type;
+      // console.log("Draft",this.draft)
+      // console.log(res.locationId)
+      // if(this.draft == true){
+      //   this.router.navigate(['/courseCreate']);
+      // }
+      // console.log(this.locationId)
+    },err =>{
+      console.log(err);
+    });
   }
 
   getUsersInCourse(courseId) {
@@ -2005,7 +2004,8 @@ export class CourseComponent implements OnInit {
         }
       );
   }
-
+  tempCourdeId:any;
+  tempuserType:any;
   cancelModal() {
     console.log('....');
     this.modalReference.close();
@@ -2021,6 +2021,10 @@ export class CourseComponent implements OnInit {
     this.xxxhello = '';
     this.stdLists = [];
     this.trArrayLists = [];
+    this.flexyarr=[];
+    this.showflexyCourse=false;
+    this.tempCourdeId="";
+    this.tempuserType="";
   }
   cancelClass(content) {
     this.modalReference = this.modalService.open(content, {
@@ -2410,42 +2414,60 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  addCustomer(courseId, userType) {
-    this.stdLists = [];
-    console.log('call from addCustomer', this.selectedCustomer);
-    let body = {
-      courseId: courseId,
-      userId: this.selectedCustomer.userId,
-      userType: userType
-    };
-    console.log('body', body);
-    this.blockUI.start('Loading...');
-    this._service.assignUser(this.regionId, body, this.locationID).subscribe(
-      (res: any) => {
-        console.log('-------->', res);
-        this.courseInfo = this.detailLists;
-        Object.assign(this.courseInfo, res);
-        console.log('-------->', this.courseInfo);
+  addCustomer(courseId, userType){
+    if(this.courseType=="FLEXY"){
+      this.blockUI.start('Loading...');
+      this.tempCourdeId=courseId;
+      this.tempuserType=userType;
+      //  getflexi
+      let startDate;
+      let endDate;
+      this._service.getFlexi(courseId,this.selectedCustomer.userId,startDate,endDate)
+      .subscribe((res:any) => {
+        console.log(res)
+        this.flexyarr=res;
+        this.showInvoice = false;
+        this.showflexyCourse=true;
         this.blockUI.stop();
-        console.log('res Assign customer', res);
-        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
-          console.log('no invoice setting');
-          this.invoiceInfo = {
-            address: '',
-            city: '',
-            companyName: '',
-            email: '',
-            prefix: '',
-            registration: ''
-          };
-        } else {
-          console.log('has invoice setting');
+      }, err => {
+        console.log(err);
+      });
+     }else{
+      this.stdLists = [];
+      console.log("call from addCustomer",this.selectedCustomer);
+      let body = {
+        'courseId': courseId,
+        'userId': this.selectedCustomer.userId,
+        'userType': userType
+      }
+      console.log("body",body);
+      this.blockUI.start('Loading...');
+      this._service.assignUser(this.regionId,body, this.locationID)
+      .subscribe((res:any) => {
+        console.log("-------->" , res)
+        this.courseInfo = this.detailLists;
+        Object.assign(this.courseInfo , res)
+        console.log("-------->" , this.courseInfo)
+        
+        console.log("res Assign customer",res);
+        if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+            console.log("no invoice setting");
+            this.invoiceInfo = {
+              'address': "",
+              'city': "",
+              'companyName': "",
+              'email': "",
+              'prefix': "",
+              'registration': ""
+            }
+        }else{
+          console.log("has invoice setting");
           this.invoiceInfo = res.invoiceSettings;
         }
         this.invoice = res.invoice;
         this.showInvoice = true;
-        //  this.showflexyCourse=true;
         this.showOneInvoice(this.invoice);
+        this.blockUI.stop();
         // for(var i in this.invoice){
         //   this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
         //   this.dueDate = this.dateFormat(this.invoice[i].dueDate);
@@ -2462,20 +2484,13 @@ export class CourseComponent implements OnInit {
         //     this.invoiceCourse["lessonCount"] = this.detailLists.lessonCount;
         //   }
         // }
-      },
-      err => {
-        console.log(err);
-      }
-    );
 
-    //getflexi
-    // console.error(this.selectedCustomer.userId +" "+courseId)
-    // this._service.getFlexi(courseId,this.selectedCustomer.userId)
-    // .subscribe((res:any) => {
-    //   console.log(res)
-    // }, err => {
-    //    console.log(err);
-    //  })
+      }, err => {
+          console.log(err);
+        })
+          
+     
+    }
     // this.showInvoice = true;
   }
 
@@ -3383,7 +3398,6 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  idarr: any = [];
   countChange(e) {
     console.log(e);
     this.idarr = e;
@@ -3391,20 +3405,55 @@ export class CourseComponent implements OnInit {
 
   showcb: boolean = false;
 
-  conflictBoxShow(e) {
-    this.showcb = e;
-    console.log(e);
-    console.log($('.conflictPopUp'));
+
+  tempConflictObj(e){
+    this.tempObj=e;
+  }
+
+  isConflictAll:boolean=false;
+  conflictBoxShow(e){
+    this.showcb=e;
+    console.log($('.conflictPopUp'))
     // $('.conflictPopUp').show();
   }
 
-  clickOverlay() {
-    this.showcb = false;
-    console.log(this.FlexiComponent);
-    this.FlexiComponent.changes.subscribe(e => {
-      console.log(e);
+  clickOverlay(){
+    console.log(this.flexyarr);
+    this.showcb=false;
+    this.FlexiComponent.changes.subscribe( e => {
       $('.conflictPopUp').hide();
-    });
+      
+    })
+    this.dataObj=this.tempObj[0];
+    this.conflictObj=this.tempObj[1];
+    this.flexiTemp=this.tempObj[2];
+    this.isConflictAll=this.tempObj[3];
+
+    if(this.isConflictAll){
+      if(this.tempObj.length !=0){
+        for(let i=0;i<this.conflictObj.conflictWith.length;i++){
+          if(i==this.dataObj[i].i){
+            this.flexiTemp[this.conflictObj.id].hasConflict=false;
+          }else{
+            break;
+          }
+        }
+        this.flexyarr=this.flexiTemp;
+      }
+    }else{
+      if(this.tempObj.length !=0){
+        for(let i=0;i<this.conflictObj.conflictWith.length;i++){
+          for(let j=0;j<this.conflictObj.conflictWith[i].lessons.length;j++){
+            if(i==this.dataObj[j].i && j==this.dataObj[j].j){
+              this.flexiTemp[this.conflictObj.id].hasConflict=false;
+            }else{
+              break;
+            }
+          }
+        } 
+        this.flexyarr=this.flexiTemp;
+      }
+    }
   }
 
   backtoCustomer() {
@@ -3413,9 +3462,57 @@ export class CourseComponent implements OnInit {
     this.showPayment = false;
   }
 
-  flexicomfirm() {
-    this.showInvoice = true;
-    this.showflexyCourse = false;
-    this.showPayment = false;
+
+  lessionObjArr(e){
+    console.log(e)
+    this.checkobjArr=e;
   }
+
+  flexicomfirm(){
+    //add cutomer
+    this.stdLists = []; 
+    console.log("call from addCustomer",this.selectedCustomer);
+    let lessonBody={
+      "userType": this.tempuserType,
+      "courseId": this.tempCourdeId,
+      "userId": this.selectedCustomer.userId,
+      "lessons":this.checkobjArr
+    }
+    console.log("body",lessonBody);
+    this.blockUI.start('Loading...');
+    this._service.assignUser(this.regionId,lessonBody, this.locationID)
+    .subscribe((res:any) => {
+      console.log("-------->" , res)
+      this.courseInfo = this.detailLists;
+      Object.assign(this.courseInfo , res)
+      console.log("-------->" , this.courseInfo)
+      
+      console.log("res Assign customer",res);
+      if(res.invoiceSettings == {} || res.invoiceSettings == undefined){
+          console.log("no invoice setting");
+          this.invoiceInfo = {
+            'address': "",
+            'city': "",
+            'companyName': "",
+            'email': "",
+            'prefix': "",
+            'registration': ""
+          }
+
+      }else{
+        console.log("has invoice setting");
+        this.invoiceInfo = res.invoiceSettings;
+      }
+      this.blockUI.stop();
+      this.invoice = res.invoice;
+      this.showInvoice=true;
+      this.showflexyCourse=false;
+      this.showPayment=false;
+      this.showOneInvoice(this.invoice);
+  });
+
+  //add lesson
+  console.log(this.checkobjArr)
+}
+  // end flexy
 }
