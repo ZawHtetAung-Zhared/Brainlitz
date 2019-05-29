@@ -79,7 +79,6 @@ export class CourseComponent implements OnInit {
   public categoryIDArray: Array<any> = [];
   public startTime: boolean = false;
   public endTime: boolean = false;
-  public showflexyCourse: boolean = false;
   public isChecked: any;
   public isEndChecked: any;
   public timeFrame: Array<any> = ['AM', 'PM'];
@@ -225,6 +224,7 @@ export class CourseComponent implements OnInit {
   public noSetting: boolean = false;
   public isoutSideClick: boolean = false;
   public courseType: any;
+  //start fley
   public flexyarr = [];
   idarr: any = [];
   conflictObj: any = [];
@@ -232,6 +232,10 @@ export class CourseComponent implements OnInit {
   dataObj: any = [];
   flexiTemp: any = [];
   checkobjArr: any = [];
+  tempCourdeId: any;
+  tempuserType: any;
+  showcb: boolean = false;
+  public showflexyCourse: boolean = false;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -2004,8 +2008,7 @@ export class CourseComponent implements OnInit {
         }
       );
   }
-  tempCourdeId: any;
-  tempuserType: any;
+
   cancelModal() {
     console.log('....');
     this.modalReference.close();
@@ -3401,12 +3404,11 @@ export class CourseComponent implements OnInit {
     );
   }
 
+  //startFlexi
   countChange(e) {
     console.log(e);
     this.idarr = e;
   }
-
-  showcb: boolean = false;
 
   tempConflictObj(e) {
     this.tempObj = e;
