@@ -36,9 +36,11 @@
                   : '#F26500'
             }"
             >{{
-              invoice.status == PAID || invoice.status == UNPAID
-                ? (invoice.status | lowercase)
-                : 'Pertial paid'
+              invoice.status == 'PAID[PARTIAL]'
+                ? 'Paid partial'
+                : invoice.status == 'PAID'
+                ? 'Paid'
+                : 'Unpaid'
             }}</span
           >
         </td>
