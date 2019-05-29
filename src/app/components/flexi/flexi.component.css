@@ -424,6 +424,8 @@ div.conflictPopUp {
   padding-left: 20px;
   padding-right: 20px;
   margin-bottom: 100px;
+  max-height: 650px;
+  overflow: overlay;
 }
 
 .arr-box {

@@ -116,6 +116,8 @@ export class FlexiComponent implements OnInit {
   lessonsCount: number = 0;
   showConflictBox(e, obj) {
     this.lessonsCount = 0;
+    this.tempSignle = [];
+    this.tempAll = [];
     console.log(this.temp.length);
     this.clickId = obj.id;
     this.conflictObj = obj;
