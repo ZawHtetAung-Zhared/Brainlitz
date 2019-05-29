@@ -151,6 +151,7 @@ export class FlexiComponent implements OnInit {
 
       this.temp = [];
     } else {
+      this.temp = [];
       this.passDataconflictBoxShow.emit(true);
       this.conflictBoxShow = true;
       setTimeout(function() {
@@ -220,19 +221,12 @@ export class FlexiComponent implements OnInit {
         obj.push(this.lessonsObj);
         obj.push(this.isconflictAll);
         this.tempConflict.emit(obj);
-        console.error(obj);
       }
     } else {
       this.temp = [];
       let obj = [];
       this.tempConflict.emit(obj);
-      console.error(obj);
     }
-
-    console.error(this.temp.find(data => data.j == j && data.i == i));
-
-    console.error(this.temp);
-    console.log(this.lessonsObj);
   }
   loadmoreLessons() {
     console.log(this.lessonsObj);
@@ -251,8 +245,6 @@ export class FlexiComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          console.error(res);
-          console.error(this.lessonsObj.length);
           let tempLen = this.lessonsObj.length;
           for (let i = 0; i < res.lessons.length; i++) {
             this.lessonsObj[tempLen] = res.lessons[i];
@@ -272,11 +264,13 @@ export class FlexiComponent implements OnInit {
   }
 
   onClickSkandAgall(i, status) {
+    console.log(status, i, this.temp);
     this.isconflictAll = true;
     console.log(i);
     let tobj = { i: -1, j: -1 };
     tobj.i = i;
     if (status == 'ignore') {
+      console.log('exit', tobj);
       if (this.temp.find(data => data.i == i) == undefined) {
         this.temp.push(tobj);
         let obj = [];
@@ -285,13 +279,11 @@ export class FlexiComponent implements OnInit {
         obj.push(this.lessonsObj);
         obj.push(this.isconflictAll);
         this.tempConflict.emit(obj);
-        console.error(obj);
       }
     } else {
       this.temp = [];
       let obj = [];
       this.tempConflict.emit(obj);
-      console.error(obj);
     }
   }
 }
