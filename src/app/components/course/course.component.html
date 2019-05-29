@@ -945,7 +945,7 @@
               <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
                 {{ day }}
               </h5>
-              <p *ngIf="detailLists.type != 'FLEXY'">
+              <p>
                 {{ detailLists.duration.startDate | utcTime }} -
                 {{ detailLists.duration.endDate | utcTime }}
               </p>
