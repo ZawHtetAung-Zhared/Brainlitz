@@ -291,8 +291,10 @@ export class FlexiComponent implements OnInit {
             this.lessonsObj[tempLen] = res.lessons[i];
             this.lessonsObj[tempLen].id = tempLen;
             console.log(tempLen);
-            this.lessionIdArr.push(tempLen);
-            this.lessonObjArr.push(res.lessons[i]);
+            if (res.lessons[i].hasConflict == false) {
+              this.lessionIdArr.push(tempLen);
+              this.lessonObjArr.push(res.lessons[i]);
+            }
             tempLen += 1;
           }
           console.log(this.lessionIdArr);
