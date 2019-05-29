@@ -957,10 +957,19 @@
             <div class="cdetail">
               <p>Lesson count</p>
               <h5 *ngIf="detailLists.lessonCount == null">
-                {{ detailLists.actualLessonCount }}
+                {{
+                  detailLists.type == 'FLEXY'
+                    ? detailLists.defaultlessonCount
+                    : detailLists.actualLessonCount
+                }}
               </h5>
               <h5 *ngIf="detailLists.lessonCount != null">
-                {{ detailLists.lessonCount }} Lessons
+                {{
+                  detailLists.type == 'FLEXY'
+                    ? detailLists.defaultlessonCount
+                    : detailLists.lessonCount
+                }}
+                Lessons
               </h5>
             </div>
           </div>
