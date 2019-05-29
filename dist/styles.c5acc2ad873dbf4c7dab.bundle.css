@@ -4421,7 +4421,7 @@ button.toast-close-button {
 body,
 html {
   height: 100%;
-  font-family: Inter-UI-Light, Arial, sans-serif !important;
+  font-family: Inter-UI-Regular, Arial, sans-serif !important;
 }
 .inner-wrapper {
   padding: 30px;
