@@ -945,7 +945,7 @@
               <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
                 {{ day }}
               </h5>
-              <p *ngIf="detailLists.type != 'FLEXY'">
+              <p>
                 {{ detailLists.duration.startDate | utcTime }} -
                 {{ detailLists.duration.endDate | utcTime }}
               </p>
@@ -958,9 +958,20 @@
               <p>Lesson count</p>
               <h5 *ngIf="detailLists.lessonCount == null">
                 {{ detailLists.actualLessonCount }}
+                <!-- {{
+                  detailLists.type == 'FLEXY'
+                    ? detailLists.defaultlessonCount
+                    : detailLists.actualLessonCount
+                }} -->
               </h5>
               <h5 *ngIf="detailLists.lessonCount != null">
-                {{ detailLists.lessonCount }} Lessons
+                <!-- {{
+                  detailLists.type == 'FLEXY'
+                    ? detailLists.defaultlessonCount
+                    : detailLists.lessonCount
+                }} -->
+                {{ detailLists.lessonCount }}
+                Lessons
               </h5>
             </div>
           </div>
@@ -997,9 +1008,7 @@
               [ngClass]="{ active: activeTab == 'Class' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('Class', 'course')"
-              [disabled]="
-                detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'
-              "
+              [disabled]="disabledTab"
             >
               Class
             </button>
@@ -1007,9 +1016,7 @@
               [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('APG', 'course')"
-              [disabled]="
-                detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'
-              "
+              [disabled]="disabledTab"
             >
               APG
             </button>
@@ -1114,12 +1121,50 @@
               </div>
               <div class="student-section">
                 <div class="d-flex justify-content-between user-header">
-                  <div class="d-flex flex-row">
+                  <div class="d-flex flex-column">
                     <h2 class="title-heading">Customers</h2>
-                    <div *ngIf="detailLists.seat_left == null">
-                      <p class="seat">unlimited seat</p>
+                    <div class="d-flex">
+                      <p class="seat-text-wrapper">
+                        Total: {{ pplLists.CUSTOMER.length }} customers
+                      </p>
+                      <ul
+                        *ngIf="detailLists.seat_left == null"
+                        class="seat-wrapper"
+                      >
+                        <li class="seat-text-wrapper">unlimited seat</li>
+                      </ul>
+                      <ul
+                        *ngIf="detailLists.seat_left !== null"
+                        class="seat-wrapper"
+                      >
+                        <li
+                          *ngIf="
+                            pplLists.CUSTOMER.length >
+                            detailLists.coursePlan.seats
+                          "
+                          class="seat-text-wrapper"
+                        >
+                          0 seat left
+                        </li>
+                        <li
+                          *ngIf="
+                            pplLists.CUSTOMER.length <=
+                            detailLists.coursePlan.seats
+                          "
+                          class="seat-text-wrapper"
+                        >
+                          {{
+                            detailLists.coursePlan.seats -
+                              pplLists.CUSTOMER.length
+                          }}
+                          seat left
+                        </li>
+                      </ul>
                     </div>
-                    <div *ngIf="detailLists.seat_left != null">
+                    <!-- <div *ngIf="detailLists.seat_left == null">
+                      <p class="seat">unlimited seat</p>
+                    </div> -->
+                    <!-- <div *ngIf="detailLists.seat_left != null">
                       <div
                         *ngIf="
                           pplLists.CUSTOMER.length >
@@ -1145,7 +1190,7 @@
                           unlimited seat
                         </p>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <button
                     *ngIf="courseDemo.assignStudent != ''"
@@ -1154,6 +1199,7 @@
                     (click)="
                       addUserModal('customer', customerModal, 'inside', '')
                     "
+                    style="height:40px;"
                   >
                     Enroll class
                   </button>
@@ -1217,10 +1263,7 @@
                         class="options-box"
                       >
                         <div class="carret-box"></div>
-                        <li
-                          *ngIf="detailLists.type != 'FLEXY'"
-                          (click)="showTabsModal(tabsModal, 'makeup', user)"
-                        >
+                        <li (click)="showTabsModal(tabsModal, 'makeup', user)">
                           Issue makeup pass
                         </li>
                         <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
@@ -1580,7 +1623,7 @@
       <div class="modal-body confirm-text">
         <div class="d-flex">
           <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
-            <h5 class="mt-03">
+            <h5 class="mt-03 lname">
               <i class="fa fa-map-marker" style="font-size:15px"></i>
               {{ detailLists.location.name }}
             </h5>
@@ -2018,8 +2061,6 @@
           >
             Confirm
           </button>
-          <!-- <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true"
-          (click)="viewFlexyModal(flexyCourse)">Confirm</button> -->
         </div>
       </form>
     </div>
@@ -2049,16 +2090,19 @@
           </button>
         </div>
         <app-flexi
-          [flexyObj]="flexyObj"
+          [flexyarr]="flexyarr"
           [selectedCustomer]="selectedCustomer"
+          [course]="detailLists"
           [showcb]="showcb"
           (checkIdArr)="countChange($event)"
+          (tempConflict)="tempConflictObj($event)"
           (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
         ></app-flexi>
       </div>
       <div
         class="modal-footer d-flex justify-content-between"
-        style=" padding: 18px 25px 18px 25px;"
+        style=" padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
       >
         <div class="d-flex flex-column">
           <p class="textCount">Number of lessons required:</p>
@@ -2074,7 +2118,20 @@
           >
             Cancel
           </button>
-          <button type="submit" class="btn btn-submit" (click)="flexicomfirm()">
+          <button
+            type="submit"
+            class="btn btn-submit"
+            *ngIf="idarr.length != 0"
+            (click)="flexicomfirm()"
+          >
+            Confirm
+          </button>
+          <button
+            type="submit"
+            *ngIf="idarr.length == 0"
+            class="btn btn-submit"
+            disabled
+          >
             Confirm
           </button>
         </div>
@@ -2135,58 +2192,162 @@
         </button>
       </div>
     </div>
-    <form
-      *ngIf="activeUserTab == 'makeup'"
-      class="form-wrap"
-      novalidate
-      #makeupF="ngForm"
-    >
-      <div class="modal-body">
-        <div class="col-md-8 input-wrap">
-          <div class="form-group">
-            <label for="name" class="input-label">Name</label>
-            <input
-              type="text"
-              class="form-control create-input"
-              placeholder="Type makeup pass name here"
-              name="name"
-              [(ngModel)]="makeupForm.name"
-              required
-              #name="ngModel"
-            />
-          </div>
-          <div class="form-group">
-            <label for="reason" class="input-label">Reason</label>
-            <textarea
-              class="form-control create-input"
-              rows="4"
-              placeholder="Got any reasons?"
-              name="reason"
-              [(ngModel)]="makeupForm.reason"
-              #reason="ngModel"
-              required
-            ></textarea>
+    <div *ngIf="activeUserTab == 'makeup'" class="d-flex w-100">
+      <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
+        <div class="modal-body">
+          <div class="col-md-12 input-wrap">
+            <div class="form-group">
+              <label for="name" class="input-label">Name</label>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="Type makeup pass name here"
+                name="name"
+                [(ngModel)]="makeupForm.name"
+                required
+                #name="ngModel"
+              />
+            </div>
+            <div class="form-group">
+              <label for="reason" class="input-label">Reason</label>
+              <textarea
+                class="form-control create-input"
+                rows="4"
+                placeholder="Got any reasons?"
+                name="reason"
+                [(ngModel)]="makeupForm.reason"
+                #reason="ngModel"
+                required
+              ></textarea>
+            </div>
           </div>
         </div>
+        <div class="modal-footer fixed-bottom">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            [disabled]="!makeupF.valid"
+            (click)="issuePass(makeupForm, singleUserData.userId)"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+      <div
+        *ngIf="makeupLists.length > 0"
+        class="d-flex flex-column makeup-sidebar"
+        style="width:50%;"
+      >
+        <h1 class="release-text container">Released makeup passes</h1>
+        <div class="" *ngFor="let makeup of makeupLists">
+          <!--for valid start-->
+          <div class="col-md-12 av-block">
+            <div class="single-makeup">
+              <div
+                class="makeup-head"
+                [ngClass]="{
+                  'claimed-header': makeup.passType === 'claimed',
+                  'expired-header': makeup.passType === 'expired'
+                }"
+              >
+                <p>
+                  <span *ngIf="makeup.passType === 'available'">
+                    Valid until
+                    <span class="valid-date"
+                      >{{ makeup.expirationDate.day }}
+                      {{ makeup.expirationDate.month - 1 | TTmonth }}
+                      {{ makeup.expirationDate.year }}</span
+                    >
+                  </span>
+                  <span *ngIf="makeup.passType === 'claimed'">
+                    <span>
+                      <img src="../../../assets/icons/badge_tick.svg" alt="" />
+                    </span>
+                    Claimed pass
+                  </span>
+                  <span *ngIf="makeup.passType === 'expired'">
+                    <span>
+                      <img src="../../../assets/icons/badge_minus.svg" alt="" />
+                    </span>
+                    Expired pass
+                  </span>
+                </p>
+              </div>
+              <div class="makeup-body">
+                <h5 class="makeup-title">{{ makeup.name }}</h5>
+                <p class="makeup-desc">{{ makeup.reason }}</p>
+                <div class="makeup-box">
+                  <p>
+                    Issued on {{ makeup.issueDate.day }}
+                    {{ makeup.issueDate.month - 1 | TTmonth }}
+                    {{ makeup.issueDate.year }}
+                  </p>
+                  <div class="issue-box d-flex flex-column">
+                    <strong>{{ makeup.course.name }} </strong>
+                    <label
+                      *ngIf="
+                        makeup.course.type !== 'online' ||
+                        makeup.course.type !== 'Online'
+                      "
+                    >
+                      <span
+                        >{{ makeup.course.startTime.hr | timeFormat }} :
+                        {{ makeup.course.startTime.min | timeFormat }}
+                        {{ makeup.course.startTime.meridiem }}</span
+                      >
+                      -
+                      <span
+                        >{{ makeup.course.endTime.hr | timeFormat }} :
+                        {{ makeup.course.endTime.min | timeFormat }}
+                        {{ makeup.course.endTime.meridiem }}</span
+                      ></label
+                    >
+                  </div>
+                  <div *ngIf="makeup.passType === 'claimed'">
+                    <p>
+                      Issued on {{ makeup.claimedDateFor.day }}
+                      {{ makeup.claimedDateFor.month - 1 | TTmonth }}
+                      {{ makeup.claimedDateFor.year }}
+                    </p>
+                    <div class="issue-box d-flex flex-column">
+                      <strong>{{ makeup.makeupCourse.name }}</strong>
+                      <label
+                        *ngIf="
+                          makeup.course.type !== 'online' ||
+                          makeup.course.type !== 'Online'
+                        "
+                      >
+                        <span
+                          >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
+                          {{ makeup.makeupCourse.startTime.min | timeFormat }}
+                          {{ makeup.makeupCourse.startTime.meridiem }}</span
+                        >
+                        -
+                        <span
+                          >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
+                          {{ makeup.makeupCourse.endTime.min | timeFormat }}
+                          {{ makeup.makeupCourse.endTime.meridiem }}</span
+                        ></label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="left-scoope"></div>
+              <div class="right-scoope"></div>
+            </div>
+          </div>
+          <!--for valid end-->
+        </div>
       </div>
-      <div class="modal-footer fixed-bottom">
-        <button
-          type="button"
-          class="btn modal-cancel-btn"
-          (click)="cancelModal()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="btn btn-submit"
-          [disabled]="!makeupF.valid"
-          (click)="issuePass(makeupForm, singleUserData.userId)"
-        >
-          Confirm
-        </button>
-      </div>
-    </form>
+    </div>
 
     <div *ngIf="activeUserTab == 'transfer'">
       <div class="modal-body">
@@ -2194,8 +2355,8 @@
           <!-- <h3 class="modal-title d-flex mr-auto">Enroll new class</h3>
         <div class="d-flex flex-column justify-content-center align-items-center mr-auto">
             <div class="user-image">
-              <img *ngIf="singleUserData.profilePic == undefined" src="assets/img/user.svg">
-              <img *ngIf="singleUserData.profilePic != undefined" src="{{ singleUserData.profilePic }}">
+              <img *ngIf="{{singleUserData.profilePic == undefined" src="assets/img/user.svg">
+              <img *ngIf="{{singleUserData.profilePic != undefined" src=" singleUserData.profilePic }}">
             </div>      
           <p class="user-name">{{ singleUserData.preferredName }}</p>
         </div> -->
@@ -2497,6 +2658,5 @@
       </button>
     </div>
   </ng-template>
-
   <block-ui message="Deafult Message"></block-ui>
 </div>

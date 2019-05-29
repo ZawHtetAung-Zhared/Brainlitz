@@ -1,6 +1,21 @@
-
 /* start flexy course modal*/
-.btn-submit{    
+.flexi-name,
+.flexi-day,
+.flexi-teacher-name,
+.date,
+.day,
+.statusText,
+.flexititle {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.flexi-email,
+.flexi-modal-duration,
+.flexi-teacher-position {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.btn-submit {
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -11,7 +26,7 @@
   box-shadow: none;
 }
 .closemark {
-  display:inline-block;
+  display: inline-block;
   width: 30px;
   height: 16px;
   -ms-transform: rotate(45deg); /* IE 9 */
@@ -19,15 +34,14 @@
   transform: rotate(45deg);
 }
 
-
 .closemark_kick {
   transform: rotate(90deg);
 }
 
-.modal-close:focus{
+.modal-close:focus {
   outline: none;
 }
-.modal-close{
+.modal-close {
   opacity: 1;
   padding: 0;
   margin: 0;
@@ -36,23 +50,22 @@
   cursor: pointer;
 }
 
-
-.flexi-img-wrap img{
+.flexi-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.modal-cancel-btn{
-    font-size: 16px;
-    font-family: 'Inter-UI-Regular',Arial,sans-serif;
-    border-radius: 3px;
-    height: 44px;
-    min-width: 90px;
-    color: #2e3d4d;
-    background: #fff;
+.modal-cancel-btn {
+  font-size: 16px;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  border-radius: 3px;
+  height: 44px;
+  min-width: 90px;
+  color: #2e3d4d;
+  background: #fff;
 }
 
-.flexi-img-wrap{
+.flexi-img-wrap {
   /* display: inline-block; */
   position: relative;
   overflow: hidden;
@@ -60,471 +73,499 @@
   background: #ddd;
 }
 
-.flexi-img-div{
+.flexi-img-div {
   width: 60px;
 }
 
 i.fa.fa-angle-left.flexiBackicon {
-    font-size: 20px;
-    color: #3D5266;
-    font-weight: bold;
-    padding-right: 4px;
-  }
-  
-  p.mb-0.font-medium {
-    color: #2E3D4D;
-    font-size: 16px;
-  }
-  
-  
-  p.flexititle {
-    font-size: 28px;
-    color: #2E3D4D;
-    padding-top: 8px;
-  }
-  
-  p.flexi-name {
-    font-size: 18px;
-    color: #2E3D4D;
-    font-weight: 600;
-  }
-  
-  .flexi-name-div {
-    line-height: 10.2px;
-    padding-top: 7px;
-    padding-left: 12px;
-  }
-  
-  label.flexi-email {
-    font-size: 14px;
-    color: #64707D;
-    font-weight: 500;
-  }
-  
-  .col-md-4.modal-cfees {
-    border-left: 2px solid #edeff0;
-  }
-  h5.flexi-day {
-    font-size: 16px;
-    color: #2E3D4D;
-    font-weight: 600;
-  }
-  
-  .d-flex.teacher-gp {
-    padding-top: 30px;
-    padding-bottom: 20px;
-  }
-  
-  p.flexi-teacher-position {
-    font-weight: 500;
-    font-size: 12px;
-    color: #64707D;
-  }
-  label.flexi-teacher-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2E3D4D;
-  }
-  
-  .flexi-teacher-div {
-    line-height: 5px;
-    padding-top: 7px;
-  }
-  
-  .flexi-img-wrap.teacherImg-wrap {
-    width: 40px;
-    height: 40px;
-  }
-  .flexi-img-div.teacherImg {
-    width: 50px;
-  }
-  
-  i.fa.fa-plus.circlePlus {
-    font-size: 16px;
-    color: #007FFF;
-  }
-  .flexiCircle {
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    padding-top: 4px;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .flexiCircle {
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    padding-top: 6px;
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  p.previousDate {
-    font-weight: 500;
-    font-size: 16px;
-    color: #007FFF;
-    padding-top: 5px;
-    padding-left: 12px;
-  }
-  
-  .lessonbox{
-    height: 88px;
-    margin-bottom: 16px;
-    padding-right: 0;
-  }
-  
-  /* .lessonbox-inner-checked {
+  font-size: 20px;
+  color: #3d5266;
+  font-weight: bold;
+  padding-right: 4px;
+}
+
+p.mb-0.font-medium {
+  color: #2e3d4d;
+  font-size: 16px;
+}
+
+p.flexititle {
+  font-size: 28px;
+  color: #2e3d4d;
+  padding-top: 8px;
+}
+
+.flexi-name {
+  font-size: 18px;
+  color: #2e3d4d;
+  font-weight: 600;
+}
+
+.flexi-name-div {
+  line-height: 10.2px;
+  padding-top: 7px;
+  padding-left: 12px;
+}
+
+.flexi-email,
+.flexi-modal-duration {
+  font-size: 14px;
+  color: #64707d;
+  font-weight: 500;
+}
+
+.flexi-modal-duration {
+  font-size: 12px;
+}
+
+.col-md-4.modal-cfees {
+  border-left: 2px solid #edeff0;
+}
+h5.flexi-day {
+  font-size: 16px;
+  color: #2e3d4d;
+  font-weight: 600;
+}
+
+.d-flex.teacher-gp {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+p.flexi-teacher-position {
+  font-weight: 500;
+  font-size: 12px;
+  color: #64707d;
+}
+label.flexi-teacher-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e3d4d;
+}
+
+.flexi-teacher-div {
+  line-height: 5px;
+  padding-top: 7px;
+}
+
+.flexi-img-wrap.teacherImg-wrap {
+  width: 40px;
+  height: 40px;
+}
+.flexi-img-div.teacherImg {
+  width: 50px;
+}
+
+i.fa.fa-plus.circlePlus {
+  font-size: 16px;
+  color: #007fff;
+}
+.flexiCircle {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding-top: 4px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.flexiCircle {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  padding-top: 6px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+p.previousDate {
+  font-weight: 500;
+  font-size: 16px;
+  color: #007fff;
+  padding-top: 5px;
+  padding-left: 12px;
+}
+
+.lessonbox {
+  height: 88px;
+  margin-bottom: 16px;
+  padding-right: 0;
+}
+
+/* .lessonbox-inner-checked {
     background: #007FFF;
   } */
-  
-  .lessonbox-holiday ,.lessonbox-leave
-  {
-    background: #FFECEB;
-    height: 88px;
-    border-radius: 4px;
-    padding-left: 12px;
-  }
-  
-  .lessonbox-skipped,.lessonbox-conflict ,.lessonbox-enroll{
-    background: #FFFFFF;
-    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    height: 88px;
-    padding-left: 12px;
-  }
-  
-  .lessonbox-inner{
-    /* background: #FFFFFF; */
-    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    height: 88px;
-    padding-left: 12px;
-  }
-  .uncheckBox{
-    width: 16px;
-    height: 16px;
-    border: 2px solid #64707D;
-    border-radius: 2px;
-    margin-top: 12px;
-  }
-  
-  .showDate {
-    padding-left: 12px;
-    padding-top: 10px;
-  }
-  
-  p.date {
-    margin-bottom: 4px;
-    color: #2E3D4D;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 16px;
-  }
-  p.day {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    color: #64707D;
-    margin-bottom: 10px;
-  }
-  
-  
-  .statusBox {
-    width: 81px;
-    height: 20px;
-    background: #F2F4F5;
-    border-radius: 29px;
-    text-align: center;
-    padding-top: 2px;
-    margin-left: 23px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 16px;
-    color: #64707D;
-  }
-  
-  .checkBox {
-    background: #FFFFFF;
-    border-radius: 2px;
-    width: 16px;
-    height: 16px;
-    margin-top: 12px;
-    line-height: 1;
-    text-align: center;
-  }
-  
-  i.fa.fa-check.checkIcon {
-    color: #007FFF;
-    font-size: 12px;
-  }
-  p.date.checkedDate {
-    color: #FFFFFF;
-  }
-  
-  p.day.checkedDext {
-    color: #E3E4E6;
-  }
-  
-  .statusBox.checkStudent {
-    background: #80C0FF;
-  }
-  
-  .statusBox.checkStudent {
-    background: #80C0FF;
-    color: #004080;
-  }
-  
-  i.fa.fa-exclamation-circle.exclamationIcon {
-    color: #F26500;
-    font-size: 18px;
-  }
-  .exIcon {
-    padding-top: 8px;
-    padding-left: 6px;
-  }
-  .lessonbox-conflict .statusBox{
-    /* width: 89px; */
-    margin-left: 26px;
-  }
-  .leaveIcon {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #FF6E66;
-    border-radius: 50%;
-    margin-top: 10px;
-    color: #FF6E66;
-    margin-left: 12px;
-  }
-  
-  .lessonbox-holiday .d-flex .showDate p.date,.lessonbox-leave .d-flex .showDate p.date {
-    color: #FF554D;
-  }
-  .lessonbox-holiday .d-flex .showDate p.day,.lessonbox-leave .d-flex .showDate p.day{
-    color: #FF554D;
-  }
-  
-  .lessonbox-holiday .statusBox,.lessonbox-leave .statusBox{
-    background: #FFFFFF;
-    color: #FF6E66;
-    margin-left: 26px
-  }
-  .downArrow {
-    width: 25px;
-    height: 22px;
-    text-align: center;
-    padding-top: 7px;
-    padding-right: 9px;
-  }
-  i.fa.fa-angle-down.downIcon {
-    color: #3D5261;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  
-  .circleMinus {
-    border: 2px solid #ff3d33;
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-    position: relative;
-    display: inline-block;
-    margin-right: 10px;
-    float: left;
-    margin-top: 10px;
-    margin-left: 6px;
-  }
-  .circleMinus.minus:before  {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #ff3d33;
-    margin: auto 2px;
-    height: 2px;
-  }
-  
-  
-  .skippedIcon {
-    background: #788796;
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-    position: relative;
-    display: inline-block;
-    margin-right: 10px;
-    float: left;
-    margin-top: 10px;
-    margin-left: 6px;
-  }
-  .skippedIcon.minus:before  {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #FFFFFF;
-    margin: auto 4px;
-    height: 2px;
-  }
-  
-  .showDate.holidayDate , .showDate.leaveDate ,.showDate.skippedDate{
-    padding-left: 0;
-  }
 
-  i.fa.fa-check.statusCheckIcon {
-    font-size: 10px;
-    margin-top: 3px;
-    margin-left: 4px;
-    margin-right: 2px;
-  }
-  
-  /* conflict modal */
-  div.conflictPopUp {
-    position: fixed;
-    width: 420px;
-    background: #fff;
-    z-index: 100!important;
-    padding: 0px;
-    list-style: none;
-    -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-    -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    top: 50px;
-    width: 958px;
-    /* max-height: 650px; */
-    left: 1px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 100px;
-  }
-  
-  .arr-box {
-    width: 20px;
-    height: 20px;
-    position:fixed;
-    -webkit-filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
-    filter: drop-shadow(0px -2px 1px rgba(0,0,0,.1));
-    position: fixed;
-    /* right: 50%; */
-    top: -19px;
-    z-index: 15;
-    margin:auto;
-  }
-  .arr-box{
-    position: fixed;
-    /* right: 85%!important; */
-    
-  
-  }
-  .arr-up{
-    border-bottom: solid 10px #FFFFFF;
-    border-left: solid 10px transparent;
-    border-right: solid 10px transparent;
-  }
-  .backdrop{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    /*z-index:5;*/
-    z-index: 10;
-    overflow: hidden;
-    background-color: rgba(0,0,0,0.5)!important;
-  }
-  
-  .circleExclamation {
-    width: 20px;
-    height: 20px;
-    border: solid 2px #F26500;
-    border-radius: 50%;
-    font-size: 12px;
-    color: #F26500;
-    text-align: center;
-    line-height: 1.5;
-  }
-  
-  p.txtConflict {
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 19px;
-    color: #E66000;
-    padding-left: 10px;
-  }
-  .conflictBox {
-    width: 912px;
-    height: 131px;
-    background: #F2F4F5;
-    border-radius: 8px;
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 20px;
-  }
-  h5.ctitle {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-    color: #64707D;
-  }
-  
-  .cText {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 20px;
-    color: #2E3D4D;
-  }
-  .conflict-duration {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    color: #64707D;
-  }
-  .boxDiv {
-    border-right: solid #FFFFFF;
-  }
-  button.btn-action.remove-outline {
-    background: none;
-    border: none;
-    font-size: 14px;
-    line-height: 17px;
-    color: #0080FF;
-    font-weight: 600;
-  }
-  span.small-line {
-    border-left: 1px solid #d4d5d6;
-    height: 17px;
-    margin-top: 3px;
-    margin-left: 32px;
-    margin-right: 32px;
-  }
-  .conflictBoxFotter{
-    padding-top: 16px;
-      padding-bottom: 16px;
-  }
-  .fixconflictBoxFotter {
-    padding-bottom: 20px;
-    padding-left: 10px;
-  } 
-  
-  span.small-line2 {
-    border-left: 1px solid #d4d5d6;
-    height: 17px;
-    margin-top: 3px;
-    margin-left: 22px;
-    margin-right: 22px;
-  }
-  .lessonbox-enroll{
-    background: #F2F4F5;
-  }
-  .lessonbox-enrolxv.d-flex.statusBox{
-    background: #FFFFFF;
-    padding-left: 9px;
-  }
-  
-  /* end conflict modal */
-  /* end flexy course modal*/
+.lessonbox-holiday,
+.lessonbox-leave {
+  background: #ffeceb;
+  height: 88px;
+  border-radius: 4px;
+  padding-left: 12px;
+}
+
+.lessonbox-skipped,
+.lessonbox-conflict,
+.lessonbox-enroll {
+  background: #ffffff;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: 88px;
+  padding-left: 12px;
+}
+
+.lessonbox-inner {
+  /* background: #FFFFFF; */
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: 88px;
+  padding-left: 12px;
+}
+.uncheckBox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #64707d;
+  border-radius: 2px;
+  margin-top: 12px;
+}
+
+.showDate {
+  padding-left: 12px;
+  padding-top: 10px;
+}
+
+p.date {
+  margin-bottom: 4px;
+  color: #2e3d4d;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+}
+p.day {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64707d;
+  margin-bottom: 10px;
+}
+
+.statusBox {
+  width: 81px;
+  height: 20px;
+  background: #f2f4f5;
+  border-radius: 29px;
+  text-align: center;
+  padding-top: 2px;
+  margin-left: 23px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64707d;
+}
+
+.checkBox {
+  background: #ffffff;
+  border-radius: 2px;
+  width: 16px;
+  height: 16px;
+  margin-top: 12px;
+  line-height: 1;
+  text-align: center;
+}
+
+i.fa.fa-check.checkIcon {
+  color: #007fff;
+  font-size: 12px;
+}
+p.date.checkedDate {
+  color: #ffffff;
+}
+
+p.day.checkedDext {
+  color: #e3e4e6;
+}
+
+.statusBox.checkStudent {
+  background: #80c0ff;
+}
+
+.statusBox.checkStudent {
+  background: #80c0ff;
+  color: #004080;
+}
+
+i.fa.fa-exclamation-circle.exclamationIcon {
+  color: #64707d;
+  font-size: 18px;
+}
+.exIcon {
+  padding-top: 8px;
+  padding-left: 6px;
+}
+.lessonbox-conflict .statusBox {
+  /* width: 89px; */
+  margin-left: 26px;
+}
+.leaveIcon {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ff6e66;
+  border-radius: 50%;
+  margin-top: 10px;
+  color: #ff6e66;
+  margin-left: 12px;
+}
+
+.lessonbox-holiday .d-flex .showDate p.date,
+.lessonbox-leave .d-flex .showDate p.date {
+  color: #ff554d;
+}
+.lessonbox-holiday .d-flex .showDate p.day,
+.lessonbox-leave .d-flex .showDate p.day {
+  color: #ff554d;
+}
+
+.lessonbox-holiday .statusBox,
+.lessonbox-leave .statusBox {
+  background: #ffffff;
+  color: #ff6e66;
+  margin-left: 26px;
+}
+.downArrow {
+  width: 25px;
+  height: 22px;
+  text-align: center;
+  padding-top: 7px;
+  padding-right: 9px;
+}
+i.fa.fa-angle-down.downIcon {
+  color: #3d5261;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.circleMinus {
+  border: 2px solid #ff3d33;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+  margin-top: 10px;
+  margin-left: 6px;
+}
+.circleMinus.minus:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ff3d33;
+  margin: auto 2px;
+  height: 2px;
+}
+
+.skippedIcon {
+  background: #788796;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  float: left;
+  margin-top: 10px;
+  margin-left: 6px;
+}
+.skippedIcon.minus:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  margin: auto 4px;
+  height: 2px;
+}
+
+.showDate.holidayDate,
+.showDate.leaveDate,
+.showDate.skippedDate {
+  padding-left: 0;
+}
+
+i.fa.fa-check.statusCheckIcon {
+  font-size: 10px;
+  margin-top: 3px;
+  margin-left: 4px;
+  margin-right: 2px;
+}
+
+/* conflict modal */
+div.conflictPopUp {
+  position: fixed;
+  width: 420px;
+  background: #fff;
+  z-index: 100 !important;
+  padding: 0px;
+  list-style: none;
+  -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  top: 50px;
+  width: 958px;
+  /* max-height: 650px; */
+  left: 1px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 100px;
+  max-height: 650px;
+  overflow: overlay;
+}
+
+.arr-box {
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  position: fixed;
+  /* right: 50%; */
+  top: -19px;
+  z-index: 15;
+  margin: auto;
+}
+.arr-box {
+  position: fixed;
+  /* right: 85%!important; */
+}
+.arr-up {
+  border-bottom: solid 10px #ffffff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /*z-index:5;*/
+  z-index: 10;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.circleExclamation {
+  width: 20px;
+  height: 20px;
+  border: solid 2px #f26500;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #f26500;
+  text-align: center;
+  line-height: 1.5;
+}
+
+p.txtConflict {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #e66000;
+  padding-left: 10px;
+}
+.conflictBox {
+  width: 912px;
+  height: 131px;
+  background: #f2f4f5;
+  border-radius: 8px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 20px;
+}
+h5.ctitle {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #64707d;
+}
+
+.cText {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #2e3d4d;
+}
+.conflict-duration {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64707d;
+}
+.boxDiv {
+  border-right: solid #ffffff;
+}
+button.btn-action.remove-outline {
+  background: none;
+  border: none;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0080ff;
+  font-weight: 600;
+}
+span.small-line {
+  border-left: 1px solid #d4d5d6;
+  height: 17px;
+  margin-top: 3px;
+  margin-left: 32px;
+  margin-right: 32px;
+}
+.conflictBoxFotter {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.fixconflictBoxFotter {
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+
+span.small-line2 {
+  border-left: 1px solid #d4d5d6;
+  height: 17px;
+  margin-top: 3px;
+  margin-left: 22px;
+  margin-right: 22px;
+}
+.lessonbox-enroll {
+  background: #f2f4f5;
+}
+.lessonbox-enrolxv.d-flex.statusBox {
+  background: #ffffff;
+  padding-left: 9px;
+}
+
+/* end conflict modal */
+.modal-cfees b {
+  color: #2e3e4d;
+  font-size: 18px;
+}
+.modal-cfees .lname {
+  color: #64707d;
+  font-size: 12px;
+}
+
+.modal-cfees .lname {
+  margin-bottom: 3px;
+  margin-top: 0;
+}
+.flexiMid {
+  /* overflow-y: overlay; */
+  height: 300px;
+  padding: 0px 46px 0px 32px;
+  overflow-x: hidden;
+}
+/* end flexy course modal*/
