@@ -232,6 +232,7 @@ export class CourseComponent implements OnInit {
   dataObj: any = [];
   flexiTemp: any = [];
   checkobjArr: any = [];
+  public disabledTab: boolean = true;
   tempCourdeId: any;
   tempuserType: any;
   showcb: boolean = false;
@@ -247,6 +248,7 @@ export class CourseComponent implements OnInit {
     config: NgbDatepickerConfig,
     calendar: NgbCalendar
   ) {
+    this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
       console.log('go to cc');
@@ -1507,6 +1509,11 @@ export class CourseComponent implements OnInit {
         this.locationId = res.locationId;
         this.draft = res.draft;
         this.courseType = res.type;
+        if (res.lessons.length > 0) {
+          this.disabledTab = false;
+        } else {
+          this.disabledTab = true;
+        }
         // console.log("Draft",this.draft)
         // console.log(res.locationId)
         // if(this.draft == true){
@@ -3293,10 +3300,16 @@ export class CourseComponent implements OnInit {
         this.modalReference.close();
         this.activeTab = 'People';
         this.toastr.success('Makeup pass successfully created.');
+        // setTimeout(()=>{
+        //   this.toastr.success('Makeup pass successfully created.');
+        // },100)
         this.makeupForm = {};
       },
       err => {
         this.modalReference.close();
+        // setTimeout(()=>{
+        //   this.toastr.error('Fail to issue makeup pass.');
+        // },100)
         this.toastr.error('Fail to issue makeup pass.');
         this.blockUI.stop();
         console.log(err);

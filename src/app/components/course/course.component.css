@@ -1707,6 +1707,7 @@ label.room-name::before {
   padding: 24px 32px;
   border-top: 1px solid #edeff0;
   width: 100%;
+  background: #fff;
   bottom: 0;
 }
 .invoice-wrap,

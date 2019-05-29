@@ -1006,9 +1006,7 @@
               [ngClass]="{ active: activeTab == 'Class' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('Class', 'course')"
-              [disabled]="
-                detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'
-              "
+              [disabled]="disabledTab"
             >
               Class
             </button>
@@ -1016,9 +1014,7 @@
               [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('APG', 'course')"
-              [disabled]="
-                detailLists.type == 'FLEXY' || detailLists.type == 'ONLINE'
-              "
+              [disabled]="disabledTab"
             >
               APG
             </button>
@@ -1265,10 +1261,7 @@
                         class="options-box"
                       >
                         <div class="carret-box"></div>
-                        <li
-                          *ngIf="detailLists.type != 'FLEXY'"
-                          (click)="showTabsModal(tabsModal, 'makeup', user)"
-                        >
+                        <li (click)="showTabsModal(tabsModal, 'makeup', user)">
                           Issue makeup pass
                         </li>
                         <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
@@ -2295,8 +2288,13 @@
                     {{ makeup.issueDate.year }}
                   </p>
                   <div class="issue-box d-flex flex-column">
-                    <strong>{{ makeup.course.name }}</strong>
-                    <label>
+                    <strong>{{ makeup.course.name }} </strong>
+                    <label
+                      *ngIf="
+                        makeup.course.type !== 'online' ||
+                        makeup.course.type !== 'Online'
+                      "
+                    >
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}
@@ -2318,7 +2316,12 @@
                     </p>
                     <div class="issue-box d-flex flex-column">
                       <strong>{{ makeup.makeupCourse.name }}</strong>
-                      <label>
+                      <label
+                        *ngIf="
+                          makeup.course.type !== 'online' ||
+                          makeup.course.type !== 'Online'
+                        "
+                      >
                         <span
                           >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
                           {{ makeup.makeupCourse.startTime.min | timeFormat }}
