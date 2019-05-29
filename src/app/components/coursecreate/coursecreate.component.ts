@@ -1590,6 +1590,7 @@ export class CoursecreateComponent implements OnInit {
           }
           this.courseObj['repeatDays'] = this.selectedDay;
           localStorage.setItem('tempObj', JSON.stringify(this.temp));
+          this.defineType();
         }
 
         if (
@@ -1611,6 +1612,7 @@ export class CoursecreateComponent implements OnInit {
             this.model.starttime
           );
           localStorage.setItem('tempObj', JSON.stringify(this.temp));
+          this.defineType();
         }
 
         if (testObj.durationTimes != this.model.durationTimes) {
@@ -1631,6 +1633,7 @@ export class CoursecreateComponent implements OnInit {
           );
           this.courseObj['repeatDays'] = this.selectedDay;
           localStorage.setItem('tempObj', JSON.stringify(this.temp));
+          this.defineType();
         }
       } else {
         // online course
@@ -1680,6 +1683,7 @@ export class CoursecreateComponent implements OnInit {
           // }
           // this.courseObj["repeatDays"] = this.selectedDay;
           localStorage.setItem('tempObj', JSON.stringify(this.temp));
+          this.defineType();
         }
       }
     }
