@@ -277,7 +277,7 @@ i.fa.fa-angle-left.flexiBackicon {
   }
   
   i.fa.fa-exclamation-circle.exclamationIcon {
-    color: #F26500;
+    color: #64707D;
     font-size: 18px;
   }
   .exIcon {
@@ -526,5 +526,25 @@ i.fa.fa-angle-left.flexiBackicon {
     padding-left: 9px;
   }
   
+  
   /* end conflict modal */
+.modal-cfees b{
+  color: #2e3e4d;
+  font-size: 18px;
+}
+.modal-cfees .lname{
+  color: #64707d;
+  font-size: 12px;
+}
+
+.modal-cfees .lname{
+  margin-bottom: 3px;
+  margin-top: 0;
+}
+.flexiMid{
+  /* overflow-y: overlay; */
+  height: 300px;
+  padding: 0px 46px 0px 32px;
+  overflow-x: hidden;
+}
   /* end flexy course modal*/

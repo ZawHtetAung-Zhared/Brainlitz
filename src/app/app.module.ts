@@ -96,6 +96,8 @@ import { SliderRangeComponent } from './components/video-trimmer/slider-range/sl
 import { FlexiComponent } from './components/flexi/flexi.component';
 import { InterceptService } from './service/intercept.service';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
+import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
+import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
 
 @NgModule({
   declarations: [
@@ -165,7 +167,9 @@ import { InvoiceReportComponent } from './components/invoice-report/invoice-repo
     VideoTrimmerComponent,
     SliderRangeComponent,
     FlexiComponent,
-    InvoiceReportComponent
+    InvoiceReportComponent,
+    UtcShortDatePipe,
+    UtcFullDayPipe
   ],
   imports: [
     BrowserModule,
