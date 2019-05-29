@@ -33,6 +33,7 @@ export class FlexiComponent implements OnInit {
   @Input() showcb;
   @Input() course;
   @Input() selectedCustomer;
+  @Input() ctype;
   lessonsObj: any = [];
   lessionIdArr: any = [];
   lessonObjArr: any = [];
@@ -44,7 +45,7 @@ export class FlexiComponent implements OnInit {
   ngOnInit() {
     console.log(this.showcb);
     console.log(this.selectedCustomer);
-
+    console.log(this.ctype);
     console.log(this.course);
     console.log(this.flexyarr);
     console.log(this.flexyarr.lessons);
@@ -159,13 +160,28 @@ export class FlexiComponent implements OnInit {
         $('.conflictPopUp').show();
       });
     }
-    this.xPos = e.clientX - 173 - 65;
-    this.yPos = e.clientY - 150 + 85;
-    this.arrTop = e.clientY - 150 + 68;
-    this.arrLeft = e.clientX - 173 - 65;
-    this.styleArr = {
-      top: this.yPos + 'px'
-    };
+    if (this.ctype == 'schedule') {
+      console.log(e.clientX);
+      console.log(e.clientY);
+
+      this.xPos = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 50 + 85;
+      this.arrTop = e.clientY - 50 + 68;
+      this.arrLeft = e.clientX - 173 - 65;
+      this.styleArr = {
+        top: this.yPos + 'px'
+      };
+      console.log(this.xPos);
+      console.log(this.yPos);
+    } else {
+      this.xPos = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 150 + 85;
+      this.arrTop = e.clientY - 150 + 68;
+      this.arrLeft = e.clientX - 173 - 65;
+      this.styleArr = {
+        top: this.yPos + 'px'
+      };
+    }
 
     console.log(this.lessonsObj);
   }
