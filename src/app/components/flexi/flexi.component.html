@@ -40,12 +40,12 @@
     <div class="d-flex teacher-gp">
       <div class="flexi-img-div teacherImg">
         <div class="flexi-img-wrap teacherImg-wrap">
-          <img src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png">
+          <img src="{{teacherDetail.profilePic}}">
         </div>
       </div>
       <div class="flexi-teacher-div">
         <p class="flexi-teacher-position">Senior Teacher</p>
-        <label class="flexi-teacher-name">Arron Wamsley</label>
+        <label class="flexi-teacher-name">{{teacherDetail.fullName}}</label>
       </div>
     </div>
     <div class="d-flex">
@@ -57,7 +57,7 @@
   </div>
   <div class="flexiMid" [ngStyle]="conflictBoxShow ? {'overflow-y': 'overlay'} : {'overflow-y': 'none'}">
     <div class="row lessonBoxgp">
-        <div class="col-md-2 lessonbox" *ngFor="let obj of flexyarr" [ngStyle]="clickId==obj.id ? {'z-index': '100'} : {'z-index': '0'}">
+        <div class="col-md-2 lessonbox" *ngFor="let obj of lessonsObj" [ngStyle]="clickId==obj.id ? {'z-index': '100'} : {'z-index': '0'}">
           <div class="lessonbox-inner" (click)="lessonCheck(obj.id,obj)" *ngIf="obj.hasConflict==false" [ngStyle]="lessionIdArr.indexOf(obj.id) != -1 ? {'background': ' #007FFF'} : {'background': '#FFFFFF'}">
             <div class="d-flex">
               <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">

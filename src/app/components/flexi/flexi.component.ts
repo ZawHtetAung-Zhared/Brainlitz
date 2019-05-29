@@ -19,6 +19,7 @@ export class FlexiComponent implements OnInit {
   conflictBoxShow:boolean=false;
   public skipCount:number=0;
   temp:any=[];
+  teacherDetail:any={};
   skipIdArr:any=[];
   igoreIdArr:any=[];
   public styleArr={};
@@ -32,6 +33,7 @@ export class FlexiComponent implements OnInit {
   @Input() showcb;
   @Input() course;
   @Input() selectedCustomer;
+  lessonsObj:any=[]
   lessionIdArr:any=[];
   lessonObjArr:any=[];
   @Output() checkObjArr:any=new EventEmitter<any>();
@@ -45,7 +47,10 @@ export class FlexiComponent implements OnInit {
     
     console.log(this.course)
     console.log(this.flexyarr)
-    this.flitterFlexyObj(this.flexyarr);
+    console.log(this.flexyarr.lessonsObj)
+    this.lessonsObj=this.flexyarr.lessons;
+    this.teacherDetail=this.flexyarr.teacherDetails;
+    this.flitterFlexyObj(this.flexyarr.lessons);
   }
 
   flitterFlexyObj(obj){
@@ -71,14 +76,14 @@ export class FlexiComponent implements OnInit {
       }
       this.checkIdArr.emit(this.lessionIdArr);
       this.checkObjArr.emit(this.lessonObjArr);
-      this.flexyarr[i].id=i;
+      this.lessonsObj[i].id=i;
     }
     
   }
   lessonCheck(id,obj){
     console.log(id);
     console.log(obj)
-    console.log(this.flexyarr);
+    console.log(this.lessonsObj);
     console.log(this.lessonObjArr)
     let tobj:any={};
 
@@ -120,7 +125,7 @@ export class FlexiComponent implements OnInit {
         if(this.temp.length !=0){
           for(let i=0;i<this.conflictObj.conflictWith.length;i++){
             if(i==this.temp[i].i){
-              this.flexyarr[obj.id].hasConflict=false;
+              this.lessonsObj[obj.id].hasConflict=false;
             }else{
               break;
             }
@@ -131,7 +136,7 @@ export class FlexiComponent implements OnInit {
           for(let i=0;i<this.conflictObj.conflictWith.length;i++){
             for(let j=0;j<this.conflictObj.conflictWith[i].lessons.length;j++){
               if(i==this.temp[j].i && j==this.temp[j].j){
-                this.flexyarr[obj.id].hasConflict=false;
+                this.lessonsObj[obj.id].hasConflict=false;
               }else{
                 break;
               }
@@ -157,11 +162,11 @@ export class FlexiComponent implements OnInit {
       'top': this.yPos + "px",
     }
   
-    console.log(this.flexyarr)
+    console.log(this.lessonsObj)
   }
   getPreLessons(){
     let startDate;
-    let date=new Date(this.flexyarr[0].startDate);
+    let date=new Date(this.lessonsObj[0].startDate);
     let dres=new Date(date.setDate(date.getDate()-1)).toISOString();;
     this.blockUI.start('Loading...');
     this._service.getFlexi(this.course._id,this.selectedCustomer.userId,startDate,dres)
@@ -176,10 +181,10 @@ export class FlexiComponent implements OnInit {
           }
         }
 
-        for(let j=0;j< this.flexyarr.length;j++){
-          this.flexyarr[j].id=j+res.lessons.length;
+        for(let j=0;j< this.lessonsObj.length;j++){
+          this.lessonsObj[j].id=j+res.lessons.length;
         }
-        this.flexyarr=tempflexy.concat(this.flexyarr);
+        this.lessonsObj=tempflexy.concat(this.lessonsObj);
         
         for(let x=0;x<this.lessionIdArr.length;x++){
           this.lessionIdArr[x]=this.lessionIdArr[x]+res.lessons.length;
@@ -204,7 +209,7 @@ export class FlexiComponent implements OnInit {
         let obj=[];
         obj.push(this.temp);
         obj.push(this.conflictObj);
-        obj.push(this.flexyarr);
+        obj.push(this.lessonsObj);
         obj.push(this.isconflictAll);
         this.tempConflict.emit(obj);;
         console.error(obj)
@@ -219,31 +224,31 @@ export class FlexiComponent implements OnInit {
     console.error(this.temp.find(data => data.j==j && data.i==i));
     
     console.error(this.temp)
-    console.log(this.flexyarr)
+    console.log(this.lessonsObj)
    
   }
   loadmoreLessons(){
-    console.log(this.flexyarr)
-    console.log(this.flexyarr[this.flexyarr.length-1])
+    console.log(this.lessonsObj)
+    console.log(this.lessonsObj[this.lessonsObj.length-1])
     let enddate;
-    let date=new Date(this.flexyarr[this.flexyarr.length-1].startDate);
+    let date=new Date(this.lessonsObj[this.lessonsObj.length-1].startDate);
     let startDate=new Date(date.setDate(date.getDate()+1)).toISOString();
     console.log(startDate)
     this.blockUI.start('Loading...');
     this._service.getFlexi(this.course._id,this.selectedCustomer.userId,startDate,enddate)
       .subscribe((res:any) => {
         console.error(res)
-        console.error(this.flexyarr.length)
-        let tempLen=this.flexyarr.length;
+        console.error(this.lessonsObj.length)
+        let tempLen=this.lessonsObj.length;
         for(let i=0;i<res.lessons.length;i++){
-          this.flexyarr[tempLen]=res.lessons[i];
-          this.flexyarr[tempLen].id=tempLen;
+          this.lessonsObj[tempLen]=res.lessons[i];
+          this.lessonsObj[tempLen].id=tempLen;
           console.log(tempLen)
           this.lessionIdArr.push(tempLen)
           tempLen+=1;
         }
         console.log(this.lessionIdArr)
-        console.log(this.flexyarr)
+        console.log(this.lessonsObj)
         this.blockUI.stop();
       }, err => {
         console.log(err);
@@ -261,7 +266,7 @@ export class FlexiComponent implements OnInit {
         let obj=[];
         obj.push(this.temp);
         obj.push(this.conflictObj);
-        obj.push(this.flexyarr);
+        obj.push(this.lessonsObj);
         obj.push(this.isconflictAll);
         this.tempConflict.emit(obj);
         console.error(obj)

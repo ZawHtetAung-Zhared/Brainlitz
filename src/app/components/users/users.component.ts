@@ -51,6 +51,7 @@ export class UsersComponent implements OnInit {
 	public locationID = localStorage.getItem('locationId');
 	public locationName: any;
 	public className: any;
+	public showflexyCourse:boolean = false;
 	// formFieldc: customer = new customer();
 	claimCourses: any;
 	formFieldc: any = {};
@@ -950,6 +951,7 @@ export class UsersComponent implements OnInit {
 	callEnrollModal(enrollModal, userId) {
 		console.log(userId)
 		console.log(enrollModal)
+		console.error("exit")
 		this.showInvoice = false;
 		this.showPaidInvoice = false;
 		console.log(this.showInvoice , this.showPaidInvoice)
@@ -961,6 +963,7 @@ export class UsersComponent implements OnInit {
 		console.log("limit,skip,userId", limit, skip, userId)
 		this._service.getAvailabelCourse(this.regionID, userId, limit, skip)
 			.subscribe((res: any) => {
+				console.log(res)
 				this.acResult = res;
 				this.availableCourses = this.availableCourses.concat(res);
 				console.log("Available C", this.availableCourses);
@@ -968,10 +971,27 @@ export class UsersComponent implements OnInit {
 				console.log(err);
 			});
 	}
-
-	enrollUser(course) {
+	flexyarr:any=[];
+	enrollUser(course,type) {
 		console.log(course)
-		this.selectedCourse = course;
+		if(type=='flexy'){
+			this.blockUI.start('Loading...');
+			console.log("is flexy")
+			let startDate;
+      let endDate;
+			this._service.getFlexi(course._id,this.custDetail.user.userId,startDate,endDate)
+      .subscribe((res:any) => {
+        console.log(res)
+        this.flexyarr=res.lessons;
+        this.showInvoice = false;
+        this.showflexyCourse=true;
+        this.blockUI.stop();
+      }, err => {
+				console.log(err);
+				this.blockUI.stop();
+      });
+		}else{
+			this.selectedCourse = course;
 		console.log(this.custDetail);
 		let courseId = course._id;
 		let body = {
@@ -1027,6 +1047,8 @@ export class UsersComponent implements OnInit {
 			}, err => {
 				console.log(err);
 			});
+		}
+		
 	}
 
 	dateFormat(dateStr) {

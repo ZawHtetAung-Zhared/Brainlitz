@@ -2212,7 +2212,7 @@ export class CourseComponent implements OnInit {
       this._service.getFlexi(courseId,this.selectedCustomer.userId,startDate,endDate)
       .subscribe((res:any) => {
         console.log(res)
-        this.flexyarr=res.lessons;
+        this.flexyarr=res;
         this.showInvoice = false;
         this.showflexyCourse=true;
         this.blockUI.stop();
