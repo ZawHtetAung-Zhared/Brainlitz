@@ -2974,6 +2974,7 @@ p.textCount {
   line-height: 16px;
   margin: 0;
   margin-bottom: 5px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .selectedCountBox {
@@ -2987,6 +2988,7 @@ p.textCount {
   font-size: 14px;
   color: #004080;
   line-height: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .overlayModal {

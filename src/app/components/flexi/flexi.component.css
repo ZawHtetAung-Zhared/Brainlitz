@@ -1,16 +1,17 @@
 /* start flexy course modal*/
 .flexi-name,
 .flexi-day,
-.flexi-teacher-name {
+.flexi-teacher-name,
+.date,
+.day,
+.statusText,
+.flexititle {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .flexi-email,
 .flexi-modal-duration,
-.flexi-teacher-position,
-.date,
-.day,
-.statusText {
+.flexi-teacher-position {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
