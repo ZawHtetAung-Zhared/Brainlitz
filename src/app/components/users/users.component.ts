@@ -5,7 +5,9 @@ import {
   ViewChild,
   ViewContainerRef,
   HostListener,
-  AfterViewInit
+  AfterViewInit,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 import { FormsModule, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
@@ -27,7 +29,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
 import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
-
+import { FlexiComponent } from '../flexi/flexi.component';
 declare var $: any;
 
 @Component({
@@ -78,7 +80,9 @@ export class UsersComponent implements OnInit {
 
   public showLoading: boolean = false;
   @BlockUI() blockUI: NgBlockUI;
-
+  @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
+    FlexiComponent
+  >;
   customerLists: Array<any> = [];
   availableCourses: Array<any> = [];
   userType: any;
@@ -166,6 +170,14 @@ export class UsersComponent implements OnInit {
   public invCurrency: any = {};
   public invPayment: any = [];
   public noSetting: boolean = false;
+  //flexy
+  public flexyarr = [];
+  idarr: any = [];
+  conflictObj: any = [];
+  tempObj: any = [];
+  dataObj: any = [];
+  flexiTemp: any = [];
+  checkobjArr: any = [];
 
   constructor(
     private modalService: NgbModal,
@@ -1012,7 +1024,7 @@ export class UsersComponent implements OnInit {
   callEnrollModal(enrollModal, userId) {
     console.log(userId);
     console.log(enrollModal);
-    console.error('exit');
+    this.blockUI.start('Loading...');
     this.showInvoice = false;
     this.showPaidInvoice = false;
     console.log(this.showInvoice, this.showPaidInvoice);
@@ -1034,17 +1046,21 @@ export class UsersComponent implements OnInit {
           this.acResult = res;
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
+          this.blockUI.stop();
         },
         err => {
           console.log(err);
         }
       );
   }
-  flexyarr: any = [];
+  selectedCustomer: any = {};
   enrollUser(course, type) {
+    this.selectedCourse = course;
     console.log(course, type);
     if (type == 'FLEXY') {
       this.blockUI.start('Loading...');
+      this.selectedCourse = course;
+      this.selectedCustomer = this.custDetail.user;
       console.log('is flexy');
       let startDate;
       let endDate;
@@ -1053,19 +1069,17 @@ export class UsersComponent implements OnInit {
         .subscribe(
           (res: any) => {
             console.log(res);
-            this.flexyarr = res.lessons;
+            this.flexyarr = res;
             this.showInvoice = false;
             this.showflexyCourse = true;
-            this.showPaidInvoice = false;
             this.blockUI.stop();
           },
           err => {
             console.log(err);
-            this.blockUI.stop();
           }
         );
     } else {
-      this.selectedCourse = course;
+      this.blockUI.start('Loading...');
       console.log(this.custDetail);
       let courseId = course._id;
       let body = {
@@ -1099,6 +1113,7 @@ export class UsersComponent implements OnInit {
           }
           this.invoice = res.invoice;
           this.showInvoice = true;
+          this.blockUI.stop();
           this.showOneInvoice(course, this.invoice);
           // for(var i in this.invoice){
           //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -1343,9 +1358,12 @@ export class UsersComponent implements OnInit {
     this.showPaidInvoice = false;
     this.invPayment = [];
     this.searchData.searchText = '';
+    this.showflexyCourse = false;
+
     if (type == 'closeInv') {
       this.showDetails(this.custDetail.user.userId);
     }
+    this.showflexyCourse = false;
   }
 
   showPayOption() {
@@ -1841,5 +1859,122 @@ export class UsersComponent implements OnInit {
     };
     this.router.navigate(['/schedule']);
     this.dataService.nevigateSchedule(obj);
+  }
+
+  //start flexy
+  countChange(e) {
+    console.log(e);
+    this.idarr = e;
+  }
+
+  showcb: boolean = false;
+
+  tempConflictObj(e) {
+    this.tempObj = e;
+  }
+
+  isConflictAll: boolean = false;
+  conflictBoxShow(e) {
+    this.showcb = e;
+    console.log($('.conflictPopUp'));
+    // $('.conflictPopUp').show();
+  }
+
+  clickOverlay() {
+    console.log(this.flexyarr);
+    this.showcb = false;
+    this.FlexiComponent.changes.subscribe(e => {
+      $('.conflictPopUp').hide();
+    });
+    this.dataObj = this.tempObj[0];
+    this.conflictObj = this.tempObj[1];
+    this.flexiTemp = this.tempObj[2];
+    this.isConflictAll = this.tempObj[3];
+
+    if (this.isConflictAll) {
+      if (this.tempObj.length != 0) {
+        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
+          if (i == this.dataObj[i].i) {
+            this.flexiTemp[this.conflictObj.id].hasConflict = false;
+          } else {
+            break;
+          }
+        }
+        this.flexyarr = this.flexiTemp;
+      }
+    } else {
+      if (this.tempObj.length != 0) {
+        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
+          for (
+            let j = 0;
+            j < this.conflictObj.conflictWith[i].lessons.length;
+            j++
+          ) {
+            if (i == this.dataObj[j].i && j == this.dataObj[j].j) {
+              this.flexiTemp[this.conflictObj.id].hasConflict = false;
+            } else {
+              break;
+            }
+          }
+        }
+        this.flexyarr = this.flexiTemp;
+      }
+    }
+  }
+
+  backtoCustomer() {
+    this.showflexyCourse = false;
+    this.showInvoice = false;
+    this.showPayment = false;
+  }
+
+  lessionObjArr(e) {
+    console.log(e);
+    this.checkobjArr = e;
+  }
+  flexicomfirm() {
+    //add cutomer
+    let courseId = this.selectedCourse._id;
+    let body = {
+      courseId: this.selectedCourse._id,
+      userId: this.custDetail.user.userId,
+      userType: 'customer',
+      lessons: this.checkobjArr
+    };
+    this._service.assignUser(this.regionID, body, this.locationID).subscribe(
+      (res: any) => {
+        console.log(res);
+        console.log(this.custDetail);
+        this.toastr.success('Successfully Enrolled.');
+        Object.assign(this.selectedCourse, res);
+        // this.showDetails(this.custDetail.user.userId);
+        // this.closeModel();
+        /* for invoice*/
+        this.showInvoice = true;
+        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+          console.log('no invoice setting');
+          this.invoiceInfo = {
+            address: '',
+            city: '',
+            companyName: '',
+            email: '',
+            prefix: '',
+            registration: ''
+          };
+        } else {
+          console.log('has invoice setting');
+          this.invoiceInfo = res.invoiceSettings;
+        }
+        this.invoice = res.invoice;
+        this.showInvoice = true;
+        this.showflexyCourse = false;
+        this.showPayment = false;
+        this.blockUI.stop();
+        this.showOneInvoice(this.selectedCourse, this.invoice);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }

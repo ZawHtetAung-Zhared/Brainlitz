@@ -603,9 +603,7 @@
                         <label *ngIf="list.makeupCourse.startTime">
                           <span
                             >{{ list.makeupCourse.startTime.hr | timeFormat }} :
-                            {{
-                              list.makeupCourse.startTime.min | timeFormat
-                            }}
+                            {{ list.makeupCourse.startTime.min | timeFormat }}
                             {{ list.makeupCourse.startTime.meridiem }}</span
                           >
                           -
@@ -1481,7 +1479,7 @@
           <p class="mb-0 font-medium ">Add customer</p>
         </div>
         <button
-          (click)="cancelModal()"
+          (click)="closeModal('close')"
           aria-label="Close"
           class="modal-close ml-auto"
           type="button"
@@ -1496,7 +1494,7 @@
       <app-flexi
         [flexyarr]="flexyarr"
         [selectedCustomer]="selectedCustomer"
-        [course]="detailLists"
+        [course]="selectedCourse"
         [showcb]="showcb"
         (checkIdArr)="countChange($event)"
         (tempConflict)="tempConflictObj($event)"
@@ -1518,11 +1516,24 @@
         <button
           type="button"
           class="btn modal-cancel-btn"
-          (click)="cancelModal()"
+          (click)="closeModal('close')"
         >
           Cancel
         </button>
-        <button type="submit" class="btn btn-submit" (click)="flexicomfirm()">
+        <button
+          type="submit"
+          class="btn btn-submit"
+          *ngIf="idarr.length != 0"
+          (click)="flexicomfirm()"
+        >
+          Confirm
+        </button>
+        <button
+          type="submit"
+          *ngIf="idarr.length == 0"
+          class="btn btn-submit"
+          disabled
+        >
           Confirm
         </button>
       </div>
@@ -1530,7 +1541,10 @@
   </div>
   <div
     *ngIf="
-      showInvoice == false && showPayment == false && showPaidInvoice == false
+      showInvoice == false &&
+      showPayment == false &&
+      showPaidInvoice == false &&
+      showflexyCourse == false
     "
   >
     <div class="d-flex modal-header">
@@ -1712,7 +1726,7 @@
                   <button
                     type="button"
                     class="btn"
-                    (click)="enrollUser(course,course.type)"
+                    (click)="enrollUser(course, course.type)"
                     [disabled]="course.seat_left == 0 || noSetting == true"
                   >
                     Enroll on this course

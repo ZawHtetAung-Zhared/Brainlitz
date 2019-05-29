@@ -2114,7 +2114,20 @@
           >
             Cancel
           </button>
-          <button type="submit" class="btn btn-submit" (click)="flexicomfirm()">
+          <button
+            type="submit"
+            class="btn btn-submit"
+            *ngIf="idarr.length != 0"
+            (click)="flexicomfirm()"
+          >
+            Confirm
+          </button>
+          <button
+            type="submit"
+            *ngIf="idarr.length == 0"
+            class="btn btn-submit"
+            disabled
+          >
             Confirm
           </button>
         </div>
