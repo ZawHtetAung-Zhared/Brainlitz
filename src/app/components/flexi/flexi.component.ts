@@ -137,9 +137,6 @@ export class FlexiComponent implements OnInit {
       });
     }
     if (this.ctype == 'schedule') {
-      console.log(e.clientX);
-      console.log(e.clientY);
-
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 50 + 85;
       this.arrTop = e.clientY - 50 + 68;
