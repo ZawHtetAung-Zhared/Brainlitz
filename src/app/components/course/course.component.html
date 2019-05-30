@@ -2291,12 +2291,7 @@
                   </p>
                   <div class="issue-box d-flex flex-column">
                     <strong>{{ makeup.course.name }} </strong>
-                    <label
-                      *ngIf="
-                        makeup.course.type !== 'online' ||
-                        makeup.course.type !== 'Online'
-                      "
-                    >
+                    <label *ngIf="makeup.course.type !== 'ONLINE'">
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}
@@ -2318,12 +2313,7 @@
                     </p>
                     <div class="issue-box d-flex flex-column">
                       <strong>{{ makeup.makeupCourse.name }}</strong>
-                      <label
-                        *ngIf="
-                          makeup.course.type !== 'online' ||
-                          makeup.course.type !== 'Online'
-                        "
-                      >
+                      <label *ngIf="makeup.course.type !== 'ONLINE'">
                         <span
                           >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
                           {{ makeup.makeupCourse.startTime.min | timeFormat }}
