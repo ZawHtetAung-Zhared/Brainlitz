@@ -593,7 +593,7 @@ export class CourseComponent implements OnInit {
     this.isoutSideClick = false;
   }
   focusOut() {
-    console.log('focusout : called');
+    // console.log('focusout : called');
     this.iscourseSearch = false;
   }
 
