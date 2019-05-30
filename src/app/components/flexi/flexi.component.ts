@@ -121,9 +121,7 @@ export class FlexiComponent implements OnInit {
     this.tempskipAll = [];
     this.tempIgnore = [];
     this.tempSkip = [];
-    console.log(this.temp.length);
     this.clickId = obj.id;
-    console.log(this.clickId);
     this.conflictObj = obj;
     if (this.conflictBoxShow && this.showcb) {
       this.passDataconflictBoxShow.emit(false);
