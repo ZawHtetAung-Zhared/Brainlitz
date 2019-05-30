@@ -3447,6 +3447,10 @@ export class CourseComponent implements OnInit {
     //add cutomer
     this.stdLists = [];
     console.log('call from addCustomer', this.selectedCustomer);
+    //sorting array as iso date string
+    // var myArray = this.checkobjArr;
+    // myArray.sort((a, b) => a.startDate.localeCompare(b.startDate))
+    // console.log("sort Array",myArray)
     let lessonBody = {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,

@@ -2248,8 +2248,9 @@
         <h1 class="release-text container">Released makeup passes</h1>
         <div class="" *ngFor="let makeup of makeupLists">
           <!--for valid start-->
-          <div class="col-md-12 av-block">
-            <div class="single-makeup">
+          <div class="col-md-12 av-block claimed-height">
+            <!-- [ngClass]="{'claimed-height': makeup.passType === 'claimed'}" -->
+            <div class="single-makeup claimed-height">
               <div
                 class="makeup-head"
                 [ngClass]="{
@@ -2290,13 +2291,10 @@
                     {{ makeup.issueDate.year }}
                   </p>
                   <div class="issue-box d-flex flex-column">
-                    <strong>{{ makeup.course.name }} </strong>
-                    <label
-                      *ngIf="
-                        makeup.course.type !== 'online' ||
-                        makeup.course.type !== 'Online'
-                      "
-                    >
+                    <strong class="makeup-course-name"
+                      >{{ makeup.course.name }}
+                    </strong>
+                    <label *ngIf="makeup.course.type !== 'ONLINE'">
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}
@@ -2317,13 +2315,10 @@
                       {{ makeup.claimedDateFor.year }}
                     </p>
                     <div class="issue-box d-flex flex-column">
-                      <strong>{{ makeup.makeupCourse.name }}</strong>
-                      <label
-                        *ngIf="
-                          makeup.course.type !== 'online' ||
-                          makeup.course.type !== 'Online'
-                        "
-                      >
+                      <strong class="makeup-course-name">{{
+                        makeup.makeupCourse.name
+                      }}</strong>
+                      <label *ngIf="makeup.course.type !== 'ONLINE'">
                         <span
                           >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
                           {{ makeup.makeupCourse.startTime.min | timeFormat }}

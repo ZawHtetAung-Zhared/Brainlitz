@@ -27,6 +27,7 @@ export class InvoiceReportComponent implements OnInit {
   }
 
   getInvoiceList(limit, skip) {
+    this.blockUI.start('Loading');
     this._service
       .getAllInvoices(this.regionID, limit, skip)
       // .getAllInvoices(this.regionID, limit, skip)
@@ -34,6 +35,7 @@ export class InvoiceReportComponent implements OnInit {
         console.log(res);
         this.invoiceList = this.invoiceList.concat(res);
         console.log(this.invoiceList);
+        this.blockUI.stop();
       });
   }
 
@@ -53,10 +55,14 @@ export class InvoiceReportComponent implements OnInit {
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
-    this.blockUI.stop();
+    setTimeout(() => {
+      this.blockUI.stop();
+    }, 1000);
   }
 
   closeModal(type) {
     this.modalReference.close();
+    this.invoiceList = [];
+    this.getInvoiceList(20, 0);
   }
 }

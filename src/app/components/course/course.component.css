@@ -3206,3 +3206,9 @@ p.textCount {
 .expired-header {
   background: #e3e4e6;
 }
+.claimed-height {
+  max-height: 90vh !important;
+}
+.makeup-course-name {
+  word-break: break-all;
+}
