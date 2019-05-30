@@ -1496,8 +1496,6 @@
         [selectedCustomer]="selectedCustomer"
         [course]="selectedCourse"
         [showcb]="showcb"
-        (checkIdArr)="countChange($event)"
-        (tempConflict)="tempConflictObj($event)"
         (passDataconflictBoxShow)="conflictBoxShow($event)"
         (checkObjArr)="lessionObjArr($event)"
       ></app-flexi>
@@ -1509,7 +1507,7 @@
       <div class="d-flex flex-column">
         <p class="textCount">Number of lessons required:</p>
         <div class="selectedCountBox">
-          <p class="selectedTest">Selected lessons: {{ idarr.length }}</p>
+          <p class="selectedTest">Selected lessons: {{ checkobjArr.length }}</p>
         </div>
       </div>
       <div class="">
@@ -1523,14 +1521,14 @@
         <button
           type="submit"
           class="btn btn-submit"
-          *ngIf="idarr.length != 0"
+          *ngIf="checkobjArr.length != 0"
           (click)="flexicomfirm()"
         >
           Confirm
         </button>
         <button
           type="submit"
-          *ngIf="idarr.length == 0"
+          *ngIf="checkobjArr.length == 0"
           class="btn btn-submit"
           disabled
         >
