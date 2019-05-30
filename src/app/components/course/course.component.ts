@@ -588,7 +588,7 @@ export class CourseComponent implements OnInit {
   //start course search
 
   focusCourseSearch() {
-    console.log('focusing ...');
+    // console.log('focusing ...');
     this.iscourseSearch = true;
     this.isoutSideClick = false;
   }
