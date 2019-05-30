@@ -2770,9 +2770,9 @@ export class ScheduleComponent implements OnInit {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
-        this.courseInfo = this.detailLists;
-        Object.assign(this.courseInfo, res);
-        console.log('-------->', this.courseInfo);
+        // this.courseInfo = this.detailLists;
+        Object.assign(this.detailLists, res);
+        console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {

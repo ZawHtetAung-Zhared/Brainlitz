@@ -309,6 +309,8 @@ export class FlexiComponent implements OnInit {
         this.tempIgnoreAll.push(i);
       }
     }
+    console.log(this.tempIgnoreAll);
+    console.log(this.tempskipAll);
     if (
       this.tempIgnoreAll.length == this.conflictObj.conflictWith.length &&
       this.tempskipAll.length == 0

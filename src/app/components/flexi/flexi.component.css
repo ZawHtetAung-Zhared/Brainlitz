@@ -427,8 +427,8 @@ div.conflictPopUp {
   padding-left: 20px;
   padding-right: 20px;
   margin-bottom: 100px;
-  max-height: 650px;
-  overflow: overlay;
+  /* max-height: 650px;
+  overflow: overlay; */
 }
 
 .arr-box {
@@ -571,5 +571,10 @@ span.small-line2 {
   height: 300px;
   padding: 0px 46px 0px 32px;
   overflow-x: hidden;
+}
+
+.conflictBoxGp {
+  max-height: 650px;
+  overflow: overlay;
 }
 /* end flexy course modal*/
