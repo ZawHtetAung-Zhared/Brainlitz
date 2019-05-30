@@ -2728,15 +2728,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   //startFlexi
-  countChange(e) {
-    console.log(e);
-    this.idarr = e;
-  }
-
-  tempConflictObj(e) {
-    this.tempObj = e;
-  }
-
   isConflictAll: boolean = false;
   conflictBoxShow(e) {
     this.showcb = e;
@@ -2750,42 +2741,6 @@ export class ScheduleComponent implements OnInit {
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
     });
-    this.dataObj = this.tempObj[0];
-    this.conflictObj = this.tempObj[1];
-    this.flexiTemp = this.tempObj[2];
-    this.isConflictAll = this.tempObj[3];
-    console.log(this.isConflictAll);
-    if (this.isConflictAll) {
-      console.log('one');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.dataObj[i].i) {
-            this.flexiTemp[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    } else {
-      console.log('two');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.dataObj[j].i && j == this.dataObj[j].j) {
-              this.flexiTemp[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    }
   }
 
   backtoCustomer() {

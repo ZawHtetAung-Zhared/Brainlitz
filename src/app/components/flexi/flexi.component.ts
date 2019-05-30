@@ -39,7 +39,6 @@ export class FlexiComponent implements OnInit {
   lessonObjArr: any = [];
   @Output() checkObjArr: any = new EventEmitter<any>();
   @Output() checkIdArr = new EventEmitter<number>();
-  @Output() tempConflict = new EventEmitter<any>();
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
@@ -118,13 +117,18 @@ export class FlexiComponent implements OnInit {
     this.lessonsCount = 0;
     this.tempSignle = [];
     this.tempAll = [];
+    this.tempIgnoreAll = [];
+    this.tempskipAll = [];
+    this.tempIgnore = [];
+    this.tempSkip = [];
     console.log(this.temp.length);
     this.clickId = obj.id;
+    console.log(this.clickId);
     this.conflictObj = obj;
     if (this.conflictBoxShow && this.showcb) {
       this.passDataconflictBoxShow.emit(false);
       this.conflictBoxShow = false;
-      this.conflictCal();
+      // this.conflictCal();
     } else {
       this.temp = [];
       this.passDataconflictBoxShow.emit(true);
@@ -159,40 +163,10 @@ export class FlexiComponent implements OnInit {
     for (let x = 0; x < this.conflictObj.conflictWith.length; x++) {
       this.lessonsCount += this.conflictObj.conflictWith[x].lessons.length;
     }
+    console.log(this.lessonsCount);
     console.log(this.lessonsObj);
   }
-  conflictCal() {
-    if (this.isconflictAll) {
-      console.log('is me');
-      if (this.temp.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.temp[i].i) {
-            this.lessonsObj[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-      }
-    } else {
-      if (this.temp.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.temp[j].i && j == this.temp[j].j) {
-              this.lessonsObj[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-      }
-    }
 
-    this.temp = [];
-  }
   getPreLessons() {
     let startDate;
     let date = new Date(this.lessonsObj[0].startDate);
@@ -233,6 +207,8 @@ export class FlexiComponent implements OnInit {
   }
 
   tempSignle: any = [];
+  tempSkip: any = [];
+  tempIgnore: any = [];
   onClickSkandAg(i, j, status) {
     console.log(this.lessonsCount);
     this.isconflictAll = false;
@@ -240,33 +216,36 @@ export class FlexiComponent implements OnInit {
     let tobj = { i: -1, j: -1 };
     tobj.i = i;
     tobj.j = j;
-    if (status == 'ignore') {
-      if (this.temp.find(data => data.j == j && data.i == i) == undefined) {
-        this.temp.push(tobj);
-        let obj = [];
-        obj.push(this.temp);
-        obj.push(this.conflictObj);
-        obj.push(this.lessonsObj);
-        obj.push(this.isconflictAll);
-        this.tempConflict.emit(obj);
-      }
-    } else {
-      this.temp = [];
-      let obj = [];
-      this.tempConflict.emit(obj);
-    }
 
     let data = i + '' + j;
 
     if (this.tempSignle.find(d => d == data) == undefined) {
-      this.tempSignle.push(data);
+      this.tempAll.push(i);
+      if (status == 'skip') {
+        this.tempSkip.push(i);
+      } else {
+        this.tempIgnore.push(i);
+      }
     }
 
+    if (
+      this.tempIgnore.length == this.lessonsCount &&
+      this.tempSkip.length == 0
+    ) {
+      this.lessonsObj[this.clickId].hasConflict = false;
+    }
+
+    if (this.tempSignle.find(d => d == data) == undefined) {
+      this.tempSignle.push(data);
+    }
+    console.log(this.lessonsCount);
+    console.log(this.tempSignle.length);
     if (this.lessonsCount == this.tempSignle.length) {
       this.conflictBoxShow = false;
       this.passDataconflictBoxShow.emit(false);
-      this.conflictCal();
+      // this.conflictCal();
     }
+
     console.log(this.tempSignle);
   }
   loadmoreLessons() {
@@ -310,40 +289,37 @@ export class FlexiComponent implements OnInit {
   }
 
   tempAll: any = [];
+  tempskipAll: any = [];
+  tempIgnoreAll: any = [];
   onClickSkandAgall(i, status) {
+    console.log(this.clickId);
     console.log(status, i, this.temp);
     console.log(this.conflictObj);
     console.log(this.tempAll.includes(i));
 
-    this.isconflictAll = true;
     console.log(i);
     let tobj = { i: -1, j: -1 };
     tobj.i = i;
 
-    if (status == 'ignore') {
-      console.log('exit', tobj);
-      if (this.temp.find(data => data.i == i) == undefined) {
-        this.temp.push(tobj);
-        let obj = [];
-        obj.push(this.temp);
-        obj.push(this.conflictObj);
-        obj.push(this.lessonsObj);
-        obj.push(this.isconflictAll);
-        this.tempConflict.emit(obj);
-      }
-    } else {
-      this.temp = [];
-      let obj = [];
-      this.tempConflict.emit(obj);
-    }
     if (this.tempAll.includes(i) == false) {
       this.tempAll.push(i);
+      if (status == 'skip') {
+        this.tempskipAll.push(i);
+      } else {
+        this.tempIgnoreAll.push(i);
+      }
+    }
+    if (
+      this.tempIgnoreAll.length == this.conflictObj.conflictWith.length &&
+      this.tempskipAll.length == 0
+    ) {
+      this.lessonsObj[this.clickId].hasConflict = false;
     }
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
       this.conflictBoxShow = false;
       this.passDataconflictBoxShow.emit(false);
-      this.conflictCal();
+      // this.conflictCal();
     }
     console.log(this.tempAll);
   }
