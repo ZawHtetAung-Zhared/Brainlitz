@@ -2161,7 +2161,7 @@
             <p *ngIf="!singleUserData.email">-</p>
           </div>
         </div>
-        <div class="custom-close-button"></div>
+        <div class="custom-close-button" (click)="cancelInvoiceModal()"></div>
         <!-- <button
           (click)="cancelInvoiceModal()"
           aria-label="Close"
@@ -2227,7 +2227,7 @@
           <button
             type="button"
             class="btn modal-cancel-btn"
-            (click)="cancelModal()"
+            (click)="cancelInvoiceModal()"
           >
             Cancel
           </button>
