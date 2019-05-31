@@ -566,6 +566,9 @@ span.small-line2 {
   margin-bottom: 3px;
   margin-top: 0;
 }
+.addheight {
+  height: 250px !important;
+}
 .flexiMid {
   /* overflow-y: overlay; */
   height: 300px;

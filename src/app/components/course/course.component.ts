@@ -3421,6 +3421,12 @@ export class CourseComponent implements OnInit {
     this.showcb = e;
     console.log($('.conflictPopUp'));
     // $('.conflictPopUp').show();
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
   }
 
   clickOverlay() {
@@ -3428,6 +3434,10 @@ export class CourseComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
   }
 

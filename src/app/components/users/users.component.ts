@@ -1867,6 +1867,12 @@ export class UsersComponent implements OnInit {
   conflictBoxShow(e) {
     this.showcb = e;
     console.log($('.conflictPopUp'));
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
     // $('.conflictPopUp').show();
   }
 
@@ -1875,6 +1881,10 @@ export class UsersComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
   }
 

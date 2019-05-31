@@ -54,11 +54,13 @@
     <p class="previousDate">Load previous dates</p>
   </div>
 </div>
+<!-- [ngStyle]="
+    conflictBoxShow ? { 'overflow-y': 'hidden' } : { 'overflow-y': 'overlay' }
+  " -->
 <div
   class="flexiMid"
-  [ngStyle]="
-    conflictBoxShow ? { 'overflow-y': 'hidden' } : { 'overflow-y': 'overlay' }
-  "
+  id="flexiMid"
+  [ngClass]="{ addheight: ctype == 'schedule' }"
 >
   <div class="row lessonBoxgp">
     <div
@@ -218,7 +220,6 @@
       </div>
     </div>
   </div>
-
   <div class="d-flex">
     <div class="flexiCircle" (click)="loadmoreLessons()">
       <i class="fa fa-plus circlePlus"></i>
@@ -226,7 +227,8 @@
     <p class="previousDate">Load More</p>
   </div>
 </div>
-<div class="conflictPopUp" [ngStyle]="styleArr" *ngIf="conflictBoxShow">
+
+<div class="conflictPopUp" [ngStyle]="styleArr" *ngIf="conflictBoxShow" id="">
   <div
     [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
     class="arr-box arr-up"
