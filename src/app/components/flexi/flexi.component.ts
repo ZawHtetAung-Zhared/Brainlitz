@@ -121,9 +121,7 @@ export class FlexiComponent implements OnInit {
     this.tempskipAll = [];
     this.tempIgnore = [];
     this.tempSkip = [];
-    console.log(this.temp.length);
     this.clickId = obj.id;
-    console.log(this.clickId);
     this.conflictObj = obj;
     if (this.conflictBoxShow && this.showcb) {
       this.passDataconflictBoxShow.emit(false);
@@ -139,9 +137,6 @@ export class FlexiComponent implements OnInit {
       });
     }
     if (this.ctype == 'schedule') {
-      console.log(e.clientX);
-      console.log(e.clientY);
-
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 50 + 85;
       this.arrTop = e.clientY - 50 + 68;
@@ -153,9 +148,9 @@ export class FlexiComponent implements OnInit {
       console.log(this.yPos);
     } else {
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 85;
-      this.arrTop = e.clientY - 150 + 68;
-      this.arrLeft = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 150 + 112;
+      this.arrTop = e.clientY - 150 + 92;
+      this.arrLeft = e.clientX - 173 - 55;
       this.styleArr = {
         top: this.yPos + 'px'
       };
@@ -310,7 +305,7 @@ export class FlexiComponent implements OnInit {
       }
     }
     console.log(this.tempIgnoreAll);
-    console.log(this.tempskipAll);
+    console.log(this.temp);
     if (
       this.tempIgnoreAll.length == this.conflictObj.conflictWith.length &&
       this.tempskipAll.length == 0

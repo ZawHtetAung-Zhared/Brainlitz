@@ -577,7 +577,6 @@ export class CourseComponent implements OnInit {
 
   //for attendance
   closeDropdown(e, type) {
-    console.log('e.target.parentNode.id', e.target.parentNode.id);
     var divToHide = document.getElementById('divToHide');
     if (e.target.parentNode != null) {
       if (e.target.parentNode.id != 'divToHide') {
@@ -589,12 +588,12 @@ export class CourseComponent implements OnInit {
   //start course search
 
   focusCourseSearch() {
-    console.log('focusing ...');
+    // console.log('focusing ...');
     this.iscourseSearch = true;
     this.isoutSideClick = false;
   }
   focusOut() {
-    console.log('focusout : called');
+    // console.log('focusout : called');
     this.iscourseSearch = false;
   }
 
