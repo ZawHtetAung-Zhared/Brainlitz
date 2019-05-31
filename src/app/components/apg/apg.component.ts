@@ -2766,7 +2766,13 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log('apg~~~', apg);
     this._service.getEvaluationExport(apg._id).subscribe((res: any) => {
       console.log('report json', res);
-      this.downloadFile(res, apg.name);
+      if (res.length > 0) {
+        console.log('download file');
+        this.downloadFile(res, apg.name);
+      } else {
+        console.log('no report');
+        this.toastr.error('There is no report for csv export');
+      }
     });
   }
 
@@ -2778,7 +2784,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     var blob = new Blob([csvData], { type: 'text/csv' });
     var url = window.URL.createObjectURL(blob);
     a.href = url;
-    a.download = name + '.csv';
+    var filename = new Date().toISOString();
+    console.log('~~~', name + filename);
+    a.download = name + filename + '.csv';
     a.click();
   }
 
