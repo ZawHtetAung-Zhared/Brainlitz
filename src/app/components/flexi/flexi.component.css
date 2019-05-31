@@ -252,16 +252,15 @@ p.day {
 }
 
 .statusBox {
-  width: 81px;
+  max-width: 70%;
   height: 20px;
   background: #f2f4f5;
   border-radius: 29px;
   text-align: center;
-  padding-top: 2px;
+  /* padding-top: 2px; */
   margin-left: 23px;
   font-weight: 500;
   font-size: 12px;
-  line-height: 16px;
   color: #64707d;
 }
 

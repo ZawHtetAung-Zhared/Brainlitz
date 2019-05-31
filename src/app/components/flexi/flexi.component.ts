@@ -123,21 +123,17 @@ export class FlexiComponent implements OnInit {
     this.tempSkip = [];
     this.clickId = obj.id;
     this.conflictObj = obj;
-    // let hideoverlay:HTMLElement=document.getElementById('flexiMid')
-    // if(this.showcb !=this.conflictBoxShow){
-    //   this.conflictBoxShow=this.showcb;
-    // }
-    console.error(this.conflictBoxShow);
-    console.error(this.showcb);
     if (this.conflictBoxShow && this.showcb) {
-      console.log('exit');
       this.passDataconflictBoxShow.emit(false);
       this.conflictBoxShow = false;
-
-      // hideoverlay.setAttribute('style','background: pink;');
-      // this.conflictCal();
+      setTimeout(() => {
+        if (document.getElementById('flexiMid') != null) {
+          document
+            .getElementById('flexiMid')
+            .setAttribute('style', 'overflow: overlay;');
+        }
+      });
     } else {
-      console.log('exit 2');
       this.temp = [];
       this.passDataconflictBoxShow.emit(true);
       this.conflictBoxShow = true;
@@ -145,6 +141,9 @@ export class FlexiComponent implements OnInit {
       setTimeout(function() {
         console.log($('.conflictPopUp'));
         $('.conflictPopUp').show();
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: hidden;');
       });
     }
     if (this.ctype == 'schedule') {
@@ -256,9 +255,15 @@ export class FlexiComponent implements OnInit {
       this.passDataconflictBoxShow.emit(false);
       // this.conflictCal();
     }
-
-    console.log(this.tempSignle);
+    setTimeout(() => {
+      if (document.getElementById('flexiMid') != null) {
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: overlay;');
+      }
+    }, 200);
   }
+
   loadmoreLessons() {
     console.log(this.lessonsObj);
     console.log(this.lessonsObj[this.lessonsObj.length - 1]);
@@ -334,6 +339,14 @@ export class FlexiComponent implements OnInit {
       this.passDataconflictBoxShow.emit(false);
       // this.conflictCal();
     }
+    setTimeout(() => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: overlay;');
+      }
+    }, 200);
     console.log(this.tempAll);
   }
 }
