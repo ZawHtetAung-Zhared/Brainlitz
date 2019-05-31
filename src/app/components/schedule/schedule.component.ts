@@ -1617,6 +1617,7 @@ export class ScheduleComponent implements OnInit {
       this.singleInv = [];
       this.updateInvData = {};
     }
+    this.showflexyCourse = false;
   }
 
   activeTeachers(teacher) {
@@ -2733,6 +2734,12 @@ export class ScheduleComponent implements OnInit {
     this.showcb = e;
     console.log($('.conflictPopUp'));
     // $('.conflictPopUp').show();
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
   }
 
   clickOverlay() {
@@ -2740,6 +2747,10 @@ export class ScheduleComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
   }
 

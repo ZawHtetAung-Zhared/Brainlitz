@@ -123,14 +123,25 @@ export class FlexiComponent implements OnInit {
     this.tempSkip = [];
     this.clickId = obj.id;
     this.conflictObj = obj;
+    // let hideoverlay:HTMLElement=document.getElementById('flexiMid')
+    // if(this.showcb !=this.conflictBoxShow){
+    //   this.conflictBoxShow=this.showcb;
+    // }
+    console.error(this.conflictBoxShow);
+    console.error(this.showcb);
     if (this.conflictBoxShow && this.showcb) {
+      console.log('exit');
       this.passDataconflictBoxShow.emit(false);
       this.conflictBoxShow = false;
+
+      // hideoverlay.setAttribute('style','background: pink;');
       // this.conflictCal();
     } else {
+      console.log('exit 2');
       this.temp = [];
       this.passDataconflictBoxShow.emit(true);
       this.conflictBoxShow = true;
+      // hideoverlay.setAttribute('style','background: red;');
       setTimeout(function() {
         console.log($('.conflictPopUp'));
         $('.conflictPopUp').show();
@@ -173,11 +184,13 @@ export class FlexiComponent implements OnInit {
         (res: any) => {
           let tempLesson = [];
           let tempflexy = [];
+          let tempdata = [];
           for (let i = 0; i < res.lessons.length; i++) {
             tempflexy.push(res.lessons[i]);
             tempflexy[i].id = i;
             if (res.lessons[i].hasConflict == false) {
               tempLesson.push(i);
+              tempdata.push(res.lessons[i]);
             }
           }
 
@@ -189,8 +202,11 @@ export class FlexiComponent implements OnInit {
           for (let x = 0; x < this.lessionIdArr.length; x++) {
             this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
           }
+          console.log(this.lessonObjArr);
+          console.log(tempflexy);
+          console.log(tempdata);
           this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
-          this.lessonObjArr = tempflexy.concat(this.lessonObjArr);
+          this.lessonObjArr = tempdata.concat(this.lessonObjArr);
           this.checkIdArr.emit(this.lessionIdArr);
           this.checkObjArr.emit(this.lessonObjArr);
           this.blockUI.stop();
