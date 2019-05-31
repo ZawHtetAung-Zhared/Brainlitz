@@ -257,9 +257,8 @@ ul.pass-list li {
   background-size: 16px;
   background-position-y: center;
   background-position-x: 16px;
-  padding: 16px 16px 16px 40px !important;
+  padding: 12px 12px 12px 40px !important;
   font-size: 16px;
-  line-height: 0;
   border-radius: 4.4px;
 }
 
