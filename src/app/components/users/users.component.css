@@ -2529,16 +2529,16 @@ input[_ngcontent-c1]:focus {
 }
 
 /* start flexi modal */
-  
+
 i.fa.fa-angle-left.flexiBackicon {
   font-size: 20px;
-  color: #3D5266;
+  color: #3d5266;
   font-weight: bold;
   padding-right: 4px;
 }
 
 p.textCount {
-  color: #64707D;
+  color: #64707d;
   font-weight: 600;
   font-size: 14px;
   line-height: 16px;
@@ -2546,11 +2546,10 @@ p.textCount {
   margin-bottom: 5px;
 }
 
-
 .selectedCountBox {
   width: 155px;
   height: 32px;
-  background: #CCE6FF;
+  background: #cce6ff;
   border-radius: 27px;
   text-align: center;
   padding-top: 8px;
@@ -2570,7 +2569,11 @@ p.textCount {
   bottom: 0;
   left: 0;
   z-index: 100;
-  
+}
+
+.app-inv-wrap {
+  max-height: 80vh;
+  overflow: auto;
 }
 
 /* end flexi modal */

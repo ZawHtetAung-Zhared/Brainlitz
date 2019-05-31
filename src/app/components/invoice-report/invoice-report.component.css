@@ -92,6 +92,11 @@ table td {
   background: none;
 }
 
+.app-inv-wrap {
+  max-height: 80vh;
+  overflow: auto;
+}
+
 @media only screen and (max-width: 768px) {
   .inv-table {
     width: 728px;
