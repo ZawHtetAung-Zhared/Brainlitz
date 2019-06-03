@@ -2571,7 +2571,7 @@ p.textCount {
 }
 
 .app-inv-wrap {
-  max-height: 80vh;
+  height: 80vh;
   overflow: auto;
 }
 
