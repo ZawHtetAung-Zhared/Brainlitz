@@ -251,7 +251,8 @@ p.day {
   margin-bottom: 10px;
 }
 
-.statusBox {
+.statusBox,
+.enrolled-statusBox {
   max-width: 70%;
   height: 20px;
   background: #f2f4f5;
@@ -262,6 +263,10 @@ p.day {
   font-weight: 500;
   font-size: 12px;
   color: #64707d;
+}
+
+.enrolled-statusBox {
+  background: #ffffff;
 }
 
 .checkBox {
