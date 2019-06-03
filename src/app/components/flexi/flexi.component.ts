@@ -60,7 +60,7 @@ export class FlexiComponent implements OnInit {
     this.lessionIdArr = [];
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
-      if (obj[i].hasConflict == false) {
+      if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
         this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
