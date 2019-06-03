@@ -312,7 +312,7 @@ export class FlexiComponent implements OnInit {
   tempskipAll: any = [];
   tempIgnoreAll: any = [];
   onClickSkandAgall(i, status) {
-    console.log(this.clickId);
+    var number = this.lessonsObj.indexOf(this.conflictObj);
     console.log(status, i, this.temp);
     console.log(this.conflictObj);
     console.log(this.tempAll.includes(i));
@@ -335,7 +335,7 @@ export class FlexiComponent implements OnInit {
       this.tempIgnoreAll.length == this.conflictObj.conflictWith.length &&
       this.tempskipAll.length == 0
     ) {
-      this.lessonsObj[this.clickId].hasConflict = false;
+      this.lessonsObj[number].hasConflict = false;
     }
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
