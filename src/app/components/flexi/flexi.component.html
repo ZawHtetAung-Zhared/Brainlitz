@@ -60,7 +60,10 @@
 <div
   class="flexiMid"
   id="flexiMid"
-  [ngClass]="{ addheight: ctype == 'schedule' }"
+  [ngClass]="{
+    addheight: ctype == 'schedule',
+    'set-overflow': !conflictBoxShow
+  }"
 >
   <div class="row lessonBoxgp">
     <div

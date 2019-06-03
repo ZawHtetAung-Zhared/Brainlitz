@@ -108,6 +108,7 @@ export class FlexiComponent implements OnInit {
     this.checkIdArr.emit(this.lessionIdArr);
     this.checkObjArr.emit(this.lessonObjArr);
     console.log(this.lessionIdArr.length);
+    // document.getElementById('flexiMid').setAttribute('style', 'overflow: overlay!important;')
   }
 
   clickId: any;
@@ -224,6 +225,7 @@ export class FlexiComponent implements OnInit {
   tempSkip: any = [];
   tempIgnore: any = [];
   onClickSkandAg(i, j, status) {
+    var number = this.lessonsObj.indexOf(this.conflictObj);
     console.log(this.lessonsCount);
     this.isconflictAll = false;
     console.log(this.temp);
@@ -246,7 +248,7 @@ export class FlexiComponent implements OnInit {
       this.tempIgnore.length == this.lessonsCount &&
       this.tempSkip.length == 0
     ) {
-      this.lessonsObj[this.clickId].hasConflict = false;
+      this.lessonsObj[number].hasConflict = false;
     }
 
     if (this.tempSignle.find(d => d == data) == undefined) {
@@ -348,7 +350,7 @@ export class FlexiComponent implements OnInit {
         let hideoverlay: HTMLElement = document.getElementById('flexiMid');
         document
           .getElementById('flexiMid')
-          .setAttribute('style', 'overflow: overlay;');
+          .setAttribute('style', 'overflow: overlay!important;');
       }
     }, 200);
     console.log(this.tempAll);
