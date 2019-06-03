@@ -992,9 +992,11 @@ export class UsersComponent implements OnInit {
               console.log('First time searching');
               this.availableCourses = [];
               this.availableCourses = res;
+              this.checkedDisabled(this.availableCourses);
             } else {
               console.log('Not First time searching');
               this.availableCourses = this.availableCourses.concat(res);
+              this.checkedDisabled(this.availableCourses);
             }
           },
           err => {
@@ -1046,12 +1048,35 @@ export class UsersComponent implements OnInit {
           this.acResult = res;
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
+          this.checkedDisabled(this.availableCourses);
           this.blockUI.stop();
         },
         err => {
           console.log(err);
         }
       );
+  }
+
+  checkedDisabled(ac) {
+    for (var i in ac) {
+      if (ac[i].type == 'FLEXY') {
+        if (ac[i].isEnrolled == false && ac[i].seat_left == 0) {
+          console.log('isDisabled');
+          ac[i]['isDisabled'] = true;
+        } else {
+          console.log('isnotDisabled');
+          ac[i]['isDisabled'] = false;
+        }
+      } else {
+        if (ac[i].seat_left == 0) {
+          console.log('isDisabled');
+          ac[i]['isDisabled'] = true;
+        } else {
+          console.log('isnotDisabled');
+          ac[i]['isDisabled'] = false;
+        }
+      }
+    }
   }
   selectedCustomer: any = {};
   enrollUser(course, type) {
@@ -1862,21 +1887,17 @@ export class UsersComponent implements OnInit {
   }
 
   //start flexy
-  countChange(e) {
-    console.log(e);
-    this.idarr = e;
-  }
-
   showcb: boolean = false;
-
-  tempConflictObj(e) {
-    this.tempObj = e;
-  }
-
   isConflictAll: boolean = false;
   conflictBoxShow(e) {
     this.showcb = e;
     console.log($('.conflictPopUp'));
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
     // $('.conflictPopUp').show();
   }
 
@@ -1885,41 +1906,11 @@ export class UsersComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
-    this.dataObj = this.tempObj[0];
-    this.conflictObj = this.tempObj[1];
-    this.flexiTemp = this.tempObj[2];
-    this.isConflictAll = this.tempObj[3];
-
-    if (this.isConflictAll) {
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.dataObj[i].i) {
-            this.flexiTemp[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    } else {
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.dataObj[j].i && j == this.dataObj[j].j) {
-              this.flexiTemp[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    }
   }
 
   backtoCustomer() {

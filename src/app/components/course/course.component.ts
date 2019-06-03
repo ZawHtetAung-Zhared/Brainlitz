@@ -577,7 +577,6 @@ export class CourseComponent implements OnInit {
 
   //for attendance
   closeDropdown(e, type) {
-    console.log('e.target.parentNode.id', e.target.parentNode.id);
     var divToHide = document.getElementById('divToHide');
     if (e.target.parentNode != null) {
       if (e.target.parentNode.id != 'divToHide') {
@@ -589,12 +588,12 @@ export class CourseComponent implements OnInit {
   //start course search
 
   focusCourseSearch() {
-    console.log('focusing ...');
+    // console.log('focusing ...');
     this.iscourseSearch = true;
     this.isoutSideClick = false;
   }
   focusOut() {
-    console.log('focusout : called');
+    // console.log('focusout : called');
     this.iscourseSearch = false;
   }
 
@@ -3418,20 +3417,16 @@ export class CourseComponent implements OnInit {
   }
 
   //startFlexi
-  countChange(e) {
-    console.log(e);
-    this.idarr = e;
-  }
-
-  tempConflictObj(e) {
-    this.tempObj = e;
-  }
-
-  isConflictAll: boolean = false;
   conflictBoxShow(e) {
     this.showcb = e;
     console.log($('.conflictPopUp'));
     // $('.conflictPopUp').show();
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
   }
 
   clickOverlay() {
@@ -3439,43 +3434,11 @@ export class CourseComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
-    this.dataObj = this.tempObj[0];
-    this.conflictObj = this.tempObj[1];
-    this.flexiTemp = this.tempObj[2];
-    this.isConflictAll = this.tempObj[3];
-    console.log(this.isConflictAll);
-    if (this.isConflictAll) {
-      console.log('one');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.dataObj[i].i) {
-            this.flexiTemp[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    } else {
-      console.log('two');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.dataObj[j].i && j == this.dataObj[j].j) {
-              this.flexiTemp[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    }
   }
 
   backtoCustomer() {
@@ -3493,6 +3456,10 @@ export class CourseComponent implements OnInit {
     //add cutomer
     this.stdLists = [];
     console.log('call from addCustomer', this.selectedCustomer);
+    //sorting array as iso date string
+    // var myArray = this.checkobjArr;
+    // myArray.sort((a, b) => a.startDate.localeCompare(b.startDate))
+    // console.log("sort Array",myArray)
     let lessonBody = {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,

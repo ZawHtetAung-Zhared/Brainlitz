@@ -39,7 +39,6 @@ export class FlexiComponent implements OnInit {
   lessonObjArr: any = [];
   @Output() checkObjArr: any = new EventEmitter<any>();
   @Output() checkIdArr = new EventEmitter<number>();
-  @Output() tempConflict = new EventEmitter<any>();
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
@@ -61,7 +60,7 @@ export class FlexiComponent implements OnInit {
     this.lessionIdArr = [];
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
-      if (obj[i].hasConflict == false) {
+      if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
         this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
@@ -109,6 +108,7 @@ export class FlexiComponent implements OnInit {
     this.checkIdArr.emit(this.lessionIdArr);
     this.checkObjArr.emit(this.lessonObjArr);
     console.log(this.lessionIdArr.length);
+    // document.getElementById('flexiMid').setAttribute('style', 'overflow: overlay!important;')
   }
 
   clickId: any;
@@ -118,26 +118,36 @@ export class FlexiComponent implements OnInit {
     this.lessonsCount = 0;
     this.tempSignle = [];
     this.tempAll = [];
-    console.log(this.temp.length);
+    this.tempIgnoreAll = [];
+    this.tempskipAll = [];
+    this.tempIgnore = [];
+    this.tempSkip = [];
     this.clickId = obj.id;
     this.conflictObj = obj;
     if (this.conflictBoxShow && this.showcb) {
       this.passDataconflictBoxShow.emit(false);
       this.conflictBoxShow = false;
-      this.conflictCal();
+      setTimeout(() => {
+        if (document.getElementById('flexiMid') != null) {
+          document
+            .getElementById('flexiMid')
+            .setAttribute('style', 'overflow: overlay;');
+        }
+      });
     } else {
       this.temp = [];
       this.passDataconflictBoxShow.emit(true);
       this.conflictBoxShow = true;
+      // hideoverlay.setAttribute('style','background: red;');
       setTimeout(function() {
         console.log($('.conflictPopUp'));
         $('.conflictPopUp').show();
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: hidden;');
       });
     }
     if (this.ctype == 'schedule') {
-      console.log(e.clientX);
-      console.log(e.clientY);
-
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 50 + 85;
       this.arrTop = e.clientY - 50 + 68;
@@ -149,9 +159,9 @@ export class FlexiComponent implements OnInit {
       console.log(this.yPos);
     } else {
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 85;
-      this.arrTop = e.clientY - 150 + 68;
-      this.arrLeft = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 150 + 112;
+      this.arrTop = e.clientY - 150 + 92;
+      this.arrLeft = e.clientX - 173 - 55;
       this.styleArr = {
         top: this.yPos + 'px'
       };
@@ -159,40 +169,10 @@ export class FlexiComponent implements OnInit {
     for (let x = 0; x < this.conflictObj.conflictWith.length; x++) {
       this.lessonsCount += this.conflictObj.conflictWith[x].lessons.length;
     }
+    console.log(this.lessonsCount);
     console.log(this.lessonsObj);
   }
-  conflictCal() {
-    if (this.isconflictAll) {
-      console.log('is me');
-      if (this.temp.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.temp[i].i) {
-            this.lessonsObj[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-      }
-    } else {
-      if (this.temp.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.temp[j].i && j == this.temp[j].j) {
-              this.lessonsObj[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-      }
-    }
 
-    this.temp = [];
-  }
   getPreLessons() {
     let startDate;
     let date = new Date(this.lessonsObj[0].startDate);
@@ -204,26 +184,35 @@ export class FlexiComponent implements OnInit {
         (res: any) => {
           let tempLesson = [];
           let tempflexy = [];
+          let tempdata = [];
+          let tempLength = this.lessonsObj.length;
           for (let i = 0; i < res.lessons.length; i++) {
             tempflexy.push(res.lessons[i]);
             tempflexy[i].id = i;
+            res.lessons[i].id += tempLength;
             if (res.lessons[i].hasConflict == false) {
               tempLesson.push(i);
+              tempdata.push(res.lessons[i]);
             }
+            this.lessonsObj.unshift(res.lessons[i]);
           }
 
-          for (let j = 0; j < this.lessonsObj.length; j++) {
-            this.lessonsObj[j].id = j + res.lessons.length;
-          }
-          this.lessonsObj = tempflexy.concat(this.lessonsObj);
+          // for (let j = 0; j < this.lessonsObj.length; j++) {
+          //   this.lessonsObj[j].id = j + res.lessons.length;
+          // }
+          // this.lessonsObj = tempflexy.concat(this.lessonsObj);
 
-          for (let x = 0; x < this.lessionIdArr.length; x++) {
-            this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
-          }
-          this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
-          this.lessonObjArr = tempflexy.concat(this.lessonObjArr);
-          this.checkIdArr.emit(this.lessionIdArr);
-          this.checkObjArr.emit(this.lessonObjArr);
+          // for (let x = 0; x < this.lessionIdArr.length; x++) {
+          //   this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
+          // }
+
+          console.log(this.lessonObjArr);
+          console.log(tempflexy);
+          console.log(tempdata);
+          // this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
+          // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
+          // this.checkIdArr.emit(this.lessionIdArr);
+          // this.checkObjArr.emit(this.lessonObjArr);
           this.blockUI.stop();
         },
         err => {
@@ -233,42 +222,54 @@ export class FlexiComponent implements OnInit {
   }
 
   tempSignle: any = [];
+  tempSkip: any = [];
+  tempIgnore: any = [];
   onClickSkandAg(i, j, status) {
+    var number = this.lessonsObj.indexOf(this.conflictObj);
     console.log(this.lessonsCount);
     this.isconflictAll = false;
     console.log(this.temp);
     let tobj = { i: -1, j: -1 };
     tobj.i = i;
     tobj.j = j;
-    if (status == 'ignore') {
-      if (this.temp.find(data => data.j == j && data.i == i) == undefined) {
-        this.temp.push(tobj);
-        let obj = [];
-        obj.push(this.temp);
-        obj.push(this.conflictObj);
-        obj.push(this.lessonsObj);
-        obj.push(this.isconflictAll);
-        this.tempConflict.emit(obj);
-      }
-    } else {
-      this.temp = [];
-      let obj = [];
-      this.tempConflict.emit(obj);
-    }
 
     let data = i + '' + j;
 
     if (this.tempSignle.find(d => d == data) == undefined) {
-      this.tempSignle.push(data);
+      this.tempAll.push(i);
+      if (status == 'skip') {
+        this.tempSkip.push(i);
+      } else {
+        this.tempIgnore.push(i);
+      }
     }
 
+    if (
+      this.tempIgnore.length == this.lessonsCount &&
+      this.tempSkip.length == 0
+    ) {
+      this.lessonsObj[number].hasConflict = false;
+    }
+
+    if (this.tempSignle.find(d => d == data) == undefined) {
+      this.tempSignle.push(data);
+    }
+    console.log(this.lessonsCount);
+    console.log(this.tempSignle.length);
     if (this.lessonsCount == this.tempSignle.length) {
       this.conflictBoxShow = false;
       this.passDataconflictBoxShow.emit(false);
-      this.conflictCal();
+      // this.conflictCal();
     }
-    console.log(this.tempSignle);
+    setTimeout(() => {
+      if (document.getElementById('flexiMid') != null) {
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: overlay;');
+      }
+    }, 200);
   }
+
   loadmoreLessons() {
     console.log(this.lessonsObj);
     console.log(this.lessonsObj[this.lessonsObj.length - 1]);
@@ -291,16 +292,16 @@ export class FlexiComponent implements OnInit {
             this.lessonsObj[tempLen] = res.lessons[i];
             this.lessonsObj[tempLen].id = tempLen;
             console.log(tempLen);
-            if (res.lessons[i].hasConflict == false) {
-              this.lessionIdArr.push(tempLen);
-              this.lessonObjArr.push(res.lessons[i]);
-            }
+            // if (res.lessons[i].hasConflict == false) {
+            //   this.lessionIdArr.push(tempLen);
+            //   this.lessonObjArr.push(res.lessons[i]);
+            // }
             tempLen += 1;
           }
           console.log(this.lessionIdArr);
           console.log(this.lessonsObj);
-          this.checkIdArr.emit(this.lessionIdArr);
-          this.checkObjArr.emit(this.lessonObjArr);
+          // this.checkIdArr.emit(this.lessionIdArr);
+          // this.checkObjArr.emit(this.lessonObjArr);
           this.blockUI.stop();
         },
         err => {
@@ -310,41 +311,48 @@ export class FlexiComponent implements OnInit {
   }
 
   tempAll: any = [];
+  tempskipAll: any = [];
+  tempIgnoreAll: any = [];
   onClickSkandAgall(i, status) {
+    var number = this.lessonsObj.indexOf(this.conflictObj);
     console.log(status, i, this.temp);
     console.log(this.conflictObj);
     console.log(this.tempAll.includes(i));
 
-    this.isconflictAll = true;
     console.log(i);
     let tobj = { i: -1, j: -1 };
     tobj.i = i;
 
-    if (status == 'ignore') {
-      console.log('exit', tobj);
-      if (this.temp.find(data => data.i == i) == undefined) {
-        this.temp.push(tobj);
-        let obj = [];
-        obj.push(this.temp);
-        obj.push(this.conflictObj);
-        obj.push(this.lessonsObj);
-        obj.push(this.isconflictAll);
-        this.tempConflict.emit(obj);
-      }
-    } else {
-      this.temp = [];
-      let obj = [];
-      this.tempConflict.emit(obj);
-    }
     if (this.tempAll.includes(i) == false) {
       this.tempAll.push(i);
+      if (status == 'skip') {
+        this.tempskipAll.push(i);
+      } else {
+        this.tempIgnoreAll.push(i);
+      }
+    }
+    console.log(this.tempIgnoreAll);
+    console.log(this.temp);
+    if (
+      this.tempIgnoreAll.length == this.conflictObj.conflictWith.length &&
+      this.tempskipAll.length == 0
+    ) {
+      this.lessonsObj[number].hasConflict = false;
     }
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
       this.conflictBoxShow = false;
       this.passDataconflictBoxShow.emit(false);
-      this.conflictCal();
+      // this.conflictCal();
     }
+    setTimeout(() => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: overlay!important;');
+      }
+    }, 200);
     console.log(this.tempAll);
   }
 }

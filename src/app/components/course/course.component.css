@@ -3206,3 +3206,21 @@ p.textCount {
 .expired-header {
   background: #e3e4e6;
 }
+.claimed-height {
+  max-height: 90vh !important;
+}
+.makeup-course-name {
+  word-break: break-all;
+}
+.custom-close-button {
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  right: -45px;
+  top: 10px;
+  opacity: 0.7;
+  background-image: url('../../../assets/icons/icon-delete.svg');
+  background-repeat: no-repeat;
+  background-size: 28px 40px;
+  background-position: 10px 1px;
+}
