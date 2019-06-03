@@ -992,9 +992,11 @@ export class UsersComponent implements OnInit {
               console.log('First time searching');
               this.availableCourses = [];
               this.availableCourses = res;
+              this.checkedDisabled(this.availableCourses);
             } else {
               console.log('Not First time searching');
               this.availableCourses = this.availableCourses.concat(res);
+              this.checkedDisabled(this.availableCourses);
             }
           },
           err => {
@@ -1046,12 +1048,35 @@ export class UsersComponent implements OnInit {
           this.acResult = res;
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
+          this.checkedDisabled(this.availableCourses);
           this.blockUI.stop();
         },
         err => {
           console.log(err);
         }
       );
+  }
+
+  checkedDisabled(ac) {
+    for (var i in ac) {
+      if (ac[i].type == 'FLEXY') {
+        if (ac[i].isEnrolled == false && ac[i].seat_left == 0) {
+          console.log('isDisabled');
+          ac[i]['isDisabled'] = true;
+        } else {
+          console.log('isnotDisabled');
+          ac[i]['isDisabled'] = false;
+        }
+      } else {
+        if (ac[i].seat_left == 0) {
+          console.log('isDisabled');
+          ac[i]['isDisabled'] = true;
+        } else {
+          console.log('isnotDisabled');
+          ac[i]['isDisabled'] = false;
+        }
+      }
+    }
   }
   selectedCustomer: any = {};
   enrollUser(course, type) {
