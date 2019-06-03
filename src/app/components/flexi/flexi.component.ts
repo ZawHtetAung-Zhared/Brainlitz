@@ -184,30 +184,34 @@ export class FlexiComponent implements OnInit {
           let tempLesson = [];
           let tempflexy = [];
           let tempdata = [];
+          let tempLength = this.lessonsObj.length;
           for (let i = 0; i < res.lessons.length; i++) {
             tempflexy.push(res.lessons[i]);
             tempflexy[i].id = i;
+            res.lessons[i].id += tempLength;
             if (res.lessons[i].hasConflict == false) {
               tempLesson.push(i);
               tempdata.push(res.lessons[i]);
             }
+            this.lessonsObj.unshift(res.lessons[i]);
           }
 
-          for (let j = 0; j < this.lessonsObj.length; j++) {
-            this.lessonsObj[j].id = j + res.lessons.length;
-          }
-          this.lessonsObj = tempflexy.concat(this.lessonsObj);
+          // for (let j = 0; j < this.lessonsObj.length; j++) {
+          //   this.lessonsObj[j].id = j + res.lessons.length;
+          // }
+          // this.lessonsObj = tempflexy.concat(this.lessonsObj);
 
-          for (let x = 0; x < this.lessionIdArr.length; x++) {
-            this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
-          }
+          // for (let x = 0; x < this.lessionIdArr.length; x++) {
+          //   this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
+          // }
+
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
-          this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
-          this.lessonObjArr = tempdata.concat(this.lessonObjArr);
-          this.checkIdArr.emit(this.lessionIdArr);
-          this.checkObjArr.emit(this.lessonObjArr);
+          // this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
+          // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
+          // this.checkIdArr.emit(this.lessionIdArr);
+          // this.checkObjArr.emit(this.lessonObjArr);
           this.blockUI.stop();
         },
         err => {
@@ -286,16 +290,16 @@ export class FlexiComponent implements OnInit {
             this.lessonsObj[tempLen] = res.lessons[i];
             this.lessonsObj[tempLen].id = tempLen;
             console.log(tempLen);
-            if (res.lessons[i].hasConflict == false) {
-              this.lessionIdArr.push(tempLen);
-              this.lessonObjArr.push(res.lessons[i]);
-            }
+            // if (res.lessons[i].hasConflict == false) {
+            //   this.lessionIdArr.push(tempLen);
+            //   this.lessonObjArr.push(res.lessons[i]);
+            // }
             tempLen += 1;
           }
           console.log(this.lessionIdArr);
           console.log(this.lessonsObj);
-          this.checkIdArr.emit(this.lessionIdArr);
-          this.checkObjArr.emit(this.lessonObjArr);
+          // this.checkIdArr.emit(this.lessionIdArr);
+          // this.checkObjArr.emit(this.lessonObjArr);
           this.blockUI.stop();
         },
         err => {
