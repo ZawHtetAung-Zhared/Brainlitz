@@ -1,8 +1,7 @@
 .invoice-container {
   padding: 32px 32px 0 32px;
 }
-.container-height{
-
+.container-height {
   overflow: overlay;
 }
 .logo-wrapper {
@@ -22,7 +21,7 @@
 }
 
 .logo-wrapper img {
-  width: 100%
+  width: 100%;
 }
 
 h3 {
@@ -79,6 +78,7 @@ h3 {
 .invModal-cancel {
   padding: 0;
   margin-right: 30px;
+  background: none;
 }
 
 .inv-Cname {
@@ -154,6 +154,7 @@ h3 {
   border-radius: 50%;
   margin-right: 15px;
   margin-left: 30px;
+  border: none;
 }
 
 .send-btn {
@@ -195,7 +196,7 @@ h3 {
 }
 
 #rectangle::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 0;
   height: 0;
@@ -285,8 +286,8 @@ h3 {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -311,20 +312,20 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 18px;
 }
 
-.payment-item input[type="radio"] {
+.payment-item input[type='radio'] {
   display: none;
 }
 
-.selectedItem{
-    background: #007fff;
-    color: #fff;
-    pointer-events: none;
-    border-radius: 4px;
-  }
-  .payment-footer{
-    padding: 20px 32px;
+.selectedItem {
+  background: #007fff;
+  color: #fff;
+  pointer-events: none;
+  border-radius: 4px;
 }
-.payment-item{
+.payment-footer {
+  padding: 20px 32px;
+}
+.payment-item {
   /*width: 117px;
   height: 98px;*/
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -332,38 +333,37 @@ input[type=number]::-webkit-outer-spin-button {
   margin-right: 32px;
 }
 
-.payment-item label{
+.payment-item label {
   width: 117px;
   height: 98px;
   padding: 16px;
 }
 
-.back-inv{
-    border: none;
-    background: #fff;
-    outline: none;
+.back-inv {
+  border: none;
+  background: #fff;
+  outline: none;
 }
 
-.back-inv i{
-    padding-right: 5px;
-    font-size: 20px;
+.back-inv i {
+  padding-right: 5px;
+  font-size: 20px;
 }
-.btn-submit{    
-    border: none;
-    height: 45px;
-    border-radius: 3px;
-    width: 100px;
-    color: #fff;
-    background-color: #1682fb;
-    margin-left: 15px;
-    box-shadow: none;
+.btn-submit {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 100px;
+  color: #fff;
+  background-color: #1682fb;
+  margin-left: 15px;
+  box-shadow: none;
 }
-.address{
-    padding-left: 0px;
+.address {
+  padding-left: 0px;
 }
-@media (max-width: 1024px){
-  .invModal-cancel{
+@media (max-width: 1024px) {
+  .invModal-cancel {
     padding: 0px 20px;
   }
 }
-

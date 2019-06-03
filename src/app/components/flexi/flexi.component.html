@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="flexi-teacher-div">
-      <p class="flexi-teacher-position">Senior Teacher</p>
+      <!-- <p class="flexi-teacher-position">Senior Teacher</p> -->
       <label class="flexi-teacher-name">{{ teacherDetail.fullName }}</label>
     </div>
   </div>
@@ -54,11 +54,16 @@
     <p class="previousDate">Load previous dates</p>
   </div>
 </div>
+<!-- [ngStyle]="
+    conflictBoxShow ? { 'overflow-y': 'hidden' } : { 'overflow-y': 'overlay' }
+  " -->
 <div
   class="flexiMid"
-  [ngStyle]="
-    conflictBoxShow ? { 'overflow-y': 'overlay' } : { 'overflow-y': 'none' }
-  "
+  id="flexiMid"
+  [ngClass]="{
+    addheight: ctype == 'schedule',
+    'set-overflow': !conflictBoxShow
+  }"
 >
   <div class="row lessonBoxgp">
     <div
@@ -69,7 +74,7 @@
       <div
         class="lessonbox-inner"
         (click)="lessonCheck(obj.id, obj)"
-        *ngIf="obj.hasConflict == false"
+        *ngIf="obj.hasConflict == false && obj.isEnrolled == false"
         [ngStyle]="
           lessionIdArr.indexOf(obj.id) != -1
             ? { background: ' #007FFF' }
@@ -203,22 +208,21 @@
           <p class="statusText">Skip: {{ obj.status }}</p>
         </div>
       </div>
-      <div class="lessonbox-enroll" *ngIf="obj.status == 'enroll'">
+      <div class="lessonbox-enroll" *ngIf="obj.isEnrolled">
         <div class="d-flex">
           <div class="skippedIcon minus"></div>
           <div class="showDate skippedDate">
-            <p class="date">8 May</p>
-            <p class="day">Monday</p>
+            <p class="date">{{ obj.startDate | utcShortDate }}</p>
+            <p class="day">{{ obj.startDate | utcFullDay }}</p>
           </div>
         </div>
-        <div class="d-flex statusBox">
+        <div class="d-flex enrolled-statusBox">
           <i class="fa fa-check statusCheckIcon"></i>
-          <p class="statusText">{{ obj.status }}</p>
+          <p class="statusText">Enrolled</p>
         </div>
       </div>
     </div>
   </div>
-
   <div class="d-flex">
     <div class="flexiCircle" (click)="loadmoreLessons()">
       <i class="fa fa-plus circlePlus"></i>
@@ -226,7 +230,8 @@
     <p class="previousDate">Load More</p>
   </div>
 </div>
-<div class="conflictPopUp" [ngStyle]="styleArr" *ngIf="conflictBoxShow">
+
+<div class="conflictPopUp" [ngStyle]="styleArr" *ngIf="conflictBoxShow" id="">
   <div
     [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
     class="arr-box arr-up"
@@ -243,8 +248,8 @@
           </div>
         </div>
         <div class="flexi-teacher-div">
-          <p class="flexi-teacher-position">Senior Teacher</p>
-          <label class="flexi-teacher-name">Arron Wamsley</label>
+          <p class="flexi-teacher-position">{{ cobj.position }}</p>
+          <label class="flexi-teacher-name">{{ cobj.preferredName }}</label>
         </div>
       </div>
       <div class="conflictBoxGp">

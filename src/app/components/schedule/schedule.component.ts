@@ -1617,6 +1617,7 @@ export class ScheduleComponent implements OnInit {
       this.singleInv = [];
       this.updateInvData = {};
     }
+    this.showflexyCourse = false;
   }
 
   activeTeachers(teacher) {
@@ -2728,20 +2729,17 @@ export class ScheduleComponent implements OnInit {
   }
 
   //startFlexi
-  countChange(e) {
-    console.log(e);
-    this.idarr = e;
-  }
-
-  tempConflictObj(e) {
-    this.tempObj = e;
-  }
-
   isConflictAll: boolean = false;
   conflictBoxShow(e) {
     this.showcb = e;
     console.log($('.conflictPopUp'));
     // $('.conflictPopUp').show();
+    this.FlexiComponent.changes.subscribe(e => {
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: hidden;');
+      }
+    });
   }
 
   clickOverlay() {
@@ -2749,43 +2747,11 @@ export class ScheduleComponent implements OnInit {
     this.showcb = false;
     this.FlexiComponent.changes.subscribe(e => {
       $('.conflictPopUp').hide();
+      if (document.getElementById('flexiMid') != null) {
+        let hideoverlay: HTMLElement = document.getElementById('flexiMid');
+        hideoverlay.setAttribute('style', 'overflow: overlay;');
+      }
     });
-    this.dataObj = this.tempObj[0];
-    this.conflictObj = this.tempObj[1];
-    this.flexiTemp = this.tempObj[2];
-    this.isConflictAll = this.tempObj[3];
-    console.log(this.isConflictAll);
-    if (this.isConflictAll) {
-      console.log('one');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          if (i == this.dataObj[i].i) {
-            this.flexiTemp[this.conflictObj.id].hasConflict = false;
-          } else {
-            break;
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    } else {
-      console.log('two');
-      if (this.tempObj.length != 0) {
-        for (let i = 0; i < this.conflictObj.conflictWith.length; i++) {
-          for (
-            let j = 0;
-            j < this.conflictObj.conflictWith[i].lessons.length;
-            j++
-          ) {
-            if (i == this.dataObj[j].i && j == this.dataObj[j].j) {
-              this.flexiTemp[this.conflictObj.id].hasConflict = false;
-            } else {
-              break;
-            }
-          }
-        }
-        this.flexyarr = this.flexiTemp;
-      }
-    }
   }
 
   backtoCustomer() {
@@ -2815,9 +2781,9 @@ export class ScheduleComponent implements OnInit {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
-        this.courseInfo = this.detailLists;
-        Object.assign(this.courseInfo, res);
-        console.log('-------->', this.courseInfo);
+        // this.courseInfo = this.detailLists;
+        Object.assign(this.detailLists, res);
+        console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
