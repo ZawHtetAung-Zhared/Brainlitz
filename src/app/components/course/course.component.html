@@ -735,8 +735,11 @@
                         <div *ngIf="!course.draft" class="btnCustomer-wrap">
                           <button
                             *ngIf="
-                              course.seat_left != 0 &&
-                              courseDemo.assignStudent != ''
+                              (course.seat_left != 0 &&
+                                course.type != 'FLEXY') ||
+                              (course.seat_left == 0 &&
+                                course.type == 'FLEXY' &&
+                                courseDemo.assignStudent != '')
                             "
                             class="btn-addC d-flex justify-content-center align-items-center"
                             (click)="
@@ -1964,7 +1967,9 @@
               <div
                 [ngClass]="[
                   stdLists.indexOf(user.userId) > -1 ? 'hide-user' : '',
-                  !isSeatAvailable && userType == 'customer'
+                  !isSeatAvailable &&
+                  detailLists.type == 'REGULAR' &&
+                  userType == 'customer'
                     ? 'disable-add1'
                     : ''
                 ]"
@@ -2056,7 +2061,11 @@
           <button
             type="submit"
             class="btn btn-submit"
-            [disabled]="(selectedCustomer | json) == '{}' || noSetting == true"
+            [disabled]="
+              (selectedCustomer | json) == '{}' ||
+              isDisabledBtn ||
+              noSetting == true
+            "
             (click)="addCustomer(detailLists._id, userType)"
           >
             Confirm

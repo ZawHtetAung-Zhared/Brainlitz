@@ -1061,18 +1061,14 @@ export class UsersComponent implements OnInit {
     for (var i in ac) {
       if (ac[i].type == 'FLEXY') {
         if (ac[i].isEnrolled == false && ac[i].seat_left == 0) {
-          console.log('isDisabled');
           ac[i]['isDisabled'] = true;
         } else {
-          console.log('isnotDisabled');
           ac[i]['isDisabled'] = false;
         }
       } else {
         if (ac[i].seat_left == 0) {
-          console.log('isDisabled');
           ac[i]['isDisabled'] = true;
         } else {
-          console.log('isnotDisabled');
           ac[i]['isDisabled'] = false;
         }
       }
