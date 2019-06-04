@@ -155,13 +155,15 @@
               </p>
             </div>
           </div>
-          <div class="downArrow" (click)="showConflictBox($event, obj.id)">
+          <div class="downArrow" (click)="showConflictBox($event, obj.id, ele)">
             <i class="fa fa-angle-down downIcon"></i>
           </div>
         </div>
 
         <div class="statusBox">
-          <p class="statusText">Skip: {{ obj.status }}</p>
+          <p class="statusText" style="margin-bottom:0">
+            Skip: {{ obj.status }}
+          </p>
         </div>
       </div>
       <div class="lessonbox-holiday" *ngIf="obj.status == 'holiday'">

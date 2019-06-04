@@ -114,7 +114,8 @@ export class FlexiComponent implements OnInit {
   clickId: any;
   conflictObj: any;
   lessonsCount: number = 0;
-  showConflictBox(e, obj) {
+  showConflictBox(e, obj, ele) {
+    console.log(ele);
     this.lessonsCount = 0;
     this.tempSignle = [];
     this.tempAll = [];
@@ -124,6 +125,7 @@ export class FlexiComponent implements OnInit {
     this.tempSkip = [];
     this.clickId = obj.id;
     this.conflictObj = obj;
+    console.log(e);
     if (this.conflictBoxShow && this.showcb) {
       this.passDataconflictBoxShow.emit(false);
       this.conflictBoxShow = false;
@@ -158,10 +160,18 @@ export class FlexiComponent implements OnInit {
       console.log(this.xPos);
       console.log(this.yPos);
     } else {
+      console.log(e);
+      console.log(e.path[4].offsetLeft);
+      console.log($(event.target).offset().top);
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 150 + 112;
       this.arrTop = e.clientY - 150 + 92;
-      this.arrLeft = e.clientX - 173 - 55;
+      if (e.srcElement.className == 'fa fa-angle-down downIcon') {
+        this.arrLeft = e.path[4].offsetLeft + 40;
+      } else {
+        this.arrLeft = e.path[3].offsetLeft + 40;
+      }
+
       this.styleArr = {
         top: this.yPos + 'px'
       };
