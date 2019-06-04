@@ -67,7 +67,7 @@
 >
   <div class="row lessonBoxgp">
     <div
-      class="col-md-2 lessonbox"
+      class="col-lg-2 col-md-3 lessonbox"
       *ngFor="let obj of lessonsObj"
       [ngStyle]="clickId == obj.id ? { 'z-index': '100' } : { 'z-index': '0' }"
     >
@@ -218,7 +218,7 @@
             <p class="day">{{ obj.startDate | utcFullDay }}</p>
           </div>
         </div>
-        <div class="d-flex enrolled-statusBox">
+        <div class="d-flex justify-content-center enrolled-statusBox">
           <i class="fa fa-check statusCheckIcon"></i>
           <p class="statusText">Enrolled</p>
         </div>
