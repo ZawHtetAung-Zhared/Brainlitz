@@ -1733,7 +1733,7 @@
                     type="button"
                     class="btn"
                     (click)="enrollUser(course, course.type)"
-                    [disabled]="course.seat_left == 0 || noSetting == true"
+                    [disabled]="course.isDisabled || noSetting == true"
                   >
                     Enroll on this course
                   </button>
