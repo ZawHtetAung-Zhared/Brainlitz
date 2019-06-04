@@ -114,7 +114,7 @@
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict"
+        *ngIf="obj.hasConflict && !obj.isEnrolled"
       >
         <div class="d-flex justify-content-between">
           <div class="d-flex">
