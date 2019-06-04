@@ -64,19 +64,21 @@ export class FlexiComponent implements OnInit {
         this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
-
-        tobj.startDate = obj[i].startDate;
-        tobj.conflictWith = obj[i].conflictWith;
-        tobj.endDate = obj[i].endDate;
-        tobj.hasConflict = obj[i].hasConflict;
-        tobj.isEnrolled = obj[i].isEnrolled;
-        tobj.teacherId = obj[i].teacherId;
+        tobj = obj[i];
+        // tobj.startDate = obj[i].startDate;
+        // tobj.conflictWith = obj[i].conflictWith;
+        // tobj.endDate = obj[i].endDate;
+        // tobj.hasConflict = obj[i].hasConflict;
+        // tobj.isEnrolled = obj[i].isEnrolled;
+        // tobj.teacherId = obj[i].teacherId;
+        tobj.id = i;
         this.lessonObjArr.push(tobj);
       }
       this.checkIdArr.emit(this.lessionIdArr);
-      this.checkObjArr.emit(this.lessonObjArr);
+      // this.checkObjArr.emit(this.lessonObjArr);
       this.lessonsObj[i].id = i;
     }
+    this.emittedObjArray(this.lessonObjArr);
   }
   lessonCheck(id, obj) {
     console.log(id);
@@ -96,17 +98,18 @@ export class FlexiComponent implements OnInit {
     if (this.lessionIdArr.includes(id)) {
       this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
       this.lessonObjArr.splice(
-        this.lessonObjArr.map(x => x._id).indexOf(id),
+        // this.lessonObjArr.map(x => x._id).indexOf(id),
+        this.lessonObjArr.indexOf(obj),
         1
       );
     } else {
       this.lessionIdArr.push(id);
-      this.lessonObjArr.push(tobj);
+      this.lessonObjArr.push(obj);
     }
     console.log(this.lessonObjArr);
-
     this.checkIdArr.emit(this.lessionIdArr);
-    this.checkObjArr.emit(this.lessonObjArr);
+    // this.checkObjArr.emit(this.lessonObjArr);
+    this.emittedObjArray(this.lessonObjArr);
     console.log(this.lessionIdArr.length);
     // document.getElementById('flexiMid').setAttribute('style', 'overflow: overlay!important;')
   }
@@ -354,5 +357,20 @@ export class FlexiComponent implements OnInit {
       }
     }, 200);
     console.log(this.tempAll);
+  }
+
+  emittedObjArray(array) {
+    let tempArray = [];
+    array.map(item => {
+      let tempObj: any = {};
+      tempObj.startDate = item.startDate;
+      tempObj.conflictWith = item.conflictWith;
+      tempObj.endDate = item.endDate;
+      tempObj.hasConflict = item.hasConflict;
+      tempObj.isEnrolled = item.isEnrolled;
+      tempObj.teacherId = item.teacherId;
+      tempArray.push(tempObj);
+    });
+    this.checkObjArr.emit(tempArray);
   }
 }
