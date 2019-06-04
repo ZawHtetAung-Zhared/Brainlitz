@@ -3213,6 +3213,7 @@ p.textCount {
   word-break: break-all;
 }
 .custom-close-button {
+  cursor: pointer;
   width: 100px;
   height: 40px;
   position: absolute;

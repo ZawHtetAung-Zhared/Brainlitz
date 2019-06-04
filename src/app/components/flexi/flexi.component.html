@@ -67,7 +67,7 @@
 >
   <div class="row lessonBoxgp">
     <div
-      class="col-md-2 lessonbox"
+      class="col-lg-2 col-md-3 lessonbox"
       *ngFor="let obj of lessonsObj"
       [ngStyle]="clickId == obj.id ? { 'z-index': '100' } : { 'z-index': '0' }"
     >
@@ -155,13 +155,15 @@
               </p>
             </div>
           </div>
-          <div class="downArrow" (click)="showConflictBox($event, obj.id)">
+          <div class="downArrow" (click)="showConflictBox($event, obj.id, ele)">
             <i class="fa fa-angle-down downIcon"></i>
           </div>
         </div>
 
         <div class="statusBox">
-          <p class="statusText">Skip: {{ obj.status }}</p>
+          <p class="statusText" style="margin-bottom:0">
+            Skip: {{ obj.status }}
+          </p>
         </div>
       </div>
       <div class="lessonbox-holiday" *ngIf="obj.status == 'holiday'">
@@ -216,7 +218,7 @@
             <p class="day">{{ obj.startDate | utcFullDay }}</p>
           </div>
         </div>
-        <div class="d-flex enrolled-statusBox">
+        <div class="d-flex justify-content-center enrolled-statusBox">
           <i class="fa fa-check statusCheckIcon"></i>
           <p class="statusText">Enrolled</p>
         </div>
