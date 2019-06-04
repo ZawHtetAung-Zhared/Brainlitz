@@ -556,7 +556,7 @@
                     </p>
                     <div class="issue-box d-flex flex-column">
                       <strong>{{ list.course.name }}</strong>
-                      <label>
+                      <label *ngIf="list.course.type !== 'ONLINE'">
                         <span
                           >{{ list.course.startTime.hr | timeFormat }} :
                           {{ list.course.startTime.min | timeFormat }}
@@ -584,10 +584,13 @@
 
                         <strong
                           *ngIf="list.cancelledLesson.startDate == undefined"
-                          >-</strong
                         >
+                          <span *ngIf="list.course.type !== 'ONLINE'">-</span>
+                        </strong>
                       </div>
-                      <strong *ngIf="!list.cancelledLesson">-</strong>
+                      <strong *ngIf="!list.cancelledLesson"
+                        ><span *ngIf="list.course.type !== 'ONLINE'">-</span>
+                      </strong>
                     </div>
                     <div *ngIf="activePass == 'claimed'">
                       <p>
@@ -600,7 +603,12 @@
                         *ngIf="list.makeupCourse"
                       >
                         <strong>{{ list.makeupCourse.name }}</strong>
-                        <label *ngIf="list.makeupCourse.startTime">
+                        <label
+                          *ngIf="
+                            list.course.type !== 'ONLINE' &&
+                            list.makeupCourse.startTime
+                          "
+                        >
                           <span
                             >{{ list.makeupCourse.startTime.hr | timeFormat }} :
                             {{ list.makeupCourse.startTime.min | timeFormat }}
@@ -621,7 +629,7 @@
                             {{ list.claimedDateFor.year }}
                           </strong>
                           <strong *ngIf="list.claimedDateFor.day == null">
-                            -
+                            <span *ngIf="list.course.type !== 'ONLINE'">-</span>
                           </strong>
                         </div>
                       </div>
