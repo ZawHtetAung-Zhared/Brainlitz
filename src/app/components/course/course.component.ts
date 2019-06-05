@@ -97,6 +97,7 @@ export class CourseComponent implements OnInit {
   public end24HourFormat: any;
   public repeatedDaysTemp: Array<any> = [];
   public daysLoop: any;
+  public studentArray = [];
   public days = [
     { day: 'Sun', val: 0, checked: false },
     { day: 'Mon', val: 1, checked: false },
@@ -1795,6 +1796,10 @@ export class CourseComponent implements OnInit {
           this.noStudent = 0;
           console.log(res);
           this.blockUI.stop();
+          res.CUSTOMER.map(customer => {
+            this.studentArray.push(customer.userId);
+          });
+          // this.studentArray = res.CUSTOMER;
           this.activeCourseInfo = res;
           console.log(this.noStudent);
           for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
@@ -1834,7 +1839,7 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal, state, id) {
     console.log('====', state, type);
-
+    console.error(this.detailLists);
     this.isvalidID = state;
     if (state != 'inside') {
       console.log('state', state);
@@ -2053,12 +2058,14 @@ export class CourseComponent implements OnInit {
       this.reasonValue == undefined
     ) {
       var noReason = {
-        lessonId: lessonId
+        lessonId: lessonId,
+        students: this.studentArray
       };
       cancelData = noReason;
     } else {
       var reason = {
-        lessonId: lessonId,
+        lessonId,
+        students: this.studentArray,
         message: this.reasonValue
       };
       cancelData = reason;
@@ -2081,6 +2088,7 @@ export class CourseComponent implements OnInit {
           this.isGlobal = false;
           this.disableCancel = true;
           this.getCourseDetail(this.courseId);
+          this.studentArray = [];
           this.modalClose();
           // Close Dialog box
           // Show the canceled users
@@ -2183,6 +2191,7 @@ export class CourseComponent implements OnInit {
   isDisabledBtn = false;
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
+    console.error(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       this.blockUI.stop();
@@ -2196,21 +2205,23 @@ export class CourseComponent implements OnInit {
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
-      // if (this.detailLists.type == 'FLEXY') {
-      //   // console.log(this.pplLists)
-      //   var includedUserId = this.pplLists.CUSTOMER.findIndex(
-      //     x => x.userId === this.selectedCustomer.userId
-      //   );
-      //   console.log('includedUserId~~~', includedUserId);
-      //   if (includedUserId == -1) {
-      //     this.isDisabledBtn = true;
-      //     console.log('includedUserId == -1', this.isDisabledBtn);
-      //   } else {
-      //     this.isDisabledBtn = false;
-      //     console.log('includedUserId != -1', this.isDisabledBtn);
-      //   }
-      // }
-      this.showList = false;
+      if (this.detailLists.type == 'FLEXY') {
+        if (this.detailLists.seat_left === 0) {
+          // console.log(this.pplLists)
+          var includedUserId = this.pplLists.CUSTOMER.findIndex(
+            x => x.userId === this.selectedCustomer.userId
+          );
+          console.log('includedUserId~~~', includedUserId);
+          if (includedUserId == -1) {
+            this.isDisabledBtn = true;
+            console.log('includedUserId == -1', this.isDisabledBtn);
+          } else {
+            this.isDisabledBtn = false;
+            console.log('includedUserId != -1', this.isDisabledBtn);
+          }
+        }
+        this.showList = false;
+      }
     });
   }
 
