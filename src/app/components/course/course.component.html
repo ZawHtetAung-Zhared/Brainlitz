@@ -2058,7 +2058,7 @@
           >
             Cancel
           </button>
-          <button
+          <!-- <button
             type="submit"
             class="btn btn-submit"
             [disabled]="
@@ -2066,6 +2066,14 @@
               isDisabledBtn ||
               noSetting == true
             "
+            (click)="addCustomer(detailLists._id, userType)"
+          >
+            Confirm
+          </button> -->
+          <button
+            type="submit"
+            class="btn btn-submit"
+            [disabled]="(selectedCustomer | json) == '{}' || noSetting == true"
             (click)="addCustomer(detailLists._id, userType)"
           >
             Confirm

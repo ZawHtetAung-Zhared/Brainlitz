@@ -2196,20 +2196,20 @@ export class CourseComponent implements OnInit {
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
-      if (this.detailLists.type == 'FLEXY') {
-        // console.log(this.pplLists)
-        var includedUserId = this.pplLists.CUSTOMER.findIndex(
-          x => x.userId === this.selectedCustomer.userId
-        );
-        console.log('includedUserId~~~', includedUserId);
-        if (includedUserId == -1) {
-          this.isDisabledBtn = true;
-          console.log('includedUserId == -1', this.isDisabledBtn);
-        } else {
-          this.isDisabledBtn = false;
-          console.log('includedUserId != -1', this.isDisabledBtn);
-        }
-      }
+      // if (this.detailLists.type == 'FLEXY') {
+      //   // console.log(this.pplLists)
+      //   var includedUserId = this.pplLists.CUSTOMER.findIndex(
+      //     x => x.userId === this.selectedCustomer.userId
+      //   );
+      //   console.log('includedUserId~~~', includedUserId);
+      //   if (includedUserId == -1) {
+      //     this.isDisabledBtn = true;
+      //     console.log('includedUserId == -1', this.isDisabledBtn);
+      //   } else {
+      //     this.isDisabledBtn = false;
+      //     console.log('includedUserId != -1', this.isDisabledBtn);
+      //   }
+      // }
       this.showList = false;
     });
   }
