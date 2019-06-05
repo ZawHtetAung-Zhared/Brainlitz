@@ -97,6 +97,7 @@ export class CourseComponent implements OnInit {
   public end24HourFormat: any;
   public repeatedDaysTemp: Array<any> = [];
   public daysLoop: any;
+  public studentArray = [];
   public days = [
     { day: 'Sun', val: 0, checked: false },
     { day: 'Mon', val: 1, checked: false },
@@ -1795,6 +1796,10 @@ export class CourseComponent implements OnInit {
           this.noStudent = 0;
           console.log(res);
           this.blockUI.stop();
+          res.CUSTOMER.map(customer => {
+            this.studentArray.push(customer.userId);
+          });
+          // this.studentArray = res.CUSTOMER;
           this.activeCourseInfo = res;
           console.log(this.noStudent);
           for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
@@ -2053,12 +2058,14 @@ export class CourseComponent implements OnInit {
       this.reasonValue == undefined
     ) {
       var noReason = {
-        lessonId: lessonId
+        lessonId: lessonId,
+        students: this.studentArray
       };
       cancelData = noReason;
     } else {
       var reason = {
-        lessonId: lessonId,
+        lessonId,
+        students: this.studentArray,
         message: this.reasonValue
       };
       cancelData = reason;
@@ -2081,6 +2088,7 @@ export class CourseComponent implements OnInit {
           this.isGlobal = false;
           this.disableCancel = true;
           this.getCourseDetail(this.courseId);
+          this.studentArray = [];
           this.modalClose();
           // Close Dialog box
           // Show the canceled users
