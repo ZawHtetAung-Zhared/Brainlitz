@@ -959,21 +959,36 @@
           >
             <div class="cdetail">
               <p>Lesson count</p>
-              <h5 *ngIf="detailLists.lessonCount == null">
+              <h5
+                *ngIf="
+                  detailLists.type !== 'FLEXY' &&
+                  detailLists.lessonCount == null
+                "
+              >
                 {{ detailLists.actualLessonCount }}
+                Lessons
                 <!-- {{
                   detailLists.type == 'FLEXY'
                     ? detailLists.defaultlessonCount
                     : detailLists.actualLessonCount
                 }} -->
               </h5>
-              <h5 *ngIf="detailLists.lessonCount != null">
+              <h5
+                *ngIf="
+                  detailLists.type !== 'FLEXY' &&
+                  detailLists.lessonCount != null
+                "
+              >
                 <!-- {{
                   detailLists.type == 'FLEXY'
                     ? detailLists.defaultlessonCount
                     : detailLists.lessonCount
                 }} -->
                 {{ detailLists.lessonCount }}
+                Lessons
+              </h5>
+              <h5 *ngIf="detailLists.type === 'FLEXY'">
+                {{ detailLists.defaultlessonCount }}
                 Lessons
               </h5>
             </div>
@@ -1128,7 +1143,13 @@
                     <h2 class="title-heading">Customers</h2>
                     <div class="d-flex">
                       <p class="seat-text-wrapper">
-                        Total: {{ pplLists.CUSTOMER.length }} customers
+                        Total: {{ pplLists.CUSTOMER.length }}
+                        <span *ngIf="pplLists.CUSTOMER.length <= 1"
+                          >customer</span
+                        >
+                        <span *ngIf="pplLists.CUSTOMER.length > 1"
+                          >customers</span
+                        >
                       </p>
                       <ul
                         *ngIf="detailLists.seat_left == null"
