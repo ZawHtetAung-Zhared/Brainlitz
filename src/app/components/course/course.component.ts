@@ -1839,7 +1839,7 @@ export class CourseComponent implements OnInit {
 
   addUserModal(type, userModal, state, id) {
     console.log('====', state, type);
-
+    console.error(this.detailLists);
     this.isvalidID = state;
     if (state != 'inside') {
       console.log('state', state);
@@ -2191,6 +2191,7 @@ export class CourseComponent implements OnInit {
   isDisabledBtn = false;
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
+    console.error(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       this.blockUI.stop();
@@ -2204,21 +2205,23 @@ export class CourseComponent implements OnInit {
       this.selectedCustomer = res;
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
-      // if (this.detailLists.type == 'FLEXY') {
-      //   // console.log(this.pplLists)
-      //   var includedUserId = this.pplLists.CUSTOMER.findIndex(
-      //     x => x.userId === this.selectedCustomer.userId
-      //   );
-      //   console.log('includedUserId~~~', includedUserId);
-      //   if (includedUserId == -1) {
-      //     this.isDisabledBtn = true;
-      //     console.log('includedUserId == -1', this.isDisabledBtn);
-      //   } else {
-      //     this.isDisabledBtn = false;
-      //     console.log('includedUserId != -1', this.isDisabledBtn);
-      //   }
-      // }
-      this.showList = false;
+      if (this.detailLists.type == 'FLEXY') {
+        if (this.detailLists.seat_left === 0) {
+          // console.log(this.pplLists)
+          var includedUserId = this.pplLists.CUSTOMER.findIndex(
+            x => x.userId === this.selectedCustomer.userId
+          );
+          console.log('includedUserId~~~', includedUserId);
+          if (includedUserId == -1) {
+            this.isDisabledBtn = true;
+            console.log('includedUserId == -1', this.isDisabledBtn);
+          } else {
+            this.isDisabledBtn = false;
+            console.log('includedUserId != -1', this.isDisabledBtn);
+          }
+        }
+        this.showList = false;
+      }
     });
   }
 
