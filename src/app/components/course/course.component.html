@@ -737,7 +737,7 @@
                             *ngIf="
                               (course.seat_left != 0 &&
                                 course.type != 'FLEXY') ||
-                              (course.seat_left == 0 &&
+                              (course.seat_left != 0 &&
                                 course.type == 'FLEXY' &&
                                 courseDemo.assignStudent != '')
                             "
@@ -988,7 +988,7 @@
                 Lessons
               </h5>
               <h5 *ngIf="detailLists.type === 'FLEXY'">
-                {{ detailLists.defaultlessonCount }}
+                {{ detailLists.actualLessonCount }}
                 Lessons
               </h5>
             </div>
@@ -1659,8 +1659,10 @@
             </h5>
             <!-- <p>11:00 AM - 12:00 AM</p> -->
             <div class="modal-duration">
-              {{ detailLists.duration.startDate | utcTime }} -
-              {{ detailLists.duration.endDate | utcTime }}
+              <span *ngIf="detailLists.duration.endDate != undefined">
+                {{ detailLists.duration.startDate | utcTime }} -
+                {{ detailLists.duration.endDate | utcTime }}
+              </span>
             </div>
           </div>
           <div class="col-md-4 col-lg-4 modal-cdate">
@@ -1937,8 +1939,10 @@
                 *ngIf="detailLists.duration != undefined"
                 class="modal-duration"
               >
-                {{ detailLists.duration.startDate | utcTime }} -
-                {{ detailLists.duration.endDate | utcTime }}
+                <span *ngIf="detailLists.duration.endDate != undefined"
+                  >{{ detailLists.duration.startDate | utcTime }} -
+                  {{ detailLists.duration.endDate | utcTime }}</span
+                >
               </div>
             </div>
             <div class="col-md-4 col-lg-4 modal-cdate">
