@@ -1376,6 +1376,7 @@ export class CourseComponent implements OnInit {
     this.cancelUItext = false;
     this.cancelUI = false;
     this.dataservice.nevigateCourse('');
+    this.activeToday = false;
   }
 
   showCourseDetail(courseId) {
@@ -2191,6 +2192,7 @@ export class CourseComponent implements OnInit {
   isDisabledBtn = false;
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
+    // console.error(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       this.blockUI.stop();
