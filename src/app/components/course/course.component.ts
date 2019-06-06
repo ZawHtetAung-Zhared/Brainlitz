@@ -1728,12 +1728,13 @@ export class CourseComponent implements OnInit {
     console.log('.....', this.cancelUi);
     // console.error(onlytodayTime)
     // console.error(onlytodayDate)
+
     // Validate for giving attendence
-    if (lessonDate <= onlytodayDate) {
-      this.attendenceButton = true;
-    } else {
-      this.attendenceButton = false;
-    }
+    // if (lessonDate <= onlytodayDate) {
+    //   this.attendenceButton = true;
+    // } else {
+    //   this.attendenceButton = false;
+    // }
 
     if (lessonDate >= onlytodayDate) {
       console.log('lesson date is grater than and equal to today');
@@ -3353,14 +3354,20 @@ export class CourseComponent implements OnInit {
     //this.isGlobal = true;
   }
   showAttendanceBox(e, uID) {
-    if (this.attendenceButton == true) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.yPosition = e.layerY;
-      this.uId = uID;
-      this.attdBox = true;
-      console.log('showAttendanceBox Works', this.uId);
-    }
+    // if (this.attendenceButton == true) {
+    //   e.preventDefault();
+    //   e.stopPropagation();
+    //   this.yPosition = e.layerY;
+    //   this.uId = uID;
+    //   this.attdBox = true;
+    //   console.log('showAttendanceBox Works', this.uId);
+    // }
+    e.preventDefault();
+    e.stopPropagation();
+    this.yPosition = e.layerY;
+    this.uId = uID;
+    this.attdBox = true;
+    console.log('showAttendanceBox Works', this.uId);
   }
   onClickRadio(type, id) {
     console.log('LASD~~~', this.LASD);
