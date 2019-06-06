@@ -1,31 +1,69 @@
-<app-header [ngClass]="{'stick': isSticky == true , 'hide': hideMenu}" *ngIf="scheduleList"></app-header>
+<app-header
+  [ngClass]="{ stick: isSticky == true, hide: hideMenu }"
+  *ngIf="scheduleList"
+></app-header>
 
-<app-category class="category-content" *ngIf="isCategory == true && isPlan == false"></app-category>
-<app-courseplan class="category-content" *ngIf="isPlan == true && isCategory == false"></app-courseplan>
-<app-coursecreate class="category-content" *ngIf="isCourseCreate == true"></app-coursecreate>
+<app-category
+  class="category-content"
+  *ngIf="isCategory == true && isPlan == false"
+></app-category>
+<app-courseplan
+  class="category-content"
+  *ngIf="isPlan == true && isCategory == false"
+></app-courseplan>
+<app-coursecreate
+  class="category-content"
+  *ngIf="isCourseCreate == true"
+></app-coursecreate>
 
 <block-ui>
-  <div class="d-flex justify-content-center" *ngIf="scheduleList && isCategory == false && isPlan == false && isCourseCreate == false">
+  <div
+    class="d-flex justify-content-center"
+    *ngIf="
+      scheduleList &&
+      isCategory == false &&
+      isPlan == false &&
+      isCourseCreate == false
+    "
+  >
     <div class="d-flex flex-column align-items-start  mt-5">
-      <form class="form-wrap d-flex flex-column align-items-start" novalidate #customerForm="ngForm">
+      <form
+        class="form-wrap d-flex flex-column align-items-start"
+        novalidate
+        #customerForm="ngForm"
+      >
         <h3 class="schedule-title ">Schedule</h3>
-        <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>    
+        <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>
         <div class="checkboxes-wrapper">
           <span *ngFor="let d of days">
-            <label class="cursor-on day" [ngClass]="{'active-label': (selectedDay.indexOf(d.val) != -1),'noCursor': isEdit== true}">
-              <div *ngIf="selectedDay.indexOf(d.val) == -1 " class="rounded-box"></div> 
-              <div *ngIf="selectedDay.indexOf(d.val) != -1 " class="rounded-checked"><i  class="fa fa-check"></i></div>              
-              <input 
-              type="checkbox"
-              required 
-              class="regular-checkbox" 
-              (change)="selectDay(d.val, $event,d.day,'chooseday')" 
-              name="{{d.day}}"
-              value={{d.val}} 
-              [disabled]="isEdit == true" 
-              [checked]="selectedDay.indexOf(d.val) !== -1" 
+            <label
+              class="cursor-on day"
+              [ngClass]="{
+                'active-label': selectedDay.indexOf(d.val) != -1,
+                noCursor: isEdit == true
+              }"
+            >
+              <div
+                *ngIf="selectedDay.indexOf(d.val) == -1"
+                class="rounded-box"
+              ></div>
+              <div
+                *ngIf="selectedDay.indexOf(d.val) != -1"
+                class="rounded-checked"
               >
-              <div class="box-label">{{d.day|uppercase}}</div>
+                <i class="fa fa-check"></i>
+              </div>
+              <input
+                type="checkbox"
+                required
+                class="regular-checkbox"
+                (change)="selectDay(d.val, $event, d.day, 'chooseday')"
+                name="{{ d.day }}"
+                value="{{ d.val }}"
+                [disabled]="isEdit == true"
+                [checked]="selectedDay.indexOf(d.val) !== -1"
+              />
+              <div class="box-label">{{ d.day | uppercase }}</div>
             </label>
           </span>
         </div>
@@ -33,11 +71,11 @@
           <h3 class="category-title">Pick Category</h3>
         </div>
         <div class="input-group mt-3 gg">
-          <input 
-            class="form-control py-2 input-search-bg" 
-            type="search" 
+          <input
+            class="form-control py-2 input-search-bg"
+            type="search"
             autocomplete="off"
-            placeholder="Search category" 
+            placeholder="Search category"
             name="itemID"
             [(ngModel)]="item.itemID"
             #itemID="ngModel"
@@ -46,148 +84,287 @@
             (focus)="focusSearch($event, 'category')"
             (focusout)="hideSearch($event)"
             (input)="searchCategoryList($event.target.value, 'category')"
-          >
+          />
           <span class="input-group-append">
-            <button class="btn fa fa-search search-size btn-design btn-outline-secondary" type="button">
-            </button>
-          </span> 
-          <ul class="data-listing" *ngIf="isFousCategory == true" >
-            <li *ngFor="let category of categoryList" (click)="selectData(category)">{{category.name}}</li>
+            <button
+              class="btn fa fa-search search-size btn-design btn-outline-secondary"
+              type="button"
+            ></button>
+          </span>
+          <ul class="data-listing" *ngIf="isFousCategory == true">
+            <li
+              *ngFor="let category of categoryList"
+              (click)="selectData(category)"
+            >
+              {{ category.name }}
+            </li>
           </ul>
         </div>
-        <button type="button" id="categoryList" class="align-self-end btn btn-primary mt-4" (click)="getschedulestaff('button','20', '0','20')" [disabled]="selectedDay.length==0 || item.itemID == '' || item.itemID == undefined">Show</button>
+        <button
+          type="button"
+          id="categoryList"
+          class="align-self-end btn btn-primary mt-4"
+          (click)="getschedulestaff('button', '20', '0', '20')"
+          [disabled]="
+            selectedDay.length == 0 ||
+            item.itemID == '' ||
+            item.itemID == undefined
+          "
+        >
+          Show
+        </button>
       </form>
     </div>
   </div>
   <!-- Schedule List (when click show button) -->
-  <div *ngIf="!scheduleList && isCategory == false && isPlan == false && isCourseCreate == false" class="disabledScroll">
-    <div [ngClass]="{'backdrop' : testshowboxs==true || showDp==true}" class="txt"></div>
-    <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false" class="p-2 pl-4 pb-0 w-100">
-        <div class="back-to" (click)="backtoSchedule()">
-          <i class="fa fa-angle-left"></i>
-          <p class="mb-0">Schedule</p>
-        </div>
+  <div
+    *ngIf="
+      !scheduleList &&
+      isCategory == false &&
+      isPlan == false &&
+      isCourseCreate == false
+    "
+    class="disabledScroll"
+  >
+    <div
+      [ngClass]="{ backdrop: testshowboxs == true || showDp == true }"
+      class="txt"
+    ></div>
+    <div
+      *ngIf="
+        courseCreate == false &&
+        isCategory == false &&
+        isPlan == false &&
+        isCourseCreate == false
+      "
+      class="p-2 pl-4 pb-0 w-100"
+    >
+      <div class="back-to" (click)="backtoSchedule()">
+        <i class="fa fa-angle-left"></i>
+        <p class="mb-0">Schedule</p>
       </div>
+    </div>
     <div class="d-flex justify-content-center">
       <div class="d-flex w-100  justify-content-between responsive-width">
-        <div *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false" class="p-2 pl-4 pb-0 ">
+        <div
+          *ngIf="
+            courseCreate == true &&
+            isCategory == false &&
+            isPlan == false &&
+            isCourseCreate == false
+          "
+          class="p-2 pl-4 pb-0 "
+        >
           <div class="back-to" (click)="backtoTimetable()">
             <i class="fa fa-angle-left"></i>
             <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
           </div>
-        </div>    
-        <div class="pr-4 pt-2" *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false">
+        </div>
+        <div
+          class="pr-4 pt-2"
+          *ngIf="
+            courseCreate == true &&
+            isCategory == false &&
+            isPlan == false &&
+            isCourseCreate == false
+          "
+        >
           <p class="cancel-txt cursor-on" (click)="backtoTimetable()">Cancel</p>
         </div>
       </div>
     </div>
     <!-- Pick Course Plan -->
     <div class="d-flex justify-content-center">
-      <div class="d-flex w-100 flex-column pl-4 responsive-width" *ngIf="courseCreate == true && isCategory == false && isPlan == false && isCourseCreate == false">
+      <div
+        class="d-flex w-100 flex-column pl-4 responsive-width"
+        *ngIf="
+          courseCreate == true &&
+          isCategory == false &&
+          isPlan == false &&
+          isCourseCreate == false
+        "
+      >
         <div class="d-flex flex-column">
-          <p class="category-title">#{{item.itemID }}</p>
+          <p class="category-title">#{{ item.itemID }}</p>
           <!-- <p class="category-title">#Piano</p> -->
           <p class="pickCourseplan">Pick Course Plan</p>
         </div>
         <div class="input-group mt-3 pr-4">
           <span class="input-group-append">
-            <button class="btn courseplanSearch-btn btn-outline-secondary" type="button">
+            <button
+              class="btn courseplanSearch-btn btn-outline-secondary"
+              type="button"
+            >
               <i class="fa fa-search search-size"></i>
             </button>
           </span>
-          <input 
+          <input
             *ngIf="courseplanLists"
             class="form-control search-courseplan"
-            autocomplete="off" 
-            type="search" 
-            placeholder="Search Course Plan"     
-            (input) = "getSearchCoursePlan($event.target.value,'','')"
-            >
+            autocomplete="off"
+            type="search"
+            placeholder="Search Course Plan"
+            (input)="getSearchCoursePlan($event.target.value, '', '')"
+          />
         </div>
         <div class="d-flex flex-wrap  mt-3">
-  
-          <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list">
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list"
+          >
             <div class="createcouresplan">
-              <p class="createCourseText" (click)="createPlan()"><i class="fa plus-sign fa-plus mr-2"></i>Create New Course Plan</p>
+              <p class="createCourseText" (click)="createPlan()">
+                <i class="fa plus-sign fa-plus mr-2"></i>Create New Course Plan
+              </p>
             </div>
           </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list" *ngFor="let item of courseplanLists" >
-            <div  class="d-flex couresplanList justify-content-between" (click)="selectPlan(item)">
+          <div
+            class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list"
+            *ngFor="let item of courseplanLists"
+          >
+            <div
+              class="d-flex couresplanList justify-content-between"
+              (click)="selectPlan(item)"
+            >
               <div class=" d-flex flex-column">
-                <span class="courseplanName mb-1" [ngClass]="{'hilight-plan': highlightPlan == item._id}">{{item.name}}</span>
+                <span
+                  class="courseplanName mb-1"
+                  [ngClass]="{ 'hilight-plan': highlightPlan == item._id }"
+                  >{{ item.name }}</span
+                >
                 <div class="d-flex">
-                  <span class="createCourseTextSeat">{{(item.seats == null) ? ("unlimited") : (item.seats)}} seats</span><ul class="lessonDuration"><li class="createCourseTextSeat">{{item.lesson.duration |minuteSeconds}} duration</li></ul>
+                  <span class="createCourseTextSeat"
+                    >{{
+                      item.seats == null ? 'unlimited' : item.seats
+                    }}
+                    seats</span
+                  >
+                  <ul class="lessonDuration">
+                    <li class="createCourseTextSeat">
+                      {{ item.lesson.duration | minuteSeconds }} duration
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div class="align-slef-center pt-3">
-                <i class="fa lesson-slot-box fa-2x  fa-angle-right" [ngClass]="{'hilight-arrow': highlightPlan == item._id}"></i>
+                <i
+                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                  [ngClass]="{ 'hilight-arrow': highlightPlan == item._id }"
+                ></i>
               </div>
             </div>
           </div>
         </div>
-        <div class="btn w-100 remove-outline" style="position:sticky" *ngIf="courseplanLists && courseplanLists.length >= 20" (click)="showMore(courseplanLists.length)" >Load More</div>
+        <div
+          class="btn w-100 remove-outline"
+          style="position:sticky"
+          *ngIf="courseplanLists && courseplanLists.length >= 20"
+          (click)="showMore(courseplanLists.length)"
+        >
+          Load More
+        </div>
       </div>
     </div>
-    <div *ngIf="courseCreate == false && isCategory == false && isPlan == false && isCourseCreate == false">
+    <div
+      *ngIf="
+        courseCreate == false &&
+        isCategory == false &&
+        isPlan == false &&
+        isCourseCreate == false
+      "
+    >
       <div class="w-100 schedule-checkboxes-wrapper d-flex flex-wrap">
         <div>
           <span *ngFor="let d of days">
-            <label class="cursor-on day-checkbox"[ngClass]="{'active-label': selectedDay.indexOf(d.val) != -1,'noCursor': isEdit== true}">
-              <input 
-                type="checkbox" 
-                class="regular-checkbox"  
-                name="{{d.day}}" 
-                value={{d.val}} 
-                (change)="selectDay(d.val ,$event,d.day,'callTimetable')" 
-                [checked]="selectedDay.indexOf(d.val) != -1" 
-                [disabled]="isEdit == true" >
-              <div class="schedule-box-label">{{d.day|uppercase}}</div>
+            <label
+              class="cursor-on day-checkbox"
+              [ngClass]="{
+                'active-label': selectedDay.indexOf(d.val) != -1,
+                noCursor: isEdit == true
+              }"
+            >
+              <input
+                type="checkbox"
+                class="regular-checkbox"
+                name="{{ d.day }}"
+                value="{{ d.val }}"
+                (change)="selectDay(d.val, $event, d.day, 'callTimetable')"
+                [checked]="selectedDay.indexOf(d.val) != -1"
+                [disabled]="isEdit == true"
+              />
+              <div class="schedule-box-label">{{ d.day | uppercase }}</div>
             </label>
           </span>
         </div>
-        <div class=" mt-3 ml-5 scheduleList-dropdown"> 
+        <div class=" mt-3 ml-5 scheduleList-dropdown">
           <div class="input-group ">
-            <input 
-              class="form-control py-2 input-search-dropdown-bg" 
-              type="search" 
+            <input
+              class="form-control py-2 input-search-dropdown-bg"
+              type="search"
               autocomplete="off"
-              value="{{item.itemID}}" 
+              value="{{ item.itemID }}"
               name="itemID"
               [(ngModel)]="item.itemID"
               #itemID="ngModel"
               id="example-search-input"
               (click)="focusSearch($event, 'category')"
               (clickOutside)="hideSearch($event)"
-              (input)="searchCategoryList($event.target.value, 'category')" 
+              (input)="searchCategoryList($event.target.value, 'category')"
               readonly
-            >
-              <button  class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
+            />
+            <button
+              class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
               (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
-              ></button> 
-          </div> 
-            
-            <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
-            <li *ngFor="let category of categoryList" (click)="selectDataApiCall(category)">{{category.name}}</li>
+            ></button>
+          </div>
+
+          <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
+            <li
+              *ngFor="let category of categoryList"
+              (click)="selectDataApiCall(category)"
+            >
+              {{ category.name }}
+            </li>
           </ul>
         </div>
       </div>
-      <div *ngIf="staffList.staff?.length>0" class="d-flex flex-wrap w-100 align-items-center pl-3">
-        <div class="d-flex  teacher-list-wrapper " id="customscroll" [class.teacher-wrapper]="staffList.staff.length >= 6">
-          <div *ngFor="let teacher of staffList.staff; let i = index;" class="mr-2">
-            <div class="d-flex teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)" id="{{'overFlowWidth' + i}}">
+      <div
+        *ngIf="staffList.staff?.length > 0"
+        class="d-flex flex-wrap w-100 align-items-center pl-3"
+      >
+        <div
+          class="d-flex  teacher-list-wrapper "
+          id="customscroll"
+          [class.teacher-wrapper]="staffList.staff.length >= 6"
+        >
+          <div
+            *ngFor="let teacher of staffList.staff; let i = index"
+            class="mr-2"
+          >
+            <div
+              class="d-flex teacher-list"
+              [class.selectedteacher]="teacher.userId == selectedTeacher.userId"
+              (click)="activeTeachers(teacher)"
+              id="{{ 'overFlowWidth' + i }}"
+            >
               <div>
-                <div  class=" tchr-img-wraper">
-                  <img src="{{teacher.profilePic}}" alt=""  class="teacher-pic">
+                <div class=" tchr-img-wraper">
+                  <img
+                    src="{{ teacher.profilePic }}"
+                    alt=""
+                    class="teacher-pic"
+                  />
                 </div>
-              </div>            
+              </div>
               <div class="">
-                <p  class=" mb-0 text-teacher-name pt-1 text-padding">{{teacher.preferredName}}</p>
+                <p class=" mb-0 text-teacher-name pt-1 text-padding">
+                  {{ teacher.preferredName }}
+                </p>
               </div>
             </div>
-          </div>      
-        <!-- <div class="d-flex  teacher-list-wrapper " id="customscroll">
+          </div>
+          <!-- <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
             <div class="d-flex d-flex align-items-center teacher-list-padding teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
               <div>
@@ -201,245 +378,729 @@
             </div>
           </div>       -->
         </div>
-        <div  *ngIf="staffList.staff && staffList.staff.length >= 6" class=" mb-3 ml-2 text-primary teacher-more-view" (click)=openmodal(content)>View more</div>
+        <div
+          *ngIf="staffList.staff && staffList.staff.length >= 6"
+          class=" mb-3 ml-2 text-primary teacher-more-view"
+          (click)="openmodal(content)"
+        >
+          View more
+        </div>
         <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
 
-      <div *ngIf="staffList.staff?.length<=0" class="no-teacher">
+      <div *ngIf="staffList.staff?.length <= 0" class="no-teacher">
         There is no teacher for this category.
       </div>
-    
-      <div *ngIf="staffList.staff?.length>0" class="v-wrapper1 pb-2" id="testScroll" (scroll)="updateScrollbar('v-wrapper')">
-        <div class="timeline-table1"> 
-          <div class="time-range">        
+
+      <div
+        *ngIf="staffList.staff?.length > 0"
+        class="v-wrapper1 pb-2"
+        id="testScroll"
+        (scroll)="updateScrollbar('v-wrapper')"
+      >
+        <div class="timeline-table1">
+          <div class="time-range">
             <div class="single-range"></div>
-            <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : {{time.start.min}} {{time.start.meridiem}}</div>        
+            <div class="single-range" *ngFor="let time of operationTime">
+              {{ time.start.hr }} :
+              {{ time.start.min < 10 ? '0' + time.start.min : time.start.min }}
+              {{ time.start.meridiem }}
+            </div>
             <!-- <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : <span *ngIf="time.start.min < 10" >0</span>{{time.start.min}} {{time.start.meridiem}}</div>         -->
           </div>
           <div class="lessons-range">
-            <div [ngClass]="(i != 0 && finalLists[i-1].date.month != finalLists[i].date.month) ? 'top20' :''" class="single-row" *ngFor="let list of finalLists; let i = index">
+            <div
+              [ngClass]="
+                i != 0 &&
+                finalLists[i - 1].date.month != finalLists[i].date.month
+                  ? 'top20'
+                  : ''
+              "
+              class="single-row"
+              *ngFor="let list of finalLists; let i = index"
+            >
               <div class="single-slot">
-                  <div class="month-wrapper"  *ngIf="i == 0">
-                    <div class="monthly-wrap">
-                      <div class="monthly">
-                        <span>{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
-                        <div class="left-arrow"></div>
-                      </div>
+                <div class="month-wrapper" *ngIf="i == 0">
+                  <div class="monthly-wrap">
+                    <div class="monthly">
+                      <span
+                        >{{ list.date.month - 1 | TTmonth }}
+                        {{ list.date.year }}</span
+                      >
+                      <div class="left-arrow"></div>
                     </div>
                   </div>
-                  <div class="month-wrapper1" *ngIf="i != 0 && finalLists[i-1].date.month != finalLists[i].date.month">
-                    <div class="monthly-wrap">
-                      <div class="monthly">
-                        <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
-                        <span *ngIf="finalLists[i-1].date.month != finalLists[i].date.month">{{list.date.month - 1 | TTmonth}} {{list.date.year}}</span>
-                        <div class="left-arrow"></div>
-                      </div>
-                    </div>
-                  </div> 
-                  <div class="d-flex justify-content-center flex-column h-100">
-                    <p>{{list.date.day}} {{list.date.month - 1 | TTmonth}}  </p>
-                    <span>{{list.date.dayOfWeek}}</span>
-                  </div> 
                 </div>
-                <div class="single-range" *ngFor="let time of operationTime; let j = index"> 
-                  <div class="slot-wrap" *ngIf="j%2 == 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date,list.date.dayOfWeek)" class="one-slot" *ngFor="let slot of minArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
+                <div
+                  class="month-wrapper1"
+                  *ngIf="
+                    i != 0 &&
+                    finalLists[i - 1].date.month != finalLists[i].date.month
+                  "
+                >
+                  <div class="monthly-wrap">
+                    <div class="monthly">
+                      <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
+                      <span
+                        *ngIf="
+                          finalLists[i - 1].date.month !=
+                          finalLists[i].date.month
+                        "
+                        >{{ list.date.month - 1 | TTmonth }}
+                        {{ list.date.year }}</span
+                      >
+                      <div class="left-arrow"></div>
                     </div>
-                  </div> 
-                  <div class="slot-wrap" *ngIf="j%2 != 0">
-                    <div (click)="getSlotNumber(time.start.hr,slot,time.start.meridiem,$event,i,j,list.date,list.date.dayOfWeek)" class="one-slot" *ngFor="let slot of minNextArr" [ngClass]="{'selectSlot': slotM == slot && slotIdx == i && slotJidx == j && showDp == true}">
-                    </div>
-                  </div> 
-                  <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="slotIdx == i && slotJidx == j && showDp == true" >
-                    <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
-                    <div class="w-100 popUpbox">
-                      <div class="d-flex teacher-info">
-                        <div class="profile-wrap">
-                          <img src="{{selectedTeacher.profilePic}}">
-                        </div>
-                        <div class="pl-2">
-                          <p class="teacher-name">{{selectedTeacher.preferredName}}</p>
-                          <div class="d-flex">
-                            <label class="lessoncount-EndDate">{{list.date.day}} {{list.date.month - 1 | TTmonth}} {{list.date.year}}</label>
-                            <ul  class="endate lessoncount-EndDate">
-                              <li><p>{{slotHr}}</p></li>
-                            </ul>
-                          </div>
-                        </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center flex-column h-100">
+                  <p>{{ list.date.day }} {{ list.date.month - 1 | TTmonth }}</p>
+                  <span>{{ list.date.dayOfWeek }}</span>
+                </div>
+              </div>
+              <div
+                class="single-range"
+                *ngFor="let time of operationTime; let j = index"
+              >
+                <div class="slot-wrap" *ngIf="j % 2 == 0">
+                  <div
+                    (click)="
+                      getSlotNumber(
+                        time.start.hr,
+                        slot,
+                        time.start.meridiem,
+                        $event,
+                        i,
+                        j,
+                        list.date,
+                        list.date.dayOfWeek
+                      )
+                    "
+                    class="one-slot"
+                    *ngFor="let slot of minArr"
+                    [ngClass]="{
+                      selectSlot:
+                        slotM == slot &&
+                        slotIdx == i &&
+                        slotJidx == j &&
+                        showDp == true
+                    }"
+                  ></div>
+                </div>
+                <div class="slot-wrap" *ngIf="j % 2 != 0">
+                  <div
+                    (click)="
+                      getSlotNumber(
+                        time.start.hr,
+                        slot,
+                        time.start.meridiem,
+                        $event,
+                        i,
+                        j,
+                        list.date,
+                        list.date.dayOfWeek
+                      )
+                    "
+                    class="one-slot"
+                    *ngFor="let slot of minNextArr"
+                    [ngClass]="{
+                      selectSlot:
+                        slotM == slot &&
+                        slotIdx == i &&
+                        slotJidx == j &&
+                        showDp == true
+                    }"
+                  ></div>
+                </div>
+                <ul
+                  class="create-box"
+                  [ngStyle]="styleArr"
+                  *ngIf="slotIdx == i && slotJidx == j && showDp == true"
+                >
+                  <div
+                    [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
+                    class="arr-box"
+                    [ngClass]="arrClasses"
+                  ></div>
+                  <div class="w-100 popUpbox">
+                    <div class="d-flex teacher-info">
+                      <div class="profile-wrap">
+                        <img src="{{ selectedTeacher.profilePic }}" />
                       </div>
-                    </div>
-                    <div class="pl-3 pr-3"> 
-                     
-                      <li class="d-flex justify-content-between lesson-slot-li" *ngIf="courseplanLists" (click)="onClickCreate()"><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
-                    </div>
-                  </ul>        
-                </div>  
-                <div *ngFor="let timetable of list.timetable; let b = index;" class="cursor">
-                  <div *ngIf="i == 0">
-                    <div class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)" [ngStyle]="{'top':  ((i * 52)+2) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121) + 'px', 'width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null">
-                      <div *ngIf="!timetable.lesson.cancel">
-                        <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">
-                        {{timetable.course.courseCode}}</h6>
-                        <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
-                        <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.taken) : ("-")}} seats</p>
-                        <p [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" *ngIf="timetable.seat == null"></p>
-                      </div>
-                      <div *ngIf="!timetable.lesson.cancel">
-                        <ul class="options-box" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="styleArr">
-                          <div class="carret-box arr-up"  [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" [ngClass]="arrClasses"></div>
-                          <div class="w-100 popUpbox">
-                            <div class="d-flex pt-3 justify-content-between">
-                              <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
-                              <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
-                                  <div class="carret-box1"></div>
-                                  <div class="seatLeft text-center ">
-                                    <div *ngIf="timetable.seat.left == null">
-                                      unlimited seats
-                                    </div>
-                                    <div *ngIf="timetable.seat.left != null">
-                                      {{timetable.seat.taken}}/{{timetable.seat.total}} seats left
-                                    </div>
-                                  </div>
-                              </div>
-                            </div>
-                            <div class="d-flex flex-column pl-3 pb-3">
-                              <div class="pb-2 course-name">{{timetable.course.name}} </div>
-                              <div class="d-flex">
-                                <label class="lessoncount-EndDate">{{timetable.lesson.count}} lesson </label><ul class="endate lessoncount-EndDate"><li>End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</li></ul>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="pl-3 pr-3"> 
-                            <button class="d-flex justify-content-between lesson-slot-li enroll-btn" [ngClass]="{'disabled' : enrollBtnDisabled}"  [disabled] = "enrollBtnDisabled" (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId,timetable.seat)"><span >Enroll New Customer</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></button>
-                            <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId,timetable.seat)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
-                            <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                          </div>
-                        </ul>
-                      </div>
-                      <div *ngIf="timetable.lesson.cancel">
-                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" >
-                            <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
-                            <div class="w-100 popUpbox">
-                              <div class="d-flex teacher-info">
-                                <div class="profile-wrap">
-                                  <img src="{{selectedTeacher.profilePic}}">
-                                </div>
-                                <div class="pl-2">
-                                  <p class="teacher-name">{{selectedTeacher.preferredName}}</p>
-                                  <div class="d-flex">
-                                    <label class="lessoncount-EndDate">{{list.date.day}} {{list.date.month - 1 | TTmonth}} {{list.date.year}}</label>
-                                    <ul  class="endate lessoncount-EndDate">
-                                      <li><p>{{slotHr}}</p></li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="pl-3 pr-3"> 
-                              <li class="d-flex justify-content-between lesson-slot-li" *ngIf="courseplanLists" (click)="onClickCreate()"><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
-                            </div>
-                          </ul>  
-                      </div>
-
-
-                      <div *ngIf="timetable.lesson.cancel">
-                        <div class="d-flex align-items-center mb-0">
-                          <div class="cancel-icon d-flex justify-content-center align-items-center"><span class="dash-icon align-self-center"> - </span></div>
-                          <p class="ml-1 cancelled-course-Code"> {{timetable.course.courseCode}} </p>
-                        </div>
-                        <div class="mt-0 cancel-text">
-                          cancelled
+                      <div class="pl-2">
+                        <p class="teacher-name">
+                          {{ selectedTeacher.preferredName }}
+                        </p>
+                        <div class="d-flex">
+                          <label class="lessoncount-EndDate"
+                            >{{ list.date.day }}
+                            {{ list.date.month - 1 | TTmonth }}
+                            {{ list.date.year }}</label
+                          >
+                          <ul class="endate lessoncount-EndDate">
+                            <li>
+                              <p>{{ slotHr }}</p>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="i != 0">
-                    <div class="lesson-slot" [ngClass]="{'cancelledClass': timetable.lesson.cancel, 'my-class': finalLists[i-1].date.month != finalLists[i].date.month,'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': ((i*52)+2) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4.03) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable,timetable.lesson,$event,list.date)">
+                  <div class="pl-3 pr-3">
+                    <li
+                      class="d-flex justify-content-between lesson-slot-li"
+                      *ngIf="courseplanLists"
+                      (click)="onClickCreate()"
+                    >
+                      <span>Create New Course </span
+                      ><span
+                        ><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i
+                      ></span>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+              <div
+                *ngFor="let timetable of list.timetable; let b = index"
+                class="cursor"
+              >
+                <div *ngIf="i == 0">
+                  <!-- dd -->
+                  <div
+                    class="lesson-slot"
+                    id="lessons-slot-id"
+                    [ngClass]="{
+                      selectedCourse:
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                    }"
+                    (click)="
+                      onClickCourse(
+                        timetable,
+                        timetable.lesson,
+                        $event,
+                        list.date
+                      )
+                    "
+                    [ngStyle]="{
+                      top: i * 52 + 2 + 'px',
+                      left:
+                        ((timetable.start | calculatePM) -
+                          (startTime | calculatePM)) *
+                          242 +
+                        121 +
+                        'px',
+                      width:
+                        ((timetable.end | hourToMin) -
+                          (timetable.start | hourToMin)) *
+                          4.03 +
+                        'px'
+                    }"
+                    *ngIf="timetable.course != null"
+                  >
+                    <div *ngIf="!timetable.lesson.cancel">
+                      <h6
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      >
+                        {{ timetable.course.courseCode }}
+                      </h6>
+                      <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
+                      <p
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      >
+                        {{
+                          (timetable.seat | json) != '{}'
+                            ? timetable.seat.taken
+                            : '-'
+                        }}
+                        seats
+                      </p>
+                      <p
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                        *ngIf="timetable.seat == null"
+                      ></p>
+                    </div>
+                    <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
+                      <ul
+                        class="options-box"
+                        *ngIf="
+                          testshowbox == timetable.course.courseId &&
+                          list.date.year == lessonD.year &&
+                          list.date.month == lessonD.month &&
+                          list.date.day == lessonD.day
+                        "
+                        [ngStyle]="styleArr"
+                      >
+                        <div
+                          class="carret-box arr-up"
+                          [ngStyle]="{
+                            top: arrTop + 'px',
+                            left: arrLeft + 'px'
+                          }"
+                          [ngClass]="arrClasses"
+                        ></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex pt-3 justify-content-between">
+                            <p class="pl-3 course-code">
+                              {{ timetable.course.courseCode }}
+                            </p>
+                            <div
+                              *ngIf="(timetable.seat | json) != '{}'"
+                              style="width:120px;height:30px;background:white;"
+                            >
+                              <div class="carret-box1"></div>
+                              <div class="seatLeft text-center ">
+                                <div *ngIf="timetable.seat.left == null">
+                                  unlimited seats
+                                </div>
+                                <div *ngIf="timetable.seat.left != null">
+                                  {{ timetable.seat.taken }}/{{
+                                    timetable.seat.total
+                                  }}
+                                  seats left
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex flex-column pl-3 pb-3">
+                            <div
+                              class="pb-2 course-name"
+                              (click)="goToCourse(timetable.course)"
+                            >
+                              {{ timetable.course.name }}
+                            </div>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate"
+                                >{{ timetable.lesson.count }} lesson
+                              </label>
+                              <ul class="endate lessoncount-EndDate">
+                                <li>
+                                  End at {{ timetable.lesson.endDate.day }}
+                                  {{
+                                    timetable.lesson.endDate.month - 1 | TTmonth
+                                  }}
+                                  {{ timetable.lesson.endDate.year }}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="pl-3 pr-3">
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li enroll-btn"
+                            [ngClass]="{ disabled: enrollBtnDisabled }"
+                            [disabled]="enrollBtnDisabled"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'enroll',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Enroll New Customer</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                          <li
+                            class="d-flex justify-content-between lesson-slot-li"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'view',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>View Student</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x fa-angle-right"
+                              ></i
+                            ></span>
+                          </li>
+                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                        </div>
+                      </ul>
+                    </div>
+                    <div *ngIf="timetable.lesson.cancel" id="create-box-id">
+                      <ul
+                        class="create-box"
+                        [ngStyle]="styleArr"
+                        *ngIf="
+                          testshowbox == timetable.course.courseId &&
+                          list.date.year == lessonD.year &&
+                          list.date.month == lessonD.month &&
+                          list.date.day == lessonD.day
+                        "
+                      >
+                        <div
+                          [ngStyle]="{
+                            top: arrTop + 'px',
+                            left: arrLeft + 'px'
+                          }"
+                          class="arr-box"
+                          [ngClass]="arrClasses"
+                        ></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex teacher-info">
+                            <div class="profile-wrap">
+                              <img src="{{ selectedTeacher.profilePic }}" />
+                            </div>
+                            <div class="pl-2">
+                              <p class="teacher-name">
+                                {{ selectedTeacher.preferredName }}
+                              </p>
+                              <div class="d-flex">
+                                <label class="lessoncount-EndDate"
+                                  >{{ list.date.day }}
+                                  {{ list.date.month - 1 | TTmonth }}
+                                  {{ list.date.year }}</label
+                                >
+                                <ul class="endate lessoncount-EndDate">
+                                  <li>
+                                    <p>{{ slotHr }}</p>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="pl-3 pr-3">
+                          <li
+                            class="d-flex justify-content-between lesson-slot-li"
+                            *ngIf="courseplanLists"
+                            (click)="onClickCreate()"
+                          >
+                            <span>Create New Course </span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+
+                    <div *ngIf="timetable.lesson.cancel">
+                      <div class="d-flex align-items-center mb-0">
+                        <div
+                          class="cancel-icon d-flex justify-content-center align-items-center"
+                        >
+                          <span class="dash-icon align-self-center"> - </span>
+                        </div>
+                        <p class="ml-1 cancelled-course-Code">
+                          {{ timetable.course.courseCode }}
+                        </p>
+                      </div>
+                      <div class="mt-0 cancel-text">
+                        cancelled
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- cc -->
+                <div *ngIf="i != 0">
+                  <div
+                    class="lesson-slot"
+                    [ngClass]="{
+                      cancelledClass: timetable.lesson.cancel,
+                      'my-class':
+                        finalLists[i - 1].date.month !=
+                        finalLists[i].date.month,
+                      selectedCourse:
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                    }"
+                    [ngStyle]="{
+                      'margin-top': finalLists[i].multiply * 42 + 'px',
+                      top: i * 52 + 2 + 'px',
+                      left:
+                        ((timetable.start | calculatePM) -
+                          (startTime | calculatePM)) *
+                          242 +
+                        121 +
+                        'px',
+                      width:
+                        ((timetable.end | hourToMin) -
+                          (timetable.start | hourToMin)) *
+                          4.03 +
+                        'px'
+                    }"
+                    *ngIf="timetable.course != null"
+                    (click)="
+                      onClickCourse(
+                        timetable,
+                        timetable.lesson,
+                        $event,
+                        list.date
+                      )
+                    "
+                  >
                     <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
-                      <div *ngIf="!timetable.lesson.cancel">
-                        <h6 [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{timetable.course.courseCode}}</h6>
-                        <p *ngIf="timetable.seat != null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}">{{((timetable.seat | json) != '{}')? (timetable.seat.taken) : ("-")}} seats</p>
-                        <p *ngIf="timetable.seat == null" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}"></p>
-                      </div>
-                      <div *ngIf="!timetable.lesson.cancel">
-                        <ul  class="options-box"   *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" [ngStyle]="styleArr">
-                          <div class="carret-box" [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" [ngClass]="arrClasses"></div>
-                          <div class="w-100 popUpbox">
-                            <div class="d-flex pt-3 justify-content-between">
-                              <p class="pl-3 course-code">{{timetable.course.courseCode}}</p>
-                              <div *ngIf="(timetable.seat | json) != '{}'" style="width:120px;height:30px;background:white;">
-                                  <div class="carret-box1"></div>
-                                  <div class="seatLeft text-center ">
-                                    <div *ngIf="timetable.seat.left == null">
-                                      unlimited seats
-                                    </div>
-                                    <div *ngIf="timetable.seat.left != null">
-                                      {{timetable.seat.taken}}/{{timetable.seat.total}} seats left
-                                    </div>
-                                  </div>
+                    <div *ngIf="!timetable.lesson.cancel">
+                      <h6
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      >
+                        {{ timetable.course.courseCode }}
+                      </h6>
+                      <p
+                        *ngIf="timetable.seat != null"
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      >
+                        {{
+                          (timetable.seat | json) != '{}'
+                            ? timetable.seat.taken
+                            : '-'
+                        }}
+                        seats
+                      </p>
+                      <p
+                        *ngIf="timetable.seat == null"
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      ></p>
+                    </div>
+                    <div *ngIf="!timetable.lesson.cancel">
+                      <ul
+                        class="options-box"
+                        *ngIf="
+                          testshowbox == timetable.course.courseId &&
+                          list.date.year == lessonD.year &&
+                          list.date.month == lessonD.month &&
+                          list.date.day == lessonD.day
+                        "
+                        [ngStyle]="styleArr"
+                      >
+                        <div
+                          class="carret-box"
+                          [ngStyle]="{
+                            top: arrTop + 'px',
+                            left: arrLeft + 'px'
+                          }"
+                          [ngClass]="arrClasses"
+                        ></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex pt-3 justify-content-between">
+                            <p class="pl-3 course-code">
+                              {{ timetable.course.courseCode }}
+                            </p>
+                            <div
+                              *ngIf="(timetable.seat | json) != '{}'"
+                              style="width:120px;height:30px;background:white;"
+                            >
+                              <div class="carret-box1"></div>
+                              <div class="seatLeft text-center ">
+                                <div *ngIf="timetable.seat.left == null">
+                                  unlimited seats
+                                </div>
+                                <div *ngIf="timetable.seat.left != null">
+                                  {{ timetable.seat.taken }}/{{
+                                    timetable.seat.total
+                                  }}
+                                  seats left
+                                </div>
                               </div>
                             </div>
-                            <div class="d-flex flex-column pl-3 pb-3">
-                              <div class="pb-2 course-name">{{timetable.course.name}} </div>
+                          </div>
+                          <div class="d-flex flex-column pl-3 pb-3">
+                            <div
+                              class="pb-2 course-name"
+                              (click)="goToCourse(timetable.course)"
+                            >
+                              {{ timetable.course.name }}
+                            </div>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate"
+                                >{{ timetable.lesson.count }} lesson
+                              </label>
+                              <ul class="endate lessoncount-EndDate">
+                                <li>
+                                  End at {{ timetable.lesson.endDate.day }}
+                                  {{
+                                    timetable.lesson.endDate.month - 1 | TTmonth
+                                  }}
+                                  {{ timetable.lesson.endDate.year }}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="pl-3 pr-3">
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li enroll-btn"
+                            [disabled]="enrollBtnDisabled"
+                            [ngClass]="{ disabled: enrollBtnDisabled }"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'enroll',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Enroll New Customer </span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                          <li
+                            class="d-flex justify-content-between lesson-slot-li"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'view',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>View Student</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x fa-angle-right"
+                              ></i
+                            ></span>
+                          </li>
+                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                        </div>
+                      </ul>
+                    </div>
+                    <div *ngIf="timetable.lesson.cancel">
+                      <ul
+                        class="create-box"
+                        [ngStyle]="styleArr"
+                        *ngIf="
+                          testshowbox == timetable.course.courseId &&
+                          list.date.year == lessonD.year &&
+                          list.date.month == lessonD.month &&
+                          list.date.day == lessonD.day
+                        "
+                      >
+                        <div
+                          [ngStyle]="{
+                            top: arrTop + 'px',
+                            left: arrLeft + 'px'
+                          }"
+                          class="arr-box arrClasses"
+                          [ngClass]="arrClasses"
+                        ></div>
+                        <div class="w-100 popUpbox">
+                          <div class="d-flex teacher-info">
+                            <div class="profile-wrap">
+                              <img src="{{ selectedTeacher.profilePic }}" />
+                            </div>
+                            <div class="pl-2">
+                              <p class="teacher-name">
+                                {{ selectedTeacher.preferredName }}
+                              </p>
                               <div class="d-flex">
-                                <label class="lessoncount-EndDate">{{timetable.lesson.count}} lesson </label><ul class="endate lessoncount-EndDate"><li>End at {{timetable.lesson.endDate. day}} {{timetable.lesson.endDate.month-1|TTmonth}} {{timetable.lesson.endDate.year}}</li></ul>
+                                <label class="lessoncount-EndDate"
+                                  >{{ list.date.day }}
+                                  {{ list.date.month - 1 | TTmonth }}
+                                  {{ list.date.year }}</label
+                                >
+                                <ul class="endate lessoncount-EndDate">
+                                  <li>
+                                    <p>{{ slotHr }}</p>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
                           </div>
-                          <div class="pl-3 pr-3"> 
-                            <button class="d-flex justify-content-between lesson-slot-li enroll-btn"
-                              [disabled] = "enrollBtnDisabled"  
-                              [ngClass]="{'disabled' : enrollBtnDisabled}"
-                                (click)="addEnrollModal(enrollModal,'enroll',timetable.course.courseId,timetable.seat)">
-                              <span >Enroll New Customer </span>
-                              <span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span>
-                            </button>
-                            <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'view',timetable.course.courseId,timetable.seat)"><span >View Student</span><span><i class="fa lesson-slot-box fa-2x fa-angle-right"></i></span></li>
-                            <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                          </div>
-                        </ul>
+                        </div>
+                        <div class="pl-3 pr-3">
+                          <li
+                            class="d-flex justify-content-between lesson-slot-li"
+                            *ngIf="courseplanLists"
+                            (click)="onClickCreate()"
+                          >
+                            <span>Create New Course </span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </li>
+                        </div>
+                      </ul>
+                    </div>
+                    <div *ngIf="timetable.lesson.cancel">
+                      <div class="d-flex align-items-center mb-0">
+                        <div
+                          class="cancel-icon d-flex justify-content-center align-items-center"
+                        >
+                          <span class="dash-icon align-self-center"> - </span>
+                        </div>
+                        <p class="ml-1 cancelled-course-Code">
+                          {{ timetable.course.courseCode }}
+                        </p>
                       </div>
-                      <div *ngIf="timetable.lesson.cancel">
-                        <ul  class="create-box"  [ngStyle]="styleArr" *ngIf="testshowbox==timetable.course.courseId && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day" >
-                            <div [ngStyle]="{'top': arrTop + 'px','left': arrLeft + 'px'}" class="arr-box" [ngClass]="arrClasses"></div>
-                            <div class="w-100 popUpbox">
-                              <div class="d-flex teacher-info">
-                                <div class="profile-wrap">
-                                  <img src="{{selectedTeacher.profilePic}}">
-                                </div>
-                                <div class="pl-2">
-                                  <p class="teacher-name">{{selectedTeacher.preferredName}}</p>
-                                  <div class="d-flex">
-                                    <label class="lessoncount-EndDate">{{list.date.day}} {{list.date.month - 1 | TTmonth}} {{list.date.year}}</label>
-                                    <ul  class="endate lessoncount-EndDate">
-                                      <li><p>{{slotHr}}</p></li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="pl-3 pr-3"> 
-                              <li class="d-flex justify-content-between lesson-slot-li" *ngIf="courseplanLists" (click)="onClickCreate()"><span >Create New Course </span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li>
-                            </div>
-                          </ul>  
-                        </div>
-                      <div *ngIf="timetable.lesson.cancel">
-                        <div class="d-flex align-items-center mb-0">
-                          <div class="cancel-icon d-flex justify-content-center align-items-center"><span class="dash-icon align-self-center"> - </span></div>
-                          <p class="ml-1 cancelled-course-Code"> {{timetable.course.courseCode}} </p>
-                        </div>
-                        <div class="mt-0 cancel-text">
-                          cancelled
-                        </div>
+                      <div class="mt-0 cancel-text">
+                        cancelled
                       </div>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="staffList.staff?.length>0"  id="fixed-bottom-test" class="fixed-bottom" (scroll)="updateScrollbar('custom')">
+      <div
+        *ngIf="staffList.staff?.length > 0"
+        id="fixed-bottom-test"
+        class="fixed-bottom"
+        (scroll)="updateScrollbar('custom')"
+      >
         <div id="innerScrollbar"><!--dummy text--></div>
       </div>
       <!-- <div id="scrollbar" onscroll="updateScrollbar(document.getElementById('content'), document.getElementById('scrollbar'))"><div id="innerScrollbar">dummy text</div></div> -->
@@ -447,19 +1108,25 @@
   </div>
 </block-ui>
 
-
 <ng-template #content let-modal>
   <div class="modal-header">
     <div class="selected-day d-flex ">
-      <div *ngIf="!selectedDay.length == 0"> 
-        {{selectedDay | scheduleweekDays}}
+      <div *ngIf="!selectedDay.length == 0">
+        {{ selectedDay | scheduleweekDays }}
       </div>
-      <div *ngIf="selectedDay.length == 0" > 
+      <div *ngIf="selectedDay.length == 0">
         Sun to Sat
       </div>
     </div>
-    <p *ngIf="!selectedCat" class="selectedCatName">{{selectedCategory.name}}</p>
-    <button type="button" class="close" aria-label="Close" (click)="cancelModal()">
+    <p *ngIf="!selectedCat" class="selectedCatName">
+      {{ selectedCategory.name }}
+    </p>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="cancelModal()"
+    >
       <span class="closemark">
         <div class="closemark_stem"></div>
         <div class="closemark_kick"></div>
@@ -469,16 +1136,16 @@
   <div class="modal-body">
     <p class="modal-title c">Teachers</p>
     <div class="input-group mt-3">
-      <input 
+      <input
         class="form-control py-2 input-search-bg search-teacher"
-        autocomplete="off" 
-        type="search" 
+        autocomplete="off"
+        type="search"
         placeholder="Search teachers"
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
-        (input) = "getSearchscheulestaff($event.target.value,'','')"      
-        >  
+        (input)="getSearchscheulestaff($event.target.value, '', '')"
+      />
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
           <i class="fa fa-search search-size"></i>
@@ -486,7 +1153,7 @@
       </span>
     </div>
   </div>
-      <!-- <div class="d-flex justify-content-between flex-wrap w-100" >
+  <!-- <div class="d-flex justify-content-between flex-wrap w-100" >
         <div *ngFor="let teacher of tempstafflist" class="d-flex align-items-center col-md-3 col-lg-3 col-sm-3 col-xl-3 pl-4 pr-4 mt-3" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)"   style="border-radius:20px;">
           <div class="d-flex  justify-content-center " >
             <div class="modal-img-wraper align-self-center">
@@ -496,18 +1163,39 @@
           </div>
         </div>      
       </div> -->
-  <div class="d-flex flex-wrap container  modal-techerlist-wraper" >
-    <div *ngFor="let teacher of tempstafflist let i = index" class="d-flex align-items-center modal-teacher-list mt-1" [class.selectedteacher]="(teacher && selectedTeacher) && (teacher.userId==selectedTeacher.userId)" (click)="activeTeachers1(teacher,i)" >
+  <div class="d-flex flex-wrap container  modal-techerlist-wraper">
+    <div
+      *ngFor="let teacher of tempstafflist; let i = index"
+      class="d-flex align-items-center modal-teacher-list mt-1"
+      [class.selectedteacher]="
+        teacher && selectedTeacher && teacher.userId == selectedTeacher.userId
+      "
+      (click)="activeTeachers1(teacher, i)"
+    >
       <div class="d-flex justify-content-center ">
         <div class="modal-img-wraper align-self-center">
-          <img src="{{teacher.profilePic}}" alt=""  class="modal-teacher-pic ">
+          <img
+            src="{{ teacher.profilePic }}"
+            alt=""
+            class="modal-teacher-pic "
+          />
         </div>
-        <p  class="pt-2 pr-2 pl-2 modal-text-teacher-name">{{teacher.preferredName}}</p>
+        <p class="pt-2 pr-2 pl-2 modal-text-teacher-name">
+          {{ teacher.preferredName }}
+        </p>
       </div>
-    </div>      
+    </div>
   </div>
-  <div class="d-flex justify-content-center load-more" *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0" >
-    <button class="btn remove-outline" (click)="staffLoadMore(tempstafflist.length)">Load more</button>
+  <div
+    class="d-flex justify-content-center load-more"
+    *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0"
+  >
+    <button
+      class="btn remove-outline"
+      (click)="staffLoadMore(tempstafflist.length)"
+    >
+      Load more
+    </button>
     <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
 </ng-template>
@@ -516,22 +1204,34 @@
   <div class="d-flex flex-column header-wrapper">
     <div class="d-flex justify-content-between info-wrapper">
       <div>
-        <label class="info-label">{{courseInfo.course.courseCode}}</label>
+        <label class="info-label">{{ courseInfo.course.courseCode }}</label>
         <div class="d-flex">
-          <h4 class="info-header">{{courseInfo.course.name}}</h4>
-          <div *ngIf="(selectedSeat | json) != '{}'" class="ml-2 modal-seat-left">
-            <div *ngIf="selectedSeat.left == null"> 
+          <h4 class="info-header">{{ courseInfo.course.name }}</h4>
+          <div
+            *ngIf="(selectedSeat | json) != '{}'"
+            class="ml-2 modal-seat-left"
+          >
+            <div *ngIf="selectedSeat.left == null">
               unlimited seats
             </div>
             <div *ngIf="selectedSeat.left != null">
-              {{selectedSeat.taken}}/{{selectedSeat.total}} seats left
+              {{ selectedSeat.taken }}/{{ selectedSeat.total }} seats left
             </div>
           </div>
-          <div *ngIf="(selectedSeat | json) != '{}'" class="tooltips-arrow"></div>
+          <div
+            *ngIf="(selectedSeat | json) != '{}'"
+            class="tooltips-arrow"
+          ></div>
         </div>
         <div class="d-flex date-label">
-          <label>{{courseInfo.lesson.count}} lessons</label>
-          <ul><li>End at {{courseInfo.lesson.endDate.day}} {{courseInfo.lesson.endDate.month-1 | TTmonth}} {{courseInfo.lesson.endDate.year}}</li></ul>
+          <label>{{ courseInfo.lesson.count }} lessons</label>
+          <ul>
+            <li>
+              End at {{ courseInfo.lesson.endDate.day }}
+              {{ courseInfo.lesson.endDate.month - 1 | TTmonth }}
+              {{ courseInfo.lesson.endDate.year }}
+            </li>
+          </ul>
         </div>
       </div>
       <button class="modal-close" (click)="cancelModal('enrollModal')">
@@ -542,45 +1242,86 @@
       </button>
     </div>
     <div class="d-flex tabs-wrapper tab-name">
-      <button class="modal-tab cursor-on" [disabled]="selectedSeat.left !== null &&  selectedSeat.taken >= selectedSeat.total" [ngClass]="{'active': activeTab == 'enroll', 'disabled':selectedSeat.left !== null &&  selectedSeat.taken >= selectedSeat.total}" (click)="onClickModalTab('enroll' , selectedSeat.left !== null &&  selectedSeat.taken >= selectedSeat.total)">Enroll new customer</button>
-      <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'view'}" (click)="onClickModalTab('view')">View Student</button>
+      <button
+        class="modal-tab cursor-on"
+        [disabled]="
+          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
+        "
+        [ngClass]="{
+          active: activeTab == 'enroll',
+          disabled:
+            selectedSeat.left !== null &&
+            selectedSeat.taken >= selectedSeat.total
+        }"
+        (click)="
+          onClickModalTab(
+            'enroll',
+            selectedSeat.left !== null &&
+              selectedSeat.taken >= selectedSeat.total
+          )
+        "
+      >
+        Enroll new customer
+      </button>
+      <button
+        class="modal-tab cursor-on"
+        [ngClass]="{ active: activeTab == 'view' }"
+        (click)="onClickModalTab('view')"
+      >
+        View Student
+      </button>
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
   </div>
   <div>
     <div class="pt-2 body-wrap" *ngIf="activeTab == 'enroll'">
-      <div *ngIf="showInvoice == false && showPayment == false">
+      <div
+        *ngIf="
+          showInvoice == false &&
+          showPayment == false &&
+          showflexyCourse == false
+        "
+      >
         <form nonvalidate #custForm="ngForm">
           <div class="modal-body confirm-text">
             <div class="d-flex flex-column" style="position: relative;">
               <div class="search-wrap d-flex">
                 <input
-                  class="form-control py-2 input-search-bg enroll-modal-input" 
-                  type="search" 
-                  placeholder="Search customers" 
-                  id="example-search-input" 
-                  name="search" 
-                  #search="ngModel" 
-                  [(ngModel)]="formData.searchText" 
+                  class="form-control py-2 input-search-bg enroll-modal-input"
+                  type="search"
+                  placeholder="Search customers"
+                  id="example-search-input"
+                  name="search"
+                  #search="ngModel"
+                  [(ngModel)]="formData.searchText"
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
                   (input)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
-                  >
-                  <!-- (document:click)="closeDropdown($event,'search')" -->
+                />
+                <!-- (document:click)="closeDropdown($event,'search')" -->
                 <span class="input-group-append">
-                  <button class="bt btn-design btn-outline-secondary enroll-modal-input" type="button">
-                      <i class="fa fa-search"></i>
+                  <button
+                    class="bt btn-design btn-outline-secondary enroll-modal-input"
+                    type="button"
+                  >
+                    <i class="fa fa-search"></i>
                   </button>
                 </span>
               </div>
               <div class="user-list-box" *ngIf="showList == true">
-                <div (click)="selectCustomer('user',user.userId,'customer')" *ngFor="let user of userLists" class="d-flex flex-row search-user justify-content-center align-items-center">              
+                <div
+                  (click)="selectCustomer('user', user.userId, 'customer')"
+                  *ngFor="let user of userLists"
+                  class="d-flex flex-row search-user justify-content-center align-items-center"
+                >
                   <div class="img-wrap">
-                    <img src="{{user.profilePic}}">
+                    <img src="{{ user.profilePic }}" />
                   </div>
-                  <div class="single-user-info d-flex flex-column justify-content-center pl-4">
-                    <h4 class="mb-0">{{user.preferredName}}</h4>
+                  <div
+                    class="single-user-info d-flex flex-column justify-content-center pl-4"
+                  >
+                    <h4 class="mb-0">{{ user.preferredName }}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <div class="add-user d-flex justify-content-end"></div>
@@ -589,39 +1330,48 @@
               </div>
             </div>
             <div class="mt-20 user-row-wrap">
-              <div class="d-flex modal-info-wrap" *ngIf = "(selectedCustomer|json) != '{}' ">
-                  <div class="img-div">
-                    <div class="user-img-wrap">
-                      <img src="{{selectedCustomer.profilePic}}">
+              <div
+                class="d-flex modal-info-wrap"
+                *ngIf="(selectedCustomer | json) != '{}'"
+              >
+                <div class="img-div">
+                  <div class="user-img-wrap">
+                    <img src="{{ selectedCustomer.profilePic }}" />
+                  </div>
+                </div>
+                <div class="w-100">
+                  <div class="d-flex">
+                    <div class="col-md-6">
+                      <div class="modal-userInfo">
+                        <h4>{{ selectedCustomer.preferredName }}</h4>
+                        <label class="mail">{{ selectedCustomer.email }}</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6 modal-userInfo">
+                      <label class="mb-0">Full name</label>
+                      <p class="modal-p">{{ selectedCustomer.fullName }}</p>
                     </div>
                   </div>
-                  <div class="w-100">
-                    <div class="d-flex">
-                      <div class="col-md-6">
-                        <div class="modal-userInfo">
-                          <h4>{{selectedCustomer.preferredName}}</h4>
-                          <label class="mail">{{selectedCustomer.email}}</label>
-                        </div>
-                      </div>
-                      <div class="col-md-6 modal-userInfo">
-                        <label class="mb-0">Full name</label>
-                        <p class="modal-p">{{selectedCustomer.fullName}}</p>
-                      </div>
+                  <div class="row single-user-wrap pad-15">
+                    <div
+                      *ngFor="let detail of selectedCustomer.details"
+                      class="col-sm-6 col-md-6 modal-userInfo"
+                    >
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
                     </div>
-                    <div class="row single-user-wrap pad-15">
-                      <div *ngFor="let detail of selectedCustomer.details" class="col-sm-6 col-md-6 modal-userInfo">
-                        <label class="mb-0">{{ detail.name }}</label>
-                        <p class="modal-p">
-                          {{ detail.value }}
-                        </p>
-                      </div>
-                    </div>  
-                  </div>       
+                  </div>
+                </div>
               </div>
-              <div *ngIf = "(selectedCustomer|json) == '{}' "  class="d-flex col-md-12 empty-ui-wrapper">
+              <div
+                *ngIf="(selectedCustomer | json) == '{}'"
+                class="d-flex col-md-12 empty-ui-wrapper"
+              >
                 <div class="col-md-6 img-pos">
                   <div class="empty-wrapper">
-                    <img src="assets/images/add-customer-illustration@2x.png">
+                    <img src="assets/images/add-customer-illustration@2x.png" />
                   </div>
                 </div>
                 <div class="d-flex col-md-6">
@@ -629,20 +1379,115 @@
                     <h3>Add Customer to this Course</h3>
                   </div>
                   <div class="arrow-pos">
-                    <img src="assets/img/arrow.png">
+                    <img src="assets/img/arrow.png" />
                   </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="noSetting == true" class="seat-taken">You should set invoice setting and payment setting first.</div>
+            <div *ngIf="noSetting == true" class="seat-taken">
+              You should set invoice setting and payment setting first.
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn modal-cancel-btn" (click)="cancelModal('enrollModal')">Cancel</button>
-            <button type="submit" class="btn btn-submit" [disabled]="(selectedCustomer|json) == '{}' || noSetting == true" (click)="addCustomer(courseDetail._id, userType)">Confirm</button>
+            <button
+              type="button"
+              class="btn modal-cancel-btn"
+              (click)="cancelModal('enrollModal')"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-submit"
+              [disabled]="
+                (selectedCustomer | json) == '{}' || noSetting == true
+              "
+              (click)="addCustomer(courseDetail, userType)"
+            >
+              Confirm
+            </button>
           </div>
         </form>
       </div>
-      <app-invoice *ngIf = "showInvoice" [custDetail] = "custDetail" [course] ="detailLists" (closed)="cancelModal('enrollModal')" ></app-invoice>
+      <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+      <div
+        class="flexiModal"
+        *ngIf="showInvoice == false && showflexyCourse == true"
+      >
+        <div class="innerFlexiModal">
+          <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+            <div class="d-flex back" (click)="backtoCustomer()">
+              <i class="fa fa-angle-left flexiBackicon"></i>
+              <p class="mb-0 font-medium ">Add customer</p>
+            </div>
+            <!-- <button
+              (click)="cancelModal()"
+              aria-label="Close"
+              class="modal-close ml-auto"
+              type="button"
+            >
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+            </button> -->
+            <!-- <span aria-hidden="true" >×</span> -->
+          </div>
+          <app-flexi
+            [flexyarr]="flexyarr"
+            [selectedCustomer]="selectedCustomer"
+            [course]="detailLists"
+            [ctype]="ctype"
+            [showcb]="showcb"
+            (passDataconflictBoxShow)="conflictBoxShow($event)"
+            (checkObjArr)="lessionObjArr($event)"
+          ></app-flexi>
+        </div>
+        <div
+          class="modal-footer d-flex justify-content-between"
+          style=" padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);background: #fff;"
+        >
+          <div class="d-flex flex-column">
+            <p class="textCount">Number of lessons required:</p>
+            <div class="selectedCountBox">
+              <p class="selectedTest">
+                Selected lessons: {{ checkobjArr.length }}
+              </p>
+            </div>
+          </div>
+          <div class="">
+            <button
+              type="button"
+              class="btn modal-cancel-btn"
+              (click)="cancelModal()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-submit"
+              *ngIf="checkobjArr.length != 0"
+              (click)="flexicomfirm()"
+            >
+              Confirm
+            </button>
+            <button
+              type="submit"
+              *ngIf="checkobjArr.length == 0"
+              class="btn btn-submit"
+              disabled
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+      <app-invoice
+        *ngIf="showInvoice"
+        [custDetail]="custDetail"
+        [course]="detailLists"
+        (closed)="cancelModal('enrollModal')"
+      ></app-invoice>
 
       <!-- <div *ngIf="showInvoice == true">
         <div *ngIf="feesBox == true" class="overlayInv"></div>
@@ -837,14 +1682,30 @@
       <div *ngIf="showPayment == true">
         <div class="invoice-container tabs-inv">
           <div class="logo-wrapper">
-            <img src="{{logo}}">
+            <img src="{{ logo }}" />
           </div>
           <div class="mt-40">
             <label class="payment-label">Choose payment method</label>
             <div class="d-flex mt-1">
-              <div class="payment-item" *ngFor="let provider of paymentProviders">
-                <label [ngClass]="{'selectedItem': selectedPayment == provider.name}" class="form-check-label">
-                  <input class="form-check-input" type="radio" name="payment" id="payment1" value="provider.name" [(ngModel)]="paymentItem.type" #payment="ngModel" (click)="choosePayment(provider)"> {{provider.name}}
+              <div
+                class="payment-item"
+                *ngFor="let provider of paymentProviders"
+              >
+                <label
+                  [ngClass]="{ selectedItem: selectedPayment == provider.name }"
+                  class="form-check-label"
+                >
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="payment"
+                    id="payment1"
+                    value="provider.name"
+                    [(ngModel)]="paymentItem.type"
+                    #payment="ngModel"
+                    (click)="choosePayment(provider)"
+                  />
+                  {{ provider.name }}
                 </label>
               </div>
             </div>
@@ -853,7 +1714,13 @@
                 <div class="mt-30">
                   <label class="payment-label">Reference number</label>
                   <div>
-                    <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="paymentItem.refNumber">
+                    <input
+                      type="text"
+                      name="ref"
+                      class="w-75 cash-input"
+                      placeholder="Reference number"
+                      [(ngModel)]="paymentItem.refNumber"
+                    />
                   </div>
                 </div>
                 <div class="mt-30">
@@ -862,9 +1729,20 @@
                     <div class="input-sign">
                       {{ currency.invCurrencySign }}
                     </div>
-                    <input type="number" name="amount" class="w-100 cash-input" placeholder="0" [(ngModel)]="paymentItem.amount" #amount="ngModel" required>
+                    <input
+                      type="number"
+                      name="amount"
+                      class="w-100 cash-input"
+                      placeholder="0"
+                      [(ngModel)]="paymentItem.amount"
+                      #amount="ngModel"
+                      required
+                    />
                   </div>
-                  <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger alert-m-right w-75 mt-3">
+                  <div
+                    *ngIf="amount.invalid && (amount.dirty || amount.touched)"
+                    class="alert alert-danger alert-m-right w-75 mt-3"
+                  >
                     <div [hidden]="!amount.errors.required">
                       Amount is required!
                     </div>
@@ -877,26 +1755,48 @@
             </div>
           </div>
         </div>
-        <div *ngIf="selectedPayment != ''" class="modal-footer justify-content-between">
+        <div
+          *ngIf="selectedPayment != ''"
+          class="modal-footer justify-content-between"
+        >
           <button class="back-inv cursor-on" (click)="backToInvoice()">
             <i class="fa fa-angle-left"></i><span>Back</span>
           </button>
-          <button class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)" [disabled]="paymentItem.amount == ''|| paymentItem.amount == undefined || paymentItem.amount <= 0">Pay now</button>
+          <button
+            class="btn btn-submit cursor-on"
+            (click)="payNow(selectedPayment)"
+            [disabled]="
+              paymentItem.amount == '' ||
+              paymentItem.amount == undefined ||
+              paymentItem.amount <= 0
+            "
+          >
+            Pay now
+          </button>
         </div>
       </div>
     </div>
     <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
       <div class="modal-body">
-      <div class="row">
-          <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+        <div class="row">
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
+            *ngFor="let student of studentLists"
+          >
             <div class="d-flex flex-row single-student">
               <div class="image-div">
                 <div class="image-wrap">
-                  <img src="{{student.profilePic}}">
+                  <img src="{{ student.profilePic }}" />
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name pl-2">{{ (student.preferredName.length >20) ? (student.preferredName | slice :0:15) + '...' : (student.preferredName) }}</p>
+                <p class="mb-0 student-name pl-2">
+                  {{
+                    student.preferredName.length > 20
+                      ? (student.preferredName | slice: 0:15) + '...'
+                      : student.preferredName
+                  }}
+                </p>
               </div>
             </div>
           </div>
@@ -904,35 +1804,56 @@
       </div>
     </div>
 
-    <div *ngIf="activeTab == 'cancelClass'" >
+    <div *ngIf="activeTab == 'cancelClass'">
       <div class="modal-body student-lists">
-          <div class="d-flex mb-4">
-            <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
-              <label class="switch">
-                <input type="checkbox" (click)="isGlobal = !this.isGlobal" [checked]="isGlobal">
-                <span class="slider round"></span>
-              </label>
-            </div>
-            <label class="switch-label" for="online">Issue makeup pass</label>
+        <div class="d-flex mb-4">
+          <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isGlobal = !this.isGlobal"
+                [checked]="isGlobal"
+              />
+              <span class="slider round"></span>
+            </label>
           </div>
+          <label class="switch-label" for="online">Issue makeup pass</label>
+        </div>
         <div class="row mt-3 mb-3 ">
-          <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3" *ngFor="let student of studentLists">
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
+            *ngFor="let student of studentLists"
+          >
             <div class="d-flex flex-row bg-primary single-student">
               <div class="image-div">
                 <div class="image-wrap">
-                  <img src="{{student.profilePic}}">
+                  <img src="{{ student.profilePic }}" />
                 </div>
               </div>
               <div class="d-flex justify-content-center flex-column">
-                <p class="mb-0 student-name text-white pl-2">{{student.preferredName}}</p>
+                <p class="mb-0 student-name text-white pl-2">
+                  {{ student.preferredName }}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn modal-cancel-btn" (click)="cancelModal()">Cancel</button>
-          <button type="button" class="btn btn-submit"  (click)="cancelClassFun(courseId)">Confirm</button>
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit"
+          (click)="cancelClassFun(courseId)"
+        >
+          Confirm
+        </button>
       </div>
     </div>
   </div>

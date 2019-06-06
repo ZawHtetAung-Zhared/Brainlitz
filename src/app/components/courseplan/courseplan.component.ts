@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewContainerRef, HostListener, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  HostListener,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
@@ -9,7 +16,12 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map
+} from 'rxjs/operators';
 import { feeOption } from './courseplan';
 
 declare var $: any;
@@ -20,11 +32,17 @@ declare var $: any;
   styleUrls: ['./courseplan.component.css']
 })
 export class CourseplanComponent implements OnInit {
-
-  constructor(private modalService: NgbModal, private _service: appService, public toastr: ToastsManager, public vcr: ViewContainerRef, private eRef: ElementRef, private _router: Router) {
+  constructor(
+    private modalService: NgbModal,
+    private _service: appService,
+    public toastr: ToastsManager,
+    public vcr: ViewContainerRef,
+    private eRef: ElementRef,
+    private _router: Router
+  ) {
     this.toastr.setRootViewContainerRef(vcr);
   }
-  public tempDuration:any;
+  public tempDuration: any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
   public showsubModal: boolean = true;
@@ -39,7 +57,7 @@ export class CourseplanComponent implements OnInit {
   allowchecked: boolean = false;
   allowMakeup: boolean = false;
   checkedCatId: any;
-  public courseplanLists: any =  [];
+  public courseplanLists: any = [];
   public showLoading: boolean = false;
   // formField = {};
   formField: cPlanField = new cPlanField();
@@ -97,6 +115,7 @@ export class CourseplanComponent implements OnInit {
   step5: boolean = false;
   step6: boolean = false;
   step7: boolean = false;
+  step8: boolean = false;
   moduleList: Array<any> = [];
   showSearchAPG: boolean = true;
   createAPGform: boolean = false;
@@ -115,17 +134,20 @@ export class CourseplanComponent implements OnInit {
   public holidayMenuShow: boolean = false;
   public depositId: any;
   public holidayId: any;
-  public depositAmount: any = "";
-  public holidayName: any = "";
+  public depositAmount: any = '';
+  public holidayName: any = '';
   public testObj: any = {};
   public optArr = [];
-  public editPlanId = localStorage.getItem("editCPId");
+  public editPlanId = localStorage.getItem('editCPId');
   public isEditCP: boolean = false;
   public taxOptShow: boolean = false;
   public chooseTax;
   public clickableSteps: Array<any> = ['step1'];
+  public optArray = [];
+  public shadowIdx: any = null;
+  public assessmentPlans: any = [];
   ngOnInit() {
-    this.formField.lesson.duration = '0 min'
+    this.formField.lesson.duration = '0 min';
     this.showModal = true;
     this.showsubModal = false;
     this.showLoading = true;
@@ -150,9 +172,9 @@ export class CourseplanComponent implements OnInit {
     this.goBackCat = true;
     window.addEventListener('scroll', this.scroll, true);
 
-    setTimeout(function () {
-      $("#step1").addClass('active');
-    }, 200)
+    setTimeout(function() {
+      $('#step1').addClass('active');
+    }, 200);
 
     this.step1 = true;
     // this.step7 = true;
@@ -160,58 +182,86 @@ export class CourseplanComponent implements OnInit {
     this.showSearchAPG = true;
     if (this.editPlanId) {
       this.isEditCP = true;
-      console.log("editPlan", this.editPlanId);
+      console.log('editPlan', this.editPlanId);
 
       this.editCPlan(this.editPlanId);
+    } else {
+      this.addFeeOption();
     }
 
     if (this.currency == undefined || this.currency == null) {
       this.currency = {
-        'invCurrencySign': '$'
-      }
-      console.log("undefined currency", this.currency);
+        invCurrencySign: '$'
+      };
+      console.log('undefined currency', this.currency);
     } else {
-      if (this.currency.invCurrencySign == "") {
-        console.log("has currency but sign null", this.currency);
+      if (this.currency.invCurrencySign == '') {
+        console.log('has currency but sign null', this.currency);
         this.currency.invCurrencySign = '$';
       }
     }
-
   }
-  
+
   editCPlan(planId) {
-    this._service.getSinglePlan(planId, this.locationID)
+    this._service
+      .getSinglePlan(planId, this.locationID)
       .subscribe((res: any) => {
-        console.log("single plan", res);
+        console.log('single plan', res);
         this.formField = res;
-        if(!this.formField.paymentPolicy.taxInclusive ){
+        if (!this.formField.paymentPolicy.taxInclusive) {
           this.chooseTax = 'exclusive';
-        }else{
+        } else {
           this.chooseTax = 'inclusive';
         }
-        if(this.formField.paymentPolicy.taxInclusive == null ){
+        if (this.formField.paymentPolicy.taxInclusive == null) {
           this.chooseTax = 'none';
         }
         this.tempDuration = res.lesson.duration;
-        console.log(this.formField.lesson.duration)
+        console.log(this.formField.lesson.duration);
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
-        if (optObj) {
+        // if (optObj) {
+        //   this.setFeeOptionArray(optObj);
+        // }
+        if (optObj != undefined) {
           this.setFeeOptionArray(optObj);
+        } else {
+          this.addFeeOption();
         }
+
+        this.selectedAPlans = this.formField.assessmentPlans;
+        for (var i = 0; i < this.selectedAPlans.length; i++) {
+          this.selectedAPlans[i]['isExpand'] = false;
+        }
+        console.log('this.selectedAPlans', this.selectedAPlans);
+        for (var i = 0; i < this.formField.assessmentPlans.length; i++) {
+          this.selectedAPidList.push(this.formField.assessmentPlans[i]._id);
+        }
+
+        //enable to click for all step
+        this.enableClickAllStep();
+
         // this.getAllHolidaysCalendar();
-        console.log("calendar", this.holidayCalendarLists);
+        console.log('calendar', this.holidayCalendarLists);
         setTimeout(() => {
           if (this.holidayCalendarLists != undefined) {
             for (var i = 0; i < this.holidayCalendarLists.length; i++) {
-              if (this.formField.holidayCalendarId == this.holidayCalendarLists[i]._id) {
-                this.formField.holidayCalendarName = this.holidayCalendarLists[i].name;
-                console.log("~~~calendarName", this.formField.holidayCalendarName)
+              if (
+                this.formField.holidayCalendarId ==
+                this.holidayCalendarLists[i]._id
+              ) {
+                this.formField.holidayCalendarName = this.holidayCalendarLists[
+                  i
+                ].name;
+                console.log(
+                  '~~~calendarName',
+                  this.formField.holidayCalendarName
+                );
               }
             }
           }
         }, 300);
-        console.log("Quizwerkz", this.pdfList);
+        console.log('Quizwerkz', this.pdfList);
         if (this.formField.quizwerkz.length > 0) {
           this.formField.allowPagewerkz = true;
           this.pdfName = [];
@@ -228,9 +278,9 @@ export class CourseplanComponent implements OnInit {
 
         if (this.formField.accessPointGroup.length > 0) {
           this.selectedAPGlists = true;
-          for (var i = 0; i < this.formField.accessPointGroup.length; i++) {
-            console.log("selectedAPG", this.formField.accessPointGroup[i]);
-            this.singleAPG(this.formField.accessPointGroup[i]);
+          for (var x = 0; x < this.formField.accessPointGroup.length; x++) {
+            console.log('selectedAPG', this.formField.accessPointGroup[x]);
+            this.singleAPG(this.formField.accessPointGroup[x]);
           }
         }
 
@@ -238,37 +288,86 @@ export class CourseplanComponent implements OnInit {
           setTimeout(() => {
             if (this.depositLists.length > 0) {
               for (var i = 0; i < this.depositLists.length; i++) {
-                if (this.depositLists[i]._id == this.formField.paymentPolicy.deposit) {
-                  console.log("selectedDeposit", this.depositLists[i]);
+                if (
+                  this.depositLists[i]._id ==
+                  this.formField.paymentPolicy.deposit
+                ) {
+                  console.log('selectedDeposit', this.depositLists[i]);
                   this.formField.depositAmount = this.depositLists[i].amount;
                 }
               }
             }
-          }, 300)
+          }, 300);
         }
+      });
+  }
 
-      })
+  enableClickAllStep() {
+    this.clickableSteps = [];
+    for (var i = 0; i < 8; i++) {
+      var no = i + 1;
+      this.clickableSteps.push('step' + no);
+    }
+    $('#step1').addClass('done');
+    $('#step2').addClass('done');
+    $('#step3').addClass('done');
+    $('#step4').addClass('done');
+    $('#step5').addClass('done');
+    $('#step6').addClass('done');
+    $('#step7').addClass('done');
+    $('#step8')
+      .children('a')
+      .css('background-color', '#0080ff');
+  }
+
+  addFeeOption() {
+    const obj = {
+      name: '',
+      fees: null
+    };
+    this.optArray.push(obj);
+    console.log('optArray in addFeeOption', this.optArray);
+  }
+
+  inputOpt(idx, value) {
+    this.optArray[idx].fees = Number(value);
+  }
+
+  removeFeeOption(idx) {
+    this.optArray.splice(idx, 1);
+    console.log('optArray for removeFee~~~', this.optArray);
   }
 
   setFeeOptionArray(obj) {
-    console.log("~~~obj", obj)
     for (var key in obj) {
       console.log(key, obj[key]);
       let data = {
-        "name": key,
-        "fees": obj[key]
-      }
-      this.optArr.push(data);
+        name: key,
+        fees: obj[key]
+      };
+      this.optArray.push(data);
     }
-    console.log("optArr", this.optArr);
   }
 
+  // setFeeOptionArray(obj) {
+  //   console.log("~~~obj", obj)
+  //   for (var key in obj) {
+  //     console.log(key, obj[key]);
+  //     let data = {
+  //       "name": key,
+  //       "fees": obj[key]
+  //     }
+  //     this.optArr.push(data);
+  //   }
+  //   console.log("optArr", this.optArr);
+  // }
+
   convertMinsToHrsMins(mins) {
-    console.log("duration", mins)
+    console.log('duration', mins);
     let h = Math.floor(mins / 60);
     let m = mins % 60;
-    console.log("hour", h);
-    console.log("min", m);
+    console.log('hour', h);
+    console.log('min', m);
     this.rangeHr = h;
     this.rangeMin = m;
     if (h > 0) {
@@ -277,14 +376,13 @@ export class CourseplanComponent implements OnInit {
     if (m > 0) {
       this.selectedMinRange = m;
     }
-    this.formField.lesson.duration = this.formField.lesson.duration + ' min'
+    this.formField.lesson.duration = this.formField.lesson.duration + ' min';
   }
 
   @ViewChild('parentForm') mainForm;
 
-
   focusMethod(e, status, word) {
-    console.log('hi', e)
+    console.log('hi', e);
     if (status == 'name') {
       this.wordLength = word.length;
       $('.limit-wordcount').show('slow');
@@ -305,13 +403,13 @@ export class CourseplanComponent implements OnInit {
   }
 
   changeMethod(val: string) {
-    console.log(val)
+    console.log(val);
     this.wordLength = val.length;
   }
 
   valuechange(val) {
-    console.log(val)
-    console.log(typeof val)
+    console.log(val);
+    console.log(typeof val);
     if (val.length != 0 && typeof val == 'string') {
       this.showfixedcreate = true;
     } else {
@@ -322,23 +420,32 @@ export class CourseplanComponent implements OnInit {
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
-      map(term => term === '' ? []
-        : this.apgList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      map(term =>
+        term === ''
+          ? []
+          : this.apgList
+              .filter(
+                v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+              )
+              .slice(0, 10)
+      )
     );
 
   formatter = (x: { name: string }) => x.name;
 
   SearchBoxEmpty(): String {
     var name;
-    return name
+    return name;
   }
 
   selectedItem(item) {
     this.clickedItem = item.item;
-    const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
+    const i = this.createdAPGstore.findIndex(
+      _item => _item._id === this.clickedItem._id
+    );
     if (i > -1) this.createdAPGstore[i] = this.clickedItem;
     else this.createdAPGstore.push(this.clickedItem);
-    console.log(this.createdAPGstore)
+    console.log(this.createdAPGstore);
     this.showfixedcreate = false;
     this.selectedAPGlists = true;
     this.showSearchAPG = true;
@@ -348,29 +455,28 @@ export class CourseplanComponent implements OnInit {
 
   removeSelectedAPG(data) {
     this.model = '';
-    var index = this.createdAPGstore.findIndex(function (element) {
+    var index = this.createdAPGstore.findIndex(function(element) {
       return element._id === data._id;
-    })
+    });
     if (index !== -1) {
-      this.createdAPGstore.splice(index, 1)
+      this.createdAPGstore.splice(index, 1);
     }
-    console.log(this.createdAPGstore)
+    console.log(this.createdAPGstore);
   }
-
 
   back() {
     this.goBackCat = false;
-    var data = localStorage.removeItem("categoryName");
-    localStorage.removeItem("cpCategory");
+    var data = localStorage.removeItem('categoryName');
+    localStorage.removeItem('cpCategory');
     this._service.backCat();
   }
 
   cancel() {
     this.goBackCat = false;
-    var data = localStorage.removeItem("categoryName");
-    localStorage.removeItem("categoryID");
-    localStorage.removeItem("cpCategory");
-    localStorage.removeItem("editCPId");
+    var data = localStorage.removeItem('categoryName');
+    localStorage.removeItem('categoryID');
+    localStorage.removeItem('cpCategory');
+    localStorage.removeItem('editCPId');
     if (this.isEditCP == true) {
       this._service.backPlanDetail();
     } else {
@@ -394,59 +500,95 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
-    console.log(formData)
-    console.log(this.step2FormaData)
+    console.log(formData);
+    // console.log(this.step2FormaData)
+    // let obj: any = {};
+    // for (var i = 0; i < this.optArr.length; i++) {
+    //   obj[this.optArr[i].name] = this.optArr[i].fees;
+    // }
     let obj: any = {};
-    for (var i = 0; i < this.optArr.length; i++) {
-      obj[this.optArr[i].name] = this.optArr[i].fees;
+    for (var i = 0; i < this.optArray.length; i++) {
+      obj[this.optArray[i].name] = this.optArray[i].fees;
     }
-    console.log("Obj", obj);
-    console.log('allow por', this.formField.paymentPolicy.allowProrated)
+    console.log('Obj===>', obj);
+    console.log('allow por', this.formField.paymentPolicy.allowProrated);
     let data = {
-      "regionId": this.regionID,
-      "categoryId": this.categoryId,
-      "name": this.step1FormaData.coursename,
-      "description": this.step1FormaData.description,
-      "seats": this.step1FormaData.seats,
-      "makeupPolicy": {
-        "allowMakeupPass": this.step2FormaData.allowmakeup,
-        "maxPassPerUser": this.step2FormaData.makeupuser,
-        "maxDayPerPass": this.step2FormaData.makeuppass
+      regionId: this.regionID,
+      categoryId: this.categoryId,
+      name: this.formField.name,
+      description: this.formField.description,
+      seats: this.formField.seats,
+      makeupPolicy: {
+        allowMakeupPass: this.formField.makeupPolicy.allowMakeupPass,
+        maxPassPerUser: this.formField.makeupPolicy.maxPassPerUser,
+        maxDayPerPass: this.formField.makeupPolicy.maxDayPerPass
       },
-      "paymentPolicy": {
-        "deposit": this.depositId,
-        "courseFee": this.step3FormaData.courseFee,
-        "proratedLessonFee": formData.proratedLessonFee,
-        "miscFee": formData.miscFee,
-        "allowProrated": formData.allowProrated
+      paymentPolicy: {
+        deposit: this.depositId,
+        proratedLessonFee: formData.proratedLessonFee,
+        miscFee: formData.miscFee,
+        allowProrated: formData.allowProrated
       },
-      "lesson": {
-        "min": formData.minDuration,
-        "max": formData.maxDuration,
-        "duration": this.tempDuration
+      lesson: {
+        min: formData.minDuration,
+        max: formData.maxDuration,
+        duration: this.tempDuration
       },
-      "allowPagewerkz": this.step5FormaData.allowpagewerkz,
-      "age": {
-        "min": formData.minage,
-        "max": formData.maxage,
+      allowPagewerkz: this.formField.allowPagewerkz,
+      age: {
+        min: formData.minage,
+        max: formData.maxage
       },
-      "quizwerkz": this.pdfId,
-      "holidayCalendarId": this.formField.holidayCalendarId,
-      "accessPointGroup": this.selectedAPGidArray
-    }
+      quizwerkz: this.pdfId,
+      holidayCalendarId: this.formField.holidayCalendarId,
+      accessPointGroup: this.selectedAPGidArray,
+      assessmentPlans: this.selectedAPidList
+    };
+
+    // let data = {
+    //   "regionId": this.regionID,
+    //   "categoryId": this.categoryId,
+    //   "name": this.step1FormaData.coursename,
+    //   "description": this.step1FormaData.description,
+    //   "seats": this.step1FormaData.seats,
+    //   "makeupPolicy": {
+    //     "allowMakeupPass": this.step2FormaData.allowmakeup,
+    //     "maxPassPerUser": this.step2FormaData.makeupuser,
+    //     "maxDayPerPass": this.step2FormaData.makeuppass
+    //   },
+    //   "paymentPolicy": {
+    //     "deposit": this.depositId,
+    //     "courseFee": this.step3FormaData.courseFee,
+    //     "proratedLessonFee": formData.proratedLessonFee,
+    //     "miscFee": formData.miscFee,
+    //     "allowProrated": formData.allowProrated
+    //   },
+    //   "lesson": {
+    //     "min": formData.minDuration,
+    //     "max": formData.maxDuration,
+    //     "duration": this.tempDuration
+    //   },
+    //   "allowPagewerkz": this.step5FormaData.allowpagewerkz,
+    //   "age": {
+    //     "min": formData.minage,
+    //     "max": formData.maxage,
+    //   },
+    //   "quizwerkz": this.pdfId,
+    //   "holidayCalendarId": this.formField.holidayCalendarId,
+    //   "accessPointGroup": this.selectedAPGidArray,
+    //   "assessmentPlans":this.selectedAPidList
+    // }
 
     if (Object.keys(obj).length != 0) {
-      console.log("lll");
-      data.paymentPolicy["courseFeeOptions"] = obj;
+      data.paymentPolicy['courseFeeOptions'] = obj;
     }
 
     if (this.chooseTax != '') {
-      console.log("TTT", this.chooseTax);
       if (this.chooseTax == 'inclusive') {
-        data.paymentPolicy["taxInclusive"] = true;
-      } 
-      if(this.chooseTax == 'exclusive') {
-        data.paymentPolicy["taxInclusive"] = false;
+        data.paymentPolicy['taxInclusive'] = true;
+      }
+      if (this.chooseTax == 'exclusive') {
+        data.paymentPolicy['taxInclusive'] = false;
       }
 
       // if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
@@ -454,62 +596,68 @@ export class CourseplanComponent implements OnInit {
       // }
     }
 
-    console.log( data.paymentPolicy.deposit)
+    console.log(data.paymentPolicy.deposit);
 
     if (type == 'create') {
-      console.log("CreatePlan")
+      console.log('CreatePlan');
       this.blockUI.start('Loading...');
-      this._service.createCoursePlan(this.regionID, this.locationID, data)
-        .subscribe((res: any) => {
-          console.log('success post', res);
-          this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
-          this.getAllCoursePlan();
-          this.cancel();
-          this.mainForm.reset();
-          this.formField = new cPlanField();
-          this.pdfId = [];
-          this.timeInminutes = "";
-          this.selectedAPGidArray = [];
-          this.createdAPGstore = [];
-          this.model = '';
-          this.selectedAPGlists = false;
-        }, err => {
-          this.toastr.error('Create Fail');
-          this.blockUI.stop();
-          console.log(err)
-        })
+      this._service
+        .createCoursePlan(this.regionID, this.locationID, data)
+        .subscribe(
+          (res: any) => {
+            console.log('success post', res);
+            this.toastr.success('Successfully Created.');
+            this.blockUI.stop();
+            this.getAllCoursePlan();
+            this.cancel();
+            this.mainForm.reset();
+            this.formField = new cPlanField();
+            this.pdfId = [];
+            this.timeInminutes = '';
+            this.selectedAPGidArray = [];
+            this.createdAPGstore = [];
+            this.model = '';
+            this.selectedAPGlists = false;
+          },
+          err => {
+            this.toastr.error('Create Fail');
+            this.blockUI.stop();
+            console.log(err);
+          }
+        );
     } else {
-      console.log("editPlan");
-      if( data.paymentPolicy.deposit== undefined) {
+      console.log('editPlan');
+      if (data.paymentPolicy.deposit == undefined) {
         console.log(this.formField.paymentPolicy.deposit);
-        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit
+        data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;
       }
       this.blockUI.start('Loading...');
-      this._service.updateSignlecPlan(this.editPlanId, data, this.locationID)
-        .subscribe((res: any) => {
-          console.log(res);
-          setTimeout(() => {
-            this.toastr.success('Successfully Updated.');
-          }, 300)
-          this.blockUI.stop();
-          this.cancel();
-          this.mainForm.reset();
-          this.formField = new cPlanField();
-          this.pdfId = [];
-          this.timeInminutes = "";
-          this.selectedAPGidArray = [];
-          this.createdAPGstore = [];
-          this.model = '';
-          this.selectedAPGlists = false;
-        }, err => {
-          console.log(err);
-          this.toastr.error('Update Fail');
-          this.blockUI.stop();
-        })
+      this._service
+        .updateSignlecPlan(this.editPlanId, data, this.locationID)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            setTimeout(() => {
+              this.toastr.success('Successfully Updated.');
+            }, 300);
+            this.blockUI.stop();
+            this.cancel();
+            this.mainForm.reset();
+            this.formField = new cPlanField();
+            this.pdfId = [];
+            this.timeInminutes = '';
+            this.selectedAPGidArray = [];
+            this.createdAPGstore = [];
+            this.model = '';
+            this.selectedAPGlists = false;
+          },
+          err => {
+            console.log(err);
+            this.toastr.error('Update Fail');
+            this.blockUI.stop();
+          }
+        );
     }
-
-
   }
 
   //  onclickDelete(cplan, confirmDelete1){
@@ -534,53 +682,48 @@ export class CourseplanComponent implements OnInit {
   //  }
 
   //  deleteCoursePlan(id) {
-  // 	console.log(id)
+  //   console.log(id)
   //    this.blockUI.start('Loading...');
   //    this.modalReference1.close();
-  // 	this._service.deleteCoursePlan(id)
-  // 	.subscribe((res:any) => {
-  // 		console.log(res);
+  //   this._service.deleteCoursePlan(id)
+  //   .subscribe((res:any) => {
+  //     console.log(res);
   //      setTimeout(() => {
   //        this.blockUI.stop(); // Stop blocking
   //      }, 300);
   //      this.toastr.success('Successfully Deleted.');
-  // 		this.getAllCoursePlan();
-  // 	},err => {
+  //     this.getAllCoursePlan();
+  //   },err => {
   //     this.toastr.error('Delete Fail');
-  // 		console.log(err);
-  // 	})
+  //     console.log(err);
+  //   })
   // }
 
   ChangeValue(data, e, type) {
-    if (type == "pdf") {
+    if (type == 'pdf') {
       var cbIdx = this.pdfId.indexOf(data);
       if (e.target.checked == true) {
-        console.log('true')
-        if (cbIdx < 0)
-          this.pdfId.push(data);
-        console.log(this.pdfId)
-      }
-      else {
-        console.log('false')
+        console.log('true');
+        if (cbIdx < 0) this.pdfId.push(data);
+        console.log(this.pdfId);
+      } else {
+        console.log('false');
         if (cbIdx >= 0) {
           this.pdfId.splice(cbIdx, 1);
-          console.log(this.pdfId)
+          console.log(this.pdfId);
         }
       }
-    }
-    else {
+    } else {
       var cbIdx = this.apgId.indexOf(data);
       if (e.target.checked == true) {
-        console.log('true')
-        if (cbIdx < 0)
-          this.apgId.push(data);
-        console.log(this.apgId)
-      }
-      else {
-        console.log('false')
+        console.log('true');
+        if (cbIdx < 0) this.apgId.push(data);
+        console.log(this.apgId);
+      } else {
+        console.log('false');
         if (cbIdx >= 0) {
           this.apgId.splice(cbIdx, 1);
-          console.log(this.apgId)
+          console.log(this.apgId);
         }
       }
     }
@@ -656,62 +799,122 @@ export class CourseplanComponent implements OnInit {
 
   getAllCoursePlan() {
     this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionID, this.locationID)
-      .subscribe((res: any) => {
+    this._service.getAllCoursePlan(this.regionID, this.locationID).subscribe(
+      (res: any) => {
         this.courseplanLists = res;
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-        console.log(this.courseplanLists)
-      }, err => {
-        console.log(err)
-      })
+        console.log(this.courseplanLists);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   getAllDeposit() {
-    this._service.getAllDeposit(this.regionID)
-      .subscribe((res: any) => {
+    this._service.getAllDeposit(this.regionID).subscribe(
+      (res: any) => {
         this.depositLists = res;
-        console.log(this.depositLists)
-      }, err => {
-        console.log(err)
-      })
+        console.log(this.depositLists);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
-  focusSearch(e) {
-    console.log(e)
-  
-    this.isfocus = true;
-    this.showfixedcreate = true;
-    this.apgList = [];
-  }
-
-  hideSearch(e) {
-    setTimeout(() => {
-      this.isfocus = false;
-      this.showfixedcreate = false;
-    }, 300);
-  }
-
-  changeSearch(keyword, type) {
-    console.log(keyword)
-    if (keyword == 0) {
-      this.apgList = [];
-      // this.getAllAPG(20, 0)
-    } else {
-      this.getApgSearch(keyword, 'apg');
+  focusSearch(e, type) {
+    switch (type) {
+      case 'apg':
+        this.isfocus = true;
+        this.showfixedcreate = true;
+        this.apgList = [];
+        break;
+      case 'plan':
+        this.showPlans = true;
+        break;
     }
   }
 
+  hideSearch(e, type) {
+    switch (type) {
+      case 'apg':
+        setTimeout(() => {
+          this.isfocus = false;
+          this.showfixedcreate = false;
+        }, 300);
+        break;
+      case 'plan':
+        setTimeout(() => {
+          this.showPlans = false;
+        }, 300);
+        break;
+    }
+  }
+  showPlans: boolean = false;
+  selectedAPlans = [];
+  changeSearch(keyword, type) {
+    switch (type) {
+      case 'apg':
+        if (keyword == 0) {
+          this.apgList = [];
+          // this.getAllAPG(20, 0)
+        } else {
+          this.getApgSearch(keyword, 'apg');
+        }
+        break;
+      case 'plan':
+        if (keyword == 0) {
+          this.assessmentPlans = [];
+        } else {
+          this.assessmentPlanSearch(keyword);
+        }
+        break;
+    }
+  }
+
+  assessmentPlanSearch(keyword) {
+    this._service
+      .getCollectionBySearch(this.regionID, keyword)
+      .subscribe((res: any) => {
+        this.assessmentPlans = res;
+      });
+  }
+  selectedAPidList = [];
+  selectAssessmentPlan(plan) {
+    this.showPlans = false;
+    plan['isExpand'] = false;
+    this.selectedAPlans.push(plan);
+    this.selectedAPidList.push(plan._id);
+    console.log('this.selectedAPlans', this.selectedAPlans);
+  }
+
+  removeSelectedAPlan(data) {
+    var index = this.selectedAPlans.findIndex(function(element) {
+      return element._id === data._id;
+    });
+    var idx = this.selectedAPidList.findIndex(function(element) {
+      return element === data._id;
+    });
+    this.selectedAPlans.splice(index, 1);
+    this.selectedAPidList.splice(idx, 1);
+  }
+
+  expandConcept(idx) {
+    this.selectedAPlans[idx].isExpand = !this.selectedAPlans[idx].isExpand;
+  }
+
   selectData(id, name) {
-    console.log(id)
-    console.log(name)
+    console.log(id);
+    console.log(name);
     this.singleAPG(id);
     this.selectedAPGlists = true;
     this.isfocus = false;
     this.showfixedcreate = false;
     // const i = this.createdAPGstore.findIndex(_item => _item._id === this.clickedItem._id);
-    // if (i > -1) this.createdAPGstore[i] = this.clickedItem; 
+    // if (i > -1) this.createdAPGstore[i] = this.clickedItem;
     // else this.createdAPGstore.push(this.clickedItem);
     // console.log(this.createdAPGstore)
     // this.showfixedcreate = false;
@@ -724,18 +927,20 @@ export class CourseplanComponent implements OnInit {
 
   singleAPG(id) {
     this.blockUI.start('Loading...');
-    this._service.getSingleAPG(this.regionID, id)
-      .subscribe((res: any) => {
+    this._service.getSingleAPG(this.regionID, id).subscribe(
+      (res: any) => {
         this.blockUI.stop();
-        console.log('editapg', res)
+        console.log('editapg', res);
         this.clickedItem = res;
         this.createdAPGstore.push(this.clickedItem);
-        console.log("selectedAPGList", this.createdAPGstore);
-        this.formField.searchText = "";
-      }, err => {
+        console.log('selectedAPGList', this.createdAPGstore);
+        this.formField.searchText = '';
+      },
+      err => {
         this.blockUI.stop();
-        console.log(err)
-      })
+        console.log(err);
+      }
+    );
   }
   // templateList:any;
   getApgSearch(keyword, type) {
@@ -743,10 +948,10 @@ export class CourseplanComponent implements OnInit {
     // .subscribe((res:any) => {
     //   console.log(res);
     //   this.apgList = res;
-    // }, err => {  
+    // }, err => {
     //   console.log(err);
     // });
-    console.log("search APG", this.regionID, keyword, type);
+    console.log('search APG', this.regionID, keyword, type);
     if (this.createdAPGstore.length > 0) {
       var selectedIdArr = [];
       var selectedIdStr;
@@ -754,91 +959,100 @@ export class CourseplanComponent implements OnInit {
         var id = this.createdAPGstore[i]._id;
         selectedIdArr.push(id);
       }
-      console.log("selectedId Array", selectedIdArr);
+      console.log('selectedId Array', selectedIdArr);
       selectedIdStr = selectedIdArr.toString();
       console.log('selectedIdStr', selectedIdStr);
 
-      this._service.getSearchApg(this.regionID, keyword, type, '', selectedIdStr, 20, 0)
-        .subscribe((res: any) => {
-          console.log("apg result", res);
-          this.apgList = res;
-          console.log("APG List", this.apgList);
-        }, err => {
-          console.log(err);
-        });
+      this._service
+        .getSearchApg(this.regionID, keyword, type, '', selectedIdStr, 20, 0)
+        .subscribe(
+          (res: any) => {
+            console.log('apg result', res);
+            this.apgList = res;
+            console.log('APG List', this.apgList);
+          },
+          err => {
+            console.log(err);
+          }
+        );
     } else {
-      this._service.getSearchApg(this.regionID, keyword, type, '', '', 20, 0)
-        .subscribe((res: any) => {
-          console.log("apg result", res);
-          this.apgList = res;
-          console.log("APG List", this.apgList);
-          // if(type == 'apg'){
-          //   this.apgList = res;
-          //   console.log("APG list",this.apgList)
-          // }else{
-          //   this.templateList = res;
-          // }
-        }, err => {
-          console.log(err);
-        });
+      this._service
+        .getSearchApg(this.regionID, keyword, type, '', '', 20, 0)
+        .subscribe(
+          (res: any) => {
+            console.log('apg result', res);
+            this.apgList = res;
+            console.log('APG List', this.apgList);
+            // if(type == 'apg'){
+            //   this.apgList = res;
+            //   console.log("APG list",this.apgList)
+            // }else{
+            //   this.templateList = res;
+            // }
+          },
+          err => {
+            console.log(err);
+          }
+        );
     }
   }
 
   getAllAPG(skip, limit) {
     this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, '', skip, limit)
-      .subscribe((res: any) => {
-        console.log('apgLists', res)
+    this._service.getAllAPG(this.regionID, '', skip, limit).subscribe(
+      (res: any) => {
+        console.log('apgLists', res);
         this.apgList = res;
         setTimeout(() => {
           this.blockUI.stop(); // Stop blocking
         }, 300);
-      }, err => {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   getAllHolidaysCalendar() {
-    this._service.getAllHolidaysCalendar(this.regionID, 20, 0)
-      .subscribe((res: any) => {
+    this._service.getAllHolidaysCalendar(this.regionID, 20, 0).subscribe(
+      (res: any) => {
         this.holidayCalendarLists = res;
-        console.log(this.holidayCalendarLists)
-      }, err => {
-        console.log(err)
-      })
+        console.log(this.holidayCalendarLists);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   getAllPdf() {
-    this._service.getAllPdf(this.regionID, this.locationID, 20, 0)
-      .subscribe((res: any) => {
-        console.log('pdflists', res)
+    this._service.getAllPdf(this.regionID, this.locationID, 20, 0).subscribe(
+      (res: any) => {
+        console.log('pdflists', res);
         this.pdfList = res;
-      }, err => {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   restrictMinNumberInput(e, minValue, type) {
     if (type == 'age') {
       if (e.target.value <= minValue.model) {
         this.restrictLastInput = true;
-      }
-      else {
+      } else {
         this.restrictLastInput = false;
         this.restrictFirstInput = false;
       }
-    }
-    else if (type == 'lesson') {
+    } else if (type == 'lesson') {
       if (e.target.value <= minValue.model) {
         this.restrictLastLessInput = true;
-      }
-      else {
+      } else {
         this.restrictLastLessInput = false;
         this.restrictFirstLessInput = false;
       }
-
-    }
-    else {
+    } else {
       console.log('error no type');
     }
   }
@@ -847,25 +1061,20 @@ export class CourseplanComponent implements OnInit {
     if (type == 'age') {
       if (e.target.value >= maxValue.model) {
         this.restrictFirstInput = true;
-      }
-      else {
+      } else {
         this.restrictFirstInput = false;
         this.restrictLastInput = false;
       }
-    }
-    else if (type == 'lesson') {
+    } else if (type == 'lesson') {
       if (e.target.value >= maxValue.model) {
         this.restrictFirstLessInput = true;
-      }
-      else {
+      } else {
         this.restrictFirstLessInput = false;
         this.restrictLastLessInput = false;
       }
-    }
-    else {
+    } else {
       console.log('error no type');
     }
-
   }
 
   durationProgress($event) {
@@ -874,48 +1083,41 @@ export class CourseplanComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   public documentClick(event): void {
-
     if (this.progressSlider != true) {
-      $('.bg-box').css({ 'display': "none" });
-    }
-    else {
-      $('.bg-box').css({ 'display': "block" });
-      $('.bg-box').click(function (event) {
+      $('.bg-box').css({ display: 'none' });
+    } else {
+      $('.bg-box').css({ display: 'block' });
+      $('.bg-box').click(function(event) {
         event.stopPropagation();
       });
       this.progressSlider = false;
-
     }
 
     if (this.focusCfee == true) {
-      $('.cfee-bg').addClass("focus-bg");
-    }
-    else {
-      $('.cfee-bg').removeClass("focus-bg");
+      $('.cfee-bg').addClass('focus-bg');
+    } else {
+      $('.cfee-bg').removeClass('focus-bg');
     }
     this.focusCfee = false;
 
     if (this.focusMisfee == true) {
-      $('.misfee-bg').addClass("focus-bg");
-    }
-    else {
-      $('.misfee-bg').removeClass("focus-bg");
+      $('.misfee-bg').addClass('focus-bg');
+    } else {
+      $('.misfee-bg').removeClass('focus-bg');
     }
     this.focusMisfee = false;
 
     if (this.focusProFee == true) {
-      $('.profee-bg').addClass("focus-bg");
-    }
-    else {
-      $('.profee-bg').removeClass("focus-bg");
+      $('.profee-bg').addClass('focus-bg');
+    } else {
+      $('.profee-bg').removeClass('focus-bg');
     }
     this.focusProFee = false;
 
     // for deposit dropdown
     if (this.depositMenuShow == false) {
       $('.new-dropdown').css('display', 'none');
-    }
-    else {
+    } else {
       $('.new-dropdown').css('display', 'block');
       this.depositMenuShow = false;
     }
@@ -923,16 +1125,14 @@ export class CourseplanComponent implements OnInit {
     // for holiday dropdown
     if (this.holidayMenuShow == false) {
       $('.holiday-dropdown').css('display', 'none');
-    }
-    else {
+    } else {
       $('.holiday-dropdown').css('display', 'block');
       this.holidayMenuShow = false;
     }
-
   }
 
   showDropdown(type, state) {
-    console.log(type, state)
+    console.log(type, state);
     if (type == 'taxOpt') {
       this.taxOptShow = true;
     }
@@ -953,15 +1153,14 @@ export class CourseplanComponent implements OnInit {
     var y = document.getElementsByClassName('new-dropdown');
     if ((y[0] as HTMLElement).style.display == 'block') {
       (y[0] as HTMLElement).style.display = 'none';
-    }
-    else {
+    } else {
       (y[0] as HTMLElement).style.display = 'block';
       this.depositMenuShow = true;
     }
   }
 
   chooseDeposit(item) {
-    console.log("Deposit", item);
+    console.log('Deposit', item);
     // this.depositAmount = item.amount;
     // this.depositId = item._id;
     this.formField.depositAmount = item.amount;
@@ -970,23 +1169,22 @@ export class CourseplanComponent implements OnInit {
 
   chooseTaxOption(type) {
     this.chooseTax = type;
-    console.log("choose Tax", type);
+    console.log('choose Tax', type);
   }
 
   holidayDropdown() {
-    console.log("holiday dropdown")
+    console.log('holiday dropdown');
     var z = document.getElementsByClassName('holiday-dropdown');
     if ((z[0] as HTMLElement).style.display == 'block') {
       (z[0] as HTMLElement).style.display = 'none';
-    }
-    else {
+    } else {
       (z[0] as HTMLElement).style.display = 'block';
       this.holidayMenuShow = true;
     }
   }
 
   chooseHoliday(holidayCalendar) {
-    console.log("holiday", holidayCalendar);
+    console.log('holiday', holidayCalendar);
     // this.holidayId = holidayCalendar._id;
     // this.holidayName = holidayCalendar.name;
     this.formField.holidayCalendarName = holidayCalendar.name;
@@ -1008,32 +1206,36 @@ export class CourseplanComponent implements OnInit {
     }
 
     if (this.selectedHrRange && this.selectedMinRange) {
-      console.log("selected Hr and Min");
-      this.timeInminutes = (parseInt(this.selectedHrRange) * 60) + parseInt(this.selectedMinRange);
-      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr' + ' ' + parseInt(this.selectedMinRange) + ' ' + 'min';
-    }
-    else if (this.selectedHrRange) {
-      console.log("selected only Hr");
-      this.timeInminutes = (parseInt(this.selectedHrRange) * 60);
-      this.readyOnlyRange = (parseInt(this.selectedHrRange)) + ' ' + 'hr';
-    }
-    else if (this.selectedMinRange) {
-      console.log("selected only Min");
+      console.log('selected Hr and Min');
+      this.timeInminutes =
+        parseInt(this.selectedHrRange) * 60 + parseInt(this.selectedMinRange);
+      this.readyOnlyRange =
+        parseInt(this.selectedHrRange) +
+        ' ' +
+        'hr' +
+        ' ' +
+        parseInt(this.selectedMinRange) +
+        ' ' +
+        'min';
+    } else if (this.selectedHrRange) {
+      console.log('selected only Hr');
+      this.timeInminutes = parseInt(this.selectedHrRange) * 60;
+      this.readyOnlyRange = parseInt(this.selectedHrRange) + ' ' + 'hr';
+    } else if (this.selectedMinRange) {
+      console.log('selected only Min');
       this.timeInminutes = parseInt(this.selectedMinRange);
       this.readyOnlyRange = parseInt(this.selectedMinRange) + ' ' + 'min';
-    }
-    else {
-      console.log('error')
+    } else {
+      console.log('error');
     }
     this.tempDuration = this.timeInminutes;
     this.formField.lesson.duration = this.timeInminutes + ' min';
-    console.log('durationMinutes', this.timeInminutes)
-
+    console.log('durationMinutes', this.timeInminutes);
   }
 
   numberOnly(event, type) {
-    console.log('hhh')
-    const charCode = (event.which) ? event.which : event.keyCode;
+    console.log('hhh');
+    const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
@@ -1047,8 +1249,7 @@ export class CourseplanComponent implements OnInit {
     this.showsubModal = true;
   }
 
-  scroll = (e): void => {
-  };
+  scroll = (e): void => {};
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 40) {
@@ -1065,65 +1266,63 @@ export class CourseplanComponent implements OnInit {
   toKnowFocus(type) {
     if (type == 'cFee') {
       this.focusCfee = true;
-      $('.cfee-bg').addClass("focus-bg");
+      $('.cfee-bg').addClass('focus-bg');
     } else if (type == 'misFee') {
       this.focusMisfee = true;
-      $('.misfee-bg').addClass("focus-bg");
+      $('.misfee-bg').addClass('focus-bg');
     } else if (type == 'prorateFee') {
       this.focusProFee = true;
-      $('.profee-bg').addClass("focus-bg");
+      $('.profee-bg').addClass('focus-bg');
     }
   }
 
   showFocus(e, type) {
-    console.log(type)
+    console.log(type);
     // if (type == 'optionFee'){
     //   this.optionFee = true;
     // }
   }
 
   hideFocus(e, type) {
-    console.log(type)
+    console.log(type);
     if (type == 'optionFee') {
       this.optionFee = false;
     }
   }
 
-
   enterHover(e) {
-    console.log('mouse enter')
+    console.log('mouse enter');
     $('.input-group-text').css('background', '#f7f9fa');
     $('.input[type="number"]').css('background', '#f7f9fa');
   }
 
   leaveHover(e) {
-    console.log('mouse out')
+    console.log('mouse out');
     $('.input-group-text').css('background', '#fff');
   }
 
   backStep(type) {
-
     if (type == 'step2') {
-      console.log(this.formField)
+      console.log(this.formField);
       this.step2 = false;
       this.step1 = true;
       if (this.step1 == true) {
-        $("#step2").removeClass('active');
-        $("#step1").removeClass('done');
-        $("#step1").addClass('active');
+        $('#step2').removeClass('active');
+        // $("#step1").removeClass('done');
+        $('#step1').addClass('active');
       }
     }
     if (type == 'step3') {
       this.step1 = false;
       this.step2 = true;
       this.step3 = false;
-      this.testObj.name = null;
-      this.testObj.fees = null;
+      this.checkEmptyOption();
+      // console.log("name",this.optArray[i].name.trim(),",fees",this.optArray[i].fees)
       if (this.step2 == true) {
-        $("#step3").removeClass('active');
-        $("#step2").removeClass('done');
-        $("#step1").addClass('done');
-        $("#step2").addClass('active');
+        $('#step3').removeClass('active');
+        // $("#step2").removeClass('done');
+        // $("#step1").addClass('done');
+        $('#step2').addClass('active');
       }
     }
     if (type == 'step4') {
@@ -1132,10 +1331,14 @@ export class CourseplanComponent implements OnInit {
       this.step3 = true;
       this.step4 = false;
       if (this.step3 == true) {
-        $("#step4").removeClass('active');
-        $("#step3").removeClass('done');
-        $("#step1, #step2").addClass('done');
-        $("#step3").addClass('active');
+        if (this.optArray.length == 0) {
+          this.addFeeOption();
+        }
+        // console.log("this.optAtrray length",this.optArray.length);
+        $('#step4').removeClass('active');
+        // $("#step3").removeClass('done');
+        // $("#step1, #step2").addClass('done');
+        $('#step3').addClass('active');
       }
     }
     if (type == 'step5') {
@@ -1145,10 +1348,10 @@ export class CourseplanComponent implements OnInit {
       this.step4 = true;
       this.step5 = false;
       if (this.step4 == true) {
-        $("#step5").removeClass('active');
-        $("#step4").removeClass('done');
-        $("#step1, #step2, #step3").addClass('done');
-        $("#step4").addClass('active');
+        $('#step5').removeClass('active');
+        // $("#step4").removeClass('done');
+        // $("#step1, #step2, #step3").addClass('done');
+        $('#step4').addClass('active');
       }
     }
     if (type == 'step6') {
@@ -1158,11 +1361,12 @@ export class CourseplanComponent implements OnInit {
       this.step4 = false;
       this.step5 = true;
       this.step6 = false;
+      this.step8 = false;
       if (this.step5 == true) {
-        $("#step6").removeClass('active');
-        $("#step5").removeClass('done');
-        $("#step1, #step2, #step3, #step4").addClass('done');
-        $("#step5").addClass('active');
+        $('#step6').removeClass('active');
+        // $("#step5").removeClass('done');
+        // $("#step1, #step2, #step3, #step4").addClass('done');
+        $('#step5').addClass('active');
       }
     }
     if (type == 'step7') {
@@ -1173,116 +1377,136 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = true;
       this.step7 = false;
+      this.step8 = false;
       if (this.step6 == true) {
-        $("#step7").removeClass('active');
-        $("#step6").removeClass('done');
-        $("#step1, #step2, #step3, #step4, #step5").addClass('done');
-        $("#step6").addClass('active');
+        $('#step7').removeClass('active');
+        // $("#step6").removeClass('done');
+        // $("#step1, #step2, #step3, #step4, #step5").addClass('done');
+        $('#step6').addClass('active');
+      }
+    }
+    if (type == 'step8') {
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step6 = false;
+      this.step7 = true;
+      this.step8 = false;
+      if (this.step7 == true) {
+        $('#step8').removeClass('active');
+        // $("#step7").removeClass('done');
+        // $("#step1, #step2, #step3, #step4, #step5,#step6").addClass('done');
+        $('#step7').addClass('active');
       }
     }
   }
   addStep(str) {
     var res = str.substring(str.length - 1, str.length);
 
-    return str.slice(0, 4) + (Number(++res))
+    return str.slice(0, 4) + Number(++res);
   }
   continueStep(type, data) {
-    this.clickableSteps.push(type)
-    this.clickableSteps.push(this.addStep(type))
+    if (!this.isEditCP) {
+      this.clickableSteps.push(type);
+      this.clickableSteps.push(this.addStep(type));
+    }
     if (type == 'step1') {
       this.step1FormaData = data;
-      console.log(this.step1FormaData)
+      console.log(this.step1FormaData);
       this.step1 = false;
-      let nextKey = 'makeupPolicy'
+      let nextKey = 'makeupPolicy';
       if (this.step1 == false) {
-        $("#step1").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('active');
+        $('#step1').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('active');
         this.step2 = true;
-        console.log(this.formField.makeupPolicy)
+        console.log(this.formField.makeupPolicy);
         if (this.formField.makeupPolicy == undefined) {
-          this.formField["makeupPolicy"] = {
+          this.formField['makeupPolicy'] = {
             allowMakeupPass: false,
             maxDayPerPass: '',
             maxPassPerUser: ''
           };
         }
-
       }
     }
     if (type == 'step2') {
       this.step2FormaData = data;
-      console.log(this.step2FormaData)
+      console.log(this.step2FormaData);
       this.step1 = false;
       this.step2 = false;
+      if (this.optArray.length == 0) {
+        this.addFeeOption();
+      }
       if (this.step2 == false) {
-        $("#step2").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('active');
+        $('#step2').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('active');
         this.step3 = true;
       }
     }
     if (type == 'step3') {
       this.step3FormaData = data;
-      console.log(this.step3FormaData)
+      console.log(this.step3FormaData);
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
-      this.testObj.name = null;
-      this.testObj.fees = null;
+      this.checkEmptyOption();
       if (this.step3 == false) {
-        $("#step3").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('done');
-        $("#step4").addClass('active');
+        $('#step3').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('active');
         this.step4 = true;
       }
     }
     if (type == 'step4') {
       this.step4FormaData = data;
-      console.log(this.step4FormaData)
+      console.log(this.step4FormaData);
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
       this.step4 = false;
       if (this.step4 == false) {
-        $("#step4").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('done');
-        $("#step4").addClass('done');
-        $("#step5").addClass('active');
+        $('#step4').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('done');
+        $('#step5').addClass('active');
         this.step5 = true;
       }
     }
     if (type == 'step5') {
       this.step5FormaData = data;
-      console.log(this.step5FormaData)
+      console.log(this.step5FormaData);
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
       this.step4 = false;
       this.step5 = false;
       if (this.step5 == false) {
-        $("#step5").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('done');
-        $("#step4").addClass('done');
-        $("#step5").addClass('done');
-        $("#step6").addClass('active');
+        $('#step5').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('done');
+        $('#step5').addClass('done');
+        $('#step6').addClass('active');
         this.step6 = true;
       }
     }
     if (type == 'step6') {
-      console.log(data)
+      console.log(data);
       this.selectedAPGidArray = [];
       for (var i in data) {
         this.selectedAPGidArray.push(data[i]._id);
       }
-      console.log(this.selectedAPGidArray)
+      console.log(this.selectedAPGidArray);
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -1290,21 +1514,21 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = false;
       if (this.step6 == false) {
-        $("#step6").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('done');
-        $("#step4").addClass('done');
-        $("#step5").addClass('done');
-        $("#step6").addClass('done');
-        $("#step7").addClass('active');
+        $('#step6').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('done');
+        $('#step5').addClass('done');
+        $('#step6').addClass('done');
+        $('#step7').addClass('active');
         this.step7 = true;
         if (this.formField.age == undefined) {
-          console.log("age is undefined");
-          this.formField["age"] = {
-            "min": '',
-            "max": ''
-          }
+          console.log('age is undefined');
+          this.formField['age'] = {
+            min: '',
+            max: ''
+          };
         }
       }
     }
@@ -1314,39 +1538,85 @@ export class CourseplanComponent implements OnInit {
       this.step3 = false;
       this.step4 = false;
       this.step5 = false;
+      this.step6 = false;
       this.step7 = false;
       if (this.step7 == false) {
-        $("#step6").removeClass('active');
-        $("#step1").addClass('done');
-        $("#step2").addClass('done');
-        $("#step3").addClass('done');
-        $("#step4").addClass('done');
-        $("#step5").addClass('done');
-        $("#step6").addClass('done');
-        $("#step7").addClass('active');
+        $('#step7').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('done');
+        $('#step5').addClass('done');
+        $('#step6').addClass('done');
+        $('#step7').addClass('done');
+        $('#step8').addClass('active');
+        this.step8 = true;
+      }
+    }
+    if (type == 'step8') {
+      this.step1 = false;
+      this.step2 = false;
+      this.step3 = false;
+      this.step4 = false;
+      this.step5 = false;
+      this.step7 = false;
+      this.step8 = false;
+      if (this.step7 == false) {
+        $('#step7').removeClass('active');
+        $('#step1').addClass('done');
+        $('#step2').addClass('done');
+        $('#step3').addClass('done');
+        $('#step4').addClass('done');
+        $('#step5').addClass('done');
+        $('#step6').addClass('done');
+        $('#step7').addClass('done');
+        $('#step8').addClass('active');
       }
     }
   }
 
+  checkEmptyOption() {
+    for (var i = 0; i < this.optArray.length; i++) {
+      console.log(i, '==>', this.optArray[i]);
+      if (
+        this.optArray[i].fees == null ||
+        this.optArray[i].name == '' ||
+        (this.optArray[i].fees == null && this.optArray[i].name == '')
+      ) {
+        this.optArray.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
+  mouseEnter(idx) {
+    this.shadowIdx = idx;
+  }
+
+  mouseLeave() {
+    this.shadowIdx = null;
+  }
+
   getAllModule() {
-    this._service.getAllModule(this.regionID)
-      .subscribe((res: any) => {
-        console.log('moduleLists', res)
+    this._service.getAllModule(this.regionID).subscribe(
+      (res: any) => {
+        console.log('moduleLists', res);
         for (var i in res) {
           if (res[i]._id != null) {
             this.moduleList.push(res[i]);
           }
         }
-
-      }, err => {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   chooseModuleType(id, name) {
-    console.log(id, name)
+    console.log(id, name);
     this.ischecked = id;
-    localStorage.setItem("moduleID", id)
+    localStorage.setItem('moduleID', id);
     setTimeout(() => {
       this.createAPGform = true;
       this.showModule = false;
@@ -1376,97 +1646,112 @@ export class CourseplanComponent implements OnInit {
   }
 
   goToModule() {
-    console.log("goooooo to module")
+    console.log('goooooo to module');
     this.showSearchAPG = false;
     this.showModule = true;
     this.selectedAPGlists = false;
     this.ischecked = '';
-    console.log(this.showModule)
-    console.log(this.step6)
-    console.log(this.moduleList)
+    console.log(this.showModule);
+    console.log(this.step6);
+    console.log(this.moduleList);
   }
 
   createAPGs(data) {
     console.log(data);
     var templateID;
-    var moduleId = localStorage.getItem('moduleID')
-    data["moduleId"] = moduleId;
-    this._service.createAP(this.regionID, this.locationID, data)
-      .subscribe((res: any) => {
+    var moduleId = localStorage.getItem('moduleID');
+    data['moduleId'] = moduleId;
+    this._service.createAP(this.regionID, this.locationID, data).subscribe(
+      (res: any) => {
         // this.toastr.success('Successfully AP Created.');
-        data["accessPoints"] = [res._id]
-        console.log(data)
-        this._service.createAPG(this.regionID, this.locationID, data, templateID, moduleId)
-          .subscribe((response: any) => {
-            this.toastr.success('Successfully APG Created.');
-            console.log(response)
-            this.formAPG = new apgForm();
-            this.createdAPGstore.push(response);
-            this.showSearchAPG = true;
-            this.selectedAPGlists = true;
-            this.showModule = false;
-            this.createAPGform = false;
-            this.showfixedcreate = false;
-            this.getAllAPG(20, 0);
-          }, err => {
-            this.toastr.error('Created APG Fail');
-            console.log(err)
-          });
-      }, err => {
+        data['accessPoints'] = [res._id];
+        console.log(data);
+        this._service
+          .createAPG(this.regionID, this.locationID, data, templateID, moduleId)
+          .subscribe(
+            (response: any) => {
+              this.toastr.success('Successfully APG Created.');
+              console.log(response);
+              this.formAPG = new apgForm();
+              this.createdAPGstore.push(response);
+              this.showSearchAPG = true;
+              this.selectedAPGlists = true;
+              this.showModule = false;
+              this.createAPGform = false;
+              this.showfixedcreate = false;
+              this.getAllAPG(20, 0);
+            },
+            err => {
+              this.toastr.error('Created APG Fail');
+              console.log(err);
+            }
+          );
+      },
+      err => {
         this.toastr.error('Created AP Fail');
-        console.log(err)
-      });
-  }
-
-  addOption() {
-    console.log("option", this.testObj)
-    let data = {
-      "name": this.testObj.name,
-      "fees": this.testObj.fees
-    }
-    console.log(data);
-    if (data.name != undefined && data.fees != undefined && data.name != '' && data.fees != '') {
-      this.optArr.push(data);
-      console.log(this.optArr)
-      this.testObj.name = "";
-      this.testObj.fees = "";
-    }
-
-    if (data.name == undefined || data.name == '') {
-      this.toastr.error('Course fee option name is empty');
-    } else if (data.fees == undefined || data.fees == '') {
-      this.toastr.error('Course fee option value is empty');
-    } else if (data.name == undefined && data.fees == undefined) {
-      this.toastr.error('Please insert data to create course fee option');
-    }
-  }
-
-  removeOpt(opt) {
-    var index;
-    console.log("remove", opt)
-    for (let x in this.optArr) {
-      if (this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees) {
-        index = x;
+        console.log(err);
       }
-    }
-    this.optArr.splice(index, 1);
-    console.log("arr", this.optArr);
+    );
   }
-  addOrRemoveClassOfStep(ele){
-    var max=this.clickableSteps[this.clickableSteps.length -1];
-    ele.parents("li").removeClass("done");
-    ele.parents("li").prevAll("li").addClass('done')
-    ele.parents("li").prevAll("li").removeClass('active');
-    ele.parents("li").nextAll("li").removeClass('active');
-    for(var i=0; i<this.clickableSteps.length ; i++){
-      $("#" + this.clickableSteps[i]).children("a").css('background-color', '#0080ff');
+
+  // addOption() {
+  //   console.log("option", this.testObj)
+  //   let data = {
+  //     "name": this.testObj.name,
+  //     "fees": this.testObj.fees
+  //   }
+  //   console.log(data);
+  //   if (data.name != undefined && data.fees != undefined && data.name != '' && data.fees != '') {
+  //     this.optArr.push(data);
+  //     console.log(this.optArr)
+  //     this.testObj.name = "";
+  //     this.testObj.fees = "";
+  //   }
+
+  //   if (data.name == undefined || data.name == '') {
+  //     this.toastr.error('Course fee option name is empty');
+  //   } else if (data.fees == undefined || data.fees == '') {
+  //     this.toastr.error('Course fee option value is empty');
+  //   } else if (data.name == undefined && data.fees == undefined) {
+  //     this.toastr.error('Please insert data to create course fee option');
+  //   }
+  // }
+
+  // removeOpt(opt) {
+  //   var index;
+  //   console.log("remove", opt)
+  //   for (let x in this.optArr) {
+  //     if (this.optArr[x].name == opt.name && this.optArr[x].fees == opt.fees) {
+  //       index = x;
+  //     }
+  //   }
+  //   this.optArr.splice(index, 1);
+  //   console.log("arr", this.optArr);
+  // }
+  addOrRemoveClassOfStep(ele) {
+    var max = this.clickableSteps[this.clickableSteps.length - 1];
+    ele.parents('li').removeClass('done');
+    ele
+      .parents('li')
+      .prevAll('li')
+      .addClass('done');
+    ele
+      .parents('li')
+      .prevAll('li')
+      .removeClass('active');
+    ele
+      .parents('li')
+      .nextAll('li')
+      .removeClass('active');
+    for (var i = 0; i < this.clickableSteps.length; i++) {
+      $('#' + this.clickableSteps[i])
+        .children('a')
+        .css('background-color', '#0080ff');
     }
-    if(max != ele.parents("li").attr('id'))
-      ele.parents("li").addClass("done")
+    if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
   }
   stepClick(event, step) {
     if (this.clickableSteps.includes(step)) {
-
       this.step1 = false;
       this.step2 = false;
       this.step3 = false;
@@ -1474,33 +1759,36 @@ export class CourseplanComponent implements OnInit {
       this.step5 = false;
       this.step6 = false;
       this.step7 = false;
+      this.step8 = false;
 
       switch (step) {
-        case ('step1'):
+        case 'step1':
           this.step1 = true;
           break;
-        case ('step2'):
+        case 'step2':
           this.step2 = true;
           break;
-        case ('step3'):
+        case 'step3':
           this.step3 = true;
           break;
-        case ('step4'):
+        case 'step4':
           this.step4 = true;
           break;
-        case ('step5'):
+        case 'step5':
           this.step5 = true;
           break;
-        case ('step6'):
+        case 'step6':
           this.step6 = true;
           break;
-        case ('step7'):
+        case 'step7':
           this.step7 = true;
           break;
+        case 'step8':
+          this.step8 = true;
+          break;
       }
-      $("#" + step).addClass('active');
-      this.addOrRemoveClassOfStep($(event.target))
+      $('#' + step).addClass('active');
+      this.addOrRemoveClassOfStep($(event.target));
     }
-
   }
 }

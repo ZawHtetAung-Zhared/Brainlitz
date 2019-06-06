@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, Title} from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; 
-import { Routes, RouterModule} from '@angular/router';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { FormsModule }    from '@angular/forms';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
 import { NgDragDropModule } from 'ng-drag-drop';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {Ng2TelInputModule} from 'ng2-tel-input';
+import { Daterangepicker } from 'ng2-daterangepicker';
+import { Ng2TelInputModule } from 'ng2-tel-input';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -33,13 +34,25 @@ import { HeaderComponent } from './components/header/header.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToastModule} from 'ng5-toastr/ng5-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import {ToastOptions} from 'ng5-toastr';
+import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule, SortableModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
+import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
+import { StaffReportGraph } from './components/report/staffPerformance/graph/staffGraph.component';
+import { CourseActivitiesReportGraph } from './components/report/courseActivities/graph/courseGraph.component';
+import { StdEnrolmentReportGraph } from './components/report/studentEnrollment/graph/stdEnrolment.component';
+import { MonthlyActiveStdReportGraph } from './components/report/monthlyActiveStudents/graph/masGraph.component';
+import { StaffTeachingReportGraph } from './components/report/staffTeachingSchedule/graph/staffTeachingGraph.component';
+
+import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
+import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
+import { MonthlyActiveStudentsReport } from './components/report/monthlyActiveStudents/mas.component';
+import { StaffTeachingScheduleReport } from './components/report/staffTeachingSchedule/staffTeaching.component';
+
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
@@ -73,12 +86,18 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
-import { TZDatePipe } from './service/pipe/tzdate.pipe'
+import { TZDatePipe } from './service/pipe/tzdate.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
-import {DndDirective} from './components/testwerkz/dnd.directive';
-
+import { DndDirective } from './components/testwerkz/dnd.directive';
+import { VideoTrimmerComponent } from './components/video-trimmer/video-trimmer.component';
+import { SliderRangeComponent } from './components/video-trimmer/slider-range/slider-range.component';
+import { FlexiComponent } from './components/flexi/flexi.component';
+import { InterceptService } from './service/intercept.service';
+import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
+import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
+import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
 
 @NgModule({
   declarations: [
@@ -100,6 +119,16 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
     QuizwerkzComponent,
     ToolsComponent,
     ReportComponent,
+    StaffPerformanceReport,
+    StaffReportGraph,
+    CourseActivitiesReportGraph,
+    StdEnrolmentReportGraph,
+    MonthlyActiveStdReportGraph,
+    StaffTeachingReportGraph,
+    CourseActivitiesReport,
+    StudentEnrollmentReport,
+    MonthlyActiveStudentsReport,
+    StaffTeachingScheduleReport,
     ApgComponent,
     TemplateComponent,
     ModuleComponent,
@@ -134,7 +163,13 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
     calculatePMPipe,
     TZDatePipe,
     InvoiceComponent,
-    DndDirective
+    DndDirective,
+    VideoTrimmerComponent,
+    SliderRangeComponent,
+    FlexiComponent,
+    InvoiceReportComponent,
+    UtcShortDatePipe,
+    UtcFullDayPipe
   ],
   imports: [
     BrowserModule,
@@ -144,13 +179,14 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
+    Daterangepicker,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     ClickOutsideModule,
     TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
-     // confirmButtonType: 'danger' // set defaults here
+    // confirmButtonType: 'danger' // set defaults here
     //}),
     DragScrollModule,
     DragulaModule.forRoot(),
@@ -164,8 +200,13 @@ import {DndDirective} from './components/testwerkz/dnd.directive';
     appService,
     DataService,
     LoggedInGuard,
-    Title
+    Title,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

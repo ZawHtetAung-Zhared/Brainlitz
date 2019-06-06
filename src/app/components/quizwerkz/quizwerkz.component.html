@@ -16,24 +16,48 @@
           <h2 class="title-heading">QuizWerkz</h2>
         </div>
       </div>
-      <button *ngIf="pdfDemo.addPdf != ''" type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
-    </div> 
+      <button
+        *ngIf="pdfDemo.addPdf != ''"
+        type="button"
+        class="btn btn-create"
+        (click)="creatnew()"
+      >
+        Add new QuizWerkz
+      </button>
+    </div>
     <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
-      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6" *ngFor="let pdf of pdfList">
+      <div
+        class="col-sm-6 col-md-6 col-lg-6 col-xl-6"
+        *ngFor="let pdf of pdfList"
+      >
         <div class="d-flex single-quizwerkz">
-            <div class="coverq">
-              <img src="{{pdf.cover}}" class="book-cover-img">
+          <div class="coverq">
+            <img src="{{ pdf.cover }}" class="book-cover-img" />
+          </div>
+          <div style="flex: 1;">
+            <div class="d-flex flex-column h-100">
+              <div class="book-title">
+                <h4>{{ pdf.name }}</h4>
+              </div>
+              <div class="btn-section d-flex justify-content-end">
+                <button
+                  *ngIf="pdfDemo.editPdf != ''"
+                  class="btn-action remove-outline"
+                  (click)="onclickUpdate(pdf._id)"
+                >
+                  Edit
+                </button>
+                <span class="line-between"></span>
+                <button
+                  *ngIf="pdfDemo.deletePdf != ''"
+                  class="btn-action remove-outline"
+                  (click)="onClickDelete(pdf._id, deletemodal)"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-            <div style="flex: 1;">
-              <div class="d-flex flex-column h-100">
-                  <div class="book-title">              
-                    <h4>{{pdf.name}}</h4>
-                  </div>
-                  <div class="btn-section d-flex justify-content-end">
-                    <button *ngIf="pdfDemo.editPdf != ''" class="btn-action remove-outline" (click)="onclickUpdate(pdf._id)">Edit</button> | <button *ngIf="pdfDemo.deletePdf != ''" class="btn-action remove-outline" (click)="onClickDelete(pdf._id, deletemodal)">Delete</button>
-                  </div>
-                </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -50,8 +74,10 @@
       <h3 *ngIf="!isEdit" class="title-heading">Create QuizWerkz</h3>
       <h3 *ngIf="isEdit" class="title-heading">Update QuizWerkz</h3>
       <p class="input-recommend">
-         Quizwerkz is like a library to upload and keep all your resources. Pair the resources to its relevant Course Plan and this will be visible to the users in their device under ‘Resources’ tab. 
-      </p> 
+        Quizwerkz is like a library to upload and keep all your resources. Pair
+        the resources to its relevant Course Plan and this will be visible to
+        the users in their device under ‘Resources’ tab.
+      </p>
       <div class="quizwerkz-form">
         <form novalidate #createqwForm="ngForm">
           <div class="col-md-8 input-wrap">
@@ -59,21 +85,49 @@
               <div class="d-flex justify-content-between">
                 <label class="input-label" for="name">Name</label>
                 <div class="limit-wordcount">
-                  <span>{{wordLength}}/80characters</span>
+                  <span>{{ wordLength }}/80characters</span>
                 </div>
-              </div>  
-              <input type="text" class="form-control create-input" placeholder="quizwerkz name" name="name" [(ngModel)]="formField.name" (focus)="focusMethod($event)" (blur)="blurMethod($event)" maxlength="80" (input)="changeMethod($event.target.value)" required #name="ngModel">
+              </div>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="quizwerkz name"
+                name="name"
+                [(ngModel)]="formField.name"
+                (focus)="focusMethod($event)"
+                (blur)="blurMethod($event)"
+                maxlength="80"
+                (input)="changeMethod($event.target.value)"
+                required
+                #name="ngModel"
+              />
 
-              <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+              <div
+                *ngIf="name.errors && (name.dirty || name.touched)"
+                class="alert alert-danger"
+              >
                 <div [hidden]="!name.errors.required">
                   Name is required!
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="input-label" for="name">Book Url</label>   
-              <input type="url" class="form-control create-input" placeholder="https://bookurl.jpg" pattern="https?://.+" name="url" [(ngModel)]="formField.url" required #url="ngModel" required>
-              <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+              <label class="input-label" for="name">Book Url</label>
+              <input
+                type="url"
+                class="form-control create-input"
+                placeholder="https://bookurl.jpg"
+                pattern="https?://.+"
+                name="url"
+                [(ngModel)]="formField.url"
+                required
+                #url="ngModel"
+                required
+              />
+              <div
+                *ngIf="url.errors && (url.dirty || url.touched)"
+                class="alert alert-danger"
+              >
                 <div [hidden]="!url.errors.required">
                   URL is required!
                 </div>
@@ -83,9 +137,23 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="input-label" for="name">Book Cover Url</label>   
-              <input type="url" class="form-control create-input" placeholder="enter cover URl link" name="cover" [(ngModel)]="formField.cover" required #cover="ngModel" required placeholder="https://bookcover.jpg" pattern="https?://.+" >
-              <div *ngIf="cover.errors && (cover.dirty || cover.touched)" class="alert alert-danger">
+              <label class="input-label" for="name">Book Cover Url</label>
+              <input
+                type="url"
+                class="form-control create-input"
+                placeholder="enter cover URl link"
+                name="cover"
+                [(ngModel)]="formField.cover"
+                required
+                #cover="ngModel"
+                required
+                placeholder="https://bookcover.jpg"
+                pattern="https?://.+"
+              />
+              <div
+                *ngIf="cover.errors && (cover.dirty || cover.touched)"
+                class="alert alert-danger"
+              >
                 <div [hidden]="!cover.errors.required">
                   URL is required!
                 </div>
@@ -96,17 +164,45 @@
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
-            <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-            <button type="button" *ngIf="!isEdit"  [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="createQuizWerkz(formField, isEdit)">Create</button>
-            <button type="button" *ngIf="isEdit"  [disabled]="!createqwForm.valid" class="btn btn-submit" (click)="updateQuizWerkz(formField)">Update</button>
+            <button type="button" class="btn btn-cancel" (click)="cancel()">
+              Cancel
+            </button>
+            <button
+              type="button"
+              *ngIf="!isEdit"
+              [disabled]="!createqwForm.valid"
+              class="btn btn-submit"
+              (click)="createQuizWerkz(formField, isEdit)"
+            >
+              Create
+            </button>
+            <button
+              type="button"
+              *ngIf="isEdit"
+              [disabled]="!createqwForm.valid"
+              class="btn btn-submit"
+              (click)="updateQuizWerkz(formField)"
+            >
+              Update
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div *ngIf="pdfList.length >= 20 && iscreate == false && result.length !=0 && pdfDemo.viewPdf != ''" class="d-flex justify-content-center load-more">
-  <button class="btn remove-outline" (click)="showMore(pdfList.length)">load more</button>
+<div
+  *ngIf="
+    pdfList.length >= 20 &&
+    iscreate == false &&
+    result.length != 0 &&
+    pdfDemo.viewPdf != ''
+  "
+  class="d-flex justify-content-center load-more"
+>
+  <button class="btn remove-outline" (click)="showMore(pdfList.length)">
+    load more
+  </button>
 </div>
 <ng-template #deletemodal let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -116,10 +212,25 @@
     </button> -->
   </div>
   <div class="modal-body pdf-confirm">
-    <p>Are You sure you want to delete <span class="target">"{{selectQw}}"</span>?</p>
+    <p>
+      Are You sure you want to delete
+      <span class="target">"{{ selectQw }}"</span>?
+    </p>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn modal-cancel-btn" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn modal-delete-btn" (click)="quizwerkzDelete(currentID)">Delete</button>
+    <button
+      type="submit"
+      class="btn modal-cancel-btn"
+      (click)="c('Close click')"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn"
+      (click)="quizwerkzDelete(currentID)"
+    >
+      Delete
+    </button>
   </div>
 </ng-template>

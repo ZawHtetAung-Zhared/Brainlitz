@@ -1,0 +1,76 @@
+<div>
+  <div class="title-div">
+    <h2>Invoice Reports</h2>
+  </div>
+  <div class="table-wrapper">
+    <table class="inv-table">
+      <tr class="header-wrapper">
+        <td>Invoice#</td>
+        <td>To</td>
+        <td>Date</td>
+        <td>Due date</td>
+        <td>Status</td>
+        <td>Action</td>
+      </tr>
+      <tr class="invList" *ngFor="let invoice of invoiceList">
+        <td>
+          {{ invoice.refInvoiceId }}
+        </td>
+        <td>
+          {{ invoice.userDetails.preferredName }}
+        </td>
+        <td>
+          {{ invoice.updatedDate | dateFormat }}
+        </td>
+        <td>
+          {{ invoice.dueDate | dateFormat }}
+        </td>
+        <td>
+          <span
+            [ngStyle]="{
+              color:
+                invoice.status == 'PAID'
+                  ? '#009940'
+                  : invoice.status == 'UNPAID'
+                  ? '#F23A30'
+                  : '#F26500'
+            }"
+            >{{
+              invoice.status == 'PAID[PARTIAL]'
+                ? 'Paid partial'
+                : invoice.status == 'PAID'
+                ? 'Paid'
+                : 'Unpaid'
+            }}</span
+          >
+        </td>
+        <td>
+          <button
+            class="view-inv-btn"
+            (click)="openModal(invoice, classEnrollModal)"
+          >
+            View invoice
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="d-flex justify-content-center load-more">
+  <button
+    *ngIf="invoiceList.length >= 20"
+    class="btn remove-outline"
+    (click)="showMore(invoiceList.length)"
+  >
+    load more
+  </button>
+</div>
+<ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <app-invoice
+    [custDetail]="custDetail"
+    [course]="selectedCourse"
+    (closed)="closeModal('closeInv')"
+    class="app-inv-wrap"
+  ></app-invoice>
+</ng-template>
+<block-ui message="Deafult Message"></block-ui>
