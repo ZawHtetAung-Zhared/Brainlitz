@@ -736,10 +736,9 @@
                           <button
                             *ngIf="
                               (course.seat_left != 0 &&
+                                courseDemo.assignStudent != '' &&
                                 course.type != 'FLEXY') ||
-                              (course.seat_left != 0 &&
-                                course.type == 'FLEXY' &&
-                                courseDemo.assignStudent != '')
+                              course.type == 'FLEXY'
                             "
                             class="btn-addC d-flex justify-content-center align-items-center"
                             (click)="
