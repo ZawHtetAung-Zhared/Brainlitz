@@ -1,16 +1,29 @@
-import { Component, OnInit, ViewContainerRef, HostListener, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  HostListener,
+  AfterViewInit
+} from '@angular/core';
 import { appService } from '../../service/app.service';
-import { TimezonePickerService, Timezone } from 'ng2-timezone-selector/timezone-picker.service';
+import {
+  TimezonePickerService,
+  Timezone
+} from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
-import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef
+} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import * as currency from 'currency-symbol-map/map';
 // import currencyToSymbolMap from 'currency-symbol-map/map'
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +31,6 @@ declare var $:any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
   public srangeHr;
   public srangeMin;
   public sisSelected;
@@ -30,7 +42,7 @@ export class DashboardComponent implements OnInit {
   public showFormat;
   public selectedHrRange;
   public selectedMinRange;
-  public selected
+  public selected;
   public isChecked: boolean = true;
   public sprogressSlider: boolean = false;
   public eprogressslider: boolean = false;
@@ -43,18 +55,16 @@ export class DashboardComponent implements OnInit {
   public isMidStick: boolean = false;
   public operationStart: any = '';
   public operationEnd: any = '';
-  public item:any = {
+  public item: any = {
     name: '',
     timezone: '',
     url: '',
-    operatingHour: {
-
-    }
+    operatingHour: {}
   };
 
   // public menuType:any = "location";
 
-  public menuType: any = "general";
+  public menuType: any = 'general';
   public checkedModule = [];
   public allModule;
   public emptyModule: boolean = false;
@@ -83,76 +93,233 @@ export class DashboardComponent implements OnInit {
   public selectedProvider: any = '';
   public selectedFlag: any;
   public invoiceData: any = {
-    "companyName": "",
-    "address": "",
-    "email": "",
-    "prefix": "",
-    "currencySign": "",
+    companyName: '',
+    address: '',
+    email: '',
+    prefix: '',
+    currencySign: '',
+    invoiceNote: ''
   };
-  public payment: any = {}
+  public payment: any = {};
   public paymentData: any = {
-    "tax": {
-      "rate": "",
-      "name": ""
+    tax: {
+      rate: '',
+      name: ''
     },
-    "paymentProviders": [
+    paymentProviders: [
       {
-        "id": 0,
-        "name": "",
+        id: 0,
+        name: ''
       }
     ],
-    "currencyCode": ""
+    currencyCode: ''
   };
   public emptyPaymentData: boolean = false;
   public emptyInvoiceData: boolean = false;
   public startT: any;
   public endT: any;
-  public flags = ['aed', 'afn', 'all', 'amd', 'ang', 'aoa', 'ars', 'aud', 'awg', 'azn', 'bam', 'bbd', 'bdt', 'bgn', 'bhd', 'bif', 'bmd', 'bnd', 'bob', 'brl', 'bsd', 'btn', 'bwp', 'byn', 'bzd', 'cad', 'cdf', 'chf', 'clp', 'cny', 'cop', 'crc', 'cup', 'cve', 'czk', 'djf', 'dkk', 'dop', 'dzd', 'egp', 'ern', 'etb', 'eur', 'fjd', 'fkp', 'gbp', 'gel', 'ghs', 'gip', 'gmd', 'gnf', 'gtq', 'gyd', 'hkd', 'hnl', 'hrk', 'htg', 'huf', 'idr', 'ils', 'inr', 'iqd', 'irr', 'isk', 'jmd', 'jod', 'jpy', 'kes', 'kgs', 'khr', 'kmf', 'kpw', 'krw', 'kwd', 'kyd', 'kzt', 'lak', 'lbp', 'lkr', 'lrd', 'ltl', 'lyd', 'mad', 'mdl', 'mga', 'mkd', 'mmk', 'mnt', 'mop', 'mro', 'mur', 'mvr', 'mwk', 'mxn', 'myr', 'mzn', 'nad', 'ngn', 'nio', 'nok', 'npr', 'nzd', 'omr', 'pen', 'pgk', 'php', 'pkr', 'pln', 'pyg', 'qar', 'ron', 'rsd', 'rub', 'rwf', 'sar', 'sbd', 'scr', 'sek', 'sgd', 'shp', 'sll', 'sos', 'srd', 'std', 'svc', 'syp', 'szl', 'thb', 'tjs', 'tnd', 'top', 'try', 'ttd', 'twd', 'tzs', 'uah', 'ugx', 'usd', 'uyu', 'uzs', 'vef', 'vnd', 'vuv', 'wst', 'xaf', 'xcd', 'xof', 'xpf', 'yer', 'zar', 'zmw']
+  public flags = [
+    'aed',
+    'afn',
+    'all',
+    'amd',
+    'ang',
+    'aoa',
+    'ars',
+    'aud',
+    'awg',
+    'azn',
+    'bam',
+    'bbd',
+    'bdt',
+    'bgn',
+    'bhd',
+    'bif',
+    'bmd',
+    'bnd',
+    'bob',
+    'brl',
+    'bsd',
+    'btn',
+    'bwp',
+    'byn',
+    'bzd',
+    'cad',
+    'cdf',
+    'chf',
+    'clp',
+    'cny',
+    'cop',
+    'crc',
+    'cup',
+    'cve',
+    'czk',
+    'djf',
+    'dkk',
+    'dop',
+    'dzd',
+    'egp',
+    'ern',
+    'etb',
+    'eur',
+    'fjd',
+    'fkp',
+    'gbp',
+    'gel',
+    'ghs',
+    'gip',
+    'gmd',
+    'gnf',
+    'gtq',
+    'gyd',
+    'hkd',
+    'hnl',
+    'hrk',
+    'htg',
+    'huf',
+    'idr',
+    'ils',
+    'inr',
+    'iqd',
+    'irr',
+    'isk',
+    'jmd',
+    'jod',
+    'jpy',
+    'kes',
+    'kgs',
+    'khr',
+    'kmf',
+    'kpw',
+    'krw',
+    'kwd',
+    'kyd',
+    'kzt',
+    'lak',
+    'lbp',
+    'lkr',
+    'lrd',
+    'ltl',
+    'lyd',
+    'mad',
+    'mdl',
+    'mga',
+    'mkd',
+    'mmk',
+    'mnt',
+    'mop',
+    'mro',
+    'mur',
+    'mvr',
+    'mwk',
+    'mxn',
+    'myr',
+    'mzn',
+    'nad',
+    'ngn',
+    'nio',
+    'nok',
+    'npr',
+    'nzd',
+    'omr',
+    'pen',
+    'pgk',
+    'php',
+    'pkr',
+    'pln',
+    'pyg',
+    'qar',
+    'ron',
+    'rsd',
+    'rub',
+    'rwf',
+    'sar',
+    'sbd',
+    'scr',
+    'sek',
+    'sgd',
+    'shp',
+    'sll',
+    'sos',
+    'srd',
+    'std',
+    'svc',
+    'syp',
+    'szl',
+    'thb',
+    'tjs',
+    'tnd',
+    'top',
+    'try',
+    'ttd',
+    'twd',
+    'tzs',
+    'uah',
+    'ugx',
+    'usd',
+    'uyu',
+    'uzs',
+    'vef',
+    'vnd',
+    'vuv',
+    'wst',
+    'xaf',
+    'xcd',
+    'xof',
+    'xpf',
+    'yer',
+    'zar',
+    'zmw'
+  ];
   @BlockUI() blockUI: NgBlockUI;
 
-  constructor(private _service: appService, public toastr: ToastsManager, vcr: ViewContainerRef, private router: Router) {
+  constructor(
+    private _service: appService,
+    public toastr: ToastsManager,
+    vcr: ViewContainerRef,
+    private router: Router
+  ) {
     this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0, 0);
   }
 
   ngOnInit() {
-
     this.item = {
       name: '',
       timezone: '',
       url: '',
       operatingHour: {
-        'start': {
-          'hr': '',
-          'min': '',
-          "meridiem": ''
+        start: {
+          hr: '',
+          min: '',
+          meridiem: ''
         },
-        'end': {
-          'hr': '',
-          'min': '',
-          "meridiem": ''
+        end: {
+          hr: '',
+          min: '',
+          meridiem: ''
         }
       }
     };
-    // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem; 
+    // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem;
 
     if (localStorage.getItem('locationId') == null) {
-      console.log('hi')
+      console.log('hi');
       this.permissionType = [];
       this.checkPermission();
-      localStorage.setItem('permission', JSON.stringify([]))
+      localStorage.setItem('permission', JSON.stringify([]));
     }
-    this._service.permissionList.subscribe((data) => {
+    this._service.permissionList.subscribe(data => {
       if (this.router.url === '/dashboard') {
         this.permissionType = data;
-        console.log(this.permissionType)
+        console.log(this.permissionType);
         this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data))
+        localStorage.setItem('permission', JSON.stringify(data));
       }
     });
 
-    this.getInvoiceSetting('invoiceSettings')
-    this.getPaymentSetting('paymentSettings')
+    this.getInvoiceSetting('invoiceSettings');
+    this.getPaymentSetting('paymentSettings');
   }
 
   ngAfterViewInit() {
@@ -168,195 +335,214 @@ export class DashboardComponent implements OnInit {
     //     "meridiem":"PM"
     //   }
     // }
-
   }
   @HostListener('document:click', ['$event'])
   public test(event): void {
-    if ( this.showDropdown != true) {
-      $('.currency-dropdown').css({ 'display': "none" });
-    }
-    else {
-      $('.currency-dropdown').css({ 'display': "block" });
-      $('.currency-dropdown').click(function (event) {
+    if (this.showDropdown != true) {
+      $('.currency-dropdown').css({ display: 'none' });
+    } else {
+      $('.currency-dropdown').css({ display: 'block' });
+      $('.currency-dropdown').click(function(event) {
         event.stopPropagation();
       });
-  }
-  this.showDropdown = false
-    if ( this.showProvider != true) {
-      $('.payment-provider').css({ 'display': "none" });
     }
-    else {
-      $('.payment-provider').css({ 'display': "block" });
-      $('.payment-provider').click(function (event) {
+    this.showDropdown = false;
+    if (this.showProvider != true) {
+      $('.payment-provider').css({ display: 'none' });
+    } else {
+      $('.payment-provider').css({ display: 'block' });
+      $('.payment-provider').click(function(event) {
         event.stopPropagation();
       });
+    }
+    this.showProvider = false;
   }
-  this.showProvider = false
-}
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
-      console.log('greater than 40')
+      console.log('greater than 40');
       this.navIsFixed = true;
       this.isMidStick = false;
     } else {
-      console.log('less than 15')
+      console.log('less than 15');
       this.navIsFixed = false;
     }
-    this.isMidStick = (window.pageYOffset > 45 && window.pageYOffset < 81) ? true : false;
+    this.isMidStick =
+      window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
   }
 
   checkPermission() {
-    console.log(this.permissionType)
+    console.log(this.permissionType);
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
     this.locationSidebar = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
-    this.customSidebar = ["CREATECUSTOMFIELD", "VIEWCUSTOMFIELD", "EDITCUSTOMFIELD", "DELETECUSTOMFIELD"];
+    this.customSidebar = [
+      'CREATECUSTOMFIELD',
+      'VIEWCUSTOMFIELD',
+      'EDITCUSTOMFIELD',
+      'DELETECUSTOMFIELD'
+    ];
 
-    this.generalSidebar = this.generalSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.generalSidebar = this.generalSidebar.filter(
+      value => -1 !== this.permissionType.indexOf(value)
+    );
 
-    this.generalDemo['regional'] = (this.generalSidebar.includes("UPDATEREGIONALSETTINGS")) ? 'UPDATEREGIONALSETTINGS' : '';
-    this.generalDemo['appsetting'] = (this.generalSidebar.includes("UPDATEAPPSETTINGS")) ? 'UPDATEAPPSETTINGS' : '';
+    this.generalDemo['regional'] = this.generalSidebar.includes(
+      'UPDATEREGIONALSETTINGS'
+    )
+      ? 'UPDATEREGIONALSETTINGS'
+      : '';
+    this.generalDemo['appsetting'] = this.generalSidebar.includes(
+      'UPDATEAPPSETTINGS'
+    )
+      ? 'UPDATEAPPSETTINGS'
+      : '';
 
+    this.locationSidebar = this.locationSidebar.filter(
+      value => -1 !== this.permissionType.indexOf(value)
+    );
 
-    this.locationSidebar = this.locationSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
+    this.customSidebar = this.customSidebar.filter(
+      value => -1 !== this.permissionType.indexOf(value)
+    );
 
-    this.customSidebar = this.customSidebar.filter(value => -1 !== this.permissionType.indexOf(value));
-
-    console.log(this.customSidebar)
+    console.log(this.customSidebar);
 
     if (this.generalSidebar.includes('UPDATEREGIONALSETTINGS')) {
       this.getAdministrator();
     } else if (this.generalSidebar.includes('UPDATEAPPSETTINGS')) {
       this.isModuleList();
     } else {
-      console.log('permission deny')
+      console.log('permission deny');
     }
   }
 
   getAdministrator() {
-    console.log("getAdministrator works")
+    console.log('getAdministrator works');
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    this._service.getRegionalAdministrator(this.regionId, this.token, this.type)
-      .subscribe((res: any) => {
-        console.log("res admin", res)
-        this.admin = res;
-        this.item.name = res.name;
-        this.item.timezone = res.timezone;
-        this.item.url = res.url;
-        if(res.operatingHour == undefined){
-          this.item.operatingHour.start = {hr: 0, min: 0, meridiem: "AM"};
-          this.item.operatingHour.end = {hr: 0, min: 0, meridiem: "PM"};
-        }else{
-          this.item.operatingHour = res.operatingHour;
+    this._service
+      .getRegionalAdministrator(this.regionId, this.token, this.type)
+      .subscribe(
+        (res: any) => {
+          console.log('res admin', res);
+          this.admin = res;
+          this.item.name = res.name;
+          this.item.timezone = res.timezone;
+          this.item.url = res.url;
+          if (res.operatingHour == undefined) {
+            this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
+            this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
+          } else {
+            this.item.operatingHour = res.operatingHour;
+          }
+          console.log('~~~', this.item);
+          localStorage.setItem('timezone', this.item.timezone);
+          // let test=moment().tz("Singapore").format();
+          // console.log(test)
+          const offset = moment.tz('Asia/Singapore').utcOffset();
+          console.log(offset);
+        },
+        err => {
+          console.log(err);
         }
-        console.log('~~~', this.item)
-        localStorage.setItem('timezone', this.item.timezone);
-        // let test=moment().tz("Singapore").format();
-        // console.log(test)
-        const offset = moment.tz("Asia/Singapore").utcOffset();
-        console.log(offset)
-      }, err => {
-        console.log(err)
-      })
+      );
   }
 
   getInvoiceSetting(type) {
-    this._service.invoiceSetting(this.regionId, type)
-      .subscribe((res: any) => {
-        console.log(res)
+    this._service.invoiceSetting(this.regionId, type).subscribe(
+      (res: any) => {
+        console.log(res);
         this.invoiceData = res;
-        console.log('this.invoiceData', this.invoiceData)
-        console.log(Object.keys(this.invoiceData).length)
+        console.log('this.invoiceData', this.invoiceData);
+        console.log(Object.keys(this.invoiceData).length);
 
-        this.emptyInvoiceData = (Object.keys(this.invoiceData).length == 0) ? true : false;
+        this.emptyInvoiceData =
+          Object.keys(this.invoiceData).length == 0 ? true : false;
 
         if (Object.keys(this.invoiceData).length == 0) {
           this.invoiceData = {
-            "companyName": "",
-            "registration": "",
-            "address": "",
-            "city": "",
-            "email": "",
-            "prefix": "",
-            "currencySign": undefined,
-            "currencyCode": undefined
+            companyName: '',
+            registration: '',
+            address: '',
+            city: '',
+            email: '',
+            prefix: '',
+            currencySign: undefined,
+            currencyCode: undefined
           };
         }
-      }, err => {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   getPaymentSetting(type) {
-    this._service.invoiceSetting(this.regionId, type)
-      .subscribe((res: any) => {
-        console.log(res)
+    this._service.invoiceSetting(this.regionId, type).subscribe(
+      (res: any) => {
+        console.log(res);
         this.paymentData = res;
-        console.log('this.paymentData', this.paymentData)
-        this.emptyPaymentData = (Object.keys(this.paymentData).length == 0) ? true : false;
+        console.log('this.paymentData', this.paymentData);
+        this.emptyPaymentData =
+          Object.keys(this.paymentData).length == 0 ? true : false;
 
         if (Object.keys(this.paymentData).length == 0) {
           this.paymentData = {
-            "tax": {
-              "rate": "",
-              "name": ""
+            tax: {
+              rate: '',
+              name: ''
             },
-            "paymentProviders": [],
-            "currencyCode": undefined,
-            "currencySign": undefined
+            paymentProviders: [],
+            currencyCode: undefined,
+            currencySign: undefined
           };
         }
 
         this.providerTemp = this.paymentData.paymentProviders;
-        console.log("provider Temp", this.providerTemp)
+        console.log('provider Temp', this.providerTemp);
         if (this.providerTemp.length > 0) {
           this.providerArray = [];
           for (let j = 0; j < this.providerTemp.length; j++) {
-            this.providerArray.push(this.providerTemp[j].name)
+            this.providerArray.push(this.providerTemp[j].name);
           }
         } else {
-          this.providerArray = []
+          this.providerArray = [];
         }
-      }, err => {
-        console.log(err)
-      })
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   isModuleList() {
-    this._service.getAllModule(this.regionId)
-      .subscribe((res: any) => {
-        this.allModule = res;
-        if (this.allModule.length > 0) {
-          this.emptyModule = false;
-        } else {
-          this.emptyModule = true;
-        }
-      })
+    this._service.getAllModule(this.regionId).subscribe((res: any) => {
+      this.allModule = res;
+      if (this.allModule.length > 0) {
+        this.emptyModule = false;
+      } else {
+        this.emptyModule = true;
+      }
+    });
   }
 
   chooseTimeOpt(type, type1) {
     if (type1 == 'start') {
       this.sisSelected = type;
-    }
-    else
-      this.eisSelected = type;
-    console.log(type)
-
+    } else this.eisSelected = type;
+    console.log(type);
   }
   durationProgress($event, type) {
     if (type == 'start') {
       this.sprogressSlider = true;
       this.eprogressslider = false;
-    }
-
-    else {
+    } else {
       this.sprogressSlider = false;
 
       this.eprogressslider = true;
     }
   }
   editRegion() {
-
     this.isEdit = true;
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
@@ -371,15 +557,14 @@ export class DashboardComponent implements OnInit {
     this.erangeHr = this.item.operatingHour.end.hr;
     this.erangeMin = this.item.operatingHour.end.min;
     this.eisSelected = this.item.operatingHour.end.meridiem;
-    console.log(this.srangeHr , this.srangeMin , this.sisSelected)
-    console.log(this.erangeHr , this.erangeMin , this.eisSelected)
+    console.log(this.srangeHr, this.srangeMin, this.sisSelected);
+    console.log(this.erangeHr, this.erangeMin, this.eisSelected);
     // this.endT = this.item.operatingHour.end.hr + String(this.item.operatingHour.end.min) + this.item.operatingHour.end.meridiem;
     // console.log(this.changeTime(this.startT))
     // console.log(this.changeTime(this.endT))
 
-
-    console.log("--->", this.startT, this.endT)
-    this.temp = this.item.timezone; 
+    console.log('--->', this.startT, this.endT);
+    this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
     // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
   }
@@ -388,55 +573,56 @@ export class DashboardComponent implements OnInit {
     this.urlTemp = this.item.url;
   }
   validateTime(time) {
-    var starTTemp = time.trim().split(":");
+    var starTTemp = time.trim().split(':');
     console.log(starTTemp);
-    if (starTTemp[0].length == 1)
-      starTTemp[0] = "0" + starTTemp[0];
-    if (starTTemp[1].length < 4)
-      starTTemp[1] = "0" + starTTemp[1];
+    if (starTTemp[0].length == 1) starTTemp[0] = '0' + starTTemp[0];
+    if (starTTemp[1].length < 4) starTTemp[1] = '0' + starTTemp[1];
     return starTTemp;
   }
   updateRegionalInfo(data, type) {
-    console.log(data,type)
+    console.log(data, type);
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    if(type == "url"){
-      console.log("url");
+    if (type == 'url') {
+      console.log('url');
       console.log(data);
-    }else if(type == "timezone"){
-       console.log("timezone");
-       console.log(this.startT);
-       let start = {
-          'hr': this.srangeHr,
-          'min': this.srangeMin,
-          'meridiem': this.sisSelected
-        }
-        this.item.operatingHour["start"] = start;
-        let end = {
-          'hr': this.erangeHr,
-          'min': this.erangeMin,
-          'meridiem': this.eisSelected
-        }
-        this.item.operatingHour["end"] = end;
+    } else if (type == 'timezone') {
+      console.log('timezone');
+      console.log(this.startT);
+      let start = {
+        hr: this.srangeHr,
+        min: this.srangeMin,
+        meridiem: this.sisSelected
+      };
+      this.item.operatingHour['start'] = start;
+      let end = {
+        hr: this.erangeHr,
+        min: this.erangeMin,
+        meridiem: this.eisSelected
+      };
+      this.item.operatingHour['end'] = end;
     }
-    console.log("DATA~~~",data)
-    setTimeout(()=>{
-      this._service.updateRegionalInfo(this.regionId, data, this.token, this.type)
-      .subscribe((res: any) => {
-        this.toastr.success('Successfully Updated.');
-        console.log('~~~', res)
-        localStorage.setItem('timezone', this.item.timezone)
-        this.getAdministrator();
-        if (type == "timezone") {
-          this.isEdit = false;
-        } else if (type == "url") {
-          this.isUrlEdit = false;
-        }
-      }, err => {
-        console.log(err)
-      })
-    },100)
-    
+    console.log('DATA~~~', data);
+    setTimeout(() => {
+      this._service
+        .updateRegionalInfo(this.regionId, data, this.token, this.type)
+        .subscribe(
+          (res: any) => {
+            this.toastr.success('Successfully Updated.');
+            console.log('~~~', res);
+            localStorage.setItem('timezone', this.item.timezone);
+            this.getAdministrator();
+            if (type == 'timezone') {
+              this.isEdit = false;
+            } else if (type == 'url') {
+              this.isUrlEdit = false;
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    }, 100);
   }
 
   cancelUpdate() {
@@ -445,7 +631,7 @@ export class DashboardComponent implements OnInit {
   }
   closeEdit() {
     this.isUrlEdit = false;
-    this.item.url = this.urlTemp
+    this.item.url = this.urlTemp;
   }
 
   clickTab(type) {
@@ -456,20 +642,20 @@ export class DashboardComponent implements OnInit {
   }
 
   editSetting(type) {
-    console.log('hi')
+    console.log('hi');
     this.option = type;
     this.getCurrency();
     this.selectedCurrency = this.invoiceData.currencySign;
     this.selectedFlag = this.invoiceData.currencyCode;
 
-    this.isOnline = (this.paymentData.paymentProviders.length > 0) ? true : false;
+    this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
     // if(this.isOnline == true){
     //   this.selectedProvider = this.paymentData.paymentProviders.name;
     // }
     if (this.isOnline == true && this.option == 'Payment') {
-      this._service.paymentProvider()
-        .subscribe((res: any) => {
-          console.log(res)
+      this._service.paymentProvider().subscribe(
+        (res: any) => {
+          console.log(res);
           this.providers = res;
           if (this.providerTemp.length > 0) {
             for (var i = 0; i < this.providerTemp.length; i++) {
@@ -477,12 +663,15 @@ export class DashboardComponent implements OnInit {
                 if (this.providerTemp[i].name == this.providers[j].name) {
                   // console.log("same provider name",Object.keys(this.providerTemp[i]));
                   for (var m in this.providers[j].requiredField) {
-                    console.log("req", this.providers[j].requiredField[m])
+                    console.log('req', this.providers[j].requiredField[m]);
                     let reqName = this.providers[j].requiredField[m].name;
                     var reqVal = this.providerTemp[i][reqName];
-                    console.log("req VAl", reqVal);
+                    console.log('req VAl', reqVal);
                     this.providers[j].requiredField[m].value = reqVal;
-                    console.log("req field", this.providers[j].requiredField[m])
+                    console.log(
+                      'req field',
+                      this.providers[j].requiredField[m]
+                    );
                     // console.log(this.providerTemp[i].hasOwnProperty(reqName));
                     // if(this.providerTemp[i].hasOwnProperty(reqName) == true){
 
@@ -492,43 +681,44 @@ export class DashboardComponent implements OnInit {
               }
             }
           }
-        }, err => {
-          console.log(err)
-        })
+        },
+        err => {
+          console.log(err);
+        }
+      );
     }
   }
 
   getCurrency() {
     this.objectKeys = Object.keys;
     this.currency_symbol = currency;
-    var key, keys = Object.keys(this.currency_symbol);
+    var key,
+      keys = Object.keys(this.currency_symbol);
     var n = keys.length;
-    var newobj = {}
+    var newobj = {};
     while (n--) {
       key = keys[n];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
     }
-    console.log(this.newCurrency)
+    console.log(this.newCurrency);
   }
 
   search(val) {
-    console.log(this.newCurrency.hasOwnProperty(val))
+    console.log(this.newCurrency.hasOwnProperty(val));
     if (val.length > 0) {
       if (this.newCurrency.hasOwnProperty(val)) {
-        var keyObj = val
-        this.newCurrency = { [keyObj]: this.newCurrency[val] }
+        var keyObj = val;
+        this.newCurrency = { [keyObj]: this.newCurrency[val] };
       }
     } else {
       this.getCurrency();
     }
-
   }
 
-  showCurrencyBox(type,$event: Event) {
-   
+  showCurrencyBox(type, $event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
-    console.log('hiii')
+    console.log('hiii');
     if (type == 'currency') {
       this.showDropdown = true;
       this.getCurrency();
@@ -538,20 +728,20 @@ export class DashboardComponent implements OnInit {
   }
 
   closeBox(event) {
-    console.log('~~~ :P')
-    var parentWrap = event.path.filter(function (res) {
-      return res.className == "currency-wrap"
-    })
+    console.log('~~~ :P');
+    var parentWrap = event.path.filter(function(res) {
+      return res.className == 'currency-wrap';
+    });
     if (parentWrap.length == 0) {
       this.showDropdown = false;
     }
   }
 
   closeProvider(event) {
-    console.log('~~~ :P')
-    var parentWrap = event.path.filter(function (res) {
-      return res.className == "current-currency d-flex justify-content-between"
-    })
+    console.log('~~~ :P');
+    var parentWrap = event.path.filter(function(res) {
+      return res.className == 'current-currency d-flex justify-content-between';
+    });
     if (parentWrap.length == 0) {
       this.showProvider = false;
     }
@@ -568,19 +758,19 @@ export class DashboardComponent implements OnInit {
     console.log(this.providerTemp);
     console.log(this.paymentData.paymentProviders);
     if (this.providerTemp == 0) {
-      this.payment = {}
+      this.payment = {};
     }
   }
 
   selectCurrency(data, key) {
-    console.log(key)
-    console.log(data)
+    console.log(key);
+    console.log(data);
     this.selectedCurrency = data;
     this.selectedFlag = key;
   }
   providerField = [];
   selectProvider(id, name) {
-    console.log(id, '-', name)
+    console.log(id, '-', name);
     this.selectedProvider = name;
     this.payment.name = name;
     // this.providerField = [];
@@ -592,29 +782,29 @@ export class DashboardComponent implements OnInit {
   }
 
   updateInvoice(data, type) {
-    console.log(data)
+    console.log(data);
     var body;
     data['currencyCode'] = this.selectedFlag;
     data['currencySign'] = this.selectedCurrency;
     if (type == 'invoice') {
-      console.log('if')
+      console.log('if');
       this.paymentData['currencyCode'] = this.selectedFlag;
       this.paymentData['currencySign'] = this.selectedCurrency;
 
-      this.paymentData = (this.emptyPaymentData == true) ? {} : this.paymentData;
-      console.log(this.paymentData)
+      this.paymentData = this.emptyPaymentData == true ? {} : this.paymentData;
+      console.log(this.paymentData);
       body = {
-        'invoiceSettings': data,
-        'paymentSettings': this.paymentData
-      }
+        invoiceSettings: data,
+        paymentSettings: this.paymentData
+      };
     } else {
-      console.log('else')
+      console.log('else');
       this.invoiceData['currencyCode'] = this.selectedFlag;
       this.invoiceData['currencySign'] = this.selectedCurrency;
       if (this.isOnline == true) {
-        console.log(this.payment)
+        console.log(this.payment);
         if (this.providerTemp.length > 0) {
-          console.log('no', this.providerTemp)
+          console.log('no', this.providerTemp);
           for (var k = 0; k < this.providerTemp.length; k++) {
             for (var l = 0; l < this.providers.length; l++) {
               if (this.providerTemp[k].name == this.providers[l].name) {
@@ -622,66 +812,75 @@ export class DashboardComponent implements OnInit {
                 for (var m in this.providers[l].requiredField) {
                   // console.log("req",this.providers[j].requiredField[m])
                   let reqName = this.providers[l].requiredField[m].name;
-                  this.providerTemp[k][reqName] = this.providers[l].requiredField[m].value;
+                  this.providerTemp[k][reqName] = this.providers[
+                    l
+                  ].requiredField[m].value;
                 }
               }
             }
           }
           data.paymentProviders = this.providerTemp;
-          console.log("Providers update", data.paymentProviders)
+          console.log('Providers update', data.paymentProviders);
         } else {
-          console.log('no provider at first', this.providerTemp)
+          console.log('no provider at first', this.providerTemp);
           if (this.payment.hasOwnProperty('name') == true) {
             for (var i in this.providers) {
               if (this.providers[i].name == this.payment.name) {
-                console.log("same name", this.payment);
+                console.log('same name', this.payment);
                 for (var j in this.providers[i].requiredField) {
-                  console.log("provider field", this.providers[i].requiredField[j]);
-                  this.payment[this.providers[i].requiredField[j].name] = this.providers[i].requiredField[j].value;
+                  console.log(
+                    'provider field',
+                    this.providers[i].requiredField[j]
+                  );
+                  this.payment[
+                    this.providers[i].requiredField[j].name
+                  ] = this.providers[i].requiredField[j].value;
                 }
               }
             }
             data.paymentProviders.push(this.payment);
           } else {
-            data.paymentProviders = []
+            data.paymentProviders = [];
           }
         }
       } else {
-        data.paymentProviders = []
+        data.paymentProviders = [];
       }
 
       data['currencyCode'] = this.selectedFlag;
       data['currencySign'] = this.selectedCurrency;
 
-      this.invoiceData = (this.emptyInvoiceData == true) ? {} : this.invoiceData;
-      console.log(this.invoiceData)
-      console.log(data)
+      this.invoiceData = this.emptyInvoiceData == true ? {} : this.invoiceData;
+      console.log(this.invoiceData);
+      console.log(data);
 
       body = {
-        'invoiceSettings': this.invoiceData,
-        'paymentSettings': data
-      }
+        invoiceSettings: this.invoiceData,
+        paymentSettings: data
+      };
     }
 
-    console.log(body)
+    console.log(body);
     this.blockUI.start('Loading...');
-    this._service.updateInvoiceSetting(this.regionId, body)
-      .subscribe((res: any) => {
+    this._service.updateInvoiceSetting(this.regionId, body).subscribe(
+      (res: any) => {
         this.blockUI.stop();
-        console.log(res)
+        console.log(res);
         this.invoiceData = res.invoiceSettings;
         this.paymentData = res.paymentSettings;
         let currency = {
-          'invCurrencyCode': res.invoiceSettings.currencyCode,
-          'invCurrencySign': res.invoiceSettings.currencySign
+          invCurrencyCode: res.invoiceSettings.currencyCode,
+          invCurrencySign: res.invoiceSettings.currencySign
         };
         console.log(currency);
-        localStorage.setItem('currency', JSON.stringify(currency))
+        localStorage.setItem('currency', JSON.stringify(currency));
         this.cancel();
-      }, err => {
+      },
+      err => {
         this.blockUI.stop();
-        console.log(err)
-      })
+        console.log(err);
+      }
+    );
   }
 
   cancel() {
@@ -692,12 +891,12 @@ export class DashboardComponent implements OnInit {
     this.isOnline = false;
     this.selectedProvider = '';
     this.providerField = [];
-    this.getInvoiceSetting('invoiceSettings')
-    this.getPaymentSetting('paymentSettings')
+    this.getInvoiceSetting('invoiceSettings');
+    this.getPaymentSetting('paymentSettings');
   }
 
   numberOnly(event, type) {
-    const charCode = (event.which) ? event.which : event.keyCode;
+    const charCode = event.which ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
@@ -722,100 +921,141 @@ export class DashboardComponent implements OnInit {
       //     'requiredField': [{name: "MerchantID", type: "string"},{name: "APIKey", type: "string"}]
       //   }
       // ]
-      this._service.paymentProvider()
-        .subscribe((res: any) => {
-          console.log(res)
+      this._service.paymentProvider().subscribe(
+        (res: any) => {
+          console.log(res);
           this.providers = res;
-        }, err => {
-          console.log(err)
-        })
+        },
+        err => {
+          console.log(err);
+        }
+      );
     } else {
-      this.payment = {}
+      this.payment = {};
     }
   }
   getTwentyFourHourStartTime(obj) {
-    console.log("time obj", obj)
+    console.log('time obj', obj);
     this.operationStart = obj.hr + ':' + obj.min + ' ' + obj.meridiem;
     var time = this.operationStart;
     if (time) {
       var hours = Number(time.match(/^(\d+)/)[1]);
       var minutes = Number(time.match(/:(\d+)/)[1]);
       var AMPM = time.match(/\s(.*)$/)[1];
-      if (AMPM == "PM" && hours < 12) hours = hours + 12;
-      if (AMPM == "AM" && hours == 12) hours = hours - 12;
+      if (AMPM == 'PM' && hours < 12) hours = hours + 12;
+      if (AMPM == 'AM' && hours == 12) hours = hours - 12;
       var sHours = hours.toString();
       var sMinutes = minutes.toString();
-      if (hours < 10) sHours = "0" + sHours;
-      if (minutes < 10) sMinutes = "0" + sMinutes;
+      if (hours < 10) sHours = '0' + sHours;
+      if (minutes < 10) sMinutes = '0' + sMinutes;
       // this.startT= sHours + ":" + sMinutes;
-      let t = sHours + ":" + sMinutes;
+      let t = sHours + ':' + sMinutes;
       return t;
     }
   }
   chooseEndOpt(type) {
-
     this.isChecked = type;
   }
   ChangedRangeValue(e, type, type1) {
     // console.log(e)
-    if(type1 == 'start'){
+    if (type1 == 'start') {
       if (type == 'hr') {
         this.srangeHr = e;
-        console.log("this.selectedHrRange", this.selectedHrRange);
+        console.log('this.selectedHrRange', this.selectedHrRange);
       }
       if (type == 'min') {
         this.srangeMin = e;
-        console.log("this.selectedMinRange", this.selectedMinRange)
+        console.log('this.selectedMinRange', this.selectedMinRange);
       }
-    }
-    else{
+    } else {
       if (type == 'hr') {
         this.erangeHr = e;
-        console.log("this.selectedHrRange", this.selectedHrRange);
+        console.log('this.selectedHrRange', this.selectedHrRange);
       }
       if (type == 'min') {
         this.erangeMin = e;
-        console.log("this.selectedMinRange", this.selectedMinRange)
+        console.log('this.selectedMinRange', this.selectedMinRange);
       }
     }
-    
   }
-  editTime(hr,min,medrian){
-    console.log(hr,min,medrian)
-    console.log(String(hr).length)
-    console.log(String(min).length)
-    if(String(hr).length == 1){
-      hr = "0" + String(hr);
+  editTime(hr, min, medrian) {
+    console.log(hr, min, medrian);
+    console.log(String(hr).length);
+    console.log(String(min).length);
+    if (String(hr).length == 1) {
+      hr = '0' + String(hr);
     }
-    if(String(min).length == 1){
-      min = "0" +String(min);
+    if (String(min).length == 1) {
+      min = '0' + String(min);
     }
-    console.log("res" , hr + ":" + min + " " + medrian)
-    return hr + ":" + min + " " + medrian
+    console.log('res', hr + ':' + min + ' ' + medrian);
+    return hr + ':' + min + ' ' + medrian;
   }
-  updateBtnDisabled(){
-    return (new Date("January 31 1980 " + String(this.srangeHr) + ":" + String(this.srangeMin)+":"+ this.sisSelected) >= new Date("January 31 1980 " + String(this.erangeHr) + ":" + String(this.erangeMin)+":"+ this.eisSelected))
+  updateBtnDisabled() {
+    return (
+      new Date(
+        'January 31 1980 ' +
+          String(this.srangeHr) +
+          ':' +
+          String(this.srangeMin) +
+          ':' +
+          this.sisSelected
+      ) >=
+      new Date(
+        'January 31 1980 ' +
+          String(this.erangeHr) +
+          ':' +
+          String(this.erangeMin) +
+          ':' +
+          this.eisSelected
+      )
+    );
   }
   documentclick(event) {
-
-    if ($(event.target).hasClass("timepicker") || $(event.target).parents().hasClass("timepicker")) {
-      if ($(event.target).hasClass("stimepicker") || $(event.target).parents().hasClass("stimepicker")){
+    if (
+      $(event.target).hasClass('timepicker') ||
+      $(event.target)
+        .parents()
+        .hasClass('timepicker')
+    ) {
+      if (
+        $(event.target).hasClass('stimepicker') ||
+        $(event.target)
+          .parents()
+          .hasClass('stimepicker')
+      ) {
         this.sprogressSlider = true;
-        this.endT = this.editTime(this.erangeHr , this.erangeMin , this.eisSelected)
-
-      }
-      else if ($(event.target).hasClass("etimepicker") || $(event.target).parents().hasClass("etimepicker")){
+        this.endT = this.editTime(
+          this.erangeHr,
+          this.erangeMin,
+          this.eisSelected
+        );
+      } else if (
+        $(event.target).hasClass('etimepicker') ||
+        $(event.target)
+          .parents()
+          .hasClass('etimepicker')
+      ) {
         this.eprogressslider = true;
-        this.startT = this.editTime(this.srangeHr , this.srangeMin , this.sisSelected)
-
-      } 
-       
-    } else{
-      this.endT = this.editTime(this.erangeHr , this.erangeMin , this.eisSelected)
-      this.startT = this.editTime(this.srangeHr , this.srangeMin , this.sisSelected)
+        this.startT = this.editTime(
+          this.srangeHr,
+          this.srangeMin,
+          this.sisSelected
+        );
+      }
+    } else {
+      this.endT = this.editTime(
+        this.erangeHr,
+        this.erangeMin,
+        this.eisSelected
+      );
+      this.startT = this.editTime(
+        this.srangeHr,
+        this.srangeMin,
+        this.sisSelected
+      );
       this.sprogressSlider = false;
       this.eprogressslider = false;
     }
-    
   }
 }
