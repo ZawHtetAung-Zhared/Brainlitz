@@ -736,10 +736,9 @@
                           <button
                             *ngIf="
                               (course.seat_left != 0 &&
+                                courseDemo.assignStudent != '' &&
                                 course.type != 'FLEXY') ||
-                              (course.seat_left != 0 &&
-                                course.type == 'FLEXY' &&
-                                courseDemo.assignStudent != '')
+                              course.type == 'FLEXY'
                             "
                             class="btn-addC d-flex justify-content-center align-items-center"
                             (click)="
@@ -1467,7 +1466,7 @@
                         }}
                       </p>
                     </div>
-                    <div class="d-flex ml-auto pr-3" *ngIf="attendenceButton">
+                    <div class="d-flex ml-auto pr-3">
                       <span
                         class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
                         [ngClass]="{

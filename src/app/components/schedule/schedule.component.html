@@ -677,7 +677,7 @@
                                   {{ timetable.seat.taken }}/{{
                                     timetable.seat.total
                                   }}
-                                  seats left
+                                  seats taken
                                 </div>
                               </div>
                             </div>
@@ -1215,7 +1215,7 @@
               unlimited seats
             </div>
             <div *ngIf="selectedSeat.left != null">
-              {{ selectedSeat.taken }}/{{ selectedSeat.total }} seats left
+              {{ selectedSeat.taken }}/{{ selectedSeat.total }} seats taken
             </div>
           </div>
           <div
