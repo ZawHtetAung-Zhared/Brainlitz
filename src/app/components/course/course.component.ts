@@ -436,7 +436,7 @@ export class CourseComponent implements OnInit {
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       console.log('hi permission');
       this.locationName = localStorage.getItem('locationName');
-      this.getCPlanList();
+      // this.getCPlanList(0,20);
       this.getCourseLists(20, 0);
     } else {
       console.log('permission deny');
@@ -643,6 +643,29 @@ export class CourseComponent implements OnInit {
         this.categoryList = res;
         console.log(res);
       });
+  }
+
+  dropDown1($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('000', state);
+    if (state == 'category') {
+      if (this.categorySearch) {
+        this.categorySearch = false;
+      } else {
+        this.categorySearch = true;
+        this.planSearch = false;
+      }
+    } else {
+      if (this.planSearch) {
+        this.planSearch = false;
+      } else {
+        this.planSearch = true;
+        this.categorySearch = false;
+      }
+    }
+    // this.categorySearch = (state == 'category') ? !this.categorySearch : false;
+    // this.planSearch = (state == 'plan') ? !this.planSearch : false;
   }
 
   dropDown($event: Event, state) {
@@ -897,6 +920,8 @@ export class CourseComponent implements OnInit {
     this.selectedEndHrRange = '0';
     this.selectedEndMinRange = '0';
     this.getAllCategories(20, 0);
+    this.getCPlanList(0, 20);
+    console.log('exit mee meee ');
   }
 
   ChangedTimeValue(obj, val, state) {
@@ -1114,12 +1139,30 @@ export class CourseComponent implements OnInit {
         }, 300);
       }
     } else {
-      if (val.length) {
+      console.log('exit');
+      if (val.length > 0) {
         console.log('search plan in progress ..');
+        let cid;
+        let skip;
+        let limit;
+
+        this._service
+          .getAllCourseplan(
+            this.regionId,
+            localStorage.getItem('locationId'),
+            cid,
+            skip,
+            limit,
+            val
+          )
+          .subscribe((res: any) => {
+            this.planList = res;
+            console.log('course plan list', res);
+          });
       } else {
         this.planList = [];
         setTimeout(() => {
-          this.getCPlanList();
+          this.getCPlanList(0, 20);
         }, 300);
       }
     }
@@ -1840,23 +1883,25 @@ export class CourseComponent implements OnInit {
   }
 
   addUserModal(type, userModal, state, id) {
-    console.log('====', state, type);
+    console.log(type);
+    console.log(state);
+    console.log(this.selectCustomer);
+    console.log(this.selectedTeacherLists);
     console.error(this.detailLists);
+    this.selectedCustomer = {};
+    this.selectedTeacherLists = [];
     this.isvalidID = state;
     if (state != 'inside') {
-      console.log('state', state);
-      console.log('has courseID', id);
+      console.log('first');
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
       this.getUsersInCourse(id);
     } else if (this.detailLists.seat_left == null) {
-      console.log('detailLists.seat_left', this.detailLists.seat_left);
-      console.log('has courseID', id);
+      console.log('second');
       this.isSeatAvailable = true;
       // this.getCourseDetail(id);
     } else {
-      console.log('state', state);
-      console.log('no courseID', this.detailLists.seat_left);
+      console.log('third');
       // if(this.detailLists.seat_left == 0){
       //   this.isSeatAvailable = false;
       // }else{
@@ -2025,6 +2070,8 @@ export class CourseComponent implements OnInit {
   cancelModal() {
     console.log('....');
     this.modalReference.close();
+    console.log(this.selectCustomer);
+    console.log(this.selectedTeacherLists);
     // this.isSeatAvailable = true;
     this.isGlobal = false;
     this.showList = false;
@@ -2605,12 +2652,21 @@ export class CourseComponent implements OnInit {
     // // this.dataservice.edit = true;
     // this.router.navigate(['/courseCreate']);
   }
-  getCPlanList() {
-    console.log(this.locationID);
+  getCPlanList(skip, limit) {
     console.log('----', localStorage.getItem('locationId'));
+    let cid;
+    let key;
     this._service
-      .getAllCoursePlan(this.regionId, localStorage.getItem('locationId'))
+      .getAllCourseplan(
+        this.regionId,
+        localStorage.getItem('locationId'),
+        cid,
+        skip,
+        limit,
+        key
+      )
       .subscribe((res: any) => {
+        console.log(res);
         this.planList = res;
         console.log('course plan list', res);
       });

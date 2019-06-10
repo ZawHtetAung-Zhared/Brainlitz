@@ -104,7 +104,7 @@
           type="button"
           id="categoryList"
           class="align-self-end btn btn-primary mt-4"
-          (click)="getschedulestaff('button', '20', '0', '20')"
+          (click)="getschedulestaff('button', undefined, undefined, '20')"
           [disabled]="
             selectedDay.length == 0 ||
             item.itemID == '' ||
@@ -333,6 +333,13 @@
         *ngIf="staffList.staff?.length > 0"
         class="d-flex flex-wrap w-100 align-items-center pl-3"
       >
+        <div
+          class=" mb-3 ml-2 text-primary teacher-more-view"
+          [class.selectedteacher]="isTeacherAll == true"
+          (click)="getschedulestaff('button', undefined, undefined, '20')"
+        >
+          All Teacher
+        </div>
         <div
           class="d-flex  teacher-list-wrapper "
           id="customscroll"
@@ -1188,9 +1195,10 @@
   </div>
   <div
     class="d-flex justify-content-center load-more"
-    *ngIf="tempstafflist && tempstafflist.length >= 20 && result.more != 0"
+    *ngIf="(tempstafflist && tempstafflist.length >= 20) || result.more != 0"
   >
     <button
+      *ngIf="result.more != 0"
       class="btn remove-outline"
       (click)="staffLoadMore(tempstafflist.length)"
     >
