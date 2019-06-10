@@ -1268,7 +1268,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedCategory = category;
     this.selectedCat = false;
   }
-
+  isTeacherAll: boolean = false;
   /// Fix Get Sechedule Staff API ///
   getschedulestaff(type, limit, skip, index) {
     setTimeout(() => {
@@ -1297,28 +1297,43 @@ export class ScheduleComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
+          console.log(res);
           this.result = res;
           this.staffList = res;
           console.log('this.selectedTeacher', this.selectedTeacher);
           console.log('this.staffList', this.staffList);
           if (this.staffList.staff.length > 0) {
             if (this.staffList.staff && type == 'checkbox') {
+              console.log('exit');
               this.selectedTeacher = this.tempSelectedTeacher;
               if (this.tempSelectedTeacher == null) {
                 this.selectedTeacher = this.staffList.staff[0];
+                this.isTeacherAll = false;
               }
             } else if (type == 'modalteacher') {
+              console.log('two');
               this.selectedTeacher = this.tempSelectedTeacher;
+              this.isTeacherAll = false;
               console.log('selected teacher');
             } else {
+              console.log('three', this.staffList.staff);
+              console.log(this.selectedTeacher);
               if (this.staffList.staff) {
                 this.tempSelectedTeacher = null;
-                this.selectedTeacher = this.staffList.staff[0];
+                // this.selectedTeacher = this.staffList.staff[0];
+                this.isTeacherAll = true;
               }
             }
             console.log('Call staff timttable');
-            if (JSON.stringify(this.selectedTeacher) != '{}') {
+            if (
+              JSON.stringify(this.selectedTeacher) != '{}' ||
+              this.isTeacherAll
+            ) {
+              console.log('reach');
               this.getStaffTimetable(this.selectedTeacher.userId, repeatDays);
+            }
+            if (this.isTeacherAll) {
+              this.selectedTeacher = {};
             }
           } else {
             console.log('no need to call staff timttable');
@@ -1582,9 +1597,16 @@ export class ScheduleComponent implements OnInit {
   // fix get schedule staff api done ///
 
   getStaffTimetable(staffId, repeatDays) {
+    console.log('ok');
     this.blockUI.start('Loading...');
+    let data;
+    if (this.isTeacherAll) {
+      data = 'all';
+    } else {
+      data = staffId;
+    }
     this._service
-      .getStaffSchedule(this.regionId, staffId, repeatDays, this.selectedID)
+      .getStaffSchedule(this.regionId, data, repeatDays, this.selectedID)
       .subscribe((res: any) => {
         setTimeout(() => {
           this.blockUI.stop();
@@ -1643,6 +1665,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
+    this.isTeacherAll = false;
     // if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
     //   $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
     // }
@@ -1660,6 +1683,7 @@ export class ScheduleComponent implements OnInit {
     }
   }
   activeTeachers1(teacher, index) {
+    this.isTeacherAll = false;
     this.keyword = '';
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;

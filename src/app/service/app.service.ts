@@ -981,19 +981,32 @@ export class appService {
     limit: string,
     skip: string
   ): Observable<any> {
+    let url;
     this.getLocalstorage();
-    let url =
-      this.baseUrl +
-      '/' +
-      regionid +
-      '/schedule/stafflist?daysOfWeek=' +
-      daysOfWeek +
-      '&categoryId=' +
-      categoryId +
-      '&limit=' +
-      limit +
-      '&skip=' +
-      skip;
+    if (limit == undefined && skip == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    }
+
     //  console.log(url, ' Url')
     const httpOptions = {
       headers: new HttpHeaders({
