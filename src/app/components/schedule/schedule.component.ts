@@ -2673,13 +2673,15 @@ export class ScheduleComponent implements OnInit {
   }
   getAllCoursePlan(skip, limit) {
     this.blockUI.start('Loading');
+    let keyboard;
     this._service
       .getAllCourseplan(
         this.regionId,
         this.locationID,
         this.selectedID,
         skip,
-        limit
+        limit,
+        this.keyword
       )
       .subscribe(
         (res: any) => {
