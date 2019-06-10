@@ -362,6 +362,12 @@ input[type='number']::-webkit-outer-spin-button {
 .address {
   padding-left: 0px;
 }
+.invnote-readonly {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+}
 @media (max-width: 1024px) {
   .invModal-cancel {
     padding: 0px 20px;

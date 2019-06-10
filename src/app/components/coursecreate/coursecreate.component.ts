@@ -1637,6 +1637,7 @@ export class CoursecreateComponent implements OnInit {
         }
       } else {
         // online course
+        this.defineType();
         if (this.model.end) {
           console.log('this.model.end', this.model.end);
           var endD = this.changeDateFormat(this.model.end, '23:59:59:999');
