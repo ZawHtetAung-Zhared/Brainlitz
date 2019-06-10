@@ -1248,6 +1248,7 @@ export class ScheduleComponent implements OnInit {
   }
   selectDataApiCall(category, index) {
     this.selectedTeacher = {};
+    this.tempTchr = undefined;
     console.log('selectDataApiCall works', category);
     this.selectData(category);
     this.getschedulestaff('button', '20', '0', index);
@@ -1330,6 +1331,19 @@ export class ScheduleComponent implements OnInit {
               this.overFlowWidth(20, type);
             }
           }, 300);
+
+          if (this.tempTchr != undefined) {
+            console.error(this.tempTchr);
+            this.staffList.staff.map((staff, indexNumber) => {
+              if (staff.userId == this.tempTchr.userId) {
+                this.staffList.staff.splice(
+                  this.staffList.staff.indexOf(staff),
+                  1
+                );
+              }
+            });
+            this.staffList.staff.unshift(this.tempTchr);
+          }
         },
         (err: any) => {
           // catch the error response from api
@@ -1649,6 +1663,7 @@ export class ScheduleComponent implements OnInit {
     // else {
     //   $('.teacher-list-wrapper').scrollLeft(0);
     // }
+    this.tempTchr = undefined;
     console.log(this.selectedDay);
     if (this.selectedDay.length == 0) {
       this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
@@ -1659,6 +1674,7 @@ export class ScheduleComponent implements OnInit {
       );
     }
   }
+  public tempTchr: any;
   activeTeachers1(teacher, index) {
     this.keyword = '';
     this.selectedTeacher = teacher;
@@ -1666,9 +1682,9 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher.userId = teacher.userId;
     if (teacher.search) {
       delete teacher.search;
+      this.tempTchr = teacher;
       this.staffList.staff.map((staff, index) => {
         if (teacher.userId === staff.userId) {
-          console.warn(this.staffList.staff.indexOf(staff));
           this.staffList.staff.splice(index, 1);
         }
       });
