@@ -8,9 +8,15 @@
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
+.btn-export,
+.option-dp {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
 .title-div {
   padding: 0px 15px;
   margin-top: 28px;
+  margin-bottom: 36px;
 }
 
 .title-div h2 {
@@ -95,6 +101,53 @@ table td {
 .app-inv-wrap {
   height: 80vh;
   overflow: auto;
+}
+
+.btn-export {
+  background: #007fff;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.downIcon {
+  color: #fff;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.option-dp {
+  position: absolute;
+  z-index: 99;
+  background: #fff;
+  color: #2e3d4d !important;
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+  top: 47px;
+  box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+}
+
+.option-dp:after {
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: 100%;
+  right: 15px;
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: #fff transparent;
+}
+
+.inv-opt {
+  padding: 8px 15px;
 }
 
 @media only screen and (max-width: 768px) {

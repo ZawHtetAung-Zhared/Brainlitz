@@ -1885,8 +1885,11 @@ export class CourseComponent implements OnInit {
   addUserModal(type, userModal, state, id) {
     console.log(type);
     console.log(state);
-
+    console.log(this.selectCustomer);
+    console.log(this.selectedTeacherLists);
     console.error(this.detailLists);
+    this.selectedCustomer = {};
+    this.selectedTeacherLists = [];
     this.isvalidID = state;
     if (state != 'inside') {
       console.log('first');
@@ -2067,6 +2070,8 @@ export class CourseComponent implements OnInit {
   cancelModal() {
     console.log('....');
     this.modalReference.close();
+    console.log(this.selectCustomer);
+    console.log(this.selectedTeacherLists);
     // this.isSeatAvailable = true;
     this.isGlobal = false;
     this.showList = false;

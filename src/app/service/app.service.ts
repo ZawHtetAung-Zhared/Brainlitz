@@ -981,19 +981,32 @@ export class appService {
     limit: string,
     skip: string
   ): Observable<any> {
+    let url;
     this.getLocalstorage();
-    let url =
-      this.baseUrl +
-      '/' +
-      regionid +
-      '/schedule/stafflist?daysOfWeek=' +
-      daysOfWeek +
-      '&categoryId=' +
-      categoryId +
-      '&limit=' +
-      limit +
-      '&skip=' +
-      skip;
+    if (limit == undefined && skip == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    }
+
     //  console.log(url, ' Url')
     const httpOptions = {
       headers: new HttpHeaders({
@@ -2858,6 +2871,22 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  invoicesExport(regionId: string, status: string) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/invoices?status=' + status;
 
     const httpOptions = {
       headers: new HttpHeaders({

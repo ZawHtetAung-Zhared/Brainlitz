@@ -755,6 +755,7 @@ ul.scedule-data-listing li.disabled {
   z-index: 0;
   overflow-y: hidden;
   overflow-x: overlay;
+  margin-left: 10px;
 }
 .teacher-more-view {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
