@@ -620,6 +620,12 @@
                   <div class="draft-sign" *ngIf="course.draft == true">
                     Draft
                   </div>
+                  <div
+                    class="course-type"
+                    *ngIf="course.draft == false && course.type != undefined"
+                  >
+                    {{ course.type }}
+                  </div>
                   <div class="d-flex course-wrap">
                     <div
                       [hidden]="course.draft == true"
@@ -947,7 +953,7 @@
               <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
                 {{ day }}
               </h5>
-              <p *ngIf="disabledTab == false">
+              <p>
                 {{ detailLists.duration.startDate | utcTime }} -
                 {{ detailLists.duration.endDate | utcTime }}
               </p>

@@ -226,7 +226,8 @@ export class InvoiceComponent implements OnInit {
             companyName: '',
             email: '',
             prefix: '',
-            registration: ''
+            registration: '',
+            invoiceNote: ''
           };
           this.noSetting = true;
         } else {

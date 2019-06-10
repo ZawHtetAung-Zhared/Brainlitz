@@ -356,6 +356,16 @@
             Code: xx123
           </div>
         </div> -->
+        <div class="invoice-info">
+          <textarea
+            *ngIf="invoiceInfo.invoiceNote != ''"
+            rows="6"
+            class="invnote-readonly"
+            name="testnote"
+            [(ngModel)]="invoiceInfo.invoiceNote"
+            readonly
+          ></textarea>
+        </div>
       </div>
     </div>
     <div class="modal-footer justify-content-between">
