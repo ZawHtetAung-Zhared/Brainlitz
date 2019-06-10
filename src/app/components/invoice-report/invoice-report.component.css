@@ -1,11 +1,8 @@
 .title-div h2,
 .header-wrapper,
-.view-inv-btn {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
+.view-inv-btn,
 .invList {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .btn-export,

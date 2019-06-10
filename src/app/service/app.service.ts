@@ -2886,7 +2886,13 @@ export class appService {
   }
 
   invoicesExport(regionId: string, status: string) {
-    let apiUrl = this.baseUrl + '/' + regionId + '/invoices?status=' + status;
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/invoices?status=' +
+      status +
+      '&all=true';
 
     const httpOptions = {
       headers: new HttpHeaders({
