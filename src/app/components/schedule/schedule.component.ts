@@ -1281,6 +1281,11 @@ export class ScheduleComponent implements OnInit {
     } else {
       repeatDays = this.selectedDay.toString();
     }
+    console.log(this.regionId);
+    console.log(repeatDays);
+    console.log(this.selectedID);
+    console.log(limit);
+    console.log(skip);
     this.scheduleList = false;
     this._service
       .getscheduleStaffList(
@@ -1459,6 +1464,7 @@ export class ScheduleComponent implements OnInit {
     }
     this.scheduleList = false;
     this.blockUI.start('Loading');
+    console.log(this.selectedID);
     this._service
       .getscheduleStaffList(
         this.regionId,
@@ -1501,6 +1507,7 @@ export class ScheduleComponent implements OnInit {
       limit = 20;
       skip = 0;
     }
+    console.log(keyword);
     if (keyword.length != 0) {
       this.isSearch = true;
       this._service
@@ -1645,6 +1652,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
+    console.log(this.tempstafflist);
     this.getschedulestaff(
       'modalteacher',
       this.tempstafflist.length,
@@ -1803,7 +1811,7 @@ export class ScheduleComponent implements OnInit {
   ctype: any;
   addCustomer(cDetail, userType) {
     console.log(userType);
-    console.log(cDetail.type);
+    console.log(cDetail);
     console.log(this.selectCustomer);
     if (cDetail.type == 'FLEXY') {
       this.ctype = 'schedule';
