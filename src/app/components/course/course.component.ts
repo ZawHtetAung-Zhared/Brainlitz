@@ -1883,23 +1883,22 @@ export class CourseComponent implements OnInit {
   }
 
   addUserModal(type, userModal, state, id) {
-    console.log('====', state, type);
+    console.log(type);
+    console.log(state);
+
     console.error(this.detailLists);
     this.isvalidID = state;
     if (state != 'inside') {
-      console.log('state', state);
-      console.log('has courseID', id);
+      console.log('first');
       this.isSeatAvailable = true;
       this.getCourseDetail(id);
       this.getUsersInCourse(id);
     } else if (this.detailLists.seat_left == null) {
-      console.log('detailLists.seat_left', this.detailLists.seat_left);
-      console.log('has courseID', id);
+      console.log('second');
       this.isSeatAvailable = true;
       // this.getCourseDetail(id);
     } else {
-      console.log('state', state);
-      console.log('no courseID', this.detailLists.seat_left);
+      console.log('third');
       // if(this.detailLists.seat_left == 0){
       //   this.isSeatAvailable = false;
       // }else{
