@@ -1521,15 +1521,27 @@ export class ScheduleComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
+            this.result = res;
             if (isFirst == true) {
               this.result = res;
               console.log('First Time Searching');
               this.tempstafflist = [];
+              res.staff.map(staff => {
+                staff.search = true;
+              });
+              // for adding option to the stafff list  end
               this.tempstafflist = res.staff;
+              // this.tempstafflist = res.staff;
             } else {
               console.log('Not First Time Searching');
-              this.tempstafflist = res.staff;
-              // this.tempstafflist = this.tempstafflist.concat(res.staff);
+              // this.tempstafflist = res.staff;
+              // for adding option to the stafff list
+              res.staff.map(staff => {
+                staff.search = true;
+              });
+              // for adding option to the stafff list  end
+              // this.tempstafflist = res.staff;
+              this.tempstafflist = this.tempstafflist.concat(res.staff);
             }
           },
           err => {
@@ -1652,13 +1664,27 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-    console.log(this.tempstafflist);
-    this.getschedulestaff(
-      'modalteacher',
-      this.tempstafflist.length,
-      '0',
-      index
-    );
+    if (teacher.search) {
+      delete teacher.search;
+      this.staffList.staff.map((staff, index) => {
+        if (teacher.userId === staff.userId) {
+          console.warn(this.staffList.staff.indexOf(staff));
+          this.staffList.staff.splice(index, 1);
+        }
+      });
+      setTimeout(() => {
+        this.staffList.staff.unshift(teacher);
+        $('.teacher-list-wrapper').scrollLeft(0);
+      }, 100);
+      this.overFlowWidth(index, 'modalteacher');
+    } else {
+      this.getschedulestaff(
+        'modalteacher',
+        this.tempstafflist.length,
+        '0',
+        index
+      );
+    }
     setTimeout(() => {
       if (this.tempstafflist) {
         // $('.teacher-list-wrapper').scrollLeft(75 *2 + 78 * 2 + 118 * 2);
