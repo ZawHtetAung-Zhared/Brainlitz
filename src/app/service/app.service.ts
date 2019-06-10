@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
+import { KeyedWrite } from '@angular/compiler';
 declare var $: any;
 
 @Injectable()
@@ -1333,43 +1334,53 @@ export class appService {
     });
   }
 
-  getAllCoursePlan(id: string, location: string): Observable<any> {
-    this.getLocalstorage();
-    console.log(location);
-    console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + location;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        authorization: this.tokenType + ' ' + this.accessToken
-      })
-    };
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
-  }
+  // getAllCoursePlan(id: string, location: string): Observable<any> {
+  //   this.getLocalstorage();
+  //   console.log(location);
+  //   console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
+  //   let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + location;
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       authorization: this.tokenType + ' ' + this.accessToken
+  //     })
+  //   };
+  //   return this.httpClient.get(url, httpOptions).map((res: Response) => {
+  //     let result = res;
+  //     return result;
+  //   });
+  // }
   getAllCourseplan(
     id: string,
     location: string,
     categoryId: string,
     skip: string,
-    limit: string
+    limit: string,
+    keyword: string
   ): Observable<any> {
     this.getLocalstorage();
-    console.log(location);
-    console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url =
-      this.baseUrl +
-      '/' +
-      id +
-      '/courseplan?locationId=' +
-      location +
-      '&categoryId=' +
-      categoryId +
-      '&skip=' +
-      skip +
-      '&limit=' +
-      limit;
+    let url;
+    if (keyword == undefined || keyword == '') {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit;
+    } else if (keyword != undefined || keyword != '') {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&keyword=' +
+        keyword;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
