@@ -645,7 +645,7 @@ export class CourseComponent implements OnInit {
       });
   }
 
-  dropDown($event: Event, state) {
+  dropDown1($event: Event, state) {
     $event.preventDefault();
     $event.stopPropagation();
     console.log('000', state);
@@ -663,6 +663,19 @@ export class CourseComponent implements OnInit {
         this.planSearch = true;
         this.categorySearch = false;
       }
+    }
+    // this.categorySearch = (state == 'category') ? !this.categorySearch : false;
+    // this.planSearch = (state == 'plan') ? !this.planSearch : false;
+  }
+
+  dropDown($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('000');
+    if (state == 'category') {
+      this.categorySearch = true;
+    } else {
+      this.planSearch = true;
     }
     // this.categorySearch = (state == 'category') ? !this.categorySearch : false;
     // this.planSearch = (state == 'plan') ? !this.planSearch : false;
