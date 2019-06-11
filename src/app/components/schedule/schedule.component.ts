@@ -1348,7 +1348,6 @@ export class ScheduleComponent implements OnInit {
           }, 300);
 
           if (this.tempTchr != undefined) {
-            console.error(this.tempTchr);
             this.staffList.staff.map((staff, indexNumber) => {
               if (staff.userId == this.tempTchr.userId) {
                 this.staffList.staff.splice(
@@ -1717,6 +1716,14 @@ export class ScheduleComponent implements OnInit {
         $('.teacher-list-wrapper').scrollLeft(0);
       }, 100);
       this.overFlowWidth(index, 'modalteacher');
+      if (this.selectedDay.length == 0) {
+        this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+      } else if (this.selectedDay.length > 0) {
+        this.getStaffTimetable(
+          this.selectedTeacher.userId,
+          this.selectedDay.toString()
+        );
+      }
     } else {
       this.getschedulestaff(
         'modalteacher',
