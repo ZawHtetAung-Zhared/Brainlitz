@@ -1305,11 +1305,16 @@ export class ScheduleComponent implements OnInit {
           console.log('this.staffList', this.staffList);
           if (this.staffList.staff.length > 0) {
             if (this.staffList.staff && type == 'checkbox') {
-              console.log('exit');
-              this.selectedTeacher = this.tempSelectedTeacher;
-              if (this.tempSelectedTeacher == null) {
-                this.selectedTeacher = this.staffList.staff[0];
-                this.isTeacherAll = false;
+              if (this.isTeacherAll) {
+                // remove auto selected
+                this.isTeacherAll = true;
+              } else {
+                console.log('exit');
+                this.selectedTeacher = this.tempSelectedTeacher;
+                if (this.tempSelectedTeacher == null) {
+                  this.selectedTeacher = this.staffList.staff[0];
+                  this.isTeacherAll = false; // remove auto selected
+                }
               }
             } else if (type == 'modalteacher') {
               console.log('two');
