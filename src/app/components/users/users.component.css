@@ -2543,6 +2543,7 @@ p.textCount {
   line-height: 16px;
   margin: 0;
   margin-bottom: 5px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .selectedCountBox {
@@ -2575,4 +2576,11 @@ p.textCount {
   overflow: auto;
 }
 
+.defaultLessonCount {
+  margin-bottom: 10px;
+  color: #64707d;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
 /* end flexi modal */

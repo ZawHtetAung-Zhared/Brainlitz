@@ -54,9 +54,6 @@ export class FlexiComponent implements OnInit {
   }
 
   flitterFlexyObj(obj) {
-    console.log(obj);
-    console.log(this.lessionIdArr);
-
     this.lessionIdArr = [];
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
@@ -117,8 +114,8 @@ export class FlexiComponent implements OnInit {
   clickId: any;
   conflictObj: any;
   lessonsCount: number = 0;
-  showConflictBox(e, obj, ele) {
-    console.log(ele);
+  showConflictBox(e, obj) {
+    console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
     this.tempAll = [];
