@@ -3584,4 +3584,19 @@ export class appService {
       return result;
     });
   }
+
+  getAllEvaluationExport(regionId: string) {
+    let url = this.baseUrl + '/regions/' + regionId + '/apg/evaluation:export';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 }

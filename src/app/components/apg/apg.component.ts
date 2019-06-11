@@ -145,6 +145,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymin: boolean = true;
   emptymax: boolean = true;
   overmin: boolean = true;
+  showDp: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -558,6 +559,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   console.log('less than 100')
     //   this.navIsFixed = false;
     // }
+  }
+
+  @HostListener('document:click', ['$event']) clickout($event) {
+    this.showDp = false;
   }
 
   focusMethod(e, status, word) {
@@ -2792,7 +2797,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    console.log(array);
+    // console.log(array);
     var str = '';
     var row = '';
 
@@ -2813,16 +2818,36 @@ export class ApgComponent implements OnInit, OnDestroy {
         if (typeof array[i][index] == 'object') {
           line += array[i][index].preferredName;
         } else {
-          console.log('array idx', array[i][index]);
+          // console.log('array idx', array[i][index]);
           var val = array[i][index].replace(/,/g, ' ');
           line += val;
         }
-        console.log('line~~~', line);
+        // console.log('line~~~', line);
       }
       str += line + '\r\n';
       // console.log("str~~~",str);
     }
     return str;
+  }
+
+  showExportOption($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.showDp = state == 'exportOpt' ? !this.showDp : false;
+  }
+
+  exportAllEvaluation() {
+    console.log('evaluation Export');
+    this._service
+      .getAllEvaluationExport(this.regionID)
+      .subscribe((res: any) => {
+        console.log(res);
+        if (res.length > 0) {
+          this.downloadFile(res, 'all evaluation');
+        } else {
+          this.toastr.error('There is no report for csv export');
+        }
+      });
   }
 
   // selectedTextFunc(t,e : MouseEvent){
