@@ -92,25 +92,65 @@ export class InvoiceReportComponent implements OnInit {
   public csvData;
   downloadFile(res) {
     this.csvData = this.convertToCSV(res);
-    // var a = document.createElement('a');
-    // a.setAttribute('style', 'display:none;');
-    // document.body.appendChild(a);
-    // var blob = new Blob([this.csvData], { type: 'text/csv' });
-    // var url = window.URL.createObjectURL(blob);
-    // a.href = url;
-    // var filename = new Date().toISOString();
-    // console.log('~~~', name + filename);
-    // a.download = name + filename + '.csv';
-    // a.click();
+    var a = document.createElement('a');
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([this.csvData], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    var filename = new Date().toISOString();
+    a.download = 'invoiceReport' + filename + '.csv';
+    a.click();
   }
 
   convertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    console.log(objArray);
     var str = '';
     var row = '';
     row = 'Payment date,Invoice#,Name,Method,Amount';
     str += row + '\r\n';
-    console.log(str);
+    var invObj = {
+      paymentDate: '',
+      invoiceId: '',
+      name: '',
+      method: null,
+      amount: null
+    };
+    var objArr = [];
+
+    for (var i = 0; i < array.length; i++) {
+      if (array[i].payments.length == 1) {
+        var payment = array[i].payments[0];
+      } else if (array[i].payments.length > 1) {
+        let idx = array[i].payments.length - 1;
+        var payment = array[i].payments[idx];
+      }
+      invObj.paymentDate = this.dateFormat(payment.updatedDate);
+      if (payment.paymentMethodDetails == undefined) {
+        invObj.method = '-';
+      } else {
+        invObj.method = payment.paymentMethodDetails.name;
+      }
+      invObj.amount = array[i].total;
+      invObj.invoiceId = array[i].refInvoiceId;
+      invObj.name = array[i].userDetails.preferredName;
+      // console.log(invObj);
+      var line = '';
+      for (var index in invObj) {
+        if (line != '') line += ',';
+        line += invObj[index];
+      }
+      str += line + '\r\n';
+      // console.log(str)
+    }
+    return str;
+  }
+
+  dateFormat(date) {
+    var d = new Date(date);
+    var dFormat =
+      d.getUTCMonth() + 1 + '/' + d.getUTCDate() + '/' + d.getUTCFullYear();
+    // console.log("~~~",date,dFormat)
+    return dFormat;
   }
 }
