@@ -86,6 +86,31 @@ export class InvoiceReportComponent implements OnInit {
       .invoicesExport(this.regionID, status)
       .subscribe((res: any) => {
         console.log(res);
+        this.downloadFile(res);
       });
+  }
+  public csvData;
+  downloadFile(res) {
+    this.csvData = this.convertToCSV(res);
+    // var a = document.createElement('a');
+    // a.setAttribute('style', 'display:none;');
+    // document.body.appendChild(a);
+    // var blob = new Blob([this.csvData], { type: 'text/csv' });
+    // var url = window.URL.createObjectURL(blob);
+    // a.href = url;
+    // var filename = new Date().toISOString();
+    // console.log('~~~', name + filename);
+    // a.download = name + filename + '.csv';
+    // a.click();
+  }
+
+  convertToCSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    console.log(objArray);
+    var str = '';
+    var row = '';
+    row = 'Payment date,Invoice#,Name,Method,Amount';
+    str += row + '\r\n';
+    console.log(str);
   }
 }
