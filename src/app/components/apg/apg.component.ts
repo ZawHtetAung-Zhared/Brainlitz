@@ -2767,18 +2767,29 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // export csv for evaluation apg
-  exportCSV(apg) {
-    console.log('apg~~~', apg);
-    this._service.getEvaluationExport(apg._id).subscribe((res: any) => {
-      console.log('report json', res);
-      if (res.length > 0) {
-        console.log('download file');
-        this.downloadFile(res, apg.name);
-      } else {
-        console.log('no report');
-        this.toastr.error('There is no report for csv export');
-      }
-    });
+  exportCSV(data) {
+    console.log('apg~~~', data);
+    var apg: any;
+    var apgName: any;
+    if (data == 'all') {
+      apg = 'all';
+      apgName = 'all evaluation';
+    } else {
+      apg = data;
+      apgName = apg.name;
+    }
+    this._service
+      .getEvaluationExport(apg, this.regionID)
+      .subscribe((res: any) => {
+        console.log('report json', res);
+        if (res.length > 0) {
+          console.log('download file');
+          this.downloadFile(res, apgName);
+        } else {
+          console.log('no report');
+          this.toastr.error('There is no report for csv export');
+        }
+      });
   }
 
   downloadFile(res, name) {
@@ -2836,19 +2847,19 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.showDp = state == 'exportOpt' ? !this.showDp : false;
   }
 
-  exportAllEvaluation() {
-    console.log('evaluation Export');
-    this._service
-      .getAllEvaluationExport(this.regionID)
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.length > 0) {
-          this.downloadFile(res, 'all evaluation');
-        } else {
-          this.toastr.error('There is no report for csv export');
-        }
-      });
-  }
+  // exportAllEvaluation() {
+  //   console.log('evaluation Export');
+  //   this._service
+  //     .getAllEvaluationExport(this.regionID)
+  //     .subscribe((res: any) => {
+  //       console.log(res);
+  //       if (res.length > 0) {
+  //         this.downloadFile(res, 'all evaluation');
+  //       } else {
+  //         this.toastr.error('There is no report for csv export');
+  //       }
+  //     });
+  // }
 
   // selectedTextFunc(t,e : MouseEvent){
 

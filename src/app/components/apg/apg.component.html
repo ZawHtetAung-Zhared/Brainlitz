@@ -39,7 +39,7 @@
         <i class="fa fa-chevron-down dpIcon"></i>
       </button>
       <div *ngIf="showDp" class="option-dp">
-        <div class="inv-opt" (click)="exportAllEvaluation()">Evaluation</div>
+        <div class="inv-opt" (click)="exportCSV('all')">Evaluation</div>
       </div>
       <button
         *ngIf="apgDemo.addAPG != ''"
