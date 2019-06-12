@@ -782,7 +782,13 @@ export class CoursecreateComponent implements OnInit {
         this.endOptChecked = itemType;
         if (this.tempVar) {
           if (this.tempVar == this.endOptChecked) {
-            console.log('Draft Choose', this.tempVar);
+            console.log(
+              'Draft Choose',
+              this.tempVar,
+              '& temp value',
+              this.tempValue
+            );
+            // console.log("model.lCount",this.model.lessonCount,'& model.endDate',this.model.end)
             if (this.tempVar == 'end') {
               this.model.end = this.tempValue;
               this.model.lessonCount = '';
