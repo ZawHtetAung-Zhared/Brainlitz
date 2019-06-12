@@ -3570,8 +3570,13 @@ export class appService {
       return result;
     });
   }
-  getEvaluationExport(apgId: string) {
-    let url = this.baseUrl + '/apg/' + apgId + '/evaluation:export';
+  getEvaluationExport(apg: any, regionId: string) {
+    if (apg == 'all') {
+      var url =
+        this.baseUrl + '/regions/' + regionId + '/apg/evaluation:export';
+    } else {
+      url = this.baseUrl + '/apg/' + apg._id + '/evaluation:export';
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
