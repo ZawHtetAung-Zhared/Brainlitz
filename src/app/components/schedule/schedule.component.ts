@@ -1363,6 +1363,7 @@ export class ScheduleComponent implements OnInit {
             });
             this.staffList.staff.unshift(this.tempTchr);
           }
+          $('body').css('overflow', 'hidden');
         },
         (err: any) => {
           // catch the error response from api
