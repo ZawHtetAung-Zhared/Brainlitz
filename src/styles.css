@@ -707,7 +707,9 @@ span.scrollup.show:hover:before {
   border-radius: 4px;
   background: #f2f4f5;
 }
-
+.modal-open {
+  overflow: hidden !important;
+}
 .img-wrapper {
   align-items: baseline;
   flex-wrap: wrap;
