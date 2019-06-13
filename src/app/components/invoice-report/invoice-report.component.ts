@@ -119,29 +119,25 @@ export class InvoiceReportComponent implements OnInit {
     var objArr = [];
 
     for (var i = 0; i < array.length; i++) {
-      if (array[i].payments.length == 1) {
-        var payment = array[i].payments[0];
-      } else if (array[i].payments.length > 1) {
-        let idx = array[i].payments.length - 1;
+      for (var idx = 0; idx < array[i].payments.length; idx++) {
         var payment = array[i].payments[idx];
+        invObj.paymentDate = this.dateFormat(payment.updatedDate);
+        if (payment.paymentMethodDetails == undefined) {
+          invObj.method = '-';
+        } else {
+          invObj.method = payment.paymentMethodDetails.name;
+        }
+        invObj.amount = array[i].payments[idx].amount;
+        invObj.invoiceId = array[i].refInvoiceId;
+        invObj.name = array[i].userDetails.preferredName;
+
+        var line = '';
+        for (var index in invObj) {
+          if (line != '') line += ',';
+          line += invObj[index];
+        }
+        str += line + '\r\n';
       }
-      invObj.paymentDate = this.dateFormat(payment.updatedDate);
-      if (payment.paymentMethodDetails == undefined) {
-        invObj.method = '-';
-      } else {
-        invObj.method = payment.paymentMethodDetails.name;
-      }
-      invObj.amount = array[i].total;
-      invObj.invoiceId = array[i].refInvoiceId;
-      invObj.name = array[i].userDetails.preferredName;
-      // console.log(invObj);
-      var line = '';
-      for (var index in invObj) {
-        if (line != '') line += ',';
-        line += invObj[index];
-      }
-      str += line + '\r\n';
-      // console.log(str)
     }
     return str;
   }
