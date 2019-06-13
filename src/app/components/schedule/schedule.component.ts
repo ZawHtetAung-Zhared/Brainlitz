@@ -6,6 +6,7 @@ import {
   EventEmitter,
   AfterViewInit,
   ViewChildren,
+  OnDestroy,
   QueryList
 } from '@angular/core';
 
@@ -32,7 +33,7 @@ declare var $: any;
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
   public totalWidth = 0;
@@ -2901,4 +2902,9 @@ export class ScheduleComponent implements OnInit {
     console.log(this.checkobjArr);
   }
   // end flexy
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    $('body').css('overflow', 'auto');
+  }
 }
