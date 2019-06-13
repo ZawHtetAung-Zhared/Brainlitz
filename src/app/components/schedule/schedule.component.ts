@@ -1144,6 +1144,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   backtoTimetable() {
+    $('body').css('overflow', 'hidden');
+    $('.disabledScroll').css('overflow', 'hidden');
     this.scheduleList = false;
     this.isPlan = false;
     this.isCategory = false;
@@ -2453,6 +2455,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onClickCreate() {
+    $('.disabledScroll').css('overflow', 'auto');
+    $('body').css('overflow', 'auto');
     this.courseCreate = true;
     this.courseplanLists = [];
     this.getAllCoursePlan('0', '20');
@@ -2463,6 +2467,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   // }
 
   createPlan() {
+    // $('body').css('overflow', 'auto');
     console.log('course Plan');
     this.isCategory = true;
     this.goBackCat = false;
