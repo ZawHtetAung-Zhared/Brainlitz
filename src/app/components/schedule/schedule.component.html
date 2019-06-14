@@ -297,7 +297,8 @@
         </div>
         <div class=" mt-3 ml-5 scheduleList-dropdown">
           <div class="input-group ">
-            <input
+            <!-- remove click event to stop repeat api call -->
+            <!-- <input
               class="form-control py-2 input-search-dropdown-bg"
               type="search"
               autocomplete="off"
@@ -310,12 +311,33 @@
               (clickOutside)="hideSearch($event)"
               (input)="searchCategoryList($event.target.value, 'category')"
               readonly
+            /> -->
+            <input
+              class="form-control py-2 input-search-dropdown-bg"
+              type="search"
+              autocomplete="off"
+              value="{{ item.itemID }}"
+              name="itemID"
+              [(ngModel)]="item.itemID"
+              #itemID="ngModel"
+              id="example-search-input"
+              (clickOutside)="hideSearch($event)"
+              (click)="focusSearch2($event, 'category')"
+              (input)="searchCategoryList($event.target.value, 'category')"
+              readonly
             />
-            <button
+            <!-- <button
               class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
               (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
+            ></button> -->
+            <!-- remove click event to stop repeat api call -->
+            <button
+              class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
+              (focus)="focusSearch($event, 'category')"
+              (clickOutside)="hideSearch($event)"
+              (click)="focusSearch2($event, 'category')"
             ></button>
           </div>
 
