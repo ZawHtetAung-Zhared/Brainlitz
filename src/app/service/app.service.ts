@@ -3047,6 +3047,7 @@ export class appService {
     daysOfweek: string,
     categoryId: string
   ) {
+    console.log('categoryID', categoryId);
     let apiUrl =
       this.baseUrl +
       '/' +

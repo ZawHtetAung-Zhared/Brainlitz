@@ -280,7 +280,7 @@ export class CourseComponent implements OnInit {
     });
 
     this._service.goCourse.subscribe(() => {
-      console.log('goback33');
+      console.log('goback33 in course');
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
