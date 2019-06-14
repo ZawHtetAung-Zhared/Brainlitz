@@ -6,6 +6,7 @@ import {
   EventEmitter,
   AfterViewInit,
   ViewChildren,
+  OnDestroy,
   QueryList
 } from '@angular/core';
 
@@ -32,7 +33,7 @@ declare var $: any;
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
   public totalWidth = 0;
@@ -1143,6 +1144,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   backtoTimetable() {
+    $('body').css('overflow', 'hidden');
+    $('.disabledScroll').css('overflow', 'hidden');
     this.scheduleList = false;
     this.isPlan = false;
     this.isCategory = false;
@@ -1363,6 +1366,7 @@ export class ScheduleComponent implements OnInit {
             });
             this.staffList.staff.unshift(this.tempTchr);
           }
+          $('body').css('overflow', 'hidden');
         },
         (err: any) => {
           // catch the error response from api
@@ -1373,6 +1377,7 @@ export class ScheduleComponent implements OnInit {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
+    console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -2451,6 +2456,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   onClickCreate() {
+    $('.disabledScroll').css('overflow', 'auto');
+    $('body').css('overflow', 'auto');
     this.courseCreate = true;
     this.courseplanLists = [];
     this.getAllCoursePlan('0', '20');
@@ -2461,6 +2468,7 @@ export class ScheduleComponent implements OnInit {
   // }
 
   createPlan() {
+    // $('body').css('overflow', 'auto');
     console.log('course Plan');
     this.isCategory = true;
     this.goBackCat = false;
@@ -2900,4 +2908,9 @@ export class ScheduleComponent implements OnInit {
     console.log(this.checkobjArr);
   }
   // end flexy
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    $('body').css('overflow', 'auto');
+  }
 }

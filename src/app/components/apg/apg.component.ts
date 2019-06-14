@@ -2778,6 +2778,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       apg = data;
       apgName = apg.name;
     }
+
     this._service
       .getEvaluationExport(apg, this.regionID)
       .subscribe((res: any) => {
@@ -2812,29 +2813,45 @@ export class ApgComponent implements OnInit, OnDestroy {
     var str = '';
     var row = '';
 
-    for (var index in objArray[0]) {
-      //Now convert each value to string and comma-separated
-      row += index + ',';
-      // console.log(row);
-    }
-    row = row.slice(0, -1);
+    // for (var index in objArray[0]) {
+    //   //Now convert each value to string and comma-separated
+    //   row += index + ',';
+    //   // console.log(row);
+    // }
+    // row = row.slice(0, -1);
+    row =
+      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,APG Name,Result,Submitted Date';
     //append Label row with line break
     str += row + '\r\n';
     // console.log(str);
 
     for (var i = 0; i < array.length; i++) {
       var line = '';
-      for (var index in array[i]) {
+      var apgObject = {};
+      apgObject['studentName'] = array[i].student.preferredName;
+      apgObject['teacherName'] = array[i].teacher.preferredName;
+      apgObject['courseName'] = array[i].courseName;
+      apgObject['cPlanName'] = array[i].coursePlanName;
+      apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['apgName'] = array[i].apgName;
+      apgObject['result'] = array[i].results;
+      apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
+      console.log(apgObject);
+      for (var index in apgObject) {
         if (line != '') line += ',';
-        if (typeof array[i][index] == 'object') {
-          line += array[i][index].preferredName;
-        } else {
-          // console.log('array idx', array[i][index]);
-          var val = array[i][index].replace(/,/g, ' ');
-          line += val;
-        }
-        // console.log('line~~~', line);
+        line += apgObject[index];
       }
+      // for (var index in array[i]) {
+      //   if (line != '') line += ',';
+      //   if (typeof array[i][index] == 'object') {
+      //     line += array[i][index].preferredName;
+      //   } else {
+      //     // console.log('array idx', array[i][index]);
+      //     var val = array[i][index].replace(/,/g, ' ');
+      //     line += val;
+      //   }
+      //   // console.log('line~~~', line);
+      // }
       str += line + '\r\n';
       // console.log("str~~~",str);
     }
@@ -2846,20 +2863,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
     this.showDp = state == 'exportOpt' ? !this.showDp : false;
   }
-
-  // exportAllEvaluation() {
-  //   console.log('evaluation Export');
-  //   this._service
-  //     .getAllEvaluationExport(this.regionID)
-  //     .subscribe((res: any) => {
-  //       console.log(res);
-  //       if (res.length > 0) {
-  //         this.downloadFile(res, 'all evaluation');
-  //       } else {
-  //         this.toastr.error('There is no report for csv export');
-  //       }
-  //     });
-  // }
 
   // selectedTextFunc(t,e : MouseEvent){
 

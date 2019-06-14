@@ -1635,6 +1635,9 @@
                 >
                   {{ course.seat_left }} seats left
                 </div>
+                <div class="seat-left" *ngIf="course.seat_left == null">
+                  unlimited seats
+                </div>
                 <div class="class-info-head">
                   <h5 class="mt-03">
                     <i class="fa fa-map-marker" style="font-size:15px"></i>
@@ -2220,7 +2223,7 @@
                   class="form-check form-check-inline tool-checked"
                 >
                   <label
-                    [ngClass]="{ selected: isChecked == lesson.startDate }"
+                    [ngClass]="{ selected: isChecked == lesson._id }"
                     class="form-check-label"
                   >
                     <input

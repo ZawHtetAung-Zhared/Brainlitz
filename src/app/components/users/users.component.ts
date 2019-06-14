@@ -1652,7 +1652,7 @@ export class UsersComponent implements OnInit {
     console.log(obj);
     console.log(data);
     this.lessonData = obj;
-    this.isChecked = obj.startDate;
+    this.isChecked = obj._id;
     this.checkCourse = data.courseId;
     // console.log(this.checkCourse)
   }

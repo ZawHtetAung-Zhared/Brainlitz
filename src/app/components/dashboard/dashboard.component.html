@@ -520,9 +520,11 @@
                   {{invoiceData.invoiceNote}}
                 </div> -->
                 <textarea
+                  style="resize:vertical"
                   *ngIf="invoiceData.invoiceNote != ''"
-                  rows="6"
-                  name="testnote"
+                  rows="1"
+                  name="settingInvNote"
+                  id="settingInvNote"
                   class="labelName readonly-note"
                   [(ngModel)]="invoiceData.invoiceNote"
                   readonly
