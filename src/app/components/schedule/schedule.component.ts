@@ -1243,6 +1243,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     val.stopPropagation();
     this.isFousCategory = true;
   }
+
+  focusSearch2(val, tye) {
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFousCategory = true;
+  }
   //  Hide Search
   hideSearch() {
     setTimeout(() => {
