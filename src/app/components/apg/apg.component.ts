@@ -2842,6 +2842,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
       apgObject['result'] = array[i].results;
       apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
+      apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
       console.log(apgObject);
       for (var index in apgObject) {
         if (line != '') line += ',';

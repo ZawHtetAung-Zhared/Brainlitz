@@ -1887,7 +1887,7 @@ export class CourseComponent implements OnInit {
     console.log(state);
     console.log(this.selectCustomer);
     console.log(this.selectedTeacherLists);
-    console.error(this.detailLists);
+    // console.error(this.detailLists);
     this.selectedCustomer = {};
     this.selectedTeacherLists = [];
     this.isvalidID = state;
