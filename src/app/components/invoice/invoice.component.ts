@@ -466,9 +466,9 @@ export class InvoiceComponent implements OnInit {
       amount: this.paymentItem.amount.toString(),
       paymentMethod: this.paymentId.toString()
     };
-    if (this.paymentItem.refNumber) {
-      body['refNo'] = this.paymentItem.refNumber;
-    }
+    // if (this.paymentItem.refNumber) {
+    //   body['refNo'] = this.paymentItem.refNumber;
+    // }
     // console.log("data",body);
     this._service.makePayment(this.regionId, body).subscribe(
       (res: any) => {
