@@ -388,7 +388,7 @@
                       [ngClass]="{ 'shadow-bg': shadowIdx == idx }"
                       (mouseenter)="mouseEnter(idx)"
                       (mouseleave)="mouseLeave(idx)"
-                      class="d-flex optInput-wrap"
+                      class="d-flex  optInput-wrap"
                     >
                       <input
                         type="text"
@@ -1408,6 +1408,26 @@
                         </li>
                       </ul>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col-md-6" style="padding: 0;">
+                  <label class="all-title-font">Invoice Duration</label>
+                  <div class="inner-divleft-pad">
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="inlineFormInputGroupDuedate"
+                      (keypress)="numberOnly($event, 'duedate')"
+                      placeholder="0"
+                      (mouseleave)="leaveHover($event)"
+                      (mouseenter)="enterHover($event)"
+                      [(ngModel)]="formField.dueDateCount"
+                      min="0"
+                      name="invDueDate"
+                      #invDueDate="ngModel"
+                    />
                   </div>
                 </div>
               </div>

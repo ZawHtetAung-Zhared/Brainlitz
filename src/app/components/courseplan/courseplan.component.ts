@@ -544,7 +544,8 @@ export class CourseplanComponent implements OnInit {
       quizwerkz: this.pdfId,
       holidayCalendarId: this.formField.holidayCalendarId,
       accessPointGroup: this.selectedAPGidArray,
-      assessmentPlans: this.selectedAPidList
+      assessmentPlans: this.selectedAPidList,
+      dueDateCount: this.formField.dueDateCount
     };
 
     // let data = {
@@ -628,7 +629,7 @@ export class CourseplanComponent implements OnInit {
           }
         );
     } else {
-      console.log('editPlan');
+      console.log('editPlan', data);
       if (data.paymentPolicy.deposit == undefined) {
         console.log(this.formField.paymentPolicy.deposit);
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;

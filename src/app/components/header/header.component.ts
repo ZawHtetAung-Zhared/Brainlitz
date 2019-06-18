@@ -273,6 +273,6 @@ export class HeaderComponent implements OnInit {
     this._dataservice.nevigateCustomer('');
     this._dataservice.nevigateCDetail('');
     this._dataservice.nevigateSchedule('');
-    this._dataservice.defineCurrentTab(type);
+    // this._dataservice.defineCurrentTab(type);
   }
 }
