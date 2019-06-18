@@ -641,6 +641,9 @@
                       >
                         {{ timetable.course.courseCode }}
                       </h6>
+                      <!-- <span  *ngFor="let teacher of timetable.course.teachers; let b = index">
+                          ({{teacher.fullName }})
+                      </span> -->
                       <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                       <p
                         [ngClass]="{

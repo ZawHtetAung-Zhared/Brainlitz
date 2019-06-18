@@ -103,6 +103,7 @@ export class CustomfieldComponent implements OnInit {
 
   defineType(type) {
     console.log(type);
+    this.checkFieldArr = [];
     // if(type == 'Text'){
     // 	this.model.datatype = 'String';
     // 	this.model.controltype = 'Textarea';
@@ -306,10 +307,24 @@ export class CustomfieldComponent implements OnInit {
   }
 
   removeFeeOption(id) {
-    console.log(id);
-    console.log(this.checkFieldArr);
     this.checkFieldArr.splice(id, 1);
-    // this.checkFieldArr.splice(this.checkFieldArr.map(x => x._id).indexOf(id), 1);
-    console.log(this.checkFieldArr);
+  }
+  isCustomeValid: boolean = false;
+  validateForm() {
+    if (this.checkFieldArr.length != 0) {
+      for (let i = 0; i < this.checkFieldArr.length; i++) {
+        if (
+          (this.checkFieldArr[i].name == undefined ||
+            this.checkFieldArr[i].name == '') &&
+          (this.model.name != undefined || this.model.name != '')
+        ) {
+          this.isCustomeValid = false;
+        } else {
+          this.isCustomeValid = true;
+        }
+      }
+    } else {
+      this.isCustomeValid = true;
+    }
   }
 }

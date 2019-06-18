@@ -185,24 +185,68 @@
         <button type="button" class="btn-cancel cursor-on" (click)="cancel()">
           Cancel
         </button>
-        <button
-          *ngIf="!isUpdate"
-          type="button"
-          class="btn-submit cursor-on"
-          (click)="createField(this.model, '')"
-          [disabled]="!fieldForm.form.valid"
+        <div
+          class="d-none"
+          *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'"
         >
-          Create
-        </button>
-        <button
-          *ngIf="isUpdate"
-          type="button"
-          class="btn-submit cursor-on"
-          (click)="createField(this.model, this.model._id)"
-          [disabled]="!fieldForm.form.valid"
+          {{ validateForm() }}
+        </div>
+        <div *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'">
+          <button
+            *ngIf="!isUpdate"
+            type="button"
+            class="btn-submit cursor-on"
+            (click)="createField(this.model, '')"
+            [disabled]="!isCustomeValid || !fieldForm.form.valid"
+          >
+            Create
+          </button>
+        </div>
+        <div
+          *ngIf="
+            isChecked == 'String' ||
+            isChecked == 'Number' ||
+            isChecked == 'Date'
+          "
         >
-          Update
-        </button>
+          <button
+            *ngIf="!isUpdate"
+            type="button"
+            class="btn-submit cursor-on"
+            (click)="createField(this.model, '')"
+            [disabled]="!fieldForm.form.valid"
+          >
+            Create
+          </button>
+        </div>
+        <div *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'">
+          <button
+            *ngIf="isUpdate"
+            type="button"
+            class="btn-submit cursor-on"
+            (click)="createField(this.model, this.model._id)"
+            [disabled]="!isCustomeValid || !fieldForm.form.valid"
+          >
+            Update
+          </button>
+        </div>
+        <div
+          *ngIf="
+            isChecked == 'String' ||
+            isChecked == 'Number' ||
+            isChecked == 'Date'
+          "
+        >
+          <button
+            *ngIf="isUpdate"
+            type="button"
+            class="btn-submit cursor-on"
+            (click)="createField(this.model, this.model._id)"
+            [disabled]="!fieldForm.form.valid"
+          >
+            Update
+          </button>
+        </div>
       </div>
     </form>
   </div>
