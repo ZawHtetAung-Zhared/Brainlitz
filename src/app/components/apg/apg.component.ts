@@ -712,6 +712,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   dataValueClear(item, e?) {
     // this.optionsArray.splice(item, 1)
     this.valueArray.splice(item, 1);
+    console.log(item);
     // console.log(this.optionsArray)
     // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
     // console.log($(".data-wrapper").children())

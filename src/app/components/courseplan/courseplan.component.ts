@@ -331,6 +331,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   inputOpt(idx, value) {
+    console.log('inptopt');
     this.optArray[idx].fees = Number(value);
   }
 
