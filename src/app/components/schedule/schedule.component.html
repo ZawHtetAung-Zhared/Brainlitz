@@ -630,20 +630,42 @@
                     *ngIf="timetable.course != null"
                   >
                     <div *ngIf="!timetable.lesson.cancel">
-                      <h6
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                      >
-                        {{ timetable.course.courseCode }}
-                      </h6>
-                      <!-- <span  *ngFor="let teacher of timetable.course.teachers; let b = index">
-                          ({{teacher.fullName }})
-                      </span> -->
+                      <div class="d-flex">
+                        <h6
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        >
+                          {{ timetable.course.courseCode }}
+                        </h6>
+                        <span class="circle">(</span>
+                        <div
+                          *ngFor="
+                            let teacher of timetable.course.teachers;
+                            let b = index
+                          "
+                          style="line-height: 1;"
+                        >
+                          <span
+                            *ngIf="timetable.course.teachers.length - 1 == b"
+                            class="teacher-name-course"
+                          >
+                            {{ teacher.preferredName }}
+                          </span>
+                          <span
+                            *ngIf="timetable.course.teachers.length - 1 != b"
+                            class="teacher-name-course"
+                          >
+                            {{ teacher.preferredName }} ,
+                          </span>
+                        </div>
+                        <span class="circle">)</span>
+                      </div>
+
                       <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                       <p
                         [ngClass]="{
@@ -847,9 +869,33 @@
                         >
                           <span class="dash-icon align-self-center"> - </span>
                         </div>
-                        <p class="ml-1 cancelled-course-Code">
-                          {{ timetable.course.courseCode }}
-                        </p>
+                        <div class="d-flex">
+                          <p class="ml-1 cancelled-course-Code">
+                            {{ timetable.course.courseCode }}
+                          </p>
+                          <span class="circle">(</span>
+                          <div
+                            *ngFor="
+                              let teacher of timetable.course.teachers;
+                              let b = index
+                            "
+                            style="line-height: 1;"
+                          >
+                            <span
+                              *ngIf="timetable.course.teachers.length - 1 == b"
+                              class="teacher-name-course"
+                            >
+                              {{ teacher.preferredName }}
+                            </span>
+                            <span
+                              *ngIf="timetable.course.teachers.length - 1 != b"
+                              class="teacher-name-course"
+                            >
+                              {{ teacher.preferredName }} ,
+                            </span>
+                          </div>
+                          <span class="circle">)</span>
+                        </div>
                       </div>
                       <div class="mt-0 cancel-text">
                         cancelled
@@ -899,17 +945,42 @@
                   >
                     <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
                     <div *ngIf="!timetable.lesson.cancel">
-                      <h6
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                      >
-                        {{ timetable.course.courseCode }}
-                      </h6>
+                      <div class="d-flex">
+                        <h6
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        >
+                          {{ timetable.course.courseCode }}
+                        </h6>
+                        <span class="circle">(</span>
+                        <div
+                          *ngFor="
+                            let teacher of timetable.course.teachers;
+                            let b = index
+                          "
+                          style="line-height: 1;"
+                        >
+                          <span
+                            *ngIf="timetable.course.teachers.length - 1 == b"
+                            class="teacher-name-course"
+                          >
+                            {{ teacher.preferredName }}
+                          </span>
+                          <span
+                            *ngIf="timetable.course.teachers.length - 1 != b"
+                            class="teacher-name-course"
+                          >
+                            {{ teacher.preferredName }},
+                          </span>
+                        </div>
+                        <span class="circle">)</span>
+                      </div>
+
                       <p
                         *ngIf="timetable.seat != null"
                         [ngClass]="{
