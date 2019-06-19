@@ -5036,6 +5036,9 @@ span.scrollup.show:hover:before {
   background: #f2f4f5;
   margin: 10px 4.516px;
 }
+.modal-open {
+  overflow: hidden !important;
+}
 .img-wrapper {
   -webkit-box-align: baseline;
   -ms-flex-align: baseline;
@@ -10272,9 +10275,6 @@ button.close {
   background-color: transparent;
   border: 0;
   -webkit-appearance: none;
-}
-.modal-open {
-  overflow: hidden;
 }
 .modal {
   position: fixed;
