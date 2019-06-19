@@ -2621,5 +2621,57 @@ p.textCount {
 }
 
 .checkedDate {
+  color: #0080ff;
+}
+
+.regular-checkbox {
+  display: none;
+}
+.square-box,
+.rounded-box {
+  line-height: 12px;
+  text-align: center;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #788796;
+  /*border-radius: 50%;*/
+  /*background: #ffffff;*/
+  /*background: #8fa1b3;*/
+}
+.square-box i,
+.rounded-box i {
+  font-size: 10px;
+  color: #ffffff;
+}
+.square-checked,
+.rounded-checked {
+  line-height: 2px;
+  text-align: center;
+  width: 14px;
+  height: 14px;
+  /*border-radius: 50%;*/
+  border: 2px solid #007fff;
+}
+.rounded-checked,
+.rounded-box {
+  border-radius: 50%;
+  position: relative;
+}
+.square-checked i {
+  font-size: 10px;
   color: #007fff;
+}
+.box-label {
+  line-height: 0.9;
+  padding-left: 5px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.radio-checked {
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  background: #007fff;
+  left: 1px;
+  top: 1px;
 }
