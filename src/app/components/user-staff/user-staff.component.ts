@@ -23,7 +23,7 @@ import {
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
-
+import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-user-staff',
   templateUrl: './user-staff.component.html',
@@ -283,7 +283,6 @@ export class UserStaffComponent implements OnInit {
         item.inputValues = testArray;
         testArray = [];
       });
-      console.warn(res);
       this.customFields = res.userInfoPermitted;
       for (var i = 0; i < this.customFields.length; i++) {
         console.log('^^i', this.customFields[i]);
@@ -311,12 +310,10 @@ export class UserStaffComponent implements OnInit {
               value++
             ) {
               const element = this.customFields[i].inputValues;
-              console.warn(element);
               for (let item = 0; item < test[0].value.length; item++) {
                 const checkValue = test[0].value[item];
                 if (element[value].name === checkValue) {
                   element[value].isCheck = true;
-                  console.warn(element);
                 }
               }
             }
@@ -395,7 +392,6 @@ export class UserStaffComponent implements OnInit {
     this.formFields.details = [];
     let testArray = [];
     this.customFields.map((item, index) => {
-      console.warn(item);
       if (item.controlType === 'Datepicker') {
         if (item.value.day < 10) {
           var day = '0' + `${item.value.day}`;
@@ -406,10 +402,9 @@ export class UserStaffComponent implements OnInit {
         if (item.value.month < 10) {
           var month = '0' + `${item.value.month}`;
         } else {
-          var month = `${item.value.day}`;
+          var month = `${item.value.month}`;
         }
         var testing = `${item.value.year}` + '-' + `${month}` + '-' + `${day}`;
-        console.warn(testing);
         //  const zz=  moment(new Date(testing)).format();
         var date = new Date(testing).toISOString();
         item.value = date;
@@ -425,7 +420,6 @@ export class UserStaffComponent implements OnInit {
         testArray = [];
       }
     });
-    console.warn(this.customFields);
     for (var i = 0; i < this.customFields.length; i++) {
       console.log('field value', this.customFields[i].value);
       if (this.customFields[i].value) {
@@ -728,6 +722,10 @@ export class UserStaffComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.staffDetail = res;
+          res.user.details.map(info => {
+            if (info.controlType === 'Datepicker')
+              info.value = moment(info.value).format('YYYY-MM-DD');
+          });
           console.log('StaffDetail', res);
           setTimeout(() => {
             this.blockUI.stop();
@@ -778,6 +776,7 @@ export class UserStaffComponent implements OnInit {
   checkBoxCheck(item) {
     item.isCheck = !item.isCheck;
   }
+
   radioCheck(item, fields) {
     fields.map(field => {
       field.isCheck = false;
