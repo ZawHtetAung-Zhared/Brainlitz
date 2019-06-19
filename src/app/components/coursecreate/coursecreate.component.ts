@@ -594,6 +594,7 @@ export class CoursecreateComponent implements OnInit {
         month: Number(testSplit[1]),
         day: Number(testSplit[2])
       };
+      console.error(format);
       return format;
     } else if (type == 'end') {
       if (datestr) {

@@ -280,7 +280,7 @@ export class CourseComponent implements OnInit {
     });
 
     this._service.goCourse.subscribe(() => {
-      console.log('goback33');
+      console.log('goback33 in course');
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
@@ -1887,7 +1887,7 @@ export class CourseComponent implements OnInit {
     console.log(state);
     console.log(this.selectCustomer);
     console.log(this.selectedTeacherLists);
-    console.error(this.detailLists);
+    // console.error(this.detailLists);
     this.selectedCustomer = {};
     this.selectedTeacherLists = [];
     this.isvalidID = state;

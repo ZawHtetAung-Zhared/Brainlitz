@@ -6,7 +6,11 @@
         <span>Export</span><i class="fa fa-chevron-down downIcon"></i>
       </button>
       <div *ngIf="showDp" class="option-dp">
-        <div class="inv-opt" (click)="exportInvoiceLists('PAID')">PAID</div>
+        <div class="inv-opt" (click)="exportInvoiceLists('PAID')">Paid</div>
+        <div class="inv-opt" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
+        <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
+          Paid partial
+        </div>
       </div>
     </div>
   </div>
