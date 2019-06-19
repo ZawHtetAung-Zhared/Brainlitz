@@ -1762,3 +1762,10 @@ p.textCount {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 /* end flexi modal */
+span.teacher-name-course {
+  font-size: 12px;
+}
+span.circle {
+  line-height: 1.2;
+  font-size: 12px;
+}

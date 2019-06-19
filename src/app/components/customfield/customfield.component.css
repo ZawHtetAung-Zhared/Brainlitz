@@ -165,7 +165,7 @@
   flex: auto;
   text-align: center;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  width: 110px;
+  /* width: 110px; */
 }
 .selected,
 .selectText {
