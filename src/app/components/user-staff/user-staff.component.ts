@@ -393,21 +393,24 @@ export class UserStaffComponent implements OnInit {
     let testArray = [];
     this.customFields.map((item, index) => {
       if (item.controlType === 'Datepicker') {
-        if (item.value.day < 10) {
-          var day = '0' + `${item.value.day}`;
-        } else {
-          var day = `${item.value.day}`;
-        }
+        if (item.value != null) {
+          if (item.value.day < 10) {
+            var day = '0' + `${item.value.day}`;
+          } else {
+            var day = `${item.value.day}`;
+          }
 
-        if (item.value.month < 10) {
-          var month = '0' + `${item.value.month}`;
-        } else {
-          var month = `${item.value.month}`;
+          if (item.value.month < 10) {
+            var month = '0' + `${item.value.month}`;
+          } else {
+            var month = `${item.value.month}`;
+          }
+          var testing =
+            `${item.value.year}` + '-' + `${month}` + '-' + `${day}`;
+          //  const zz=  moment(new Date(testing)).format();
+          var date = new Date(testing).toISOString();
+          item.value = date;
         }
-        var testing = `${item.value.year}` + '-' + `${month}` + '-' + `${day}`;
-        //  const zz=  moment(new Date(testing)).format();
-        var date = new Date(testing).toISOString();
-        item.value = date;
       }
 
       if (item.controlType === 'Checkbox' || item.controlType === 'Radio') {
