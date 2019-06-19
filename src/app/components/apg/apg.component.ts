@@ -2820,7 +2820,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // }
     // row = row.slice(0, -1);
     row =
-      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,APG Name,Result,Submitted Date';
+      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date';
     //append Label row with line break
     str += row + '\r\n';
     // console.log(str);
@@ -2839,6 +2839,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
       apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
       apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
       apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
       apgObject['result'] = array[i].results;
       apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
