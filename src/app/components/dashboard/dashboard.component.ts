@@ -1064,10 +1064,12 @@ export class DashboardComponent implements OnInit {
     setTimeout(() => {
       let textArea = document.getElementById('settingInvNote');
       console.log(textArea);
-      textArea.style.overflow = 'hidden';
-      textArea.style.height = 'auto';
-      textArea.style.height = textArea.scrollHeight + 'px';
-      console.log('textArea', textArea.style.height);
+      if (textArea != null) {
+        textArea.style.overflow = 'hidden';
+        textArea.style.height = 'auto';
+        textArea.style.height = textArea.scrollHeight + 'px';
+        console.log('textArea', textArea.style.height);
+      }
     }, 1000);
   }
 }
