@@ -2828,14 +2828,8 @@ export class ApgComponent implements OnInit, OnDestroy {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var apgObject = {};
-      apgObject['studentName'] = array[i].student.preferredName.replace(
-        /,/g,
-        ' '
-      );
-      apgObject['teacherName'] = array[i].teacher.preferredName.replace(
-        /,/g,
-        ' '
-      );
+      apgObject['studentName'] = array[i].student.preferredName;
+      apgObject['teacherName'] = array[i].teacher.preferredName;
       apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
       apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
       apgObject['classStartTime'] = array[i].classStartTime;

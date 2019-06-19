@@ -147,6 +147,10 @@ table td {
   padding: 8px 15px;
 }
 
+.bottom-border {
+  border-bottom: 1px solid #e3e4e6;
+}
+
 @media only screen and (max-width: 768px) {
   .inv-table {
     width: 728px;

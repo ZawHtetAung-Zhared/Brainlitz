@@ -86,6 +86,8 @@ export class UserStaffComponent implements OnInit {
     private config: NgbDatepickerConfig
   ) {
     this.toastr.setRootViewContainerRef(vcr);
+    // customize default values of datepickers used by this component tree
+    config.minDate = { year: 1950, month: 1, day: 1 };
   }
 
   ngOnInit() {

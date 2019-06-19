@@ -673,7 +673,10 @@ span.scrollup.show:hover:before {
   background: #788796 !important;
 }
 
-.bg-light .custom-select:last-child {
+.xxx-start .dropdown-menu.show .bg-light .custom-select:last-child,
+.xxx-end .dropdown-menu.show .bg-light .custom-select:last-child,
+.cc-start .dropdown-menu.show .bg-light .custom-select:last-child,
+.cc-end .dropdown-menu.show .bg-light .custom-select:last-child {
   pointer-events: none;
   background: none;
 }

@@ -194,6 +194,8 @@ export class UsersComponent implements OnInit {
     private dataService: DataService
   ) {
     this.toastr.setRootViewContainerRef(vcr);
+    // customize default values of datepickers used by this component tree
+    config.minDate = { year: 1950, month: 1, day: 1 };
     // this._service.goUserCourseDetail.subscribe(() => {
     //      console.log('go User CourseDetail');
     //      this.isCourse = true;
@@ -380,8 +382,8 @@ export class UsersComponent implements OnInit {
           console.log('Test', test);
           if (test.length > 0) {
             console.log('value', test[0].value);
-            var dateTime = test[0].value;
-
+            // var dateTime = test[0].value;
+            // console.log('date time~~~',dateTime)
             for (
               let value = 0;
               value < this.customFields[i].inputValues.length;
@@ -397,6 +399,7 @@ export class UsersComponent implements OnInit {
             }
             this.customFields[i]['value'] = test[0].value;
             if (this.customFields[i].controlType === 'Datepicker') {
+              var dateTime = test[0].value;
               var ok = dateTime.substring(0, dateTime.search('T'));
               var testSplit = ok.split('-');
               var format = {
