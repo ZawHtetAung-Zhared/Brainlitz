@@ -10,6 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
+import { KeyedWrite } from '@angular/compiler';
 declare var $: any;
 
 @Injectable()
@@ -980,19 +981,32 @@ export class appService {
     limit: string,
     skip: string
   ): Observable<any> {
+    let url;
     this.getLocalstorage();
-    let url =
-      this.baseUrl +
-      '/' +
-      regionid +
-      '/schedule/stafflist?daysOfWeek=' +
-      daysOfWeek +
-      '&categoryId=' +
-      categoryId +
-      '&limit=' +
-      limit +
-      '&skip=' +
-      skip;
+    if (limit == undefined && skip == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/schedule/stafflist?daysOfWeek=' +
+        daysOfWeek +
+        '&categoryId=' +
+        categoryId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    }
+
     //  console.log(url, ' Url')
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1333,43 +1347,53 @@ export class appService {
     });
   }
 
-  getAllCoursePlan(id: string, location: string): Observable<any> {
-    this.getLocalstorage();
-    console.log(location);
-    console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + location;
-    const httpOptions = {
-      headers: new HttpHeaders({
-        authorization: this.tokenType + ' ' + this.accessToken
-      })
-    };
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
-  }
+  // getAllCoursePlan(id: string, location: string): Observable<any> {
+  //   this.getLocalstorage();
+  //   console.log(location);
+  //   console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
+  //   let url = this.baseUrl + '/' + id + '/courseplan?locationId=' + location;
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       authorization: this.tokenType + ' ' + this.accessToken
+  //     })
+  //   };
+  //   return this.httpClient.get(url, httpOptions).map((res: Response) => {
+  //     let result = res;
+  //     return result;
+  //   });
+  // }
   getAllCourseplan(
     id: string,
     location: string,
     categoryId: string,
     skip: string,
-    limit: string
+    limit: string,
+    keyword: string
   ): Observable<any> {
     this.getLocalstorage();
-    console.log(location);
-    console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url =
-      this.baseUrl +
-      '/' +
-      id +
-      '/courseplan?locationId=' +
-      location +
-      '&categoryId=' +
-      categoryId +
-      '&skip=' +
-      skip +
-      '&limit=' +
-      limit;
+    let url;
+    if (keyword == undefined || keyword == '') {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit;
+    } else if (keyword != undefined || keyword != '') {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&keyword=' +
+        keyword;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -2861,6 +2885,28 @@ export class appService {
     });
   }
 
+  invoicesExport(regionId: string, status: string) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/invoices?status=' +
+      status +
+      '&all=true';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   cancelUsersFromClass(classId: string, data, global): Observable<any> {
     console.log(global);
     this.getLocalstorage();
@@ -3001,6 +3047,7 @@ export class appService {
     daysOfweek: string,
     categoryId: string
   ) {
+    console.log('categoryID', categoryId);
     let apiUrl =
       this.baseUrl +
       '/' +
@@ -3524,8 +3571,13 @@ export class appService {
       return result;
     });
   }
-  getEvaluationExport(apgId: string) {
-    let url = this.baseUrl + '/apg/' + apgId + '/evaluation:export';
+  getEvaluationExport(apg: any, regionId: string) {
+    if (apg == 'all') {
+      var url =
+        this.baseUrl + '/regions/' + regionId + '/apg/evaluation:export';
+    } else {
+      url = this.baseUrl + '/apg/' + apg._id + '/evaluation:export';
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

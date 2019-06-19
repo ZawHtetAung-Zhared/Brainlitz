@@ -6,6 +6,7 @@ import {
   EventEmitter,
   AfterViewInit,
   ViewChildren,
+  OnDestroy,
   QueryList
 } from '@angular/core';
 
@@ -32,7 +33,7 @@ declare var $: any;
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   @BlockUI() blockUI: NgBlockUI;
   // public isSearch:boolean = false;
   public totalWidth = 0;
@@ -1143,6 +1144,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   backtoTimetable() {
+    $('body').css('overflow', 'hidden');
+    $('.disabledScroll').css('overflow', 'hidden');
     this.scheduleList = false;
     this.isPlan = false;
     this.isCategory = false;
@@ -1240,6 +1243,12 @@ export class ScheduleComponent implements OnInit {
     val.stopPropagation();
     this.isFousCategory = true;
   }
+
+  focusSearch2(val, tye) {
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFousCategory = true;
+  }
   //  Hide Search
   hideSearch() {
     setTimeout(() => {
@@ -1248,6 +1257,7 @@ export class ScheduleComponent implements OnInit {
   }
   selectDataApiCall(category, index) {
     this.selectedTeacher = {};
+    this.tempTchr = undefined;
     console.log('selectDataApiCall works', category);
     this.selectData(category);
     this.getschedulestaff('button', '20', '0', index);
@@ -1268,7 +1278,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedCategory = category;
     this.selectedCat = false;
   }
-
+  isTeacherAll: boolean = false;
   /// Fix Get Sechedule Staff API ///
   getschedulestaff(type, limit, skip, index) {
     setTimeout(() => {
@@ -1281,6 +1291,11 @@ export class ScheduleComponent implements OnInit {
     } else {
       repeatDays = this.selectedDay.toString();
     }
+    console.log(this.regionId);
+    console.log(repeatDays);
+    console.log(this.selectedID);
+    console.log(limit);
+    console.log(skip);
     this.scheduleList = false;
     this._service
       .getscheduleStaffList(
@@ -1292,28 +1307,48 @@ export class ScheduleComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
+          console.log(res);
           this.result = res;
           this.staffList = res;
           console.log('this.selectedTeacher', this.selectedTeacher);
           console.log('this.staffList', this.staffList);
           if (this.staffList.staff.length > 0) {
             if (this.staffList.staff && type == 'checkbox') {
-              this.selectedTeacher = this.tempSelectedTeacher;
-              if (this.tempSelectedTeacher == null) {
-                this.selectedTeacher = this.staffList.staff[0];
+              if (this.isTeacherAll) {
+                // remove auto selected
+                this.isTeacherAll = true;
+              } else {
+                console.log('exit');
+                this.selectedTeacher = this.tempSelectedTeacher;
+                if (this.tempSelectedTeacher == null) {
+                  this.selectedTeacher = this.staffList.staff[0];
+                  this.isTeacherAll = false; // remove auto selected
+                }
               }
             } else if (type == 'modalteacher') {
+              console.log('two');
               this.selectedTeacher = this.tempSelectedTeacher;
+              this.isTeacherAll = false;
               console.log('selected teacher');
             } else {
+              console.log('three', this.staffList.staff);
+              console.log(this.selectedTeacher);
               if (this.staffList.staff) {
                 this.tempSelectedTeacher = null;
-                this.selectedTeacher = this.staffList.staff[0];
+                // this.selectedTeacher = this.staffList.staff[0];
+                this.isTeacherAll = true;
               }
             }
             console.log('Call staff timttable');
-            if (JSON.stringify(this.selectedTeacher) != '{}') {
+            if (
+              JSON.stringify(this.selectedTeacher) != '{}' ||
+              this.isTeacherAll
+            ) {
+              console.log('reach');
               this.getStaffTimetable(this.selectedTeacher.userId, repeatDays);
+            }
+            if (this.isTeacherAll) {
+              this.selectedTeacher = {};
             }
           } else {
             console.log('no need to call staff timttable');
@@ -1325,6 +1360,19 @@ export class ScheduleComponent implements OnInit {
               this.overFlowWidth(20, type);
             }
           }, 300);
+
+          if (this.tempTchr != undefined) {
+            this.staffList.staff.map((staff, indexNumber) => {
+              if (staff.userId == this.tempTchr.userId) {
+                this.staffList.staff.splice(
+                  this.staffList.staff.indexOf(staff),
+                  1
+                );
+              }
+            });
+            this.staffList.staff.unshift(this.tempTchr);
+          }
+          $('body').css('overflow', 'hidden');
         },
         (err: any) => {
           // catch the error response from api
@@ -1335,6 +1383,7 @@ export class ScheduleComponent implements OnInit {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
+    console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -1459,6 +1508,7 @@ export class ScheduleComponent implements OnInit {
     }
     this.scheduleList = false;
     this.blockUI.start('Loading');
+    console.log(this.selectedID);
     this._service
       .getscheduleStaffList(
         this.regionId,
@@ -1501,6 +1551,7 @@ export class ScheduleComponent implements OnInit {
       limit = 20;
       skip = 0;
     }
+    console.log(keyword);
     if (keyword.length != 0) {
       this.isSearch = true;
       this._service
@@ -1514,15 +1565,27 @@ export class ScheduleComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
+            this.result = res;
             if (isFirst == true) {
               this.result = res;
               console.log('First Time Searching');
               this.tempstafflist = [];
+              res.staff.map(staff => {
+                staff.search = true;
+              });
+              // for adding option to the stafff list  end
               this.tempstafflist = res.staff;
+              // this.tempstafflist = res.staff;
             } else {
               console.log('Not First Time Searching');
-              this.tempstafflist = res.staff;
-              // this.tempstafflist = this.tempstafflist.concat(res.staff);
+              // this.tempstafflist = res.staff;
+              // for adding option to the stafff list
+              res.staff.map(staff => {
+                staff.search = true;
+              });
+              // for adding option to the stafff list  end
+              // this.tempstafflist = res.staff;
+              this.tempstafflist = this.tempstafflist.concat(res.staff);
             }
           },
           err => {
@@ -1563,9 +1626,16 @@ export class ScheduleComponent implements OnInit {
   // fix get schedule staff api done ///
 
   getStaffTimetable(staffId, repeatDays) {
+    console.log('ok');
     this.blockUI.start('Loading...');
+    let data;
+    if (this.isTeacherAll) {
+      data = 'all';
+    } else {
+      data = staffId;
+    }
     this._service
-      .getStaffSchedule(this.regionId, staffId, repeatDays, this.selectedID)
+      .getStaffSchedule(this.regionId, data, repeatDays, this.selectedID)
       .subscribe((res: any) => {
         setTimeout(() => {
           this.blockUI.stop();
@@ -1624,12 +1694,14 @@ export class ScheduleComponent implements OnInit {
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
+    this.isTeacherAll = false;
     // if (this.staffList.staff.indexOf(this.selectedTeacher) > 4) {
     //   $('.teacher-list-wrapper').scrollLeft(150 * (this.staffList.staff.indexOf(this.selectedTeacher)));
     // }
     // else {
     //   $('.teacher-list-wrapper').scrollLeft(0);
     // }
+    this.tempTchr = undefined;
     console.log(this.selectedDay);
     if (this.selectedDay.length == 0) {
       this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
@@ -1640,17 +1712,42 @@ export class ScheduleComponent implements OnInit {
       );
     }
   }
+  public tempTchr: any;
   activeTeachers1(teacher, index) {
+    this.isTeacherAll = false;
     this.keyword = '';
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
-    this.getschedulestaff(
-      'modalteacher',
-      this.tempstafflist.length,
-      '0',
-      index
-    );
+    if (teacher.search) {
+      delete teacher.search;
+      this.tempTchr = teacher;
+      this.staffList.staff.map((staff, index) => {
+        if (teacher.userId === staff.userId) {
+          this.staffList.staff.splice(index, 1);
+        }
+      });
+      setTimeout(() => {
+        this.staffList.staff.unshift(teacher);
+        $('.teacher-list-wrapper').scrollLeft(0);
+      }, 100);
+      this.overFlowWidth(index, 'modalteacher');
+      if (this.selectedDay.length == 0) {
+        this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+      } else if (this.selectedDay.length > 0) {
+        this.getStaffTimetable(
+          this.selectedTeacher.userId,
+          this.selectedDay.toString()
+        );
+      }
+    } else {
+      this.getschedulestaff(
+        'modalteacher',
+        this.tempstafflist.length,
+        '0',
+        index
+      );
+    }
     setTimeout(() => {
       if (this.tempstafflist) {
         // $('.teacher-list-wrapper').scrollLeft(75 *2 + 78 * 2 + 118 * 2);
@@ -1803,7 +1900,7 @@ export class ScheduleComponent implements OnInit {
   ctype: any;
   addCustomer(cDetail, userType) {
     console.log(userType);
-    console.log(cDetail.type);
+    console.log(cDetail);
     console.log(this.selectCustomer);
     if (cDetail.type == 'FLEXY') {
       this.ctype = 'schedule';
@@ -2365,6 +2462,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   onClickCreate() {
+    $('.disabledScroll').css('overflow', 'auto');
+    $('body').css('overflow', 'auto');
     this.courseCreate = true;
     this.courseplanLists = [];
     this.getAllCoursePlan('0', '20');
@@ -2375,6 +2474,7 @@ export class ScheduleComponent implements OnInit {
   // }
 
   createPlan() {
+    // $('body').css('overflow', 'auto');
     console.log('course Plan');
     this.isCategory = true;
     this.goBackCat = false;
@@ -2639,13 +2739,15 @@ export class ScheduleComponent implements OnInit {
   }
   getAllCoursePlan(skip, limit) {
     this.blockUI.start('Loading');
+    let keyboard;
     this._service
       .getAllCourseplan(
         this.regionId,
         this.locationID,
         this.selectedID,
         skip,
-        limit
+        limit,
+        this.keyword
       )
       .subscribe(
         (res: any) => {
@@ -2812,4 +2914,9 @@ export class ScheduleComponent implements OnInit {
     console.log(this.checkobjArr);
   }
   // end flexy
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    $('body').css('overflow', 'auto');
+  }
 }

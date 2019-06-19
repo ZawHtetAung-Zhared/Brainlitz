@@ -1,6 +1,18 @@
 <div>
-  <div class="title-div">
+  <div class=" d-flex title-div justify-content-between">
     <h2>Invoice Reports</h2>
+    <div style="position: relative;">
+      <button class="btn-export" (click)="showExportOption($event, 'paid')">
+        <span>Export</span><i class="fa fa-chevron-down downIcon"></i>
+      </button>
+      <div *ngIf="showDp" class="option-dp">
+        <div class="inv-opt" (click)="exportInvoiceLists('PAID')">Paid</div>
+        <div class="inv-opt" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
+        <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
+          Paid partial
+        </div>
+      </div>
+    </div>
   </div>
   <div class="table-wrapper">
     <table class="inv-table">
@@ -56,12 +68,11 @@
     </table>
   </div>
 </div>
-<div class="d-flex justify-content-center load-more">
-  <button
-    *ngIf="invoiceList.length >= 20"
-    class="btn remove-outline"
-    (click)="showMore(invoiceList.length)"
-  >
+<div
+  *ngIf="invlistsResult.length >= 20"
+  class="d-flex justify-content-center load-more"
+>
+  <button class="btn remove-outline" (click)="showMore(invoiceList.length)">
     load more
   </button>
 </div>

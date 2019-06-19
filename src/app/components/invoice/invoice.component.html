@@ -356,6 +356,20 @@
             Code: xx123
           </div>
         </div> -->
+        <div class="invoice-info">
+          <textarea
+            *ngIf="invoiceInfo.invoiceNote != ''"
+            style="resize:vertical"
+            rows="1"
+            type="text"
+            class="invnote-readonly"
+            id="invNote"
+            [(ngModel)]="invoiceInfo.invoiceNote"
+            #invNote="ngModel"
+            name="invNote"
+            readonly
+          ></textarea>
+        </div>
       </div>
     </div>
     <div class="modal-footer justify-content-between">
@@ -396,7 +410,7 @@
         >
           Save
         </button>
-        <!-- <button
+        <button
           class="btn btn-submit"
           [disabled]="
             (custDetail.user.email == '' &&
@@ -406,7 +420,7 @@
           (click)="showPayOption()"
         >
           Paid On
-        </button> -->
+        </button>
       </div>
     </div>
   </div>
@@ -759,7 +773,7 @@
             </div>
           </form>
         </div>
-        <div *ngIf="selectedPayment != 'Cash'">
+        <!-- <div *ngIf="selectedPayment != 'Cash'">
           <div class="mt-30">
             <label class="payment-label">Reference number</label>
             <div>
@@ -773,7 +787,7 @@
               />
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div

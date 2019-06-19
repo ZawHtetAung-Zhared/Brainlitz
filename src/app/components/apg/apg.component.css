@@ -161,7 +161,8 @@
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
-.inputText {
+.inputText,
+.btn-exportAll {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
@@ -2107,7 +2108,8 @@ li.optionlist {
   color: white !important;
 }
 .tabs-wrapper {
-  padding: 12px 16px 0px 16px;
+  margin: 12px 16px 0px 16px;
+  border-bottom: 1px solid #e3e4e6;
 }
 
 .tabs-wrapper button {
@@ -2221,4 +2223,52 @@ input.min_input_show {
   border-left: 1px solid #d4d5d6;
   height: 17px;
   margin-top: 3px;
+}
+
+.btn-exportAll {
+  margin-right: 15px;
+  background: none;
+  outline: none;
+  border: 2px solid #0080ff;
+  color: #0080ff;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 45px;
+  border-radius: 4px;
+}
+
+.dpIcon {
+  font-size: 12px;
+}
+
+.option-dp {
+  position: absolute;
+  z-index: 99;
+  background: #fff;
+  color: #2e3d4d !important;
+  cursor: pointer;
+  min-width: 100px;
+  text-align: center;
+  top: 52px;
+  left: -10px;
+  box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
+  border: none;
+  cursor: pointer;
+}
+
+.option-dp:after {
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: 100%;
+  right: 15px;
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: #fff transparent;
+}
+
+.inv-opt {
+  padding: 8px 15px;
 }

@@ -1,31 +1,85 @@
-<app-header [ngClass]="{'stick' : navIsFixed == true}"></app-header>
-<div [ngClass]="{'mainOverlay': (isEdit == true || isUrlEdit == true)}"></div>
-<div class="d-flex flex-row h-100 w-100 content-wrapper" [ngClass]="{'p-top' : navIsFixed == true}">
+<app-header [ngClass]="{ stick: navIsFixed == true }"></app-header>
+<div [ngClass]="{ mainOverlay: isEdit == true || isUrlEdit == true }"></div>
+<div
+  class="d-flex flex-row h-100 w-100 content-wrapper"
+  [ngClass]="{ 'p-top': navIsFixed == true }"
+>
   <div class="noti-sidebar h-100">
-    <div class="side-bar-wrap" [ngClass]="{'p-top' : navIsFixed == true, 'mid-top' : isMidStick == true}">
-      <div *ngIf="generalSidebar.length > 0" [ngClass]="{'active': menuType == 'general'}" class="tab-wrap">
-        <button type="button" class="btn noti-tab w-100" (click)="clickTab('general')">
+    <div
+      class="side-bar-wrap"
+      [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
+    >
+      <div
+        *ngIf="generalSidebar.length > 0"
+        [ngClass]="{ active: menuType == 'general' }"
+        class="tab-wrap"
+      >
+        <button
+          type="button"
+          class="btn noti-tab w-100"
+          (click)="clickTab('general')"
+        >
           <span class="btnSpan">
-            <img *ngIf="menuType == 'general'" class="setting-icon" src="./assets/images/sidebar-general_a@2x.png">
-            <img *ngIf="menuType != 'general'" class="setting-icon" src="./assets/images/sidebar-general@2x.png">
+            <img
+              *ngIf="menuType == 'general'"
+              class="setting-icon"
+              src="./assets/images/sidebar-general_a@2x.png"
+            />
+            <img
+              *ngIf="menuType != 'general'"
+              class="setting-icon"
+              src="./assets/images/sidebar-general@2x.png"
+            />
             <span>General</span>
           </span>
         </button>
       </div>
-      <div *ngIf="locationSidebar.length > 0" [ngClass]="{'active': menuType == 'location'}" class="tab-wrap">
-        <button type="button" class="btn noti-tab w-100" (click)="clickTab('location')">
+      <div
+        *ngIf="locationSidebar.length > 0"
+        [ngClass]="{ active: menuType == 'location' }"
+        class="tab-wrap"
+      >
+        <button
+          type="button"
+          class="btn noti-tab w-100"
+          (click)="clickTab('location')"
+        >
           <span class="btnSpan">
-            <img *ngIf="menuType == 'location'" class="setting-icon" src="./assets/images/sidebar-location_a@2x.png">
-            <img *ngIf="menuType != 'location'" class="setting-icon" src="./assets/images/sidebar-location@2x.png">
+            <img
+              *ngIf="menuType == 'location'"
+              class="setting-icon"
+              src="./assets/images/sidebar-location_a@2x.png"
+            />
+            <img
+              *ngIf="menuType != 'location'"
+              class="setting-icon"
+              src="./assets/images/sidebar-location@2x.png"
+            />
             <span>Locations</span>
           </span>
         </button>
       </div>
-      <div *ngIf="customSidebar.length > 0" [ngClass]="{'active': menuType == 'customfield'}" class="tab-wrap">
-        <button type="button" class="btn noti-tab w-100" (click)="clickTab('customfield')">
+      <div
+        *ngIf="customSidebar.length > 0"
+        [ngClass]="{ active: menuType == 'customfield' }"
+        class="tab-wrap"
+      >
+        <button
+          type="button"
+          class="btn noti-tab w-100"
+          (click)="clickTab('customfield')"
+        >
           <span class="btnSpan">
-            <img *ngIf="menuType == 'customfield'" class="setting-icon" src="./assets/images/profile@2x_a.png">
-            <img *ngIf="menuType != 'customfield'" class="setting-icon" src="./assets/images/profile@2x.png">
+            <img
+              *ngIf="menuType == 'customfield'"
+              class="setting-icon"
+              src="./assets/images/profile@2x_a.png"
+            />
+            <img
+              *ngIf="menuType != 'customfield'"
+              class="setting-icon"
+              src="./assets/images/profile@2x.png"
+            />
             <span>Custom Field</span>
           </span>
         </button>
@@ -41,14 +95,21 @@
         </div> -->
     </div>
   </div>
-  <div *ngIf="menuType == 'general'" class="d-flex flex-column justify-content-center align-items-center pl-zero large-col">
+  <div
+    *ngIf="menuType == 'general'"
+    class="d-flex flex-column justify-content-center align-items-center pl-zero large-col"
+  >
     <div class="d-flex flex-column h-100 setting-wrapper">
       <div *ngIf="option != 'Invoice' && option != 'Payment'">
         <div *ngIf="generalSidebar.length > 0" class="header-wrap">
           <h3 class="general">General</h3>
         </div>
         <div class="card-columns">
-          <div [ngClass]="{'showZindex': isEdit, 'blur': isUrlEdit}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+          <div
+            [ngClass]="{ showZindex: isEdit, blur: isUrlEdit }"
+            *ngIf="generalDemo.appsetting != ''"
+            class="card card-wrap region-wrap"
+          >
             <div class="title">
               Regional Settings
             </div>
@@ -56,23 +117,27 @@
               <div>
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/map.png">
+                    <img src="./assets/images/map.png" />
                   </div>
                   <label class="labelTitle">Region name</label>
                 </div>
-                <label class="labelName">{{item.name}}</label>
+                <label class="labelName">{{ item.name }}</label>
               </div>
               <div class="timezone-wrap ease" *ngIf="!isEdit">
                 <div>
                   <div class="title-wrap">
                     <div id="parent">
-                      <img src="./assets/images/time_zone.png">
+                      <img src="./assets/images/time_zone.png" />
                     </div>
                     <label class="labelTitle">Time zone</label>
                   </div>
                 </div>
                 <div class="picker-wrap">
-                  <ng2-timezone-picker class="newpick" [(timezone)]="item.timezone" showOffset="true">
+                  <ng2-timezone-picker
+                    class="newpick"
+                    [(timezone)]="item.timezone"
+                    showOffset="true"
+                  >
                   </ng2-timezone-picker>
                 </div>
               </div>
@@ -81,7 +146,11 @@
                   <label class="labelTitle">Time zone</label>
                 </div>
                 <div>
-                  <ng2-timezone-picker class="editTimezone" [(timezone)]="item.timezone" showOffset="true">
+                  <ng2-timezone-picker
+                    class="editTimezone"
+                    [(timezone)]="item.timezone"
+                    showOffset="true"
+                  >
                   </ng2-timezone-picker>
                 </div>
               </div>
@@ -90,108 +159,232 @@
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/map.png">
+                    <img src="./assets/images/map.png" />
                   </div>
                   <label class="labelTitle">Operating hour</label>
                 </div>
-                <label *ngIf="!isEdit" class="operatingTime"><span *ngIf="item && item.operatingHour.start.hr < 10 ">0</span>{{item.operatingHour.start.hr }}:<span *ngIf="item && item.operatingHour.start.min < 10 ">0</span>{{item.operatingHour.start.min
-                  }} {{item.operatingHour.start.meridiem}} </label>
+                <label *ngIf="!isEdit" class="operatingTime"
+                  ><span *ngIf="item && item.operatingHour.start.hr < 10"
+                    >0</span
+                  >{{ item.operatingHour.start.hr }}:<span
+                    *ngIf="item && item.operatingHour.start.min < 10"
+                    >0</span
+                  >{{ item.operatingHour.start.min }}
+                  {{ item.operatingHour.start.meridiem }}
+                </label>
                 <span *ngIf="!isEdit" class="timedash"> </span>
-                <label *ngIf="!isEdit " class="operatingTime1"><span *ngIf="item.operatingHour.end.hr < 10 ">0</span>{{item.operatingHour.end.hr }}:<span *ngIf="item.operatingHour.end.min < 10 ">0</span>{{item.operatingHour.end.min
-                  }} {{item.operatingHour.end.meridiem}} </label>
+                <label *ngIf="!isEdit" class="operatingTime1"
+                  ><span *ngIf="item.operatingHour.end.hr < 10">0</span
+                  >{{ item.operatingHour.end.hr }}:<span
+                    *ngIf="item.operatingHour.end.min < 10"
+                    >0</span
+                  >{{ item.operatingHour.end.min }}
+                  {{ item.operatingHour.end.meridiem }}
+                </label>
                 <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                   <div class="form-group url-edit d-flex flex-row">
-                    <div class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4" >
+                    <div
+                      class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4"
+                    >
                       <label class="labelTitle"> Start Time </label>
-                        <input type="text" placeholder="Start time" class="form-control time-picker timepicker stimepicker" name="starttime"
-                          required [ngModel]="startT" readonly (click)="durationProgress($event , 'start')" style="background: none;">
-                        <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
-                        <div class="bg-box s-bg-box duration-progress timepicker stimepicker" *ngIf="sprogressSlider">
-                          <div id="rectangle" class="srectangle"></div>
-                          <div class="time-wrapper d-flex justify-content-center">
-                            <div class="flex-column justify-content-center showTime font-medium">
-                                <span *ngIf="srangeHr < 10">0</span><span class="hr">{{srangeHr}}</span>
-                                :
-                              <span *ngIf="srangeMin < 10">0</span><span class="min">{{srangeMin}}</span> 
-                              <span class="smedrii">{{sisSelected}}</span>
-                            </div>
-                            <div>
-                              <div class="time-box">
-                                <label [ngClass]="{'selected':sisSelected == 'AM'}" class="mb-0 font-semi">
-                                  <input type="radio" name="prop" (click)="chooseTimeOpt('AM','start' )"> AM
-                                </label>
-                                <label [ngClass]="{'selected':sisSelected == 'PM'}" class="mb-0 font-semi">
-                                  <input type="radio" name="prop" (click)="chooseTimeOpt('PM' , 'start')"> PM
-                                </label>
-                              </div>
-                            </div>
+                      <input
+                        type="text"
+                        placeholder="Start time"
+                        class="form-control time-picker timepicker stimepicker"
+                        name="starttime"
+                        required
+                        [ngModel]="startT"
+                        readonly
+                        (click)="durationProgress($event, 'start')"
+                        style="background: none;"
+                      />
+                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                      <div
+                        class="bg-box s-bg-box duration-progress timepicker stimepicker"
+                        *ngIf="sprogressSlider"
+                      >
+                        <div id="rectangle" class="srectangle"></div>
+                        <div class="time-wrapper d-flex justify-content-center">
+                          <div
+                            class="flex-column justify-content-center showTime font-medium"
+                          >
+                            <span *ngIf="srangeHr < 10">0</span
+                            ><span class="hr">{{ srangeHr }}</span>
+                            :
+                            <span *ngIf="srangeMin < 10">0</span
+                            ><span class="min">{{ srangeMin }}</span>
+                            <span class="smedrii">{{ sisSelected }}</span>
                           </div>
-                          <div class="gap-box">
-                            <label>
-                              <div class="col-md-4 max-range">Hour</div>
-                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="0" max="12"
-                                [(ngModel)]="srangeHr" >
-
-                            </label>
-                          </div>
-                          <div class="gap-range-min">
-                            <label>
-                              <div class="col-md-4 min-range">Minute</div>
-                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="55"
-                                step="5"  [(ngModel)]="srangeMin">
-                              <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
-                            </label>
+                          <div>
+                            <div class="time-box">
+                              <label
+                                [ngClass]="{ selected: sisSelected == 'AM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('AM', 'start')"
+                                />
+                                AM
+                              </label>
+                              <label
+                                [ngClass]="{ selected: sisSelected == 'PM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('PM', 'start')"
+                                />
+                                PM
+                              </label>
+                            </div>
                           </div>
                         </div>
+                        <div class="gap-box">
+                          <label>
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input
+                              class="max-range-box"
+                              type="range"
+                              id="hrDuration"
+                              name="pointsHr"
+                              min="0"
+                              max="12"
+                              [(ngModel)]="srangeHr"
+                            />
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label>
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input
+                              class="min-range-box"
+                              type="range"
+                              id="minDuration"
+                              name="pointsMin"
+                              min="0"
+                              max="55"
+                              step="5"
+                              [(ngModel)]="srangeMin"
+                            />
+                            <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                    <div class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4" (document:click)="documentclick($event)">
+                    <div
+                      class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
+                      (document:click)="documentclick($event)"
+                    >
                       <label class="labelTitle">End Time</label>
-                      <input type="text" placeholder="End time" class="form-control time-picker timepicker etimepicker" name="endtime"
-                          required [ngModel]="endT" readonly (click)="durationProgress($event)" style="background: none;">
-                        <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
-                        <div class="bg-box e-bg-box duration-progress timepicker etimepicker" *ngIf="eprogressslider">
-                          <div id="rectangle" class="erectangle"></div>
-                          <div class="time-wrapper d-flex justify-content-center">
-                            <div class="flex-column justify-content-center showTime font-medium">
-                                <span *ngIf="erangeHr < 10">0</span><span class="hr">{{erangeHr}}</span>
-                                :
-                              <span *ngIf="erangeMin < 10">0</span><span class="min">{{erangeMin}}</span> 
-                              <span class="emedrii">{{eisSelected}}</span>
-                            </div>
-                            <div>
-                              <div class="time-box">
-                                <label [ngClass]="{'selected':eisSelected == 'AM'}" class="mb-0 font-semi">
-                                  <input type="radio" name="prop" (click)="chooseTimeOpt('AM' , 'end')"> AM
-                                </label>
-                                <label [ngClass]="{'selected':eisSelected == 'PM'}" class="mb-0 font-semi">
-                                  <input type="radio" name="prop" (click)="chooseTimeOpt('PM' ,'end')"> PM
-                                </label>
-                              </div>
-                            </div>
+                      <input
+                        type="text"
+                        placeholder="End time"
+                        class="form-control time-picker timepicker etimepicker"
+                        name="endtime"
+                        required
+                        [ngModel]="endT"
+                        readonly
+                        (click)="durationProgress($event)"
+                        style="background: none;"
+                      />
+                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                      <div
+                        class="bg-box e-bg-box duration-progress timepicker etimepicker"
+                        *ngIf="eprogressslider"
+                      >
+                        <div id="rectangle" class="erectangle"></div>
+                        <div class="time-wrapper d-flex justify-content-center">
+                          <div
+                            class="flex-column justify-content-center showTime font-medium"
+                          >
+                            <span *ngIf="erangeHr < 10">0</span
+                            ><span class="hr">{{ erangeHr }}</span>
+                            :
+                            <span *ngIf="erangeMin < 10">0</span
+                            ><span class="min">{{ erangeMin }}</span>
+                            <span class="emedrii">{{ eisSelected }}</span>
                           </div>
-                          <div class="gap-box">
-                            <label>
-                              <div class="col-md-4 max-range">Hour</div>
-                              <input class="max-range-box" type="range" id="hrDuration" name="pointsHr" min="1" max="12"
-                                 [(ngModel)]="erangeHr">
-
-                            </label>
-                          </div>
-                          <div class="gap-range-min">
-                            <label>
-                              <div class="col-md-4 min-range">Minute</div>
-                              <input class="min-range-box" type="range" id='minDuration' name="pointsMin" min="0" max="55"
-                                [(ngModel)]="erangeMin" step="5">
-                              <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
-                            </label>
+                          <div>
+                            <div class="time-box">
+                              <label
+                                [ngClass]="{ selected: eisSelected == 'AM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('AM', 'end')"
+                                />
+                                AM
+                              </label>
+                              <label
+                                [ngClass]="{ selected: eisSelected == 'PM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('PM', 'end')"
+                                />
+                                PM
+                              </label>
+                            </div>
                           </div>
                         </div>
+                        <div class="gap-box">
+                          <label>
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input
+                              class="max-range-box"
+                              type="range"
+                              id="hrDuration"
+                              name="pointsHr"
+                              min="1"
+                              max="12"
+                              [(ngModel)]="erangeHr"
+                            />
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label>
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input
+                              class="min-range-box"
+                              type="range"
+                              id="minDuration"
+                              name="pointsMin"
+                              min="0"
+                              max="55"
+                              [(ngModel)]="erangeMin"
+                              step="5"
+                            />
+                            <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+                          </label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <!-- <hr style="padding:0;"> -->
-                  <div class="editBtns  d-flex justify-content-end " *ngIf="isEdit">
-                    <button class="cancel btn remove-bg" (click)="cancelUpdate()">Cancel</button>
-                    <button class="btn updateButton remove-bg" (click)="updateRegionalInfo(item,'timezone')" [disabled]="!dashboradForm.valid || updateBtnDisabled()">Done</button>
+                  <div
+                    class="editBtns  d-flex justify-content-end "
+                    *ngIf="isEdit"
+                  >
+                    <button
+                      class="cancel btn remove-bg"
+                      (click)="cancelUpdate()"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      class="btn updateButton remove-bg"
+                      (click)="updateRegionalInfo(item, 'timezone')"
+                      [disabled]="!dashboradForm.valid || updateBtnDisabled()"
+                    >
+                      Done
+                    </button>
                   </div>
                 </form>
               </div>
@@ -200,9 +393,12 @@
             <div *ngIf="!isEdit">
               <a class="link-btn" (click)="editRegion()">Edit</a>
             </div>
-
           </div>
-          <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+          <div
+            [ngClass]="{ blur: isEdit || isUrlEdit }"
+            *ngIf="generalDemo.appsetting != ''"
+            class="card card-wrap region-wrap"
+          >
             <div class="title">
               Invoice Settings
             </div>
@@ -210,12 +406,18 @@
               <div>
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/profile.png">
+                    <img src="./assets/images/profile.png" />
                   </div>
                   <label class="labelTitle">Company name</label>
                 </div>
-                <label *ngIf="invoiceData.companyName != ''" class="labelName">{{invoiceData.companyName}}</label>
-                <label *ngIf="invoiceData.companyName == ''" class="labelName">-</label>
+                <label
+                  *ngIf="invoiceData.companyName != ''"
+                  class="labelName"
+                  >{{ invoiceData.companyName }}</label
+                >
+                <label *ngIf="invoiceData.companyName == ''" class="labelName"
+                  >-</label
+                >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
@@ -224,29 +426,46 @@
                   </div>
                   <label class="labelTitle">Registration number</label>
                 </div>
-                <label *ngIf="invoiceData.registration != ''" class="labelName">{{invoiceData.registration}}</label>
-                <label *ngIf="invoiceData.registration == ''" class="labelName">-</label>
+                <label
+                  *ngIf="invoiceData.registration != ''"
+                  class="labelName"
+                  >{{ invoiceData.registration }}</label
+                >
+                <label *ngIf="invoiceData.registration == ''" class="labelName"
+                  >-</label
+                >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/map.png">
+                    <img src="./assets/images/map.png" />
                   </div>
                   <label class="labelTitle">Address</label>
                 </div>
-                <label *ngIf="invoiceData.address != '' || invoiceData.city != ''" class="labelName">{{invoiceData.address}}
-                  {{invoiceData.city}}</label>
-                <label *ngIf="invoiceData.address == '' && invoiceData.city == ''" class="labelName">-</label>
+                <label
+                  *ngIf="invoiceData.address != '' || invoiceData.city != ''"
+                  class="labelName"
+                  >{{ invoiceData.address }} {{ invoiceData.city }}</label
+                >
+                <label
+                  *ngIf="invoiceData.address == '' && invoiceData.city == ''"
+                  class="labelName"
+                  >-</label
+                >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/email.png">
+                    <img src="./assets/images/email.png" />
                   </div>
                   <label class="labelTitle">Email</label>
                 </div>
-                <label *ngIf="invoiceData.email != ''" class="labelName">{{invoiceData.email}}</label>
-                <label *ngIf="invoiceData.email == ''" class="labelName">-</label>
+                <label *ngIf="invoiceData.email != ''" class="labelName">{{
+                  invoiceData.email
+                }}</label>
+                <label *ngIf="invoiceData.email == ''" class="labelName"
+                  >-</label
+                >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
@@ -255,16 +474,64 @@
                   </div>
                   <label class="labelTitle">Currency sign</label>
                 </div>
-                <div *ngIf="invoiceData.currencyCode != undefined && invoiceData.currencySign != undefined" class="labelName d-flex">
-                  <div class="currency-flag currency-flag-{{invoiceData.currencyCode}}"></div>
+                <div
+                  *ngIf="
+                    invoiceData.currencyCode != undefined &&
+                    invoiceData.currencySign != undefined
+                  "
+                  class="labelName d-flex"
+                >
+                  <div
+                    class="currency-flag currency-flag-{{
+                      invoiceData.currencyCode
+                    }}"
+                  ></div>
                   <div class="c-sign">
-                    <div class="pull-left" *ngIf="invoiceData.currencyCode == 'sgd'">S</div>
-                    {{invoiceData.currencySign}}
+                    <div
+                      class="pull-left"
+                      *ngIf="invoiceData.currencyCode == 'sgd'"
+                    >
+                      S
+                    </div>
+                    {{ invoiceData.currencySign }}
                   </div>
                 </div>
-                <div *ngIf="invoiceData.currencyCode == undefined && invoiceData.currencySign == undefined" class="labelName d-flex">
+                <div
+                  *ngIf="
+                    invoiceData.currencyCode == undefined &&
+                    invoiceData.currencySign == undefined
+                  "
+                  class="labelName d-flex"
+                >
                   -
                 </div>
+              </div>
+              <div>
+                <div class="title-wrap">
+                  <div id="parent">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle">Invoice Note</label>
+                </div>
+                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
+                  {{invoiceData.invoiceNote}}
+                </div> -->
+                <textarea
+                  style="resize:vertical"
+                  *ngIf="invoiceData.invoiceNote != ''"
+                  rows="1"
+                  name="settingInvNote"
+                  id="settingInvNote"
+                  class="labelName readonly-note"
+                  [(ngModel)]="invoiceData.invoiceNote"
+                  readonly
+                ></textarea>
+                <label *ngIf="invoiceData.invoiceNote == ''">
+                  -
+                </label>
               </div>
             </div>
             <div>
@@ -272,16 +539,20 @@
             </div>
           </div>
 
-          <div [ngClass]="{'blur': isEdit, 'showZindex': isUrlEdit}" *ngIf="generalDemo.regional != ''" class="card card-wrap">
+          <div
+            [ngClass]="{ blur: isEdit, showZindex: isUrlEdit }"
+            *ngIf="generalDemo.regional != ''"
+            class="card card-wrap"
+          >
             <div class="title">
               App Settings
             </div>
             <div class="setting-container">
-              <div class="setting-info" [ngClass]="{'blur': isUrlEdit}">
+              <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
                 <div class="link-wrap">
                   <div class="title-wrap">
                     <div id="parent">
-                      <img src="./assets/images/home.png">
+                      <img src="./assets/images/home.png" />
                     </div>
                     <label class="labelTitle">Home page URL</label>
                     <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
@@ -289,19 +560,20 @@
                   <p class="input-recommend">
                     This is the URL your customers will see on their device.
                   </p>
-                  <label class="labelName">{{item.url}}</label>
+                  <label class="labelName">{{ item.url }}</label>
                 </div>
                 <div class="timezone-wrap">
                   <div>
                     <div class="title-wrap">
                       <div id="parent">
-                        <img src="./assets/images/filter.png">
+                        <img src="./assets/images/filter.png" />
                       </div>
                       <label class="labelTitle">Widget type visibility</label>
                     </div>
                     <p class="input-recommend">
-                      Turning on widget type visibility such as ‘Progress’ or ‘Badge’ will allow parents or students to
-                      see their progress on the ‘Profile’ page.
+                      Turning on widget type visibility such as ‘Progress’ or
+                      ‘Badge’ will allow parents or students to see their
+                      progress on the ‘Profile’ page.
                     </p>
                   </div>
                   <div class="module-container">
@@ -314,9 +586,20 @@
                   <form novalidate #dashboradForm="ngForm">
                     <div class="form-group url-edit">
                       <label class="labelTitle">Home Page Url</label>
-                      <input type="url" class="form-control" placeholder="enter URl link" name="url" [(ngModel)]="item.url"
-                        #url="ngModel" required pattern="https?://.+">
-                      <div *ngIf="url.errors && (url.dirty || url.touched)" class="alert alert-danger">
+                      <input
+                        type="url"
+                        class="form-control"
+                        placeholder="enter URl link"
+                        name="url"
+                        [(ngModel)]="item.url"
+                        #url="ngModel"
+                        required
+                        pattern="https?://.+"
+                      />
+                      <div
+                        *ngIf="url.errors && (url.dirty || url.touched)"
+                        class="alert alert-danger"
+                      >
                         <div [hidden]="!url.errors.required">
                           URL is required!
                         </div>
@@ -332,10 +615,21 @@
                           <div class="closemark_kick"></div>
                         </span>
                       </button>
-                      <button type="submit" class="btn" (click)="updateRegionalInfo(item,'url')" [disabled]="!dashboradForm.valid">
+                      <button
+                        type="submit"
+                        class="btn"
+                        (click)="updateRegionalInfo(item, 'url')"
+                        [disabled]="!dashboradForm.valid"
+                      >
                         <span class="checkmark">
-                          <div [ngClass]="{'colorD': !dashboradForm.valid}" class="checkmark_stem"></div>
-                          <div [ngClass]="{'colorD': !dashboradForm.valid}" class="checkmark_kick"></div>
+                          <div
+                            [ngClass]="{ colorD: !dashboradForm.valid }"
+                            class="checkmark_stem"
+                          ></div>
+                          <div
+                            [ngClass]="{ colorD: !dashboradForm.valid }"
+                            class="checkmark_kick"
+                          ></div>
                         </span>
                       </button>
                     </div>
@@ -345,7 +639,11 @@
             </div>
           </div>
 
-          <div [ngClass]="{'blur': (isEdit || isUrlEdit)}" *ngIf="generalDemo.appsetting != ''" class="card card-wrap region-wrap">
+          <div
+            [ngClass]="{ blur: isEdit || isUrlEdit }"
+            *ngIf="generalDemo.appsetting != ''"
+            class="card card-wrap region-wrap"
+          >
             <div class="title">
               Payment Settings
             </div>
@@ -353,31 +651,47 @@
               <div>
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/currency.png">
+                    <img src="./assets/images/currency.png" />
                   </div>
                   <label class="labelTitle">Currency code</label>
                 </div>
                 <div>
-                  <div *ngIf="paymentData.currencyCode != undefined" class="labelName d-flex">
-                    <div class="currency-flag currency-flag-{{paymentData.currencyCode}}"></div>
+                  <div
+                    *ngIf="paymentData.currencyCode != undefined"
+                    class="labelName d-flex"
+                  >
+                    <div
+                      class="currency-flag currency-flag-{{
+                        paymentData.currencyCode
+                      }}"
+                    ></div>
                     <div class="c-sign">
-                      {{paymentData.currencyCode | uppercase}}
+                      {{ paymentData.currencyCode | uppercase }}
                     </div>
                   </div>
-                  <div *ngIf="paymentData.currencyCode == undefined" class="labelName d-flex">-</div>
+                  <div
+                    *ngIf="paymentData.currencyCode == undefined"
+                    class="labelName d-flex"
+                  >
+                    -
+                  </div>
                 </div>
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
-                    <img src="./assets/images/currency-sign.png">
+                    <img src="./assets/images/currency-sign.png" />
                   </div>
                   <label class="labelTitle">Tax setting</label>
                 </div>
                 <label *ngIf="emptyPaymentData == false" class="labelName">
-                  <span *ngIf="paymentData.tax.name != ''">{{paymentData.tax.name}} </span>
+                  <span *ngIf="paymentData.tax.name != ''"
+                    >{{ paymentData.tax.name }}
+                  </span>
                   <span *ngIf="paymentData.tax.name == ''">- </span>
-                  <span *ngIf="paymentData.tax.rate != null">( {{paymentData.tax.rate}}% )</span>
+                  <span *ngIf="paymentData.tax.rate != null"
+                    >( {{ paymentData.tax.rate }}% )</span
+                  >
                   <span *ngIf="paymentData.tax.rate == null">(-)</span>
                 </label>
                 <label *ngIf="emptyPaymentData == true" class="labelName">
@@ -387,8 +701,11 @@
               <div class="sectionWrap">
                 <label class="sectionTitle">Online payment</label>
                 <div *ngIf="paymentData.paymentProviders.length > 0">
-                  <div class="provider-list" *ngFor="let provider of paymentData.paymentProviders">
-                    <span *ngIf="provider.name != ''">{{provider.name}}</span>
+                  <div
+                    class="provider-list"
+                    *ngFor="let provider of paymentData.paymentProviders"
+                  >
+                    <span *ngIf="provider.name != ''">{{ provider.name }}</span>
                     <span *ngIf="provider.name == ''">-</span>
                   </div>
                 </div>
@@ -406,51 +723,97 @@
 
       <div *ngIf="option == 'Invoice' || option == 'Payment'">
         <div class="content-wrapper">
-          <div class="back-wrap d-flex" *ngIf="option == 'Invoice' || option == 'Payment'">
+          <div
+            class="back-wrap d-flex"
+            *ngIf="option == 'Invoice' || option == 'Payment'"
+          >
             <div class="back-to" (click)="cancel()">
               <i class="fa fa-angle-left"></i>
               <p>General</p>
             </div>
           </div>
           <div class="setting-edit-wrap">
-            <h3 class="heading-h3">{{option}} setting</h3>
-            <form *ngIf="option == 'Invoice'" novalidate #invoiceForm="ngForm" class="form-wrap">
+            <h3 class="heading-h3">{{ option }} setting</h3>
+            <form
+              *ngIf="option == 'Invoice'"
+              novalidate
+              #invoiceForm="ngForm"
+              class="form-wrap"
+            >
               <div class="col-md-8 input-wrap">
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
                     <label class="input-label" for="name">Company name</label>
                   </div>
-                  <input type="text" class="form-control create-input" placeholder="Type company name here" name="companyName"
-                    [(ngModel)]="invoiceData.companyName" #name="ngModel">
+                  <input
+                    type="text"
+                    class="form-control create-input"
+                    placeholder="Type company name here"
+                    name="companyName"
+                    [(ngModel)]="invoiceData.companyName"
+                    #name="ngModel"
+                  />
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
                     <label class="input-label" for="name">Prefix</label>
                   </div>
-                  <input type="text" class="form-control create-input" placeholder="Type company name here" name="prefix"
-                    [(ngModel)]="invoiceData.prefix" #prefix="ngModel">
+                  <input
+                    type="text"
+                    class="form-control create-input"
+                    placeholder="Type company name here"
+                    name="prefix"
+                    [(ngModel)]="invoiceData.prefix"
+                    #prefix="ngModel"
+                  />
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Registration number</label>
+                    <label class="input-label" for="name"
+                      >Registration number</label
+                    >
                   </div>
-                  <input type="text" class="form-control create-input" placeholder="Type registration number here" name="registration"
-                    [(ngModel)]="invoiceData.registration" #registration="ngModel">
+                  <input
+                    type="text"
+                    class="form-control create-input"
+                    placeholder="Type registration number here"
+                    name="registration"
+                    [(ngModel)]="invoiceData.registration"
+                    #registration="ngModel"
+                  />
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
                     <label class="input-label" for="name">Address</label>
                   </div>
-                  <textarea class="form-control create-textarea" rows="3" placeholder="Street" name="street"
-                    [(ngModel)]="invoiceData.address" #street="ngModel"></textarea>
+                  <textarea
+                    class="form-control create-textarea"
+                    rows="3"
+                    placeholder="Street"
+                    name="street"
+                    [(ngModel)]="invoiceData.address"
+                    #street="ngModel"
+                  ></textarea>
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="text" class="form-control tax-input" placeholder="City" name="city" [(ngModel)]="invoiceData.city"
-                        #city="ngModel">
+                      <input
+                        type="text"
+                        class="form-control tax-input"
+                        placeholder="City"
+                        name="city"
+                        [(ngModel)]="invoiceData.city"
+                        #city="ngModel"
+                      />
                     </div>
                     <div class="col-md-6">
-                      <input type="text" class="form-control tax-input" placeholder="Post code" name="postal"
-                        [(ngModel)]="invoiceData.postal" #postal="ngModel">
+                      <input
+                        type="text"
+                        class="form-control tax-input"
+                        placeholder="Post code"
+                        name="postal"
+                        [(ngModel)]="invoiceData.postal"
+                        #postal="ngModel"
+                      />
                     </div>
                   </div>
                 </div>
@@ -458,31 +821,65 @@
                   <div class="d-flex justify-content-between">
                     <label class="input-label" for="name">Email</label>
                   </div>
-                  <input type="email" class="form-control create-input" placeholder="Type email address here" name="email"
-                    [(ngModel)]="invoiceData.email" #email="ngModel">
+                  <input
+                    type="email"
+                    class="form-control create-input"
+                    placeholder="Type email address here"
+                    name="email"
+                    [(ngModel)]="invoiceData.email"
+                    #email="ngModel"
+                  />
                 </div>
-                <div class="form-group mb-45">
+                <div class="form-group">
                   <div class="currency-wrap">
                     <label class="input-label" for="name">Currency sign</label>
-                    <div (click)="showCurrencyBox('currency',$event)" class="current-currency d-flex justify-content-between">
-                    <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
+                    <div
+                      (click)="showCurrencyBox('currency', $event)"
+                      class="current-currency d-flex justify-content-between"
+                    >
+                      <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
                       (document:click)="closeBox($event)"> -->
                       <div class="d-flex">
-                        <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
-                        <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">S</div>
-                        <div class="c-input">{{selectedCurrency}}</div>
+                        <div
+                          class="currency-flag currency-flag-{{
+                            selectedFlag
+                          }} flag-wrap"
+                        ></div>
+                        <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">
+                          S
+                        </div>
+                        <div class="c-input">{{ selectedCurrency }}</div>
                       </div>
-                      <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                      <span
+                        class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+                      ></span>
                     </div>
                     <div *ngIf="showDropdown" class="currency-dropdown">
-                      <input type="text" name="" class="form-control" (input)="search($event.target.value)" (click)="showCurrencyBox('currency',$event)">
+                      <input
+                        type="text"
+                        name=""
+                        class="form-control"
+                        (input)="search($event.target.value)"
+                        (click)="showCurrencyBox('currency', $event)"
+                      />
                       <div class="currency-list">
-                        <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)">
-                          <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
-                            <div class="currency-flag currency-flag-{{key}}"></div>
+                        <div
+                          class="sectionTitle d-flex"
+                          (click)="selectCurrency(newCurrency[key], key)"
+                          *ngFor="let key of objectKeys(newCurrency)"
+                        >
+                          <div
+                            *ngIf="flags.indexOf(key) > -1"
+                            class="d-flex flag-wrap"
+                          >
+                            <div
+                              class="currency-flag currency-flag-{{ key }}"
+                            ></div>
                             <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">S</div>
-                              {{newCurrency[key]}}
+                              <div class="pull-left" *ngIf="key == 'sgd'">
+                                S
+                              </div>
+                              {{ newCurrency[key] }}
                             </div>
                           </div>
                         </div>
@@ -490,37 +887,88 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group mb-45">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label">Invoice Note</label>
+                  </div>
+                  <textarea
+                    class="form-control create-textarea"
+                    rows="3"
+                    placeholder="Invoice Note"
+                    name="invnote"
+                    [(ngModel)]="invoiceData.invoiceNote"
+                    #invnote="ngModel"
+                  ></textarea>
+                </div>
                 <!-- </div> -->
               </div>
               <div class="d-flex justify-content-end form-footer">
-                <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-                <button type="button" class="btn btn-submit" (click)="updateInvoice(invoiceData, 'invoice')">Done</button>
+                <button type="button" class="btn btn-cancel" (click)="cancel()">
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-submit"
+                  (click)="updateInvoice(invoiceData, 'invoice')"
+                >
+                  Done
+                </button>
               </div>
             </form>
 
-            <form *ngIf="option == 'Payment'" novalidate #paymentForm="ngForm" class="form-wrap">
+            <form
+              *ngIf="option == 'Payment'"
+              novalidate
+              #paymentForm="ngForm"
+              class="form-wrap"
+            >
               <div class="col-md-8 input-wrap">
                 <div class="form-group">
                   <div class="currency-wrap">
                     <label class="input-label" for="code">Currency Code</label>
-                    <div (click)="showCurrencyBox('currency',$event)" class="current-currency d-flex justify-content-between"
-                      >
-                    <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
+                    <div
+                      (click)="showCurrencyBox('currency', $event)"
+                      class="current-currency d-flex justify-content-between"
+                    >
+                      <!-- <div (click)="showCurrencyBox('currency')" class="current-currency d-flex justify-content-between"
                       (document:click)="closeBox($event)"> -->
                       <div class="d-flex">
-                        <div class="currency-flag currency-flag-{{selectedFlag}} flag-wrap"></div>
-                        <div class="c-input">{{selectedFlag | uppercase}}</div>
+                        <div
+                          class="currency-flag currency-flag-{{
+                            selectedFlag
+                          }} flag-wrap"
+                        ></div>
+                        <div class="c-input">
+                          {{ selectedFlag | uppercase }}
+                        </div>
                       </div>
-                      <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                      <span
+                        class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+                      ></span>
                     </div>
                     <div *ngIf="showDropdown" class="currency-dropdown">
-                      <input type="text" name="" class="form-control"  (click)="showCurrencyBox('currency',$event)" (input)="search($event.target.value)">
+                      <input
+                        type="text"
+                        name=""
+                        class="form-control"
+                        (click)="showCurrencyBox('currency', $event)"
+                        (input)="search($event.target.value)"
+                      />
                       <div class="currency-list">
-                        <div class="sectionTitle d-flex" (click)="selectCurrency(newCurrency[key], key)" *ngFor="let key of objectKeys(newCurrency)">
-                          <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
-                            <div class="currency-flag currency-flag-{{key}}"></div>
+                        <div
+                          class="sectionTitle d-flex"
+                          (click)="selectCurrency(newCurrency[key], key)"
+                          *ngFor="let key of objectKeys(newCurrency)"
+                        >
+                          <div
+                            *ngIf="flags.indexOf(key) > -1"
+                            class="d-flex flag-wrap"
+                          >
+                            <div
+                              class="currency-flag currency-flag-{{ key }}"
+                            ></div>
                             <div class="c-sign">
-                              {{key | uppercase}}
+                              {{ key | uppercase }}
                             </div>
                           </div>
                         </div>
@@ -532,12 +980,26 @@
                   <label class="input-label" for="tax">Tax setting</label>
                   <div class="row">
                     <div class="col-md-6">
-                      <input type="text" class="form-control tax-input" placeholder="E.g. GST" name="taxname"
-                        [(ngModel)]="paymentData.tax.name" #name="ngModel">
+                      <input
+                        type="text"
+                        class="form-control tax-input"
+                        placeholder="E.g. GST"
+                        name="taxname"
+                        [(ngModel)]="paymentData.tax.name"
+                        #name="ngModel"
+                      />
                     </div>
                     <div class="col-md-6 d-flex">
-                      <input type="number" class="form-control tax-input" placeholder="0" name="taxamount" min="0"
-                        (keypress)="numberOnly($event, 'tax')" [(ngModel)]="paymentData.tax.rate" #name="ngModel">
+                      <input
+                        type="number"
+                        class="form-control tax-input"
+                        placeholder="0"
+                        name="taxamount"
+                        min="0"
+                        (keypress)="numberOnly($event, 'tax')"
+                        [(ngModel)]="paymentData.tax.rate"
+                        #name="ngModel"
+                      />
                       <div class="tax-option">%</div>
                     </div>
                   </div>
@@ -546,37 +1008,71 @@
                   <div class="d-flex">
                     <div class="toggle-wrap" (click)="onlinePayment()">
                       <label class="switch">
-                        <input type="checkbox" (change)="onlinePayment()" [checked]="isOnline">
+                        <input
+                          type="checkbox"
+                          (change)="onlinePayment()"
+                          [checked]="isOnline"
+                        />
                         <span class="slider round"></span>
                       </label>
                     </div>
-                    <label class="switch-label" for="online">Accept online payment</label>
+                    <label class="switch-label" for="online"
+                      >Accept online payment</label
+                    >
                   </div>
                   <div *ngIf="isOnline" class="online-wrap">
-                    <div *ngIf="providerTemp.length > 0" class="d-flex flex-nowrap provider-group">
-                      <div *ngFor="let provider of providerTemp" class="single-provider d-flex flex-row">
-                        <span>{{provider.name}}</span>
-                        <div (click)="removeTempData(provider.id)" class="remove-data d-flex justify-content-end"></div>
+                    <div
+                      *ngIf="providerTemp.length > 0"
+                      class="d-flex flex-nowrap provider-group"
+                    >
+                      <div
+                        *ngFor="let provider of providerTemp"
+                        class="single-provider d-flex flex-row"
+                      >
+                        <span>{{ provider.name }}</span>
+                        <div
+                          (click)="removeTempData(provider.id)"
+                          class="remove-data d-flex justify-content-end"
+                        ></div>
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="provider-wrap">
-                        <label class="input-label" for="merchant">Payment provider</label>
-                        <div (click)="showCurrencyBox('provider',$event)" class="current-currency d-flex justify-content-between"
-                         >
-                          <input type="text" class="form-control" placeholder="selected provider" name="name"
-                            [(ngModel)]="payment.name" #name="ngModel" readonly>
-                          <span class="fa fa-angle-down d-flex justify-content-center flex-column icon"></span>
+                        <label class="input-label" for="merchant"
+                          >Payment provider</label
+                        >
+                        <div
+                          (click)="showCurrencyBox('provider', $event)"
+                          class="current-currency d-flex justify-content-between"
+                        >
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="selected provider"
+                            name="name"
+                            [(ngModel)]="payment.name"
+                            #name="ngModel"
+                            readonly
+                          />
+                          <span
+                            class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+                          ></span>
                         </div>
-                        <div *ngIf="showProvider" class="currency-dropdown payment-provider">
+                        <div
+                          *ngIf="showProvider"
+                          class="currency-dropdown payment-provider"
+                        >
                           <div class="provider-listing">
-                            <div class="sectionTitle d-flex" (click)="selectProvider(item.id, item.name)" *ngFor="let item of providers">
-                              {{item.name}}
+                            <div
+                              class="sectionTitle d-flex"
+                              (click)="selectProvider(item.id, item.name)"
+                              *ngFor="let item of providers"
+                            >
+                              {{ item.name }}
                             </div>
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <!-- {{providers|json}} -->
                     <div *ngFor="let provider of providers">
@@ -584,10 +1080,17 @@
                         <div *ngFor="let reqField of provider.requiredField">
                           <div class="form-group req-field">
                             <div class="d-flex justify-content-between">
-                              <label class="input-label" for="merchant">{{reqField.name}}</label>
+                              <label class="input-label" for="merchant">{{
+                                reqField.name
+                              }}</label>
                             </div>
-                            <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}"
-                              name="{{reqField.name}}" [(ngModel)]="reqField.value">
+                            <input
+                              type="text"
+                              class="form-control create-input"
+                              placeholder="Type {{ reqField.name }}"
+                              name="{{ reqField.name }}"
+                              [(ngModel)]="reqField.value"
+                            />
                           </div>
                         </div>
                       </div>
@@ -618,23 +1121,36 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end form-footer">
-                <button type="button" class="btn btn-cancel" (click)="cancel()">Cancel</button>
-                <button type="button" class="btn btn-submit" (click)="updateInvoice(paymentData, 'payment')">Done</button>
+                <button type="button" class="btn btn-cancel" (click)="cancel()">
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-submit"
+                  (click)="updateInvoice(paymentData, 'payment')"
+                >
+                  Done
+                </button>
               </div>
             </form>
           </div>
         </div>
-
       </div>
     </div>
   </div>
   <div *ngIf="menuType == 'location'" class="large-col pl-zero">
     <app-location></app-location>
   </div>
-  <div *ngIf="menuType == 'customfield'" class="d-flex flex-column large-col pl-zero">
+  <div
+    *ngIf="menuType == 'customfield'"
+    class="d-flex flex-column large-col pl-zero"
+  >
     <app-customfield></app-customfield>
   </div>
-  <div *ngIf="menuType == 'email'" class="justify-content-center align-items-center large-col pl-zero">
+  <div
+    *ngIf="menuType == 'email'"
+    class="justify-content-center align-items-center large-col pl-zero"
+  >
     <app-emailtemplate></app-emailtemplate>
   </div>
 </div>

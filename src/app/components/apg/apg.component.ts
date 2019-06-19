@@ -145,6 +145,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymin: boolean = true;
   emptymax: boolean = true;
   overmin: boolean = true;
+  showDp: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -558,6 +559,10 @@ export class ApgComponent implements OnInit, OnDestroy {
     //   console.log('less than 100')
     //   this.navIsFixed = false;
     // }
+  }
+
+  @HostListener('document:click', ['$event']) clickout($event) {
+    this.showDp = false;
   }
 
   focusMethod(e, status, word) {
@@ -2762,18 +2767,30 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // export csv for evaluation apg
-  exportCSV(apg) {
-    console.log('apg~~~', apg);
-    this._service.getEvaluationExport(apg._id).subscribe((res: any) => {
-      console.log('report json', res);
-      if (res.length > 0) {
-        console.log('download file');
-        this.downloadFile(res, apg.name);
-      } else {
-        console.log('no report');
-        this.toastr.error('There is no report for csv export');
-      }
-    });
+  exportCSV(data) {
+    console.log('apg~~~', data);
+    var apg: any;
+    var apgName: any;
+    if (data == 'all') {
+      apg = 'all';
+      apgName = 'all evaluation';
+    } else {
+      apg = data;
+      apgName = apg.name;
+    }
+
+    this._service
+      .getEvaluationExport(apg, this.regionID)
+      .subscribe((res: any) => {
+        console.log('report json', res);
+        if (res.length > 0) {
+          console.log('download file');
+          this.downloadFile(res, apgName);
+        } else {
+          console.log('no report');
+          this.toastr.error('There is no report for csv export');
+        }
+      });
   }
 
   downloadFile(res, name) {
@@ -2792,37 +2809,66 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    console.log(array);
+    // console.log(array);
     var str = '';
     var row = '';
 
-    for (var index in objArray[0]) {
-      //Now convert each value to string and comma-separated
-      row += index + ',';
-      // console.log(row);
-    }
-    row = row.slice(0, -1);
+    // for (var index in objArray[0]) {
+    //   //Now convert each value to string and comma-separated
+    //   row += index + ',';
+    //   // console.log(row);
+    // }
+    // row = row.slice(0, -1);
+    row =
+      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date';
     //append Label row with line break
     str += row + '\r\n';
     // console.log(str);
 
     for (var i = 0; i < array.length; i++) {
       var line = '';
-      for (var index in array[i]) {
+      var apgObject = {};
+      apgObject['studentName'] = array[i].student.preferredName.replace(
+        /,/g,
+        ' '
+      );
+      apgObject['teacherName'] = array[i].teacher.preferredName.replace(
+        /,/g,
+        ' '
+      );
+      apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
+      apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
+      apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
+      apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
+      apgObject['result'] = array[i].results;
+      apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
+      console.log(apgObject);
+      for (var index in apgObject) {
         if (line != '') line += ',';
-        if (typeof array[i][index] == 'object') {
-          line += array[i][index].preferredName;
-        } else {
-          console.log('array idx', array[i][index]);
-          var val = array[i][index].replace(/,/g, ' ');
-          line += val;
-        }
-        console.log('line~~~', line);
+        line += apgObject[index];
       }
+      // for (var index in array[i]) {
+      //   if (line != '') line += ',';
+      //   if (typeof array[i][index] == 'object') {
+      //     line += array[i][index].preferredName;
+      //   } else {
+      //     // console.log('array idx', array[i][index]);
+      //     var val = array[i][index].replace(/,/g, ' ');
+      //     line += val;
+      //   }
+      //   // console.log('line~~~', line);
+      // }
       str += line + '\r\n';
       // console.log("str~~~",str);
     }
     return str;
+  }
+
+  showExportOption($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.showDp = state == 'exportOpt' ? !this.showDp : false;
   }
 
   // selectedTextFunc(t,e : MouseEvent){

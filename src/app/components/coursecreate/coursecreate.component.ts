@@ -433,15 +433,40 @@ export class CoursecreateComponent implements OnInit {
         }, 300);
         this.endOptChecked = 'end';
         this.model = res;
-        this.model.end = '';
-        this.model.lessonCount = '';
         this.courseFeess = res.paymentPolicy.courseFee;
-        if (this.model.type == 'FLEXY') {
-          this.flexiOn = true;
-        } else {
+        // if (this.model.type == 'FLEXY') {
+        //   this.flexiOn = true;
+        // } else {
+        //   var idx = this.model.lessons.length - 1;
+        //   this.setStartD(this.model.lessons[idx].startDate);
+        // }
+        if (
+          this.model.type == 'REGULAR' ||
+          this.model.type == 'FLEXY' ||
+          this.model.type == null
+        ) {
           var idx = this.model.lessons.length - 1;
           this.setStartD(this.model.lessons[idx].startDate);
+          if (this.model.end) {
+            this.endOptChecked = 'end';
+          } else if (this.model.lessonCount) {
+            this.endOptChecked = 'lesson';
+          } else {
+            this.endOptChecked = 'defaultLesson';
+          }
+          this.timeOptChecked = 'showTimeSlot';
+        } else if (this.model.type == 'ONLINE') {
+          // this.setStartD(this.model.lessons[idx].startDate);
+          if (this.model.end) {
+            this.endOptChecked = 'end';
+          }
+          this.timeOptChecked = 'hideTimeSlot';
         }
+        setTimeout(() => {
+          this.model.end = '';
+          this.model.lessonCount = '';
+          this.model.defaultlessonCount = '';
+        }, 300);
         this.model.location = this.model.location.name;
         this.locationId = this.model.locationId;
         console.log('this location', this.locationId);
@@ -569,6 +594,7 @@ export class CoursecreateComponent implements OnInit {
         month: Number(testSplit[1]),
         day: Number(testSplit[2])
       };
+      console.error(format);
       return format;
     } else if (type == 'end') {
       if (datestr) {
@@ -782,7 +808,13 @@ export class CoursecreateComponent implements OnInit {
         this.endOptChecked = itemType;
         if (this.tempVar) {
           if (this.tempVar == this.endOptChecked) {
-            console.log('Draft Choose', this.tempVar);
+            console.log(
+              'Draft Choose',
+              this.tempVar,
+              '& temp value',
+              this.tempValue
+            );
+            // console.log("model.lCount",this.model.lessonCount,'& model.endDate',this.model.end)
             if (this.tempVar == 'end') {
               this.model.end = this.tempValue;
               this.model.lessonCount = '';
@@ -1637,6 +1669,7 @@ export class CoursecreateComponent implements OnInit {
         }
       } else {
         // online course
+        this.defineType();
         if (this.model.end) {
           console.log('this.model.end', this.model.end);
           var endD = this.changeDateFormat(this.model.end, '23:59:59:999');

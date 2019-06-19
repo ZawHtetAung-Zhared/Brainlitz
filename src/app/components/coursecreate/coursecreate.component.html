@@ -357,20 +357,26 @@
         <div class="pad-b">
           <div class="d-flex radio-wrap">
             <label
-              [ngClass]="{ selected: endOptChecked == 'end' }"
+              [ngClass]="{
+                selected: endOptChecked == 'end',
+                'disabled-endOpt': isEdit && endOptChecked == 'defaultLesson'
+              }"
               class="mb-0 cursor-on"
             >
               <input
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'end')"
+                [disabled]="isEdit && endOptChecked == 'defaultLesson'"
               />
               End Date
             </label>
             <label
               [ngClass]="{
                 selected: endOptChecked == 'lesson',
-                'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
+                'disabled-endOpt':
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'defaultLesson')
               }"
               class="mb-0 cursor-on"
             >
@@ -378,14 +384,20 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'lesson')"
-                [disabled]="timeOptChecked == 'hideTimeSlot'"
+                [disabled]="
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'defaultLesson')
+                "
               />
               Lessons Count
             </label>
             <label
               [ngClass]="{
                 selected: endOptChecked == 'defaultLesson',
-                'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
+                'disabled-endOpt':
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'end') ||
+                  (isEdit && endOptChecked == 'lesson')
               }"
               class="mb-0 cursor-on"
             >
@@ -393,7 +405,11 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'defaultLesson')"
-                [disabled]="timeOptChecked == 'hideTimeSlot'"
+                [disabled]="
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'end') ||
+                  (isEdit && endOptChecked == 'lesson')
+                "
               />
               Continuous lessons with no end date
             </label>
@@ -452,7 +468,9 @@
             class="d-flex timeslot-wrap"
             [ngClass]="{
               'disabled-bg':
-                endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'
+                endOptChecked == 'lesson' ||
+                endOptChecked == 'defaultLesson' ||
+                isEdit
             }"
           >
             <label
@@ -461,15 +479,20 @@
                 'selected-disabled':
                   timeOptChecked == 'showTimeSlot' &&
                   (endOptChecked == 'lesson' ||
-                    endOptChecked == 'defaultLesson'),
+                    endOptChecked == 'defaultLesson' ||
+                    isEdit),
                 'disabled-color':
-                  endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'
+                  endOptChecked == 'lesson' ||
+                  endOptChecked == 'defaultLesson' ||
+                  isEdit
               }"
               class="mb-0 cursor-on"
             >
               <input
                 [disabled]="
-                  endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'
+                  endOptChecked == 'lesson' ||
+                  endOptChecked == 'defaultLesson' ||
+                  isEdit
                 "
                 type="radio"
                 name="prop"
@@ -483,15 +506,20 @@
                 'selected-disabled':
                   timeOptChecked == 'hideTimeSlot' &&
                   (endOptChecked == 'lesson' ||
-                    endOptChecked == 'defaultLesson'),
+                    endOptChecked == 'defaultLesson' ||
+                    isEdit),
                 'disabled-color':
-                  endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'
+                  endOptChecked == 'lesson' ||
+                  endOptChecked == 'defaultLesson' ||
+                  isEdit
               }"
               class="mb-0 cursor-on"
             >
               <input
                 [disabled]="
-                  endOptChecked == 'lesson' || endOptChecked == 'defaultLesson'
+                  endOptChecked == 'lesson' ||
+                  endOptChecked == 'defaultLesson' ||
+                  isEdit
                 "
                 type="radio"
                 name="prop"

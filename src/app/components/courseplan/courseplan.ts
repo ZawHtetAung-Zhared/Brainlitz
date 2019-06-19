@@ -34,6 +34,7 @@ export class cPlanField {
   public courseFeeOptions: any = {};
   public searchText: string;
   public assessmentPlans: Array<any> = [];
+  public dueDateCount: number;
 }
 
 export class apgForm {

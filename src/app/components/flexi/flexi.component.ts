@@ -42,6 +42,10 @@ export class FlexiComponent implements OnInit {
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
+    this.lessionIdArr = [];
+    this.lessonObjArr = [];
+    console.error(this.lessionIdArr);
+    console.error(this.lessonObjArr);
     console.log(this.showcb);
     console.log(this.selectedCustomer);
     console.log(this.ctype);
@@ -54,14 +58,11 @@ export class FlexiComponent implements OnInit {
   }
 
   flitterFlexyObj(obj) {
-    console.log(obj);
-    console.log(this.lessionIdArr);
-
     this.lessionIdArr = [];
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
       if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
-        this.lessionIdArr.push(i);
+        // this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
         tobj = obj[i];
@@ -72,13 +73,13 @@ export class FlexiComponent implements OnInit {
         // tobj.isEnrolled = obj[i].isEnrolled;
         // tobj.teacherId = obj[i].teacherId;
         tobj.id = i;
-        this.lessonObjArr.push(tobj);
+        // this.lessonObjArr.push(tobj);
       }
       this.checkIdArr.emit(this.lessionIdArr);
-      // this.checkObjArr.emit(this.lessonObjArr);
+      this.checkObjArr.emit(this.lessonObjArr);
       this.lessonsObj[i].id = i;
     }
-    this.emittedObjArray(this.lessonObjArr);
+    // this.emittedObjArray(this.lessonObjArr);
   }
   lessonCheck(id, obj) {
     console.log(id);
@@ -117,8 +118,8 @@ export class FlexiComponent implements OnInit {
   clickId: any;
   conflictObj: any;
   lessonsCount: number = 0;
-  showConflictBox(e, obj, ele) {
-    console.log(ele);
+  showConflictBox(e, obj) {
+    console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
     this.tempAll = [];

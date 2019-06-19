@@ -814,13 +814,18 @@ ul.options-box li button:hover {
 .pd-zero {
   padding: 0;
 }
-.draft-sign {
+.draft-sign,
+.course-type {
   position: absolute;
   padding: 3px 10px;
   font-size: 10px;
   background: #fff0e6;
   color: #e66000;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.course-type {
+  background: #cce6ff;
+  color: #0080ff;
 }
 .single-user-wrap {
   max-height: 200px;
@@ -3003,6 +3008,13 @@ p.textCount {
   z-index: 100;
 }
 
+.defaultLessonCount {
+  margin-bottom: 10px;
+  color: #64707d;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
 /* end flexi modal */
 /* code start from here */
 

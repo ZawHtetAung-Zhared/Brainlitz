@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DataService {
+  private currentTab = new BehaviorSubject('');
+  currentActiveTab = this.currentTab.asObservable();
 
   private dataSource = new BehaviorSubject('');
   currentCourse = this.dataSource.asObservable();
@@ -17,22 +19,25 @@ export class DataService {
   private rolloverCourse = new BehaviorSubject('');
   rolloverCId = this.rolloverCourse.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   nevigateCourse(message: string) {
-    this.dataSource.next(message)
+    this.dataSource.next(message);
   }
 
-  nevigateCustomer(id:string){
-  	this.customerId.next(id);
+  nevigateCustomer(id: string) {
+    this.customerId.next(id);
   }
 
-  nevigateCDetail(id:string){
+  nevigateCDetail(id: string) {
     this.courseId.next(id);
   }
 
-  nevigateSchedule(id:any){
+  nevigateSchedule(id: any) {
     this.rolloverCourse.next(id);
   }
 
+  defineCurrentTab(tab: string) {
+    this.currentTab.next(tab);
+  }
 }

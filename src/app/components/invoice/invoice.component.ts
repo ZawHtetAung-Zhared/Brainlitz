@@ -116,6 +116,7 @@ export class InvoiceComponent implements OnInit {
         console.log(err);
       }
     );
+    this.autogrow();
   }
   hideInvoiceRow(type) {
     this.isEditInv = true;
@@ -226,7 +227,8 @@ export class InvoiceComponent implements OnInit {
             companyName: '',
             email: '',
             prefix: '',
-            registration: ''
+            registration: '',
+            invoiceNote: ''
           };
           this.noSetting = true;
         } else {
@@ -464,9 +466,9 @@ export class InvoiceComponent implements OnInit {
       amount: this.paymentItem.amount.toString(),
       paymentMethod: this.paymentId.toString()
     };
-    if (this.paymentItem.refNumber) {
-      body['refNo'] = this.paymentItem.refNumber;
-    }
+    // if (this.paymentItem.refNumber) {
+    //   body['refNo'] = this.paymentItem.refNumber;
+    // }
     // console.log("data",body);
     this._service.makePayment(this.regionId, body).subscribe(
       (res: any) => {
@@ -541,5 +543,15 @@ export class InvoiceComponent implements OnInit {
     this.showPayment = false;
     this.showInvoice = true;
     this.paymentItem = {};
+  }
+  autogrow() {
+    setTimeout(() => {
+      let textArea = document.getElementById('invNote');
+      console.log(textArea);
+      textArea.style.overflow = 'hidden';
+      textArea.style.height = 'auto';
+      textArea.style.height = textArea.scrollHeight + 'px';
+      console.log('textArea', textArea.style.height);
+    }, 1000);
   }
 }

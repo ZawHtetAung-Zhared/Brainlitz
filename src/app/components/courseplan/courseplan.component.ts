@@ -4,7 +4,8 @@ import {
   ViewContainerRef,
   HostListener,
   ElementRef,
-  ViewChild
+  ViewChild,
+  keyframes
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -542,7 +543,8 @@ export class CourseplanComponent implements OnInit {
       quizwerkz: this.pdfId,
       holidayCalendarId: this.formField.holidayCalendarId,
       accessPointGroup: this.selectedAPGidArray,
-      assessmentPlans: this.selectedAPidList
+      assessmentPlans: this.selectedAPidList,
+      dueDateCount: this.formField.dueDateCount
     };
 
     // let data = {
@@ -626,7 +628,7 @@ export class CourseplanComponent implements OnInit {
           }
         );
     } else {
-      console.log('editPlan');
+      console.log('editPlan', data);
       if (data.paymentPolicy.deposit == undefined) {
         console.log(this.formField.paymentPolicy.deposit);
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;
@@ -799,18 +801,21 @@ export class CourseplanComponent implements OnInit {
 
   getAllCoursePlan() {
     this.blockUI.start('Loading...');
-    this._service.getAllCoursePlan(this.regionID, this.locationID).subscribe(
-      (res: any) => {
-        this.courseplanLists = res;
-        setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
-        }, 300);
-        console.log(this.courseplanLists);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    let cid, key, skip, limit;
+    this._service
+      .getAllCourseplan(this.regionID, this.locationID, cid, skip, limit, key)
+      .subscribe(
+        (res: any) => {
+          this.courseplanLists = res;
+          setTimeout(() => {
+            this.blockUI.stop(); // Stop blocking
+          }, 300);
+          console.log(this.courseplanLists);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   getAllDeposit() {

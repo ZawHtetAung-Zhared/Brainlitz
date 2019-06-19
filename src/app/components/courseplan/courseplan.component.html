@@ -1411,6 +1411,26 @@
                   </div>
                 </div>
               </div>
+              <div class="d-flex">
+                <div class="col-md-6" style="padding: 0;">
+                  <label class="all-title-font">Invoice Duration</label>
+                  <div class="inner-divleft-pad">
+                    <input
+                      type="number"
+                      class="form-control br-bshadow-none all-left-box-10"
+                      id="inlineFormInputGroupDuedate"
+                      (keypress)="numberOnly($event, 'duedate')"
+                      placeholder="0"
+                      (mouseleave)="leaveHover($event)"
+                      (mouseenter)="enterHover($event)"
+                      [(ngModel)]="formField.dueDateCount"
+                      min="0"
+                      name="invDueDate"
+                      #invDueDate="ngModel"
+                    />
+                  </div>
+                </div>
+              </div>
               <hr class="limit-hr-100" />
             </div>
             <div class="col-md-12" style="padding-top: 40px;">

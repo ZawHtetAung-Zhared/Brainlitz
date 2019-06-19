@@ -9,6 +9,11 @@ import {
   ViewChildren,
   QueryList
 } from '@angular/core';
+import {
+  NgbModalRef,
+  NgbDateStruct,
+  NgbDatepickerConfig
+} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
@@ -180,6 +185,7 @@ export class UsersComponent implements OnInit {
   checkobjArr: any = [];
 
   constructor(
+    private config: NgbDatepickerConfig,
     private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastsManager,
@@ -337,12 +343,26 @@ export class UsersComponent implements OnInit {
       }
     );
   }
-
+  date;
   getCustomFields(type) {
     console.log('call getcustom fields');
     this._service.getAllFields(this.regionID).subscribe((res: any) => {
       console.log('Custom Field', res);
+      let testArray = [];
+      res.userInfoPermitted.map((item, index) => {
+        for (let i = 0; i < item.inputValues.length; i++) {
+          const tempObj = {
+            name: '',
+            isCheck: false
+          };
+          tempObj.name = item.inputValues[i];
+          testArray.push(tempObj);
+        }
+        item.inputValues = testArray;
+        testArray = [];
+      });
       this.customFields = res.userInfoPermitted;
+
       for (var i = 0; i < this.customFields.length; i++) {
         console.log('^^i', this.customFields[i]);
         var fieldName = this.customFields[i].name.toLowerCase();
@@ -360,7 +380,34 @@ export class UsersComponent implements OnInit {
           console.log('Test', test);
           if (test.length > 0) {
             console.log('value', test[0].value);
+            var dateTime = test[0].value;
+
+            for (
+              let value = 0;
+              value < this.customFields[i].inputValues.length;
+              value++
+            ) {
+              const element = this.customFields[i].inputValues;
+              for (let item = 0; item < test[0].value.length; item++) {
+                const checkValue = test[0].value[item];
+                if (element[value].name === checkValue) {
+                  element[value].isCheck = true;
+                }
+              }
+            }
             this.customFields[i]['value'] = test[0].value;
+            if (this.customFields[i].controlType === 'Datepicker') {
+              var ok = dateTime.substring(0, dateTime.search('T'));
+              var testSplit = ok.split('-');
+              var format = {
+                year: Number(testSplit[0]),
+                month: Number(testSplit[1]),
+                day: Number(testSplit[2])
+              };
+              this.date = format;
+              this.customFields[i]['value'] = this.date;
+              this.date = '';
+            }
           }
           console.log(this.formFieldc.details);
         }
@@ -400,6 +447,39 @@ export class UsersComponent implements OnInit {
   createUser(obj, apiState) {
     console.log(obj);
     this.formFieldc.details = [];
+    let testArray = [];
+    this.customFields.map((item, index) => {
+      if (item.controlType === 'Datepicker') {
+        if (item.value != null) {
+          if (item.value.day < 10) {
+            var day = '0' + `${item.value.day}`;
+          } else {
+            var day = `${item.value.day}`;
+          }
+
+          if (item.value.month < 10) {
+            var month = '0' + `${item.value.month}`;
+          } else {
+            var month = `${item.value.month}`;
+          }
+          var testing =
+            `${item.value.year}` + '-' + `${month}` + '-' + `${day}`;
+          //  const zz=  moment(new Date(testing)).format();
+          var date = new Date(testing).toISOString();
+          item.value = date;
+        }
+      }
+
+      if (item.controlType === 'Checkbox' || item.controlType === 'Radio') {
+        for (let i = 0; i < item.inputValues.length; i++) {
+          if (item.inputValues[i].isCheck) {
+            testArray.push(item.inputValues[i].name);
+          }
+        }
+        item.value = testArray;
+        testArray = [];
+      }
+    });
     //for custom fields
     for (var i = 0; i < this.customFields.length; i++) {
       console.log('field value', this.customFields[i].value);
@@ -859,6 +939,10 @@ export class UsersComponent implements OnInit {
       (res: any) => {
         this.custDetail = res;
         this.blockUI.stop();
+        res.user.details.map(info => {
+          if (info.controlType === 'Datepicker')
+            info.value = moment(info.value).format('YYYY-MM-DD');
+        });
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
@@ -1652,7 +1736,7 @@ export class UsersComponent implements OnInit {
     console.log(obj);
     console.log(data);
     this.lessonData = obj;
-    this.isChecked = obj.startDate;
+    this.isChecked = obj._id;
     this.checkCourse = data.courseId;
     // console.log(this.checkCourse)
   }
@@ -1963,5 +2047,33 @@ export class UsersComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  closeDropdown(event, type, datePicker?) {
+    if (event.target.className.includes('dropD')) {
+    } else {
+      // console.log("##########",event.target.className)
+      // if (type == "start")
+      //   datePicker.close();
+      // else if (type== 'end')
+      //   datePicker.close();
+      if (type == 'start' || type == 'end') {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+        }
+      }
+    }
+  }
+
+  checkBoxCheck(item) {
+    item.isCheck = !item.isCheck;
+  }
+  radioCheck(item, fields) {
+    fields.map(field => {
+      field.isCheck = false;
+    });
+    item.isCheck = !item.isCheck;
   }
 }
