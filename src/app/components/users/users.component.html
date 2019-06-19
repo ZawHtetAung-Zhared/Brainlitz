@@ -1140,7 +1140,6 @@
                     placeholder="{{ field.description }}"
                     class="input-day dropD startInput"
                     name="{{ 'date' + i }}"
-                    required
                     (click)="date.toggle()"
                     ngbDatepicker
                     [(ngModel)]="field.value"
@@ -1154,10 +1153,10 @@
 
             <div *ngIf="field.controlType === 'Radio'">
               <div
-                class="d-flex"
+                class="d-flex pb-3"
                 *ngFor="let item of field.inputValues; let i = index"
               >
-                <label for="{{ 'radio' + i }}" class="m-0 p-0">
+                <!-- <label for="{{ 'radio' + i }}" class="m-0 p-0">
                   <input
                     type="radio"
                     id="{{ 'radio' + i }}"
@@ -1184,7 +1183,26 @@
                   value="{{ item.name }}"
                   class="p-0 m-0"
                   [ngClass]="{ checkedDate: item.isCheck }"
-                />
+                /> -->
+                <label for="{{ 'radio' + i }}" class="m-0 p-0 d-flex">
+                  <input
+                    type="radio"
+                    id="{{ 'radio' + i }}"
+                    (click)="radioCheck(item, field.inputValues)"
+                    name="{{'radio'+ i}"
+                    class="d-none"
+                  />
+                  <div *ngIf="!item.isCheck" class="rounded-box"></div>
+                  <div *ngIf="item.isCheck" class="rounded-checked">
+                    <span class="radio-checked"></span>
+                  </div>
+                  <div
+                    class="box-label"
+                    [ngClass]="{ checkedDate: item.isCheck }"
+                  >
+                    {{ item.name }}
+                  </div>
+                </label>
               </div>
             </div>
 
@@ -1193,7 +1211,7 @@
                 class="d-flex"
                 *ngFor="let item of field.inputValues; let i = index"
               >
-                <label for="{{ 'checkBox' + i }}" class="m-0 p-0">
+                <!-- <label for="{{ 'checkBox' + i }}" class="m-0 p-0">
                   <input
                     type="checkbox"
                     id="{{ 'checkBox' + i }}"
@@ -1220,7 +1238,30 @@
                   value="{{ item.name }}"
                   class="p-0 m-0"
                   [ngClass]="{ checkedDate: item.isCheck }"
-                />
+                /> -->
+                <label class="d-flex">
+                  <div *ngIf="!item.isCheck" class="square-box">
+                    <!-- <i class="fa fa-check"></i> -->
+                  </div>
+                  <div *ngIf="item.isCheck" class="square-checked">
+                    <i class="fa fa-check"></i>
+                  </div>
+
+                  <input
+                    type="checkbox"
+                    id="{{ 'checkBox' + i }}"
+                    (click)="checkBoxCheck(item)"
+                    name="{{ 'checkBox' + i }}"
+                    class="regular-checkbox"
+                    [checked]="item.isCheck"
+                  />
+                  <div
+                    class="box-label"
+                    [ngClass]="{ checkedDate: item.isCheck }"
+                  >
+                    {{ item.name }}
+                  </div>
+                </label>
               </div>
             </div>
           </div>
