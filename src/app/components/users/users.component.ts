@@ -361,7 +361,6 @@ export class UsersComponent implements OnInit {
         item.inputValues = testArray;
         testArray = [];
       });
-      console.warn(res);
       this.customFields = res.userInfoPermitted;
 
       for (var i = 0; i < this.customFields.length; i++) {
@@ -389,12 +388,10 @@ export class UsersComponent implements OnInit {
               value++
             ) {
               const element = this.customFields[i].inputValues;
-              console.warn(element);
               for (let item = 0; item < test[0].value.length; item++) {
                 const checkValue = test[0].value[item];
                 if (element[value].name === checkValue) {
                   element[value].isCheck = true;
-                  console.warn(element);
                 }
               }
             }
@@ -452,7 +449,6 @@ export class UsersComponent implements OnInit {
     this.formFieldc.details = [];
     let testArray = [];
     this.customFields.map((item, index) => {
-      console.warn(item);
       if (item.controlType === 'Datepicker') {
         if (item.value.day < 10) {
           var day = '0' + `${item.value.day}`;
@@ -463,11 +459,11 @@ export class UsersComponent implements OnInit {
         if (item.value.month < 10) {
           var month = '0' + `${item.value.month}`;
         } else {
-          var month = `${item.value.day}`;
+          var month = `${item.value.month}`;
         }
         var testing = `${item.value.year}` + '-' + `${month}` + '-' + `${day}`;
-        console.warn(testing);
         //  const zz=  moment(new Date(testing)).format();
+        console.warn(testing);
         var date = new Date(testing).toISOString();
         item.value = date;
       }
@@ -482,7 +478,6 @@ export class UsersComponent implements OnInit {
         testArray = [];
       }
     });
-    console.warn(this.customFields);
     //for custom fields
     for (var i = 0; i < this.customFields.length; i++) {
       console.log('field value', this.customFields[i].value);
@@ -942,6 +937,10 @@ export class UsersComponent implements OnInit {
       (res: any) => {
         this.custDetail = res;
         this.blockUI.stop();
+        res.user.details.map(info => {
+          if (info.controlType === 'Datepicker')
+            info.value = moment(info.value).format('YYYY-MM-DD');
+        });
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
