@@ -86,12 +86,12 @@ export class InvoiceReportComponent implements OnInit {
       .invoicesExport(this.regionID, status)
       .subscribe((res: any) => {
         console.log(res);
-        this.downloadFile(res);
+        this.downloadFile(res, status);
       });
   }
   public csvData;
-  downloadFile(res) {
-    this.csvData = this.convertToCSV(res);
+  downloadFile(res, type) {
+    this.csvData = this.convertToCSV(res, type);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -99,44 +99,62 @@ export class InvoiceReportComponent implements OnInit {
     var url = window.URL.createObjectURL(blob);
     a.href = url;
     var filename = new Date().toISOString();
-    a.download = 'invoiceReport' + filename + '.csv';
+    a.download = type + 'invoices' + filename + '.csv';
     a.click();
   }
 
-  convertToCSV(objArray) {
+  convertToCSV(objArray, type) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
     var row = '';
-    row = 'Payment date,Invoice#,Name,Method,Amount';
+    row =
+      type == 'UNPAID'
+        ? 'Invoice Due date,Invoice#,Name,Amount'
+        : 'Payment date,Invoice#,Name,Method,Amount';
     str += row + '\r\n';
-    var invObj = {
-      paymentDate: '',
-      invoiceId: '',
-      name: '',
-      method: null,
-      amount: null
-    };
+    // var invObj = {
+    //   paymentDate: '',
+    //   invoiceId: '',
+    //   name: '',
+    //   method: null,
+    //   amount: null
+    // };
+    var invObj = {};
     var objArr = [];
 
     for (var i = 0; i < array.length; i++) {
-      for (var idx = 0; idx < array[i].payments.length; idx++) {
-        var payment = array[i].payments[idx];
-        invObj.paymentDate = this.dateFormat(payment.updatedDate);
-        if (payment.paymentMethodDetails == undefined) {
-          invObj.method = '-';
-        } else {
-          invObj.method = payment.paymentMethodDetails.name;
-        }
-        invObj.amount = array[i].payments[idx].amount;
-        invObj.invoiceId = array[i].refInvoiceId;
-        invObj.name = array[i].userDetails.preferredName;
-
+      if (type == 'UNPAID') {
+        invObj['dueDate'] = this.dateFormat(array[i].dueDate);
+        invObj['invoiceId'] = array[i].refInvoiceId;
+        invObj['name'] = array[i].userDetails.preferredName;
+        invObj['amount'] = array[i].total;
+        console.log(invObj);
         var line = '';
         for (var index in invObj) {
           if (line != '') line += ',';
           line += invObj[index];
         }
         str += line + '\r\n';
+      } else {
+        for (var idx = 0; idx < array[i].payments.length; idx++) {
+          var payment = array[i].payments[idx];
+          invObj['paymentDate'] = this.dateFormat(payment.updatedDate);
+          invObj['invoiceId'] = array[i].refInvoiceId;
+          invObj['name'] = array[i].userDetails.preferredName;
+          if (payment.paymentMethodDetails == undefined) {
+            invObj['method'] = '-';
+          } else {
+            invObj['method'] = payment.paymentMethodDetails.name;
+          }
+          invObj['amount'] = array[i].payments[idx].amount;
+          console.log(invObj);
+          var line = '';
+          for (var index in invObj) {
+            if (line != '') line += ',';
+            line += invObj[index];
+          }
+          str += line + '\r\n';
+        }
       }
     }
     return str;
