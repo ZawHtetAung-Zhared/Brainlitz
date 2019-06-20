@@ -1154,42 +1154,14 @@
             <div *ngIf="field.controlType === 'Radio'">
               <div
                 class="d-flex pb-3"
-                *ngFor="let item of field.inputValues; let i = index"
+                *ngFor="let item of field.inputValues; let j = index"
               >
-                <!-- <label for="{{ 'radio' + i }}" class="m-0 p-0">
+                <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
                   <input
                     type="radio"
-                    id="{{ 'radio' + i }}"
+                    id="{{ 'radio' + i + j }}"
                     (click)="radioCheck(item, field.inputValues)"
-                    name="{{'radio'+ i}"
-                    class="d-none"
-                  />
-                  <img
-                    src="../../../assets/images/check-rect.png"
-                    alt=""
-                    class="flex-icon"
-                    *ngIf="!item.isCheck"
-                  />
-                  <img
-                    src="../../../assets/images/checked-rect.png"
-                    alt=""
-                    class="flex-icon"
-                    *ngIf="item.isCheck"
-                  />
-                </label>
-                <input
-                  type="text"
-                  readonly="true"
-                  value="{{ item.name }}"
-                  class="p-0 m-0"
-                  [ngClass]="{ checkedDate: item.isCheck }"
-                /> -->
-                <label for="{{ 'radio' + i }}" class="m-0 p-0 d-flex">
-                  <input
-                    type="radio"
-                    id="{{ 'radio' + i }}"
-                    (click)="radioCheck(item, field.inputValues)"
-                    name="{{'radio'+ i}"
+                    name="{{ 'radio' + i + j }}"
                     class="d-none"
                   />
                   <div *ngIf="!item.isCheck" class="rounded-box"></div>
@@ -1209,36 +1181,8 @@
             <div *ngIf="field.controlType === 'Checkbox'">
               <div
                 class="d-flex"
-                *ngFor="let item of field.inputValues; let i = index"
+                *ngFor="let item of field.inputValues; let j = index"
               >
-                <!-- <label for="{{ 'checkBox' + i }}" class="m-0 p-0">
-                  <input
-                    type="checkbox"
-                    id="{{ 'checkBox' + i }}"
-                    (click)="checkBoxCheck(item)"
-                    name="{{ 'checkBox' + i }}"
-                    class="d-none"
-                  />
-                  <img
-                    src="../../../assets/images/check-rect.png"
-                    alt=""
-                    class="flex-icon"
-                    *ngIf="!item.isCheck"
-                  />
-                  <img
-                    src="../../../assets/images/checked-rect.png"
-                    alt=""
-                    class="flex-icon"
-                    *ngIf="item.isCheck"
-                  />
-                </label>
-                <input
-                  type="text"
-                  readonly="true"
-                  value="{{ item.name }}"
-                  class="p-0 m-0"
-                  [ngClass]="{ checkedDate: item.isCheck }"
-                /> -->
                 <label class="d-flex">
                   <div *ngIf="!item.isCheck" class="square-box">
                     <!-- <i class="fa fa-check"></i> -->
@@ -1249,9 +1193,9 @@
 
                   <input
                     type="checkbox"
-                    id="{{ 'checkBox' + i }}"
+                    id="{{ 'checkBox' + i + j }}"
                     (click)="checkBoxCheck(item)"
-                    name="{{ 'checkBox' + i }}"
+                    name="{{ 'checkBox' + i + j }}"
                     class="regular-checkbox"
                     [checked]="item.isCheck"
                   />
