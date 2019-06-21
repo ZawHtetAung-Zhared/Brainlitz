@@ -754,15 +754,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.courseplanLists = [];
       this.getAllCoursePlan(0, 20);
       console.log('courseplanLists', this.courseplanLists);
-      if (this.selectedDay.length == 0) {
-        this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
-      } else if (this.selectedDay.length > 0) {
-        this.getStaffTimetable(
-          this.selectedTeacher.userId,
-          this.selectedDay.toString()
-        );
-      }
-      console.log('schedule', this.scheduleList);
+      // if (this.selectedDay.length == 0) {
+      //   this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+      // } else if (this.selectedDay.length > 0) {
+      //   this.getStaffTimetable(
+      //     this.selectedTeacher.userId,
+      //     this.selectedDay.toString()
+      //   );
+      // }
+      // console.log('schedule', this.scheduleList);
     });
     // this._service.goSchedule.subscribe(()=>{
     //   console.log("go back SC");
