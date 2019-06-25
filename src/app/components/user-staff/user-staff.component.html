@@ -167,8 +167,12 @@
                   *ngFor="let detail of staffDetail.user.details"
                   class="child-detail"
                 >
-                  <label class="info-mail">{{ detail.name }}</label>
-                  <p class="mb-0 info-p">{{ detail.value }}</p>
+                  <label class="info-mail" *ngIf="detail.value.length != 0">{{
+                    detail.name
+                  }}</label>
+                  <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                    {{ detail.value }}
+                  </p>
                 </div>
               </div>
             </div>
