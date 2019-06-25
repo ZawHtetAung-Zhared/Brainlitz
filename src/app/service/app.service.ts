@@ -229,6 +229,7 @@ export class appService {
   }
 
   getOrgCredentials(orgCode, hostName) {
+    console.log(hostName);
     let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -245,12 +246,14 @@ export class appService {
     };
 
     if (hostName == 'localhost') {
+      console.log('localhost 13123');
       return this.httpClient.get(url, httpOptions).map((res: Response) => {
         let result = res;
         console.log(result);
         return result;
       });
     } else {
+      console.log('localhost nope');
       return this.httpClient.get(url, httpOptions2).map((res: Response) => {
         let result = res;
         console.log(result);
