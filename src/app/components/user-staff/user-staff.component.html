@@ -182,6 +182,35 @@
           <div></div>
         </div>
       </div>
+      <div class="d-flex tab-border">
+        <button
+          [ngClass]="{
+            activeTab: activeTab == 'Classes'
+          }"
+          class="btn classes-tab"
+          (click)="clickTab('Classes')"
+        >
+          Classes
+        </button>
+        <button
+          [ngClass]="{ activeTab: activeTab == 'Leave' }"
+          class="btn leave-tab"
+          (click)="clickTab('Leave')"
+        >
+          Leave
+        </button>
+      </div>
+      <!-- for classess  start-->
+
+      <div *ngIf="activeTab == 'Classes'">
+        you classess
+      </div>
+      <!-- for classess end -->
+      <!-- for leave start -->
+      <div *ngIf="activeTab == 'Leave'">
+        you leave
+      </div>
+      <!-- for leave end -->
     </div>
   </div>
 </div>

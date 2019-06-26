@@ -1315,7 +1315,9 @@
           type="submit"
           (click)="createUser(formFieldc, 'create')"
           class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert || guardianAlert"
+          [disabled]="
+            !customerForm.valid || emailAlert || guardianAlert || sameMail
+          "
         >
           Create
         </button>
@@ -1325,7 +1327,9 @@
           type="submit"
           (click)="createUser(formFieldc, 'edit')"
           class="btn create-button"
-          [disabled]="!customerForm.valid || emailAlert || guardianAlert"
+          [disabled]="
+            !customerForm.valid || emailAlert || guardianAlert || sameMail
+          "
         >
           Update
         </button>

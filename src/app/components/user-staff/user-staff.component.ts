@@ -46,6 +46,7 @@ export class UserStaffComponent implements OnInit {
   public hideMenu: boolean = false;
   public img: any;
   public ulFile: any;
+  public activeTab = 'Classes';
   permissionLists: any;
   // formFields: Staff = new Staff();
   formFields: any = {};
@@ -787,5 +788,9 @@ export class UserStaffComponent implements OnInit {
       field.isCheck = false;
     });
     item.isCheck = !item.isCheck;
+  }
+
+  clickTab(type) {
+    this.activeTab = type;
   }
 }

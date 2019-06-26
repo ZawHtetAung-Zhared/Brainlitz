@@ -720,8 +720,14 @@ export class UsersComponent implements OnInit {
     this.validateEmail(e.target.value);
   }
 
+  sameMail;
   validateEmail(data) {
     console.log(data);
+    if (data === this.formFieldc.guardianEmail) {
+      this.sameMail = true;
+    } else {
+      this.sameMail = false;
+    }
     // this.atLeastOneMail = false;
     this.emailAlert = !this.isValidateEmail(data) ? true : false;
     this.personalMail = this.isValidateEmail(data) ? true : false;
@@ -732,6 +738,11 @@ export class UsersComponent implements OnInit {
   }
 
   validateGuarmail(gData) {
+    if (gData === this.formFieldc.email) {
+      this.sameMail = true;
+    } else {
+      this.sameMail = false;
+    }
     console.log(gData);
     // this.atLeastOneMail = false;
     this.guardianAlert = !this.isValidateEmail(gData) ? true : false;
