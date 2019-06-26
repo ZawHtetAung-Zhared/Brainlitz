@@ -838,6 +838,7 @@ export class CourseplanComponent implements OnInit {
         this.isfocus = true;
         this.showfixedcreate = true;
         this.apgList = [];
+        this.getAllAPG(20, 0);
         break;
       case 'plan':
         this.showPlans = true;
@@ -851,6 +852,7 @@ export class CourseplanComponent implements OnInit {
         setTimeout(() => {
           this.isfocus = false;
           this.showfixedcreate = false;
+          this.formField.searchText = '';
         }, 300);
         break;
       case 'plan':
@@ -867,7 +869,7 @@ export class CourseplanComponent implements OnInit {
       case 'apg':
         if (keyword == 0) {
           this.apgList = [];
-          // this.getAllAPG(20, 0)
+          this.getAllAPG(20, 0);
         } else {
           this.getApgSearch(keyword, 'apg');
         }
