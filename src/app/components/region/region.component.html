@@ -1,19 +1,23 @@
 <div class="inner-wrapper">
-	<header>
-		<div class="d-wrapper" [ngClass]="{'sticky' : navIsFixed == true}">			
-			<h3 class="region-h3">Pick region</h3>
-		</div>
-	</header>
-	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">			
-		<h3 class="region-h3">Pick region</h3>
-	</div>
-	<div class="row justify-content-start">
-		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 col-xl-3" *ngFor="let region of regionLists; let i = index" [attr.data-index]="i">
-			<div class="region-item">
-				<a routerLink="/customer" (click)="setRegionID(region)">
-		      	  {{region.name}}
-		      	</a> 
-	      	</div>
-		</div>
-	</div>
+  <header>
+    <div class="d-wrapper" [ngClass]="{ sticky: navIsFixed == true }">
+      <h3 class="region-h3">Pick organization</h3>
+    </div>
+  </header>
+  <div class="sticky-menu" [ngClass]="{ stickywrap: navIsFixed == true }">
+    <h3 class="region-h3">Pick organization</h3>
+  </div>
+  <div class="row justify-content-start">
+    <div
+      class="col-xs-6 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+      *ngFor="let region of regionLists; let i = index"
+      [attr.data-index]="i"
+    >
+      <div class="region-item">
+        <a routerLink="/customer" (click)="setRegionID(region)">
+          {{ region.name }}
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
