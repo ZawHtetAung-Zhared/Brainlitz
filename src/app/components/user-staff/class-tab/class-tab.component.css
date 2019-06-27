@@ -1,0 +1,27 @@
+.class-block {
+  position: relative;
+  width: 476px;
+  height: 144px;
+  background: #ffffff;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-top: 24px;
+  margin-left: 24px;
+}
+
+.course-title {
+  position: relative;
+  width: 100%;
+  height: 41px;
+  /* padding: 44px; */
+  padding-top: 20px;
+  padding-left: 40px;
+  padding-bottom: 60px;
+}
+
+.overview-shedule {
+  width: 100%;
+  padding-left: 40px;
+  display: flex;
+}
