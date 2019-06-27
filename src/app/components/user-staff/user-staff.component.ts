@@ -78,6 +78,7 @@ export class UserStaffComponent implements OnInit {
   usertype: any;
   result: any;
   public customFields: any = [];
+  courseList: [];
 
   constructor(
     private _service: appService,
@@ -727,6 +728,9 @@ export class UserStaffComponent implements OnInit {
       .getUserDetail(this.regionID, data.userId, this.locationID)
       .subscribe(
         (res: any) => {
+          this.courseList = res.courses;
+          console.log(this.courseList);
+
           this.staffDetail = res;
           res.user.details.map(info => {
             if (info.controlType === 'Datepicker')

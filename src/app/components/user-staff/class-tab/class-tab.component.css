@@ -1,4 +1,5 @@
 .class-block {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   position: relative;
   width: 476px;
   height: 144px;
@@ -11,6 +12,7 @@
 }
 
 .course-title {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   position: relative;
   width: 100%;
   height: 41px;
@@ -21,6 +23,7 @@
 }
 
 .location {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -29,6 +32,7 @@
 }
 
 .title {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -42,6 +46,7 @@
 }
 
 .shedule-text {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -55,4 +60,17 @@
   width: 2px;
   height: 38px;
   background: #edeff0;
+}
+
+.btn-wrap.no-item {
+  padding-top: 20px;
+  padding-left: 10px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  color: #64707d;
+  font-size: 15px;
+}
+
+.lessons {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 14px;
 }
