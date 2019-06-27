@@ -98,6 +98,7 @@ import { InterceptService } from './service/intercept.service';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
 import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
+import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.component';
 
 @NgModule({
   declarations: [
@@ -169,7 +170,8 @@ import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
     FlexiComponent,
     InvoiceReportComponent,
     UtcShortDatePipe,
-    UtcFullDayPipe
+    UtcFullDayPipe,
+    ClassTabComponent
   ],
   imports: [
     BrowserModule,
