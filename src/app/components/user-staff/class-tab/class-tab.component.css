@@ -20,8 +20,39 @@
   padding-bottom: 60px;
 }
 
+.location {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64707d;
+}
+
+.title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21px;
+  color: #2e3d4d;
+}
+
 .overview-shedule {
   width: 100%;
   padding-left: 40px;
-  display: flex;
+}
+
+.shedule-text {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  color: #64707d;
+  min-width: 87px;
+  padding-bottom: 4px;
+}
+
+.v-line {
+  width: 2px;
+  height: 38px;
+  background: #edeff0;
 }
