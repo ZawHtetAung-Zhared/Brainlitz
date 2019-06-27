@@ -2919,4 +2919,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
   }
+
+  printSchedule() {
+    window.print();
+  }
 }

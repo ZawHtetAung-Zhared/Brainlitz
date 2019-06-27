@@ -265,6 +265,7 @@
       </div>
     </div>
     <div
+      id="schedule-timetable-wrap"
       *ngIf="
         courseCreate == false &&
         isCategory == false &&
@@ -349,6 +350,11 @@
               {{ category.name }}
             </li>
           </ul>
+        </div>
+        <div class="mt-3 ml-5">
+          <button (click)="printSchedule()">
+            Print Schedule
+          </button>
         </div>
       </div>
       <div
