@@ -98,7 +98,7 @@ import { InterceptService } from './service/intercept.service';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
 import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   declarations: [
     AppComponent,
@@ -173,6 +173,15 @@ import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
   ],
   imports: [
     BrowserModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300
+    }),
     HttpClientModule,
     HttpModule,
     FormsModule,
