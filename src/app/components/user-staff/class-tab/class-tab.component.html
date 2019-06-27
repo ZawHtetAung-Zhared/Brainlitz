@@ -1,0 +1,57 @@
+<!-- <pre>{{ courseList | json }}</pre> -->
+<div class="row" *ngIf="courses?.length > 0; else nocourse">
+  <div class="class-block" *ngFor="let course of courses">
+    <div class="row">
+      <div class="course-title">
+        <!-- <span>Bedok centre</span>
+        <span>Beginner Piano Course</span> -->
+        <div class="col-md-10 location">
+          <i class="fa fa-map-marker"></i>
+          {{ course?.location.name }}
+        </div>
+        <div class="col-md-12 title">{{ course?.name }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="overview-shedule d-flex">
+        <div class="col-md-5">
+          <span class="d-flex shedule-text ">
+            <label
+              class="class-label-14 mb-0"
+              *ngFor="let day of course.repeatDays | weekDays"
+              >{{ day }}</label
+            >
+          </span>
+          <span class="d-flex shedule-text "
+            >{{ course?.duration.startDate | utcTime }} -
+            {{ course?.duration.startDate | utcTime }}</span
+          >
+        </div>
+        <div class="v-line"></div>
+        <div class="col-md-6 d-flex">
+          <div class="col-md-6" *ngIf="course.startDate">
+            <span class="d-flex shedule-text ">From</span>
+            <span class="d-flex shedule-text ">{{
+              course?.startDate | utcDate
+            }}</span>
+          </div>
+          <div class="col-md-6" *ngIf="course.endDate">
+            <span class="d-flex shedule-text ">To</span>
+            <span class="d-flex shedule-text ">{{
+              course?.endDate | utcDate
+            }}</span>
+          </div>
+          <div class="col-md-6" *ngIf="course.lessonCount">
+            <p class="d-flex lessons">{{ course?.lessonCount }} Lessons</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #nocourse>
+  <div class="btn-wrap no-item">
+    There is no course.
+  </div>
+</ng-template>
