@@ -31,7 +31,6 @@ export class LeaveDetailsComponent implements OnInit {
   getUserLeaves(userId) {
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
-        console.warn(res);
         res.leaves.map(leave => {
           leave.percentLeave = leave.takenDays * 5 + 40;
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
