@@ -1,0 +1,186 @@
+<div class="d-flex justify-content-between">
+  <h3 class="leave-title">Leave</h3>
+  <button
+    class="btn btn-primary add-leave"
+    (click)="cancelClassModal(cancelClass)"
+  >
+    Add new leave
+  </button>
+</div>
+<div class="d-flex flex-wrap">
+  <div class="leave-block" *ngFor="let leave of userLeave">
+    <div class="inner-block d-flex flex-column">
+      <div class="d-flex justify-content-between annual-wrapper">
+        <p
+          class="annual-leave mb-0 mt-1"
+          *ngIf="leave.leaveType == 'Anual Leave'"
+        >
+          {{ leave.leaveType }}
+        </p>
+        <p
+          class="annual-leave mb-0 medical-leave"
+          *ngIf="leave.leaveType == 'Medical Leave'"
+        >
+          Medical Leave
+        </p>
+        <p
+          class="annual-leave mb-0 marriage-leave"
+          *ngIf="leave.leaveType == 'Marriage leave'"
+        >
+          Marriage Leave
+        </p>
+        <circle-progress
+          *ngIf="leave.leaveType == 'Anual Leave'"
+          [percent]="leave.percentLeave"
+          [radius]="15"
+          [maxPercent]="leave.maxPercentLeave"
+          [space]="-5"
+          [showTitle]="false"
+          [showUnits]="false"
+          [showSubtitle]="false"
+          [outerStrokeWidth]="4"
+          [innerStrokeWidth]="4"
+          [outerStrokeColor]="'#00CC55'"
+          [innerStrokeColor]="'#EDEFF0'"
+          [renderOnClick]="false"
+          [animation]="true"
+          [animationDuration]="300"
+        ></circle-progress>
+      </div>
+      <p class="mb-0" *ngIf="leave.leaveType == 'Anual Leave'">
+        <span class="days-left"
+          >{{ leave.takenDays }}/{{ leave.leaveDays }}</span
+        >
+        <span class="text-days">days left</span>
+      </p>
+      <p class="mb-0" *ngIf="leave.leaveType != 'Anual Leave'">
+        <span class="days-left">{{ leave.takenDays }}</span>
+        <span class="text-days day-taken" *ngIf="leave.takenDays > 1"
+          >days taken</span
+        >
+        <span class="text-days day-taken" *ngIf="leave.takenDays <= 1"
+          >day taken</span
+        >
+      </p>
+
+      <p class="leave-info mb-0" *ngIf="leave.leaveType == 'Anual Leave'">
+        {{ leave.takenDays }} out of {{ leave.leaveDays }} days taken
+      </p>
+      <p class="leave-info mb-0" *ngIf="leave.leaveType != 'Anual Leave'">
+        {{ leave.takenDays }} out of {{ leave.leaveDays }} days left
+      </p>
+    </div>
+  </div>
+</div>
+<div class="history-wrapper">
+  <h4 class="history-title">Leave History</h4>
+  <div class="d-flex flex-column">
+    <div class="d-flex history-details" *ngFor="let log of leaveLogs">
+      <span class="leave-info-icon" *ngIf="log.meridian == 'DAY'"
+        ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
+      /></span>
+      <span class="leave-info-icon" *ngIf="log.meridian == 'PM'"
+        ><img src="../../../../assets/icons/PM.svg" alt=""
+      /></span>
+      <span class="leave-info-icon" *ngIf="log.meridian == 'AM'"
+        ><img src="../../../../assets/icons/am.svg" alt=""
+      /></span>
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <p class="mb-0 leave-date">{{ log.leaveDay }}</p>
+          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'AM'">
+            HALF - {{ log.meridian }}
+          </p>
+          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'PM'">
+            HLAF - {{ log.meridian }}
+          </p>
+          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'DAY'">
+            1 DAY
+          </p>
+        </div>
+        <div class="d-flex align-items-center pb-3 pt-2">
+          <p class="mb-0 leave-status">
+            {{ log.leaveTypeDetail.leaveType }}
+          </p>
+          <span class="dotted-spot"></span>
+          <p class="mb-0 leave-status">{{ log.leaveStatus }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #cancelClass let-modal>
+  <div class="cancel-class-wrapper">
+    <div class="d-flex w-100 justify-content-between">
+      <h1 class="cancel-class-title">Cancel class</h1>
+      <span class="close-icon" (click)="closeCancelClassModal()"></span>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex flex-column col-md-5 p-0">
+        <div class="d-flex justify-content-between">
+          <p class="makeup-text">Issue makeup pass?</p>
+          <div class="toggle-wrap" (click)="this.giveMakeUp = !giveMakeUp">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="giveMakeUp = !this.giveMakeUp"
+                [checked]="giveMakeUp"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div class="d-flex flex-column" *ngIf="giveMakeUp">
+          <label for="" class="reason-title">Reason (Optional)</label>
+          <textarea
+            (input)="autoResize($event)"
+            rows="1"
+            class="reason-text"
+            placeholder="Type reason here..."
+          ></textarea>
+        </div>
+      </div>
+      <div class="class-info-side col-md-7">
+        <p class="total-student mb-0" [ngClass]="{ 'makeup-true': giveMakeUp }">
+          <span class="Union-icon" *ngIf="!giveMakeUp"
+            ><img src="../../../assets/icons/Union.svg" alt=""
+          /></span>
+          <span class="Union-icon" *ngIf="giveMakeUp"
+            ><img src="../../../assets/icons/Vector.svg" alt=""
+          /></span>
+          <span class="total-student-text"
+            >Total of 20 students will be affected as Cancel class
+          </span>
+        </p>
+        <!-- <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/PM.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p>
+        <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/am.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p> -->
+        <div class="cancel-classes-info">
+          <div class="d-flex classes-info-block">
+            <span class="cancelclass-leaveType">
+              <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
+            </span>
+            <div class="d-flex flex-column">
+              <p class="leave-taken-date">Wed,19 Jun 2019</p>
+              <div class="d-flex align-items-center">
+                <p class="student-count">20 students</p>
+                <p class="cancel-class-name">Beginner Piano class</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn bg-white" (click)="closeCancelClassModal()">
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary create-button-pos"
+      (click)="closeCancelClassModal()"
+    >
+      Confirm
+    </button>
+  </div>
+</ng-template>
