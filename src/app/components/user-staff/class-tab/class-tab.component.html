@@ -9,7 +9,12 @@
           <i class="fa fa-map-marker"></i>
           {{ course?.location.name }}
         </div>
-        <div class="col-md-12 title">{{ course?.name }}</div>
+        <div
+          class="col-md-12 title"
+          (click)="navigateToCourseDetail(course._id)"
+        >
+          {{ course?.name }}
+        </div>
       </div>
     </div>
     <div class="row">

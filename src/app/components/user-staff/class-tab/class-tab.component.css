@@ -37,7 +37,8 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 21px;
-  color: #2e3d4d;
+  color: #0080ff;
+  cursor: pointer;
 }
 
 .overview-shedule {
