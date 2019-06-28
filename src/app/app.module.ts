@@ -101,6 +101,7 @@ import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
 import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -172,7 +173,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     InvoiceReportComponent,
     UtcShortDatePipe,
     UtcFullDayPipe,
-    ClassTabComponent
+    ClassTabComponent,
+    LeaveDetailsComponent
   ],
   imports: [
     BrowserModule,

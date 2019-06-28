@@ -84,7 +84,7 @@ export class UserStaffComponent implements OnInit {
   usertype: any;
   result: any;
   public customFields: any = [];
-  courseList: [];
+  public courseList: any;
 
   constructor(
     private _service: appService,
