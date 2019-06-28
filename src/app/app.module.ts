@@ -100,6 +100,7 @@ import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
 import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
 import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.component';
 
+import { NgCircleProgressModule } from 'ng-circle-progress';
 @NgModule({
   declarations: [
     AppComponent,
@@ -175,6 +176,15 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
   ],
   imports: [
     BrowserModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300
+    }),
     HttpClientModule,
     HttpModule,
     FormsModule,

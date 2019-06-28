@@ -35,6 +35,12 @@
   src: url('assets/fonts/Inter-UI-Regular.woff2') format('woff2'),
     url('assets/fonts/Inter-UI-Regular.woff') format('woff');
 }
+@font-face {
+  font-family: 'Inter-UI-Bold';
+  font-style: normal;
+  font-weight: 400;
+  src: url('assets/fonts/Inter-UI-Bold.ttf') format('woff2');
+}
 
 @font-face {
   font-family: 'Inter-UI-Medium';

@@ -3499,7 +3499,20 @@ export class appService {
       return result;
     });
   }
-
+  // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/users/5d11a61348602209d75f8c45/leaves
+  getUserLeaveDetails(regionId, userId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/users/' + userId + '/leaves';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
   updateCollection(regionId: string, data: any, id: string) {
     let url = this.baseUrl + '/' + regionId + '/assessment-plans/' + id;
     const httpOptions = {
