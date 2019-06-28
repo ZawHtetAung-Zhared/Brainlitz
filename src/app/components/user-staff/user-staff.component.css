@@ -994,7 +994,7 @@ input[type='radio']:checked ~ label {
 .cancel-class-title {
   font-size: 28px;
   color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 .class-info-side {
   min-height: 500px;
