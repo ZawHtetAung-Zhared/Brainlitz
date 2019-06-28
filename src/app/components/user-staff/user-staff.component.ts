@@ -17,7 +17,9 @@ import { Staff } from './staff';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {
   NgbModalRef,
+  NgbModal,
   NgbDateStruct,
+  ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -30,11 +32,15 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+  public userLeave = [];
+  public leaveLogs = [];
   public returnProfile: boolean = false;
   public isCrop: boolean = false;
   public locationName: any;
   public permissionType: any;
   public staffPermission: any = [];
+  public modalReference: any;
+  public giveMakeUp = false;
   public staffDemo: any = [];
   public orgID = localStorage.getItem('OrgId');
   public regionID = localStorage.getItem('regionId');
@@ -82,6 +88,7 @@ export class UserStaffComponent implements OnInit {
 
   constructor(
     private _service: appService,
+    private cancelClassModalService: NgbModal,
     public toastr: ToastsManager,
     vcr: ViewContainerRef,
     private router: Router,
@@ -718,12 +725,14 @@ export class UserStaffComponent implements OnInit {
 
   showDetails(data, ID) {
     this.isPasswordChange = false;
+    this.activeTab = 'Classes';
     this.staffLists = [];
     this.editId = ID;
     console.log('show Staff details', data);
     console.log(ID);
     this.blockUI.start('Loading...');
     this.showStaffDetail = true;
+    this.getUserLeaves();
     this._service
       .getUserDetail(this.regionID, data.userId, this.locationID)
       .subscribe(
@@ -796,5 +805,38 @@ export class UserStaffComponent implements OnInit {
 
   clickTab(type) {
     this.activeTab = type;
+  }
+
+  cancelClassModal(cancelClass) {
+    this.giveMakeUp = false;
+    this.modalReference = this.cancelClassModalService.open(cancelClass, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+  autoResize(e) {
+    console.log(e.target.style);
+    console.log(e.target.scrollHeight);
+    e.target.style.cssText = 'height:auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+  }
+  closeCancelClassModal() {
+    this.modalReference.close();
+  }
+  getUserLeaves() {
+    this._service.getUserLeaveDetails(this.regionID, this.editId).subscribe(
+      (res: any) => {
+        console.warn(res);
+        res.leaves.map(leave => {
+          leave.percentLeave = leave.takenDays * 5 + 40;
+          leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+        });
+        this.userLeave = res.leaves;
+
+        this.leaveLogs = res.logs;
+      },
+      err => {}
+    );
   }
 }
