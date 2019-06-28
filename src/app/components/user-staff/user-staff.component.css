@@ -901,7 +901,7 @@ input[type='radio']:checked ~ label {
   padding: 20px;
 }
 .annual-leave {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
   font-size: 14px;
   color: #005926;
   background: #d8fee8;
@@ -912,7 +912,7 @@ input[type='radio']:checked ~ label {
 }
 .days-left {
   font-size: 28px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
   color: #2e3d4d;
 }
 .text-days {
@@ -920,9 +920,12 @@ input[type='radio']:checked ~ label {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #64707d;
 }
+.day-taken {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+}
 .leave-info {
   font-size: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
   color: #64707d;
 }
 .medical-leave {
@@ -966,7 +969,7 @@ input[type='radio']:checked ~ label {
   margin-left: 12px;
   color: #64707d;
   font-size: 12px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 .leave-date {
   font-size: 16px;

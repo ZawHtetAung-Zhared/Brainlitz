@@ -241,9 +241,9 @@
                 </p>
                 <circle-progress
                   *ngIf="leave.leaveType == 'Anual Leave'"
-                  [percent]="leave.takenDays"
+                  [percent]="leave.percentLeave"
                   [radius]="15"
-                  [maxPercent]="leave.leaveDays"
+                  [maxPercent]="leave.maxPercentLeave"
                   [space]="-5"
                   [showTitle]="false"
                   [showUnits]="false"
@@ -265,10 +265,10 @@
               </p>
               <p class="mb-0" *ngIf="leave.leaveType != 'Anual Leave'">
                 <span class="days-left">{{ leave.takenDays }}</span>
-                <span class="text-days" *ngIf="leave.takenDays > 1"
+                <span class="text-days day-taken" *ngIf="leave.takenDays > 1"
                   >days taken</span
                 >
-                <span class="text-days" *ngIf="leave.takenDays <= 1"
+                <span class="text-days day-taken" *ngIf="leave.takenDays <= 1"
                   >day taken</span
                 >
               </p>
@@ -315,7 +315,9 @@
                   </p>
                 </div>
                 <div class="d-flex align-items-center pb-3 pt-2">
-                  <p class="mb-0 leave-status">{{ log.leaveType }}</p>
+                  <p class="mb-0 leave-status">
+                    {{ log.leaveTypeDetail.leaveType }}
+                  </p>
                   <span class="dotted-spot"></span>
                   <p class="mb-0 leave-status">{{ log.leaveStatus }}</p>
                 </div>

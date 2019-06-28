@@ -824,7 +824,12 @@ export class UserStaffComponent implements OnInit {
     this._service.getUserLeaveDetails(this.regionID, this.editId).subscribe(
       (res: any) => {
         console.warn(res);
+        res.leaves.map(leave => {
+          leave.percentLeave = leave.takenDays * 5 + 40;
+          leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+        });
         this.userLeave = res.leaves;
+
         this.leaveLogs = res.logs;
       },
       err => {}
