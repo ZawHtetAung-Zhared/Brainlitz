@@ -140,6 +140,7 @@
 .close-icon {
   width: 16px;
   height: 16px;
+  cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
 .cancel-class-title {

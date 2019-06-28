@@ -74,7 +74,7 @@
 </div>
 <div class="history-wrapper">
   <h4 class="history-title">Leave History</h4>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column" *ngIf="leaveLogs.length >= 1">
     <div class="d-flex history-details" *ngFor="let log of leaveLogs">
       <span class="leave-info-icon" *ngIf="log.meridian == 'DAY'"
         ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
