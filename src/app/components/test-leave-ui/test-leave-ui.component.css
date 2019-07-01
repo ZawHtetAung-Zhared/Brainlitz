@@ -1,0 +1,133 @@
+.container-div {
+  height: 700px;
+  padding: 32px;
+}
+
+.skipLessons-header {
+  background: #f2f4f5;
+  padding: 20px;
+}
+
+.header-btns,
+.bold-span,
+.lesson-date,
+.course-name {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.user-info {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
+
+.lesson-btns {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.user-info {
+  font-size: 16px;
+  color: #64707d;
+}
+
+.header-btns {
+  font-size: 12px;
+  color: #64707d;
+  text-align: right;
+}
+
+.lessons-table {
+  border: 1px solid #edeff0;
+  border-radius: 8px;
+}
+
+.lesson-date {
+  color: #2e3d4d;
+  font-size: 18px;
+}
+
+.course-name {
+  color: #2e3d4d;
+  font-size: 16px;
+}
+
+.cInfo {
+  color: #64707d;
+  font-size: 14px;
+}
+
+.cInfo-dot-wrap {
+  position: relative;
+  padding: 0px 15px 0px 10px;
+}
+
+.cInfo-dot,
+.cInfo-dash {
+  background: #d4d5d6;
+  position: absolute;
+  top: 10px;
+}
+
+.cInfo-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.cInfo-dash {
+  width: 4px;
+  height: 2px;
+}
+
+.lesson-btns {
+  color: #007fff;
+  font-size: 14px;
+  text-align: right;
+  line-height: 4;
+}
+
+.lesson-btns,
+.header-btns {
+  cursor: pointer;
+}
+
+.lessons-block,
+.course-block {
+  border-bottom: 1px solid #edeff0;
+}
+
+.hide-border {
+  border-bottom: none;
+}
+
+.lessons-block {
+  margin: 21px 20px 0px 20px;
+}
+
+.course-block {
+  padding: 16px 0px;
+}
+
+.circle {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(90deg, #ffd500 0%, #ffaa00 100%);
+  border-radius: 50%;
+  margin-top: 7px;
+  margin-right: 16px;
+}
+
+.lBlock-wrapper {
+  max-height: 435px;
+  overflow: auto;
+}
+
+.leave-info {
+  margin-left: 24px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.leave-type {
+  position: relative;
+  padding-left: 8px;
+  padding-right: 10px;
+}
