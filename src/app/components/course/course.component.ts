@@ -439,6 +439,7 @@ export class CourseComponent implements OnInit {
       this.locationID = localStorage.getItem('locationId');
       console.log('hi permission', this.locationName, this.locationID);
       // this.getCPlanList(0,20);
+      this.courseList = [];
       this.getCourseLists(20, 0);
     } else {
       console.log('permission deny');
@@ -2695,7 +2696,6 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseLists(limit, skip) {
-    console.log('locationID', this.locationID);
     this.blockUI.start('Loading...');
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
