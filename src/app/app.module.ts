@@ -102,6 +102,8 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
+import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -174,7 +176,8 @@ import { LeaveDetailsComponent } from './components/user-staff/leave-details/lea
     UtcShortDatePipe,
     UtcFullDayPipe,
     ClassTabComponent,
-    LeaveDetailsComponent
+    LeaveDetailsComponent,
+    TestLeaveUiComponent
   ],
   imports: [
     BrowserModule,
