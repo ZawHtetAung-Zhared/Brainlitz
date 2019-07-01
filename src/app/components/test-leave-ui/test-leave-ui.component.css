@@ -5,6 +5,7 @@
 
 .skipLessons-header {
   background: #f2f4f5;
+  padding: 20px;
 }
 
 .header-btns,
@@ -94,7 +95,7 @@
 }
 
 .hide-border {
-  border-bottom: 1px solid red;
+  border-bottom: none;
 }
 
 .lessons-block {
@@ -112,4 +113,21 @@
   border-radius: 50%;
   margin-top: 7px;
   margin-right: 16px;
+}
+
+.lBlock-wrapper {
+  max-height: 435px;
+  overflow: auto;
+}
+
+.leave-info {
+  margin-left: 24px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.leave-type {
+  position: relative;
+  padding-left: 8px;
+  padding-right: 10px;
 }

@@ -11,43 +11,52 @@
             <span class="bold-span">Suzy skuukzkySZ</span> will skip
             <span class="bold-span">20 lessons</span> in this following days.
           </div>
-          <div class="col-md-5 p-0 header-btns">
+          <div
+            class="col-md-5 p-0 header-btns d-flex justify-content-center align-items-center"
+          >
             ASSIGN RELIFE TEACHER | CANCEL ALL
           </div>
         </div>
-        <div
-          class="lessons-block d-flex"
-          *ngFor="let lessonObj of skipLessonArr"
-        >
-          <div class="circle"></div>
-          <div class="w-100">
-            <label class="lesson-date mb-0">
-              {{ lessonObj.date }}
-            </label>
-            <div *ngFor="let course of lessonObj.courses; let idx = index">
-              <div class="course-block d-flex justify-content-end">
-                <div class="col-md-7 p-0">
-                  <label class="course-name">
-                    {{ course.name | uppercase }}
-                  </label>
-                  <div class="d-flex cInfo">
-                    <div>{{ course.enrolledStudentCount }} students</div>
-                    <div class="cInfo-dot-wrap">
-                      <span class="cInfo-dot"></span>
-                    </div>
-                    <div>
-                      {{ course.lessons[0].startDate | utcTime }}
-                    </div>
-                    <div class="cInfo-dot-wrap">
-                      <span class="cInfo-dash"></span>
-                    </div>
-                    <div>
-                      {{ course.lessons[0].endDate | utcTime }}
+        <div class="lBlock-wrapper">
+          <div
+            class="lessons-block d-flex"
+            *ngFor="let lessonObj of skipLessonArr"
+          >
+            <div class="circle"></div>
+            <div class="w-100">
+              <label class="lesson-date mb-0">
+                {{ lessonObj.date }}
+              </label>
+              <div *ngFor="let course of lessonObj.courses; let idx = index">
+                <div
+                  class="course-block d-flex justify-content-end"
+                  [ngClass]="{
+                    'hide-border': lessonObj.courses?.length == idx + 1
+                  }"
+                >
+                  <div class="col-md-7 p-0">
+                    <label class="course-name">
+                      {{ course.name | uppercase }}
+                    </label>
+                    <div class="d-flex cInfo">
+                      <div>{{ course.enrolledStudentCount }} students</div>
+                      <div class="cInfo-dot-wrap">
+                        <span class="cInfo-dot"></span>
+                      </div>
+                      <div>
+                        {{ course.lessons[0].startDate | utcTime }}
+                      </div>
+                      <div class="cInfo-dot-wrap">
+                        <span class="cInfo-dash"></span>
+                      </div>
+                      <div>
+                        {{ course.lessons[0].endDate | utcTime }}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-5 p-0 lesson-btns">
-                  Assingn Relife Teacher | Cancel All
+                  <div class="col-md-5 p-0 lesson-btns">
+                    Assingn Relife Teacher | Cancel All
+                  </div>
                 </div>
               </div>
             </div>
@@ -55,7 +64,24 @@
         </div>
       </div>
       <div class="col-md-3 p-0">
-        test
+        <div class="leave-info">
+          <div class="p-2">
+            <div>
+              5 days total
+            </div>
+            <div class="d-flex">
+              <div>
+                Annual
+              </div>
+              <div class="leave-type">
+                <span class="cInfo-dot"></span>
+              </div>
+              <div>
+                Paid
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
