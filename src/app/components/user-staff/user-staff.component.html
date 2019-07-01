@@ -203,7 +203,10 @@
 
       <!-- for classess  start-->
       <div *ngIf="activeTab == 'Classes'">
-        <app-class-tab [courseList]="courseList"></app-class-tab>
+        <app-class-tab
+          [activeTab]="activeTab"
+          [courseList]="courseList"
+        ></app-class-tab>
       </div>
       <!-- for classess end -->
       <!-- for leave start -->
@@ -667,4 +670,4 @@
   </div>
 </div>
 
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message"></block-ui> -->

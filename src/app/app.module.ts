@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
@@ -180,6 +182,7 @@ import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.c
     TestLeaveUiComponent
   ],
   imports: [
+    ContentLoaderModule,
     BrowserModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
