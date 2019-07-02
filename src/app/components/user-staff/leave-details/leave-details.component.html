@@ -304,41 +304,45 @@
           <div class="leave-day-title">
             Leave days
           </div>
-          <div
-            class="d-flex justify-content-between leave-day-box"
-            *ngFor="let sday of selectedDays"
-          >
-            <div class="leave-day-date">
-              {{ sday.date | utcDateAndDay }}
-            </div>
-            <div class="leave-day-Choosetype">
-              <div class="input-group">
-                <input
-                  class="form-control py-2 input-search-dropdown-bg"
-                  value="{{ selectedLeave.name }}"
-                  type="search"
-                  autocomplete="off"
-                  name="itemID"
-                  id="example-search-input"
-                  (clickOutside)="hideSearch($event)"
-                  (input)="searchCategoryList($event.target.value, 'category')"
-                  readonly
-                />
-                <button
-                  class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
-                  (clickOutside)="hideSearch($event)"
-                  (click)="downleaveType($event)"
-                ></button>
+          <div class="leave-day-list">
+            <div
+              class="d-flex justify-content-between leave-day-box"
+              *ngFor="let sday of selectedDays"
+            >
+              <div class="leave-day-date">
+                {{ sday.date | utcDateAndDay }}
               </div>
-              <ul class="leave-type-listing" *ngIf="isFocusleavetype == true">
-                <li
-                  *ngFor="let list of leaveTypeList"
-                  (click)="selectLeaveType(list)"
-                  class="date-type-list-name"
-                >
-                  {{ list.name }}
-                </li>
-              </ul>
+              <div class="leave-day-Choosetype">
+                <div class="input-group">
+                  <input
+                    class="form-control py-2 input-search-dropdown-bg"
+                    value="{{ selectedLeave.name }}"
+                    type="search"
+                    autocomplete="off"
+                    name="itemID"
+                    id="example-search-input"
+                    (clickOutside)="hideSearch($event)"
+                    (input)="
+                      searchCategoryList($event.target.value, 'category')
+                    "
+                    readonly
+                  />
+                  <button
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
+                    (clickOutside)="hideSearch($event)"
+                    (click)="downleaveType($event)"
+                  ></button>
+                </div>
+                <ul class="leave-type-listing" *ngIf="isFocusleavetype == true">
+                  <li
+                    *ngFor="let list of leaveTypeList"
+                    (click)="selectLeaveType(list)"
+                    class="date-type-list-name"
+                  >
+                    {{ list.name }}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

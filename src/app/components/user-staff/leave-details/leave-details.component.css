@@ -439,7 +439,7 @@ input:checked + .slider:before {
 }
 .cal-cell.cal-today {
   color: #2e3d4d;
-  font-family: Inter UI;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
@@ -460,7 +460,7 @@ input:checked + .slider:before {
   margin-right: 0px !important;
   float: none !important;
   margin-bottom: 0px !important;
-  font-family: Inter UI !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif !important;
   font-size: 16px !important;
   line-height: 20px !important;
 }
@@ -476,7 +476,7 @@ input:checked + .slider:before {
 
 .cal-month-view .cal-day-cell.cal-past .cal-day-number {
   color: #b0b1b3 !important;
-  font-family: Inter UI;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   line-height: 20px;
 }
@@ -631,7 +631,7 @@ li.date-type-list-name {
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
-  font-family: Inter UI;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   margin-bottom: 15px;
 }
 
@@ -646,7 +646,7 @@ li.date-type-list-name {
   color: #64707d;
   font-size: 16px;
   line-height: 20px;
-  font-family: Inter UI;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-top: 11px;
 }
 
@@ -780,4 +780,9 @@ span.txt-lessouns-count {
   width: 100px;
   background-color: #1682fb;
   color: #ffffff;
+}
+
+.leave-day-list {
+  max-height: 318px;
+  overflow: overlay;
 }
