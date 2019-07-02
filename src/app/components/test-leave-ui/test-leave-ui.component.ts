@@ -131,4 +131,16 @@ export class TestLeaveUiComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
   }
+
+  assignRelifeTeacher(modalName, type) {
+    this.modalReference = this.modalService.open(modalName, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelModal() {
+    this.modalReference.close();
+  }
 }

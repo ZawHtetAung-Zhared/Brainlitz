@@ -12,15 +12,25 @@
             <span class="bold-span">20 lessons</span> in this following days.
           </div>
           <div
-            class="col-md-5 p-0 header-btns d-flex justify-content-center align-items-center"
+            class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
           >
-            ASSIGN RELIFE TEACHER | CANCEL ALL
+            <button
+              class="pr-2"
+              (click)="assignRelifeTeacher(relifeTeacherModal, 'all')"
+            >
+              ASSIGN RELIFE TEACHER
+            </button>
+            <span class="small-line"></span>
+            <button class="pl-2">CANCEL ALL</button>
           </div>
         </div>
         <div class="lBlock-wrapper">
           <div
             class="lessons-block d-flex"
-            *ngFor="let lessonObj of skipLessonArr"
+            *ngFor="let lessonObj of skipLessonArr; let i = index"
+            [ngClass]="{
+              'hide-border': skipLessonArr?.length == i + 1
+            }"
           >
             <div class="circle"></div>
             <div class="w-100">
@@ -54,8 +64,19 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-5 p-0 lesson-btns">
-                    Assingn Relife Teacher | Cancel All
+                  <div
+                    class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                  >
+                    <button
+                      class="pr-2"
+                      (click)="
+                        assignRelifeTeacher(relifeTeacherModal, 'single')
+                      "
+                    >
+                      Assingn Relife Teacher
+                    </button>
+                    <span class="small-line"></span>
+                    <button class="pl-2">Cancel All</button>
                   </div>
                 </div>
               </div>
@@ -65,11 +86,11 @@
       </div>
       <div class="col-md-3 p-0">
         <div class="leave-info">
-          <div class="p-2">
-            <div>
-              5 days total
+          <div class="p20">
+            <div class="lInfo pb-2">
+              <span class="bold-leaveCount">5</span> days total
             </div>
-            <div class="d-flex">
+            <div class="d-flex lType">
               <div>
                 Annual
               </div>
@@ -84,5 +105,17 @@
         </div>
       </div>
     </div>
+  </div>
+</ng-template>
+<ng-template #relifeTeacherModal let-c="close" let-d="dismiss">
+  <div class="modal-wrap">
+    <div class="d-flex modal-header">
+      <h2>Assingn Relife Teacher</h2>
+      <button class="closeBtn" (click)="cancelModal()">
+        <img src="assets/img/removeIcon.png" />
+      </button>
+    </div>
+    <div class="d-flex modal-body"></div>
+    <div class="d-flex modal-footer"></div>
   </div>
 </ng-template>
