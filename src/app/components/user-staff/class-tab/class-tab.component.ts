@@ -7,6 +7,13 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  NgbModalRef,
+  NgbModal,
+  NgbDateStruct,
+  ModalDismissReasons,
+  NgbDatepickerConfig
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { DataService } from '../../../service/data.service';
 import { appService } from '../../../service/app.service';
@@ -26,11 +33,13 @@ export class ClassTabComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
   loading = true;
   nocourse = false;
+  modalReference: NgbModalRef;
   constructor(
     private _service: appService,
     private router: Router,
     private dataService: DataService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private finalModal: NgbModal
   ) {}
 
   ngOnInit() {
@@ -58,13 +67,26 @@ export class ClassTabComponent implements OnInit, OnDestroy {
       );
   }
 
+  ngOnDestroy() {
+    this._service.getUserDetail(this.regionId, this.userId, this.locationId);
+  }
+
   navigateToCourseDetail(courseid: string) {
     console.log(courseid);
     this.router.navigate(['/course']);
     this.dataService.nevigateCourse(courseid);
   }
 
-  ngOnDestroy() {
-    this._service.getUserDetail(this.regionId, this.userId, this.locationId);
+  closeModal() {
+    this.modalReference.close();
+  }
+
+  finalClassModal(finalmodal) {
+    this.modalReference = this.finalModal.open(finalmodal, {
+      backdrop: 'static',
+      centered: true,
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
   }
 }
