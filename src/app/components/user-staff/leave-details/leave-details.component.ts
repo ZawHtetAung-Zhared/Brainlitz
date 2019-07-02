@@ -60,6 +60,10 @@ export class LeaveDetailsComponent implements OnInit {
     { id: 2, name: '1st Half-PM' }
   ];
   skipCourseArr: any = [];
+  public showRelief: boolean = false;
+  modalCourseData: any = [];
+  searchTeacherLists = [];
+  public reliefModalReference: any;
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -252,11 +256,58 @@ export class LeaveDetailsComponent implements OnInit {
   }
   goTonext() {
     console.log('gotonext');
+    this.showRelief = true;
   }
   createLeave() {
     console.log('create leave');
   }
   //end leave modal
+
+  //for assign relief and cancel class UI
+  assignReliefTeacher(modalName, data, date) {
+    this.reliefModalReference = this.cancelClassModalService.open(modalName, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    console.log(date);
+    if (date == '') {
+      //clicked assignRelife btn for all courses
+      this.modalCourseData = data;
+      console.log('for all', this.modalCourseData);
+    } else {
+      // clicked assignRelife btn for single courses
+      var obj = {
+        date: date,
+        courses: []
+      };
+      obj.courses.push(data);
+      this.modalCourseData.push(obj);
+      console.log('for single', this.modalCourseData);
+    }
+  }
+
+  cancelModal(type) {
+    if (type == 'relief') {
+      console.log('cancel relief modal');
+      this.reliefModalReference.close();
+      this.modalCourseData = [];
+    } else {
+      console.log('cancel assign relief and cancel class modal');
+      this.modalReference.close();
+      this.skipCourseArr = [];
+      this.showRelief = false;
+    }
+  }
+
+  searchMethod(keyword, usertype) {
+    this._service
+      .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+      .subscribe((res: any) => {
+        console.log(res);
+        this.searchTeacherLists = res;
+      });
+  }
 }
 
 //angular calendar refrence from under this page
