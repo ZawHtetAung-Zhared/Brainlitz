@@ -21,16 +21,6 @@
         <list-content-loader></list-content-loader>
       </div>
     </div>
-    <div class="class-block">
-      <div class="course-title">
-        <list-content-loader></list-content-loader>
-      </div>
-    </div>
-    <div class="class-block">
-      <div class="course-title">
-        <list-content-loader></list-content-loader>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -93,6 +83,11 @@
 </div>
 <!-- nocourse-{{nocourse}} -->
 <div *ngIf="nocourse == true">
+  <div class="d-flex title-space">
+    <div class="d-flex flex-column justify-content-center">
+      <h4 class="mb-0 tab-title">Attending Classes</h4>
+    </div>
+  </div>
   <div class="btn-wrap no-item">
     There is no course.
   </div>
