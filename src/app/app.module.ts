@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { CalendarModule } from 'angular-calendar';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
@@ -102,6 +104,10 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
+import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
+// import { CalendarModule, DateAdapter } from 'angular-calendar';
+// import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -174,7 +180,8 @@ import { LeaveDetailsComponent } from './components/user-staff/leave-details/lea
     UtcShortDatePipe,
     UtcFullDayPipe,
     ClassTabComponent,
-    LeaveDetailsComponent
+    LeaveDetailsComponent,
+    UtcDateAndDayPipe
   ],
   imports: [
     BrowserModule,
@@ -208,7 +215,8 @@ import { LeaveDetailsComponent } from './components/user-staff/leave-details/lea
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-    MediumEditorModule
+    MediumEditorModule,
+    CalendarModule.forRoot()
   ],
   providers: [
     appService,
