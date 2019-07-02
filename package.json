@@ -26,6 +26,7 @@
     "@netbasal/ngx-content-loader": "^3.0.0",
     "@ng-bootstrap/ng-bootstrap": "^1.1.1",
     "@ngx-utils/cookies": "^3.0.1",
+    "angular-calendar": "^0.24.1",
     "angular-confirmation-popover": "^4.1.0",
     "angular-oauth2-oidc": "^3.1.4",
     "angular-sortablejs": "^2.6.0",

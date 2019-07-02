@@ -3606,4 +3606,30 @@ export class appService {
       return result;
     });
   }
+
+  getleaveCheckAvaiable(regionId: string, userid, leaveDay, meri) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userid +
+      '/leaves:check-availability' +
+      '?leaveDay=' +
+      leaveDay +
+      '&meridian=' +
+      meri;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
 }

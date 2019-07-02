@@ -82,8 +82,9 @@ export class UserStaffComponent implements OnInit {
   result: any;
   public customFields: any = [];
   courseList: any = [];
+  userId: string;
   visited: boolean = false;
-
+  staffObj: any = {};
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -722,11 +723,13 @@ export class UserStaffComponent implements OnInit {
   }
 
   showDetails(data, ID) {
+    this.userId = data.userId;
     this.isPasswordChange = false;
     this.activeTab = 'Classes';
     this.staffLists = [];
     this.editId = ID;
-    console.log('show Staff details', data);
+    this.staffObj = data;
+    console.log('show Staff details', this.staffObj);
     console.log(ID);
     this.blockUI.start('Loading...');
     this.showStaffDetail = true;
@@ -734,9 +737,6 @@ export class UserStaffComponent implements OnInit {
       .getUserDetail(this.regionID, data.userId, this.locationID)
       .subscribe(
         (res: any) => {
-          this.courseList = res.courses;
-          console.log(this.courseList);
-
           this.staffDetail = res;
           res.user.details.map(info => {
             if (info.controlType === 'Datepicker')
