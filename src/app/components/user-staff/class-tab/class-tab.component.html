@@ -21,6 +21,16 @@
         <list-content-loader></list-content-loader>
       </div>
     </div>
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -81,9 +91,9 @@
     </div>
   </div>
 </div>
-
-<ng-template>
+<!-- nocourse-{{nocourse}} -->
+<div *ngIf="nocourse == true">
   <div class="btn-wrap no-item">
     There is no course.
   </div>
-</ng-template>
+</div>

@@ -204,8 +204,9 @@
       <!-- for classess  start-->
       <div *ngIf="activeTab == 'Classes'">
         <app-class-tab
-          [activeTab]="activeTab"
-          [courseList]="courseList"
+          [regionId]="regionID"
+          [userId]="userId"
+          [locationId]="locationID"
         ></app-class-tab>
       </div>
       <!-- for classess end -->
