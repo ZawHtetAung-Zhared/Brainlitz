@@ -83,7 +83,7 @@ export class UserStaffComponent implements OnInit {
   public customFields: any = [];
   courseList: any = [];
   visited: boolean = false;
-
+  staffObj: any = {};
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -726,7 +726,8 @@ export class UserStaffComponent implements OnInit {
     this.activeTab = 'Classes';
     this.staffLists = [];
     this.editId = ID;
-    console.log('show Staff details', data);
+    this.staffObj = data;
+    console.log('show Staff details', this.staffObj);
     console.log(ID);
     this.blockUI.start('Loading...');
     this.showStaffDetail = true;

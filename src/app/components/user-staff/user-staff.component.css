@@ -230,8 +230,8 @@ h5 {
 .circular-image {
   display: inline-block;
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 52px;
+  height: 52px;
   overflow: hidden;
   border-radius: 50%;
   background: #ddd;

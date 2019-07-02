@@ -39,7 +39,7 @@ import { appService } from '../../../service/app.service';
   ]
 })
 export class LeaveDetailsComponent implements OnInit {
-  @Input() userId: any;
+  @Input() staffObj: any;
   public userLeave = [];
   public leaveLogs = [];
   public giveMakeUp = false;
@@ -59,6 +59,7 @@ export class LeaveDetailsComponent implements OnInit {
     { id: 1, name: '1st Half-AM' },
     { id: 2, name: '1st Half-PM' }
   ];
+  skipCourseArr: any = [];
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -66,8 +67,10 @@ export class LeaveDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getUserLeaves(this.userId);
+    console.log(this.staffObj);
 
+    this.getUserLeaves(this.staffObj.userId);
+    console.log(this.selectedDays);
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
@@ -152,6 +155,7 @@ export class LeaveDetailsComponent implements OnInit {
       if (dateIndex > -1) {
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1);
+        this.skipCourseArr.splice(dateIndex, 1);
         calCell.classList.remove('cal-day-selected');
         calDay.classList.remove('cal-day-number-selected');
       } else {
@@ -162,16 +166,27 @@ export class LeaveDetailsComponent implements OnInit {
 
         console.log(dateFormat);
         this._service
-          .getleaveCheckAvaiable(this.regionID, this.userId, dateFormat, 'DAY')
+          .getleaveCheckAvaiable(
+            this.regionID,
+            this.staffObj.userId,
+            dateFormat,
+            'DAY'
+          )
           .subscribe(
             (res: any) => {
-              console.log(res);
+              if (res.isAvailable == false) {
+                res.date = dateFormat;
+                this.skipCourseArr.push(res);
+                console.log(res);
+              }
+              console.log(this.skipCourseArr);
             },
             err => {}
           );
       }
     }
     console.log(this.selectedDays);
+    console.log(this.skipCourseArr);
   }
 
   checkSelectedDate(e) {
@@ -211,7 +226,7 @@ export class LeaveDetailsComponent implements OnInit {
         }
       });
     }, 100);
-    console.log(this.selectedDays);
+    console.log(this.selectedDays.length);
   }
 
   hideSearch() {
@@ -234,6 +249,12 @@ export class LeaveDetailsComponent implements OnInit {
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
     // }, 100);
+  }
+  goTonext() {
+    console.log('gotonext');
+  }
+  createLeave() {
+    console.log('create leave');
   }
   //end leave modal
 }
