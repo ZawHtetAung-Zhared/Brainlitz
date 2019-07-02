@@ -82,6 +82,7 @@ export class UserStaffComponent implements OnInit {
   result: any;
   public customFields: any = [];
   courseList: any = [];
+  userId: string;
   visited: boolean = false;
   staffObj: any = {};
   constructor(
@@ -722,6 +723,7 @@ export class UserStaffComponent implements OnInit {
   }
 
   showDetails(data, ID) {
+    this.userId = data.userId;
     this.isPasswordChange = false;
     this.activeTab = 'Classes';
     this.staffLists = [];
@@ -735,9 +737,6 @@ export class UserStaffComponent implements OnInit {
       .getUserDetail(this.regionID, data.userId, this.locationID)
       .subscribe(
         (res: any) => {
-          this.courseList = res.courses;
-          console.log(this.courseList);
-
           this.staffDetail = res;
           res.user.details.map(info => {
             if (info.controlType === 'Datepicker')
