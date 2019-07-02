@@ -1,10 +1,7 @@
 <div class="d-flex justify-content-between">
   <!-- <h3 class="leave-title">Leave</h3> -->
   <h3 class="leave-title">Absent History</h3>
-  <button
-    class="btn btn-primary add-leave"
-    (click)="cancelClassModal(cancelClass)"
-  >
+  <button class="btn btn-primary add-leave" (click)="openLeaveModal(openLeave)">
     Add new absent
   </button>
 </div>
@@ -183,6 +180,258 @@
       (click)="closeCancelClassModal()"
     >
       Confirm
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #openLeave let-modal>
+  <div class="main-openleave">
+    <div class="d-flex w-100">
+      <h1 class="leave-class-title">Create absent</h1>
+      <div class="profileimg-wrap d-flex flex-column">
+        <div class="circular-image">
+          <img
+            *ngIf="staffObj.profilePic == 'undefined'"
+            src="assets/img/user.svg"
+          />
+          <img
+            *ngIf="staffObj.profilePic != 'undefined'"
+            src="{{ staffObj.profilePic }}"
+          />
+        </div>
+        <div class="staffname">
+          {{ staffObj.preferredName }}
+        </div>
+      </div>
+      <span class="leave-close-icon" (click)="closeCancelClassModal()"></span>
+    </div>
+    <div class="d-flex calendarView">
+      <div class="d-flex flex-column">
+        <div class="calendar-part">
+          <div class="row text-center">
+            <div class="col-md-12">
+              <div class="cal-title d-flex justify-content-between">
+                <div class="cal-month">
+                  <div class="month-name">
+                    {{ viewDate | calendarDate: view + 'ViewTitle':'en' }}
+                  </div>
+                </div>
+                <div class="">
+                  <button
+                    name="left"
+                    class="btn calendarbtn"
+                    mwlCalendarPreviousView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    (viewDateChange)="showExistData($event)"
+                  >
+                    <img src="assets/images/arrow-left.svg" />
+                  </button>
+                  <button
+                    name="right"
+                    class="btn calendarbtn"
+                    mwlCalendarNextView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    (viewDateChange)="showExistData(viewDate)"
+                    style="padding-right:0px;"
+                  >
+                    <img src="assets/images/arrow-right.svg" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            <div class="cal-month-view" id="cal-month-view{{ day.date }}">
+              <div class="cal-cell-top">
+                <span
+                  class="cal-day-number"
+                  id="cal-day-number{{ day.date }}"
+                  >{{
+                    day.date | calendarDate: 'monthViewDayNumber':locale
+                  }}</span
+                >
+              </div>
+
+              <div class="cal-event-container">
+                <div
+                  *ngIf="day.badgeTotal > 0"
+                  style="display:flex;min-width: 30px;flex:1px"
+                >
+                  <div class="space"></div>
+                  <div
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#ff9500;"
+                  ></div>
+
+                  <div
+                    *ngIf="day.events[0].status == 'marked'"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #D4D5D6;"
+                  ></div>
+                  <div
+                    *ngIf="day.events[0].feedback.length > 0"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #009940;"
+                  ></div>
+                  <div class="space"></div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <mwl-calendar-month-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (viewDateChange)="getJournalByMonth(viewDate)"
+            (dayClicked)="dayClicked($event.day, $event.day)"
+            [cellTemplate]="customCellTemplate"
+            (beforeViewRender)="checkSelectedDate($event)"
+          >
+          </mwl-calendar-month-view>
+        </div>
+        <div
+          class="d-flex flex-column leave-day-part"
+          *ngIf="selectedDays.length != 0"
+        >
+          <div class="leave-day-title">
+            Leave days
+          </div>
+          <div class="leave-day-list">
+            <div
+              class="d-flex justify-content-between leave-day-box"
+              *ngFor="let sday of selectedDays"
+            >
+              <div class="leave-day-date">
+                {{ sday.date | utcDateAndDay }}
+              </div>
+              <div class="leave-day-Choosetype">
+                <div class="input-group">
+                  <input
+                    class="form-control py-2 input-search-dropdown-bg"
+                    value="{{ selectedLeave.name }}"
+                    type="search"
+                    autocomplete="off"
+                    name="itemID"
+                    id="example-search-input"
+                    (clickOutside)="hideSearch($event)"
+                    (input)="
+                      searchCategoryList($event.target.value, 'category')
+                    "
+                    readonly
+                  />
+                  <button
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
+                    (clickOutside)="hideSearch($event)"
+                    (click)="downleaveType($event)"
+                  ></button>
+                </div>
+                <ul class="leave-type-listing" *ngIf="isFocusleavetype == true">
+                  <li
+                    *ngFor="let list of leaveTypeList"
+                    (click)="selectLeaveType(list)"
+                    class="date-type-list-name"
+                  >
+                    {{ list.name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="skip-lessons-part">
+        <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
+          <div class="skip-header">
+            {{ staffObj.preferredName }} will skip in this following days
+          </div>
+
+          <div
+            class="d-flex flex-column skip-course-box"
+            [ngClass]="{ removeborder: 0 == i }"
+            *ngFor="let sobj of skipCourseArr; let i = index"
+          >
+            <div class="d-flex justify-content-between">
+              <div class="">
+                <span class="skip-lessons-date">{{
+                  sobj.date | utcDateAndDay
+                }}</span>
+              </div>
+              <div class="lessons-count">
+                <span
+                  class="txt-lessouns-count"
+                  *ngIf="sobj.courses.length > 1"
+                >
+                  {{ sobj.courses.length }} lessons
+                </span>
+                <span
+                  class="txt-lessouns-count"
+                  *ngIf="sobj.courses.length == 1"
+                >
+                  {{ sobj.courses.length }} lesson
+                </span>
+              </div>
+            </div>
+            <div class="skip-lessons" *ngFor="let course of sobj.courses">
+              <div class="course-name">
+                {{ course.name | uppercase }}
+              </div>
+              <div class="d-flex course-des">
+                <span>{{ sobj.enrolledStudentCount }} student</span>
+                <span class="circle"></span>
+                <span class="timezone"
+                  >{{ course.lessons[0].startDate | utcTime }} -
+                  {{ course.lessons[0].endDate | utcTime }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="skip-lessons-empty" *ngIf="skipCourseArr.length == 0">
+          <span class="notAffectedYet"
+            ><img
+              src="../../../../assets/images/notAffectedYet.svg"
+              class="notAffectedYet-img"
+          /></span>
+          <div class="empty-txt">
+            Affected lessons for the selected dates will be listed here, if any.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn bg-white" (click)="closeCancelClassModal()">
+      Cancel
+    </button>
+    <button
+      *ngIf="skipCourseArr.length != 0 && selectedDays.length != 0"
+      class="btn button-submit font-medium"
+      (click)="goTonext()"
+    >
+      Continue
+    </button>
+    <button
+      *ngIf="skipCourseArr.length == 0 && selectedDays.length != 0"
+      class="btn button-submit font-medium"
+      (click)="createLeave()"
+    >
+      Continue
+    </button>
+    <button
+      *ngIf="selectedDays.length == 0"
+      class="btn button-submit font-medium"
+      disabled="true"
+      (click)="createLeave()"
+    >
+      Continue
     </button>
   </div>
 </ng-template>

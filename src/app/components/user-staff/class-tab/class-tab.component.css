@@ -41,6 +41,11 @@
   cursor: pointer;
 }
 
+.title-space {
+  padding: 20px 20px 0 10px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
 .overview-shedule {
   width: 100%;
   padding-left: 40px;
@@ -64,7 +69,7 @@
 }
 
 .btn-wrap.no-item {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-left: 10px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;

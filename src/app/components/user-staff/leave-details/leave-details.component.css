@@ -132,6 +132,7 @@
   color: #64707d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
+
 .leave-reason {
   font-size: 14px;
   color: #64707d;
@@ -139,7 +140,11 @@
 }
 .cancel-class-wrapper {
   width: 100%;
-  padding: 32px 32px 0px 32px;
+  padding: 0px 32px 0px 32px;
+}
+.main-openleave {
+  width: 100%;
+  padding: 0px 32px 32px 32px;
 }
 .close-icon {
   width: 16px;
@@ -147,10 +152,25 @@
   cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
+.leave-close-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  background: url('../../../../assets/icons/crossClose.svg');
+  margin-top: 32px;
+  margin-left: 390px;
+}
 .cancel-class-title {
   font-size: 28px;
   color: #2e3d4d;
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
+}
+.leave-class-title {
+  font-size: 28px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  padding-top: 32px;
+  margin-right: 241px;
 }
 .class-info-side {
   min-height: 500px;
@@ -406,4 +426,363 @@ input:checked + .slider:before {
   font-weight: unset;
   letter-spacing: 0.5px;
   cursor: pointer;
+}
+
+/* for angular calendar css */
+.cal-month-view .cal-header .cal-cell {
+  /* color: #788796; */
+  font: size 15px;
+}
+
+.cal-month-view .cal-header {
+  font-weight: normal;
+}
+.cal-cell.cal-today {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+}
+
+.cal-month-view .cal-day-number {
+  color: #2e3d4d;
+  opacity: initial;
+  margin-top: 0px !important;
+  margin-right: 0px !important;
+  float: none !important;
+  margin-bottom: 0px !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.2em;
+  color: #0080ff;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #2e3d4d;
+}
+
+.cal-month-view .cal-day-cell.cal-past .cal-day-number {
+  color: #b0b1b3 !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .cal-month-view .cal-header .cal-cell {
+    min-width: 40px;
+  }
+  .cal-cell.cal-past.cal-weeken {
+    font-size: 15px;
+  }
+  .cal-cell.cal-today {
+    font-size: 15px;
+  }
+  .cal-cell.cal-future {
+    font-size: 15px;
+  }
+  .cal-month-view .cal-day-number {
+    font-size: 15px;
+  }
+
+  .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    font-size: 1em;
+  }
+  .cal-month-view .cal-event {
+    width: 6px;
+    height: 6px;
+  }
+  .cal-month-view .cal-cell-top {
+    min-height: 70%;
+  }
+}
+
+/* .cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+}
+*/
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+  background: white;
+}
+
+.cal-month-view .cal-day-cell:not(:last-child) {
+  border-right: none;
+}
+
+.cal-day-number-selected {
+  color: white !important;
+}
+.cal-day-borderNone {
+  border: 1px thin white;
+}
+
+/*   
+.cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+
+} */
+
+.cal-month-view .cal-cell-top {
+  min-height: 27px !important;
+  /* flex: 1; */
+  padding-top: 10px !important;
+  text-align: center !important;
+}
+/* end angular calendar */
+
+/* for leave days in absent modal */
+.calendar-part {
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* for leave type in abasent modal */
+.input-group {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  width: 100%;
+}
+.input-search-dropdown-bg {
+  width: 196px !important;
+  height: 40px;
+  display: block;
+  border-radius: 4px;
+  border: 0px;
+  -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  background-color: #ffffff;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
+  color: #2e3d4d;
+}
+
+.leave-search-down {
+  height: 40px;
+  position: absolute;
+  left: 170px;
+  overflow: hidden;
+  z-index: 3;
+  border: 0px;
+  -webkit-box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
+  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
+  background-color: #ffffff;
+  border-left: none;
+}
+
+.leave-type-listing {
+  -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+  display: block;
+  width: 196px;
+  background: #fff;
+  /* height: 300px; */
+  position: absolute;
+  z-index: 10;
+  margin: 0;
+  /* top: 100px; */
+  padding: 0;
+  list-style: none;
+  overflow: overlay;
+  margin-top: 3px;
+  cursor: pointer;
+  padding-left: 20px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+li.date-type-list-name {
+  height: 52px;
+  padding-top: 16px;
+  border-bottom: solid 2px #edeff3;
+  margin-right: 16px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #2e3d4d;
+}
+
+.leave-day-title {
+  color: #2e3d4d;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  margin-bottom: 15px;
+}
+
+.d-flex.flex-column.leave-day-part {
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-height: 434px;
+}
+.leave-day-date {
+  color: #64707d;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-top: 11px;
+}
+
+.d-flex.justify-content-between.leave-day-box {
+  min-height: 60px;
+  border-bottom: solid 1px #edeff0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.notAffectedYet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+span.notAffectedYet {
+  width: 296px;
+  height: 321px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.skip-lessons-empty {
+  margin-left: 124px;
+}
+
+.empty-txt {
+  font-size: 16px;
+  line-height: 24px;
+  color: #64707d;
+  text-align: center;
+  max-width: 254px;
+  margin: 20px;
+}
+
+.circular-image {
+  display: inline-block;
+  position: relative;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+  margin-top: 17px;
+}
+
+.circular-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.staffname {
+  color: #64707d;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.skip-lessons-exit {
+  border: 1px solid #edeff0;
+  width: 408px;
+  max-height: 640px;
+  overflow: overlay;
+  margin-left: 64px;
+  border-radius: 8px;
+}
+
+.skip-header {
+  height: 84px;
+  border-bottom: solid 1px #788796;
+  background: #788796;
+  color: #ffff;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.course-name {
+  color: #64707d;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-top: 16px;
+  padding-bottom: 8px;
+}
+span.skip-lessons-date {
+  color: #2e3d4d;
+  font-weight: 600;
+  font-size: 16px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+span.txt-lessouns-count {
+  background: #f2f4f5;
+  border-radius: 15px;
+  padding: 2px 12px 2px 12px;
+  font-weight: 600;
+  color: #64707d;
+  font-size: 12px;
+  text-align: center;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.d-flex.course-des {
+  color: #64707d;
+  font-size: 14px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.circle {
+  width: 4px;
+  height: 4px;
+  background: #d4d5d6;
+  border-radius: 50px;
+  margin: 8px 8px 8px 8px;
+}
+.d-flex.flex-column.skip-course-box {
+  margin: 0px 20px 20px 20px;
+  border-top: solid 2px #edeff0;
+  padding-top: 24px;
+}
+.removeborder {
+  border-top: none !important;
+}
+.button-submit {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 100px;
+  background-color: #1682fb;
+  color: #ffffff;
+}
+
+.leave-day-list {
+  max-height: 318px;
+  overflow: overlay;
 }
