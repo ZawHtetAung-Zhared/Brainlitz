@@ -193,21 +193,24 @@
           Classes
         </button>
         <button
-          [ngClass]="{ activeTab: activeTab == 'Leave' }"
+          [ngClass]="{ activeTab: activeTab == 'Absent' }"
           class="btn leave-tab"
-          (click)="clickTab('Leave')"
+          (click)="clickTab('Absent')"
         >
-          Leave
+          Absent
         </button>
       </div>
 
       <!-- for classess  start-->
       <div *ngIf="activeTab == 'Classes'">
-        <app-class-tab [courseList]="courseList"></app-class-tab>
+        <app-class-tab
+          [activeTab]="activeTab"
+          [courseList]="courseList"
+        ></app-class-tab>
       </div>
       <!-- for classess end -->
       <!-- for leave start -->
-      <div *ngIf="activeTab == 'Leave'" class="mt-3">
+      <div *ngIf="activeTab == 'Absent'" class="mt-3">
         <app-leave-details [userId]="editId"></app-leave-details>
       </div>
 
@@ -667,4 +670,4 @@
   </div>
 </div>
 
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message"></block-ui> -->

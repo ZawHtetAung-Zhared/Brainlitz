@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CalendarModule } from 'angular-calendar';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
@@ -107,6 +108,7 @@ import { LeaveDetailsComponent } from './components/user-staff/leave-details/lea
 import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
 
 @NgModule({
   declarations: [
@@ -181,9 +183,11 @@ import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
     UtcFullDayPipe,
     ClassTabComponent,
     LeaveDetailsComponent,
-    UtcDateAndDayPipe
+    UtcDateAndDayPipe,
+    TestLeaveUiComponent
   ],
   imports: [
+    ContentLoaderModule,
     BrowserModule,
     NgCircleProgressModule.forRoot({
       // set defaults here

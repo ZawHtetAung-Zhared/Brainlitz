@@ -1,5 +1,30 @@
 <!-- <pre>{{ courseList | json }}</pre> -->
-<div class="row" *ngIf="courses?.length > 0; else nocourse">
+<div *ngIf="loading == true">
+  <div class="row">
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <list-content-loader></list-content-loader>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="courses?.length > 0">
   <div class="class-block" *ngFor="let course of courses">
     <div class="row">
       <div class="course-title">
@@ -9,12 +34,17 @@
           <i class="fa fa-map-marker"></i>
           {{ course?.location.name }}
         </div>
-        <div class="col-md-12 title">{{ course?.name }}</div>
+        <div
+          class="col-md-12 title"
+          (click)="navigateToCourseDetail(course._id)"
+        >
+          {{ course?.name }}
+        </div>
       </div>
     </div>
     <div class="row">
       <div class="overview-shedule d-flex">
-        <div class="col-md-5">
+        <div class="col-md-5" *ngIf="course.type != 'ONLINE'">
           <span class="d-flex shedule-text ">
             <label
               class="class-label-14 mb-0"
@@ -22,7 +52,9 @@
               >{{ day }}</label
             >
           </span>
-          <span class="d-flex shedule-text "
+          <span
+            *ngIf="course.duration != undefined"
+            class="d-flex shedule-text "
             >{{ course?.duration.startDate | utcTime }} -
             {{ course?.duration.startDate | utcTime }}</span
           >
@@ -50,7 +82,7 @@
   </div>
 </div>
 
-<ng-template #nocourse>
+<ng-template>
   <div class="btn-wrap no-item">
     There is no course.
   </div>

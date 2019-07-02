@@ -91,7 +91,7 @@
   height: 44px;
 }
 .history-wrapper {
-  margin-top: 32px;
+  /* margin-top: 32px; */
 }
 .history-title {
   font-size: 20px;
@@ -133,6 +133,11 @@
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
+.leave-reason {
+  font-size: 14px;
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
 .cancel-class-wrapper,
 .main-openleave {
   width: 100%;
@@ -141,6 +146,7 @@
 .close-icon {
   width: 16px;
   height: 16px;
+  cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
 .cancel-class-title {
