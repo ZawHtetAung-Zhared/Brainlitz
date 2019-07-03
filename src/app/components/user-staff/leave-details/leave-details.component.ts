@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -49,6 +49,7 @@ export class LeaveDetailsComponent implements OnInit {
   public courseIndex;
   public cancelClassArray = [];
   public modalReference: any;
+  public checkId;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
   selectedDays: any = [];
@@ -83,6 +84,15 @@ export class LeaveDetailsComponent implements OnInit {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+  }
+
+  @HostListener('document:click', ['$event']) clickedOutside($event) {
+    var a = $event.target.classList[6];
+    if (a == 'leave-search-down') {
+      this.isFocusleavetype = true;
+    } else {
+      this.isFocusleavetype = false;
+    }
   }
 
   getUserLeaves(userId) {
@@ -128,7 +138,6 @@ export class LeaveDetailsComponent implements OnInit {
     this.cancelClassArray = [];
     this.cancelType = type;
     this.courseIndex = index;
-    console.warn(skipCourses);
     if (type === 'single') {
       this.cancelClassArray.push(skipCourses);
     } else {
@@ -200,6 +209,9 @@ export class LeaveDetailsComponent implements OnInit {
         calDay.classList.remove('cal-day-number-selected');
       } else {
         this.selectedDays.push(dateType);
+        this.selectedDays.map((day, index) => {
+          day.id = index;
+        });
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
@@ -276,15 +288,17 @@ export class LeaveDetailsComponent implements OnInit {
     }, 300);
   }
 
-  downleaveType() {
+  downleaveType(e, index) {
     console.log('exit');
+    this.checkId = index;
     this.isFocusleavetype = true;
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type) {
+  selectLeaveType(type, index) {
     console.log(type);
     // setTimeout(() => {
+    this.selectedDays[index].name = type.name;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);

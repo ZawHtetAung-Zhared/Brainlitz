@@ -318,7 +318,7 @@
           <div class="leave-day-list">
             <div
               class="d-flex justify-content-between leave-day-box"
-              *ngFor="let sday of selectedDays"
+              *ngFor="let sday of selectedDays; let i = index"
             >
               <div class="leave-day-date">
                 {{ sday.date | utcDateAndDay }}
@@ -327,7 +327,7 @@
                 <div class="input-group">
                   <input
                     class="form-control py-2 input-search-dropdown-bg"
-                    value="{{ selectedLeave.name }}"
+                    value="{{ sday.name }}"
                     type="search"
                     autocomplete="off"
                     name="itemID"
@@ -341,13 +341,16 @@
                   <button
                     class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
                     (clickOutside)="hideSearch($event)"
-                    (click)="downleaveType($event)"
+                    (click)="downleaveType($event, i)"
                   ></button>
                 </div>
-                <ul class="leave-type-listing" *ngIf="isFocusleavetype == true">
+                <ul
+                  class="leave-type-listing"
+                  *ngIf="checkId == sday.id && isFocusleavetype == true"
+                >
                   <li
                     *ngFor="let list of leaveTypeList"
-                    (click)="selectLeaveType(list)"
+                    (click)="selectLeaveType(list, i)"
                     class="date-type-list-name"
                   >
                     {{ list.name }}
