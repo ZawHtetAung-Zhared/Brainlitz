@@ -24,7 +24,7 @@ import {
 } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
-
+import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
 @Component({
   selector: 'app-leave-details',
@@ -43,6 +43,11 @@ export class LeaveDetailsComponent implements OnInit {
   public userLeave = [];
   public leaveLogs = [];
   public giveMakeUp = false;
+  public studentCount;
+  public cancelType;
+  public cancelReason = '';
+  public courseIndex;
+  public cancelClassArray = [];
   public modalReference: any;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
@@ -96,6 +101,7 @@ export class LeaveDetailsComponent implements OnInit {
   }
   autoResize(e) {
     console.log(e.target.style);
+    this.cancelReason = e.target.value;
     console.log(e.target.scrollHeight);
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
@@ -103,9 +109,39 @@ export class LeaveDetailsComponent implements OnInit {
   closeCancelClassModal() {
     this.modalReference.close();
   }
-
-  cancelClassModal(cancelClass) {
+  confirmCancelClass() {
+    if (this.cancelType === 'single') {
+      this.skipCourseArr[this.courseIndex].pass = this.giveMakeUp;
+      this.skipCourseArr[this.courseIndex].cancel = true;
+      this.skipCourseArr[this.courseIndex].reason = this.cancelReason;
+    } else {
+      this.skipCourseArr.map((courseObj, index) => {
+        courseObj.pass = this.giveMakeUp;
+        courseObj.cancel = true;
+        courseObj.reason = this.cancelReason;
+      });
+    }
+    this.modalReference.close();
+  }
+  cancelClassModal(cancelClass, skipCourses, type, index) {
     this.giveMakeUp = false;
+    this.cancelClassArray = [];
+    this.cancelType = type;
+    this.courseIndex = index;
+    console.warn(skipCourses);
+    if (type === 'single') {
+      this.cancelClassArray.push(skipCourses);
+    } else {
+      this.cancelClassArray = skipCourses;
+    }
+    let totalCount = 0;
+    this.cancelClassArray.map(courseObj => {
+      courseObj.date = moment(`${courseObj.date}`).format('ddd, D MMM YYYY');
+      courseObj.courses.map(lessonObj => {
+        totalCount += lessonObj.enrolledStudentCount;
+      });
+    });
+    this.studentCount = totalCount;
     this.modalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
@@ -169,36 +205,56 @@ export class LeaveDetailsComponent implements OnInit {
         this.selectedMonthViewDay = day;
 
         console.log(dateFormat);
-        this._service
-          .getleaveCheckAvaiable(
-            this.regionID,
-            this.staffObj.userId,
-            dateFormat,
-            'DAY'
-          )
-          .subscribe(
-            (res: any) => {
-              if (res.isAvailable == false) {
-                res.date = dateFormat;
-                this.skipCourseArr.push(res);
-                console.log(res);
-              }
-              console.log(this.skipCourseArr);
-            },
-            err => {}
-          );
+        this.getleaveCheck(dateFormat, 'Full Day');
       }
     }
+
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    console.log(this.ddDate);
   }
+  // this.ddDate = dateFormat;
+  getleaveCheck(date, type) {
+    console.log(type);
 
+    let defineType;
+    if (type.name == 'Full Day') {
+      defineType = 'DAY';
+    } else if (type.name == '1st Half-AM') {
+      defineType = 'AM';
+    } else {
+      defineType = 'PM';
+    }
+    this._service
+      .getleaveCheckAvaiable(
+        this.regionID,
+        this.staffObj.userId,
+        date,
+        defineType
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.isAvailable == false) {
+            res.date = date;
+            this.skipCourseArr.push(res);
+            console.log(res);
+          }
+          console.log(this.skipCourseArr);
+        },
+        err => {}
+      );
+  }
   checkSelectedDate(e) {
     console.log(e);
     setTimeout(() => {
       e.body.forEach(element => {
+        console.log(element.date);
         console.log(element.isToday);
-        if (element.isToday) {
+
+        if (
+          element.isToday &&
+          this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
+        ) {
           let todayCell = document.getElementById(
             'cal-month-view' + element.date
           );
@@ -240,18 +296,22 @@ export class LeaveDetailsComponent implements OnInit {
     }, 300);
   }
 
-  downleaveType() {
-    console.log('exit');
+  ddDate: any;
+  downleaveType(date) {
+    console.log('exit', date);
+    this.ddDate = date;
     this.isFocusleavetype = true;
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type) {
-    console.log(type);
+  selectLeaveType(type, date) {
+    let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
+
     // setTimeout(() => {
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
+    this.getleaveCheck(dateFormat, type);
     // }, 100);
   }
   goTonext() {
