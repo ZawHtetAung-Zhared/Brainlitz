@@ -434,8 +434,9 @@
         <div class="lessons-table col-md-9 p-0">
           <div class="d-flex justify-content-end skipLessons-header">
             <div class="user-info col-md-7 p-0">
-              <span class="bold-span">Suzy skuukzkySZ</span> will skip
-              <span class="bold-span">20 lessons</span> in this following days.
+              <span class="bold-span">{{ staffObj.preferredName }}</span> will
+              skip <span class="bold-span">- lessons</span> in this following
+              days.
             </div>
             <div
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
@@ -443,7 +444,13 @@
               <button
                 class="pr-2"
                 (click)="
-                  assignReliefTeacher(reliefTeacherModal, skipCourseArr, '')
+                  assignReliefTeacher(
+                    reliefTeacherModal,
+                    skipCourseArr,
+                    '',
+                    '',
+                    ''
+                  )
                 "
               >
                 ASSIGN RELIEF TEACHER
@@ -496,10 +503,17 @@
                         </div>
                         <div>
                           {{ course.lessons[0].endDate | utcTime }}
+                          ===>cancel{{ course.cancel }} ===>relief{{
+                            course.newTeacherId
+                          }}
                         </div>
                       </div>
                     </div>
                     <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined
+                      "
                       class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
                       <button
@@ -508,7 +522,9 @@
                           assignReliefTeacher(
                             reliefTeacherModal,
                             course,
-                            lessonObj.date
+                            lessonObj.date,
+                            i,
+                            idx
                           )
                         "
                       >
@@ -528,6 +544,29 @@
                       >
                         Cancel ALL
                       </button>
+                    </div>
+                    <div
+                      *ngIf="course.newTeacherId != undefined"
+                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <button>Undo</button>
+                      <span class="small-line"></span>
+                      <div>
+                        <label>Relief teacher</label>
+                        <div>
+                          {{ course.newTeacherInfo.preferredName }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="course.cancel == true"
+                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <button>Undo</button>
+                      <span class="small-line"></span>
+                      <div>
+                        <label>Cancelled Class</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -639,7 +678,10 @@
           (click)="onSelectTeacher(teacher)"
           *ngFor="let teacher of searchTeacherLists"
         >
-          <div class="d-flex search-result">
+          <div
+            *ngIf="staffObj.userId != teacher.userId"
+            class="d-flex search-result"
+          >
             <div class="circular-img">
               <img src="{{ teacher.profilePic }}" />
             </div>
@@ -696,7 +738,10 @@
       <button class="btn bg-white" (click)="cancelModal('relief')">
         Cancel
       </button>
-      <button class="btn button-submit font-medium" (click)="confirmRelief()">
+      <button
+        class="btn button-submit font-medium"
+        (click)="confirmRelief(selectedTeacher)"
+      >
         Confirm
       </button>
     </div>

@@ -990,7 +990,8 @@ p.left-txt {
 }
 
 .assign-modal-body {
-  height: 600px;
+  height: 565px;
+  overflow: overlay;
 }
 
 .assign-modal-header,

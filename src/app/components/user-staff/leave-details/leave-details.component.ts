@@ -121,6 +121,7 @@ export class LeaveDetailsComponent implements OnInit {
         courseObj.reason = this.cancelReason;
       });
     }
+    console.log(this.skipCourseArr);
     this.modalReference.close();
   }
   cancelClassModal(cancelClass, skipCourses, type, index) {
@@ -322,9 +323,13 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('create leave');
   }
   //end leave modal
-
+  reliefObj = {
+    type: '',
+    dateLevelIdx: '',
+    courseIdx: ''
+  };
   //for assign relief and cancel class UI
-  assignReliefTeacher(modalName, data, date) {
+  assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
     this.reliefModalReference = this.cancelClassModalService.open(modalName, {
       backdrop: 'static',
       windowClass:
@@ -333,10 +338,16 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(date);
     if (date == '') {
       //clicked assignRelife btn for all courses
+      this.reliefObj.type = 'all';
+      this.reliefObj.dateLevelIdx = '';
+      this.reliefObj.courseIdx = '';
       this.modalCourseData = data;
       console.log('for all', this.modalCourseData);
     } else {
       // clicked assignRelife btn for single courses
+      this.reliefObj.type = 'single';
+      this.reliefObj.dateLevelIdx = dateLevelIdx;
+      this.reliefObj.courseIdx = courseIdx;
       var obj = {
         date: date,
         courses: []
@@ -352,6 +363,8 @@ export class LeaveDetailsComponent implements OnInit {
       console.log('cancel relief modal');
       this.reliefModalReference.close();
       this.modalCourseData = [];
+      this.selectedTeacher = {};
+      this.conflictLessonArr = [];
     } else {
       console.log('cancel assign relief and cancel class modal');
       this.modalReference.close();
@@ -412,7 +425,33 @@ export class LeaveDetailsComponent implements OnInit {
     );
   }
 
-  confirmRelief() {}
+  confirmRelief(selectedData) {
+    if (this.reliefObj.type == 'all') {
+      this.skipCourseArr.map(skipCourse => {
+        // console.log("skipcourse",skipCourse)
+        // skipCourse.["newTeacherId"] = selectedData.userId;
+        // skipCourse["newTeacherInfo"] = selectedData;
+        skipCourse.courses.map(course => {
+          console.log('skip course~~~', course);
+          course['newTeacherId'] = selectedData.userId;
+          course['newTeacherInfo'] = selectedData;
+        });
+      });
+    } else {
+      console.log(this.reliefObj);
+      this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
+        this.reliefObj.courseIdx
+      ]['newTeacherId'] = selectedData.userId;
+      this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
+        this.reliefObj.courseIdx
+      ]['newTeacherInfo'] = selectedData;
+      console.log(this.skipCourseArr[this.reliefObj.dateLevelIdx]);
+    }
+    console.log('~~~', this.skipCourseArr);
+    setTimeout(() => {
+      this.cancelModal('relief');
+    }, 300);
+  }
 }
 
 //angular calendar refrence from under this page
