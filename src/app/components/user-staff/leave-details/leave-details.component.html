@@ -339,7 +339,7 @@
                 >
                   <li
                     *ngFor="let list of leaveTypeList; let j = index"
-                    (click)="selectLeaveType(list, i)"
+                    (click)="selectLeaveType(list, sday.date)"
                     class="date-type-list-name"
                   >
                     {{ leaveTypeList[j].name }}

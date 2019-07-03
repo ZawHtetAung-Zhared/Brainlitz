@@ -139,18 +139,13 @@ export class LeaveDetailsComponent implements OnInit {
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
     this.selectedMonthViewDay = day;
-    let dateType = { id: 0, name: 'Full Day', date: dateFormat };
-    const selectedDateTime = this.datePipe.transform(
-      this.selectedMonthViewDay.date,
-      'yyyy-MM-dd'
-    );
-    console.log(selectedDateTime);
-
+    let dateType = { id: 0, name: 'Full Day', date: day.date };
+    const selectedDateTime = this.selectedMonthViewDay.date.getTime();
     let today = new Date();
     this.clickDay = day.date;
 
     const dateIndex = this.selectedDays.findIndex(
-      selectedDay => selectedDay.date === selectedDateTime
+      selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
 
     console.log(dateIndex);
@@ -174,38 +169,56 @@ export class LeaveDetailsComponent implements OnInit {
         this.selectedMonthViewDay = day;
 
         console.log(dateFormat);
-        this._service
-          .getleaveCheckAvaiable(
-            this.regionID,
-            this.staffObj.userId,
-            dateFormat,
-            'DAY'
-          )
-          .subscribe(
-            (res: any) => {
-              if (res.isAvailable == false) {
-                res.date = dateFormat;
-                this.skipCourseArr.push(res);
-                console.log(res);
-              }
-              console.log(this.skipCourseArr);
-            },
-            err => {}
-          );
+        this.getleaveCheck(dateFormat, 'Full Day');
       }
     }
-    this.ddDate = dateFormat;
+
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
     console.log(this.ddDate);
   }
+  // this.ddDate = dateFormat;
+  getleaveCheck(date, type) {
+    console.log(type);
 
+    let defineType;
+    if (type.name == 'Full Day') {
+      defineType = 'DAY';
+    } else if (type.name == '1st Half-AM') {
+      defineType = 'AM';
+    } else {
+      defineType = 'PM';
+    }
+    this._service
+      .getleaveCheckAvaiable(
+        this.regionID,
+        this.staffObj.userId,
+        date,
+        defineType
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.isAvailable == false) {
+            res.date = date;
+            this.skipCourseArr.push(res);
+            console.log(res);
+          }
+          console.log(this.skipCourseArr);
+        },
+        err => {}
+      );
+  }
   checkSelectedDate(e) {
     console.log(e);
     setTimeout(() => {
       e.body.forEach(element => {
+        console.log(element.date);
         console.log(element.isToday);
-        if (element.isToday) {
+
+        if (
+          element.isToday &&
+          this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
+        ) {
           let todayCell = document.getElementById(
             'cal-month-view' + element.date
           );
@@ -255,13 +268,14 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type, index) {
-    console.log(index);
+  selectLeaveType(type, date) {
+    let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
+
     // setTimeout(() => {
-    this.selectedLeave = index;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
+    this.getleaveCheck(dateFormat, type);
     // }, 100);
   }
   goTonext() {
