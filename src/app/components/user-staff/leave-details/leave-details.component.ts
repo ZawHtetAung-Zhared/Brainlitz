@@ -24,7 +24,7 @@ import {
 } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
-
+import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
 @Component({
   selector: 'app-leave-details',
@@ -43,6 +43,11 @@ export class LeaveDetailsComponent implements OnInit {
   public userLeave = [];
   public leaveLogs = [];
   public giveMakeUp = false;
+  public studentCount;
+  public cancelType;
+  public cancelReason = '';
+  public courseIndex;
+  public cancelClassArray = [];
   public modalReference: any;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
@@ -96,6 +101,7 @@ export class LeaveDetailsComponent implements OnInit {
   }
   autoResize(e) {
     console.log(e.target.style);
+    this.cancelReason = e.target.value;
     console.log(e.target.scrollHeight);
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
@@ -103,9 +109,39 @@ export class LeaveDetailsComponent implements OnInit {
   closeCancelClassModal() {
     this.modalReference.close();
   }
-
-  cancelClassModal(cancelClass) {
+  confirmCancelClass() {
+    if (this.cancelType === 'single') {
+      this.skipCourseArr[this.courseIndex].pass = this.giveMakeUp;
+      this.skipCourseArr[this.courseIndex].cancel = true;
+      this.skipCourseArr[this.courseIndex].reason = this.cancelReason;
+    } else {
+      this.skipCourseArr.map((courseObj, index) => {
+        courseObj.pass = this.giveMakeUp;
+        courseObj.cancel = true;
+        courseObj.reason = this.cancelReason;
+      });
+    }
+    this.modalReference.close();
+  }
+  cancelClassModal(cancelClass, skipCourses, type, index) {
     this.giveMakeUp = false;
+    this.cancelClassArray = [];
+    this.cancelType = type;
+    this.courseIndex = index;
+    console.warn(skipCourses);
+    if (type === 'single') {
+      this.cancelClassArray.push(skipCourses);
+    } else {
+      this.cancelClassArray = skipCourses;
+    }
+    let totalCount = 0;
+    this.cancelClassArray.map(courseObj => {
+      courseObj.date = moment(`${courseObj.date}`).format('ddd, D MMM YYYY');
+      courseObj.courses.map(lessonObj => {
+        totalCount += lessonObj.enrolledStudentCount;
+      });
+    });
+    this.studentCount = totalCount;
     this.modalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:

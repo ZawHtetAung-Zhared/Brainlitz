@@ -111,8 +111,8 @@
 
 <ng-template #cancelClass let-modal>
   <div class="cancel-class-wrapper">
-    <div class="d-flex w-100 justify-content-between">
-      <h1 class="cancel-class-title">Cancel class</h1>
+    <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
+      <h1 class="cancel-class-title">Cancel Lesson</h1>
       <span class="close-icon" (click)="closeCancelClassModal()"></span>
     </div>
     <div class="d-flex">
@@ -135,6 +135,7 @@
           <textarea
             (input)="autoResize($event)"
             rows="1"
+            [(ngModel)]="cancelReason"
             class="reason-text"
             placeholder="Type reason here..."
           ></textarea>
@@ -149,21 +150,31 @@
             ><img src="../../../assets/icons/Vector.svg" alt=""
           /></span>
           <span class="total-student-text"
-            >Total of 20 students will be affected as Cancel class
+            >Total of {{ studentCount }} students will be affected as
+            <span *ngIf="giveMakeUp">MakeUp Pass</span>
+            <span *ngIf="!giveMakeUp">Cancel class</span>
           </span>
         </p>
         <!-- <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/PM.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p>
         <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/am.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p> -->
         <div class="cancel-classes-info">
-          <div class="d-flex classes-info-block">
+          <div
+            class="d-flex classes-info-block"
+            *ngFor="let course of cancelClassArray"
+          >
             <span class="cancelclass-leaveType">
               <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
             </span>
             <div class="d-flex flex-column">
-              <p class="leave-taken-date">Wed,19 Jun 2019</p>
-              <div class="d-flex align-items-center">
-                <p class="student-count">20 students</p>
-                <p class="cancel-class-name">Beginner Piano class</p>
+              <p class="leave-taken-date">{{ course.date }}</p>
+              <div
+                class="d-flex align-items-center"
+                *ngFor="let courseObj of course.courses"
+              >
+                <p class="student-count">
+                  {{ courseObj.enrolledStudentCount }} students
+                </p>
+                <p class="cancel-class-name">{{ courseObj.name }}</p>
               </div>
             </div>
           </div>
@@ -177,7 +188,7 @@
     </button>
     <button
       class="btn btn-primary create-button-pos"
-      (click)="closeCancelClassModal()"
+      (click)="confirmCancelClass()"
     >
       Confirm
     </button>
@@ -428,7 +439,14 @@
                 ASSIGN RELIEF TEACHER
               </button>
               <span class="small-line"></span>
-              <button class="pl-2">CANCEL ALL</button>
+              <button
+                class="pl-2"
+                (click)="
+                  cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
+                "
+              >
+                CANCEL ALL
+              </button>
             </div>
           </div>
           <div class="lBlock-wrapper">
@@ -487,7 +505,19 @@
                         Assingn Relief Teacher
                       </button>
                       <span class="small-line"></span>
-                      <button class="pl-2">Cancel All</button>
+                      <button
+                        class="pl-2"
+                        (click)="
+                          cancelClassModal(
+                            cancelClass,
+                            lessonObj,
+                            'single',
+                            idx
+                          )
+                        "
+                      >
+                        Cancel ALL
+                      </button>
                     </div>
                   </div>
                 </div>

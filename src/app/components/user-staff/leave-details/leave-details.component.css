@@ -141,6 +141,7 @@
 .cancel-class-wrapper {
   width: 100%;
   padding: 0px 32px 0px 32px;
+  height: 700px;
 }
 .main-openleave {
   width: 100%;
@@ -173,7 +174,7 @@
   margin-right: 241px;
 }
 .class-info-side {
-  min-height: 500px;
+  min-height: 590px;
   max-height: 500px;
   border-left: 1px solid #edeff0;
   overflow: auto;
@@ -399,7 +400,9 @@ input:checked + .slider:before {
   background-size: 10px;
   background-position: center;
 }
-
+.cancel-lesson-wrapper {
+  padding: 32px 0px 36px 0px;
+}
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
