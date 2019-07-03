@@ -26,6 +26,8 @@ import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
+import { LeaveService } from '../leave-details/leave.service';
+
 @Component({
   selector: 'app-leave-details',
   templateUrl: './leave-details.component.html',
@@ -35,7 +37,8 @@ import { appService } from '../../../service/app.service';
       provide: CalendarDateFormatter,
       useClass: CustomDateFormatter
     },
-    DatePipe
+    DatePipe,
+    LeaveService
   ]
 })
 export class LeaveDetailsComponent implements OnInit {
@@ -73,7 +76,8 @@ export class LeaveDetailsComponent implements OnInit {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private leaveService: LeaveService
   ) {}
 
   ngOnInit() {
