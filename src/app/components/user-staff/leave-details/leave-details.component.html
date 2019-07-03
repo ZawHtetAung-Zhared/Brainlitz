@@ -341,7 +341,7 @@
                   <button
                     class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
                     (clickOutside)="hideSearch($event)"
-                    (click)="downleaveType($event, i)"
+                    (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
                 <ul
@@ -349,15 +349,22 @@
                   *ngIf="checkId == sday.id && isFocusleavetype == true"
                 >
                   <li
-                    *ngFor="let list of leaveTypeList"
-                    (click)="selectLeaveType(list, i)"
+                    *ngFor="let list of leaveTypeList; let j = index"
+                    (click)="selectLeaveType(list, i, sday.date)"
                     class="date-type-list-name"
                   >
-                    {{ list.name }}
+                    {{ leaveTypeList[j].name }}
                   </li>
                 </ul>
               </div>
             </div>
+          </div>
+          <div class="leave-day-footer">
+            <span class="leave-text">You are creating</span>
+            <span class="bold-txt"></span
+            ><span class="leave-text">of Annual Leave for </span
+            ><span class="bold-txt"> {{ staffObj.preferredName }}</span>
+            <p class="left-txt">days left</p>
           </div>
         </div>
       </div>
@@ -573,7 +580,6 @@
       *ngIf="selectedDays.length == 0"
       class="btn button-submit font-medium"
       disabled="true"
-      (click)="createLeave()"
     >
       Continue
     </button>
@@ -619,12 +625,20 @@
           placeholder="Search teacher..."
           class="input-search"
           (input)="searchMethod($event.target.value, 'staff')"
+          (focus)="focusSearch($event, 'focusOn')"
+          (focusout)="focusSearch($event, 'focusOut')"
           [(ngModel)]="searchKeyword"
           #tsearch="ngModel"
         />
       </div>
-      <div class="result-wrapper">
-        <div *ngFor="let teacher of searchTeacherLists">
+      <div
+        *ngIf="isFocusSearch && searchTeacherLists.length > 0"
+        class="result-wrapper"
+      >
+        <div
+          (click)="onSelectTeacher(teacher)"
+          *ngFor="let teacher of searchTeacherLists"
+        >
           <div class="d-flex search-result">
             <div class="circular-img">
               <img src="{{ teacher.profilePic }}" />
@@ -635,7 +649,56 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!isFocusSearch && selectedTeacher != null">
+        <div class="d-flex">
+          <div>
+            <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
+          </div>
+          <div class="pl-3 selected-name">
+            {{ selectedTeacher.preferredName }}
+          </div>
+        </div>
+        <div *ngFor="let conflictLesson of conflictLessonArr">
+          <div
+            class="d-flex justify-content-between conflict-wrapper mb-3"
+            *ngFor="let course of conflictLesson.courses"
+          >
+            <div>
+              <label>{{ course.lessons[0].startDate | utcDate }}</label>
+              <div>
+                {{ course.lessons[0].startDate | utcTime }} -
+                {{ course.lessons[0].endDate | utcTime }}
+              </div>
+            </div>
+            <div>
+              <label>Lesson</label>
+              <div>
+                {{ course.name }}
+              </div>
+            </div>
+            <div>
+              <label>Location</label>
+              <div>
+                {{ course.location.name }}
+              </div>
+            </div>
+            <div>
+              <label>Number of students</label>
+              <div>
+                {{ course.enrolledStudentCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="d-flex modal-footer"></div>
+    <div class="d-flex modal-footer">
+      <button class="btn bg-white" (click)="cancelModal('relief')">
+        Cancel
+      </button>
+      <button class="btn button-submit font-medium" (click)="confirmRelief()">
+        Confirm
+      </button>
+    </div>
   </div>
 </ng-template>

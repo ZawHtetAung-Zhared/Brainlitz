@@ -217,36 +217,56 @@ export class LeaveDetailsComponent implements OnInit {
         this.selectedMonthViewDay = day;
 
         console.log(dateFormat);
-        this._service
-          .getleaveCheckAvaiable(
-            this.regionID,
-            this.staffObj.userId,
-            dateFormat,
-            'DAY'
-          )
-          .subscribe(
-            (res: any) => {
-              if (res.isAvailable == false) {
-                res.date = dateFormat;
-                this.skipCourseArr.push(res);
-                console.log(res);
-              }
-              console.log(this.skipCourseArr);
-            },
-            err => {}
-          );
+        this.getleaveCheck(dateFormat, 'Full Day');
       }
     }
+
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    console.log(this.ddDate);
   }
+  // this.ddDate = dateFormat;
+  getleaveCheck(date, type) {
+    console.log(type);
 
+    let defineType;
+    if (type.name == 'Full Day') {
+      defineType = 'DAY';
+    } else if (type.name == '1st Half-AM') {
+      defineType = 'AM';
+    } else {
+      defineType = 'PM';
+    }
+    this._service
+      .getleaveCheckAvaiable(
+        this.regionID,
+        this.staffObj.userId,
+        date,
+        defineType
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.isAvailable == false) {
+            res.date = date;
+            this.skipCourseArr.push(res);
+            console.log(res);
+          }
+          console.log(this.skipCourseArr);
+        },
+        err => {}
+      );
+  }
   checkSelectedDate(e) {
     console.log(e);
     setTimeout(() => {
       e.body.forEach(element => {
+        console.log(element.date);
         console.log(element.isToday);
-        if (element.isToday) {
+
+        if (
+          element.isToday &&
+          this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
+        ) {
           let todayCell = document.getElementById(
             'cal-month-view' + element.date
           );
@@ -287,21 +307,24 @@ export class LeaveDetailsComponent implements OnInit {
       // this.isFocusleavetype = false;
     }, 300);
   }
-
-  downleaveType(e, index) {
+  ddDate: any;
+  downleaveType(e, index, date) {
     console.log('exit');
     this.checkId = index;
+    this.ddDate = date;
     this.isFocusleavetype = true;
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type, index) {
+  selectLeaveType(type, index, date) {
     console.log(type);
+    let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
     // setTimeout(() => {
     this.selectedDays[index].name = type.name;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
+    this.getleaveCheck(dateFormat, type);
     // }, 100);
   }
   goTonext() {
@@ -351,13 +374,58 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   searchMethod(keyword, usertype) {
-    this._service
-      .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
-      .subscribe((res: any) => {
-        console.log(res);
-        this.searchTeacherLists = res;
-      });
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
+    } else {
+      this._service
+        .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+        .subscribe((res: any) => {
+          console.log(res);
+          this.searchTeacherLists = res;
+        });
+    }
   }
+  isFocusSearch: boolean = true;
+  searchKeyword: any = '';
+  selectedTeacher: any = null;
+  conflictLessonArr = [];
+  focusSearch(e, type) {
+    if (type == 'focusOn') {
+      this.isFocusSearch = true;
+      this.searchTeacherLists = [];
+    } else {
+      setTimeout(() => {
+        this.isFocusSearch = false;
+        this.searchKeyword = '';
+      }, 300);
+    }
+  }
+
+  onSelectTeacher(data) {
+    console.log('onSelectTeacher', this.skipCourseArr);
+    this.selectedTeacher = data;
+    console.log('selected Teacher', data);
+    return Promise.all(
+      this.skipCourseArr.map(skipCourse => {
+        return new Promise((resolve, reject) => {
+          this._service
+            .getClassCheckAvailable(
+              this.regionID,
+              this.selectedTeacher.userId,
+              skipCourse.date,
+              'DAY'
+            )
+            .subscribe((res: any) => {
+              console.log('conflict lessons', res);
+              this.conflictLessonArr.push(res);
+              console.log('conflictLessonArr', this.conflictLessonArr);
+            });
+        });
+      })
+    );
+  }
+
+  confirmRelief() {}
 }
 
 //angular calendar refrence from under this page
