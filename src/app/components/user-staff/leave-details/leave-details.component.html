@@ -307,7 +307,7 @@
           <div class="leave-day-list">
             <div
               class="d-flex justify-content-between leave-day-box"
-              *ngFor="let sday of selectedDays"
+              *ngFor="let sday of selectedDays; let i = index"
             >
               <div class="leave-day-date">
                 {{ sday.date | utcDateAndDay }}
@@ -330,20 +330,30 @@
                   <button
                     class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
                     (clickOutside)="hideSearch($event)"
-                    (click)="downleaveType($event)"
+                    (click)="downleaveType(sday.date)"
                   ></button>
                 </div>
-                <ul class="leave-type-listing" *ngIf="isFocusleavetype == true">
+                <ul
+                  class="leave-type-listing"
+                  *ngIf="isFocusleavetype == true && ddDate == sday.date"
+                >
                   <li
-                    *ngFor="let list of leaveTypeList"
-                    (click)="selectLeaveType(list)"
+                    *ngFor="let list of leaveTypeList; let j = index"
+                    (click)="selectLeaveType(list, i)"
                     class="date-type-list-name"
                   >
-                    {{ list.name }}
+                    {{ leaveTypeList[j].name }}
                   </li>
                 </ul>
               </div>
             </div>
+          </div>
+          <div class="leave-day-footer">
+            <span class="leave-text">You are creating</span>
+            <span class="bold-txt"></span
+            ><span class="leave-text">of Annual Leave for </span
+            ><span class="bold-txt"> {{ staffObj.preferredName }}</span>
+            <p class="left-txt">days left</p>
           </div>
         </div>
       </div>
@@ -429,7 +439,6 @@
       *ngIf="selectedDays.length == 0"
       class="btn button-submit font-medium"
       disabled="true"
-      (click)="createLeave()"
     >
       Continue
     </button>

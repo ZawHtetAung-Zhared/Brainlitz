@@ -135,13 +135,18 @@ export class LeaveDetailsComponent implements OnInit {
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
     this.selectedMonthViewDay = day;
-    let dateType = { id: 0, name: 'Full Day', date: day.date };
-    const selectedDateTime = this.selectedMonthViewDay.date.getTime();
+    let dateType = { id: 0, name: 'Full Day', date: dateFormat };
+    const selectedDateTime = this.datePipe.transform(
+      this.selectedMonthViewDay.date,
+      'yyyy-MM-dd'
+    );
+    console.log(selectedDateTime);
+
     let today = new Date();
     this.clickDay = day.date;
 
     const dateIndex = this.selectedDays.findIndex(
-      selectedDay => selectedDay.date.getTime() === selectedDateTime
+      selectedDay => selectedDay.date === selectedDateTime
     );
 
     console.log(dateIndex);
@@ -185,8 +190,10 @@ export class LeaveDetailsComponent implements OnInit {
           );
       }
     }
+    this.ddDate = dateFormat;
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    console.log(this.ddDate);
   }
 
   checkSelectedDate(e) {
@@ -236,15 +243,18 @@ export class LeaveDetailsComponent implements OnInit {
     }, 300);
   }
 
-  downleaveType() {
-    console.log('exit');
+  ddDate: any;
+  downleaveType(date) {
+    console.log('exit', date);
+    this.ddDate = date;
     this.isFocusleavetype = true;
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type) {
-    console.log(type);
+  selectLeaveType(type, index) {
+    console.log(index);
     // setTimeout(() => {
+    this.selectedLeave = index;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
