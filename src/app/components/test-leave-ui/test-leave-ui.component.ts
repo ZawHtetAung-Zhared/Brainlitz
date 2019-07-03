@@ -136,7 +136,7 @@ export class TestLeaveUiComponent implements OnInit {
     });
   }
 
-  assignRelifeTeacher(modalName, data, date) {
+  assignReliefTeacher(modalName, data, date) {
     this.modalReference = this.modalService.open(modalName, {
       backdrop: 'static',
       windowClass:
