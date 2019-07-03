@@ -121,23 +121,36 @@ export class LeaveDetailsComponent implements OnInit {
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
-      this.skipCourseArr[this.courseIndex].pass = this.giveMakeUp;
-      this.skipCourseArr[this.courseIndex].cancel = true;
-      this.skipCourseArr[this.courseIndex].reason = this.cancelReason;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].pass = this.giveMakeUp;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].cancel = true;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].reason = this.cancelReason;
     } else {
       this.skipCourseArr.map((courseObj, index) => {
-        courseObj.pass = this.giveMakeUp;
-        courseObj.cancel = true;
-        courseObj.reason = this.cancelReason;
+        courseObj.courses.map(course => {
+          course.pass = this.giveMakeUp;
+          course.cancel = true;
+          course.reason = this.cancelReason;
+        });
       });
     }
+    console.warn(this.skipCourseArr);
     this.modalReference.close();
   }
-  cancelClassModal(cancelClass, skipCourses, type, index) {
+  public dateIndex;
+  cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    console.warn(i);
+    console.warn(index);
     this.giveMakeUp = false;
     this.cancelClassArray = [];
     this.cancelType = type;
     this.courseIndex = index;
+    this.dateIndex = i;
     if (type === 'single') {
       this.cancelClassArray.push(skipCourses);
     } else {
