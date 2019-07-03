@@ -301,13 +301,58 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   searchMethod(keyword, usertype) {
-    this._service
-      .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
-      .subscribe((res: any) => {
-        console.log(res);
-        this.searchTeacherLists = res;
-      });
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
+    } else {
+      this._service
+        .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+        .subscribe((res: any) => {
+          console.log(res);
+          this.searchTeacherLists = res;
+        });
+    }
   }
+  isFocusSearch: boolean = true;
+  searchKeyword: any = '';
+  selectedTeacher: any = null;
+  conflictLessonArr = [];
+  focusSearch(e, type) {
+    if (type == 'focusOn') {
+      this.isFocusSearch = true;
+      this.searchTeacherLists = [];
+    } else {
+      setTimeout(() => {
+        this.isFocusSearch = false;
+        this.searchKeyword = '';
+      }, 300);
+    }
+  }
+
+  onSelectTeacher(data) {
+    console.log('onSelectTeacher', this.skipCourseArr);
+    this.selectedTeacher = data;
+    console.log('selected Teacher', data);
+    return Promise.all(
+      this.skipCourseArr.map(skipCourse => {
+        return new Promise((resolve, reject) => {
+          this._service
+            .getClassCheckAvailable(
+              this.regionID,
+              this.selectedTeacher.userId,
+              skipCourse.date,
+              'DAY'
+            )
+            .subscribe((res: any) => {
+              console.log('conflict lessons', res);
+              this.conflictLessonArr.push(res);
+              console.log('conflictLessonArr', this.conflictLessonArr);
+            });
+        });
+      })
+    );
+  }
+
+  confirmRelief() {}
 }
 
 //angular calendar refrence from under this page

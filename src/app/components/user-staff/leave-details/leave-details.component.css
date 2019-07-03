@@ -793,7 +793,7 @@ span.txt-lessouns-count {
 }
 
 .modal-wrap {
-  height: 700px;
+  height: 780px;
 }
 
 .skipLessons-header {
@@ -807,7 +807,8 @@ span.txt-lessouns-count {
 .course-name,
 .bold-leaveCount,
 .assignmodal-title,
-.result-name {
+.result-name,
+.selected-name {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -967,7 +968,7 @@ span.txt-lessouns-count {
 }
 
 .assign-modal-body {
-  height: 530px;
+  height: 600px;
 }
 
 .assign-modal-header,
@@ -1047,4 +1048,17 @@ span.txt-lessouns-count {
   padding-left: 15px;
   color: #2e3e4d;
   font-size: 18px;
+}
+
+.conflict-wrapper {
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  justify-content: space-between;
+}
+
+.selected-name {
+  line-height: 3;
+  color: #2e3d4d;
+  font-size: 16px;
 }
