@@ -356,7 +356,21 @@
                     (click)="selectLeaveType(list, i, sday.date)"
                     class="date-type-list-name"
                   >
-                    {{ leaveTypeList[j].name }}
+                    <div class="d-flex justify-content-between">
+                      <span
+                        class="leave-list-name"
+                        [ngClass]="{
+                          'check-leave-name': sday.name == leaveTypeList[j].name
+                        }"
+                      >
+                        {{ leaveTypeList[j].name }}</span
+                      >
+                      <span *ngIf="sday.name == leaveTypeList[j].name"
+                        ><img
+                          src="../../../../assets/icons/present_check.svg"
+                          alt=""
+                      /></span>
+                    </div>
                   </li>
                 </ul>
               </div>
