@@ -612,7 +612,7 @@
     <button
       *ngIf="skipCourseArr.length == 0 && selectedDays.length != 0"
       class="btn button-submit font-medium"
-      (click)="createLeave()"
+      (click)="createLeave(selectedDays, '')"
     >
       Continue
     </button>
@@ -628,7 +628,10 @@
     <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
       Cancel
     </button>
-    <button class="btn button-submit font-medium">
+    <button
+      class="btn button-submit font-medium"
+      (click)="createLeave(selectedDays, skipCourseArr)"
+    >
       Continue
     </button>
   </div>
