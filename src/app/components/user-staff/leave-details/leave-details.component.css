@@ -818,7 +818,7 @@ p.left-txt {
 
 .container-div {
   height: 700px;
-  padding: 32px;
+  padding: 0px 32px 32px 32px;
 }
 
 .modal-wrap {
@@ -997,13 +997,19 @@ p.left-txt {
 }
 
 .assign-modal-body {
-  height: 565px;
+  max-height: 565px;
   overflow: overlay;
 }
 
 .assign-modal-header,
 .assign-modal-body {
   padding: 16px 32px 6px 32px !important;
+}
+
+.assign-modal-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .assignmodal-title {
@@ -1130,4 +1136,9 @@ p.left-txt {
   line-height: 3;
   color: #2e3d4d;
   font-size: 16px;
+}
+
+.all-btn:disabled {
+  cursor: no-drop !important;
+  opacity: 0.6;
 }
