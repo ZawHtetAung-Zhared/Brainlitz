@@ -266,33 +266,27 @@
               </div>
 
               <div class="cal-event-container">
-                <div
-                  *ngIf="day.badgeTotal > 0"
-                  style="display:flex;min-width: 30px;flex:1px"
-                >
-                  <div class="space"></div>
+                <div *ngIf="day.events.length > 0" style="text-align: center;">
                   <div
                     class="cal-event cal-draggable ng-star-inserted"
                     dragactiveclass="cal-drag-active"
                     mwldraggable=""
-                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#ff9500;"
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#E3E4E6;margin: 2px 2px 9px 2px;width: 6px;
+                    height: 6px;"
                   ></div>
 
-                  <div
-                    *ngIf="day.events[0].status == 'marked'"
+                  <!-- <div
+                    *ngIf="day.events[0].start == day.date"
                     class="cal-event cal-draggable ng-star-inserted"
                     dragactiveclass="cal-drag-active"
                     mwldraggable=""
                     style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #D4D5D6;"
-                  ></div>
-                  <div
-                    *ngIf="day.events[0].feedback.length > 0"
-                    class="cal-event cal-draggable ng-star-inserted"
-                    dragactiveclass="cal-drag-active"
-                    mwldraggable=""
-                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #009940;"
-                  ></div>
-                  <div class="space"></div>
+                  ></div> -->
+                  <div class="tooltip" id="tooltip{{ day.date }}">
+                    <span class="tooltiptext" id="tooltiptxt{{ day.date }}">{{
+                      day.events[0].meridian
+                    }}</span>
+                  </div>
                 </div>
               </div>
             </div>

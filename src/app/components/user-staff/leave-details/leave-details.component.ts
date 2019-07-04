@@ -26,6 +26,12 @@ import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
+
+// interface MyEvent extends CalendarEvent {
+//   isTooltips: boolean;
+//   meridian:any;
+// }
+
 @Component({
   selector: 'app-leave-details',
   templateUrl: './leave-details.component.html',
@@ -69,6 +75,8 @@ export class LeaveDetailsComponent implements OnInit {
   modalCourseData: any = [];
   searchTeacherLists = [];
   public reliefModalReference: any;
+  events: CalendarEvent[] = [];
+
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -83,6 +91,7 @@ export class LeaveDetailsComponent implements OnInit {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+    this.getleaveforuser();
   }
 
   getUserLeaves(userId) {
@@ -163,6 +172,7 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(this.selectedDays);
     this.currentMonth = this.datePipe.transform(e, 'MMMM');
     console.log(this.view);
+    this.getleaveforuser();
   }
 
   getJournalByMonth(viewDate) {
@@ -170,41 +180,95 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   currentMonth: any;
+  isTtlip: boolean = false;
+  preClick: any;
   dayClicked(day: CalendarMonthViewDay, e): void {
+    console.log(this.events);
+
     console.log(this.selectedDays);
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
+
     this.selectedMonthViewDay = day;
     let dateType = { id: 0, name: 'Full Day', date: day.date };
     const selectedDateTime = this.selectedMonthViewDay.date.getTime();
+    const selectedDate = this.datePipe.transform(
+      this.selectedMonthViewDay.date,
+      'yyyy-MM-dd'
+    );
     let today = new Date();
     this.clickDay = day.date;
 
+    //to check future selected exit or not
     const dateIndex = this.selectedDays.findIndex(
       selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
+    //to check future hodliday exit or not
+    const dateIndex2 = this.events.findIndex(
+      e => this.datePipe.transform(e.start, 'yyyy-MM-dd') === selectedDate
+    );
 
-    console.log(dateIndex);
+    //to show or hide toolips I used add class from type script
+    if (this.events.length > 0 && dateIndex2 > -1) {
+      if (this.preClick == undefined) {
+        let tooltip = document.getElementById('tooltip' + day.date);
+        let ttxt = document.getElementById('tooltiptxt' + day.date);
+        tooltip.classList.add('addVisible');
+        ttxt.classList.add('addVisible');
+        this.preClick = day.date;
+      } else {
+        console.log(this.preClick);
+        console.log(day.date);
+        if (this.preClick == day.date) {
+          //remove tooltips
+          let ptooltip = document.getElementById('tooltip' + this.preClick);
+          let pttxt = document.getElementById('tooltiptxt' + this.preClick);
+          console.log(ptooltip);
+          console.log(pttxt);
+          ptooltip.classList.remove('addVisible');
+          pttxt.classList.remove('addVisible');
+          this.preClick = undefined;
+        } else {
+          console.log('else');
+          //to remove the tooltips from pre click date
+          let ptooltip = document.getElementById('tooltip' + this.preClick);
+          let pttxt = document.getElementById('tooltiptxt' + this.preClick);
+          ptooltip.classList.remove('addVisible');
+          pttxt.classList.remove('addVisible');
+
+          //to add the tooltips from crrent click date
+          let tooltip = document.getElementById('tooltip' + day.date);
+          let ttxt = document.getElementById('tooltiptxt' + day.date);
+          tooltip.classList.add('addVisible');
+          ttxt.classList.add('addVisible');
+          this.preClick = day.date;
+        }
+      }
+    }
+
+    //to define selected or unselected check-availability calendar day
     if (
+      //this condition check for past date or leave taken date for the future date
       dateFormat >= this.datePipe.transform(today, 'yyyy-MM-dd') &&
-      this.currentMonth == this.datePipe.transform(endOfMonth(day.date), 'MMMM')
+      this.currentMonth ==
+        this.datePipe.transform(endOfMonth(day.date), 'MMMM') &&
+      dateIndex2 == -1
     ) {
-      console.log('exit');
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
       if (dateIndex > -1) {
+        //dateIndex > -1 mean exit this day so need to remove the css for selected
         delete this.selectedMonthViewDay.cssClass;
-        this.selectedDays.splice(dateIndex, 1);
+        this.selectedDays.splice(dateIndex, 1); //this for leave days add new
         this.skipCourseArr.splice(dateIndex, 1);
-        calCell.classList.remove('cal-day-selected');
-        calDay.classList.remove('cal-day-number-selected');
       } else {
-        this.selectedDays.push(dateType);
+        //add css class for selected
+        this.selectedDays.push(dateType); //this for leave days add new
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
 
-        console.log(dateFormat);
+        //to get skip lesson data from api call
         this.getleaveCheck(dateFormat, 'Full Day');
       }
     }
@@ -214,9 +278,9 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(this.ddDate);
   }
   // this.ddDate = dateFormat;
-  getleaveCheck(date, type) {
-    console.log(type);
 
+  getleaveCheck(date, type) {
+    //to define meridian spelling for api
     let defineType;
     if (type.name == 'Full Day') {
       defineType = 'DAY';
@@ -244,13 +308,105 @@ export class LeaveDetailsComponent implements OnInit {
         err => {}
       );
   }
+
+  //to get leave taken day by one month
+  getleaveforuser() {
+    let tempArr = [];
+    let res = this.viewDate;
+    //this for to get start and end date for current months
+    let lastday = function(y: any) {
+      return new Date(y.getFullYear(), y.getMonth() + 1, 0);
+    };
+    let first = function(y: any) {
+      return new Date(y.getFullYear(), y.getMonth());
+    };
+    let getlastDay = function(lDay: Date, isLast: boolean) {
+      if (isLast) {
+        lDay = lastday(lDay);
+        console.log(lDay);
+        lDay.setDate(lDay.getDate() + 6);
+      } else {
+        lDay = first(lDay);
+        console.log(lDay);
+        lDay.setDate(lDay.getDate() - 6);
+      }
+      let dd = lDay.getDate();
+      let mm = lDay.getMonth() + 1;
+      let y = lDay.getFullYear();
+      console.log(lDay.getMonth());
+      console.log(lDay.getDate());
+      console.log(lDay.getDate());
+
+      return y + '-' + mm + '-' + dd;
+    };
+    let startDate = getlastDay(res, false);
+    let endDate = getlastDay(res, true);
+    console.log(
+      this.datePipe.transform(startDate, 'yyyy-MM-dd') +
+        '' +
+        this.datePipe.transform(endDate, 'yyyy-MM-dd')
+    );
+
+    this._service
+      .getleaveofuser(
+        this.regionID,
+        this.staffObj.userId,
+        this.datePipe.transform(startDate, 'yyyy-MM-dd'),
+        this.datePipe.transform(endDate, 'yyyy-MM-dd')
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          for (let i = 0; i < res.logs.length; i++) {
+            let mer;
+            if (res.logs[i].meridian == 'DAY') {
+              mer = 'Full Day';
+            } else if (res.logs[i].meridian == 'AM') {
+              mer = '1st Half-AM';
+            } else {
+              mer = '1st Half-PM';
+            }
+            let tempObj = {
+              start: new Date(res.logs[i].leaveDay),
+              meridian: mer,
+              id: res.logs[i]._id
+            };
+            tempArr.push(tempObj);
+          }
+          console.log(tempArr);
+          this.events = tempArr;
+        },
+        err => {}
+      );
+    // this._service
+    // .getAllHolidays(
+    //   this.regionID,
+    // )
+    // .subscribe(
+    //   (res: any) => {
+    //     console.log(res);
+    //     for(let i=0;i<res.length;i++){
+    //       let tempObj={
+    //         start: new Date(res[i].start),
+    //         end: new Date(res[i].end),
+    //         meridian: res[i].name,
+    //         id: res[i]._id
+    //       }
+    //       tempArr.push(tempObj);
+    //     }
+    //     console.log(tempArr);
+    //     this.events=tempArr;
+    //   },
+    //   err => {}
+    // );
+    console.log(this.events);
+  }
+  //beforeViewRender method to call after months change
   checkSelectedDate(e) {
-    console.log(e);
+    // if users change the perivious to next months to check this  months current leave days selected or not
+    //if users selected day exit autoselected
     setTimeout(() => {
       e.body.forEach(element => {
-        console.log(element.date);
-        console.log(element.isToday);
-
         if (
           element.isToday &&
           this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
