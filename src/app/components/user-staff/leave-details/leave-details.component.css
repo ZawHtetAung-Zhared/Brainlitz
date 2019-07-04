@@ -598,7 +598,14 @@ min-width: 40px;
   background-color: #ffffff;
   border-left: none;
 }
-
+.leave-list-name {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+}
+.check-leave-name {
+  color: #007fff;
+}
 .leave-type-listing {
   -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
@@ -815,7 +822,7 @@ p.left-txt {
 }
 
 .modal-wrap {
-  height: 700px;
+  height: 780px;
 }
 
 .skipLessons-header {
@@ -829,7 +836,8 @@ p.left-txt {
 .course-name,
 .bold-leaveCount,
 .assignmodal-title,
-.result-name {
+.result-name,
+.selected-name {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -989,7 +997,8 @@ p.left-txt {
 }
 
 .assign-modal-body {
-  height: 530px;
+  height: 565px;
+  overflow: overlay;
 }
 
 .assign-modal-header,
@@ -1109,4 +1118,16 @@ p.left-txt {
 .addVisible {
   visibility: visible !important;
   opacity: 1 !important;
+}
+.conflict-wrapper {
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+  justify-content: space-between;
+}
+
+.selected-name {
+  line-height: 3;
+  color: #2e3d4d;
+  font-size: 16px;
 }

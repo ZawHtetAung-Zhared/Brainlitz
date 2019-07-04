@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -31,6 +31,7 @@ import { appService } from '../../../service/app.service';
 //   isTooltips: boolean;
 //   meridian:any;
 // }
+import { LeaveService } from '../leave-details/leave.service';
 
 @Component({
   selector: 'app-leave-details',
@@ -41,7 +42,8 @@ import { appService } from '../../../service/app.service';
       provide: CalendarDateFormatter,
       useClass: CustomDateFormatter
     },
-    DatePipe
+    DatePipe,
+    LeaveService
   ]
 })
 export class LeaveDetailsComponent implements OnInit {
@@ -55,6 +57,7 @@ export class LeaveDetailsComponent implements OnInit {
   public courseIndex;
   public cancelClassArray = [];
   public modalReference: any;
+  public checkId;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
   selectedDays: any = [];
@@ -80,7 +83,8 @@ export class LeaveDetailsComponent implements OnInit {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private leaveService: LeaveService
   ) {}
 
   ngOnInit() {
@@ -92,6 +96,22 @@ export class LeaveDetailsComponent implements OnInit {
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
     this.getleaveforuser();
+  }
+
+  @HostListener('document:click', ['$event']) clickedOutside($event) {
+    var a = $event.target.classList[6];
+    var conTainer = document.getElementById('leave-day-list');
+    if (a == 'leave-search-down') {
+      this.isFocusleavetype = true;
+      if (conTainer != undefined || conTainer != null) {
+        conTainer.style.overflow = 'hidden';
+      }
+    } else {
+      this.isFocusleavetype = false;
+      if (conTainer != undefined || conTainer != null) {
+        conTainer.style.overflow = 'overlay';
+      }
+    }
   }
 
   getUserLeaves(userId) {
@@ -120,24 +140,34 @@ export class LeaveDetailsComponent implements OnInit {
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
-      this.skipCourseArr[this.courseIndex].pass = this.giveMakeUp;
-      this.skipCourseArr[this.courseIndex].cancel = true;
-      this.skipCourseArr[this.courseIndex].reason = this.cancelReason;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].pass = this.giveMakeUp;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].cancel = true;
+      this.skipCourseArr[this.dateIndex].courses[
+        this.courseIndex
+      ].reason = this.cancelReason;
     } else {
       this.skipCourseArr.map((courseObj, index) => {
-        courseObj.pass = this.giveMakeUp;
-        courseObj.cancel = true;
-        courseObj.reason = this.cancelReason;
+        courseObj.courses.map(course => {
+          course.pass = this.giveMakeUp;
+          course.cancel = true;
+          course.reason = this.cancelReason;
+        });
       });
     }
+    console.log(this.skipCourseArr);
     this.modalReference.close();
   }
-  cancelClassModal(cancelClass, skipCourses, type, index) {
+  public dateIndex;
+  cancelClassModal(cancelClass, skipCourses, type, index, i) {
     this.giveMakeUp = false;
     this.cancelClassArray = [];
     this.cancelType = type;
     this.courseIndex = index;
-    console.warn(skipCourses);
+    this.dateIndex = i;
     if (type === 'single') {
       this.cancelClassArray.push(skipCourses);
     } else {
@@ -145,7 +175,6 @@ export class LeaveDetailsComponent implements OnInit {
     }
     let totalCount = 0;
     this.cancelClassArray.map(courseObj => {
-      courseObj.date = moment(`${courseObj.date}`).format('ddd, D MMM YYYY');
       courseObj.courses.map(lessonObj => {
         totalCount += lessonObj.enrolledStudentCount;
       });
@@ -264,6 +293,9 @@ export class LeaveDetailsComponent implements OnInit {
       } else {
         //add css class for selected
         this.selectedDays.push(dateType); //this for leave days add new
+        this.selectedDays.map((day, index) => {
+          day.id = index;
+        });
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
@@ -300,6 +332,7 @@ export class LeaveDetailsComponent implements OnInit {
         (res: any) => {
           if (res.isAvailable == false) {
             res.date = date;
+            res.meridian = defineType;
             this.skipCourseArr.push(res);
             console.log(res);
           }
@@ -445,25 +478,46 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(this.selectedDays.length);
   }
 
-  hideSearch() {
-    console.log('Reach');
-    setTimeout(() => {
-      // this.isFocusleavetype = false;
-    }, 300);
+  // hideSearch() {
+  //   console.log('Reach');
+  //   setTimeout(() => {
+  //     // this.isFocusleavetype = false;
+  //   }, 300);
+  // }
+  scrollPosition;
+  checkScroll(e) {
+    this.scrollPosition = e.target.scrollTop;
   }
-
   ddDate: any;
-  downleaveType(date) {
-    console.log('exit', date);
+  downleaveType(e, index, date) {
+    console.log('exit');
+    var conTainer = document.getElementById('leave-day-part');
+    var conTainer1 = document.getElementById('leave-day-list');
+    console.log(e);
+    this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
+    setTimeout(() => {
+      const ele = document.getElementById('zzz' + index);
+      ele.style.left = e.target.parentNode.offsetLeft + 'px';
+      ele.style.top =
+        e.target.parentNode.offsetTop + 40 - this.scrollPosition + 'px';
+      if (ele.style.display == 'block') {
+        ele.style.display = 'none';
+        conTainer1.style.overflow = 'auto';
+      } else {
+        ele.style.display = 'block';
+        conTainer1.style.overflow = 'hidden';
+      }
+    }, 30);
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
-  selectLeaveType(type, date) {
+  selectLeaveType(type, index, date) {
+    console.log(type);
     let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
-
     // setTimeout(() => {
+    this.selectedDays[index].name = type.name;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
@@ -474,13 +528,27 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('gotonext');
     this.showRelief = true;
   }
-  createLeave() {
-    console.log('create leave');
+  createLeave(selectedDays, skipCourses) {
+    console.log('create leave selectedDays', selectedDays);
+    console.log('create leave skipCourses', skipCourses);
+    console.log('create leave skipCourses', this.skipCourseArr);
+  }
+
+  formatDataForCancelledClass() {
+    console.log('cancelled class');
+  }
+
+  formatDataForSwappedClass() {
+    console.log('swapped class');
   }
   //end leave modal
-
+  reliefObj = {
+    type: '',
+    dateLevelIdx: '',
+    courseIdx: ''
+  };
   //for assign relief and cancel class UI
-  assignReliefTeacher(modalName, data, date) {
+  assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
     this.reliefModalReference = this.cancelClassModalService.open(modalName, {
       backdrop: 'static',
       windowClass:
@@ -489,10 +557,16 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(date);
     if (date == '') {
       //clicked assignRelife btn for all courses
+      this.reliefObj.type = 'all';
+      this.reliefObj.dateLevelIdx = '';
+      this.reliefObj.courseIdx = '';
       this.modalCourseData = data;
       console.log('for all', this.modalCourseData);
     } else {
       // clicked assignRelife btn for single courses
+      this.reliefObj.type = 'single';
+      this.reliefObj.dateLevelIdx = dateLevelIdx;
+      this.reliefObj.courseIdx = courseIdx;
       var obj = {
         date: date,
         courses: []
@@ -508,6 +582,8 @@ export class LeaveDetailsComponent implements OnInit {
       console.log('cancel relief modal');
       this.reliefModalReference.close();
       this.modalCourseData = [];
+      this.selectedTeacher = null;
+      this.conflictLessonArr = [];
     } else {
       console.log('cancel assign relief and cancel class modal');
       this.modalReference.close();
@@ -517,12 +593,88 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   searchMethod(keyword, usertype) {
-    this._service
-      .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
-      .subscribe((res: any) => {
-        console.log(res);
-        this.searchTeacherLists = res;
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
+    } else {
+      this._service
+        .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+        .subscribe((res: any) => {
+          console.log(res);
+          this.searchTeacherLists = res;
+        });
+    }
+  }
+  isFocusSearch: boolean = true;
+  searchKeyword: any = '';
+  selectedTeacher: any = null;
+  conflictLessonArr = [];
+  focusSearch(e, type) {
+    if (type == 'focusOn') {
+      this.isFocusSearch = true;
+      this.searchTeacherLists = [];
+    } else {
+      setTimeout(() => {
+        this.isFocusSearch = false;
+        this.searchKeyword = '';
+      }, 300);
+    }
+  }
+
+  onSelectTeacher(data) {
+    console.log('onSelectTeacher', this.skipCourseArr);
+    this.selectedTeacher = data;
+    this.conflictLessonArr = [];
+    console.log('selected Teacher', data);
+    return Promise.all(
+      this.skipCourseArr.map(skipCourse => {
+        return new Promise((resolve, reject) => {
+          this._service
+            .getClassCheckAvailable(
+              this.regionID,
+              this.selectedTeacher.userId,
+              skipCourse.date,
+              'DAY'
+            )
+            .subscribe((res: any) => {
+              console.log('conflict lessons', res);
+              this.conflictLessonArr.push(res);
+              console.log('conflictLessonArr', this.conflictLessonArr);
+            });
+        });
+      })
+    );
+  }
+
+  confirmRelief(selectedData, selectedDays, skipCourses) {
+    console.log(this.staffObj);
+    console.log(selectedDays);
+    console.log(skipCourses);
+    this.skipCourseArr = skipCourses;
+    if (this.reliefObj.type == 'all') {
+      this.skipCourseArr.map(skipCourse => {
+        // console.log("skipcourse",skipCourse)
+        // skipCourse.["newTeacherId"] = selectedData.userId;
+        // skipCourse["newTeacherInfo"] = selectedData;
+        skipCourse.courses.map(course => {
+          console.log('skip course~~~', course);
+          course['newTeacherId'] = selectedData.userId;
+          course['newTeacherInfo'] = selectedData;
+        });
       });
+    } else {
+      console.log(this.reliefObj);
+      this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
+        this.reliefObj.courseIdx
+      ]['newTeacherId'] = selectedData.userId;
+      this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
+        this.reliefObj.courseIdx
+      ]['newTeacherInfo'] = selectedData;
+      console.log(this.skipCourseArr[this.reliefObj.dateLevelIdx]);
+    }
+    console.log('~~~', this.skipCourseArr);
+    setTimeout(() => {
+      this.cancelModal('relief');
+    }, 300);
   }
 }
 

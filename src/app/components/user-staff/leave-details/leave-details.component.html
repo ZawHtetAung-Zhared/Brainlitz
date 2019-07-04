@@ -166,7 +166,7 @@
               <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
             </span>
             <div class="d-flex flex-column">
-              <p class="leave-taken-date">{{ course.date }}</p>
+              <p class="leave-taken-date">{{ course.date | utcDateAndDay }}</p>
               <div
                 class="d-flex align-items-center"
                 *ngFor="let courseObj of course.courses"
@@ -309,7 +309,11 @@
           <div class="leave-day-title">
             Leave days
           </div>
-          <div class="leave-day-list">
+          <div
+            class="leave-day-list"
+            id="leave-day-list"
+            (scroll)="checkScroll($event)"
+          >
             <div
               class="d-flex justify-content-between leave-day-box"
               *ngFor="let sday of selectedDays; let i = index"
@@ -321,12 +325,11 @@
                 <div class="input-group">
                   <input
                     class="form-control py-2 input-search-dropdown-bg"
-                    value="{{ selectedLeave.name }}"
+                    value="{{ sday.name }}"
                     type="search"
                     autocomplete="off"
                     name="itemID"
                     id="example-search-input"
-                    (clickOutside)="hideSearch($event)"
                     (input)="
                       searchCategoryList($event.target.value, 'category')
                     "
@@ -334,20 +337,34 @@
                   />
                   <button
                     class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
-                    (clickOutside)="hideSearch($event)"
-                    (click)="downleaveType(sday.date)"
+                    (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
                 <ul
+                  id="{{ 'zzz' + i }}"
                   class="leave-type-listing"
-                  *ngIf="isFocusleavetype == true && ddDate == sday.date"
+                  *ngIf="checkId == sday.id && isFocusleavetype == true"
                 >
                   <li
                     *ngFor="let list of leaveTypeList; let j = index"
-                    (click)="selectLeaveType(list, sday.date)"
+                    (click)="selectLeaveType(list, i, sday.date)"
                     class="date-type-list-name"
                   >
-                    {{ leaveTypeList[j].name }}
+                    <div class="d-flex justify-content-between">
+                      <span
+                        class="leave-list-name"
+                        [ngClass]="{
+                          'check-leave-name': sday.name == leaveTypeList[j].name
+                        }"
+                      >
+                        {{ leaveTypeList[j].name }}</span
+                      >
+                      <span *ngIf="sday.name == leaveTypeList[j].name"
+                        ><img
+                          src="../../../../assets/icons/present_check.svg"
+                          alt=""
+                      /></span>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -428,8 +445,9 @@
         <div class="lessons-table col-md-9 p-0">
           <div class="d-flex justify-content-end skipLessons-header">
             <div class="user-info col-md-7 p-0">
-              <span class="bold-span">Suzy skuukzkySZ</span> will skip
-              <span class="bold-span">20 lessons</span> in this following days.
+              <span class="bold-span">{{ staffObj.preferredName }}</span> will
+              skip <span class="bold-span">- lessons</span> in this following
+              days.
             </div>
             <div
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
@@ -437,7 +455,13 @@
               <button
                 class="pr-2"
                 (click)="
-                  assignReliefTeacher(reliefTeacherModal, skipCourseArr, '')
+                  assignReliefTeacher(
+                    reliefTeacherModal,
+                    skipCourseArr,
+                    '',
+                    '',
+                    ''
+                  )
                 "
               >
                 ASSIGN RELIEF TEACHER
@@ -490,10 +514,17 @@
                         </div>
                         <div>
                           {{ course.lessons[0].endDate | utcTime }}
+                          ===>cancel{{ course.cancel }} ===>relief{{
+                            course.newTeacherId
+                          }}
                         </div>
                       </div>
                     </div>
                     <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined
+                      "
                       class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
                       <button
@@ -502,7 +533,9 @@
                           assignReliefTeacher(
                             reliefTeacherModal,
                             course,
-                            lessonObj.date
+                            lessonObj.date,
+                            i,
+                            idx
                           )
                         "
                       >
@@ -516,12 +549,36 @@
                             cancelClass,
                             lessonObj,
                             'single',
-                            idx
+                            idx,
+                            i
                           )
                         "
                       >
                         Cancel ALL
                       </button>
+                    </div>
+                    <div
+                      *ngIf="course.newTeacherId != undefined"
+                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <button>Undo</button>
+                      <span class="small-line"></span>
+                      <div>
+                        <label>Relief teacher</label>
+                        <div>
+                          {{ course.newTeacherInfo.preferredName }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="course.cancel == true"
+                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <button>Undo</button>
+                      <span class="small-line"></span>
+                      <div>
+                        <label>Cancelled Class</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -566,7 +623,7 @@
     <button
       *ngIf="skipCourseArr.length == 0 && selectedDays.length != 0"
       class="btn button-submit font-medium"
-      (click)="createLeave()"
+      (click)="createLeave(selectedDays, '')"
     >
       Continue
     </button>
@@ -582,7 +639,10 @@
     <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
       Cancel
     </button>
-    <button class="btn button-submit font-medium">
+    <button
+      class="btn button-submit font-medium"
+      (click)="createLeave(selectedDays, skipCourseArr)"
+    >
       Continue
     </button>
   </div>
@@ -619,13 +679,24 @@
           placeholder="Search teacher..."
           class="input-search"
           (input)="searchMethod($event.target.value, 'staff')"
+          (focus)="focusSearch($event, 'focusOn')"
+          (focusout)="focusSearch($event, 'focusOut')"
           [(ngModel)]="searchKeyword"
           #tsearch="ngModel"
         />
       </div>
-      <div class="result-wrapper">
-        <div *ngFor="let teacher of searchTeacherLists">
-          <div class="d-flex search-result">
+      <div
+        *ngIf="isFocusSearch && searchTeacherLists.length > 0"
+        class="result-wrapper"
+      >
+        <div
+          (click)="onSelectTeacher(teacher)"
+          *ngFor="let teacher of searchTeacherLists"
+        >
+          <div
+            *ngIf="staffObj.userId != teacher.userId"
+            class="d-flex search-result"
+          >
             <div class="circular-img">
               <img src="{{ teacher.profilePic }}" />
             </div>
@@ -635,7 +706,59 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!isFocusSearch && selectedTeacher != null">
+        <div class="d-flex">
+          <div>
+            <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
+          </div>
+          <div class="pl-3 selected-name">
+            {{ selectedTeacher.preferredName }}
+          </div>
+        </div>
+        <div *ngFor="let conflictLesson of conflictLessonArr">
+          <div
+            class="d-flex justify-content-between conflict-wrapper mb-3"
+            *ngFor="let course of conflictLesson.courses"
+          >
+            <div>
+              <label>{{ course.lessons[0].startDate | utcDate }}</label>
+              <div>
+                {{ course.lessons[0].startDate | utcTime }} -
+                {{ course.lessons[0].endDate | utcTime }}
+              </div>
+            </div>
+            <div>
+              <label>Lesson</label>
+              <div>
+                {{ course.name }}
+              </div>
+            </div>
+            <div>
+              <label>Location</label>
+              <div>
+                {{ course.location.name }}
+              </div>
+            </div>
+            <div>
+              <label>Number of students</label>
+              <div>
+                {{ course.enrolledStudentCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="d-flex modal-footer"></div>
+    <div class="d-flex modal-footer">
+      <button class="btn bg-white" (click)="cancelModal('relief')">
+        Cancel
+      </button>
+      <button
+        class="btn button-submit font-medium"
+        (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
+      >
+        Confirm
+      </button>
+    </div>
   </div>
 </ng-template>
