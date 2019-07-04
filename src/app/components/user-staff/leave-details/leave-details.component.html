@@ -166,7 +166,7 @@
               <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
             </span>
             <div class="d-flex flex-column">
-              <p class="leave-taken-date">{{ course.date }}</p>
+              <p class="leave-taken-date">{{ course.date | utcDateAndDay }}</p>
               <div
                 class="d-flex align-items-center"
                 *ngFor="let courseObj of course.courses"

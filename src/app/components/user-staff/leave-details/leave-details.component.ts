@@ -162,7 +162,6 @@ export class LeaveDetailsComponent implements OnInit {
     }
     let totalCount = 0;
     this.cancelClassArray.map(courseObj => {
-      courseObj.date = moment(`${courseObj.date}`).format('ddd, D MMM YYYY');
       courseObj.courses.map(lessonObj => {
         totalCount += lessonObj.enrolledStudentCount;
       });
