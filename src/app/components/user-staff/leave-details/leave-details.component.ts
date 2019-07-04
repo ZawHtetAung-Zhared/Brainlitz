@@ -92,10 +92,17 @@ export class LeaveDetailsComponent implements OnInit {
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
+    var conTainer = document.getElementById('leave-day-list');
     if (a == 'leave-search-down') {
       this.isFocusleavetype = true;
+      if (conTainer != undefined || conTainer != null) {
+        conTainer.style.overflow = 'hidden';
+      }
     } else {
       this.isFocusleavetype = false;
+      if (conTainer != undefined || conTainer != null) {
+        conTainer.style.overflow = 'overlay';
+      }
     }
   }
 
@@ -148,8 +155,6 @@ export class LeaveDetailsComponent implements OnInit {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
-    console.warn(i);
-    console.warn(index);
     this.giveMakeUp = false;
     this.cancelClassArray = [];
     this.cancelType = type;
@@ -317,18 +322,38 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(this.selectedDays.length);
   }
 
-  hideSearch() {
-    console.log('Reach');
-    setTimeout(() => {
-      // this.isFocusleavetype = false;
-    }, 300);
+  // hideSearch() {
+  //   console.log('Reach');
+  //   setTimeout(() => {
+  //     // this.isFocusleavetype = false;
+  //   }, 300);
+  // }
+  scrollPosition;
+  checkScroll(e) {
+    this.scrollPosition = e.target.scrollTop;
   }
   ddDate: any;
   downleaveType(e, index, date) {
     console.log('exit');
+    var conTainer = document.getElementById('leave-day-part');
+    var conTainer1 = document.getElementById('leave-day-list');
+    console.log(e);
     this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
+    setTimeout(() => {
+      const ele = document.getElementById('zzz' + index);
+      ele.style.left = e.target.parentNode.offsetLeft + 'px';
+      ele.style.top =
+        e.target.parentNode.offsetTop + 40 - this.scrollPosition + 'px';
+      if (ele.style.display == 'block') {
+        ele.style.display = 'none';
+        conTainer1.style.overflow = 'auto';
+      } else {
+        ele.style.display = 'block';
+        conTainer1.style.overflow = 'hidden';
+      }
+    }, 30);
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
