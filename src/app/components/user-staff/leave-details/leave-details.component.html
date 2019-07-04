@@ -315,7 +315,11 @@
           <div class="leave-day-title">
             Leave days
           </div>
-          <div class="leave-day-list">
+          <div
+            class="leave-day-list"
+            id="leave-day-list"
+            (scroll)="checkScroll($event)"
+          >
             <div
               class="d-flex justify-content-between leave-day-box"
               *ngFor="let sday of selectedDays; let i = index"
@@ -332,7 +336,6 @@
                     autocomplete="off"
                     name="itemID"
                     id="example-search-input"
-                    (clickOutside)="hideSearch($event)"
                     (input)="
                       searchCategoryList($event.target.value, 'category')
                     "
@@ -340,11 +343,11 @@
                   />
                   <button
                     class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
-                    (clickOutside)="hideSearch($event)"
                     (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
                 <ul
+                  id="{{ 'zzz' + i }}"
                   class="leave-type-listing"
                   *ngIf="checkId == sday.id && isFocusleavetype == true"
                 >
