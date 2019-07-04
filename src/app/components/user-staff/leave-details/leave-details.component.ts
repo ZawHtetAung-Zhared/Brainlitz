@@ -52,6 +52,7 @@ export class LeaveDetailsComponent implements OnInit {
   public courseIndex;
   public cancelClassArray = [];
   public modalReference: any;
+  public cancelModalReference: any;
   public checkId;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
@@ -121,10 +122,14 @@ export class LeaveDetailsComponent implements OnInit {
     e.target.style.height = e.target.scrollHeight + 'px';
   }
   closeCancelClassModal() {
+    this.cancelModalReference.close();
+  }
+  closeOpenLeaveModal() {
     this.modalReference.close();
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
+      this.cancelSingle = true;
       this.skipCourseArr[this.dateIndex].courses[
         this.courseIndex
       ].pass = this.giveMakeUp;
@@ -135,6 +140,7 @@ export class LeaveDetailsComponent implements OnInit {
         this.courseIndex
       ].reason = this.cancelReason;
     } else {
+      this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
           course.pass = this.giveMakeUp;
@@ -144,7 +150,7 @@ export class LeaveDetailsComponent implements OnInit {
       });
     }
     console.log(this.skipCourseArr);
-    this.modalReference.close();
+    this.cancelModalReference.close();
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
@@ -167,7 +173,7 @@ export class LeaveDetailsComponent implements OnInit {
       });
     });
     this.studentCount = totalCount;
-    this.modalReference = this.cancelClassModalService.open(cancelClass, {
+    this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -399,6 +405,10 @@ export class LeaveDetailsComponent implements OnInit {
       this.modalReference.close();
       this.skipCourseArr = [];
       this.showRelief = false;
+      this.assignedReliefAll = false;
+      this.cancelAll = false;
+      this.assignedReliefSingle = false;
+      this.cancelSingle = false;
     }
   }
 
@@ -454,13 +464,14 @@ export class LeaveDetailsComponent implements OnInit {
       })
     );
   }
-
+  assignedReliefAll: boolean = false;
+  cancelAll: boolean = false;
+  assignedReliefSingle: boolean = false;
+  cancelSingle: boolean = false;
   confirmRelief(selectedData) {
     if (this.reliefObj.type == 'all') {
+      this.assignedReliefAll = true;
       this.skipCourseArr.map(skipCourse => {
-        // console.log("skipcourse",skipCourse)
-        // skipCourse.["newTeacherId"] = selectedData.userId;
-        // skipCourse["newTeacherInfo"] = selectedData;
         skipCourse.courses.map(course => {
           console.log('skip course~~~', course);
           course['newTeacherId'] = selectedData.userId;
@@ -468,6 +479,7 @@ export class LeaveDetailsComponent implements OnInit {
         });
       });
     } else {
+      this.assignedReliefSingle = true;
       console.log(this.reliefObj);
       this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
         this.reliefObj.courseIdx
@@ -481,6 +493,51 @@ export class LeaveDetailsComponent implements OnInit {
     setTimeout(() => {
       this.cancelModal('relief');
     }, 300);
+  }
+
+  undoAll(type) {
+    switch (type) {
+      case 'relief':
+        console.log('all relief');
+        this.assignedReliefAll = false;
+        this.skipCourseArr.map(skipCourse => {
+          skipCourse.courses.map(course => {
+            delete course['newTeacherId'];
+            delete course['newTeacherInfo'];
+          });
+        });
+        console.log('~~~', this.skipCourseArr);
+        break;
+      case 'cancel':
+        console.log('all cancel');
+        this.cancelAll = false;
+        this.skipCourseArr.map(skipCourse => {
+          skipCourse.courses.map(course => {
+            delete course['cancel'];
+            delete course['pass'];
+            delete course['reason'];
+          });
+        });
+        console.log('~~~', this.skipCourseArr);
+        break;
+    }
+  }
+
+  undoMethod(type, dayLevelIdx, courseIdx) {
+    var course = this.skipCourseArr[dayLevelIdx].courses[courseIdx];
+    switch (type) {
+      case 'relief':
+        this.assignedReliefSingle = false;
+        delete course['newTeacherId'];
+        delete course['newTeacherInfo'];
+        break;
+      case 'cancel':
+        this.cancelSingle = false;
+        delete course['cancel'];
+        delete course['pass'];
+        delete course['reason'];
+        break;
+    }
   }
 }
 
