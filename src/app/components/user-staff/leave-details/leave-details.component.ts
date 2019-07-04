@@ -269,6 +269,7 @@ export class LeaveDetailsComponent implements OnInit {
         (res: any) => {
           if (res.isAvailable == false) {
             res.date = date;
+            res.meridian = defineType;
             this.skipCourseArr.push(res);
             console.log(res);
           }
