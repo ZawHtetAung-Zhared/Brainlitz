@@ -372,8 +372,9 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('gotonext');
     this.showRelief = true;
   }
-  createLeave() {
-    console.log('create leave');
+  createLeave(selectedDays, skipCourses) {
+    console.log('create leave selectedDays', selectedDays);
+    console.log('create leave skipCourses', skipCourses);
   }
   //end leave modal
   reliefObj = {
@@ -416,7 +417,7 @@ export class LeaveDetailsComponent implements OnInit {
       console.log('cancel relief modal');
       this.reliefModalReference.close();
       this.modalCourseData = [];
-      this.selectedTeacher = {};
+      this.selectedTeacher = null;
       this.conflictLessonArr = [];
     } else {
       console.log('cancel assign relief and cancel class modal');
@@ -457,6 +458,7 @@ export class LeaveDetailsComponent implements OnInit {
   onSelectTeacher(data) {
     console.log('onSelectTeacher', this.skipCourseArr);
     this.selectedTeacher = data;
+    this.conflictLessonArr = [];
     console.log('selected Teacher', data);
     return Promise.all(
       this.skipCourseArr.map(skipCourse => {
