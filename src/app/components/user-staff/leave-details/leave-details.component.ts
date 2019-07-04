@@ -375,6 +375,15 @@ export class LeaveDetailsComponent implements OnInit {
   createLeave(selectedDays, skipCourses) {
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
+    console.log('create leave skipCourses', this.skipCourseArr);
+  }
+
+  formatDataForCancelledClass() {
+    console.log('cancelled class');
+  }
+
+  formatDataForSwappedClass() {
+    console.log('swapped class');
   }
   //end leave modal
   reliefObj = {
@@ -480,7 +489,11 @@ export class LeaveDetailsComponent implements OnInit {
     );
   }
 
-  confirmRelief(selectedData) {
+  confirmRelief(selectedData, selectedDays, skipCourses) {
+    console.log(this.staffObj);
+    console.log(selectedDays);
+    console.log(skipCourses);
+    this.skipCourseArr = skipCourses;
     if (this.reliefObj.type == 'all') {
       this.skipCourseArr.map(skipCourse => {
         // console.log("skipcourse",skipCourse)
