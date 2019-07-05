@@ -50,6 +50,8 @@ export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
   public userLeave = [];
   public leaveLogs = [];
+  public totalLeaveDay;
+  public leaveLeftDay;
   public giveMakeUp = false;
   public studentCount;
   public cancelType;
@@ -124,12 +126,15 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   getUserLeaves(userId) {
+    this.totalLeaveDay = 0;
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
           leave.percentLeave = leave.takenDays * 5 + 40;
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+          this.totalLeaveDay += leave.leaveDays;
         });
+        console.error(this.totalLeaveDay);
         this.userLeave = res.leaves;
         this.leaveLogs = res.logs;
       },
@@ -336,6 +341,8 @@ export class LeaveDetailsComponent implements OnInit {
     leaveArray.map(leave => {
       this.totalLeaves += leave.value;
     });
+    this.leaveLeftDay = this.totalLeaveDay - this.totalLeaves;
+
     this.totalLeaves = this.totalLeaves.toString().split('.');
     if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
       if (Number(this.totalLeaves[0]) === 0) {
@@ -345,6 +352,17 @@ export class LeaveDetailsComponent implements OnInit {
       }
     } else {
       this.totalLeaves = this.totalLeaves[0] + ' days ';
+    }
+
+    this.leaveLeftDay = this.leaveLeftDay.toString().split('.');
+    if (String(this.leaveLeftDay[this.leaveLeftDay.length - 1]) == '5') {
+      if (Number(this.leaveLeftDay[0]) === 0) {
+        this.leaveLeftDay = ' half days ';
+      } else {
+        this.leaveLeftDay = this.leaveLeftDay[0] + ' days and half ';
+      }
+    } else {
+      this.leaveLeftDay = this.leaveLeftDay[0] + ' days ';
     }
   }
 
