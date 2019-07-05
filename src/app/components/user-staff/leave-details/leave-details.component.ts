@@ -48,6 +48,7 @@ import { LeaveService } from '../leave-details/leave.service';
 })
 export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
+  loading: boolean = false;
   public userLeave = [];
   public leaveLogs = [];
   public giveMakeUp = false;
@@ -229,9 +230,7 @@ export class LeaveDetailsComponent implements OnInit {
   isTtlip: boolean = false;
   preClick: any;
   dayClicked(day: CalendarMonthViewDay, e): void {
-    console.log(this.events);
-
-    console.log(this.selectedDays);
+    console.log(this.skipCourseArr);
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
 
@@ -249,6 +248,11 @@ export class LeaveDetailsComponent implements OnInit {
     const dateIndex = this.selectedDays.findIndex(
       selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
+    const skipdateExit = this.skipCourseArr.findIndex(
+      skipDate => skipDate.date === selectedDate
+    );
+    console.log(skipdateExit);
+
     //to check future hodliday exit or not
     const dateIndex2 = this.events.findIndex(
       e => this.datePipe.transform(e.start, 'yyyy-MM-dd') === selectedDate
@@ -302,11 +306,16 @@ export class LeaveDetailsComponent implements OnInit {
     ) {
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
+
       if (dateIndex > -1) {
         //dateIndex > -1 mean exit this day so need to remove the css for selected
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1); //this for leave days add new
-        this.skipCourseArr.splice(dateIndex, 1);
+
+        if (skipdateExit > -1) {
+          this.skipCourseArr.splice(skipdateExit, 1);
+        }
+
         calCell.classList.remove('cal-day-selected');
         calDay.classList.remove('cal-day-number-selected');
       } else {
@@ -318,15 +327,12 @@ export class LeaveDetailsComponent implements OnInit {
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
-
-        console.log(dateFormat);
         this.getleaveCheck(dateFormat, dateType);
       }
     }
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
-    console.log(this.ddDate);
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -358,6 +364,7 @@ export class LeaveDetailsComponent implements OnInit {
     } else {
       defineType = 'PM';
     }
+    this.loading = true;
     this._service
       .getleaveCheckAvaiable(
         this.regionID,
@@ -367,12 +374,26 @@ export class LeaveDetailsComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.isAvailable == false) {
-            res.date = date;
-            res.meridian = defineType;
-            this.skipCourseArr.push(res);
-            console.log(res);
+          console.log(res);
+          res.date = date;
+          res.meridian = defineType;
+          // if (res.isAvailable == false) {
+          const dateIndex = this.skipCourseArr.findIndex(e => e.date === date);
+          if (dateIndex > -1) {
+            if (res.courses.length > 0) {
+              this.skipCourseArr[dateIndex] = res;
+            } else {
+              this.skipCourseArr.splice(dateIndex, 1);
+            }
+          } else {
+            if (res.courses.length > 0) {
+              this.skipCourseArr.push(res);
+              console.log(this.skipCourseArr);
+            }
           }
+
+          this.loading = false;
+          // }
           console.log(this.skipCourseArr);
         },
         err => {}
