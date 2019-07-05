@@ -26,6 +26,11 @@ import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
+
+// interface MyEvent extends CalendarEvent {
+//   isTooltips: boolean;
+//   meridian:any;
+// }
 import { LeaveService } from '../leave-details/leave.service';
 
 @Component({
@@ -52,6 +57,7 @@ export class LeaveDetailsComponent implements OnInit {
   public courseIndex;
   public cancelClassArray = [];
   public modalReference: any;
+  public cancelModalReference: any;
   public checkId;
   public regionID = localStorage.getItem('regionId');
   viewDate: Date = new Date();
@@ -73,6 +79,16 @@ export class LeaveDetailsComponent implements OnInit {
   modalCourseData: any = [];
   searchTeacherLists = [];
   public reliefModalReference: any;
+  events: CalendarEvent[] = [];
+  assignedReliefAll: boolean = false;
+  cancelAll: boolean = false;
+  assignedReliefSingle: boolean = false;
+  cancelSingle: boolean = false;
+  isFocusSearch: boolean = true;
+  searchKeyword: any = '';
+  selectedTeacher: any = null;
+  conflictLessonArr = [];
+
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -88,6 +104,7 @@ export class LeaveDetailsComponent implements OnInit {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+    this.getleaveforuser();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
@@ -131,10 +148,14 @@ export class LeaveDetailsComponent implements OnInit {
     e.target.style.height = e.target.scrollHeight + 'px';
   }
   closeCancelClassModal() {
+    this.cancelModalReference.close();
+  }
+  closeOpenLeaveModal() {
     this.modalReference.close();
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
+      this.cancelSingle = true;
       this.skipCourseArr[this.dateIndex].courses[
         this.courseIndex
       ].pass = this.giveMakeUp;
@@ -145,6 +166,7 @@ export class LeaveDetailsComponent implements OnInit {
         this.courseIndex
       ].reason = this.cancelReason;
     } else {
+      this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
           course.pass = this.giveMakeUp;
@@ -154,7 +176,7 @@ export class LeaveDetailsComponent implements OnInit {
       });
     }
     console.log(this.skipCourseArr);
-    this.modalReference.close();
+    this.cancelModalReference.close();
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
@@ -175,7 +197,7 @@ export class LeaveDetailsComponent implements OnInit {
       });
     });
     this.studentCount = totalCount;
-    this.modalReference = this.cancelClassModalService.open(cancelClass, {
+    this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -196,6 +218,7 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(this.selectedDays);
     this.currentMonth = this.datePipe.transform(e, 'MMMM');
     console.log(this.view);
+    this.getleaveforuser();
   }
 
   getJournalByMonth(viewDate) {
@@ -203,36 +226,90 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   currentMonth: any;
+  isTtlip: boolean = false;
+  preClick: any;
   dayClicked(day: CalendarMonthViewDay, e): void {
+    console.log(this.events);
+
     console.log(this.selectedDays);
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
+
     this.selectedMonthViewDay = day;
     let dateType = { id: 0, name: 'Full Day', date: day.date, value: 1 };
     const selectedDateTime = this.selectedMonthViewDay.date.getTime();
+    const selectedDate = this.datePipe.transform(
+      this.selectedMonthViewDay.date,
+      'yyyy-MM-dd'
+    );
     let today = new Date();
     this.clickDay = day.date;
 
+    //to check future selected exit or not
     const dateIndex = this.selectedDays.findIndex(
       selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
+    //to check future hodliday exit or not
+    const dateIndex2 = this.events.findIndex(
+      e => this.datePipe.transform(e.start, 'yyyy-MM-dd') === selectedDate
+    );
 
-    console.log(dateIndex);
+    //to show or hide toolips I used add class from type script
+    if (this.events.length > 0 && dateIndex2 > -1) {
+      if (this.preClick == undefined) {
+        let tooltip = document.getElementById('tooltip' + day.date);
+        let ttxt = document.getElementById('tooltiptxt' + day.date);
+        tooltip.classList.add('addVisible');
+        ttxt.classList.add('addVisible');
+        this.preClick = day.date;
+      } else {
+        console.log(this.preClick);
+        console.log(day.date);
+        if (this.preClick == day.date) {
+          //remove tooltips
+          let ptooltip = document.getElementById('tooltip' + this.preClick);
+          let pttxt = document.getElementById('tooltiptxt' + this.preClick);
+          console.log(ptooltip);
+          console.log(pttxt);
+          ptooltip.classList.remove('addVisible');
+          pttxt.classList.remove('addVisible');
+          this.preClick = undefined;
+        } else {
+          console.log('else');
+          //to remove the tooltips from pre click date
+          let ptooltip = document.getElementById('tooltip' + this.preClick);
+          let pttxt = document.getElementById('tooltiptxt' + this.preClick);
+          ptooltip.classList.remove('addVisible');
+          pttxt.classList.remove('addVisible');
+
+          //to add the tooltips from crrent click date
+          let tooltip = document.getElementById('tooltip' + day.date);
+          let ttxt = document.getElementById('tooltiptxt' + day.date);
+          tooltip.classList.add('addVisible');
+          ttxt.classList.add('addVisible');
+          this.preClick = day.date;
+        }
+      }
+    }
+
+    //to define selected or unselected check-availability calendar day
     if (
+      //this condition check for past date or leave taken date for the future date
       dateFormat >= this.datePipe.transform(today, 'yyyy-MM-dd') &&
-      this.currentMonth == this.datePipe.transform(endOfMonth(day.date), 'MMMM')
+      this.currentMonth ==
+        this.datePipe.transform(endOfMonth(day.date), 'MMMM') &&
+      dateIndex2 == -1
     ) {
-      console.log('exit');
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
       if (dateIndex > -1) {
+        //dateIndex > -1 mean exit this day so need to remove the css for selected
         delete this.selectedMonthViewDay.cssClass;
-        this.selectedDays.splice(dateIndex, 1);
+        this.selectedDays.splice(dateIndex, 1); //this for leave days add new
         this.skipCourseArr.splice(dateIndex, 1);
-        calCell.classList.remove('cal-day-selected');
-        calDay.classList.remove('cal-day-number-selected');
       } else {
-        this.selectedDays.push(dateType);
+        //add css class for selected
+        this.selectedDays.push(dateType); //this for leave days add new
         this.selectedDays.map((day, index) => {
           day.id = index;
         });
@@ -268,9 +345,9 @@ export class LeaveDetailsComponent implements OnInit {
       this.totalLeaves = this.totalLeaves[0] + ' days ';
     }
   }
-  getleaveCheck(date, type) {
-    console.log(type);
 
+  getleaveCheck(date, type) {
+    //to define meridian spelling for api
     let defineType;
     if (type.name === 'Full Day') {
       defineType = 'DAY';
@@ -299,13 +376,105 @@ export class LeaveDetailsComponent implements OnInit {
         err => {}
       );
   }
+
+  //to get leave taken day by one month
+  getleaveforuser() {
+    let tempArr = [];
+    let res = this.viewDate;
+    //this for to get start and end date for current months
+    let lastday = function(y: any) {
+      return new Date(y.getFullYear(), y.getMonth() + 1, 0);
+    };
+    let first = function(y: any) {
+      return new Date(y.getFullYear(), y.getMonth());
+    };
+    let getlastDay = function(lDay: Date, isLast: boolean) {
+      if (isLast) {
+        lDay = lastday(lDay);
+        console.log(lDay);
+        lDay.setDate(lDay.getDate() + 6);
+      } else {
+        lDay = first(lDay);
+        console.log(lDay);
+        lDay.setDate(lDay.getDate() - 6);
+      }
+      let dd = lDay.getDate();
+      let mm = lDay.getMonth() + 1;
+      let y = lDay.getFullYear();
+      console.log(lDay.getMonth());
+      console.log(lDay.getDate());
+      console.log(lDay.getDate());
+
+      return y + '-' + mm + '-' + dd;
+    };
+    let startDate = getlastDay(res, false);
+    let endDate = getlastDay(res, true);
+    console.log(
+      this.datePipe.transform(startDate, 'yyyy-MM-dd') +
+        '' +
+        this.datePipe.transform(endDate, 'yyyy-MM-dd')
+    );
+
+    this._service
+      .getleaveofuser(
+        this.regionID,
+        this.staffObj.userId,
+        this.datePipe.transform(startDate, 'yyyy-MM-dd'),
+        this.datePipe.transform(endDate, 'yyyy-MM-dd')
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          for (let i = 0; i < res.logs.length; i++) {
+            let mer;
+            if (res.logs[i].meridian == 'DAY') {
+              mer = 'Full Day';
+            } else if (res.logs[i].meridian == 'AM') {
+              mer = '1st Half-AM';
+            } else {
+              mer = '1st Half-PM';
+            }
+            let tempObj = {
+              start: new Date(res.logs[i].leaveDay),
+              meridian: mer,
+              id: res.logs[i]._id
+            };
+            tempArr.push(tempObj);
+          }
+          console.log(tempArr);
+          this.events = tempArr;
+        },
+        err => {}
+      );
+    // this._service
+    // .getAllHolidays(
+    //   this.regionID,
+    // )
+    // .subscribe(
+    //   (res: any) => {
+    //     console.log(res);
+    //     for(let i=0;i<res.length;i++){
+    //       let tempObj={
+    //         start: new Date(res[i].start),
+    //         end: new Date(res[i].end),
+    //         meridian: res[i].name,
+    //         id: res[i]._id
+    //       }
+    //       tempArr.push(tempObj);
+    //     }
+    //     console.log(tempArr);
+    //     this.events=tempArr;
+    //   },
+    //   err => {}
+    // );
+    console.log(this.events);
+  }
+  //beforeViewRender method to call after months change
   checkSelectedDate(e) {
-    console.log(e);
+    // if users change the perivious to next months to check this  months current leave days selected or not
+    //if users selected day exit autoselected
     setTimeout(() => {
       e.body.forEach(element => {
-        console.log(element.date);
-        console.log(element.isToday);
-
         if (
           element.isToday &&
           this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
@@ -458,6 +627,10 @@ export class LeaveDetailsComponent implements OnInit {
       this.modalReference.close();
       this.skipCourseArr = [];
       this.showRelief = false;
+      this.assignedReliefAll = false;
+      this.cancelAll = false;
+      this.assignedReliefSingle = false;
+      this.cancelSingle = false;
     }
   }
 
@@ -473,10 +646,7 @@ export class LeaveDetailsComponent implements OnInit {
         });
     }
   }
-  isFocusSearch: boolean = true;
-  searchKeyword: any = '';
-  selectedTeacher: any = null;
-  conflictLessonArr = [];
+
   focusSearch(e, type) {
     if (type == 'focusOn') {
       this.isFocusSearch = true;
@@ -514,16 +684,10 @@ export class LeaveDetailsComponent implements OnInit {
     );
   }
 
-  confirmRelief(selectedData, selectedDays, skipCourses) {
-    console.log(this.staffObj);
-    console.log(selectedDays);
-    console.log(skipCourses);
-    this.skipCourseArr = skipCourses;
+  confirmRelief(selectedData) {
     if (this.reliefObj.type == 'all') {
+      this.assignedReliefAll = true;
       this.skipCourseArr.map(skipCourse => {
-        // console.log("skipcourse",skipCourse)
-        // skipCourse.["newTeacherId"] = selectedData.userId;
-        // skipCourse["newTeacherInfo"] = selectedData;
         skipCourse.courses.map(course => {
           console.log('skip course~~~', course);
           course['newTeacherId'] = selectedData.userId;
@@ -531,6 +695,7 @@ export class LeaveDetailsComponent implements OnInit {
         });
       });
     } else {
+      this.assignedReliefSingle = true;
       console.log(this.reliefObj);
       this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
         this.reliefObj.courseIdx
@@ -544,6 +709,51 @@ export class LeaveDetailsComponent implements OnInit {
     setTimeout(() => {
       this.cancelModal('relief');
     }, 300);
+  }
+
+  undoAll(type) {
+    switch (type) {
+      case 'relief':
+        console.log('all relief');
+        this.assignedReliefAll = false;
+        this.skipCourseArr.map(skipCourse => {
+          skipCourse.courses.map(course => {
+            delete course['newTeacherId'];
+            delete course['newTeacherInfo'];
+          });
+        });
+        console.log('~~~', this.skipCourseArr);
+        break;
+      case 'cancel':
+        console.log('all cancel');
+        this.cancelAll = false;
+        this.skipCourseArr.map(skipCourse => {
+          skipCourse.courses.map(course => {
+            delete course['cancel'];
+            delete course['pass'];
+            delete course['reason'];
+          });
+        });
+        console.log('~~~', this.skipCourseArr);
+        break;
+    }
+  }
+
+  undoMethod(type, dayLevelIdx, courseIdx) {
+    var course = this.skipCourseArr[dayLevelIdx].courses[courseIdx];
+    switch (type) {
+      case 'relief':
+        this.assignedReliefSingle = false;
+        delete course['newTeacherId'];
+        delete course['newTeacherInfo'];
+        break;
+      case 'cancel':
+        this.cancelSingle = false;
+        delete course['cancel'];
+        delete course['pass'];
+        delete course['reason'];
+        break;
+    }
   }
 }
 
