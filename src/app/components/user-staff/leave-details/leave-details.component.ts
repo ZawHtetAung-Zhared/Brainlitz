@@ -373,17 +373,61 @@ export class LeaveDetailsComponent implements OnInit {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
+    console.log(this.staffObj);
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
     console.log('create leave skipCourses', this.skipCourseArr);
+    let leaveObj = {
+      userId: this.staffObj.userId,
+      leaveType: 0,
+      leaveDays: [
+        {
+          leaveDay: '',
+          meridian: ''
+        }
+      ],
+      reason: '',
+      cancelledClasses: this.formatDataForCancelledClass(skipCourses),
+      techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
+    };
+    console.log(leaveObj);
   }
 
-  formatDataForCancelledClass() {
+  formatDataForCancelledClass(skipCourses) {
     console.log('cancelled class');
+    let cancelledClasses: any = [];
+    skipCourses.map((value, key) => {
+      value.courses.map((cvalue, ckey) => {
+        console.log(cvalue);
+        if (cvalue.hasOwnProperty('cancel')) {
+          cancelledClasses.push({
+            courseId: cvalue._id,
+            passes: cvalue.pass,
+            reason: cvalue.reason
+          });
+        }
+      });
+    });
+    console.log(cancelledClasses);
+    return cancelledClasses;
   }
 
-  formatDataForSwappedClass() {
+  formatDataForSwappedClass(skipCourses) {
     console.log('swapped class');
+    let swappedClasses = [];
+    skipCourses.map((value, key) => {
+      console.log(value);
+      value.courses.map((cvalue, ckey) => {
+        if (cvalue.hasOwnProperty('newTeacherId')) {
+          swappedClasses.push({
+            courseId: cvalue._id,
+            newTeacherId: cvalue.newTeacherId
+          });
+        }
+      });
+    });
+    console.log(swappedClasses);
+    return swappedClasses;
   }
   //end leave modal
   reliefObj = {
