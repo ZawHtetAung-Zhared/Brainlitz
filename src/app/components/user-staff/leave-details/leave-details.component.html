@@ -424,7 +424,8 @@
             </div>
           </div>
           <div class="skip-header">
-            {{ staffObj.preferredName }} will skip in this following days
+            {{ staffObj.preferredName }} will skip
+            {{ skipLessonsCount }} lessons in this following days
           </div>
 
           <div
@@ -516,15 +517,16 @@
           <div class="d-flex justify-content-end skipLessons-header">
             <div class="user-info col-md-7 p-0">
               <span class="bold-span">{{ staffObj.preferredName }}</span> will
-              skip <span class="bold-span">- lessons</span> in this following
-              days.
+              skip
+              <span class="bold-span">{{ skipLessonsCount }} lessons</span> in
+              this following days.
             </div>
             <div
               *ngIf="!assignedReliefAll && !cancelAll"
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
             >
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pr-2"
                 (click)="
                   assignReliefTeacher(
@@ -540,7 +542,7 @@
               </button>
               <span class="small-line"></span>
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pl-2"
                 (click)="
                   cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
@@ -734,6 +736,9 @@
       Cancel
     </button>
     <button
+      [disabled]="
+        !assignedReliefAll && !cancelAll && checkedArr.length < skipLessonsCount
+      "
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
     >
@@ -848,6 +853,7 @@
         Cancel
       </button>
       <button
+        [disabled]="selectedTeacher == null"
         class="btn button-submit font-medium"
         (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
       >
