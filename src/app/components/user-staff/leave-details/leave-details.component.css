@@ -578,24 +578,31 @@ min-width: 40px;
   display: block;
   border-radius: 4px;
   border: 0px;
-  -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
   background-color: #ffffff;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   color: #2e3d4d;
 }
-
+.input-search-dropdown-bg:focus,
+.leave-search-down:focus {
+  outline: none !important;
+}
+.active-dropdown {
+  background: #f2f4f5 !important;
+}
 .leave-search-down {
   height: 40px;
   position: absolute;
   left: 170px;
   overflow: hidden;
+  color: #b0b1b2;
   z-index: 3;
   border: 0px;
-  -webkit-box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
-  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
-  background-color: #ffffff;
+  /* -webkit-box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
+  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3); */
+  background: #ffffff;
   border-left: none;
 }
 .leave-list-name {
@@ -606,12 +613,42 @@ min-width: 40px;
 .check-leave-name {
   color: #007fff;
 }
+.leave-reason-input {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  min-height: 97px;
+  max-height: 144px;
+  margin-bottom: 20px;
+  resize: none;
+}
+.leave-reason-input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+.leave-reason-wrapper {
+  border-bottom: 1px solid #edeff0;
+  height: auto;
+  padding-top: 32px;
+}
+.leave-reason-title span {
+  color: #64707d;
+  font-size: 14px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.leave-reason-title {
+  color: #2e3d4d;
+  font-size: 18px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
 .leave-type-listing {
   -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   display: block;
   width: 196px;
   background: #fff;
+  width: 200px;
   /* height: 300px; */
   position: absolute;
   z-index: 10;
@@ -769,7 +806,7 @@ span.txt-lessouns-count {
   font-size: 14px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-.circle {
+.small_circle {
   width: 4px;
   height: 4px;
   background: #d4d5d6;
@@ -803,22 +840,27 @@ span.txt-lessouns-count {
   color: #2e3d4d;
   font-size: 16px;
   line-height: 24px;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  /* font-family: 'Inter-UI-SemiBold', Arial, sans-serif; */
   box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.08);
   height: 116px;
   padding: 20px;
 }
 span.bold-txt {
-  font-weight: bold;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
+span.leave-text {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
 p.left-txt {
   color: #009940;
   font-size: 16px;
+  font-family: 'Inter-UI-SemiRegular', Arial, sans-serif;
 }
 
 .container-div {
   height: 700px;
-  padding: 32px;
+  padding: 0px 32px 32px 32px;
 }
 
 .modal-wrap {
@@ -997,13 +1039,19 @@ p.left-txt {
 }
 
 .assign-modal-body {
-  height: 565px;
+  max-height: 565px;
   overflow: overlay;
 }
 
 .assign-modal-header,
 .assign-modal-body {
   padding: 16px 32px 6px 32px !important;
+}
+
+.assign-modal-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .assignmodal-title {
@@ -1080,6 +1128,45 @@ p.left-txt {
   font-size: 18px;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  opacity: 0;
+}
+
+.tooltip .tooltiptext {
+  /* visibility: hidden; */
+  background-color: #555f69;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 3px;
+  position: absolute;
+  z-index: 1;
+  bottom: 44px;
+  /* left: 50%; */
+  margin-left: -84px;
+  opacity: 0;
+  left: 35px;
+  width: 88px;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555f69 transparent transparent transparent;
+}
+
+.addVisible {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 .conflict-wrapper {
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -1091,4 +1178,9 @@ p.left-txt {
   line-height: 3;
   color: #2e3d4d;
   font-size: 16px;
+}
+
+.all-btn:disabled {
+  cursor: no-drop !important;
+  opacity: 0.6;
 }

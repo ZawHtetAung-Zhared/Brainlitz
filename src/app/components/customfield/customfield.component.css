@@ -200,7 +200,9 @@
   color: #2e3d4d;
   margin-right: 20px;
 }
-
+.input-value-wrapper {
+  padding-bottom: 90px;
+}
 .btn-submit {
   background-color: #007fff;
   color: #ffffff;

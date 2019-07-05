@@ -85,7 +85,7 @@
       /></span>
       <div class="d-flex flex-column">
         <div class="d-flex">
-          <p class="mb-0 leave-date">{{ log.leaveDay }}</p>
+          <p class="mb-0 leave-date">{{ log.leaveDay | utcDateAndDay }}</p>
           <p class="leave-type-info mb-0" *ngIf="log.meridian == 'AM'">
             HALF - {{ log.meridian }}
           </p>
@@ -133,7 +133,7 @@
         <div class="d-flex flex-column" *ngIf="giveMakeUp">
           <label for="" class="reason-title">Reason (Optional)</label>
           <textarea
-            (input)="autoResize($event)"
+            (input)="autoResize($event, 'cancel')"
             rows="1"
             [(ngModel)]="cancelReason"
             class="reason-text"
@@ -214,7 +214,7 @@
           {{ staffObj.preferredName }}
         </div>
       </div>
-      <span class="leave-close-icon" (click)="closeCancelClassModal()"></span>
+      <span class="leave-close-icon" (click)="closeOpenLeaveModal()"></span>
     </div>
     <div class="d-flex calendarView">
       <div class="d-flex flex-column">
@@ -266,33 +266,27 @@
               </div>
 
               <div class="cal-event-container">
-                <div
-                  *ngIf="day.badgeTotal > 0"
-                  style="display:flex;min-width: 30px;flex:1px"
-                >
-                  <div class="space"></div>
+                <div *ngIf="day.events.length > 0" style="text-align: center;">
                   <div
                     class="cal-event cal-draggable ng-star-inserted"
                     dragactiveclass="cal-drag-active"
                     mwldraggable=""
-                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#ff9500;"
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#E3E4E6;margin: 2px 2px 9px 2px;width: 6px;
+                    height: 6px;"
                   ></div>
 
-                  <div
-                    *ngIf="day.events[0].status == 'marked'"
+                  <!-- <div
+                    *ngIf="day.events[0].start == day.date"
                     class="cal-event cal-draggable ng-star-inserted"
                     dragactiveclass="cal-drag-active"
                     mwldraggable=""
                     style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #D4D5D6;"
-                  ></div>
-                  <div
-                    *ngIf="day.events[0].feedback.length > 0"
-                    class="cal-event cal-draggable ng-star-inserted"
-                    dragactiveclass="cal-drag-active"
-                    mwldraggable=""
-                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #009940;"
-                  ></div>
-                  <div class="space"></div>
+                  ></div> -->
+                  <div class="tooltip" id="tooltip{{ day.date }}">
+                    <span class="tooltiptext" id="tooltiptxt{{ day.date }}">{{
+                      day.events[0].meridian
+                    }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -330,6 +324,10 @@
               <div class="leave-day-Choosetype">
                 <div class="input-group">
                   <input
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
                     class="form-control py-2 input-search-dropdown-bg"
                     value="{{ sday.name }}"
                     type="search"
@@ -342,7 +340,11 @@
                     readonly
                   />
                   <button
-                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down fa-2x"
                     (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
@@ -378,11 +380,21 @@
           </div>
           <div class="leave-day-footer">
             <span class="leave-text">You are creating</span>
-            <span class="bold-txt"></span
-            ><span class="leave-text">of Annual Leave for </span
+            <span class="bold-txt">{{ totalLeaves }}</span
+            ><span class="leave-text">leave for </span
             ><span class="bold-txt"> {{ staffObj.preferredName }}</span>
-            <p class="left-txt">days left</p>
+            <p class="left-txt"></p>
           </div>
+        </div>
+        <div class="d-flex flex-column leave-reason-wrapper">
+          <h2 class="leave-reason-title">Reason <span>(Optional)</span></h2>
+          <textarea
+            class="leave-reason-input"
+            type="text"
+            placeholder="Type reason here..."
+            [(ngModel)]="leaveReason"
+            (input)="autoResize($event, 'leave')"
+          ></textarea>
         </div>
       </div>
       <div class="skip-lessons-part">
@@ -398,6 +410,15 @@
           >
             <div class="d-flex justify-content-between">
               <div class="">
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'DAY'"
+                  ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
+                /></span>
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'PM'"
+                  ><img src="../../../../assets/icons/PM.svg" alt=""
+                /></span>
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'AM'"
+                  ><img src="../../../../assets/icons/am.svg" alt=""
+                /></span>
                 <span class="skip-lessons-date">{{
                   sobj.date | utcDateAndDay
                 }}</span>
@@ -423,7 +444,7 @@
               </div>
               <div class="d-flex course-des">
                 <span>{{ sobj.enrolledStudentCount }} student</span>
-                <span class="circle"></span>
+                <span class="small_circle"></span>
                 <span class="timezone"
                   >{{ course.lessons[0].startDate | utcTime }} -
                   {{ course.lessons[0].endDate | utcTime }}</span
@@ -447,6 +468,25 @@
   </div>
   <div *ngIf="showRelief">
     <div class="container-div">
+      <div class="d-flex w-100">
+        <h1 class="leave-class-title">Create absent</h1>
+        <div class="profileimg-wrap d-flex flex-column">
+          <div class="circular-image">
+            <img
+              *ngIf="staffObj.profilePic == 'undefined'"
+              src="assets/img/user.svg"
+            />
+            <img
+              *ngIf="staffObj.profilePic != 'undefined'"
+              src="{{ staffObj.profilePic }}"
+            />
+          </div>
+          <div class="staffname">
+            {{ staffObj.preferredName }}
+          </div>
+        </div>
+        <span class="leave-close-icon" (click)="closeOpenLeaveModal()"></span>
+      </div>
       <div class="d-flex">
         <div class="lessons-table col-md-9 p-0">
           <div class="d-flex justify-content-end skipLessons-header">
@@ -456,9 +496,11 @@
               days.
             </div>
             <div
+              *ngIf="!assignedReliefAll && !cancelAll"
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
             >
               <button
+                [disabled]="assignedReliefSingle || this.cancelSingle"
                 class="pr-2"
                 (click)="
                   assignReliefTeacher(
@@ -474,6 +516,7 @@
               </button>
               <span class="small-line"></span>
               <button
+                [disabled]="assignedReliefSingle || this.cancelSingle"
                 class="pl-2"
                 (click)="
                   cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
@@ -481,6 +524,26 @@
               >
                 CANCEL ALL
               </button>
+            </div>
+            <div
+              *ngIf="assignedReliefAll"
+              class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
+            >
+              <button (click)="undoAll('relief')">UNDO</button>
+              <span class="small-line"></span>
+              <div>
+                Assigned Relief Teacher All
+              </div>
+            </div>
+            <div
+              *ngIf="cancelAll"
+              class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
+            >
+              <button (click)="undoAll('cancel')">UNDO</button>
+              <span class="small-line"></span>
+              <div>
+                Cancelled All
+              </div>
             </div>
           </div>
           <div class="lBlock-wrapper">
@@ -494,7 +557,7 @@
               <div class="circle"></div>
               <div class="w-100">
                 <label class="lesson-date mb-0">
-                  {{ lessonObj.date }}
+                  {{ lessonObj.date | utcDateAndDay }}
                 </label>
                 <div *ngFor="let course of lessonObj.courses; let idx = index">
                   <div
@@ -520,9 +583,6 @@
                         </div>
                         <div>
                           {{ course.lessons[0].endDate | utcTime }}
-                          ===>cancel{{ course.cancel }} ===>relief{{
-                            course.newTeacherId
-                          }}
                         </div>
                       </div>
                     </div>
@@ -567,7 +627,9 @@
                       *ngIf="course.newTeacherId != undefined"
                       class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
-                      <button>Undo</button>
+                      <button (click)="undoMethod('relief', i, idx)">
+                        Undo
+                      </button>
                       <span class="small-line"></span>
                       <div>
                         <label>Relief teacher</label>
@@ -580,7 +642,9 @@
                       *ngIf="course.cancel == true"
                       class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
-                      <button>Undo</button>
+                      <button (click)="undoMethod('cancel', i, idx)">
+                        Undo
+                      </button>
                       <span class="small-line"></span>
                       <div>
                         <label>Cancelled Class</label>
@@ -616,7 +680,7 @@
     </div>
   </div>
   <div *ngIf="!showRelief" class="modal-footer">
-    <button class="btn bg-white" (click)="closeCancelClassModal()">
+    <button class="btn bg-white" (click)="closeOpenLeaveModal()">
       Cancel
     </button>
     <button
@@ -755,7 +819,7 @@
         </div>
       </div>
     </div>
-    <div class="d-flex modal-footer">
+    <div class="d-flex modal-footer assign-modal-footer">
       <button class="btn bg-white" (click)="cancelModal('relief')">
         Cancel
       </button>
