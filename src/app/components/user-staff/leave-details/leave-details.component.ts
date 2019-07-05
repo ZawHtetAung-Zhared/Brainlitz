@@ -134,7 +134,6 @@ export class LeaveDetailsComponent implements OnInit {
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
           this.totalLeaveDay += leave.leaveDays;
         });
-        console.error(this.totalLeaveDay);
         this.userLeave = res.leaves;
         this.leaveLogs = res.logs;
       },
