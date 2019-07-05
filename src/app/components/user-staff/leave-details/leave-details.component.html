@@ -491,7 +491,7 @@
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
             >
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pr-2"
                 (click)="
                   assignReliefTeacher(
@@ -507,7 +507,7 @@
               </button>
               <span class="small-line"></span>
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pl-2"
                 (click)="
                   cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
@@ -701,6 +701,7 @@
       Cancel
     </button>
     <button
+      [disabled]="!assignedReliefAll && !cancelAll"
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
     >
@@ -815,6 +816,7 @@
         Cancel
       </button>
       <button
+        [disabled]="selectedTeacher == null"
         class="btn button-submit font-medium"
         (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
       >

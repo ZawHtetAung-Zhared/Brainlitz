@@ -156,6 +156,7 @@ export class LeaveDetailsComponent implements OnInit {
   confirmCancelClass() {
     if (this.cancelType === 'single') {
       this.cancelSingle = true;
+      this.checkedArr.push('disabled');
       this.skipCourseArr[this.dateIndex].courses[
         this.courseIndex
       ].pass = this.giveMakeUp;
@@ -631,6 +632,7 @@ export class LeaveDetailsComponent implements OnInit {
       this.cancelAll = false;
       this.assignedReliefSingle = false;
       this.cancelSingle = false;
+      this.checkedArr = [];
     }
   }
 
@@ -683,7 +685,7 @@ export class LeaveDetailsComponent implements OnInit {
       })
     );
   }
-
+  checkedArr: any = [];
   confirmRelief(selectedData) {
     if (this.reliefObj.type == 'all') {
       this.assignedReliefAll = true;
@@ -696,6 +698,7 @@ export class LeaveDetailsComponent implements OnInit {
       });
     } else {
       this.assignedReliefSingle = true;
+      this.checkedArr.push('disabled');
       console.log(this.reliefObj);
       this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
         this.reliefObj.courseIdx
@@ -740,6 +743,9 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   undoMethod(type, dayLevelIdx, courseIdx) {
+    console.log(this.checkedArr);
+    this.checkedArr.shift();
+    console.log('~~~~~~>', this.checkedArr);
     var course = this.skipCourseArr[dayLevelIdx].courses[courseIdx];
     switch (type) {
       case 'relief':
