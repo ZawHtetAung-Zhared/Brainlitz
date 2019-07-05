@@ -51,6 +51,8 @@ export class LeaveDetailsComponent implements OnInit {
   loading: boolean = false;
   public userLeave = [];
   public leaveLogs = [];
+  public totalLeaveDay;
+  public leaveLeftDay;
   public giveMakeUp = false;
   public studentCount;
   public cancelType;
@@ -125,11 +127,13 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   getUserLeaves(userId) {
+    this.totalLeaveDay = 0;
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
           leave.percentLeave = leave.takenDays * 5 + 40;
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+          this.totalLeaveDay += leave.leaveDays;
         });
         this.userLeave = res.leaves;
         this.leaveLogs = res.logs;
@@ -342,6 +346,8 @@ export class LeaveDetailsComponent implements OnInit {
     leaveArray.map(leave => {
       this.totalLeaves += leave.value;
     });
+    this.leaveLeftDay = this.totalLeaveDay - this.totalLeaves;
+
     this.totalLeaves = this.totalLeaves.toString().split('.');
     if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
       if (Number(this.totalLeaves[0]) === 0) {
@@ -351,6 +357,17 @@ export class LeaveDetailsComponent implements OnInit {
       }
     } else {
       this.totalLeaves = this.totalLeaves[0] + ' days ';
+    }
+
+    this.leaveLeftDay = this.leaveLeftDay.toString().split('.');
+    if (String(this.leaveLeftDay[this.leaveLeftDay.length - 1]) == '5') {
+      if (Number(this.leaveLeftDay[0]) === 0) {
+        this.leaveLeftDay = ' half days ';
+      } else {
+        this.leaveLeftDay = this.leaveLeftDay[0] + ' days and half ';
+      }
+    } else {
+      this.leaveLeftDay = this.leaveLeftDay[0] + ' days ';
     }
   }
 
@@ -590,17 +607,61 @@ export class LeaveDetailsComponent implements OnInit {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
+    console.log(this.staffObj);
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
     console.log('create leave skipCourses', this.skipCourseArr);
+    let leaveObj = {
+      userId: this.staffObj.userId,
+      leaveType: 0,
+      leaveDays: [
+        {
+          leaveDay: '',
+          meridian: ''
+        }
+      ],
+      reason: '',
+      cancelledClasses: this.formatDataForCancelledClass(skipCourses),
+      techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
+    };
+    console.log(leaveObj);
   }
 
-  formatDataForCancelledClass() {
+  formatDataForCancelledClass(skipCourses) {
     console.log('cancelled class');
+    let cancelledClasses: any = [];
+    skipCourses.map((value, key) => {
+      value.courses.map((cvalue, ckey) => {
+        console.log(cvalue);
+        if (cvalue.hasOwnProperty('cancel')) {
+          cancelledClasses.push({
+            courseId: cvalue._id,
+            passes: cvalue.pass,
+            reason: cvalue.reason
+          });
+        }
+      });
+    });
+    console.log(cancelledClasses);
+    return cancelledClasses;
   }
 
-  formatDataForSwappedClass() {
+  formatDataForSwappedClass(skipCourses) {
     console.log('swapped class');
+    let swappedClasses = [];
+    skipCourses.map((value, key) => {
+      console.log(value);
+      value.courses.map((cvalue, ckey) => {
+        if (cvalue.hasOwnProperty('newTeacherId')) {
+          swappedClasses.push({
+            courseId: cvalue._id,
+            newTeacherId: cvalue.newTeacherId
+          });
+        }
+      });
+    });
+    console.log(swappedClasses);
+    return swappedClasses;
   }
   //end leave modal
   reliefObj = {
