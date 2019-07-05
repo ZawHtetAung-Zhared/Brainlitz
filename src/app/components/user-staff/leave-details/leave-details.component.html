@@ -85,7 +85,7 @@
       /></span>
       <div class="d-flex flex-column">
         <div class="d-flex">
-          <p class="mb-0 leave-date">{{ log.leaveDay }}</p>
+          <p class="mb-0 leave-date">{{ log.leaveDay | utcDateAndDay }}</p>
           <p class="leave-type-info mb-0" *ngIf="log.meridian == 'AM'">
             HALF - {{ log.meridian }}
           </p>
@@ -133,7 +133,7 @@
         <div class="d-flex flex-column" *ngIf="giveMakeUp">
           <label for="" class="reason-title">Reason (Optional)</label>
           <textarea
-            (input)="autoResize($event)"
+            (input)="autoResize($event, 'cancel')"
             rows="1"
             [(ngModel)]="cancelReason"
             class="reason-text"
@@ -330,6 +330,10 @@
               <div class="leave-day-Choosetype">
                 <div class="input-group">
                   <input
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
                     class="form-control py-2 input-search-dropdown-bg"
                     value="{{ sday.name }}"
                     type="search"
@@ -342,7 +346,11 @@
                     readonly
                   />
                   <button
-                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down "
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down fa-2x"
                     (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
@@ -378,11 +386,21 @@
           </div>
           <div class="leave-day-footer">
             <span class="leave-text">You are creating</span>
-            <span class="bold-txt"></span
-            ><span class="leave-text">of Annual Leave for </span
+            <span class="bold-txt">{{ totalLeaves }}</span
+            ><span class="leave-text">leave for </span
             ><span class="bold-txt"> {{ staffObj.preferredName }}</span>
-            <p class="left-txt">days left</p>
+            <p class="left-txt"></p>
           </div>
+        </div>
+        <div class="d-flex flex-column leave-reason-wrapper">
+          <h2 class="leave-reason-title">Reason <span>(Optional)</span></h2>
+          <textarea
+            class="leave-reason-input"
+            type="text"
+            placeholder="Type reason here..."
+            [(ngModel)]="leaveReason"
+            (input)="autoResize($event, 'leave')"
+          ></textarea>
         </div>
       </div>
       <div class="skip-lessons-part">

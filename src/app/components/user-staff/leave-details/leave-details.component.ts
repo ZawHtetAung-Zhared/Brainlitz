@@ -64,9 +64,9 @@ export class LeaveDetailsComponent implements OnInit {
   selectedDayViewDate: Date;
   selectedDateArr: any = [];
   leaveTypeList: any = [
-    { id: 0, name: 'Full Day' },
-    { id: 1, name: '1st Half-AM' },
-    { id: 2, name: '1st Half-PM' }
+    { id: 0, name: 'Full Day', value: 1 },
+    { id: 1, name: '1st Half-AM', value: 0.5 },
+    { id: 2, name: '1st Half-PM', value: 0.5 }
   ];
   skipCourseArr: any = [];
   public showRelief: boolean = false;
@@ -114,15 +114,18 @@ export class LeaveDetailsComponent implements OnInit {
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
         });
         this.userLeave = res.leaves;
-
         this.leaveLogs = res.logs;
       },
       err => {}
     );
   }
-  autoResize(e) {
-    console.log(e.target.style);
-    this.cancelReason = e.target.value;
+  leaveReason;
+  autoResize(e, type) {
+    if (type === 'leave') {
+      this.leaveReason = e.target.value;
+    } else {
+      this.cancelReason = e.target.value;
+    }
     console.log(e.target.scrollHeight);
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
@@ -205,7 +208,7 @@ export class LeaveDetailsComponent implements OnInit {
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
     this.selectedMonthViewDay = day;
-    let dateType = { id: 0, name: 'Full Day', date: day.date };
+    let dateType = { id: 0, name: 'Full Day', date: day.date, value: 1 };
     const selectedDateTime = this.selectedMonthViewDay.date.getTime();
     let today = new Date();
     this.clickDay = day.date;
@@ -238,22 +241,40 @@ export class LeaveDetailsComponent implements OnInit {
         this.selectedMonthViewDay = day;
 
         console.log(dateFormat);
-        this.getleaveCheck(dateFormat, 'Full Day');
+        this.getleaveCheck(dateFormat, dateType);
       }
     }
-
+    this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
     console.log(this.ddDate);
   }
   // this.ddDate = dateFormat;
+  public totalLeaves;
+
+  getTotalLeaves(leaveArray) {
+    this.totalLeaves = 0;
+    leaveArray.map(leave => {
+      this.totalLeaves += leave.value;
+    });
+    this.totalLeaves = this.totalLeaves.toString().split('.');
+    if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
+      if (Number(this.totalLeaves[0]) === 0) {
+        this.totalLeaves = ' half days ';
+      } else {
+        this.totalLeaves = this.totalLeaves[0] + ' days and half ';
+      }
+    } else {
+      this.totalLeaves = this.totalLeaves[0] + ' days ';
+    }
+  }
   getleaveCheck(date, type) {
     console.log(type);
 
     let defineType;
-    if (type.name == 'Full Day') {
+    if (type.name === 'Full Day') {
       defineType = 'DAY';
-    } else if (type.name == '1st Half-AM') {
+    } else if (type.name === '1st Half-AM') {
       defineType = 'AM';
     } else {
       defineType = 'PM';
@@ -346,7 +367,7 @@ export class LeaveDetailsComponent implements OnInit {
       const ele = document.getElementById('zzz' + index);
       ele.style.left = e.target.parentNode.offsetLeft + 'px';
       ele.style.top =
-        e.target.parentNode.offsetTop + 40 - this.scrollPosition + 'px';
+        e.target.parentNode.offsetTop + 50 - this.scrollPosition + 'px';
       if (ele.style.display == 'block') {
         ele.style.display = 'none';
         conTainer1.style.overflow = 'auto';
@@ -363,10 +384,13 @@ export class LeaveDetailsComponent implements OnInit {
     let dateFormat = this.datePipe.transform(date, 'yyyy-MM-dd');
     // setTimeout(() => {
     this.selectedDays[index].name = type.name;
+    this.selectedDays[index].value = type.value;
     this.selectedLeave = type;
     this.isFocusleavetype = false;
     console.log(this.selectedLeave);
     this.getleaveCheck(dateFormat, type);
+    this.getTotalLeaves(this.selectedDays);
+
     // }, 100);
   }
   goTonext() {

@@ -578,24 +578,31 @@ min-width: 40px;
   display: block;
   border-radius: 4px;
   border: 0px;
-  -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+  box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
   background-color: #ffffff;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   color: #2e3d4d;
 }
-
+.input-search-dropdown-bg:focus,
+.leave-search-down:focus {
+  outline: none !important;
+}
+.active-dropdown {
+  background: #f2f4f5 !important;
+}
 .leave-search-down {
   height: 40px;
   position: absolute;
   left: 170px;
   overflow: hidden;
+  color: #b0b1b2;
   z-index: 3;
   border: 0px;
-  -webkit-box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
-  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
-  background-color: #ffffff;
+  /* -webkit-box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3);
+  box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3); */
+  background: #ffffff;
   border-left: none;
 }
 .leave-list-name {
@@ -606,12 +613,42 @@ min-width: 40px;
 .check-leave-name {
   color: #007fff;
 }
+.leave-reason-input {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  min-height: 97px;
+  max-height: 144px;
+  margin-bottom: 20px;
+  resize: none;
+}
+.leave-reason-input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+.leave-reason-wrapper {
+  border-bottom: 1px solid #edeff0;
+  height: auto;
+  padding-top: 32px;
+}
+.leave-reason-title span {
+  color: #64707d;
+  font-size: 14px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.leave-reason-title {
+  color: #2e3d4d;
+  font-size: 18px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
 .leave-type-listing {
   -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   display: block;
   width: 196px;
   background: #fff;
+  width: 200px;
   /* height: 300px; */
   position: absolute;
   z-index: 10;
