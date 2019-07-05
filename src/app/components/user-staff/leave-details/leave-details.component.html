@@ -399,8 +399,33 @@
       </div>
       <div class="skip-lessons-part">
         <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
+          <div *ngIf="loading == true">
+            <div class="row">
+              <div class="class-block">
+                <div class="course-title">
+                  <list-content-loader></list-content-loader>
+                </div>
+              </div>
+              <div class="class-block">
+                <div class="course-title">
+                  <list-content-loader></list-content-loader>
+                </div>
+              </div>
+              <div class="class-block">
+                <div class="course-title">
+                  <list-content-loader></list-content-loader>
+                </div>
+              </div>
+              <div class="class-block">
+                <div class="course-title">
+                  <list-content-loader></list-content-loader>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="skip-header">
-            {{ staffObj.preferredName }} will skip in this following days
+            {{ staffObj.preferredName }} will skip
+            {{ skipLessonsCount }} lessons in this following days
           </div>
 
           <div
@@ -410,13 +435,13 @@
           >
             <div class="d-flex justify-content-between">
               <div class="">
-                <span class="leave-info-icon" *ngIf="sobj.meridian == 'DAY'"
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'DAY'"
                   ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
                 /></span>
-                <span class="leave-info-icon" *ngIf="sobj.meridian == 'PM'"
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'PM'"
                   ><img src="../../../../assets/icons/PM.svg" alt=""
                 /></span>
-                <span class="leave-info-icon" *ngIf="sobj.meridian == 'AM'"
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'AM'"
                   ><img src="../../../../assets/icons/am.svg" alt=""
                 /></span>
                 <span class="skip-lessons-date">{{
@@ -492,15 +517,16 @@
           <div class="d-flex justify-content-end skipLessons-header">
             <div class="user-info col-md-7 p-0">
               <span class="bold-span">{{ staffObj.preferredName }}</span> will
-              skip <span class="bold-span">- lessons</span> in this following
-              days.
+              skip
+              <span class="bold-span">{{ skipLessonsCount }} lessons</span> in
+              this following days.
             </div>
             <div
               *ngIf="!assignedReliefAll && !cancelAll"
               class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
             >
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pr-2"
                 (click)="
                   assignReliefTeacher(
@@ -516,7 +542,7 @@
               </button>
               <span class="small-line"></span>
               <button
-                [disabled]="assignedReliefSingle || this.cancelSingle"
+                [disabled]="checkedArr.length > 0"
                 class="pl-2"
                 (click)="
                   cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
@@ -710,6 +736,9 @@
       Cancel
     </button>
     <button
+      [disabled]="
+        !assignedReliefAll && !cancelAll && checkedArr.length < skipLessonsCount
+      "
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
     >
@@ -824,6 +853,7 @@
         Cancel
       </button>
       <button
+        [disabled]="selectedTeacher == null"
         class="btn button-submit font-medium"
         (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
       >

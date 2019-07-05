@@ -48,6 +48,7 @@ import { LeaveService } from '../leave-details/leave.service';
 })
 export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
+  loading: boolean = false;
   public userLeave = [];
   public leaveLogs = [];
   public totalLeaveDay;
@@ -84,12 +85,17 @@ export class LeaveDetailsComponent implements OnInit {
   events: CalendarEvent[] = [];
   assignedReliefAll: boolean = false;
   cancelAll: boolean = false;
-  assignedReliefSingle: boolean = false;
-  cancelSingle: boolean = false;
   isFocusSearch: boolean = true;
   searchKeyword: any = '';
   selectedTeacher: any = null;
   conflictLessonArr = [];
+  checkedArr: any = [];
+  reliefObj = {
+    type: '',
+    dateLevelIdx: '',
+    courseIdx: ''
+  };
+  skipLessonsCount: any = 0;
 
   constructor(
     private _service: appService,
@@ -160,7 +166,7 @@ export class LeaveDetailsComponent implements OnInit {
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
-      this.cancelSingle = true;
+      this.checkedArr.push('disabled');
       this.skipCourseArr[this.dateIndex].courses[
         this.courseIndex
       ].pass = this.giveMakeUp;
@@ -234,9 +240,7 @@ export class LeaveDetailsComponent implements OnInit {
   isTtlip: boolean = false;
   preClick: any;
   dayClicked(day: CalendarMonthViewDay, e): void {
-    console.log(this.events);
-
-    console.log(this.selectedDays);
+    console.log(this.skipCourseArr);
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
 
@@ -254,6 +258,11 @@ export class LeaveDetailsComponent implements OnInit {
     const dateIndex = this.selectedDays.findIndex(
       selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
+    const skipdateExit = this.skipCourseArr.findIndex(
+      skipDate => skipDate.date === selectedDate
+    );
+    console.log(skipdateExit);
+
     //to check future hodliday exit or not
     const dateIndex2 = this.events.findIndex(
       e => this.datePipe.transform(e.start, 'yyyy-MM-dd') === selectedDate
@@ -307,11 +316,16 @@ export class LeaveDetailsComponent implements OnInit {
     ) {
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
+
       if (dateIndex > -1) {
         //dateIndex > -1 mean exit this day so need to remove the css for selected
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1); //this for leave days add new
-        this.skipCourseArr.splice(dateIndex, 1);
+
+        if (skipdateExit > -1) {
+          this.skipCourseArr.splice(skipdateExit, 1);
+          this.calculateSkipLessons(this.skipCourseArr);
+        }
         calCell.classList.remove('cal-day-selected');
         calDay.classList.remove('cal-day-number-selected');
       } else {
@@ -323,15 +337,12 @@ export class LeaveDetailsComponent implements OnInit {
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
-
-        console.log(dateFormat);
         this.getleaveCheck(dateFormat, dateType);
       }
     }
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
-    console.log(this.ddDate);
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -367,6 +378,8 @@ export class LeaveDetailsComponent implements OnInit {
   getleaveCheck(date, type) {
     //to define meridian spelling for api
     let defineType;
+    console.log(type);
+
     if (type.name === 'Full Day') {
       defineType = 'DAY';
     } else if (type.name === '1st Half-AM') {
@@ -374,6 +387,7 @@ export class LeaveDetailsComponent implements OnInit {
     } else {
       defineType = 'PM';
     }
+    this.loading = true;
     this._service
       .getleaveCheckAvaiable(
         this.regionID,
@@ -383,16 +397,44 @@ export class LeaveDetailsComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.isAvailable == false) {
-            res.date = date;
-            res.meridian = defineType;
-            this.skipCourseArr.push(res);
-            console.log(res);
+          console.log(res);
+          res.date = date;
+          res.meridian = defineType;
+          // if (res.isAvailable == false) {
+          const dateIndex = this.skipCourseArr.findIndex(e => e.date === date);
+          if (dateIndex > -1) {
+            if (res.courses.length > 0) {
+              this.skipCourseArr[dateIndex] = res;
+            } else {
+              this.skipCourseArr.splice(dateIndex, 1);
+            }
+          } else {
+            if (res.courses.length > 0) {
+              this.skipCourseArr.push(res);
+              console.log(this.skipCourseArr);
+            }
           }
+          this.calculateSkipLessons(this.skipCourseArr);
+          this.loading = false;
+          // }
           console.log(this.skipCourseArr);
         },
         err => {}
       );
+  }
+
+  // calculate skip lessons count
+  calculateSkipLessons(skipCoursesArr) {
+    this.skipLessonsCount = 0;
+    skipCoursesArr.map(skipCourse => {
+      console.log(
+        'skipLessonsCount',
+        this.skipLessonsCount,
+        'c length',
+        skipCourse.courses.length
+      );
+      this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
+    });
   }
 
   //to get leave taken day by one month
@@ -589,20 +631,37 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
     console.log('create leave skipCourses', this.skipCourseArr);
+    this.formatDataForLeaveDays(skipCourses);
+    let regionId = localStorage.getItem('regionId');
     let leaveObj = {
       userId: this.staffObj.userId,
       leaveType: 0,
-      leaveDays: [
-        {
-          leaveDay: '',
-          meridian: ''
-        }
-      ],
-      reason: '',
+      leaveDays: this.formatDataForLeaveDays(skipCourses),
+      reason: 'ggwp',
       cancelledClasses: this.formatDataForCancelledClass(skipCourses),
       techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
     };
     console.log(leaveObj);
+    this.leaveService.createLeave(regionId, leaveObj).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  formatDataForMeridian(meridian) {
+    console.log(meridian);
+  }
+
+  formatDataForLeaveDays(skipCourses) {
+    let leaveDays = [];
+    skipCourses.map((val, key) => {
+      console.log(val);
+      leaveDays.push({
+        leaveDay: val.date,
+        meridian: val.meridian
+      });
+    });
+    console.log(leaveDays);
+    return leaveDays;
   }
 
   formatDataForCancelledClass(skipCourses) {
@@ -614,7 +673,7 @@ export class LeaveDetailsComponent implements OnInit {
         if (cvalue.hasOwnProperty('cancel')) {
           cancelledClasses.push({
             courseId: cvalue._id,
-            passes: cvalue.pass,
+            passes: cvalue.pass.toString(),
             reason: cvalue.reason
           });
         }
@@ -642,11 +701,7 @@ export class LeaveDetailsComponent implements OnInit {
     return swappedClasses;
   }
   //end leave modal
-  reliefObj = {
-    type: '',
-    dateLevelIdx: '',
-    courseIdx: ''
-  };
+
   //for assign relief and cancel class UI
   assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
     this.reliefModalReference = this.cancelClassModalService.open(modalName, {
@@ -691,8 +746,7 @@ export class LeaveDetailsComponent implements OnInit {
       this.showRelief = false;
       this.assignedReliefAll = false;
       this.cancelAll = false;
-      this.assignedReliefSingle = false;
-      this.cancelSingle = false;
+      this.checkedArr = [];
     }
   }
 
@@ -734,7 +788,7 @@ export class LeaveDetailsComponent implements OnInit {
               this.regionID,
               this.selectedTeacher.userId,
               skipCourse.date,
-              'DAY'
+              skipCourse.meridian
             )
             .subscribe((res: any) => {
               console.log('conflict lessons', res);
@@ -757,7 +811,7 @@ export class LeaveDetailsComponent implements OnInit {
         });
       });
     } else {
-      this.assignedReliefSingle = true;
+      this.checkedArr.push('disabled');
       console.log(this.reliefObj);
       this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
         this.reliefObj.courseIdx
@@ -802,15 +856,16 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   undoMethod(type, dayLevelIdx, courseIdx) {
+    console.log(this.checkedArr);
+    this.checkedArr.shift();
+    console.log('~~~~~~>', this.checkedArr);
     var course = this.skipCourseArr[dayLevelIdx].courses[courseIdx];
     switch (type) {
       case 'relief':
-        this.assignedReliefSingle = false;
         delete course['newTeacherId'];
         delete course['newTeacherInfo'];
         break;
       case 'cancel':
-        this.cancelSingle = false;
         delete course['cancel'];
         delete course['pass'];
         delete course['reason'];

@@ -113,6 +113,9 @@
 .leave-info-icon {
   padding-right: 16px;
 }
+.leave-info-icon2 {
+  padding-right: 5px;
+}
 .leave-type-info {
   background: #f2f4f5;
   padding: 3px 8px 3px 8px;
@@ -430,8 +433,12 @@ input:checked + .slider:before {
   letter-spacing: 0.5px;
   cursor: pointer;
 }
+.skip-lessons {
+  padding-left: 22px;
+}
 
 /* for angular calendar css */
+
 .cal-month-view .cal-header .cal-cell {
   /* color: #788796; */
   font: size 15px;
@@ -849,13 +856,13 @@ span.bold-txt {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 span.leave-text {
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiRegular', Arial, sans-serif;
 }
 
 p.left-txt {
   color: #009940;
   font-size: 16px;
-  font-family: 'Inter-UI-SemiRegular', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
 .container-div {
