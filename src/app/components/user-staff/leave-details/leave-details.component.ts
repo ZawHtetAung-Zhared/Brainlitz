@@ -95,6 +95,7 @@ export class LeaveDetailsComponent implements OnInit {
     dateLevelIdx: '',
     courseIdx: ''
   };
+  skipLessonsCount: any = 0;
 
   constructor(
     private _service: appService,
@@ -422,7 +423,6 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   // calculate skip lessons count
-  skipLessonsCount: any = 0;
   calculateSkipLessons(skipCoursesArr) {
     this.skipLessonsCount = 0;
     skipCoursesArr.map(skipCourse => {
