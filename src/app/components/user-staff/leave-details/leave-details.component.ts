@@ -48,6 +48,8 @@ import { LeaveService } from '../leave-details/leave.service';
 })
 export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
+  public holidayAPIkey = '8c059690-7e14-468c-b731-b3a38adc72ab'; // https://holidayapi.com/dashboard
+  public festivoAPIkey = 'be11440c-a317-4361-bf29-98ac902d898d'; // https://getfestivo.com/dashboard
   public userLeave = [];
   public leaveLogs = [];
   public giveMakeUp = false;
@@ -351,6 +353,8 @@ export class LeaveDetailsComponent implements OnInit {
   getleaveCheck(date, type) {
     //to define meridian spelling for api
     let defineType;
+    console.log(type);
+
     if (type.name === 'Full Day') {
       defineType = 'DAY';
     } else if (type.name === '1st Half-AM') {
@@ -573,20 +577,38 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
     console.log('create leave skipCourses', this.skipCourseArr);
+    this.formatDataForLeaveDays(selectedDays);
+    let regionId = localStorage.getItem('regionId');
     let leaveObj = {
       userId: this.staffObj.userId,
       leaveType: 0,
-      leaveDays: [
-        {
-          leaveDay: '',
-          meridian: ''
-        }
-      ],
-      reason: '',
+      leaveDays: this.formatDataForLeaveDays(selectedDays),
+      reason: 'ggwp',
       cancelledClasses: this.formatDataForCancelledClass(skipCourses),
       techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
     };
     console.log(leaveObj);
+    // this.leaveService.createLeave(regionId, leaveObj)
+    //   .subscribe(res => {
+    //     console.log(res);
+    //   });
+  }
+
+  formatDataForMeridian(meridian) {
+    console.log(meridian);
+  }
+
+  formatDataForLeaveDays(leaveDays) {
+    let leave = [];
+    leaveDays.map((val, key) => {
+      console.log(val);
+      leave.push({
+        leaveDay: this.datePipe.transform(val.date, 'yyyy-MM-dd'),
+        meridian: val.name
+      });
+    });
+    console.log(leave);
+    return leave;
   }
 
   formatDataForCancelledClass(skipCourses) {
@@ -598,7 +620,7 @@ export class LeaveDetailsComponent implements OnInit {
         if (cvalue.hasOwnProperty('cancel')) {
           cancelledClasses.push({
             courseId: cvalue._id,
-            passes: cvalue.pass,
+            passes: cvalue.pass.toString(),
             reason: cvalue.reason
           });
         }
