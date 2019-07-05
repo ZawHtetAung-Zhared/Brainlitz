@@ -307,6 +307,8 @@ export class LeaveDetailsComponent implements OnInit {
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1); //this for leave days add new
         this.skipCourseArr.splice(dateIndex, 1);
+        calCell.classList.remove('cal-day-selected');
+        calDay.classList.remove('cal-day-number-selected');
       } else {
         //add css class for selected
         this.selectedDays.push(dateType); //this for leave days add new

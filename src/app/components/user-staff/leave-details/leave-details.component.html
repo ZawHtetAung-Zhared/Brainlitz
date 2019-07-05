@@ -410,6 +410,15 @@
           >
             <div class="d-flex justify-content-between">
               <div class="">
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'DAY'"
+                  ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
+                /></span>
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'PM'"
+                  ><img src="../../../../assets/icons/PM.svg" alt=""
+                /></span>
+                <span class="leave-info-icon" *ngIf="sobj.meridian == 'AM'"
+                  ><img src="../../../../assets/icons/am.svg" alt=""
+                /></span>
                 <span class="skip-lessons-date">{{
                   sobj.date | utcDateAndDay
                 }}</span>
@@ -435,7 +444,7 @@
               </div>
               <div class="d-flex course-des">
                 <span>{{ sobj.enrolledStudentCount }} student</span>
-                <span class="circle"></span>
+                <span class="small_circle"></span>
                 <span class="timezone"
                   >{{ course.lessons[0].startDate | utcTime }} -
                   {{ course.lessons[0].endDate | utcTime }}</span
