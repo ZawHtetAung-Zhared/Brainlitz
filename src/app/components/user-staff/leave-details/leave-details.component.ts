@@ -48,10 +48,11 @@ import { LeaveService } from '../leave-details/leave.service';
 })
 export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
-  public holidayAPIkey = '8c059690-7e14-468c-b731-b3a38adc72ab'; // https://holidayapi.com/dashboard
-  public festivoAPIkey = 'be11440c-a317-4361-bf29-98ac902d898d'; // https://getfestivo.com/dashboard
+  loading: boolean = false;
   public userLeave = [];
   public leaveLogs = [];
+  public totalLeaveDay;
+  public leaveLeftDay;
   public giveMakeUp = false;
   public studentCount;
   public cancelType;
@@ -126,11 +127,13 @@ export class LeaveDetailsComponent implements OnInit {
   }
 
   getUserLeaves(userId) {
+    this.totalLeaveDay = 0;
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
           leave.percentLeave = leave.takenDays * 5 + 40;
           leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+          this.totalLeaveDay += leave.leaveDays;
         });
         this.userLeave = res.leaves;
         this.leaveLogs = res.logs;
@@ -231,9 +234,7 @@ export class LeaveDetailsComponent implements OnInit {
   isTtlip: boolean = false;
   preClick: any;
   dayClicked(day: CalendarMonthViewDay, e): void {
-    console.log(this.events);
-
-    console.log(this.selectedDays);
+    console.log(this.skipCourseArr);
 
     let dateFormat = this.datePipe.transform(day.date, 'yyyy-MM-dd');
 
@@ -251,6 +252,11 @@ export class LeaveDetailsComponent implements OnInit {
     const dateIndex = this.selectedDays.findIndex(
       selectedDay => selectedDay.date.getTime() === selectedDateTime
     );
+    const skipdateExit = this.skipCourseArr.findIndex(
+      skipDate => skipDate.date === selectedDate
+    );
+    console.log(skipdateExit);
+
     //to check future hodliday exit or not
     const dateIndex2 = this.events.findIndex(
       e => this.datePipe.transform(e.start, 'yyyy-MM-dd') === selectedDate
@@ -304,11 +310,16 @@ export class LeaveDetailsComponent implements OnInit {
     ) {
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
+
       if (dateIndex > -1) {
         //dateIndex > -1 mean exit this day so need to remove the css for selected
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1); //this for leave days add new
-        this.skipCourseArr.splice(dateIndex, 1);
+
+        if (skipdateExit > -1) {
+          this.skipCourseArr.splice(skipdateExit, 1);
+        }
+
         calCell.classList.remove('cal-day-selected');
         calDay.classList.remove('cal-day-number-selected');
       } else {
@@ -320,15 +331,12 @@ export class LeaveDetailsComponent implements OnInit {
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
-
-        console.log(dateFormat);
         this.getleaveCheck(dateFormat, dateType);
       }
     }
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
-    console.log(this.ddDate);
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -338,6 +346,8 @@ export class LeaveDetailsComponent implements OnInit {
     leaveArray.map(leave => {
       this.totalLeaves += leave.value;
     });
+    this.leaveLeftDay = this.totalLeaveDay - this.totalLeaves;
+
     this.totalLeaves = this.totalLeaves.toString().split('.');
     if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
       if (Number(this.totalLeaves[0]) === 0) {
@@ -347,6 +357,17 @@ export class LeaveDetailsComponent implements OnInit {
       }
     } else {
       this.totalLeaves = this.totalLeaves[0] + ' days ';
+    }
+
+    this.leaveLeftDay = this.leaveLeftDay.toString().split('.');
+    if (String(this.leaveLeftDay[this.leaveLeftDay.length - 1]) == '5') {
+      if (Number(this.leaveLeftDay[0]) === 0) {
+        this.leaveLeftDay = ' half days ';
+      } else {
+        this.leaveLeftDay = this.leaveLeftDay[0] + ' days and half ';
+      }
+    } else {
+      this.leaveLeftDay = this.leaveLeftDay[0] + ' days ';
     }
   }
 
@@ -362,6 +383,7 @@ export class LeaveDetailsComponent implements OnInit {
     } else {
       defineType = 'PM';
     }
+    this.loading = true;
     this._service
       .getleaveCheckAvaiable(
         this.regionID,
@@ -371,12 +393,26 @@ export class LeaveDetailsComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          if (res.isAvailable == false) {
-            res.date = date;
-            res.meridian = defineType;
-            this.skipCourseArr.push(res);
-            console.log(res);
+          console.log(res);
+          res.date = date;
+          res.meridian = defineType;
+          // if (res.isAvailable == false) {
+          const dateIndex = this.skipCourseArr.findIndex(e => e.date === date);
+          if (dateIndex > -1) {
+            if (res.courses.length > 0) {
+              this.skipCourseArr[dateIndex] = res;
+            } else {
+              this.skipCourseArr.splice(dateIndex, 1);
+            }
+          } else {
+            if (res.courses.length > 0) {
+              this.skipCourseArr.push(res);
+              console.log(this.skipCourseArr);
+            }
           }
+
+          this.loading = false;
+          // }
           console.log(this.skipCourseArr);
         },
         err => {}
@@ -577,38 +613,37 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('create leave selectedDays', selectedDays);
     console.log('create leave skipCourses', skipCourses);
     console.log('create leave skipCourses', this.skipCourseArr);
-    this.formatDataForLeaveDays(selectedDays);
+    this.formatDataForLeaveDays(skipCourses);
     let regionId = localStorage.getItem('regionId');
     let leaveObj = {
       userId: this.staffObj.userId,
       leaveType: 0,
-      leaveDays: this.formatDataForLeaveDays(selectedDays),
+      leaveDays: this.formatDataForLeaveDays(skipCourses),
       reason: 'ggwp',
       cancelledClasses: this.formatDataForCancelledClass(skipCourses),
       techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
     };
     console.log(leaveObj);
-    // this.leaveService.createLeave(regionId, leaveObj)
-    //   .subscribe(res => {
-    //     console.log(res);
-    //   });
+    this.leaveService.createLeave(regionId, leaveObj).subscribe(res => {
+      console.log(res);
+    });
   }
 
   formatDataForMeridian(meridian) {
     console.log(meridian);
   }
 
-  formatDataForLeaveDays(leaveDays) {
-    let leave = [];
-    leaveDays.map((val, key) => {
+  formatDataForLeaveDays(skipCourses) {
+    let leaveDays = [];
+    skipCourses.map((val, key) => {
       console.log(val);
-      leave.push({
-        leaveDay: this.datePipe.transform(val.date, 'yyyy-MM-dd'),
-        meridian: val.name
+      leaveDays.push({
+        leaveDay: val.date,
+        meridian: val.meridian
       });
     });
-    console.log(leave);
-    return leave;
+    console.log(leaveDays);
+    return leaveDays;
   }
 
   formatDataForCancelledClass(skipCourses) {
