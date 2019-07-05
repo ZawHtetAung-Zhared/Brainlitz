@@ -475,6 +475,10 @@ input:checked + .slider:before {
   line-height: 20px !important;
 }
 
+.addfontColor {
+  color: #f23a30 !important;
+}
+
 .cal-month-view .cal-day-cell.cal-today .cal-day-number {
   font-size: 1.2em;
   color: #0080ff;

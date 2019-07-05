@@ -255,8 +255,20 @@
           </div>
           <ng-template #customCellTemplate let-day="day" let-locale="locale">
             <div class="cal-month-view" id="cal-month-view{{ day.date }}">
-              <div class="cal-cell-top">
+              <div class="cal-cell-top" *ngIf="day.events.length == 0">
                 <span
+                  class="cal-day-number"
+                  id="cal-day-number{{ day.date }}"
+                  >{{
+                    day.date | calendarDate: 'monthViewDayNumber':locale
+                  }}</span
+                >
+              </div>
+              <div class="cal-cell-top" *ngIf="day.events.length > 0">
+                <span
+                  [ngClass]="{
+                    addfontColor: day.events[0].isHoliday == true
+                  }"
                   class="cal-day-number"
                   id="cal-day-number{{ day.date }}"
                   >{{
@@ -268,11 +280,20 @@
               <div class="cal-event-container">
                 <div *ngIf="day.events.length > 0" style="text-align: center;">
                   <div
+                    *ngIf="day.events[0].isHoliday == false"
                     class="cal-event cal-draggable ng-star-inserted"
                     dragactiveclass="cal-drag-active"
                     mwldraggable=""
                     style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#E3E4E6;margin: 2px 2px 9px 2px;width: 6px;
                     height: 6px;"
+                  ></div>
+                  <div
+                    *ngIf="day.events[0].isHoliday"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#FF3D33;margin: 2px 2px 9px 2px;width: 6px;
+                  height: 6px;"
                   ></div>
 
                   <!-- <div
