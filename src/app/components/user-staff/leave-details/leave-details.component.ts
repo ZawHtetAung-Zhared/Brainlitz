@@ -140,8 +140,9 @@ export class LeaveDetailsComponent implements OnInit {
       err => {}
     );
   }
-  leaveReason;
+  public leaveReason = '';
   autoResize(e, type) {
+    console.warn(this.staffObj);
     if (type === 'leave') {
       this.leaveReason = e.target.value;
     } else {
@@ -336,33 +337,31 @@ export class LeaveDetailsComponent implements OnInit {
   public totalLeaves;
 
   getTotalLeaves(leaveArray) {
-    this.totalLeaves = 0;
-    leaveArray.map(leave => {
-      this.totalLeaves += leave.value;
-    });
-    this.leaveLeftDay = this.totalLeaveDay - this.totalLeaves;
-
-    this.totalLeaves = this.totalLeaves.toString().split('.');
-    if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
-      if (Number(this.totalLeaves[0]) === 0) {
-        this.totalLeaves = ' half days ';
-      } else {
-        this.totalLeaves = this.totalLeaves[0] + ' days and half ';
-      }
-    } else {
-      this.totalLeaves = this.totalLeaves[0] + ' days ';
-    }
-
-    this.leaveLeftDay = this.leaveLeftDay.toString().split('.');
-    if (String(this.leaveLeftDay[this.leaveLeftDay.length - 1]) == '5') {
-      if (Number(this.leaveLeftDay[0]) === 0) {
-        this.leaveLeftDay = ' half days ';
-      } else {
-        this.leaveLeftDay = this.leaveLeftDay[0] + ' days and half ';
-      }
-    } else {
-      this.leaveLeftDay = this.leaveLeftDay[0] + ' days ';
-    }
+    // this.totalLeaves = 0;
+    // leaveArray.map(leave => {
+    //   this.totalLeaves += leave.value;
+    // });
+    // this.leaveLeftDay = this.totalLeaveDay - this.totalLeaves;
+    // this.totalLeaves = this.totalLeaves.toString().split('.');
+    // if (String(this.totalLeaves[this.totalLeaves.length - 1]) == '5') {
+    //   if (Number(this.totalLeaves[0]) === 0) {
+    //     this.totalLeaves = ' half days ';
+    //   } else {
+    //     this.totalLeaves = this.totalLeaves[0] + ' days and half ';
+    //   }
+    // } else {
+    //   this.totalLeaves = this.totalLeaves[0] + ' days ';
+    // }
+    // this.leaveLeftDay = this.leaveLeftDay.toString().split('.');
+    // if (String(this.leaveLeftDay[this.leaveLeftDay.length - 1]) == '5') {
+    //   if (Number(this.leaveLeftDay[0]) === 0) {
+    //     this.leaveLeftDay = ' half days ';
+    //   } else {
+    //     this.leaveLeftDay = this.leaveLeftDay[0] + ' days and half ';
+    //   }
+    // } else {
+    //   this.leaveLeftDay = this.leaveLeftDay[0] + ' days ';
+    // }
   }
 
   getleaveCheck(date, type) {
