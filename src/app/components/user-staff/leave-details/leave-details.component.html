@@ -523,7 +523,7 @@
             </div>
             <div
               *ngIf="!assignedReliefAll && !cancelAll"
-              class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
             >
               <button
                 [disabled]="checkedArr.length > 0"
@@ -553,7 +553,7 @@
             </div>
             <div
               *ngIf="assignedReliefAll"
-              class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
             >
               <button (click)="undoAll('relief')">UNDO</button>
               <span class="small-line"></span>
@@ -563,7 +563,7 @@
             </div>
             <div
               *ngIf="cancelAll"
-              class="col-md-5 p-0 header-btns d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
             >
               <button (click)="undoAll('cancel')">UNDO</button>
               <span class="small-line"></span>
@@ -592,7 +592,7 @@
                       'hide-border': lessonObj.courses?.length == idx + 1
                     }"
                   >
-                    <div class="col-md-7 p-0">
+                    <div class="col-md-6 p-0">
                       <label class="course-name">
                         {{ course.name | uppercase }}
                       </label>
@@ -617,7 +617,7 @@
                         course.newTeacherId == undefined &&
                         course.cancel == undefined
                       "
-                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
                       <button
                         class="pr-2"
@@ -646,34 +646,83 @@
                           )
                         "
                       >
-                        Cancel ALL
+                        Cancel lesson
                       </button>
                     </div>
                     <div
                       *ngIf="course.newTeacherId != undefined"
-                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns d-flex align-items-center justify-content-end"
                     >
-                      <button (click)="undoMethod('relief', i, idx)">
-                        Undo
-                      </button>
-                      <span class="small-line"></span>
                       <div>
-                        <label>Relief teacher</label>
-                        <div>
-                          {{ course.newTeacherInfo.preferredName }}
+                        <label class="text-right cInfo mb-0"
+                          >Relief Teacher</label
+                        >
+                        <div class="d-flex justify-content-end">
+                          <button
+                            class="pr-3 cInfo"
+                            (click)="undoMethod('relief', i, idx)"
+                          >
+                            Undo
+                          </button>
+                          <span class="small-line-undo"></span>
+                          <div class="selected-name undo-name">
+                            {{ course.newTeacherInfo.preferredName }}
+                          </div>
                         </div>
+                      </div>
+                      <div class="circular-undo-img ml-2">
+                        <img src="{{ course.newTeacherInfo.profilePic }}" />
                       </div>
                     </div>
                     <div
                       *ngIf="course.cancel == true"
-                      class="col-md-5 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
-                      <button (click)="undoMethod('cancel', i, idx)">
-                        Undo
-                      </button>
-                      <span class="small-line"></span>
                       <div>
-                        <label>Cancelled Class</label>
+                        <label
+                          *ngIf="course.pass == true"
+                          class="text-right cInfo mb-0"
+                          >Issued</label
+                        >
+                        <div class="d-flex">
+                          <button
+                            class="pr-3 cInfo"
+                            (click)="undoMethod('cancel', i, idx)"
+                          >
+                            Undo
+                          </button>
+                          <span class="small-line-undo"></span>
+                          <div class="d-flex">
+                            <label
+                              *ngIf="course.pass == false"
+                              class="mb-0 selected-name pl-3"
+                              >Cancelled Class</label
+                            >
+                            <label
+                              *ngIf="course.pass == true"
+                              class="mb-0 selected-name pl-3"
+                              >Makeup pass</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="d-flex justify-content-center align-items-center pl-2"
+                      >
+                        <div class="cc-icon-wrapper">
+                          <div
+                            *ngIf="course.pass == false"
+                            class="icon-wrapper"
+                          >
+                            <img src="./assets/images/withdraw-ico@2x.png" />
+                          </div>
+                          <div
+                            *ngIf="course.pass == true"
+                            class="makeup-icon-wrapper"
+                          >
+                            <img src="./assets/images/Vector.png" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -806,11 +855,11 @@
         </div>
       </div>
       <div *ngIf="!isFocusSearch && selectedTeacher != null">
-        <div class="d-flex">
+        <div class="d-flex pt-3 pb-3">
           <div>
             <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
           </div>
-          <div class="pl-3 selected-name">
+          <div class="pl-3 selected-name lh-3">
             {{ selectedTeacher.preferredName }}
           </div>
         </div>
@@ -819,28 +868,30 @@
             class="d-flex justify-content-between conflict-wrapper mb-3"
             *ngFor="let course of conflictLesson.courses"
           >
-            <div>
-              <label>{{ course.lessons[0].startDate | utcDate }}</label>
-              <div>
+            <div class="conflict-col1">
+              <label class="selected-name">{{
+                course.lessons[0].startDate | utcDate
+              }}</label>
+              <div class="lesson-time">
                 {{ course.lessons[0].startDate | utcTime }} -
                 {{ course.lessons[0].endDate | utcTime }}
               </div>
             </div>
-            <div>
-              <label>Lesson</label>
-              <div>
+            <div class="conflict-col2">
+              <label class="cInfo">Lesson</label>
+              <div class="selected-name">
                 {{ course.name }}
               </div>
             </div>
-            <div>
-              <label>Location</label>
-              <div>
+            <div class="conflict-col3">
+              <label class="cInfo">Location</label>
+              <div class="selected-name">
                 {{ course.location.name }}
               </div>
             </div>
-            <div>
-              <label>Number of students</label>
-              <div>
+            <div class="conflict-col4">
+              <label class="cInfo">Number of students</label>
+              <div class="selected-name">
                 {{ course.enrolledStudentCount }}
               </div>
             </div>
