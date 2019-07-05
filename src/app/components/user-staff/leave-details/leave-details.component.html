@@ -400,7 +400,8 @@
       <div class="skip-lessons-part">
         <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
           <div class="skip-header">
-            {{ staffObj.preferredName }} will skip in this following days
+            {{ staffObj.preferredName }} will skip
+            {{ skipLessonsCount }} lessons in this following days
           </div>
 
           <div
@@ -483,8 +484,9 @@
           <div class="d-flex justify-content-end skipLessons-header">
             <div class="user-info col-md-7 p-0">
               <span class="bold-span">{{ staffObj.preferredName }}</span> will
-              skip <span class="bold-span">- lessons</span> in this following
-              days.
+              skip
+              <span class="bold-span">{{ skipLessonsCount }} lessons</span> in
+              this following days.
             </div>
             <div
               *ngIf="!assignedReliefAll && !cancelAll"
@@ -701,7 +703,9 @@
       Cancel
     </button>
     <button
-      [disabled]="!assignedReliefAll && !cancelAll"
+      [disabled]="
+        !assignedReliefAll && !cancelAll && checkedArr.length < skipLessonsCount
+      "
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
     >

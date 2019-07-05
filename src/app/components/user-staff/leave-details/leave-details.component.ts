@@ -82,12 +82,16 @@ export class LeaveDetailsComponent implements OnInit {
   events: CalendarEvent[] = [];
   assignedReliefAll: boolean = false;
   cancelAll: boolean = false;
-  assignedReliefSingle: boolean = false;
-  cancelSingle: boolean = false;
   isFocusSearch: boolean = true;
   searchKeyword: any = '';
   selectedTeacher: any = null;
   conflictLessonArr = [];
+  checkedArr: any = [];
+  reliefObj = {
+    type: '',
+    dateLevelIdx: '',
+    courseIdx: ''
+  };
 
   constructor(
     private _service: appService,
@@ -155,7 +159,6 @@ export class LeaveDetailsComponent implements OnInit {
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
-      this.cancelSingle = true;
       this.checkedArr.push('disabled');
       this.skipCourseArr[this.dateIndex].courses[
         this.courseIndex
@@ -308,6 +311,7 @@ export class LeaveDetailsComponent implements OnInit {
         delete this.selectedMonthViewDay.cssClass;
         this.selectedDays.splice(dateIndex, 1); //this for leave days add new
         this.skipCourseArr.splice(dateIndex, 1);
+        this.calculateSkipLessons(this.skipCourseArr);
       } else {
         //add css class for selected
         this.selectedDays.push(dateType); //this for leave days add new
@@ -370,12 +374,28 @@ export class LeaveDetailsComponent implements OnInit {
             res.date = date;
             res.meridian = defineType;
             this.skipCourseArr.push(res);
+            this.calculateSkipLessons(this.skipCourseArr);
             console.log(res);
           }
           console.log(this.skipCourseArr);
         },
         err => {}
       );
+  }
+
+  // calculate skip lessons count
+  skipLessonsCount: any = 0;
+  calculateSkipLessons(skipCoursesArr) {
+    this.skipLessonsCount = 0;
+    skipCoursesArr.map(skipCourse => {
+      console.log(
+        'skipLessonsCount',
+        this.skipLessonsCount,
+        'c length',
+        skipCourse.courses.length
+      );
+      this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
+    });
   }
 
   //to get leave taken day by one month
@@ -581,11 +601,7 @@ export class LeaveDetailsComponent implements OnInit {
     console.log('swapped class');
   }
   //end leave modal
-  reliefObj = {
-    type: '',
-    dateLevelIdx: '',
-    courseIdx: ''
-  };
+
   //for assign relief and cancel class UI
   assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
     this.reliefModalReference = this.cancelClassModalService.open(modalName, {
@@ -630,8 +646,6 @@ export class LeaveDetailsComponent implements OnInit {
       this.showRelief = false;
       this.assignedReliefAll = false;
       this.cancelAll = false;
-      this.assignedReliefSingle = false;
-      this.cancelSingle = false;
       this.checkedArr = [];
     }
   }
@@ -674,7 +688,7 @@ export class LeaveDetailsComponent implements OnInit {
               this.regionID,
               this.selectedTeacher.userId,
               skipCourse.date,
-              'DAY'
+              skipCourse.meridian
             )
             .subscribe((res: any) => {
               console.log('conflict lessons', res);
@@ -685,7 +699,7 @@ export class LeaveDetailsComponent implements OnInit {
       })
     );
   }
-  checkedArr: any = [];
+
   confirmRelief(selectedData) {
     if (this.reliefObj.type == 'all') {
       this.assignedReliefAll = true;
@@ -697,7 +711,6 @@ export class LeaveDetailsComponent implements OnInit {
         });
       });
     } else {
-      this.assignedReliefSingle = true;
       this.checkedArr.push('disabled');
       console.log(this.reliefObj);
       this.skipCourseArr[this.reliefObj.dateLevelIdx].courses[
@@ -749,12 +762,10 @@ export class LeaveDetailsComponent implements OnInit {
     var course = this.skipCourseArr[dayLevelIdx].courses[courseIdx];
     switch (type) {
       case 'relief':
-        this.assignedReliefSingle = false;
         delete course['newTeacherId'];
         delete course['newTeacherInfo'];
         break;
       case 'cancel':
-        this.cancelSingle = false;
         delete course['cancel'];
         delete course['pass'];
         delete course['reason'];
