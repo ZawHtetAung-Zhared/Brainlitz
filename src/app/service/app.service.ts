@@ -1496,6 +1496,20 @@ export class appService {
       return result;
     });
   }
+  getAllHolidaysByYear(id: string, year): Observable<any> {
+    this.getLocalstorage();
+    let url = this.baseUrl + '/' + id + '/holidays?year=' + year;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 
   getSingleHoliday(holidayId: string) {
     let apiUrl = this.baseUrl + '/holidays/' + holidayId;

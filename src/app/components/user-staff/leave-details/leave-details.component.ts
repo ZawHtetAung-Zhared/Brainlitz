@@ -31,6 +31,20 @@ import { appService } from '../../../service/app.service';
 //   meridian:any;
 // }
 import { LeaveService } from '../leave-details/leave.service';
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3'
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF'
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA'
+  }
+};
 
 @Component({
   selector: 'app-leave-details',
@@ -82,6 +96,7 @@ export class LeaveDetailsComponent implements OnInit {
   modalCourseData: any = [];
   searchTeacherLists = [];
   public reliefModalReference: any;
+  // events: CalendarEvent[] = [];
   events: CalendarEvent[] = [];
   assignedReliefAll: boolean = false;
   cancelAll: boolean = false;
@@ -233,6 +248,7 @@ export class LeaveDetailsComponent implements OnInit {
     console.log(e);
     console.log(this.selectedDays);
     this.currentMonth = this.datePipe.transform(e, 'MMMM');
+    this.preClick = undefined;
     console.log(this.view);
     this.getleaveforuser();
   }
@@ -502,38 +518,59 @@ export class LeaveDetailsComponent implements OnInit {
             let tempObj = {
               start: new Date(res.logs[i].leaveDay),
               meridian: mer,
-              id: res.logs[i]._id
+              id: res.logs[i]._id,
+              isHoliday: false
             };
             tempArr.push(tempObj);
           }
+          this.getholidayByYear(tempArr);
           console.log(tempArr);
-          this.events = tempArr;
+
+          // this.events = tempArr;
         },
         err => {}
       );
-    // this._service
-    // .getAllHolidays(
-    //   this.regionID,
-    // )
-    // .subscribe(
-    //   (res: any) => {
-    //     console.log(res);
-    //     for(let i=0;i<res.length;i++){
-    //       let tempObj={
-    //         start: new Date(res[i].start),
-    //         end: new Date(res[i].end),
-    //         meridian: res[i].name,
-    //         id: res[i]._id
-    //       }
-    //       tempArr.push(tempObj);
-    //     }
-    //     console.log(tempArr);
-    //     this.events=tempArr;
-    //   },
-    //   err => {}
-    // );
-    console.log(this.events);
   }
+  getholidayByYear(tempArr) {
+    let cyear = this.datePipe.transform(this.viewDate, 'yyyy');
+    this._service.getAllHolidaysByYear(this.regionID, cyear).subscribe(
+      (res: any) => {
+        console.log(res);
+        for (let i = 0; i < res.length; i++) {
+          // console.error(new Date(res[i].start));
+          // console.error(new Date(res[i].end));
+          if (res[i].start != undefined && res[i].start != undefined) {
+            let start = new Date(res[i].start);
+            let end = new Date(res[i].end);
+            let data = this.getDateArray(start, end);
+            for (let j = 0; j < data.length; j++) {
+              let tempObj = {
+                start: new Date(data[j]),
+                meridian: res[i].name,
+                id: res[i]._id,
+                isHoliday: true
+              };
+              tempArr.push(tempObj);
+            }
+          }
+        }
+        // console.log(tempArr);
+
+        this.events = tempArr;
+        console.log(this.events);
+      },
+      err => {}
+    );
+  }
+  getDateArray = function(start, end) {
+    var arr = new Array();
+    var dt = new Date(start);
+    while (dt <= end) {
+      arr.push(new Date(dt));
+      dt.setDate(dt.getDate() + 1);
+    }
+    return arr;
+  };
   //beforeViewRender method to call after months change
   checkSelectedDate(e) {
     // if users change the perivious to next months to check this  months current leave days selected or not
