@@ -143,8 +143,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.leaveSubscription.unsubscribe();
+    // this.userSubscription.unsubscribe();
+    // this.leaveSubscription.unsubscribe();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
@@ -172,25 +172,23 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   getUserLeaves(userId) {
     this.totalLeaveDay = 0;
-    this.userSubscription = this._service
-      .getUserLeaveDetails(this.regionID, userId)
-      .subscribe(
-        (res: any) => {
-          res.leaves.map(leave => {
-            leave.percentLeave = leave.takenDays * 5 + 40;
-            leave.maxPercentLeave = leave.leaveDays * 5 + 40;
-            this.totalLeaveDay += leave.leaveDays;
-          });
-          this.userLeave = res.leaves;
-          this.leaveLogs = res.logs;
-          setTimeout(() => {
-            this.leaveLogsLoading = false;
-          }, 1000);
-        },
-        err => {
-          console.error(err);
-        }
-      );
+    this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
+      (res: any) => {
+        res.leaves.map(leave => {
+          leave.percentLeave = leave.takenDays * 5 + 40;
+          leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+          this.totalLeaveDay += leave.leaveDays;
+        });
+        this.userLeave = res.leaves;
+        this.leaveLogs = res.logs;
+        setTimeout(() => {
+          this.leaveLogsLoading = false;
+        }, 1000);
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
   public leaveReason = '';
   autoResize(e, type) {
@@ -529,7 +527,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         this.datePipe.transform(endDate, 'yyyy-MM-dd')
     );
 
-    this.leaveSubscription = this._service
+    this._service
       .getleaveofuser(
         this.regionID,
         this.staffObj.userId,
