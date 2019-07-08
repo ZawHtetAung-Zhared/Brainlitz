@@ -217,7 +217,10 @@
       <span class="leave-close-icon" (click)="closeOpenLeaveModal()"></span>
     </div>
     <div class="d-flex calendarView">
-      <div class="d-flex flex-column">
+      <div
+        class="d-flex flex-column"
+        style="overflow: overlay;max-height: 723px;"
+      >
         <div class="calendar-part">
           <div class="row text-center">
             <div class="col-md-12">
@@ -278,7 +281,10 @@
               </div>
 
               <div class="cal-event-container">
-                <div *ngIf="day.events.length > 0" style="text-align: center;">
+                <div
+                  *ngIf="day.events.length > 0"
+                  style="text-align: center;height: 14px;"
+                >
                   <div
                     *ngIf="day.events[0].isHoliday == false"
                     class="cal-event cal-draggable ng-star-inserted"

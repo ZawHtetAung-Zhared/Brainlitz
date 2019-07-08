@@ -178,6 +178,8 @@ export class LeaveDetailsComponent implements OnInit {
   }
   closeOpenLeaveModal() {
     this.modalReference.close();
+    this.selectedDays = [];
+    this.skipCourseArr = [];
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
