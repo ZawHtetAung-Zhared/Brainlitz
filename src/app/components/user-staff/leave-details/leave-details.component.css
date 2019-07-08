@@ -162,7 +162,7 @@
   cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
   margin-top: 32px;
-  margin-left: 390px;
+  margin-left: 340px;
 }
 .cancel-class-title {
   font-size: 28px;
@@ -764,6 +764,7 @@ span.notAffectedYet {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
+  margin-right: 49px;
 }
 
 .skip-lessons-exit {
@@ -782,7 +783,8 @@ span.notAffectedYet {
   color: #ffff;
   font-weight: bold;
   text-align: center;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding: 20px;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
 }
 
 .course-name {
@@ -1163,7 +1165,7 @@ p.left-txt {
 }
 
 .tooltip .tooltiptext {
-  /* visibility: hidden; */
+  visibility: hidden;
   background-color: #555f69;
   color: #fff;
   text-align: center;
@@ -1262,4 +1264,15 @@ p.left-txt {
   padding: 3px 10px;
   text-align: center;
   margin-left: 12px;
+}
+
+.loading-wrapper {
+  height: 30px;
+  min-width: 400px;
+  max-width: 400px;
+  margin-top: 18px;
+}
+.main-loading-wrapper {
+  border-bottom: 1px solid #edeff0;
+  padding: 9px 0px 9px 0px;
 }

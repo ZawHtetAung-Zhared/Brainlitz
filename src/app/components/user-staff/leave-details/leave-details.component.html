@@ -5,6 +5,23 @@
     Add new absent
   </button>
 </div>
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+</div>
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+</div>
+
 <div class="d-flex flex-wrap">
   <!-- <div class="leave-block" *ngFor="let leave of userLeave">
     <div class="inner-block d-flex flex-column">
@@ -70,7 +87,7 @@
     </div>
   </div> -->
 </div>
-<div class="history-wrapper">
+<div class="history-wrapper" *ngIf="!leaveLogsLoading">
   <!-- <h4 class="history-title">Absent History</h4> -->
   <div class="d-flex flex-column" *ngIf="leaveLogs.length >= 1">
     <div class="d-flex history-details" *ngFor="let log of leaveLogs">
@@ -119,7 +136,10 @@
       <div class="d-flex flex-column col-md-5 p-0">
         <div class="d-flex justify-content-between">
           <p class="makeup-text">Issue makeup pass?</p>
-          <div class="toggle-wrap" (click)="this.giveMakeUp = !giveMakeUp">
+          <div
+            class="toggle-wrap"
+            (click)="this.giveMakeUp = !giveMakeUp; cancelReason = ''"
+          >
             <label class="switch">
               <input
                 type="checkbox"
@@ -217,7 +237,10 @@
       <span class="leave-close-icon" (click)="closeOpenLeaveModal()"></span>
     </div>
     <div class="d-flex calendarView">
-      <div class="d-flex flex-column">
+      <div
+        class="d-flex flex-column"
+        style="overflow: overlay;max-height: 723px;"
+      >
         <div class="calendar-part">
           <div class="row text-center">
             <div class="col-md-12">
@@ -278,7 +301,10 @@
               </div>
 
               <div class="cal-event-container">
-                <div *ngIf="day.events.length > 0" style="text-align: center;">
+                <div
+                  *ngIf="day.events.length > 0"
+                  style="text-align: center;height: 14px;"
+                >
                   <div
                     *ngIf="day.events[0].isHoliday == false"
                     class="cal-event cal-draggable ng-star-inserted"
@@ -420,33 +446,15 @@
       </div>
       <div class="skip-lessons-part">
         <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
-          <div *ngIf="loading == true">
-            <div class="row">
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="skip-header">
-            {{ staffObj.preferredName }} will skip
-            {{ skipLessonsCount }} lessons in this following days
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ staffObj.preferredName }} </span
+            >will skip
+            <span
+              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}</span
+            >
+            lessons in this following days
           </div>
 
           <div
@@ -497,6 +505,14 @@
                 >
               </div>
             </div>
+          </div>
+          <div *ngIf="loading == true">
+            <content-loader>
+              <svg:rect x="20" y="2" rx="4" ry="4" width="120" height="10" />
+              <svg:rect x="20" y="25" rx="3" ry="3" width="220" height="20" />
+              <svg:rect x="20" y="55" rx="3" ry="3" width="185" height="6.4" />
+              <svg:circle cx="7" cy="7" r="7" />
+            </content-loader>
           </div>
         </div>
         <div class="skip-lessons-empty" *ngIf="skipCourseArr.length == 0">
