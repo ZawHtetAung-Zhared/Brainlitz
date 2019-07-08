@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ng2-img-cropper';
 
 import { CalendarModule } from 'angular-calendar';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
@@ -220,7 +221,8 @@ import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.c
     StarRatingModule,
     Ng2TelInputModule,
     MediumEditorModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    ImageCropperModule
   ],
   providers: [
     appService,
