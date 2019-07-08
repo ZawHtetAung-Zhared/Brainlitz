@@ -139,7 +139,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
-    this.getleaveforuser();
+    // this.getleaveforuser();
   }
 
   ngOnDestroy() {
@@ -150,15 +150,22 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
     var conTainer = document.getElementById('leave-day-list');
+    const mainWrapper = document.getElementById('scroll-main-wrapper');
     if (a == 'leave-search-down') {
       this.isFocusleavetype = true;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'hidden';
       }
+      if (mainWrapper != undefined || mainWrapper != null) {
+        mainWrapper.style.overflow = 'hidden';
+      }
     } else {
       this.isFocusleavetype = false;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'overlay';
+      }
+      if (mainWrapper != undefined || mainWrapper != null) {
+        mainWrapper.style.overflow = 'overlay';
       }
     }
   }
@@ -259,6 +266,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.getleaveforuser();
     this.selectedDays = [];
     this.skipCourseArr = [];
     this.leaveReason = '';
@@ -684,11 +692,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       if (ele.style.display == 'block') {
         ele.style.display = 'none';
         conTainer1.style.overflow = 'auto';
-        mainWrapper.style.overflow = 'overlay!important';
+        mainWrapper.style.overflow = 'overlay';
       } else {
         ele.style.display = 'block';
         conTainer1.style.overflow = 'hidden';
-        mainWrapper.style.overflow = 'hidden!important';
+        mainWrapper.style.overflow = 'hidden';
       }
     }, 30);
   }

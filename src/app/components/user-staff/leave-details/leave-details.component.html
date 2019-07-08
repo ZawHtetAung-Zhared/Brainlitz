@@ -507,7 +507,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf="loading == true">
+          <div *ngIf="loading == true" style="padding:20px;">
             <content-loader>
               <svg:rect x="20" y="2" rx="4" ry="4" width="120" height="10" />
               <svg:rect x="20" y="25" rx="3" ry="3" width="220" height="20" />
@@ -531,7 +531,7 @@
   </div>
   <div *ngIf="showRelief">
     <div class="container-div">
-      <div class="d-flex w-100">
+      <div class="d-flex justify-content-between w-100">
         <h1 class="leave-class-title">Create absent</h1>
         <div class="profileimg-wrap d-flex flex-column">
           <div class="circular-image">
