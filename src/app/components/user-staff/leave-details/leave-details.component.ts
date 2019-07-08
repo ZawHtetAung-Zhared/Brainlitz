@@ -671,28 +671,56 @@ export class LeaveDetailsComponent implements OnInit {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
-    console.log(this.staffObj);
-    console.log('create leave selectedDays', selectedDays);
-    console.log('create leave skipCourses', skipCourses);
-    console.log('create leave skipCourses', this.skipCourseArr);
-    this.formatDataForLeaveDays(skipCourses);
     let regionId = localStorage.getItem('regionId');
-    let leaveObj = {
+    let leaveObj = {};
+    leaveObj = {
       userId: this.staffObj.userId,
       leaveType: 0,
-      leaveDays: this.formatDataForLeaveDays(skipCourses),
-      reason: 'ggwp',
-      cancelledClasses: this.formatDataForCancelledClass(skipCourses),
-      techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
+      leaveDays: this.formatDataForLeaveDaysForEmptyCourses(selectedDays),
+      reason: this.leaveReason,
+      cancelledClasses: [],
+      techerSwappedClasses: []
     };
+    if (skipCourses.length > 0) {
+      leaveObj = {
+        userId: this.staffObj.userId,
+        leaveType: 0,
+        leaveDays: this.formatDataForLeaveDays(skipCourses),
+        reason: this.leaveReason,
+        cancelledClasses: this.formatDataForCancelledClass(skipCourses),
+        techerSwappedClasses: this.formatDataForSwappedClass(skipCourses)
+      };
+    }
     console.log(leaveObj);
     this.leaveService.createLeave(regionId, leaveObj).subscribe(res => {
       console.log(res);
+      // this.cancelModal('relief&cancel')
+      this.modalReference.close();
     });
   }
 
   formatDataForMeridian(meridian) {
     console.log(meridian);
+    let meridianType = '';
+    if (meridian === 'Full Day') {
+      meridianType = 'DAY';
+    } else if (meridian === '1st Half-AM') {
+      meridianType = 'AM';
+    } else {
+      meridianType = 'PM';
+    }
+    return meridianType;
+  }
+
+  formatDataForLeaveDaysForEmptyCourses(leaveDays) {
+    let leave = [];
+    leaveDays.map((val, key) => {
+      leave.push({
+        leaveDay: this.datePipe.transform(val.date, 'yyyy-MM-dd'),
+        meridian: this.formatDataForMeridian(val.name)
+      });
+    });
+    return leave;
   }
 
   formatDataForLeaveDays(skipCourses) {
@@ -704,12 +732,10 @@ export class LeaveDetailsComponent implements OnInit {
         meridian: val.meridian
       });
     });
-    console.log(leaveDays);
     return leaveDays;
   }
 
   formatDataForCancelledClass(skipCourses) {
-    console.log('cancelled class');
     let cancelledClasses: any = [];
     skipCourses.map((value, key) => {
       value.courses.map((cvalue, ckey) => {
@@ -723,15 +749,12 @@ export class LeaveDetailsComponent implements OnInit {
         }
       });
     });
-    console.log(cancelledClasses);
     return cancelledClasses;
   }
 
   formatDataForSwappedClass(skipCourses) {
-    console.log('swapped class');
     let swappedClasses = [];
     skipCourses.map((value, key) => {
-      console.log(value);
       value.courses.map((cvalue, ckey) => {
         if (cvalue.hasOwnProperty('newTeacherId')) {
           swappedClasses.push({
@@ -741,7 +764,6 @@ export class LeaveDetailsComponent implements OnInit {
         }
       });
     });
-    console.log(swappedClasses);
     return swappedClasses;
   }
   //end leave modal
