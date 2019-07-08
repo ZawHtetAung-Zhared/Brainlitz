@@ -1165,7 +1165,7 @@ p.left-txt {
 }
 
 .tooltip .tooltiptext {
-  /* visibility: hidden; */
+  visibility: hidden;
   background-color: #555f69;
   color: #fff;
   text-align: center;

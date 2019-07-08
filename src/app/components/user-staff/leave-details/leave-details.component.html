@@ -5,6 +5,17 @@
     Add new absent
   </button>
 </div>
+<!-- <list-content-loader></list-content-loader> -->
+<div class="wrapper-zzz" *ngIf="leaveLogsLoading">
+  <content-loader>
+    <svg:rect x="0" y="0" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="20" rx="3" ry="3" width="180" height="10" />
+    <svg:rect x="0" y="45" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="65" rx="3" ry="3" width="180" height="10" />
+    <svg:rect x="0" y="90" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="110" rx="3" ry="3" width="180" height="10" />
+  </content-loader>
+</div>
 <div class="d-flex flex-wrap">
   <!-- <div class="leave-block" *ngFor="let leave of userLeave">
     <div class="inner-block d-flex flex-column">
@@ -70,7 +81,7 @@
     </div>
   </div> -->
 </div>
-<div class="history-wrapper">
+<div class="history-wrapper" *ngIf="!leaveLogsLoading">
   <!-- <h4 class="history-title">Absent History</h4> -->
   <div class="d-flex flex-column" *ngIf="leaveLogs.length >= 1">
     <div class="d-flex history-details" *ngFor="let log of leaveLogs">
@@ -217,7 +228,10 @@
       <span class="leave-close-icon" (click)="closeOpenLeaveModal()"></span>
     </div>
     <div class="d-flex calendarView">
-      <div class="d-flex flex-column">
+      <div
+        class="d-flex flex-column"
+        style="overflow: overlay;max-height: 723px;"
+      >
         <div class="calendar-part">
           <div class="row text-center">
             <div class="col-md-12">
@@ -278,7 +292,10 @@
               </div>
 
               <div class="cal-event-container">
-                <div *ngIf="day.events.length > 0" style="text-align: center;">
+                <div
+                  *ngIf="day.events.length > 0"
+                  style="text-align: center;height: 14px;"
+                >
                   <div
                     *ngIf="day.events[0].isHoliday == false"
                     class="cal-event cal-draggable ng-star-inserted"
