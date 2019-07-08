@@ -5,21 +5,21 @@
     Add new absent
   </button>
 </div>
-<div *ngIf="leaveLogsLoading">
-  <div class="wrapper-zzz" style="height:40px;">
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
     <content-loader>
       <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
       <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
     </content-loader>
   </div>
-  <hr />
-  <div class="wrapper-zzz" style="height:40px;">
+</div>
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
     <content-loader>
       <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
       <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
     </content-loader>
   </div>
-  <hr />
 </div>
 
 <div class="d-flex flex-wrap">
