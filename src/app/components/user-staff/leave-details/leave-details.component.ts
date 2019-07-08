@@ -129,7 +129,7 @@ export class LeaveDetailsComponent implements OnInit {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
-    this.getleaveforuser();
+    // this.getleaveforuser();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
@@ -249,6 +249,7 @@ export class LeaveDetailsComponent implements OnInit {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.getleaveforuser();
     this.selectedDays = [];
     this.skipCourseArr = [];
     this.leaveReason = '';
