@@ -239,6 +239,9 @@ export class LeaveDetailsComponent implements OnInit {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.selectedDays = [];
+    this.skipCourseArr = [];
+    this.leaveReason = '';
     this.modalReference = this.cancelClassModalService.open(openLeave, {
       backdrop: 'static',
       windowClass:

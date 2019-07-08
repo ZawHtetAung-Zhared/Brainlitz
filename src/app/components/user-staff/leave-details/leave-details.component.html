@@ -443,33 +443,15 @@
       </div>
       <div class="skip-lessons-part">
         <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
-          <div *ngIf="loading == true">
-            <div class="row">
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-              <div class="class-block">
-                <div class="course-title">
-                  <list-content-loader></list-content-loader>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="skip-header">
-            {{ staffObj.preferredName }} will skip
-            {{ skipLessonsCount }} lessons in this following days
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ staffObj.preferredName }} </span
+            >will skip
+            <span
+              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}</span
+            >
+            lessons in this following days
           </div>
 
           <div
@@ -520,6 +502,14 @@
                 >
               </div>
             </div>
+          </div>
+          <div *ngIf="loading == true">
+            <content-loader>
+              <svg:rect x="20" y="2" rx="4" ry="4" width="120" height="10" />
+              <svg:rect x="20" y="25" rx="3" ry="3" width="220" height="20" />
+              <svg:rect x="20" y="55" rx="3" ry="3" width="185" height="6.4" />
+              <svg:circle cx="7" cy="7" r="7" />
+            </content-loader>
           </div>
         </div>
         <div class="skip-lessons-empty" *ngIf="skipCourseArr.length == 0">
