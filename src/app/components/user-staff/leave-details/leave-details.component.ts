@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  HostListener
+} from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -23,6 +29,7 @@ import {
   CalendarDateFormatter
 } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
+import { ISubscription } from 'rxjs/Subscription';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
@@ -60,7 +67,7 @@ const colors: any = {
     LeaveService
   ]
 })
-export class LeaveDetailsComponent implements OnInit {
+export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @Input() staffObj: any;
   loading: boolean = false;
   public leaveLogsLoading = true;
@@ -78,6 +85,9 @@ export class LeaveDetailsComponent implements OnInit {
   public cancelModalReference: any;
   public checkId;
   public regionID = localStorage.getItem('regionId');
+  private userSubscription: ISubscription;
+  private leaveSubscription: ISubscription;
+
   viewDate: Date = new Date();
   selectedDays: any = [];
   selectedMonthViewDay: CalendarMonthViewDay;
@@ -129,7 +139,12 @@ export class LeaveDetailsComponent implements OnInit {
     //for calendar
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
-    this.getleaveforuser();
+    // this.getleaveforuser();
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+    this.leaveSubscription.unsubscribe();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
@@ -157,23 +172,25 @@ export class LeaveDetailsComponent implements OnInit {
 
   getUserLeaves(userId) {
     this.totalLeaveDay = 0;
-    this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
-      (res: any) => {
-        res.leaves.map(leave => {
-          leave.percentLeave = leave.takenDays * 5 + 40;
-          leave.maxPercentLeave = leave.leaveDays * 5 + 40;
-          this.totalLeaveDay += leave.leaveDays;
-        });
-        this.userLeave = res.leaves;
-        this.leaveLogs = res.logs;
-        setTimeout(() => {
-          this.leaveLogsLoading = false;
-        }, 1000);
-      },
-      err => {
-        console.error(err);
-      }
-    );
+    this.userSubscription = this._service
+      .getUserLeaveDetails(this.regionID, userId)
+      .subscribe(
+        (res: any) => {
+          res.leaves.map(leave => {
+            leave.percentLeave = leave.takenDays * 5 + 40;
+            leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+            this.totalLeaveDay += leave.leaveDays;
+          });
+          this.userLeave = res.leaves;
+          this.leaveLogs = res.logs;
+          setTimeout(() => {
+            this.leaveLogsLoading = false;
+          }, 1000);
+        },
+        err => {
+          console.error(err);
+        }
+      );
   }
   public leaveReason = '';
   autoResize(e, type) {
@@ -249,6 +266,7 @@ export class LeaveDetailsComponent implements OnInit {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.getleaveforuser();
     this.selectedDays = [];
     this.skipCourseArr = [];
     this.leaveReason = '';
@@ -511,7 +529,7 @@ export class LeaveDetailsComponent implements OnInit {
         this.datePipe.transform(endDate, 'yyyy-MM-dd')
     );
 
-    this._service
+    this.leaveSubscription = this._service
       .getleaveofuser(
         this.regionID,
         this.staffObj.userId,

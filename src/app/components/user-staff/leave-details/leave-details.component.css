@@ -769,10 +769,10 @@ span.notAffectedYet {
 
 .skip-lessons-exit {
   border: 1px solid #edeff0;
-  width: 408px;
+  max-width: 408px;
   max-height: 640px;
   overflow: overlay;
-  margin-left: 64px;
+  /* margin-left: 64px; */
   border-radius: 8px;
 }
 
@@ -1269,7 +1269,7 @@ p.left-txt {
 }
 .skip-lessons-part {
   width: 50%;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
 }
 
