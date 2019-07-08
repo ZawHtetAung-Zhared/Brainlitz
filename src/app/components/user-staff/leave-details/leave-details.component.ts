@@ -24,6 +24,7 @@ import {
 } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
 // interface MyEvent extends CalendarEvent {
@@ -116,6 +117,7 @@ export class LeaveDetailsComponent implements OnInit {
     private _service: appService,
     private cancelClassModalService: NgbModal,
     private datePipe: DatePipe,
+    private toastr: ToastsManager,
     private leaveService: LeaveService
   ) {}
 
@@ -168,7 +170,6 @@ export class LeaveDetailsComponent implements OnInit {
   }
   public leaveReason = '';
   autoResize(e, type) {
-    console.warn(this.staffObj);
     if (type === 'leave') {
       this.leaveReason = e.target.value;
     } else {
@@ -185,6 +186,7 @@ export class LeaveDetailsComponent implements OnInit {
     this.modalReference.close();
     this.selectedDays = [];
     this.skipCourseArr = [];
+    this.showRelief = false;
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
@@ -631,26 +633,45 @@ export class LeaveDetailsComponent implements OnInit {
   checkScroll(e) {
     this.scrollPosition = e.target.scrollTop;
   }
+  mainScrollPosition;
+  mainWrapperScroll(e) {
+    this.mainScrollPosition = e.target.scrollTop;
+  }
   ddDate: any;
   downleaveType(e, index, date) {
     console.log('exit');
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
+    const mainWrapper = document.getElementById('scroll-main-wrapper');
     console.log(e);
     this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
     setTimeout(() => {
-      const ele = document.getElementById('zzz' + index);
+      const ele = document.getElementById('popUp' + index);
       ele.style.left = e.target.parentNode.offsetLeft + 'px';
-      ele.style.top =
-        e.target.parentNode.offsetTop + 50 - this.scrollPosition + 'px';
+      if (this.mainScrollPosition != undefined) {
+        if (this.scrollPosition === undefined) this.scrollPosition = 0;
+        ele.style.top =
+          e.target.parentNode.offsetTop +
+          50 -
+          this.scrollPosition -
+          this.mainScrollPosition +
+          'px';
+      } else {
+        if (this.scrollPosition === undefined) this.scrollPosition = 0;
+        ele.style.top =
+          e.target.parentNode.offsetTop + 50 - this.scrollPosition + 'px';
+      }
+
       if (ele.style.display == 'block') {
         ele.style.display = 'none';
         conTainer1.style.overflow = 'auto';
+        mainWrapper.style.overflow = 'overlay!important';
       } else {
         ele.style.display = 'block';
         conTainer1.style.overflow = 'hidden';
+        mainWrapper.style.overflow = 'hidden!important';
       }
     }, 30);
   }
@@ -696,11 +717,20 @@ export class LeaveDetailsComponent implements OnInit {
       };
     }
     console.log(leaveObj);
-    this.leaveService.createLeave(regionId, leaveObj).subscribe(res => {
-      console.log(res);
-      // this.cancelModal('relief&cancel')
-      this.modalReference.close();
-    });
+    this.leaveService.createLeave(regionId, leaveObj).subscribe(
+      res => {
+        console.log(res);
+        this.cancelModal('');
+        this.getUserLeaves(this.staffObj.userId);
+        // this.modalReference.close();
+        // this.cancelModalReference.close();
+        this.toastr.success('New absent is added.');
+      },
+      error => {
+        console.log(error);
+        this.toastr.error('Failed to add absent.');
+      }
+    );
   }
 
   formatDataForMeridian(meridian) {
