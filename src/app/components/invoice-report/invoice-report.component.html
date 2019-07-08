@@ -31,7 +31,11 @@
           {{ invoice.refInvoiceId }}
         </td>
         <td>
-          {{ invoice.userDetails.preferredName }}
+          {{
+            invoice.userDetails.preferredName == ''
+              ? invoice.user.email
+              : invoice.userDetails.preferredName
+          }}
         </td>
         <td>
           {{ invoice.updatedDate | dateFormat }}

@@ -2773,7 +2773,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     var apgName: any;
     if (data == 'all') {
       apg = 'all';
-      apgName = 'all evaluation';
+      apgName = 'all assessment';
     } else {
       apg = data;
       apgName = apg.name;

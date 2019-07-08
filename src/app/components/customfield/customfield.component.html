@@ -100,40 +100,6 @@
               Name is required!
             </div>
           </div>
-          <div *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'">
-            <label class="form-title field-name font-semi" for="name"
-              >Input Values</label
-            >
-            <div
-              *ngFor="let cobj of checkFieldArr; let idx = index"
-              class="d-flex"
-            >
-              <input
-                type="text"
-                name="name"
-                class="input-field"
-                placeholder="Type field name"
-                maxlength="60"
-                (focus)="focusMethod($event, 'name', $event.target.value)"
-                (blur)="blurMethod($event, 'name')"
-                (input)="changeMethod($event.target.value)"
-                (input)="this.checkFieldArr[idx].name = $event.target.value"
-                (keypress)="addcheckboxField($event, idx)"
-                [value]="cobj.name"
-                required
-              />
-              <!-- <div *ngIf="cname.errors && (cname.dirty || cname.touched)" class="alert alert-danger">
-								<div [hidden]="!cname.errors.required">
-									Name is required!
-								</div>
-							</div> -->
-              <div *ngIf="checkFieldArr?.length > 1" class="removeBtn-wrap">
-                <div class="removeIcon-shadow">
-                  <div class="removeIcon" (click)="removeFeeOption(idx)"></div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="form-group formfield-wrap">
           <div class="d-flex justify-content-between">
@@ -186,6 +152,40 @@
                 <span *ngIf="list == 'String'">Text</span>
                 <span *ngIf="list != 'String'">{{ list }}</span>
               </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'"
+        class="input-value-wrapper"
+      >
+        <label class="form-title field-name font-semi" for="name"
+          >Input Values</label
+        >
+        <div *ngFor="let cobj of checkFieldArr; let idx = index" class="d-flex">
+          <input
+            type="text"
+            name="name"
+            class="input-field"
+            placeholder="Type field name"
+            maxlength="60"
+            (focus)="focusMethod($event, 'name', $event.target.value)"
+            (blur)="blurMethod($event, 'name')"
+            (input)="changeMethod($event.target.value)"
+            (input)="this.checkFieldArr[idx].name = $event.target.value"
+            (keypress)="addcheckboxField($event, idx)"
+            [value]="cobj.name"
+            required
+          />
+          <!-- <div *ngIf="cname.errors && (cname.dirty || cname.touched)" class="alert alert-danger">
+            <div [hidden]="!cname.errors.required">
+              Name is required!
+            </div>
+          </div> -->
+          <div *ngIf="checkFieldArr?.length > 1" class="removeBtn-wrap">
+            <div class="removeIcon-shadow">
+              <div class="removeIcon" (click)="removeFeeOption(idx)"></div>
             </div>
           </div>
         </div>

@@ -106,7 +106,7 @@
             <span>6</span>
           </a>
         </li>
-        <li id="step7">
+        <!-- <li id="step7">
           <a
             class="step"
             [class.adisabled]="!clickableSteps.includes('step7')"
@@ -114,14 +114,14 @@
           >
             <span>7</span>
           </a>
-        </li>
-        <li id="step8">
+        </li> -->
+        <li id="step7">
           <a
             class="step"
-            [class.adisabled]="!clickableSteps.includes('step8')"
-            (click)="stepClick($event, 'step8')"
+            [class.adisabled]="!clickableSteps.includes('step7')"
+            (click)="stepClick($event, 'step7')"
           >
-            <span>8</span>
+            <span>7</span>
           </a>
         </li>
       </ol>
@@ -1020,7 +1020,7 @@
         </form>
       </div>
     </div>
-    <div *ngIf="step7" class="div_step7">
+    <!-- <div *ngIf="step7" class="div_step7">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper pad-100">
           <div class="overlay-wrapper">
@@ -1185,13 +1185,13 @@
           </div>
         </div>
       </div>
-    </div>
-    <div *ngIf="step8" class="div_step8">
+    </div> -->
+    <div *ngIf="step7" class="div_step7">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper pad-100">
           <div class="overlay-wrapper">
             <div class="col-md-12">
-              <p class="step-font">Step 8</p>
+              <p class="step-font">Step 7</p>
               <h5 class="all-title-font text-font-align">Optional fields</h5>
             </div>
             <div class="col-md-12" style="padding-top: 40px;">
@@ -1519,9 +1519,9 @@
               Update
             </button>
             <div
-              [hidden]="!step8"
+              [hidden]="!step7"
               class="back-modal"
-              (click)="backStep('step8')"
+              (click)="backStep('step7')"
             >
               <i class="fa fa-angle-left"></i>
               <p>Back</p>

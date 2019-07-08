@@ -1608,6 +1608,7 @@ ul.options-box li:last-child,
   padding-right: 24px;
   margin-bottom: 24px;
   padding-left: 0px !important;
+  cursor: pointer;
 }
 .course-plan-list:hover .lesson-slot-box {
   color: #2e3e4d;

@@ -46,11 +46,16 @@ export class LoginComponent implements OnInit {
     //     this.getSubdomain();
     //   }, 30000);
     // }else{
-    this.getSubdomain();
+    setTimeout(() => {
+      // const _this = this
+      this.getSubdomain();
+    }, 1000);
+    // this.getSubdomain();
     // }
     // this.islogin = false;
     this.randomKey = localStorage.getItem('random');
     this.host = this.document.location.hostname;
+    console.log(this.document.location);
     console.log(this.randomKey);
     if (this.randomKey != undefined) {
       console.log('key exit');
@@ -124,6 +129,7 @@ export class LoginComponent implements OnInit {
   }
 
   getOrgKey(orgCode) {
+    console.log(this.host);
     this._service.getOrgCredentials(orgCode, this.host).subscribe(
       (res: any) => {
         console.log(res);

@@ -754,15 +754,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.courseplanLists = [];
       this.getAllCoursePlan(0, 20);
       console.log('courseplanLists', this.courseplanLists);
-      if (this.selectedDay.length == 0) {
-        this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
-      } else if (this.selectedDay.length > 0) {
-        this.getStaffTimetable(
-          this.selectedTeacher.userId,
-          this.selectedDay.toString()
-        );
-      }
-      console.log('schedule', this.scheduleList);
+      // if (this.selectedDay.length == 0) {
+      //   this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+      // } else if (this.selectedDay.length > 0) {
+      //   this.getStaffTimetable(
+      //     this.selectedTeacher.userId,
+      //     this.selectedDay.toString()
+      //   );
+      // }
+      // console.log('schedule', this.scheduleList);
     });
     // this._service.goSchedule.subscribe(()=>{
     //   console.log("go back SC");
@@ -1383,7 +1383,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    console.error('object');
+    // console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -2918,5 +2918,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
+  }
+
+  printSchedule() {
+    window.print();
   }
 }
