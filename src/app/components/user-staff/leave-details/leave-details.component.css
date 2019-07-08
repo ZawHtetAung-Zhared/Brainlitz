@@ -172,7 +172,7 @@
 .leave-class-title {
   font-size: 28px;
   color: #2e3d4d;
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-top: 32px;
   /* margin-right: 241px; */
 }
@@ -764,7 +764,7 @@ span.notAffectedYet {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
-  margin-right: 49px;
+  /*margin-right: 49px;*/
 }
 
 .skip-lessons-exit {
@@ -893,7 +893,8 @@ p.left-txt {
 .assignmodal-title,
 .result-name,
 .selected-name,
-.header-undo {
+.header-undo,
+.staffname {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -1308,4 +1309,12 @@ p.left-txt {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   width: 60%;
   margin-top: 110px;
+}
+
+.cancel-icon-wrap {
+  line-height: 4;
+}
+
+.cancel-icon-wrap div {
+  float: right;
 }
