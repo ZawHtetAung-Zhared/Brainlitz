@@ -1076,6 +1076,10 @@ p.left-txt {
   width: 100%;
 }
 
+.modal-footer {
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.08);
+}
+
 .assignmodal-title {
   font-size: 28px;
   color: #2e3d4d;
@@ -1257,7 +1261,11 @@ p.left-txt {
 .makeup-icon-wrapper img {
   width: 100%;
 }
-
+.scroll-main-wrapper {
+  overflow: overlay;
+  max-height: 723px;
+  width: 50%;
+}
 .skip-lessons-part {
   width: 50%;
   display: flex;
@@ -1281,4 +1289,23 @@ p.left-txt {
 .main-loading-wrapper {
   border-bottom: 1px solid #edeff0;
   padding: 9px 0px 9px 0px;
+}
+
+.add-teacher-icon {
+  width: 285px;
+  float: right;
+  margin-top: 60px;
+  padding-right: 20px;
+}
+
+.add-teacher-icon img {
+  width: 100%;
+}
+
+.assign-text {
+  color: #64707d;
+  font-size: 28px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  width: 60%;
+  margin-top: 110px;
 }

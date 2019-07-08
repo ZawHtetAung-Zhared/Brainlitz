@@ -101,7 +101,7 @@ export class LeaveDetailsComponent implements OnInit {
   events: CalendarEvent[] = [];
   assignedReliefAll: boolean = false;
   cancelAll: boolean = false;
-  isFocusSearch: boolean = true;
+  isFocusSearch: boolean = false;
   searchKeyword: any = '';
   selectedTeacher: any = null;
   conflictLessonArr = [];
@@ -170,7 +170,6 @@ export class LeaveDetailsComponent implements OnInit {
   }
   public leaveReason = '';
   autoResize(e, type) {
-    console.warn(this.staffObj);
     if (type === 'leave') {
       this.leaveReason = e.target.value;
     } else {
@@ -634,26 +633,45 @@ export class LeaveDetailsComponent implements OnInit {
   checkScroll(e) {
     this.scrollPosition = e.target.scrollTop;
   }
+  mainScrollPosition;
+  mainWrapperScroll(e) {
+    this.mainScrollPosition = e.target.scrollTop;
+  }
   ddDate: any;
   downleaveType(e, index, date) {
     console.log('exit');
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
+    const mainWrapper = document.getElementById('scroll-main-wrapper');
     console.log(e);
     this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
     setTimeout(() => {
-      const ele = document.getElementById('zzz' + index);
+      const ele = document.getElementById('popUp' + index);
       ele.style.left = e.target.parentNode.offsetLeft + 'px';
-      ele.style.top =
-        e.target.parentNode.offsetTop + 50 - this.scrollPosition + 'px';
+      if (this.mainScrollPosition != undefined) {
+        if (this.scrollPosition === undefined) this.scrollPosition = 0;
+        ele.style.top =
+          e.target.parentNode.offsetTop +
+          50 -
+          this.scrollPosition -
+          this.mainScrollPosition +
+          'px';
+      } else {
+        if (this.scrollPosition === undefined) this.scrollPosition = 0;
+        ele.style.top =
+          e.target.parentNode.offsetTop + 50 - this.scrollPosition + 'px';
+      }
+
       if (ele.style.display == 'block') {
         ele.style.display = 'none';
         conTainer1.style.overflow = 'auto';
+        mainWrapper.style.overflow = 'overlay!important';
       } else {
         ele.style.display = 'block';
         conTainer1.style.overflow = 'hidden';
+        mainWrapper.style.overflow = 'hidden!important';
       }
     }, 30);
   }
