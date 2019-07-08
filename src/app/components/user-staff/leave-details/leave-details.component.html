@@ -5,17 +5,23 @@
     Add new absent
   </button>
 </div>
-<!-- <list-content-loader></list-content-loader> -->
-<div class="wrapper-zzz" *ngIf="leaveLogsLoading">
-  <content-loader>
-    <svg:rect x="0" y="0" rx="3" ry="3" width="250" height="10" />
-    <svg:rect x="0" y="20" rx="3" ry="3" width="180" height="10" />
-    <svg:rect x="0" y="45" rx="3" ry="3" width="250" height="10" />
-    <svg:rect x="0" y="65" rx="3" ry="3" width="180" height="10" />
-    <svg:rect x="0" y="90" rx="3" ry="3" width="250" height="10" />
-    <svg:rect x="0" y="110" rx="3" ry="3" width="180" height="10" />
-  </content-loader>
+<div *ngIf="leaveLogsLoading">
+  <div class="wrapper-zzz" style="height:40px;">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+  <hr />
+  <div class="wrapper-zzz" style="height:40px;">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+  <hr />
 </div>
+
 <div class="d-flex flex-wrap">
   <!-- <div class="leave-block" *ngFor="let leave of userLeave">
     <div class="inner-block d-flex flex-column">
