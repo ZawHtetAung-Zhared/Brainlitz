@@ -868,6 +868,7 @@ input[type='radio']:checked ~ label {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 16px;
   color: #2e3d4d;
+  background: none;
 }
 .btn:focus {
   outline: none !important;
