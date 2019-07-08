@@ -24,6 +24,7 @@ import {
 } from 'angular-calendar';
 import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
 // interface MyEvent extends CalendarEvent {
@@ -116,6 +117,7 @@ export class LeaveDetailsComponent implements OnInit {
     private _service: appService,
     private cancelClassModalService: NgbModal,
     private datePipe: DatePipe,
+    private toastr: ToastsManager,
     private leaveService: LeaveService
   ) {}
 
@@ -185,6 +187,7 @@ export class LeaveDetailsComponent implements OnInit {
     this.modalReference.close();
     this.selectedDays = [];
     this.skipCourseArr = [];
+    this.showRelief = false;
   }
   confirmCancelClass() {
     if (this.cancelType === 'single') {
@@ -213,6 +216,7 @@ export class LeaveDetailsComponent implements OnInit {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    this.cancelReason = '';
     this.giveMakeUp = false;
     this.cancelClassArray = [];
     this.cancelType = type;
@@ -239,6 +243,9 @@ export class LeaveDetailsComponent implements OnInit {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.selectedDays = [];
+    this.skipCourseArr = [];
+    this.leaveReason = '';
     this.modalReference = this.cancelClassModalService.open(openLeave, {
       backdrop: 'static',
       windowClass:
@@ -692,11 +699,20 @@ export class LeaveDetailsComponent implements OnInit {
       };
     }
     console.log(leaveObj);
-    this.leaveService.createLeave(regionId, leaveObj).subscribe(res => {
-      console.log(res);
-      // this.cancelModal('relief&cancel')
-      this.modalReference.close();
-    });
+    this.leaveService.createLeave(regionId, leaveObj).subscribe(
+      res => {
+        console.log(res);
+        this.cancelModal('');
+        this.getUserLeaves(this.staffObj.userId);
+        // this.modalReference.close();
+        // this.cancelModalReference.close();
+        this.toastr.success('New absent is added.');
+      },
+      error => {
+        console.log(error);
+        this.toastr.error('Failed to add absent.');
+      }
+    );
   }
 
   formatDataForMeridian(meridian) {

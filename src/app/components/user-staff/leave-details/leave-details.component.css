@@ -888,11 +888,12 @@ p.left-txt {
 .header-btns,
 .bold-span,
 .lesson-date,
-.course-name,
+.lesson-name,
 .bold-leaveCount,
 .assignmodal-title,
 .result-name,
-.selected-name {
+.selected-name,
+.header-undo {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -915,7 +916,8 @@ p.left-txt {
 }
 
 .header-btns,
-.lesson-time {
+.lesson-time,
+.header-undo {
   font-size: 12px;
   color: #64707d;
 }
@@ -930,7 +932,7 @@ p.left-txt {
   font-size: 18px;
 }
 
-.course-name {
+.lesson-name {
   color: #2e3d4d;
   font-size: 16px;
 }
@@ -938,7 +940,7 @@ p.left-txt {
 .cInfo,
 .lInfo,
 .lType {
-  color: #64707d;
+  color: #64707d !important;
   font-size: 14px;
 }
 
@@ -1027,12 +1029,8 @@ p.left-txt {
   padding: 16px 0px;
 }
 
-.circle {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(90deg, #ffd500 0%, #ffaa00 100%);
-  border-radius: 50%;
-  margin-top: 7px;
+.circle-wrap {
+  margin-top: 2px;
   margin-right: 16px;
 }
 
@@ -1264,4 +1262,23 @@ p.left-txt {
   width: 50%;
   display: flex;
   justify-content: center;
+}
+
+.l-count-wrapper {
+  background: #f2f4f5;
+  border-radius: 45px;
+  padding: 3px 10px;
+  text-align: center;
+  margin-left: 12px;
+}
+
+.loading-wrapper {
+  height: 30px;
+  min-width: 400px;
+  max-width: 400px;
+  margin-top: 18px;
+}
+.main-loading-wrapper {
+  border-bottom: 1px solid #edeff0;
+  padding: 9px 0px 9px 0px;
 }
