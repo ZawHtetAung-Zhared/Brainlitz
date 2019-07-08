@@ -100,7 +100,7 @@ export class LeaveDetailsComponent implements OnInit {
   events: CalendarEvent[] = [];
   assignedReliefAll: boolean = false;
   cancelAll: boolean = false;
-  isFocusSearch: boolean = true;
+  isFocusSearch: boolean = false;
   searchKeyword: any = '';
   selectedTeacher: any = null;
   conflictLessonArr = [];
