@@ -5,6 +5,17 @@
     Add new absent
   </button>
 </div>
+<!-- <list-content-loader></list-content-loader> -->
+<div class="wrapper-zzz" *ngIf="leaveLogsLoading">
+  <content-loader>
+    <svg:rect x="0" y="0" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="20" rx="3" ry="3" width="180" height="10" />
+    <svg:rect x="0" y="45" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="65" rx="3" ry="3" width="180" height="10" />
+    <svg:rect x="0" y="90" rx="3" ry="3" width="250" height="10" />
+    <svg:rect x="0" y="110" rx="3" ry="3" width="180" height="10" />
+  </content-loader>
+</div>
 <div class="d-flex flex-wrap">
   <!-- <div class="leave-block" *ngFor="let leave of userLeave">
     <div class="inner-block d-flex flex-column">
@@ -70,7 +81,7 @@
     </div>
   </div> -->
 </div>
-<div class="history-wrapper">
+<div class="history-wrapper" *ngIf="!leaveLogsLoading">
   <!-- <h4 class="history-title">Absent History</h4> -->
   <div class="d-flex flex-column" *ngIf="leaveLogs.length >= 1">
     <div class="d-flex history-details" *ngFor="let log of leaveLogs">

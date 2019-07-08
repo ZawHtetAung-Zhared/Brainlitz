@@ -26,7 +26,6 @@ import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import * as moment from 'moment-timezone';
 import { appService } from '../../../service/app.service';
-
 // interface MyEvent extends CalendarEvent {
 //   isTooltips: boolean;
 //   meridian:any;
@@ -49,6 +48,7 @@ import { LeaveService } from '../leave-details/leave.service';
 export class LeaveDetailsComponent implements OnInit {
   @Input() staffObj: any;
   loading: boolean = false;
+  public leaveLogsLoading = true;
   public userLeave = [];
   public leaveLogs = [];
   public totalLeaveDay;
@@ -106,7 +106,7 @@ export class LeaveDetailsComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.staffObj);
-
+    this.leaveLogsLoading = true;
     this.getUserLeaves(this.staffObj.userId);
     console.log(this.selectedDays);
     //for calendar
@@ -142,8 +142,13 @@ export class LeaveDetailsComponent implements OnInit {
         });
         this.userLeave = res.leaves;
         this.leaveLogs = res.logs;
+        setTimeout(() => {
+          this.leaveLogsLoading = false;
+        }, 1000);
       },
-      err => {}
+      err => {
+        console.error(err);
+      }
     );
   }
   public leaveReason = '';
