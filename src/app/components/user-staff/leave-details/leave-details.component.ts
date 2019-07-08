@@ -213,6 +213,7 @@ export class LeaveDetailsComponent implements OnInit {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    this.cancelReason = '';
     this.giveMakeUp = false;
     this.cancelClassArray = [];
     this.cancelType = type;

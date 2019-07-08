@@ -136,7 +136,10 @@
       <div class="d-flex flex-column col-md-5 p-0">
         <div class="d-flex justify-content-between">
           <p class="makeup-text">Issue makeup pass?</p>
-          <div class="toggle-wrap" (click)="this.giveMakeUp = !giveMakeUp">
+          <div
+            class="toggle-wrap"
+            (click)="this.giveMakeUp = !giveMakeUp; cancelReason = ''"
+          >
             <label class="switch">
               <input
                 type="checkbox"
