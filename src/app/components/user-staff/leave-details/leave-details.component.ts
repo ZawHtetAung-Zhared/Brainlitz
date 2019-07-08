@@ -135,15 +135,22 @@ export class LeaveDetailsComponent implements OnInit {
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
     var conTainer = document.getElementById('leave-day-list');
+    const mainWrapper = document.getElementById('scroll-main-wrapper');
     if (a == 'leave-search-down') {
       this.isFocusleavetype = true;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'hidden';
       }
+      if (mainWrapper != undefined || mainWrapper != null) {
+        mainWrapper.style.overflow = 'hidden';
+      }
     } else {
       this.isFocusleavetype = false;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'overlay';
+      }
+      if (mainWrapper != undefined || mainWrapper != null) {
+        mainWrapper.style.overflow = 'overlay';
       }
     }
   }
@@ -667,11 +674,11 @@ export class LeaveDetailsComponent implements OnInit {
       if (ele.style.display == 'block') {
         ele.style.display = 'none';
         conTainer1.style.overflow = 'auto';
-        mainWrapper.style.overflow = 'overlay!important';
+        mainWrapper.style.overflow = 'overlay';
       } else {
         ele.style.display = 'block';
         conTainer1.style.overflow = 'hidden';
-        mainWrapper.style.overflow = 'hidden!important';
+        mainWrapper.style.overflow = 'hidden';
       }
     }, 30);
   }
