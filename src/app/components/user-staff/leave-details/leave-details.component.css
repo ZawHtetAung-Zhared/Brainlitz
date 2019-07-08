@@ -1257,7 +1257,10 @@ p.left-txt {
 .makeup-icon-wrapper img {
   width: 100%;
 }
-
+.scroll-main-wrapper {
+  overflow: overlay;
+  max-height: 723px;
+}
 .l-count-wrapper {
   background: #f2f4f5;
   border-radius: 45px;

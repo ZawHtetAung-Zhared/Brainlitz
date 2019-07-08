@@ -238,8 +238,9 @@
     </div>
     <div class="d-flex calendarView">
       <div
-        class="d-flex flex-column"
-        style="overflow: overlay;max-height: 723px;"
+        (scroll)="mainWrapperScroll($event)"
+        class="d-flex flex-column scroll-main-wrapper"
+        id="scroll-main-wrapper"
       >
         <div class="calendar-part">
           <div class="row text-center">
@@ -396,7 +397,7 @@
                   ></button>
                 </div>
                 <ul
-                  id="{{ 'zzz' + i }}"
+                  id="{{ 'popUp' + i }}"
                   class="leave-type-listing"
                   *ngIf="checkId == sday.id && isFocusleavetype == true"
                 >
