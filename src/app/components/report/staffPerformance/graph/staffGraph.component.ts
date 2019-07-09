@@ -2,7 +2,7 @@ import {Component, OnInit,Input} from '@angular/core';
 @Component({
   selector: 'staff-graph',
   templateUrl: './staffGraph.component.html',
-  styles: ['.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Montserrat-Medium, Arial,sans-serif;line-height: 0.5;}']
+  styles: ['.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Inter-UI-Medium, Arial,sans-serif;line-height: 0.5;}']
 })
 
 export class StaffReportGraph implements OnInit {
@@ -32,7 +32,7 @@ export class StaffReportGraph implements OnInit {
         }
       },
       textStyle:{
-        fontFamily:'Montserrat-Medium'
+        fontFamily:'Inter-UI-Medium'
       },
       grid: {
         top: 30,

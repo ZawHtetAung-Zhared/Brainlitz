@@ -24,7 +24,7 @@ export class StaffTeachingReportGraph implements OnInit {
         formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
       textStyle:{
-        fontFamily:'Montserrat-Medium',
+        fontFamily:'Inter-UI-Medium',
         fontSize:16
       },
       calculable : true,
@@ -89,12 +89,12 @@ export class StaffTeachingReportGraph implements OnInit {
           },
           rich:{
             a:{
-              fontFamily:'Montserrat-SemiBold',
+              fontFamily:'Inter-UI-SemiBold',
               color:'#2e3d4d',
               fontSize:16
             },
             b:{
-              fontFamily:'Montserrat-medium',
+              fontFamily:'Inter-UI-medium',
               color:'#64707d',
               fontSize:12
             }

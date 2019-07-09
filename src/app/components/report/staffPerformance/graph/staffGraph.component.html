@@ -3,7 +3,7 @@
     <div style="font-size: 20px;font-weight: 600;color:#2e3d4d;">{{reportItem.groupTypeValue}}</div>
     <h3 style="font-weight: 600;color:#2e3d4d;" *ngIf="reportItem.filterValue">{{reportItem.filterValue}}</h3>
     <div class="d-flex half">
-      <h3 style="margin: 0;font-family: Montserrat-Medium;color:#64707d;padding-top:5px;">{{reportItem.averageRating}}</h3>
+      <h3 style="margin: 0;font-family: Inter-UI-Medium;color:#64707d;padding-top:5px;">{{reportItem.averageRating}}</h3>
       <div style="display: block;">
         <star-rating-comp [readOnly]="true" [starType]="'svg'"
                           [rating]="reportItem.averageRating"></star-rating-comp>
