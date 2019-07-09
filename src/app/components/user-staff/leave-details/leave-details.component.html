@@ -378,10 +378,7 @@
                 {{ sday.date | utcDateAndDay }}
               </div>
               <div class="leave-day-Choosetype">
-                <div
-                  class="input-group leave-input-gp"
-                  (click)="downleaveType($event, i, sday.date)"
-                >
+                <div class="input-group leave-input-gp">
                   <input
                     [ngClass]="{
                       'active-dropdown':
@@ -396,6 +393,7 @@
                     (input)="
                       searchCategoryList($event.target.value, 'category')
                     "
+                    (click)="downleaveType($event, i, sday.date)"
                     readonly
                   />
                   <button
