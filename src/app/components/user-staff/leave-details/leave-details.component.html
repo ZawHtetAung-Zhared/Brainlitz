@@ -909,7 +909,9 @@
     </button>
     <button
       [disabled]="
-        !assignedReliefAll && !cancelAll && checkedArr.length < skipLessonsCount
+        !assignedReliefAll &&
+        !cancelAll &&
+        checkedArr.length < actualSkipLessons
       "
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"

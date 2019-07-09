@@ -123,6 +123,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     courseIdx: ''
   };
   skipLessonsCount: any = 0;
+  actualSkipLessons: any = 0;
 
   constructor(
     private _service: appService,
@@ -500,6 +501,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   // calculate skip lessons count
   calculateSkipLessons(skipCoursesArr) {
     this.skipLessonsCount = 0;
+    this.actualSkipLessons = 0;
+    var tempLCount = 0;
     skipCoursesArr.map(skipCourse => {
       console.log(
         'skipLessonsCount',
@@ -508,7 +511,17 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         skipCourse.courses.length
       );
       this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
+      skipCourse.courses.map(course => {
+        if (course.lessons[0].cancel == true) {
+          tempLCount = tempLCount + course.lessons.length;
+        } else {
+          this.actualSkipLessons = this.skipLessonsCount;
+        }
+      });
     });
+    this.actualSkipLessons = this.skipLessonsCount - tempLCount;
+    console.log('~~~actual skip lessons', this.actualSkipLessons);
+    console.log('~~~skip lesson count', this.skipLessonsCount);
   }
 
   //to get leave taken day by one month
