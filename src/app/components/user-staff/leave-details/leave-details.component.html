@@ -709,7 +709,8 @@
                     <div
                       *ngIf="
                         course.newTeacherId == undefined &&
-                        course.cancel == undefined
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == false
                       "
                       class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
@@ -742,6 +743,27 @@
                       >
                         Cancel lesson
                       </button>
+                    </div>
+                    <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == true
+                      "
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <label class="mb-0 selected-name pl-3">
+                        Cancelled Class
+                      </label>
+                      <div
+                        class="d-flex justify-content-center align-items-center pl-2"
+                      >
+                        <div class="cc-icon-wrapper">
+                          <div class="icon-wrapper">
+                            <img src="./assets/images/withdraw-ico@2x.png" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div
                       *ngIf="course.newTeacherId != undefined"
