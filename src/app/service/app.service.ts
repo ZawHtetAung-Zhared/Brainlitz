@@ -3701,9 +3701,30 @@ export class appService {
   getRescheduleList(courseId: string, userId: string, startDate, endDate) {
     console.log(startDate, endDate, userId);
     let apiUrl;
-
-    apiUrl =
-      this.baseUrl + '/users/' + userId + '/courses/' + courseId + '/lessons';
+    if (startDate === undefined && endDate === undefined) {
+      apiUrl =
+        this.baseUrl + '/users/' + userId + '/courses/' + courseId + '/lessons';
+    } else if (startDate === undefined) {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?endAt=' +
+        endDate;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?startFrom=' +
+        startDate;
+    }
     console.log(apiUrl);
     const httpOptions = {
       headers: new HttpHeaders({
