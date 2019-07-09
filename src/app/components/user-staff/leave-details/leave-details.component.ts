@@ -931,8 +931,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.skipCourseArr.map(skipCourse => {
         skipCourse.courses.map(course => {
           console.log('skip course~~~', course);
-          course['newTeacherId'] = selectedData.userId;
-          course['newTeacherInfo'] = selectedData;
+          if (course.lessons[0].cancel == false) {
+            course['newTeacherId'] = selectedData.userId;
+            course['newTeacherInfo'] = selectedData;
+          }
         });
       });
     } else {
