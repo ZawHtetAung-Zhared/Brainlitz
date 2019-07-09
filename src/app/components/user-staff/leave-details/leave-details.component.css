@@ -595,6 +595,8 @@ min-width: 40px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
   color: #2e3d4d;
+  cursor: pointer;
+  box-shadow: unset;
 }
 .input-search-dropdown-bg:focus,
 .leave-search-down:focus {
@@ -615,6 +617,7 @@ min-width: 40px;
   box-shadow: 1px 2px 3px 0px rgba(213, 213, 213, 0.3); */
   background: #ffffff;
   border-left: none;
+  cursor: pointer;
 }
 .leave-list-name {
   color: #2e3d4d;

@@ -149,9 +149,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
+    var b = $event.target.classList[3];
+
     var conTainer = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
-    if (a == 'leave-search-down') {
+    if (a == 'leave-search-down' || b == 'active-dropdown') {
       this.isFocusleavetype = true;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'hidden';
@@ -664,7 +666,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   ddDate: any;
   downleaveType(e, index, date) {
     console.log('exit', index, date);
-    console.log(this.selectedDays);
+    console.log(e);
 
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
@@ -673,8 +675,12 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
+    console.log(this.isFocusleavetype);
+
     setTimeout(() => {
       const ele = document.getElementById('popUp' + index);
+      console.log(ele);
+
       ele.style.left = e.target.parentNode.offsetLeft + 'px';
       if (this.mainScrollPosition != undefined) {
         if (this.scrollPosition === undefined) this.scrollPosition = 0;
