@@ -212,13 +212,6 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.showRelief = false;
   }
   confirmCancelClass() {
-    console.log(this.skipCourseArr);
-    console.log(this.dateIndex);
-    console.log(this.courseIndex);
-    console.log(
-      this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
-        .cancel
-    );
     if (this.cancelType === 'single') {
       this.checkedArr.push('disabled');
       if (
