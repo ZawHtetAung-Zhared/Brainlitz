@@ -143,8 +143,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.leaveSubscription.unsubscribe();
+    // this.userSubscription.unsubscribe();
+    // this.leaveSubscription.unsubscribe();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
@@ -172,25 +172,23 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   getUserLeaves(userId) {
     this.totalLeaveDay = 0;
-    this.userSubscription = this._service
-      .getUserLeaveDetails(this.regionID, userId)
-      .subscribe(
-        (res: any) => {
-          res.leaves.map(leave => {
-            leave.percentLeave = leave.takenDays * 5 + 40;
-            leave.maxPercentLeave = leave.leaveDays * 5 + 40;
-            this.totalLeaveDay += leave.leaveDays;
-          });
-          this.userLeave = res.leaves;
-          this.leaveLogs = res.logs;
-          setTimeout(() => {
-            this.leaveLogsLoading = false;
-          }, 1000);
-        },
-        err => {
-          console.error(err);
-        }
-      );
+    this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
+      (res: any) => {
+        res.leaves.map(leave => {
+          leave.percentLeave = leave.takenDays * 5 + 40;
+          leave.maxPercentLeave = leave.leaveDays * 5 + 40;
+          this.totalLeaveDay += leave.leaveDays;
+        });
+        this.userLeave = res.leaves;
+        this.leaveLogs = res.logs;
+        setTimeout(() => {
+          this.leaveLogsLoading = false;
+        }, 1000);
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
   public leaveReason = '';
   autoResize(e, type) {
@@ -384,10 +382,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         calDay.classList.remove('cal-day-number-selected');
       } else {
         //add css class for selected
-        this.selectedDays.push(dateType); //this for leave days add new
-        this.selectedDays.map((day, index) => {
-          day.id = index;
-        });
+        this.selectedDays.push(dateType);
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
@@ -397,6 +392,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    //this for leave days add new
+    this.selectedDays.map((day, index) => {
+      day.id = index;
+    });
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -529,7 +528,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         this.datePipe.transform(endDate, 'yyyy-MM-dd')
     );
 
-    this.leaveSubscription = this._service
+    this._service
       .getleaveofuser(
         this.regionID,
         this.staffObj.userId,
@@ -664,7 +663,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   ddDate: any;
   downleaveType(e, index, date) {
-    console.log('exit');
+    console.log('exit', index, date);
+    console.log(this.selectedDays);
+
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
