@@ -3595,4 +3595,18 @@ export class CourseComponent implements OnInit {
     console.log(this.checkobjArr);
   }
   // end flexy
+  public resechduleList: any = [];
+  getReschedule(reschedule) {
+    this.modalReference = this.modalService.open(reschedule, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this._service
+      .getRescheduleList(this.courseId, this.uId, undefined, undefined)
+      .subscribe((res: any) => {
+        console.warn(res);
+        this.resechduleList = res;
+      });
+  }
 }
