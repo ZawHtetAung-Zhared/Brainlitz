@@ -39,6 +39,7 @@ import { appService } from '../../../service/app.service';
 //   meridian:any;
 // }
 import { LeaveService } from '../leave-details/leave.service';
+import { log } from 'util';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -122,6 +123,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     courseIdx: ''
   };
   skipLessonsCount: any = 0;
+  actualSkipLessons: any = 0;
 
   constructor(
     private _service: appService,
@@ -149,9 +151,15 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
+    var b = $event.target.classList[3];
+    console.log(a);
+    console.log(b);
+
     var conTainer = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
-    if (a == 'leave-search-down') {
+    if (a == 'leave-search-down' || b == 'active-dropdown') {
+      console.log('exit');
+
       this.isFocusleavetype = true;
       if (conTainer != undefined || conTainer != null) {
         conTainer.style.overflow = 'hidden';
@@ -213,22 +221,29 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   confirmCancelClass() {
     if (this.cancelType === 'single') {
       this.checkedArr.push('disabled');
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].pass = this.giveMakeUp;
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].cancel = true;
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].reason = this.cancelReason;
+      if (
+        this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
+          .cancel != true
+      ) {
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].pass = this.giveMakeUp;
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].cancel = true;
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].reason = this.cancelReason;
+      }
     } else {
       this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
-          course.pass = this.giveMakeUp;
-          course.cancel = true;
-          course.reason = this.cancelReason;
+          if (course.lessons[0].cancel != true) {
+            course.pass = this.giveMakeUp;
+            course.cancel = true;
+            course.reason = this.cancelReason;
+          }
         });
       });
     }
@@ -243,17 +258,24 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.cancelType = type;
     this.courseIndex = index;
     this.dateIndex = i;
+    let tempArr = [];
+    let totalCount = 0;
     if (type === 'single') {
-      this.cancelClassArray.push(skipCourses);
+      let gg = {
+        date: skipCourses.date,
+        courses: tempArr
+      };
+      tempArr.push(skipCourses.courses[index]);
+      this.cancelClassArray.push(gg);
     } else {
       this.cancelClassArray = skipCourses;
-    }
-    let totalCount = 0;
-    this.cancelClassArray.map(courseObj => {
-      courseObj.courses.map(lessonObj => {
-        totalCount += lessonObj.enrolledStudentCount;
+      this.cancelClassArray.map(courseObj => {
+        courseObj.courses.map(lessonObj => {
+          totalCount += lessonObj.enrolledStudentCount;
+        });
       });
-    });
+    }
+
     this.studentCount = totalCount;
     this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
@@ -382,10 +404,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         calDay.classList.remove('cal-day-number-selected');
       } else {
         //add css class for selected
-        this.selectedDays.push(dateType); //this for leave days add new
-        this.selectedDays.map((day, index) => {
-          day.id = index;
-        });
+        this.selectedDays.push(dateType);
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
@@ -395,6 +414,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    //this for leave days add new
+    this.selectedDays.map((day, index) => {
+      day.id = index;
+    });
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -478,6 +501,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   // calculate skip lessons count
   calculateSkipLessons(skipCoursesArr) {
     this.skipLessonsCount = 0;
+    this.actualSkipLessons = 0;
+    var tempLCount = 0;
     skipCoursesArr.map(skipCourse => {
       console.log(
         'skipLessonsCount',
@@ -486,7 +511,17 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         skipCourse.courses.length
       );
       this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
+      skipCourse.courses.map(course => {
+        if (course.lessons[0].cancel == true) {
+          tempLCount = tempLCount + course.lessons.length;
+        } else {
+          this.actualSkipLessons = this.skipLessonsCount;
+        }
+      });
     });
+    this.actualSkipLessons = this.skipLessonsCount - tempLCount;
+    console.log('~~~actual skip lessons', this.actualSkipLessons);
+    console.log('~~~skip lesson count', this.skipLessonsCount);
   }
 
   //to get leave taken day by one month
@@ -662,7 +697,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   ddDate: any;
   downleaveType(e, index, date) {
-    console.log('exit');
+    console.log('exit', index, date);
+    console.log(e);
+
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
@@ -670,8 +707,12 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.checkId = index;
     this.ddDate = date;
     this.isFocusleavetype = true;
+    console.log(this.isFocusleavetype);
+
     setTimeout(() => {
       const ele = document.getElementById('popUp' + index);
+      console.log(ele);
+
       ele.style.left = e.target.parentNode.offsetLeft + 'px';
       if (this.mainScrollPosition != undefined) {
         if (this.scrollPosition === undefined) this.scrollPosition = 0;
@@ -929,8 +970,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.skipCourseArr.map(skipCourse => {
         skipCourse.courses.map(course => {
           console.log('skip course~~~', course);
-          course['newTeacherId'] = selectedData.userId;
-          course['newTeacherInfo'] = selectedData;
+          if (course.lessons[0].cancel == false) {
+            course['newTeacherId'] = selectedData.userId;
+            course['newTeacherInfo'] = selectedData;
+          }
         });
       });
     } else {

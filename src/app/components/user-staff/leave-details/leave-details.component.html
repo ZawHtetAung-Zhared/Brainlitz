@@ -244,7 +244,7 @@
         </div>
       </div>
     </div>
-    <div class="d-flex calendarView">
+    <div class="d-flex justify-content-between calendarView">
       <div
         (scroll)="mainWrapperScroll($event)"
         class="d-flex flex-column scroll-main-wrapper"
@@ -378,7 +378,7 @@
                 {{ sday.date | utcDateAndDay }}
               </div>
               <div class="leave-day-Choosetype">
-                <div class="input-group">
+                <div class="input-group leave-input-gp">
                   <input
                     [ngClass]="{
                       'active-dropdown':
@@ -393,6 +393,7 @@
                     (input)="
                       searchCategoryList($event.target.value, 'category')
                     "
+                    (click)="downleaveType($event, i, sday.date)"
                     readonly
                   />
                   <button
@@ -706,7 +707,8 @@
                     <div
                       *ngIf="
                         course.newTeacherId == undefined &&
-                        course.cancel == undefined
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == false
                       "
                       class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
@@ -739,6 +741,27 @@
                       >
                         Cancel lesson
                       </button>
+                    </div>
+                    <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == true
+                      "
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <label class="mb-0 selected-name pl-3">
+                        Cancelled Class
+                      </label>
+                      <div
+                        class="d-flex justify-content-center align-items-center pl-2"
+                      >
+                        <div class="cc-icon-wrapper">
+                          <div class="icon-wrapper">
+                            <img src="./assets/images/withdraw-ico@2x.png" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div
                       *ngIf="course.newTeacherId != undefined"
@@ -886,7 +909,9 @@
     </button>
     <button
       [disabled]="
-        !assignedReliefAll && !cancelAll && checkedArr.length < skipLessonsCount
+        !assignedReliefAll &&
+        !cancelAll &&
+        checkedArr.length < actualSkipLessons
       "
       class="btn button-submit font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
