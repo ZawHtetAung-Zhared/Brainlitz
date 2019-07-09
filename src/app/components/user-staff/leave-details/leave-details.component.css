@@ -1264,13 +1264,15 @@ p.left-txt {
 }
 .scroll-main-wrapper {
   overflow: overlay;
-  max-height: 723px;
-  width: 50%;
+  max-height: 550px;
+  /* width: 50%; */
+  flex-grow: 0.1;
 }
 .skip-lessons-part {
-  width: 50%;
+  /* width: 50%; */
   /* display: flex; */
-  justify-content: center;
+  /* justify-content: center; */
+  flex-grow: 0.5;
 }
 
 .l-count-wrapper {

@@ -382,10 +382,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         calDay.classList.remove('cal-day-number-selected');
       } else {
         //add css class for selected
-        this.selectedDays.push(dateType); //this for leave days add new
-        this.selectedDays.map((day, index) => {
-          day.id = index;
-        });
+        this.selectedDays.push(dateType);
         calCell.classList.add('cal-day-selected');
         calDay.classList.add('cal-day-number-selected');
         this.selectedMonthViewDay = day;
@@ -395,6 +392,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.getTotalLeaves(this.selectedDays);
     console.log(this.selectedDays);
     console.log(this.skipCourseArr);
+    //this for leave days add new
+    this.selectedDays.map((day, index) => {
+      day.id = index;
+    });
   }
   // this.ddDate = dateFormat;
   public totalLeaves;
@@ -662,7 +663,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   ddDate: any;
   downleaveType(e, index, date) {
-    console.log('exit');
+    console.log('exit', index, date);
+    console.log(this.selectedDays);
+
     var conTainer = document.getElementById('leave-day-part');
     var conTainer1 = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
