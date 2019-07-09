@@ -1,48 +1,47 @@
-import {Component, OnInit,Input,OnChanges} from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 @Component({
   selector: 'std-enrolment-graph',
-  templateUrl: './stdEnrolment.component.html',
+  templateUrl: './stdEnrolment.component.html'
 })
-
 export class StdEnrolmentReportGraph implements OnInit {
   @Input() reportItems: any;
-  plotOption:any;
-  echarts:any;
-  barColor:any;
+  plotOption: any;
+  echarts: any;
+  barColor: any;
   ngOnChanges() {
     this.setupOption();
   }
-  setupOption(){
-    this.barColor = ['#EC407F','#FDEAC5','#C4FBEB','#C5EBFC','#EBC5FC'];
+  setupOption() {
+    this.barColor = ['#EC407F', '#FDEAC5', '#C4FBEB', '#C5EBFC', '#EBC5FC'];
     let _self = this;
     this.echarts = require('echarts');
     this.plotOption = {
       tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
       },
-      grid:{
-        right:100
+      grid: {
+        right: 100
       },
       legend: {
         orient: 'horizontal',
-        type:'scroll',
-        axis:'right',
-        top:10,
-        right:0,
+        type: 'scroll',
+        axis: 'right',
+        top: 10,
+        right: 0,
         avoidLabelOverlap: true,
-        data:[],
-        textStyle:{
-          fontFamily:'Montserrat-Medium',
-          color:'#2e3d4d',
+        data: [],
+        textStyle: {
+          fontFamily: 'Inter-UI-Medium',
+          color: '#2e3d4d',
           fontSize: 16,
           fontWeight: 500
         }
       },
       series: [
         {
-          name:'Student Enrolment',
-          type:'pie',
+          name: 'Student Enrolment',
+          type: 'pie',
           radius: ['30%', '75%'],
           avoidLabelOverlap: true,
           label: {
@@ -63,27 +62,31 @@ export class StdEnrolmentReportGraph implements OnInit {
               show: false
             }
           },
-          data:[]
+          data: []
         }
       ]
     };
-    this.reportItems.forEach(function(item,i){
-      if(_self.barColor[i]){
-        _self.plotOption.series[0].data.push({value:item.students,name:item.groupTypeValue,itemStyle:{color:_self.barColor[i]}});
-      }else{
-        _self.plotOption.series[0].data.push({value:item.students,name:item.groupTypeValue});
+    this.reportItems.forEach(function(item, i) {
+      if (_self.barColor[i]) {
+        _self.plotOption.series[0].data.push({
+          value: item.students,
+          name: item.groupTypeValue,
+          itemStyle: { color: _self.barColor[i] }
+        });
+      } else {
+        _self.plotOption.series[0].data.push({
+          value: item.students,
+          name: item.groupTypeValue
+        });
       }
       _self.plotOption.legend.data.push(item.groupTypeValue);
     });
     this.plotGraph();
   }
-  plotGraph(){
+  plotGraph() {
     var elem = document.getElementById('stdEnrolmentGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
   }
-  ngOnInit(){
-
-
-  }
+  ngOnInit() {}
 }
