@@ -572,6 +572,9 @@ min-width: 40px;
   border-radius: 8px;
 }
 
+.calendar-part .calendarbtn {
+  background: none;
+}
 /* for leave type in abasent modal */
 .input-group {
   position: relative;
@@ -1145,6 +1148,7 @@ p.left-txt {
 .search-result {
   padding: 15px 0px;
   border-bottom: 1px solid #edeff0;
+  cursor: pointer;
 }
 
 .result-wrapper {
@@ -1264,13 +1268,15 @@ p.left-txt {
 }
 .scroll-main-wrapper {
   overflow: overlay;
-  max-height: 723px;
-  width: 50%;
+  max-height: 550px;
+  /* width: 50%; */
+  flex-grow: 0.1;
 }
 .skip-lessons-part {
-  width: 50%;
+  /* width: 50%; */
   /* display: flex; */
-  justify-content: center;
+  /* justify-content: center; */
+  flex-grow: 0.5;
 }
 
 .l-count-wrapper {
@@ -1317,4 +1323,5 @@ p.left-txt {
 
 .cancel-icon-wrap div {
   float: right;
+  cursor: pointer;
 }
