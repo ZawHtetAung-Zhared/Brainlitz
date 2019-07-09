@@ -3697,4 +3697,23 @@ export class appService {
       return result;
     });
   }
+  // http://dev-app.brainlitz.com/api/v1/users/5c78a11a2aa75e0ef5ca525e/courses/5d22ebe3b731620d34b5e72b/lessons
+  getRescheduleList(courseId: string, userId: string, startDate, endDate) {
+    console.log(startDate, endDate, userId);
+    let apiUrl;
+
+    apiUrl =
+      this.baseUrl + '/users/' + userId + '/courses/' + courseId + '/lessons';
+    console.log(apiUrl);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
 }
