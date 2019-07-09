@@ -39,6 +39,7 @@ import { appService } from '../../../service/app.service';
 //   meridian:any;
 // }
 import { LeaveService } from '../leave-details/leave.service';
+import { log } from 'util';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -211,24 +212,38 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.showRelief = false;
   }
   confirmCancelClass() {
+    console.log(this.skipCourseArr);
+    console.log(this.dateIndex);
+    console.log(this.courseIndex);
+    console.log(
+      this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
+        .cancel
+    );
     if (this.cancelType === 'single') {
       this.checkedArr.push('disabled');
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].pass = this.giveMakeUp;
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].cancel = true;
-      this.skipCourseArr[this.dateIndex].courses[
-        this.courseIndex
-      ].reason = this.cancelReason;
+      if (
+        this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
+          .cancel != true
+      ) {
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].pass = this.giveMakeUp;
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].cancel = true;
+        this.skipCourseArr[this.dateIndex].courses[
+          this.courseIndex
+        ].reason = this.cancelReason;
+      }
     } else {
       this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
-          course.pass = this.giveMakeUp;
-          course.cancel = true;
-          course.reason = this.cancelReason;
+          if (course.lessons[0].cancel != true) {
+            course.pass = this.giveMakeUp;
+            course.cancel = true;
+            course.reason = this.cancelReason;
+          }
         });
       });
     }
@@ -243,18 +258,25 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.cancelType = type;
     this.courseIndex = index;
     this.dateIndex = i;
+    let tempArr = [];
+    let totalCount = 0;
     if (type === 'single') {
-      this.cancelClassArray.push(skipCourses);
+      let gg = {
+        date: skipCourses.date,
+        courses: tempArr
+      };
+      tempArr.push(skipCourses.courses[index]);
+      this.cancelClassArray.push(gg);
     } else {
       this.cancelClassArray = skipCourses;
-    }
-    let totalCount = 0;
-    this.cancelClassArray.map(courseObj => {
-      courseObj.courses.map(lessonObj => {
-        totalCount += lessonObj.enrolledStudentCount;
+      this.cancelClassArray.map(courseObj => {
+        courseObj.courses.map(lessonObj => {
+          totalCount += lessonObj.enrolledStudentCount;
+        });
       });
-    });
-    this.studentCount = totalCount;
+    }
+
+    // this.studentCount = totalCount;
     this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
