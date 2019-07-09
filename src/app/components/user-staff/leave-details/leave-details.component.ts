@@ -276,7 +276,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       });
     }
 
-    // this.studentCount = totalCount;
+    this.studentCount = totalCount;
     this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
