@@ -3605,7 +3605,7 @@ export class CourseComponent implements OnInit {
     this._service
       .getRescheduleList(this.courseId, this.uId, undefined, undefined)
       .subscribe((res: any) => {
-        console.warn(res);
+        console.log(res);
         this.resechduleList = res;
       });
   }
