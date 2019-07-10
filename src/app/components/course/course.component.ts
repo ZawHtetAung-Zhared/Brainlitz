@@ -3611,10 +3611,19 @@ export class CourseComponent implements OnInit {
         console.warn(this.activeCourseInfo);
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
+        console.log(res);
         this.resechduleList = res;
 
         this.isReschedule = true;
         console.warn(res);
       });
+  }
+
+  showRescheduleConfirmModal(confirmReschedule) {
+    this.modalReference = this.modalService.open(confirmReschedule, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
   }
 }

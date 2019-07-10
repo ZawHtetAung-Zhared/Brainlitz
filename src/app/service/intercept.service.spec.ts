@@ -9,7 +9,10 @@ describe('InterceptService', () => {
     });
   });
 
-  it('should be created', inject([InterceptService], (service: InterceptService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [InterceptService],
+    (service: InterceptService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

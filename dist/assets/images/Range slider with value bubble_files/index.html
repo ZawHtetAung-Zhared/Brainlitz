@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://s.codepen.io/boomerang/iFrameKey-f28120c5-4604-2bc9-03f2-ff9d2897c5fc/index.html -->
+<html lang="en" class="">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="./console_runner-1df7d3399bdc1f40995a35209755dcfd8c7547da127f6469fd81e5fba982f6af.js"></script>
+    <script src="./css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
+    <meta name="robots" content="noindex" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link
+      rel="mask-icon"
+      type=""
+      href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+      color="#111"
+    />
+    <link rel="canonical" href="https://codepen.io/yannicvanveen/pen/HtvbI" />
+
+    <link rel="stylesheet" href="./normalize.min.css" />
+    <style type="text/css" class="cp-pen-styles">
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: Arial, sans-serif;
+      }
+
+      form {
+        width: 200px;
+        padding-top: 100px;
+        margin: 0 auto;
+      }
+
+      .range-control {
+        position: relative;
+      }
+
+      input[type='range'] {
+        display: block;
+        width: 100%;
+        margin: 0;
+        -webkit-appearance: none;
+        outline: none;
+      }
+
+      input[type='range']::-webkit-slider-runnable-track {
+        position: relative;
+        height: 12px;
+        border: 1px solid #b2b2b2;
+        border-radius: 5px;
+        background-color: #e2e2e2;
+        box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      input[type='range']::-webkit-slider-thumb {
+        position: relative;
+        top: -5px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #999;
+        -webkit-appearance: none;
+        background-color: #fff;
+        box-shadow: inset 0 -1px 2px 0 rgba(0, 0, 0, 0.25);
+        border-radius: 100%;
+        cursor: pointer;
+      }
+
+      output {
+        position: absolute;
+        top: -32px;
+        display: none;
+        width: 50px;
+        height: 24px;
+        border: 1px solid #e2e2e2;
+        background-color: #fff;
+        border-radius: 3px;
+        color: #777;
+        font-size: 0.8em;
+        line-height: 24px;
+        text-align: center;
+      }
+
+      output:after {
+        content: ' ';
+        position: absolute;
+        right: 30px;
+        top: -15px;
+        border-top: none;
+        border-right: 15px solid transparent;
+        border-left: 15px solid transparent;
+        border-bottom: 15px solid black;
+      }
+
+      input[type='range']:active + output {
+        display: block;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <div class="range-control">
+        <input
+          id="inputRange"
+          type="range"
+          min="100"
+          max="250"
+          step="5"
+          value="200"
+          data-thumbwidth="20"
+        />
+        <output name="rangeVal" style="left: calc(33.3333% - -3px);"
+          >150</output
+        >
+      </div>
+    </form>
+    <script src="./stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script
+    ><script src="./jquery.min.js"></script>
+    <script>
+      $('input[type="range"]').on('input', function() {
+        var control = $(this),
+          controlMin = control.attr('min'),
+          controlMax = control.attr('max'),
+          controlVal = control.val(),
+          controlThumbWidth = control.data('thumbwidth');
+
+        var range = controlMax - controlMin;
+
+        var position = ((controlVal - controlMin) / range) * 100;
+        var positionOffset =
+          Math.round((controlThumbWidth * position) / 100) -
+          controlThumbWidth / 2;
+        var output = control.next('output');
+
+        output
+          .css('left', 'calc(' + position + '% - ' + positionOffset + 'px)')
+          .text(controlVal);
+      });
+      //# sourceURL=pen.js
+    </script>
+  </body>
+</html>

@@ -8,9 +8,8 @@ describe('FlexiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FlexiComponent ]
-    })
-    .compileComponents();
+      declarations: [FlexiComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

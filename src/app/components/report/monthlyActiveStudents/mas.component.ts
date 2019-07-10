@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {DaterangepickerConfig} from 'ng2-daterangepicker';
-import {NgbModal, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { DaterangepickerConfig } from 'ng2-daterangepicker';
+import { NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import {appService} from '../../../service/app.service';
+import { appService } from '../../../service/app.service';
 import masSampleData from './sampleData';
-declare var $:any;
+declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
@@ -15,43 +15,67 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 export class MonthlyActiveStudentsReport implements OnInit {
   masGroupByList = ['Location', 'Category', 'Course Plan'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
-  categoryList = ['Art & Science', 'Dance', 'Education', 'Sports', 'Technology'];
+  categoryList = [
+    'Art & Science',
+    'Dance',
+    'Education',
+    'Sports',
+    'Technology'
+  ];
   locationList = ['Woodland', 'Yishun', 'Admiralty', 'Bedok', 'Sembawang'];
   coursePlanList = ['Advanced', 'Beginner', 'Individual', 'Weekend'];
-  courseNameList = ['Business Administration', 'Management Studies', '3D Animation', 'Facebook Marketing', 'Cyber Security', 'Math Classes', 'Orchestra', 'Guitar', 'Hip Hop', 'Piano', 'Meditation & Yoga', 'Health & Fitness', 'Sports Science'];
-  searchResult:any;
-  groupBy = "location";
-  filter:any;
-  modalReference:any;
-  reportData:any;
-  daterange:any = {};
-  options:any;
-  filterModel:any;
-  startDate:any;
-  endDate:any;
+  courseNameList = [
+    'Business Administration',
+    'Management Studies',
+    '3D Animation',
+    'Facebook Marketing',
+    'Cyber Security',
+    'Math Classes',
+    'Orchestra',
+    'Guitar',
+    'Hip Hop',
+    'Piano',
+    'Meditation & Yoga',
+    'Health & Fitness',
+    'Sports Science'
+  ];
+  searchResult: any;
+  groupBy = 'location';
+  filter: any;
+  modalReference: any;
+  reportData: any;
+  daterange: any = {};
+  options: any;
+  filterModel: any;
+  startDate: any;
+  endDate: any;
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
   @BlockUI() blockUI: NgBlockUI;
-  constructor(private daterangepickerOptions:DaterangepickerConfig, private modalService:NgbModal, private _service:appService) {
+  constructor(
+    private daterangepickerOptions: DaterangepickerConfig,
+    private modalService: NgbModal,
+    private _service: appService
+  ) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
-      locale: {format: 'd m YYYY'},
+      locale: { format: 'd m YYYY' },
       alwaysShowCalendars: true,
       ranges: {
-        'Today': [moment()],
-        'Yesteday': [moment().subtract(1, 'days'), moment()],
+        Today: [moment()],
+        Yesteday: [moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
         'Last 3 Months': [moment().subtract(4, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
         'Last 12 Months': [moment().subtract(12, 'month'), moment()],
-        'Last 18 Months': [moment().subtract(18, 'month'), moment()],
+        'Last 18 Months': [moment().subtract(18, 'month'), moment()]
       }
     };
   }
 
   ngOnInit() {
     this.filterModel = 'Category';
-    this.filter = {type: "category", 'value': []};
+    this.filter = { type: 'category', value: [] };
     this.searchResult = {
       show: false,
       value: this.categoryList
@@ -60,52 +84,67 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = (moment('02/28/2015')).toISOString();
-    this.endDate = (moment()).toISOString();
+    this.startDate = moment('02/28/2015').toISOString();
+    this.endDate = moment().toISOString();
     this.options = {
       startDate: moment('28/02/2015').startOf('hour'),
       endDate: moment().startOf('hour'),
-      locale: {format: 'MMM YYYY'},
-      alwaysShowCalendars: true,
+      locale: { format: 'MMM YYYY' },
+      alwaysShowCalendars: true
     };
     this.reportData = [];
     this.showReport();
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     let _self = this;
-    var endMonth = moment().month()+1;
+    var endMonth = moment().month() + 1;
     var endYear = moment().year();
-    console.log(endMonth,endYear);
+    console.log(endMonth, endYear);
     $('#monthRangePicker')
-      .rangePicker({  setDate:[[2,2015],[endMonth,endYear]],minDate:[2,2015], maxDate:[endMonth,endYear],closeOnSelect:true, RTL:false })
+      .rangePicker({
+        setDate: [[2, 2015], [endMonth, endYear]],
+        minDate: [2, 2015],
+        maxDate: [endMonth, endYear],
+        closeOnSelect: true,
+        RTL: false
+      })
       // subscribe to the "done" event after user had selected a date
-      .on('datePicker.done', function(e, result){
-        if( result instanceof Array ){
+      .on('datePicker.done', function(e, result) {
+        if (result instanceof Array) {
           console.log(result);
-          console.log(new Date(result[0][1], result[0][0] - 1), new Date(result[1][1], result[1][0] - 1));
-          _self.startDate = (new Date(result[0][1], result[0][0] - 1)).toISOString();
-          _self.endDate = (new Date(result[1][1], result[1][0])).toISOString();
+          console.log(
+            new Date(result[0][1], result[0][0] - 1),
+            new Date(result[1][1], result[1][0] - 1)
+          );
+          _self.startDate = new Date(
+            result[0][1],
+            result[0][0] - 1
+          ).toISOString();
+          _self.endDate = new Date(result[1][1], result[1][0]).toISOString();
           _self.showReport();
-        }
-        else{
+        } else {
           console.log(result);
         }
       });
   }
-  showReport(){
+  showReport() {
     this.reportData = [];
     this.blockUI.start('Loading...');
-    this._service.getMASReport(this.regionID,this.startDate,this.endDate)
-      .subscribe((res:any) => {
-        this.blockUI.stop();
-        if(res.length){
-          this.reportData = this.getfilteredData(res);
-        }else{
+    this._service
+      .getMASReport(this.regionID, this.startDate, this.endDate)
+      .subscribe(
+        (res: any) => {
+          this.blockUI.stop();
+          if (res.length) {
+            this.reportData = this.getfilteredData(res);
+          } else {
+            this.reportData = [];
+          }
+        },
+        err => {
           this.reportData = [];
         }
-      },err => {
-        this.reportData = [];
-      });
+      );
     // if (masSampleData) { //check if we have data to show report
     //   this.reportData = this.getfilteredData(masSampleData);
     // } else {
@@ -113,7 +152,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     //   this.reportData = [];
     // }
   }
-  getfilteredData(inputData){
+  getfilteredData(inputData) {
     let filter = this.filter;
     let _self = this;
     let res = [];
@@ -124,47 +163,47 @@ export class MonthlyActiveStudentsReport implements OnInit {
     _self.courseNameList = [];
 
     inputData.forEach(function(data, i) {
-      Object.keys(data).forEach(function(k,i){
+      Object.keys(data).forEach(function(k, i) {
         data = data[k];
         let obj = {
           groupTypeValue: k,
           students: 0
         };
-        if(filter.type == "location" && filter.value.length){
-          data = data.filter(function (d) {
+        if (filter.type == 'location' && filter.value.length) {
+          data = data.filter(function(d) {
             return filter.value.indexOf(d.locationName) > -1;
           });
         }
-        data.forEach(function (location) {
+        data.forEach(function(location) {
           _self.locationList.push(location.locationName);
           let categories = location.categories || [];
-          if(filter.type == "category" && filter.value.length){
-            categories = categories.filter(function (d) {
+          if (filter.type == 'category' && filter.value.length) {
+            categories = categories.filter(function(d) {
               return filter.value.indexOf(d.catName) > -1;
             });
           }
-          categories.forEach(function (category) {
+          categories.forEach(function(category) {
             _self.categoryList.push(category.catName);
             let coursePlans = category.coursePlans || [];
 
-            if(filter.type == "coursePlan" && filter.value.length){
-              coursePlans = coursePlans.filter(function (d) {
+            if (filter.type == 'coursePlan' && filter.value.length) {
+              coursePlans = coursePlans.filter(function(d) {
                 return filter.value.indexOf(d.coursePlanName) > -1;
               });
             }
 
             //iterate coursePlans under categories
-            coursePlans.forEach(function (coursePlan) {
+            coursePlans.forEach(function(coursePlan) {
               _self.coursePlanList.push(coursePlan.coursePlanName);
               let courses = coursePlan.courses || [];
               //iterate courses under coursePlans
-              if(filter.type == "course" && filter.value.length){
-                courses = courses.filter(function (d) {
+              if (filter.type == 'course' && filter.value.length) {
+                courses = courses.filter(function(d) {
                   return filter.value.indexOf(d.locationName) > -1;
                 });
               }
 
-              courses.forEach(function (course) {
+              courses.forEach(function(course) {
                 _self.courseNameList.push(course.courseName);
                 obj.students += course.students;
               });
@@ -175,11 +214,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
       });
     });
 
-    _self.categoryList =  Array.from(new Set(_self.categoryList));
+    _self.categoryList = Array.from(new Set(_self.categoryList));
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
-    if(_self.initFilter){
+    if (_self.initFilter) {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
     }
@@ -190,20 +229,20 @@ export class MonthlyActiveStudentsReport implements OnInit {
       value: []
     };
     switch (value) {
-      case "Category":
-        this.filter.type = "category";
+      case 'Category':
+        this.filter.type = 'category';
         this.searchResult.value = this.categoryList;
         break;
-      case "Course Plan":
-        this.filter.type = "coursePlan";
+      case 'Course Plan':
+        this.filter.type = 'coursePlan';
         this.searchResult.value = this.coursePlanList;
         break;
-      case "Course Name":
-        this.filter.type = "course";
+      case 'Course Name':
+        this.filter.type = 'course';
         this.searchResult.value = this.courseNameList;
         break;
-      case "Location":
-        this.filter.type = "location";
+      case 'Location':
+        this.filter.type = 'location';
         this.searchResult.value = this.locationList;
         break;
     }
@@ -216,11 +255,14 @@ export class MonthlyActiveStudentsReport implements OnInit {
       size: 'lg'
     });
 
-    this.modalReference.result.then((result) => {
-     // console.log(result);
-    }, (reason) => {
-     // console.log(reason);
-    });
+    this.modalReference.result.then(
+      result => {
+        // console.log(result);
+      },
+      reason => {
+        // console.log(reason);
+      }
+    );
   }
 
   removeCurrentFilter(value) {
@@ -234,9 +276,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.searchResult.value = this.categoryList;
     this.applyFilters();
   }
-  clearSearch() {
-
-  }
+  clearSearch() {}
   filterSearch(value) {
     if (value) {
       this.searchResult.show = true;
