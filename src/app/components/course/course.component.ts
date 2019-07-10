@@ -3611,7 +3611,7 @@ export class CourseComponent implements OnInit {
         console.warn(this.activeCourseInfo);
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
-        console.log(res);
+        console.log(res, '!!!');
         this.resechduleList = res;
 
         this.isReschedule = true;
