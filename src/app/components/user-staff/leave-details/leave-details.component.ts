@@ -837,13 +837,15 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   formatDataForCancelledClass(skipCourses) {
     let cancelledClasses: any = [];
     skipCourses.map((value, key) => {
+      console.warn(value);
       value.courses.map((cvalue, ckey) => {
         console.log(cvalue);
         if (cvalue.hasOwnProperty('cancel')) {
           cancelledClasses.push({
             courseId: cvalue._id,
             passes: cvalue.pass.toString(),
-            reason: cvalue.reason
+            reason: cvalue.reason,
+            leaveDay: value.date
           });
         }
       });
@@ -858,7 +860,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         if (cvalue.hasOwnProperty('newTeacherId')) {
           swappedClasses.push({
             courseId: cvalue._id,
-            newTeacherId: cvalue.newTeacherId
+            newTeacherId: cvalue.newTeacherId,
+            leaveDay: value.date
           });
         }
       });
