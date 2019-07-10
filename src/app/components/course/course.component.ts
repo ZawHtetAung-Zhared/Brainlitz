@@ -3626,4 +3626,9 @@ export class CourseComponent implements OnInit {
         'deleteModal d-flex justify-content-center align-items-center'
     });
   }
+
+  showAssignRelief: boolean = false;
+  onClickAssignRelief() {
+    this.showAssignRelief = true;
+  }
 }

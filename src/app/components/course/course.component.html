@@ -1424,6 +1424,13 @@
                 <div *ngIf="showCancelButton == true">
                   <button
                     type="button"
+                    [disabled]="disabledCancel == true"
+                    class="btn btn-class-cancel"
+                  >
+                    Assign Relief Teacher
+                  </button>
+                  <button
+                    type="button"
                     [disabled]="disableCancel == true"
                     class="btn btn-class-cancel"
                     (click)="cancelClass(content)"
@@ -1433,6 +1440,7 @@
                 </div>
                 <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
               </div>
+              <!-- <app-assign-relief *ngIf="showAssignRelief"></app-assign-relief> -->
               <div *ngIf="cancelUI && cancelUItext" class="cancel-text">
                 Cancelled class
               </div>
