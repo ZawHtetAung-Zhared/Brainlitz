@@ -837,7 +837,6 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   formatDataForCancelledClass(skipCourses) {
     let cancelledClasses: any = [];
     skipCourses.map((value, key) => {
-      console.warn(value);
       value.courses.map((cvalue, ckey) => {
         console.log(cvalue);
         if (cvalue.hasOwnProperty('cancel')) {
