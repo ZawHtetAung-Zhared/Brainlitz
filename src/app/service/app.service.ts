@@ -3737,4 +3737,27 @@ export class appService {
       return result;
     });
   }
+
+  createStudentReschedule(userId, courseId, lessons) {
+    let url =
+      this.baseUrl +
+      '/users' +
+      userId +
+      '/courses' +
+      courseId +
+      '/timetable:reschedule';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(url, lessons, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      });
+  }
 }
