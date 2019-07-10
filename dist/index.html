@@ -6,8 +6,62 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="icon" id="appFavicon" type="image/x-icon" href="favicon.ico" />
-    <link href="styles.0bdcc8839388386ddc12.bundle.css" rel="stylesheet" />
-  </head>
+    <link
+      href="styles.f87e350038ca8ffe3cf8.bundle.css"
+      rel="stylesheet"
+    /></head
+  ><style>
+    .cal-month-view .cal-out-month .cal-day-badge,
+    .cal-month-view .cal-out-month .cal-event {
+      opacity: 0 !important;
+    }
+    .cal-month-view .cal-day-cell {
+      min-height: 40px !important;
+      min-width: 40px !important;
+      max-height: 48px !important;
+      /* border: solid 1px #EDEFF0; */
+    }
+
+    .cal-month-view .cal-day-cell.cal-today {
+      background-color: transparent !important;
+      /* color: #007FFF; */
+      /* border: solid 1px #0080FF !important; */
+    }
+
+    .cal-month-view .cal-day-cell.cal-out-month .cal-day-number {
+      opacity: 0 !important;
+      cursor: default;
+    }
+
+    .cal-today-selected {
+      border: solid 1px #0080ff !important;
+    }
+    .cal-today-number-selected {
+      color: #007fff !important;
+    }
+    .cal-days .cal-month-view {
+      min-width: 48px !important;
+      min-height: 48px !important;
+      flex: 1;
+    }
+    .cal-cell.cal-past,
+    .cal-cell.cal-future {
+      color: #64707d !important;
+      font-size: 16px;
+      font-family: Inter UI;
+    }
+    .cal-cell:hover {
+      background: transparent !important;
+    }
+
+    .cal-day-selected,
+    .cal-day-selected:hover {
+      background: #007fff !important;
+    }
+    .cal-month-view .cal-day-cell:not(:last-child) {
+      border-right: none;
+    }
+  </style>
   <body>
     <app-root></app-root
     ><script
@@ -16,7 +70,7 @@
     ></script
     ><script
       type="text/javascript"
-      src="polyfills.79ad75d2e1592b9cf1d2.bundle.js"
+      src="polyfills.b3f8a4a1c7d329a5623c.bundle.js"
     ></script
     ><script
       type="text/javascript"
@@ -24,11 +78,11 @@
     ></script
     ><script
       type="text/javascript"
-      src="vendor.b5b161aa51eff3c6aac7.bundle.js"
+      src="vendor.793ee06f4e861ae83426.bundle.js"
     ></script
     ><script
       type="text/javascript"
-      src="main.a7b5c39c35e33a8efd7c.bundle.js"
+      src="main.1f4c444eb0f9524f66c4.bundle.js"
     ></script>
   </body>
 </html>
