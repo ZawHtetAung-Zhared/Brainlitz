@@ -21,7 +21,8 @@
         "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
         "../node_modules/select2/dist/css/select2.min.css",
         "../node_modules/currency-flags/dist/currency-flags.min.css",
-        "../node_modules/month-range-picker/picker.css"
+        "../node_modules/month-range-picker/picker.css",
+        "../node_modules/angular-calendar/css/angular-calendar.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",

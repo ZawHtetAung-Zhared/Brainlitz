@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
   selector: 'course-graph',
   templateUrl: './courseGraph.component.html',
   styles: [
-    '.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Montserrat-Medium, Arial,sans-serif;line-height: 0.5;}'
+    '.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Inter-UI-Medium, Arial,sans-serif;line-height: 0.5;}'
   ]
 })
 export class CourseActivitiesReportGraph implements OnInit {
@@ -25,7 +25,7 @@ export class CourseActivitiesReportGraph implements OnInit {
         left: 120
       },
       textStyle: {
-        fontFamily: 'Montserrat-Medium',
+        fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
         fontSize: 12,
         color: '#64707d'
       },

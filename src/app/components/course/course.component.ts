@@ -349,6 +349,7 @@ export class CourseComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
+      this.locationID = localStorage.getItem('locationId');
     }, 300);
     this.activeTab = 'People';
 
@@ -434,9 +435,11 @@ export class CourseComponent implements OnInit {
       : '';
 
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
-      console.log('hi permission');
       this.locationName = localStorage.getItem('locationName');
+      this.locationID = localStorage.getItem('locationId');
+      console.log('hi permission', this.locationName, this.locationID);
       // this.getCPlanList(0,20);
+      this.courseList = [];
       this.getCourseLists(20, 0);
     } else {
       console.log('permission deny');
@@ -3592,4 +3595,18 @@ export class CourseComponent implements OnInit {
     console.log(this.checkobjArr);
   }
   // end flexy
+  public resechduleList: any = [];
+  getReschedule(reschedule) {
+    this.modalReference = this.modalService.open(reschedule, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this._service
+      .getRescheduleList(this.courseId, this.uId, undefined, undefined)
+      .subscribe((res: any) => {
+        console.warn(res);
+        this.resechduleList = res;
+      });
+  }
 }

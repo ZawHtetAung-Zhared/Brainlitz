@@ -32,7 +32,7 @@ export class StdEnrolmentReportGraph implements OnInit {
         avoidLabelOverlap: true,
         data: [],
         textStyle: {
-          fontFamily: 'Montserrat-Medium',
+          fontFamily: 'Inter-UI-Medium',
           color: '#2e3d4d',
           fontSize: 16,
           fontWeight: 500

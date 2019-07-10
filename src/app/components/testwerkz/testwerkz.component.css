@@ -1711,6 +1711,10 @@ div.pdLine-wrap:last-child {
   max-height: 100px;
 }
 
+.vidWrap video {
+  position: absolute;
+}
+
 .modal-delete-btn {
   background: #ff3d33;
   color: #fff;

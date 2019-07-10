@@ -1,4 +1,4 @@
-<div class="h-100">
+<div class="h-100" id="courseWrapper">
   <div
     [ngClass]="{ overlay: iscourseSearch == true || isAdvancedSearch == true }"
     (click)="clickoutSide()"
@@ -1537,6 +1537,9 @@
                               <span class="checkmark"></span>
                             </label>
                           </div>
+                          <button (click)="getReschedule(reschedule)">
+                            reschedule
+                          </button>
                         </div>
                       </div>
                     </li>
@@ -2701,6 +2704,9 @@
         Confirm
       </button>
     </div>
+  </ng-template>
+  <ng-template #reschedule let-modal>
+    <h1>yo</h1>
   </ng-template>
   <block-ui message="Deafult Message"></block-ui>
 </div>

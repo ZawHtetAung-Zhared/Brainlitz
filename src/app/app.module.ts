@@ -5,6 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { CalendarModule } from 'angular-calendar';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
@@ -98,6 +101,14 @@ import { InterceptService } from './service/intercept.service';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
 import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
+import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.component';
+
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
+import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
+// import { CalendarModule, DateAdapter } from 'angular-calendar';
+// import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
 
 @NgModule({
   declarations: [
@@ -169,10 +180,24 @@ import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
     FlexiComponent,
     InvoiceReportComponent,
     UtcShortDatePipe,
-    UtcFullDayPipe
+    UtcFullDayPipe,
+    ClassTabComponent,
+    LeaveDetailsComponent,
+    UtcDateAndDayPipe,
+    TestLeaveUiComponent
   ],
   imports: [
+    ContentLoaderModule,
     BrowserModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300
+    }),
     HttpClientModule,
     HttpModule,
     FormsModule,
@@ -194,7 +219,8 @@ import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
     NgDragDropModule.forRoot(),
     StarRatingModule,
     Ng2TelInputModule,
-    MediumEditorModule
+    MediumEditorModule,
+    CalendarModule.forRoot()
   ],
   providers: [
     appService,

@@ -229,6 +229,7 @@ export class appService {
   }
 
   getOrgCredentials(orgCode, hostName) {
+    console.log(hostName);
     let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -245,12 +246,14 @@ export class appService {
     };
 
     if (hostName == 'localhost') {
+      console.log('localhost 13123');
       return this.httpClient.get(url, httpOptions).map((res: Response) => {
         let result = res;
         console.log(result);
         return result;
       });
     } else {
+      console.log('localhost nope');
       return this.httpClient.get(url, httpOptions2).map((res: Response) => {
         let result = res;
         console.log(result);
@@ -1482,6 +1485,20 @@ export class appService {
   getAllHolidays(id: string): Observable<any> {
     this.getLocalstorage();
     let url = this.baseUrl + '/' + id + '/holidays';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+  getAllHolidaysByYear(id: string, year): Observable<any> {
+    this.getLocalstorage();
+    let url = this.baseUrl + '/' + id + '/holidays?year=' + year;
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -3496,7 +3513,20 @@ export class appService {
       return result;
     });
   }
-
+  // http://dev-app.brainlitz.com/api/v1/5af915541de9052c869687a3/users/5d11a61348602209d75f8c45/leaves
+  getUserLeaveDetails(regionId, userId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/users/' + userId + '/leaves';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
   updateCollection(regionId: string, data: any, id: string) {
     let url = this.baseUrl + '/' + regionId + '/assessment-plans/' + id;
     const httpOptions = {
@@ -3587,6 +3617,123 @@ export class appService {
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
       console.log(result);
+      return result;
+    });
+  }
+
+  getleaveCheckAvaiable(regionId: string, userid, leaveDay, meri) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userid +
+      '/leaves:check-availability' +
+      '?leaveDay=' +
+      leaveDay +
+      '&meridian=' +
+      meri;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getClassCheckAvailable(regionId: string, userId: string, leaveDay, meridian) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/class:check-availability?leaveDay=' +
+      leaveDay +
+      '&meridian=' +
+      meridian;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getleaveofuser(regionId: string, userid, start, end) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userid +
+      '/leaves' +
+      '?start=' +
+      start +
+      '&end=' +
+      end;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+  // http://dev-app.brainlitz.com/api/v1/users/5c78a11a2aa75e0ef5ca525e/courses/5d22ebe3b731620d34b5e72b/lessons
+  getRescheduleList(courseId: string, userId: string, startDate, endDate) {
+    console.log(startDate, endDate, userId);
+    let apiUrl;
+    if (startDate === undefined && endDate === undefined) {
+      apiUrl =
+        this.baseUrl + '/users/' + userId + '/courses/' + courseId + '/lessons';
+    } else if (startDate === undefined) {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?endAt=' +
+        endDate;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?startFrom=' +
+        startDate;
+    }
+    console.log(apiUrl);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
       return result;
     });
   }

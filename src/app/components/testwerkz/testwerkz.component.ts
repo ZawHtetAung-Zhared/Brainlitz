@@ -209,7 +209,7 @@ export class TestwerkzComponent implements OnInit {
 
     // console.log(this.pdLists);
     this.getConceptLists(1, 20);
-    this.getCollectionlist(1, 20);
+    this.getCollectionlist(1, 3);
     // console.log(this.focusType = {
     //   'no' : 0,
     //   'type' : 'pd'
@@ -3367,8 +3367,8 @@ export class TestwerkzComponent implements OnInit {
       .getAllCollection(this.regionID, 1, size)
       .subscribe((res: any) => {
         console.log(res);
-        console.log(res.slice(0, 3));
-        this.collectionArr_slice = res.slice(0, 3);
+        // console.log(res.slice(0,3));
+        // this.collectionArr_slice=res.slice(0,3);
         this.collectionarr = res;
         this.result = res;
         setTimeout(() => {
@@ -3767,5 +3767,14 @@ export class TestwerkzComponent implements OnInit {
     event.stopPropagation();
     var plaintext = event.clipboardData.getData('text/plain');
     document.execCommand('inserttext', false, plaintext);
+  }
+  scrollCount: any = 1;
+  scroll_loadmore(e) {
+    let sLeft = document.getElementById('collection-wrappe').scrollLeft;
+    let swidth = document.getElementById('collection-wrappe').scrollWidth;
+    if (swidth - 797 == sLeft) {
+      this.scrollCount += 1;
+      this.getCollectionlist(1, this.scrollCount * 3);
+    }
   }
 }

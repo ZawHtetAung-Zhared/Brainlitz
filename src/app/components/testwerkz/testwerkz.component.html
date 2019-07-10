@@ -56,9 +56,11 @@
   </div>
   <div
     class="d-flex collection-wrappe latestPlanLists"
+    id="collection-wrappe"
     *ngIf="isCollectionList"
+    (scroll)="scroll_loadmore($event)"
   >
-    <div *ngFor="let col of collectionArr_slice">
+    <div *ngFor="let col of collectionarr">
       <div class="single-collection">
         <div class="single-collectin-header">
           <p class="single-collection-title">{{ col.name }}</p>

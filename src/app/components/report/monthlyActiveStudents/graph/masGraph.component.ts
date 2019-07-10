@@ -22,7 +22,7 @@ export class MonthlyActiveStdReportGraph implements OnInit {
         backgroundColor: '#3d454d'
       },
       textStyle: {
-        fontFamily: 'Montserrat-Medium'
+        fontFamily: 'Inter-UI-Medium'
       },
       grid: {
         top: 30,

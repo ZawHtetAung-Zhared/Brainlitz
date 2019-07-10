@@ -17,7 +17,9 @@ import { Staff } from './staff';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import {
   NgbModalRef,
+  NgbModal,
   NgbDateStruct,
+  ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
@@ -35,6 +37,7 @@ export class UserStaffComponent implements OnInit {
   public locationName: any;
   public permissionType: any;
   public staffPermission: any = [];
+  public modalReference: any;
   public staffDemo: any = [];
   public orgID = localStorage.getItem('OrgId');
   public regionID = localStorage.getItem('regionId');
@@ -46,6 +49,7 @@ export class UserStaffComponent implements OnInit {
   public hideMenu: boolean = false;
   public img: any;
   public ulFile: any;
+  public activeTab = 'Classes';
   permissionLists: any;
   // formFields: Staff = new Staff();
   formFields: any = {};
@@ -77,9 +81,13 @@ export class UserStaffComponent implements OnInit {
   usertype: any;
   result: any;
   public customFields: any = [];
-
+  courseList: any = [];
+  userId: string;
+  visited: boolean = false;
+  staffObj: any = {};
   constructor(
     private _service: appService,
+    private cancelClassModalService: NgbModal,
     public toastr: ToastsManager,
     vcr: ViewContainerRef,
     private router: Router,
@@ -715,10 +723,13 @@ export class UserStaffComponent implements OnInit {
   }
 
   showDetails(data, ID) {
+    this.userId = data.userId;
     this.isPasswordChange = false;
+    this.activeTab = 'Classes';
     this.staffLists = [];
     this.editId = ID;
-    console.log('show Staff details', data);
+    this.staffObj = data;
+    console.log('show Staff details', this.staffObj);
     console.log(ID);
     this.blockUI.start('Loading...');
     this.showStaffDetail = true;
@@ -787,5 +798,9 @@ export class UserStaffComponent implements OnInit {
       field.isCheck = false;
     });
     item.isCheck = !item.isCheck;
+  }
+
+  clickTab(type) {
+    this.activeTab = type;
   }
 }

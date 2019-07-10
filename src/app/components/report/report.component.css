@@ -585,7 +585,7 @@ h3.head-rating-count {
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   font-size: 16px;
   font-weight: 600;
-  font-family: Montserrat-Semibold;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   cursor: pointer;
   height: 44px;
 }
@@ -778,7 +778,7 @@ h3.head-rating-count {
   border: none;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
-  font-family: Montserrat-Semibold;
+  font-family: Inter-UI-Semibold;
   font-size: 16px;
   font-weight: 600;
 }
@@ -787,7 +787,7 @@ h3.head-rating-count {
   border-radius: 4px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
-  font-family: Montserrat-Semibold;
+  font-family: Inter-UI-Semibold;
   font-size: 16px;
   font-weight: 600;
 }
@@ -874,12 +874,12 @@ h3.head-rating-count {
 }
 .rpt-content {
   border-top: 1px solid#edeff0;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   padding: 15px;
 }
 .confirm-filter {
   float: right;
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 16px;
   line-height: 20px;
   background-color: #007fff !important;
@@ -891,7 +891,7 @@ h3.head-rating-count {
   padding: 9px 13px;
 }
 .cancel-filter {
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   float: right;
   color: #2e3d4d !important;
   font-size: 16px;
@@ -899,7 +899,7 @@ h3.head-rating-count {
   margin: 0 10px;
 }
 .selected-filter-content {
-  font-family: Montserrat-Medium;
+  font-family: Inter-UI-Medium;
 }
 .selected-filter-value {
   border-radius: 16px;
@@ -958,7 +958,7 @@ h3.head-rating-count {
   left: 10px;
 }
 .report-content {
-  font-family: Montserrat-SemiBold;
+  font-family: Inter-UI-SemiBold;
   font-size: 16px;
   color: #2e3d4d;
 }

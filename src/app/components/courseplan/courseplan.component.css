@@ -904,8 +904,11 @@ header {
   -webkit-box-shadow: 0 6px 15px -9px rgba(184, 184, 184, 1);
   box-shadow: 0 6px 15px -9px rgba(184, 184, 184, 1);
   border-top: 1px solid #edeff0;
-  padding: 30px;
-  height: 7.2em;
+  padding: 10px 60px 10px 30px; /*for 7steps*/
+  height: 4.6em; /*for 7steps*/
+  /*for 8 steps padding:30px and height: 7.2em;*/
+  /*padding: 30px;
+  height: 7.2em;*/
 }
 
 .option-text {
