@@ -1,4 +1,4 @@
-import { Injectable,ViewContainerRef } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -12,26 +12,28 @@ import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 
 @Injectable()
 export class InterceptService implements HttpInterceptor {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
-    return next.handle(request).do((res: HttpEvent<any>) => {
-      if (res instanceof HttpResponse) {
-        // do something here
-      }
-    }, (err: any) => {
-      if (err instanceof HttpErrorResponse) {
-        // redirect to log in page
-        if (err.status === 401) {
-          localStorage.clear();
-          localStorage.setItem('redirect', 'true');
-          this.router.navigateByUrl('/login', {});
+    return next.handle(request).do(
+      (res: HttpEvent<any>) => {
+        if (res instanceof HttpResponse) {
+          // do something here
+        }
+      },
+      (err: any) => {
+        if (err instanceof HttpErrorResponse) {
+          // redirect to log in page
+          if (err.status === 401) {
+            localStorage.clear();
+            localStorage.setItem('redirect', 'true');
+            this.router.navigateByUrl('/login', {});
+          }
         }
       }
-    });
+    );
   }
 }

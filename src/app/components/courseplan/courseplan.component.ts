@@ -331,7 +331,6 @@ export class CourseplanComponent implements OnInit {
   }
 
   inputOpt(idx, value) {
-    console.log('inptopt');
     this.optArray[idx].fees = Number(value);
   }
 
@@ -803,7 +802,6 @@ export class CourseplanComponent implements OnInit {
   getAllCoursePlan() {
     this.blockUI.start('Loading...');
     let cid, key, skip, limit;
-
     this._service
       .getAllCourseplan(this.regionID, this.locationID, cid, skip, limit, key)
       .subscribe(

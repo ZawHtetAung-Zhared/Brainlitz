@@ -1,42 +1,46 @@
 let sampleData = [
   {
-    "April 2018": [
+    'April 2018': [
       {
-        "locationName": "Woodland",
-        "categories": [
+        locationName: 'Woodland',
+        categories: [
           {
-            "catName": "Art & Science",
-            "coursePlans": [
+            catName: 'Art & Science',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Business Administration",
-                  "students": 35
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Business Administration',
+                    students: 35
+                  }
+                ]
               }
             ]
           }
         ]
       },
       {
-        "locationName": "Admiralty",
-        "categories": [
+        locationName: 'Admiralty',
+        categories: [
           {
-            "catName": "Music",
-            "coursePlans": [
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "Individual",
-                "courses": [{
-                  "courseName": "Piano",
-                  "students": 34
-                }]
+                coursePlanName: 'Individual',
+                courses: [
+                  {
+                    courseName: 'Piano',
+                    students: 34
+                  }
+                ]
               },
               {
-                "coursePlanName": "Advanced",
-                "courses": [
+                coursePlanName: 'Advanced',
+                courses: [
                   {
-                    "courseName": "Guitar",
-                    "students": 56
+                    courseName: 'Guitar',
+                    students: 56
                   }
                 ]
               }
@@ -47,19 +51,21 @@ let sampleData = [
     ]
   },
   {
-    "May 2018": [
+    'May 2018': [
       {
-        "locationName": "Bedok",
-        "categories": [
+        locationName: 'Bedok',
+        categories: [
           {
-            "catName": "Sports",
-            "coursePlans": [
+            catName: 'Sports',
+            coursePlans: [
               {
-                "coursePlanName": "Weekend",
-                "courses": [{
-                  "courseName": "Meditation & Yoga",
-                  "students": 55
-                }]
+                coursePlanName: 'Weekend',
+                courses: [
+                  {
+                    courseName: 'Meditation & Yoga',
+                    students: 55
+                  }
+                ]
               }
             ]
           }
@@ -68,73 +74,80 @@ let sampleData = [
     ]
   },
   {
-    "June 2018": [
+    'June 2018': [
       {
-        "locationName": "Sembawang",
-        "categories": [
+        locationName: 'Sembawang',
+        categories: [
           {
-            "catName": "Music",
-            "coursePlans": [
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "advanced",
-                "courses": [
+                coursePlanName: 'advanced',
+                courses: [
                   {
-                    "courseName": "Piano",
-                    "students": 38
+                    courseName: 'Piano',
+                    students: 38
                   }
                 ]
               }
             ]
           },
           {
-            "catName": "Sports",
-            "coursePlans": [
+            catName: 'Sports',
+            coursePlans: [
               {
-                "coursePlanName": "Advanced",
-                "courses": [{
-                  "courseName": "Health & Fitness",
-                  "students": 44
-                }, {
-                  "courseName": "Sports Science",
-                  "students": 25
-                }]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "July 2018": [
-      {
-        "locationName": "Yishun",
-        "categories": [
-          {
-            "catName": "Music",
-            "coursePlans": [
-              {
-                "coursePlanName": "Weekend",
-                "courses": [
+                coursePlanName: 'Advanced',
+                courses: [
                   {
-                    "courseName": "Orchestra",
-                    "students": 24
-                  }, {
-                    "courseName": "Guitar",
-                    "students": 49
+                    courseName: 'Health & Fitness',
+                    students: 44
+                  },
+                  {
+                    courseName: 'Sports Science',
+                    students: 25
                   }
                 ]
               }
             ]
-          }, {
-            "catName": "Dance",
-            "coursePlans": [
+          }
+        ]
+      }
+    ]
+  },
+  {
+    'July 2018': [
+      {
+        locationName: 'Yishun',
+        categories: [
+          {
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Hip Hop",
-                  "students": 21
-                }]
+                coursePlanName: 'Weekend',
+                courses: [
+                  {
+                    courseName: 'Orchestra',
+                    students: 24
+                  },
+                  {
+                    courseName: 'Guitar',
+                    students: 49
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            catName: 'Dance',
+            coursePlans: [
+              {
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Hip Hop',
+                    students: 21
+                  }
+                ]
               }
             ]
           }
@@ -143,52 +156,58 @@ let sampleData = [
     ]
   },
   {
-    "August 2018": [
+    'August 2018': [
       {
-        "locationName": "Woodland",
-        "categories": [
+        locationName: 'Woodland',
+        categories: [
           {
-            "catName": "Art & Science",
-            "coursePlans": [
+            catName: 'Art & Science',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Business Administration",
-                  "students": 35
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Business Administration',
+                    students: 35
+                  }
+                ]
               }
             ]
           }
         ]
       },
       {
-        "locationName": "Yishun",
-        "categories": [
+        locationName: 'Yishun',
+        categories: [
           {
-            "catName": "Music",
-            "coursePlans": [
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "Weekend",
-                "courses": [
+                coursePlanName: 'Weekend',
+                courses: [
                   {
-                    "courseName": "Orchestra",
-                    "students": 24
-                  }, {
-                    "courseName": "Guitar",
-                    "students": 49
+                    courseName: 'Orchestra',
+                    students: 24
+                  },
+                  {
+                    courseName: 'Guitar',
+                    students: 49
                   }
                 ]
               }
             ]
-          }, {
-            "catName": "Dance",
-            "coursePlans": [
+          },
+          {
+            catName: 'Dance',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Hip Hop",
-                  "students": 21
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Hip Hop',
+                    students: 21
+                  }
+                ]
               }
             ]
           }
@@ -197,104 +216,115 @@ let sampleData = [
     ]
   },
   {
-    "September 2018": [
+    'September 2018': [
       {
-        "locationName": "Woodland",
-        "categories": [
+        locationName: 'Woodland',
+        categories: [
           {
-            "catName": "Art & Science",
-            "coursePlans": [
+            catName: 'Art & Science',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Business Administration",
-                  "students": 35
-                }, {
-                  "courseName": "Management Studies",
-                  "students": 31
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Business Administration',
+                    students: 35
+                  },
+                  {
+                    courseName: 'Management Studies',
+                    students: 31
+                  }
+                ]
               },
               {
-                "coursePlanName": "Advanced",
-                "courses": [{
-                  "courseName": "3D Animation",
-                  "students": 43
-                }]
-              }
-            ]
-          },
-          {
-            "catName": "Technology",
-            "coursePlans": [
-              {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Facebook Marketing",
-                  "students": 47
-                }, {
-                  "courseName": "Cyber Security",
-                  "students": 28
-                }]
-              }
-            ]
-          },
-          {
-            "catName": "Education",
-            "coursePlans": [
-              {
-                "coursePlanName": "Advanced",
-                "courses": [
+                coursePlanName: 'Advanced',
+                courses: [
                   {
-                    "courseName": "Math Classes",
-                    "students": 51
+                    courseName: '3D Animation',
+                    students: 43
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            catName: 'Technology',
+            coursePlans: [
+              {
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Facebook Marketing',
+                    students: 47
+                  },
+                  {
+                    courseName: 'Cyber Security',
+                    students: 28
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            catName: 'Education',
+            coursePlans: [
+              {
+                coursePlanName: 'Advanced',
+                courses: [
+                  {
+                    courseName: 'Math Classes',
+                    students: 51
                   }
                 ]
               }
             ]
           }
-
         ]
       }
     ]
   },
   {
-    "October 2018": [
+    'October 2018': [
       {
-        "locationName": "Woodland",
-        "categories": [
+        locationName: 'Woodland',
+        categories: [
           {
-            "catName": "Art & Science",
-            "coursePlans": [
+            catName: 'Art & Science',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Business Administration",
-                  "students": 35
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Business Administration',
+                    students: 35
+                  }
+                ]
               }
             ]
           }
         ]
       },
       {
-        "locationName": "Admiralty",
-        "categories": [
+        locationName: 'Admiralty',
+        categories: [
           {
-            "catName": "Music",
-            "coursePlans": [
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "Individual",
-                "courses": [{
-                  "courseName": "Piano",
-                  "students": 34
-                }]
+                coursePlanName: 'Individual',
+                courses: [
+                  {
+                    courseName: 'Piano',
+                    students: 34
+                  }
+                ]
               },
               {
-                "coursePlanName": "Advanced",
-                "courses": [
+                coursePlanName: 'Advanced',
+                courses: [
                   {
-                    "courseName": "Guitar",
-                    "students": 56
+                    courseName: 'Guitar',
+                    students: 56
                   }
                 ]
               }
@@ -305,53 +335,58 @@ let sampleData = [
     ]
   },
   {
-    "November 2018": [
+    'November 2018': [
       {
-        "locationName": "Woodland",
-        "categories": [
+        locationName: 'Woodland',
+        categories: [
           {
-            "catName": "Art & Science",
-            "coursePlans": [
+            catName: 'Art & Science',
+            coursePlans: [
               {
-                "coursePlanName": "Beginner",
-                "courses": [{
-                  "courseName": "Business Administration",
-                  "students": 35
-                }]
+                coursePlanName: 'Beginner',
+                courses: [
+                  {
+                    courseName: 'Business Administration',
+                    students: 35
+                  }
+                ]
               }
             ]
           }
         ]
       },
       {
-        "locationName": "Sembawang",
-        "categories": [
+        locationName: 'Sembawang',
+        categories: [
           {
-            "catName": "Music",
-            "coursePlans": [
+            catName: 'Music',
+            coursePlans: [
               {
-                "coursePlanName": "advanced",
-                "courses": [
+                coursePlanName: 'advanced',
+                courses: [
                   {
-                    "courseName": "Piano",
-                    "students": 38
+                    courseName: 'Piano',
+                    students: 38
                   }
                 ]
               }
             ]
           },
           {
-            "catName": "Sports",
-            "coursePlans": [
+            catName: 'Sports',
+            coursePlans: [
               {
-                "coursePlanName": "Advanced",
-                "courses": [{
-                  "courseName": "Health & Fitness",
-                  "students": 44
-                }, {
-                  "courseName": "Sports Science",
-                  "students": 25
-                }]
+                coursePlanName: 'Advanced',
+                courses: [
+                  {
+                    courseName: 'Health & Fitness',
+                    students: 44
+                  },
+                  {
+                    courseName: 'Sports Science',
+                    students: 25
+                  }
+                ]
               }
             ]
           }

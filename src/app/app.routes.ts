@@ -15,7 +15,6 @@ import { ReportComponent } from './components/report/report.component';
 import { UserStaffComponent } from './components/user-staff/user-staff.component';
 import { HomeComponent } from './components/home/home.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 
@@ -68,11 +67,6 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    canActivate: [LoggedInGuard]
-  },
-  {
-    path: 'test',
-    component: TestLeaveUiComponent,
     canActivate: [LoggedInGuard]
   },
   {

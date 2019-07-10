@@ -8,9 +8,8 @@ describe('VideoTrimmerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VideoTrimmerComponent ]
-    })
-    .compileComponents();
+      declarations: [VideoTrimmerComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
