@@ -183,7 +183,18 @@
             *ngFor="let course of cancelClassArray"
           >
             <span class="cancelclass-leaveType">
-              <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
+              <img
+                *ngIf="course.meridian == 'DAY'"
+                src="../../../../assets/icons/Ellipse 2.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'AM'"
+                src="../../../../assets/icons/am.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'PM'"
+                src="../../../../assets/icons/PM.svg"
+              />
             </span>
             <div class="d-flex flex-column">
               <p class="leave-taken-date">{{ course.date | utcDateAndDay }}</p>

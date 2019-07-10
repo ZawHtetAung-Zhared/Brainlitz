@@ -261,6 +261,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     let totalCount = 0;
     if (type === 'single') {
       let gg = {
+        meridian: skipCourses.meridian,
         date: skipCourses.date,
         courses: tempArr
       };
