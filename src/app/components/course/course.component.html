@@ -2711,5 +2711,21 @@
   <ng-template #reschedule let-modal>
     <h1>yo</h1>
   </ng-template>
+
+  <ng-template #confirmReschedule>
+    <div class="modal-header">
+      <h3 class="modal-title">Confirm reschedule?</h3>
+    </div>
+    <div class="modal-body apg-confirm"></div>
+    <div class="modal-footer pt-2 pb-2">
+      <button type="button" class="btn modal-cancel-btn">
+        Cancel
+      </button>
+      <button type="submit" class="btn modal-delete-btn">
+        Confirm
+      </button>
+    </div>
+  </ng-template>
+
   <block-ui message="Deafult Message"></block-ui>
 </div>

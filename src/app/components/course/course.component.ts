@@ -3609,4 +3609,12 @@ export class CourseComponent implements OnInit {
         this.resechduleList = res;
       });
   }
+
+  showRescheduleConfirmModal(confirmReschedule) {
+    this.modalReference = this.modalService.open(confirmReschedule, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
 }
