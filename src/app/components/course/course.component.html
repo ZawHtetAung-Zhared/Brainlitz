@@ -2769,16 +2769,7 @@
           <button
             type="submit"
             class="btn btn-submit"
-            *ngIf="checkArr.length != 0"
-            (click)="flexicomfirm()"
-          >
-            Confirm
-          </button>
-          <button
-            type="submit"
-            *ngIf="checkArr.length == 0"
-            class="btn btn-submit"
-            disabled
+            [disabled]="checkArr.length == 0"
           >
             Confirm
           </button>

@@ -3241,3 +3241,6 @@ p.textCount {
 .reschedule-btn {
   background: aliceblue;
 }
+.displayBtn {
+  display: none;
+}
