@@ -707,6 +707,34 @@
                           class="staff-info medium-font"
                           >-
                         </span>
+                        <div class="">
+                          <p class="Student-text pt-2 mb-0">Student</p>
+                          <div class="d-flex align-items-center">
+                            <div
+                              *ngFor="
+                                let student of course.students.earlyAttendees
+                              "
+                              class="d-flex"
+                            >
+                              <span class="student-profile-wrapper">
+                                <img
+                                  src="{{ student.profilePic }}"
+                                  alt=""
+                                  class="student_profilePic"
+                                  *ngIf="
+                                    student.profilePic != undefined ||
+                                    student.profilePic == null
+                                  "
+                                />
+                              </span>
+                            </div>
+                            <span
+                              class="medium-font"
+                              *ngIf="course.students.other >= 1"
+                              >{{ course.students.other }}</span
+                            >
+                          </div>
+                        </div>
                       </div>
                       <div class="d-flex justify-content-between second-info">
                         <div

@@ -1160,10 +1160,24 @@ li button {
   color: #97a0a8;
 }
 .staff-info {
-  display: flex;
+  /* display: flex; */
   height: 25px;
 }
-
+.student-profile-wrapper {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background: #c8e2f4;
+}
+.student_profilePic {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+.Student-text {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
+}
 .btn-assign {
   background: #f2f4f5;
   position: relative;
