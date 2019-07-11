@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment-timezone';
 import { appService } from '../../service/app.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-reschedule',
@@ -16,10 +17,11 @@ export class RescheduleComponent implements OnInit {
 
   @Output() defaultCount = new EventEmitter();
   @Output() checkObjArr: any = new EventEmitter<any>();
+  @Output() unavaiableLen: any = new EventEmitter<any>();
 
   teacherDetail: any = {};
   reScheduleLists: any = [];
-
+  unavaiableLessons: any = [];
   lessonObjArr: any = [];
   lessonsObj: any = [];
   avaiableLessonsCount: any = 0;
@@ -34,7 +36,6 @@ export class RescheduleComponent implements OnInit {
     this.teacherDetail = this.reScheduleData.teacherDetails[0];
     this.checkAvaiableReschedule(false);
   }
-
   checkAvaiableReschedule(loadmore) {
     let todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     let currentTime = this.datePipe.transform(new Date(), 'h:MM:ss TT');
@@ -53,23 +54,30 @@ export class RescheduleComponent implements OnInit {
       if (todayDate < endDate) {
         console.log('is greater');
         this.reScheduleLists[i].isAvaiable = true;
-
         if (loadmore == false) {
           // this.lessionIdArr.push(this.reScheduleLists[i]._id);
-          this.lessonObjArr.push(this.reScheduleLists[i]);
           this.avaiableLessonsCount += 1;
-          this.defaultCount.emit(this.avaiableLessonsCount);
+          //  this.defaultCount.emit(this.avaiableLessonsCount);
           this.reScheduleLists[i].isCheck = true;
         }
       } else {
         this.reScheduleLists[i].isAvaiable = false;
+        if (loadmore == false) {
+          this.unavaiableLessons.push(this.reScheduleLists[i]);
+        }
+      }
+      if (loadmore == false) {
+        this.lessonObjArr.push(this.reScheduleLists[i]);
+        this.checkObjArr.emit(this.lessonObjArr);
+        this.defaultCount.emit(
+          this.lessonObjArr.length - this.unavaiableLessons.length
+        );
+        this.unavaiableLen.emit(this.unavaiableLessons);
       }
     }
 
-    this.checkObjArr.emit(this.lessonObjArr);
-    console.log(this.avaiableLessonsCount);
-    console.log(this.lessonObjArr);
-    console.log(this.reScheduleLists);
+    console.error(this.unavaiableLessons.length);
+    console.error(this.lessonObjArr.length);
   }
 
   lessonCheck(id, obj) {
@@ -94,7 +102,10 @@ export class RescheduleComponent implements OnInit {
     }
     console.log(this.reScheduleLists.indexOf(obj));
 
-    if (this.lessonObjArr.length < this.avaiableLessonsCount) {
+    if (
+      this.lessonObjArr.length - this.unavaiableLessons.length <
+      this.avaiableLessonsCount
+    ) {
       console.log('this equal');
       for (let i = 0; i < this.reScheduleLists.length; i++) {
         this.reScheduleLists[i].isCheck = true;
@@ -140,7 +151,10 @@ export class RescheduleComponent implements OnInit {
 
         for (let i = 0; i < res.lessons.length; i++) {
           // res.lessons[i]._id=this.reScheduleLists.length+i;
-          if (this.lessonObjArr.length < this.avaiableLessonsCount) {
+          if (
+            this.lessonObjArr.length - this.unavaiableLessons.length <
+            this.avaiableLessonsCount
+          ) {
             res.lessons[i].isCheck = true;
           } else {
             res.lessons[i].isCheck = false;

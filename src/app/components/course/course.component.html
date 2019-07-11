@@ -2763,6 +2763,7 @@
           (defaultCount)="defaultCount($event)"
           (checkObjArr)="checkObj($event)"
           [course]="detailLists"
+          (unavaiableLen)="getlen($event)"
         ></app-reschedule>
       </div>
       <div
@@ -2777,7 +2778,8 @@
             <p class="textCount">Number of lessons required:</p>
             <div class="selectedCountBox">
               <p class="selectedTest">
-                Selected lessons: {{ checkArr.length }}
+                Selected lessons:
+                {{ checkArr.length - unavaiablelessons.length }}
               </p>
             </div>
           </div>

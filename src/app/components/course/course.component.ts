@@ -3625,11 +3625,13 @@ export class CourseComponent implements OnInit {
   dcount: any;
   defaultCount($event) {
     this.dcount = $event;
+    console.log(this.dcount);
   }
   checkArr: any = [];
   lessonsArray;
   checkObj($event) {
     this.lessonsArray = [];
+
     this.checkArr = JSON.parse(JSON.stringify($event));
     this.lessonsArray = this.checkArr;
   }
@@ -3652,8 +3654,14 @@ export class CourseComponent implements OnInit {
         this.modalReference.close();
       },
       err => {
-        this.toastr.success('Reschedule Failed.');
+        this.toastr.error('Reschedule Failed.');
       }
     );
+  }
+
+  unavaiablelessons: any = [];
+  getlen(e) {
+    console.log(e);
+    this.unavaiablelessons = e;
   }
 }
