@@ -3610,6 +3610,7 @@ export class CourseComponent implements OnInit {
         res.teacherDetails = this.pplLists.TEACHER;
         this.resechduleList = res;
         this.isReschedule = true;
+
         console.log(this.selectedCustomer);
       });
   }
