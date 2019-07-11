@@ -1421,14 +1421,21 @@
                 <!-- {{showCancelButton}} -->
                 <!-- {{cancelUI}} -->
                 <!-- {{cancelUi}} -->
-                <div *ngIf="showCancelButton == true">
-                  <button
-                    type="button"
-                    [disabled]="disabledCancel == true"
-                    class="btn btn-class-cancel"
-                  >
-                    Assign Relief Teacher
-                  </button>
+                <div class="d-flex" *ngIf="showCancelButton == true">
+                  <div>
+                    <button
+                      *ngIf="selectedLesson.makeup == undefined"
+                      type="button"
+                      [disabled]="disabledCancel == true"
+                      class="btn btn-class-cancel"
+                      (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                    >
+                      Assign Relief Teacher
+                    </button>
+                    <div class="d-flex" *ngIf="selectedLesson.makeup == true">
+                      {{ selectedLesson.teacherId }}
+                    </div>
+                  </div>
                   <button
                     type="button"
                     [disabled]="disableCancel == true"
@@ -1440,7 +1447,6 @@
                 </div>
                 <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
               </div>
-              <!-- <app-assign-relief *ngIf="showAssignRelief"></app-assign-relief> -->
               <div *ngIf="cancelUI && cancelUItext" class="cancel-text">
                 Cancelled class
               </div>
@@ -2809,6 +2815,14 @@
         Confirm
       </button>
     </div>
+  </ng-template>
+
+  <ng-template #reliefModal let-c="close" let-d="dismiss">
+    <app-assign-relief
+      [courseInfo]="detailLists"
+      [lessonInfo]="selectedLesson"
+      (closed)="cancelReliefModal()"
+    ></app-assign-relief>
   </ng-template>
 
   <block-ui message="Deafult Message"></block-ui>

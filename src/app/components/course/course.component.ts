@@ -1812,10 +1812,11 @@ export class CourseComponent implements OnInit {
     // }
   }
 
+  selectedLesson: any = null;
   checkAttendance(targetDate, classInfo, status) {
     console.log('hi', targetDate);
     console.log('....', classInfo);
-
+    this.selectedLesson = classInfo;
     this.disableCancel = classInfo.cancel == true ? true : false;
 
     this.currentDateObj = classInfo._id;
@@ -3627,8 +3628,27 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  showAssignRelief: boolean = false;
-  onClickAssignRelief() {
-    this.showAssignRelief = true;
+  onClickAssignRelief(reliefModal, lesson) {
+    this.modalReference = this.modalService.open(reliefModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelReliefModal() {
+    console.log('cancel relirf~~~');
+    this.modalReference.close();
+    this.getCourseDetail(this.detailLists._id);
+    this.checkAttendance(
+      this.selectedLesson.startDate,
+      this.selectedLesson,
+      this.cancelUI
+    );
+    this._service
+      .editProfile(this.regionId, this.selectedLesson.teacherId)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 }

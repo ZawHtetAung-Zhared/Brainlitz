@@ -958,11 +958,16 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
               skipCourse.date,
               skipCourse.meridian
             )
-            .subscribe((res: any) => {
-              console.log('conflict lessons', res);
-              this.conflictLessonArr.push(res);
-              console.log('conflictLessonArr', this.conflictLessonArr);
-            });
+            .subscribe(
+              (res: any) => {
+                console.log('conflict lessons', res);
+                this.conflictLessonArr.push(res);
+                console.log('conflictLessonArr', this.conflictLessonArr);
+              },
+              err => {
+                console.log(err);
+              }
+            );
         });
       })
     );
