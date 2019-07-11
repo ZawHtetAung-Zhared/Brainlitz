@@ -18,7 +18,7 @@ import {
 import { DataService } from '../../../service/data.service';
 import { appService } from '../../../service/app.service';
 import { Course } from './course';
-import { take } from 'rxjs/operators';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-class-tab',
@@ -33,7 +33,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
   loading = true;
   nocourse = false;
-  modalReference: NgbModalRef;
+  private subscription: ISubscription;
+
   constructor(
     private _service: appService,
     private router: Router,
@@ -47,9 +48,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     console.log(this.userId);
     console.log(this.locationId);
     this.loading = true;
-    this._service
+    this.subscription = this._service
       .getUserDetail(this.regionId, this.userId, this.locationId)
-      .pipe(take(1))
       .subscribe(
         (res: any) => {
           this.loading = false;
@@ -67,26 +67,14 @@ export class ClassTabComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy() {
-    this._service.getUserDetail(this.regionId, this.userId, this.locationId);
-  }
-
   navigateToCourseDetail(courseid: string) {
     console.log(courseid);
     this.router.navigate(['/course']);
     this.dataService.nevigateCourse(courseid);
   }
 
-  closeModal() {
-    this.modalReference.close();
-  }
-
-  finalClassModal(finalmodal) {
-    this.modalReference = this.finalModal.open(finalmodal, {
-      backdrop: 'static',
-      centered: true,
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    console.log(this.courses);
   }
 }

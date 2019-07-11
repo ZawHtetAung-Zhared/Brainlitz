@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
+import { appService } from '../../service/app.service';
 
 @Component({
   selector: 'app-test-leave-ui',
@@ -19,6 +20,9 @@ import { NgForm } from '@angular/forms';
 })
 export class TestLeaveUiComponent implements OnInit {
   modalReference: any;
+  modalCourseData: any = [];
+  regionID = localStorage.getItem('regionId');
+  searchTeacherLists = [];
   skipLessonArr: any = [
     {
       isAvailable: false,
@@ -119,7 +123,7 @@ export class TestLeaveUiComponent implements OnInit {
     }
   ];
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private _service: appService) {}
 
   ngOnInit() {}
 
@@ -132,15 +136,40 @@ export class TestLeaveUiComponent implements OnInit {
     });
   }
 
-  assignRelifeTeacher(modalName, type) {
+  assignReliefTeacher(modalName, data, date) {
     this.modalReference = this.modalService.open(modalName, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+    console.log(date);
+    if (date == '') {
+      //clicked assignRelife btn for all courses
+      this.modalCourseData = data;
+      console.log('for all', this.modalCourseData);
+    } else {
+      // clicked assignRelife btn for single courses
+      var obj = {
+        date: date,
+        courses: []
+      };
+      obj.courses.push(data);
+      this.modalCourseData.push(obj);
+      console.log('for single', this.modalCourseData);
+    }
   }
 
   cancelModal() {
     this.modalReference.close();
+    this.modalCourseData = [];
+  }
+
+  searchMethod(keyword, usertype) {
+    this._service
+      .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+      .subscribe((res: any) => {
+        console.log(res);
+        this.searchTeacherLists = res;
+      });
   }
 }

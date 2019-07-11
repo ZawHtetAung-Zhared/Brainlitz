@@ -1496,6 +1496,20 @@ export class appService {
       return result;
     });
   }
+  getAllHolidaysByYear(id: string, year): Observable<any> {
+    this.getLocalstorage();
+    let url = this.baseUrl + '/' + id + '/holidays?year=' + year;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 
   getSingleHoliday(holidayId: string) {
     let apiUrl = this.baseUrl + '/holidays/' + holidayId;
@@ -3605,5 +3619,145 @@ export class appService {
       console.log(result);
       return result;
     });
+  }
+
+  getleaveCheckAvaiable(regionId: string, userid, leaveDay, meri) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userid +
+      '/leaves:check-availability' +
+      '?leaveDay=' +
+      leaveDay +
+      '&meridian=' +
+      meri;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getClassCheckAvailable(regionId: string, userId: string, leaveDay, meridian) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/class:check-availability?leaveDay=' +
+      leaveDay +
+      '&meridian=' +
+      meridian;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getleaveofuser(regionId: string, userid, start, end) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userid +
+      '/leaves' +
+      '?start=' +
+      start +
+      '&end=' +
+      end;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+  // http://dev-app.brainlitz.com/api/v1/users/5c78a11a2aa75e0ef5ca525e/courses/5d22ebe3b731620d34b5e72b/lessons
+  getRescheduleList(courseId: string, userId: string, startDate, endDate) {
+    console.log(startDate, endDate, userId);
+    let apiUrl;
+    if (startDate === undefined && endDate === undefined) {
+      apiUrl =
+        this.baseUrl + '/users/' + userId + '/courses/' + courseId + '/lessons';
+    } else if (startDate === undefined) {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?endAt=' +
+        endDate;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/users/' +
+        userId +
+        '/courses/' +
+        courseId +
+        '/lessons' +
+        '?startFrom=' +
+        startDate;
+    }
+    console.log(apiUrl);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  createStudentReschedule(userId, courseId, lessons) {
+    let url =
+      this.baseUrl +
+      '/users' +
+      userId +
+      '/courses' +
+      courseId +
+      '/timetable:reschedule';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(url, lessons, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      });
   }
 }

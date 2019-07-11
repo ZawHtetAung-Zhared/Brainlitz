@@ -3,6 +3,7 @@ import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { templateJitUrl } from '@angular/compiler';
 import { start } from 'repl';
+import * as moment from 'moment-timezone';
 declare var $: any;
 
 @Component({
@@ -52,9 +53,11 @@ export class FlexiComponent implements OnInit {
     console.log(this.course);
     console.log(this.flexyarr);
     console.log(this.flexyarr.lessons);
+    console.log(this.flexyarr.teacherDetails);
+
     this.lessonsObj = this.flexyarr.lessons;
-    this.teacherDetail = this.flexyarr.teacherDetails;
-    this.flitterFlexyObj(this.flexyarr.lessons);
+    this.teacherDetail = this.flexyarr.teacherDetails[0];
+    // this.flitterFlexyObj(this.flexyarr.lessons);
   }
 
   flitterFlexyObj(obj) {
@@ -383,5 +386,32 @@ export class FlexiComponent implements OnInit {
       tempArray.push(tempObj);
     });
     this.checkObjArr.emit(tempArray);
+  }
+
+  loadmoreReschedule(courseId, uId, lessons) {
+    let date = new Date(lessons[lessons.length - 1].startDate);
+    const startDate = moment(new Date(date))
+      .add(1, 'days')
+      .toISOString();
+    this._service
+      .getRescheduleList(courseId, uId, startDate, undefined)
+      .subscribe((res: any) => {
+        console.log(res);
+        // this.resechduleList = res;
+      });
+  }
+
+  createReschedule(userId, courseId, lessons) {
+    const obj = {
+      lessons
+    };
+    console.log(userId);
+    console.log(courseId);
+    console.log(lessons);
+    this._service
+      .createStudentReschedule(userId, courseId, obj)
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 }

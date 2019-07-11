@@ -1,13 +1,27 @@
 <div class="d-flex justify-content-between">
   <!-- <h3 class="leave-title">Leave</h3> -->
   <h3 class="leave-title">Absent History</h3>
-  <button
-    class="btn btn-primary add-leave"
-    (click)="cancelClassModal(cancelClass)"
-  >
+  <button class="btn btn-primary add-leave" (click)="openLeaveModal(openLeave)">
     Add new absent
   </button>
 </div>
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+</div>
+<div *ngIf="leaveLogsLoading" class="main-loading-wrapper">
+  <div class="loading-wrapper ">
+    <content-loader>
+      <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+      <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+    </content-loader>
+  </div>
+</div>
+
 <div class="d-flex flex-wrap">
   <!-- <div class="leave-block" *ngFor="let leave of userLeave">
     <div class="inner-block d-flex flex-column">
@@ -73,7 +87,7 @@
     </div>
   </div> -->
 </div>
-<div class="history-wrapper">
+<div class="history-wrapper" *ngIf="!leaveLogsLoading">
   <!-- <h4 class="history-title">Absent History</h4> -->
   <div class="d-flex flex-column" *ngIf="leaveLogs.length >= 1">
     <div class="d-flex history-details" *ngFor="let log of leaveLogs">
@@ -88,7 +102,7 @@
       /></span>
       <div class="d-flex flex-column">
         <div class="d-flex">
-          <p class="mb-0 leave-date">{{ log.leaveDay }}</p>
+          <p class="mb-0 leave-date">{{ log.leaveDay | utcDateAndDay }}</p>
           <p class="leave-type-info mb-0" *ngIf="log.meridian == 'AM'">
             HALF - {{ log.meridian }}
           </p>
@@ -114,15 +128,18 @@
 
 <ng-template #cancelClass let-modal>
   <div class="cancel-class-wrapper">
-    <div class="d-flex w-100 justify-content-between">
-      <h1 class="cancel-class-title">Cancel class</h1>
+    <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
+      <h1 class="cancel-class-title">Cancel Lesson</h1>
       <span class="close-icon" (click)="closeCancelClassModal()"></span>
     </div>
     <div class="d-flex">
       <div class="d-flex flex-column col-md-5 p-0">
         <div class="d-flex justify-content-between">
           <p class="makeup-text">Issue makeup pass?</p>
-          <div class="toggle-wrap" (click)="this.giveMakeUp = !giveMakeUp">
+          <div
+            class="toggle-wrap"
+            (click)="this.giveMakeUp = !giveMakeUp; cancelReason = ''"
+          >
             <label class="switch">
               <input
                 type="checkbox"
@@ -136,8 +153,9 @@
         <div class="d-flex flex-column" *ngIf="giveMakeUp">
           <label for="" class="reason-title">Reason (Optional)</label>
           <textarea
-            (input)="autoResize($event)"
+            (input)="autoResize($event, 'cancel')"
             rows="1"
+            [(ngModel)]="cancelReason"
             class="reason-text"
             placeholder="Type reason here..."
           ></textarea>
@@ -152,21 +170,42 @@
             ><img src="../../../assets/icons/Vector.svg" alt=""
           /></span>
           <span class="total-student-text"
-            >Total of 20 students will be affected as Cancel class
+            >Total of {{ studentCount }} students will be affected as
+            <span *ngIf="giveMakeUp">MakeUp Pass</span>
+            <span *ngIf="!giveMakeUp">Cancel class</span>
           </span>
         </p>
         <!-- <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/PM.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p>
         <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/am.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p> -->
         <div class="cancel-classes-info">
-          <div class="d-flex classes-info-block">
+          <div
+            class="d-flex classes-info-block"
+            *ngFor="let course of cancelClassArray"
+          >
             <span class="cancelclass-leaveType">
-              <img src="../../../assets/icons/Ellipse 2.svg" alt="" />
+              <img
+                *ngIf="course.meridian == 'DAY'"
+                src="../../../../assets/icons/Ellipse 2.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'AM'"
+                src="../../../../assets/icons/am.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'PM'"
+                src="../../../../assets/icons/PM.svg"
+              />
             </span>
             <div class="d-flex flex-column">
-              <p class="leave-taken-date">Wed,19 Jun 2019</p>
-              <div class="d-flex align-items-center">
-                <p class="student-count">20 students</p>
-                <p class="cancel-class-name">Beginner Piano class</p>
+              <p class="leave-taken-date">{{ course.date | utcDateAndDay }}</p>
+              <div
+                class="d-flex align-items-center"
+                *ngFor="let courseObj of course.courses"
+              >
+                <p class="student-count">
+                  {{ courseObj.enrolledStudentCount }} students
+                </p>
+                <p class="cancel-class-name">{{ courseObj.name }}</p>
               </div>
             </div>
           </div>
@@ -180,9 +219,852 @@
     </button>
     <button
       class="btn btn-primary create-button-pos"
-      (click)="closeCancelClassModal()"
+      (click)="confirmCancelClass()"
     >
       Confirm
     </button>
+  </div>
+</ng-template>
+
+<ng-template #openLeave let-modal>
+  <div *ngIf="!showRelief" class="main-openleave">
+    <div class="d-flex w-100 mb-3">
+      <div class="col-md-4">
+        <h1 class="leave-class-title">Create absent</h1>
+      </div>
+      <div
+        class="profileimg-wrap d-flex flex-column justify-content-center align-items-center col-md-4"
+      >
+        <div class="circular-image">
+          <img
+            *ngIf="staffObj.profilePic == 'undefined'"
+            src="assets/img/user.svg"
+          />
+          <img
+            *ngIf="staffObj.profilePic != 'undefined'"
+            src="{{ staffObj.profilePic }}"
+          />
+        </div>
+        <div class="staffname">
+          {{ staffObj.preferredName }}
+        </div>
+      </div>
+      <div class="col-md-4 p-0 cancel-icon-wrap">
+        <div (click)="closeOpenLeaveModal()">
+          <img src="assets/img/removeIcon.png" />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between calendarView">
+      <div
+        (scroll)="mainWrapperScroll($event)"
+        class="d-flex flex-column scroll-main-wrapper"
+        id="scroll-main-wrapper"
+      >
+        <div class="calendar-part">
+          <div class="row text-center">
+            <div class="col-md-12">
+              <div class="cal-title d-flex justify-content-between">
+                <div class="cal-month">
+                  <div class="month-name">
+                    {{ viewDate | calendarDate: view + 'ViewTitle':'en' }}
+                  </div>
+                </div>
+                <div class="">
+                  <button
+                    name="left"
+                    class="btn calendarbtn"
+                    mwlCalendarPreviousView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    (viewDateChange)="showExistData($event)"
+                  >
+                    <img src="assets/images/arrow-left.svg" />
+                  </button>
+                  <button
+                    name="right"
+                    class="btn calendarbtn"
+                    mwlCalendarNextView
+                    [view]="view"
+                    [(viewDate)]="viewDate"
+                    (viewDateChange)="showExistData(viewDate)"
+                    style="padding-right:0px;"
+                  >
+                    <img src="assets/images/arrow-right.svg" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #customCellTemplate let-day="day" let-locale="locale">
+            <div class="cal-month-view" id="cal-month-view{{ day.date }}">
+              <div class="cal-cell-top" *ngIf="day.events.length == 0">
+                <span
+                  class="cal-day-number"
+                  id="cal-day-number{{ day.date }}"
+                  >{{
+                    day.date | calendarDate: 'monthViewDayNumber':locale
+                  }}</span
+                >
+              </div>
+              <div class="cal-cell-top" *ngIf="day.events.length > 0">
+                <span
+                  [ngClass]="{
+                    addfontColor: day.events[0].isHoliday == true
+                  }"
+                  class="cal-day-number"
+                  id="cal-day-number{{ day.date }}"
+                  >{{
+                    day.date | calendarDate: 'monthViewDayNumber':locale
+                  }}</span
+                >
+              </div>
+
+              <div class="cal-event-container">
+                <div
+                  *ngIf="day.events.length > 0"
+                  style="text-align: center;height: 14px;"
+                >
+                  <div
+                    *ngIf="day.events[0].isHoliday == false"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#E3E4E6;margin: 2px 2px 9px 2px;width: 6px;
+                    height: 6px;"
+                  ></div>
+                  <div
+                    *ngIf="day.events[0].isHoliday"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color:#FF3D33;margin: 2px 2px 9px 2px;width: 6px;
+                  height: 6px;"
+                  ></div>
+
+                  <!-- <div
+                    *ngIf="day.events[0].start == day.date"
+                    class="cal-event cal-draggable ng-star-inserted"
+                    dragactiveclass="cal-drag-active"
+                    mwldraggable=""
+                    style="touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); background-color: #D4D5D6;"
+                  ></div> -->
+                  <div class="tooltip" id="tooltip{{ day.date }}">
+                    <span class="tooltiptext" id="tooltiptxt{{ day.date }}">{{
+                      day.events[0].meridian
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <mwl-calendar-month-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (viewDateChange)="getJournalByMonth(viewDate)"
+            (dayClicked)="dayClicked($event.day, $event.day)"
+            [cellTemplate]="customCellTemplate"
+            (beforeViewRender)="checkSelectedDate($event)"
+          >
+          </mwl-calendar-month-view>
+        </div>
+        <div
+          class="d-flex flex-column leave-day-part"
+          *ngIf="selectedDays.length != 0"
+        >
+          <div class="leave-day-title">
+            Leave days
+          </div>
+          <div
+            class="leave-day-list"
+            id="leave-day-list"
+            (scroll)="checkScroll($event)"
+          >
+            <div
+              class="d-flex justify-content-between leave-day-box"
+              *ngFor="let sday of selectedDays; let i = index"
+            >
+              <div class="leave-day-date">
+                {{ sday.date | utcDateAndDay }}
+              </div>
+              <div class="leave-day-Choosetype">
+                <div class="input-group leave-input-gp">
+                  <input
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
+                    class="form-control py-2 input-search-dropdown-bg"
+                    value="{{ sday.name }}"
+                    type="search"
+                    autocomplete="off"
+                    name="itemID"
+                    id="example-search-input"
+                    (input)="
+                      searchCategoryList($event.target.value, 'category')
+                    "
+                    (click)="downleaveType($event, i, sday.date)"
+                    readonly
+                  />
+                  <button
+                    [ngClass]="{
+                      'active-dropdown':
+                        checkId == sday.id && isFocusleavetype == true
+                    }"
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down fa-2x"
+                    (click)="downleaveType($event, i, sday.date)"
+                  ></button>
+                </div>
+                <ul
+                  id="{{ 'popUp' + i }}"
+                  class="leave-type-listing"
+                  *ngIf="checkId == sday.id && isFocusleavetype == true"
+                >
+                  <li
+                    *ngFor="let list of leaveTypeList; let j = index"
+                    (click)="selectLeaveType(list, i, sday.date)"
+                    class="date-type-list-name"
+                  >
+                    <div class="d-flex justify-content-between">
+                      <span
+                        class="leave-list-name"
+                        [ngClass]="{
+                          'check-leave-name': sday.name == leaveTypeList[j].name
+                        }"
+                      >
+                        {{ leaveTypeList[j].name }}</span
+                      >
+                      <span *ngIf="sday.name == leaveTypeList[j].name"
+                        ><img
+                          src="../../../../assets/icons/present_check.svg"
+                          alt=""
+                      /></span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="leave-day-footer">
+            <span class="leave-text">You are creating</span>
+            <span class="bold-txt">{{ totalLeaves }}</span
+            ><span class="leave-text">leave for </span
+            ><span class="bold-txt"> {{ staffObj.preferredName }}</span>
+            <p class="left-txt">{{ leaveLeftDay }}</p>
+          </div> -->
+        </div>
+        <div class="d-flex flex-column leave-reason-wrapper">
+          <h2 class="leave-reason-title">Reason <span>(Optional)</span></h2>
+          <textarea
+            class="leave-reason-input"
+            type="text"
+            placeholder="Type reason here..."
+            [(ngModel)]="leaveReason"
+            (input)="autoResize($event, 'leave')"
+          ></textarea>
+        </div>
+      </div>
+      <div class="skip-lessons-part">
+        <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
+          <div class="skip-header">
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ staffObj.preferredName }} </span
+            >will skip
+            <span
+              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}</span
+            >
+            lessons in this following days
+          </div>
+
+          <div
+            class="d-flex flex-column skip-course-box"
+            [ngClass]="{ removeborder: 0 == i }"
+            *ngFor="let sobj of skipCourseArr; let i = index"
+          >
+            <div class="d-flex justify-content-between">
+              <div class="">
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'DAY'"
+                  ><img src="../../../../assets/icons/Ellipse 2.svg" alt=""
+                /></span>
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'PM'"
+                  ><img src="../../../../assets/icons/PM.svg" alt=""
+                /></span>
+                <span class="leave-info-icon2" *ngIf="sobj.meridian == 'AM'"
+                  ><img src="../../../../assets/icons/am.svg" alt=""
+                /></span>
+                <span class="skip-lessons-date">{{
+                  sobj.date | utcDateAndDay
+                }}</span>
+              </div>
+              <div class="lessons-count">
+                <span
+                  class="txt-lessouns-count"
+                  *ngIf="sobj.courses.length > 1"
+                >
+                  {{ sobj.courses.length }} lessons
+                </span>
+                <span
+                  class="txt-lessouns-count"
+                  *ngIf="sobj.courses.length == 1"
+                >
+                  {{ sobj.courses.length }} lesson
+                </span>
+              </div>
+            </div>
+            <div class="skip-lessons" *ngFor="let course of sobj.courses">
+              <div class="course-name">
+                {{ course.name | uppercase }}
+              </div>
+              <div class="d-flex course-des">
+                <span>{{ sobj.enrolledStudentCount }} student</span>
+                <span class="small_circle"></span>
+                <span class="timezone"
+                  >{{ course.lessons[0].startDate | utcTime }} -
+                  {{ course.lessons[0].endDate | utcTime }}</span
+                >
+              </div>
+            </div>
+          </div>
+          <div *ngIf="loading == true" style="padding:20px;">
+            <content-loader>
+              <svg:rect x="20" y="2" rx="4" ry="4" width="120" height="10" />
+              <svg:rect x="20" y="25" rx="3" ry="3" width="220" height="20" />
+              <svg:rect x="20" y="55" rx="3" ry="3" width="185" height="6.4" />
+              <svg:circle cx="7" cy="7" r="7" />
+            </content-loader>
+          </div>
+        </div>
+        <div class="skip-lessons-empty" *ngIf="skipCourseArr.length == 0">
+          <span class="notAffectedYet"
+            ><img
+              src="../../../../assets/images/notAffectedYet.svg"
+              class="notAffectedYet-img"
+          /></span>
+          <div class="empty-txt">
+            Affected lessons for the selected dates will be listed here, if any.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showRelief">
+    <div class="container-div">
+      <div class="d-flex w-100 mb-3">
+        <div class="col-md-4">
+          <h1 class="leave-class-title">Create absent</h1>
+        </div>
+        <div
+          class="profileimg-wrap d-flex flex-column justify-content-center align-items-center col-md-4"
+        >
+          <div class="circular-image">
+            <img
+              *ngIf="staffObj.profilePic == 'undefined'"
+              src="assets/img/user.svg"
+            />
+            <img
+              *ngIf="staffObj.profilePic != 'undefined'"
+              src="{{ staffObj.profilePic }}"
+            />
+          </div>
+          <div class="staffname">
+            {{ staffObj.preferredName }}
+          </div>
+        </div>
+        <div class="col-md-4 p-0 cancel-icon-wrap">
+          <div (click)="closeOpenLeaveModal()">
+            <img src="assets/img/removeIcon.png" />
+          </div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="lessons-table col-md-9 p-0">
+          <div class="d-flex justify-content-end skipLessons-header">
+            <div class="user-info col-md-7 p-0">
+              <span class="bold-span">{{ staffObj.preferredName }}</span> will
+              skip
+              <span class="bold-span"
+                >{{ skipLessonsCount }}
+                {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}
+              </span>
+              in this following days.
+            </div>
+            <div
+              *ngIf="!assignedReliefAll && !cancelAll"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+            >
+              <button
+                [disabled]="checkedArr.length > 0"
+                class="pr-2 header-undo all-btn"
+                (click)="
+                  assignReliefTeacher(
+                    reliefTeacherModal,
+                    skipCourseArr,
+                    '',
+                    '',
+                    ''
+                  )
+                "
+              >
+                ASSIGN RELIEF TEACHER
+              </button>
+              <span class="small-line"></span>
+              <button
+                [disabled]="checkedArr.length > 0"
+                class="pl-2 header-undo all-btn"
+                (click)="
+                  cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
+                "
+              >
+                CANCEL ALL
+              </button>
+            </div>
+            <div
+              *ngIf="assignedReliefAll"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+            >
+              <button class="pr-3 header-undo" (click)="undoAll('relief')">
+                UNDO
+              </button>
+              <span class="small-line"></span>
+              <div class="selected-name pl-3">
+                Assigned Relief Teacher
+              </div>
+            </div>
+            <div
+              *ngIf="cancelAll"
+              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+            >
+              <button class="pr-3 header-undo" (click)="undoAll('cancel')">
+                UNDO
+              </button>
+              <span class="small-line"></span>
+              <div class="d-flex">
+                <div class="lh-3 selected-name pl-3">
+                  Cancelled all
+                </div>
+                <div
+                  class="d-flex justify-content-center align-items-center pl-2"
+                >
+                  <div class="cc-icon-wrapper bg-white">
+                    <div class="icon-wrapper">
+                      <img src="./assets/images/withdraw-ico@2x.png" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="lBlock-wrapper">
+            <div
+              class="lessons-block d-flex"
+              *ngFor="let lessonObj of skipCourseArr; let i = index"
+              [ngClass]="{
+                'hide-border': skipCourseArr?.length == i + 1
+              }"
+            >
+              <div class="circle-wrap">
+                <img
+                  *ngIf="lessonObj.meridian == 'DAY'"
+                  src="../../../../assets/icons/Ellipse 2.svg"
+                />
+                <img
+                  *ngIf="lessonObj.meridian == 'AM'"
+                  src="../../../../assets/icons/am.svg"
+                />
+                <img
+                  *ngIf="lessonObj.meridian == 'PM'"
+                  src="../../../../assets/icons/PM.svg"
+                />
+              </div>
+              <div class="w-100">
+                <div class="d-flex">
+                  <label class="lesson-date mb-0">
+                    {{ lessonObj.date | utcDateAndDay }}
+                  </label>
+                  <div class="cInfo l-count-wrapper">
+                    {{ lessonObj.courses?.length }}
+                    {{ lessonObj.courses?.length > 1 ? 'lessons' : 'lesson' }}
+                  </div>
+                </div>
+                <div *ngFor="let course of lessonObj.courses; let idx = index">
+                  <div
+                    class="course-block d-flex justify-content-end"
+                    [ngClass]="{
+                      'hide-border': lessonObj.courses?.length == idx + 1
+                    }"
+                  >
+                    <div class="col-md-6 p-0">
+                      <label class="lesson-name">
+                        {{ course.name | uppercase }}
+                      </label>
+                      <div class="d-flex cInfo">
+                        <div>{{ course.enrolledStudentCount }} students</div>
+                        <div class="cInfo-dot-wrap">
+                          <span class="cInfo-dot"></span>
+                        </div>
+                        <div>
+                          {{ course.lessons[0].startDate | utcTime }}
+                        </div>
+                        <div class="cInfo-dot-wrap">
+                          <span class="cInfo-dash"></span>
+                        </div>
+                        <div>
+                          {{ course.lessons[0].endDate | utcTime }}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == false
+                      "
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <button
+                        class="pr-2"
+                        (click)="
+                          assignReliefTeacher(
+                            reliefTeacherModal,
+                            course,
+                            lessonObj.date,
+                            i,
+                            idx
+                          )
+                        "
+                      >
+                        Assign Relief Teacher
+                      </button>
+                      <span class="small-line"></span>
+                      <button
+                        class="pl-2"
+                        (click)="
+                          cancelClassModal(
+                            cancelClass,
+                            lessonObj,
+                            'single',
+                            idx,
+                            i
+                          )
+                        "
+                      >
+                        Cancel lesson
+                      </button>
+                    </div>
+                    <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined &&
+                        course.lessons[0].cancel == true
+                      "
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <label class="mb-0 selected-name pl-3">
+                        Cancelled Class
+                      </label>
+                      <div
+                        class="d-flex justify-content-center align-items-center pl-2"
+                      >
+                        <div class="cc-icon-wrapper">
+                          <div class="icon-wrapper">
+                            <img src="./assets/images/withdraw-ico@2x.png" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="course.newTeacherId != undefined"
+                      class="col-md-6 p-0 lesson-btns d-flex align-items-center justify-content-end"
+                    >
+                      <div>
+                        <label class="text-right cInfo mb-0"
+                          >Relief Teacher</label
+                        >
+                        <div class="d-flex justify-content-end">
+                          <button
+                            *ngIf="!assignedReliefAll"
+                            class="pr-3 cInfo"
+                            (click)="undoMethod('relief', i, idx)"
+                          >
+                            Undo
+                          </button>
+                          <span
+                            *ngIf="!assignedReliefAll"
+                            class="small-line-undo"
+                          ></span>
+                          <div class="selected-name undo-name">
+                            {{ course.newTeacherInfo.preferredName }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="circular-undo-img ml-2">
+                        <img src="{{ course.newTeacherInfo.profilePic }}" />
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="course.cancel == true"
+                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                    >
+                      <div>
+                        <label
+                          *ngIf="course.pass == true"
+                          class="text-right cInfo mb-0"
+                          >Issued</label
+                        >
+                        <div class="d-flex">
+                          <button
+                            *ngIf="!cancelAll"
+                            class="pr-3 cInfo"
+                            (click)="undoMethod('cancel', i, idx)"
+                          >
+                            Undo
+                          </button>
+                          <span
+                            *ngIf="!cancelAll"
+                            class="small-line-undo"
+                          ></span>
+                          <div class="d-flex">
+                            <label
+                              *ngIf="course.pass == false"
+                              class="mb-0 selected-name pl-3"
+                              >Cancelled Class</label
+                            >
+                            <label
+                              *ngIf="course.pass == true"
+                              class="mb-0 selected-name pl-3"
+                              >Makeup pass</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="d-flex justify-content-center align-items-center pl-2"
+                      >
+                        <div class="cc-icon-wrapper">
+                          <div
+                            *ngIf="course.pass == false"
+                            class="icon-wrapper"
+                          >
+                            <img src="./assets/images/withdraw-ico@2x.png" />
+                          </div>
+                          <div
+                            *ngIf="course.pass == true"
+                            class="makeup-icon-wrapper"
+                          >
+                            <img src="./assets/images/Vector.png" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 p-0">
+          <div class="leave-info">
+            <div class="p20">
+              <div class="lInfo pb-2">
+                <span class="bold-leaveCount">{{ skipCourseArr.length }}</span>
+                {{ skipCourseArr.length > 1 ? 'days' : 'day' }} total
+              </div>
+              <!-- <div class="d-flex lType">
+                <div>
+                  Annual
+                </div>
+                <div class="leave-type">
+                  <span class="cInfo-dot"></span>
+                </div>
+                <div>
+                  Paid
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!showRelief" class="modal-footer">
+    <button class="btn bg-white" (click)="closeOpenLeaveModal()">
+      Cancel
+    </button>
+    <button
+      *ngIf="skipCourseArr.length != 0 && selectedDays.length != 0"
+      class="btn button-submit font-medium"
+      (click)="goTonext()"
+    >
+      Continue
+    </button>
+    <button
+      *ngIf="skipCourseArr.length == 0 && selectedDays.length != 0"
+      class="btn button-submit font-medium"
+      (click)="createLeave(selectedDays, '')"
+    >
+      Continue
+    </button>
+    <button
+      *ngIf="selectedDays.length == 0"
+      class="btn button-submit font-medium"
+      disabled="true"
+    >
+      Continue
+    </button>
+  </div>
+  <div *ngIf="showRelief" class="modal-footer">
+    <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
+      Cancel
+    </button>
+    <button
+      [disabled]="
+        !assignedReliefAll &&
+        !cancelAll &&
+        checkedArr.length < actualSkipLessons
+      "
+      class="btn button-submit font-medium"
+      (click)="createLeave(selectedDays, skipCourseArr)"
+    >
+      Continue
+    </button>
+  </div>
+</ng-template>
+<ng-template #reliefTeacherModal let-c="close" let-d="dismiss">
+  <div class="modal-wrap">
+    <div class="assign-modal-header">
+      <div class="d-flex justify-content-between w-100">
+        <h4 class="assignmodal-title">Assingn Relief Teacher</h4>
+        <button class="closeBtn" (click)="cancelModal('relief')">
+          <img src="assets/img/removeIcon.png" />
+        </button>
+      </div>
+      <div class="d-flex pb-2" *ngFor="let data of modalCourseData">
+        <div class="date-wrap">
+          {{ data.date }}
+        </div>
+        <div class="d-flex" *ngFor="let cData of data.courses; let idx = index">
+          <div class="cName lType">
+            {{ cData.name }}
+          </div>
+          <div *ngIf="data.courses?.length != idx + 1" class="cInfo-dot-wrap2">
+            <span class="cInfo-dot2"> </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="assign-modal-body">
+      <div class="search-wrapper">
+        <span class="fa fa-search search-icon"> </span>
+        <input
+          type="text"
+          name="searchInput"
+          placeholder="Search teacher..."
+          class="input-search"
+          (input)="searchMethod($event.target.value, 'staff')"
+          (focus)="focusSearch($event, 'focusOn')"
+          (focusout)="focusSearch($event, 'focusOut')"
+          [(ngModel)]="searchKeyword"
+          #tsearch="ngModel"
+          autocomplete="off"
+        />
+      </div>
+      <div
+        *ngIf="isFocusSearch && searchTeacherLists.length > 0"
+        class="result-wrapper"
+      >
+        <div
+          (click)="onSelectTeacher(teacher)"
+          *ngFor="let teacher of searchTeacherLists"
+        >
+          <div
+            *ngIf="staffObj.userId != teacher.userId"
+            class="d-flex search-result"
+          >
+            <div class="circular-img">
+              <img src="{{ teacher.profilePic }}" />
+            </div>
+            <div class="result-name">
+              {{ teacher.preferredName }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="d-flex"
+        *ngIf="searchTeacherLists.length == 0 && selectedTeacher == null"
+      >
+        <div class="col-md-6">
+          <div class="add-teacher-icon">
+            <img src="assets/images/add-customer-illustration@2x.png" />
+          </div>
+        </div>
+        <div class="d-flex col-md-6">
+          <div class="assign-text">
+            Assign Relief Teacher to this Course
+          </div>
+          <div class="mt-3">
+            <img src="assets/img/arrow.png" />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isFocusSearch && selectedTeacher != null">
+        <div class="d-flex pt-3 pb-3">
+          <div>
+            <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
+          </div>
+          <div class="pl-3 selected-name lh-3">
+            {{ selectedTeacher.preferredName }}
+          </div>
+        </div>
+        <div *ngFor="let conflictLesson of conflictLessonArr">
+          <div
+            class="d-flex justify-content-between conflict-wrapper mb-3"
+            *ngFor="let course of conflictLesson.courses"
+          >
+            <div class="conflict-col1">
+              <label class="selected-name">{{
+                course.lessons[0].startDate | utcDate
+              }}</label>
+              <div class="lesson-time">
+                {{ course.lessons[0].startDate | utcTime }} -
+                {{ course.lessons[0].endDate | utcTime }}
+              </div>
+            </div>
+            <div class="conflict-col2">
+              <label class="cInfo">Lesson</label>
+              <div class="selected-name">
+                {{ course.name }}
+              </div>
+            </div>
+            <div class="conflict-col3">
+              <label class="cInfo">Location</label>
+              <div class="selected-name">
+                {{ course.location.name }}
+              </div>
+            </div>
+            <div class="conflict-col4">
+              <label class="cInfo">Number of students</label>
+              <div class="selected-name">
+                {{ course.enrolledStudentCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex modal-footer assign-modal-footer">
+      <button class="btn bg-white" (click)="cancelModal('relief')">
+        Cancel
+      </button>
+      <button
+        [disabled]="selectedTeacher == null"
+        class="btn button-submit font-medium"
+        (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
+      >
+        Confirm
+      </button>
+    </div>
   </div>
 </ng-template>

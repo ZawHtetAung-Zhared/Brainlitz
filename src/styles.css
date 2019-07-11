@@ -740,7 +740,12 @@ span.scrollup.show:hover:before {
   body * {
     visibility: hidden;
   }
-
+  .row-icon * {
+    visibility: hidden;
+  }
+  .row-icon img {
+    visibility: hidden;
+  }
   .invoice-container,
   .invoice-container *,
   .v-wrapper1,
