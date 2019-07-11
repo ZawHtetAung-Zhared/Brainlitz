@@ -84,7 +84,7 @@
           </span>
         </button>
       </div>
-      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
+      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">
           <button class="btn noti-tab w-100" (click)="clickTab('email')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'email'" class="setting-icon" src="./assets/images/modify-template_a@2x.png">
@@ -368,6 +368,43 @@
                     </div>
                   </div>
                   <!-- <hr style="padding:0;"> -->
+                  <div>
+                    <label class="labelTitle">Organisation Logo</label>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span
+                          class="input-group-text"
+                          id="inputGroupFileAddon01"
+                          >Upload</span
+                        >
+                      </div>
+                      <div class="custom-file">
+                        <input
+                          #logo
+                          type="file"
+                          class="custom-file-input"
+                          id="inputGroupFile01"
+                          aria-describedby="inputGroupFileAddon01"
+                          accept="image/*"
+                          (change)="handleFileInput(logo.files, $event.target)"
+                        />
+                        <label
+                          #fileLabel
+                          class="custom-file-label"
+                          for="inputGroupFile01"
+                          >Choose file</label
+                        >
+                      </div>
+                      <span class="error-message" *ngIf="message">{{
+                        message
+                      }}</span>
+                      <div class="preview" *ngIf="imgURL">
+                        <img [src]="imgURL" height="200" />
+                      </div>
+                    </div>
+                  </div>
                   <div
                     class="editBtns  d-flex justify-content-end "
                     *ngIf="isEdit"
@@ -1100,7 +1137,7 @@
                         <div class="form-group req-field">
                           <div class="d-flex justify-content-between">
                             <label class="input-label" for="merchant">{{reqField.name}}</label>
-                          </div>  
+                          </div>
                           <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
                         </div>
                       </div> -->
@@ -1108,13 +1145,13 @@
                     <!-- <div class="form-group">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
                       </div>
                       <div class="form-group no-border">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="apikey">API key</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
                       </div> -->
                   </div>

@@ -3,6 +3,8 @@ import {
   OnInit,
   ViewContainerRef,
   HostListener,
+  ViewChild,
+  ElementRef,
   AfterViewInit
 } from '@angular/core';
 import { appService } from '../../service/app.service';
@@ -31,12 +33,16 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('fileLabel') elementView: ElementRef;
   public srangeHr;
   public srangeMin;
   public sisSelected;
   public erangeHr;
   public erangeMin;
-
+  public logo;
+  public imagePath;
+  public imgURL: any;
+  public message: string;
   public eisSelected;
 
   public showFormat;
@@ -59,6 +65,7 @@ export class DashboardComponent implements OnInit {
     name: '',
     timezone: '',
     url: '',
+    logo: '',
     operatingHour: {}
   };
 
@@ -288,6 +295,7 @@ export class DashboardComponent implements OnInit {
       name: '',
       timezone: '',
       url: '',
+      logo: '',
       operatingHour: {
         start: {
           hr: '',
@@ -428,6 +436,7 @@ export class DashboardComponent implements OnInit {
           this.item.name = res.name;
           this.item.timezone = res.timezone;
           this.item.url = res.url;
+          this.item.logo = res.logo;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
             this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
@@ -543,7 +552,34 @@ export class DashboardComponent implements OnInit {
       this.eprogressslider = true;
     }
   }
+
+  handleFileInput(files: FileList, $event) {
+    console.log(files);
+    console.log($event);
+    console.log(this.elementView.nativeElement.innerText);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.logo = files.item(0);
+    console.log(this.logo);
+    this.item.logo = this.logo;
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      this.imgURL = reader.result;
+    };
+  }
   editRegion() {
+    console.log(this.item);
     this.isEdit = true;
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
@@ -604,26 +640,26 @@ export class DashboardComponent implements OnInit {
       this.item.operatingHour['end'] = end;
     }
     console.log('DATA~~~', data);
-    setTimeout(() => {
-      this._service
-        .updateRegionalInfo(this.regionId, data, this.token, this.type)
-        .subscribe(
-          (res: any) => {
-            this.toastr.success('Successfully Updated.');
-            console.log('~~~', res);
-            localStorage.setItem('timezone', this.item.timezone);
-            this.getAdministrator();
-            if (type == 'timezone') {
-              this.isEdit = false;
-            } else if (type == 'url') {
-              this.isUrlEdit = false;
-            }
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }, 100);
+    // setTimeout(() => {
+    //   this._service
+    //     .updateRegionalInfo(this.regionId, data, this.token, this.type)
+    //     .subscribe(
+    //       (res: any) => {
+    //         this.toastr.success('Successfully Updated.');
+    //         console.log('~~~', res);
+    //         localStorage.setItem('timezone', this.item.timezone);
+    //         this.getAdministrator();
+    //         if (type == 'timezone') {
+    //           this.isEdit = false;
+    //         } else if (type == 'url') {
+    //           this.isUrlEdit = false;
+    //         }
+    //       },
+    //       err => {
+    //         console.log(err);
+    //       }
+    //     );
+    // }, 100);
   }
 
   cancelUpdate() {
