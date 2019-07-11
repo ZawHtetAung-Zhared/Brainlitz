@@ -1,0 +1,175 @@
+<div class="" style="margin:0px 40px 0px 32px;">
+  <p class="reschedule-title">Enroll lesson</p>
+  <div class="d-flex">
+    <div class="col-md-4 p-0">
+      <div class="d-flex">
+        <div class="reschedule-img-div">
+          <div class="reschedule-img-wrap">
+            <img src="{{ selectedCustomer.profilePic }}" />
+          </div>
+        </div>
+        <div class="reschedule-name-div">
+          <p class="reschedule-name">{{ selectedCustomer.preferredName }}</p>
+          <label class="reschedule-email">{{ selectedCustomer.email }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 modal-cfees">
+      <h5 class="mt-03 reschedule-modal-duration">
+        <i class="fa fa-map-marker" style="font-size:15px"></i>
+        {{ course.location.name }}
+      </h5>
+      <b class="reschedule-name">{{ course.name }}</b>
+    </div>
+    <div class="col-md-4 modal-cfees">
+      <!-- <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+          {{ day }}
+        </h5> -->
+      <h5 class="reschedule-day" *ngFor="let day of course.repeatDays | weekDays">
+        {{ day }}
+      </h5>
+      <!-- <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate
+          | utcTime }}</div> -->
+      <div class="reschedule-modal-duration" *ngIf="course.duration != undefined">
+        {{ course.duration.startDate | utcTime }} -
+        {{ course.duration.endDate | utcTime }}
+      </div>
+    </div>
+  </div>
+  <div class="d-flex teacher-gp">
+    <div class="reschedule-img-div teacherImg">
+      <div class="reschedule-img-wrap teacherImg-wrap">
+        <img src="{{ teacherDetail.profilePic }}" />
+      </div>
+    </div>
+    <div class="reschedule-teacher-div">
+      <!-- <p class="reschedule-teacher-position">Senior Teacher</p> -->
+      <label class="reschedule-teacher-name">{{ teacherDetail.fullName }}</label>
+    </div>
+  </div>
+</div>
+
+<div
+  class="flexiMid"
+  id="flexiMid"
+>
+  <div class="row lessonBoxgp">
+    <div
+      class="col-lg-2 col-md-3 lessonbox"
+      *ngFor="let obj of reScheduleLists"
+    >
+      <div
+        class="lessonbox-inner"
+        (click)="lessonCheck(obj._id, obj)"
+        *ngIf="obj.hasConflict == false && obj.isAvaiable == true &&  obj.isCheck== true"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj._id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex">
+          <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj._id) != -1">
+            <i class="fa fa-check checkIcon"></i>
+          </div>
+          <div
+            class="uncheckBox"
+            *ngIf="lessionIdArr.indexOf(obj._id) == -1"
+          ></div>
+          <div class="showDate">
+            <p
+              class="date"
+              [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj._id) != -1 }"
+            >
+              {{ obj.startDate | utcShortDate }}
+            </p>
+            <p
+              class="day"
+              [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj._id) != -1 }"
+            >
+              {{ obj.startDate | utcFullDay }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj._id) != -1 }"
+        >
+          <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
+        </div>
+      </div>
+      <div
+      class="lessonbox-inner-disable"
+      *ngIf="obj.hasConflict == false && obj.isAvaiable == true &&  obj.isCheck== false"
+      
+    >
+      <div class="d-flex">
+        <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj._id) != -1">
+          <i class="fa fa-check checkIcon"></i>
+        </div>
+        <div
+          class="uncheckBox"
+          *ngIf="lessionIdArr.indexOf(obj._id) == -1"
+        ></div>
+        <div class="showDate">
+          <p
+            class="date"
+            [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj._id) != -1 }"
+          >
+            {{ obj.startDate | utcShortDate }}
+          </p>
+          <p
+            class="day"
+            [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj._id) != -1 }"
+          >
+            {{ obj.startDate | utcFullDay }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="statusBox"
+        [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj._id) != -1 }"
+      >
+        <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
+      </div>
+    </div>
+      <div class="lessonbox-skipped" *ngIf="obj.isAvaiable == false">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="skippedIcon minus"></div>
+            <div class="showDate skippedDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+              {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+              {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <div class="downArrow" (click)="showConflictBox($event, obj.id, ele)">
+            <i class="fa fa-angle-down downIcon"></i>
+          </div>
+        </div>
+  
+        <div class="statusBox">
+          <p class="statusText" style="margin-bottom:0">
+            Skip: {{ obj.status }}
+          </p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="d-flex">
+    <div class="flexiCircle" (click)="loadmoreReschedule()">
+      <i class="fa fa-plus circlePlus"></i>
+    </div>
+    <p class="previousDate">Load More</p>
+  </div>
+</div>

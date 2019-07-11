@@ -3598,8 +3598,6 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
-    console.warn(this.pplLists);
-
     this.modalReference = this.modalService.open(reschedule, {
       backdrop: 'static',
       windowClass:
@@ -3608,14 +3606,13 @@ export class CourseComponent implements OnInit {
     this._service
       .getRescheduleList(this.courseId, this.uId, undefined, undefined)
       .subscribe((res: any) => {
-        console.warn(this.activeCourseInfo);
+        this.resechduleList = res;
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
         console.log(res);
-        this.resechduleList = res;
-
         this.isReschedule = true;
-        console.warn(res);
+        console.log(this.selectedCustomer);
+        
       });
   }
 
@@ -3625,5 +3622,13 @@ export class CourseComponent implements OnInit {
       windowClass:
         'deleteModal d-flex justify-content-center align-items-center'
     });
+  }
+  dcount:any;
+  defaultCount($event){
+    this.dcount=$event;
+  }
+  checkArr:any=[];
+  checkObj($event){
+    this.checkArr=$event;
   }
 }

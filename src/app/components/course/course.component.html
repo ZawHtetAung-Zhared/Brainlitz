@@ -2732,14 +2732,12 @@
             <!-- <span aria-hidden="true" >×</span> -->
           </button>
         </div>
-        <app-flexi
-          [flexyarr]="resechduleList"
-          [selectedCustomer]="selectedCustomer"
-          [course]="detailLists"
-          [showcb]="showcb"
-          (passDataconflictBoxShow)="conflictBoxShow($event)"
-          (checkObjArr)="lessionObjArr($event)"
-        ></app-flexi>
+        <app-reschedule  
+        [reScheduleData]="resechduleList"
+        [selectedCustomer]="selectedCustomer"
+        (defaultCount)="defaultCount($event)"
+        (checkObjArr)="checkObj($event)"
+        [course]="detailLists"></app-reschedule>
       </div>
       <div
         class="modal-footer d-flex justify-content-between"
@@ -2748,12 +2746,12 @@
         <div class="d-flex flex-column">
           <div>
             <p class="defaultLessonCount">
-              Default lessons count: {{ detailLists.defaultlessonCount }}
+              Default lessons count: {{ dcount }}
             </p>
             <p class="textCount">Number of lessons required:</p>
             <div class="selectedCountBox">
               <p class="selectedTest">
-                Selected lessons: {{ checkobjArr.length }}
+                Selected lessons: {{ checkArr.length }}
               </p>
             </div>
           </div>

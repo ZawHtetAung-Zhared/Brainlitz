@@ -109,6 +109,7 @@ import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
+import { RescheduleComponent } from './components/reschedule/reschedule.component';
 
 @NgModule({
   declarations: [
@@ -184,7 +185,8 @@ import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.c
     ClassTabComponent,
     LeaveDetailsComponent,
     UtcDateAndDayPipe,
-    TestLeaveUiComponent
+    TestLeaveUiComponent,
+    RescheduleComponent
   ],
   imports: [
     ContentLoaderModule,
