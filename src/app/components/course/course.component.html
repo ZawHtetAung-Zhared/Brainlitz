@@ -2798,6 +2798,7 @@
             type="submit"
             class="btn btn-submit"
             [disabled]="checkArr.length == 0"
+            (click)="createReschedule(uId, courseId, lessonsArray)"
           >
             Confirm
           </button>

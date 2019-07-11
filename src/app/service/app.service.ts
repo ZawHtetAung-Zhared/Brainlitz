@@ -3741,9 +3741,9 @@ export class appService {
   createStudentReschedule(userId, courseId, lessons) {
     let url =
       this.baseUrl +
-      '/users' +
+      '/users/' +
       userId +
-      '/courses' +
+      '/courses/' +
       courseId +
       '/timetable:reschedule';
     const httpOptions = {

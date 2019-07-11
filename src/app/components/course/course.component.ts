@@ -3627,7 +3627,33 @@ export class CourseComponent implements OnInit {
     this.dcount = $event;
   }
   checkArr: any = [];
+  lessonsArray;
   checkObj($event) {
-    this.checkArr = $event;
+    this.lessonsArray = [];
+    this.checkArr = JSON.parse(JSON.stringify($event));
+    this.lessonsArray = this.checkArr;
+  }
+
+  createReschedule(userId, courseId, lessons) {
+    lessons.map(lesson => {
+      delete lesson.isAvaiable;
+      delete lesson.isCheck;
+    });
+    const obj = {
+      lessons
+    };
+    console.log(userId);
+    console.log(courseId);
+    console.log(lessons);
+    this._service.createStudentReschedule(userId, courseId, obj).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('Successfully reschedule.');
+        this.modalReference.close();
+      },
+      err => {
+        this.toastr.success('Reschedule Failed.');
+      }
+    );
   }
 }

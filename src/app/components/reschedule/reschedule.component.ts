@@ -151,18 +151,4 @@ export class RescheduleComponent implements OnInit {
         console.log(this.reScheduleLists);
       });
   }
-
-  createReschedule(userId, courseId, lessons) {
-    const obj = {
-      lessons
-    };
-    console.log(userId);
-    console.log(courseId);
-    console.log(lessons);
-    this._service
-      .createStudentReschedule(userId, courseId, obj)
-      .subscribe(res => {
-        console.log(res);
-      });
-  }
 }

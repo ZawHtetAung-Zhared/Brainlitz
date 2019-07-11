@@ -267,6 +267,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         courses: tempArr
       };
       tempArr.push(skipCourses.courses[index]);
+      totalCount = skipCourses.courses[index].enrolledStudentCount;
       this.cancelClassArray.push(gg);
     } else {
       this.cancelClassArray = skipCourses;
