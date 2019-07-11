@@ -539,9 +539,9 @@ min-width: 40px;
   background: white;
 }
 
-.cal-month-view .cal-day-cell:not(:last-child) {
+/*.cal-month-view .cal-day-cell:not(:last-child) {
   border-right: none;
-}
+}*/
 
 .cal-day-number-selected {
   color: white !important;

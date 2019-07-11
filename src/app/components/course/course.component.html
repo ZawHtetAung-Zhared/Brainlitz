@@ -620,12 +620,12 @@
                   <div class="draft-sign" *ngIf="course.draft == true">
                     Draft
                   </div>
-                  <!-- <div
+                  <div
                     class="course-type"
                     *ngIf="course.draft == false && course.type != undefined"
                   >
                     {{ course.type }}
-                  </div> -->
+                  </div>
                   <div class="d-flex course-wrap">
                     <div
                       [hidden]="course.draft == true"
@@ -1537,18 +1537,15 @@
                               <span class="checkmark"></span>
                             </label>
                           </div>
-                          <button (click)="getReschedule(reschedule, user)">
-                            reschedule
-                          </button>
                         </div>
                       </div>
                     </li>
-                    <!-- <button
-                      (click)="getReschedule(reschedule)"
+                    <button
+                      (click)="getReschedule(reschedule, user)"
                       class="btn w-100 reschedule-btn"
                     >
                       reschedule
-                    </button> -->
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2732,12 +2729,13 @@
             <!-- <span aria-hidden="true" >×</span> -->
           </button>
         </div>
-        <app-reschedule  
-        [reScheduleData]="resechduleList"
-        [selectedCustomer]="selectedCustomer"
-        (defaultCount)="defaultCount($event)"
-        (checkObjArr)="checkObj($event)"
-        [course]="detailLists"></app-reschedule>
+        <app-reschedule
+          [reScheduleData]="resechduleList"
+          [selectedCustomer]="selectedCustomer"
+          (defaultCount)="defaultCount($event)"
+          (checkObjArr)="checkObj($event)"
+          [course]="detailLists"
+        ></app-reschedule>
       </div>
       <div
         class="modal-footer d-flex justify-content-between"

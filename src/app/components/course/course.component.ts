@@ -3606,13 +3606,11 @@ export class CourseComponent implements OnInit {
     this._service
       .getRescheduleList(this.courseId, this.uId, undefined, undefined)
       .subscribe((res: any) => {
-        this.resechduleList = res;
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
-        console.log(res);
+        this.resechduleList = res;
         this.isReschedule = true;
         console.log(this.selectedCustomer);
-        
       });
   }
 
@@ -3623,12 +3621,12 @@ export class CourseComponent implements OnInit {
         'deleteModal d-flex justify-content-center align-items-center'
     });
   }
-  dcount:any;
-  defaultCount($event){
-    this.dcount=$event;
+  dcount: any;
+  defaultCount($event) {
+    this.dcount = $event;
   }
-  checkArr:any=[];
-  checkObj($event){
-    this.checkArr=$event;
+  checkArr: any = [];
+  checkObj($event) {
+    this.checkArr = $event;
   }
 }
