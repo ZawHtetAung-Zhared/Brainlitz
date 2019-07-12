@@ -424,12 +424,12 @@ input:checked + .slider:before {
   height: 0;
   left: 0;
 }
-.active .noti-tab::before {    
+.active .noti-tab::before {
     border-bottom: 5px solid #4292f1;
     border-right: 3px solid transparent;
     top: 5px;
 }
-.active .noti-tab::after {  
+.active .noti-tab::after {
     border-top: 5px solid #4292f1;
     border-right: 3px solid transparent;
     bottom: 5px;
@@ -552,9 +552,9 @@ input:checked + .slider:before {
   width: 34px;
   height: 34px;
   border-radius: 100%;
-  margin-right: 12px; 
+  margin-right: 12px;
   background: #f2f4f5;
-} 
+}
 .social-links a img{
     margin-top: 8px;
 }*/
@@ -1118,3 +1118,21 @@ input[type='range' i] {
     border-style: solid;
     border-color: #fff transparent;
 } */
+
+/* Organisation Logo in Setting */
+.preview {
+  width: 100%;
+  padding-top: 10px;
+}
+
+.custom-file-label {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.error-message {
+  padding-top: 5px;
+  color: rgb(233, 48, 48);
+}

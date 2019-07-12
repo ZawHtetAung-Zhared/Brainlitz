@@ -1208,8 +1208,7 @@ li button {
 /*Course detail*/
 .back-to,
 .edit-course-btn,
-.detail-info label,
-.course-tab,
+.detail-info label .course-tab,
 .single-user-info p,
 .btn-submit,
 .modal-ctime p,
@@ -1220,7 +1219,8 @@ li button {
 .user-name,
 .back-inv,
 .c-label,
-.paid-amount {
+.paid-amount,
+.relief-name label {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .single-progress h4,
@@ -1233,7 +1233,8 @@ li button {
 .payment-item,
 .back-inv,
 .invModal-cancel,
-.send-btn {
+.send-btn,
+.relief-name h5 {
   color: #2e3d4d !important;
   font-size: 16px;
 }
@@ -1269,7 +1270,8 @@ li button {
 .modal-dfees b,
 .payment-label,
 .invModal-cancel,
-.send-btn {
+.send-btn,
+.relief-name h5 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -1308,7 +1310,8 @@ li button {
 .modal-dfees h5,
 .modal-duration,
 .modal-userInfo label,
-.user-name {
+.user-name,
+.relief-name label {
   color: #64707d;
   font-size: 14px;
 }
@@ -1538,6 +1541,12 @@ label.room-name::before {
   width: 60px;
   height: 60px;
 }
+
+.relief-img-wrap {
+  width: 38px;
+  height: 38px;
+}
+
 .irap {
   width: 48px;
   height: 48px;
@@ -1563,7 +1572,8 @@ label.room-name::before {
 .std-img-wrap,
 .std-img-wrap1,
 .img-wrap,
-.user-img-wrap {
+.user-img-wrap,
+.relief-img-wrap {
   /* display: inline-block; */
   position: relative;
   overflow: hidden;
@@ -1574,11 +1584,13 @@ label.room-name::before {
 .std-img-wrap img,
 .user-img-wrap img,
 .user-image img,
-.flexi-img-wrap img {
+.flexi-img-wrap img,
+.relief-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
+
 .single-user-info {
   margin-left: 12px;
 }
@@ -1887,9 +1899,17 @@ button:disabled {
   padding-left: 12px;
 } */
 .btn-class-cancel {
+  background: #007fff;
+  color: #ffffff;
+}
+
+.btn-assignRelief {
   background: #fff;
   border: solid 2px #007fff;
   color: #0080ff;
+}
+.btn-class-cancel,
+.btn-assignRelief {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 14px;
   padding: 9px 12px;
@@ -3255,6 +3275,26 @@ p.textCount {
 .reschedule-btn {
   background: aliceblue;
 }
+
 .displayBtn {
   display: none;
+}
+
+.icon-wrap {
+  width: 16px;
+  margin-bottom: 2px;
+}
+
+.icon-wrap img {
+  width: 100%;
+}
+
+.cc-icon-wrap {
+  width: 32px;
+  height: 32px;
+  background: #f2f4f5;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
