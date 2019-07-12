@@ -1,4 +1,7 @@
-<app-header [ngClass]="{ stick: navIsFixed == true }"></app-header>
+<app-header
+  [orgLogo]="orgLogo"
+  [ngClass]="{ stick: navIsFixed == true }"
+></app-header>
 <div [ngClass]="{ mainOverlay: isEdit == true || isUrlEdit == true }"></div>
 <div
   class="d-flex flex-row h-100 w-100 content-wrapper"
@@ -84,7 +87,7 @@
           </span>
         </button>
       </div>
-      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
+      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">
           <button class="btn noti-tab w-100" (click)="clickTab('email')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'email'" class="setting-icon" src="./assets/images/modify-template_a@2x.png">
@@ -181,6 +184,18 @@
                   >{{ item.operatingHour.end.min }}
                   {{ item.operatingHour.end.meridiem }}
                 </label>
+                <div class="timezone-wrap">
+                  <div class="title-wrap" *ngIf="!isEdit">
+                    <div id="parent">
+                      <img src="./assets/images/home.png" />
+                    </div>
+                    <label class="labelTitle">Organisation Logo</label>
+                  </div>
+                  <div class="preview" *ngIf="!isEdit">
+                    <img id="org-logo" [src]="orgLogo" height="200" />
+                  </div>
+                </div>
+
                 <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
                   <div class="form-group url-edit d-flex flex-row">
                     <div
@@ -368,6 +383,52 @@
                     </div>
                   </div>
                   <!-- <hr style="padding:0;"> -->
+
+                  <div class="timezone-wrap">
+                    <div class="title-wrap">
+                      <div id="parent">
+                        <img src="./assets/images/home.png" />
+                      </div>
+                      <label class="labelTitle">Organisation Logo</label>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span
+                            class="input-group-text"
+                            id="inputGroupFileAddon01"
+                            >Upload</span
+                          >
+                        </div>
+                        <div class="custom-file">
+                          <input
+                            #logo
+                            type="file"
+                            class="custom-file-input"
+                            id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01"
+                            accept="image/*"
+                            (change)="
+                              handleFileInput(logo.files, $event.target)
+                            "
+                          />
+                          <label
+                            #fileLabel
+                            class="custom-file-label"
+                            for="inputGroupFile01"
+                            >Choose file</label
+                          >
+                        </div>
+                        <span class="error-message" *ngIf="message">{{
+                          message
+                        }}</span>
+                        <div class="preview" *ngIf="imgURL">
+                          <img id="imgURL" [src]="imgURL" height="200" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div
                     class="editBtns  d-flex justify-content-end "
                     *ngIf="isEdit"
@@ -1100,7 +1161,7 @@
                         <div class="form-group req-field">
                           <div class="d-flex justify-content-between">
                             <label class="input-label" for="merchant">{{reqField.name}}</label>
-                          </div>  
+                          </div>
                           <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
                         </div>
                       </div> -->
@@ -1108,13 +1169,13 @@
                     <!-- <div class="form-group">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
                       </div>
                       <div class="form-group no-border">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="apikey">API key</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
                       </div> -->
                   </div>

@@ -1,4 +1,12 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Input,
+  HostListener,
+  ViewChild
+} from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
@@ -12,12 +20,14 @@ declare var $: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
   @ViewChild(LocationComponent) lnameChanges: LocationComponent;
-
+  @Input() orgLogo: string;
   public userName: any;
   public regionID = localStorage.getItem('regionId');
-  public OrgLogo = localStorage.getItem('OrgLogo');
+  public token = localStorage.getItem('token');
+  public type = localStorage.getItem('tokenType');
+  public OrgLogo = '';
   public headerlocationLists: any;
   public accessToken: any;
   public currentLocationID: any;
@@ -43,8 +53,17 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  ngOnChanges(value: SimpleChanges) {
+    console.log(value.orgLogo.currentValue);
+    if (value.orgLogo.currentValue !== undefined) {
+      this.OrgLogo = value.orgLogo.currentValue;
+    }
+  }
+
   ngOnInit() {
     console.log('headerLocation work');
+    console.log('Org Log', this.orgLogo);
+    this.getAdministrator();
     setTimeout(() => {
       this.userName = localStorage.getItem('userName');
     }, 400);
@@ -61,6 +80,24 @@ export class HeaderComponent implements OnInit {
     } else {
       console.log(this._router.url);
     }
+  }
+
+  getAdministrator() {
+    console.log('getAdministrator works');
+    this.token = localStorage.getItem('token');
+    this.type = localStorage.getItem('tokenType');
+    this._service
+      .getRegionalAdministrator(this.regionID, this.token, this.type)
+      .subscribe(
+        (res: any) => {
+          console.log('res admin', res);
+          this.OrgLogo = res.logo;
+          localStorage.setItem('OrgLogo', this.OrgLogo);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   logoff() {
