@@ -1894,7 +1894,8 @@ button:disabled {
   border: solid 2px #007fff;
   color: #0080ff;
 }
-.btn-class-cancel {
+.btn-class-cancel,
+.btn-assignRelief {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 14px;
   padding: 9px 12px;
