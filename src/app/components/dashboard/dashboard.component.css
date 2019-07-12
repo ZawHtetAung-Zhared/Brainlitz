@@ -1131,3 +1131,8 @@ input[type='range' i] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.error-message {
+  padding-top: 5px;
+  color: rgb(233, 48, 48);
+}

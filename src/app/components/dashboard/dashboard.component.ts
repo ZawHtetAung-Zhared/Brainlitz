@@ -597,12 +597,12 @@ export class DashboardComponent implements OnInit {
 
   handleFileInput(files: FileList, $event) {
     console.log(files);
-    console.log($event);
-    console.log(this.elementView.nativeElement.innerText);
     this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
     this.logo = files.item(0);
-    console.log(this.logo);
     this.item.logo = this.logo;
+    const reader = new FileReader();
+
     if (files.length === 0) {
       return;
     }
@@ -613,12 +613,15 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    const reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = _event => {
-      this.imgURL = reader.result;
-    };
+    if (this.logo.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      this.imagePath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.imgURL = reader.result;
+      };
+    }
   }
   editRegion() {
     console.log(this.item);
