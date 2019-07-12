@@ -44,6 +44,7 @@
         <div
           *ngIf="courseInfo.teacher.userId != teacher.userId"
           class="d-flex search-result"
+          [ngClass]="{ hideStaff: assistantArr.indexOf(teacher.userId) > -1 }"
         >
           <div class="circular-img">
             <img src="{{ teacher.profilePic }}" />

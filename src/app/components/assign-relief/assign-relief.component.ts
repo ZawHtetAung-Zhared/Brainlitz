@@ -21,6 +21,7 @@ export class AssignReliefComponent implements OnInit {
   public searchKeyword: any = '';
   public selectedTeacher: any = null;
   public conflictLessonArr = [];
+  public assistantArr: any = [];
 
   @Input() courseInfo;
   @Input() lessonInfo;
@@ -31,6 +32,9 @@ export class AssignReliefComponent implements OnInit {
   ngOnInit() {
     console.log(this.courseInfo);
     console.log(this.lessonInfo);
+    this.courseInfo.assistants.map(assistant => {
+      this.assistantArr.push(assistant.userId);
+    });
     this.lessonInfo['lessonDate'] = this.lessonInfo.startDate.substr(
       0,
       this.lessonInfo.startDate.search('T')
@@ -68,6 +72,7 @@ export class AssignReliefComponent implements OnInit {
     this.conflictLessonArr = [];
     this.isFocusSearch = false;
     this.closed.emit(true);
+    this.assistantArr = [];
   }
 
   onSelectTeacher(data) {

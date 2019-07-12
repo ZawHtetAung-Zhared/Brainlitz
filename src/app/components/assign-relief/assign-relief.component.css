@@ -210,3 +210,7 @@
   color: #ffffff;
   cursor: pointer;
 }
+
+.hideStaff {
+  display: none !important;
+}
