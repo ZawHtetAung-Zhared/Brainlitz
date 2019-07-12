@@ -78,6 +78,12 @@ export class RescheduleComponent implements OnInit {
   }
 
   lessonCheck(id, obj) {
+    console.log(id);
+    console.log(obj);
+    console.log(this.lessonsObj);
+    console.log(this.lessonObjArr);
+    console.log(this.unavaiableLessons);
+
     if (this.lessonObjArr.includes(obj)) {
       // this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
       this.lessonObjArr.splice(

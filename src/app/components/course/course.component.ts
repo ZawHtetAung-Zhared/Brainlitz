@@ -3615,13 +3615,6 @@ export class CourseComponent implements OnInit {
       });
   }
 
-  showRescheduleConfirmModal(confirmReschedule) {
-    this.modalReference = this.modalService.open(confirmReschedule, {
-      backdrop: 'static',
-      windowClass:
-        'deleteModal d-flex justify-content-center align-items-center'
-    });
-  }
   dcount: any;
   defaultCount($event) {
     this.dcount = $event;
@@ -3634,6 +3627,12 @@ export class CourseComponent implements OnInit {
 
     this.checkArr = JSON.parse(JSON.stringify($event));
     this.lessonsArray = this.checkArr;
+  }
+
+  unavaiablelessons: any = [];
+  getlen(e) {
+    console.log(e);
+    this.unavaiablelessons = e;
   }
 
   createReschedule(userId, courseId, lessons) {
@@ -3659,9 +3658,31 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  unavaiablelessons: any = [];
-  getlen(e) {
-    console.log(e);
-    this.unavaiablelessons = e;
+  confimAlert;
+  confirmReschedule(confirmReschedule) {
+    if (
+      this.checkArr.length == 0 ||
+      this.unavaiablelessons.length == this.checkArr.length
+    ) {
+      this.showRescheduleConfirmModal(confirmReschedule);
+    } else {
+      this.createReschedule(this.uId, this.courseId, this.lessonsArray);
+    }
+  }
+
+  showRescheduleConfirmModal(confirmReschedule) {
+    this.confimAlert = this.modalService.open(confirmReschedule, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+  cancelConfirm() {
+    this.confimAlert.close();
+  }
+  rescheduleConfirm() {
+    this.createReschedule(this.uId, this.courseId, this.lessonsArray);
+    this.confimAlert.close();
+    this.modalReference.close();
   }
 }
