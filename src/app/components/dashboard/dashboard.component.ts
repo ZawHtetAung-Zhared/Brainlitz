@@ -5,6 +5,8 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
+  EventEmitter,
+  Output,
   AfterViewInit
 } from '@angular/core';
 import { appService } from '../../service/app.service';
@@ -34,6 +36,7 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
+  public orgLogo;
   public srangeHr;
   public srangeMin;
   public sisSelected;
@@ -328,7 +331,12 @@ export class DashboardComponent implements OnInit {
 
     this.getInvoiceSetting('invoiceSettings');
     this.getPaymentSetting('paymentSettings');
+    this.orgLogo = localStorage.getItem('OrgLogo');
   }
+
+  // valueChanged() {
+  //   this.valueChange.emit(this.counter);
+  // }
 
   ngAfterViewInit() {
     // this.item.operatingHour = {
@@ -553,6 +561,40 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  toDataUrl(url: any, id: any) {
+    const xhr = new XMLHttpRequest();
+    const ele = document.getElementById(id);
+    console.log(ele);
+
+    xhr.onload = function() {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        ele.setAttribute('src', reader.result);
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.onloadend = function() {
+      console.log('loadend');
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+  dataURItoBlob(dataURI: String) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
   handleFileInput(files: FileList, $event) {
     console.log(files);
     console.log($event);
@@ -580,6 +622,11 @@ export class DashboardComponent implements OnInit {
   }
   editRegion() {
     console.log(this.item);
+    setTimeout(() => {
+      console.log(document.getElementById('imgURL'));
+      this.toDataUrl(this.item.logo, 'imgURL');
+    }, 1000);
+    this.imgURL = this.item.logo;
     this.isEdit = true;
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
@@ -616,8 +663,16 @@ export class DashboardComponent implements OnInit {
     if (starTTemp[1].length < 4) starTTemp[1] = '0' + starTTemp[1];
     return starTTemp;
   }
+
+  getLogo() {
+    let logo = document.getElementById('imgURL').getAttribute('src');
+
+    return this.dataURItoBlob(logo);
+  }
+
   updateRegionalInfo(data, type) {
     console.log(data, type);
+    let regionalSettingFormData = new FormData();
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     if (type == 'url') {
@@ -640,26 +695,46 @@ export class DashboardComponent implements OnInit {
       this.item.operatingHour['end'] = end;
     }
     console.log('DATA~~~', data);
-    // setTimeout(() => {
-    //   this._service
-    //     .updateRegionalInfo(this.regionId, data, this.token, this.type)
-    //     .subscribe(
-    //       (res: any) => {
-    //         this.toastr.success('Successfully Updated.');
-    //         console.log('~~~', res);
-    //         localStorage.setItem('timezone', this.item.timezone);
-    //         this.getAdministrator();
-    //         if (type == 'timezone') {
-    //           this.isEdit = false;
-    //         } else if (type == 'url') {
-    //           this.isUrlEdit = false;
-    //         }
-    //       },
-    //       err => {
-    //         console.log(err);
-    //       }
-    //     );
-    // }, 100);
+    regionalSettingFormData.append('name', data.name);
+    regionalSettingFormData.append('timezone', data.timezone);
+    regionalSettingFormData.append('url', data.url);
+    regionalSettingFormData.append('logo', this.getLogo());
+    regionalSettingFormData.append(
+      'operatingHour',
+      JSON.stringify(data.operatingHour)
+    );
+    console.log(regionalSettingFormData.get('name'));
+    console.log(regionalSettingFormData.get('timezone'));
+    console.log(regionalSettingFormData.get('url'));
+    console.log(regionalSettingFormData.get('logo'));
+    console.log(regionalSettingFormData.get('operatingHour'));
+
+    setTimeout(() => {
+      this._service
+        .updateRegionalInfo(
+          this.regionId,
+          regionalSettingFormData,
+          this.token,
+          this.type
+        )
+        .subscribe(
+          (res: any) => {
+            this.toastr.success('Successfully Updated.');
+            console.log('~~~', res);
+            this.orgLogo = res.logo;
+            localStorage.setItem('timezone', this.item.timezone);
+            this.getAdministrator();
+            if (type == 'timezone') {
+              this.isEdit = false;
+            } else if (type == 'url') {
+              this.isUrlEdit = false;
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    }, 100);
   }
 
   cancelUpdate() {
