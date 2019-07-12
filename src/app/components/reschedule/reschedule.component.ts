@@ -28,12 +28,15 @@ export class RescheduleComponent implements OnInit {
   constructor(private datePipe: DatePipe, private _service: appService) {}
 
   ngOnInit() {
-    this.reScheduleLists = this.reScheduleData.lessons;
-    console.log(this.reScheduleData);
-    console.log(this.course);
-    console.log(this.selectedCustomer);
+    this.avaiableLessonsCount = 0;
+    this.unavaiableLessons = [];
+    this.reScheduleLists = [];
+    this.teacherDetail = {};
     this.lessonObjArr = [];
     this.teacherDetail = this.reScheduleData.teacherDetails[0];
+    this.reScheduleLists = this.reScheduleData.lessons;
+    console.log(this.reScheduleLists);
+
     this.checkAvaiableReschedule(false);
   }
   checkAvaiableReschedule(loadmore) {
@@ -48,20 +51,17 @@ export class RescheduleComponent implements OnInit {
         this.reScheduleLists[i].endDate,
         'yyyy-MM-dd'
       );
-
-      console.log(endDate);
-
+      //past or future depend on today date
       if (todayDate < endDate) {
-        console.log('is greater');
-        this.reScheduleLists[i].isAvaiable = true;
+        //this is past date
+        this.reScheduleLists[i].isAvaiable = true; //this is future isAvaiable 'true'
+        //this method call the load more function if loadmore 'false' this condition is working
         if (loadmore == false) {
-          // this.lessionIdArr.push(this.reScheduleLists[i]._id);
-          this.avaiableLessonsCount += 1;
-          //  this.defaultCount.emit(this.avaiableLessonsCount);
-          this.reScheduleLists[i].isCheck = true;
+          this.avaiableLessonsCount += 1; //this for default lessons count
+          this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
         }
       } else {
-        this.reScheduleLists[i].isAvaiable = false;
+        this.reScheduleLists[i].isAvaiable = false; //this is past isAvaiable 'false'
         if (loadmore == false) {
           this.unavaiableLessons.push(this.reScheduleLists[i]);
         }
@@ -75,18 +75,9 @@ export class RescheduleComponent implements OnInit {
         this.unavaiableLen.emit(this.unavaiableLessons);
       }
     }
-
-    console.error(this.unavaiableLessons.length);
-    console.error(this.lessonObjArr.length);
   }
 
   lessonCheck(id, obj) {
-    console.log(id);
-    console.log(obj);
-    console.log(this.lessonsObj);
-    console.log(this.lessonObjArr);
-    console.log(this.avaiableLessonsCount);
-
     if (this.lessonObjArr.includes(obj)) {
       // this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
       this.lessonObjArr.splice(
@@ -148,9 +139,10 @@ export class RescheduleComponent implements OnInit {
         console.log(res.lessons);
         console.log(this.avaiableLessonsCount);
         console.log(this.reScheduleLists.length);
-
+        console.log(this.lessonObjArr.length - this.unavaiableLessons.length);
         for (let i = 0; i < res.lessons.length; i++) {
           // res.lessons[i]._id=this.reScheduleLists.length+i;
+
           if (
             this.lessonObjArr.length - this.unavaiableLessons.length <
             this.avaiableLessonsCount

@@ -47,7 +47,7 @@ export class FlexiComponent implements OnInit {
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
     this.teacherDetail = this.flexyarr.teacherDetails;
-    // this.flitterFlexyObj(this.flexyarr.lessons);
+    this.flitterFlexyObj(this.flexyarr.lessons);
   }
 
   flitterFlexyObj(obj) {
@@ -377,6 +377,4 @@ export class FlexiComponent implements OnInit {
     });
     this.checkObjArr.emit(tempArray);
   }
-
-  
 }

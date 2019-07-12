@@ -3598,6 +3598,7 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
+    this.isReschedule = false;
     this.modalReference = this.modalService.open(reschedule, {
       backdrop: 'static',
       windowClass:
@@ -3606,12 +3607,11 @@ export class CourseComponent implements OnInit {
     this._service
       .getRescheduleList(this.courseId, this.uId, undefined, undefined)
       .subscribe((res: any) => {
+        console.log(res);
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
         this.resechduleList = res;
         this.isReschedule = true;
-
-        console.log(this.selectedCustomer);
       });
   }
 
