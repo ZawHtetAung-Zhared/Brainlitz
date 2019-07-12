@@ -1665,6 +1665,8 @@ export class CourseComponent implements OnInit {
 
         if (this.activeToday == true) {
           console.log('~~~~ active', lessonCount[this.todayIndex]);
+          this.currentLessonIdx = this.todayIndex;
+          this.checkForRelief(lessonCount[this.todayIndex]);
           this.cancelUi =
             lessonCount[this.todayIndex].cancel == true ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate;
@@ -1677,6 +1679,8 @@ export class CourseComponent implements OnInit {
           console.log('~~~~ last active');
           lastActiveDate = finishedDate.length - 1;
           console.log(lastActiveDate);
+          this.currentLessonIdx = lastActiveDate;
+          this.checkForRelief(lessonCount[lastActiveDate]);
           //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate;
           this.cancelUi =
@@ -1690,6 +1694,8 @@ export class CourseComponent implements OnInit {
       } else {
         console.log('hello in else');
         lastActiveDate = 0;
+        this.currentLessonIdx = 0;
+        this.checkForRelief(lessonCount[0]);
         this.LASD = lessonCount[0].startDate;
         this.currentDateObj = lessonCount[0]._id;
         this.cancelUi = lessonCount[0].cancel == true ? false : true;
@@ -1814,10 +1820,13 @@ export class CourseComponent implements OnInit {
     // }
   }
 
-  checkAttendance(targetDate, classInfo, status) {
+  currentLessonIdx: any = null;
+  selectedLesson: any = null;
+  checkAttendance(targetDate, classInfo, status, currentIdx) {
     console.log('hi', targetDate);
     console.log('....', classInfo);
-
+    this.currentLessonIdx = currentIdx;
+    this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;
 
     this.currentDateObj = classInfo._id;
@@ -3692,6 +3701,7 @@ export class CourseComponent implements OnInit {
         'deleteModal d-flex justify-content-center align-items-center'
     });
   }
+
   cancelConfirm() {
     this.confimAlert.close();
   }
@@ -3703,5 +3713,51 @@ export class CourseComponent implements OnInit {
     );
     this.confimAlert.close();
     this.modalReference.close();
+  }
+
+  onClickAssignRelief(reliefModal, lesson) {
+    this.modalReference = this.modalService.open(reliefModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  reliefTeacher: any = null;
+  checkForRelief(classInfo) {
+    console.log('checkForRelief', this.selectedLesson);
+    this.selectedLesson = classInfo;
+    if (
+      this.selectedLesson.makeup != undefined &&
+      this.selectedLesson.makeup == true
+    ) {
+      this._service
+        .editProfile(this.regionId, this.selectedLesson.teacherId)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.reliefTeacher = res;
+        });
+    } else {
+      this.reliefTeacher = null;
+    }
+  }
+
+  cancelReliefModal() {
+    console.log('cancel relirf~~~');
+    this.modalReference.close();
+    return new Promise((resolve, reject) => {
+      this.getCourseDetail(this.detailLists._id);
+      resolve();
+    }).then(() => {
+      setTimeout(() => {
+        console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
+      }, 300);
+    });
+    // this._service
+    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //   });
   }
 }

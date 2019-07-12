@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TestLeaveUiComponent } from './test-leave-ui.component';
+import { AssignReliefComponent } from './assign-relief.component';
 
-describe('TestLeaveUiComponent', () => {
-  let component: TestLeaveUiComponent;
-  let fixture: ComponentFixture<TestLeaveUiComponent>;
+describe('AssignReliefComponent', () => {
+  let component: AssignReliefComponent;
+  let fixture: ComponentFixture<AssignReliefComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TestLeaveUiComponent]
+      declarations: [AssignReliefComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestLeaveUiComponent);
+    fixture = TestBed.createComponent(AssignReliefComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
