@@ -2812,21 +2812,23 @@
     <div class="modal-header">
       <h3 class="modal-title">Confirm reschedule?</h3>
     </div>
-    <div class="modal-body apg-confirm"></div>
+    <div class="modal-body apg-confirm">
+      All the remaining lessons for the student will be discarded. Are you sure?
+    </div>
     <div class="modal-footer pt-2 pb-2">
       <button
         type="button"
         class="btn modal-cancel-btn"
         (click)="cancelConfirm()"
       >
-        Cancel
+        No
       </button>
       <button
         type="submit"
         class="btn modal-delete-btn"
         (click)="rescheduleConfirm()"
       >
-        Confirm
+        Yes
       </button>
     </div>
   </ng-template>

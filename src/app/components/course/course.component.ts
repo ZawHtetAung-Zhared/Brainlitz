@@ -1575,9 +1575,11 @@ export class CourseComponent implements OnInit {
   }
 
   getUsersInCourse(courseId) {
+    this.reScheduleCId = '';
     console.log('hi call course', courseId);
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
+    this.reScheduleCId = courseId;
     this.blockUI.start('Loading...');
     this._service
       .getAssignUser(this.regionId, courseId, null, null, null)
@@ -3423,8 +3425,10 @@ export class CourseComponent implements OnInit {
     // }
     e.preventDefault();
     e.stopPropagation();
+    this.reScheduleUId = '';
     this.yPosition = e.layerY;
     this.uId = uID;
+    this.reScheduleUId = uID;
     this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
@@ -3604,7 +3608,12 @@ export class CourseComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this._service
-      .getRescheduleList(this.courseId, this.uId, undefined, undefined)
+      .getRescheduleList(
+        this.reScheduleCId,
+        this.reScheduleUId,
+        undefined,
+        undefined
+      )
       .subscribe((res: any) => {
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
@@ -3634,7 +3643,8 @@ export class CourseComponent implements OnInit {
     console.log(e);
     this.unavaiablelessons = e;
   }
-
+  public reScheduleCId;
+  public reScheduleUId;
   createReschedule(userId, courseId, lessons) {
     lessons.map(lesson => {
       delete lesson.isAvaiable;
@@ -3650,6 +3660,7 @@ export class CourseComponent implements OnInit {
       res => {
         console.log(res);
         this.toastr.success('Successfully reschedule.');
+        this.reScheduleUId = '';
         this.modalReference.close();
       },
       err => {
@@ -3666,7 +3677,11 @@ export class CourseComponent implements OnInit {
     ) {
       this.showRescheduleConfirmModal(confirmReschedule);
     } else {
-      this.createReschedule(this.uId, this.courseId, this.lessonsArray);
+      this.createReschedule(
+        this.reScheduleUId,
+        this.reScheduleCId,
+        this.lessonsArray
+      );
     }
   }
 
@@ -3681,7 +3696,11 @@ export class CourseComponent implements OnInit {
     this.confimAlert.close();
   }
   rescheduleConfirm() {
-    this.createReschedule(this.uId, this.courseId, this.lessonsArray);
+    this.createReschedule(
+      this.reScheduleUId,
+      this.reScheduleCId,
+      this.lessonsArray
+    );
     this.confimAlert.close();
     this.modalReference.close();
   }
