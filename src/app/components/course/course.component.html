@@ -2799,8 +2799,7 @@
           <button
             type="submit"
             class="btn btn-submit"
-            [disabled]="checkArr.length == 0"
-            (click)="createReschedule(uId, courseId, lessonsArray)"
+            (click)="confirmReschedule(confirm_Reschedule)"
           >
             Confirm
           </button>
@@ -2809,16 +2808,24 @@
     </div>
   </ng-template>
 
-  <ng-template #confirmReschedule>
+  <ng-template #confirm_Reschedule>
     <div class="modal-header">
       <h3 class="modal-title">Confirm reschedule?</h3>
     </div>
     <div class="modal-body apg-confirm"></div>
     <div class="modal-footer pt-2 pb-2">
-      <button type="button" class="btn modal-cancel-btn">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelConfirm()"
+      >
         Cancel
       </button>
-      <button type="submit" class="btn modal-delete-btn">
+      <button
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="rescheduleConfirm()"
+      >
         Confirm
       </button>
     </div>

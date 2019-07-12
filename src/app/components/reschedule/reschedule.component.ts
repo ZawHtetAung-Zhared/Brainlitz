@@ -76,7 +76,7 @@ export class RescheduleComponent implements OnInit {
       }
     }
 
-    console.error(this.unavaiableLessons.length);
+    console.error(this.unavaiableLessons);
     console.error(this.lessonObjArr.length);
   }
 
@@ -85,7 +85,7 @@ export class RescheduleComponent implements OnInit {
     console.log(obj);
     console.log(this.lessonsObj);
     console.log(this.lessonObjArr);
-    console.log(this.avaiableLessonsCount);
+    console.log(this.unavaiableLessons);
 
     if (this.lessonObjArr.includes(obj)) {
       // this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
