@@ -3660,6 +3660,7 @@ export class CourseComponent implements OnInit {
   }
   public reScheduleCId;
   public reScheduleUId;
+
   createReschedule(userId, courseId, lessons) {
     lessons.map(lesson => {
       delete lesson.isAvaiable;
@@ -3675,7 +3676,8 @@ export class CourseComponent implements OnInit {
       res => {
         console.log(res);
         this.toastr.success('Successfully reschedule.');
-        this.reScheduleUId = '';
+        this.getCourseDetail(courseId);
+        this.clickTab('Class', 'course');
         this.modalReference.close();
       },
       err => {
