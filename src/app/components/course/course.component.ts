@@ -1825,6 +1825,12 @@ export class CourseComponent implements OnInit {
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     console.log('hi', targetDate);
     console.log('....', classInfo);
+    $('.timeline div.single-date').on('click', function() {
+      $(this)
+        .addClass('day-highlight')
+        .siblings()
+        .removeClass('day-highlight');
+    });
     this.currentLessonIdx = currentIdx;
     this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;

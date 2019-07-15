@@ -809,7 +809,7 @@
     </div>
   </div>
 
-  <!-- <div *ngIf="!searchMore">  
+  <!-- <div *ngIf="!searchMore">
   <div *ngIf="courseList.length >= 20 && !isCategory && !isPlan && !isCourseDetail && !isCourseCreate && result.length != 0 && !isCoursePlanDetail" class="d-flex justify-content-center load-more">
     <button class="btn" (click)="showMore(courseList.length)">load more</button>
   </div>
@@ -1061,7 +1061,7 @@
               (click)="clickTab('Class', 'course')"
               [disabled]="disabledTab"
             >
-              Class
+              Lesson
             </button>
             <button
               [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
@@ -1089,7 +1089,7 @@
                     class="btn btn-create"
                     (click)="addUserModal('teacher', userModal, 'inside', '')"
                   >
-                    Swap teacher
+                    Change teacher
                   </button>
                 </div>
                 <div class="row">
@@ -1335,7 +1335,7 @@
                             View invoice
                           </button>
                         </li>
-                        <li
+                        <!-- <li
                           (click)="
                             openRemoveModal(
                               user.userId,
@@ -1345,7 +1345,7 @@
                           "
                         >
                           Withdraw User
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
 
@@ -1395,7 +1395,7 @@
                     <p>
                       {{ timeline.startDate | timelineDay }}
                       <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >M</span
+                        >C</span
                       >
                     </p>
                   </div>
@@ -1414,7 +1414,7 @@
                     <p>
                       {{ timeline.startDate | timelineDay }}
                       <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >M</span
+                        >C</span
                       >
                     </p>
                   </div>
@@ -1433,7 +1433,7 @@
                     <p>
                       {{ timeline.startDate | timelineDay }}
                       <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >M</span
+                        >C</span
                       >
                     </p>
                   </div>
@@ -1470,7 +1470,7 @@
                       class="btn btn-class-cancel ml-3"
                       (click)="cancelClass(content)"
                     >
-                      Cancel class
+                      Cancel lesson
                     </button>
                   </div>
                   <div
@@ -1563,7 +1563,7 @@
                   >
                     <div class="carret-box"></div>
                     <li>
-                      <div id="divToHide">
+                      <div id="divToHide" *ngIf="!disableCancel">
                         <div class="pb-3">Take Attendance</div>
                         <div class="d-flex" id="divToHide">
                           <div
@@ -2235,7 +2235,7 @@
             </div>
           </div>
           <!-- <div class="defaultDiv">
-           
+
           </div> -->
         </div>
 
@@ -2482,7 +2482,7 @@
             <div class="user-image">
               <img *ngIf="{{singleUserData.profilePic == undefined" src="assets/img/user.svg">
               <img *ngIf="{{singleUserData.profilePic != undefined" src=" singleUserData.profilePic }}">
-            </div>      
+            </div>
           <p class="user-name">{{ singleUserData.preferredName }}</p>
         </div> -->
           <!-- <button (click)="closeModal('close')" aria-label="Close" class="modal-close ml-auto" type="button">
@@ -2684,7 +2684,7 @@
   <ng-template #content let-modal>
     <div class="modal-header">
       <div class="d-flex flex-column ">
-        <h3 class="makeup-pass-title">Give makeup pass</h3>
+        <h3 class="makeup-pass-title">Cancel lesson</h3>
         <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
         <p
           *ngIf="pplLists.CUSTOMER.length == 0"
@@ -2831,7 +2831,7 @@
             </div>
           </div>
           <!-- <div class="defaultDiv">
-         
+
         </div> -->
         </div>
 
