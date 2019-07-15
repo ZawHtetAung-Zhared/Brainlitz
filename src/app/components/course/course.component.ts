@@ -3618,6 +3618,7 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
+    this.blockUI.start('Loading...');
     this.isReschedule = false;
     this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
@@ -3638,6 +3639,7 @@ export class CourseComponent implements OnInit {
         res.teacherDetails = this.pplLists.TEACHER;
         this.resechduleList = res;
         this.isReschedule = true;
+        this.blockUI.stop();
       });
   }
 
