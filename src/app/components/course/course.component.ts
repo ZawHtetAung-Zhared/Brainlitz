@@ -1825,6 +1825,12 @@ export class CourseComponent implements OnInit {
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     console.log('hi', targetDate);
     console.log('....', classInfo);
+    $('.timeline div.single-date').on('click', function() {
+      $(this)
+        .addClass('day-highlight')
+        .siblings()
+        .removeClass('day-highlight');
+    });
     this.currentLessonIdx = currentIdx;
     this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;
@@ -3612,6 +3618,7 @@ export class CourseComponent implements OnInit {
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
     this.isReschedule = false;
+    this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
       backdrop: 'static',
       windowClass:
@@ -3654,6 +3661,7 @@ export class CourseComponent implements OnInit {
   }
   public reScheduleCId;
   public reScheduleUId;
+
   createReschedule(userId, courseId, lessons) {
     lessons.map(lesson => {
       delete lesson.isAvaiable;
@@ -3669,7 +3677,8 @@ export class CourseComponent implements OnInit {
       res => {
         console.log(res);
         this.toastr.success('Successfully reschedule.');
-        this.reScheduleUId = '';
+        this.getCourseDetail(courseId);
+        this.clickTab('Class', 'course');
         this.modalReference.close();
       },
       err => {
