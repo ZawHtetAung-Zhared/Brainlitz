@@ -106,9 +106,10 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
 import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
+import { AssignReliefComponent } from './components/assign-relief/assign-relief.component';
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.component';
+import { RescheduleComponent } from './components/reschedule/reschedule.component';
 
 @NgModule({
   declarations: [
@@ -184,7 +185,8 @@ import { TestLeaveUiComponent } from './components/test-leave-ui/test-leave-ui.c
     ClassTabComponent,
     LeaveDetailsComponent,
     UtcDateAndDayPipe,
-    TestLeaveUiComponent
+    RescheduleComponent,
+    AssignReliefComponent
   ],
   imports: [
     ContentLoaderModule,

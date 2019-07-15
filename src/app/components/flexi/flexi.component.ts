@@ -45,19 +45,9 @@ export class FlexiComponent implements OnInit {
   ngOnInit() {
     this.lessionIdArr = [];
     this.lessonObjArr = [];
-    console.error(this.lessionIdArr);
-    console.error(this.lessonObjArr);
-    console.log(this.showcb);
-    console.log(this.selectedCustomer);
-    console.log(this.ctype);
-    console.log(this.course);
-    console.log(this.flexyarr);
-    console.log(this.flexyarr.lessons);
-    console.log(this.flexyarr.teacherDetails);
-
     this.lessonsObj = this.flexyarr.lessons;
-    this.teacherDetail = this.flexyarr.teacherDetails[0];
-    // this.flitterFlexyObj(this.flexyarr.lessons);
+    this.teacherDetail = this.flexyarr.teacherDetails;
+    this.flitterFlexyObj(this.flexyarr.lessons);
   }
 
   flitterFlexyObj(obj) {
@@ -386,32 +376,5 @@ export class FlexiComponent implements OnInit {
       tempArray.push(tempObj);
     });
     this.checkObjArr.emit(tempArray);
-  }
-
-  loadmoreReschedule(courseId, uId, lessons) {
-    let date = new Date(lessons[lessons.length - 1].startDate);
-    const startDate = moment(new Date(date))
-      .add(1, 'days')
-      .toISOString();
-    this._service
-      .getRescheduleList(courseId, uId, startDate, undefined)
-      .subscribe((res: any) => {
-        console.log(res);
-        // this.resechduleList = res;
-      });
-  }
-
-  createReschedule(userId, courseId, lessons) {
-    const obj = {
-      lessons
-    };
-    console.log(userId);
-    console.log(courseId);
-    console.log(lessons);
-    this._service
-      .createStudentReschedule(userId, courseId, obj)
-      .subscribe(res => {
-        console.log(res);
-      });
   }
 }
