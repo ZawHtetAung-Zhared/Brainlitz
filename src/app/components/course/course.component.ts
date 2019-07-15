@@ -3430,6 +3430,7 @@ export class CourseComponent implements OnInit {
     //this.isGlobal = true;
   }
   showAttendanceBox(e, uID) {
+    console.log(this.detailLists.type);
     // if (this.attendenceButton == true) {
     //   e.preventDefault();
     //   e.stopPropagation();
@@ -3617,6 +3618,7 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
+    this.blockUI.start('Loading...');
     this.isReschedule = false;
     this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
@@ -3637,6 +3639,7 @@ export class CourseComponent implements OnInit {
         res.teacherDetails = this.pplLists.TEACHER;
         this.resechduleList = res;
         this.isReschedule = true;
+        this.blockUI.stop();
       });
   }
 

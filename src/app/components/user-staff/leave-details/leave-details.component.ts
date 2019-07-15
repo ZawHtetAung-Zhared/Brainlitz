@@ -38,6 +38,7 @@ import { appService } from '../../../service/app.service';
 //   isTooltips: boolean;
 //   meridian:any;
 // }
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { LeaveService } from '../leave-details/leave.service';
 import { log } from 'util';
 const colors: any = {
@@ -88,7 +89,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   public regionID = localStorage.getItem('regionId');
   private userSubscription: ISubscription;
   private leaveSubscription: ISubscription;
-
+  @BlockUI() blockUI: NgBlockUI;
   viewDate: Date = new Date();
   selectedDays: any = [];
   selectedMonthViewDay: CalendarMonthViewDay;
@@ -152,8 +153,6 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
     var b = $event.target.classList[3];
-    console.log(a);
-    console.log(b);
 
     var conTainer = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');
@@ -293,6 +292,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.viewDate = new Date();
     this.getleaveforuser();
     this.selectedDays = [];
     this.skipCourseArr = [];
@@ -533,6 +533,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //to get leave taken day by one month
   getleaveforuser() {
+    this.blockUI.start('Loading...');
     let tempArr = [];
     let res = this.viewDate;
     //this for to get start and end date for current months
@@ -630,6 +631,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         // console.log(tempArr);
 
         this.events = tempArr;
+        this.blockUI.stop();
         console.log(this.events);
       },
       err => {}
