@@ -36,6 +36,7 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
+  @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -675,6 +676,7 @@ export class DashboardComponent implements OnInit {
 
   updateRegionalInfo(data, type) {
     console.log(data, type);
+    this.blockUIRegionInfo.start('Updating regional setting...');
     let regionalSettingFormData = new FormData();
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
@@ -722,6 +724,7 @@ export class DashboardComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
+            this.blockUIRegionInfo.stop();
             this.toastr.success('Successfully Updated.');
             console.log('~~~', res);
             this.orgLogo = res.logo;
