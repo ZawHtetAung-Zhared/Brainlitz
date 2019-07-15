@@ -153,8 +153,6 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     var a = $event.target.classList[6];
     var b = $event.target.classList[3];
-    console.log(a);
-    console.log(b);
 
     var conTainer = document.getElementById('leave-day-list');
     const mainWrapper = document.getElementById('scroll-main-wrapper');

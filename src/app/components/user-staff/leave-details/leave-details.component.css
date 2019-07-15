@@ -140,6 +140,7 @@
   font-size: 14px;
   color: #64707d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  word-break: break-all;
 }
 .cancel-class-wrapper {
   width: 100%;
