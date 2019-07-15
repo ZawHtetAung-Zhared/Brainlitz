@@ -3430,6 +3430,7 @@ export class CourseComponent implements OnInit {
     //this.isGlobal = true;
   }
   showAttendanceBox(e, uID) {
+    console.log(this.detailLists.type);
     // if (this.attendenceButton == true) {
     //   e.preventDefault();
     //   e.stopPropagation();
