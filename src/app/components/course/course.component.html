@@ -1379,7 +1379,7 @@
                 <div
                   *ngIf="timeline.startDate < todayDate"
                   (click)="
-                    checkAttendance(timeline.startDate, timeline, cancelUI)
+                    checkAttendance(timeline.startDate, timeline, cancelUI, i)
                   "
                 >
                   <div
@@ -1388,7 +1388,7 @@
                       (todayDate | timelineDate)
                     "
                     (click)="
-                      checkAttendance(timeline.startDate, timeline, cancelUI)
+                      checkAttendance(timeline.startDate, timeline, cancelUI, i)
                     "
                   >
                     <b>{{ timeline.startDate | timelineDate }} </b>
@@ -1406,7 +1406,7 @@
                     (todayDate | timelineDate)
                   "
                   (click)="
-                    checkAttendance(timeline.startDate, timeline, cancelUI)
+                    checkAttendance(timeline.startDate, timeline, cancelUI, i)
                   "
                 >
                   <div>
@@ -1426,7 +1426,7 @@
                       (todayDate | timelineDate)
                     "
                     (click)="
-                      checkAttendance(timeline.startDate, timeline, cancelUI)
+                      checkAttendance(timeline.startDate, timeline, cancelUI, i)
                     "
                   >
                     <b>{{ timeline.startDate | timelineDate }}</b>
@@ -1449,15 +1449,62 @@
                 <!-- {{showCancelButton}} -->
                 <!-- {{cancelUI}} -->
                 <!-- {{cancelUi}} -->
-                <div *ngIf="showCancelButton == true">
-                  <button
-                    type="button"
-                    [disabled]="disableCancel == true"
-                    class="btn btn-class-cancel"
-                    (click)="cancelClass(content)"
+                <div class="d-flex" *ngIf="showCancelButton == true">
+                  <div
+                    class="d-flex align-items-center"
+                    *ngIf="disableCancel == false && reliefTeacher == null"
                   >
-                    Cancel class
-                  </button>
+                    <button
+                      type="button"
+                      [disabled]="disableCancel == true"
+                      class="btn btn-assignRelief"
+                      (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                    >
+                      Assign Relief Teacher
+                    </button>
+                    <button
+                      type="button"
+                      [disabled]="
+                        disableCancel == true || reliefTeacher != null
+                      "
+                      class="btn btn-class-cancel ml-3"
+                      (click)="cancelClass(content)"
+                    >
+                      Cancel class
+                    </button>
+                  </div>
+                  <div
+                    (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                    class="d-flex align-items-center"
+                    *ngIf="disableCancel == false && reliefTeacher != null"
+                  >
+                    <div class="relief-name">
+                      <label class="mb-0">Relief Teacher</label>
+                      <h5>
+                        {{ reliefTeacher.preferredName }}
+                      </h5>
+                    </div>
+                    <div class="relief-img-wrap ml-2">
+                      <img src="{{ reliefTeacher.profilePic }}" />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex"
+                    *ngIf="disableCancel == true && reliefTeacher == null"
+                  >
+                    <div class="d-flex align-items-center relief-name">
+                      <h5 class="mb-0">Cancelled Class</h5>
+                    </div>
+                    <div
+                      class="d-flex justify-content-center align-items-center pl-2"
+                    >
+                      <div class="cc-icon-wrap">
+                        <div class="icon-wrap">
+                          <img src="./assets/images/withdraw-ico@2x.png" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
               </div>
@@ -2740,10 +2787,10 @@
     <div class="flexiModal">
       <div class="innerFlexiModal" *ngIf="isReschedule">
         <div class="d-flex" style="margin: 20px 20px 0px 32px;">
-          <div class="d-flex back" (click)="backtoCustomer()">
+          <!-- <div class="d-flex back" (click)="backtoCustomer()">
             <i class="fa fa-angle-left flexiBackicon"></i>
             <p class="mb-0 font-medium ">Add customer</p>
-          </div>
+          </div> -->
           <button
             (click)="cancelModal()"
             aria-label="Close"
@@ -2831,6 +2878,14 @@
         Yes
       </button>
     </div>
+  </ng-template>
+
+  <ng-template #reliefModal let-c="close" let-d="dismiss">
+    <app-assign-relief
+      [courseInfo]="detailLists"
+      [lessonInfo]="selectedLesson"
+      (closed)="cancelReliefModal()"
+    ></app-assign-relief>
   </ng-template>
 
   <block-ui message="Deafult Message"></block-ui>

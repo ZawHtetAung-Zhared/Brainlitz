@@ -3,6 +3,10 @@ import {
   OnInit,
   ViewContainerRef,
   HostListener,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+  Output,
   AfterViewInit
 } from '@angular/core';
 import { appService } from '../../service/app.service';
@@ -31,12 +35,17 @@ declare var $: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('fileLabel') elementView: ElementRef;
+  public orgLogo;
   public srangeHr;
   public srangeMin;
   public sisSelected;
   public erangeHr;
   public erangeMin;
-
+  public logo;
+  public imagePath;
+  public imgURL: any;
+  public message: string;
   public eisSelected;
 
   public showFormat;
@@ -59,6 +68,7 @@ export class DashboardComponent implements OnInit {
     name: '',
     timezone: '',
     url: '',
+    logo: '',
     operatingHour: {}
   };
 
@@ -288,6 +298,7 @@ export class DashboardComponent implements OnInit {
       name: '',
       timezone: '',
       url: '',
+      logo: '',
       operatingHour: {
         start: {
           hr: '',
@@ -320,7 +331,12 @@ export class DashboardComponent implements OnInit {
 
     this.getInvoiceSetting('invoiceSettings');
     this.getPaymentSetting('paymentSettings');
+    this.orgLogo = localStorage.getItem('OrgLogo');
   }
+
+  // valueChanged() {
+  //   this.valueChange.emit(this.counter);
+  // }
 
   ngAfterViewInit() {
     // this.item.operatingHour = {
@@ -428,6 +444,7 @@ export class DashboardComponent implements OnInit {
           this.item.name = res.name;
           this.item.timezone = res.timezone;
           this.item.url = res.url;
+          this.item.logo = res.logo;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
             this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
@@ -543,7 +560,76 @@ export class DashboardComponent implements OnInit {
       this.eprogressslider = true;
     }
   }
+
+  toDataUrl(url: any, id: any) {
+    const xhr = new XMLHttpRequest();
+    const ele = document.getElementById(id);
+    console.log(ele);
+
+    xhr.onload = function() {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        ele.setAttribute('src', reader.result);
+      };
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.onloadend = function() {
+      console.log('loadend');
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+
+  dataURItoBlob(dataURI: String) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+
+  handleFileInput(files: FileList, $event) {
+    console.log(files);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
+    this.logo = files.item(0);
+    this.item.logo = this.logo;
+    const reader = new FileReader();
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    if (this.logo.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      this.imagePath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.imgURL = reader.result;
+      };
+    }
+  }
   editRegion() {
+    console.log(this.item);
+    setTimeout(() => {
+      console.log(document.getElementById('imgURL'));
+      this.toDataUrl(this.item.logo, 'imgURL');
+    }, 1000);
+    this.imgURL = this.item.logo;
     this.isEdit = true;
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
@@ -580,8 +666,16 @@ export class DashboardComponent implements OnInit {
     if (starTTemp[1].length < 4) starTTemp[1] = '0' + starTTemp[1];
     return starTTemp;
   }
+
+  getLogo() {
+    let logo = document.getElementById('imgURL').getAttribute('src');
+
+    return this.dataURItoBlob(logo);
+  }
+
   updateRegionalInfo(data, type) {
     console.log(data, type);
+    let regionalSettingFormData = new FormData();
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     if (type == 'url') {
@@ -604,13 +698,33 @@ export class DashboardComponent implements OnInit {
       this.item.operatingHour['end'] = end;
     }
     console.log('DATA~~~', data);
+    regionalSettingFormData.append('name', data.name);
+    regionalSettingFormData.append('timezone', data.timezone);
+    regionalSettingFormData.append('url', data.url);
+    regionalSettingFormData.append('logo', this.getLogo());
+    regionalSettingFormData.append(
+      'operatingHour',
+      JSON.stringify(data.operatingHour)
+    );
+    console.log(regionalSettingFormData.get('name'));
+    console.log(regionalSettingFormData.get('timezone'));
+    console.log(regionalSettingFormData.get('url'));
+    console.log(regionalSettingFormData.get('logo'));
+    console.log(regionalSettingFormData.get('operatingHour'));
+
     setTimeout(() => {
       this._service
-        .updateRegionalInfo(this.regionId, data, this.token, this.type)
+        .updateRegionalInfo(
+          this.regionId,
+          regionalSettingFormData,
+          this.token,
+          this.type
+        )
         .subscribe(
           (res: any) => {
             this.toastr.success('Successfully Updated.');
             console.log('~~~', res);
+            this.orgLogo = res.logo;
             localStorage.setItem('timezone', this.item.timezone);
             this.getAdministrator();
             if (type == 'timezone') {

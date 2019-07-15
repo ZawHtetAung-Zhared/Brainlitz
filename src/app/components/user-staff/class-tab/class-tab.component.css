@@ -80,3 +80,42 @@
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 14px;
 }
+
+/* Final Class Modal */
+.final-class-wrapper {
+  width: 100%;
+  padding: 32px 32px 0px 32px;
+}
+
+.final-class-modal-title {
+  font-size: 28px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  margin-bottom: 36px;
+}
+
+.class-list-box {
+  border: 1px solid #edeff0;
+  border-radius: 8px;
+  height: 520px;
+  margin-bottom: 32px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.class-list-box-title {
+  height: 84px;
+  background: #f2f4f5;
+}
+
+.leavedays-box {
+  background: #ffffff;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  height: 102px;
+  margin-left: 15px;
+}
+
+.footer-shadow {
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.08);
+}

@@ -7,6 +7,13 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  NgbModalRef,
+  NgbModal,
+  NgbDateStruct,
+  ModalDismissReasons,
+  NgbDatepickerConfig
+} from '@ng-bootstrap/ng-bootstrap';
 
 import { DataService } from '../../../service/data.service';
 import { appService } from '../../../service/app.service';
@@ -32,7 +39,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     private _service: appService,
     private router: Router,
     private dataService: DataService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private finalModal: NgbModal
   ) {}
 
   ngOnInit() {
