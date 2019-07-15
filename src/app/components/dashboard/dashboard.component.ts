@@ -601,7 +601,7 @@ export class DashboardComponent implements OnInit {
     this.elementView.nativeElement.innerText = files[0].name;
     this.message = '';
     this.logo = files.item(0);
-    this.item.logo = this.logo;
+    // this.item.logo = this.logo;
     const reader = new FileReader();
 
     if (files.length === 0) {
