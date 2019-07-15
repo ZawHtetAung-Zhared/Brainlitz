@@ -223,7 +223,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.checkedArr.push('disabled');
       if (
         this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
-          .cancel != true
+          .cancel != true &&
+        this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
+          .makeup != true
       ) {
         this.skipCourseArr[this.dateIndex].courses[
           this.courseIndex
@@ -239,7 +241,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
-          if (course.lessons[0].cancel != true) {
+          if (
+            course.lessons[0].cancel != true &&
+            course.lessons[0].makeup != true
+          ) {
             course.pass = this.giveMakeUp;
             course.cancel = true;
             course.reason = this.cancelReason;
