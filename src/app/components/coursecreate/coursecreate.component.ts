@@ -1574,27 +1574,32 @@ export class CoursecreateComponent implements OnInit {
         //   this.tempValue = this.model.lessonCount;
         // }
 
-        if (testObj.defaultlessonCount != this.model.defaultlessonCount) {
-          console.log(
-            'Not Same',
-            testObj.defaultlessonCount,
-            '&&&',
-            this.model.defaultlessonCount
-          );
-          this.courseObj['defaultlessonCount'] = this.model.defaultlessonCount;
-          this.temp['defaultlessonCount'] = this.model.defaultlessonCount;
-          // other obj
-          this.courseObj['startDate'] = this.changeDateFormat(
-            this.model.start,
-            this.model.starttime
-          );
-          this.courseObj['repeatDays'] = this.selectedDay;
-          localStorage.setItem('tempObj', JSON.stringify(this.temp));
-          this.tempVar = 'defaultlessonCount';
-          this.tempValue = this.model.defaultlessonCount;
-          this.model.end = null;
-          this.model.lessonCount = null;
-          this.defineType();
+        if (this.model.defaultlessonCount) {
+          console.log('default lesson CountKKKK');
+          if (testObj.defaultlessonCount != this.model.defaultlessonCount) {
+            console.log(
+              'Not Same',
+              testObj.defaultlessonCount,
+              '&&&',
+              this.model.defaultlessonCount
+            );
+            this.courseObj[
+              'defaultlessonCount'
+            ] = this.model.defaultlessonCount;
+            this.temp['defaultlessonCount'] = this.model.defaultlessonCount;
+            // other obj
+            this.courseObj['startDate'] = this.changeDateFormat(
+              this.model.start,
+              this.model.starttime
+            );
+            this.courseObj['repeatDays'] = this.selectedDay;
+            localStorage.setItem('tempObj', JSON.stringify(this.temp));
+            this.tempVar = 'defaultlessonCount';
+            this.tempValue = this.model.defaultlessonCount;
+            this.model.end = null;
+            this.model.lessonCount = null;
+            this.defineType();
+          }
         }
 
         var startD = this.changeDateFormat(
@@ -1726,6 +1731,7 @@ export class CoursecreateComponent implements OnInit {
     }
 
     console.log('Course', this.courseObj);
+    console.log('course model', this.model);
     this.blockUI.start('Loading...');
     this._service
       .createCourse(
@@ -1773,6 +1779,7 @@ export class CoursecreateComponent implements OnInit {
           console.log(err.status);
           this.blockUI.stop();
           if (err.status == 409) {
+            console.log('course model', this.model);
             console.log(this.model.end);
             console.log(this.model.lessonCount);
             this.toastr.error('Need to resolve overlap schedule');
