@@ -3618,6 +3618,7 @@ export class CourseComponent implements OnInit {
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
     this.isReschedule = false;
+    this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
       backdrop: 'static',
       windowClass:
