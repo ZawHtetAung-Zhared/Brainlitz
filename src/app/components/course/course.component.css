@@ -1867,11 +1867,11 @@ button:disabled {
 }
 .single-date {
   display: inline-block;
-  /* padding: 0 10px; */
-  width: 50px;
+  width: 60px;
   position: absolute;
   cursor: pointer;
   padding-left: 2px;
+  padding-bottom: 2px;
 }
 .student-lists {
   margin-top: 20px;
