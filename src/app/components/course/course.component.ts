@@ -1575,9 +1575,11 @@ export class CourseComponent implements OnInit {
   }
 
   getUsersInCourse(courseId) {
+    this.reScheduleCId = '';
     console.log('hi call course', courseId);
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
+    this.reScheduleCId = courseId;
     this.blockUI.start('Loading...');
     this._service
       .getAssignUser(this.regionId, courseId, null, null, null)
@@ -1663,6 +1665,8 @@ export class CourseComponent implements OnInit {
 
         if (this.activeToday == true) {
           console.log('~~~~ active', lessonCount[this.todayIndex]);
+          this.currentLessonIdx = this.todayIndex;
+          this.checkForRelief(lessonCount[this.todayIndex]);
           this.cancelUi =
             lessonCount[this.todayIndex].cancel == true ? false : true;
           this.LASD = lessonCount[this.todayIndex].startDate;
@@ -1675,6 +1679,8 @@ export class CourseComponent implements OnInit {
           console.log('~~~~ last active');
           lastActiveDate = finishedDate.length - 1;
           console.log(lastActiveDate);
+          this.currentLessonIdx = lastActiveDate;
+          this.checkForRelief(lessonCount[lastActiveDate]);
           //LASD = lastActiveStartDate
           this.LASD = lessonCount[lastActiveDate].startDate;
           this.cancelUi =
@@ -1688,6 +1694,8 @@ export class CourseComponent implements OnInit {
       } else {
         console.log('hello in else');
         lastActiveDate = 0;
+        this.currentLessonIdx = 0;
+        this.checkForRelief(lessonCount[0]);
         this.LASD = lessonCount[0].startDate;
         this.currentDateObj = lessonCount[0]._id;
         this.cancelUi = lessonCount[0].cancel == true ? false : true;
@@ -1812,10 +1820,19 @@ export class CourseComponent implements OnInit {
     // }
   }
 
-  checkAttendance(targetDate, classInfo, status) {
+  currentLessonIdx: any = null;
+  selectedLesson: any = null;
+  checkAttendance(targetDate, classInfo, status, currentIdx) {
     console.log('hi', targetDate);
     console.log('....', classInfo);
-
+    $('.timeline div.single-date').on('click', function() {
+      $(this)
+        .addClass('day-highlight')
+        .siblings()
+        .removeClass('day-highlight');
+    });
+    this.currentLessonIdx = currentIdx;
+    this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;
 
     this.currentDateObj = classInfo._id;
@@ -3423,8 +3440,10 @@ export class CourseComponent implements OnInit {
     // }
     e.preventDefault();
     e.stopPropagation();
+    this.reScheduleUId = '';
     this.yPosition = e.layerY;
     this.uId = uID;
+    this.reScheduleUId = uID;
     this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
@@ -3598,32 +3617,156 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
-    console.warn(this.pplLists);
-
+    this.isReschedule = false;
+    this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this._service
-      .getRescheduleList(this.courseId, this.uId, undefined, undefined)
+      .getRescheduleList(
+        this.reScheduleCId,
+        this.reScheduleUId,
+        undefined,
+        undefined
+      )
       .subscribe((res: any) => {
-        console.warn(this.activeCourseInfo);
+        console.log(res);
         this.selectedCustomer = user;
         res.teacherDetails = this.pplLists.TEACHER;
-        console.log(res, '!!!');
         this.resechduleList = res;
-
         this.isReschedule = true;
-        console.warn(res);
       });
   }
 
+  dcount: any;
+  defaultCount($event) {
+    this.dcount = $event;
+    console.log(this.dcount);
+  }
+  checkArr: any = [];
+  lessonsArray;
+  checkObj($event) {
+    this.lessonsArray = [];
+
+    this.checkArr = JSON.parse(JSON.stringify($event));
+    this.lessonsArray = this.checkArr;
+  }
+
+  unavaiablelessons: any = [];
+  getlen(e) {
+    console.log(e);
+    this.unavaiablelessons = e;
+  }
+  public reScheduleCId;
+  public reScheduleUId;
+
+  createReschedule(userId, courseId, lessons) {
+    lessons.map(lesson => {
+      delete lesson.isAvaiable;
+      delete lesson.isCheck;
+    });
+    const obj = {
+      lessons
+    };
+    console.log(userId);
+    console.log(courseId);
+    console.log(lessons);
+    this._service.createStudentReschedule(userId, courseId, obj).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('Successfully reschedule.');
+        this.getCourseDetail(courseId);
+        this.clickTab('Class', 'course');
+        this.modalReference.close();
+      },
+      err => {
+        this.toastr.error('Reschedule Failed.');
+      }
+    );
+  }
+
+  confimAlert;
+  confirmReschedule(confirmReschedule) {
+    if (
+      this.checkArr.length == 0 ||
+      this.unavaiablelessons.length == this.checkArr.length
+    ) {
+      this.showRescheduleConfirmModal(confirmReschedule);
+    } else {
+      this.createReschedule(
+        this.reScheduleUId,
+        this.reScheduleCId,
+        this.lessonsArray
+      );
+    }
+  }
+
   showRescheduleConfirmModal(confirmReschedule) {
-    this.modalReference = this.modalService.open(confirmReschedule, {
+    this.confimAlert = this.modalService.open(confirmReschedule, {
       backdrop: 'static',
       windowClass:
         'deleteModal d-flex justify-content-center align-items-center'
     });
+  }
+
+  cancelConfirm() {
+    this.confimAlert.close();
+  }
+  rescheduleConfirm() {
+    this.createReschedule(
+      this.reScheduleUId,
+      this.reScheduleCId,
+      this.lessonsArray
+    );
+    this.confimAlert.close();
+    this.modalReference.close();
+  }
+
+  onClickAssignRelief(reliefModal, lesson) {
+    this.modalReference = this.modalService.open(reliefModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  reliefTeacher: any = null;
+  checkForRelief(classInfo) {
+    console.log('checkForRelief', this.selectedLesson);
+    this.selectedLesson = classInfo;
+    if (
+      this.selectedLesson.makeup != undefined &&
+      this.selectedLesson.makeup == true
+    ) {
+      this._service
+        .editProfile(this.regionId, this.selectedLesson.teacherId)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.reliefTeacher = res;
+        });
+    } else {
+      this.reliefTeacher = null;
+    }
+  }
+
+  cancelReliefModal() {
+    console.log('cancel relirf~~~');
+    this.modalReference.close();
+    return new Promise((resolve, reject) => {
+      this.getCourseDetail(this.detailLists._id);
+      resolve();
+    }).then(() => {
+      setTimeout(() => {
+        console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
+      }, 300);
+    });
+    // this._service
+    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //   });
   }
 }

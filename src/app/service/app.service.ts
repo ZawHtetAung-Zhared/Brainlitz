@@ -377,7 +377,7 @@ export class appService {
     let apiUrl = this.baseUrl + '/regions/' + regionId;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'multipart/form-data',
         authorization: type + ' ' + token
       })
     };
@@ -3741,9 +3741,9 @@ export class appService {
   createStudentReschedule(userId, courseId, lessons) {
     let url =
       this.baseUrl +
-      '/users' +
+      '/users/' +
       userId +
-      '/courses' +
+      '/courses/' +
       courseId +
       '/timetable:reschedule';
     const httpOptions = {
@@ -3754,6 +3754,30 @@ export class appService {
     };
     return this.httpClient
       .post(url, lessons, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        console.log(result);
+        return result;
+      });
+  }
+
+  assignRelief(courseId: string, lessonId: string, reliefTeacher) {
+    console.log(reliefTeacher);
+    let url =
+      this.baseUrl +
+      '/courses/' +
+      courseId +
+      '/lessons/' +
+      lessonId +
+      ':swap-teacher';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(url, reliefTeacher, httpOptions)
       .map((res: Response) => {
         let result = res;
         console.log(result);

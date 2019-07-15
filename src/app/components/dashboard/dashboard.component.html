@@ -1,4 +1,7 @@
-<app-header [ngClass]="{ stick: navIsFixed == true }"></app-header>
+<app-header
+  [orgLogo]="orgLogo"
+  [ngClass]="{ stick: navIsFixed == true }"
+></app-header>
 <div [ngClass]="{ mainOverlay: isEdit == true || isUrlEdit == true }"></div>
 <div
   class="d-flex flex-row h-100 w-100 content-wrapper"
@@ -84,7 +87,7 @@
           </span>
         </button>
       </div>
-      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">      
+      <!-- <div [ngClass]="{'active': menuType == 'email'}" class="tab-wrap">
           <button class="btn noti-tab w-100" (click)="clickTab('email')">
             <span class="btnSpan">
               <img *ngIf="menuType == 'email'" class="setting-icon" src="./assets/images/modify-template_a@2x.png">
@@ -105,295 +108,360 @@
           <h3 class="general">General</h3>
         </div>
         <div class="card-columns">
-          <div
-            [ngClass]="{ showZindex: isEdit, blur: isUrlEdit }"
-            *ngIf="generalDemo.appsetting != ''"
-            class="card card-wrap region-wrap"
-          >
-            <div class="title">
-              Regional Settings
-            </div>
-            <div class="region-info">
-              <div>
-                <div class="title-wrap">
-                  <div id="parent">
-                    <img src="./assets/images/map.png" />
-                  </div>
-                  <label class="labelTitle">Region name</label>
-                </div>
-                <label class="labelName">{{ item.name }}</label>
+          <div *blockUI="'region-info'">
+            <div
+              [ngClass]="{ showZindex: isEdit, blur: isUrlEdit }"
+              *ngIf="generalDemo.appsetting != ''"
+              class="card card-wrap region-wrap"
+            >
+              <div class="title">
+                Regional Settings
               </div>
-              <div class="timezone-wrap ease" *ngIf="!isEdit">
+              <div class="region-info">
                 <div>
                   <div class="title-wrap">
                     <div id="parent">
-                      <img src="./assets/images/time_zone.png" />
+                      <img src="./assets/images/map.png" />
                     </div>
+                    <label class="labelTitle">Region name</label>
+                  </div>
+                  <label class="labelName">{{ item.name }}</label>
+                </div>
+                <div class="timezone-wrap ease" *ngIf="!isEdit">
+                  <div>
+                    <div class="title-wrap">
+                      <div id="parent">
+                        <img src="./assets/images/time_zone.png" />
+                      </div>
+                      <label class="labelTitle">Time zone</label>
+                    </div>
+                  </div>
+                  <div class="picker-wrap">
+                    <ng2-timezone-picker
+                      class="newpick"
+                      [(timezone)]="item.timezone"
+                      showOffset="true"
+                    >
+                    </ng2-timezone-picker>
+                  </div>
+                </div>
+                <div class="timezone-wrap" *ngIf="isEdit">
+                  <div>
                     <label class="labelTitle">Time zone</label>
                   </div>
+                  <div>
+                    <ng2-timezone-picker
+                      class="editTimezone"
+                      [(timezone)]="item.timezone"
+                      showOffset="true"
+                    >
+                    </ng2-timezone-picker>
+                  </div>
                 </div>
-                <div class="picker-wrap">
-                  <ng2-timezone-picker
-                    class="newpick"
-                    [(timezone)]="item.timezone"
-                    showOffset="true"
-                  >
-                  </ng2-timezone-picker>
-                </div>
-              </div>
-              <div class="timezone-wrap" *ngIf="isEdit">
-                <div>
-                  <label class="labelTitle">Time zone</label>
-                </div>
-                <div>
-                  <ng2-timezone-picker
-                    class="editTimezone"
-                    [(timezone)]="item.timezone"
-                    showOffset="true"
-                  >
-                  </ng2-timezone-picker>
-                </div>
-              </div>
 
-              <!-- Operation Hour -->
-              <div class="timezone-wrap ease">
-                <div class="title-wrap">
-                  <div id="parent">
-                    <img src="./assets/images/map.png" />
+                <!-- Operation Hour -->
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent">
+                      <img src="./assets/images/map.png" />
+                    </div>
+                    <label class="labelTitle">Operating hour</label>
                   </div>
-                  <label class="labelTitle">Operating hour</label>
+                  <label *ngIf="!isEdit" class="operatingTime"
+                    ><span *ngIf="item && item.operatingHour.start.hr < 10"
+                      >0</span
+                    >{{ item.operatingHour.start.hr }}:<span
+                      *ngIf="item && item.operatingHour.start.min < 10"
+                      >0</span
+                    >{{ item.operatingHour.start.min }}
+                    {{ item.operatingHour.start.meridiem }}
+                  </label>
+                  <span *ngIf="!isEdit" class="timedash"> </span>
+                  <label *ngIf="!isEdit" class="operatingTime1"
+                    ><span *ngIf="item.operatingHour.end.hr < 10">0</span
+                    >{{ item.operatingHour.end.hr }}:<span
+                      *ngIf="item.operatingHour.end.min < 10"
+                      >0</span
+                    >{{ item.operatingHour.end.min }}
+                    {{ item.operatingHour.end.meridiem }}
+                  </label>
+                  <div class="timezone-wrap">
+                    <div class="title-wrap" *ngIf="!isEdit">
+                      <div id="parent">
+                        <img src="./assets/images/home.png" />
+                      </div>
+                      <label class="labelTitle">Organisation Logo</label>
+                    </div>
+                    <div class="preview" *ngIf="!isEdit">
+                      <img id="org-logo" [src]="orgLogo" height="200" />
+                    </div>
+                  </div>
+
+                  <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
+                    <div class="form-group url-edit d-flex flex-row">
+                      <div
+                        class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4"
+                      >
+                        <label class="labelTitle"> Start Time </label>
+                        <input
+                          type="text"
+                          placeholder="Start time"
+                          class="form-control time-picker timepicker stimepicker"
+                          name="starttime"
+                          required
+                          [ngModel]="startT"
+                          readonly
+                          (click)="durationProgress($event, 'start')"
+                          style="background: none;"
+                        />
+                        <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                        <div
+                          class="bg-box s-bg-box duration-progress timepicker stimepicker"
+                          *ngIf="sprogressSlider"
+                        >
+                          <div id="rectangle" class="srectangle"></div>
+                          <div
+                            class="time-wrapper d-flex justify-content-center"
+                          >
+                            <div
+                              class="flex-column justify-content-center showTime font-medium"
+                            >
+                              <span *ngIf="srangeHr < 10">0</span
+                              ><span class="hr">{{ srangeHr }}</span>
+                              :
+                              <span *ngIf="srangeMin < 10">0</span
+                              ><span class="min">{{ srangeMin }}</span>
+                              <span class="smedrii">{{ sisSelected }}</span>
+                            </div>
+                            <div>
+                              <div class="time-box">
+                                <label
+                                  [ngClass]="{ selected: sisSelected == 'AM' }"
+                                  class="mb-0 font-semi"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="prop"
+                                    (click)="chooseTimeOpt('AM', 'start')"
+                                  />
+                                  AM
+                                </label>
+                                <label
+                                  [ngClass]="{ selected: sisSelected == 'PM' }"
+                                  class="mb-0 font-semi"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="prop"
+                                    (click)="chooseTimeOpt('PM', 'start')"
+                                  />
+                                  PM
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="gap-box">
+                            <label>
+                              <div class="col-md-4 max-range">Hour</div>
+                              <input
+                                class="max-range-box"
+                                type="range"
+                                id="hrDuration"
+                                name="pointsHr"
+                                min="0"
+                                max="12"
+                                [(ngModel)]="srangeHr"
+                              />
+                            </label>
+                          </div>
+                          <div class="gap-range-min">
+                            <label>
+                              <div class="col-md-4 min-range">Minute</div>
+                              <input
+                                class="min-range-box"
+                                type="range"
+                                id="minDuration"
+                                name="pointsMin"
+                                min="0"
+                                max="55"
+                                step="5"
+                                [(ngModel)]="srangeMin"
+                              />
+                              <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
+                        (document:click)="documentclick($event)"
+                      >
+                        <label class="labelTitle">End Time</label>
+                        <input
+                          type="text"
+                          placeholder="End time"
+                          class="form-control time-picker timepicker etimepicker"
+                          name="endtime"
+                          required
+                          [ngModel]="endT"
+                          readonly
+                          (click)="durationProgress($event)"
+                          style="background: none;"
+                        />
+                        <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                        <div
+                          class="bg-box e-bg-box duration-progress timepicker etimepicker"
+                          *ngIf="eprogressslider"
+                        >
+                          <div id="rectangle" class="erectangle"></div>
+                          <div
+                            class="time-wrapper d-flex justify-content-center"
+                          >
+                            <div
+                              class="flex-column justify-content-center showTime font-medium"
+                            >
+                              <span *ngIf="erangeHr < 10">0</span
+                              ><span class="hr">{{ erangeHr }}</span>
+                              :
+                              <span *ngIf="erangeMin < 10">0</span
+                              ><span class="min">{{ erangeMin }}</span>
+                              <span class="emedrii">{{ eisSelected }}</span>
+                            </div>
+                            <div>
+                              <div class="time-box">
+                                <label
+                                  [ngClass]="{ selected: eisSelected == 'AM' }"
+                                  class="mb-0 font-semi"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="prop"
+                                    (click)="chooseTimeOpt('AM', 'end')"
+                                  />
+                                  AM
+                                </label>
+                                <label
+                                  [ngClass]="{ selected: eisSelected == 'PM' }"
+                                  class="mb-0 font-semi"
+                                >
+                                  <input
+                                    type="radio"
+                                    name="prop"
+                                    (click)="chooseTimeOpt('PM', 'end')"
+                                  />
+                                  PM
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="gap-box">
+                            <label>
+                              <div class="col-md-4 max-range">Hour</div>
+                              <input
+                                class="max-range-box"
+                                type="range"
+                                id="hrDuration"
+                                name="pointsHr"
+                                min="1"
+                                max="12"
+                                [(ngModel)]="erangeHr"
+                              />
+                            </label>
+                          </div>
+                          <div class="gap-range-min">
+                            <label>
+                              <div class="col-md-4 min-range">Minute</div>
+                              <input
+                                class="min-range-box"
+                                type="range"
+                                id="minDuration"
+                                name="pointsMin"
+                                min="0"
+                                max="55"
+                                [(ngModel)]="erangeMin"
+                                step="5"
+                              />
+                              <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <hr style="padding:0;"> -->
+
+                    <div class="timezone-wrap">
+                      <div class="title-wrap">
+                        <div id="parent">
+                          <img src="./assets/images/home.png" />
+                        </div>
+                        <label class="labelTitle">Organisation Logo</label>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span
+                              class="input-group-text"
+                              id="inputGroupFileAddon01"
+                              >Upload</span
+                            >
+                          </div>
+                          <div class="custom-file">
+                            <input
+                              #logo
+                              type="file"
+                              class="custom-file-input"
+                              id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01"
+                              accept="image/*"
+                              (change)="
+                                handleFileInput(logo.files, $event.target)
+                              "
+                            />
+                            <label
+                              #fileLabel
+                              class="custom-file-label"
+                              for="inputGroupFile01"
+                              >Choose file</label
+                            >
+                          </div>
+                          <span class="error-message" *ngIf="message">{{
+                            message
+                          }}</span>
+                          <div class="preview" *ngIf="imgURL">
+                            <img id="imgURL" [src]="imgURL" height="200" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="editBtns  d-flex justify-content-end "
+                      *ngIf="isEdit"
+                    >
+                      <button
+                        class="cancel btn remove-bg"
+                        (click)="cancelUpdate()"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        class="btn updateButton remove-bg"
+                        (click)="updateRegionalInfo(item, 'timezone')"
+                        [disabled]="!dashboradForm.valid || updateBtnDisabled()"
+                      >
+                        Done
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <label *ngIf="!isEdit" class="operatingTime"
-                  ><span *ngIf="item && item.operatingHour.start.hr < 10"
-                    >0</span
-                  >{{ item.operatingHour.start.hr }}:<span
-                    *ngIf="item && item.operatingHour.start.min < 10"
-                    >0</span
-                  >{{ item.operatingHour.start.min }}
-                  {{ item.operatingHour.start.meridiem }}
-                </label>
-                <span *ngIf="!isEdit" class="timedash"> </span>
-                <label *ngIf="!isEdit" class="operatingTime1"
-                  ><span *ngIf="item.operatingHour.end.hr < 10">0</span
-                  >{{ item.operatingHour.end.hr }}:<span
-                    *ngIf="item.operatingHour.end.min < 10"
-                    >0</span
-                  >{{ item.operatingHour.end.min }}
-                  {{ item.operatingHour.end.meridiem }}
-                </label>
-                <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
-                  <div class="form-group url-edit d-flex flex-row">
-                    <div
-                      class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4"
-                    >
-                      <label class="labelTitle"> Start Time </label>
-                      <input
-                        type="text"
-                        placeholder="Start time"
-                        class="form-control time-picker timepicker stimepicker"
-                        name="starttime"
-                        required
-                        [ngModel]="startT"
-                        readonly
-                        (click)="durationProgress($event, 'start')"
-                        style="background: none;"
-                      />
-                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
-                      <div
-                        class="bg-box s-bg-box duration-progress timepicker stimepicker"
-                        *ngIf="sprogressSlider"
-                      >
-                        <div id="rectangle" class="srectangle"></div>
-                        <div class="time-wrapper d-flex justify-content-center">
-                          <div
-                            class="flex-column justify-content-center showTime font-medium"
-                          >
-                            <span *ngIf="srangeHr < 10">0</span
-                            ><span class="hr">{{ srangeHr }}</span>
-                            :
-                            <span *ngIf="srangeMin < 10">0</span
-                            ><span class="min">{{ srangeMin }}</span>
-                            <span class="smedrii">{{ sisSelected }}</span>
-                          </div>
-                          <div>
-                            <div class="time-box">
-                              <label
-                                [ngClass]="{ selected: sisSelected == 'AM' }"
-                                class="mb-0 font-semi"
-                              >
-                                <input
-                                  type="radio"
-                                  name="prop"
-                                  (click)="chooseTimeOpt('AM', 'start')"
-                                />
-                                AM
-                              </label>
-                              <label
-                                [ngClass]="{ selected: sisSelected == 'PM' }"
-                                class="mb-0 font-semi"
-                              >
-                                <input
-                                  type="radio"
-                                  name="prop"
-                                  (click)="chooseTimeOpt('PM', 'start')"
-                                />
-                                PM
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="gap-box">
-                          <label>
-                            <div class="col-md-4 max-range">Hour</div>
-                            <input
-                              class="max-range-box"
-                              type="range"
-                              id="hrDuration"
-                              name="pointsHr"
-                              min="0"
-                              max="12"
-                              [(ngModel)]="srangeHr"
-                            />
-                          </label>
-                        </div>
-                        <div class="gap-range-min">
-                          <label>
-                            <div class="col-md-4 min-range">Minute</div>
-                            <input
-                              class="min-range-box"
-                              type="range"
-                              id="minDuration"
-                              name="pointsMin"
-                              min="0"
-                              max="55"
-                              step="5"
-                              [(ngModel)]="srangeMin"
-                            />
-                            <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
-                      (document:click)="documentclick($event)"
-                    >
-                      <label class="labelTitle">End Time</label>
-                      <input
-                        type="text"
-                        placeholder="End time"
-                        class="form-control time-picker timepicker etimepicker"
-                        name="endtime"
-                        required
-                        [ngModel]="endT"
-                        readonly
-                        (click)="durationProgress($event)"
-                        style="background: none;"
-                      />
-                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
-                      <div
-                        class="bg-box e-bg-box duration-progress timepicker etimepicker"
-                        *ngIf="eprogressslider"
-                      >
-                        <div id="rectangle" class="erectangle"></div>
-                        <div class="time-wrapper d-flex justify-content-center">
-                          <div
-                            class="flex-column justify-content-center showTime font-medium"
-                          >
-                            <span *ngIf="erangeHr < 10">0</span
-                            ><span class="hr">{{ erangeHr }}</span>
-                            :
-                            <span *ngIf="erangeMin < 10">0</span
-                            ><span class="min">{{ erangeMin }}</span>
-                            <span class="emedrii">{{ eisSelected }}</span>
-                          </div>
-                          <div>
-                            <div class="time-box">
-                              <label
-                                [ngClass]="{ selected: eisSelected == 'AM' }"
-                                class="mb-0 font-semi"
-                              >
-                                <input
-                                  type="radio"
-                                  name="prop"
-                                  (click)="chooseTimeOpt('AM', 'end')"
-                                />
-                                AM
-                              </label>
-                              <label
-                                [ngClass]="{ selected: eisSelected == 'PM' }"
-                                class="mb-0 font-semi"
-                              >
-                                <input
-                                  type="radio"
-                                  name="prop"
-                                  (click)="chooseTimeOpt('PM', 'end')"
-                                />
-                                PM
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="gap-box">
-                          <label>
-                            <div class="col-md-4 max-range">Hour</div>
-                            <input
-                              class="max-range-box"
-                              type="range"
-                              id="hrDuration"
-                              name="pointsHr"
-                              min="1"
-                              max="12"
-                              [(ngModel)]="erangeHr"
-                            />
-                          </label>
-                        </div>
-                        <div class="gap-range-min">
-                          <label>
-                            <div class="col-md-4 min-range">Minute</div>
-                            <input
-                              class="min-range-box"
-                              type="range"
-                              id="minDuration"
-                              name="pointsMin"
-                              min="0"
-                              max="55"
-                              [(ngModel)]="erangeMin"
-                              step="5"
-                            />
-                            <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- <hr style="padding:0;"> -->
-                  <div
-                    class="editBtns  d-flex justify-content-end "
-                    *ngIf="isEdit"
-                  >
-                    <button
-                      class="cancel btn remove-bg"
-                      (click)="cancelUpdate()"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      class="btn updateButton remove-bg"
-                      (click)="updateRegionalInfo(item, 'timezone')"
-                      [disabled]="!dashboradForm.valid || updateBtnDisabled()"
-                    >
-                      Done
-                    </button>
-                  </div>
-                </form>
+                <!-- Operation Hour Close -->
               </div>
-              <!-- Operation Hour Close -->
-            </div>
-            <div *ngIf="!isEdit">
-              <a class="link-btn" (click)="editRegion()">Edit</a>
+              <div *ngIf="!isEdit">
+                <a class="link-btn" (click)="editRegion()">Edit</a>
+              </div>
             </div>
           </div>
+
           <div
             [ngClass]="{ blur: isEdit || isUrlEdit }"
             *ngIf="generalDemo.appsetting != ''"
@@ -1100,7 +1168,7 @@
                         <div class="form-group req-field">
                           <div class="d-flex justify-content-between">
                             <label class="input-label" for="merchant">{{reqField.name}}</label>
-                          </div>  
+                          </div>
                           <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
                         </div>
                       </div> -->
@@ -1108,13 +1176,13 @@
                     <!-- <div class="form-group">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="merchant">Merchant ID</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
                       </div>
                       <div class="form-group no-border">
                         <div class="d-flex justify-content-between">
                           <label class="input-label" for="apikey">API key</label>
-                        </div>  
+                        </div>
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
                       </div> -->
                   </div>

@@ -223,7 +223,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.checkedArr.push('disabled');
       if (
         this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
-          .cancel != true
+          .cancel != true &&
+        this.skipCourseArr[this.dateIndex].courses[this.courseIndex].lessons[0]
+          .makeup != true
       ) {
         this.skipCourseArr[this.dateIndex].courses[
           this.courseIndex
@@ -239,7 +241,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.cancelAll = true;
       this.skipCourseArr.map((courseObj, index) => {
         courseObj.courses.map(course => {
-          if (course.lessons[0].cancel != true) {
+          if (
+            course.lessons[0].cancel != true &&
+            course.lessons[0].makeup != true
+          ) {
             course.pass = this.giveMakeUp;
             course.cancel = true;
             course.reason = this.cancelReason;
@@ -267,6 +272,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         courses: tempArr
       };
       tempArr.push(skipCourses.courses[index]);
+      totalCount = skipCourses.courses[index].enrolledStudentCount;
       this.cancelClassArray.push(gg);
     } else {
       this.cancelClassArray = skipCourses;
@@ -843,7 +849,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
           cancelledClasses.push({
             courseId: cvalue._id,
             passes: cvalue.pass.toString(),
-            reason: cvalue.reason
+            reason: cvalue.reason,
+            leaveDay: value.date
           });
         }
       });
@@ -858,7 +865,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         if (cvalue.hasOwnProperty('newTeacherId')) {
           swappedClasses.push({
             courseId: cvalue._id,
-            newTeacherId: cvalue.newTeacherId
+            newTeacherId: cvalue.newTeacherId,
+            leaveDay: value.date
           });
         }
       });
@@ -955,11 +963,16 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
               skipCourse.date,
               skipCourse.meridian
             )
-            .subscribe((res: any) => {
-              console.log('conflict lessons', res);
-              this.conflictLessonArr.push(res);
-              console.log('conflictLessonArr', this.conflictLessonArr);
-            });
+            .subscribe(
+              (res: any) => {
+                console.log('conflict lessons', res);
+                this.conflictLessonArr.push(res);
+                console.log('conflictLessonArr', this.conflictLessonArr);
+              },
+              err => {
+                console.log(err);
+              }
+            );
         });
       })
     );

@@ -43,7 +43,15 @@
     </div>
   </div>
 </div>
-
+<!-- <div class="d-flex justify-content-between">
+  <h3 class="leave-title">Attending Classess</h3>
+  <button
+    class="btn btn-primary add-leave"
+    (click)="finalClassModal(finalmodal)"
+  >
+    Add new absent
+  </button>
+</div> -->
 <div class="row" *ngIf="courses?.length > 0">
   <div class="class-block" *ngFor="let course of courses">
     <div class="row">
@@ -103,12 +111,37 @@
 </div>
 <!-- nocourse-{{nocourse}} -->
 <div *ngIf="nocourse == true">
-  <div class="d-flex title-space">
+  <!-- <div class="d-flex title-space">
     <div class="d-flex flex-column justify-content-center">
       <h4 class="mb-0 tab-title">Attending Classes</h4>
     </div>
-  </div>
+  </div> -->
   <div class="btn-wrap no-item">
     There is no course.
   </div>
 </div>
+
+<ng-template #finalmodal let-modal>
+  <div class="final-class-wrapper">
+    <div class="d-flex w-100 justify-content-between">
+      <h1 class="final-class-modal-title">Cancel class</h1>
+      <span class="close-icon" (click)="closeModal()"></span>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex flex-column col-md-8 class-list-box">
+        <div class="class-list-box-title"></div>
+      </div>
+      <div class="col-md-4 leavedays-box">
+        ggwp
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer footer-shadow">
+    <button class="btn bg-white" (click)="closeModal()">
+      Cancel
+    </button>
+    <button class="btn btn-primary create-button-pos" (click)="closeModal()">
+      Confirm
+    </button>
+  </div>
+</ng-template>
