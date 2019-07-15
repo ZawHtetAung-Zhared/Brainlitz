@@ -3273,7 +3273,10 @@ p.textCount {
 }
 
 .reschedule-btn {
-  background: aliceblue;
+  border-top: 1px solid #edeff0;
+  color: #212529;
+  background: #fff;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .displayBtn {
