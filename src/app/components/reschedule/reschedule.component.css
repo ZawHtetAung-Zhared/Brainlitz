@@ -1,13 +1,10 @@
 .reschedule-name,
 .reschedule-day,
-.reschedule-teacher-name {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
+.reschedule-teacher-name,
 .date,
 .day,
-.statusText {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+.statusTex {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .reschedule-email,
