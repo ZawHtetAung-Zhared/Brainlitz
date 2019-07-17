@@ -3277,12 +3277,15 @@ p.textCount {
   background-position: 10px 1px;
 }
 
+.attendance-wrap {
+  border-bottom: 1px solid #edeff0;
+}
+
 .reschedule-btn {
-  border-top: 1px solid #edeff0;
+  /*border-top: 1px solid #edeff0;*/
   color: #0080ff;
   background: #fff;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  padding: 15px 0px 0px 0px;
 }
 
 .displayBtn {
