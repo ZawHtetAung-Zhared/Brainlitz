@@ -719,7 +719,8 @@
                       *ngIf="
                         course.newTeacherId == undefined &&
                         course.cancel == undefined &&
-                        course.lessons[0].cancel == false
+                        course.lessons[0].cancel == false &&
+                        course.lessons[0].makeup == undefined
                       "
                       class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
@@ -773,6 +774,18 @@
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <div
+                      *ngIf="
+                        course.newTeacherId == undefined &&
+                        course.cancel == undefined &&
+                        course.lessons[0].makeup == true
+                      "
+                      class="col-md-6 p-0 lesson-btns d-flex align-items-center justify-content-end"
+                    >
+                      <label class="mb-0 selected-name pl-3">
+                        Assigned Relief Teacher
+                      </label>
                     </div>
                     <div
                       *ngIf="course.newTeacherId != undefined"
@@ -1068,3 +1081,5 @@
     </div>
   </div>
 </ng-template>
+
+<block-ui message="Deafult Message"></block-ui>
