@@ -1,5 +1,4 @@
 <div class="" style="margin:0px 40px 0px 32px;">
-  <p class="reschedule-title">Enroll lesson</p>
   <div class="d-flex">
     <div class="col-md-4 p-0">
       <div class="d-flex">
@@ -133,7 +132,7 @@
           </div>
         </div>
         <div
-          class="statusBox"
+          class="statusBox-disabled"
           [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
         >
           <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
