@@ -620,12 +620,12 @@
                   <div class="draft-sign" *ngIf="course.draft == true">
                     Draft
                   </div>
-                  <!-- <div
+                  <div
                     class="course-type"
                     *ngIf="course.draft == false && course.type != undefined"
                   >
                     {{ course.type }}
-                  </div> -->
+                  </div>
                   <div class="d-flex course-wrap">
                     <div
                       [hidden]="course.draft == true"
@@ -1540,12 +1540,12 @@
                         </div>
                       </div>
                     </li>
-                    <!-- <button
+                    <button
                       (click)="getReschedule(reschedule)"
                       class="btn w-100 reschedule-btn"
                     >
                       reschedule
-                    </button> -->
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2709,7 +2709,99 @@
     </div>
   </ng-template>
   <ng-template #reschedule let-modal>
-    <h1>yo</h1>
+    <div class="flexiModal">
+      <div class="innerFlexiModal" *ngIf="isReschedule">
+        <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+          <div class="d-flex back" (click)="backtoCustomer()">
+            <i class="fa fa-angle-left flexiBackicon"></i>
+            <p class="mb-0 font-medium ">Add customer</p>
+          </div>
+          <button
+            (click)="cancelModal()"
+            aria-label="Close"
+            class="modal-close ml-auto"
+            type="button"
+          >
+            <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+            </span>
+            <!-- <span aria-hidden="true" >×</span> -->
+          </button>
+        </div>
+        <app-flexi
+          [flexyarr]="resechduleList"
+          [selectedCustomer]="selectedCustomer"
+          [course]="detailLists"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
+        ></app-flexi>
+      </div>
+      <div
+        class="modal-footer d-flex justify-content-between"
+        style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+      >
+        <div class="d-flex flex-column">
+          <div>
+            <p class="defaultLessonCount">
+              Default lessons count: {{ detailLists.defaultlessonCount }}
+            </p>
+            <p class="textCount">Number of lessons required:</p>
+            <div class="selectedCountBox">
+              <p class="selectedTest">
+                Selected lessons: {{ checkobjArr.length }}
+              </p>
+            </div>
+          </div>
+          <!-- <div class="defaultDiv">
+         
+        </div> -->
+        </div>
+
+        <div class="">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            *ngIf="checkobjArr.length != 0"
+            (click)="flexicomfirm()"
+          >
+            Confirm
+          </button>
+          <button
+            type="submit"
+            *ngIf="checkobjArr.length == 0"
+            class="btn btn-submit"
+            disabled
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
   </ng-template>
+
+  <ng-template #confirmReschedule>
+    <div class="modal-header">
+      <h3 class="modal-title">Confirm reschedule?</h3>
+    </div>
+    <div class="modal-body apg-confirm"></div>
+    <div class="modal-footer pt-2 pb-2">
+      <button type="button" class="btn modal-cancel-btn">
+        Cancel
+      </button>
+      <button type="submit" class="btn modal-delete-btn">
+        Confirm
+      </button>
+    </div>
+  </ng-template>
+
   <block-ui message="Deafult Message"></block-ui>
 </div>

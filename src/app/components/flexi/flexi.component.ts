@@ -53,9 +53,11 @@ export class FlexiComponent implements OnInit {
     console.log(this.course);
     console.log(this.flexyarr);
     console.log(this.flexyarr.lessons);
+    console.log(this.flexyarr.teacherDetails);
+
     this.lessonsObj = this.flexyarr.lessons;
-    this.teacherDetail = this.flexyarr.teacherDetails;
-    this.flitterFlexyObj(this.flexyarr.lessons);
+    this.teacherDetail = this.flexyarr.teacherDetails[0];
+    // this.flitterFlexyObj(this.flexyarr.lessons);
   }
 
   flitterFlexyObj(obj) {
