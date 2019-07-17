@@ -1167,13 +1167,15 @@ li button {
 .student-profile-wrapper {
   width: 30px;
   height: 30px;
-  border-radius: 100%;
   background: #c8e2f4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
 }
 .student_profilePic {
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .Student-text {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
