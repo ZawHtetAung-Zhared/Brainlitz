@@ -1,7 +1,15 @@
-p.reschedule-title {
-  font-size: 28px;
-  color: #2e3d4d;
-  padding-top: 8px;
+.reschedule-name,
+.reschedule-day,
+.reschedule-teacher-name,
+.date,
+.day,
+.statusTex {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.reschedule-email,
+.reschedule-modal-duration {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .reschedule-img-div {
@@ -58,8 +66,9 @@ h5.reschedule-day {
   padding-bottom: 20px;
 }
 .reschedule-teacher-div {
-  line-height: 5px;
+  line-height: 2.5;
   padding-top: 7px;
+  padding-left: 12px;
 }
 label.reschedule-teacher-name {
   font-size: 16px;
@@ -155,6 +164,11 @@ p.day {
   margin-bottom: 10px;
 }
 
+.statusBox-disabled {
+  background: #ffffff !important;
+  border-radius: 29px !important;
+}
+
 .statusBox {
   max-width: 70%;
   height: 20px;
@@ -191,7 +205,8 @@ p.day.checkedDext {
   color: #e3e4e6;
 }
 
-.statusBox.checkStudent {
+.statusBox.checkStudent,
+.statusBox-disabled.checkStudent {
   background: #80c0ff;
   color: #004080;
 }
@@ -204,4 +219,18 @@ p.day.checkedDext {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   cursor: pointer;
+}
+
+.lessonbox-conflict .statusBox {
+  /* width: 89px; */
+  margin-left: 26px;
+}
+
+i.fa.fa-exclamation-circle.exclamationIcon {
+  color: #64707d;
+  font-size: 18px;
+}
+.exIcon {
+  padding-top: 8px;
+  padding-left: 6px;
 }
