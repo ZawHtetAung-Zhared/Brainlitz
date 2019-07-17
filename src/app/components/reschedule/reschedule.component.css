@@ -1,10 +1,13 @@
 .reschedule-name,
 .reschedule-day,
-.reschedule-teacher-name,
+.reschedule-teacher-nam {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
 .date,
 .day,
 .statusText {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 
 .reschedule-email,
@@ -165,8 +168,8 @@ p.day {
 }
 
 .statusBox-disabled {
-  background: #ffffff;
-  border-radius: 29px;
+  background: #ffffff !important;
+  border-radius: 29px !important;
 }
 
 .statusBox {
