@@ -138,7 +138,10 @@
           <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
         </div>
       </div>
-      <div class="lessonbox-skipped" *ngIf="obj.isAvaiable == false">
+      <div
+        class="lessonbox-skipped"
+        *ngIf="obj.isAvaiable == false && obj.hasConflict == false"
+      >
         <div class="d-flex">
           <div class="checkBox">
             <i class="fa fa-check checkIcon"></i>
@@ -158,6 +161,30 @@
           [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
         >
           <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict"
+        id="lessonbox-conflict"
+        *ngIf="obj.hasConflict"
+      >
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="exIcon">
+              <i class="fa fa-exclamation-circle exclamationIcon"></i>
+            </div>
+            <div class="showDate">
+              <p class="date">{{ obj.startDate | utcShortDate }}</p>
+              <p class="day">{{ obj.startDate | utcFullDay }}</p>
+            </div>
+          </div>
+          <!-- <div class="downArrow" (click)="showConflictBox($event, obj)">
+          <i class="fa fa-angle-down downIcon"></i>
+        </div> -->
+        </div>
+
+        <div class="statusBox">
+          <p class="statusText">Skip: Conflict</p>
         </div>
       </div>
     </div>
