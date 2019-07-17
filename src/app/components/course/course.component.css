@@ -1091,7 +1091,8 @@ li button {
 }
 .semibold,
 .invoice-label,
-.tax-status {
+.tax-status,
+.reschedule-title {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 .course-info {
@@ -3305,4 +3306,10 @@ p.textCount {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+p.reschedule-title {
+  font-size: 28px;
+  color: #2e3d4d;
+  padding-top: 8px;
 }
