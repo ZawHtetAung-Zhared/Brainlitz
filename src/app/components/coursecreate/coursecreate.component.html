@@ -440,10 +440,10 @@
                 type="number"
                 name="lesson"
                 placeholder="0 lesson"
-                ng-pattern="/^(\d)+$/"
                 [(ngModel)]="model.lessonCount"
                 #lesson="ngModel"
                 (input)="lCount($event.target.value)"
+                (keypress)="numberOnly($event)"
               />
             </div>
             <div *ngIf="endOptChecked == 'defaultLesson'">
@@ -453,12 +453,13 @@
               <input
                 class="input-lesson"
                 type="number"
-                name="lesson"
+                name="dlesson"
                 placeholder="0 lesson"
                 ng-pattern="/^(\d)+$/"
                 [(ngModel)]="model.defaultlessonCount"
-                #lesson="ngModel"
+                #dlesson="ngModel"
                 (input)="lCount($event.target.value)"
+                (keypress)="numberOnly($event)"
               />
             </div>
           </div>
