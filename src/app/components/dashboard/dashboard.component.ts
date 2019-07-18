@@ -37,6 +37,7 @@ declare var $: any;
 export class DashboardComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
   @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
+  @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -676,14 +677,16 @@ export class DashboardComponent implements OnInit {
 
   updateRegionalInfo(data, type) {
     console.log(data, type);
-    this.blockUIRegionInfo.start('Updating regional setting...');
     let regionalSettingFormData = new FormData();
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
+    var updateType = '';
     if (type == 'url') {
       console.log('url');
+      updateType = 'url';
       console.log(data);
     } else if (type == 'timezone') {
+      updateType = 'timezone';
       console.log('timezone');
       console.log(this.startT);
       let start = {
@@ -700,19 +703,34 @@ export class DashboardComponent implements OnInit {
       this.item.operatingHour['end'] = end;
     }
     console.log('DATA~~~', data);
-    regionalSettingFormData.append('name', data.name);
-    regionalSettingFormData.append('timezone', data.timezone);
-    regionalSettingFormData.append('url', data.url);
-    regionalSettingFormData.append('logo', this.getLogo());
-    regionalSettingFormData.append(
-      'operatingHour',
-      JSON.stringify(data.operatingHour)
-    );
-    console.log(regionalSettingFormData.get('name'));
-    console.log(regionalSettingFormData.get('timezone'));
-    console.log(regionalSettingFormData.get('url'));
-    console.log(regionalSettingFormData.get('logo'));
-    console.log(regionalSettingFormData.get('operatingHour'));
+    if (updateType == 'url') {
+      this.blockUIAppSetting.start('Updating regional setting...');
+      regionalSettingFormData.append('url', data.url);
+    } else {
+      this.blockUIRegionInfo.start('Updating app setting...');
+      regionalSettingFormData.append('name', data.name);
+      regionalSettingFormData.append('timezone', data.timezone);
+      regionalSettingFormData.append('url', data.url);
+      regionalSettingFormData.append('logo', this.getLogo());
+      regionalSettingFormData.append(
+        'operatingHour',
+        JSON.stringify(data.operatingHour)
+      );
+    }
+    // console.log('DATA~~~', data);
+    // regionalSettingFormData.append('name', data.name);
+    // regionalSettingFormData.append('timezone', data.timezone);
+    // regionalSettingFormData.append('url', data.url);
+    // regionalSettingFormData.append('logo', this.getLogo());
+    // regionalSettingFormData.append(
+    //   'operatingHour',
+    //   JSON.stringify(data.operatingHour)
+    // );
+    // console.log(regionalSettingFormData.get('name'));
+    // console.log(regionalSettingFormData.get('timezone'));
+    // console.log(regionalSettingFormData.get('url'));
+    // console.log(regionalSettingFormData.get('logo'));
+    // console.log(regionalSettingFormData.get('operatingHour'));
 
     setTimeout(() => {
       this._service
@@ -724,7 +742,11 @@ export class DashboardComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            this.blockUIRegionInfo.stop();
+            if (updateType == 'url') {
+              this.blockUIAppSetting.stop();
+            } else {
+              this.blockUIRegionInfo.stop();
+            }
             this.toastr.success('Successfully Updated.');
             console.log('~~~', res);
             this.orgLogo = res.logo;

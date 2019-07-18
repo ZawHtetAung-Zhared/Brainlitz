@@ -398,31 +398,33 @@
                       </div>
                       <div class="form-group">
                         <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span
-                              class="input-group-text"
-                              id="inputGroupFileAddon01"
-                              >Upload</span
-                            >
-                          </div>
-                          <div class="custom-file">
-                            <input
-                              #logo
-                              type="file"
-                              class="custom-file-input"
-                              id="inputGroupFile01"
-                              aria-describedby="inputGroupFileAddon01"
-                              accept="image/*"
-                              (change)="
-                                handleFileInput(logo.files, $event.target)
-                              "
-                            />
-                            <label
-                              #fileLabel
-                              class="custom-file-label"
-                              for="inputGroupFile01"
-                              >Choose file</label
-                            >
+                          <div class="d-flex">
+                            <div class="input-group-prepend">
+                              <span
+                                class="input-group-text upload-text"
+                                id="inputGroupFileAddon01"
+                                >Upload</span
+                              >
+                            </div>
+                            <div class="custom-file">
+                              <input
+                                #logo
+                                type="file"
+                                class="custom-file-input"
+                                id="inputGroupFile01"
+                                aria-describedby="inputGroupFileAddon01"
+                                accept="image/*"
+                                (change)="
+                                  handleFileInput(logo.files, $event.target)
+                                "
+                              />
+                              <label
+                                #fileLabel
+                                class="custom-file-label"
+                                for="inputGroupFile01"
+                                >Choose file</label
+                              >
+                            </div>
                           </div>
                           <span class="error-message" *ngIf="message">{{
                             message
@@ -607,101 +609,103 @@
             </div>
           </div>
 
-          <div
-            [ngClass]="{ blur: isEdit, showZindex: isUrlEdit }"
-            *ngIf="generalDemo.regional != ''"
-            class="card card-wrap"
-          >
-            <div class="title">
-              App Settings
-            </div>
-            <div class="setting-container">
-              <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
-                <div class="link-wrap">
-                  <div class="title-wrap">
-                    <div id="parent">
-                      <img src="./assets/images/home.png" />
-                    </div>
-                    <label class="labelTitle">Home page URL</label>
-                    <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
-                  </div>
-                  <p class="input-recommend">
-                    This is the URL your customers will see on their device.
-                  </p>
-                  <label class="labelName">{{ item.url }}</label>
-                </div>
-                <div class="timezone-wrap">
-                  <div>
+          <div *blockUI="'app-setting'">
+            <div
+              [ngClass]="{ blur: isEdit, showZindex: isUrlEdit }"
+              *ngIf="generalDemo.regional != ''"
+              class="card card-wrap"
+            >
+              <div class="title">
+                App Settings
+              </div>
+              <div class="setting-container">
+                <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
+                  <div class="link-wrap">
                     <div class="title-wrap">
                       <div id="parent">
-                        <img src="./assets/images/filter.png" />
+                        <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Widget type visibility</label>
+                      <label class="labelTitle">Home page URL</label>
+                      <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
                     </div>
                     <p class="input-recommend">
-                      Turning on widget type visibility such as ‘Progress’ or
-                      ‘Badge’ will allow parents or students to see their
-                      progress on the ‘Profile’ page.
+                      This is the URL your customers will see on their device.
                     </p>
+                    <label class="labelName">{{ item.url }}</label>
                   </div>
-                  <div class="module-container">
-                    <app-module></app-module>
+                  <div class="timezone-wrap">
+                    <div>
+                      <div class="title-wrap">
+                        <div id="parent">
+                          <img src="./assets/images/filter.png" />
+                        </div>
+                        <label class="labelTitle">Widget type visibility</label>
+                      </div>
+                      <p class="input-recommend">
+                        Turning on widget type visibility such as ‘Progress’ or
+                        ‘Badge’ will allow parents or students to see their
+                        progress on the ‘Profile’ page.
+                      </p>
+                    </div>
+                    <div class="module-container">
+                      <app-module></app-module>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="overlay" *ngIf="isUrlEdit">
-                <div class="text">
-                  <form novalidate #dashboradForm="ngForm">
-                    <div class="form-group url-edit">
-                      <label class="labelTitle">Home Page Url</label>
-                      <input
-                        type="url"
-                        class="form-control"
-                        placeholder="enter URl link"
-                        name="url"
-                        [(ngModel)]="item.url"
-                        #url="ngModel"
-                        required
-                        pattern="https?://.+"
-                      />
-                      <div
-                        *ngIf="url.errors && (url.dirty || url.touched)"
-                        class="alert alert-danger"
-                      >
-                        <div [hidden]="!url.errors.required">
-                          URL is required!
-                        </div>
-                        <div [hidden]="!url.errors.pattern">
-                          Must be a valid URL!
+                <div class="overlay" *ngIf="isUrlEdit">
+                  <div class="text">
+                    <form novalidate #dashboradForm="ngForm">
+                      <div class="form-group url-edit">
+                        <label class="labelTitle">Home Page Url</label>
+                        <input
+                          type="url"
+                          class="form-control"
+                          placeholder="enter URl link"
+                          name="url"
+                          [(ngModel)]="item.url"
+                          #url="ngModel"
+                          required
+                          pattern="https?://.+"
+                        />
+                        <div
+                          *ngIf="url.errors && (url.dirty || url.touched)"
+                          class="alert alert-danger"
+                        >
+                          <div [hidden]="!url.errors.required">
+                            URL is required!
+                          </div>
+                          <div [hidden]="!url.errors.pattern">
+                            Must be a valid URL!
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="overlayBtns">
-                      <button type="submit" class="btn" (click)="closeEdit()">
-                        <span class="closemark">
-                          <div class="closemark_stem"></div>
-                          <div class="closemark_kick"></div>
-                        </span>
-                      </button>
-                      <button
-                        type="submit"
-                        class="btn"
-                        (click)="updateRegionalInfo(item, 'url')"
-                        [disabled]="!dashboradForm.valid"
-                      >
-                        <span class="checkmark">
-                          <div
-                            [ngClass]="{ colorD: !dashboradForm.valid }"
-                            class="checkmark_stem"
-                          ></div>
-                          <div
-                            [ngClass]="{ colorD: !dashboradForm.valid }"
-                            class="checkmark_kick"
-                          ></div>
-                        </span>
-                      </button>
-                    </div>
-                  </form>
+                      <div class="overlayBtns">
+                        <button type="submit" class="btn" (click)="closeEdit()">
+                          <span class="closemark">
+                            <div class="closemark_stem"></div>
+                            <div class="closemark_kick"></div>
+                          </span>
+                        </button>
+                        <button
+                          type="submit"
+                          class="btn"
+                          (click)="updateRegionalInfo(item, 'url')"
+                          [disabled]="!dashboradForm.valid"
+                        >
+                          <span class="checkmark">
+                            <div
+                              [ngClass]="{ colorD: !dashboradForm.valid }"
+                              class="checkmark_stem"
+                            ></div>
+                            <div
+                              [ngClass]="{ colorD: !dashboradForm.valid }"
+                              class="checkmark_kick"
+                            ></div>
+                          </span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>

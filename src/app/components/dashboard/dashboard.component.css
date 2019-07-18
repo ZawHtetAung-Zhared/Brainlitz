@@ -1131,9 +1131,20 @@ input[type='range' i] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .error-message {
   padding-top: 5px;
   color: rgb(233, 48, 48);
+}
+
+.upload-text {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
