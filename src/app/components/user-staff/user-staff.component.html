@@ -163,15 +163,17 @@
                 *ngIf="staffDetail.user.details"
                 class="list-wrapper detail-list"
               >
-                <div *ngFor="let detail of staffDetail.user.details">
-                  <div *ngIf="detail.value.length != 0" class="child-detail">
-                    <label class="info-mail">
-                      {{ detail.name }}
-                    </label>
-                    <p class="mb-0 info-p">
-                      {{ detail.value }}
-                    </p>
-                  </div>
+                <div
+                  *ngFor="let detail of staffDetail.user.details"
+                  class="child-detail"
+                  [ngClass]="{ hide: detail.value.length == 0 }"
+                >
+                  <label class="info-mail">
+                    {{ detail.name }}
+                  </label>
+                  <p class="mb-0 info-p">
+                    {{ detail.value }}
+                  </p>
                 </div>
               </div>
             </div>
