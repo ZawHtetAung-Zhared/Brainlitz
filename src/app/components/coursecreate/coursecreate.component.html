@@ -358,6 +358,28 @@
           <div class="d-flex radio-wrap">
             <label
               [ngClass]="{
+                selected: endOptChecked == 'defaultLesson',
+                'disabled-endOpt':
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'end') ||
+                  (isEdit && endOptChecked == 'lesson')
+              }"
+              class="mb-0 cursor-on"
+            >
+              <input
+                type="radio"
+                name="prop"
+                (click)="chooseOpt('endOpt', 'defaultLesson')"
+                [disabled]="
+                  timeOptChecked == 'hideTimeSlot' ||
+                  (isEdit && endOptChecked == 'end') ||
+                  (isEdit && endOptChecked == 'lesson')
+                "
+              />
+              Regular Lessons
+            </label>
+            <label
+              [ngClass]="{
                 selected: endOptChecked == 'end',
                 'disabled-endOpt': isEdit && endOptChecked == 'defaultLesson'
               }"
@@ -369,7 +391,7 @@
                 (click)="chooseOpt('endOpt', 'end')"
                 [disabled]="isEdit && endOptChecked == 'defaultLesson'"
               />
-              End Date
+              End By Date
             </label>
             <label
               [ngClass]="{
@@ -389,29 +411,7 @@
                   (isEdit && endOptChecked == 'defaultLesson')
                 "
               />
-              Lessons Count
-            </label>
-            <label
-              [ngClass]="{
-                selected: endOptChecked == 'defaultLesson',
-                'disabled-endOpt':
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'end') ||
-                  (isEdit && endOptChecked == 'lesson')
-              }"
-              class="mb-0 cursor-on"
-            >
-              <input
-                type="radio"
-                name="prop"
-                (click)="chooseOpt('endOpt', 'defaultLesson')"
-                [disabled]="
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'end') ||
-                  (isEdit && endOptChecked == 'lesson')
-                "
-              />
-              Continuous lessons with no end date
+              End By Lessons
             </label>
           </div>
           <div class="input-wrap">
@@ -465,7 +465,7 @@
           </div>
         </div>
         <div class="pb-3">
-          <div
+          <!-- <div
             class="d-flex timeslot-wrap"
             [ngClass]="{
               'disabled-bg':
@@ -528,6 +528,34 @@
               />
               No time slot required
             </label>
+          </div> -->
+          <div class="d-flex">
+            <div class="toggle-wrap">
+              <label class="switch mb-0">
+                <input
+                  type="checkbox"
+                  (change)="chooseOpt('timeOpt', timeOptChecked)"
+                  [checked]="timeOptChecked == 'hideTimeSlot'"
+                  [disabled]="
+                    endOptChecked == 'lesson' ||
+                    endOptChecked == 'defaultLesson' ||
+                    isEdit
+                  "
+                />
+                <span
+                  class="slider round"
+                  [ngClass]="{
+                    'disabled-chk':
+                      endOptChecked == 'lesson' ||
+                      endOptChecked == 'defaultLesson' ||
+                      isEdit
+                  }"
+                ></span>
+              </label>
+            </div>
+            <div class="d-flex align-items-center pl-3 name-label font-medium">
+              This course do not require schedule for lesson time slot
+            </div>
           </div>
         </div>
         <div class="d-flex pad-b" *ngIf="timeOptChecked == 'showTimeSlot'">
@@ -636,14 +664,13 @@
             >
             <div
               class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput"
-              (click)="showDropdown('duration', isEdit)"
             >
               {{ model.duration }} min
-              <span
+              <!-- <span
                 class="fa fa-angle-down d-flex justify-content-center flex-column icon durationDownOpt"
-              ></span>
+              ></span> -->
             </div>
-            <div class="dropdown-wrap" *ngIf="durationMenuShow == true">
+            <!-- <div class="dropdown-wrap" *ngIf="durationMenuShow == true">
               <ul class="duration-dropdown">
                 <li *ngFor="let test of testList; let i = index">
                   <div class="w-100" (click)="onClickDuration(test, i)">
@@ -654,7 +681,7 @@
             </div>
             <div *ngIf="classend" class="msg font-medium">
               It will end at {{ classend }}
-            </div>
+            </div> -->
           </div>
         </div>
         <div *ngIf="timeOptChecked == 'showTimeSlot'" class="pad-b">
@@ -954,9 +981,8 @@
 				          Room is required!
 				        </div>
 				    </div> -->
-          <hr class="limit-hr-length" />
         </div>
-        <div>
+        <!-- <div>
           <label
             for="seat"
             class="input-title font-medium"
@@ -980,7 +1006,7 @@
           <div [hidden]="!testChar" class="alert alert-danger">
             Only Numbers Allowed
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <hr class="hr-line" style="padding-bottom: 15px;" />
@@ -1095,13 +1121,13 @@
                 class="skip-btn font-medium"
                 (click)="skip(lesson._id, conflit.staffId)"
               >
-                Not Ok
+                Reject
               </button>
               <button
                 class="ignore-btn font-medium"
                 (click)="ignore(lesson._id, lesson.staffId)"
               >
-                Ok
+                Accept
               </button>
             </div>
             <!-- <div *ngIf="skipArr.indexOf(lesson._id) != -1" class="d-flex"> -->
@@ -1116,7 +1142,7 @@
                 <img src="./assets/images/check@2x.png" />
               </div>
               <div class="skipped">
-                Not Ok
+                Reject
               </div>
             </button>
             <!-- <button *ngIf="ignoreArr.indexOf(lesson._id) != -1" class="d-flex"> -->
@@ -1128,7 +1154,7 @@
                 <img src="./assets/images/check@2x.png" />
               </div>
               <div class="skipped">
-                Ok
+                Accept
               </div>
             </button>
             <!-- <button *ngIf="skipArr.indexOf(lesson._id) != -1 || ignoreArr.indexOf(lesson._id) != -1" class="undo-btn font-medium" (click)="undo(lesson._id)">
@@ -1156,12 +1182,12 @@
         >
           <!-- [disabled]="tempID.indexOf(conflit.staffId) != -1" -->
           <button class="skipAll font-medium" (click)="skipAll(conflit)">
-            All Not Ok
+            Reject All
           </button>
 
           <!-- [disabled]="ignoreTempID.indexOf(conflit.staffId) != -1" -->
           <button class="cancelAll font-medium" (click)="ignoreAll(conflit)">
-            All Ok
+            Accept All
           </button>
         </div>
         <hr class="conflit-list-line" />

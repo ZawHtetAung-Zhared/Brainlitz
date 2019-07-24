@@ -185,7 +185,7 @@ export class CoursecreateComponent implements OnInit {
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
-      this.createList(this.model.duration);
+      // this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
       console.log('~~~~~', this.feesOptions);
       if (this.feesOptions == undefined) {
@@ -408,7 +408,7 @@ export class CoursecreateComponent implements OnInit {
           this.model.coursePlan.lesson.duration * this.model.durationTimes;
         console.log(this.model.duration);
         this.calculateDuration(this.model.starttime, this.model.duration);
-        this.createList(this.model.coursePlan.lesson.duration);
+        // this.createList(this.model.coursePlan.lesson.duration);
         this.conflitCourseId = res._id;
         if (this.model.draft == true) {
           console.log('Draft ===>', this.model.draft);
@@ -528,7 +528,7 @@ export class CoursecreateComponent implements OnInit {
           }
         }
         this.calculateDuration(this.model.starttime, this.model.duration);
-        this.createList(this.course.plan.duration);
+        // this.createList(this.course.plan.duration);
         this.isEdit = false;
       });
   }
@@ -640,17 +640,17 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
-  createList(duration) {
-    console.log(duration);
-    for (var i = 0; i <= 3; i++) {
-      var testVar = duration * (i + 1);
-      // console.log("testVar",testVar);
-      this.testList.push(testVar);
-    }
-    console.log('testList', this.testList);
-    // this.model.duration = this.testList[0];
-    console.log('Duration Times', this.model.duration);
-  }
+  // createList(duration) {
+  //   console.log(duration);
+  //   for (var i = 0; i <= 3; i++) {
+  //     var testVar = duration * (i + 1);
+  //     // console.log("testVar",testVar);
+  //     this.testList.push(testVar);
+  //   }
+  //   console.log('testList', this.testList);
+  //   // this.model.duration = this.testList[0];
+  //   console.log('Duration Times', this.model.duration);
+  // }
 
   focusMethod(e, status, word) {
     console.log('hi', e);
@@ -844,8 +844,13 @@ export class CoursecreateComponent implements OnInit {
         break;
 
       case 'timeOpt':
-        this.timeOptChecked = itemType;
+        // this.timeOptChecked = itemType;
         console.log(this.timeOptChecked);
+        if (itemType == 'showTimeSlot') {
+          this.timeOptChecked = 'hideTimeSlot';
+        } else {
+          this.timeOptChecked = 'showTimeSlot';
+        }
         break;
     }
   }
