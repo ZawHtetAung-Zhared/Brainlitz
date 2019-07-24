@@ -2,10 +2,10 @@
   <div class="d-flex justify-content-between">
     <div class="mr-auto">
       <div class="d-flex flex-row">
-        <h2 class="title-heading">QuizWerkz</h2>
+        <h2 class="title-heading">Resources</h2>
       </div>
     </div>
-    <button type="button" class="btn btn-create" (click)="creatnew()">Add new QuizWerkz</button>
+    <button type="button" class="btn btn-create" (click)="creatnew()">Add new Resources</button>
   </div>
 </div> -->
 <div class="min-scroll main-wrapper">
@@ -13,7 +13,7 @@
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
         <div class="d-flex flex-row">
-          <h2 class="title-heading">QuizWerkz</h2>
+          <h2 class="title-heading">Resources</h2>
         </div>
       </div>
       <button
@@ -22,7 +22,7 @@
         class="btn btn-create"
         (click)="creatnew()"
       >
-        Add new QuizWerkz
+        Add new Resources
       </button>
     </div>
     <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
@@ -67,14 +67,14 @@
       <!-- <a class="back-to" (click)="cancel()">< QuizWerkz</a> -->
       <div class="back-to" (click)="cancel()">
         <i class="fa fa-angle-left"></i>
-        <p>QuizWerkz</p>
+        <p>Resources</p>
       </div>
     </div>
     <div class="quizwerkz-form-wrap">
-      <h3 *ngIf="!isEdit" class="title-heading">Create QuizWerkz</h3>
-      <h3 *ngIf="isEdit" class="title-heading">Update QuizWerkz</h3>
+      <h3 *ngIf="!isEdit" class="title-heading">Create Resources</h3>
+      <h3 *ngIf="isEdit" class="title-heading">Update Resources</h3>
       <p class="input-recommend">
-        Quizwerkz is like a library to upload and keep all your resources. Pair
+        Resources is like a library to upload and keep all your resources. Pair
         the resources to its relevant Course Plan and this will be visible to
         the users in their device under ‘Resources’ tab.
       </p>

@@ -1068,14 +1068,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         // } else {
         //   min += 15;
         // }
-        var m = min + 15;
+        var m = min + 30;
         if (m > 60) {
           min = m - 60;
           if (min == 60) {
             min = 0;
           }
         } else {
-          min += 15;
+          min += 30;
           if (min == 60) {
             min = 0;
           }
@@ -1095,14 +1095,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       // } else {
       //   next += 15;
       // }
-      m = next + 15;
+      m = next + 30;
       if (m > 60) {
         next = m - 60;
         if (next == 60) {
           next = 0;
         }
       } else {
-        next += 15;
+        next += 30;
         if (next == 60) {
           next = 0;
         }

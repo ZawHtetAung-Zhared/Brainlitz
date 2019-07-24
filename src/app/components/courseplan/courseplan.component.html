@@ -614,7 +614,7 @@
                 <p class="step-font">Step 5</p>
 
                 <div class="display-style">
-                  <h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
+                  <h5 class="all-title-font title-br-rt">Resources Book</h5>
                   <div class="radio-pos-book">
                     <label class="switch">
                       <input
@@ -635,14 +635,14 @@
                 <p class="input-recommend">
                   Select your books / resources for this Course Plan. If you do
                   not see the required book here, go to Tools > ‘Create
-                  Quizwerkz’.
+                  Resources.
                 </p>
                 <div
                   *ngIf="formField.allowPagewerkz != true"
                   class="not_allowPagewekz"
                 >
                   <p class="option-text">
-                    Switch <span>on</span><br />to add QuizWerkz book.
+                    Switch <span>on</span><br />to add Resources book.
                   </p>
                 </div>
               </div>
@@ -716,18 +716,20 @@
               <div class="col-md-12">
                 <p class="step-font">Step 6</p>
                 <div class="d-flex">
-                  <h3 class="all-title-font" style="float: left;">APG</h3>
-                  <span class="sticky-dot-large">&#183;</span>
-                  <p class="small-caption">Access Point Group</p>
+                  <h3 class="all-title-font" style="float: left;">
+                    Tracking Module
+                  </h3>
+                  <!-- <span class="sticky-dot-large">&#183;</span>
+                  <p class="small-caption">Access Point Group</p> -->
                 </div>
               </div>
               <div class="col-md-12">
                 <p class="input-recommend">
-                  APG or Access Point Group is where a Teacher will be able to
-                  mark the progress or improvement of each student. It can be in
-                  the form of Progress Bar or Badges. This will be notified to
-                  the Parent or Student whose email ID is registered. Begin by
-                  clicking on the Search icon.
+                  Tracking Module is where a Teacher will be able to mark the
+                  progress or improvement of each student. It can be in the form
+                  of Progress Bar or Badges. This will be notified to the Parent
+                  or Student whose email ID is registered. Begin by clicking on
+                  the Search icon.
                 </p>
               </div>
               <div
@@ -737,7 +739,7 @@
                   <input
                     class="form-control py-2 input-search-bg"
                     type="search"
-                    placeholder="Search APG"
+                    placeholder="Search Tracking Module"
                     id="search-apg"
                     name="searchApg"
                     [(ngModel)]="formField.searchText"
@@ -807,7 +809,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="txt-default">
-                    <h3>Add APG to this Course Plan</h3>
+                    <h3>Add Tracking Module to this Course Plan</h3>
                   </div>
                   <div class="arrow-pos">
                     <img src="assets/img/arrow.png" />
@@ -863,9 +865,10 @@
           <div *ngIf="showModule" class="inside-data-wrapper">
             <div class="col-md-12">
               <p class="back" (click)="backSearhAPG('back')">
-                <i class="fa fa-angle-left left-arrow"></i><span>APG</span>
+                <i class="fa fa-angle-left left-arrow"></i
+                ><span>Tracking Module</span>
               </p>
-              <h3 class="all-title-font">Pick APG type</h3>
+              <h3 class="all-title-font">Pick Tracking Module type</h3>
             </div>
             <div class="row pad-15">
               <div
@@ -919,9 +922,9 @@
                 <div class="col-md-12">
                   <p class="back" (click)="backModule()">
                     <i class="fa fa-angle-left left-arrow"></i
-                    ><span>Pick APG type</span>
+                    ><span>Pick Tracking Module type</span>
                   </p>
-                  <h3 class="all-title-font">Create APG</h3>
+                  <h3 class="all-title-font">Create Tracking Module</h3>
                 </div>
                 <div class="col-md-6" style="padding-top: 40px;">
                   <!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
@@ -929,7 +932,7 @@
                     <label
                       class="form-title input-label all-title-font"
                       for="address"
-                      >APG name</label
+                      >Tracking Module name</label
                     >
                     <div class="limit-wordcount">
                       <span class="count-color"
@@ -938,7 +941,8 @@
                     </div>
                   </div>
                   <p class="input-recommend">
-                    We recommend to set APG name as same as Course name.
+                    We recommend to set Tracking Module name as same as Course
+                    name.
                   </p>
                   <input
                     class="form-control br-bshadow-none all-left-box-10"
@@ -961,7 +965,7 @@
                     class="alert alert-danger alert-m-right"
                   >
                     <div [hidden]="!apgName.errors.required">
-                      APG name is required!
+                      Tracking Module name is required!
                     </div>
                   </div>
                   <hr class="limit-hr-length" />
