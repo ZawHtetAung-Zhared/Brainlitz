@@ -46,6 +46,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
   userid: any;
   acResult: any;
+  public isGuardian = false;
   public selectedCourse: any;
   public activePass: any = '';
   public currentPassObj: any;
@@ -523,8 +524,11 @@ export class UsersComponent implements OnInit {
     objData.append('orgId', this.orgID);
     objData.append('fullName', obj.fullName);
     objData.append('preferredName', obj.preferredName);
-    objData.append('email', obj.email);
-
+    if (!this.isGuardian) {
+      objData.append('email', obj.email);
+    } else {
+      obj.guardianEmail = obj.email;
+    }
     obj.about = obj.about == undefined ? '' : obj.about;
     objData.append('about', obj.about);
 
