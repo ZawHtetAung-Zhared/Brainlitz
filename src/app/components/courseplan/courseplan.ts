@@ -4,8 +4,8 @@ export class cPlanField {
   public seats: number;
   public makeupPolicy = {
     allowMakeupPass: false,
-    maxDayPerPass: '',
-    maxPassPerUser: ''
+    maxDayPerPass: 10,
+    maxPassPerUser: 3
   };
   public paymentPolicy = {
     allowProrated: false,

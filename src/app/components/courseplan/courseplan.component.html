@@ -213,7 +213,7 @@
                       (input)="changeMethod($event.target.value)"
                       name="description"
                       #cpDesc="ngModel"
-                      placeholder="Type message here"
+                      placeholder="Type description here"
                     ></textarea>
                     <!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
 													<div [hidden]="!cpDesc.errors.required">
@@ -222,6 +222,114 @@
 												</div> -->
                     <hr class="limit-hr-length" />
                   </div>
+                </div>
+              </div>
+              <!-- From step 3 -->
+              <div class="display-style" style="padding-top: 40px;">
+                <div class="col-md-6">
+                  <label class="all-title-font"> Duration</label>
+                  <input
+                    type="text"
+                    placeholder="{{ formField.lesson.duration }}"
+                    class="form-control br-bshadow-none hoverReadonly all-left-box-10"
+                    [(ngModel)]="formField.lesson.duration"
+                    min="1"
+                    id="duration"
+                    name="lesson_duration"
+                    readonly
+                    (click)="durationProgress($event)"
+                    style="background: none;"
+                  />
+                  <div class="bg-box duration-progress">
+                    <div id="rectangle"></div>
+                    <div class="gap-box">
+                      <label>
+                        <div class="col-md-4 max-range">{{ rangeHr }} hr</div>
+                        <input
+                          class="max-range-box"
+                          type="range"
+                          id="hrDuration"
+                          name="pointsHr"
+                          min="0"
+                          max="24"
+                          (input)="ChangedRangeValue($event.target.value, 'hr')"
+                          [(ngModel)]="rangeHr"
+                        />
+                      </label>
+                    </div>
+                    <div class="gap-range-min">
+                      <label>
+                        <div class="col-md-4 min-range">{{ rangeMin }} min</div>
+                        <input
+                          class="min-range-box"
+                          type="range"
+                          id="minDuration"
+                          name="pointsMin"
+                          min="0"
+                          max="55"
+                          step="5"
+                          (input)="
+                            ChangedRangeValue($event.target.value, 'min')
+                          "
+                          [(ngModel)]="rangeMin"
+                          [disabled]="overDurationHr"
+                        />
+                        <p *ngIf="overDurationHr" class="alert-duration">
+                          Lesson Duration has only 24 hr, so can not choose
+                          minute.
+                        </p>
+                      </label>
+                    </div>
+                  </div>
+                  <hr class="limit-hr-length" />
+                </div>
+                <!-- <div class="col-md-6" style="padding-right: 0;">
+                      <div>
+                        <label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
+                        <select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
+                          <option disabled="true" [value]="'disabledHoliday'">None</option>
+                          <option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
+                        </select>
+                         <i class="fa fa-chevron-down down-arrow2"></i>
+                         <hr class="limit-hr-length">
+                      </div>
+                    </div> -->
+                <div class="col-md-6" style="padding-right: 0;">
+                  <div>
+                    <label class="all-title-font" style="padding-left: 10px;"
+                      >Holiday Calendar</label
+                    >
+                    <div>
+                      <div
+                        class="form-group has-feedback"
+                        (click)="holidayDropdown()"
+                      >
+                        <input
+                          class="cursor-on form-control br-bshadow-none"
+                          name="holiday"
+                          readonly
+                          type="text"
+                          [(ngModel)]="formField.holidayCalendarName"
+                          placeholder="None"
+                          autocomplete="off"
+                        /><span
+                          class="fa fa-angle-down holiday-downicon"
+                        ></span>
+                      </div>
+                      <div class="dropdown-wrap">
+                        <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+                        <ul class="holiday-dropdown">
+                          <li
+                            *ngFor="let holidayCalendar of holidayCalendarLists"
+                            (click)="chooseHoliday(holidayCalendar)"
+                          >
+                            <span>{{ holidayCalendar.name }}</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="limit-hr-length" />
                 </div>
               </div>
             </div>
@@ -278,17 +386,18 @@
                   If you allow your students to catch up with their missed
                   classes, Turn On the “Makeup Policy” option.
                 </p>
-                <div *ngIf="formField.makeupPolicy.allowMakeupPass != true">
+                <!-- <div *ngIf="formField.makeupPolicy.allowMakeupPass != true">
                   <p class="option-text">
                     Switch <span>on</span><br />to add Makeup class.
                   </p>
-                </div>
+                </div> -->
                 <div *ngIf="formField.makeupPolicy.allowMakeupPass == true">
                   <div class="display-style">
                     <div class="col-md-6" style="padding: 0;">
                       <div>
                         <label class="all-title-font">
-                          Validation duration after class
+                          Validation duration after class (need to chage label
+                          here)
                         </label>
                         <input
                           type="number"
@@ -315,7 +424,7 @@
                           class="all-title-font"
                           style="padding-left: 20px;"
                         >
-                          Number of days per user
+                          Number of days per user (need to chage label here)
                         </label>
                         <input
                           type="number"
@@ -431,7 +540,7 @@
                   </div>
                 </div>
                 <button class="addOpt-btn" (click)="addFeeOption()">
-                  Add new option
+                  Add Another Option
                 </button>
               </div>
             </div>
@@ -535,10 +644,10 @@
 										<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
 											<option disabled="true" [value]="'disabledHoliday'">None</option>
 											<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
-										</select>	
-										 <i class="fa fa-chevron-down down-arrow2"></i>	
-										 <hr class="limit-hr-length">	
-									</div> 		
+										</select>
+										 <i class="fa fa-chevron-down down-arrow2"></i>
+										 <hr class="limit-hr-length">
+									</div>
 								</div> -->
                 <div class="col-md-6" style="padding-right: 0;">
                   <div>
