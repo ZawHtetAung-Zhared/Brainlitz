@@ -206,6 +206,8 @@ export class InvoiceComponent implements OnInit {
     }
   }
   getRegionInfo() {
+    console.log('here me');
+
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
     this._service

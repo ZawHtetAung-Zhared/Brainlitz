@@ -908,6 +908,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   calculateTime(time) {
+    console.log(time);
+
     var sTime =
       time.start.hr + ':' + time.start.min + ' ' + time.start.meridiem;
     var eTime = time.end.hr + ':' + time.end.min + ' ' + time.end.meridiem;
