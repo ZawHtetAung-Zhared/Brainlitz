@@ -341,8 +341,8 @@ input:-webkit-input-placeholder {
 }
 
 /*.title-color {
-	color: #0080ff; 
-  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
+	color: #0080ff;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }*/
 
 .mr-top {
@@ -494,7 +494,7 @@ input:-webkit-input-placeholder {
   display: none;
   position: absolute;
   right: 5%;
-  bottom: -120px;
+  bottom: 35px;
   z-index: 9;
 }
 
@@ -887,7 +887,7 @@ header {
   height: 35px;
 }
 /*.header-wrap {
-  position: relative; 
+  position: relative;
 }
 
 .header-wrap div{
@@ -1500,13 +1500,11 @@ ul.search-apg {
   list-style-type: none;
   padding: 0;
   margin-bottom: 0;
-  position: absolute;
+  /* position: absolute; */
   z-index: 99;
   padding: 0px 15px;
-  /*top: 55px;
-  right: 15px;*/
-  top: 80px;
-  right: 0px;
+  top: 265px;
+  right: 15px;
   display: none;
   background: #fff;
   color: #2e3d4d !important;
@@ -1594,7 +1592,7 @@ ul.search-apg {
 .tax-downicon.fa {
   position: absolute;
   top: 61%;
-  right: 15px;
+  right: 25px;
   transform: translateY(-50%);
   font-size: 20px;
 }
@@ -1604,7 +1602,7 @@ ul.search-apg {
 }
 
 .holiday-downicon.fa {
-  top: 49%;
+  top: 55%;
 }
 .deposit-sign {
   position: absolute;
@@ -1819,8 +1817,8 @@ ul.search-apg {
 
 /* ----------- iPad Pro 12.9" ----------- */
 /* 1366 ,1366 to 1600 , 1600 */
-/* @media only screen 
-  and (min-device-width: 1024px) 
+/* @media only screen
+  and (min-device-width: 1024px)
   and (max-device-width: 1366px)
   and (-webkit-min-device-pixel-ratio: 2)*/
 
@@ -1949,7 +1947,7 @@ ul.search-apg {
   /*.div_step6 .button-wrapper{
         border-top: none;
         padding: 0;
-        left: 12em;     
+        left: 12em;
         background: no-repeat;
         padding-top: 63px;
       }*/

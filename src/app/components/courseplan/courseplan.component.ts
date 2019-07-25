@@ -147,6 +147,8 @@ export class CourseplanComponent implements OnInit {
   public optArray = [];
   public shadowIdx: any = null;
   public assessmentPlans: any = [];
+  deviceObjects = [{ name: 'inclusive' }, { name: 'exclusive' }];
+  selectedDeviceObj = this.deviceObjects[1];
   ngOnInit() {
     this.formField.lesson.duration = '0 min';
     this.showModal = true;
@@ -321,10 +323,18 @@ export class CourseplanComponent implements OnInit {
       .css('background-color', '#0080ff');
   }
 
+  onChangeObj(newObj) {
+    console.log(newObj);
+    this.selectedDeviceObj = newObj;
+    // ... do other stuff here ...
+  }
+
   addFeeOption() {
     const obj = {
-      name: '',
-      fees: null
+      name: 'basic course fee',
+      fees: null,
+      selectedTax: [{ id: 1, name: 'inclusive' }],
+      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -599,8 +609,9 @@ export class CourseplanComponent implements OnInit {
     }
 
     console.log(data.paymentPolicy.deposit);
+    console.log('Data', data);
 
-    if (type == 'create') {
+    /* if (type == 'create') {
       console.log('CreatePlan');
       this.blockUI.start('Loading...');
       this._service
@@ -659,7 +670,7 @@ export class CourseplanComponent implements OnInit {
             this.blockUI.stop();
           }
         );
-    }
+    } */
   }
 
   //  onclickDelete(cplan, confirmDelete1){
@@ -1433,8 +1444,8 @@ export class CourseplanComponent implements OnInit {
         if (this.formField.makeupPolicy == undefined) {
           this.formField['makeupPolicy'] = {
             allowMakeupPass: false,
-            maxDayPerPass: '',
-            maxPassPerUser: ''
+            maxDayPerPass: 10,
+            maxPassPerUser: 3
           };
         }
       }
