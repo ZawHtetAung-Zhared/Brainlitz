@@ -475,8 +475,8 @@ export class InvoiceComponent implements OnInit {
     // console.log("data",body);
     this._service.makePayment(this.regionId, body).subscribe(
       (res: any) => {
-        console.log(res);
-        this.toastr.success(res.message);
+        console.error(res.message);
+        // this.toastr.success(res.message);
         this.cancelInvoiceModal();
         this.closeModal('inv');
       },
@@ -490,7 +490,7 @@ export class InvoiceComponent implements OnInit {
     );
   }
   showPayOption() {
-    console.log('pay option');
+    console.log('pay option', this.invoiceInfo);
     this.showPayment = true;
     this.showInvoice = false;
     if (this.invStatus == 'PAID[PARTIAL]') {
@@ -542,7 +542,7 @@ export class InvoiceComponent implements OnInit {
     this.paymentId = type.id;
   }
   backToInvoice() {
-    console.log('Back To Invoice');
+    console.log('Back To Invoice', this.invoiceInfo);
     this.showPayment = false;
     this.showInvoice = true;
     this.paymentItem = {};
@@ -556,5 +556,39 @@ export class InvoiceComponent implements OnInit {
       textArea.style.height = textArea.scrollHeight + 'px';
       console.log('textArea', textArea.style.height);
     }, 1000);
+  }
+
+  newItemArr: any = [];
+  newItemObj: any = {
+    name: '',
+    quantity: '',
+    price: '',
+    tax: 'inclusive',
+    amount: ''
+  };
+  isShowDown: boolean = false;
+  activeId: any;
+  showDropdown(i) {
+    console.error(i);
+    this.activeId = i;
+    if (this.isShowDown) {
+      this.isShowDown = false;
+    } else {
+      this.isShowDown = true;
+    }
+  }
+
+  chooseTax: any = 'inclusive';
+  chooseTaxOption(type, i) {
+    console.error(i);
+    this.newItemArr[i].tax = type;
+    this.chooseTax = type;
+    this.isShowDown = false;
+    console.log('choose Tax', type);
+  }
+
+  addnewItem() {
+    console.error('add new', this.newItemArr);
+    this.newItemArr.push(this.newItemObj);
   }
 }
