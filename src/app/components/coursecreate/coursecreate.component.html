@@ -355,6 +355,7 @@
           </div>
         </div>
         <div class="pad-b">
+          endOptChecked===>{{ endOptChecked }}
           <div class="d-flex radio-wrap">
             <label
               [ngClass]="{
@@ -380,21 +381,6 @@
             </label>
             <label
               [ngClass]="{
-                selected: endOptChecked == 'end',
-                'disabled-endOpt': isEdit && endOptChecked == 'defaultLesson'
-              }"
-              class="mb-0 cursor-on"
-            >
-              <input
-                type="radio"
-                name="prop"
-                (click)="chooseOpt('endOpt', 'end')"
-                [disabled]="isEdit && endOptChecked == 'defaultLesson'"
-              />
-              End By Date
-            </label>
-            <label
-              [ngClass]="{
                 selected: endOptChecked == 'lesson',
                 'disabled-endOpt':
                   timeOptChecked == 'hideTimeSlot' ||
@@ -412,6 +398,21 @@
                 "
               />
               End By Lessons
+            </label>
+            <label
+              [ngClass]="{
+                selected: endOptChecked == 'end',
+                'disabled-endOpt': isEdit && endOptChecked == 'defaultLesson'
+              }"
+              class="mb-0 cursor-on"
+            >
+              <input
+                type="radio"
+                name="prop"
+                (click)="chooseOpt('endOpt', 'end')"
+                [disabled]="isEdit && endOptChecked == 'defaultLesson'"
+              />
+              End By Date
             </label>
           </div>
           <div class="input-wrap">
@@ -1041,7 +1042,7 @@
           <span class="number-wrap font-medium">{{
             conflit.conflictWith?.length
           }}</span
-          ><label class="conflit-title font-medium">Overlap Schedule</label>
+          ><label class="conflit-title font-medium">Overlapped Lessons</label>
           <div class="d-flex" style="padding-top: 15px">
             <span class="round-number font-medium">{{
               conflit.conflictWith?.length
@@ -1059,7 +1060,9 @@
           <div class="d-flex font-medium msg-padding">
             <span class="round-icon">!</span>
             <div class="pad-left-10 warning-msg">
-              Overlap schedule on the following lessons
+              The schedule you are trying to create overlaps with the existing
+              lessons. If Jen (teachername) can take both lessons at the same
+              time, click "Accept" otherwise click "Reject".
             </div>
           </div>
         </div>

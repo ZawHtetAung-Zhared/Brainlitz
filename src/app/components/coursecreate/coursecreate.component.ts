@@ -312,13 +312,14 @@ export class CoursecreateComponent implements OnInit {
           console.log(this.model.starttime);
           this.setToTimerange(this.model.starttime);
           this.minDate = this.model.start;
-          if (this.model.end) {
+          if (this.model.end && this.model.type == 'REGULAR') {
             this.endOptChecked = 'end';
-          } else if (this.model.lessonCount) {
+          } else if (this.model.lessonCount && this.model.type == 'REGULAR') {
             this.endOptChecked = 'lesson';
           } else {
             this.endOptChecked = 'defaultLesson';
           }
+          console.log('endOptChecked', this.endOptChecked);
           this.timeOptChecked = 'showTimeSlot';
         } else if (this.model.type == 'ONLINE') {
           console.log('online???', this.model.type);
@@ -363,7 +364,12 @@ export class CoursecreateComponent implements OnInit {
           this.staffArrLists.push(assiatantsArr[i].userId);
           console.log('staffArrLists==>', this.staffArrLists);
         }
-        if (this.model.end) {
+
+        if (this.model.defaultlessonCount && this.model.type == 'FLEXY') {
+          this.endOptChecked = 'defaultLesson';
+          this.tempVar = 'defaultLesson';
+          this.tempValue = res.defaultlessonCount;
+        } else if (this.model.end) {
           this.endOptChecked = 'end';
           this.tempVar = 'end';
           this.tempValue = this.changeDateStrtoObj(res.endDate, 'end');
@@ -371,10 +377,6 @@ export class CoursecreateComponent implements OnInit {
           this.endOptChecked = 'lesson';
           this.tempVar = 'lesson';
           this.tempValue = res.lessonCount;
-        } else if (this.model.defaultlessonCount) {
-          this.endOptChecked = 'defaultLesson';
-          this.tempVar = 'defaultLesson';
-          this.tempValue = res.defaultlessonCount;
         }
         this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
         if (this.feesOptions == undefined) {
@@ -1518,10 +1520,11 @@ export class CoursecreateComponent implements OnInit {
       var testObj = JSON.parse(localStorage.getItem('tempObj'));
       console.log('Temp obj', testObj);
       console.log('Not First Time');
+      console.log('Course Type', this.model.type);
       console.log(this.model.end, this.model.lessonCount, this.flexiOn);
       if (this.timeOptChecked == 'showTimeSlot') {
         // flexy and regular
-        if (this.model.end) {
+        if (this.model.end && this.endOptChecked == 'end') {
           console.log('this.model.end', this.model.end);
           var endD = this.changeDateFormat(this.model.end, '23:59:59:999');
           if (testObj.endDate != endD) {
@@ -1544,7 +1547,7 @@ export class CoursecreateComponent implements OnInit {
         }
 
         // if (this.model.lessonCount && this.flexiOn == false) {
-        if (this.model.lessonCount) {
+        if (this.model.lessonCount && this.endOptChecked == 'lesson') {
           console.log('LessonCount KKK');
           if (testObj.lessonCount != this.model.lessonCount) {
             console.log(
@@ -1579,7 +1582,10 @@ export class CoursecreateComponent implements OnInit {
         //   this.tempValue = this.model.lessonCount;
         // }
 
-        if (this.model.defaultlessonCount) {
+        if (
+          this.model.defaultlessonCount &&
+          this.endOptChecked == 'defaultLesson'
+        ) {
           console.log('default lesson CountKKKK');
           if (testObj.defaultlessonCount != this.model.defaultlessonCount) {
             console.log(
@@ -1752,14 +1758,13 @@ export class CoursecreateComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.blockUI.stop();
-
-          console.log(res.status);
           if (res.status === 201) {
             this.toastr.success('You have no conflict.');
             this.addCheck = false;
             console.log('201 status', this.addCheck);
           } else {
             console.log('status', res.status);
+            console.log('res meta draft', res.body.meta.draft);
             setTimeout(() => {
               this.toastr.success('Successfully Created.');
             }, 300);
@@ -1772,10 +1777,16 @@ export class CoursecreateComponent implements OnInit {
                 this.enrollUser(createdId, this.course.userId);
               } else {
                 console.log('edit');
-                this.backToCourses('', res.body.courseId);
+                if (res.body.meta.draft == false) {
+                  this.backToCourses('', res.body.courseId);
+                }
               }
             } else {
-              this.backToCourses('', res.body.courseId);
+              if (res.body.meta.draft == false) {
+                this.backToCourses('', res.body.courseId);
+              } else {
+                this.conflitCourseId = res.body.courseId;
+              }
             }
           }
         },
