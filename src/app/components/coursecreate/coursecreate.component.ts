@@ -1763,6 +1763,7 @@ export class CoursecreateComponent implements OnInit {
             this.addCheck = false;
             console.log('201 status', this.addCheck);
           } else {
+            this.conflitArr = [];
             console.log('status', res.status);
             console.log('res meta draft', res.body.meta.draft);
             setTimeout(() => {
