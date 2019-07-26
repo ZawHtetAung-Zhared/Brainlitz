@@ -202,6 +202,8 @@
                       readonly
                       (click)="durationProgress($event)"
                       style="background: none;"
+                      #cpDuration="ngModel"
+                      required
                     />
                     <div class="bg-box duration-progress">
                       <div id="rectangle"></div>
@@ -247,6 +249,17 @@
                           </p>
                         </label>
                       </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      formField.lesson.duration == '0 min' &&
+                      (cpDuration.dirty || cpDuration.touched)
+                    "
+                    class="alert alert-danger alert-m-right"
+                  >
+                    <div>
+                      Lesson duration is required!
                     </div>
                   </div>
                   <hr class="limit-hr-length" />
@@ -325,7 +338,9 @@
               <button
                 type="button"
                 class="btn sticky-create"
-                [disabled]="!childForm1.valid"
+                [disabled]="
+                  !childForm1.valid || formField.lesson.duration == '0 min'
+                "
                 (click)="continueStep('step1', childForm1.value)"
               >
                 Continue
@@ -519,17 +534,22 @@
                     <hr class="opt-hr-length" />
                   </div>
                   <!-- inclusive/exclusive option -->
-                  <select
-                    [(ngModel)]="optArray[idx].selectedTax"
-                    (ngModelChange)="onChangeObj($event)"
-                    name="name{{ idx }}"
-                  >
-                    <option
-                      [ngValue]="tax"
-                      *ngFor="let tax of optArray[idx].taxOption"
-                      >{{ tax.name }}</option
+                  <div class="col-sm-3">
+                    <select
+                      class="form-control tax-option"
+                      [(ngModel)]="optArray[idx].selectedTax.name"
+                      (ngModelChange)="onChangeObj($event)"
+                      name="name{{ idx }}"
+                      [value]="optArray[idx].selectedTax.name"
                     >
-                  </select>
+                      <option
+                        [value]="tax.name"
+                        [selected]="tax.name == 'inclusive'"
+                        *ngFor="let tax of optArray[idx].taxOption"
+                        >{{ tax.name }}</option
+                      >
+                    </select>
+                  </div>
                   <!-- inclusive/exclusive option -->
                   <div *ngIf="optArray?.length > 1" class="removeBtn-wrap">
                     <div class="removeIcon-shadow">
@@ -540,7 +560,7 @@
                     </div>
                   </div>
                 </div>
-                <pre>{{ optArray | json }}</pre>
+                <!-- <pre>{{ optArray | json }}</pre> -->
                 <button class="addOpt-btn" (click)="addFeeOption()">
                   Add Another Option
                 </button>

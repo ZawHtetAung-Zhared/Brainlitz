@@ -14,7 +14,8 @@ export class cPlanField {
     taxInclusive: Boolean,
     miscFee: '',
     deposit: '',
-    courseFeeOptions: {}
+    courseFeeOptions: {},
+    taxOptions: {}
   };
   public age = {
     min: '',

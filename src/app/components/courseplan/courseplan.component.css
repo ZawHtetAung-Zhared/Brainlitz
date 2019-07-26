@@ -218,12 +218,12 @@ input:checked ~ .checkmark:after {
 
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button,
-select {
+/* select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   margin: 0;
-}
+} */
 
 .switch {
   position: relative;
@@ -1522,6 +1522,13 @@ ul.search-apg {
   border-width: 0 6px 6px 6px;
   border-style: solid;
   border-color: #fff transparent;
+}
+
+.tax-option {
+  border: 1px solid #f2f4f5;
+  margin-top: 4px;
+  height: 42px !important;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .taxOpt-dropdown {
