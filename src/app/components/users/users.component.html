@@ -1062,7 +1062,23 @@
           </div>
           <div class="form-group form-divider">
             <label for="email" class="label-txt">Email address</label>
-            <label class="d-flex" for="guardian">
+            <label for="guardian" class="m-0 p-0 d-flex">
+              <input
+                type="radio"
+                id="guardian"
+                (click)="isGuardian = !isGuardian"
+                name="guardian"
+                class="d-none"
+              />
+              <div *ngIf="!isGuardian" class="rounded-box"></div>
+              <div *ngIf="isGuardian" class="rounded-checked">
+                <span class="radio-checked"></span>
+              </div>
+              <div class="box-label" [ngClass]="{ checkedDate: isGuardian }">
+                Guardian Email
+              </div>
+            </label>
+            <!-- <label class="d-flex" for="guardian">
               <div *ngIf="!isGuardian" class="square-box"></div>
               <div *ngIf="isGuardian" class="square-checked">
                 <i class="fa fa-check"></i>
@@ -1079,7 +1095,7 @@
               <div class="box-label" [ngClass]="{ checkedDate: isGuardian }">
                 Guardian Email
               </div>
-            </label>
+            </label> -->
             <input
               type="email"
               class="form-control"
