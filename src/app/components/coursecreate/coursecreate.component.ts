@@ -122,7 +122,7 @@ export class CoursecreateComponent implements OnInit {
   public coursePayment: any = {};
   public tempVar: any;
   public tempValue: any;
-  public feesOptions: any;
+  public feesOptions: any = {};
   public taxOptions: any = {};
   public isCreateFix: boolean = false;
 
@@ -397,6 +397,34 @@ export class CoursecreateComponent implements OnInit {
           this.chooseFee = 'no';
         } else {
           this.chooseFee = this.model.paymentPolicy.courseFee;
+        }
+
+        this.taxOptions = this.model.paymentPolicy.taxOptions;
+        if (this.taxOptions == undefined) {
+          console.log('feesOptions', this.feesOptions);
+          var tempObj = {};
+          var testObj = this.feesOptions;
+          var selectedFeeInfo = {
+            fee: this.model.paymentPolicy.courseFee,
+            taxInclusive: this.model.paymentPolicy.courseFeeTaxInclusive
+          };
+          Object.keys(testObj).map(function(key, index) {
+            if (
+              selectedFeeInfo.fee == testObj[key] &&
+              selectedFeeInfo.taxInclusive == false
+            ) {
+              tempObj[key] = {
+                taxInclusive: false
+              };
+            } else {
+              tempObj[key] = {
+                taxInclusive: true
+              };
+            }
+          });
+          console.log('Temp Obj', tempObj);
+          this.taxOptions = tempObj;
+          console.log(this.taxOptions);
         }
 
         // var selectedDays= this.model.repeatDays;
@@ -2161,16 +2189,26 @@ export class CoursecreateComponent implements OnInit {
     endPicker.close();
   }
 
-  chooseFeeOption(key, data) {
+  selectedCFee: string;
+  chooseFeeOption(key, data, taxOpt) {
     this.chooseFee = data;
-    console.log(key, data);
-    // console.log("option",this.chooseFee);
+    // if(taxOpt == true){
+    //   this.chooseTax = 'inclusive';
+    // }else{
+    //   this.chooseTax = 'exclusive'
+    // }
+    this.chooseTax = taxOpt == true ? 'inclusive' : 'exclusive';
+    var opt = taxOpt == true ? 'incl.tax' : 'excl.tax';
+    this.selectedCFee = data.toString() + '-' + opt;
+    console.log(key, data, taxOpt);
+    console.log('selectedCFee', this.chooseFee.toString(), this.selectedCFee);
+    console.log('chooseFee & chooseTax', this.chooseFee, this.chooseTax);
   }
 
-  chooseTaxOption(type) {
-    this.chooseTax = type;
-    console.log('choose Tax', type);
-  }
+  // chooseTaxOption(type) {
+  //   this.chooseTax = type;
+  //   console.log('choose Tax', type);
+  // }
 
   flexiOnOff() {
     console.log('Flexible timetable');

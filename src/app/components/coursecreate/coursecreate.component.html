@@ -249,7 +249,7 @@
                   name="feesName"
                   type="text"
                   placeholder="username"
-                  [(ngModel)]="chooseFee"
+                  [(ngModel)]="selectedCFee"
                   placeholder="None"
                   autocomplete="off"
                   readonly
@@ -260,7 +260,13 @@
                   <li *ngFor="let key of objectKeys(feesOptions)">
                     <div
                       class="w-100"
-                      (click)="chooseFeeOption(key, feesOptions[key])"
+                      (click)="
+                        chooseFeeOption(
+                          key,
+                          feesOptions[key],
+                          taxOptions[key].taxInclusive
+                        )
+                      "
                     >
                       {{ key }} - {{ currency.invCurrencySign }}
                       {{ feesOptions[key] }} -{{
