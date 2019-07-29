@@ -123,6 +123,7 @@ export class CoursecreateComponent implements OnInit {
   public tempVar: any;
   public tempValue: any;
   public feesOptions: any;
+  public taxOptions: any = {};
   public isCreateFix: boolean = false;
 
   objectKeys = Object.keys;
@@ -188,6 +189,19 @@ export class CoursecreateComponent implements OnInit {
       // this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
       console.log('~~~~~', this.feesOptions);
+      this.taxOptions = this.coursePlan.paymentPolicy.taxOptions;
+      console.log('Tax Opt', this.taxOptions);
+      if (this.taxOptions == undefined) {
+        var tempObj = {};
+        Object.keys(this.feesOptions).map(function(key, index) {
+          tempObj[key] = {
+            taxInclusive: true
+          };
+        });
+        console.log('Temp Obj', tempObj);
+        this.taxOptions = tempObj;
+        console.log(this.taxOptions);
+      }
       if (this.feesOptions == undefined) {
         console.log('No Fees OPtions', this.feesOptions);
         this.chooseFee = 'no';

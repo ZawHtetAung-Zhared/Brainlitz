@@ -233,11 +233,11 @@
           <hr *ngIf="feesOptions" class="limit-hr-length" />
         </div>
         <div class="d-flex">
-          <div class="col-md-6 pRight-15" *ngIf="feesOptions">
+          <div class="col-md-12 pRight-15" *ngIf="feesOptions">
             <label
               class="input-title font-medium"
               [ngClass]="{ changeColor: chooseFee == '' }"
-              >CourseFee Options</label
+              >CourseFee</label
             >
             <div>
               <div
@@ -263,14 +263,20 @@
                       (click)="chooseFeeOption(key, feesOptions[key])"
                     >
                       {{ key }} - {{ currency.invCurrencySign }}
-                      {{ feesOptions[key] }}
+                      {{ feesOptions[key] }} -{{
+                        taxOptions[key].taxInclusive == true
+                          ? 'incl.tax'
+                          : 'excl.tax'
+                      }}
+                      <!-- {{ key }} - {{ currency.invCurrencySign }}
+                      {{ feesOptions[key] }}  -->
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div class="col-md-6 pLeft-15">
+          <!-- <div class="col-md-6 pLeft-15">
             <label
               class="input-title font-medium"
               [ngClass]="{ changeColor: chooseTax == '' }"
@@ -293,7 +299,6 @@
                 /><span class="fa fa-angle-down down-icon taxDownOpt"></span>
               </div>
               <div class="dropdown-wrap" *ngIf="taxOptShow == true">
-                <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
                 <ul class="taxOpt-dropdown">
                   <li>
                     <div class="w-100" (click)="chooseTaxOption('inclusive')">
@@ -308,7 +313,7 @@
                 </ul>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
