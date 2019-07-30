@@ -939,6 +939,9 @@ export class DashboardComponent implements OnInit {
   updateInvoice(data, type) {
     console.log(data);
     var body;
+    if (this.selectedFlag === 'sgd') {
+      this.selectedCurrency = 'S$';
+    }
     data['currencyCode'] = this.selectedFlag;
     data['currencySign'] = this.selectedCurrency;
     if (type == 'invoice') {

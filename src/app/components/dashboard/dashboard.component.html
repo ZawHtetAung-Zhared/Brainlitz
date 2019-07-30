@@ -559,7 +559,10 @@
                   <div class="c-sign">
                     <div
                       class="pull-left"
-                      *ngIf="invoiceData.currencyCode == 'sgd'"
+                      *ngIf="
+                        invoiceData.currencyCode == 'sgd' &&
+                        invoiceData.currencySign == '$'
+                      "
                     >
                       S
                     </div>
@@ -945,7 +948,12 @@
                             selectedFlag
                           }} flag-wrap"
                         ></div>
-                        <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">
+                        <div
+                          class="sectionTitle"
+                          *ngIf="
+                            selectedFlag == 'sgd' && selectedCurrency == '$'
+                          "
+                        >
                           S
                         </div>
                         <div class="c-input">{{ selectedCurrency }}</div>
@@ -976,7 +984,10 @@
                               class="currency-flag currency-flag-{{ key }}"
                             ></div>
                             <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">
+                              <div
+                                class="pull-left"
+                                *ngIf="key == 'sgd' && newCurrency[key] == '$'"
+                              >
                                 S
                               </div>
                               {{ newCurrency[key] }}
