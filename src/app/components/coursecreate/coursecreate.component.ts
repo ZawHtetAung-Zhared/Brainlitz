@@ -191,9 +191,10 @@ export class CoursecreateComponent implements OnInit {
       console.log('~~~~~', this.feesOptions);
       this.taxOptions = this.coursePlan.paymentPolicy.taxOptions;
       console.log('Tax Opt', this.taxOptions);
-      if (this.taxOptions == undefined) {
+      if (this.feesOptions != undefined && this.taxOptions == undefined) {
         var tempObj = {};
         Object.keys(this.feesOptions).map(function(key, index) {
+          console.log('key~~~~~~', key);
           tempObj[key] = {
             taxInclusive: true
           };
