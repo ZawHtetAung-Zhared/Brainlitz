@@ -1526,8 +1526,8 @@ ul.search-apg {
 
 .tax-option {
   border: 1px solid #f2f4f5;
-  margin-top: 4px;
-  height: 42px !important;
+  /* margin-top: 4px; */
+  height: 43px !important;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -1673,7 +1673,7 @@ ul.search-apg {
 }
 .opt-hr-length {
   width: 95%;
-  margin-left: 19px;
+  margin-left: 12px;
 }
 .optInput-wrap {
   padding: 5px;
@@ -1690,6 +1690,11 @@ ul.search-apg {
 .optInput-wrap:hover,.removeIcon-shadow:hover,.c-fee:hover + .feeName-input{
   background: #f2f4f5!important;
 }*/
+
+.opt-wrapper {
+  width: 40%;
+  margin-bottom: 12px;
+}
 .c-fee:hover {
   background: #fff;
 }
@@ -1716,6 +1721,7 @@ ul.search-apg {
 .cfee-wrap {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+  margin-left: 5px;
 }
 .removeBtn-wrap {
   width: 10%;
@@ -1745,8 +1751,8 @@ ul.search-apg {
 
 .removeIcon-shadow {
   position: absolute;
-  top: 5px;
-  left: 8px;
+  top: 2px;
+  left: 0px;
   width: 40px;
   height: 40px;
   border-radius: 50%;

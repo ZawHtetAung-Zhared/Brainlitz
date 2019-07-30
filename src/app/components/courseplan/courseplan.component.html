@@ -492,32 +492,25 @@
                 >
                 <div
                   *ngFor="let opt of optArray; let idx = index"
-                  class="d-flex"
-                  style="width: 60%;"
+                  class="d-flex opt-wrapper"
                 >
                   <div>
                     <div
-                      [ngClass]="{ 'shadow-bg': shadowIdx == idx }"
                       (mouseenter)="mouseEnter(idx)"
                       (mouseleave)="mouseLeave(idx)"
-                      class="d-flex  optInput-wrap"
+                      class="d-flex"
                     >
                       <input
                         type="text"
+                        autofocus="true"
                         name="{{ 'name' + idx }}"
-                        class="form-control col-md-8 taxopt-input feeName-input"
-                        [ngClass]="{ 'shadow-bg': shadowIdx == idx }"
+                        class="form-control col-md-6 taxopt-input feeName-input"
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
                       />
-                      <div class="d-flex col-md-4 p-0 cfee-wrap">
-                        <div
-                          class="currencySign"
-                          [ngStyle]="{
-                            background: shadowIdx == idx ? '#8fa1b3' : '#f2f4f5'
-                          }"
-                        >
+                      <div class="d-flex col-md-6 p-0 cfee-wrap">
+                        <div class="currencySign">
                           {{ currency.invCurrencySign }}
                         </div>
                         <input
@@ -530,36 +523,36 @@
                           name="{{ 'fee' + idx }}"
                         />
                       </div>
-                    </div>
-                    <hr class="opt-hr-length" />
-                  </div>
-                  <!-- inclusive/exclusive option -->
-                  <div class="col-sm-3">
-                    <select
-                      class="form-control tax-option"
-                      [(ngModel)]="optArray[idx].selectedTax.name"
-                      (ngModelChange)="onChangeObj($event)"
-                      name="name{{ idx }}"
-                      [value]="optArray[idx].selectedTax.name"
-                    >
-                      <option
-                        [value]="tax.name"
-                        [selected]="tax.name == 'inclusive'"
-                        *ngFor="let tax of optArray[idx].taxOption"
-                        >{{ tax.name }}</option
-                      >
-                    </select>
-                  </div>
-                  <!-- inclusive/exclusive option -->
-                  <div *ngIf="optArray?.length > 1" class="removeBtn-wrap">
-                    <div class="removeIcon-shadow">
-                      <div
-                        class="removeIcon"
-                        (click)="removeFeeOption(idx)"
-                      ></div>
+                      <!-- inclusive/exclusive option -->
+                      <div class="col-sm-6">
+                        <select
+                          class="form-control tax-option"
+                          [(ngModel)]="optArray[idx].selectedTax.name"
+                          (ngModelChange)="onChangeObj($event)"
+                          name="name{{ idx }}"
+                          [value]="optArray[idx].selectedTax.name"
+                        >
+                          <option
+                            [value]="tax.name"
+                            [selected]="tax.name == 'inclusive'"
+                            *ngFor="let tax of optArray[idx].taxOption"
+                            >{{ tax.name }}</option
+                          >
+                        </select>
+                      </div>
+                      <!-- inclusive/exclusive option -->
+                      <div *ngIf="optArray?.length > 1" class="d-flex col-md-4">
+                        <div class="removeIcon-shadow">
+                          <div
+                            class="removeIcon"
+                            (click)="removeFeeOption(idx)"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
                 <button class="addOpt-btn" (click)="addFeeOption()">
                   Add Another Option
