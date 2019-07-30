@@ -1,6 +1,9 @@
 <div class="container-height">
   <div *ngIf="showInvoice">
-    <div *ngIf="feesBox == true" class="overlayInv"></div>
+    <div
+      *ngIf="feesBox == true && invStatus == 'UNPAID'"
+      class="overlayInv"
+    ></div>
     <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">
       PAID[PARTIAL]
     </div>
@@ -69,61 +72,9 @@
           </p>
         </div>
       </div>
-      <div *ngIf="invPayment?.length > 0">
-        <div class="d-flex">
-          <div class="col-md-4 p-0">
-            <label class="invoice-label">Amount</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Billed paid</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Payment method</label>
-          </div>
-        </div>
-        <div *ngFor="let payment of invPayment">
-          <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
-            <div class="col-md-4 p-0 d-flex invoice-label">
-              <span>{{ invCurrency.sign }}</span>
-              <div>{{ payment.amount }}</div>
-            </div>
-            <div class="col-md-4">
-              <p class="invoice-info">{{ payment.updatedDate | dateFormat }}</p>
-            </div>
-            <div class="col-md-4">
-              <div class="d-flex">
-                <div style="width: 55px;">
-                  <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
-                  <i class="fa fa-credit-card" style="font-size: 30px;"></i>
-                </div>
-                <div
-                  class="pl-3"
-                  *ngIf="payment.brandName || payment.cardNumber"
-                >
-                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
-                  <div class="d-flex price-info">
-                    {{ payment.cardNumber }}
-                  </div>
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 0">
-                  Cash
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 1">
-                  Credit/Debit Card
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 2">
-                  Cheque
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 3">
-                  Others
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="d-flex invoice-label fees-header bg-label">
-        <div class="col-md-5 p-0">Course</div>
+        <div class="col-md-5 p-0">Item</div>
         <div class="col-md-1 p-0 text-right">Quantity</div>
         <div class="col-md-2 p-0 text-right">Unit price</div>
         <div class="col-md-2 p-0 text-right">
@@ -151,7 +102,7 @@
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
                 <div
-                  *ngIf="feesBox == true"
+                  *ngIf="feesBox == true && invStatus == 'UNPAID'"
                   class="popup-box price-box text-left"
                 >
                   <div id="rectangle"></div>
@@ -171,7 +122,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="feesBox == true" class="d-flex btns-wrap">
+                <div
+                  *ngIf="feesBox == true && invStatus == 'UNPAID'"
+                  class="d-flex btns-wrap"
+                >
                   <button
                     type="submit"
                     class="btn"
@@ -224,7 +178,94 @@
             </div>
           </div>
         </div>
-        <div class="inv-bordered">
+        <hr class="invoice-hr" />
+        <div class="new-item-box" *ngFor="let obj of newItemArr; let i = index">
+          <div class="d-flex flex-row new-item w-100 mlr-15">
+            <div class="col-md-5 price-info">
+              <input
+                class="form-control price-txt"
+                placeholder="Item Name"
+                (input)="this.newItemArr[i].name = $event.target.value"
+                [value]="obj.name"
+              />
+            </div>
+            <div class="col-md-1 text-right p-0  price-info">
+              <input
+                class="form-control Quantity-txt"
+                placeholder="Quantity"
+                type="number"
+                (input)="this.newItemArr[i].quantity = $event.target.value"
+                [value]="obj.quantity"
+              />
+            </div>
+            <div class="col-md-2 text-right price-info">
+              <input
+                class="form-control unitPrice-txt"
+                placeholder="Unit Price"
+                type="number"
+                (input)="this.newItemArr[i].price = $event.target.value"
+                [value]="obj.price"
+              />
+            </div>
+            <div class="col-md-2 p-0 text-right price-info">
+              <div>
+                <div
+                  class="form-group taxOpt-wrap cursor-on"
+                  (click)="showDropdown(i)"
+                >
+                  <input
+                    class="form-control br-bshadow-none dropD taxInput"
+                    name="taxName"
+                    type="text"
+                    placeholder="username"
+                    (input)="this.newItemArr[i].tax = $event.target.value"
+                    [value]="obj.tax"
+                    placeholder="None"
+                    autocomplete="off"
+                    readonly
+                  /><span class="fa fa-angle-down down-icon taxDownOpt"></span>
+                </div>
+                <div
+                  class="dropdown-wrap"
+                  *ngIf="isShowDown == true && i == activeId"
+                >
+                  <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
+                  <ul class="taxOpt-dropdown">
+                    <li>
+                      <div
+                        class="w-100"
+                        (click)="chooseTaxOption('inclusive', i)"
+                      >
+                        Inclusive
+                      </div>
+                    </li>
+                    <li>
+                      <div
+                        class="w-100"
+                        (click)="chooseTaxOption('exclusive', i)"
+                      >
+                        Exclusive
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2 text-right price-info">
+              <input
+                class="form-control amount-txt"
+                placeholder="Amount"
+                type="number"
+                (input)="this.newItemArr[i].amount = $event.target.value"
+                [value]="obj.amount"
+              />
+            </div>
+          </div>
+          <hr class="invoice-hr" />
+        </div>
+        <button class="newItem-btn" (click)="addnewItem()">Add New Item</button>
+
+        <!-- <div class="inv-bordered">
           <div *ngIf="hideReg == false" class="d-flex inv-row">
             <div class="row-icon cursor-on" (click)="hideInvoiceRow('reg')">
               <img src="./assets/images/withdraw-ico@2x.png" />
@@ -301,8 +342,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <hr class="invoice-hr" />
+        </div> -->
+
         <div class="d-flex justify-content-end">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
@@ -356,6 +397,62 @@
             Code: xx123
           </div>
         </div> -->
+        <div *ngIf="invPayment?.length > 0">
+          <div class="d-flex">
+            <div class="col-md-4">
+              <label class="invoice-label">Payment Date</label>
+            </div>
+            <div class="col-md-4">
+              <label class="invoice-label">Payment method</label>
+            </div>
+            <div class="col-md-4 p-0">
+              <label class="invoice-label">Amount</label>
+            </div>
+          </div>
+          <div *ngFor="let payment of invPayment">
+            <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
+              <div class="col-md-4">
+                <p class="invoice-info">
+                  {{ payment.updatedDate | dateFormat }}
+                </p>
+              </div>
+              <div class="col-md-4">
+                <div class="d-flex">
+                  <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
+                  <!-- <div style="width: 55px;">
+            
+                    <i class="fa fa-credit-card" style="font-size: 30px;"></i>
+                  </div> -->
+                  <div
+                    class="pl-3"
+                    *ngIf="payment.brandName || payment.cardNumber"
+                  >
+                    <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                    <div class="d-flex price-info">
+                      {{ payment.cardNumber }}
+                    </div>
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                    Cash
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                    Credit/Debit Card
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                    Cheque
+                  </div>
+                  <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                    Others
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 p-0 d-flex invoice-label">
+                <span>{{ invCurrency.sign }}</span>
+                <div>{{ payment.amount }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="invoice-info">
           <textarea
             *ngIf="invoiceInfo.invoiceNote != ''"
@@ -419,7 +516,7 @@
           "
           (click)="showPayOption()"
         >
-          Paid On
+          PAY
         </button>
       </div>
     </div>
@@ -464,7 +561,7 @@
               <div>{{ total }}</div>
             </div>
             <div class="col-md-4">
-              <label class="invoice-label">Billed paid</label>
+              <label class="invoice-label">Payment Date</label>
               <p class="invoice-info">-</p>
             </div>
             <div class="col-md-4">
@@ -485,62 +582,9 @@
               </div>
             </div>
           </div> -->
-      <div *ngIf="invPayment?.length > 0">
-        <div class="d-flex">
-          <div class="col-md-4 p-0">
-            <label class="invoice-label">Amount</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Billed paid</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Payment method</label>
-          </div>
-        </div>
-        <div *ngFor="let payment of invPayment">
-          <!-- {{payment|json}} -->
-          <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
-            <div class="col-md-4 p-0 d-flex invoice-label">
-              <span>{{ invCurrency.sign }}</span>
-              <div>{{ payment.amount }}</div>
-            </div>
-            <div class="col-md-4">
-              <p class="invoice-info">{{ payment.updatedDate | dateFormat }}</p>
-            </div>
-            <div class="col-md-4">
-              <div class="d-flex">
-                <div style="width: 55px;">
-                  <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
-                  <i class="fa fa-credit-card" style="font-size: 30px;"></i>
-                </div>
-                <div
-                  class="pl-3"
-                  *ngIf="payment.brandName || payment.cardNumber"
-                >
-                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
-                  <div class="d-flex price-info">
-                    {{ payment.cardNumber }}
-                  </div>
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 0">
-                  Cash
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 1">
-                  Credit/Debit Card
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 2">
-                  Cheque
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 3">
-                  Others
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <div class="d-flex invoice-label fees-header bg-label">
-        <div class="col-md-5 p-0">Course</div>
+        <div class="col-md-5 p-0">Item</div>
         <div class="col-md-1 p-0 text-right">Quantity</div>
         <div class="col-md-2 p-0 text-right">Unit price</div>
         <div class="col-md-2 p-0 text-right">
@@ -587,7 +631,8 @@
             </div>
           </div>
         </div>
-        <div class="inv-bordered">
+
+        <!-- <div class="inv-bordered">
           <div *ngIf="hideReg == false" class="d-flex inv-row">
             <div class="d-flex w-100 b-bottom mlr-15">
               <div class="col-md-5 p-0 price-info">
@@ -655,7 +700,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <hr class="invoice-hr" />
         <div class="d-flex justify-content-end">
           <div class="w-50">
@@ -696,7 +741,76 @@
           </div>
         </div>
       </div>
+      <div *ngIf="invPayment?.length > 0">
+        <div class="d-flex">
+          <div class="col-md-4">
+            <label class="invoice-label">Payment Date</label>
+          </div>
+          <div class="col-md-4">
+            <label class="invoice-label">Payment method</label>
+          </div>
+          <div class="col-md-4 p-0">
+            <label class="invoice-label">Amount</label>
+          </div>
+        </div>
+        <div *ngFor="let payment of invPayment">
+          <!-- {{payment|json}} -->
+          <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
+            <div class="col-md-4">
+              <p class="invoice-info">{{ payment.updatedDate | dateFormat }}</p>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex">
+                <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
+                <!-- <div style="width: 55px;">
+                
+                  <i class="fa fa-credit-card" style="font-size: 30px;"></i>
+                </div> -->
+                <div
+                  class="pl-3"
+                  *ngIf="payment.brandName || payment.cardNumber"
+                >
+                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                  <div class="d-flex price-info">
+                    {{ payment.cardNumber }}
+                  </div>
+                </div>
+                <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                  Cash
+                </div>
+                <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                  Credit/Debit Card
+                </div>
+                <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                  Cheque
+                </div>
+                <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                  Others
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 p-0 d-flex invoice-label">
+              <span>{{ invCurrency.sign }}</span>
+              <div>{{ payment.amount }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="invoice-info">
+        <textarea
+          *ngIf="invoiceInfo.invoiceNote != ''"
+          style="resize:vertical"
+          rows="1"
+          type="text"
+          class="invnote-readonly"
+          id="invNote"
+          [(ngModel)]="invoiceInfo.invoiceNote"
+          name="invNote"
+          readonly
+        ></textarea>
+      </div>
     </div>
+
     <div class="modal-footer justify-content-end">
       <button class="btn btn-submit" (click)="closeModal()">Done</button>
     </div>
@@ -806,7 +920,7 @@
           paymentItem.amount <= 0
         "
       >
-        Paid On
+        PAY
       </button>
     </div>
   </div>
