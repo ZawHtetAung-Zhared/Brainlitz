@@ -504,12 +504,12 @@
                         type="text"
                         autofocus="true"
                         name="{{ 'name' + idx }}"
-                        class="form-control col-md-6 taxopt-input feeName-input"
+                        class="form-control col-md-8 col-sm-8 taxopt-input feeName-input"
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
                       />
-                      <div class="d-flex col-md-6 p-0 cfee-wrap">
+                      <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap">
                         <div class="currencySign">
                           {{ currency.invCurrencySign }}
                         </div>
@@ -524,7 +524,7 @@
                         />
                       </div>
                       <!-- inclusive/exclusive option -->
-                      <div class="col-sm-6">
+                      <div class="col-sm-8 col-md-8">
                         <select
                           class="form-control tax-option"
                           [(ngModel)]="optArray[idx].selectedTax.name"
@@ -541,7 +541,10 @@
                         </select>
                       </div>
                       <!-- inclusive/exclusive option -->
-                      <div *ngIf="optArray?.length > 1" class="d-flex col-md-4">
+                      <div
+                        *ngIf="optArray?.length > 1"
+                        class="d-flex col-md-10 col-sm-8"
+                      >
                         <div class="removeIcon-shadow">
                           <div
                             class="removeIcon"
