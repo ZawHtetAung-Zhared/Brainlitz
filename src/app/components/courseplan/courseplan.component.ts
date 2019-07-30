@@ -147,6 +147,8 @@ export class CourseplanComponent implements OnInit {
   public optArray = [];
   public shadowIdx: any = null;
   public assessmentPlans: any = [];
+  deviceObjects = [{ name: 'inclusive' }, { name: 'exclusive' }];
+  selectedDeviceObj = this.deviceObjects[1];
   ngOnInit() {
     this.formField.lesson.duration = '0 min';
     this.showModal = true;
@@ -209,26 +211,41 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('single plan', res);
         this.formField = res;
-        if (!this.formField.paymentPolicy.taxInclusive) {
+        let taxOptionObjLength = Object.keys(res.paymentPolicy.taxOptions)
+          .length;
+        /* if (!this.formField.paymentPolicy.taxInclusive) {
           this.chooseTax = 'exclusive';
         } else {
           this.chooseTax = 'inclusive';
         }
         if (this.formField.paymentPolicy.taxInclusive == null) {
           this.chooseTax = 'none';
-        }
+        } */
+        // Object.keys(res.paymentPolicy.taxOptions).forEach((val, key) => {
+        //   console.log(res.paymentPolicy.taxOptions[val]);
+        //   console.log(key);
+        //   console.log(this.optArray);
+        //   if (res.paymentPolicy.taxOptions[val].taxInclusive === true) {
+        //     this.optArray[key].selectedTax = { id: key, name: 'inclusive' };
+        //   } else {
+        //     this.optArray[key].selectedTax = { id: key, name: 'exclusive' };
+        //   }
+        // });
+
         this.tempDuration = res.lesson.duration;
         console.log(this.formField.lesson.duration);
         this.convertMinsToHrsMins(this.formField.lesson.duration);
         let optObj = this.formField.paymentPolicy.courseFeeOptions;
+        let taxObj = this.formField.paymentPolicy.taxOptions;
         // if (optObj) {
         //   this.setFeeOptionArray(optObj);
         // }
         if (optObj != undefined) {
-          this.setFeeOptionArray(optObj);
+          this.setFeeOptionArray(optObj, taxObj);
         } else {
           this.addFeeOption();
         }
+        console.log(this.optArray);
 
         this.selectedAPlans = this.formField.assessmentPlans;
         for (var i = 0; i < this.selectedAPlans.length; i++) {
@@ -321,10 +338,18 @@ export class CourseplanComponent implements OnInit {
       .css('background-color', '#0080ff');
   }
 
+  onChangeObj(newObj) {
+    console.log(newObj);
+    this.selectedDeviceObj = newObj;
+    // ... do other stuff here ...
+  }
+
   addFeeOption() {
     const obj = {
-      name: '',
-      fees: null
+      name: 'basic course fee',
+      fees: null,
+      selectedTax: { id: 1, name: 'inclusive' },
+      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -339,12 +364,17 @@ export class CourseplanComponent implements OnInit {
     console.log('optArray for removeFee~~~', this.optArray);
   }
 
-  setFeeOptionArray(obj) {
-    for (var key in obj) {
-      console.log(key, obj[key]);
+  setFeeOptionArray(feeobj, taxobj) {
+    for (var key in feeobj) {
+      console.log(key, feeobj[key]);
       let data = {
         name: key,
-        fees: obj[key]
+        fees: feeobj[key],
+        selectedTax:
+          taxobj[key].taxInclusive == true
+            ? { id: 1, name: 'inclusive' }
+            : { id: 2, name: 'exclusive' },
+        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
       };
       this.optArray.push(data);
     }
@@ -496,12 +526,28 @@ export class CourseplanComponent implements OnInit {
 
   categoryName: any;
 
+  formatDataForTaxOption(feeOptionsArr) {
+    console.log(feeOptionsArr);
+    let taxOptions = {};
+    feeOptionsArr.map((val, key) => {
+      console.log(val);
+      taxOptions[val.name] = {
+        taxInclusive: val.selectedTax.name === 'inclusive' ? true : false
+      };
+    });
+    console.log(taxOptions);
+    return taxOptions;
+  }
+
   createdPlan(formData, type) {
     // if(formData.deposit == 'deposit'){
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
     console.log(formData);
+    console.log(this.optArray);
+    this.formatDataForTaxOption(this.optArray);
+
     // console.log(this.step2FormaData)
     // let obj: any = {};
     // for (var i = 0; i < this.optArr.length; i++) {
@@ -583,22 +629,22 @@ export class CourseplanComponent implements OnInit {
 
     if (Object.keys(obj).length != 0) {
       data.paymentPolicy['courseFeeOptions'] = obj;
+      data.paymentPolicy['taxOptions'] = this.formatDataForTaxOption(
+        this.optArray
+      );
     }
 
-    if (this.chooseTax != '') {
+    /* if (this.chooseTax != '') {
       if (this.chooseTax == 'inclusive') {
         data.paymentPolicy['taxInclusive'] = true;
       }
       if (this.chooseTax == 'exclusive') {
         data.paymentPolicy['taxInclusive'] = false;
       }
-
-      // if(this.chooseTax == undefined || this.chooseTax == null || this.chooseTax == 'none'){
-      //   data.paymentPolicy["taxInclusive"] = null;
-      // }
-    }
+    } */
 
     console.log(data.paymentPolicy.deposit);
+    console.log('Data', data);
 
     if (type == 'create') {
       console.log('CreatePlan');
@@ -1433,8 +1479,8 @@ export class CourseplanComponent implements OnInit {
         if (this.formField.makeupPolicy == undefined) {
           this.formField['makeupPolicy'] = {
             allowMakeupPass: false,
-            maxDayPerPass: '',
-            maxPassPerUser: ''
+            maxDayPerPass: 10,
+            maxPassPerUser: 3
           };
         }
       }
