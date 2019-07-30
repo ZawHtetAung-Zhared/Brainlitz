@@ -578,40 +578,52 @@
           </div>
           <div *ngFor="let courseGroup of courseList">
             <div class="card card-wrap">
-              <div class="header">
+              <div class="header d-flex justify-content-between">
                 <div>
-                  <label
-                    *ngIf="courseGroup.coursePlan.category != undefined"
-                    class="category semibold"
-                  >
-                    #{{ courseGroup.coursePlan.category.name }}
-                  </label>
+                  <div>
+                    <label
+                      *ngIf="courseGroup.coursePlan.category != undefined"
+                      class="category semibold"
+                    >
+                      #{{ courseGroup.coursePlan.category.name }}
+                    </label>
+                  </div>
+                  <h5 class="medium-font cursor-on">
+                    {{ courseGroup.coursePlan.name }}
+                  </h5>
+                  <div class="d-flex header-info light-font">
+                    <label
+                      class="mb-0 l-height"
+                      *ngIf="courseGroup.coursePlan.seats != null"
+                      >{{ courseGroup.coursePlan.seats }} seats</label
+                    >
+                    <label
+                      class="mb-0 l-height"
+                      *ngIf="courseGroup.coursePlan.seats == null"
+                      >unlimited seats</label
+                    >
+                    <ul>
+                      <li class="l-height">
+                        {{
+                          courseGroup.coursePlan.lesson.duration | minuteSeconds
+                        }}
+                        duration
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <h5
-                  (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)"
-                  class="medium-font cursor-on"
+                <div
+                  class="header-buttons-wrapper d-flex justify-content-center align-items-center"
                 >
-                  {{ courseGroup.coursePlan.name }}
-                </h5>
-                <div class="d-flex header-info light-font">
-                  <label
-                    class="mb-0 l-height"
-                    *ngIf="courseGroup.coursePlan.seats != null"
-                    >{{ courseGroup.coursePlan.seats }} seats</label
+                  <button (click)="addNewCourse(courseGroup.coursePlan)">
+                    ADD NEW COURSE
+                  </button>
+                  <span class="small-line"></span>
+                  <button
+                    (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)"
                   >
-                  <label
-                    class="mb-0 l-height"
-                    *ngIf="courseGroup.coursePlan.seats == null"
-                    >unlimited seats</label
-                  >
-                  <ul>
-                    <li class="l-height">
-                      {{
-                        courseGroup.coursePlan.lesson.duration | minuteSeconds
-                      }}
-                      duration
-                    </li>
-                  </ul>
+                    EDIT PLAN
+                  </button>
                 </div>
               </div>
               <div>
@@ -793,14 +805,14 @@
                   </div>
                 </div>
               </div>
-              <div class="link-wrap">
+              <!-- <div class="link-wrap">
                 <a
                   *ngIf="courseDemo.addCourse != ''"
                   class="link-btn"
                   (click)="addNewCourse(courseGroup.coursePlan)"
                   >Add new course</a
                 >
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
