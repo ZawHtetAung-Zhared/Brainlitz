@@ -885,7 +885,10 @@ h5 {
   color: #2e3d4d;
   font-size: 18px;
 }
-
+.guardian-select {
+  font-size: 14px;
+  color: #64707d;
+}
 .label-txt span {
   font-size: 14px;
   color: #64707d;
