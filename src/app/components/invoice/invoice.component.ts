@@ -46,7 +46,7 @@ export class InvoiceComponent implements OnInit {
   public paymentId: any;
   public paymentProviders: any;
   public selectedPayment: any;
-
+  public defaultLength: any;
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
@@ -114,6 +114,7 @@ export class InvoiceComponent implements OnInit {
       (res: any) => {
         console.error(this.invoice);
         console.error(res);
+        console.error(res.additionalFees);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
         this.showOneInvoice(this.course, this.invoice);
@@ -121,6 +122,8 @@ export class InvoiceComponent implements OnInit {
         setTimeout(() => {
           this.calculationTotal();
         }, 200);
+        this.defaultLength = res.additionalFees.length;
+        this.chageTempObj(res.additionalFees);
         console.log(res);
       },
       err => {
@@ -153,8 +156,11 @@ export class InvoiceComponent implements OnInit {
       this.newItemArr.indexOf(obj),
       1
     );
-    console.log(this.newItemArr);
-
+    console.log(this.newItemArr.length);
+    console.error(this.defaultLength);
+    if (this.newItemArr.length == this.defaultLength) {
+      this.isEditInv = false;
+    }
     this.calculationTotal();
   }
   updateInvoice() {
@@ -189,6 +195,8 @@ export class InvoiceComponent implements OnInit {
         this.singleInv = [];
         this.singleInv.push(res);
         this.invoice = this.singleInv;
+        this.chageTempObj(res.additionalFees);
+
         console.log('invoice', this.invoice);
         for (var i in this.invoice) {
           var n = this.invoice[i].total;
@@ -315,10 +323,13 @@ export class InvoiceComponent implements OnInit {
   }
   showPopup(type, value) {
     console.log('show popup');
-    this.isEditInv = true;
-    if (type == 'courseFee') {
-      this.feesBox = true;
-      this.value.courseFee = value;
+    console.error(this.invStatus);
+    if (this.invStatus == 'UNPAID') {
+      this.isEditInv = true;
+      if (type == 'courseFee') {
+        this.feesBox = true;
+        this.value.courseFee = value;
+      }
     }
   }
   cancelPopup(type) {
@@ -658,8 +669,35 @@ export class InvoiceComponent implements OnInit {
     };
     console.error(newItemObj);
     this.newItemArr.push(newItemObj);
+    this.isEditInv = true;
   }
 
+  chageTempObj(obj) {
+    this.newItemArr = [];
+    let tempArr: any = [];
+    for (let i = 0; i < obj.length; i++) {
+      let tempObj = {
+        name: '',
+        fee: 0,
+        dfee: 0,
+        taxtype: 'inclusive',
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        amount: 0
+      };
+      tempObj.name = obj[0].name;
+      tempObj.fee = obj[0].fee;
+      if (obj[0].taxInclusive == true) {
+        tempObj.taxtype = 'inclusive';
+      } else {
+        tempObj.taxtype = 'exclusive';
+      }
+      tempObj.amount = obj[0].amount;
+      tempArr.push(tempObj);
+    }
+    this.newItemArr = tempArr;
+    console.error(this.newItemArr);
+  }
   isnewItemsValid: boolean = false;
   validateForm() {
     // console.error(this.newItemArr);
@@ -749,9 +787,11 @@ export class InvoiceComponent implements OnInit {
     this.feesBox1 = false;
   }
   showPopup1(id) {
-    this.feesBox1 = true;
-    this.activeFeeBoxId = id;
-    console.log('exit');
+    if (this.invStatus == 'UNPAID') {
+      this.feesBox1 = true;
+      this.activeFeeBoxId = id;
+      console.log('exit');
+    }
   }
   cancelPopup2() {
     this.feesBox1 = false;
