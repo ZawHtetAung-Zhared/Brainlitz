@@ -99,6 +99,8 @@ export class UsersComponent implements OnInit {
   notShowEdit: boolean = true;
   permissionId: any[] = [];
   editId: any;
+  public customerEmail = false;
+  public guardianEmail = false;
   public personalMail: boolean = false;
   public updateButton: boolean = false;
   public createButton: boolean = true;
@@ -524,11 +526,7 @@ export class UsersComponent implements OnInit {
     objData.append('orgId', this.orgID);
     objData.append('fullName', obj.fullName);
     objData.append('preferredName', obj.preferredName);
-    if (!this.isGuardian) {
-      objData.append('email', obj.email);
-    } else {
-      obj.guardianEmail = obj.email;
-    }
+    objData.append('email', obj.email);
     obj.about = obj.about == undefined ? '' : obj.about;
     objData.append('about', obj.about);
 

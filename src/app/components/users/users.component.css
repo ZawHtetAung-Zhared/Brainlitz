@@ -880,6 +880,22 @@ h5 {
   padding: 2px 5px;
 }
 
+.plus-circle {
+  background: url(../../../assets/icons/plus_sign.svg);
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.addEmail-text {
+  color: #007fff;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  padding-left: 16px;
+}
+
 .label-txt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
