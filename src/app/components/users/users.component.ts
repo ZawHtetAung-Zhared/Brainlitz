@@ -323,6 +323,8 @@ export class UsersComponent implements OnInit {
   }
 
   getSingleInfo(ID) {
+    this.customerEmail = false;
+    this.guardianEmail = false;
     console.log(ID);
     console.log(this.isCrop);
     this.isCrop = false;
@@ -771,6 +773,8 @@ export class UsersComponent implements OnInit {
   }
 
   goCreateForm(type) {
+    this.customerEmail = false;
+    this.guardianEmail = false;
     this.hideMenu = true;
     console.log('TYPE', type);
     this.isCrop = false;
