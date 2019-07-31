@@ -543,7 +543,7 @@
                       <!-- inclusive/exclusive option -->
                       <div
                         *ngIf="optArray?.length > 1"
-                        class="d-flex col-md-10 col-sm-8"
+                        class="d-flex col-md-2 col-sm-2"
                       >
                         <div class="removeIcon-shadow">
                           <div
@@ -643,11 +643,9 @@
                       }"
                     >
                       <img
+                        class="book-cover img-fluid"
                         drag-scroll-item
                         src="{{ pdf.cover }}"
-                        width="125"
-                        height="180"
-                        style="margin-bottom: 10px;"
                       />
                       <input
                         type="checkbox"

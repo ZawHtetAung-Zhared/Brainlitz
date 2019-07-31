@@ -606,6 +606,13 @@ drag-scroll {
   font-size: 14px;
 }
 
+.book-cover {
+  margin-bottom: 10px;
+  object-fit: contain;
+  width: 120px;
+  height: 180px;
+}
+
 select,
 ::-webkit-input-placeholder {
   color: #788796 !important;
