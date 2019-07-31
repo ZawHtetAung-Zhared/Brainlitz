@@ -421,8 +421,8 @@ ul.taxOpt-dropdown {
   position: absolute;
   z-index: 99;
   padding: 0px 15px;
-  top: 0px;
-  right: 10px;
+  top: 80%;
+  right: 0px;
   background: #fff;
   color: #2e3d4d !important;
   max-height: 250px;
@@ -434,6 +434,9 @@ ul.taxOpt-dropdown li div {
   height: 45px;
   line-height: 2.7;
   cursor: pointer;
+}
+.tax-txt {
+  padding: 0px 10px 0px 20px;
 }
 /* 
 .new-item{
