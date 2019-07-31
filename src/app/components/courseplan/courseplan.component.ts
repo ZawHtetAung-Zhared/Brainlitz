@@ -211,8 +211,13 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('single plan', res);
         this.formField = res;
-        let taxOptionObjLength = Object.keys(res.paymentPolicy.taxOptions)
-          .length;
+        if (
+          res.paymentPolicy.taxOptions != null ||
+          res.paymentPolicy.taxOptions != undefined
+        ) {
+          let taxOptionObjLength = Object.keys(res.paymentPolicy.taxOptions)
+            .length;
+        }
         /* if (!this.formField.paymentPolicy.taxInclusive) {
           this.chooseTax = 'exclusive';
         } else {

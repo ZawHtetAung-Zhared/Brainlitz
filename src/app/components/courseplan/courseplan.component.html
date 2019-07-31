@@ -189,7 +189,7 @@
 												</div> -->
                     <hr class="limit-hr-length" />
                   </div>
-                  <div class="mr-top">
+                  <div class="mr-top" style="position: relative;">
                     <label class="all-title-font"> Duration</label>
                     <input
                       type="text"
@@ -399,20 +399,22 @@
                     <div class="col-md-6" style="padding: 0;">
                       <div>
                         <label class="all-title-font">
-                          Validation duration after class (need to chage label
-                          here)
+                          Issued makeup pass valid for
                         </label>
-                        <input
-                          type="number"
-                          class="form-control all-left-box-10 br-bshadow-none"
-                          (keypress)="numberOnly($event, 'makeupDuration')"
-                          [(ngModel)]="formField.makeupPolicy.maxDayPerPass"
-                          min="0"
-                          id="makeupass"
-                          name="makeuppass"
-                          #makeuppass="ngModel"
-                          placeholder="0 day"
-                        />
+                        <div class="d-flex makeup-wrap">
+                          <input
+                            type="number"
+                            class="form-control all-left-box-10 br-bshadow-none"
+                            (keypress)="numberOnly($event, 'makeupDuration')"
+                            [(ngModel)]="formField.makeupPolicy.maxDayPerPass"
+                            min="0"
+                            id="makeupass"
+                            name="makeuppass"
+                            #makeuppass="ngModel"
+                            placeholder="0 day"
+                          />
+                          <span>days</span>
+                        </div>
                         <!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
 													<div [hidden]="!makeuppass.errors.required">
 														Validation duration after class is required!
@@ -427,19 +429,22 @@
                           class="all-title-font"
                           style="padding-left: 20px;"
                         >
-                          Number of days per user (need to chage label here)
+                          Limit number of makeup pass per payment term
                         </label>
-                        <input
-                          type="number"
-                          class="form-control br-bshadow-none all-m-left10"
-                          (keypress)="numberOnly($event, 'makeupUser')"
-                          [(ngModel)]="formField.makeupPolicy.maxPassPerUser"
-                          min="0"
-                          id="makeupuser"
-                          name="makeupuser"
-                          placeholder="0 day"
-                          #makeupuser="ngModel"
-                        />
+                        <div class="d-flex makeup-wrap">
+                          <input
+                            type="number"
+                            class="form-control br-bshadow-none all-m-left10"
+                            (keypress)="numberOnly($event, 'makeupUser')"
+                            [(ngModel)]="formField.makeupPolicy.maxPassPerUser"
+                            min="0"
+                            id="makeupuser"
+                            name="makeupuser"
+                            placeholder="0 day"
+                            #makeupuser="ngModel"
+                          />
+                          <span>passes</span>
+                        </div>
                         <!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
 													<div [hidden]="!makeupuser.errors.required">
 														Number of days per user is required!

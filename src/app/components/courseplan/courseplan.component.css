@@ -494,7 +494,7 @@ input:-webkit-input-placeholder {
   display: none;
   position: absolute;
   right: 5%;
-  bottom: 35px;
+  bottom: -150px;
   z-index: 9;
 }
 
@@ -1815,6 +1815,14 @@ ul.search-apg {
 
 .transform-y {
   transform: rotate(180deg);
+}
+
+.makeup-wrap input {
+  width: 88%;
+}
+
+.makeup-wrap span {
+  line-height: 2.2;
 }
 
 @media only screen and (max-width: 768px) {
