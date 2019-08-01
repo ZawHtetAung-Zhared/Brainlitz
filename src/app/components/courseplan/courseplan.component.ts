@@ -372,15 +372,34 @@ export class CourseplanComponent implements OnInit {
   setFeeOptionArray(feeobj, taxobj) {
     for (var key in feeobj) {
       console.log(key, feeobj[key]);
+      // let data = {
+      //   name: key,
+      //   fees: feeobj[key],
+      //   selectedTax:
+      //     taxobj[key] == undefined || taxobj[key] == null || taxobj[key].taxInclusive == true
+      //       ? { id: 1, name: 'inclusive' }
+      //       : { id: 2, name: 'exclusive' },
+      //   taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+      // };
       let data = {
         name: key,
         fees: feeobj[key],
-        selectedTax:
-          taxobj[key].taxInclusive == true
-            ? { id: 1, name: 'inclusive' }
-            : { id: 2, name: 'exclusive' },
+        selectedTax: null,
         taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
       };
+      if (
+        taxobj == undefined ||
+        taxobj == null ||
+        taxobj == '' ||
+        (taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == '')
+      ) {
+        data.selectedTax = { id: 1, name: 'inclusive' };
+      } else {
+        data.selectedTax =
+          taxobj[key].taxInclusive == true
+            ? { id: 1, name: 'inclusive' }
+            : { id: 2, name: 'exclusive' };
+      }
       this.optArray.push(data);
     }
   }
