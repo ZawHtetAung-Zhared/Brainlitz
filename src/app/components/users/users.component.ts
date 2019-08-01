@@ -323,8 +323,8 @@ export class UsersComponent implements OnInit {
   }
 
   getSingleInfo(ID) {
-    this.customerEmail = false;
-    this.guardianEmail = false;
+    // this.customerEmail = false;
+    // this.guardianEmail = false;
     console.log(ID);
     console.log(this.isCrop);
     this.isCrop = false;
@@ -344,6 +344,17 @@ export class UsersComponent implements OnInit {
         console.log('~~~', this.returnProfile);
         this.showCustDetail = false;
         this.goCreateForm('edit');
+        if (res.email && res.email.length > 0) {
+          this.customerEmail = true;
+        } else {
+          this.customerEmail = false;
+        }
+
+        if (res.guardianEmail && res.guardianEmail.length > 0) {
+          this.guardianEmail = true;
+        } else {
+          this.guardianEmail = false;
+        }
       },
       err => {
         console.log(err);
