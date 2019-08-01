@@ -53,7 +53,7 @@ export class InvoiceComponent implements OnInit {
   public paymentId: any;
   public paymentProviders: any;
   public selectedPayment: any;
-  public unitPrice: any;
+  public unitPrice: any = 0;
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
@@ -127,7 +127,7 @@ export class InvoiceComponent implements OnInit {
         setTimeout(() => {
           this.calculationTotal();
         }, 200);
-        this.chageTempObj(res.additionalFees);
+        this.changeTempObj(res.additionalFees);
         console.log(res);
       },
       err => {
@@ -206,7 +206,7 @@ export class InvoiceComponent implements OnInit {
         this.singleInv = [];
         this.singleInv.push(res);
         this.invoice = this.singleInv;
-        this.chageTempObj(res.additionalFees);
+        this.changeTempObj(res.additionalFees);
 
         console.log('invoice', this.invoice);
         for (var i in this.invoice) {
@@ -662,13 +662,17 @@ export class InvoiceComponent implements OnInit {
 
   chooseTax: any = 'inclusive';
   chooseTaxOption(type, i) {
+    this.isEditInv = true;
     this.newItemArr[i].taxtype = type;
     this.chooseTax = type;
     this.isShowDown = false;
+
     this.addCurseFee(i);
   }
 
   addnewItem() {
+    console.log(this.newItemArr);
+
     let newItemObj = {
       name: '',
       fee: 0.0,
@@ -683,30 +687,32 @@ export class InvoiceComponent implements OnInit {
     this.isEditInv = true;
   }
 
-  chageTempObj(obj) {
+  changeTempObj(obj) {
     this.newItemArr = [];
     let tempArr: any = [];
     for (let i = 0; i < obj.length; i++) {
-      let tempObj = {
-        name: '',
-        fee: 0,
-        dfee: 0,
-        taxtype: 'inclusive',
-        tax: this.invoice[0].tax.rate,
-        taxRes: 0,
-        amount: 0
-      };
-      tempObj.name = obj[0].name;
-      tempObj.fee = obj[0].fee;
-      if (obj[0].taxInclusive == true) {
+      console.log(obj[i]);
+      let tempObj: any = {};
+
+      tempObj.name = obj[i].name;
+      tempObj.fee = obj[i].fee;
+
+      if (obj[i].taxInclusive == true) {
         tempObj.taxtype = 'inclusive';
+        tempObj.dfee = Number(obj[i].fee) + Number(obj[i].tax);
       } else {
         tempObj.taxtype = 'exclusive';
+        tempObj.dfee = Number(obj[i].fee);
       }
-      tempObj.amount = obj[0].amount;
+      tempObj.tax = this.invoice[0].tax.rate;
+      let taxAmount = (obj[i].fee * this.invoice[0].tax.rate) / 100;
+      tempObj.taxRes = taxAmount;
+
+      tempObj.amount = obj[i].amount;
       tempArr.push(tempObj);
     }
     this.newItemArr = tempArr;
+    console.log(this.newItemArr);
   }
   isnewItemsValid: boolean = false;
   validateForm() {
@@ -732,10 +738,13 @@ export class InvoiceComponent implements OnInit {
   }
 
   addCurseFee(id) {
+    console.log(this.newItemArr);
+
     let taxRate = this.newItemArr[id].tax;
-    this.newItemArr[id].fee = this.unitPrice;
+    this.newItemArr[id].fee = this.newItemArr[id].dfee;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
     this.newItemArr[id].taxRes = Number(taxAmount);
+    console.error('taxAmount', taxAmount);
 
     if (this.newItemArr[id].taxtype == 'inclusive') {
       var cFee = (
@@ -745,6 +754,8 @@ export class InvoiceComponent implements OnInit {
       // this.newItemArr[id].amount = this.newItemArr[id].dfee;
       this.newItemArr[id].amount = Number(cFee).toFixed(2);
     } else if (this.newItemArr[id].taxtype == 'exclusive') {
+      console.error('ex', this.newItemArr[id].dfee);
+
       this.newItemArr[id].taxRes = Number(taxAmount);
       this.newItemArr[id].fee = this.newItemArr[id].dfee;
       // this.newItemArr[id].amount = (
@@ -775,6 +786,8 @@ export class InvoiceComponent implements OnInit {
     this.totalTax = Number(taxAmount).toFixed(2);
     this.total = 0;
 
+    console.log(this.totalTax);
+
     for (let i = 0; i < this.newItemArr.length; i++) {
       this.subTotal = (
         Number(this.subTotal) + Number(this.newItemArr[i].fee)
@@ -782,8 +795,9 @@ export class InvoiceComponent implements OnInit {
       this.totalTax = (
         Number(this.totalTax) + Number(this.newItemArr[i].taxRes)
       ).toFixed(2);
+      console.log('res', this.newItemArr[i].taxRes);
     }
-
+    console.log(this.subTotal);
     this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
     console.log(this.total);
 
