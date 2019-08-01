@@ -218,12 +218,12 @@ input:checked ~ .checkmark:after {
 
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button,
-select {
+/* select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   margin: 0;
-}
+} */
 
 .switch {
   position: relative;
@@ -341,8 +341,8 @@ input:-webkit-input-placeholder {
 }
 
 /*.title-color {
-	color: #0080ff; 
-  font-family: 'Inter-UI-Medium', Arial,sans-serif; 
+	color: #0080ff;
+  font-family: 'Inter-UI-Medium', Arial,sans-serif;
 }*/
 
 .mr-top {
@@ -494,7 +494,7 @@ input:-webkit-input-placeholder {
   display: none;
   position: absolute;
   right: 5%;
-  bottom: -120px;
+  bottom: -150px;
   z-index: 9;
 }
 
@@ -604,6 +604,13 @@ drag-scroll {
 .book-label {
   padding: 10px;
   font-size: 14px;
+}
+
+.book-cover {
+  margin-bottom: 10px;
+  object-fit: contain;
+  width: 120px;
+  height: 180px;
 }
 
 select,
@@ -887,7 +894,7 @@ header {
   height: 35px;
 }
 /*.header-wrap {
-  position: relative; 
+  position: relative;
 }
 
 .header-wrap div{
@@ -1500,13 +1507,11 @@ ul.search-apg {
   list-style-type: none;
   padding: 0;
   margin-bottom: 0;
-  position: absolute;
+  /* position: absolute; */
   z-index: 99;
   padding: 0px 15px;
-  /*top: 55px;
-  right: 15px;*/
-  top: 80px;
-  right: 0px;
+  top: 265px;
+  right: 15px;
   display: none;
   background: #fff;
   color: #2e3d4d !important;
@@ -1524,6 +1529,13 @@ ul.search-apg {
   border-width: 0 6px 6px 6px;
   border-style: solid;
   border-color: #fff transparent;
+}
+
+.tax-option {
+  border: 1px solid #f2f4f5;
+  /* margin-top: 4px; */
+  height: 43px !important;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
 }
 
 .taxOpt-dropdown {
@@ -1594,7 +1606,7 @@ ul.search-apg {
 .tax-downicon.fa {
   position: absolute;
   top: 61%;
-  right: 15px;
+  right: 25px;
   transform: translateY(-50%);
   font-size: 20px;
 }
@@ -1604,7 +1616,7 @@ ul.search-apg {
 }
 
 .holiday-downicon.fa {
-  top: 49%;
+  top: 55%;
 }
 .deposit-sign {
   position: absolute;
@@ -1668,7 +1680,7 @@ ul.search-apg {
 }
 .opt-hr-length {
   width: 95%;
-  margin-left: 19px;
+  margin-left: 12px;
 }
 .optInput-wrap {
   padding: 5px;
@@ -1685,6 +1697,11 @@ ul.search-apg {
 .optInput-wrap:hover,.removeIcon-shadow:hover,.c-fee:hover + .feeName-input{
   background: #f2f4f5!important;
 }*/
+
+.opt-wrapper {
+  width: 40%;
+  margin-bottom: 12px;
+}
 .c-fee:hover {
   background: #fff;
 }
@@ -1693,7 +1710,7 @@ ul.search-apg {
   border: none;
 }
 .currencySign {
-  width: 25%;
+  width: 20%;
   padding: 8px 5px;
   background: #f2f4f5;
   text-align: center;
@@ -1711,6 +1728,7 @@ ul.search-apg {
 .cfee-wrap {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+  margin-left: 16px;
 }
 .removeBtn-wrap {
   width: 10%;
@@ -1740,8 +1758,8 @@ ul.search-apg {
 
 .removeIcon-shadow {
   position: absolute;
-  top: 5px;
-  left: 8px;
+  top: 2px;
+  left: 0px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -1799,6 +1817,14 @@ ul.search-apg {
   transform: rotate(180deg);
 }
 
+.makeup-wrap input {
+  width: 88%;
+}
+
+.makeup-wrap span {
+  line-height: 2.2;
+}
+
 @media only screen and (max-width: 768px) {
   .down-arrow1 {
     bottom: 45px;
@@ -1819,8 +1845,8 @@ ul.search-apg {
 
 /* ----------- iPad Pro 12.9" ----------- */
 /* 1366 ,1366 to 1600 , 1600 */
-/* @media only screen 
-  and (min-device-width: 1024px) 
+/* @media only screen
+  and (min-device-width: 1024px)
   and (max-device-width: 1366px)
   and (-webkit-min-device-pixel-ratio: 2)*/
 
@@ -1949,7 +1975,7 @@ ul.search-apg {
   /*.div_step6 .button-wrapper{
         border-top: none;
         padding: 0;
-        left: 12em;     
+        left: 12em;
         background: no-repeat;
         padding-top: 63px;
       }*/
