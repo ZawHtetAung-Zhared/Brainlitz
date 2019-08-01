@@ -1,5 +1,12 @@
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  AfterViewInit
+} from '@angular/core';
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
@@ -46,7 +53,7 @@ export class InvoiceComponent implements OnInit {
   public paymentId: any;
   public paymentProviders: any;
   public selectedPayment: any;
-
+  public unitPrice: any;
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
@@ -74,7 +81,7 @@ export class InvoiceComponent implements OnInit {
     console.log(this.custDetail);
     console.log(this.course);
     this.invStatus = this.course.invoice.status;
-    this.taxRate = this.course.invoice.tax.rate;
+    // this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];
 
     if (Array.isArray(this.course.invoice)) {
@@ -128,6 +135,14 @@ export class InvoiceComponent implements OnInit {
       }
     );
     this.autogrow();
+  }
+
+  ngAfterViewInit() {
+    // this.invoice={
+    //     tax :{
+    //       rate:''
+    //     }
+    // }
   }
   // hideInvoiceRow(type) {
   //   this.isEditInv = true;
@@ -222,6 +237,7 @@ export class InvoiceComponent implements OnInit {
   showOneInvoice(course, invoice) {
     console.log('showOneInvoice', course);
     for (var i in this.invoice) {
+      this.taxRate = this.invoice[i].tax.rate;
       this.updatedDate = this.dateFormat(invoice[i].updatedDate);
       this.dueDate = this.dateFormat(invoice[i].dueDate);
       this.invoiceID = invoice[i]._id;
@@ -711,6 +727,7 @@ export class InvoiceComponent implements OnInit {
 
   addCurseFee(id) {
     let taxRate = this.newItemArr[id].tax;
+    this.newItemArr[id].fee = this.unitPrice;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
     this.newItemArr[id].taxRes = Number(taxAmount);
 
@@ -771,7 +788,7 @@ export class InvoiceComponent implements OnInit {
       console.log('exit');
     }
   }
-  cancelPopup2() {
+  cancelPopup2(id) {
     this.feesBox1 = false;
   }
 }

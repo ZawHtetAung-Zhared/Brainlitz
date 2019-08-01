@@ -13,7 +13,7 @@
           <img src="{{ logo }}" />
         </div>
         <div class="text-right">
-          <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
+          <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE ===</h3>
           <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
           <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
         </div>
@@ -192,7 +192,11 @@
           class="d-flex new-item-box"
           *ngFor="let obj of newItemArr; let i = index"
         >
-          <div class="row-icon cursor-on" (click)="hideInvoiceRow(obj)">
+          <div
+            class="row-icon cursor-on"
+            (click)="hideInvoiceRow(obj)"
+            *ngIf="invStatus == 'UNPAID'"
+          >
             <img src="./assets/images/withdraw-ico@2x.png" />
           </div>
           <div class="d-flex flex-row new-item w-100 mlr-15">
@@ -238,7 +242,7 @@
                       placeholder="Unit Price"
                       type="number"
                       (input)="inputUnitPrice($event.target.value, i)"
-                      (input)="this.newItemArr[i].fee = $event.target.value"
+                      (input)="unitPrice = $event.target.value"
                       [value]="obj.fee"
                     />
                   </div>
@@ -248,7 +252,7 @@
                 *ngIf="feesBox1 == true && activeFeeBoxId == i"
                 class="d-flex btns-wrap"
               >
-                <button type="submit" class="btn" (click)="cancelPopup2()">
+                <button type="submit" class="btn" (click)="cancelPopup2(i)">
                   <span class="closemark">
                     <div class="closemark_stem"></div>
                     <div class="closemark_kick"></div>
@@ -259,9 +263,9 @@
                   class="btn"
                   (click)="addCurseFee(i)"
                   [disabled]="
-                    this.newItemArr[i].fee == undefined ||
-                    this.newItemArr[i].fee == '' ||
-                    this.newItemArr[i].fee == data.courseFee.fee
+                    unitPrice == undefined ||
+                    unitPrice == '' ||
+                    unitPrice == data.courseFee.fee
                   "
                 >
                   <span class="checkmark">
@@ -274,25 +278,14 @@
                 {{ obj.fee }}
               </p>
             </div>
-            <div class="col-md-2 text-right price-info" style="display: flex;">
+            <div
+              class="col-md-2 text-right price-info"
+              *ngIf="invStatus == 'UNPAID'"
+              style="display: flex;"
+            >
               <div class="tax-txt">{{ obj.tax }}%</div>
 
               <div>
-                <!-- <div
-                  class="form-group taxOpt-wrap cursor-on"
-                  (click)="showDropdown(i)"
-                >
-                  <input
-                    class="form-control br-bshadow-none dropD taxInput"
-                    name="taxName"
-                    type="text"
-                    (input)="this.newItemArr[i].taxtype = $event.target.value"
-                    [value]="obj.taxtype"
-                    placeholder="None"
-                    autocomplete="off"
-                    readonly
-                  /><span class="fa fa-angle-down down-icon taxDownOpt"></span>
-                </div> -->
                 <button class="taxOpt-wrap" (click)="showDropdown(i)">
                   <span>{{ chooseTax }}</span
                   ><i class="fa fa-chevron-down downIcon"></i>
@@ -322,6 +315,22 @@
                   </ul>
                 </div>
               </div>
+            </div>
+            <div
+              class="col-md-2 p-0 text-right price-info"
+              *ngIf="invStatus != 'UNPAID'"
+            >
+              {{ data.tax.rate }} %
+              <span
+                *ngIf="data.courseFee.taxInclusive == true"
+                class="tax-status"
+                >(inclusive)</span
+              >
+              <span
+                *ngIf="data.courseFee.taxInclusive == false"
+                class="tax-status"
+                >(exclusive)</span
+              >
             </div>
             <!-- <div class="col-md-2 text-right price-info">
                 <input
