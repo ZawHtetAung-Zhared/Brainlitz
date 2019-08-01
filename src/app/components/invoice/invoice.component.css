@@ -479,6 +479,17 @@ i.fa.fa-chevron-down.downIcon {
   font-size: 12px;
   margin-left: 8px;
 }
+.itemName {
+  border: none;
+  box-shadow: none;
+}
+.itemName:focus {
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  background: #1a000000 !important;
+}
+.row-icon.cursor-on {
+  padding-top: 5px;
+}
 /* 
 .new-item{
   padding-top: 15px;

@@ -13,7 +13,8 @@
           <img src="{{ logo }}" />
         </div>
         <div class="text-right">
-          <h3 class="modal-title">Invoice</h3>
+          <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
+          <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
           <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
         </div>
       </div>
@@ -197,7 +198,7 @@
           <div class="d-flex flex-row new-item w-100 mlr-15">
             <div class="col-md-5 price-info p-0">
               <input
-                class="form-control price-txt"
+                class="form-control price-txt itemName"
                 placeholder="Item Name"
                 (input)="this.newItemArr[i].name = $event.target.value"
                 [value]="obj.name"
@@ -462,20 +463,7 @@
             </div>
           </div>
         </div>
-        <div class="invoice-info">
-          <textarea
-            *ngIf="invoiceInfo.invoiceNote != ''"
-            style="resize:vertical"
-            rows="1"
-            type="text"
-            class="invnote-readonly"
-            id="invNote"
-            [(ngModel)]="invoiceInfo.invoiceNote"
-            #invNote="ngModel"
-            name="invNote"
-            readonly
-          ></textarea>
-        </div>
+
         <!-- <div class="invoice-info">
           <p class="mb-0">
             Payments can be made via cash, cheque or bank transfer.
@@ -547,6 +535,20 @@
             </div>
           </div>
         </div>
+        <div class="invoice-info">
+          <textarea
+            *ngIf="invoiceInfo.invoiceNote != ''"
+            style="resize:vertical"
+            rows="1"
+            type="text"
+            class="invnote-readonly"
+            id="invNote"
+            [(ngModel)]="invoiceInfo.invoiceNote"
+            #invNote="ngModel"
+            name="invNote"
+            readonly
+          ></textarea>
+        </div>
       </div>
       <div class="modal-footer justify-content-between">
         <div class="d-flex">
@@ -563,7 +565,6 @@
             </button>
           </div>
         </div>
-        {{ isEditInv }}
         <div *ngIf="custDetail.user">
           <button
             *ngIf="isEditInv == false"
@@ -592,7 +593,6 @@
           >
             Save
           </button>
-
           <button
             class="btn btn-submit"
             [disabled]="
