@@ -1015,14 +1015,14 @@
                   <div class="d-flex justify-content-between">
                     <label class="input-label">Invoice Duration</label>
                   </div>
-                  <textarea
+                  <input
+                    type="number"
                     class="form-control create-textarea"
-                    rows="3"
                     placeholder="Invoice Duration"
                     name="invDuration"
                     [(ngModel)]="invoiceData.dueDateCount"
                     #invDuration="ngModel"
-                  ></textarea>
+                  />
                 </div>
                 <!-- </div> -->
               </div>

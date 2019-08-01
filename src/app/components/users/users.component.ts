@@ -99,6 +99,8 @@ export class UsersComponent implements OnInit {
   notShowEdit: boolean = true;
   permissionId: any[] = [];
   editId: any;
+  public customerEmail = false;
+  public guardianEmail = false;
   public personalMail: boolean = false;
   public updateButton: boolean = false;
   public createButton: boolean = true;
@@ -321,6 +323,8 @@ export class UsersComponent implements OnInit {
   }
 
   getSingleInfo(ID) {
+    this.customerEmail = false;
+    this.guardianEmail = false;
     console.log(ID);
     console.log(this.isCrop);
     this.isCrop = false;
@@ -524,11 +528,7 @@ export class UsersComponent implements OnInit {
     objData.append('orgId', this.orgID);
     objData.append('fullName', obj.fullName);
     objData.append('preferredName', obj.preferredName);
-    if (!this.isGuardian) {
-      objData.append('email', obj.email);
-    } else {
-      obj.guardianEmail = obj.email;
-    }
+    objData.append('email', obj.email);
     obj.about = obj.about == undefined ? '' : obj.about;
     objData.append('about', obj.about);
 
@@ -773,6 +773,8 @@ export class UsersComponent implements OnInit {
   }
 
   goCreateForm(type) {
+    this.customerEmail = false;
+    this.guardianEmail = false;
     this.hideMenu = true;
     console.log('TYPE', type);
     this.isCrop = false;
