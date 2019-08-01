@@ -1559,11 +1559,28 @@
                   </div>
                   <div
                     class="att-box"
-                    *ngIf="attdBox == true && this.uId == user.userId"
+                    *ngIf="
+                      attdBox == true &&
+                      this.uId == user.userId &&
+                      (!disableCancel || detailLists.type == 'FLEXY')
+                    "
                   >
                     <div class="carret-box"></div>
-                    <li>
-                      <div id="divToHide" *ngIf="!disableCancel">
+                    <li
+                      *ngIf="!disableCancel"
+                      [ngClass]="{
+                        'attendance-wrap':
+                          detailLists.type == 'FLEXY' &&
+                          showCancelButton == true,
+                        'pb-3':
+                          detailLists.type == 'FLEXY' &&
+                          showCancelButton == true,
+                        'mb-3':
+                          detailLists.type == 'FLEXY' &&
+                          showCancelButton == true
+                      }"
+                    >
+                      <div id="divToHide">
                         <div class="pb-3">Take Attendance</div>
                         <div class="d-flex" id="divToHide">
                           <div
@@ -1617,9 +1634,11 @@
                     </li>
 
                     <button
-                      *ngIf="detailLists.type == 'FLEXY'"
+                      *ngIf="
+                        detailLists.type == 'FLEXY' && showCancelButton == true
+                      "
                       (click)="getReschedule(reschedule, user)"
-                      class="btn w-100 reschedule-btn mt-3"
+                      class="btn w-100 reschedule-btn p-0"
                     >
                       Reschedule
                     </button>
