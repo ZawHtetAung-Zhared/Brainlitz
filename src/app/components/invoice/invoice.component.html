@@ -262,11 +262,7 @@
                   type="submit"
                   class="btn"
                   (click)="addCurseFee(i)"
-                  [disabled]="
-                    unitPrice == undefined ||
-                    unitPrice == '' ||
-                    unitPrice == data.courseFee.fee
-                  "
+                  [disabled]="unitPrice == undefined || unitPrice == ''"
                 >
                   <span class="checkmark">
                     <div class="checkmark_stem"></div>

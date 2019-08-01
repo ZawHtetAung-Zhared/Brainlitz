@@ -383,6 +383,7 @@ button.newItem-btn {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   cursor: pointer;
   padding-top: 20px;
+  outline: none;
 }
 
 .br-bshadow-none {
