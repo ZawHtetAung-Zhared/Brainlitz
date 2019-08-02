@@ -110,6 +110,7 @@ import { AssignReliefComponent } from './components/assign-relief/assign-relief.
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RescheduleComponent } from './components/reschedule/reschedule.component';
+import { FinancialPipe } from './service/pipe/financial.pipe';
 
 @NgModule({
   declarations: [
@@ -186,7 +187,8 @@ import { RescheduleComponent } from './components/reschedule/reschedule.componen
     LeaveDetailsComponent,
     UtcDateAndDayPipe,
     RescheduleComponent,
-    AssignReliefComponent
+    AssignReliefComponent,
+    FinancialPipe
   ],
   imports: [
     ContentLoaderModule,

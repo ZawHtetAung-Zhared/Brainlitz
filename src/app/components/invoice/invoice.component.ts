@@ -65,7 +65,7 @@ export class InvoiceComponent implements OnInit {
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public paymentSettings: any = {};
-
+  public registration: any;
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -79,8 +79,8 @@ export class InvoiceComponent implements OnInit {
   @Output() closed = new EventEmitter<boolean>();
   ngOnInit() {
     console.log(this.custDetail);
-    console.log(this.course);
-    this.invStatus = this.course.invoice.status;
+    console.log(this.course.invoice.status);
+
     // this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];
 
@@ -137,13 +137,6 @@ export class InvoiceComponent implements OnInit {
     this.autogrow();
   }
 
-  ngAfterViewInit() {
-    // this.invoice={
-    //     tax :{
-    //       rate:''
-    //     }
-    // }
-  }
   // hideInvoiceRow(type) {
   //   this.isEditInv = true;
   //   if (type == 'reg') {
@@ -237,6 +230,7 @@ export class InvoiceComponent implements OnInit {
   showOneInvoice(course, invoice) {
     console.log('showOneInvoice', course);
     for (var i in this.invoice) {
+      this.invStatus = this.invoice[i].status;
       this.taxRate = this.invoice[i].tax.rate;
       this.updatedDate = this.dateFormat(invoice[i].updatedDate);
       this.dueDate = this.dateFormat(invoice[i].dueDate);
@@ -303,7 +297,8 @@ export class InvoiceComponent implements OnInit {
           console.log('has invoice setting', res.invoiceSettings.invoiceNote);
           this.invoiceInfo = res.invoiceSettings;
           this.paymentSettings = res.paymentSettings;
-          console.log(this.paymentSettings.tax.rate);
+          this.registration = res.invoiceSettings.registration;
+          console.log(this.registration);
 
           this.noSetting = false;
         }
@@ -364,10 +359,12 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
+  isDefaultUpdate: boolean = false;
   updateCfee(data) {
     console.log('updateCfee', data);
     console.log(this.invoice);
-
+    this.isnewItemsValid = true;
+    this.isDefaultUpdate = true;
     this.feesBox = false;
     for (var i in this.invoice) {
       if (this.invoice[i].courseFee.fee != data) {
@@ -680,7 +677,8 @@ export class InvoiceComponent implements OnInit {
       taxtype: 'inclusive',
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
-      amount: 0.0
+      amount: 0.0,
+      isDefault: false
     };
 
     this.newItemArr.push(newItemObj);
@@ -707,7 +705,7 @@ export class InvoiceComponent implements OnInit {
       tempObj.tax = this.invoice[0].tax.rate;
       let taxAmount = (obj[i].fee * this.invoice[0].tax.rate) / 100;
       tempObj.taxRes = taxAmount;
-
+      tempObj.isDefault = true;
       tempObj.amount = obj[i].amount;
       tempArr.push(tempObj);
     }
@@ -716,6 +714,8 @@ export class InvoiceComponent implements OnInit {
   }
   isnewItemsValid: boolean = false;
   validateForm() {
+    console.log('exit', this.newItemArr);
+
     if (this.newItemArr.length != 0) {
       for (let i = 0; i < this.newItemArr.length; i++) {
         if (
@@ -730,7 +730,14 @@ export class InvoiceComponent implements OnInit {
         }
       }
     } else {
-      this.isnewItemsValid = true;
+      console.log('here me', this.isDefaultUpdate);
+
+      if (this.isDefaultUpdate) {
+        this.isnewItemsValid = true;
+      } else {
+        this.isnewItemsValid = false;
+        this.isEditInv = false;
+      }
     }
   }
   inputUnitPrice(value, id) {
@@ -744,7 +751,7 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].fee = this.newItemArr[id].dfee;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
     this.newItemArr[id].taxRes = Number(taxAmount);
-    console.error('taxAmount', taxAmount);
+    console.log('taxAmount', taxAmount);
 
     if (this.newItemArr[id].taxtype == 'inclusive') {
       var cFee = (
@@ -754,7 +761,7 @@ export class InvoiceComponent implements OnInit {
       // this.newItemArr[id].amount = this.newItemArr[id].dfee;
       this.newItemArr[id].amount = Number(cFee).toFixed(2);
     } else if (this.newItemArr[id].taxtype == 'exclusive') {
-      console.error('ex', this.newItemArr[id].dfee);
+      console.log('ex', this.newItemArr[id].dfee);
 
       this.newItemArr[id].taxRes = Number(taxAmount);
       this.newItemArr[id].fee = this.newItemArr[id].dfee;

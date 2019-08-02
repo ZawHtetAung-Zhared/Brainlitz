@@ -462,7 +462,7 @@ ul.taxOpt-dropdown li div {
 
 .d-flex.new-item-box {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px 0px 10px 0px;
+  padding: 20px 30px 10px 0px;
 }
 
 button.taxOpt-wrap {
@@ -491,6 +491,12 @@ i.fa.fa-chevron-down.downIcon {
 .row-icon.cursor-on {
   padding-top: 5px;
 }
+
+.addType {
+  /* padding: 0 !important; */
+  text-align: right !important;
+  display: unset !important;
+}
 /* 
 .new-item{
   padding-top: 15px;
@@ -498,3 +504,8 @@ i.fa.fa-chevron-down.downIcon {
 .d-flex.new-item-box.w-100.mlr-15 {
   border-bottom: 1px solid rgba(0,0,0,.1);
 } */
+
+label.id-label {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  padding-right: 30px;
+}
