@@ -834,10 +834,11 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  lCount(val) {
+  lCount(e, val) {
     console.log(val);
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
+    this.numberOnly(e);
   }
 
   chooseOpt(optType, itemType) {

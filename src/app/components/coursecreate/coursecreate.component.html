@@ -448,7 +448,7 @@
                 placeholder="0 lesson"
                 [(ngModel)]="model.lessonCount"
                 #lesson="ngModel"
-                (input)="lCount($event.target.value)"
+                (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
               />
             </div>
@@ -464,7 +464,7 @@
                 ng-pattern="/^(\d)+$/"
                 [(ngModel)]="model.defaultlessonCount"
                 #dlesson="ngModel"
-                (input)="lCount($event.target.value)"
+                (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
               />
             </div>
