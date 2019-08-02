@@ -52,11 +52,13 @@ export class InvoiceComponent implements OnInit {
   public hideDeposit: boolean = false;
   public invoiceCourse: any = {};
   public value: any = {};
+  public taxRate: any;
   public updateInvData: any;
   public showLoading: boolean = false;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public paymentSettings: any = {};
+
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -72,7 +74,9 @@ export class InvoiceComponent implements OnInit {
     console.log(this.custDetail);
     console.log(this.course);
     this.invStatus = this.course.invoice.status;
+    this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];
+
     if (Array.isArray(this.course.invoice)) {
       if (this.course.invoice[0].status == 'PAID') {
         this.showPaidInvoice = true;
@@ -93,11 +97,6 @@ export class InvoiceComponent implements OnInit {
       }
     }
 
-    console.log(this.showInvoice);
-    this.invStatus = this.course.invoice.status;
-    console.log('View Invoice', this.course);
-    console.log(this.custDetail);
-    // this.showInvoice = true;
     this.getRegionInfo();
 
     if (this.course.invoice != null) {
@@ -112,8 +111,8 @@ export class InvoiceComponent implements OnInit {
     console.log(this.invoiceInfo);
     this._service.getSingleInvoice(invoiceId).subscribe(
       (res: any) => {
-        console.error(this.invoice);
-        console.error(res);
+        console.log(this.invoice);
+        console.log(res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
         this.showOneInvoice(this.course, this.invoice);
@@ -121,6 +120,7 @@ export class InvoiceComponent implements OnInit {
         setTimeout(() => {
           this.calculationTotal();
         }, 200);
+        this.chageTempObj(res.additionalFees);
         console.log(res);
       },
       err => {
@@ -153,13 +153,15 @@ export class InvoiceComponent implements OnInit {
       this.newItemArr.indexOf(obj),
       1
     );
-    console.log(this.newItemArr);
+    console.log(this.newItemArr.length);
 
+    this.isEditInv = true;
+    this.validateForm();
     this.calculationTotal();
   }
   updateInvoice() {
     console.log('Inv Update Data', this.updateInvData);
-    console.error(this.newItemArr);
+    console.log(this.newItemArr);
     let arr = [];
     for (let i = 0; i < this.newItemArr.length; i++) {
       let type: boolean;
@@ -179,7 +181,7 @@ export class InvoiceComponent implements OnInit {
       courseFee: this.updateInvData,
       additionalFees: arr
     };
-    console.error('f obj', finalObj);
+    console.log('f obj', finalObj);
 
     this._service.updateInvoiceInfo(this.invoiceID, finalObj).subscribe(
       (res: any) => {
@@ -189,6 +191,8 @@ export class InvoiceComponent implements OnInit {
         this.singleInv = [];
         this.singleInv.push(res);
         this.invoice = this.singleInv;
+        this.chageTempObj(res.additionalFees);
+
         console.log('invoice', this.invoice);
         for (var i in this.invoice) {
           var n = this.invoice[i].total;
@@ -315,10 +319,13 @@ export class InvoiceComponent implements OnInit {
   }
   showPopup(type, value) {
     console.log('show popup');
-    this.isEditInv = true;
-    if (type == 'courseFee') {
-      this.feesBox = true;
-      this.value.courseFee = value;
+    console.log(this.invStatus);
+    if (this.invStatus == 'UNPAID') {
+      this.isEditInv = true;
+      if (type == 'courseFee') {
+        this.feesBox = true;
+        this.value.courseFee = value;
+      }
     }
   }
   cancelPopup(type) {
@@ -342,8 +349,8 @@ export class InvoiceComponent implements OnInit {
   }
 
   updateCfee(data) {
-    console.error('updateCfee', data);
-    console.error(this.invoice);
+    console.log('updateCfee', data);
+    console.log(this.invoice);
 
     this.feesBox = false;
     for (var i in this.invoice) {
@@ -535,7 +542,7 @@ export class InvoiceComponent implements OnInit {
     // console.log("data",body);
     this._service.makePayment(this.regionId, body).subscribe(
       (res: any) => {
-        console.error(res.message);
+        console.log(res.message);
         // this.toastr.success(res.message);
         this.cancelInvoiceModal();
         this.closeModal('inv');
@@ -623,7 +630,6 @@ export class InvoiceComponent implements OnInit {
   isShowDown: boolean = false;
   activeId: any;
   showDropdown(i) {
-    console.error(i);
     this.activeId = i;
     if (this.isShowDown) {
       this.isShowDown = false;
@@ -634,19 +640,13 @@ export class InvoiceComponent implements OnInit {
 
   chooseTax: any = 'inclusive';
   chooseTaxOption(type, i) {
-    console.error(i);
     this.newItemArr[i].taxtype = type;
     this.chooseTax = type;
     this.isShowDown = false;
-    console.error(this.newItemArr);
-
-    console.error('choose Tax', this.newItemArr[i].fee);
     this.addCurseFee(i);
   }
 
   addnewItem() {
-    console.error('add new', this.invoice[0].tax.rate);
-
     let newItemObj = {
       name: '',
       fee: 0,
@@ -656,47 +656,65 @@ export class InvoiceComponent implements OnInit {
       taxRes: 0,
       amount: 0
     };
-    console.error(newItemObj);
+
     this.newItemArr.push(newItemObj);
+    this.isEditInv = true;
   }
 
+  chageTempObj(obj) {
+    this.newItemArr = [];
+    let tempArr: any = [];
+    for (let i = 0; i < obj.length; i++) {
+      let tempObj = {
+        name: '',
+        fee: 0,
+        dfee: 0,
+        taxtype: 'inclusive',
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        amount: 0
+      };
+      tempObj.name = obj[0].name;
+      tempObj.fee = obj[0].fee;
+      if (obj[0].taxInclusive == true) {
+        tempObj.taxtype = 'inclusive';
+      } else {
+        tempObj.taxtype = 'exclusive';
+      }
+      tempObj.amount = obj[0].amount;
+      tempArr.push(tempObj);
+    }
+    this.newItemArr = tempArr;
+  }
   isnewItemsValid: boolean = false;
   validateForm() {
-    // console.error(this.newItemArr);
-    // console.error(this.isEditInv);
-
-    for (let i = 0; i < this.newItemArr.length; i++) {
-      if (
-        this.newItemArr[i].name != '' &&
-        this.newItemArr[i].amount != '' &&
-        this.newItemArr[i].quantity != '' &&
-        this.newItemArr[i].price != ''
-      ) {
-        // console.error('exit');
-        this.isnewItemsValid = true;
-      } else {
-        // console.error('not');
-        this.isnewItemsValid = false;
+    if (this.newItemArr.length != 0) {
+      for (let i = 0; i < this.newItemArr.length; i++) {
+        if (
+          this.newItemArr[i].name != '' &&
+          this.newItemArr[i].amount != '' &&
+          this.newItemArr[i].quantity != '' &&
+          this.newItemArr[i].price != ''
+        ) {
+          this.isnewItemsValid = true;
+        } else {
+          this.isnewItemsValid = false;
+        }
       }
+    } else {
+      this.isnewItemsValid = true;
     }
   }
   inputUnitPrice(value, id) {
     this.newItemArr[id].dfee = value;
-    console.error(this.newItemArr);
   }
 
   addCurseFee(id) {
-    console.error(this.newItemArr);
-    console.error(id);
-
     let taxRate = this.newItemArr[id].tax;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
-    console.error(taxAmount);
-
     this.newItemArr[id].taxRes = Number(taxAmount);
 
     if (this.newItemArr[id].taxtype == 'inclusive') {
-      console.error(this.newItemArr[id].taxtype);
       var cFee = (
         this.newItemArr[id].dfee - this.newItemArr[id].taxRes
       ).toFixed(2);
@@ -704,18 +722,16 @@ export class InvoiceComponent implements OnInit {
       this.newItemArr[id].amount = this.newItemArr[id].dfee;
     } else if (this.newItemArr[id].taxtype == 'exclusive') {
       this.newItemArr[id].taxRes = Number(taxAmount);
-      console.error('dfee', this.newItemArr[id].dfee);
       this.newItemArr[id].fee = this.newItemArr[id].dfee;
-      this.newItemArr[id].amount =
-        Number(this.newItemArr[id].dfee) + Number(this.newItemArr[id].taxRes);
+      this.newItemArr[id].amount = (
+        Number(this.newItemArr[id].dfee) + Number(this.newItemArr[id].taxRes)
+      ).toFixed(2);
     }
-    console.error(this.newItemArr);
-
     this.calculationTotal();
   }
 
   calculationTotal() {
-    console.error(this.newItemArr);
+    console.log(this.newItemArr);
     let taxRate = this.invoice[0].tax.rate;
     let taxAmount;
     if (this.invoice[0].courseFee.taxInclusive) {
@@ -728,7 +744,7 @@ export class InvoiceComponent implements OnInit {
       taxAmount = ((this.invoice[0].courseFee.fee * taxRate) / 100).toFixed(2);
     }
 
-    console.error(taxAmount);
+    console.log(taxAmount);
 
     this.subTotal = Number(this.invoice[0].courseFee.fee);
     this.totalTax = Number(taxAmount);
@@ -744,14 +760,16 @@ export class InvoiceComponent implements OnInit {
     }
 
     this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
-    console.error(this.total);
+    console.log(this.total);
 
     this.feesBox1 = false;
   }
   showPopup1(id) {
-    this.feesBox1 = true;
-    this.activeFeeBoxId = id;
-    console.log('exit');
+    if (this.invStatus == 'UNPAID') {
+      this.feesBox1 = true;
+      this.activeFeeBoxId = id;
+      console.log('exit');
+    }
   }
   cancelPopup2() {
     this.feesBox1 = false;
