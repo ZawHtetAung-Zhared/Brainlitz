@@ -46,6 +46,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
   userid: any;
   acResult: any;
+  public isGuardian = false;
   public selectedCourse: any;
   public activePass: any = '';
   public currentPassObj: any;
@@ -98,6 +99,8 @@ export class UsersComponent implements OnInit {
   notShowEdit: boolean = true;
   permissionId: any[] = [];
   editId: any;
+  public customerEmail = false;
+  public guardianEmail = false;
   public personalMail: boolean = false;
   public updateButton: boolean = false;
   public createButton: boolean = true;
@@ -320,6 +323,8 @@ export class UsersComponent implements OnInit {
   }
 
   getSingleInfo(ID) {
+    // this.customerEmail = false;
+    // this.guardianEmail = false;
     console.log(ID);
     console.log(this.isCrop);
     this.isCrop = false;
@@ -339,6 +344,17 @@ export class UsersComponent implements OnInit {
         console.log('~~~', this.returnProfile);
         this.showCustDetail = false;
         this.goCreateForm('edit');
+        if (res.email && res.email.length > 0) {
+          this.customerEmail = true;
+        } else {
+          this.customerEmail = false;
+        }
+
+        if (res.guardianEmail && res.guardianEmail.length > 0) {
+          this.guardianEmail = true;
+        } else {
+          this.guardianEmail = false;
+        }
       },
       err => {
         console.log(err);
@@ -524,7 +540,6 @@ export class UsersComponent implements OnInit {
     objData.append('fullName', obj.fullName);
     objData.append('preferredName', obj.preferredName);
     objData.append('email', obj.email);
-
     obj.about = obj.about == undefined ? '' : obj.about;
     objData.append('about', obj.about);
 
@@ -769,6 +784,8 @@ export class UsersComponent implements OnInit {
   }
 
   goCreateForm(type) {
+    this.customerEmail = false;
+    this.guardianEmail = false;
     this.hideMenu = true;
     console.log('TYPE', type);
     this.isCrop = false;

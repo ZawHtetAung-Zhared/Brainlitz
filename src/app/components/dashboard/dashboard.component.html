@@ -190,7 +190,7 @@
                       <div id="parent">
                         <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Organisation Logo</label>
+                      <label class="labelTitle">Organization Logo</label>
                     </div>
                     <div class="preview" *ngIf="!isEdit">
                       <img class="img-fluid" id="org-logo" [src]="orgLogo" />
@@ -394,7 +394,7 @@
                         <div id="parent">
                           <img src="./assets/images/home.png" />
                         </div>
-                        <label class="labelTitle">Organisation Logo</label>
+                        <label class="labelTitle">Organization Logo</label>
                       </div>
                       <div class="form-group">
                         <div class="input-group">
@@ -559,7 +559,10 @@
                   <div class="c-sign">
                     <div
                       class="pull-left"
-                      *ngIf="invoiceData.currencyCode == 'sgd'"
+                      *ngIf="
+                        invoiceData.currencyCode == 'sgd' &&
+                        invoiceData.currencySign == '$'
+                      "
                     >
                       S
                     </div>
@@ -600,6 +603,33 @@
                   readonly
                 ></textarea>
                 <label *ngIf="invoiceData.invoiceNote == ''">
+                  -
+                </label>
+              </div>
+              <div>
+                <div class="title-wrap">
+                  <div id="parent">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle">Invoice Duration</label>
+                </div>
+                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
+                  {{invoiceData.invoiceNote}}
+                </div> -->
+                <input
+                  style="resize:vertical"
+                  *ngIf="invoiceData.dueDateCount != ''"
+                  name="settingIdueDateCount"
+                  id="settingInvNote"
+                  class="labelName readonly-note"
+                  [(ngModel)]="invoiceData.dueDateCount"
+                  readonly
+                />
+                <!-- ∂</input> -->
+                <label *ngIf="invoiceData.dueDateCount == ''">
                   -
                 </label>
               </div>
@@ -852,6 +882,7 @@
                     name="registration"
                     [(ngModel)]="invoiceData.registration"
                     #registration="ngModel"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -917,7 +948,12 @@
                             selectedFlag
                           }} flag-wrap"
                         ></div>
-                        <div class="sectionTitle" *ngIf="selectedFlag == 'sgd'">
+                        <div
+                          class="sectionTitle"
+                          *ngIf="
+                            selectedFlag == 'sgd' && selectedCurrency == '$'
+                          "
+                        >
                           S
                         </div>
                         <div class="c-input">{{ selectedCurrency }}</div>
@@ -948,7 +984,10 @@
                               class="currency-flag currency-flag-{{ key }}"
                             ></div>
                             <div class="c-sign">
-                              <div class="pull-left" *ngIf="key == 'sgd'">
+                              <div
+                                class="pull-left"
+                                *ngIf="key == 'sgd' && newCurrency[key] == '$'"
+                              >
                                 S
                               </div>
                               {{ newCurrency[key] }}
@@ -959,7 +998,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group mb-45">
+                <div class="form-group">
                   <div class="d-flex justify-content-between">
                     <label class="input-label">Invoice Note</label>
                   </div>
@@ -972,6 +1011,19 @@
                     #invnote="ngModel"
                   ></textarea>
                 </div>
+                <div class="form-group mb-45">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label">Invoice Duration</label>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control create-textarea"
+                    placeholder="Invoice Duration"
+                    name="invDuration"
+                    [(ngModel)]="invoiceData.dueDateCount"
+                    #invDuration="ngModel"
+                  />
+                </div>
                 <!-- </div> -->
               </div>
               <div class="d-flex justify-content-end form-footer">
@@ -981,6 +1033,7 @@
                 <button
                   type="button"
                   class="btn btn-submit"
+                  [disabled]="invoiceData.registration.length <= 0"
                   (click)="updateInvoice(invoiceData, 'invoice')"
                 >
                   Done

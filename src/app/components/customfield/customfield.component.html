@@ -26,7 +26,11 @@
           <div class="show-type font-semi">
             <!-- <span *ngIf="field.dataType == 'String'">Text</span>
             <span *ngIf="field.dataType != 'String'">{{ field.dataType }}</span> -->
-            <span>{{ field.controlType }}</span>
+            <span *ngIf="field.controlType != 'Radio'">{{
+              field.controlType
+            }}</span>
+            <span *ngIf="field.controlType == 'Radio'">Choice</span>
+
             <span
               style="padding-left: 3px;"
               *ngIf="
@@ -110,9 +114,9 @@
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <div class="font-medium recomend-msg">
+          <!-- <div class="font-medium recomend-msg">
             We recomend field name alternative sentence.
-          </div>
+          </div> -->
           <input
             type="text"
             class="form-control input-field"
@@ -150,7 +154,10 @@
                   (click)="chooseType(list)"
                 />
                 <span *ngIf="list == 'String'">Text</span>
-                <span *ngIf="list != 'String'">{{ list }}</span>
+                <span *ngIf="list == 'Radio'">Choice</span>
+                <span *ngIf="list != 'String' && list != 'Radio'">{{
+                  list
+                }}</span>
               </label>
             </div>
           </div>

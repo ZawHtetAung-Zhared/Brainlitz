@@ -26,8 +26,8 @@
   >
     <div class="mr-auto">
       <div class="d-flex flex-row">
-        <h2 class="title-heading">APG</h2>
-        <span class="apg-longterm">Access Point Group</span>
+        <h2 class="title-heading">Tracking Module</h2>
+        <!-- <span class="apg-longterm">Access Point Group</span> -->
       </div>
     </div>
     <div style="position: relative;">
@@ -59,7 +59,7 @@
         class="btn btn-create"
         (click)="addNewAPG()"
       >
-        Add new APG
+        Add new Tracking Module
       </button>
     </div>
   </div>
@@ -67,7 +67,7 @@
     <input
       class="form-control py-2 input-search-bg"
       type="search"
-      placeholder="Search APG"
+      placeholder="Search Tracking module"
       id="example-search-input"
       (input)="apgListSearch($event.target.value, 'APG', '', '')"
       autocomplete="off"
@@ -378,7 +378,7 @@
       (click)="goToBack('type')"
     >
       <i class="fa fa-angle-left"></i>
-      <p>APG</p>
+      <p>Tracking Module</p>
     </div>
     <div
       class="d-flex back-to"
@@ -386,7 +386,7 @@
       (click)="goToBack('create')"
     >
       <i class="fa fa-angle-left"></i>
-      <p>Pick APG type</p>
+      <p>Pick A Tracking Module type</p>
     </div>
 
     <!-- <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a> -->
@@ -398,7 +398,7 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} APG</p>
+        <p>Creating {{ apgType }} Tracking Module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -410,37 +410,39 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} APG</p>
+        <p>Creating {{ apgType }} Tracking Module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
     </div>
   </div>
   <div class="location-group">
-    <h3 *ngIf="ismodule == true" class="title-heading">Pick APG type</h3>
+    <h3 *ngIf="ismodule == true" class="title-heading">
+      Pick Tracking Module type
+    </h3>
     <p
       *ngIf="ismodule == true"
       class="input-recommend"
       style="padding-left: 15px"
     >
-      APG or Access Point Group is where a Teacher will be able to mark the
-      progress or improvement of each student. APG serves as a central point to
+      Tracking Module is where a Teacher will be able to mark the progress or
+      improvement of each student. Tracking Module serves as a central point to
       view the student’s progress by all parties. It can be in the form of
       Progress Bar or Badges.
     </p>
     <!-- <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
       <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3> -->
     <h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">
-      Creating {{ apgType }} APG
+      Creating {{ apgType }} Tracking Module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">
-      Create {{ apgType }} APG
+      Create {{ apgType }} Tracking Module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">
-      Update APG
+      Update Tracking Module
     </h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">
-      Shared {{ apgType }} APGs
+      Shared {{ apgType }} Tracking Module
     </h3>
   </div>
   <div class="apg-form">
@@ -1210,7 +1212,7 @@
                 style="line-height: 1"
                 class="form-title input-label"
                 for="address"
-                >Create new {{ apgType }} APG</label
+                >Create new {{ apgType }} Tracking Module</label
               >
             </div>
           </div>
@@ -1233,7 +1235,8 @@
                 style="line-height: 1"
                 class="form-title input-label"
                 for="address"
-                >Create using publicly shared {{ apgType }} APG</label
+                >Create using publicly shared {{ apgType }} Tracking
+                Module</label
               >
             </div>
           </div>
@@ -1247,14 +1250,14 @@
           <div class="form-group">
             <div class="d-flex justify-content-between">
               <label class="form-title input-label" for="address"
-                >APG name</label
+                >Tracking Module name</label
               >
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/60characters</span>
               </div>
             </div>
             <p class="input-recommend">
-              We recommend to set APG name as same as Course name.
+              We recommend to set Tracking Module name as same as Course name.
             </p>
             <input
               type="text"
@@ -1375,7 +1378,7 @@
           <input
             class="form-control py-2 input-search-bg"
             type="search"
-            placeholder="Search APG"
+            placeholder="Search Tracking Module"
             id="template-search-input"
             (input)="sharedApgSearch($event.target.value, '', '')"
             autocomplete="off"
