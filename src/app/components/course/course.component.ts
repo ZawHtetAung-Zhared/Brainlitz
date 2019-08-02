@@ -306,8 +306,8 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
-      this.isCoursePlanDetail = true;
-      this.getCoursePlanDetail(this.editplanId);
+      this.isCoursePlanDetail = false;
+      this.getCoursePlanDetail(this.editplanId, 'goback');
       this.courseList = [];
     });
 
@@ -1502,17 +1502,20 @@ export class CourseComponent implements OnInit {
     this.courseVal.keyword = '';
     this.editplanId = planID;
     console.log('hi', planID);
-    this.isCoursePlanDetail = true;
-    this.getCoursePlanDetail(planID);
+    this.isCoursePlanDetail = false;
+    this.getCoursePlanDetail(planID, 'edit');
   }
 
-  getCoursePlanDetail(planID) {
+  getCoursePlanDetail(planID, type) {
     this.blockUI.start('Loading...');
     this._service.getSinglePlan(planID, this.locationID).subscribe(
       (res: any) => {
         this.blockUI.stop();
         this.singlePlanData = res;
-        this.planCategory = this.singlePlanData.category;
+        this.planCategory = res.category;
+        if (type == 'edit') {
+          this.goToCoursePlan(planID);
+        }
       },
       err => {
         console.log(err);
