@@ -2640,7 +2640,7 @@ p.textCount {
 }
 
 .checkedDate {
-  color: #0080ff;
+  color: #007fff;
 }
 
 .regular-checkbox {
@@ -2669,6 +2669,7 @@ p.textCount {
   width: 14px;
   height: 14px;
   /*border-radius: 50%;*/
+  background: #007fff;
   border: 2px solid #007fff;
 }
 .rounded-checked,
@@ -2678,7 +2679,7 @@ p.textCount {
 }
 .square-checked i {
   font-size: 10px;
-  color: #007fff;
+  color: #fff;
 }
 .box-label {
   line-height: 0.9;
