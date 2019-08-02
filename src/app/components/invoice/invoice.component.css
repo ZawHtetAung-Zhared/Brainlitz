@@ -72,7 +72,7 @@ h3 {
 }
 
 .modal-footer {
-  padding: 24px 32px;
+  padding: 24px 0px;
 }
 
 .invModal-cancel {
@@ -290,6 +290,7 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+  outline: none;
 }
 
 .paid-header {
@@ -462,7 +463,7 @@ ul.taxOpt-dropdown li div {
 
 .d-flex.new-item-box {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px 30px 10px 0px;
+  padding: 20px 0px 20px 0px;
 }
 
 button.taxOpt-wrap {
@@ -489,7 +490,7 @@ i.fa.fa-chevron-down.downIcon {
   background: #1a000000 !important;
 }
 .row-icon.cursor-on {
-  padding-top: 5px;
+  /*padding-top: 5px;*/
 }
 
 .addType {
