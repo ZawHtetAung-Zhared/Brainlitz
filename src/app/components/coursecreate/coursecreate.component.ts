@@ -179,7 +179,7 @@ export class CoursecreateComponent implements OnInit {
     } else if (this.coursePlan) {
       console.log('course Create');
       // this.courseType = "REGULAR"
-      this.endOptChecked = 'end';
+      this.endOptChecked = 'defaultLesson';
       this.timeOptChecked = 'showTimeSlot';
       this.getAllLocations();
       this.model = [];
