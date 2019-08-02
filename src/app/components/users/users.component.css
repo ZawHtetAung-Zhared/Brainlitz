@@ -2662,6 +2662,13 @@ p.textCount {
   font-size: 10px;
   color: #ffffff;
 }
+.square-checked {
+  background: #007fff;
+}
+.square-box,
+.square-checked {
+  border-radius: 4px;
+}
 .square-checked,
 .rounded-checked {
   line-height: 2px;
@@ -2669,7 +2676,7 @@ p.textCount {
   width: 14px;
   height: 14px;
   /*border-radius: 50%;*/
-  background: #007fff;
+
   border: 2px solid #007fff;
 }
 .rounded-checked,
