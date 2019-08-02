@@ -166,11 +166,12 @@
                 <div
                   *ngFor="let detail of staffDetail.user.details"
                   class="child-detail"
+                  [ngClass]="{ hide: detail.value.length == 0 }"
                 >
-                  <label class="info-mail" *ngIf="detail.value.length != 0">{{
-                    detail.name
-                  }}</label>
-                  <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                  <label class="info-mail">
+                    {{ detail.name }}
+                  </label>
+                  <p class="mb-0 info-p">
                     {{ detail.value }}
                   </p>
                 </div>
@@ -245,12 +246,13 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="" class="label-txt"
-                >What should we call you? <br />
+              <label for="" class="label-txt">
+                <!-- What should we call you? <br />
                 <span
                   >e.g. How your call you or like your preferred name</span
-                ></label
-              >
+                > -->
+                Display Name
+              </label>
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/15characters</span>
               </div>
