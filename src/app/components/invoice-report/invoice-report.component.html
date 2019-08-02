@@ -41,14 +41,14 @@
         <td>
           {{ invoice.updatedDate | dateFormat }}
         </td>
-        <td *ngIf="invoice.noti != null">
-          {{ invoice.noti.createdDate | dateFormat }}
-        </td>
-        <td *ngIf="invoice.noti == null">
-          -
-        </td>
         <td>
           {{ invoice.dueDate | dateFormat }}
+        </td>
+        <td style="text-align: center;">
+          <span *ngIf="invoice.noti != null">
+            {{ invoice.noti.createdDate | dateFormat }}
+          </span>
+          <span *ngIf="invoice.noti == null"> - </span>
         </td>
         <td>
           <span
