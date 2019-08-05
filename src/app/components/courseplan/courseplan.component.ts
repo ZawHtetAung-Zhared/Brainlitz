@@ -350,8 +350,14 @@ export class CourseplanComponent implements OnInit {
   }
 
   addFeeOption() {
+    var name = () => {
+      if (this.optArray.length >= 1) {
+        return '';
+      }
+      return 'basic course fee';
+    };
     const obj = {
-      name: 'basic course fee',
+      name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
       taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]

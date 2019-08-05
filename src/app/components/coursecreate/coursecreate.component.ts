@@ -179,7 +179,7 @@ export class CoursecreateComponent implements OnInit {
     } else if (this.coursePlan) {
       console.log('course Create');
       // this.courseType = "REGULAR"
-      this.endOptChecked = 'end';
+      this.endOptChecked = 'defaultLesson';
       this.timeOptChecked = 'showTimeSlot';
       this.getAllLocations();
       this.model = [];
@@ -834,10 +834,11 @@ export class CoursecreateComponent implements OnInit {
   //   }
   // }
 
-  lCount(val) {
+  lCount(e, val) {
     console.log(val);
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
+    this.numberOnly(e);
   }
 
   chooseOpt(optType, itemType) {
