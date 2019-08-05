@@ -2640,7 +2640,7 @@ p.textCount {
 }
 
 .checkedDate {
-  color: #0080ff;
+  color: #007fff;
 }
 
 .regular-checkbox {
@@ -2662,6 +2662,13 @@ p.textCount {
   font-size: 10px;
   color: #ffffff;
 }
+.square-checked {
+  background: #007fff;
+}
+.square-box,
+.square-checked {
+  border-radius: 4px;
+}
 .square-checked,
 .rounded-checked {
   line-height: 2px;
@@ -2669,6 +2676,7 @@ p.textCount {
   width: 14px;
   height: 14px;
   /*border-radius: 50%;*/
+
   border: 2px solid #007fff;
 }
 .rounded-checked,
@@ -2678,7 +2686,7 @@ p.textCount {
 }
 .square-checked i {
   font-size: 10px;
-  color: #007fff;
+  color: #fff;
 }
 .box-label {
   line-height: 0.9;
