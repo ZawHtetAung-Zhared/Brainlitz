@@ -375,40 +375,43 @@ export class InvoiceComponent implements OnInit {
         // formula for calculating the inclusive tax
         // Product price x RATE OF TAX/ (100+RATE OF TAX);
         if (this.invoice[i].courseFee.taxInclusive == true) {
-          var taxRate = this.invoice[i].tax.rate;
-          var taxAmount = (
-            (this.invoice[i].courseFee.fee * taxRate) /
-            100
-          ).toFixed(2);
-          this.invoice[i].courseFee.tax = Number(taxAmount);
-          console.log('inclusiveTax for CFee', this.invoice[i].courseFee.tax);
-          var cFee = (
-            this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax
-          ).toFixed(2);
-          this.invoice[i].courseFee.fee = Number(cFee);
+          // var taxRate = this.invoice[i].tax.rate;
+          // var taxAmount = (
+          //   (this.invoice[i].courseFee.fee * taxRate) /
+          //   100
+          // ).toFixed(2);
+          // this.invoice[i].courseFee.tax = Number(taxAmount);
+          // console.log('inclusiveTax for CFee', this.invoice[i].courseFee.tax);
+          // var cFee = (
+          //   this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax
+          // ).toFixed(2);
+
           // this.invoice[i].courseFee.amount = (
           //   this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax
           // ).toFixed(2);
-          this.invoice[i].courseFee.amount = this.invoice[
-            i
-          ].courseFee.fee.toFixed(2);
-          this.invoice[i].tax.taxTotal = (
-            this.invoice[i].courseFee.tax +
-            this.invoice[i].registrationFee.tax +
-            this.invoice[i].miscFee.tax
-          ).toFixed(2);
+          // this.invoice[i].courseFee.amount = this.invoice[
+          //   i
+          // ].courseFee.fee.toFixed(2);
+          // this.invoice[i].tax.taxTotal = (
+          //   this.invoice[i].courseFee.tax +
+          //   this.invoice[i].registrationFee.tax +
+          //   this.invoice[i].miscFee.tax
+          // ).toFixed(2);
+          var cFee =
+            this.invoice[i].courseFee.fee /
+            (1 + this.invoice[i].courseFee.tax / 100);
+          console.error(cFee);
+          this.invoice[i].courseFee.fee = cFee.toFixed(2);
+
+          var tax = cFee * (this.invoice[i].courseFee.tax / 100);
+          this.invoice[i].courseFee.tax = tax.toFixed(2);
+          console.error(tax);
+
+          this.invoice[i].courseFee.amount = cFee.toFixed(2);
           this.invoice[i].tax.taxTotal = this.invoice[i].courseFee.tax.toFixed(
             2
           );
-
-          console.log(
-            'CFee without inclusive tax',
-            this.invoice[i].courseFee.fee
-          );
-          console.log(
-            'Amount without inclusive tax',
-            this.invoice[i].courseFee.amount
-          );
+          console.error(this.invoice);
         } else if (this.invoice[i].courseFee.taxInclusive == false) {
           var taxRate = this.invoice[i].tax.rate;
           var taxAmount = (
@@ -674,7 +677,7 @@ export class InvoiceComponent implements OnInit {
       name: '',
       fee: 0.0,
       dfee: 0.0,
-      taxtype: 'inclusive',
+      taxtype: 'exclusive',
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
       amount: 0.0,
@@ -754,12 +757,21 @@ export class InvoiceComponent implements OnInit {
     console.log('taxAmount', taxAmount);
 
     if (this.newItemArr[id].taxtype == 'inclusive') {
-      var cFee = (
-        this.newItemArr[id].dfee - this.newItemArr[id].taxRes
-      ).toFixed(2);
-      this.newItemArr[id].fee = Number(cFee);
-      // this.newItemArr[id].amount = this.newItemArr[id].dfee;
-      this.newItemArr[id].amount = Number(cFee).toFixed(2);
+      // var cFee = (
+      //   this.newItemArr[id].dfee - this.newItemArr[id].taxRes
+      // ).toFixed(2);
+      // this.newItemArr[id].fee = Number(cFee);
+      // // this.newItemArr[id].amount = this.newItemArr[id].dfee;
+      // this.newItemArr[id].amount = Number(cFee).toFixed(2);
+      var cFee = this.newItemArr[id].dfee / (1 + this.newItemArr[id].tax / 100);
+      console.error(cFee);
+      this.newItemArr[id].fee = cFee.toFixed(2);
+
+      var tax = cFee * (this.newItemArr[id].tax / 100);
+      this.newItemArr[id].taxRes = tax.toFixed(2);
+      console.error(tax);
+
+      this.newItemArr[id].amount = cFee.toFixed(2);
     } else if (this.newItemArr[id].taxtype == 'exclusive') {
       console.log('ex', this.newItemArr[id].dfee);
 
