@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { CalendarModule } from 'angular-calendar';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -193,6 +193,7 @@ import { FinancialPipe } from './service/pipe/financial.pipe';
   imports: [
     ContentLoaderModule,
     BrowserModule,
+    RouterTestingModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
