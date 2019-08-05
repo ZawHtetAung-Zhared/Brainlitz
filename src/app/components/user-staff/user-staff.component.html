@@ -461,6 +461,7 @@
               <div
                 class="d-flex pb-3"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 20px;"
               >
                 <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
                   <input
@@ -488,6 +489,7 @@
               <div
                 class="d-flex"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 20px;"
               >
                 <label class="d-flex">
                   <div *ngIf="!item.isCheck" class="square-box">
