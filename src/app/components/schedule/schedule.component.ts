@@ -928,16 +928,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     var diffHours = (diff - diffMins) / 60;
     console.log('hours', diffHours);
 
-    if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
-      diffHours = diffHours * 2 + 1;
-      console.log(diffHours);
-    } else if (diffMins > 30 && diffMins < 60) {
-      diffHours = diffHours * 2 + 2;
-      console.log(diffHours);
-    } else if (diffMins == 0) {
-      diffHours = diffHours * 2;
-      console.log(diffHours);
+    console.log(time.start.min);
+    if (time.start.min != 0) {
+      diffHours = diffHours + 1;
+    } else {
+      diffHours = diffHours;
     }
+    // if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
+    //   diffHours = diffHours * 2 + 1;
+    //   console.log(diffHours);
+    // } else if (diffMins > 30 && diffMins < 60) {
+    //   diffHours = diffHours * 2 + 2;
+    //   console.log(diffHours);
+    // } else if (diffMins == 0) {
+    //   diffHours = diffHours * 2;
+    //   console.log(diffHours);
+    // }
 
     // var hours= [];
     if (time.start.meridiem === 'PM') {
@@ -953,7 +959,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     for (var i = 0; i <= diffHours; i++) {
       if (i > 0) {
-        tempH = tempH + 30;
+        tempH = tempH + 60; //if u want to different "30" minus,  tempH = tempH + 30
       } else {
         tempH = tempH;
       }
@@ -1049,12 +1055,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   minSlotArr = [];
   calculateSlot(start) {
+    console.log(start);
+
     var min = start.min; // start time min
     // var temp = [];
     // var tempnext = [];
     this.minArr = [];
     this.minNextArr = [];
     var next;
+    //if u want to calculate two division in one hour
     for (var i = 0; i <= 1; i++) {
       // min += 1;
       // if(min == 60){
@@ -1070,48 +1079,52 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         // } else {
         //   min += 15;
         // }
-        var m = min + 15;
+        var m = min + 30; //if u want to different "30" minus,  min + 15
         if (m > 60) {
           min = m - 60;
           if (min == 60) {
             min = 0;
           }
         } else {
-          min += 15;
+          min += 30; //if u want to different "30" minus,   min += 15;
           if (min == 60) {
             min = 0;
           }
         }
       }
+      console.log(min);
+
       this.minArr.push(min);
       this.minSlotArr.push(min);
+      this.minNextArr.push(min);
     }
     console.log('temp', this.minArr);
-    next = this.minArr[this.minArr.length - 1];
-    console.log('next', next);
+    //if u want to calculate four division in one hour
+    // next = this.minArr[this.minArr.length - 1];
+    // for (var j = 0; j <= 1; j++) {
+    //   // if (next == 45) {
+    //   //   console.log("==59")
+    //   //   next = 0;
+    //   // } else {
+    //   //   next += 15;
+    //   // }
+    //   m = next + 30;  //if u want to different "30" minus,  m = next + 15;
+    //   if (m > 60) {
+    //     next = m - 60;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   } else {
+    //     next += 30; //if u want to different "30" minus,    next += 15;;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   }
+    //   this.minNextArr.push(next);
+    //   this.minSlotArr.push(next);
+    // }
+    console.log(this.minSlotArr);
 
-    for (var j = 0; j <= 1; j++) {
-      // if (next == 45) {
-      //   console.log("==59")
-      //   next = 0;
-      // } else {
-      //   next += 15;
-      // }
-      m = next + 15;
-      if (m > 60) {
-        next = m - 60;
-        if (next == 60) {
-          next = 0;
-        }
-      } else {
-        next += 15;
-        if (next == 60) {
-          next = 0;
-        }
-      }
-      this.minNextArr.push(next);
-      this.minSlotArr.push(next);
-    }
     console.log('temp next ===>', this.minNextArr);
   }
 
@@ -1385,7 +1398,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    // console.error('object');
+    // console.log('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -2314,6 +2327,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   showDp: boolean = false;
   scheduleObj = {};
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
+    console.log('ampm', ampm);
+
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
 
@@ -2329,6 +2344,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //     console.log("original", h, ':', min, ':', ampm);
     //    }
     // }
+    console.log('min', min);
+
     var cIdx = this.minSlotArr.indexOf(min);
     console.log('cIdx', cIdx);
     var pIdx = cIdx - 1;
@@ -2347,6 +2364,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       console.log('original', h);
     }
 
+    if (h == 12) {
+      ampm = 'PM';
+    }
     // var h = hr;
     this.slotHr = h + ':' + min + ' ' + ampm;
 
@@ -2566,7 +2586,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         err => {
           // Error function
           this.isGlobal = false;
-          console.error('cancle user from class has got error', err);
+          console.log('cancle user from class has got error', err);
           // Do something
         }
       );

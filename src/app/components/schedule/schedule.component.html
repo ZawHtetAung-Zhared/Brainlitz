@@ -498,6 +498,7 @@
                 *ngFor="let time of operationTime; let j = index"
               >
                 <div class="slot-wrap" *ngIf="j % 2 == 0">
+                  {{ slot }}
                   <div
                     (click)="
                       getSlotNumber(
