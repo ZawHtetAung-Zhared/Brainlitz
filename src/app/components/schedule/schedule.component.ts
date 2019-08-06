@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FlexiComponent } from '../flexi/flexi.component';
 declare var $: any;
 @Component({
@@ -714,7 +715,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private http: HttpClient
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
@@ -789,6 +791,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isCourseCreate = true;
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event): void {
+    console.warn(event);
+  }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     console.log($event);
     // here you can hide your menu
@@ -820,8 +827,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+  public dummy;
   ngOnInit() {
+    // console.warn(timetable);
+    this.http
+      .get('./../../../assets/data.json')
+      .subscribe(data => (this.dummy = data));
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log('undefined currency', this.currency);
@@ -1642,6 +1653,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.blockUI.stop();
         }, 100);
+
         console.log('staff timetable', res);
         setTimeout(() => {
           console.log($('.my-class').length);
@@ -1650,7 +1662,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
           // }
         }, 300);
-        this.finalLists = res;
+        this.finalLists = this.dummy;
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
@@ -2313,7 +2325,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   showDp: boolean = false;
   scheduleObj = {};
+
+  testTop;
+  testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
+    const ele = document.getElementById('overlap-wrapper');
+    // return 'sdfsdf';
+    console.warn(ele.style.top);
+    console.warn(ele.style.left);
+    console.warn(e.clientX);
+    console.warn(e.clientY);
+    if (e.path[3].classList[1] == 'test-bg') {
+      console.warn(e);
+      this.testTop = e.clientY;
+      this.testLeft = e.clientX;
+      return;
+    }
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
 
@@ -2576,6 +2603,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   courseInfo = {};
   onClickCourse(course, lesson, e, date) {
+    if (e.path[5].classList[1] == 'test-bg') {
+      return;
+    }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};

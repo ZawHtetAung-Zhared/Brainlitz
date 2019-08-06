@@ -1,0 +1,2530 @@
+[
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d43ac0a80ffe2218679db2a",
+          "courseCode": "fdafd",
+          "name": "dadfasdd",
+          "teachers": [
+            {
+              "_id": "5c1a184e9a5f425fc0bd1213",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/staging/stgbl-cw1/profile/154521780145090133771_original.jpg",
+              "fullName": "hori staff",
+              "preferredName": "Hori Staff test"
+            }
+          ],
+          "courseId": "5d43ac3280ffe2218679db2b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 11
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 30,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 30,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "tc-1",
+          "name": "test",
+          "teachers": [
+            {
+              "_id": "5d0a1ac3c16e05026a4706cb",
+              "fullName": "James Bowen",
+              "preferredName": "James",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+            }
+          ],
+          "courseId": "5d479df0e168532ccded0231"
+        },
+        "seat": {
+          "taken": 2,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 9,
+            "day": 6
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 5,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d43ac0a80ffe2218679db2a",
+          "courseCode": "fdafd",
+          "name": "dadfasdd",
+          "teachers": [
+            {
+              "_id": "5c1a184e9a5f425fc0bd1213",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/staging/stgbl-cw1/profile/154521780145090133771_original.jpg",
+              "fullName": "hori staff",
+              "preferredName": "Hori Staff test"
+            }
+          ],
+          "courseId": "5d43ac3280ffe2218679db2b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 11
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 5,
+      "dayOfWeek": "Tue",
+      "overlap": true
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "tc-1",
+          "name": "test",
+          "teachers": [
+            {
+              "_id": "5d0a1ac3c16e05026a4706cb",
+              "fullName": "James Bowen",
+              "preferredName": "James",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+            }
+          ],
+          "courseId": "5d479df0e168532ccded0231"
+        },
+        "seat": {
+          "taken": 2,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 9,
+            "day": 6
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 5,
+      "dayOfWeek": "Mon",
+      "overlap": true
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 5,
+      "dayOfWeek": "Tue",
+      "overlap": true
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "tc-1",
+          "name": "test",
+          "teachers": [
+            {
+              "_id": "5d0a1ac3c16e05026a4706cb",
+              "fullName": "James Bowen",
+              "preferredName": "James",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+            }
+          ],
+          "courseId": "5d479df0e168532ccded0231"
+        },
+        "seat": {
+          "taken": 2,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 9,
+            "day": 6
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 19,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d426f3d0cc08a1cc4a40013",
+          "courseCode": "idgaf <'3",
+          "name": "No place for NOOB",
+          "teachers": [
+            {
+              "_id": "5bb1d867f162606171afb78a",
+              "profilePic": "blob:https://staging-brainlitz-web.pagewerkz.com/4aaeb1dc-3b12-416d-8ff9-321f88b50c8a",
+              "preferredName": "David"
+            }
+          ],
+          "courseId": "5d426fc30cc08a1cc4a40014"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 12,
+          "left": 11
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 22,
+          "endDate": {
+            "year": 2019,
+            "month": 8,
+            "day": 23
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 50,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 2,
+          "min": 5,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "overlap": false,
+      "day": 20,
+      "dayOfWeek": "Tue"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "tc-1",
+          "name": "test",
+          "teachers": [
+            {
+              "_id": "5d0a1ac3c16e05026a4706cb",
+              "fullName": "James Bowen",
+              "preferredName": "James",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+            }
+          ],
+          "courseId": "5d479df0e168532ccded0231"
+        },
+        "seat": {
+          "taken": 2,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 9,
+            "day": 6
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 26,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "date": {
+      "year": 2019,
+      "month": 8,
+      "day": 27,
+      "overlap": true,
+      "dayOfWeek": "Tue"
+    },
+    "timetable": [
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 21,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ]
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "REGULAR",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "tc-1",
+          "name": "test",
+          "teachers": [
+            {
+              "_id": "5d0a1ac3c16e05026a4706cb",
+              "fullName": "James Bowen",
+              "preferredName": "James",
+              "profilePic": "https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+            }
+          ],
+          "courseId": "5d479df0e168532ccded0231"
+        },
+        "seat": {
+          "taken": 2,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 9,
+            "day": 6
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 1,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 1,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 2,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 3,
+      "overlap": false,
+      "dayOfWeek": "Tue"
+    },
+    "timetable": [
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 21,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ]
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "overlap": false,
+      "day": 9,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 10,
+      "overlap": false,
+      "dayOfWeek": "Tue"
+    },
+    "timetable": [
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 21,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ]
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 16,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 16,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 16,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 16,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  },
+  {
+    "timetable": [
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d478ee3e168532ccded015a",
+          "courseCode": "SS01",
+          "name": "SS01",
+          "teachers": [
+            {
+              "_id": "5d2c5327da9cb3432915e67a",
+              "fullName": "Htun Linn Aung",
+              "preferredName": "Gothic",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/156318595862926707448_original.jpg"
+            }
+          ],
+          "courseId": "5d478f71e168532ccded015b"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 10,
+          "min": 0,
+          "meridiem": "AM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": {
+          "type": "FLEXY",
+          "coursePlanId": "5d479dc8e168532ccded0230",
+          "courseCode": "2",
+          "name": "Plans",
+          "teachers": [
+            {
+              "_id": "5cf7826b3f2bf2423e0a9867",
+              "fullName": "Wednesday",
+              "preferredName": "Wednesday",
+              "profilePic": "https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/155972475050235511524_original.jpg"
+            }
+          ],
+          "courseId": "5d47dc13e168532ccded029d"
+        },
+        "seat": {
+          "taken": 1,
+          "total": 0,
+          "left": null
+        },
+        "category": {
+          "name": "N O O B",
+          "categoryId": "5d426ebe0cc08a1cc4a40012"
+        },
+        "special_case": null,
+        "available": false,
+        "lesson": {
+          "count": 10,
+          "endDate": {
+            "year": 2019,
+            "month": 10,
+            "day": 7
+          },
+          "cancel": false
+        },
+        "start": {
+          "hr": 6,
+          "min": 0,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        }
+      },
+      {
+        "course": null,
+        "seat": null,
+        "category": null,
+        "special_case": null,
+        "available": true,
+        "dayOfWeek": null,
+        "start": {
+          "hr": 6,
+          "min": 35,
+          "meridiem": "PM"
+        },
+        "end": {
+          "hr": 9,
+          "min": 0,
+          "meridiem": "PM"
+        }
+      }
+    ],
+    "date": {
+      "year": 2019,
+      "month": 9,
+      "day": 16,
+      "overlap": false,
+      "dayOfWeek": "Mon"
+    }
+  }
+]

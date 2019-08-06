@@ -924,6 +924,29 @@ tbody th {
 .top20 {
   margin-top: 42px;
 }
+.test-bg:first-child {
+  border: 0;
+}
+.test-bg {
+  background-image: repeating-linear-gradient(
+    120deg,
+    white 5px,
+    #f2f4f5 0.5px,
+    white 12px,
+    #f2f4f5 0.5px,
+    white 14px
+  ) !important;
+  /* background-image: repeating-linear-gradient(120deg, white 5px  ,#F2F4F5  1px, white 12px)!important; */
+}
+.overlap-popup {
+  width: 240px;
+  height: 56px;
+  background: #ffffff;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1), 0px 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  position: absolute;
+}
+
 .single-row .monthly {
   /*position: absolute;
   font-size: 10px;

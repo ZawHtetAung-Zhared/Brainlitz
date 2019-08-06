@@ -445,16 +445,20 @@
           </div>
           <div class="lessons-range">
             <div
-              [ngClass]="
-                i != 0 &&
-                finalLists[i - 1].date.month != finalLists[i].date.month
-                  ? 'top20'
-                  : ''
-              "
               class="single-row"
+              [ngClass]="{
+                'test-bg':
+                  list.date && list.date.overlap && list.date.overlap == true
+              }"
               *ngFor="let list of finalLists; let i = index"
             >
-              <div class="single-slot">
+              <div
+                class="single-slot"
+                [ngClass]="{
+                  'test-bg':
+                    list.date && list.date.overlap && list.date.overlap == true
+                }"
+              >
                 <div class="month-wrapper" *ngIf="i == 0">
                   <div class="monthly-wrap">
                     <div class="monthly">
@@ -489,8 +493,12 @@
                   </div>
                 </div>
                 <div class="d-flex justify-content-center flex-column h-100">
-                  <p>{{ list.date.day }} {{ list.date.month - 1 | TTmonth }}</p>
-                  <span>{{ list.date.dayOfWeek }}</span>
+                  <p *ngIf="!list.date.overlap">
+                    {{ list.date.day }} {{ list.date.month - 1 | TTmonth }}
+                  </p>
+                  <span *ngIf="!list.date.overlap">{{
+                    list.date.dayOfWeek
+                  }}</span>
                 </div>
               </div>
               <div
@@ -1971,3 +1979,19 @@
     </div>
   </div>
 </ng-template>
+
+<div
+  class="overlap-popup"
+  id="overlap-wrapper"
+  [ngStyle]="{ top: testTop + 'px', left: testLeft + 'px' }"
+>
+  <div
+    class="carret-box arr-up"
+    [ngStyle]="{
+      top: testTop + 'px',
+      left: testLeft + 'px'
+    }"
+    [ngClass]="arrClasses"
+  ></div>
+  <span>This section can’t click due to overlap lessons</span>
+</div>
