@@ -25,6 +25,7 @@ export class AssignReliefComponent implements OnInit {
 
   @Input() courseInfo;
   @Input() lessonInfo;
+  @Input() scheduleRelief;
   @Output() closed = new EventEmitter<boolean>();
 
   constructor(private _service: appService, private modalService: NgbModal) {}
@@ -32,6 +33,8 @@ export class AssignReliefComponent implements OnInit {
   ngOnInit() {
     console.log(this.courseInfo);
     console.log(this.lessonInfo);
+    console.log(this.scheduleRelief);
+
     this.courseInfo.assistants.map(assistant => {
       this.assistantArr.push(assistant.userId);
     });

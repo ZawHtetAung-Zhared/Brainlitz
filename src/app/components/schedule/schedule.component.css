@@ -1698,6 +1698,12 @@ ul.options-box li:last-child,
   width: 100%;
 }
 
+.relief-btn {
+  background: transparent;
+  border: 0px;
+  outline: 0px;
+  width: 100%;
+}
 .hilight-plan {
   color: #64707d;
 }

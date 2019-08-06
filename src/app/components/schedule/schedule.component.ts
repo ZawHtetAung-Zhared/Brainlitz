@@ -54,6 +54,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public createBoxLength;
   public isSide: boolean = false;
   public screenValue;
+  public showRelief: boolean = false;
+  selectedLesson: any = null;
   // public styleArr={top:"",left:"",right:"0"};
   // public styleArrDefault={top:"",left:"",right:""};
   // public styleArrDefault2={top:"",left:"",right:""};
@@ -1794,14 +1796,58 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     );
   }
 
+  cancelReliefModal() {
+    console.log('cancel relirf~~~');
+    this.modalReference.close();
+    return new Promise((resolve, reject) => {
+      this.getCourseDetail(this.detailLists._id);
+      resolve();
+    }).then(() => {
+      setTimeout(() => {
+        // console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        // this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
+      }, 300);
+    });
+    // this._service
+    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //   });
+  }
+
   onClickModalTab(type, full?) {
     console.log(full);
-    this.activeTab = type;
+    // this.activeTab = type;
     if (type == 'enroll') {
+      this.activeTab = type;
     } else if (type == 'view') {
+      this.activeTab = type;
       this.getUserInCourse();
+    } else if (type == 'relief') {
+      // this.showRelief=true;
+      setTimeout(() => {
+        this.courseDetail.lessons.map(lesson => {
+          console.log(lesson.startDate);
+          var lessondate = lesson.startDate.split('T')[0];
+          console.log(lessondate);
+          var m =
+            this.lessonD.month < 10
+              ? '0' + this.lessonD.month
+              : this.lessonD.month;
+          var d =
+            this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+          var tempDate = this.lessonD.year + '-' + m + '-' + d;
+          console.log('tempDate', tempDate);
+          if (lessondate == tempDate) {
+            this.selectedLesson = lesson;
+            console.log(this.selectedLesson);
+            this.activeTab = type;
+          }
+        });
+      }, 500);
     } else {
       this.getUserInCourse();
+      this.activeTab = type;
     }
   }
 

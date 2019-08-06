@@ -804,6 +804,24 @@
                               ></i
                             ></span>
                           </li>
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li relief-btn"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'relief',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Assing Relief</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1119,6 +1137,24 @@
                               ></i
                             ></span>
                           </li>
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li relief-btn"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'relief',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Assing Relief</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1379,6 +1415,28 @@
         (click)="onClickModalTab('view')"
       >
         View Student
+      </button>
+
+      <button
+        class="modal-tab cursor-on"
+        [disabled]="
+          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
+        "
+        [ngClass]="{
+          active: activeTab == 'relief',
+          disabled:
+            selectedSeat.left !== null &&
+            selectedSeat.taken >= selectedSeat.total
+        }"
+        (click)="
+          onClickModalTab(
+            'relief',
+            selectedSeat.left !== null &&
+              selectedSeat.taken >= selectedSeat.total
+          )
+        "
+      >
+        Assign Relief
       </button>
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
@@ -1917,6 +1975,19 @@
       </div>
     </div>
 
+    <div class="body-wrap pt-2" *ngIf="activeTab == 'relief'">
+      <div class="modal-body">
+        <div class="row">
+          <app-assign-relief
+            class="w-100"
+            [courseInfo]="courseDetail"
+            [lessonInfo]="selectedLesson"
+            [scheduleRelief]="true"
+            (closed)="cancelReliefModal()"
+          ></app-assign-relief>
+        </div>
+      </div>
+    </div>
     <div *ngIf="activeTab == 'cancelClass'">
       <div class="modal-body student-lists">
         <div class="d-flex mb-4">

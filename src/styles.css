@@ -129,6 +129,11 @@ main {
   top: 30% !important;
 }
 
+.modal-large .modal-dialog {
+  max-width: 960px !important;
+  width: 960px !important;
+}
+
 .modal-xl .modal-title {
   font-size: 28px !important;
 }
