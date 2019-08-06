@@ -129,6 +129,11 @@ main {
   top: 30% !important;
 }
 
+.modal-large .modal-dialog {
+  max-width: 960px !important;
+  width: 960px !important;
+}
+
 .modal-xl .modal-title {
   font-size: 28px !important;
 }
@@ -152,9 +157,9 @@ main {
   border-bottom: none;
 }
 
-.modal-xl .modal-body {
+/* .modal-xl .modal-body {
   padding: 16px 32px 6px 32px !important;
-}
+} */
 
 .deleteModal .modal-dialog {
   max-width: 320px !important;
