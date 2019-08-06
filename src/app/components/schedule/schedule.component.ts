@@ -1664,6 +1664,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // }
         }, 300);
         this.finalLists = res;
+
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
@@ -1678,7 +1679,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             }
           }
         }
-        console.log('finalLists', this.finalLists);
+        console.error('finalLists', this.finalLists);
       });
   }
 

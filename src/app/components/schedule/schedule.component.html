@@ -236,7 +236,7 @@
                     >{{
                       item.seats == null ? 'unlimited' : item.seats
                     }}
-                    seats</span
+                    students</span
                   >
                   <ul class="lessonDuration">
                     <li class="createCourseTextSeat">
@@ -675,6 +675,9 @@
 
                       <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                       <p
+                        *ngIf="
+                          timetable.seat.taken == 0 || timetable.seat.taken == 1
+                        "
                         [ngClass]="{
                           selectedCourse:
                             testshowbox == timetable.course.courseId &&
@@ -688,7 +691,24 @@
                             ? timetable.seat.taken
                             : '-'
                         }}
-                        seats
+                        student
+                      </p>
+                      <p
+                        *ngIf="timetable.seat.taken != 0"
+                        [ngClass]="{
+                          selectedCourse:
+                            testshowbox == timetable.course.courseId &&
+                            list.date.year == lessonD.year &&
+                            list.date.month == lessonD.month &&
+                            list.date.day == lessonD.day
+                        }"
+                      >
+                        {{
+                          (timetable.seat | json) != '{}'
+                            ? timetable.seat.taken
+                            : '-'
+                        }}
+                        students
                       </p>
                       <p
                         [ngClass]="{
@@ -780,7 +800,7 @@
                               )
                             "
                           >
-                            <span>Enroll New Customer</span
+                            <span>Enroll Student</span
                             ><span
                               ><i
                                 class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1003,8 +1023,9 @@
                             ? timetable.seat.taken
                             : '-'
                         }}
-                        seats
+                        students
                       </p>
+
                       <p
                         *ngIf="timetable.seat == null"
                         [ngClass]="{
@@ -1095,7 +1116,7 @@
                               )
                             "
                           >
-                            <span>Enroll New Customer </span>
+                            <span>Enroll Student </span>
                             <span
                               ><i
                                 class="fa lesson-slot-box fa-2x  fa-angle-right"
