@@ -67,7 +67,7 @@ table td {
 
 table td {
   padding: 12px;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .load-more {
