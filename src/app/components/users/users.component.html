@@ -350,11 +350,11 @@
                     {{ course.name }}
                   </p>
 
-                  <div
-                    class="d-flex row info-wrap div-dotted-box"
-                    style="padding-left: 20px"
-                  >
-                    <div *ngIf="course.type != 'ONLINE'" class="col-4">
+                  <div class="d-flex row info-wrap" style="padding-left: 20px">
+                    <div
+                      *ngIf="course.type != 'ONLINE'"
+                      class="col-4 info-wrap"
+                    >
                       <label
                         class="class-label-14 mb-0"
                         *ngFor="let day of course.repeatDays | weekDays"
@@ -370,7 +370,7 @@
                     </div>
 
                     <div class="d-flex  col-4 day-wrap info-wrap">
-                      <div *ngIf="course.startDate" class="timetable-col">
+                      <div *ngIf="course.startDate" class="timetable-col ml-3">
                         <label class="medium-label-14 mb-0">From</label>
                         <p class="class-label-14 mb-0">
                           {{ course.startDate | utcDate }}
@@ -397,18 +397,27 @@
                         </p>
                       </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 info-wrap">
                       <div
                         class="d-flex flex-row day-wrap"
                         *ngIf="course.invoice != null"
                       >
-                        <div *ngIf="course.invoice.status == 'UNPAID'">
+                        <div
+                          *ngIf="course.invoice.status == 'UNPAID'"
+                          class="ml-3"
+                        >
                           <img src="./assets/images/unpaid_indicator.png" />
                         </div>
-                        <div *ngIf="course.invoice.status == 'PAID'">
+                        <div
+                          *ngIf="course.invoice.status == 'PAID'"
+                          class="ml-3"
+                        >
                           <img src="./assets/images/paid indicator.png" />
                         </div>
-                        <div *ngIf="course.invoice.status == 'PAID[PARTIAL]'">
+                        <div
+                          *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
+                          class="ml-3"
+                        >
                           <img src="./assets/images/paid indicator.png" />
                         </div>
 
