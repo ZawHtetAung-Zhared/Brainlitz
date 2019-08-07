@@ -397,13 +397,14 @@ export class InvoiceComponent implements OnInit {
           //   this.invoice[i].registrationFee.tax +
           //   this.invoice[i].miscFee.tax
           // ).toFixed(2);
-          var cFee =
+          var cFee = Number(
             this.invoice[i].courseFee.fee /
-            (1 + this.invoice[i].courseFee.tax / 100);
+              (1 + this.invoice[i].courseFee.tax / 100)
+          );
           console.error(cFee);
-          this.invoice[i].courseFee.fee = cFee.toFixed(2);
+          this.invoice[i].courseFee.fee = Number(cFee.toFixed(2));
 
-          var tax = cFee * (this.invoice[i].courseFee.tax / 100);
+          var tax = Number(cFee * (this.invoice[i].courseFee.tax / 100));
           this.invoice[i].courseFee.tax = tax.toFixed(2);
           console.error(tax);
 
