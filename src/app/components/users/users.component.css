@@ -2,7 +2,6 @@ ul.pass-list li,
 .xxxdate,
 .expired-text,
 .pass-text,
-.view-invoice,
 .claim-text,
 .load-more1 button,
 .load-more button,
@@ -34,8 +33,7 @@ ul.pass-list li,
 .info-mail,
 .info-about,
 .medium-label-14,
-.enroll-btn,
-.rollover-btn {
+.enroll-btn {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
@@ -49,7 +47,7 @@ ul.pass-list li,
 }
 
 .class-label-12 {
-  padding-left: 20px;
+  /* padding-left: 20px; */
   padding-top: 20px;
 }
 
@@ -473,9 +471,9 @@ ul.pass-list li {
 }
 
 .div-dotted-box {
-  border-bottom: 2px dotted #8fa1b3;
-  margin-left: 20px;
-  margin-right: 20px;
+  /* border-bottom: 2px solid #8fa1b3; */
+  /* margin-left: 20px;
+  margin-right: 20px; */
 }
 
 .section-two {
@@ -1260,8 +1258,14 @@ h5 {
 }
 
 .clickable {
-  color: #0080ff !important;
-  cursor: pointer;
+  left: 68px;
+  top: 612px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0080ff;
 }
 
 .info-p {
@@ -1277,11 +1281,11 @@ h5 {
   display: inline;
 }
 
-.list-wrapper,
+/* .list-wrapper,
 .detail-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
-}
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+} */
 
 .detail-list {
   width: 100%;
@@ -2541,10 +2545,10 @@ input[_ngcontent-c1]:focus {
 .jouranlModal .modal-content {
   height: 90vh;
 }
-.rollover-btn {
-  text-decoration: underline;
-  color: #2e3d4d;
-  cursor: pointer;
+
+.view-invoice {
+  font-size: 16px;
+  padding-right: 20px;
 }
 
 /* start flexi modal */
@@ -2704,4 +2708,31 @@ p.textCount {
   background: #007fff;
   left: 1px;
   top: 1px;
+}
+
+.attending-class {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+card-body {
+  background: #ffffff;
+  /* box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1); */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+}
+.page-footer {
+  border-top: 1px solid #edeff0;
+  margin-top: 20px;
+}
+.dot {
+  padding-top: 10px;
+  padding-right: 20px;
+
+  /* Brand/50 */
+
+  color: #80bfff;
 }
