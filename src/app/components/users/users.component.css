@@ -17,12 +17,12 @@ ul.pass-list li,
 .unpaid-text,
 .paid-text {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 16px;
 }
 
 .paid-text {
-  padding-left: 22px;
+  padding-left: 16px;
 }
 
 .makeup-desc,
