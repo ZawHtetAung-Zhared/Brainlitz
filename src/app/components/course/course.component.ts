@@ -2123,6 +2123,8 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   cancelClassFun(lessonId) {
+    console.error(lessonId);
+
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2134,6 +2136,7 @@ export class CourseComponent implements OnInit {
         students: this.studentArray
       };
       cancelData = noReason;
+      console.error('exit');
     } else {
       var reason = {
         lessonId,
@@ -2145,6 +2148,8 @@ export class CourseComponent implements OnInit {
 
     console.log(lessonId);
     console.log(this.isGlobal);
+    console.error(cancelData);
+
     // Call cancel class api service
     this.blockUI.start('Loading...');
     this._service

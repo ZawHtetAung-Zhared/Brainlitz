@@ -1691,7 +1691,8 @@ ul.options-box li:last-child,
 .disabled {
   opacity: 0.5;
 }
-.enroll-btn {
+.enroll-btn,
+.cancel-btn {
   background: transparent;
   border: 0px;
   outline: 0px;
@@ -1776,3 +1777,29 @@ span.circle {
   line-height: 1.2;
   font-size: 12px;
 }
+/* start cancel class */
+.text-reason:focus {
+  outline: 0px !important;
+}
+.add-reason {
+  color: #0080ff;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-weight: 500;
+}
+.text-reason:focus {
+  outline: 0px !important;
+}
+
+.text-reason {
+  border: none;
+  resize: none;
+  padding-left: 20px;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.08);
+  overflow-y: scroll;
+  height: 80px;
+  padding-top: 16px;
+  padding-right: 20px;
+  width: 100%;
+}
+/* end cancel class */

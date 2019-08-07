@@ -154,6 +154,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isCategory: boolean = false;
   isPlan: boolean = false;
   isCourseCreate: boolean = false;
+  public reasonValue: any;
+  public textAreaOption = false;
+  public studentArray = [];
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
 
@@ -1704,6 +1707,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isEditInv = false;
       this.singleInv = [];
       this.updateInvData = {};
+      this.reasonValue = '';
+      this.textAreaOption = false;
+      this.isGlobal = false;
+      console.error('exit');
     }
     this.showflexyCourse = false;
   }
@@ -1783,14 +1790,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    console.error(type);
+
     console.log('course-id-->', courseID, seat);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+    console.error(courseID);
+
     this.courseId = courseID;
     this.selectedSeat = seat;
-    this.lessonId = '5beb8c7d1f893164fff2c32b';
     this.getCourseDetail(this.courseId);
     if (seat.left != null && seat.taken >= seat.total)
       this.onClickModalTab('view');
@@ -1831,6 +1841,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickModalTab(type, full?) {
     console.log(full);
+    console.error(type);
+
     // this.activeTab = type;
     if (type == 'enroll') {
       this.activeTab = type;
@@ -1840,24 +1852,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else if (type == 'relief') {
       // this.showRelief=true;
       setTimeout(() => {
-        this.courseDetail.lessons.map(lesson => {
-          console.log(lesson.startDate);
-          var lessondate = lesson.startDate.split('T')[0];
-          console.log(lessondate);
-          var m =
-            this.lessonD.month < 10
-              ? '0' + this.lessonD.month
-              : this.lessonD.month;
-          var d =
-            this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
-          var tempDate = this.lessonD.year + '-' + m + '-' + d;
-          console.log('tempDate', tempDate);
-          if (lessondate == tempDate) {
-            this.selectedLesson = lesson;
-            console.log(this.selectedLesson);
-            this.activeTab = type;
-          }
-        });
+        this.searchSelectedLesson(type);
+      }, 500);
+    } else if ((type = 'cancel')) {
+      this.activeTab = 'cancel';
+      this.getUserInCourse();
+      console.error('exit cancel');
+      setTimeout(() => {
+        this.searchSelectedLesson(type);
       }, 500);
     } else {
       this.getUserInCourse();
@@ -1865,6 +1867,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
+  searchSelectedLesson(type) {
+    console.error(this.courseDetail.lessons);
+
+    this.courseDetail.lessons.map(lesson => {
+      console.log(lesson.startDate);
+      var lessondate = lesson.startDate.split('T')[0];
+      console.log(lessondate);
+      var m =
+        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
+      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+      var tempDate = this.lessonD.year + '-' + m + '-' + d;
+      console.log('tempDate', tempDate);
+      if (lessondate == tempDate) {
+        this.selectedLesson = lesson;
+        console.error('selected lesson', this.selectedLesson);
+        this.activeTab = type;
+      }
+    });
+  }
   getUserInCourse() {
     //temp api for testing UI
     // this.blockUI.start('Loading...');
@@ -1875,6 +1896,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
+          res.CUSTOMER.map(customer => {
+            this.studentArray.push(customer.userId);
+          });
         },
         err => {
           console.log(err);
@@ -2605,30 +2629,58 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // console.log("scheduleObj",this.scheduleObj);
   }
 
-  cancelClassFun(lessonId) {
-    let data = {
-      lessonId: lessonId
-    };
-    console.log(lessonId);
+  cancelClass(lessonId) {
+    var cancelData;
+    if (
+      this.reasonValue == null ||
+      this.reasonValue.length == 0 ||
+      this.reasonValue == undefined
+    ) {
+      var noReason = {
+        lessonId: lessonId,
+        students: this.studentArray
+      };
+      cancelData = noReason;
+      console.error('exit');
+    } else {
+      var reason = {
+        lessonId,
+        students: this.studentArray,
+        message: this.reasonValue
+      };
+      cancelData = reason;
+    }
+
+    console.error(cancelData);
+    console.error(this.isGlobal);
+    console.error(this.courseId);
+
     // console.log(this.isGlobal)
     // Call cancel class api service
     // this.blockUI.start('Loading...');
     // this.isGlobal
     this._service
-      .cancelUsersFromClass(this.courseId, data, this.isGlobal)
+      .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
         (res: any) => {
           // Success function
           // this.blockUI.stop();
           // this.cancelUI=false;
           // this.cancelUi=false;
+
+          console.error(res);
+
           console.info('cancle user from class api calling is done');
           console.log(res);
           this.isGlobal = false;
           // this.disableCancel = true;
-          this.getCourseDetail(this.courseId);
+          // this.getCourseDetail(this.courseId);
+          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
           // Close Dialog box
           // Show the canceled users
+          this.reasonValue = '';
+          this.textAreaOption = false;
+          this.isGlobal = false;
         },
         err => {
           // Error function
@@ -2992,4 +3044,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   printSchedule() {
     window.print();
   }
+  showTextarea() {
+    this.textAreaOption = true;
+  }
+  //start cancel funtion
 }

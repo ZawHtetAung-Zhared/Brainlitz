@@ -2925,7 +2925,7 @@ export class appService {
   }
 
   cancelUsersFromClass(classId: string, data, global): Observable<any> {
-    console.log(global);
+    console.error(global);
     this.getLocalstorage();
     let apiUrl = `${this.baseUrl}/${classId}/cancel/class?passes=${global}`;
     let headers = new Headers();

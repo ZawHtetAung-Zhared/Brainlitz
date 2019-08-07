@@ -843,6 +843,24 @@
                               ></i
                             ></span>
                           </button>
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li cancel-btn"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'cancel',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Cancel Class</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1177,6 +1195,24 @@
                               ></i
                             ></span>
                           </button>
+                          <button
+                            class="d-flex justify-content-between lesson-slot-li cancel-btn"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'cancel',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Cancel Class</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1459,6 +1495,27 @@
         "
       >
         Assign Relief
+      </button>
+      <button
+        class="modal-tab cursor-on"
+        [disabled]="
+          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
+        "
+        [ngClass]="{
+          active: activeTab == 'cancel',
+          disabled:
+            selectedSeat.left !== null &&
+            selectedSeat.taken >= selectedSeat.total
+        }"
+        (click)="
+          onClickModalTab(
+            'cancel',
+            selectedSeat.left !== null &&
+              selectedSeat.taken >= selectedSeat.total
+          )
+        "
+      >
+        Cancel Class
       </button>
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
@@ -2010,7 +2067,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="activeTab == 'cancelClass'">
+    <div *ngIf="activeTab == 'cancel'">
       <div class="modal-body student-lists">
         <div class="d-flex mb-4">
           <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
@@ -2045,18 +2102,34 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <textarea
+        *ngIf="textAreaOption"
+        name=""
+        id=""
+        class="text-reason"
+        placeholder="Type reason... "
+        rows="4"
+        [(ngModel)]="reasonValue"
+      ></textarea>
+      <div class="modal-footer" style="position:unset">
+        <div
+          class="mr-auto add-reason"
+          *ngIf="!textAreaOption"
+          (click)="showTextarea()"
+        >
+          Add makeup pass reason
+        </div>
         <button
           type="button"
           class="btn modal-cancel-btn"
-          (click)="cancelModal()"
+          (click)="cancelModal('enrollModal')"
         >
           Cancel
         </button>
         <button
           type="button"
           class="btn btn-submit"
-          (click)="cancelClassFun(courseId)"
+          (click)="cancelClass(selectedLesson._id)"
         >
           Confirm
         </button>
