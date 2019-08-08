@@ -335,7 +335,7 @@
               Please provide a valid email
             </div>
           </div>
-          <div *ngIf="!isupdate" class="form-group form-divider">
+          <!-- <div *ngIf="!isupdate" class="form-group form-divider">
             <label for="" class="label-txt">Password</label>
             <input
               type="password"
@@ -354,7 +354,7 @@
                 Password is required!
               </div>
             </div>
-          </div>
+          </div> -->
           <div *ngIf="isupdate" class="form-group form-divider">
             <div class="d-flex flex-row">
               <label for="" class="label-txt">Change Password</label>
@@ -461,6 +461,7 @@
               <div
                 class="d-flex pb-3"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 20px;"
               >
                 <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
                   <input
@@ -488,6 +489,7 @@
               <div
                 class="d-flex"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 20px;"
               >
                 <label class="d-flex">
                   <div *ngIf="!item.isCheck" class="square-box">
