@@ -2651,8 +2651,8 @@ p.textCount {
 .rounded-box {
   line-height: 12px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #788796;
   /*border-radius: 50%;*/
   /*background: #ffffff;*/
@@ -2675,8 +2675,8 @@ p.textCount {
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   /*border-radius: 50%;*/
   cursor: pointer;
   border: 2px solid #007fff;
@@ -2702,6 +2702,6 @@ p.textCount {
   height: 8px;
   position: absolute;
   background: #007fff;
-  left: 1px;
-  top: 1px;
+  left: 1.5px;
+  top: 1.5px;
 }

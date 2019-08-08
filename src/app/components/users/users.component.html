@@ -1213,10 +1213,13 @@
             <div *ngIf="field.controlType === 'Radio'">
               <div
                 class="d-flex"
-                style="padding-bottom: 20px;cursor: pointer;"
+                style="padding-bottom: 24px;cursor: pointer;"
                 *ngFor="let item of field.inputValues; let j = index"
               >
-                <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
+                <label
+                  for="{{ 'radio' + i + j }}"
+                  class="m-0 p-0 d-flex align-items-center"
+                >
                   <input
                     type="radio"
                     id="{{ 'radio' + i + j }}"
@@ -1242,9 +1245,9 @@
               <div
                 class="d-flex "
                 *ngFor="let item of field.inputValues; let j = index"
-                style="padding-bottom: 20px;cursor: pointer;"
+                style="padding-bottom: 24px;cursor: pointer;"
               >
-                <label class="d-flex">
+                <label class="d-flex p-0 m-0 align-items-center">
                   <div *ngIf="!item.isCheck" class="square-box">
                     <!-- <i class="fa fa-check"></i> -->
                   </div>
