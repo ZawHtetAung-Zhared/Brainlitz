@@ -148,7 +148,6 @@ export class InvoiceComponent implements OnInit {
         console.log(err);
       }
     );
-    this.autogrow();
   }
 
   // hideInvoiceRow(type) {
@@ -662,16 +661,16 @@ export class InvoiceComponent implements OnInit {
     this.showInvoice = true;
     this.paymentItem = {};
   }
-  autogrow() {
-    setTimeout(() => {
-      let textArea = document.getElementById('invNote');
-      console.log(textArea);
-      textArea.style.overflow = 'hidden';
-      textArea.style.height = 'auto';
-      textArea.style.height = textArea.scrollHeight + 'px';
-      console.log('textArea', textArea.style.height);
-    }, 1000);
-  }
+  // autogrow() {
+  //   setTimeout(() => {
+  //     let textArea = document.getElementById('invNote');
+  //     console.log(textArea);
+  //     textArea.style.overflow = 'hidden';
+  //     textArea.style.height = 'auto';
+  //     textArea.style.height = textArea.scrollHeight + 'px';
+  //     console.log('textArea', textArea.style.height);
+  //   }, 1000);
+  // }
 
   newItemArr: any = [];
 

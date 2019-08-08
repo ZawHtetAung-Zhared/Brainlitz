@@ -553,7 +553,7 @@
             </div>
           </div>
         </div>
-        <div class="invoice-info">
+        <!-- <div class="invoice-info">
           <textarea
             *ngIf="invoiceInfo.invoiceNote != ''"
             rows="1"
@@ -565,6 +565,9 @@
             name="invNote"
             readonly
           ></textarea>
+        </div> -->
+        <div class="invnote-readonly invoice-info pb-3">
+          {{ invoiceInfo.invoiceNote }}
         </div>
       </div>
     </div>
@@ -925,17 +928,8 @@
           </div>
         </div>
       </div>
-      <div class="invoice-info">
-        <textarea
-          *ngIf="invoiceInfo.invoiceNote != ''"
-          rows="1"
-          type="text"
-          class="invnote-readonly"
-          id="invNote"
-          [(ngModel)]="invoiceInfo.invoiceNote"
-          name="invNote"
-          readonly
-        ></textarea>
+      <div class="invnote-readonly invoice-info pb-3">
+        {{ invoiceInfo.invoiceNote }}
       </div>
     </div>
 
