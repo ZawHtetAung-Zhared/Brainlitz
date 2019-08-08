@@ -1969,7 +1969,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // Object.assign(this.courseInfo , res)
           this.invoice = res.invoice;
           this.showInvoice = true;
-          Object.assign(this.detailLists, res);
+          Object.assign(this.detailLists, res.body);
           this.showOneInvoice(this.invoice);
         },
         err => {
@@ -2886,7 +2886,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('-------->', res);
         // this.courseInfo = this.detailLists;
-        Object.assign(this.detailLists, res);
+        Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);

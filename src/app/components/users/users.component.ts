@@ -1229,7 +1229,7 @@ export class UsersComponent implements OnInit {
           console.log(this.custDetail);
           if (res.status == 200) {
             this.toastr.success('Successfully Enrolled.');
-            Object.assign(this.selectedCourse, res);
+            Object.assign(this.selectedCourse, res.body);
             // this.showDetails(this.custDetail.user.userId);
             // this.closeModel();
             /* for invoice*/
@@ -2056,7 +2056,7 @@ export class UsersComponent implements OnInit {
         console.log(res);
         console.log(this.custDetail);
         this.toastr.success('Successfully Enrolled.');
-        Object.assign(this.selectedCourse, res);
+        Object.assign(this.selectedCourse, res.body);
         // this.showDetails(this.custDetail.user.userId);
         // this.closeModel();
         /* for invoice*/
