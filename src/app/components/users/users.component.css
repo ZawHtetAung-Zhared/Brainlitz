@@ -900,6 +900,7 @@ h5 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
   font-size: 18px;
+  padding-bottom: 16px;
 }
 .guardian-select {
   font-size: 14px;
@@ -1394,7 +1395,6 @@ h5 {
 }
 
 .card-wrap {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background: #f2f4f5;
   padding: 15px;
 }
@@ -2656,6 +2656,7 @@ p.textCount {
   /*border-radius: 50%;*/
   /*background: #ffffff;*/
   /*background: #8fa1b3;*/
+  cursor: pointer;
 }
 .square-box i,
 .rounded-box i {
@@ -2676,7 +2677,7 @@ p.textCount {
   width: 14px;
   height: 14px;
   /*border-radius: 50%;*/
-
+  cursor: pointer;
   border: 2px solid #007fff;
 }
 .rounded-checked,
@@ -2691,6 +2692,7 @@ p.textCount {
 .box-label {
   line-height: 0.9;
   padding-left: 5px;
+  cursor: pointer;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .radio-checked {

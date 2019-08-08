@@ -2558,7 +2558,7 @@ export class CourseComponent implements OnInit {
           console.error(this.detailLists.invoice);
 
           this.courseInfo = this.detailLists;
-          Object.assign(this.courseInfo, res);
+          Object.assign(this.courseInfo, res.body);
           console.log('-------->', this.courseInfo);
 
           console.log('res Assign customer', res);
@@ -3590,7 +3590,7 @@ export class CourseComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('-------->', res);
         this.courseInfo = this.detailLists;
-        Object.assign(this.courseInfo, res);
+        Object.assign(this.courseInfo, res.body);
         console.log('-------->', this.courseInfo);
 
         console.log('res Assign customer', res);
