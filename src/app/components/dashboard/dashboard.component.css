@@ -542,6 +542,7 @@ input:checked + .slider:before {
   background: none;
   border: none;
   outline: none;
+  resize: none;
 }
 .timezone-wrap {
   padding-top: 1.5rem;
