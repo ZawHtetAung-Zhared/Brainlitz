@@ -1108,7 +1108,7 @@
               Please provide a valid email!
             </div>
           </div>
-          <div class="form-group form-divider">
+          <div *ngIf="isupdate == true" class="form-group form-divider">
             <label for="password" class="label-txt">Password</label>
             <input
               type="password"

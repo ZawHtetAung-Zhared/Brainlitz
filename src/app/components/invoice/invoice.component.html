@@ -303,17 +303,17 @@
                     <li>
                       <div
                         class="w-100"
-                        (click)="chooseTaxOption('inclusive', i)"
+                        (click)="chooseTaxOption('exclusive', i)"
                       >
-                        Inclusive
+                        Exclusive
                       </div>
                     </li>
                     <li>
                       <div
                         class="w-100"
-                        (click)="chooseTaxOption('exclusive', i)"
+                        (click)="chooseTaxOption('inclusive', i)"
                       >
-                        Exclusive
+                        Inclusive
                       </div>
                     </li>
                   </ul>
@@ -460,7 +460,7 @@
                 <div class="col-sm-5 p-0 text-right"></div>
               </div>
               <div class="col-md-4 text-right">
-                {{ invCurrency.sign }} {{ totalTax }} dd
+                {{ invCurrency.sign }} {{ totalTax }}
               </div>
             </div>
             <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
@@ -563,61 +563,61 @@
           ></textarea>
         </div>
       </div>
-      <div class="modal-footer justify-content-between">
-        <div class="d-flex">
-          <button
-            type="button"
-            class="btn invModal-cancel"
-            (click)="closeModal('closeInv')"
-          >
-            Close
+    </div>
+    <div class="modal-footer justify-content-between">
+      <div class="d-flex">
+        <button
+          type="button"
+          class="btn invModal-cancel"
+          (click)="closeModal('closeInv')"
+        >
+          Close
+        </button>
+        <div class="l-border">
+          <button class="btn-print cursor-on" (click)="printInvoice()">
+            <img src="./assets/images/print@2x.png" />
           </button>
-          <div class="l-border">
-            <button class="btn-print cursor-on" (click)="printInvoice()">
-              <img src="./assets/images/print@2x.png" />
-            </button>
-          </div>
         </div>
-        <div *ngIf="custDetail.user">
-          <button
-            *ngIf="isEditInv == false"
-            class="btn send-btn"
-            [disabled]="
-              custDetail.user.email == '' &&
-              custDetail.user.guardians?.length == 0
-            "
-            (click)="sendInvoice()"
-          >
-            Send invoice
-          </button>
+      </div>
+      <div *ngIf="custDetail.user">
+        <button
+          *ngIf="isEditInv == false"
+          class="btn send-btn"
+          [disabled]="
+            custDetail.user.email == '' &&
+            custDetail.user.guardians?.length == 0
+          "
+          (click)="sendInvoice()"
+        >
+          Send invoice
+        </button>
 
-          <div class="d-none" *ngIf="newItemArr.length > 0">
-            {{ validateForm() }}
-          </div>
-          <button
-            *ngIf="isEditInv == true"
-            class="btn send-btn "
-            [disabled]="
-              (custDetail.user.email == '' &&
-                custDetail.user.guardians?.length == 0) ||
-              isnewItemsValid == false
-            "
-            (click)="updateInvoice()"
-          >
-            Save
-          </button>
-          <button
-            class="btn btn-submit"
-            [disabled]="
-              (custDetail.user.email == '' &&
-                custDetail.user.guardians?.length == 0) ||
-              isEditInv == true
-            "
-            (click)="showPayOption()"
-          >
-            PAY
-          </button>
+        <div class="d-none" *ngIf="newItemArr.length > 0">
+          {{ validateForm() }}
         </div>
+        <button
+          *ngIf="isEditInv == true"
+          class="btn send-btn "
+          [disabled]="
+            (custDetail.user.email == '' &&
+              custDetail.user.guardians?.length == 0) ||
+            isnewItemsValid == false
+          "
+          (click)="updateInvoice()"
+        >
+          Save
+        </button>
+        <button
+          class="btn btn-submit"
+          [disabled]="
+            (custDetail.user.email == '' &&
+              custDetail.user.guardians?.length == 0) ||
+            isEditInv == true
+          "
+          (click)="showPayOption()"
+        >
+          PAY
+        </button>
       </div>
     </div>
   </div>
