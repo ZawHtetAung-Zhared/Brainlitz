@@ -440,10 +440,17 @@
                             style="color: #009940;"
                             >Paid[Partial]</label
                           >
-                          <div *ngIf="course.invoice != null">
-                            <span style="padding-left: 16px;">{{
-                              course.invoice.currency.sign
-                            }}</span>
+                          <div
+                            *ngIf="course.invoice != null; currency"
+                            style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+                          font-size:14px;"
+                          >
+                            <span
+                              style="padding-left: 16px;font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+                            font-size:14px;"
+                              class="currency"
+                              >{{ course.invoice.currency.sign }}</span
+                            >
                             {{ course.invoice.total }}
                           </div>
                         </div>

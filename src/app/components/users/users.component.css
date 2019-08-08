@@ -2730,3 +2730,12 @@ card-body {
 
   color: #80bfff;
 }
+
+.view-invoice {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+/* .currency{
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size:14px;
+  color: #2E3D4D;
+} */
