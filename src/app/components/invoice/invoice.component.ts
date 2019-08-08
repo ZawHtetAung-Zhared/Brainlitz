@@ -133,12 +133,14 @@ export class InvoiceComponent implements OnInit {
         this.defult_totalTax = Number(this.invoice[0].courseFee.tax).toFixed(2);
         // this.defa = Number(this.default_subTotal) + Number(this.defult_totalTax);
         // if(this.invoice[0].additionalFees.length >0){
+        // }
+        if (res.additionalFees != undefined || res.additionalFees != null) {
+          this.changeTempObj(res.additionalFees);
+        }
+
         setTimeout(() => {
           this.calculationTotal();
         }, 200);
-        // }
-
-        this.changeTempObj(res.additionalFees);
         console.log('total', this.total);
       },
       err => {
@@ -220,23 +222,26 @@ export class InvoiceComponent implements OnInit {
         console.log('invoice', this.invoice);
         for (var i in this.invoice) {
           var n = this.invoice[i].total;
-          this.total = n.toFixed(2);
-          this.invoice[i].subtotal = Number(
-            Number(this.invoice[i].subtotal).toFixed(2)
+          // this.def = n.toFixed(2);
+          this.default_subTotal = Number(this.invoice[i].courseFee.fee).toFixed(
+            2
           );
-          if (this.invoice[i].registrationFee.fee == null) {
-            this.hideReg = true;
-          }
+          this.defult_totalTax = Number(this.invoice[i].courseFee.tax).toFixed(
+            2
+          );
+          // if (this.invoice[i].registrationFee.fee == null) {
+          //   this.hideReg = true;
+          // }
 
-          if (this.invoice[i].miscFee.fee == null) {
-            this.hideMisc = true;
-          }
+          // if (this.invoice[i].miscFee.fee == null) {
+          //   this.hideMisc = true;
+          // }
 
-          if (this.invoice[i].deposit == null) {
-            this.hideDeposit = true;
-          }
+          // if (this.invoice[i].deposit == null) {
+          //   this.hideDeposit = true;
+          // }
         }
-        // this.calculationTotal();
+        this.calculationTotal();
       },
       err => {
         console.log(err);
@@ -819,8 +824,8 @@ export class InvoiceComponent implements OnInit {
       console.log('res', this.newItemArr[i].taxRes);
     }
 
-    // console.error(this.totalTax);
-    // console.error(this.subTotal);
+    console.error(this.totalTax);
+    console.error(this.subTotal);
 
     this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
     console.log(this.total);
