@@ -66,6 +66,7 @@ export class InvoiceComponent implements OnInit {
   public locationID = localStorage.getItem('locationId');
   public paymentSettings: any = {};
   public registration: any;
+  public min: any = 0;
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -179,6 +180,7 @@ export class InvoiceComponent implements OnInit {
     this.isEditInv = true;
     this.validateForm();
     this.calculationTotal();
+    console.error(this.isEditInv);
   }
   updateInvoice() {
     console.log('Inv Update Data', this.updateInvData);
@@ -757,14 +759,14 @@ export class InvoiceComponent implements OnInit {
         }
       }
     } else {
-      console.log('here me', this.isDefaultUpdate);
-
-      if (this.isDefaultUpdate) {
-        this.isnewItemsValid = true;
-      } else {
-        this.isnewItemsValid = false;
-        this.isEditInv = false;
-      }
+      console.error('here me', this.isDefaultUpdate);
+      this.isnewItemsValid = true;
+      // if (this.isDefaultUpdate) {
+      //   this.isnewItemsValid = true;
+      // } else {
+      //   // this.isnewItemsValid = false;
+      //   // this.isEditInv = false;
+      // }
     }
   }
   inputUnitPrice(value, id) {
