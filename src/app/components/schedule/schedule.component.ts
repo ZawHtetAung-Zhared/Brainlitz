@@ -1663,6 +1663,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // }
         }, 300);
         this.finalLists = this.dummy;
+        // this.finalLists = res;
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
@@ -2330,17 +2331,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
     const ele = document.getElementById('overlap-wrapper');
+    if (e.path[3].classList[1] == 'test-bg') {
+      console.warn(e);
+      this.testTop = e.clientY;
+      this.testLeft = e.clientX;
+      this.caculatePosition(e);
+      return;
+    } else {
+      this.overlap = false;
+    }
+
     // return 'sdfsdf';
     console.warn(ele.style.top);
     console.warn(ele.style.left);
     console.warn(e.clientX);
     console.warn(e.clientY);
-    if (e.path[3].classList[1] == 'test-bg') {
-      console.warn(e);
-      this.testTop = e.clientY;
-      this.testLeft = e.clientX;
-      return;
-    }
+
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
 
@@ -2602,6 +2608,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   courseInfo = {};
+
   onClickCourse(course, lesson, e, date) {
     if (e.path[5].classList[1] == 'test-bg') {
       return;
@@ -2954,5 +2961,78 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   printSchedule() {
     window.print();
+  }
+
+  public overlapClasses = {};
+  public overlapArrClasses = {};
+  public overlapXTop;
+  public overlapYLeft;
+  public overlap = false;
+  caculatePosition(e) {
+    this.overlap = true;
+    // e.preventDefault();
+    // e.stopPropagation();
+    console.warn(this.showDp);
+    $('.disabledScroll').css('overflow', 'hidden');
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    this.overlapArrClasses = {
+      top: YPosition - 20 + 'px',
+      left: XPosition + 'px'
+    };
+    this.overlapXTop = YPosition + 'px';
+    this.overlapYLeft = XPosition + 'px';
+    // this.overlapClasses = {
+    //   top:  YPosition + 'px',
+    //   left: XPosition + 'px',
+    // }
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+    console.warn($(document).width());
+    console.warn($(document).width() - XPosition);
+    if ($(document).width() - XPosition < 240) {
+      // this.overlapArrClasses = {
+      //   top : YPosition + 'px',
+      //   left : XPosition-240+ 'px'
+      // }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': false,
+        'arr-up': true
+      };
+      this.overlapYLeft = XPosition - 210 + 'px';
+      this.overlapClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 210 + 'px'
+      };
+      console.error('object');
+    }
+
+    console.warn($(document).height());
+    console.warn($(document).height() - YPosition);
+    if ($(document).height() - (YPosition + 112) < 56) {
+      console.error(YPosition);
+      this.overlapXTop = YPosition - 56 + 'px';
+      this.overlapClasses = {
+        top: YPosition - 56 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+      this.overlapArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
   }
 }

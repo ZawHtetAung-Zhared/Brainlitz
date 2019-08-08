@@ -1983,14 +1983,25 @@
 <div
   class="overlap-popup"
   id="overlap-wrapper"
-  [ngStyle]="{ top: testTop + 'px', left: testLeft + 'px' }"
+  [ngStyle]="{ top: overlapXTop, left: overlapYLeft }"
+  *ngIf="overlap"
 >
+  <!-- <div
+  class="overlap-popup"
+  id="overlap-wrapper"
+  [ngStyle]="{ top: testTop + 'px', left: testLeft + 'px' }"
+> -->
   <div
+    class="carret-box "
+    [ngClass]="arrClasses"
+    [ngStyle]="overlapArrClasses"
+  ></div>
+  <!-- <div
     class="carret-box arr-up"
     [ngStyle]="{
       top: testTop - 19 + 'px',
       left: testLeft + 3 + 'px'
     }"
-  ></div>
+  ></div> -->
   <span>This section can’t click due to overlap lessons</span>
 </div>
