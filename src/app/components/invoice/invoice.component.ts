@@ -131,7 +131,7 @@ export class InvoiceComponent implements OnInit {
           2
         );
         this.defult_totalTax = Number(this.invoice[0].courseFee.tax).toFixed(2);
-        this.default_total = Number(this.subTotal) + Number(this.totalTax);
+        // this.defa = Number(this.default_subTotal) + Number(this.defult_totalTax);
         // if(this.invoice[0].additionalFees.length >0){
         setTimeout(() => {
           this.calculationTotal();
@@ -427,8 +427,10 @@ export class InvoiceComponent implements OnInit {
 
           this.invoice[i].courseFee.amount = cFee.toFixed(2);
           this.invoice[i].tax.taxTotal = tax.toFixed(2);
-          this.totalTax = tax.toFixed(2);
-          this.subTotal = cFee.toFixed(2);
+          this.defult_totalTax = tax.toFixed(2);
+          this.default_subTotal = cFee.toFixed(2);
+          this.default_total =
+            Number(this.default_subTotal) + Number(this.defult_totalTax);
           console.log(this.invoice);
         } else if (this.invoice[i].courseFee.taxInclusive == false) {
           var taxRate = this.invoice[i].tax.rate;
@@ -451,12 +453,11 @@ export class InvoiceComponent implements OnInit {
           this.invoice[i].tax.taxTotal = this.invoice[i].courseFee.tax.toFixed(
             2
           );
-          this.totalTax = this.invoice[i].courseFee.tax.toFixed(2);
-          console.log('CFee with exclusive tax', this.invoice[i].courseFee.fee);
-          console.log(
-            'Fee amount with exclusive tax',
-            this.invoice[i].courseFee.amount
-          );
+          // this.totalTax = this.invoice[i].courseFee.tax.toFixed(2);
+          this.defult_totalTax = this.invoice[i].courseFee.tax.toFixed(2);
+          this.default_subTotal = this.invoice[i].courseFee.fee.toFixed(2);
+          this.default_total =
+            Number(this.default_subTotal) + Number(this.defult_totalTax);
         }
 
         // this.calculateHideFees('cFees');
@@ -817,6 +818,9 @@ export class InvoiceComponent implements OnInit {
       ).toFixed(2);
       console.log('res', this.newItemArr[i].taxRes);
     }
+
+    // console.error(this.totalTax);
+    // console.error(this.subTotal);
 
     this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
     console.log(this.total);
