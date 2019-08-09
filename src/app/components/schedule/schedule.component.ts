@@ -1666,8 +1666,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
           // }
         }, 300);
-        this.finalLists = this.dummy;
-        // this.finalLists = res;
+        // this.finalLists = this.dummy;
+        this.finalLists = res;
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
