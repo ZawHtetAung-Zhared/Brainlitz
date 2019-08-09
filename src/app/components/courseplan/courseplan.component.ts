@@ -574,6 +574,7 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+    console.log(this.selectedAPGidArray);
     console.log(formData);
     console.log(this.optArray);
     this.formatDataForTaxOption(this.optArray);
@@ -990,8 +991,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   selectData(id, name) {
-    console.log(id);
-    console.log(name);
+    console.log('select data id', id, 'select data name', name);
     this.singleAPG(id);
     this.selectedAPGlists = true;
     this.isfocus = false;
@@ -1016,7 +1016,9 @@ export class CourseplanComponent implements OnInit {
         console.log('editapg', res);
         this.clickedItem = res;
         this.createdAPGstore.push(this.clickedItem);
+        this.selectedAPGidArray.push(res._id);
         console.log('selectedAPGList', this.createdAPGstore);
+        console.log('selectedApgIDList', this.selectedAPGidArray);
         this.formField.searchText = '';
       },
       err => {
@@ -1485,6 +1487,16 @@ export class CourseplanComponent implements OnInit {
       }
     }
   }
+  checkMakeup(allowMakeupPass) {
+    console.log('allowMakeupPass', allowMakeupPass);
+    if (allowMakeupPass == true) {
+      this.formField.makeupPolicy.maxDayPerPass = 10;
+      this.formField.makeupPolicy.maxPassPerUser = 3;
+    } else {
+      this.formField.makeupPolicy.maxDayPerPass = 0;
+      this.formField.makeupPolicy.maxPassPerUser = 0;
+    }
+  }
   addStep(str) {
     var res = str.substring(str.length - 1, str.length);
 
@@ -1506,13 +1518,9 @@ export class CourseplanComponent implements OnInit {
         $('#step2').addClass('active');
         this.step2 = true;
         console.log(this.formField.makeupPolicy);
-        if (this.formField.makeupPolicy == undefined) {
-          this.formField['makeupPolicy'] = {
-            allowMakeupPass: false,
-            maxDayPerPass: 10,
-            maxPassPerUser: 3
-          };
-        }
+        // if (this.formField.makeupPolicy == undefined) {
+        //   this.formField.makeupPolicy.allowMakeupPass = false;
+        // }
       }
     }
     if (type == 'step2') {
