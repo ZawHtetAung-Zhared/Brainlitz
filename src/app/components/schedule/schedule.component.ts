@@ -797,6 +797,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.warn(event);
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
+    if ($event.path[1].classList[1] == 'test-bg') {
+      this.overlap = true;
+      this.caculatePosition($event);
+    }
     console.log($event);
     // here you can hide your menu
     this.testshowbox = '';
@@ -2610,7 +2614,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   courseInfo = {};
 
   onClickCourse(course, lesson, e, date) {
-    if (e.path[5].classList[1] == 'test-bg') {
+    if (date.overlap == true) {
+      if (e.path[5].classList[1] == 'test-bg') {
+      }
       return;
     }
     this.showInvoice = false;
