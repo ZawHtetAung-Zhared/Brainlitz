@@ -1518,9 +1518,13 @@ export class CourseplanComponent implements OnInit {
         $('#step2').addClass('active');
         this.step2 = true;
         console.log(this.formField.makeupPolicy);
-        // if (this.formField.makeupPolicy == undefined) {
-        //   this.formField.makeupPolicy.allowMakeupPass = false;
-        // }
+        if (this.formField.makeupPolicy == undefined) {
+          this.formField['makeupPolicy'] = {
+            allowMakeupPass: false,
+            maxDayPerPass: 0,
+            maxPassPerUser: 0
+          };
+        }
       }
     }
     if (type == 'step2') {
