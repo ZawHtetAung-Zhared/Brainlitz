@@ -927,6 +927,11 @@ tbody th {
 .test-bg:first-child {
   border: 0;
 }
+.overlap-text {
+  font-size: 14px;
+  font-size: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #64707d;
+}
 .test-bg {
   background-image: repeating-linear-gradient(
     120deg,
