@@ -15361,9 +15361,7 @@ webpackJsonp(
                 }),
                 '' != this.chooseFee &&
                   'no' != this.chooseFee &&
-                  (this.courseObj.courseFee = this.chooseFee),
-                '' != this.chooseTax &&
-                  (console.log('TTT', this.chooseTax),
+                  ((this.courseObj.courseFee = this.chooseFee),
                   (this.courseObj.taxInclusive = this.chooseTax)),
                 '' == this.conflitCourseId)
               )
