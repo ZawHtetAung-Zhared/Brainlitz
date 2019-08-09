@@ -1568,18 +1568,19 @@ export class CoursecreateComponent implements OnInit {
     if (this.chooseFee != '') {
       if (this.chooseFee != 'no') {
         this.courseObj['courseFee'] = this.chooseFee;
+        this.courseObj['taxInclusive'] = this.chooseTax;
       }
     }
 
-    if (this.chooseTax != '') {
-      console.log('TTT', this.chooseTax);
-      this.courseObj['taxInclusive'] = this.chooseTax;
-      // if (this.chooseTax == 'inclusive') {
-      //   this.courseObj['taxInclusive'] = true;
-      // } else {
-      //   this.courseObj['taxInclusive'] = false;
-      // }
-    }
+    // if (this.chooseTax != '') {
+    //   console.log('TTT', this.chooseTax);
+    //   this.courseObj['taxInclusive'] = this.chooseTax;
+    //   // if (this.chooseTax == 'inclusive') {
+    //   //   this.courseObj['taxInclusive'] = true;
+    //   // } else {
+    //   //   this.courseObj['taxInclusive'] = false;
+    //   // }
+    // }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if (this.conflitCourseId == '') {
