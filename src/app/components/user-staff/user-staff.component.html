@@ -166,11 +166,12 @@
                 <div
                   *ngFor="let detail of staffDetail.user.details"
                   class="child-detail"
+                  [ngClass]="{ hide: detail.value.length == 0 }"
                 >
-                  <label class="info-mail" *ngIf="detail.value.length != 0">{{
-                    detail.name
-                  }}</label>
-                  <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                  <label class="info-mail">
+                    {{ detail.name }}
+                  </label>
+                  <p class="mb-0 info-p">
                     {{ detail.value }}
                   </p>
                 </div>
@@ -245,12 +246,13 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="" class="label-txt"
-                >What should we call you? <br />
+              <label for="" class="label-txt">
+                <!-- What should we call you? <br />
                 <span
                   >e.g. How your call you or like your preferred name</span
-                ></label
-              >
+                > -->
+                Display Name
+              </label>
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/15characters</span>
               </div>
@@ -310,26 +312,6 @@
             </div>
           </div>
           <div class="form-group form-divider">
-            <div class="d-flex justify-content-between">
-              <label for="about" class="label-txt">About</label>
-              <div class="limit-wordcount1">
-                <span>{{ wordLength }}/280characters</span>
-              </div>
-            </div>
-            <textarea
-              class="form-control"
-              rows="3"
-              placeholder="Type about here"
-              name="about"
-              (focus)="focusMethod($event, 'about', $event.target.value)"
-              (blur)="blurMethod($event, 'about')"
-              maxlength="280"
-              (input)="changeMethod($event.target.value)"
-              [(ngModel)]="formFields.about"
-              #about="ngModel"
-            ></textarea>
-          </div>
-          <div class="form-group form-divider">
             <label for="" class="label-txt">Email address</label>
             <input
               type="email"
@@ -353,7 +335,7 @@
               Please provide a valid email
             </div>
           </div>
-          <div *ngIf="!isupdate" class="form-group form-divider">
+          <!-- <div *ngIf="!isupdate" class="form-group form-divider">
             <label for="" class="label-txt">Password</label>
             <input
               type="password"
@@ -372,7 +354,7 @@
                 Password is required!
               </div>
             </div>
-          </div>
+          </div> -->
           <div *ngIf="isupdate" class="form-group form-divider">
             <div class="d-flex flex-row">
               <label for="" class="label-txt">Change Password</label>
@@ -407,6 +389,28 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group form-divider">
+            <div class="d-flex justify-content-between">
+              <label for="about" class="label-txt">About</label>
+              <div class="limit-wordcount1">
+                <span>{{ wordLength }}/280characters</span>
+              </div>
+            </div>
+            <textarea
+              class="form-control"
+              rows="3"
+              placeholder="Type about here"
+              name="about"
+              (focus)="focusMethod($event, 'about', $event.target.value)"
+              (blur)="blurMethod($event, 'about')"
+              maxlength="280"
+              (input)="changeMethod($event.target.value)"
+              [(ngModel)]="formFields.about"
+              #about="ngModel"
+            ></textarea>
+          </div>
+
           <div
             class="form-group form-divider"
             *ngFor="let field of customFields; let i = index"
@@ -457,6 +461,7 @@
               <div
                 class="d-flex pb-3"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 24px;"
               >
                 <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
                   <input
@@ -484,8 +489,9 @@
               <div
                 class="d-flex"
                 *ngFor="let item of field.inputValues; let j = index"
+                style="padding-bottom: 24px;"
               >
-                <label class="d-flex">
+                <label class="d-flex m-0 p-0">
                   <div *ngIf="!item.isCheck" class="square-box">
                     <!-- <i class="fa fa-check"></i> -->
                   </div>

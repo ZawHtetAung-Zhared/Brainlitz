@@ -97,7 +97,7 @@
             <span>5</span>
           </a>
         </li>
-        <li id="step6">
+        <!-- <li id="step6">
           <a
             class="step"
             [class.adisabled]="!clickableSteps.includes('step6')"
@@ -105,7 +105,7 @@
           >
             <span>6</span>
           </a>
-        </li>
+        </li> -->
         <!-- <li id="step7">
           <a
             class="step"
@@ -115,7 +115,7 @@
             <span>7</span>
           </a>
         </li> -->
-        <li id="step7">
+        <!-- <li id="step7">
           <a
             class="step"
             [class.adisabled]="!clickableSteps.includes('step7')"
@@ -123,7 +123,7 @@
           >
             <span>7</span>
           </a>
-        </li>
+        </li> -->
       </ol>
     </div>
     <div *ngIf="step1" class="div_step1">
@@ -189,6 +189,80 @@
 												</div> -->
                     <hr class="limit-hr-length" />
                   </div>
+                  <div class="mr-top" style="position: relative;">
+                    <label class="all-title-font"> Duration</label>
+                    <input
+                      type="text"
+                      placeholder="{{ formField.lesson.duration }}"
+                      class="form-control br-bshadow-none hoverReadonly all-left-box-10"
+                      [(ngModel)]="formField.lesson.duration"
+                      min="1"
+                      id="duration"
+                      name="lesson_duration"
+                      readonly
+                      (click)="durationProgress($event)"
+                      style="background: none;"
+                      #cpDuration="ngModel"
+                      required
+                    />
+                    <div class="bg-box duration-progress">
+                      <div id="rectangle"></div>
+                      <div class="gap-box">
+                        <label>
+                          <div class="col-md-4 max-range">{{ rangeHr }} hr</div>
+                          <input
+                            class="max-range-box"
+                            type="range"
+                            id="hrDuration"
+                            name="pointsHr"
+                            min="0"
+                            max="24"
+                            (input)="
+                              ChangedRangeValue($event.target.value, 'hr')
+                            "
+                            [(ngModel)]="rangeHr"
+                          />
+                        </label>
+                      </div>
+                      <div class="gap-range-min">
+                        <label>
+                          <div class="col-md-4 min-range">
+                            {{ rangeMin }} min
+                          </div>
+                          <input
+                            class="min-range-box"
+                            type="range"
+                            id="minDuration"
+                            name="pointsMin"
+                            min="0"
+                            max="55"
+                            step="5"
+                            (input)="
+                              ChangedRangeValue($event.target.value, 'min')
+                            "
+                            [(ngModel)]="rangeMin"
+                            [disabled]="overDurationHr"
+                          />
+                          <p *ngIf="overDurationHr" class="alert-duration">
+                            Lesson Duration has only 24 hr, so can not choose
+                            minute.
+                          </p>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      formField.lesson.duration == '0 min' &&
+                      (cpDuration.dirty || cpDuration.touched)
+                    "
+                    class="alert alert-danger alert-m-right"
+                  >
+                    <div>
+                      Lesson duration is required!
+                    </div>
+                  </div>
+                  <hr class="limit-hr-length" />
                 </div>
                 <div class="col-md-6">
                   <div>
@@ -213,7 +287,7 @@
                       (input)="changeMethod($event.target.value)"
                       name="description"
                       #cpDesc="ngModel"
-                      placeholder="Type message here"
+                      placeholder="Type description here"
                     ></textarea>
                     <!-- <div *ngIf="cpDesc.invalid && (cpDesc.dirty || cpDesc.touched)" class="alert alert-danger">
 													<div [hidden]="!cpDesc.errors.required">
@@ -222,14 +296,51 @@
 												</div> -->
                     <hr class="limit-hr-length" />
                   </div>
+                  <div>
+                    <label class="all-title-font" style="padding-left: 10px;"
+                      >Holiday Calendar</label
+                    >
+                    <div>
+                      <div
+                        class="form-group has-feedback"
+                        (click)="holidayDropdown()"
+                      >
+                        <input
+                          class="cursor-on form-control br-bshadow-none"
+                          name="holiday"
+                          readonly
+                          type="text"
+                          [(ngModel)]="formField.holidayCalendarName"
+                          placeholder="None"
+                          autocomplete="off"
+                        /><span
+                          class="fa fa-angle-down holiday-downicon"
+                        ></span>
+                      </div>
+                      <div class="dropdown-wrap">
+                        <ul class="holiday-dropdown">
+                          <li
+                            *ngFor="let holidayCalendar of holidayCalendarLists"
+                            (click)="chooseHoliday(holidayCalendar)"
+                          >
+                            <span>{{ holidayCalendar.name }}</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="limit-hr-length" />
                 </div>
               </div>
+              <!-- From step 3 -->
             </div>
             <div class="button-wrapper">
               <button
                 type="button"
                 class="btn sticky-create"
-                [disabled]="!childForm1.valid"
+                [disabled]="
+                  !childForm1.valid || formField.lesson.duration == '0 min'
+                "
                 (click)="continueStep('step1', childForm1.value)"
               >
                 Continue
@@ -263,6 +374,9 @@
                         [(ngModel)]="formField.makeupPolicy.allowMakeupPass"
                         name="allowmakeup"
                         #makeupcheck="ngModel"
+                        (change)="
+                          checkMakeup(formField.makeupPolicy.allowMakeupPass)
+                        "
                       />
                       <span
                         class="slider round"
@@ -278,29 +392,32 @@
                   If you allow your students to catch up with their missed
                   classes, Turn On the “Makeup Policy” option.
                 </p>
-                <div *ngIf="formField.makeupPolicy.allowMakeupPass != true">
+                <!-- <div *ngIf="formField.makeupPolicy.allowMakeupPass != true">
                   <p class="option-text">
                     Switch <span>on</span><br />to add Makeup class.
                   </p>
-                </div>
+                </div> -->
                 <div *ngIf="formField.makeupPolicy.allowMakeupPass == true">
                   <div class="display-style">
                     <div class="col-md-6" style="padding: 0;">
                       <div>
                         <label class="all-title-font">
-                          Validation duration after class
+                          Issued makeup pass valid for
                         </label>
-                        <input
-                          type="number"
-                          class="form-control all-left-box-10 br-bshadow-none"
-                          (keypress)="numberOnly($event, 'makeupDuration')"
-                          [(ngModel)]="formField.makeupPolicy.maxDayPerPass"
-                          min="0"
-                          id="makeupass"
-                          name="makeuppass"
-                          #makeuppass="ngModel"
-                          placeholder="0 day"
-                        />
+                        <div class="d-flex makeup-wrap">
+                          <input
+                            type="number"
+                            class="form-control all-left-box-10 br-bshadow-none"
+                            (keypress)="numberOnly($event, 'makeupDuration')"
+                            [(ngModel)]="formField.makeupPolicy.maxDayPerPass"
+                            min="0"
+                            id="makeupass"
+                            name="makeuppass"
+                            #makeuppass="ngModel"
+                            placeholder="0 day"
+                          />
+                          <span>days</span>
+                        </div>
                         <!-- <div *ngIf="makeuppass.invalid && (makeuppass.dirty || makeuppass.touched)" class="alert alert-danger alert-m-right">
 													<div [hidden]="!makeuppass.errors.required">
 														Validation duration after class is required!
@@ -315,19 +432,22 @@
                           class="all-title-font"
                           style="padding-left: 20px;"
                         >
-                          Number of days per user
+                          Limit number of makeup pass per payment term
                         </label>
-                        <input
-                          type="number"
-                          class="form-control br-bshadow-none all-m-left10"
-                          (keypress)="numberOnly($event, 'makeupUser')"
-                          [(ngModel)]="formField.makeupPolicy.maxPassPerUser"
-                          min="0"
-                          id="makeupuser"
-                          name="makeupuser"
-                          placeholder="0 day"
-                          #makeupuser="ngModel"
-                        />
+                        <div class="d-flex makeup-wrap">
+                          <input
+                            type="number"
+                            class="form-control br-bshadow-none all-m-left10"
+                            (keypress)="numberOnly($event, 'makeupUser')"
+                            [(ngModel)]="formField.makeupPolicy.maxPassPerUser"
+                            min="0"
+                            id="makeupuser"
+                            name="makeupuser"
+                            placeholder="0 day"
+                            #makeupuser="ngModel"
+                          />
+                          <span>passes</span>
+                        </div>
                         <!-- <div *ngIf="makeupuser.invalid && (makeupuser.dirty || makeupuser.touched)" class="alert alert-danger alert-m-left">
 													<div [hidden]="!makeupuser.errors.required">
 														Number of days per user is required!
@@ -380,32 +500,25 @@
                 >
                 <div
                   *ngFor="let opt of optArray; let idx = index"
-                  class="d-flex"
-                  style="width: 60%;"
+                  class="d-flex opt-wrapper"
                 >
                   <div>
                     <div
-                      [ngClass]="{ 'shadow-bg': shadowIdx == idx }"
                       (mouseenter)="mouseEnter(idx)"
                       (mouseleave)="mouseLeave(idx)"
-                      class="d-flex  optInput-wrap"
+                      class="d-flex"
                     >
                       <input
                         type="text"
+                        autofocus="true"
                         name="{{ 'name' + idx }}"
-                        class="form-control col-md-8 taxopt-input feeName-input"
-                        [ngClass]="{ 'shadow-bg': shadowIdx == idx }"
+                        class="form-control col-md-8 col-sm-8 taxopt-input feeName-input"
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
                       />
-                      <div class="d-flex col-md-4 p-0 cfee-wrap">
-                        <div
-                          class="currencySign"
-                          [ngStyle]="{
-                            background: shadowIdx == idx ? '#8fa1b3' : '#f2f4f5'
-                          }"
-                        >
+                      <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap">
+                        <div class="currencySign">
                           {{ currency.invCurrencySign }}
                         </div>
                         <input
@@ -418,20 +531,42 @@
                           name="{{ 'fee' + idx }}"
                         />
                       </div>
-                    </div>
-                    <hr class="opt-hr-length" />
-                  </div>
-                  <div *ngIf="optArray?.length > 1" class="removeBtn-wrap">
-                    <div class="removeIcon-shadow">
+                      <!-- inclusive/exclusive option -->
+                      <div class="col-sm-8 col-md-8">
+                        <select
+                          class="form-control tax-option"
+                          [(ngModel)]="optArray[idx].selectedTax.name"
+                          (ngModelChange)="onChangeObj($event)"
+                          name="name{{ idx }}"
+                          [value]="optArray[idx].selectedTax.name"
+                        >
+                          <option
+                            [value]="tax.name"
+                            [selected]="tax.name == 'inclusive'"
+                            *ngFor="let tax of optArray[idx].taxOption"
+                            >{{ tax.name }}</option
+                          >
+                        </select>
+                      </div>
+                      <!-- inclusive/exclusive option -->
                       <div
-                        class="removeIcon"
-                        (click)="removeFeeOption(idx)"
-                      ></div>
+                        *ngIf="optArray?.length > 1"
+                        class="d-flex col-md-2 col-sm-2"
+                      >
+                        <div class="removeIcon-shadow">
+                          <div
+                            class="removeIcon"
+                            (click)="removeFeeOption(idx)"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <hr class="opt-hr-length" />
+                <!-- <pre>{{ optArray | json }}</pre> -->
                 <button class="addOpt-btn" (click)="addFeeOption()">
-                  Add new option
+                  Add Another Option
                 </button>
               </div>
             </div>
@@ -459,162 +594,14 @@
     </div>
     <div *ngIf="step4" class="div_step4">
       <div class="d-flex justify-content-center">
-        <form class="form-wrap" #childForm4="ngForm" novalidate>
-          <div class="inside-data-wrapper">
-            <div class="overlay-wrapper">
-              <div class="col-md-12">
-                <p class="step-font">Step 4</p>
-                <h5 class="all-title-font text-font-align">Lesson</h5>
-                <p class="input-recommend">
-                  Choose a calendar from here to set holidays. If you do not
-                  find a relevant calendar, go to Tools > Calendar and create a
-                  new one.
-                </p>
-              </div>
-              <div class="display-style" style="padding-top: 40px;">
-                <div class="col-md-6">
-                  <label class="all-title-font"> Duration</label>
-                  <input
-                    type="text"
-                    placeholder="{{ formField.lesson.duration }}"
-                    class="form-control br-bshadow-none hoverReadonly all-left-box-10"
-                    [(ngModel)]="formField.lesson.duration"
-                    min="1"
-                    id="duration"
-                    name="lesson_duration"
-                    readonly
-                    (click)="durationProgress($event)"
-                    style="background: none;"
-                  />
-                  <div class="bg-box duration-progress">
-                    <div id="rectangle"></div>
-                    <div class="gap-box">
-                      <label>
-                        <div class="col-md-4 max-range">{{ rangeHr }} hr</div>
-                        <input
-                          class="max-range-box"
-                          type="range"
-                          id="hrDuration"
-                          name="pointsHr"
-                          min="0"
-                          max="24"
-                          (input)="ChangedRangeValue($event.target.value, 'hr')"
-                          [(ngModel)]="rangeHr"
-                        />
-                      </label>
-                    </div>
-                    <div class="gap-range-min">
-                      <label>
-                        <div class="col-md-4 min-range">{{ rangeMin }} min</div>
-                        <input
-                          class="min-range-box"
-                          type="range"
-                          id="minDuration"
-                          name="pointsMin"
-                          min="0"
-                          max="55"
-                          step="5"
-                          (input)="
-                            ChangedRangeValue($event.target.value, 'min')
-                          "
-                          [(ngModel)]="rangeMin"
-                          [disabled]="overDurationHr"
-                        />
-                        <p *ngIf="overDurationHr" class="alert-duration">
-                          Lesson Duration has only 24 hr, so can not choose
-                          minute.
-                        </p>
-                      </label>
-                    </div>
-                  </div>
-                  <hr class="limit-hr-length" />
-                </div>
-                <!-- <div class="col-md-6" style="padding-right: 0;">
-									<div>
-										<label class="all-title-font" style="padding-left: 10px;">Holiday Calendar</label>
-										<select class="form-control br-bshadow-none" name="holidayCalendar" [(ngModel)]="formField.holidayCalendarId" style="font-size: 16px; height: auto;">
-											<option disabled="true" [value]="'disabledHoliday'">None</option>
-											<option *ngFor="let holidayCalendar of holidayCalendarLists" [value]="holidayCalendar._id">{{holidayCalendar.name}}</option>
-										</select>	
-										 <i class="fa fa-chevron-down down-arrow2"></i>	
-										 <hr class="limit-hr-length">	
-									</div> 		
-								</div> -->
-                <div class="col-md-6" style="padding-right: 0;">
-                  <div>
-                    <label class="all-title-font" style="padding-left: 10px;"
-                      >Holiday Calendar</label
-                    >
-                    <div>
-                      <div
-                        class="form-group has-feedback"
-                        (click)="holidayDropdown()"
-                      >
-                        <input
-                          class="cursor-on form-control br-bshadow-none"
-                          name="holiday"
-                          readonly
-                          type="text"
-                          [(ngModel)]="formField.holidayCalendarName"
-                          placeholder="None"
-                          autocomplete="off"
-                        /><span
-                          class="fa fa-angle-down holiday-downicon"
-                        ></span>
-                      </div>
-                      <div class="dropdown-wrap">
-                        <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
-                        <ul class="holiday-dropdown">
-                          <li
-                            *ngFor="let holidayCalendar of holidayCalendarLists"
-                            (click)="chooseHoliday(holidayCalendar)"
-                          >
-                            <span>{{ holidayCalendar.name }}</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="limit-hr-length" />
-                </div>
-              </div>
-            </div>
-            <div class="button-wrapper">
-              <button
-                type="button"
-                class="btn sticky-create"
-                [disabled]="
-                  formField.lesson.duration == undefined ||
-                  formField.lesson.duration == 0 ||
-                  formField.lesson.duration == '0 min'
-                "
-                (click)="continueStep('step4', childForm4.value)"
-              >
-                Continue
-              </button>
-              <div
-                [hidden]="!step4"
-                class="back-modal"
-                (click)="backStep('step4')"
-              >
-                <i class="fa fa-angle-left"></i>
-                <p>Back</p>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div *ngIf="step5" class="div_step5">
-      <div class="d-flex justify-content-center">
         <form #childForm5="ngForm" class="form-wrap" novalidate>
           <div class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 5</p>
+                <p class="step-font">Step 4</p>
 
                 <div class="display-style">
-                  <h5 class="all-title-font title-br-rt">QuizWerkz Book</h5>
+                  <h5 class="all-title-font title-br-rt">Resources</h5>
                   <div class="radio-pos-book">
                     <label class="switch">
                       <input
@@ -635,16 +622,16 @@
                 <p class="input-recommend">
                   Select your books / resources for this Course Plan. If you do
                   not see the required book here, go to Tools > ‘Create
-                  Quizwerkz’.
+                  Resources.
                 </p>
-                <div
+                <!-- <div
                   *ngIf="formField.allowPagewerkz != true"
                   class="not_allowPagewekz"
                 >
                   <p class="option-text">
-                    Switch <span>on</span><br />to add QuizWerkz book.
+                    Switch <span>on</span><br />to add Resources book.
                   </p>
-                </div>
+                </div> -->
               </div>
               <div
                 class="col-md-12"
@@ -664,11 +651,9 @@
                       }"
                     >
                       <img
+                        class="book-cover img-fluid"
                         drag-scroll-item
                         src="{{ pdf.cover }}"
-                        width="125"
-                        height="180"
-                        style="margin-bottom: 10px;"
                       />
                       <input
                         type="checkbox"
@@ -689,14 +674,14 @@
               <button
                 type="button"
                 class="btn sticky-create"
-                (click)="continueStep('step5', childForm5.value)"
+                (click)="continueStep('step4', childForm5.value)"
               >
                 Continue
               </button>
               <div
-                [hidden]="!step5"
+                [hidden]="!step4"
                 class="back-modal"
-                (click)="backStep('step5')"
+                (click)="backStep('step4')"
               >
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
@@ -708,26 +693,28 @@
         </form>
       </div>
     </div>
-    <div *ngIf="step6" class="div_step6">
+    <div *ngIf="step5" class="div_step5">
       <div class="d-flex justify-content-center">
         <form #childForm6="ngForm" novalidate class="step6-form">
           <div *ngIf="showSearchAPG" class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 6</p>
+                <p class="step-font">Step 5</p>
                 <div class="d-flex">
-                  <h3 class="all-title-font" style="float: left;">APG</h3>
-                  <span class="sticky-dot-large">&#183;</span>
-                  <p class="small-caption">Access Point Group</p>
+                  <h3 class="all-title-font" style="float: left;">
+                    Tracking Module
+                  </h3>
+                  <!-- <span class="sticky-dot-large">&#183;</span>
+                  <p class="small-caption">Access Point Group</p> -->
                 </div>
               </div>
               <div class="col-md-12">
                 <p class="input-recommend">
-                  APG or Access Point Group is where a Teacher will be able to
-                  mark the progress or improvement of each student. It can be in
-                  the form of Progress Bar or Badges. This will be notified to
-                  the Parent or Student whose email ID is registered. Begin by
-                  clicking on the Search icon.
+                  Tracking Module is where a Teacher will be able to mark the
+                  progress or improvement of each student. It can be in the form
+                  of Progress Bar or Badges. This will be notified to the Parent
+                  or Student whose email ID is registered. Begin by clicking on
+                  the Search icon.
                 </p>
               </div>
               <div
@@ -737,7 +724,7 @@
                   <input
                     class="form-control py-2 input-search-bg"
                     type="search"
-                    placeholder="Search APG"
+                    placeholder="Search Tracking Module"
                     id="search-apg"
                     name="searchApg"
                     [(ngModel)]="formField.searchText"
@@ -777,21 +764,21 @@
                     </div>
                   </div>
                   <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
-										<div class="top-line">
-											<button type="button" class="bt btn-apg" (click)="goToModule()">
-												<div class="circle3 plus"></div>Create new APG
-											</button>
-										</div>
-									</div> -->
+                                          <div class="top-line">
+                                              <button type="button" class="bt btn-apg" (click)="goToModule()">
+                                                  <div class="circle3 plus"></div>Create new APG
+                                              </button>
+                                          </div>
+                                      </div> -->
                 </div>
 
                 <!-- <div *ngIf="showfixedcreate == true" class="fixedText">
-									<div class="top-line">
-										<button type="button" class="bt btn-apg" (click)="goToModule()">
-											<div class="circle3 plus"></div>Create new APG
-										</button>
-									</div>
-								</div> -->
+                                      <div class="top-line">
+                                          <button type="button" class="bt btn-apg" (click)="goToModule()">
+                                              <div class="circle3 plus"></div>Create new APG
+                                          </button>
+                                      </div>
+                                  </div> -->
               </div>
               <div
                 class="col-md-12 pl-zero"
@@ -807,7 +794,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="txt-default">
-                    <h3>Add APG to this Course Plan</h3>
+                    <h3>Add Tracking Module to this Course Plan</h3>
                   </div>
                   <div class="arrow-pos">
                     <img src="assets/img/arrow.png" />
@@ -842,30 +829,57 @@
               <!-- <hr> -->
               <div class="button-wrapper">
                 <button
-                  type="button"
+                  *ngIf="isEditCP == false"
+                  type="submit"
                   class="btn sticky-create"
-                  (click)="continueStep('step6', createdAPGstore)"
+                  (click)="createdPlan(parentForm.value, 'create')"
                 >
-                  Continue
+                  Create
+                </button>
+                <button
+                  *ngIf="isEditCP == true"
+                  type="submit"
+                  class="btn sticky-create"
+                  (click)="createdPlan(parentForm.value, 'update')"
+                >
+                  Update
                 </button>
                 <div
-                  [hidden]="!step6"
+                  [hidden]="!step5"
                   class="back-modal"
-                  (click)="backStep('step6')"
+                  (click)="backStep('step5')"
                 >
                   <i class="fa fa-angle-left"></i>
                   <p>Back</p>
                 </div>
               </div>
+              <!-- <div class="button-wrapper">
+                <button
+                  type="button"
+                  class="btn sticky-create"
+                  (click)="continueStep('step5', createdAPGstore)"
+                >
+                  Continue
+                </button>
+                <div
+                  [hidden]="!step5"
+                  class="back-modal"
+                  (click)="backStep('step5')"
+                >
+                  <i class="fa fa-angle-left"></i>
+                  <p>Back</p>
+                </div>
+              </div> -->
             </div>
           </div>
 
           <div *ngIf="showModule" class="inside-data-wrapper">
             <div class="col-md-12">
               <p class="back" (click)="backSearhAPG('back')">
-                <i class="fa fa-angle-left left-arrow"></i><span>APG</span>
+                <i class="fa fa-angle-left left-arrow"></i
+                ><span>Tracking Module</span>
               </p>
-              <h3 class="all-title-font">Pick APG type</h3>
+              <h3 class="all-title-font">Pick Tracking Module type</h3>
             </div>
             <div class="row pad-15">
               <div
@@ -919,9 +933,9 @@
                 <div class="col-md-12">
                   <p class="back" (click)="backModule()">
                     <i class="fa fa-angle-left left-arrow"></i
-                    ><span>Pick APG type</span>
+                    ><span>Pick Tracking Module type</span>
                   </p>
-                  <h3 class="all-title-font">Create APG</h3>
+                  <h3 class="all-title-font">Create Tracking Module</h3>
                 </div>
                 <div class="col-md-6" style="padding-top: 40px;">
                   <!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
@@ -929,7 +943,7 @@
                     <label
                       class="form-title input-label all-title-font"
                       for="address"
-                      >APG name</label
+                      >Tracking Module name</label
                     >
                     <div class="limit-wordcount">
                       <span class="count-color"
@@ -938,7 +952,8 @@
                     </div>
                   </div>
                   <p class="input-recommend">
-                    We recommend to set APG name as same as Course name.
+                    We recommend to set Tracking Module name as same as Course
+                    name.
                   </p>
                   <input
                     class="form-control br-bshadow-none all-left-box-10"
@@ -961,7 +976,7 @@
                     class="alert alert-danger alert-m-right"
                   >
                     <div [hidden]="!apgName.errors.required">
-                      APG name is required!
+                      Tracking Module name is required!
                     </div>
                   </div>
                   <hr class="limit-hr-length" />
@@ -991,13 +1006,14 @@
                     placeholder="Type description here"
                   ></textarea>
                   <!-- <div *ngIf="apgDesc.invalid && (apgDesc.dirty || apgDesc.touched)" class="alert alert-danger alert-m-right">
-										<div [hidden]="!apgDesc.errors.required">
-											APG description is required!
-										</div>
-									</div>	 -->
+                                          <div [hidden]="!apgDesc.errors.required">
+                                              APG description is required!
+                                          </div>
+                                      </div>	 -->
                   <hr class="limit-hr-length" />
                 </div>
-                <div class="d-flex justify-content-end button-wrapper">
+
+                <!-- <div class="d-flex justify-content-end button-wrapper">
                   <button
                     type="button"
                     class="bt cancel-button"
@@ -1013,13 +1029,345 @@
                   >
                     Create
                   </button>
-                </div>
+                </div> -->
               </div>
             </form>
           </div>
         </form>
       </div>
     </div>
+    <!-- <div *ngIf="step6" class="div_step6">
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper pad-100">
+          <div class="overlay-wrapper">
+            <div class="col-md-12">
+              <p class="step-font">Step 6</p>
+              <h5 class="all-title-font text-font-align">Optional fields</h5>
+            </div>
+            <div class="col-md-12" style="padding-top: 40px;">
+              <label for="age" class="all-title-font parent-box-name">Age</label>
+              <div class="display-style">
+                <div class="col-md-6" style="padding-left: 0;">
+                  <label class="all-title-font"> From </label>
+                  <input
+                    type="number"
+                    placeholder="0 year"
+                    class="form-control br-bshadow-none all-left-box-10"
+                    (keypress)="numberOnly($event, 'ageFrom')"
+                    [(ngModel)]="formField.age.min"
+                    (input)="restrictMaxNumberInput($event, maxData, 'age')"
+                    min="1"
+                    id="age"
+                    name="minage"
+                    #minData="ngModel"
+                  />
+                  <div
+                    *ngIf="restrictFirstInput"
+                    class="alert alert-danger alert-m-right m-top-15"
+                  >
+                    Must be Lower than "To" Age
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding-right: 0;">
+                  <label class="all-title-font" style="padding-left: 20px;">
+                    To
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="0 year"
+                    class="form-control br-bshadow-none all-m-left10"
+                    (keypress)="numberOnly($event, 'ageTo')"
+                    [(ngModel)]="formField.age.max"
+                    min="1"
+                    (input)="restrictMinNumberInput($event, minData, 'age')"
+                    id="age"
+                    name="maxage"
+                    #maxData="ngModel"
+                  />
+                  <div
+                    *ngIf="restrictLastInput"
+                    class="alert alert-danger alert-m-left m-top-15"
+                  >
+                    Must be greater than "From" Age
+                  </div>
+                </div>
+              </div>
+              <hr class="limit-hr-100" />
+            </div>
+            <div class="col-md-12" style="padding-top: 40px;">
+              <label for="age" class="all-title-font parent-box-name"
+                >Payment policy</label
+              >
+              <div class="display-style">
+                <div class="col-md-4" style="padding: 0;">
+                                      <label class="all-title-font">Deposit</label>
+                                      <select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
+                                          <option [value]="depositModel" disabled="true">S$ 0</option>
+                                          <option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
+                                      </select>
+                                      <i class="fa fa-chevron-down down-arrow1"></i>
+                                  </div>
+                <div class="col-md-6" style="padding: 0;">
+                  <label class="all-title-font">Deposit</label>
+                  <div>
+                    <div
+                      class="form-group has-feedback"
+                      (click)="depositDropdown()"
+                    >
+                      <div>
+                        <span class="deposit-sign">{{
+                          currency.invCurrencySign
+                        }}</span>
+                        <input
+                          class="cursor-on form-control br-bshadow-none all-left-box-10 pad-left-40"
+                          name="UserName"
+                          type="text"
+                          [(ngModel)]="formField.depositAmount"
+                          autocomplete="off"
+                          readonly
+                        /><span class="fa fa-angle-down down-icon"></span>
+                      </div>
+                    </div>
+                    <div class="dropdown-wrap">
+                      <ul class="new-dropdown">
+                        <li
+                          *ngFor="let deposit of depositLists"
+                          (click)="chooseDeposit(deposit)"
+                        >
+                          <span>{{ deposit.amount }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="all-title-font" style="padding-left: 10px;">
+                    Miscellaneous fee
+                  </label>
+                  <div class="inner-divleft-pad">
+                    <label class="sr-only" for="inlineFormInputGroupmisFee"
+                      >0</label
+                    >
+                    <div class="input-group input-group-bg mb-2 mr-sm-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text misfee-bg">
+                          {{ currency.invCurrencySign }}
+                        </div>
+                      </div>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="inlineFormInputGroupmisFee"
+                        (click)="toKnowFocus('misFee')"
+                        (keypress)="numberOnly($event, 'miscelFee')"
+                        placeholder="0"
+                        (mouseleave)="leaveHover($event)"
+                        (mouseenter)="enterHover($event)"
+                        [(ngModel)]="formField.paymentPolicy.miscFee"
+                        min="0"
+                        name="miscFee"
+                        #miscfee="ngModel"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col-md-6 p-0">
+                  <div class="display-style">
+                    <label class="all-title-font">Prorate class fee</label>
+                    <br />
+                    <div class="radio-pos-payment">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          [(ngModel)]="formField.paymentPolicy.allowProrated"
+                          min="0"
+                          name="allowProrated"
+                          #allow="ngModel"
+                        />
+                        <span
+                          class="slider round"
+                          [ngClass]="{
+                            activeRadio:
+                              formField.paymentPolicy.allowProrated == true
+                          }"
+                        ></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="inner-divleft-pad">
+                    <div
+                      *ngIf="formField.paymentPolicy.allowProrated == true"
+                      class="input-group input-group-bg mb-2 mr-sm-2 all-left-box-10"
+                    >
+                      <div class="input-group-prepend">
+                        <div class="input-group-text profee-bg">
+                          {{ currency.invCurrencySign }}
+                        </div>
+                      </div>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="inlineFormInputGroupmisFee"
+                        (click)="toKnowFocus('prorateFee')"
+                        (keypress)="numberOnly($event, 'prorateFee')"
+                        placeholder="0"
+                        (mouseleave)="leaveHover($event)"
+                        (mouseenter)="enterHover($event)"
+                        [(ngModel)]="formField.paymentPolicy.proratedLessonFee"
+                        min="0"
+                        name="proratedLessonFee"
+                        #proratedLessonFee="ngModel"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="all-title-font" style="padding-left: 10px;"
+                    >Tax Options</label
+                  >
+                  <div>
+                    <div
+                      class="form-group has-feedback taxOpt-wrap"
+                      (click)="showDropdown('taxOpt', '')"
+                      (clickOutside)="closeDropdown($event, 'taxOpt')"
+                    >
+                      <input
+                        class="cursor-on form-control br-bshadow-none"
+                        name="taxName"
+                        type="text"
+                        placeholder="username"
+                        [(ngModel)]="chooseTax"
+                        placeholder="None"
+                        autocomplete="off"
+                        readonly
+                      /><span class="fa fa-angle-down tax-downicon"></span>
+                    </div>
+                    <div class="dropdown-wrap" *ngIf="taxOptShow == true">
+                      <ul class="taxOpt-dropdown">
+                        <li (click)="chooseTaxOption('inclusive')">
+                          <span>Inclusive</span>
+                        </li>
+                        <li (click)="chooseTaxOption('exclusive')">
+                          <span>Exclusive</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="col-md-6" style="padding: 0;">
+                  <label class="all-title-font">Invoice Duration</label>
+                  <div class="inner-divleft-pad">
+                    <input
+                      type="number"
+                      class="form-control br-bshadow-none all-left-box-10"
+                      id="inlineFormInputGroupDuedate"
+                      (keypress)="numberOnly($event, 'duedate')"
+                      placeholder="0"
+                      (mouseleave)="leaveHover($event)"
+                      (mouseenter)="enterHover($event)"
+                      [(ngModel)]="formField.dueDateCount"
+                      min="0"
+                      name="invDueDate"
+                      #invDueDate="ngModel"
+                    />
+                  </div>
+                </div>
+              </div>
+              <hr class="limit-hr-100" />
+            </div>
+            <div class="col-md-12" style="padding-top: 40px;">
+              <label for="duration" class="all-title-font parent-box-name"
+                >Lesson</label
+              >
+              <div class="display-style">
+                <div class="col-md-6" style="padding: 0;">
+                  <label class="all-title-font"> Minimum </label>
+                  <div class="inner-div-pad">
+                    <input
+                      type="number"
+                      placeholder="0 lesson"
+                      class="form-control br-bshadow-none all-left-box-10"
+                      (keypress)="numberOnly($event, 'lessmin')"
+                      [(ngModel)]="formField.lesson.min"
+                      min="1"
+                      (input)="restrictMaxNumberInput($event, maxLesson, 'lesson')"
+                      name="minDuration"
+                      #minLesson="ngModel"
+                    />
+                    <div
+                      *ngIf="restrictFirstLessInput"
+                      class="alert alert-danger alert-m-right m-top-15"
+                    >
+                      Must be Lower than "Maximum" Lesson
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="all-title-font" style="padding-left: 20px;">
+                    Maximum
+                  </label>
+                  <div class="inner-divleft-pad">
+                    <input
+                      type="number"
+                      placeholder="0 lesson"
+                      class="form-control br-bshadow-none all-m-left10"
+                      (keypress)="numberOnly($event, 'lessmax')"
+                      [(ngModel)]="formField.lesson.max"
+                      min="1"
+                      (input)="restrictMinNumberInput($event, minLesson, 'lesson')"
+                      name="maxDuration"
+                      #maxLesson="ngModel"
+                    />
+                    <div
+                      *ngIf="restrictLastLessInput"
+                      class="alert alert-danger alert-m-left m-top-15"
+                    >
+                      Must be greater than "Minimum" Age
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <button
+              *ngIf="isEditCP == false"
+              type="submit"
+              class="btn sticky-create"
+              (click)="createdPlan(parentForm.value, 'create')"
+              [disabled]="
+                !parentForm.valid ||
+                timeInminutes == undefined ||
+                timeInminutes == 0
+              "
+            >
+              Create
+            </button>
+            <button
+              *ngIf="isEditCP == true"
+              type="submit"
+              class="btn sticky-create"
+              (click)="createdPlan(parentForm.value, 'update')"
+              [disabled]="
+                !parentForm.valid ||
+                formField.lesson.duration == undefined ||
+                formField.lesson.duration == 0
+              "
+            >
+              Update
+            </button>
+            <div [hidden]="!step6" class="back-modal" (click)="backStep('step6')">
+              <i class="fa fa-angle-left"></i>
+              <p>Back</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
     <!-- <div *ngIf="step7" class="div_step7">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper pad-100">
@@ -1186,351 +1534,9 @@
         </div>
       </div>
     </div> -->
-    <div *ngIf="step7" class="div_step7">
-      <div class="d-flex justify-content-center">
-        <div class="inside-data-wrapper pad-100">
-          <div class="overlay-wrapper">
-            <div class="col-md-12">
-              <p class="step-font">Step 7</p>
-              <h5 class="all-title-font text-font-align">Optional fields</h5>
-            </div>
-            <div class="col-md-12" style="padding-top: 40px;">
-              <label for="age" class="all-title-font parent-box-name"
-                >Age</label
-              >
-              <div class="display-style">
-                <div class="col-md-6" style="padding-left: 0;">
-                  <label class="all-title-font"> From </label>
-                  <input
-                    type="number"
-                    placeholder="0 year"
-                    class="form-control br-bshadow-none all-left-box-10"
-                    (keypress)="numberOnly($event, 'ageFrom')"
-                    [(ngModel)]="formField.age.min"
-                    (input)="restrictMaxNumberInput($event, maxData, 'age')"
-                    min="1"
-                    id="age"
-                    name="minage"
-                    #minData="ngModel"
-                  />
-                  <div
-                    *ngIf="restrictFirstInput"
-                    class="alert alert-danger alert-m-right m-top-15"
-                  >
-                    Must be Lower than "To" Age
-                  </div>
-                </div>
-                <div class="col-md-6" style="padding-right: 0;">
-                  <label class="all-title-font" style="padding-left: 20px;">
-                    To
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="0 year"
-                    class="form-control br-bshadow-none all-m-left10"
-                    (keypress)="numberOnly($event, 'ageTo')"
-                    [(ngModel)]="formField.age.max"
-                    min="1"
-                    (input)="restrictMinNumberInput($event, minData, 'age')"
-                    id="age"
-                    name="maxage"
-                    #maxData="ngModel"
-                  />
-                  <div
-                    *ngIf="restrictLastInput"
-                    class="alert alert-danger alert-m-left m-top-15"
-                  >
-                    Must be greater than "From" Age
-                  </div>
-                </div>
-              </div>
-              <hr class="limit-hr-100" />
-            </div>
-            <div class="col-md-12" style="padding-top: 40px;">
-              <label for="age" class="all-title-font parent-box-name"
-                >Payment policy</label
-              >
-              <div class="display-style">
-                <!-- <div class="col-md-4" style="padding: 0;">
-									<label class="all-title-font">Deposit</label>
-									<select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
-										<option [value]="depositModel" disabled="true">S$ 0</option>
-										<option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
-									</select>
-									<i class="fa fa-chevron-down down-arrow1"></i>
-								</div> -->
-                <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font">Deposit</label>
-                  <div>
-                    <div
-                      class="form-group has-feedback"
-                      (click)="depositDropdown()"
-                    >
-                      <div>
-                        <span class="deposit-sign">{{
-                          currency.invCurrencySign
-                        }}</span>
-                        <input
-                          class="cursor-on form-control br-bshadow-none all-left-box-10 pad-left-40"
-                          name="UserName"
-                          type="text"
-                          [(ngModel)]="formField.depositAmount"
-                          autocomplete="off"
-                          readonly
-                        /><span class="fa fa-angle-down down-icon"></span>
-                      </div>
-                    </div>
-                    <div class="dropdown-wrap">
-                      <ul class="new-dropdown">
-                        <li
-                          *ngFor="let deposit of depositLists"
-                          (click)="chooseDeposit(deposit)"
-                        >
-                          <span>{{ deposit.amount }}</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 10px;">
-                    Miscellaneous fee
-                  </label>
-                  <div class="inner-divleft-pad">
-                    <label class="sr-only" for="inlineFormInputGroupmisFee"
-                      >0</label
-                    >
-                    <div class="input-group input-group-bg mb-2 mr-sm-2">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text misfee-bg">
-                          {{ currency.invCurrencySign }}
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="inlineFormInputGroupmisFee"
-                        (click)="toKnowFocus('misFee')"
-                        (keypress)="numberOnly($event, 'miscelFee')"
-                        placeholder="0"
-                        (mouseleave)="leaveHover($event)"
-                        (mouseenter)="enterHover($event)"
-                        [(ngModel)]="formField.paymentPolicy.miscFee"
-                        min="0"
-                        name="miscFee"
-                        #miscfee="ngModel"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="col-md-6 p-0">
-                  <div class="display-style">
-                    <label class="all-title-font">Prorate class fee</label>
-                    <br />
-                    <div class="radio-pos-payment">
-                      <label class="switch">
-                        <input
-                          type="checkbox"
-                          [(ngModel)]="formField.paymentPolicy.allowProrated"
-                          min="0"
-                          name="allowProrated"
-                          #allow="ngModel"
-                        />
-                        <span
-                          class="slider round"
-                          [ngClass]="{
-                            activeRadio:
-                              formField.paymentPolicy.allowProrated == true
-                          }"
-                        ></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="inner-divleft-pad">
-                    <!-- <label class="sr-only" for="inlineFormInputGroupmisFee">0</label> -->
-                    <div
-                      *ngIf="formField.paymentPolicy.allowProrated == true"
-                      class="input-group input-group-bg mb-2 mr-sm-2 all-left-box-10"
-                    >
-                      <div class="input-group-prepend">
-                        <div class="input-group-text profee-bg">
-                          {{ currency.invCurrencySign }}
-                        </div>
-                      </div>
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="inlineFormInputGroupmisFee"
-                        (click)="toKnowFocus('prorateFee')"
-                        (keypress)="numberOnly($event, 'prorateFee')"
-                        placeholder="0"
-                        (mouseleave)="leaveHover($event)"
-                        (mouseenter)="enterHover($event)"
-                        [(ngModel)]="formField.paymentPolicy.proratedLessonFee"
-                        min="0"
-                        name="proratedLessonFee"
-                        #proratedLessonFee="ngModel"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 10px;"
-                    >Tax Options</label
-                  >
-                  <div>
-                    <div
-                      class="form-group has-feedback taxOpt-wrap"
-                      (click)="showDropdown('taxOpt', '')"
-                      (clickOutside)="closeDropdown($event, 'taxOpt')"
-                    >
-                      <input
-                        class="cursor-on form-control br-bshadow-none"
-                        name="taxName"
-                        type="text"
-                        placeholder="username"
-                        [(ngModel)]="chooseTax"
-                        placeholder="None"
-                        autocomplete="off"
-                        readonly
-                      /><span class="fa fa-angle-down tax-downicon"></span>
-                    </div>
-                    <div class="dropdown-wrap" *ngIf="taxOptShow == true">
-                      <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
-                      <ul class="taxOpt-dropdown">
-                        <li (click)="chooseTaxOption('inclusive')">
-                          <span>Inclusive</span>
-                        </li>
-                        <li (click)="chooseTaxOption('exclusive')">
-                          <span>Exclusive</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font">Invoice Duration</label>
-                  <div class="inner-divleft-pad">
-                    <input
-                      type="number"
-                      class="form-control br-bshadow-none all-left-box-10"
-                      id="inlineFormInputGroupDuedate"
-                      (keypress)="numberOnly($event, 'duedate')"
-                      placeholder="0"
-                      (mouseleave)="leaveHover($event)"
-                      (mouseenter)="enterHover($event)"
-                      [(ngModel)]="formField.dueDateCount"
-                      min="0"
-                      name="invDueDate"
-                      #invDueDate="ngModel"
-                    />
-                  </div>
-                </div>
-              </div>
-              <hr class="limit-hr-100" />
-            </div>
-            <div class="col-md-12" style="padding-top: 40px;">
-              <label for="duration" class="all-title-font parent-box-name"
-                >Lesson</label
-              >
-              <div class="display-style">
-                <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font"> Minimum </label>
-                  <div class="inner-div-pad">
-                    <input
-                      type="number"
-                      placeholder="0 lesson"
-                      class="form-control br-bshadow-none all-left-box-10"
-                      (keypress)="numberOnly($event, 'lessmin')"
-                      [(ngModel)]="formField.lesson.min"
-                      min="1"
-                      (input)="
-                        restrictMaxNumberInput($event, maxLesson, 'lesson')
-                      "
-                      name="minDuration"
-                      #minLesson="ngModel"
-                    />
-                    <div
-                      *ngIf="restrictFirstLessInput"
-                      class="alert alert-danger alert-m-right m-top-15"
-                    >
-                      Must be Lower than "Maximum" Lesson
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 20px;">
-                    Maximum
-                  </label>
-                  <div class="inner-divleft-pad">
-                    <input
-                      type="number"
-                      placeholder="0 lesson"
-                      class="form-control br-bshadow-none all-m-left10"
-                      (keypress)="numberOnly($event, 'lessmax')"
-                      [(ngModel)]="formField.lesson.max"
-                      min="1"
-                      (input)="
-                        restrictMinNumberInput($event, minLesson, 'lesson')
-                      "
-                      name="maxDuration"
-                      #maxLesson="ngModel"
-                    />
-                    <div
-                      *ngIf="restrictLastLessInput"
-                      class="alert alert-danger alert-m-left m-top-15"
-                    >
-                      Must be greater than "Minimum" Age
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="button-wrapper">
-            <button
-              *ngIf="isEditCP == false"
-              type="submit"
-              class="btn sticky-create"
-              (click)="createdPlan(parentForm.value, 'create')"
-              [disabled]="
-                !parentForm.valid ||
-                timeInminutes == undefined ||
-                timeInminutes == 0
-              "
-            >
-              Create
-            </button>
-            <button
-              *ngIf="isEditCP == true"
-              type="submit"
-              class="btn sticky-create"
-              (click)="createdPlan(parentForm.value, 'update')"
-              [disabled]="
-                !parentForm.valid ||
-                formField.lesson.duration == undefined ||
-                formField.lesson.duration == 0
-              "
-            >
-              Update
-            </button>
-            <div
-              [hidden]="!step7"
-              class="back-modal"
-              (click)="backStep('step7')"
-            >
-              <i class="fa fa-angle-left"></i>
-              <p>Back</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <hr class="limit-hr-100 mr-top-20"> -->
-    </div>
+    <!-- <div *ngIf="step7" class="div_step7">
+
+    </div> -->
   </form>
   <block-ui message="Deafult Message"></block-ui>
 </div>

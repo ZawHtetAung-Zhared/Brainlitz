@@ -908,6 +908,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   calculateTime(time) {
+    console.log(time);
+
     var sTime =
       time.start.hr + ':' + time.start.min + ' ' + time.start.meridiem;
     var eTime = time.end.hr + ':' + time.end.min + ' ' + time.end.meridiem;
@@ -1875,6 +1877,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.blockUI.start('Loading...');
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
+      res.details.map(info => {
+        if (info.controlType === 'Datepicker')
+          info.value = moment(info.value).format('YYYY-MM-DD');
+      });
       this.blockUI.stop();
       console.log('selected Customer', res);
       this.selectedCustomer = res;
@@ -1967,7 +1973,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // Object.assign(this.courseInfo , res)
           this.invoice = res.invoice;
           this.showInvoice = true;
-          Object.assign(this.detailLists, res);
+          Object.assign(this.detailLists, res.body);
           this.showOneInvoice(this.invoice);
         },
         err => {
@@ -2884,7 +2890,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('-------->', res);
         // this.courseInfo = this.detailLists;
-        Object.assign(this.detailLists, res);
+        Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);

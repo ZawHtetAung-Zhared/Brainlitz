@@ -828,9 +828,9 @@ export class DashboardComponent implements OnInit {
       );
     }
   }
-
   getCurrency() {
     this.objectKeys = Object.keys;
+
     this.currency_symbol = currency;
     var key,
       keys = Object.keys(this.currency_symbol);
@@ -840,19 +840,34 @@ export class DashboardComponent implements OnInit {
       key = keys[n];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
     }
-    console.log(this.newCurrency);
   }
 
   search(val) {
-    console.log(this.newCurrency.hasOwnProperty(val));
+    this.getCurrency();
+    var words = this.objectKeys(this.newCurrency);
+    const result = words.filter(word => word.includes(val));
+    var tempObj = {};
     if (val.length > 0) {
-      if (this.newCurrency.hasOwnProperty(val)) {
-        var keyObj = val;
-        this.newCurrency = { [keyObj]: this.newCurrency[val] };
+      for (let index = 0; index < result.length; index++) {
+        if (this.newCurrency.hasOwnProperty(result[index])) {
+          var keyObj = result[index];
+          tempObj[keyObj] = this.newCurrency[keyObj];
+        }
       }
+      this.newCurrency = tempObj;
     } else {
       this.getCurrency();
     }
+
+    console.log(this.newCurrency.hasOwnProperty(val));
+    // if (val.length > 0) {
+    //   if (this.newCurrency.hasOwnProperty(val)) {
+    //     var keyObj = val;
+    //     this.newCurrency = { [keyObj]: this.newCurrency[val] };
+    //   }
+    // } else {
+    //   this.getCurrency();
+    // }
   }
 
   showCurrencyBox(type, $event: Event) {
@@ -924,6 +939,9 @@ export class DashboardComponent implements OnInit {
   updateInvoice(data, type) {
     console.log(data);
     var body;
+    if (this.selectedFlag === 'sgd') {
+      this.selectedCurrency = 'S$';
+    }
     data['currencyCode'] = this.selectedFlag;
     data['currencySign'] = this.selectedCurrency;
     if (type == 'invoice') {

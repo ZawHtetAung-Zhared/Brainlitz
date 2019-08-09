@@ -341,6 +341,7 @@ h5 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
   font-size: 18px;
+  padding-bottom: 16px;
 }
 
 .label-txt span {
@@ -800,7 +801,7 @@ input[type='radio']:checked ~ label {
 }
 
 .checkedDate {
-  color: #0080ff;
+  color: #007fff;
 }
 
 .regular-checkbox {
@@ -810,9 +811,10 @@ input[type='radio']:checked ~ label {
 .rounded-box {
   line-height: 12px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #788796;
+  cursor: pointer;
   /*border-radius: 50%;*/
   /*background: #ffffff;*/
   /*background: #8fa1b3;*/
@@ -822,13 +824,21 @@ input[type='radio']:checked ~ label {
   font-size: 10px;
   color: #ffffff;
 }
+.square-box,
+.square-checked {
+  border-radius: 4px;
+}
+.square-checked {
+  background: #007fff;
+}
 .square-checked,
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   /*border-radius: 50%;*/
+  cursor: pointer;
   border: 2px solid #007fff;
 }
 .rounded-checked,
@@ -838,11 +848,12 @@ input[type='radio']:checked ~ label {
 }
 .square-checked i {
   font-size: 10px;
-  color: #007fff;
+  color: #fff;
 }
 .box-label {
   line-height: 0.9;
   padding-left: 5px;
+  cursor: pointer;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .radio-checked {
@@ -851,8 +862,8 @@ input[type='radio']:checked ~ label {
   height: 8px;
   position: absolute;
   background: #007fff;
-  left: 1px;
-  top: 1px;
+  left: 1.5px;
+  top: 1.5px;
 }
 
 .tab-border {

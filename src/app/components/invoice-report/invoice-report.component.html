@@ -23,6 +23,7 @@
         <td>To</td>
         <td>Date</td>
         <td>Due date</td>
+        <td>Last send date</td>
         <td>Status</td>
         <td>Action</td>
       </tr>
@@ -42,6 +43,12 @@
         </td>
         <td>
           {{ invoice.dueDate | dateFormat }}
+        </td>
+        <td style="text-align: center;">
+          <span *ngIf="invoice.noti != null">
+            {{ invoice.noti.createdDate | dateFormat }}
+          </span>
+          <span *ngIf="invoice.noti == null"> - </span>
         </td>
         <td>
           <span

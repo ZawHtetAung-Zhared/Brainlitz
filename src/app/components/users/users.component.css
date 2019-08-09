@@ -880,12 +880,32 @@ h5 {
   padding: 2px 5px;
 }
 
+.plus-circle {
+  background: url(../../../assets/icons/plus_sign.svg);
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.addEmail-text {
+  color: #007fff;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  padding-left: 16px;
+}
+
 .label-txt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
   font-size: 18px;
+  padding-bottom: 16px;
 }
-
+.guardian-select {
+  font-size: 14px;
+  color: #64707d;
+}
 .label-txt span {
   font-size: 14px;
   color: #64707d;
@@ -1764,6 +1784,10 @@ h5 {
   padding-right: 3px;
 }
 
+.mb40 {
+  margin-bottom: 40px;
+}
+
 .input-recommend {
   color: #64707d;
   padding-top: 15px;
@@ -2621,7 +2645,7 @@ p.textCount {
 }
 
 .checkedDate {
-  color: #0080ff;
+  color: #007fff;
 }
 
 .regular-checkbox {
@@ -2631,25 +2655,34 @@ p.textCount {
 .rounded-box {
   line-height: 12px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border: 2px solid #788796;
   /*border-radius: 50%;*/
   /*background: #ffffff;*/
   /*background: #8fa1b3;*/
+  cursor: pointer;
 }
 .square-box i,
 .rounded-box i {
   font-size: 10px;
   color: #ffffff;
 }
+.square-checked {
+  background: #007fff;
+}
+.square-box,
+.square-checked {
+  border-radius: 4px;
+}
 .square-checked,
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   /*border-radius: 50%;*/
+  cursor: pointer;
   border: 2px solid #007fff;
 }
 .rounded-checked,
@@ -2659,11 +2692,12 @@ p.textCount {
 }
 .square-checked i {
   font-size: 10px;
-  color: #007fff;
+  color: #fff;
 }
 .box-label {
   line-height: 0.9;
   padding-left: 5px;
+  cursor: pointer;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .radio-checked {
@@ -2672,6 +2706,6 @@ p.textCount {
   height: 8px;
   position: absolute;
   background: #007fff;
-  left: 1px;
-  top: 1px;
+  left: 1.5px;
+  top: 1.5px;
 }
