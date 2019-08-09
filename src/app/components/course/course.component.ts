@@ -2555,7 +2555,7 @@ export class CourseComponent implements OnInit {
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
           console.log('-------->', res);
-          console.error(this.detailLists.invoice);
+          // console.error(this.detailLists.invoice);
 
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
