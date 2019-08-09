@@ -113,8 +113,8 @@ export class LoginComponent implements OnInit {
       // localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
       // localStorage.setItem('testURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
       this.getOrgKey(str_res);
-      console.error('if');
-      console.error(localStorage.getItem('redirectURL'));
+      // console.error('if');
+      // console.error(localStorage.getItem('redirectURL'));
     } else {
       console.warn(redirectURL);
       localStorage.setItem('redirectURL', redirectURL);
@@ -171,9 +171,9 @@ export class LoginComponent implements OnInit {
     this.redirectUri = localStorage.getItem('redirectURL');
     console.log(this.redirectUri);
     console.log(localStorage.getItem('redirectURL'));
-    console.error(this.redirectUri);
+    // console.error(this.redirectUri);
     this.redirectUri = encodeURIComponent(this.redirectUri);
-    console.error(this.redirectUri);
+    // console.error(this.redirectUri);
     window.location.href =
       this.loginUrl +
       '/?client_id=' +
