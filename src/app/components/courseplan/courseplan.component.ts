@@ -574,6 +574,7 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+    console.log(this.selectedAPGidArray);
     console.log(formData);
     console.log(this.optArray);
     this.formatDataForTaxOption(this.optArray);
@@ -990,8 +991,7 @@ export class CourseplanComponent implements OnInit {
   }
 
   selectData(id, name) {
-    console.log(id);
-    console.log(name);
+    console.log('select data id', id, 'select data name', name);
     this.singleAPG(id);
     this.selectedAPGlists = true;
     this.isfocus = false;
@@ -1016,7 +1016,9 @@ export class CourseplanComponent implements OnInit {
         console.log('editapg', res);
         this.clickedItem = res;
         this.createdAPGstore.push(this.clickedItem);
+        this.selectedAPGidArray.push(res._id);
         console.log('selectedAPGList', this.createdAPGstore);
+        console.log('selectedApgIDList', this.selectedAPGidArray);
         this.formField.searchText = '';
       },
       err => {
