@@ -1255,9 +1255,7 @@ export class UsersComponent implements OnInit {
             this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
           } else {
-            this.toastr.success(
-              'TIMETABLE IS ALREADY EXISTED for this student'
-            );
+            this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.blockUI.stop();
             this.showInvoice = false;
           }

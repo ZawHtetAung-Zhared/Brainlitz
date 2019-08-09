@@ -1487,6 +1487,16 @@ export class CourseplanComponent implements OnInit {
       }
     }
   }
+  checkMakeup(allowMakeupPass) {
+    console.log('allowMakeupPass', allowMakeupPass);
+    if (allowMakeupPass == true) {
+      this.formField.makeupPolicy.maxDayPerPass = 10;
+      this.formField.makeupPolicy.maxPassPerUser = 3;
+    } else {
+      this.formField.makeupPolicy.maxDayPerPass = 0;
+      this.formField.makeupPolicy.maxPassPerUser = 0;
+    }
+  }
   addStep(str) {
     var res = str.substring(str.length - 1, str.length);
 
@@ -1508,13 +1518,9 @@ export class CourseplanComponent implements OnInit {
         $('#step2').addClass('active');
         this.step2 = true;
         console.log(this.formField.makeupPolicy);
-        if (this.formField.makeupPolicy == undefined) {
-          this.formField['makeupPolicy'] = {
-            allowMakeupPass: false,
-            maxDayPerPass: 10,
-            maxPassPerUser: 3
-          };
-        }
+        // if (this.formField.makeupPolicy == undefined) {
+        //   this.formField.makeupPolicy.allowMakeupPass = false;
+        // }
       }
     }
     if (type == 'step2') {
