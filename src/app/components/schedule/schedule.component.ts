@@ -1877,6 +1877,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.blockUI.start('Loading...');
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
+      res.details.map(info => {
+        if (info.controlType === 'Datepicker')
+          info.value = moment(info.value).format('YYYY-MM-DD');
+      });
       this.blockUI.stop();
       console.log('selected Customer', res);
       this.selectedCustomer = res;

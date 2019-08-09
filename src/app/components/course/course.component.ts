@@ -2269,7 +2269,10 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log('selected Customer', res);
       console.log(res);
-
+      res.details.map(info => {
+        if (info.controlType === 'Datepicker')
+          info.value = moment(info.value).format('YYYY-MM-DD');
+      });
       this.activeUserTab = type;
 
       this.custDetail.user = res;
