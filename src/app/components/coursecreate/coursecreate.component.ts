@@ -549,7 +549,7 @@ export class CoursecreateComponent implements OnInit {
           this.model.type == null
         ) {
           var idx = this.model.lessons.length - 1;
-          if (this.model.lessons[idx].startDate != undefined) {
+          if (this.model.lessons.length > 0) {
             this.setStartD(this.model.lessons[idx].startDate);
           } else {
             this.setStartD(this.model.startDate);
