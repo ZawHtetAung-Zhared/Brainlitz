@@ -969,7 +969,6 @@ export class UsersComponent implements OnInit {
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
-        this.blockUI.stop();
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker')
             info.value = moment(info.value).format('YYYY-MM-DD');
@@ -983,6 +982,9 @@ export class UsersComponent implements OnInit {
             .tz(zone)
             .format(format);
         }
+        setTimeout(() => {
+          this.blockUI.stop();
+        }, 300);
       },
       err => {
         console.log(err);
@@ -1253,9 +1255,7 @@ export class UsersComponent implements OnInit {
             this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
           } else {
-            this.toastr.success(
-              'TIMETABLE IS ALREADY EXISTED for this student'
-            );
+            this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.blockUI.stop();
             this.showInvoice = false;
           }

@@ -564,7 +564,7 @@ export class ToolsComponent implements OnInit {
     console.log('what', type);
     this.isChecked = type;
     this.locationId = localStorage.getItem('locationId');
-    console.error(this.checkActive);
+    // console.error(this.checkActive);
     let dataObj = {
       regionId: this.regionID,
       locationId: this.locationId,

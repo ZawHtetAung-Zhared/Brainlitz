@@ -1213,7 +1213,7 @@
             <div *ngIf="field.controlType === 'Radio'">
               <div
                 class="d-flex"
-                style="padding-bottom: 20px;cursor: pointer;"
+                style="padding-bottom: 24px;cursor: pointer;"
                 *ngFor="let item of field.inputValues; let j = index"
               >
                 <label for="{{ 'radio' + i + j }}" class="m-0 p-0 d-flex">
@@ -1242,9 +1242,9 @@
               <div
                 class="d-flex "
                 *ngFor="let item of field.inputValues; let j = index"
-                style="padding-bottom: 20px;cursor: pointer;"
+                style="padding-bottom: 24px;cursor: pointer;"
               >
-                <label class="d-flex">
+                <label class="d-flex m-0 p-0">
                   <div *ngIf="!item.isCheck" class="square-box">
                     <!-- <i class="fa fa-check"></i> -->
                   </div>
@@ -1766,7 +1766,7 @@
         <div *ngIf="noSetting == true" class="seat-taken">
           You should set invoice setting and payment setting first.
         </div>
-        <div class="mt-20 class-group">
+        <div class="mt-20 mb40 class-group">
           <div class="card-columns pd-zero">
             <div
               class="card"
@@ -2367,7 +2367,7 @@
               <div id="timeline-{{ i }}" class="timeline">
                 <div
                   *ngFor="let lesson of claim.lessons"
-                  class="form-check form-check-inline tool-checked"
+                  class=" form-check-inline tool-checked"
                 >
                   <label
                     [ngClass]="{ selected: isChecked == lesson._id }"

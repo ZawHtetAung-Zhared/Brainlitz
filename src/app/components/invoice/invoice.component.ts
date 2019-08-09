@@ -179,7 +179,7 @@ export class InvoiceComponent implements OnInit {
     this.isEditInv = true;
     this.validateForm();
     this.calculationTotal();
-    console.error(this.isEditInv);
+    // console.error(this.isEditInv);
   }
   updateInvoice() {
     console.log('Inv Update Data', this.updateInvData);
@@ -758,7 +758,7 @@ export class InvoiceComponent implements OnInit {
         }
       }
     } else {
-      console.error('here me', this.isDefaultUpdate);
+      // console.error('here me', this.isDefaultUpdate);
       this.isnewItemsValid = true;
       // if (this.isDefaultUpdate) {
       //   this.isnewItemsValid = true;
@@ -825,8 +825,8 @@ export class InvoiceComponent implements OnInit {
       console.log('res', this.newItemArr[i].taxRes);
     }
 
-    console.error(this.totalTax);
-    console.error(this.subTotal);
+    // console.error(this.totalTax);
+    // console.error(this.subTotal);
 
     this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
     console.log(this.total);
