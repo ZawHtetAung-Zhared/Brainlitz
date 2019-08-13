@@ -636,19 +636,50 @@
                     *ngIf="timetable.course != null"
                   >
                     <div *ngIf="!timetable.lesson.cancel">
-                      <div class="d-flex">
-                        <h6
-                          [ngClass]="{
-                            selectedCourse:
-                              testshowbox == timetable.course.courseId &&
-                              list.date.year == lessonD.year &&
-                              list.date.month == lessonD.month &&
-                              list.date.day == lessonD.day
-                          }"
-                        >
-                          {{ timetable.course.courseCode }}
-                        </h6>
-                        <span class="circle">(</span>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h6
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{ timetable.course.courseCode }}
+                          </h6>
+                          <div class="d-flex">
+                            <p
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
+                              {{
+                                (timetable.seat | json) != '{}'
+                                  ? timetable.seat.taken
+                                  : '-'
+                              }}
+                              seats
+                            </p>
+                            <span class="dot"></span>
+                            <p class="time">2hr</p>
+                          </div>
+                          <p
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                            *ngIf="timetable.seat == null"
+                          ></p>
+                        </div>
                         <div
                           *ngFor="
                             let teacher of timetable.course.teachers;
@@ -656,49 +687,19 @@
                           "
                           style="line-height: 1;"
                         >
-                          <span
-                            *ngIf="timetable.course.teachers.length - 1 == b"
-                            class="teacher-name-course"
-                          >
-                            {{ teacher.preferredName }}
-                          </span>
-                          <span
-                            *ngIf="timetable.course.teachers.length - 1 != b"
-                            class="teacher-name-course"
-                          >
-                            {{ teacher.preferredName }} ,
-                          </span>
+                          <div>
+                            <div class=" tchr-img-wraper">
+                              <img
+                                src="{{ teacher.profilePic }}"
+                                alt=""
+                                class="teacher-pic"
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <span class="circle">)</span>
                       </div>
 
                       <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
-                      <p
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                      >
-                        {{
-                          (timetable.seat | json) != '{}'
-                            ? timetable.seat.taken
-                            : '-'
-                        }}
-                        seats
-                      </p>
-                      <p
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                        *ngIf="timetable.seat == null"
-                      ></p>
                     </div>
                     <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
                       <ul
@@ -742,6 +743,7 @@
                               </div>
                             </div>
                           </div>
+
                           <div class="d-flex flex-column pl-3 pb-3">
                             <div
                               class="pb-2 course-name"
@@ -765,6 +767,7 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="pl-3 pr-3">
                           <button
                             class="d-flex justify-content-between lesson-slot-li enroll-btn"
@@ -804,24 +807,6 @@
                               ></i
                             ></span>
                           </li>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li relief-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'relief',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
-                          >
-                            <span>Assing Relief</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -897,7 +882,7 @@
                           <p class="ml-1 cancelled-course-Code">
                             {{ timetable.course.courseCode }}
                           </p>
-                          <span class="circle">(</span>
+
                           <div
                             *ngFor="
                               let teacher of timetable.course.teachers;
@@ -905,12 +890,6 @@
                             "
                             style="line-height: 1;"
                           >
-                            <span
-                              *ngIf="timetable.course.teachers.length - 1 == b"
-                              class="teacher-name-course"
-                            >
-                              {{ teacher.preferredName }}
-                            </span>
                             <span
                               *ngIf="timetable.course.teachers.length - 1 != b"
                               class="teacher-name-course"
@@ -969,19 +948,51 @@
                   >
                     <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
                     <div *ngIf="!timetable.lesson.cancel">
-                      <div class="d-flex">
-                        <h6
-                          [ngClass]="{
-                            selectedCourse:
-                              testshowbox == timetable.course.courseId &&
-                              list.date.year == lessonD.year &&
-                              list.date.month == lessonD.month &&
-                              list.date.day == lessonD.day
-                          }"
-                        >
-                          {{ timetable.course.courseCode }}
-                        </h6>
-                        <span class="circle">(</span>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h6
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{ timetable.course.courseCode }}
+                          </h6>
+                          <div class="d-flex">
+                            <p
+                              *ngIf="timetable.seat != null"
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
+                              {{
+                                (timetable.seat | json) != '{}'
+                                  ? timetable.seat.taken
+                                  : '-'
+                              }}
+                              seats
+                            </p>
+                            <span class="dot"></span>
+                            <p class="time">2hr</p>
+                          </div>
+                          <p
+                            *ngIf="timetable.seat == null"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          ></p>
+                        </div>
                         <div
                           *ngFor="
                             let teacher of timetable.course.teachers;
@@ -989,49 +1000,17 @@
                           "
                           style="line-height: 1;"
                         >
-                          <span
-                            *ngIf="timetable.course.teachers.length - 1 == b"
-                            class="teacher-name-course"
-                          >
-                            {{ teacher.preferredName }}
-                          </span>
-                          <span
-                            *ngIf="timetable.course.teachers.length - 1 != b"
-                            class="teacher-name-course"
-                          >
-                            {{ teacher.preferredName }},
-                          </span>
+                          <div>
+                            <div class=" tchr-img-wraper">
+                              <img
+                                src="{{ teacher.profilePic }}"
+                                alt=""
+                                class="teacher-pic"
+                              />
+                            </div>
+                          </div>
                         </div>
-                        <span class="circle">)</span>
                       </div>
-
-                      <p
-                        *ngIf="timetable.seat != null"
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                      >
-                        {{
-                          (timetable.seat | json) != '{}'
-                            ? timetable.seat.taken
-                            : '-'
-                        }}
-                        seats
-                      </p>
-                      <p
-                        *ngIf="timetable.seat == null"
-                        [ngClass]="{
-                          selectedCourse:
-                            testshowbox == timetable.course.courseId &&
-                            list.date.year == lessonD.year &&
-                            list.date.month == lessonD.month &&
-                            list.date.day == lessonD.day
-                        }"
-                      ></p>
                     </div>
                     <div *ngIf="!timetable.lesson.cancel">
                       <ul
@@ -1137,24 +1116,6 @@
                               ></i
                             ></span>
                           </li>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li relief-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'relief',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
-                          >
-                            <span>Assing Relief</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1219,18 +1180,42 @@
                       </ul>
                     </div>
                     <div *ngIf="timetable.lesson.cancel">
-                      <div class="d-flex align-items-center mb-0">
-                        <div
-                          class="cancel-icon d-flex justify-content-center align-items-center"
-                        >
-                          <span class="dash-icon align-self-center"> - </span>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <div class="d-flex align-items-center mb-0">
+                            <div
+                              class="cancel-icon d-flex justify-content-center align-items-center"
+                            >
+                              <span class="dash-icon align-self-center">
+                                -
+                              </span>
+                            </div>
+
+                            <p class="ml-1 cancelled-course-Code">
+                              {{ timetable.course.courseCode }}
+                            </p>
+                          </div>
+                          <div class="mt-0 cancel-text">
+                            cancelled
+                          </div>
                         </div>
-                        <p class="ml-1 cancelled-course-Code">
-                          {{ timetable.course.courseCode }}
-                        </p>
-                      </div>
-                      <div class="mt-0 cancel-text">
-                        cancelled
+                        <div
+                          *ngFor="
+                            let teacher of timetable.course.teachers;
+                            let b = index
+                          "
+                          style="line-height: 1;"
+                        >
+                          <div>
+                            <div class=" tchr-img-wraper">
+                              <img
+                                src="{{ teacher.profilePic }}"
+                                alt=""
+                                class="teacher-pic"
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1415,28 +1400,6 @@
         (click)="onClickModalTab('view')"
       >
         View Student
-      </button>
-
-      <button
-        class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
-        [ngClass]="{
-          active: activeTab == 'relief',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
-        }"
-        (click)="
-          onClickModalTab(
-            'relief',
-            selectedSeat.left !== null &&
-              selectedSeat.taken >= selectedSeat.total
-          )
-        "
-      >
-        Assign Relief
       </button>
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
@@ -1975,19 +1938,6 @@
       </div>
     </div>
 
-    <div class="body-wrap pt-2" *ngIf="activeTab == 'relief'">
-      <div class="modal-body">
-        <div class="row">
-          <app-assign-relief
-            class="w-100"
-            [courseInfo]="courseDetail"
-            [lessonInfo]="selectedLesson"
-            [scheduleRelief]="true"
-            (closed)="cancelReliefModal()"
-          ></app-assign-relief>
-        </div>
-      </div>
-    </div>
     <div *ngIf="activeTab == 'cancelClass'">
       <div class="modal-body student-lists">
         <div class="d-flex mb-4">
