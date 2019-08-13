@@ -2274,7 +2274,10 @@ export class CourseComponent implements OnInit {
       this.blockUI.stop();
       console.log('selected Customer', res);
       console.log(res);
-
+      res.details.map(info => {
+        if (info.controlType === 'Datepicker')
+          info.value = moment(info.value).format('YYYY-MM-DD');
+      });
       this.activeUserTab = type;
 
       this.custDetail.user = res;
@@ -2560,10 +2563,10 @@ export class CourseComponent implements OnInit {
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
           console.log('-------->', res);
-          console.error(this.detailLists.invoice);
+          // console.error(this.detailLists.invoice);
 
           this.courseInfo = this.detailLists;
-          Object.assign(this.courseInfo, res);
+          Object.assign(this.courseInfo, res.body);
           console.log('-------->', this.courseInfo);
 
           console.log('res Assign customer', res);
@@ -3597,7 +3600,7 @@ export class CourseComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('-------->', res);
         this.courseInfo = this.detailLists;
-        Object.assign(this.courseInfo, res);
+        Object.assign(this.courseInfo, res.body);
         console.log('-------->', this.courseInfo);
 
         console.log('res Assign customer', res);

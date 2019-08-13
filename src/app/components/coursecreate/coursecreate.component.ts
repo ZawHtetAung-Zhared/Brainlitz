@@ -191,35 +191,36 @@ export class CoursecreateComponent implements OnInit {
       console.log('~~~~~', this.feesOptions);
       this.taxOptions = this.coursePlan.paymentPolicy.taxOptions;
       console.log('Tax Opt', this.taxOptions);
-      if (this.feesOptions != undefined && this.taxOptions == undefined) {
-        var tempObj = {};
-        var tempChooseFee: any;
-        var tempFeeOpt = this.feesOptions;
-        Object.keys(tempFeeOpt).map(function(key, index) {
-          console.log('key~~~~~~', key);
-          if (
-            (key == null || key == undefined || key == '') &&
-            (tempFeeOpt[key] == null ||
-              tempFeeOpt[key] == undefined ||
-              tempFeeOpt[key] == '')
-          ) {
-            tempChooseFee = 'no';
-          } else {
-            console.log('~~~~~~not null');
-            tempObj[key] = {
-              taxInclusive: true
-            };
-          }
-        });
-        console.log('Temp Obj', tempObj);
-        this.taxOptions = tempObj;
-        if (tempChooseFee == 'no') {
-          this.chooseFee = 'no';
-          this.feesOptions = null;
-          console.log('~~~~', this.chooseFee);
-        }
-        console.log(this.taxOptions);
-      }
+      // if (this.feesOptions != undefined && this.taxOptions == undefined) {
+      //   var tempObj = {};
+      //   var tempChooseFee: any;
+      //   var tempFeeOpt = this.feesOptions;
+      //   Object.keys(tempFeeOpt).map(function(key, index) {
+      //     console.log('key~~~~~~', key);
+      //     if (
+      //       (key == null || key == undefined || key == '') &&
+      //       (tempFeeOpt[key] == null ||
+      //         tempFeeOpt[key] == undefined ||
+      //         tempFeeOpt[key] == '')
+      //     ) {
+      //       tempChooseFee = 'no';
+      //     } else {
+      //       console.log('~~~~~~not null');
+      //       tempObj[key] = {
+      //         taxInclusive: true
+      //       };
+      //     }
+      //   });
+      //   console.log('Temp Obj', tempObj);
+      //   this.taxOptions = tempObj;
+      //   if (tempChooseFee == 'no') {
+      //     this.chooseFee = 'no';
+      //     this.feesOptions = null;
+      //     console.log('~~~~', this.chooseFee);
+      //   }
+      //   console.log(this.taxOptions);
+      // }
+      this.checkTaxForCreate();
       if (this.feesOptions == undefined) {
         console.log('No Fees OPtions', this.feesOptions);
         this.chooseFee = 'no';
@@ -246,6 +247,38 @@ export class CoursecreateComponent implements OnInit {
         console.log('has currency but sign null', this.currency);
         this.currency.invCurrencySign = '$';
       }
+    }
+  }
+  //check tax for course create
+  checkTaxForCreate() {
+    if (this.feesOptions != undefined && this.taxOptions == undefined) {
+      var tempObj = {};
+      var tempChooseFee: any;
+      var tempFeeOpt = this.feesOptions;
+      Object.keys(tempFeeOpt).map(function(key, index) {
+        console.log('key~~~~~~', key);
+        if (
+          (key == null || key == undefined || key == '') &&
+          (tempFeeOpt[key] == null ||
+            tempFeeOpt[key] == undefined ||
+            tempFeeOpt[key] == '')
+        ) {
+          tempChooseFee = 'no';
+        } else {
+          console.log('~~~~~~not null');
+          tempObj[key] = {
+            taxInclusive: true
+          };
+        }
+      });
+      console.log('Temp Obj', tempObj);
+      this.taxOptions = tempObj;
+      if (tempChooseFee == 'no') {
+        this.chooseFee = 'no';
+        this.feesOptions = null;
+        console.log('~~~~', this.chooseFee);
+      }
+      console.log(this.taxOptions);
     }
   }
 
@@ -425,32 +458,33 @@ export class CoursecreateComponent implements OnInit {
         var opt = this.chooseTax == true ? 'incl.tax' : 'excl.tax';
         this.selectedCFee = this.chooseFee.toString() + '-' + opt;
         this.taxOptions = this.model.paymentPolicy.taxOptions;
-        if (this.feesOptions != undefined && this.taxOptions == undefined) {
-          console.log('feesOptions', this.feesOptions);
-          var tempObj = {};
-          var testObj = this.feesOptions;
-          var selectedFeeInfo = {
-            fee: this.model.paymentPolicy.courseFee,
-            taxInclusive: this.model.paymentPolicy.courseFeeTaxInclusive
-          };
-          Object.keys(testObj).map(function(key, index) {
-            if (
-              selectedFeeInfo.fee == testObj[key] &&
-              selectedFeeInfo.taxInclusive == false
-            ) {
-              tempObj[key] = {
-                taxInclusive: false
-              };
-            } else {
-              tempObj[key] = {
-                taxInclusive: true
-              };
-            }
-          });
-          console.log('Temp Obj', tempObj);
-          this.taxOptions = tempObj;
-          console.log(this.taxOptions);
-        }
+        // if (this.feesOptions != undefined && this.taxOptions == undefined) {
+        //   console.log('feesOptions', this.feesOptions);
+        //   var tempObj = {};
+        //   var testObj = this.feesOptions;
+        //   var selectedFeeInfo = {
+        //     fee: this.model.paymentPolicy.courseFee,
+        //     taxInclusive: this.model.paymentPolicy.courseFeeTaxInclusive
+        //   };
+        //   Object.keys(testObj).map(function(key, index) {
+        //     if (
+        //       selectedFeeInfo.fee == testObj[key] &&
+        //       selectedFeeInfo.taxInclusive == false
+        //     ) {
+        //       tempObj[key] = {
+        //         taxInclusive: false
+        //       };
+        //     } else {
+        //       tempObj[key] = {
+        //         taxInclusive: true
+        //       };
+        //     }
+        //   });
+        //   console.log('Temp Obj', tempObj);
+        //   this.taxOptions = tempObj;
+        //   console.log(this.taxOptions);
+        // }
+        this.checkTax();
 
         // var selectedDays= this.model.repeatDays;
         this.temp['endDate'] = this.model.endDate;
@@ -515,7 +549,12 @@ export class CoursecreateComponent implements OnInit {
           this.model.type == null
         ) {
           var idx = this.model.lessons.length - 1;
-          this.setStartD(this.model.lessons[idx].startDate);
+          if (this.model.lessons.length > 0) {
+            this.setStartD(this.model.lessons[idx].startDate);
+          } else {
+            this.setStartD(this.model.startDate);
+          }
+          // this.setStartD(this.model.lessons[idx].startDate);
           if (this.model.end) {
             this.endOptChecked = 'end';
           } else if (this.model.lessonCount) {
@@ -590,9 +629,15 @@ export class CoursecreateComponent implements OnInit {
           } else {
             this.chooseFee = this.model.paymentPolicy.courseFee;
           }
+          var opt = this.chooseTax == true ? 'incl.tax' : 'excl.tax';
+          this.selectedCFee = this.chooseFee.toString() + '-' + opt;
+          this.taxOptions = this.model.paymentPolicy.taxOptions;
+          this.checkTax();
         } else {
           this.feesOptions = this.course.plan.paymentPolicy.courseFeeOptions;
           console.log('~~~~~', this.feesOptions);
+          this.taxOptions = this.course.plan.paymentPolicy.taxOptions;
+          console.log('Tax Opt', this.taxOptions);
           if (this.feesOptions == undefined) {
             console.log('No Fees OPtions', this.feesOptions);
             this.chooseFee = 'no';
@@ -600,11 +645,42 @@ export class CoursecreateComponent implements OnInit {
             console.log('Has Fees OPtions', this.feesOptions);
             this.chooseFee = '';
           }
+          this.checkTaxForCreate();
         }
         this.calculateDuration(this.model.starttime, this.model.duration);
         // this.createList(this.course.plan.duration);
         this.isEdit = false;
       });
+  }
+
+  checkTax() {
+    console.log('checkTax~~~');
+    if (this.feesOptions != undefined && this.taxOptions == undefined) {
+      console.log('feesOptions', this.feesOptions);
+      var tempObj = {};
+      var testObj = this.feesOptions;
+      var selectedFeeInfo = {
+        fee: this.model.paymentPolicy.courseFee,
+        taxInclusive: this.model.paymentPolicy.courseFeeTaxInclusive
+      };
+      Object.keys(testObj).map(function(key, index) {
+        if (
+          selectedFeeInfo.fee == testObj[key] &&
+          selectedFeeInfo.taxInclusive == false
+        ) {
+          tempObj[key] = {
+            taxInclusive: false
+          };
+        } else {
+          tempObj[key] = {
+            taxInclusive: true
+          };
+        }
+      });
+      console.log('Temp Obj', tempObj);
+      this.taxOptions = tempObj;
+      console.log(this.taxOptions);
+    }
   }
 
   setStartD(date) {
@@ -1492,18 +1568,19 @@ export class CoursecreateComponent implements OnInit {
     if (this.chooseFee != '') {
       if (this.chooseFee != 'no') {
         this.courseObj['courseFee'] = this.chooseFee;
+        this.courseObj['taxInclusive'] = this.chooseTax;
       }
     }
 
-    if (this.chooseTax != '') {
-      console.log('TTT', this.chooseTax);
-      this.courseObj['taxInclusive'] = this.chooseTax;
-      // if (this.chooseTax == 'inclusive') {
-      //   this.courseObj['taxInclusive'] = true;
-      // } else {
-      //   this.courseObj['taxInclusive'] = false;
-      // }
-    }
+    // if (this.chooseTax != '') {
+    //   console.log('TTT', this.chooseTax);
+    //   this.courseObj['taxInclusive'] = this.chooseTax;
+    //   // if (this.chooseTax == 'inclusive') {
+    //   //   this.courseObj['taxInclusive'] = true;
+    //   // } else {
+    //   //   this.courseObj['taxInclusive'] = false;
+    //   // }
+    // }
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if (this.conflitCourseId == '') {
@@ -1975,7 +2052,7 @@ export class CoursecreateComponent implements OnInit {
                 'modal-xl modal-inv d-flex justify-content-center align-items-center'
             });
             this.showInvoice = true;
-            Object.assign(this.courseDetails, res);
+            Object.assign(this.courseDetails, res.body);
             console.log('CALL INVOICE', this.courseDetails);
             console.log('==>', this.userDetail);
           });
