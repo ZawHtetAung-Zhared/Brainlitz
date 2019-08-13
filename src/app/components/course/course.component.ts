@@ -1553,7 +1553,7 @@ export class CourseComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log(res);
+        console.error(res);
         this.detailLists = res;
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -2581,6 +2581,8 @@ export class CourseComponent implements OnInit {
             console.log('has invoice setting');
             this.invoiceInfo = res.invoiceSettings;
           }
+          console.error(res.invoice);
+
           this.invoice = res.invoice;
           this.showInvoice = true;
           this.showOneInvoice(this.invoice);

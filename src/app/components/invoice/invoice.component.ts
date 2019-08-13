@@ -84,7 +84,7 @@ export class InvoiceComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.custDetail);
-    console.log(this.course.invoice.status);
+    console.log(this.course);
 
     // this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];

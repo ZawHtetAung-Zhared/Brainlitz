@@ -786,10 +786,10 @@
                             </div>
                           </div>
                         </div>
-                        <div class="pl-3 pr-3">
+                        <div class="">
                           <div class="lesson-slot-div">
                             <button
-                              class="d-flex justify-content-between enroll-btn"
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
                               [ngClass]="{ disabled: enrollBtnDisabled }"
                               [disabled]="enrollBtnDisabled"
                               (click)="
@@ -809,17 +809,36 @@
                               ></span>
                             </button>
                           </div>
-
-                          <li
+                          <div class="lesson-slot-div">
+                            <button
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'view',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>View Student</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <!-- <li
                             class="d-flex justify-content-between "
                             (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'view',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
+                            addEnrollModal(
+                              enrollModal,
+                              'view',
+                              timetable.course.courseId,
+                              timetable.seat
+                            )
+                          "
                           >
                             <span>View Student</span
                             ><span
@@ -827,43 +846,47 @@
                                 class="fa lesson-slot-box fa-2x fa-angle-right"
                               ></i
                             ></span>
-                          </li>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li relief-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'relief',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
-                          >
-                            <span>Assing Relief</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li cancel-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'cancel',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
-                          >
-                            <span>Cancel Class</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
+                          </li> -->
+                          <div class="lesson-slot-div">
+                            <button
+                              class="d-flex justify-content-between relief-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'relief',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Assing Relief</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <div class="lesson-slot-div">
+                            <button
+                              class="d-flex justify-content-between cancel-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'cancel',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Cancel Class</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1141,28 +1164,56 @@
                             </div>
                           </div>
                         </div>
-                        <div class="pl-3 pr-3">
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li enroll-btn"
-                            [disabled]="enrollBtnDisabled"
-                            [ngClass]="{ disabled: enrollBtnDisabled }"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'enroll',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
+                        <div class="">
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
                           >
-                            <span>Enroll Student </span>
-                            <span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
-                          <li
+                            <button
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
+                              [disabled]="enrollBtnDisabled"
+                              [ngClass]="{ disabled: enrollBtnDisabled }"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'enroll',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Enroll Student </span>
+                              <span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
+                          >
+                            <button
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
+                              [disabled]="enrollBtnDisabled"
+                              [ngClass]="{ disabled: enrollBtnDisabled }"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'view',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>View Student</span>
+                              <span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <!-- <li
                             class="d-flex justify-content-between lesson-slot-li"
                             (click)="
                               addEnrollModal(
@@ -1179,43 +1230,51 @@
                                 class="fa lesson-slot-box fa-2x fa-angle-right"
                               ></i
                             ></span>
-                          </li>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li relief-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'relief',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
+                          </li> -->
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
                           >
-                            <span>Assing Relief</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li cancel-btn"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'cancel',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
+                            <button
+                              class="d-flex justify-content-between  relief-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'relief',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Assing Relief</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
                           >
-                            <span>Cancel Class</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
+                            <button
+                              class="d-flex justify-content-between cancel-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'cancel',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Cancel Class</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>

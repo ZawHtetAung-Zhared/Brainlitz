@@ -1472,7 +1472,7 @@ ul.options-box li:last-child,
 .hilight-arrow {
   color: #2e3e4d;
 }
-.lesson-slot-li:hover .lesson-slot-box {
+.lesson-slot-div:hover .lesson-slot-box {
   color: #2e3e4d !important;
 }
 .course-code,
@@ -1801,5 +1801,11 @@ span.circle {
   padding-top: 16px;
   padding-right: 20px;
   width: 100%;
+}
+.lesson-slot-div {
+  padding: 20px 0px 10px 0px;
+  border-bottom: 1px solid #edeff0;
+  font-family: 'IInter-UI-Medium', Arial, sans-serif;
+  margin: 0px 20px;
 }
 /* end cancel class */
