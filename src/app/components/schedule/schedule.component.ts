@@ -793,13 +793,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:click', ['$event'])
-  public documentClick(event): void {
-    console.warn(event);
-  }
+  public documentClick(event): void {}
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     if ($event.path[1].classList[1] == 'test-bg') {
       this.overlap = true;
       this.caculatePosition($event);
+    } else {
+      this.overlap = false;
     }
     console.log($event);
     // here you can hide your menu
@@ -831,12 +831,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     }
   }
-  public dummy;
   ngOnInit() {
-    // console.warn(timetable);
-    this.http
-      .get('./../../../assets/data.json')
-      .subscribe(data => (this.dummy = data));
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log('undefined currency', this.currency);
@@ -1400,7 +1395,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    // console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -1662,11 +1656,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           console.log($('.my-class').length);
           var mlen = $('.my-class').length;
-          // for(){
-
-          // }
         }, 300);
-        // this.finalLists = this.dummy;
         this.finalLists = res;
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
@@ -2335,21 +2325,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
     const ele = document.getElementById('overlap-wrapper');
+
     if (e.path[3].classList[1] == 'test-bg') {
-      console.warn(e);
       this.testTop = e.clientY;
       this.testLeft = e.clientX;
+      e.preventDefault();
+      e.stopPropagation();
       this.caculatePosition(e);
       return;
     } else {
       this.overlap = false;
     }
-
-    // return 'sdfsdf';
-    console.warn(ele.style.top);
-    console.warn(ele.style.left);
-    console.warn(e.clientX);
-    console.warn(e.clientY);
 
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
@@ -2978,7 +2964,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.overlap = true;
     // e.preventDefault();
     // e.stopPropagation();
-    console.warn(this.showDp);
     $('.disabledScroll').css('overflow', 'hidden');
     let YPosition = e.clientY;
     let XPosition = e.clientX;
@@ -2997,8 +2982,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       'arr-down': false,
       'arr-up': true
     };
-    console.warn($(document).width());
-    console.warn($(document).width() - XPosition);
     if ($(document).width() - XPosition < 240) {
       // this.overlapArrClasses = {
       //   top : YPosition + 'px',
@@ -3014,13 +2997,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         top: YPosition + 'px',
         left: XPosition - 210 + 'px'
       };
-      console.error('object');
     }
 
-    console.warn($(document).height());
-    console.warn($(document).height() - YPosition);
     if ($(document).height() - (YPosition + 112) < 56) {
-      console.error(YPosition);
       this.overlapXTop = YPosition - 56 + 'px';
       this.overlapClasses = {
         top: YPosition - 56 + 'px',
