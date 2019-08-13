@@ -318,187 +318,187 @@
               Enroll new class
             </button>
           </div>
-          <div>
-            <div class="list-wrapper">
-              <div
-                class="btn-wrap no-item"
-                *ngIf="custDetail.courses?.length <= 0"
-              >
-                There is no course from this customer!
-              </div>
-              <div
-                class="child_two"
-                *ngFor="
-                  let course of custDetail.courses
-                    | slice
-                      : 0
-                      : [
-                          selectedId.indexOf('course') != -1
-                            ? custDetail.courses.length
-                            : 2
-                        ]
-                "
-              >
-                <div class="section-one">
-                  <div class="d-flex justify-content-between">
-                    <label class="class-label-12"
-                      ><i
-                        class="fa fa-map-marker"
-                        style="font-size:12px;padding-right: 4px"
-                      ></i
-                      >{{ course.location.name }}</label
-                    >
 
+          <div>
+            <div
+              class="btn-wrap no-item"
+              style="padding-left: 20px;padding-right: 20px"
+              *ngIf="custDetail.courses?.length <= 0"
+            >
+              There is no course from this customer!
+            </div>
+            <div class="child_two" *ngFor="let course of custDetail.courses">
+              <div class="section-one">
+                <div
+                  class="d-flex justify-content-between"
+                  style="padding-left: 20px"
+                >
+                  <label class="class-label-12"
+                    ><i
+                      class="fa fa-map-marker"
+                      style="font-size:12px;padding-right: 4px"
+                    ></i
+                    >{{ course.location.name }}</label
+                  >
+                </div>
+                <div>
+                  <p
+                    class="info-p clickable"
+                    (click)="onClickCourse(course)"
+                    style="padding-left: 20px"
+                  >
+                    {{ course.name }}
+                  </p>
+
+                  <div class="d-flex row info-wrap" style="padding-left: 20px">
                     <div
-                      class="d-flex flex-row arrowBox"
-                      *ngIf="course.invoice != null"
+                      *ngIf="course.type != 'ONLINE'"
+                      class="col-4 info-wrap"
                     >
-                      <div class="div-left-arrow"></div>
-                      <div
-                        class="left_box_box"
-                        [ngStyle]="
-                          {
-                            color:
-                              course.invoice.status == 'UNPAID'
-                                ? '#f23a30'
-                                : '#009940'
-                          } && {
-                            'background-color':
-                              course.invoice.status == 'UNPAID'
-                                ? '#ffdbd9'
-                                : '#c2f2d6'
-                          }
-                        "
+                      <label
+                        class="class-label-14 mb-0"
+                        *ngFor="let day of course.repeatDays | weekDays"
+                        >{{ day }}</label
                       >
-                        <label
-                          *ngIf="course.invoice.status == 'UNPAID'"
-                          class="unpaid-text"
-                          >Unpaid</label
-                        >
-                        <label
-                          *ngIf="course.invoice.status == 'PAID'"
-                          class="paid-text"
-                          >Paid</label
-                        >
-                        <label
-                          *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
-                          class="paid-text"
-                          >Paid[Partial]</label
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="div-dotted-box">
-                    <p class="info-p clickable" (click)="onClickCourse(course)">
-                      {{ course.name }}
-                    </p>
-                    <label
-                      class="rollover-btn"
-                      (click)="rolloverCourse(course._id, course)"
-                      >Rollover this course</label
-                    >
-                    <div class="d-flex align-items-center">
-                      <div>
-                        <div *ngIf="course.teacher" class="tr-img-wrap">
-                          <img src="{{ course.teacher.profilePic }}" />
-                        </div>
-                      </div>
                       <p
-                        class="tr-name"
-                        *ngIf="course.teacher"
-                        style="word-break: break-all;"
+                        *ngIf="course.duration != undefined"
+                        class="medium-label-14 mb-0"
                       >
-                        {{ course.teacher.preferredName }}
+                        {{ course.duration.startDate | utcTime }} -
+                        {{ course.duration.endDate | utcTime }}
                       </p>
                     </div>
-                    <div class="d-flex info-wrap">
-                      <div
-                        *ngIf="course.type != 'ONLINE'"
-                        class="timetable-col"
-                      >
-                        <label
-                          class="class-label-14 mb-0"
-                          *ngFor="let day of course.repeatDays | weekDays"
-                          >{{ day }}</label
-                        >
-                        <p
-                          *ngIf="course.duration != undefined"
-                          class="medium-label-14 mb-0"
-                        >
-                          {{ course.duration.startDate | utcTime }} -
-                          {{ course.duration.endDate | utcTime }}
+
+                    <div class="d-flex  col-4 day-wrap info-wrap">
+                      <div *ngIf="course.startDate" class="timetable-col ml-3">
+                        <label class="medium-label-14 mb-0">From</label>
+                        <p class="class-label-14 mb-0">
+                          {{ course.startDate | utcDate }}
                         </p>
                       </div>
-                      <div class="d-flex timetable-col day-wrap info-wrap">
-                        <div *ngIf="course.startDate" class="timetable-col">
-                          <label class="medium-label-14 mb-0">From</label>
-                          <p class="class-label-14 mb-0">
-                            {{ course.startDate | utcDate }}
-                          </p>
+                      <div class="timetable-col">
+                        <label
+                          *ngIf="course.endDate"
+                          class="medium-label-14 mb-0"
+                          >To</label
+                        >
+                        <label
+                          *ngIf="course.lessonCount"
+                          class="medium-label-14 mb-0"
+                        ></label>
+                        <p *ngIf="course.endDate" class="class-label-14 mb-0">
+                          {{ course.endDate | utcDate }}
+                        </p>
+                        <p
+                          *ngIf="course.lessonCount"
+                          class="class-label-14 mb-0"
+                        >
+                          {{ course.lessonCount }} Lessons
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-4 info-wrap">
+                      <div
+                        class="d-flex flex-row day-wrap"
+                        *ngIf="course.invoice != null"
+                      >
+                        <div
+                          *ngIf="course.invoice.status == 'UNPAID'"
+                          class="ml-3"
+                        >
+                          <img src="./assets/images/unpaid_indicator.png" />
                         </div>
-                        <div class="timetable-col">
+                        <div
+                          *ngIf="course.invoice.status == 'PAID'"
+                          class="ml-3"
+                        >
+                          <img src="./assets/images/paid indicator.png" />
+                        </div>
+                        <div
+                          *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
+                          class="ml-3"
+                        >
+                          <img src="./assets/images/paid indicator.png" />
+                        </div>
+
+                        <div>
                           <label
-                            *ngIf="course.endDate"
-                            class="medium-label-14 mb-0"
-                            >To</label
+                            *ngIf="course.invoice.status == 'UNPAID'"
+                            class="unpaid-text medium-label-14 mb-0"
+                            style="color: #F23A30;"
+                            >Unpaid</label
                           >
                           <label
-                            *ngIf="course.lessonCount"
-                            class="medium-label-14 mb-0"
-                          ></label>
-                          <p *ngIf="course.endDate" class="class-label-14 mb-0">
-                            {{ course.endDate | utcDate }}
-                          </p>
-                          <p
-                            *ngIf="course.lessonCount"
-                            class="class-label-14 mb-0"
+                            *ngIf="course.invoice.status == 'PAID'"
+                            class="paid-text"
+                            style="color: #009940;"
+                            >Paid</label
                           >
-                            {{ course.lessonCount }} Lessons
-                          </p>
+                          <label
+                            *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
+                            class="paid-text"
+                            style="color: #009940;"
+                            >Paid[Partial]</label
+                          >
+                          <div
+                            *ngIf="course.invoice != null; currency"
+                            style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+                          font-size:14px;color: #2E3D4D;"
+                          >
+                            <span
+                              style="padding-left: 16px;font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+                            font-size:14px;color: #2E3D4D;"
+                              class="currency"
+                              >{{ course.invoice.currency.sign }}</span
+                            >
+                            {{ course.invoice.total }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div
-                    *ngIf="course.invoice != null"
-                    class="d-flex justify-content-end fees"
-                    [ngStyle]="{
-                      color:
-                        course.invoice.status == 'UNPAID'
-                          ? '#f23a30'
-                          : '#009940'
-                    }"
-                  >
-                    <span *ngIf="course.invoice.currency.code == 'sgd'">S</span
-                    ><span>{{ course.invoice.currency.sign }}</span>
-                    {{ course.invoice.total }}
-                  </div>
-                  <div class="d-flex justify-content-between section-two">
-                    <button
-                      class="float-left btn view-invoice"
-                      (click)="
-                        viewJournal(
-                          journalContent,
-                          course,
-                          course.teacher.preferredName
-                        )
-                      "
+                  <div class="page-footer flex-wrap mt-2">
+                    <div
+                      class="d-flex justify-content-between mt-2"
+                      style="padding-left: 20px"
                     >
-                      View Progress Book
-                    </button>
+                      <div class="d-flex">
+                        <label
+                          class="view-invoice"
+                          (click)="rolloverCourse(course._id, course)"
+                          >Rollover this course</label
+                        >
+                        <div class="d-flex">
+                          <span class="dot">&#8226;</span>
+                          <label
+                            class="btn view-invoice"
+                            (click)="
+                              viewJournal(
+                                journalContent,
+                                course,
+                                course.teacher.preferredName
+                              )
+                            "
+                          >
+                            View Journal
+                          </label>
+                        </div>
+                      </div>
 
-                    <button
-                      class="btn view-invoice"
-                      (click)="viewInvoice(classEnrollModal, course)"
-                      [disabled]="course.invoice == null"
-                    >
-                      View invoice
-                    </button>
+                      <button
+                        class="btn view-invoice"
+                        (click)="viewInvoice(classEnrollModal, course)"
+                        [disabled]="course.invoice == null"
+                      >
+                        View invoice
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <div>
             <div *ngIf="custDetail.courses?.length > 2">
               <button

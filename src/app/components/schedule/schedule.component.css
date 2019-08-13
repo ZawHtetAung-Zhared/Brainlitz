@@ -701,11 +701,12 @@ ul.scedule-data-listing li.disabled {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(211, 211, 211, 0.123);
+  /* border: 1px solid rgba(211, 211, 211, 0.123); */
   position: relative;
   overflow: hidden;
   margin-left: 4px;
   margin-right: 8px;
+  border: 1px solid #ffffff;
 }
 .teacher-pic {
   width: 100%;
@@ -1051,7 +1052,7 @@ tbody td {
   left: 249px;
   /*width: 123px;*/
   height: 44px;
-  background: #c2f2d6;
+  background: #91f2ba;
   border-radius: 2px;
   padding: 6px 8px;
 }
@@ -1868,4 +1869,18 @@ span.circle {
   color: #64707d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
+}
+.dot {
+  /* position: absolute; */
+  width: 2px;
+  height: 2px;
+  margin-top: 10px;
+  margin-left: 5px;
+  background: #009940;
+  margin-right: 5px;
+}
+.time {
+  color: #009940;
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
