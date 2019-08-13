@@ -447,6 +447,9 @@
             <div
               class="single-row"
               [ngClass]="{
+                top20:
+                  i != 0 &&
+                  finalLists[i - 1].date.month != finalLists[i].date.month,
                 'test-bg': list && list.isOverlap == true
               }"
               *ngFor="let list of finalLists; let i = index"

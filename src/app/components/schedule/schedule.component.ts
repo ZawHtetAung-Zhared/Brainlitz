@@ -795,12 +795,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   public documentClick(event): void {}
   @HostListener('document:click', ['$event']) clickedOutside($event) {
-    if ($event.path[1].classList[1] == 'test-bg') {
-      this.overlap = true;
-      this.caculatePosition($event);
-    } else {
-      this.overlap = false;
-    }
     console.log($event);
     // here you can hide your menu
     this.testshowbox = '';
