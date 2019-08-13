@@ -617,7 +617,8 @@
                         timetable,
                         timetable.lesson,
                         $event,
-                        list.date
+                        list.date,
+                        list
                       )
                     "
                     [ngStyle]="{
@@ -625,7 +626,7 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          242 +
+                          121 +
                         121 +
                         'px',
                       width:
@@ -1013,7 +1014,7 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          242 +
+                          121 +
                         121 +
                         'px',
                       width:
@@ -1028,7 +1029,8 @@
                         timetable,
                         timetable.lesson,
                         $event,
-                        list.date
+                        list.date,
+                        list
                       )
                     "
                   >
@@ -1500,6 +1502,37 @@
           </ul>
         </div>
       </div>
+      <div class="d-flex flex-row">
+        <div>
+          <div class="img-wrap align-self-center ">
+            <img src="{{ selectedTeacher.profilePic }}" />
+          </div>
+        </div>
+        <div class="" style="padding-left:16px">
+          <!-- <label class="info-label"></label> -->
+          <h4 class="info-header">{{ selectedTeacher.preferredName }}</h4>
+          <span class="tearchDate">
+            {{ lessonD | utcDateAndDay }}
+            /
+            {{ selectedCourse.start.hr }} :
+            {{
+              selectedCourse.start.min < 10
+                ? '0' + selectedCourse.start.min
+                : time.start.min
+            }}
+            {{ selectedCourse.start.meridiem }}
+            -
+            {{ selectedCourse.end.hr }} :
+            {{
+              selectedCourse.end.min < 10
+                ? '0' + selectedCourse.end.min
+                : time.end.min
+            }}
+            {{ selectedCourse.end.meridiem }}
+          </span>
+        </div>
+      </div>
+
       <button class="modal-close" (click)="cancelModal('enrollModal')">
         <span class="closemark">
           <div class="closemark_stem1"></div>

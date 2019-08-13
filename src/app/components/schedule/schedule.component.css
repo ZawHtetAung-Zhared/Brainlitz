@@ -1475,6 +1475,9 @@ ul.options-box li:last-child,
 .lesson-slot-div:hover .lesson-slot-box {
   color: #2e3e4d !important;
 }
+.lesson-slot-li:hover .lesson-slot-box {
+  color: #2e3e4d !important;
+}
 .course-code,
 .seatLeft,
 .lessoncount-EndDate {
@@ -1805,7 +1808,13 @@ span.circle {
 .lesson-slot-div {
   padding: 20px 0px 10px 0px;
   border-bottom: 1px solid #edeff0;
-  font-family: 'IInter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   margin: 0px 20px;
 }
 /* end cancel class */
+
+.tearchDate {
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+}

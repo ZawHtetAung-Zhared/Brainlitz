@@ -100,6 +100,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   // public daysOfWeek = localStorage.getItem('daysofWeek');
   // public categoryId = localStorage.getItem('categoryId');
   public selectedTeacher: any = {};
+  public selectedCourse: any = {};
   public selectedCategory: any = {};
   public selectedCat: boolean = true;
   public activeTab: any;
@@ -1716,6 +1717,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   activeTeachers(teacher) {
+    console.error(this.selectedTeacher);
+
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
@@ -1739,6 +1742,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   public tempTchr: any;
   activeTeachers1(teacher, index) {
+    console.error(this.selectedTeacher);
+
     this.isTeacherAll = false;
     this.keyword = '';
     this.selectedTeacher = teacher;
@@ -1791,6 +1796,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   addEnrollModal(modal, type, courseID, seat) {
     console.error(type);
+    console.error(this.selectedTeacher);
 
     console.log('course-id-->', courseID, seat);
     this.modalReference = this.modalService.open(modal, {
@@ -1808,11 +1814,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   getCourseDetail(id) {
+    console.error(this.isTeacherAll);
+
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         this.detailLists = res;
-        console.log(res);
         this.courseDetail = res;
+        if (this.isTeacherAll) {
+          this.selectedTeacher = res.teacher;
+          console.error(this.selectedTeacher);
+        }
+
+        console.log(res);
       },
       err => {
         console.log(err);
@@ -2698,7 +2711,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   courseInfo = {};
-  onClickCourse(course, lesson, e, date) {
+  onClickCourse(course, lesson, e, date, test) {
+    console.error(course);
+    this.selectedCourse = course;
+    console.error(this.selectedCourse.start);
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
