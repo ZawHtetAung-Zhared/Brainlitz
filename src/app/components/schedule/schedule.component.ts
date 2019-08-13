@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FlexiComponent } from '../flexi/flexi.component';
 declare var $: any;
 @Component({
@@ -720,7 +721,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private http: HttpClient
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
@@ -795,6 +797,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isCourseCreate = true;
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event): void {}
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     console.log($event);
     // here you can hide your menu
@@ -826,7 +831,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   ngOnInit() {
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
@@ -1404,7 +1408,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    // console.log('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -1661,13 +1664,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.blockUI.stop();
         }, 100);
+
         console.log('staff timetable', res);
         setTimeout(() => {
           console.log($('.my-class').length);
           var mlen = $('.my-class').length;
-          // for(){
-
-          // }
         }, 300);
         this.finalLists = res;
 
@@ -2414,8 +2415,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   showDp: boolean = false;
   scheduleObj = {};
+
+  testTop;
+  testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
-    console.log('ampm', ampm);
+    const ele = document.getElementById('overlap-wrapper');
+
+    if (e.path[3].classList[1] == 'test-bg') {
+      this.testTop = e.clientY;
+      this.testLeft = e.clientX;
+      e.preventDefault();
+      e.stopPropagation();
+      this.caculatePosition(e);
+      return;
+    } else {
+      this.overlap = false;
+    }
 
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
@@ -2711,10 +2726,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   courseInfo = {};
-  onClickCourse(course, lesson, e, date, test) {
-    console.error(course);
+
+  onClickCourse(course, lesson, e, date) {
     this.selectedCourse = course;
-    console.error(this.selectedCourse.start);
+    if (date.overlap == true) {
+      if (e.path[5].classList[1] == 'test-bg') {
+      }
+      return;
+    }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
@@ -3068,4 +3087,70 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.textAreaOption = true;
   }
   //start cancel funtion
+
+  public overlapClasses = {};
+  public overlapArrClasses = {};
+  public overlapXTop;
+  public overlapYLeft;
+  public overlap = false;
+  caculatePosition(e) {
+    this.overlap = true;
+    // e.preventDefault();
+    // e.stopPropagation();
+    $('.disabledScroll').css('overflow', 'hidden');
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    this.overlapArrClasses = {
+      top: YPosition - 20 + 'px',
+      left: XPosition + 'px'
+    };
+    this.overlapXTop = YPosition + 'px';
+    this.overlapYLeft = XPosition + 'px';
+    // this.overlapClasses = {
+    //   top:  YPosition + 'px',
+    //   left: XPosition + 'px',
+    // }
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+    if ($(document).width() - XPosition < 240) {
+      // this.overlapArrClasses = {
+      //   top : YPosition + 'px',
+      //   left : XPosition-240+ 'px'
+      // }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': false,
+        'arr-up': true
+      };
+      this.overlapYLeft = XPosition - 210 + 'px';
+      this.overlapClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 210 + 'px'
+      };
+    }
+
+    if ($(document).height() - (YPosition + 112) < 56) {
+      this.overlapXTop = YPosition - 56 + 'px';
+      this.overlapClasses = {
+        top: YPosition - 56 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+      this.overlapArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
+  }
 }
