@@ -701,11 +701,12 @@ ul.scedule-data-listing li.disabled {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(211, 211, 211, 0.123);
+  /* border: 1px solid rgba(211, 211, 211, 0.123); */
   position: relative;
   overflow: hidden;
   margin-left: 4px;
   margin-right: 8px;
+  border: 1px solid #ffffff;
 }
 .teacher-pic {
   width: 100%;
@@ -924,6 +925,57 @@ tbody th {
 .top20 {
   margin-top: 42px;
 }
+.test-bg:first-child {
+  border: 0;
+  background-image: linear-gradient(
+    135deg,
+    #ffffff 44.44%,
+    #e3e4e6 44.44%,
+    #e3e4e6 50%,
+    #ffffff 50%,
+    #ffffff 94.44%,
+    #e3e4e6 94.44%,
+    #e3e4e6 100%
+  ) !important;
+  background-size: 13px 13px;
+}
+.overlap-text {
+  font-size: 14px;
+  font-size: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #64707d;
+}
+.test-bg {
+  /* background-image: repeating-linear-gradient(
+    120deg,
+    white 5px,
+    #f2f4f5 0.5px,
+    white 12px,
+    #f2f4f5 0.5px,
+    white 14px
+  ) !important; */
+  background-image: linear-gradient(
+    135deg,
+    #ffffff 44.44%,
+    #e3e4e6 44.44%,
+    #e3e4e6 50%,
+    #ffffff 50%,
+    #ffffff 94.44%,
+    #e3e4e6 94.44%,
+    #e3e4e6 100%
+  ) !important;
+  background-size: 13px 13px;
+}
+.overlap-popup {
+  width: 240px;
+  height: 56px;
+  background: #ffffff;
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1), 0px 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  position: absolute;
+  padding: 6px;
+  z-index: 99;
+}
+
 .single-row .monthly {
   /*position: absolute;
   font-size: 10px;
@@ -1000,7 +1052,7 @@ tbody td {
   left: 249px;
   /*width: 123px;*/
   height: 44px;
-  background: #c2f2d6;
+  background: #91f2ba;
   border-radius: 2px;
   padding: 6px 8px;
 }
@@ -1472,6 +1524,9 @@ ul.options-box li:last-child,
 .hilight-arrow {
   color: #2e3e4d;
 }
+.lesson-slot-div:hover .lesson-slot-box {
+  color: #2e3e4d !important;
+}
 .lesson-slot-li:hover .lesson-slot-box {
   color: #2e3e4d !important;
 }
@@ -1691,7 +1746,8 @@ ul.options-box li:last-child,
 .disabled {
   opacity: 0.5;
 }
-.enroll-btn {
+.enroll-btn,
+.cancel-btn {
   background: transparent;
   border: 0px;
   outline: 0px;
@@ -1775,4 +1831,56 @@ span.teacher-name-course {
 span.circle {
   line-height: 1.2;
   font-size: 12px;
+}
+/* start cancel class */
+.text-reason:focus {
+  outline: 0px !important;
+}
+.add-reason {
+  color: #0080ff;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-weight: 500;
+}
+.text-reason:focus {
+  outline: 0px !important;
+}
+
+.text-reason {
+  border: none;
+  resize: none;
+  padding-left: 20px;
+  box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.08);
+  overflow-y: scroll;
+  height: 80px;
+  padding-top: 16px;
+  padding-right: 20px;
+  width: 100%;
+}
+.lesson-slot-div {
+  padding: 20px 0px 10px 0px;
+  border-bottom: 1px solid #edeff0;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  margin: 0px 20px;
+}
+/* end cancel class */
+
+.tearchDate {
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+}
+.dot {
+  /* position: absolute; */
+  width: 2px;
+  height: 2px;
+  margin-top: 10px;
+  margin-left: 5px;
+  background: #009940;
+  margin-right: 5px;
+}
+.time {
+  color: #009940;
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }

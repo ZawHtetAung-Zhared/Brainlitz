@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FlexiComponent } from '../flexi/flexi.component';
 declare var $: any;
 @Component({
@@ -100,6 +101,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   // public daysOfWeek = localStorage.getItem('daysofWeek');
   // public categoryId = localStorage.getItem('categoryId');
   public selectedTeacher: any = {};
+  public selectedCourse: any = {};
   public selectedCategory: any = {};
   public selectedCat: boolean = true;
   public activeTab: any;
@@ -154,6 +156,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isCategory: boolean = false;
   isPlan: boolean = false;
   isCourseCreate: boolean = false;
+  public reasonValue: any;
+  public textAreaOption = false;
+  public studentArray = [];
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
 
@@ -716,7 +721,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private http: HttpClient
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
@@ -791,6 +797,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isCourseCreate = true;
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event): void {}
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     console.log($event);
     // here you can hide your menu
@@ -822,7 +831,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   ngOnInit() {
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
@@ -930,16 +938,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     var diffHours = (diff - diffMins) / 60;
     console.log('hours', diffHours);
 
-    if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
-      diffHours = diffHours * 2 + 1;
-      console.log(diffHours);
-    } else if (diffMins > 30 && diffMins < 60) {
-      diffHours = diffHours * 2 + 2;
-      console.log(diffHours);
-    } else if (diffMins == 0) {
-      diffHours = diffHours * 2;
-      console.log(diffHours);
+    console.log(time.start.min);
+    if (time.start.min != 0) {
+      diffHours = diffHours + 1;
+    } else {
+      diffHours = diffHours;
     }
+    // if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
+    //   diffHours = diffHours * 2 + 1;
+    //   console.log(diffHours);
+    // } else if (diffMins > 30 && diffMins < 60) {
+    //   diffHours = diffHours * 2 + 2;
+    //   console.log(diffHours);
+    // } else if (diffMins == 0) {
+    //   diffHours = diffHours * 2;
+    //   console.log(diffHours);
+    // }
 
     // var hours= [];
     if (time.start.meridiem === 'PM') {
@@ -955,7 +969,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     for (var i = 0; i <= diffHours; i++) {
       if (i > 0) {
-        tempH = tempH + 30;
+        tempH = tempH + 60; //if u want to different "30" minus,  tempH = tempH + 30
       } else {
         tempH = tempH;
       }
@@ -1051,12 +1065,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   minSlotArr = [];
   calculateSlot(start) {
+    console.log(start);
+
     var min = start.min; // start time min
     // var temp = [];
     // var tempnext = [];
     this.minArr = [];
     this.minNextArr = [];
     var next;
+    //if u want to calculate two division in one hour
     for (var i = 0; i <= 1; i++) {
       // min += 1;
       // if(min == 60){
@@ -1072,48 +1089,52 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         // } else {
         //   min += 15;
         // }
-        var m = min + 15;
+        var m = min + 30; //if u want to different "30" minus,  min + 15
         if (m > 60) {
           min = m - 60;
           if (min == 60) {
             min = 0;
           }
         } else {
-          min += 15;
+          min += 30; //if u want to different "30" minus,   min += 15;
           if (min == 60) {
             min = 0;
           }
         }
       }
+      console.log(min);
+
       this.minArr.push(min);
       this.minSlotArr.push(min);
+      this.minNextArr.push(min);
     }
     console.log('temp', this.minArr);
-    next = this.minArr[this.minArr.length - 1];
-    console.log('next', next);
+    //if u want to calculate four division in one hour
+    // next = this.minArr[this.minArr.length - 1];
+    // for (var j = 0; j <= 1; j++) {
+    //   // if (next == 45) {
+    //   //   console.log("==59")
+    //   //   next = 0;
+    //   // } else {
+    //   //   next += 15;
+    //   // }
+    //   m = next + 30;  //if u want to different "30" minus,  m = next + 15;
+    //   if (m > 60) {
+    //     next = m - 60;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   } else {
+    //     next += 30; //if u want to different "30" minus,    next += 15;;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   }
+    //   this.minNextArr.push(next);
+    //   this.minSlotArr.push(next);
+    // }
+    console.log(this.minSlotArr);
 
-    for (var j = 0; j <= 1; j++) {
-      // if (next == 45) {
-      //   console.log("==59")
-      //   next = 0;
-      // } else {
-      //   next += 15;
-      // }
-      m = next + 15;
-      if (m > 60) {
-        next = m - 60;
-        if (next == 60) {
-          next = 0;
-        }
-      } else {
-        next += 15;
-        if (next == 60) {
-          next = 0;
-        }
-      }
-      this.minNextArr.push(next);
-      this.minSlotArr.push(next);
-    }
     console.log('temp next ===>', this.minNextArr);
   }
 
@@ -1387,7 +1408,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    // console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -1644,15 +1664,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.blockUI.stop();
         }, 100);
+
         console.log('staff timetable', res);
         setTimeout(() => {
           console.log($('.my-class').length);
           var mlen = $('.my-class').length;
-          // for(){
-
-          // }
         }, 300);
         this.finalLists = res;
+
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
@@ -1667,7 +1686,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             }
           }
         }
-        console.log('finalLists', this.finalLists);
+        console.error('finalLists', this.finalLists);
       });
   }
 
@@ -1690,11 +1709,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isEditInv = false;
       this.singleInv = [];
       this.updateInvData = {};
+      this.reasonValue = '';
+      this.textAreaOption = false;
+      this.isGlobal = false;
+      console.error('exit');
     }
     this.showflexyCourse = false;
   }
 
   activeTeachers(teacher) {
+    console.error(this.selectedTeacher);
+
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
@@ -1718,6 +1743,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   public tempTchr: any;
   activeTeachers1(teacher, index) {
+    console.error(this.selectedTeacher);
+
     this.isTeacherAll = false;
     this.keyword = '';
     this.selectedTeacher = teacher;
@@ -1769,14 +1796,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    console.error(type);
+    console.error(this.selectedTeacher);
+
     console.log('course-id-->', courseID, seat);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+    console.error(courseID);
+
     this.courseId = courseID;
     this.selectedSeat = seat;
-    this.lessonId = '5beb8c7d1f893164fff2c32b';
     this.getCourseDetail(this.courseId);
     if (seat.left != null && seat.taken >= seat.total)
       this.onClickModalTab('view');
@@ -1784,11 +1815,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   getCourseDetail(id) {
+    console.error(this.isTeacherAll);
+
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         this.detailLists = res;
-        console.log(res);
         this.courseDetail = res;
+        if (this.isTeacherAll) {
+          this.selectedTeacher = res.teacher;
+          console.error(this.selectedTeacher);
+        }
+
+        console.log(res);
       },
       err => {
         console.log(err);
@@ -1817,6 +1855,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickModalTab(type, full?) {
     console.log(full);
+    console.error(type);
+
     // this.activeTab = type;
     if (type == 'enroll') {
       this.activeTab = type;
@@ -1826,24 +1866,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else if (type == 'relief') {
       // this.showRelief=true;
       setTimeout(() => {
-        this.courseDetail.lessons.map(lesson => {
-          console.log(lesson.startDate);
-          var lessondate = lesson.startDate.split('T')[0];
-          console.log(lessondate);
-          var m =
-            this.lessonD.month < 10
-              ? '0' + this.lessonD.month
-              : this.lessonD.month;
-          var d =
-            this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
-          var tempDate = this.lessonD.year + '-' + m + '-' + d;
-          console.log('tempDate', tempDate);
-          if (lessondate == tempDate) {
-            this.selectedLesson = lesson;
-            console.log(this.selectedLesson);
-            this.activeTab = type;
-          }
-        });
+        this.searchSelectedLesson(type);
+      }, 500);
+    } else if ((type = 'cancel')) {
+      this.activeTab = 'cancel';
+      this.getUserInCourse();
+      console.error('exit cancel');
+      setTimeout(() => {
+        this.searchSelectedLesson(type);
       }, 500);
     } else {
       this.getUserInCourse();
@@ -1851,6 +1881,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
 
+  searchSelectedLesson(type) {
+    console.error(this.courseDetail.lessons);
+
+    this.courseDetail.lessons.map(lesson => {
+      console.log(lesson.startDate);
+      var lessondate = lesson.startDate.split('T')[0];
+      console.log(lessondate);
+      var m =
+        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
+      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+      var tempDate = this.lessonD.year + '-' + m + '-' + d;
+      console.log('tempDate', tempDate);
+      if (lessondate == tempDate) {
+        this.selectedLesson = lesson;
+        console.error('selected lesson', this.selectedLesson);
+        this.activeTab = type;
+      }
+    });
+  }
   getUserInCourse() {
     //temp api for testing UI
     // this.blockUI.start('Loading...');
@@ -1861,6 +1910,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
+          res.CUSTOMER.map(customer => {
+            this.studentArray.push(customer.userId);
+          });
         },
         err => {
           console.log(err);
@@ -1923,6 +1975,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.blockUI.start('Loading...');
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
+      res.details.map(info => {
+        if (info.controlType === 'Datepicker')
+          info.value = moment(info.value).format('YYYY-MM-DD');
+      });
       this.blockUI.stop();
       console.log('selected Customer', res);
       this.selectedCustomer = res;
@@ -2015,7 +2071,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // Object.assign(this.courseInfo , res)
           this.invoice = res.invoice;
           this.showInvoice = true;
-          Object.assign(this.detailLists, res);
+          Object.assign(this.detailLists, res.body);
           this.showOneInvoice(this.invoice);
         },
         err => {
@@ -2359,7 +2415,23 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   showDp: boolean = false;
   scheduleObj = {};
+
+  testTop;
+  testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
+    const ele = document.getElementById('overlap-wrapper');
+
+    if (e.path[3].classList[1] == 'test-bg') {
+      this.testTop = e.clientY;
+      this.testLeft = e.clientX;
+      e.preventDefault();
+      e.stopPropagation();
+      this.caculatePosition(e);
+      return;
+    } else {
+      this.overlap = false;
+    }
+
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
 
@@ -2375,6 +2447,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //     console.log("original", h, ':', min, ':', ampm);
     //    }
     // }
+    console.log('min', min);
+
     var cIdx = this.minSlotArr.indexOf(min);
     console.log('cIdx', cIdx);
     var pIdx = cIdx - 1;
@@ -2393,6 +2467,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       console.log('original', h);
     }
 
+    if (h == 12) {
+      ampm = 'PM';
+    }
     // var h = hr;
     this.slotHr = h + ':' + min + ' ' + ampm;
 
@@ -2584,35 +2661,63 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // console.log("scheduleObj",this.scheduleObj);
   }
 
-  cancelClassFun(lessonId) {
-    let data = {
-      lessonId: lessonId
-    };
-    console.log(lessonId);
+  cancelClass(lessonId) {
+    var cancelData;
+    if (
+      this.reasonValue == null ||
+      this.reasonValue.length == 0 ||
+      this.reasonValue == undefined
+    ) {
+      var noReason = {
+        lessonId: lessonId,
+        students: this.studentArray
+      };
+      cancelData = noReason;
+      console.error('exit');
+    } else {
+      var reason = {
+        lessonId,
+        students: this.studentArray,
+        message: this.reasonValue
+      };
+      cancelData = reason;
+    }
+
+    console.error(cancelData);
+    console.error(this.isGlobal);
+    console.error(this.courseId);
+
     // console.log(this.isGlobal)
     // Call cancel class api service
     // this.blockUI.start('Loading...');
     // this.isGlobal
     this._service
-      .cancelUsersFromClass(this.courseId, data, this.isGlobal)
+      .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
         (res: any) => {
           // Success function
           // this.blockUI.stop();
           // this.cancelUI=false;
           // this.cancelUi=false;
+
+          console.error(res);
+
           console.info('cancle user from class api calling is done');
           console.log(res);
           this.isGlobal = false;
           // this.disableCancel = true;
-          this.getCourseDetail(this.courseId);
+          // this.getCourseDetail(this.courseId);
+          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
           // Close Dialog box
           // Show the canceled users
+          this.reasonValue = '';
+          this.textAreaOption = false;
+          this.isGlobal = false;
         },
         err => {
           // Error function
           this.isGlobal = false;
-          console.error('cancle user from class has got error', err);
+          console.log('cancle user from class has got error', err);
           // Do something
         }
       );
@@ -2621,7 +2726,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   courseInfo = {};
+
   onClickCourse(course, lesson, e, date) {
+    this.selectedCourse = course;
+    if (date.overlap == true) {
+      if (e.path[5].classList[1] == 'test-bg') {
+      }
+      return;
+    }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
@@ -2932,7 +3044,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('-------->', res);
         // this.courseInfo = this.detailLists;
-        Object.assign(this.detailLists, res);
+        Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);
@@ -2970,5 +3082,75 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   printSchedule() {
     window.print();
+  }
+  showTextarea() {
+    this.textAreaOption = true;
+  }
+  //start cancel funtion
+
+  public overlapClasses = {};
+  public overlapArrClasses = {};
+  public overlapXTop;
+  public overlapYLeft;
+  public overlap = false;
+  caculatePosition(e) {
+    this.overlap = true;
+    // e.preventDefault();
+    // e.stopPropagation();
+    $('.disabledScroll').css('overflow', 'hidden');
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    this.overlapArrClasses = {
+      top: YPosition - 20 + 'px',
+      left: XPosition + 'px'
+    };
+    this.overlapXTop = YPosition + 'px';
+    this.overlapYLeft = XPosition + 'px';
+    // this.overlapClasses = {
+    //   top:  YPosition + 'px',
+    //   left: XPosition + 'px',
+    // }
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+    if ($(document).width() - XPosition < 240) {
+      // this.overlapArrClasses = {
+      //   top : YPosition + 'px',
+      //   left : XPosition-240+ 'px'
+      // }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': false,
+        'arr-up': true
+      };
+      this.overlapYLeft = XPosition - 210 + 'px';
+      this.overlapClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 210 + 'px'
+      };
+    }
+
+    if ($(document).height() - (YPosition + 112) < 56) {
+      this.overlapXTop = YPosition - 56 + 'px';
+      this.overlapClasses = {
+        top: YPosition - 56 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+      this.overlapArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
   }
 }

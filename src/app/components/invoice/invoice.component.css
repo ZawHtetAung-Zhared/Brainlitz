@@ -72,7 +72,7 @@ h3 {
 }
 
 .modal-footer {
-  padding: 24px 0px;
+  padding: 24px 32px;
 }
 
 .invModal-cancel {
@@ -368,6 +368,7 @@ input[type='number']::-webkit-outer-spin-button {
   background: none;
   border: none;
   outline: none;
+  white-space: pre-line;
 }
 @media (max-width: 1024px) {
   .invModal-cancel {

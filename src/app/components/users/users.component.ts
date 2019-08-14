@@ -969,7 +969,6 @@ export class UsersComponent implements OnInit {
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
-        this.blockUI.stop();
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker')
             info.value = moment(info.value).format('YYYY-MM-DD');
@@ -983,6 +982,9 @@ export class UsersComponent implements OnInit {
             .tz(zone)
             .format(format);
         }
+        setTimeout(() => {
+          this.blockUI.stop();
+        }, 300);
       },
       err => {
         console.log(err);
@@ -1227,30 +1229,36 @@ export class UsersComponent implements OnInit {
         (res: any) => {
           console.log(res);
           console.log(this.custDetail);
-          this.toastr.success('Successfully Enrolled.');
-          Object.assign(this.selectedCourse, res);
-          // this.showDetails(this.custDetail.user.userId);
-          // this.closeModel();
-          /* for invoice*/
-          this.showInvoice = true;
-          if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
-            console.log('no invoice setting');
-            this.invoiceInfo = {
-              address: '',
-              city: '',
-              companyName: '',
-              email: '',
-              prefix: '',
-              registration: ''
-            };
+          if (res.status == 200) {
+            this.toastr.success('Successfully Enrolled.');
+            Object.assign(this.selectedCourse, res.body);
+            // this.showDetails(this.custDetail.user.userId);
+            // this.closeModel();
+            /* for invoice*/
+            this.showInvoice = true;
+            if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+              console.log('no invoice setting');
+              this.invoiceInfo = {
+                address: '',
+                city: '',
+                companyName: '',
+                email: '',
+                prefix: '',
+                registration: ''
+              };
+            } else {
+              console.log('has invoice setting');
+              this.invoiceInfo = res.invoiceSettings;
+            }
+            this.invoice = res.invoice;
+            this.showInvoice = true;
+            this.blockUI.stop();
+            this.showOneInvoice(course, this.invoice);
           } else {
-            console.log('has invoice setting');
-            this.invoiceInfo = res.invoiceSettings;
+            this.toastr.success('TIMETABLE IS ALREADY EXISTED');
+            this.blockUI.stop();
+            this.showInvoice = false;
           }
-          this.invoice = res.invoice;
-          this.showInvoice = true;
-          this.blockUI.stop();
-          this.showOneInvoice(course, this.invoice);
           // for(var i in this.invoice){
           //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
           //  this.dueDate = this.dateFormat(this.invoice[i].dueDate);
@@ -2048,7 +2056,7 @@ export class UsersComponent implements OnInit {
         console.log(res);
         console.log(this.custDetail);
         this.toastr.success('Successfully Enrolled.');
-        Object.assign(this.selectedCourse, res);
+        Object.assign(this.selectedCourse, res.body);
         // this.showDetails(this.custDetail.user.userId);
         // this.closeModel();
         /* for invoice*/

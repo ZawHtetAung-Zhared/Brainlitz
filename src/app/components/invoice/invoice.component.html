@@ -117,6 +117,8 @@
                         class="w-100 input-txt"
                         placeholder="0"
                         [(ngModel)]="value.courseFee"
+                        min="0"
+                        oninput="validity.valid||(value='')"
                       />
                     </div>
                   </div>
@@ -248,6 +250,8 @@
                       class="w-100 input-txtaddCurseFee"
                       placeholder="Unit Price"
                       type="number"
+                      min="0"
+                      oninput="validity.valid||(value='')"
                       (input)="inputUnitPrice($event.target.value, i)"
                       (input)="unitPrice = $event.target.value"
                       [value]="obj.fee"
@@ -255,6 +259,7 @@
                   </div>
                 </div>
               </div>
+
               <div
                 *ngIf="feesBox1 == true && activeFeeBoxId == i"
                 class="d-flex btns-wrap"
@@ -303,17 +308,17 @@
                     <li>
                       <div
                         class="w-100"
-                        (click)="chooseTaxOption('inclusive', i)"
+                        (click)="chooseTaxOption('exclusive', i)"
                       >
-                        Inclusive
+                        Exclusive
                       </div>
                     </li>
                     <li>
                       <div
                         class="w-100"
-                        (click)="chooseTaxOption('exclusive', i)"
+                        (click)="chooseTaxOption('inclusive', i)"
                       >
-                        Exclusive
+                        Inclusive
                       </div>
                     </li>
                   </ul>
@@ -548,10 +553,9 @@
             </div>
           </div>
         </div>
-        <div class="invoice-info">
+        <!-- <div class="invoice-info">
           <textarea
             *ngIf="invoiceInfo.invoiceNote != ''"
-            style="resize:vertical"
             rows="1"
             type="text"
             class="invnote-readonly"
@@ -561,63 +565,67 @@
             name="invNote"
             readonly
           ></textarea>
+        </div> -->
+        <div class="invnote-readonly invoice-info pb-3">
+          {{ invoiceInfo.invoiceNote }}
         </div>
       </div>
-      <div class="modal-footer justify-content-between">
-        <div class="d-flex">
-          <button
-            type="button"
-            class="btn invModal-cancel"
-            (click)="closeModal('closeInv')"
-          >
-            Close
+    </div>
+    <div class="modal-footer justify-content-between">
+      <div class="d-flex">
+        <button
+          type="button"
+          class="btn invModal-cancel"
+          (click)="closeModal('closeInv')"
+        >
+          Close
+        </button>
+        <div class="l-border">
+          <button class="btn-print cursor-on" (click)="printInvoice()">
+            <img src="./assets/images/print@2x.png" />
           </button>
-          <div class="l-border">
-            <button class="btn-print cursor-on" (click)="printInvoice()">
-              <img src="./assets/images/print@2x.png" />
-            </button>
-          </div>
         </div>
-        <div *ngIf="custDetail.user">
-          <button
-            *ngIf="isEditInv == false"
-            class="btn send-btn"
-            [disabled]="
-              custDetail.user.email == '' &&
-              custDetail.user.guardians?.length == 0
-            "
-            (click)="sendInvoice()"
-          >
-            Send invoice
-          </button>
+      </div>
+      <div *ngIf="custDetail.user">
+        <button
+          *ngIf="isEditInv == false"
+          class="btn send-btn"
+          [disabled]="
+            custDetail.user.email == '' &&
+            custDetail.user.guardians?.length == 0
+          "
+          (click)="sendInvoice()"
+        >
+          Send invoice
+        </button>
 
-          <div class="d-none" *ngIf="newItemArr.length > 0">
-            {{ validateForm() }}
-          </div>
-          <button
-            *ngIf="isEditInv == true"
-            class="btn send-btn "
-            [disabled]="
-              (custDetail.user.email == '' &&
-                custDetail.user.guardians?.length == 0) ||
-              isnewItemsValid == false
-            "
-            (click)="updateInvoice()"
-          >
-            Save
-          </button>
-          <button
-            class="btn btn-submit"
-            [disabled]="
-              (custDetail.user.email == '' &&
-                custDetail.user.guardians?.length == 0) ||
-              isEditInv == true
-            "
-            (click)="showPayOption()"
-          >
-            PAY
-          </button>
+        <div class="d-none" *ngIf="newItemArr.length > 0">
+          {{ validateForm() }}
         </div>
+
+        <button
+          *ngIf="isEditInv == true"
+          class="btn send-btn "
+          [disabled]="
+            (custDetail.user.email == '' &&
+              custDetail.user.guardians?.length == 0) ||
+            isnewItemsValid == false
+          "
+          (click)="updateInvoice()"
+        >
+          Save
+        </button>
+        <button
+          class="btn btn-submit"
+          [disabled]="
+            (custDetail.user.email == '' &&
+              custDetail.user.guardians?.length == 0) ||
+            isEditInv == true
+          "
+          (click)="showPayOption()"
+        >
+          PAY
+        </button>
       </div>
     </div>
   </div>
@@ -920,18 +928,8 @@
           </div>
         </div>
       </div>
-      <div class="invoice-info">
-        <textarea
-          *ngIf="invoiceInfo.invoiceNote != ''"
-          style="resize:vertical"
-          rows="1"
-          type="text"
-          class="invnote-readonly"
-          id="invNote"
-          [(ngModel)]="invoiceInfo.invoiceNote"
-          name="invNote"
-          readonly
-        ></textarea>
+      <div class="invnote-readonly invoice-info pb-3">
+        {{ invoiceInfo.invoiceNote }}
       </div>
     </div>
 

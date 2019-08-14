@@ -374,6 +374,9 @@
                         [(ngModel)]="formField.makeupPolicy.allowMakeupPass"
                         name="allowmakeup"
                         #makeupcheck="ngModel"
+                        (change)="
+                          checkMakeup(formField.makeupPolicy.allowMakeupPass)
+                        "
                       />
                       <span
                         class="slider round"

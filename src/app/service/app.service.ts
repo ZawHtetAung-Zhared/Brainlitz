@@ -1898,22 +1898,19 @@ export class appService {
     let apiUrl =
       this.baseUrl + '/' + regionid + '/timetable?locationId=' + locationid;
 
-    const httpOptions = {
+    const httpOptions: any = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
-      })
+      }),
+      observe: 'response',
+      responseType: 'json'
     };
-
     console.log(httpOptions);
-
-    return this.httpClient
-      .post(apiUrl, body, httpOptions)
-      .map((res: Response) => {
-        let result = res;
-        console.log(result);
-        return result;
-      });
+    return this.httpClient.post(apiUrl, body, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
   }
 
   getAssignUser(regionid, courseid, date, month, year) {
@@ -2925,7 +2922,7 @@ export class appService {
   }
 
   cancelUsersFromClass(classId: string, data, global): Observable<any> {
-    console.log(global);
+    console.error(global);
     this.getLocalstorage();
     let apiUrl = `${this.baseUrl}/${classId}/cancel/class?passes=${global}`;
     let headers = new Headers();
