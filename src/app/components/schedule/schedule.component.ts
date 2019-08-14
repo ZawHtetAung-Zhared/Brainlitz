@@ -801,14 +801,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click', ['$event'])
   public documentClick(event): void {}
+
   @HostListener('document:click', ['$event']) clickedOutside($event) {
-    if ($event.path[1].classList[1] == 'test-bg') {
+    if (
+      $event.target.offsetParent != null &&
+      $event.target.offsetParent.className == 'single-slot test-bg'
+    ) {
       this.overlap = true;
       this.caculatePosition($event);
     } else {
       this.overlap = false;
     }
-    console.log($event);
     // here you can hide your menu
     this.testshowbox = '';
     this.testshowboxs = false;
@@ -823,7 +826,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.overFlowWidth(20, 'button');
     //to define is side or not
     var diff = window.innerWidth - this.screenValue;
-    console.log(diff);
     if (this.isSide) {
       if (diff <= 40 && diff >= 0) {
         console.log('less than');
@@ -2433,8 +2435,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
     const ele = document.getElementById('overlap-wrapper');
-
-    if (e.path[3].classList[1] == 'test-bg') {
+    if (e.target.parentElement.className === 'slot-wrap border-0') {
       this.testTop = e.clientY;
       this.testLeft = e.clientX;
       e.preventDefault();
@@ -2743,8 +2744,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onClickCourse(course, lesson, e, date, list) {
     this.selectedCourse = course;
     if (list.isOverlap == true) {
-      if (e.path[5].classList[1] == 'test-bg') {
-      }
+      // if (e.path[5].classList[1] == 'test-bg') {
+      // }
       return;
     }
     this.showInvoice = false;
