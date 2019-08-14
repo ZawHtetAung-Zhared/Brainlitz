@@ -27,6 +27,8 @@ export class InvoiceComponent implements OnInit {
   public invoiceInfo = {};
   public feesBox: boolean = false;
   public feesBox1: boolean = false;
+  public feesBox2: boolean = false;
+  public feesBox3: boolean = false;
   public activeFeeBoxId: any;
   public noSetting: boolean;
   public invStatus: string;
@@ -57,6 +59,7 @@ export class InvoiceComponent implements OnInit {
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
+  public iscDiscount: boolean = false;
   public invoiceCourse: any = {};
   public value: any = {};
   public taxRate: any;
@@ -67,6 +70,7 @@ export class InvoiceComponent implements OnInit {
   public paymentSettings: any = {};
   public registration: any;
   public min: any = 0;
+  public cDiscount;
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -706,7 +710,10 @@ export class InvoiceComponent implements OnInit {
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
       amount: 0.0,
-      isDefault: false
+      isDefault: false,
+      discount: {
+        amount: 0
+      }
     };
 
     this.newItemArr.push(newItemObj);
@@ -772,6 +779,9 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].dfee = value;
   }
 
+  inputDiscount(value, id) {
+    this.newItemArr[id].discount.amount = value;
+  }
   addCurseFee(id) {
     console.log(this.newItemArr);
 
@@ -844,5 +854,32 @@ export class InvoiceComponent implements OnInit {
   }
   cancelPopup2(id) {
     this.feesBox1 = false;
+  }
+  cancelPopup3() {
+    this.feesBox2 = false;
+  }
+
+  cancelPopup4() {
+    this.feesBox3 = false;
+  }
+  addnewDiscount(type) {
+    if (type == 'courseFee-dis') {
+      this.feesBox2 = false;
+      console.error(this.cDiscount);
+    } else {
+      this.feesBox3 = false;
+      console.error(this.newItemArr);
+    }
+  }
+
+  showDiscountPopup(type, id) {
+    console.error(type);
+    if (type == 'courseFee-dis') {
+      this.iscDiscount = true;
+      this.feesBox2 = true;
+    } else {
+      this.feesBox3 = true;
+      this.activeFeeBoxId = id;
+    }
   }
 }
