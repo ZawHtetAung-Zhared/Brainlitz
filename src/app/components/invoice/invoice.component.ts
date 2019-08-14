@@ -1,4 +1,4 @@
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { BlockUI, NgBlockUI, BlockUIModule } from 'ng-block-ui';
 import {
   Component,
   OnInit,
@@ -12,6 +12,7 @@ import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { FormStyle } from '@angular/common';
+import { isBoolean } from 'util';
 
 @Component({
   selector: 'app-invoice',
@@ -27,6 +28,8 @@ export class InvoiceComponent implements OnInit {
   public invoiceInfo = {};
   public feesBox: boolean = false;
   public feesBox1: boolean = false;
+  public feesBox2: boolean = false;
+  public feesBox3: boolean = false;
   public activeFeeBoxId: any;
   public noSetting: boolean;
   public invStatus: string;
@@ -53,10 +56,12 @@ export class InvoiceComponent implements OnInit {
   public paymentId: any;
   public paymentProviders: any;
   public selectedPayment: any;
-  public unitPrice: any = 0;
+  public unitPrice: any;
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
+  public iscDiscount: boolean = false;
+  public isNewItemDiscount: boolean = false;
   public invoiceCourse: any = {};
   public value: any = {};
   public taxRate: any;
@@ -67,6 +72,15 @@ export class InvoiceComponent implements OnInit {
   public paymentSettings: any = {};
   public registration: any;
   public min: any = 0;
+  public cDiscount = {
+    value: 0,
+    tax: 0,
+    taxRes: 0,
+    type: '',
+    dValue: 0.0,
+    amount: 0.0
+  };
+
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -706,7 +720,16 @@ export class InvoiceComponent implements OnInit {
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
       amount: 0.0,
-      isDefault: false
+      isDefault: false,
+      isDiscount: false,
+      discount: {
+        value: 0,
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        type: 'exclusive',
+        dValue: 0.0,
+        amount: 0.0
+      }
     };
 
     this.newItemArr.push(newItemObj);
@@ -772,6 +795,9 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].dfee = value;
   }
 
+  inputDiscount(value, id) {
+    this.newItemArr[id].discount.dValue = value;
+  }
   addCurseFee(id) {
     console.log(this.newItemArr);
 
@@ -844,5 +870,82 @@ export class InvoiceComponent implements OnInit {
   }
   cancelPopup2(id) {
     this.feesBox1 = false;
+  }
+  cancelPopup3() {
+    this.feesBox2 = false;
+  }
+
+  cancelPopup4() {
+    this.feesBox3 = false;
+  }
+  addnewDiscount(type, id) {
+    if (type == 'courseFee-dis') {
+      this.feesBox2 = false;
+      this.cDiscount.tax = this.invoice[0].tax.rate;
+      if (this.invoice[0].courseFee.taxInclusive == true) {
+        this.cDiscount.type = 'inclusive';
+      } else {
+        this.cDiscount.type = 'exclusive';
+      }
+      let resTemp = this.calculationDiscount(this.cDiscount);
+      this.iscDiscount = true;
+      this.cDiscount.value = resTemp.value;
+      this.cDiscount.taxRes = resTemp.taxRes;
+      this.cDiscount.amount = resTemp.amount;
+      console.error(this.cDiscount);
+      console.error(resTemp);
+    } else {
+      this.feesBox3 = false;
+      this.isNewItemDiscount = true;
+      this.newItemArr[id].isDiscount = true;
+      let resTemp = this.calculationDiscount(this.newItemArr[id].discount);
+      console.error(resTemp.value);
+
+      this.newItemArr[id].discount.value = resTemp.value;
+      this.newItemArr[id].discount.taxRes = resTemp.taxRes;
+      this.newItemArr[id].discount.amount = resTemp.amount;
+      console.error(id);
+      console.error(resTemp);
+
+      console.error(this.newItemArr);
+    }
+  }
+  calculationDiscount(obj) {
+    console.error(obj);
+    let tempObj = {
+      value: 0,
+      taxRes: 0,
+      amount: 0
+    };
+    let taxRate = obj.tax;
+    let taxAmount = (obj.dValue * taxRate) / 100;
+    console.error(taxAmount);
+
+    if (obj.type == 'inclusive') {
+      var cDis = Number(obj.dValue / (1 + obj.tax / 100));
+      console.error(cDis);
+      tempObj.value = Number(cDis.toFixed(2));
+
+      var tax = Number(cDis) * (obj.tax / 100);
+      tempObj.taxRes = Number(tax.toFixed(2));
+
+      tempObj.amount = Number(cDis.toFixed(2));
+    } else if (obj.type == 'exclusive') {
+      tempObj.taxRes = Number(taxAmount);
+      tempObj.value = obj.dValue;
+      console.error(obj.dValue);
+      tempObj.amount = obj.dValue;
+    }
+    console.error(tempObj);
+    return tempObj;
+  }
+  showDiscountPopup(type, id) {
+    console.error(type);
+    if (type == 'courseFee-dis') {
+      this.feesBox2 = true;
+    } else {
+      this.feesBox3 = true;
+      this.activeFeeBoxId = id;
+    }
   }
 }
