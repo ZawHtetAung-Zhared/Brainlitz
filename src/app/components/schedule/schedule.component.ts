@@ -101,6 +101,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   // public categoryId = localStorage.getItem('categoryId');
   public selectedTeacher: any = {};
   public selectedCourse: any = {};
+  public selectedTeacher_modal: any = {};
   public selectedCategory: any = {};
   public selectedCat: boolean = true;
   public activeTab: any;
@@ -1807,13 +1808,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     this.courseId = courseID;
     this.selectedSeat = seat;
-    this.getCourseDetail(this.courseId);
+    this.getCourseDetail(this.courseId, modal);
     if (seat.left != null && seat.taken >= seat.total)
       this.onClickModalTab('view');
     else this.onClickModalTab(type);
   }
 
-  getCourseDetail(id) {
+  getCourseDetail(id, modal) {
     console.error(this.isTeacherAll);
 
     this._service.getSingleCourse(id, this.locationID).subscribe(
@@ -1821,11 +1822,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.detailLists = res;
         this.courseDetail = res;
         if (this.isTeacherAll) {
-          this.selectedTeacher = res.teacher;
-          console.error(this.selectedTeacher);
+          this.selectedTeacher_modal = res.teacher;
+          console.error(this.selectedTeacher_modal);
         }
 
         console.log(res);
+        // if(modal !=  null){
+        //   this.modalReference = this.modalService.open(modal, {
+        //     backdrop: 'static',
+        //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+        //   });
+        // }
       },
       err => {
         console.log(err);
@@ -1837,7 +1844,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log('cancel relirf~~~');
     this.modalReference.close();
     return new Promise((resolve, reject) => {
-      this.getCourseDetail(this.detailLists._id);
+      this.getCourseDetail(this.detailLists._id, null);
       resolve();
     }).then(() => {
       setTimeout(() => {

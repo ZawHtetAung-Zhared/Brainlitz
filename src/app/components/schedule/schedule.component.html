@@ -632,7 +632,7 @@
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          4.03 +
+                          2.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null"
@@ -1020,7 +1020,7 @@
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          4.03 +
+                          2.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null"
@@ -1196,8 +1196,6 @@
                           >
                             <button
                               class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              [disabled]="enrollBtnDisabled"
-                              [ngClass]="{ disabled: enrollBtnDisabled }"
                               (click)="
                                 addEnrollModal(
                                   enrollModal,
@@ -1505,20 +1503,23 @@
       <div class="d-flex flex-row">
         <div>
           <div class="img-wrap align-self-center ">
-            <img src="{{ selectedTeacher.profilePic }}" />
+            <img src="{{ selectedTeacher_modal.profilePic }}" />
           </div>
         </div>
         <div class="" style="padding-left:16px">
           <!-- <label class="info-label"></label> -->
-          <h4 class="info-header">{{ selectedTeacher.preferredName }}</h4>
-          <span class="tearchDate">
+          <h4 class="info-header">{{ selectedTeacher_modal.preferredName }}</h4>
+          <span
+            class="tearchDate"
+            *ngIf="selectedCourse != null || selectedCourse != undefined"
+          >
             {{ lessonD | utcDateAndDay }}
             /
             {{ selectedCourse.start.hr }} :
             {{
               selectedCourse.start.min < 10
                 ? '0' + selectedCourse.start.min
-                : time.start.min
+                : selectedCourse.start.min
             }}
             {{ selectedCourse.start.meridiem }}
             -
@@ -1526,7 +1527,7 @@
             {{
               selectedCourse.end.min < 10
                 ? '0' + selectedCourse.end.min
-                : time.end.min
+                : selectedCourse.end.min
             }}
             {{ selectedCourse.end.meridiem }}
           </span>
@@ -1572,14 +1573,8 @@
 
       <button
         class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
         [ngClass]="{
-          active: activeTab == 'relief',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
+          active: activeTab == 'relief'
         }"
         (click)="
           onClickModalTab(
@@ -1593,14 +1588,8 @@
       </button>
       <button
         class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
         [ngClass]="{
-          active: activeTab == 'cancel',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
+          active: activeTab == 'cancel'
         }"
         (click)="
           onClickModalTab(
