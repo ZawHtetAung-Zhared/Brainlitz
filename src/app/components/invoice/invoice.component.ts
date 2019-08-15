@@ -147,7 +147,6 @@ export class InvoiceComponent implements OnInit {
         this.showOneInvoice(this.course, this.invoice);
         // this.feesBox = true
         if (this.invoice[0].courseFee.discount.amount != 0) {
-          console.log('ha ha');
           if (
             this.invoice[0].courseFee.taxInclusive == true &&
             this.invoice[0].courseFee.notax == false
@@ -854,7 +853,7 @@ export class InvoiceComponent implements OnInit {
 
     this.newItemArr = tempArr;
 
-    console.log(this.newItemArr);
+    console.log('new item arr', this.newItemArr);
   }
   isnewItemsValid: boolean = false;
   validateForm() {

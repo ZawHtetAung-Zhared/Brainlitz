@@ -1140,7 +1140,11 @@
       </div>
 
       <div *ngFor="let data of invoice">
-        <div>
+        <div
+          style="
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        padding: 20px 0px 20px 0px"
+        >
           <div class="c-label pt-2 mlr-15">
             {{ invoiceCourse.name }}
             <div>
@@ -1152,7 +1156,7 @@
               >
             </div>
           </div>
-          <div class="d-flex inv-courseFee">
+          <div class="d-flex flex-column inv-courseFee">
             <div class="d-flex w-100 mlr-15">
               <div class="col-md-5 p-0 price-info">Course Fee</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
@@ -1185,6 +1189,32 @@
                 *ngIf="data.courseFee.taxInclusive == false"
               >
                 {{ invCurrency.sign }} {{ data.courseFee.amount | financial }}
+              </div>
+            </div>
+            <div
+              class="d-flex w-100 mlr-15"
+              style="padding-top:5px"
+              *ngIf="iscDiscount"
+            >
+              <div class="col-md-5 p-0 price-info discount-name">
+                Discount:
+                <span class="mb-0 discount-name-txt">
+                  {{ invCurrency.sign }} {{ cDiscount.value | financial }}
+                </span>
+              </div>
+              <div
+                class="col-md-1 p-0 text-right price-info discount-number"
+              ></div>
+              <div class="col-md-2 p-0 text-right price-info discount-number">
+                <p class="mb-0" (click)="showDiscountPopup('courseFee-dis')">
+                  {{ invCurrency.sign }} {{ cDiscount.value | financial }}
+                </p>
+              </div>
+              <div class="col-md-2 p-0 text-right price-info discount-number">
+                {{ cDiscount.tax }} %
+              </div>
+              <div class="col-md-2 p-0 text-right price-info discount-number">
+                {{ invCurrency.sign }} {{ cDiscount.amount | financial }}
               </div>
             </div>
           </div>
@@ -1259,7 +1289,182 @@
           </div>
         </div>
       </div> -->
-        <hr class="invoice-hr" />
+        <!-- <hr class="invoice-hr" /> -->
+        <div
+          class="d-flex new-item-box"
+          *ngFor="let obj of newItemArr; let i = index"
+        >
+          <div class="d-flex flex-column w-100 ">
+            <div class="d-flex flex-row new-item w-100 mlr-15">
+              <div class="col-md-5 price-info p-0">
+                {{ obj.name }}
+              </div>
+              <div class="col-md-1 text-right price-info p-0">1</div>
+
+              <div
+                class="col-md-2 text-right price-info"
+                style="
+              padding-right: 0;
+          "
+              >
+                <p class="mb-0" (click)="showPopup1(i)">
+                  {{ invCurrency.sign }} {{ obj.fee | financial }}
+                </p>
+              </div>
+              <div class="col-md-2 text-right price-info p-0">
+                <div class="tax-txt">{{ obj.tax }}%</div>
+              </div>
+              <div
+                class="col-md-2 p-0 text-right price-info"
+                *ngIf="invStatus != 'UNPAID'"
+              >
+                {{ data.tax.rate }} %
+                <!-- <span
+                *ngIf="data.courseFee.taxInclusive == true"
+                class="tax-status"
+                >(inclusive)</span
+              >
+              <span
+                *ngIf="data.courseFee.taxInclusive == false"
+                class="tax-status"
+                >(exclusive)</span
+              > -->
+              </div>
+              <!-- <div class="col-md-2 text-right price-info">
+                <input
+                  class="form-control amount-txt"
+                  placeholder="Amount"
+                  type="number"
+                  (input)="this.newItemArr[i].amount = $event.target.value"
+                  [value]="obj.amount"
+                />
+              </div> -->
+              <div class="col-md-2 text-right price-info p-0">
+                {{ invCurrency.sign }} {{ obj.amount | financial }}
+              </div>
+            </div>
+            <!-- new item discount exit  -->
+            <div
+              class="d-flex flex-row new-item w-100 mlr-15"
+              style="padding-top:5px"
+              *ngIf="obj.isDiscount"
+            >
+              <div class="col-md-5 price-info p-0 discount-name">
+                Discount
+                <span class="mb-0 discount-name-txt">
+                  {{ invCurrency.sign }} {{ obj.discount.value | financial }}
+                </span>
+              </div>
+              <div class="col-md-1 text-right price-info p-0"></div>
+              <div
+                class="col-md-2 text-right price-info discount-number"
+                style="
+                padding-right: 0;
+            "
+              >
+                <!-- <div
+                *ngIf="feesBox1 == true && activeFeeBoxId == i"
+                class="popup-box price-box text-left"
+              >
+                <div id="rectangle"></div>
+                <div class="p-3">
+                  <h5>CourseFee</h5>
+                  <div class="d-flex popup-input">
+                    <div class="input-sign">
+                      {{ invCurrency.sign }}
+                    </div>
+                    <input
+                      class="w-100 input-txtaddCurseFee"
+                      placeholder="Unit Price"
+                      type="number"
+                      min="0"
+                      oninput="validity.valid||(value='')"
+                      (input)="inputUnitPrice($event.target.value, i)"
+                      (input)="unitPrice = $event.target.value"
+                      [value]="obj.fee"
+                    />
+                  </div>
+                </div>
+              </div> -->
+
+                <div>
+                  <div
+                    *ngIf="
+                      feesBox3 == true &&
+                      activeFeeBoxId == i &&
+                      obj.isDiscount == true
+                    "
+                    class="popup-box"
+                  >
+                    <div id="rectangle"></div>
+                    <div class="p-3">
+                      <h5>Discount</h5>
+                      <div class="d-flex popup-input">
+                        <div class="input-sign">
+                          {{ invCurrency.sign }}
+                        </div>
+                        <input
+                          type="number"
+                          name="discount"
+                          class="w-100 input-txtaddCurseFee"
+                          placeholder="0"
+                          min="0"
+                          oninput="validity.valid||(value='')"
+                          (input)="unitPrice = $event.target.value"
+                          (input)="inputDiscount($event.target.value, i)"
+                          [value]="obj.discount.dValue"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    *ngIf="feesBox3 == true && activeFeeBoxId == i"
+                    class="d-flex btns-wrap"
+                  >
+                    <button type="submit" class="btn" (click)="cancelPopup4()">
+                      <span class="closemark">
+                        <div class="closemark_stem"></div>
+                        <div class="closemark_kick"></div>
+                      </span>
+                    </button>
+                    <button
+                      type="submit"
+                      class="btn"
+                      (click)="addnewDiscount('newitem-dis', i)"
+                      [disabled]="unitPrice == undefined || unitPrice == ''"
+                    >
+                      <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <p class="mb-0" (click)="showDiscountPopup('newitem-dis', i)">
+                  {{ invCurrency.sign }} {{ obj.discount.value | financial }}
+                </p>
+              </div>
+              <div class="col-md-2 text-right price-info p-0 discount-number">
+                <div class="tax-txt">{{ obj.discount.tax }}%</div>
+              </div>
+
+              <!-- <div class="col-md-2 text-right price-info">
+                  <input
+                    class="form-control amount-txt"
+                    placeholder="Amount"
+                    type="number"
+                    (input)="this.newItemArr[i].amount = $event.target.value"
+                    [value]="obj.amount"
+                  />
+                </div> -->
+              <div class="col-md-2 text-right price-info p-0 discount-number">
+                {{ invCurrency.sign }} {{ obj.discount.amount | financial }}
+              </div>
+            </div>
+          </div>
+          <!-- <hr class="invoice-hr" /> -->
+        </div>
         <div class="d-flex justify-content-end">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
@@ -1299,6 +1504,7 @@
           </div>
         </div>
       </div>
+
       <div *ngIf="invPayment?.length > 0">
         <div class="d-flex">
           <div class="col-md-4">
