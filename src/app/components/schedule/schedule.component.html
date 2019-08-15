@@ -665,7 +665,15 @@
                           >
                             {{ timetable.course.courseCode }}
                           </h6>
-                          <div class="d-flex">
+                          <div
+                            class="d-flex"
+                            *ngIf="
+                              ((timetable.end | hourToMin) -
+                                (timetable.start | hourToMin)) *
+                                2.0 >
+                              80
+                            "
+                          >
                             <p
                               [ngClass]="{
                                 selectedCourse:
@@ -682,8 +690,36 @@
                               }}
                               seats
                             </p>
-                            <span class="dot"></span>
-                            <p class="time">2hr</p>
+                            <!-- <span class="dot"></span>
+                            <p class="time">2hr</p> -->
+                          </div>
+                          <div
+                            class="d-flex"
+                            *ngIf="
+                              ((timetable.end | hourToMin) -
+                                (timetable.start | hourToMin)) *
+                                2.0 <=
+                              80
+                            "
+                          >
+                            <p
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
+                              {{
+                                (timetable.seat | json) != '{}'
+                                  ? timetable.seat.taken
+                                  : '-'
+                              }}
+                              sea...
+                            </p>
+                            <!-- <span class="dot"></span>
+                            <p class="time">2hr</p> -->
                           </div>
                           <p
                             [ngClass]="{
@@ -696,7 +732,14 @@
                             *ngIf="timetable.seat == null"
                           ></p>
                         </div>
-                        <div *ngIf="isTeacherAll == true">
+                        <div
+                          *ngIf="
+                            ((timetable.end | hourToMin) -
+                              (timetable.start | hourToMin)) *
+                              2.0 >
+                              80 && isTeacherAll == true
+                          "
+                        >
                           <div class=" tchr-img-wraper">
                             <img
                               src="{{
@@ -951,40 +994,42 @@
                     </div>
 
                     <div *ngIf="timetable.lesson.cancel">
-                      <div class="d-flex align-items-center mb-0">
-                        <div
-                          class="cancel-icon d-flex justify-content-center align-items-center"
-                        >
-                          <span class="dash-icon align-self-center"> - </span>
+                      <div>
+                        <div class="d-flex align-items-center mb-0">
+                          <div
+                            class="cancel-icon d-flex justify-content-center align-items-center"
+                          >
+                            <span class="dash-icon align-self-center"> - </span>
+                          </div>
+                          <div class="d-flex">
+                            <p class="ml-1 cancelled-course-Code">
+                              {{ timetable.course.courseCode }}
+                            </p>
+                          </div>
                         </div>
                         <div class="d-flex">
-                          <p class="ml-1 cancelled-course-Code">
-                            {{ timetable.course.courseCode }}
-                          </p>
-
-                          <div
-                            *ngFor="
-                              let teacher of timetable.course.teachers;
-                              let b = index
-                            "
-                            style="line-height: 1;"
-                          >
-                            <span
-                              *ngIf="timetable.course.teachers.length - 1 != b"
-                              class="teacher-name-course"
-                            >
-                              {{ teacher.preferredName }} ,
-                            </span>
+                          <div class="mt-0  cancel-text">
+                            Cancelled
                           </div>
-                          <span class="circle">)</span>
+                          <!-- <span class="dot-cancel"></span>
+                        <p class="cancel">2hr</p> -->
                         </div>
                       </div>
-                      <div class="d-flex">
-                        <div class="mt-0  cancel-text">
-                          Cancelled
+                      <div
+                        *ngIf="
+                          ((timetable.end | hourToMin) -
+                            (timetable.start | hourToMin)) *
+                            2.0 >
+                            80 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.course.teachers[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
                         </div>
-                        <span class="dot-cancel"></span>
-                        <p class="cancel">2hr</p>
                       </div>
                     </div>
                   </div>
@@ -1045,7 +1090,15 @@
                           >
                             {{ timetable.course.courseCode }}
                           </h6>
-                          <div class="d-flex">
+                          <div
+                            class="d-flex"
+                            *ngIf="
+                              ((timetable.end | hourToMin) -
+                                (timetable.start | hourToMin)) *
+                                2.0 >
+                              80
+                            "
+                          >
                             <p
                               *ngIf="timetable.seat != null"
                               [ngClass]="{
@@ -1063,8 +1116,37 @@
                               }}
                               seats
                             </p>
-                            <span class="dot"></span>
-                            <p class="time">2hr</p>
+                            <!-- <span class="dot"></span>
+                            <p class="time">2hr</p> -->
+                          </div>
+                          <div
+                            class="d-flex"
+                            *ngIf="
+                              ((timetable.end | hourToMin) -
+                                (timetable.start | hourToMin)) *
+                                2.0 <=
+                              80
+                            "
+                          >
+                            <p
+                              *ngIf="timetable.seat != null"
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
+                              {{
+                                (timetable.seat | json) != '{}'
+                                  ? timetable.seat.taken
+                                  : '-'
+                              }}
+                              sea...
+                            </p>
+                            <!-- <span class="dot"></span>
+                            <p class="time">2hr</p> -->
                           </div>
                           <p
                             *ngIf="timetable.seat == null"
@@ -1078,7 +1160,14 @@
                           ></p>
                         </div>
 
-                        <div *ngIf="isTeacherAll == true">
+                        <div
+                          *ngIf="
+                            ((timetable.end | hourToMin) -
+                              (timetable.start | hourToMin)) *
+                              2.0 >
+                              80 && isTeacherAll == true
+                          "
+                        >
                           <div class=" tchr-img-wraper">
                             <img
                               src="{{
@@ -1349,25 +1438,27 @@
                             <div class="mt-0 cancel-text">
                               Cancelled
                             </div>
-                            <span class="dot-cancel"></span>
-                            <p class="cancel">2hr</p>
+                            <!-- <span class="dot-cancel"></span>
+                            <p class="cancel">2hr</p> -->
                           </div>
                         </div>
+
                         <div
-                          *ngFor="
-                            let teacher of timetable.course.teachers;
-                            let b = index
+                          *ngIf="
+                            ((timetable.end | hourToMin) -
+                              (timetable.start | hourToMin)) *
+                              2.0 >
+                              80 && isTeacherAll == true
                           "
-                          style="line-height: 1;"
                         >
-                          <div>
-                            <div class=" tchr-img-wraper">
-                              <img
-                                src="{{ teacher.profilePic }}"
-                                alt=""
-                                class="teacher-pic"
-                              />
-                            </div>
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
                         </div>
                       </div>
