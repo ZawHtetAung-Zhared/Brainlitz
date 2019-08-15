@@ -147,9 +147,7 @@ export class InvoiceComponent implements OnInit {
         this.showOneInvoice(this.course, this.invoice);
         // this.feesBox = true
         if (this.invoice[0].courseFee.discount.amount != 0) {
-          this.cDiscount.dValue = this.invoice[0].courseFee.discount.amount;
-          this.cDiscount.tax = this.invoice[0].tax.rate;
-          'Inclusive';
+          console.log('ha ha');
           if (
             this.invoice[0].courseFee.taxInclusive == true &&
             this.invoice[0].courseFee.notax == false
@@ -163,12 +161,22 @@ export class InvoiceComponent implements OnInit {
           } else if (this.invoice[0].courseFee.notax == true) {
             this.cDiscount.type = 'No Tax';
           }
-          this.addnewDiscount('courseFee-dis', null);
+          this.cDiscount.dValue = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.value = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.amount = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.tax = this.invoice[0].tax.rate;
+          this.iscDiscount = true;
+          // this.addnewDiscount('courseFee-dis', null);
         }
+
+        console.log('cDiscount', this.cDiscount);
+
         this.default_subTotal = Number(this.invoice[0].courseFee.fee).toFixed(
           2
         );
-        console.error(this.invoice[0].courseFee.discount.tax);
+        console.log(this.invoice[0].courseFee.discount.tax);
+        console.log('d dic', this.invoice[0].courseFee.discount.amount);
+        console.log('dis tax', this.invoice[0].courseFee.discount.tax);
 
         this.defult_totalTax = Number(this.invoice[0].courseFee.tax).toFixed(2);
         this.default_disTotal = Number(
@@ -224,7 +232,7 @@ export class InvoiceComponent implements OnInit {
     this.isEditInv = true;
     this.validateForm();
     this.calculationTotal();
-    // console.error(this.isEditInv);
+    // console.log(this.isEditInv);
   }
   updateInvoice() {
     console.log('Inv Update Data', this.updateInvData);
@@ -258,7 +266,7 @@ export class InvoiceComponent implements OnInit {
       courseFeeDiscount: this.cDiscount.dValue,
       additionalFees: arr
     };
-    console.error('f obj', finalObj);
+    console.log('f obj', finalObj);
 
     this._service.updateInvoiceInfo(this.invoiceID, finalObj).subscribe(
       (res: any) => {
@@ -801,7 +809,7 @@ export class InvoiceComponent implements OnInit {
       tempObj.name = obj[i].name;
       tempObj.fee = obj[i].fee;
       tempObj.tax = this.invoice[0].tax.rate;
-      console.error(obj[i].discount.amount);
+      console.log(obj[i].discount.amount);
 
       let taxAmount = (obj[i].fee * this.invoice[0].tax.rate) / 100;
 
@@ -831,6 +839,7 @@ export class InvoiceComponent implements OnInit {
       if (obj[i].discount.amount != 0) {
         tempObj.isDiscount = true;
         tempObj.discount.tax = this.invoice[0].tax.rate;
+        tempObj.discount.taxRes = obj[i].discount.tax;
         tempObj.discount.value = obj[i].discount.amount;
         tempObj.discount.dValue = obj[i].discount.amount;
 
@@ -865,7 +874,7 @@ export class InvoiceComponent implements OnInit {
         }
       }
     } else {
-      // console.error('here me', this.isDefaultUpdate);
+      // console.log('here me', this.isDefaultUpdate);
       this.isnewItemsValid = true;
       // if (this.isDefaultUpdate) {
       //   this.isnewItemsValid = true;
@@ -911,9 +920,9 @@ export class InvoiceComponent implements OnInit {
       this.newItemArr[id].amount = Number(this.newItemArr[id].dfee).toFixed(2);
     } else {
       this.newItemArr[id].taxRes = 0;
-      console.error('exit no tax');
+      console.log('exit no tax');
     }
-    console.error(this.newItemArr[id].isDiscount);
+    console.log(this.newItemArr[id].isDiscount);
     if (this.newItemArr[id].isDiscount) {
       this.addnewDiscount('newitem-dis', id);
     } else {
@@ -930,6 +939,9 @@ export class InvoiceComponent implements OnInit {
     this.total = 0;
     this.totalDiscount = 0;
     this.totalDiscounTax = 0;
+
+    console.log('dis total', this.default_disTotal);
+    console.log('dis total tax', this.defult_disTotalTax);
 
     this.totalTax = this.defult_totalTax;
     this.subTotal = this.default_subTotal;
@@ -953,14 +965,14 @@ export class InvoiceComponent implements OnInit {
       ).toFixed(2);
     }
 
-    // console.error(this.totalTax);
-    // console.error(this.subTotal);
+    // console.log(this.totalTax);
+    // console.log(this.subTotal);
     let tempTotal = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
     let tempDistotal = (
       Number(this.totalDiscount) + Number(this.totalDiscounTax)
     ).toFixed(2);
-    console.error(tempTotal);
-    console.error(tempDistotal);
+    console.log(tempTotal);
+    console.log(tempDistotal);
 
     this.total = (Number(tempTotal) - Number(tempDistotal)).toFixed(2);
 
@@ -1001,22 +1013,22 @@ export class InvoiceComponent implements OnInit {
       this.cDiscount.amount = resTemp.amount;
       this.default_disTotal = Number(resTemp.value);
       this.defult_disTotalTax = Number(resTemp.taxRes);
-      console.error(this.cDiscount);
-      console.error(resTemp);
+      console.log(this.cDiscount);
+      console.log(resTemp);
     } else {
       this.feesBox3 = false;
       this.isNewItemDiscount = true;
-      console.error('exit');
+      console.log('exit');
       this.newItemArr[id].isDiscount = true;
 
       let resTemp = this.calculationDiscount(this.newItemArr[id].discount);
       this.newItemArr[id].discount.value = resTemp.value;
       this.newItemArr[id].discount.taxRes = resTemp.taxRes;
       this.newItemArr[id].discount.amount = resTemp.amount;
-      console.error(id);
-      console.error(resTemp);
+      console.log(id);
+      console.log(resTemp);
 
-      console.error(this.newItemArr);
+      console.log(this.newItemArr);
     }
     this.calculationTotal();
   }
@@ -1025,7 +1037,7 @@ export class InvoiceComponent implements OnInit {
   calculationDiscount(obj) {
     this.isEditInv = true;
     this.isnewItemsValid = true;
-    console.error(obj);
+    console.log(obj);
     let tempObj = {
       value: 0,
       taxRes: 0,
@@ -1033,11 +1045,11 @@ export class InvoiceComponent implements OnInit {
     };
     let taxRate = obj.tax;
     let taxAmount = (obj.dValue * taxRate) / 100;
-    console.error(taxAmount);
+    console.log(taxAmount);
 
     if (obj.type == 'Inclusive') {
       var cDis = Number(obj.dValue / (1 + obj.tax / 100));
-      console.error(cDis);
+      console.log(cDis);
       tempObj.value = Number(cDis.toFixed(2));
 
       var tax = Number(cDis) * (obj.tax / 100);
@@ -1047,18 +1059,18 @@ export class InvoiceComponent implements OnInit {
     } else if (obj.type == 'Exclusive') {
       tempObj.taxRes = Number(taxAmount);
       tempObj.value = obj.dValue;
-      console.error(obj.dValue);
+      console.log(obj.dValue);
       tempObj.amount = obj.dValue;
     } else {
       tempObj.value = obj.dValue;
       tempObj.taxRes = 0;
       tempObj.amount = obj.dValue;
     }
-    console.error(tempObj);
+    console.log(tempObj);
     return tempObj;
   }
   showDiscountPopup(type, id) {
-    console.error(type);
+    console.log(type);
     if (type == 'courseFee-dis') {
       this.feesBox2 = true;
     } else {
