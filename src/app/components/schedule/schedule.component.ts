@@ -2989,6 +2989,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (content != null) {
       inner.style.width = content.scrollWidth + 'px';
       if (type == 'v-wrapper') {
+        this.overlap = false;
         scrollbar.scrollLeft = content.scrollLeft;
       } else {
         content.scrollLeft = scrollbar.scrollLeft;
