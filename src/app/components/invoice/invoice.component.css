@@ -55,7 +55,6 @@ h3 {
   font-size: 18px;
 }
 
-.price-info,
 .btn-submit,
 .payment-label,
 .payment-item,
@@ -63,7 +62,9 @@ h3 {
 .invID {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
-
+.price-info {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
 .tax-status {
   font-size: 12px;
   color: #64707d;
@@ -426,8 +427,11 @@ span.fa.fa-angle-down.down-icon.taxDownOpt {
 }
 
 .dropdown-wrap {
-  position: relative;
-  margin-top: 6px;
+  position: absolute;
+  z-index: 99;
+  right: 0px;
+  top: 72px;
+  /* margin-top: 6px; */
 }
 
 .dropdown-wrap ul li {
@@ -461,6 +465,8 @@ ul.taxOpt-dropdown {
   font-size: 12px;
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
   color: #64707d;
+  right: 10px;
+  text-align: center;
 }
 
 ul.taxOpt-dropdown li div {
@@ -468,6 +474,9 @@ ul.taxOpt-dropdown li div {
   height: 45px;
   line-height: 2.7;
   cursor: pointer;
+  color: #007fff;
+  font-family: 'Inter-UI-Regular', Arial, sans-ser;
+  font-size: 16px;
 }
 .tax-txt {
   padding: 0px 10px 0px 20px;
@@ -479,19 +488,25 @@ ul.taxOpt-dropdown li div {
 }
 
 button.taxOpt-wrap {
-  background: #e9ecf1;
   border: none;
   outline: none;
-  font-size: 12px;
+  font-size: 16px;
   opacity: 1;
   border-radius: 4px;
   cursor: pointer;
-  color: #64707d;
+  color: #007fff;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  background: #f2f4f5;
+  width: 113px;
+  height: 36px;
 }
 
 i.fa.fa-chevron-down.downIcon {
+  top: 70%;
   font-size: 12px;
-  margin-left: 8px;
+  position: absolute;
+  transform: translateY(-50%);
+  right: 5px;
 }
 .itemName {
   border: none;
@@ -551,4 +566,20 @@ button.newdiscount-btn {
   border-bottom: 8px solid transparent;
   left: -17px;
   top: 60px;
+}
+
+.discount-name {
+  color: #2e3d4d;
+  font-size: 16px;
+}
+
+.discount-number {
+  color: #64707d;
+  font-size: 16px;
+}
+
+.discount-name-txt {
+  color: #007fff;
+  font-size: 16px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
