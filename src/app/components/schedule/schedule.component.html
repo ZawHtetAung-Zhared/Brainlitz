@@ -696,21 +696,15 @@
                             *ngIf="timetable.seat == null"
                           ></p>
                         </div>
-                        <div
-                          *ngFor="
-                            let teacher of timetable.course.teachers;
-                            let b = index
-                          "
-                          style="line-height: 1;"
-                        >
-                          <div>
-                            <div class=" tchr-img-wraper">
-                              <img
-                                src="{{ teacher.profilePic }}"
-                                alt=""
-                                class="teacher-pic"
-                              />
-                            </div>
+                        <div *ngIf="isTeacherAll == true">
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
                         </div>
                       </div>
@@ -1083,21 +1077,16 @@
                             }"
                           ></p>
                         </div>
-                        <div
-                          *ngFor="
-                            let teacher of timetable.course.teachers;
-                            let b = index
-                          "
-                          style="line-height: 1;"
-                        >
-                          <div>
-                            <div class=" tchr-img-wraper">
-                              <img
-                                src="{{ teacher.profilePic }}"
-                                alt=""
-                                class="teacher-pic"
-                              />
-                            </div>
+
+                        <div *ngIf="isTeacherAll == true">
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
                         </div>
                       </div>
