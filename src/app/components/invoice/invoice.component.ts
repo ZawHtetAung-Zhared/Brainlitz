@@ -815,12 +815,12 @@ export class InvoiceComponent implements OnInit {
       if (obj[i].taxInclusive == true && obj[i].noTax == false) {
         tempObj.taxtype = 'Inclusive';
         tempObj.dfee = Number(obj[i].fee) + Number(obj[i].tax);
-        tempObj.taxRes = obj[i].discount.tax;
+        tempObj.taxRes = obj[i].tax;
         tempObj.discount.type = 'Inclusive';
       } else if (obj[i].taxInclusive == false && obj[i].noTax == false) {
         tempObj.taxtype = 'Exclusive';
         tempObj.dfee = Number(obj[i].fee);
-        tempObj.taxRes = obj[i].discount.tax;
+        tempObj.taxRes = obj[i].tax;
         tempObj.taxRes = taxAmount;
         tempObj.discount.type = 'Exclusive';
       } else {
