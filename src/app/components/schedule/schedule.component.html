@@ -696,21 +696,15 @@
                             *ngIf="timetable.seat == null"
                           ></p>
                         </div>
-                        <div
-                          *ngFor="
-                            let teacher of timetable.course.teachers;
-                            let b = index
-                          "
-                          style="line-height: 1;"
-                        >
-                          <div>
-                            <div class=" tchr-img-wraper">
-                              <img
-                                src="{{ teacher.profilePic }}"
-                                alt=""
-                                class="teacher-pic"
-                              />
-                            </div>
+                        <div *ngIf="isTeacherAll == true">
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
                         </div>
                       </div>
@@ -729,7 +723,7 @@
                         [ngStyle]="styleArr"
                       >
                         <div
-                          class="carret-box arr-up"
+                          class="carret-box"
                           [ngStyle]="{
                             top: arrTop + 'px',
                             left: arrLeft + 'px'
@@ -759,7 +753,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div class="d-flex flex-column pl-3 pb-3">
                             <div
                               class="pb-2 course-name"
@@ -783,29 +776,54 @@
                             </div>
                           </div>
                         </div>
-
-                        <div class="pl-3 pr-3">
-                          <button
-                            class="d-flex justify-content-between lesson-slot-li enroll-btn"
-                            [ngClass]="{ disabled: enrollBtnDisabled }"
-                            [disabled]="enrollBtnDisabled"
-                            (click)="
-                              addEnrollModal(
-                                enrollModal,
-                                'enroll',
-                                timetable.course.courseId,
-                                timetable.seat
-                              )
-                            "
+                        <div class="">
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
                           >
-                            <span>Enroll New Customer</span
-                            ><span
-                              ><i
-                                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                              ></i
-                            ></span>
-                          </button>
-                          <li
+                            <button
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
+                              [disabled]="enrollBtnDisabled"
+                              [ngClass]="{ disabled: enrollBtnDisabled }"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'enroll',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Enroll Student </span>
+                              <span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
+                          >
+                            <button
+                              class="d-flex justify-content-between enroll-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'view',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>View Student</span>
+                              <span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <!-- <li
                             class="d-flex justify-content-between lesson-slot-li"
                             (click)="
                               addEnrollModal(
@@ -822,7 +840,52 @@
                                 class="fa lesson-slot-box fa-2x fa-angle-right"
                               ></i
                             ></span>
-                          </li>
+                          </li> -->
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
+                          >
+                            <button
+                              class="d-flex justify-content-between  relief-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'relief',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Assign Relief</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+                          <div
+                            class="d-flex justify-content-between lesson-slot-div"
+                          >
+                            <button
+                              class="d-flex justify-content-between cancel-btn p-0 m-0"
+                              (click)="
+                                addEnrollModal(
+                                  enrollModal,
+                                  'cancel',
+                                  timetable.course.courseId,
+                                  timetable.seat
+                                )
+                              "
+                            >
+                              <span>Cancel Class</span
+                              ><span
+                                ><i
+                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                                ></i
+                              ></span>
+                            </button>
+                          </div>
+
                           <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
                         </div>
                       </ul>
@@ -1014,21 +1077,16 @@
                             }"
                           ></p>
                         </div>
-                        <div
-                          *ngFor="
-                            let teacher of timetable.course.teachers;
-                            let b = index
-                          "
-                          style="line-height: 1;"
-                        >
-                          <div>
-                            <div class=" tchr-img-wraper">
-                              <img
-                                src="{{ teacher.profilePic }}"
-                                alt=""
-                                class="teacher-pic"
-                              />
-                            </div>
+
+                        <div *ngIf="isTeacherAll == true">
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
                         </div>
                       </div>

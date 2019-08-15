@@ -1695,7 +1695,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             }
           }
         }
-        console.error('finalLists', this.finalLists);
+        console.log('finalLists', this.finalLists);
       });
   }
 
@@ -1721,13 +1721,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.reasonValue = '';
       this.textAreaOption = false;
       this.isGlobal = false;
-      console.error('exit');
+      console.log('exit');
     }
     this.showflexyCourse = false;
   }
 
   activeTeachers(teacher) {
-    console.error(this.selectedTeacher);
+    console.log(this.selectedTeacher);
 
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
@@ -1752,7 +1752,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   public tempTchr: any;
   activeTeachers1(teacher, index) {
-    console.error(this.selectedTeacher);
+    console.log(this.selectedTeacher);
 
     this.isTeacherAll = false;
     this.keyword = '';
@@ -1805,26 +1805,26 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
-    console.error(type);
-    console.error(this.selectedTeacher);
+    console.log(type);
+    console.log(this.selectedTeacher);
 
     console.log('course-id-->', courseID, seat);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
-    console.error(courseID);
+    console.log(courseID);
 
     this.courseId = courseID;
     this.selectedSeat = seat;
     this.getCourseDetail(this.courseId, modal);
-    if (seat.left != null && seat.taken >= seat.total)
-      this.onClickModalTab('view');
-    else this.onClickModalTab(type);
+    // if (seat.left != null && seat.taken >= seat.total)
+    this.onClickModalTab(type);
+    //   else this.onClickModalTab(type);
   }
 
   getCourseDetail(id, modal) {
-    console.error(this.isTeacherAll);
+    console.log(this.isTeacherAll);
 
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
@@ -1832,7 +1832,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.courseDetail = res;
         if (this.isTeacherAll) {
           this.selectedTeacher_modal = res.teacher;
-          console.error(this.selectedTeacher_modal);
+          console.log(this.selectedTeacher_modal);
         }
 
         console.log(res);
@@ -1870,7 +1870,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickModalTab(type, full?) {
     console.log(full);
-    console.error(type);
+    console.log(type);
 
     // this.activeTab = type;
     if (type == 'enroll') {
@@ -1879,14 +1879,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.activeTab = type;
       this.getUserInCourse();
     } else if (type == 'relief') {
-      // this.showRelief=true;
+      this.activeTab = true;
       setTimeout(() => {
         this.searchSelectedLesson(type);
       }, 500);
     } else if ((type = 'cancel')) {
       this.activeTab = 'cancel';
       this.getUserInCourse();
-      console.error('exit cancel');
+      console.log('exit cancel');
       setTimeout(() => {
         this.searchSelectedLesson(type);
       }, 500);
@@ -1897,7 +1897,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   searchSelectedLesson(type) {
-    console.error(this.courseDetail.lessons);
+    console.log(this.courseDetail.lessons);
 
     this.courseDetail.lessons.map(lesson => {
       console.log(lesson.startDate);
@@ -1910,7 +1910,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       console.log('tempDate', tempDate);
       if (lessondate == tempDate) {
         this.selectedLesson = lesson;
-        console.error('selected lesson', this.selectedLesson);
+        console.log('selected lesson', this.selectedLesson);
         this.activeTab = type;
       }
     });
@@ -2512,9 +2512,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log('arrTop>' + this.arrTop);
     console.log('arrLeft>' + this.arrLeft);
     console.log('width>', $(document).width());
-    if ($(document).height() - this.yPosition < 180) {
-      this.yPosition = $(event.target).offset().top - 170;
-      this.arrTop = this.yPosition + 160;
+    if ($(document).height() - this.yPosition < 136) {
+      this.yPosition = $(event.target).offset().top - 136;
+      this.arrTop = this.yPosition + 136;
       this.arrClasses = {
         'arr-box': true,
         'arr-down': true
@@ -2687,7 +2687,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         students: this.studentArray
       };
       cancelData = noReason;
-      console.error('exit');
+      console.log('exit');
     } else {
       var reason = {
         lessonId,
@@ -2697,9 +2697,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       cancelData = reason;
     }
 
-    console.error(cancelData);
-    console.error(this.isGlobal);
-    console.error(this.courseId);
+    console.log(cancelData);
+    console.log(this.isGlobal);
+    console.log(this.courseId);
 
     // console.log(this.isGlobal)
     // Call cancel class api service
@@ -2714,7 +2714,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.cancelUI=false;
           // this.cancelUi=false;
 
-          console.error(res);
+          console.log(res);
 
           console.info('cancle user from class api calling is done');
           console.log(res);
@@ -2989,6 +2989,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (content != null) {
       inner.style.width = content.scrollWidth + 'px';
       if (type == 'v-wrapper') {
+        this.overlap = false;
         scrollbar.scrollLeft = content.scrollLeft;
       } else {
         content.scrollLeft = scrollbar.scrollLeft;
