@@ -77,6 +77,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public isSearch: boolean = false;
   public coursePlanSearchKeyWord: any;
   // public SelectedDate = [];
+  public mystyle;
   public monthCount: boolean = false;
   public monthArray: any = [];
   public noOfMonth: any = [];
@@ -3041,7 +3042,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(e);
     this.checkobjArr = e;
   }
-
   flexicomfirm() {
     //add cutomer
     this.stdLists = [];
