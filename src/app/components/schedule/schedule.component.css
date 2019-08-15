@@ -1054,7 +1054,7 @@ tbody td {
   height: 44px;
   background: #91f2ba;
   border-radius: 2px;
-  padding: 6px 8px;
+  padding: 6px;
 }
 .cancelledClass {
   background: #f2f4f5 !important;
