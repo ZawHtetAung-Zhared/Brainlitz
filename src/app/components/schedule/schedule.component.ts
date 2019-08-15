@@ -2512,9 +2512,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log('arrTop>' + this.arrTop);
     console.log('arrLeft>' + this.arrLeft);
     console.log('width>', $(document).width());
-    if ($(document).height() - this.yPosition < 136) {
-      this.yPosition = $(event.target).offset().top - 136;
-      this.arrTop = this.yPosition + 136;
+    let height;
+    if (this.isTeacherAll) {
+      height = 136;
+    } else {
+      height = 160;
+    }
+    if ($(document).height() - this.yPosition < height) {
+      this.yPosition = $(event.target).offset().top - height;
+      this.arrTop = this.yPosition + height;
       this.arrClasses = {
         'arr-box': true,
         'arr-down': true
