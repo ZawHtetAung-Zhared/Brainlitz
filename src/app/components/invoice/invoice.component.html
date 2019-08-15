@@ -270,9 +270,71 @@
           <div class="d-flex inv-courseFee" *ngIf="iscDiscount">
             <div class="cFee-w"></div>
             <div class="d-flex w-100 mlr-15">
-              <div class="col-md-5 p-0 price-info">Discount</div>
-              <div class="col-md-1 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">
+              <div class="col-md-5 p-0 price-info discount-name">
+                Discount:
+                <span class="mb-0 discount-name-txt">
+                  {{ invCurrency.sign }} {{ cDiscount.value | financial }}
+                </span>
+                <!-- <div
+                *ngIf="
+                  feesBox2 == true &&
+                  invStatus == 'UNPAID' &&
+                  iscDiscount == true
+                "
+                class="popup-box"
+              >
+                <div id="rectangle"></div>
+                <div class="p-3">
+                  <h5>Discount</h5>
+                  <div class="d-flex popup-input">
+                    <div class="input-sign">
+                      {{ invCurrency.sign }}
+                    </div>
+                    <input
+                      type="number"
+                      name="discount"
+                      class="w-100 input-txt"
+                      placeholder="0"
+                      [(ngModel)]="cDiscount.dValue"
+                      min="0"
+                      oninput="validity.valid||(value='')"
+                    />
+                  </div>
+                </div>
+                </div>
+                <div
+                  *ngIf="
+                    feesBox2 == true &&
+                    invStatus == 'UNPAID' &&
+                    iscDiscount == true
+                  "
+                  class="d-flex btns-wrap"
+                >
+                  <button type="submit" class="btn" (click)="cancelPopup3()">
+                    <span class="closemark">
+                      <div class="closemark_stem"></div>
+                      <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn"
+                    (click)="addnewDiscount('courseFee-dis')"
+                    [disabled]="
+                      cDiscount.dValue == undefined || cDiscount.dValue == ''
+                    "
+                  >
+                    <span class="checkmark">
+                      <div class="checkmark_stem"></div>
+                      <div class="checkmark_kick"></div>
+                    </span>
+                  </button>
+                </div> -->
+              </div>
+              <div
+                class="col-md-1 p-0 text-right price-info discount-number"
+              ></div>
+              <div class="col-md-2 p-0 text-right price-info discount-number">
                 <p class="mb-0" (click)="showDiscountPopup('courseFee-dis')">
                   {{ invCurrency.sign }} {{ cDiscount.value | financial }}
                 </p>
@@ -332,10 +394,10 @@
                   </button>
                 </div>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">
+              <div class="col-md-2 p-0 text-right price-info discount-number">
                 {{ cDiscount.tax }} %
               </div>
-              <div class="col-md-2 p-0 text-right price-info">
+              <div class="col-md-2 p-0 text-right price-info discount-number">
                 {{ invCurrency.sign }} {{ cDiscount.amount | financial }}
               </div>
             </div>
@@ -364,73 +426,6 @@
                   (input)="this.newItemArr[i].name = $event.target.value"
                   [value]="obj.name"
                 />
-                <!--   new item discount first time -->
-                <div>
-                  <div
-                    *ngIf="
-                      feesBox3 == true &&
-                      activeFeeBoxId == i &&
-                      obj.isDiscount == false
-                    "
-                    class="popup-box discount-fee"
-                  >
-                    <div id="rectangle-discount"></div>
-                    <div class="p-3">
-                      <h5>Discount</h5>
-                      <div class="d-flex popup-input">
-                        <div class="input-sign">
-                          {{ invCurrency.sign }}
-                        </div>
-                        <input
-                          type="number"
-                          name="discount"
-                          class="w-100 input-txtaddCurseFee"
-                          placeholder="0"
-                          min="0"
-                          oninput="validity.valid||(value='')"
-                          (input)="unitPrice = $event.target.value"
-                          (input)="inputDiscount($event.target.value, i)"
-                          [value]="obj.discount.dValue"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    *ngIf="
-                      feesBox3 == true &&
-                      activeFeeBoxId == i &&
-                      obj.isDiscount == false
-                    "
-                    class="d-flex btns-wrap btns-wrap-dis"
-                  >
-                    <button type="submit" class="btn" (click)="cancelPopup4()">
-                      <span class="closemark">
-                        <div class="closemark_stem"></div>
-                        <div class="closemark_kick"></div>
-                      </span>
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn"
-                      (click)="addnewDiscount('newitem-dis', i)"
-                      [disabled]="unitPrice == undefined || unitPrice == ''"
-                    >
-                      <span class="checkmark">
-                        <div class="checkmark_stem"></div>
-                        <div class="checkmark_kick"></div>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  class="newdiscount-btn"
-                  (click)="showDiscountPopup('newitem-dis', i)"
-                  *ngIf="invStatus == 'UNPAID' && obj.isDiscount == false"
-                >
-                  Add discount
-                </button>
               </div>
               <div class="col-md-1 text-right price-info p-0">1</div>
 
@@ -495,7 +490,6 @@
                 class="col-md-2 text-right price-info p-0"
                 [ngClass]="{ addType: obj.isDefault == true }"
                 *ngIf="invStatus == 'UNPAID'"
-                style="display: flex;"
               >
                 <div class="tax-txt">{{ obj.tax }}%</div>
 
@@ -513,7 +507,7 @@
                       <li>
                         <div
                           class="w-100"
-                          (click)="chooseTaxOption('exclusive', i)"
+                          (click)="chooseTaxOption('Exclusive', i)"
                         >
                           Exclusive
                         </div>
@@ -521,7 +515,7 @@
                       <li>
                         <div
                           class="w-100"
-                          (click)="chooseTaxOption('inclusive', i)"
+                          (click)="chooseTaxOption('Inclusive', i)"
                         >
                           Inclusive
                         </div>
@@ -529,7 +523,7 @@
                       <li>
                         <div
                           class="w-100"
-                          (click)="chooseTaxOption('notax', i)"
+                          (click)="chooseTaxOption('No Tax', i)"
                         >
                           No Tax
                         </div>
@@ -567,17 +561,92 @@
                 {{ invCurrency.sign }} {{ obj.amount | financial }}
               </div>
             </div>
-            <!-- new item exit discount -->
+            <!-- new item discount first time  -->
+            <div class="col-md-5" *ngIf="obj.isDiscount == false">
+              <!--   new item discount first time -->
+              <div>
+                <div
+                  *ngIf="
+                    feesBox3 == true &&
+                    activeFeeBoxId == i &&
+                    obj.isDiscount == false
+                  "
+                  class="popup-box discount-fee"
+                >
+                  <div id="rectangle-discount"></div>
+                  <div class="p-3">
+                    <h5>Discount</h5>
+                    <div class="d-flex popup-input">
+                      <div class="input-sign">
+                        {{ invCurrency.sign }}
+                      </div>
+                      <input
+                        type="number"
+                        name="discount"
+                        class="w-100 input-txtaddCurseFee"
+                        placeholder="0"
+                        min="0"
+                        oninput="validity.valid||(value='')"
+                        (input)="unitPrice = $event.target.value"
+                        (input)="inputDiscount($event.target.value, i)"
+                        [value]="obj.discount.dValue"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="
+                    feesBox3 == true &&
+                    activeFeeBoxId == i &&
+                    obj.isDiscount == false
+                  "
+                  class="d-flex btns-wrap btns-wrap-dis"
+                >
+                  <button type="submit" class="btn" (click)="cancelPopup4()">
+                    <span class="closemark">
+                      <div class="closemark_stem"></div>
+                      <div class="closemark_kick"></div>
+                    </span>
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn"
+                    (click)="addnewDiscount('newitem-dis', i)"
+                    [disabled]="unitPrice == undefined || unitPrice == ''"
+                  >
+                    <span class="checkmark">
+                      <div class="checkmark_stem"></div>
+                      <div class="checkmark_kick"></div>
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <button
+                class="newdiscount-btn"
+                (click)="showDiscountPopup('newitem-dis', i)"
+                *ngIf="invStatus == 'UNPAID' && obj.isDiscount == false"
+              >
+                Add discount
+              </button>
+            </div>
+            <!-- end new item exit -->
+            <!-- new item discount exit  -->
             <div
               class="d-flex flex-row new-item w-100 mlr-15"
+              style="padding-top:5px"
               *ngIf="obj.isDiscount"
             >
-              <div class="col-md-5 price-info p-0">
+              <div class="col-md-5 price-info p-0 discount-name">
                 Discount
+                <span class="mb-0 discount-name-txt">
+                  {{ invCurrency.sign }} {{ obj.discount.value | financial }}
+                </span>
               </div>
               <div class="col-md-1 text-right price-info p-0"></div>
               <div
-                class="col-md-2 text-right price-info"
+                class="col-md-2 text-right price-info discount-number"
                 style="
                   padding-right: 0;
               "
@@ -640,7 +709,7 @@
 
                   <div
                     *ngIf="feesBox3 == true && activeFeeBoxId == i"
-                    class="d-flex btns-wrap btns-wrap-dis"
+                    class="d-flex btns-wrap"
                   >
                     <button type="submit" class="btn" (click)="cancelPopup4()">
                       <span class="closemark">
@@ -665,10 +734,7 @@
                   {{ invCurrency.sign }} {{ obj.discount.value | financial }}
                 </p>
               </div>
-              <div
-                class="col-md-2 text-right price-info p-0"
-                style="display: flex;"
-              >
+              <div class="col-md-2 text-right price-info p-0 discount-number">
                 <div class="tax-txt">{{ obj.discount.tax }}%</div>
               </div>
 
@@ -681,7 +747,7 @@
                       [value]="obj.amount"
                     />
                   </div> -->
-              <div class="col-md-2 text-right price-info p-0">
+              <div class="col-md-2 text-right price-info p-0 discount-number">
                 {{ invCurrency.sign }} {{ obj.discount.amount | financial }}
               </div>
             </div>

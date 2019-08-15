@@ -149,19 +149,19 @@ export class InvoiceComponent implements OnInit {
         if (this.invoice[0].courseFee.discount.amount != 0) {
           this.cDiscount.dValue = this.invoice[0].courseFee.discount.amount;
           this.cDiscount.tax = this.invoice[0].tax.rate;
-          'inclusive';
+          'Inclusive';
           if (
             this.invoice[0].courseFee.taxInclusive == true &&
             this.invoice[0].courseFee.notax == false
           ) {
-            this.cDiscount.type = 'inclusive';
+            this.cDiscount.type = 'Inclusive';
           } else if (
             this.invoice[0].courseFee.taxInclusive == false &&
             this.invoice[0].courseFee.notax == false
           ) {
-            this.cDiscount.type = 'exclusive';
+            this.cDiscount.type = 'Exclusive';
           } else if (this.invoice[0].courseFee.notax == true) {
-            this.cDiscount.type = 'notax';
+            this.cDiscount.type = 'No Tax';
           }
           this.addnewDiscount('courseFee-dis', null);
         }
@@ -233,11 +233,11 @@ export class InvoiceComponent implements OnInit {
     for (let i = 0; i < this.newItemArr.length; i++) {
       let type: boolean = true;
       let notax: boolean;
-      if (this.newItemArr[i].taxtype == 'inclusive') {
+      if (this.newItemArr[i].taxtype == 'Inclusive') {
         type = true;
-      } else if (this.newItemArr[i].taxtype == 'exclusive') {
+      } else if (this.newItemArr[i].taxtype == 'Exclusive') {
         type = false;
-      } else if (this.newItemArr[i].taxtype == 'notax') {
+      } else if (this.newItemArr[i].taxtype == 'No Tax') {
         notax = true;
       }
 
@@ -446,7 +446,7 @@ export class InvoiceComponent implements OnInit {
         console.log(this.invoice[i].courseFee.fee);
         console.log(this.invoice[i].courseFee.tax);
 
-        // formula for calculating the inclusive tax
+        // formula for calculating the Inclusive tax
         // Product price x RATE OF TAX/ (100+RATE OF TAX);
         if (this.invoice[i].courseFee.taxInclusive == true) {
           // var taxRate = this.invoice[i].tax.rate;
@@ -735,7 +735,7 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  chooseTax: any = 'inclusive';
+  chooseTax: any = 'Inclusive';
   chooseTaxOption(type, i) {
     this.isEditInv = true;
     this.newItemArr[i].taxtype = type;
@@ -752,7 +752,7 @@ export class InvoiceComponent implements OnInit {
       name: '',
       fee: 0.0,
       dfee: 0.0,
-      taxtype: 'exclusive',
+      taxtype: 'Exclusive',
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
       amount: 0.0,
@@ -762,7 +762,7 @@ export class InvoiceComponent implements OnInit {
         value: 0,
         tax: this.invoice[0].tax.rate,
         taxRes: 0,
-        type: 'exclusive',
+        type: 'Exclusive',
         dValue: 0.0,
         amount: 0.0
       }
@@ -782,7 +782,7 @@ export class InvoiceComponent implements OnInit {
         name: '',
         fee: 0.0,
         dfee: 0.0,
-        taxtype: 'exclusive',
+        taxtype: 'Exclusive',
         tax: this.invoice[0].tax.rate,
         taxRes: 0.0,
         amount: 0.0,
@@ -792,7 +792,7 @@ export class InvoiceComponent implements OnInit {
           value: 0,
           tax: this.invoice[0].tax.rate,
           taxRes: 0,
-          type: 'exclusive',
+          type: 'Exclusive',
           dValue: 0.0,
           amount: 0.0
         }
@@ -806,21 +806,21 @@ export class InvoiceComponent implements OnInit {
       let taxAmount = (obj[i].fee * this.invoice[0].tax.rate) / 100;
 
       if (obj[i].taxInclusive == true && obj[i].noTax == false) {
-        tempObj.taxtype = 'inclusive';
+        tempObj.taxtype = 'Inclusive';
         tempObj.dfee = Number(obj[i].fee) + Number(obj[i].tax);
         tempObj.taxRes = obj[i].discount.tax;
-        tempObj.discount.type = 'inclusive';
+        tempObj.discount.type = 'Inclusive';
       } else if (obj[i].taxInclusive == false && obj[i].noTax == false) {
-        tempObj.taxtype = 'exclusive';
+        tempObj.taxtype = 'Exclusive';
         tempObj.dfee = Number(obj[i].fee);
         tempObj.taxRes = obj[i].discount.tax;
         tempObj.taxRes = taxAmount;
-        tempObj.discount.type = 'exclusive';
+        tempObj.discount.type = 'Exclusive';
       } else {
-        tempObj.taxtype = 'notax';
+        tempObj.taxtype = 'No Tax';
         tempObj.dfee = Number(obj[i].fee);
         tempObj.taxRes = 0;
-        tempObj.discount.type = 'notax';
+        tempObj.discount.type = 'No Tax';
       }
 
       tempObj.isDefault = true;
@@ -890,7 +890,7 @@ export class InvoiceComponent implements OnInit {
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
 
     console.log('taxAmount', taxAmount);
-    if (this.newItemArr[id].taxtype == 'inclusive') {
+    if (this.newItemArr[id].taxtype == 'Inclusive') {
       this.newItemArr[id].taxRes = Number(taxAmount);
       var cFee = this.newItemArr[id].dfee / (1 + this.newItemArr[id].tax / 100);
       console.log(cFee);
@@ -901,7 +901,7 @@ export class InvoiceComponent implements OnInit {
       console.log(tax);
 
       this.newItemArr[id].amount = cFee.toFixed(2);
-    } else if (this.newItemArr[id].taxtype == 'exclusive') {
+    } else if (this.newItemArr[id].taxtype == 'Exclusive') {
       console.log('ex', this.newItemArr[id].dfee);
       this.newItemArr[id].taxRes = Number(taxAmount);
       this.newItemArr[id].fee = this.newItemArr[id].dfee;
@@ -990,9 +990,9 @@ export class InvoiceComponent implements OnInit {
       this.feesBox2 = false;
       this.cDiscount.tax = this.invoice[0].tax.rate;
       if (this.invoice[0].courseFee.taxInclusive == true) {
-        this.cDiscount.type = 'inclusive';
+        this.cDiscount.type = 'Inclusive';
       } else {
-        this.cDiscount.type = 'exclusive';
+        this.cDiscount.type = 'Exclusive';
       }
       let resTemp = this.calculationDiscount(this.cDiscount);
       this.iscDiscount = true;
@@ -1035,7 +1035,7 @@ export class InvoiceComponent implements OnInit {
     let taxAmount = (obj.dValue * taxRate) / 100;
     console.error(taxAmount);
 
-    if (obj.type == 'inclusive') {
+    if (obj.type == 'Inclusive') {
       var cDis = Number(obj.dValue / (1 + obj.tax / 100));
       console.error(cDis);
       tempObj.value = Number(cDis.toFixed(2));
@@ -1044,7 +1044,7 @@ export class InvoiceComponent implements OnInit {
       tempObj.taxRes = Number(tax.toFixed(2));
 
       tempObj.amount = Number(cDis.toFixed(2));
-    } else if (obj.type == 'exclusive') {
+    } else if (obj.type == 'Exclusive') {
       tempObj.taxRes = Number(taxAmount);
       tempObj.value = obj.dValue;
       console.error(obj.dValue);
