@@ -1818,9 +1818,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.courseId = courseID;
     this.selectedSeat = seat;
     this.getCourseDetail(this.courseId, modal);
-    if (seat.left != null && seat.taken >= seat.total)
-      this.onClickModalTab('view');
-    else this.onClickModalTab(type);
+    // if (seat.left != null && seat.taken >= seat.total)
+    this.onClickModalTab(type);
+    //   else this.onClickModalTab(type);
   }
 
   getCourseDetail(id, modal) {
@@ -1879,7 +1879,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.activeTab = type;
       this.getUserInCourse();
     } else if (type == 'relief') {
-      // this.showRelief=true;
+      this.activeTab = true;
       setTimeout(() => {
         this.searchSelectedLesson(type);
       }, 500);
