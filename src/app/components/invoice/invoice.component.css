@@ -1,5 +1,23 @@
 .invoice-container {
-  padding: 32px 32px 0 32px;
+  padding-top: 40px;
+}
+.inv-payment-container {
+  padding: 40px;
+}
+.inv-margin {
+  margin: 0px 40px;
+}
+.inv-all-amt {
+  margin: 0px 56px;
+}
+.cfee-wrapper {
+  border-bottom: 1px solid #edeff0;
+  margin: 20px 56px 0px 56px;
+  padding-bottom: 20px;
+}
+.item-row {
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
 }
 .container-height {
   overflow: overlay;
@@ -63,7 +81,10 @@ h3 {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .price-info {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.semibold {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .tax-status {
   font-size: 12px;
@@ -88,16 +109,16 @@ h3 {
   background: none;
 }
 
-.inv-Cname {
+/*.inv-Cname {
   margin: 15px 35px 0px 35px;
-}
+}*/
 
 .cFee-w {
   width: 20px;
 }
 
 .mlr-15 {
-  margin: 0px 15px;
+  margin: 0px 16px;
 }
 
 .invModal-cancel,
@@ -319,12 +340,6 @@ input[type='number']::-webkit-outer-spin-button {
   padding: 8px;
 }
 
-.price-info,
-.payment-label {
-  color: #2e3e4d;
-  font-size: 18px;
-}
-
 .payment-item input[type='radio'] {
   display: none;
 }
@@ -381,6 +396,7 @@ input[type='number']::-webkit-outer-spin-button {
   border: none;
   outline: none;
   white-space: pre-line;
+  padding: 0px 40px;
 }
 @media (max-width: 1024px) {
   .invModal-cancel {
@@ -391,12 +407,12 @@ input[type='number']::-webkit-outer-spin-button {
 button.newItem-btn {
   background: none;
   border: none;
-  padding-left: 15px;
+  /*padding-left: 15px;*/
   color: #0080ff;
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   cursor: pointer;
-  padding-top: 20px;
+  /*padding-top: 20px;*/
   outline: none;
 }
 
@@ -483,8 +499,12 @@ ul.taxOpt-dropdown li div {
 }
 
 .d-flex.new-item-box {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px 0px 20px 0px;
+  /*border-bottom: 1px solid rgba(0, 0, 0, 0.1);*/
+  /*padding: 20px 0px 20px 0px;*/
+  padding: 20px 40px 0px 20px;
+}
+.paid-item-box {
+  margin: 20px 56px 0px 56px;
 }
 
 button.taxOpt-wrap {
@@ -516,8 +536,12 @@ i.fa.fa-chevron-down.downIcon {
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
   background: #1a000000 !important;
 }
-.row-icon.cursor-on {
-  /*padding-top: 5px;*/
+.row-icon {
+  width: 20px;
+}
+
+.row-icon img {
+  width: 100%;
 }
 
 .addType {
@@ -548,7 +572,7 @@ button.newdiscount-btn {
   outline: none;
 }
 .dis-courseFee {
-  margin: 12px 35px 0px 19px;
+  margin-top: 12px;
 }
 
 .btns-wrap-dis {
