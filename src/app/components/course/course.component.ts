@@ -1553,7 +1553,7 @@ export class CourseComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log(res);
+        console.error(res);
         this.detailLists = res;
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -2123,6 +2123,8 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   cancelClassFun(lessonId) {
+    console.error(lessonId);
+
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2134,6 +2136,7 @@ export class CourseComponent implements OnInit {
         students: this.studentArray
       };
       cancelData = noReason;
+      console.error('exit');
     } else {
       var reason = {
         lessonId,
@@ -2145,6 +2148,8 @@ export class CourseComponent implements OnInit {
 
     console.log(lessonId);
     console.log(this.isGlobal);
+    console.error(cancelData);
+
     // Call cancel class api service
     this.blockUI.start('Loading...');
     this._service
@@ -2579,6 +2584,8 @@ export class CourseComponent implements OnInit {
             console.log('has invoice setting');
             this.invoiceInfo = res.invoiceSettings;
           }
+          console.error(res.invoice);
+
           this.invoice = res.invoice;
           this.showInvoice = true;
           this.showOneInvoice(this.invoice);
