@@ -1889,7 +1889,7 @@ span.circle {
   height: 2px;
   margin-top: 10px;
   margin-left: 2px;
-  margin-right: 2px;
+  /* margin-right: 1px; */
   background: #b0b1b3;
 }
 .cancel {
