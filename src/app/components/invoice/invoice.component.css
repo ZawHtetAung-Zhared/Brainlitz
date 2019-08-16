@@ -10,6 +10,12 @@
 .inv-all-amt {
   margin: 0px 56px;
 }
+.addIcn-wrap {
+  width: 20px;
+}
+.addIcn-wrap img {
+  width: 100%;
+}
 .cfee-wrapper {
   border-bottom: 1px solid #edeff0;
   margin: 20px 56px 0px 56px;
@@ -404,7 +410,8 @@ input[type='number']::-webkit-outer-spin-button {
   }
 }
 
-button.newItem-btn {
+.newItem-btn {
+  margin-left: -40px;
   background: none;
   border: none;
   /*padding-left: 15px;*/
@@ -414,6 +421,7 @@ button.newItem-btn {
   cursor: pointer;
   /*padding-top: 20px;*/
   outline: none;
+  margin-top: 10px;
 }
 
 .br-bshadow-none {
