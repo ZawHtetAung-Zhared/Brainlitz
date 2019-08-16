@@ -4483,6 +4483,10 @@ main {
   height: 90vh;
   overflow: auto;
 }
+.modal-large .modal-dialog {
+  max-width: 960px !important;
+  width: 960px !important;
+}
 .modal-xl .modal-title {
   font-size: 28px !important;
 }
@@ -4502,9 +4506,6 @@ main {
 .modal-xl .modal-header {
   padding: 32px 32px 0 !important;
   border-bottom: none;
-}
-.modal-xl .modal-body {
-  padding: 16px 32px 6px !important;
 }
 .deleteModal .modal-dialog {
   max-width: 320px !important;
@@ -11283,6 +11284,10 @@ button.bg-dark:hover {
   .v-wrapper1,
   .v-wrapper1 * {
     visibility: visible;
+  }
+  .newItem-btn,
+  .newdiscount-btn {
+    visibility: hidden;
   }
   .d-print-none {
     display: none !important;
