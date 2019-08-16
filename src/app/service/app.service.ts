@@ -1906,7 +1906,6 @@ export class appService {
       observe: 'response',
       responseType: 'json'
     };
-
     console.log(httpOptions);
     return this.httpClient.post(apiUrl, body, httpOptions).map(res => {
       console.log(res);
@@ -2923,7 +2922,7 @@ export class appService {
   }
 
   cancelUsersFromClass(classId: string, data, global): Observable<any> {
-    console.log(global);
+    console.error(global);
     this.getLocalstorage();
     let apiUrl = `${this.baseUrl}/${classId}/cancel/class?passes=${global}`;
     let headers = new Headers();

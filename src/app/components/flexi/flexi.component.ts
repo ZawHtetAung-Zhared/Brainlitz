@@ -52,9 +52,12 @@ export class FlexiComponent implements OnInit {
 
   flitterFlexyObj(obj) {
     this.lessionIdArr = [];
+    var j = 0;
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
       if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
+        j++;
+        // console.warn(j);
         this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
@@ -71,8 +74,11 @@ export class FlexiComponent implements OnInit {
       this.checkIdArr.emit(this.lessionIdArr);
       // this.checkObjArr.emit(this.lessonObjArr);
       // this.lessonsObj[i].id = i;
+      this.emittedObjArray(this.lessonObjArr);
+      // if (j === 10) {
+      //   return;
+      // }
     }
-    this.emittedObjArray(this.lessonObjArr);
   }
   lessonCheck(id, obj) {
     console.log(id);
