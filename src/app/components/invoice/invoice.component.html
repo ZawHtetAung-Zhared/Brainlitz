@@ -1333,8 +1333,8 @@
           class="d-flex paid-item-box"
           *ngFor="let obj of newItemArr; let i = index"
         >
-          <div class="d-flex flex-column w-100 ">
-            <div class="d-flex flex-row new-item mlr-15">
+          <div class="d-flex flex-column w-100 item-row">
+            <div class="d-flex flex-row new-item">
               <div class="col-md-5 price-info p-0">
                 {{ obj.name }}
               </div>
@@ -1353,22 +1353,6 @@
               <div class="col-md-2 text-right price-info p-0">
                 <div class="tax-txt">{{ obj.tax }}%</div>
               </div>
-              <div
-                class="col-md-2 p-0 text-right price-info"
-                *ngIf="invStatus != 'UNPAID'"
-              >
-                {{ data.tax.rate }} %
-                <!-- <span
-                *ngIf="data.courseFee.taxInclusive == true"
-                class="tax-status"
-                >(inclusive)</span
-              >
-              <span
-                *ngIf="data.courseFee.taxInclusive == false"
-                class="tax-status"
-                >(exclusive)</span
-              > -->
-              </div>
               <!-- <div class="col-md-2 text-right price-info">
                 <input
                   class="form-control amount-txt"
@@ -1384,7 +1368,7 @@
             </div>
             <!-- new item discount exit  -->
             <div
-              class="d-flex flex-row new-item mlr-15"
+              class="d-flex flex-row new-item"
               style="padding-top:5px"
               *ngIf="obj.isDiscount"
             >
@@ -1504,7 +1488,7 @@
           </div>
           <!-- <hr class="invoice-hr" /> -->
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end inv-all-amt">
           <div class="w-50">
             <div class="d-flex pad-10 price-info">
               <!-- <div class="col-md-8 p-0 text-center">Sub total</div> -->
@@ -1514,7 +1498,7 @@
                 </div>
                 <div class="col-sm-5 p-0"></div>
               </div>
-              <div class="col-md-4 text-right">
+              <div class="col-md-4 text-right p-0">
                 {{ invCurrency.sign }} {{ data.subtotal }}
               </div>
             </div>
@@ -1525,7 +1509,7 @@
                 </div>
                 <div class="col-sm-5 p-0 text-right"></div>
               </div>
-              <div class="col-md-4 text-right">
+              <div class="col-md-4 text-right p-0">
                 {{ invCurrency.sign }} {{ data.tax.taxTotal }}
               </div>
             </div>
@@ -1536,7 +1520,7 @@
                 </div>
                 <div class="col-sm-5 text-right p-0"></div>
               </div>
-              <div class="col-md-4 text-right">
+              <div class="col-md-4 text-right p-0">
                 {{ invCurrency.sign }} {{ total }}
               </div>
             </div>
@@ -1546,10 +1530,10 @@
 
       <div *ngIf="invPayment?.length > 0" class="inv-margin">
         <div class="d-flex">
-          <div class="col-md-4">
+          <div class="col-md-4 p-0">
             <label class="invoice-label">Payment Date</label>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 p-0">
             <label class="invoice-label">Payment method</label>
           </div>
           <div class="col-md-4 p-0">
@@ -1611,7 +1595,7 @@
     </div>
   </div>
   <div *ngIf="showPayment == true">
-    <div class="invoice-container">
+    <div class="inv-payment-container">
       <div class="logo-wrapper">
         <img src="{{ logo }}" />
       </div>

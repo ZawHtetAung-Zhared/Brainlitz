@@ -1,5 +1,8 @@
 .invoice-container {
-  /*padding: 32px 32px 0 32px;*/
+  padding-top: 40px;
+}
+.inv-payment-container {
+  padding: 40px;
 }
 .inv-margin {
   margin: 0px 40px;
@@ -501,7 +504,7 @@ ul.taxOpt-dropdown li div {
   padding: 20px 40px 0px 20px;
 }
 .paid-item-box {
-  padding: 20px 40px 0px 40px;
+  margin: 20px 56px 0px 56px;
 }
 
 button.taxOpt-wrap {
