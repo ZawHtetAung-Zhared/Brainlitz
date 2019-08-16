@@ -77,7 +77,7 @@ export class FlexiComponent implements OnInit {
       }
       this.checkIdArr.emit(this.lessionIdArr);
       // this.checkObjArr.emit(this.lessonObjArr);
-      // this.lessonsObj[i].id = i;
+      this.lessonsObj[i].id = i;
       this.emittedObjArray(this.lessonObjArr);
       // if (j === 10) {
       //   return;

@@ -2750,11 +2750,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickCourse(course, lesson, e, date, list) {
     this.selectedCourse = course;
-    if (list.isOverlap == true) {
-      // if (e.path[5].classList[1] == 'test-bg') {
-      // }
-      return;
-    }
+    // if (list.isOverlap == true) {
+
+    //   return;
+    // }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
