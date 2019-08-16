@@ -57,7 +57,7 @@ export class FlexiComponent implements OnInit {
       console.log(obj[i]);
       if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
         j++;
-        console.warn(j);
+        // console.warn(j);
         this.lessionIdArr.push(i);
         //to remove id
         let tobj: any = {};
@@ -75,9 +75,9 @@ export class FlexiComponent implements OnInit {
       // this.checkObjArr.emit(this.lessonObjArr);
       // this.lessonsObj[i].id = i;
       this.emittedObjArray(this.lessonObjArr);
-      if (j === 10) {
-        return;
-      }
+      // if (j === 10) {
+      //   return;
+      // }
     }
   }
   lessonCheck(id, obj) {
