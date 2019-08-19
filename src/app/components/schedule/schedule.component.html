@@ -1725,7 +1725,7 @@
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
   </div>
-  <div>
+  <div style="height:700px">
     <div class="pt-2 body-wrap" *ngIf="activeTab == 'enroll'">
       <div
         *ngIf="
@@ -2316,7 +2316,7 @@
         rows="4"
         [(ngModel)]="reasonValue"
       ></textarea>
-      <div class="modal-footer" style="position:unset">
+      <div class="modal-footer">
         <div
           class="mr-auto add-reason"
           *ngIf="!textAreaOption"
