@@ -2641,6 +2641,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       id: plan._id,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
+      description: plan.description,
       from: 'schedule'
     };
     // this.goBackCat = false;

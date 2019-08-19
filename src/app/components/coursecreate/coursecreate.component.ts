@@ -186,6 +186,7 @@ export class CoursecreateComponent implements OnInit {
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
+      this.model.description = this.coursePlan.description;
       // this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
       console.log('~~~~~', this.feesOptions);
@@ -235,6 +236,7 @@ export class CoursecreateComponent implements OnInit {
       if (this.scheduleObj) {
         this.scheduleCourse();
       }
+      console.log(this.model);
     }
 
     if (this.currency == undefined || this.currency == null) {
@@ -283,7 +285,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   scheduleCourse() {
-    console.error('from schedule', this.scheduleObj);
+    console.log('from schedule', this.scheduleObj);
     this.model.start = this.scheduleObj.date;
     this.selectedDay = this.scheduleObj.repeatDays;
     this.selectedTeacher = this.scheduleObj.teacher;
