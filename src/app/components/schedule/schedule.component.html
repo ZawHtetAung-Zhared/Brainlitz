@@ -667,12 +667,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 >
-                              80
-                            "
+                            *ngIf="timetable.duration.hr >= 1"
                           >
                             <p
                               [ngClass]="{
@@ -696,15 +691,7 @@
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 <=
-                              80
-                            "
-                          >
+                          <div class="d-flex" *ngIf="timetable.duration.hr < 1">
                             <p
                               [ngClass]="{
                                 selectedCourse:
@@ -735,10 +722,7 @@
                         </div>
                         <div
                           *ngIf="
-                            ((timetable.end | hourToMin) -
-                              (timetable.start | hourToMin)) *
-                              2.0 >
-                              80 && isTeacherAll == true
+                            timetable.duration.hr >= 1 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1022,10 +1006,7 @@
                       </div>
                       <div
                         *ngIf="
-                          ((timetable.end | hourToMin) -
-                            (timetable.start | hourToMin)) *
-                            2.0 >
-                            80 && isTeacherAll == true
+                          timetable.duration.hr >= 1 && isTeacherAll == true
                         "
                       >
                         <div class=" tchr-img-wraper">
@@ -1097,12 +1078,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 >
-                              80
-                            "
+                            *ngIf="timetable.duration.hr >= 1"
                           >
                             <p
                               *ngIf="timetable.seat != null"
@@ -1128,15 +1104,7 @@
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 <=
-                              80
-                            "
-                          >
+                          <div class="d-flex" *ngIf="timetable.duration.hr < 1">
                             <p
                               *ngIf="timetable.seat != null"
                               [ngClass]="{
@@ -1169,10 +1137,7 @@
 
                         <div
                           *ngIf="
-                            ((timetable.end | hourToMin) -
-                              (timetable.start | hourToMin)) *
-                              2.0 >
-                              80 && isTeacherAll == true
+                            timetable.duration.hr >= 1 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1456,10 +1421,7 @@
 
                         <div
                           *ngIf="
-                            ((timetable.end | hourToMin) -
-                              (timetable.start | hourToMin)) *
-                              2.0 >
-                              80 && isTeacherAll == true
+                            timetable.duration.hr >= 1 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">

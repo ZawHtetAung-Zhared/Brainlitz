@@ -67,6 +67,7 @@ export class UsersComponent implements OnInit {
   public locationName: any;
   public className: any;
   public showflexyCourse: boolean = false;
+  public isGlobal: boolean = false;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
