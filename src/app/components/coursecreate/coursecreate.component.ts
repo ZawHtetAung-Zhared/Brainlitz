@@ -283,7 +283,7 @@ export class CoursecreateComponent implements OnInit {
   }
 
   scheduleCourse() {
-    console.log('from schedule', this.scheduleObj);
+    console.error('from schedule', this.scheduleObj);
     this.model.start = this.scheduleObj.date;
     this.selectedDay = this.scheduleObj.repeatDays;
     this.selectedTeacher = this.scheduleObj.teacher;
