@@ -589,18 +589,6 @@
                   </div>
                   <label class="labelTitle">Invoice Note</label>
                 </div>
-                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
-                  {{invoiceData.invoiceNote}}
-                </div> -->
-                <!-- <textarea
-                  *ngIf="invoiceData.invoiceNote != ''"
-                  rows="1"
-                  name="settingInvNote"
-                  id="settingInvNote"
-                  class="labelName readonly-note"
-                  [(ngModel)]="invoiceData.invoiceNote"
-                  readonly
-                ></textarea> -->
                 <div
                   *ngIf="invoiceData.invoiceNote != ''"
                   class="labelName inv-note"
@@ -621,9 +609,6 @@
                   </div>
                   <label class="labelTitle">Invoice Duration</label>
                 </div>
-                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
-                  {{invoiceData.invoiceNote}}
-                </div> -->
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
                   name="settingIdueDateCount"

@@ -562,25 +562,25 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  toDataUrl(url: any, id: any) {
-    const xhr = new XMLHttpRequest();
-    const ele = document.getElementById(id);
-    console.log(ele);
+  // toDataUrl(url: any, id: any) {
+  //   const xhr = new XMLHttpRequest();
+  //   const ele = document.getElementById(id);
+  //   console.log(ele);
 
-    xhr.onload = function() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        ele.setAttribute('src', reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.onloadend = function() {
-      console.log('loadend');
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
+  //   xhr.onload = function() {
+  //     const reader = new FileReader();
+  //     reader.onloadend = function() {
+  //       ele.setAttribute('src', reader.result);
+  //     };
+  //     reader.readAsDataURL(xhr.response);
+  //   };
+  //   xhr.onloadend = function() {
+  //     console.log('loadend');
+  //   };
+  //   xhr.open('GET', url);
+  //   xhr.responseType = 'blob';
+  //   xhr.send();
+  // }
 
   dataURItoBlob(dataURI: String) {
     const byteString = atob(dataURI.split(',')[1]);
@@ -650,9 +650,6 @@ export class DashboardComponent implements OnInit {
     this.eisSelected = this.item.operatingHour.end.meridiem;
     console.log(this.srangeHr, this.srangeMin, this.sisSelected);
     console.log(this.erangeHr, this.erangeMin, this.eisSelected);
-    // this.endT = this.item.operatingHour.end.hr + String(this.item.operatingHour.end.min) + this.item.operatingHour.end.meridiem;
-    // console.log(this.changeTime(this.startT))
-    // console.log(this.changeTime(this.endT))
 
     console.log('--->', this.startT, this.endT);
     this.temp = this.item.timezone;
@@ -724,20 +721,6 @@ export class DashboardComponent implements OnInit {
         JSON.stringify(data.operatingHour)
       );
     }
-    // console.log('DATA~~~', data);
-    // regionalSettingFormData.append('name', data.name);
-    // regionalSettingFormData.append('timezone', data.timezone);
-    // regionalSettingFormData.append('url', data.url);
-    // regionalSettingFormData.append('logo', this.getLogo());
-    // regionalSettingFormData.append(
-    //   'operatingHour',
-    //   JSON.stringify(data.operatingHour)
-    // );
-    // console.log(regionalSettingFormData.get('name'));
-    // console.log(regionalSettingFormData.get('timezone'));
-    // console.log(regionalSettingFormData.get('url'));
-    // console.log(regionalSettingFormData.get('logo'));
-    // console.log(regionalSettingFormData.get('operatingHour'));
 
     setTimeout(() => {
       this._service
