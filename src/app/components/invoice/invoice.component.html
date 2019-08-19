@@ -511,8 +511,10 @@
                 [ngClass]="{ addType: obj.isDefault == true }"
                 *ngIf="invStatus == 'UNPAID'"
               >
-                <div class="tax-txt">{{ obj.tax }}%</div>
-
+                <div class="tax-txt" *ngIf="obj.taxtype != 'No Tax'">
+                  {{ obj.tax }}%
+                </div>
+                <div class="tax-txt" *ngIf="obj.taxtype == 'No Tax'"></div>
                 <div *ngIf="obj.isDefault == false">
                   <button class="taxOpt-wrap" (click)="showDropdown(i)">
                     <span>{{ obj.taxtype }}</span
@@ -755,7 +757,13 @@
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0 discount-number">
-                <div class="tax-txt">{{ obj.discount.tax }}%</div>
+                <div class="tax-txt" *ngIf="obj.discount.type != 'No Tax'">
+                  {{ obj.discount.tax }}%
+                </div>
+                <div
+                  class="tax-txt"
+                  *ngIf="obj.discount.type == 'No Tax'"
+                ></div>
               </div>
 
               <!-- <div class="col-md-2 text-right price-info">
@@ -1214,19 +1222,17 @@
                   {{ invCurrency.sign }} {{ data.courseFee.fee | financial }}
                 </p>
               </div>
-              <div class="col-md-2 p-0 text-right price-info">
+
+              <div
+                class="col-md-2 p-0 text-right price-info"
+                *ngIf="data.courseFee.noTax == false"
+              >
                 {{ data.courseFee.tax }} %
-                <!-- <span
-                  *ngIf="data.courseFee.taxInclusive == true"
-                  class="tax-status"
-                  >(inclusive)</span
-                >
-                <span
-                  *ngIf="data.courseFee.taxInclusive == false"
-                  class="tax-status"
-                  >(exclusive)</span
-                > -->
               </div>
+              <div
+                class="col-md-2 p-0 text-right price-info"
+                *ngIf="data.courseFee.noTax == true"
+              ></div>
               <div
                 class="col-md-2 p-0 text-right price-info"
                 *ngIf="data.courseFee.taxInclusive == true"
@@ -1255,7 +1261,7 @@
                 class="col-md-1 p-0 text-right price-info discount-number"
               ></div>
               <div class="col-md-2 p-0 text-right price-info discount-number">
-                <p class="mb-0" (click)="showDiscountPopup('courseFee-dis')">
+                <p class="mb-0">
                   {{ invCurrency.sign }} {{ cDiscount.value | financial }}
                 </p>
               </div>
@@ -1361,6 +1367,12 @@
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0">
+                <div class="tax-txt" *ngIf="obj.taxtype == ' No Tax'"></div>
+                <div class="tax-txt" *ngIf="obj.taxtype != 'No Tax'">
+                  {{ obj.tax }}%
+                </div>
+              </div>
+              <div class="col-md-2 text-right price-info p-0">
                 <div class="tax-txt">{{ obj.tax }}%</div>
               </div>
               <!-- <div class="col-md-2 text-right price-info">
@@ -1420,66 +1432,18 @@
                 </div>
               </div> -->
 
-                <div>
-                  <div
-                    *ngIf="
-                      feesBox3 == true &&
-                      activeFeeBoxId == i &&
-                      obj.isDiscount == true
-                    "
-                    class="popup-box"
-                  >
-                    <div id="rectangle"></div>
-                    <div class="p-3">
-                      <h5>Discount</h5>
-                      <div class="d-flex popup-input">
-                        <div class="input-sign">
-                          {{ invCurrency.sign }}
-                        </div>
-                        <input
-                          type="number"
-                          name="discount"
-                          class="w-100 input-txtaddCurseFee"
-                          placeholder="0"
-                          min="0"
-                          oninput="validity.valid||(value='')"
-                          (input)="unitPrice = $event.target.value"
-                          (input)="inputDiscount($event.target.value, i)"
-                          [value]="obj.discount.dValue"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    *ngIf="feesBox3 == true && activeFeeBoxId == i"
-                    class="d-flex btns-wrap"
-                  >
-                    <button type="submit" class="btn" (click)="cancelPopup4()">
-                      <span class="closemark">
-                        <div class="closemark_stem"></div>
-                        <div class="closemark_kick"></div>
-                      </span>
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn"
-                      (click)="addnewDiscount('newitem-dis', i)"
-                      [disabled]="unitPrice == undefined || unitPrice == ''"
-                    >
-                      <span class="checkmark">
-                        <div class="checkmark_stem"></div>
-                        <div class="checkmark_kick"></div>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <p class="mb-0" (click)="showDiscountPopup('newitem-dis', i)">
+                <p class="mb-0">
                   {{ invCurrency.sign }} {{ obj.discount.value | financial }}
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0 discount-number">
-                <div class="tax-txt">{{ obj.discount.tax }}%</div>
+                <div class="tax-txt" *ngIf="obj.discount.type != 'No Tax'">
+                  {{ obj.discount.tax }}%
+                </div>
+                <div
+                  class="tax-txt"
+                  *ngIf="obj.discount.type == 'No Tax'"
+                ></div>
               </div>
 
               <!-- <div class="col-md-2 text-right price-info">

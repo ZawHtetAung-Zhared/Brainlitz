@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="d-flex teacher-gp">
+  <div class="d-flex teacher-gp" *ngIf="ctype != 'schedule'">
     <div class="flexi-img-div teacherImg">
       <div class="flexi-img-wrap teacherImg-wrap">
         <img src="{{ teacherDetail.profilePic }}" />
@@ -44,10 +44,17 @@
     </div>
     <div class="flexi-teacher-div">
       <!-- <p class="flexi-teacher-position">Senior Teacher</p> -->
-      <label class="flexi-teacher-name">{{ teacherDetail.fullName }}</label>
+      <label class="flexi-teacher-name">{{
+        teacherDetail.preferredName
+      }}</label>
     </div>
   </div>
-  <div class="d-flex">
+  <div
+    class="d-flex"
+    [ngStyle]="
+      ctype == 'schedule' ? { 'padding-top': '30px' } : { 'padding-top': '0px' }
+    "
+  >
     <div class="flexiCircle" (click)="getPreLessons()">
       <i class="fa fa-plus circlePlus"></i>
     </div>
@@ -61,7 +68,6 @@
   class="flexiMid"
   id="flexiMid"
   [ngClass]="{
-    addheight: ctype == 'schedule',
     'set-overflow': !conflictBoxShow
   }"
 >
