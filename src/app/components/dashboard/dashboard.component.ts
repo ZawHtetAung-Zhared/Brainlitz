@@ -489,7 +489,6 @@ export class DashboardComponent implements OnInit {
             currencyCode: undefined
           };
         }
-        this.autogrow();
       },
       err => {
         console.log(err);
@@ -596,8 +595,10 @@ export class DashboardComponent implements OnInit {
     }
     return new Blob([ab], { type: mimeString });
   }
-
+  isLogoChanged: boolean = false;
   handleFileInput(files: FileList, $event) {
+    this.isLogoChanged = true;
+    console.log('handleFileInput~~~');
     console.log(files);
     this.elementView.nativeElement.innerText = files[0].name;
     this.message = '';
@@ -627,10 +628,11 @@ export class DashboardComponent implements OnInit {
   }
   editRegion() {
     console.log(this.item);
-    setTimeout(() => {
-      console.log(document.getElementById('imgURL'));
-      this.toDataUrl(this.item.logo, 'imgURL');
-    }, 1000);
+    this.isLogoChanged = false;
+    // setTimeout(() => {
+    //   console.log(document.getElementById('imgURL'));
+    //   this.toDataUrl(this.item.logo, 'imgURL');
+    // }, 1000);
     this.imgURL = this.item.logo;
     this.isEdit = true;
     this.temp = this.item.timezone;
@@ -711,7 +713,12 @@ export class DashboardComponent implements OnInit {
       regionalSettingFormData.append('name', data.name);
       regionalSettingFormData.append('timezone', data.timezone);
       regionalSettingFormData.append('url', data.url);
-      regionalSettingFormData.append('logo', this.getLogo());
+      if (this.isLogoChanged == true) {
+        console.log('isLogoChanged~~~~', this.isLogoChanged);
+        regionalSettingFormData.append('logo', this.getLogo());
+      } else {
+        console.log('isLogoChanged~~~~', this.isLogoChanged);
+      }
       regionalSettingFormData.append(
         'operatingHour',
         JSON.stringify(data.operatingHour)
@@ -1215,18 +1222,5 @@ export class DashboardComponent implements OnInit {
       this.sprogressSlider = false;
       this.eprogressslider = false;
     }
-  }
-
-  autogrow() {
-    setTimeout(() => {
-      let textArea = document.getElementById('settingInvNote');
-      console.log(textArea);
-      if (textArea != null) {
-        textArea.style.overflow = 'hidden';
-        textArea.style.height = 'auto';
-        textArea.style.height = textArea.scrollHeight + 'px';
-        console.log('textArea', textArea.style.height);
-      }
-    }, 1000);
   }
 }
