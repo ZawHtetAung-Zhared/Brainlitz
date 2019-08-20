@@ -649,83 +649,49 @@
                       </div>
                     </div>
                   </div>
-                  <div class="show-invoice col-5 scrollbar">
-                    <label class="invoice-label">Invoice</label>
-
-                    <div class="ml-2 mb-2 invoice-list">
-                      <div class="d-flex row">
-                        <div class="first-one" style="padding-left: 20px">
-                          <p class="lesson mt-2">lessons</p>
-                          <p class="payment">Payment date</p>
-                        </div>
-                        <div class="second-one" style="padding-left: 10px">
-                          <div class="d-flex mt-2">
-                            <div class="paybill">
-                              <p
-                                style="color: red;font-size:12px;padding-left: 5px"
-                              >
-                                Partial Paid
-                              </p>
-                            </div>
-                            <span class="right"></span>
+                  <div class="show-invoice col-5 ">
+                    <div class="scrollbar">
+                      <label class="invoice-label">Invoice</label>
+                      <div class="ml-2 mb-2 invoice-list">
+                        <div class="row">
+                          <div class="first-one" style="padding-left: 20px">
+                            <p class="lesson mt-2">lessons</p>
+                            <span class="date">
+                              {{ course.startDate | utcDate }} -{{
+                                course.startDate | utcDate
+                              }}
+                            </span>
+                            <label class="payment">Payment date</label>
+                            <p class="date1">
+                              {{ course.startDate | utcDate }}
+                            </p>
                           </div>
-                          <!-- (click)="viewInvoice(classEnrollModal, course)"
+                          <div class="second-one" style="padding-left: 10px">
+                            <div class="d-flex mt-2">
+                              <div class="paybill">
+                                <p
+                                  style="color: red;font-size:12px;padding-left: 5px"
+                                >
+                                  Partial Paid
+                                </p>
+                              </div>
+                              <span class="right"></span>
+                            </div>
+                            <div
+                              class="date"
+                              *ngIf="course.invoice != null; currency"
+                            >
+                              <span class="currency date">{{
+                                course.invoice.currency.sign
+                              }}</span>
+                              {{ course.invoice.total }}
+                            </div>
+                            <!-- (click)="viewInvoice(classEnrollModal, course)"
                   [disabled]="course.invoice == null" -->
-                          <button class="btn view-invoice">
-                            View invoice
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="ml-2 invoice-list">
-                      <div class="d-flex row">
-                        <div class="first-one" style="padding-left: 20px">
-                          <p class="lesson mt-2">lessons</p>
-                          <p class="payment">Payment date</p>
-                        </div>
-                        <div class="second-one" style="padding-left: 10px">
-                          <div class="d-flex mt-2">
-                            <div class="paybill">
-                              <p
-                                style="color: red;font-size:12px;padding-left: 5px"
-                              >
-                                Partial Paid
-                              </p>
-                            </div>
-                            <span class="right"></span>
+                            <button class="btn view-invoice">
+                              View invoice
+                            </button>
                           </div>
-                          <!-- (click)="viewInvoice(classEnrollModal, course)"
-                    [disabled]="course.invoice == null" -->
-                          <button class="btn view-invoice">
-                            View invoice
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="ml-2 invoice-list">
-                      <div class="d-flex row">
-                        <div class="first-one" style="padding-left: 20px">
-                          <p class="lesson mt-2">lessons</p>
-                          <p class="payment">Payment date</p>
-                        </div>
-                        <div class="second-one" style="padding-left: 10px">
-                          <div class="d-flex mt-2">
-                            <div class="paybill">
-                              <p
-                                style="color: red;font-size:12px;padding-left: 5px"
-                              >
-                                Partial Paid
-                              </p>
-                            </div>
-                            <span class="right"></span>
-                          </div>
-                          <!-- (click)="viewInvoice(classEnrollModal, course)"
-                      [disabled]="course.invoice == null" -->
-                          <button class="btn view-invoice">
-                            View invoice
-                          </button>
                         </div>
                       </div>
                     </div>

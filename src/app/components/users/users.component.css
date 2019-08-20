@@ -2555,7 +2555,7 @@ input[_ngcontent-c1]:focus {
 
 .view-invoice {
   font-size: 14px;
-  padding-right: 20px;
+  /* padding-right: 20px; */
 }
 
 /* start flexi modal */
@@ -2759,7 +2759,7 @@ card-body {
 .line {
   border-top: 1px solid #edeff0;
   padding-top: 20px;
-  padding-left: 20px;
+  margin-left: 20px;
 }
 .tchr-img-wraper {
   width: 40px;
@@ -2866,6 +2866,7 @@ input:checked + .slider:before {
 .auto-enroll {
   background: #f2f4f5;
   border-radius: 25px !important;
+  height: 40px;
 }
 .tchr-img {
   width: 250px !important;
@@ -2887,20 +2888,19 @@ input:checked + .slider:before {
   background: #ffffff !important;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  /* width: 370px; */
+  width: 92%;
 }
 
-/* Track */
+/* Track  */
 .scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  /* box-shadow: inset 0 0 3px #FFFFFF; */
+  background: #ffffff;
   box-shadow: inset 0 0 3px #ffffff;
-  width: 15px !important;
 }
 
 /* Handle */
 .scrollbar::-webkit-scrollbar-thumb {
   background: #cce5ff;
+  height: 5px;
 }
 
 /* Handle on hover */
@@ -2908,19 +2908,19 @@ input:checked + .slider:before {
   background: #007fff;
 }
 .scrollbar::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
   height: 3px !important;
 }
 .scrollbar {
   overflow-y: scroll;
-  /* width: 100%; */
-  /* margin-top: 30px; */
-  min-height: 50px;
-  max-height: 250px;
+  min-height: 220px;
+  max-height: 220px;
   overflow: overlay;
   overflow-x: overlay;
   position: relative;
+  margin-right: -10px;
 }
+
 .col-5 {
   max-width: 39% !important;
 }
@@ -2933,11 +2933,11 @@ input:checked + .slider:before {
   height: 20px;
   background: #cce5ff;
   border-radius: 4px;
+  margin-bottom: 0px;
 }
 .paybill {
   width: auto;
   height: 20px;
-  left: 832px;
   background: #ffdbd9;
 }
 .right {
@@ -2950,13 +2950,50 @@ input:checked + .slider:before {
   border-color: transparent transparent transparent#FFDBD9;
 }
 .first-one {
-  width: 60%;
+  width: 52%;
 }
 .second-one {
-  width: 40%;
+  width: 30%;
 }
 .payment {
   font-size: 14px;
   color: #64707d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  .invoice-list {
+    width: 90%;
+  }
+  .first-one {
+    width: 55%;
+  }
+  .second-one {
+    width: 35%;
+  }
+  .scrollbar {
+    margin-right: -15px;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #007fff;
+  }
+  .switch {
+    margin-left: 5px;
+  }
+  .switch-label {
+    margin-left: 10px;
+  }
+}
+.date1 {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  word-wrap: break-word !important;
+}
+.date {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
