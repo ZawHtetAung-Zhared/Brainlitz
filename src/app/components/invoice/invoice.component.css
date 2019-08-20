@@ -39,6 +39,7 @@
 }
 .inv-address {
   white-space: pre-line;
+  margin-top: -25px;
 }
 
 .invoice-label {
@@ -46,7 +47,9 @@
   font-size: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-
+.alignRight {
+  text-align: right;
+}
 .logo-wrapper img {
   height: 100%;
   object-fit: contain;
@@ -87,7 +90,7 @@ h3 {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .price-info {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .semibold {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;

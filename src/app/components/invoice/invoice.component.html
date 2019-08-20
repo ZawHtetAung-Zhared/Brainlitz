@@ -16,14 +16,58 @@
     <div class="invoice-container">
       <div class="d-flex justify-content-between mb-2 inv-margin">
         <div>
+          <div class="">
+            <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
+            <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
+            <div>
+              <!-- <label class="id-label">Invoice ID</label>
+                  <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
+              <label class="mb-3 invID">
+                <span class="invoice-label">Invoice No:</span>
+                {{ refInvID }}
+              </label>
+            </div>
+            <div class="p-0" *ngIf="custDetail.user">
+              <label class="invoice-label mb-0"
+                >Bill to:
+                <span class="p2 price-info">{{
+                  custDetail.user.preferredName
+                }}</span></label
+              >
+              <p class="invoice-info label-height mb-0">
+                <span *ngIf="custDetail.user && custDetail.user.email">{{
+                  custDetail.user.email
+                }}</span>
+                <span *ngFor="let mail of custDetail.user.guardians">{{
+                  mail.email
+                }}</span>
+                <span
+                  *ngIf="
+                    custDetail.user.email == '' &&
+                    custDetail.user.guardians?.length == 0
+                  "
+                  >-</span
+                >
+              </p>
+            </div>
+            <div class="d-flex pt-4" *ngIf="custDetail.user">
+              <div class="pr-5">
+                <label class="invoice-label">Invoice date</label>
+                <p class="invoice-info mb-0">{{ updatedDate }}</p>
+              </div>
+              <div class="p-0">
+                <label class="invoice-label">Due date</label>
+                <p class="invoice-info mb-0">{{ dueDate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="alignRight">
           <div class="logo-wrapper">
             <img src="{{ logo }}" />
           </div>
           <div class="pt-4">
-            <h5
-              *ngIf="invoiceInfo.companyName != ''"
-              class="invoice-label mb-0"
-            >
+            <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">
               {{ invoiceInfo.companyName }}
             </h5>
             <h5
@@ -32,6 +76,10 @@
             >
               -
             </h5>
+            <div>
+              <label class="invoice-info semibold">{{ registration }}</label>
+              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
+            </div>
             <div class="d-flex">
               <div class="address pl-zero">
                 <p
@@ -48,65 +96,9 @@
                 </p>
               </div>
             </div>
-            <p class="invoice-info mb-0">{{ invoiceInfo.email }}</p>
+            <p class="invoice-info mb-0 pRight">{{ invoiceInfo.email }}</p>
             <p></p>
           </div>
-        </div>
-        <div>
-          <div class="text-right">
-            <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
-            <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
-            <div>
-              <!-- <label class="id-label">Invoice ID</label>
-              <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
-              <label class="mb-3 invID">
-                <span class="invoice-label">Invoice No:</span>
-                {{ refInvID }}
-              </label>
-            </div>
-            <div>
-              <label class="invoice-info"
-                >{{ invTaxName }} Reg No: {{ registration }}</label
-              >
-              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="d-flex pb-4 inv-margin" *ngIf="custDetail.user">
-        <div class="col-md-6 col-lg-6 p-0">
-          <label class="invoice-label"
-            >Bill to:
-            <span class="p2 price-info">{{
-              custDetail.user.preferredName
-            }}</span></label
-          >
-          <div class="d-flex">
-            <p class="invoice-info label-height mb-0">
-              <span *ngIf="custDetail.user && custDetail.user.email">{{
-                custDetail.user.email
-              }}</span>
-              <span *ngFor="let mail of custDetail.user.guardians">{{
-                mail.email
-              }}</span>
-              <span
-                *ngIf="
-                  custDetail.user.email == '' &&
-                  custDetail.user.guardians?.length == 0
-                "
-                >-</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-md-3 col-lg-3 text-right p-0">
-          <label class="invoice-label">Invoice date</label>
-          <p class="invoice-info mb-0">{{ updatedDate }}</p>
-        </div>
-        <div class="col-md-3 col-lg-3 text-right p-0">
-          <label class="invoice-label">Due date</label>
-          <p class="invoice-info mb-0">{{ dueDate }}</p>
         </div>
       </div>
 
@@ -1102,14 +1094,58 @@
     <div class="invoice-container">
       <div class="d-flex justify-content-between mb-2 inv-margin">
         <div>
+          <div class="">
+            <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
+            <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
+            <div>
+              <!-- <label class="id-label">Invoice ID</label>
+                    <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
+              <label class="mb-3 invID">
+                <span class="invoice-label">Invoice No:</span>
+                {{ refInvID }}
+              </label>
+            </div>
+            <div class="p-0" *ngIf="custDetail.user">
+              <label class="invoice-label mb-0"
+                >Bill to:
+                <span class="p2 price-info">{{
+                  custDetail.user.preferredName
+                }}</span></label
+              >
+              <p class="invoice-info label-height mb-0">
+                <span *ngIf="custDetail.user && custDetail.user.email">{{
+                  custDetail.user.email
+                }}</span>
+                <span *ngFor="let mail of custDetail.user.guardians">{{
+                  mail.email
+                }}</span>
+                <span
+                  *ngIf="
+                    custDetail.user.email == '' &&
+                    custDetail.user.guardians?.length == 0
+                  "
+                  >-</span
+                >
+              </p>
+            </div>
+            <div class="d-flex pt-4" *ngIf="custDetail.user">
+              <div class="pr-5">
+                <label class="invoice-label">Invoice date</label>
+                <p class="invoice-info mb-0">{{ updatedDate }}</p>
+              </div>
+              <div class="p-0">
+                <label class="invoice-label">Due date</label>
+                <p class="invoice-info mb-0">{{ dueDate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="alignRight">
           <div class="logo-wrapper">
             <img src="{{ logo }}" />
           </div>
           <div class="pt-4">
-            <h5
-              *ngIf="invoiceInfo.companyName != ''"
-              class="invoice-label mb-0"
-            >
+            <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">
               {{ invoiceInfo.companyName }}
             </h5>
             <h5
@@ -1118,6 +1154,10 @@
             >
               -
             </h5>
+            <div>
+              <label class="invoice-info semibold">{{ registration }}</label>
+              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
+            </div>
             <div class="d-flex">
               <div class="address pl-zero">
                 <p
@@ -1134,31 +1174,8 @@
                 </p>
               </div>
             </div>
-            <p class="invoice-info mb-0">{{ invoiceInfo.email }}</p>
+            <p class="invoice-info mb-0 pRight">{{ invoiceInfo.email }}</p>
             <p></p>
-          </div>
-        </div>
-        <div>
-          <div class="text-right">
-            <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
-            <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
-            <div>
-              <label class="mb-3 invID">
-                <span class="invoice-label">Invoice No:</span>
-                {{ refInvID }}
-              </label>
-            </div>
-            <div>
-              <label class="invoice-info"
-                >{{ invTaxName }} Reg No: {{ registration }}</label
-              >
-            </div>
-          </div>
-          <div class="p-0 text-right">
-            <label class="invoice-label">Billed By</label>
-            <p class="invoice-info mb-0">
-              {{ custDetail.user.preferredName }}
-            </p>
           </div>
         </div>
       </div>
