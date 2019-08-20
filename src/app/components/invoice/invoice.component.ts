@@ -1077,4 +1077,34 @@ export class InvoiceComponent implements OnInit {
       this.activeFeeBoxId = id;
     }
   }
+
+  removeDiscount(type, obj, id) {
+    if (type == 'courseFee') {
+      this.iscDiscount = false;
+      this.cDiscount = {
+        value: 0,
+        tax: 0,
+        taxRes: 0,
+        type: '',
+        dValue: 0.0,
+        amount: 0.0
+      };
+      this.default_disTotal = 0;
+      this.defult_disTotalTax = 0;
+    } else {
+      this.newItemArr[id].discount = {
+        value: 0,
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        type: 'Exclusive',
+        dValue: 0.0,
+        amount: 0.0
+      };
+      this.newItemArr[id].isDiscount = false;
+
+      console.log(this.newItemArr);
+    }
+    this.validateForm();
+    this.calculationTotal();
+  }
 }
