@@ -629,3 +629,7 @@ span.removeDis {
 .addPointer {
   cursor: pointer;
 }
+
+.tax-txt.noTax {
+  opacity: 0;
+}

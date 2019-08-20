@@ -81,7 +81,8 @@ export class InvoiceComponent implements OnInit {
     taxRes: 0,
     type: '',
     dValue: 0.0,
-    amount: 0.0
+    amount: 0.0,
+    isDefault: false
   };
 
   // public total:any;
@@ -165,6 +166,7 @@ export class InvoiceComponent implements OnInit {
           this.cDiscount.amount = this.invoice[0].courseFee.discount.amount;
           this.cDiscount.tax = this.invoice[0].tax.rate;
           this.iscDiscount = true;
+          this.cDiscount.isDefault = true;
           // this.addnewDiscount('courseFee-dis', null);
         }
 
@@ -1081,14 +1083,19 @@ export class InvoiceComponent implements OnInit {
   removeDiscount(type, obj, id) {
     if (type == 'courseFee') {
       this.iscDiscount = false;
-      this.cDiscount = {
-        value: 0,
-        tax: 0,
-        taxRes: 0,
-        type: '',
-        dValue: 0.0,
-        amount: 0.0
-      };
+      if (this.cDiscount.isDefault) {
+        this.cDiscount = {
+          value: 0,
+          tax: 0,
+          taxRes: 0,
+          type: '',
+          dValue: 0.0,
+          amount: 0.0,
+          isDefault: this.cDiscount.isDefault
+        };
+        this.isEditInv = true;
+      }
+
       this.default_disTotal = 0;
       this.defult_disTotalTax = 0;
     } else {
