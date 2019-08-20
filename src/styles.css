@@ -761,8 +761,8 @@ span.scrollup.show:hover:before {
     /* make visible modal body and header */
     /*display: block;*/
   }
-  .newdiscount-btn,
-  .newItem-btn {
+  .newdiscount-btn *,
+  .newItem-btn * {
     visibility: hidden;
   }
 }

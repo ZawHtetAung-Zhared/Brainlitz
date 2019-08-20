@@ -2563,7 +2563,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
     console.log('selected', this.selectedTeacher);
     console.log('selectdate', date);
-    console.log('selectedDay', weekday);
     var day = [];
     switch (weekday) {
       case 'Sun':
@@ -2600,6 +2599,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       min: this.slotM,
       meridiem: this.slotAMPM
     };
+
     this.scheduleObj['repeatDays'] = day;
     this.scheduleObj['date'] = sDate;
     this.scheduleObj['teacher'] = this.selectedTeacher;
@@ -2641,6 +2641,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       id: plan._id,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
+      description: plan.description,
       from: 'schedule'
     };
     // this.goBackCat = false;
@@ -2673,10 +2674,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       localStorage.removeItem('cPlan');
       localStorage.removeItem('scheduleObj');
     } else {
+      console.log('not for rollover');
       this.goBackCat = false;
       this.isCourseCreate = true;
       localStorage.removeItem('courseID');
       localStorage.setItem('cPlan', JSON.stringify(planObj));
+      console.log('scheduleObj', this.scheduleObj);
+
       localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj));
     }
     // console.log("scheduleObj",this.scheduleObj);
@@ -2748,7 +2752,42 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   courseInfo = {};
 
-  onClickCourse(course, lesson, e, date, list) {
+  onClickCourse(course, lesson, e, date, list, type) {
+    console.log(type);
+    if (type == 'cancel') {
+      var day = [];
+      switch (date.dayOfWeek) {
+        case 'Sun':
+          day.push(0);
+          break;
+        case 'Mon':
+          day.push(1);
+          break;
+        case 'Tue':
+          day.push(2);
+          break;
+        case 'Wed':
+          day.push(3);
+          break;
+        case 'Thu':
+          day.push(4);
+          break;
+        case 'Fri':
+          day.push(5);
+          break;
+        case 'Sat':
+          day.push(6);
+      }
+      var sDate = {
+        year: date.year,
+        month: date.month,
+        day: date.day
+      };
+      this.scheduleObj['repeatDays'] = day;
+      this.scheduleObj['date'] = sDate;
+      this.scheduleObj['teacher'] = this.selectedTeacher;
+      this.scheduleObj['time'] = course.start;
+    }
     this.selectedCourse = course;
     // if (list.isOverlap == true) {
 
