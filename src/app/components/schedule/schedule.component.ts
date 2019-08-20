@@ -2753,6 +2753,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   courseInfo = {};
 
   onClickCourse(course, lesson, e, date, list, type) {
+    this.overlap = false;
     console.log(type);
     if (type == 'cancel') {
       var day = [];
@@ -2789,11 +2790,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.scheduleObj['time'] = course.start;
     }
     this.selectedCourse = course;
-    if (list.isOverlap == true) {
-      // if (e.path[5].classList[1] == 'test-bg') {
-      // }
-      return;
-    }
+    // if (list.isOverlap == true) {
+
+    //   return;
+    // }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
@@ -2820,9 +2820,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else {
       if (course.seat != {}) {
         console.log('dfdfdfdfdfdfdf');
-        this.popUpHeight = 260;
+        this.popUpHeight = 390;
       } else {
-        this.popUpHeight = 250;
+        this.popUpHeight = 380;
       }
       if ($(event.target).parents('.lesson-slot').length > 0) {
         this.yPosition =
@@ -2841,11 +2841,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.arrTop = this.yPosition - 20;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
-
-      if ($(document).height() - this.yPosition < this.popUpHeight) {
+      if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
         console.log('I found u');
-        this.yPosition = this.yPosition - this.popUpHeight - 40 - 20;
-        this.arrTop = this.yPosition + this.popUpHeight;
+        this.yPosition = this.yPosition - this.popUpHeight - 20;
+        this.arrTop = this.yPosition + this.popUpHeight - 10;
         this.arrClasses = {
           'arr-down': true
         };
@@ -2895,56 +2894,124 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     let arrTempLeft = this.xPosition + 140;
 
     setTimeout(() => {
-      if (
-        e.target.className == 'selectedCourse' ||
-        e.target.className == 'lesson-slot selectedCourse'
-      ) {
-        this.arrTop = arrTemptop;
-        this.arrLeft = arrTempLeft;
-        if ($(document).height() - this.yPosition < 180) {
-          this.yPosition = $(event.target).offset().top - 170;
-          this.arrTop = this.yPosition + 160;
-          this.arrClasses = {
-            'arr-box': true,
-            'arr-down': true
-          };
-        } else {
-          this.arrClasses = {
-            'arr-box': true,
-            'arr-up': true
-          };
-        }
-        console.log('here me');
-        this.styleArrDefault = {
+      // if (
+      //   e.target.className == 'selectedCourse' ||
+      //   e.target.className == 'lesson-slot selectedCourse'
+      // ) {
+      //   console.warn('bottom state')
+      //   this.arrTop = arrTemptop;
+      //   this.arrLeft = arrTempLeft;
+      //   if ($(document).height() - this.yPosition < 180) {
+      //     this.yPosition = $(event.target).offset().top - 170;
+      //     this.arrTop = this.yPosition + 160;
+      //     this.arrClasses = {
+      //       'arr-box': true,
+      //       'arr-down': true
+      //     };
+      //   } else {
+      //     this.arrClasses = {
+      //       'arr-box': true,
+      //       'arr-up': true
+      //     };
+      //   }
+      //   console.log('here me');
+      //   this.styleArrDefault = {
+      //     top: this.yPosition + 'px',
+      //     left: this.xPosition + 'px'
+      //   };
+      //   if ($(document).width() - this.xPosition < 300) {
+      //     console.log('here 1');
+      //     this.xPosition = 0;
+      //     this.isSide = true;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       right: '0px'
+      //     };
+      //   } else if (this.xPosition < 0) {
+      //     console.log('here 2');
+      //     this.isSide = true;
+      //     this.xPosition = 0;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       left: '0px'
+      //     };
+      //   } else {
+      //     console.log('here 3');
+      //     this.isSide = false;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       left: this.xPosition + 'px'
+      //     };
+      //   }
+      // }
+    }, 20);
+
+    if (lesson.cancel) {
+      this.yPosition = e.layerY + 25;
+      this.xPosition = e.layerX - 25;
+
+      console.log($(event.target).offset().left + '<left');
+      console.log($(event.target).offset().top + '<top');
+      console.log($(event.target).height() + '<height');
+      this.xPosition =
+        $(event.target).offset().left - 150 + $(event.target).width() / 2;
+      this.yPosition =
+        $(event.target).offset().top + $(event.target).height() + 10;
+      this.arrTop =
+        $(event.target).offset().top + $(event.target).height() - 10;
+      this.arrLeft = this.xPosition + 140;
+
+      console.log('xPostiton>' + this.xPosition);
+      console.log('yPosition>' + this.yPosition);
+      console.log('arrTop>' + this.arrTop);
+      console.log('arrLeft>' + this.arrLeft);
+      console.log('width>', $(document).width());
+      let height;
+      if (this.isTeacherAll) {
+        height = 136;
+      } else {
+        height = 160;
+      }
+      if ($(document).height() - (this.yPosition + height - 20) < height) {
+        this.yPosition = $(event.target).offset().top - height;
+        this.arrTop = this.yPosition + height;
+        this.arrClasses = {
+          'arr-box': true,
+          'arr-down': true
+        };
+      } else {
+        this.arrClasses = {
+          'arr-box': true,
+          'arr-up': true
+        };
+      }
+
+      this.styleArrDefault = {
+        top: this.yPosition + 'px',
+        left: this.xPosition + 'px'
+      };
+      if ($(document).width() - this.xPosition < 300) {
+        console.log('here 1');
+        this.isSide = true;
+        this.styleArr = {
+          top: this.yPosition + 'px',
+          right: '0px'
+        };
+      } else if (this.xPosition < 0) {
+        console.log('here 2');
+        this.xPosition = 0;
+        this.styleArr = {
+          top: this.yPosition + 'px',
+          left: '0px'
+        };
+      } else {
+        console.log('here 3');
+        this.styleArr = {
           top: this.yPosition + 'px',
           left: this.xPosition + 'px'
         };
-        if ($(document).width() - this.xPosition < 300) {
-          console.log('here 1');
-          this.xPosition = 0;
-          this.isSide = true;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            right: '0px'
-          };
-        } else if (this.xPosition < 0) {
-          console.log('here 2');
-          this.isSide = true;
-          this.xPosition = 0;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            left: '0px'
-          };
-        } else {
-          console.log('here 3');
-          this.isSide = false;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            left: this.xPosition + 'px'
-          };
-        }
       }
-    }, 20);
+    }
   }
 
   //  Test Course Plan List Api
