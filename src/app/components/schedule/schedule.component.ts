@@ -2753,6 +2753,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   courseInfo = {};
 
   onClickCourse(course, lesson, e, date, list, type) {
+    this.overlap = false;
     console.log(type);
     if (type == 'cancel') {
       var day = [];
