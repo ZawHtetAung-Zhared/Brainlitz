@@ -302,7 +302,7 @@
         <div *ngIf="activeTab == 'class'" class="pb-20">
           <div class="d-flex title-space">
             <div class="d-flex flex-column justify-content-center">
-              <h4 class="mb-0 tab-title">Attending Classes</h4>
+              <h4 class="mb-0 tab-title">Attending Lessons</h4>
             </div>
             <button
               *ngIf="customerDemo.enrollStudent != ''"
@@ -319,7 +319,7 @@
             </button>
           </div>
 
-          <div>
+          <!-- <div>
             <div
               class="btn-wrap no-item"
               style="padding-left: 20px;padding-right: 20px"
@@ -492,6 +492,232 @@
                       >
                         View invoice
                       </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- Attending lessons -->
+          <div>
+            <div
+              class="btn-wrap no-item"
+              style="padding-left: 20px;padding-right: 20px"
+              *ngIf="custDetail.courses?.length <= 0"
+            >
+              There is no course from this customer!
+            </div>
+            <div class="child_two" *ngFor="let course of custDetail.courses">
+              <div class="section-one">
+                <div class="row d-flex">
+                  <div class="col-7">
+                    <div
+                      class="d-flex justify-content-between"
+                      style="padding-left: 20px"
+                    >
+                      <label class="class-label-12"
+                        ><i
+                          class="fa fa-map-marker"
+                          style="font-size:12px;padding-right: 4px"
+                        ></i
+                        >{{ course.location.name }}</label
+                      >
+                    </div>
+                    <p
+                      class="info-p clickable"
+                      (click)="onClickCourse(course)"
+                      style="padding-left: 20px"
+                    >
+                      {{ course.name }}
+                    </p>
+                    <div class="d-flex">
+                      <div class="d-flex info-wrap justify-content-between">
+                        <div class="d-flex">
+                          <div
+                            *ngIf="course.startDate"
+                            class="timetable-col"
+                            style="padding-left: 20px"
+                          >
+                            <label class="medium-label-14 mb-0">From</label>
+                            <p class="class-label-14 mb-0">
+                              {{ course.startDate | utcDate }}
+                            </p>
+                          </div>
+                          <div
+                            class="timetable-col"
+                            *ngIf="
+                              course.type != 'ONLINE' &&
+                              course.type != 'REGULAR'
+                            "
+                          >
+                            <label
+                              class="medium-label-14"
+                              style="line-height: 0.5"
+                              >Continuous</label
+                            >
+                            <p class="medium-label-14">with no end date</p>
+                          </div>
+                          <div class="timetable-col">
+                            <label
+                              *ngIf="course.endDate"
+                              class="medium-label-14 mb-0"
+                              >To</label
+                            >
+                            <label
+                              *ngIf="course.lessonCount"
+                              class="medium-label-14 mb-0"
+                            ></label>
+                            <p
+                              *ngIf="course.endDate"
+                              class="class-label-14 mb-0"
+                            >
+                              {{ course.endDate | utcDate }}
+                            </p>
+                            <!-- <p
+                              *ngIf="course.lessonCount"
+                              class="class-label-14 mb-0"
+                            >
+                              {{ course.lessonCount }} Lessons
+                            </p> -->
+                          </div>
+                        </div>
+                        <div class="d-flex tchr-img">
+                          <div class="tchr-img-wraper">
+                            <img
+                              src="{{ course.teacher?.profilePic }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
+                          </div>
+                          <div class="teacher">
+                            <label class="medium-label-14 mb-0">Teacher</label>
+                            <p class="class-label-14">
+                              {{ course.teacher?.preferredName }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <label
+                      class="class-label-14 mb-0"
+                      style="padding-left: 20px"
+                      *ngFor="let day of course.repeatDays | weekDays"
+                      >{{ day }}</label
+                    >
+                    <p
+                      style="padding-left: 20px"
+                      *ngIf="course.duration != undefined"
+                      class="medium-label-14 mb-0"
+                    >
+                      {{ course.duration.startDate | utcTime }} -
+                      {{ course.duration.endDate | utcTime }}
+                    </p>
+                    <div class="line mt-3"></div>
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex" style="padding-left: 20px">
+                        <img src="./assets/icons/journal.svg" />
+                        <label
+                          class="btn view-invoice ml-2"
+                          (click)="
+                            viewJournal(
+                              journalContent,
+                              course,
+                              course.teacher.preferredName
+                            )
+                          "
+                        >
+                          View Journal
+                        </label>
+                      </div>
+                      <div class="d-flex auto-enroll">
+                        <label class="switch-label" for="online"
+                          >Auto enroll for next term</label
+                        >
+                        <div
+                          class="toggle-wrap"
+                          (click)="this.isGlobal = !isGlobal"
+                        >
+                          <label class="switch">
+                            <input
+                              type="checkbox"
+                              (click)="isGlobal = !this.isGlobal"
+                              [checked]="isGlobal"
+                            />
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="show-invoice col-5 ">
+                    <div class="scrollbar">
+                      <label class="invoice-label">Invoice</label>
+                      <div
+                        class="ml-2 mb-2 invoice-list"
+                        *ngFor="let invoice of course.invoicesOfCourse"
+                      >
+                        <div class="row">
+                          <div class="first-one" style="padding-left: 20px">
+                            <p class="lesson mt-2">lessons</p>
+                            <span class="date">
+                              {{ course.startDate | utcDate }} -{{
+                                course.startDate | utcDate
+                              }}
+                            </span>
+                            <label class="payment">Payment date</label>
+                            <p class="date1">
+                              {{ course.startDate | utcDate }}
+                            </p>
+                          </div>
+                          <div class="second-one" style="padding-left: 10px">
+                            <div class="d-flex mt-2">
+                              <div
+                                class="paybill"
+                                [ngClass]="{
+                                  'paid-status': invoice.status == 'PAID',
+                                  'unpaid-status': invoice.status == 'UNPAID',
+                                  'partially-paid-status':
+                                    invoice.status == 'PAID[PARTIAL]'
+                                }"
+                              >
+                                <p>
+                                  {{
+                                    invoice.status == 'PAID[PARTIAL]'
+                                      ? 'Partially paid'
+                                      : invoice.status == 'PAID'
+                                      ? 'Paid'
+                                      : 'Unpaid'
+                                  }}
+                                </p>
+                              </div>
+                              <span class="right"></span>
+                            </div>
+                            <div
+                              class="date"
+                              *ngIf="course.invoice != null; currency"
+                            >
+                              <span class="currency date">{{
+                                invoice.currency.sign
+                              }}</span>
+                              {{ invoice.total }}
+                            </div>
+                            <!-- (click)="viewInvoice(classEnrollModal, course)"
+                  [disabled]="course.invoice == null" -->
+                            <button
+                              class="btn view-invoice"
+                              (click)="
+                                viewFlexyInvoice(
+                                  classEnrollModal,
+                                  course,
+                                  invoice
+                                )
+                              "
+                            >
+                              View invoice
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -67,6 +67,7 @@ export class UsersComponent implements OnInit {
   public locationName: any;
   public className: any;
   public showflexyCourse: boolean = false;
+  public isGlobal: boolean = false;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -1874,6 +1875,42 @@ export class UsersComponent implements OnInit {
     }
     this.blockUI.start('Loading...');
     this._service.getSingleInvoice(invoiceId).subscribe(
+      (res: any) => {
+        this.blockUI.stop();
+        console.log('invoice detail', res);
+        this.singleInv.push(res);
+        this.invoice = this.singleInv;
+        console.log('invoice', this.invoice);
+        this.showOneInvoice(course, this.invoice);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  viewFlexyInvoice(enrollModal, course, invoice) {
+    this.selectedCourse = course;
+    this.selectedCourse.invoice = invoice;
+    this.singleInv = [];
+    if (invoice.status == 'PAID') {
+      this.showPaidInvoice = true;
+    } else if (
+      invoice.status == 'UNPAID' ||
+      invoice.status == 'PAID[PARTIAL]'
+    ) {
+      this.showInvoice = true;
+    }
+    this.invStatus = invoice.status;
+    this.modalReference = this.modalService.open(enrollModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.getRegionInfo();
+    this.blockUI.start('Loading...');
+
+    this._service.getSingleInvoice(invoice._id).subscribe(
       (res: any) => {
         this.blockUI.stop();
         console.log('invoice detail', res);
