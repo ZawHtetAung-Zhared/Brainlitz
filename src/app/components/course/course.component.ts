@@ -237,6 +237,7 @@ export class CourseComponent implements OnInit {
   tempCourdeId: any;
   tempuserType: any;
   showcb: boolean = false;
+  isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -3594,7 +3595,10 @@ export class CourseComponent implements OnInit {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     console.log('body', lessonBody);
     this.blockUI.start('Loading...');
