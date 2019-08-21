@@ -62,7 +62,7 @@ h3 {
 }
 
 .fees-header {
-  padding: 10px 15px 10px 30px;
+  padding: 10px 16px;
 }
 
 .bg-label {
@@ -77,7 +77,8 @@ h3 {
 
 .price-info,
 .payment-label,
-.invID {
+.invID,
+.c-fee {
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -90,9 +91,10 @@ h3 {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .price-info {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
-.semibold {
+.semibold,
+.c-fee {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .tax-status {
@@ -102,6 +104,7 @@ h3 {
 
 .amount-result {
   background: #fff080;
+  margin-right: -16px;
 }
 
 .pad-10 {
@@ -192,6 +195,7 @@ h3 {
   margin-right: 15px;
   margin-left: 30px;
   border: none;
+  outline: none;
 }
 
 .send-btn {
@@ -425,6 +429,10 @@ input[type='number']::-webkit-outer-spin-button {
   /*padding-top: 20px;*/
   outline: none;
   margin-top: 10px;
+}
+
+.newItem-btn-txt {
+  line-height: 1.8;
 }
 
 .br-bshadow-none {
