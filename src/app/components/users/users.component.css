@@ -2997,3 +2997,39 @@ input:checked + .slider:before {
   color: #2e3d4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
+.paid-status p,
+.unpaid-status p,
+.partially-paid-status p {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 5px;
+}
+.paid-status {
+  background: #c2f2d6;
+}
+.paid-status p {
+  color: #009940;
+}
+
+.unpaid-status {
+  background: #ffdbd9;
+}
+.unpaid-status p {
+  color: #b22b24;
+}
+
+.partially-paid-status {
+  background: #ffe9d9;
+}
+.partially-paid-status p {
+  color: #803500;
+}
+.partially-paid-status ~ .right {
+  border-color: transparent transparent transparent#FFE9D9;
+}
+.paid-status ~ .right {
+  border-color: transparent transparent transparent#C2F2D6;
+}
+.unpaid-status ~ .right {
+  border-color: transparent transparent transparent#FFDBD9;
+}

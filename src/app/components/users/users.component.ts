@@ -1889,6 +1889,41 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  viewFlexyInvoice(enrollModal, course, invoice) {
+    this.selectedCourse = course;
+    this.singleInv = [];
+    if (invoice.status == 'PAID') {
+      this.showPaidInvoice = true;
+    } else if (
+      invoice.status == 'UNPAID' ||
+      invoice.status == 'PAID[PARTIAL]'
+    ) {
+      this.showInvoice = true;
+    }
+    this.invStatus = invoice.status;
+    this.modalReference = this.modalService.open(enrollModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.getRegionInfo();
+    this.blockUI.start('Loading...');
+
+    this._service.getSingleInvoice(invoice._id).subscribe(
+      (res: any) => {
+        this.blockUI.stop();
+        console.log('invoice detail', res);
+        this.singleInv.push(res);
+        this.invoice = this.singleInv;
+        console.log('invoice', this.invoice);
+        this.showOneInvoice(course, this.invoice);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   showOneInvoice(course, invoice) {
     console.log('showOneInvoice', course);
     for (var i in this.invoice) {

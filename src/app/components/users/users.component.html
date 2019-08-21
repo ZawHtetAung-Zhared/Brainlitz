@@ -652,7 +652,10 @@
                   <div class="show-invoice col-5 ">
                     <div class="scrollbar">
                       <label class="invoice-label">Invoice</label>
-                      <div class="ml-2 mb-2 invoice-list">
+                      <div
+                        class="ml-2 mb-2 invoice-list"
+                        *ngFor="let invoice of course.invoicesOfCourse"
+                      >
                         <div class="row">
                           <div class="first-one" style="padding-left: 20px">
                             <p class="lesson mt-2">lessons</p>
@@ -668,11 +671,23 @@
                           </div>
                           <div class="second-one" style="padding-left: 10px">
                             <div class="d-flex mt-2">
-                              <div class="paybill">
-                                <p
-                                  style="color: red;font-size:12px;padding-left: 5px"
-                                >
-                                  Partial Paid
+                              <div
+                                class="paybill"
+                                [ngClass]="{
+                                  'paid-status': invoice.status == 'PAID',
+                                  'unpaid-status': invoice.status == 'UNPAID',
+                                  'partially-paid-status':
+                                    invoice.status == 'PAID[PARTIAL]'
+                                }"
+                              >
+                                <p>
+                                  {{
+                                    invoice.status == 'PAID[PARTIAL]'
+                                      ? 'Partially paid'
+                                      : invoice.status == 'PAID'
+                                      ? 'Paid'
+                                      : 'Unpaid'
+                                  }}
                                 </p>
                               </div>
                               <span class="right"></span>
@@ -682,13 +697,22 @@
                               *ngIf="course.invoice != null; currency"
                             >
                               <span class="currency date">{{
-                                course.invoice.currency.sign
+                                invoice.currency.sign
                               }}</span>
-                              {{ course.invoice.total }}
+                              {{ invoice.total }}
                             </div>
                             <!-- (click)="viewInvoice(classEnrollModal, course)"
                   [disabled]="course.invoice == null" -->
-                            <button class="btn view-invoice">
+                            <button
+                              class="btn view-invoice"
+                              (click)="
+                                viewFlexyInvoice(
+                                  classEnrollModal,
+                                  course,
+                                  invoice
+                                )
+                              "
+                            >
                               View invoice
                             </button>
                           </div>
