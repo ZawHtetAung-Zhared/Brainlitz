@@ -234,7 +234,7 @@
                     {{ invCurrency.sign }}
                   </div>
                   <input
-                    type="number"
+                    type="text"
                     name="discount"
                     class="w-100 input-txt"
                     placeholder="0"
@@ -372,7 +372,7 @@
                         {{ invCurrency.sign }}
                       </div>
                       <input
-                        type="number"
+                        type="text"
                         name="discount"
                         class="w-100 input-txt"
                         placeholder="0"
@@ -465,12 +465,20 @@
                       <input
                         class="w-100 input-txtaddCurseFee"
                         placeholder="Unit Price"
-                        type="number"
-                        appNumericValidation
+                        type="text"
                         (input)="inputUnitPrice($event.target.value, i)"
                         (input)="unitPrice = $event.target.value"
-                        [value]="obj.fee"
+                        [ngModel]="obj.fee"
+                        appNumericValidation
                       />
+                      <!-- <input
+                      name="discount"
+                      class="w-100 input-txt"
+                      placeholder="0"
+                      [(ngModel)]="value.courseFee"
+                      type="text"
+                      appNumericValidation
+                    /> -->
                     </div>
                   </div>
                 </div>
@@ -600,7 +608,7 @@
                         {{ invCurrency.sign }}
                       </div>
                       <input
-                        type="number"
+                        type="text"
                         name="discount"
                         class="w-100 input-txtaddCurseFee"
                         placeholder="0"
@@ -716,7 +724,7 @@
                           {{ invCurrency.sign }}
                         </div>
                         <input
-                          type="number"
+                          type="text"
                           name="discount"
                           class="w-100 input-txtaddCurseFee"
                           placeholder="0"
