@@ -117,7 +117,7 @@
           <div class="d-flex inv-courseFee">
             <!-- <div class="cFee-w"></div> -->
             <div class="d-flex w-100">
-              <div class="col-md-5 p-0 price-info semibold">Course Fee</div>
+              <div class="col-md-5 p-0 c-fee">Course Fee</div>
               <div class="col-md-1 p-0 text-right price-info">1</div>
               <div class="col-md-2 p-0 text-right price-info">
                 <div
@@ -126,7 +126,7 @@
                 >
                   <div id="rectangle"></div>
                   <div class="p-3">
-                    <h5>CourseFee</h5>
+                    <h5 class="price-info">CourseFee</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
                         {{ invCurrency.sign }}
@@ -228,7 +228,7 @@
             >
               <div id="rectangle-discount"></div>
               <div class="p-3">
-                <h5>Discount</h5>
+                <h5 class="price-info">Discount</h5>
                 <div class="d-flex popup-input">
                   <div class="input-sign">
                     {{ invCurrency.sign }}
@@ -366,7 +366,7 @@
                 >
                   <div id="rectangle"></div>
                   <div class="p-3">
-                    <h5>Discount</h5>
+                    <h5 class="price-info text-left">Discount</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
                         {{ invCurrency.sign }}
@@ -457,13 +457,13 @@
                 >
                   <div id="rectangle"></div>
                   <div class="p-3">
-                    <h5>CourseFee</h5>
+                    <h5 class="price-info">ItemFee</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
                         {{ invCurrency.sign }}
                       </div>
                       <input
-                        class="w-100 input-txtaddCurseFee"
+                        class="w-100 input-txt"
                         placeholder="Unit Price"
                         type="text"
                         (input)="inputUnitPrice($event.target.value, i)"
@@ -602,7 +602,7 @@
                 >
                   <div id="rectangle-discount"></div>
                   <div class="p-3">
-                    <h5>Discount</h5>
+                    <h5 class="price-info">Discount</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
                         {{ invCurrency.sign }}
@@ -610,7 +610,7 @@
                       <input
                         type="text"
                         name="discount"
-                        class="w-100 input-txtaddCurseFee"
+                        class="w-100 input-txt"
                         placeholder="0"
                         appNumericValidation
                         (input)="unitPrice = $event.target.value"
@@ -718,7 +718,7 @@
                   >
                     <div id="rectangle"></div>
                     <div class="p-3">
-                      <h5>Discount</h5>
+                      <h5 class="price-info">Discount</h5>
                       <div class="d-flex popup-input">
                         <div class="input-sign">
                           {{ invCurrency.sign }}
@@ -726,7 +726,7 @@
                         <input
                           type="text"
                           name="discount"
-                          class="w-100 input-txtaddCurseFee"
+                          class="w-100 input-txt addCurseFee"
                           placeholder="0"
                           appNumericValidation
                           (input)="unitPrice = $event.target.value"
@@ -893,7 +893,7 @@
               <span class="addIcn-wrap">
                 <img src="assets/img/plus.png" />
               </span>
-              <span class="pl-3">Add New Item</span>
+              <span class="pl-3 newItem-btn-txt">Add New Item</span>
             </div>
           </div>
           <div class="w-50">
@@ -1040,7 +1040,7 @@
             readonly
           ></textarea>
         </div> -->
-        <div class="invnote-readonly invoice-info pb-3">
+        <div class="invnote-readonly inv-Cname pb-3">
           {{ invoiceInfo.invoiceNote }}
         </div>
       </div>
@@ -1241,7 +1241,7 @@
       <div *ngFor="let data of invoice">
         <div class="p-0 m-0">
           <div class="cfee-wrapper">
-            <div class="c-label pt-2">
+            <!-- <div class="c-label pt-2">
               {{ invoiceCourse.name }}
               <div>
                 <span>From: {{ invoiceCourse.startDate | utcDate }}</span
@@ -1251,10 +1251,10 @@
                   >{{ invoiceCourse.lessonCount }} lessons</span
                 >
               </div>
-            </div>
+            </div> -->
             <div class="d-flex flex-column inv-courseFee">
               <div class="d-flex w-100">
-                <div class="col-md-5 p-0 price-info semibold">Course Fee</div>
+                <div class="col-md-5 p-0 c-fee">Course Fee</div>
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
                   <p class="mb-0">
@@ -1310,6 +1310,17 @@
                 <div class="col-md-2 p-0 text-right price-info discount-number">
                   {{ invCurrency.sign }} {{ cDiscount.amount | financial }}
                 </div>
+              </div>
+            </div>
+            <div class="inv-Cname">
+              {{ invoiceCourse.name }}
+              <div>
+                <span>From: {{ invoiceCourse.startDate | utcDate }}</span
+                ><span class="pl-3" *ngIf="invoiceCourse.endDate"
+                  >To: {{ invoiceCourse.endDate | utcDate }}</span
+                ><span class="pl-3" *ngIf="invoiceCourse.lessonCount"
+                  >{{ invoiceCourse.lessonCount }} lessons</span
+                >
               </div>
             </div>
           </div>
@@ -1621,7 +1632,7 @@
           </div>
         </div>
       </div>
-      <div class="invnote-readonly invoice-info pb-3">
+      <div class="invnote-readonly inv-Cname pb-3">
         {{ invoiceInfo.invoiceNote }}
       </div>
     </div>
