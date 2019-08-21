@@ -1891,6 +1891,7 @@ export class UsersComponent implements OnInit {
 
   viewFlexyInvoice(enrollModal, course, invoice) {
     this.selectedCourse = course;
+    this.selectedCourse.invoice = invoice;
     this.singleInv = [];
     if (invoice.status == 'PAID') {
       this.showPaidInvoice = true;
