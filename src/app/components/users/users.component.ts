@@ -178,6 +178,7 @@ export class UsersComponent implements OnInit {
   public invCurrency: any = {};
   public invPayment: any = [];
   public noSetting: boolean = false;
+  isProrated: boolean = false;
   //flexy
   public flexyarr = [];
   idarr: any = [];
@@ -2049,7 +2050,10 @@ export class UsersComponent implements OnInit {
       courseId: this.selectedCourse._id,
       userId: this.custDetail.user.userId,
       userType: 'customer',
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {

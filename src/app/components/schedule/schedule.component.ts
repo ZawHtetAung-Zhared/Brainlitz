@@ -161,6 +161,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public reasonValue: any;
   public textAreaOption = false;
   public studentArray = [];
+  isProrated: boolean = false;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
 
@@ -3162,7 +3163,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     console.log('body', lessonBody);
     this.blockUI.start('Loading...');
