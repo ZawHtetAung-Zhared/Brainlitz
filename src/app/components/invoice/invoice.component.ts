@@ -25,7 +25,6 @@ export class InvoiceComponent implements OnInit {
   public isEditInv: boolean = false;
   public type: string;
   public orgID = localStorage.getItem('OrgId');
-
   public invoiceInfo = {};
   public feesBox: boolean = false;
   public feesBox1: boolean = false;
@@ -1113,5 +1112,21 @@ export class InvoiceComponent implements OnInit {
     }
     this.validateForm();
     this.calculationTotal();
+  }
+
+  keyPress(event: any) {
+    //  /[0-9\+\-\ ]/;
+    // /[0-9]{1,4}(\.[0-9][0-9])/
+    const pattern = /[0-9\.\ ]/;
+    const pp = /^[.\d]+$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    let inputChar2 = String.fromCharCode(event.charCode);
+    console.error(pp.test(inputChar2));
+
+    console.error(pattern.test(inputChar));
+
+    if (!pattern.test(inputChar) && event.charCode != '0') {
+      event.preventDefault();
+    }
   }
 }
