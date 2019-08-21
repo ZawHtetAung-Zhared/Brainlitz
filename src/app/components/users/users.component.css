@@ -2953,9 +2953,9 @@ input:checked + .slider:before {
 .first-one {
   width: 52%;
 }
-.second-one {
+/* .second-one {
   width: 30%;
-}
+} */
 .payment {
   font-size: 14px;
   color: #64707d;
@@ -2971,9 +2971,9 @@ input:checked + .slider:before {
   .first-one {
     width: 55%;
   }
-  .second-one {
+  /* .second-one {
     width: 35%;
-  }
+  } */
   .scrollbar {
     margin-right: -15px;
   }

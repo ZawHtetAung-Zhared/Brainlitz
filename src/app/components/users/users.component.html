@@ -629,7 +629,7 @@
                           View Journal
                         </label>
                       </div>
-                      <div class="d-flex auto-enroll">
+                      <!-- <div class="d-flex auto-enroll">
                         <label class="switch-label" for="online"
                           >Auto enroll for next term</label
                         >
@@ -646,7 +646,7 @@
                             <span class="slider round"></span>
                           </label>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="show-invoice col-5 ">
@@ -656,17 +656,25 @@
                         class="ml-2 mb-2 invoice-list"
                         *ngFor="let invoice of course.invoicesOfCourse"
                       >
-                        <div class="row">
-                          <div class="first-one" style="padding-left: 20px">
-                            <p class="lesson mt-2">lessons</p>
-                            <span class="date">
-                              {{ course.startDate | utcDate }} -{{
-                                course.startDate | utcDate
-                              }}
+                        <div class="d-flex" style="padding-left: 12px">
+                          <div class="first-one d-flex flex-column">
+                            <p class="lesson mt-2">
+                              {{ invoice.studentLessonsCount }} lessons
+                            </p>
+                            <span
+                              class="date"
+                              *ngIf="
+                                invoice.courseDuration != undefined &&
+                                invoice.courseDuration.startDate != undefined &&
+                                invoice.courseDuration.endDate != undefined
+                              "
+                            >
+                              {{ invoice.courseDuration.startDate | utcDate }} -
+                              {{ invoice.courseDuration.endDate | utcDate }}
                             </span>
                             <label class="payment">Payment date</label>
                             <p class="date1">
-                              {{ course.startDate | utcDate }}
+                              {{ invoice.updatedDate | utcDate }}
                             </p>
                           </div>
                           <div class="second-one" style="padding-left: 10px">
