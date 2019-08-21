@@ -2115,4 +2115,14 @@ export class UsersComponent implements OnInit {
     });
     item.isCheck = !item.isCheck;
   }
+  numberOnly(event) {
+    console.log('hhh');
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+  }
 }
