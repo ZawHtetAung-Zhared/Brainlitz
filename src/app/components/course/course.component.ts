@@ -2821,15 +2821,18 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
     this.isCourseCreate = true;
-    console.log('CPlanId', plan);
+    console.error('CPlanId', plan);
     // this.router.navigate(['/courseCreate']);
     let planObj = {
       name: plan.name,
       id: plan.coursePlanId,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
-      from: 'courses'
+      from: 'courses',
+      description: plan.description
     };
+    console.error('planObj', planObj);
+
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
