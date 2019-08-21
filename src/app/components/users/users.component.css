@@ -5,7 +5,6 @@ ul.pass-list li,
 .claim-text,
 .load-more1 button,
 .load-more button,
-.class-label-14,
 .class-body-two b,
 .class-info-footer button,
 .user-name,
@@ -13,7 +12,10 @@ ul.pass-list li,
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 14px;
 }
-
+.class-label-14 {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 16px;
+}
 .unpaid-text,
 .paid-text {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
@@ -457,7 +459,13 @@ ul.pass-list li {
   float: right;
 }
 
-.view-invoice,
+.view-invoice {
+  color: #007fff;
+  margin-bottom: 0;
+  display: table;
+  background: #fff;
+  cursor: pointer;
+}
 .claim-text {
   color: #0080ff;
   margin-bottom: 0;
@@ -1329,7 +1337,7 @@ h5 {
 
 .medium-label-14 {
   color: #64707d;
-  word-wrap: break-word;
+  word-wrap: break-word !important;
 }
 
 .class-label-14,
@@ -1342,7 +1350,8 @@ h5 {
 }
 
 .timetable-col {
-  width: 50%;
+  /* width: 50%; */
+  padding-left: 50px;
 }
 
 .day-wrap {
@@ -2545,8 +2554,8 @@ input[_ngcontent-c1]:focus {
 }
 
 .view-invoice {
-  font-size: 16px;
-  padding-right: 20px;
+  font-size: 14px;
+  /* padding-right: 20px; */
 }
 
 /* start flexi modal */
@@ -2743,6 +2752,35 @@ card-body {
   font-size:14px;
   color: #2E3D4D;
 } */
+.teacher {
+  /* padding-left: 70px !important; */
+  padding-right: 70px !important;
+}
+.line {
+  border-top: 1px solid #edeff0;
+  padding-top: 20px;
+  margin-left: 20px;
+}
+.tchr-img-wraper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* border: 1px solid rgba(211, 211, 211, 0.123); */
+  position: relative;
+  overflow: hidden;
+  margin-left: 4px;
+  margin-right: 8px;
+  border: 1px solid #ffffff;
+}
+.teacher-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.img {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
 .switch {
   position: relative;
   display: inline-block;
@@ -2762,6 +2800,8 @@ input[type='radio'] {
 .slider.round {
   border-radius: 34px;
   border: 2px solid #64707d;
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
 .slider {
@@ -2797,4 +2837,218 @@ input[type='radio'] {
   line-height: 1;
   font-size: 14px;
   font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3 !important;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.switch input {
+  display: none;
+}
+
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+  margin-right: 10px;
+  margin-left: -10px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+.switch-label {
+  line-height: 1.8;
+  margin-left: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+  color: #64707d;
+  margin-bottom: 0;
+  margin-top: 7px;
+  margin-right: 10px;
+}
+.auto-enroll {
+  background: #f2f4f5;
+  border-radius: 25px !important;
+  height: 40px;
+}
+.tchr-img {
+  width: 250px !important;
+}
+.show-invoice {
+  background: #f2f4f5;
+  border-radius: 4px;
+  padding-top: 20px;
+  padding-right: 20px;
+  width: 390px !important;
+  margin-top: 20px;
+}
+.invoice-label {
+  font-size: 18px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-left: 10px;
+}
+.invoice-list {
+  background: #ffffff !important;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 92%;
+}
+
+/* Track  */
+.scrollbar::-webkit-scrollbar-track {
+  background: #ffffff;
+  box-shadow: inset 0 0 3px #ffffff;
+}
+
+/* Handle */
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #cce5ff;
+  height: 5px;
+}
+
+/* Handle on hover */
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #007fff;
+}
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+  height: 3px !important;
+}
+.scrollbar {
+  overflow-y: scroll;
+  min-height: 220px;
+  max-height: 220px;
+  overflow: overlay;
+  overflow-x: overlay;
+  position: relative;
+  margin-right: -10px;
+}
+
+.col-5 {
+  max-width: 39% !important;
+}
+.lesson {
+  font-size: 12px;
+  color: #004080;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* padding-left: 10px; */
+  width: 72px;
+  height: 20px;
+  background: #cce5ff;
+  border-radius: 4px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+.paybill {
+  width: auto;
+  height: 20px;
+  background: #ffdbd9;
+}
+.right {
+  width: 60px;
+  height: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent#FFDBD9;
+}
+.first-one {
+  width: 52%;
+}
+/* .second-one {
+  width: 30%;
+} */
+.payment {
+  font-size: 14px;
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  .invoice-list {
+    width: 90%;
+  }
+  .first-one {
+    width: 55%;
+  }
+  /* .second-one {
+    width: 35%;
+  } */
+  .scrollbar {
+    margin-right: -15px;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #007fff;
+  }
+  .switch {
+    margin-left: 5px;
+  }
+  .switch-label {
+    margin-left: 10px;
+  }
+}
+.date1 {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  word-wrap: break-word !important;
+}
+.date {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.paid-status p,
+.unpaid-status p,
+.partially-paid-status p {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 5px;
+}
+.paid-status {
+  background: #c2f2d6;
+}
+.paid-status p {
+  color: #009940;
+}
+
+.unpaid-status {
+  background: #ffdbd9;
+}
+.unpaid-status p {
+  color: #b22b24;
+}
+
+.partially-paid-status {
+  background: #ffe9d9;
+}
+.partially-paid-status p {
+  color: #803500;
+}
+.partially-paid-status ~ .right {
+  border-color: transparent transparent transparent#FFE9D9;
+}
+.paid-status ~ .right {
+  border-color: transparent transparent transparent#C2F2D6;
+}
+.unpaid-status ~ .right {
+  border-color: transparent transparent transparent#FFDBD9;
 }

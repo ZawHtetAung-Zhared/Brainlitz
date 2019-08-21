@@ -424,6 +424,7 @@
                 name="{{ field.name }}"
                 [(ngModel)]="field.value"
                 class="date-field"
+                (keypress)="numberOnly($event)"
               />
               <textarea
                 *ngIf="field.dataType === 'String'"
