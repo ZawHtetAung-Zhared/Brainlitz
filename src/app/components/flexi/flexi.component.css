@@ -573,11 +573,12 @@ span.small-line2 {
 }
 .addheight {
   height: 250px !important;
+  padding-bottom: 50px;
 }
 .flexiMid {
   /* overflow-y: overlay; */
   height: 300px;
-  padding: 0px 46px 0px 32px;
+  padding: 0px 46px 20px 32px;
   overflow-x: hidden;
 }
 

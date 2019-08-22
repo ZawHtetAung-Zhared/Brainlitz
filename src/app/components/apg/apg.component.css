@@ -326,8 +326,9 @@
 
 .apg-box {
   padding: 24px;
-  max-height: 152px;
-  min-height: 152px;
+  /* max-height: 152px; */
+  min-height: 180px;
+  /* min-height: 152px; */
   cursor: pointer;
 }
 
@@ -2271,4 +2272,12 @@ input.min_input_show {
 
 .inv-opt {
   padding: 8px 15px;
+}
+.addOpacity {
+  opacity: 0;
+}
+
+.apgTypeTxt {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #2e3e4d;
 }

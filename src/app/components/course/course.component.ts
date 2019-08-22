@@ -237,6 +237,7 @@ export class CourseComponent implements OnInit {
   tempCourdeId: any;
   tempuserType: any;
   showcb: boolean = false;
+  isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -2111,6 +2112,7 @@ export class CourseComponent implements OnInit {
     this.showflexyCourse = false;
     this.tempCourdeId = '';
     this.tempuserType = '';
+    this.isProrated = false;
   }
   cancelClass(content) {
     this.modalReference = this.modalService.open(content, {
@@ -2821,15 +2823,18 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
     this.isCourseCreate = true;
-    console.log('CPlanId', plan);
+    console.error('CPlanId', plan);
     // this.router.navigate(['/courseCreate']);
     let planObj = {
       name: plan.name,
       id: plan.coursePlanId,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
-      from: 'courses'
+      from: 'courses',
+      description: plan.description
     };
+    console.error('planObj', planObj);
+
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
@@ -3591,7 +3596,10 @@ export class CourseComponent implements OnInit {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     console.log('body', lessonBody);
     this.blockUI.start('Loading...');
@@ -3623,6 +3631,7 @@ export class CourseComponent implements OnInit {
         this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
+        this.isProrated = false;
         this.showOneInvoice(this.invoice);
       });
 

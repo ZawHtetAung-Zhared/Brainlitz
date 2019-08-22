@@ -489,7 +489,6 @@ export class DashboardComponent implements OnInit {
             currencyCode: undefined
           };
         }
-        this.autogrow();
       },
       err => {
         console.log(err);
@@ -563,25 +562,25 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  toDataUrl(url: any, id: any) {
-    const xhr = new XMLHttpRequest();
-    const ele = document.getElementById(id);
-    console.log(ele);
+  // toDataUrl(url: any, id: any) {
+  //   const xhr = new XMLHttpRequest();
+  //   const ele = document.getElementById(id);
+  //   console.log(ele);
 
-    xhr.onload = function() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        ele.setAttribute('src', reader.result);
-      };
-      reader.readAsDataURL(xhr.response);
-    };
-    xhr.onloadend = function() {
-      console.log('loadend');
-    };
-    xhr.open('GET', url);
-    xhr.responseType = 'blob';
-    xhr.send();
-  }
+  //   xhr.onload = function() {
+  //     const reader = new FileReader();
+  //     reader.onloadend = function() {
+  //       ele.setAttribute('src', reader.result);
+  //     };
+  //     reader.readAsDataURL(xhr.response);
+  //   };
+  //   xhr.onloadend = function() {
+  //     console.log('loadend');
+  //   };
+  //   xhr.open('GET', url);
+  //   xhr.responseType = 'blob';
+  //   xhr.send();
+  // }
 
   dataURItoBlob(dataURI: String) {
     const byteString = atob(dataURI.split(',')[1]);
@@ -596,8 +595,10 @@ export class DashboardComponent implements OnInit {
     }
     return new Blob([ab], { type: mimeString });
   }
-
+  isLogoChanged: boolean = false;
   handleFileInput(files: FileList, $event) {
+    this.isLogoChanged = true;
+    console.log('handleFileInput~~~');
     console.log(files);
     this.elementView.nativeElement.innerText = files[0].name;
     this.message = '';
@@ -627,10 +628,11 @@ export class DashboardComponent implements OnInit {
   }
   editRegion() {
     console.log(this.item);
-    setTimeout(() => {
-      console.log(document.getElementById('imgURL'));
-      this.toDataUrl(this.item.logo, 'imgURL');
-    }, 1000);
+    this.isLogoChanged = false;
+    // setTimeout(() => {
+    //   console.log(document.getElementById('imgURL'));
+    //   this.toDataUrl(this.item.logo, 'imgURL');
+    // }, 1000);
     this.imgURL = this.item.logo;
     this.isEdit = true;
     this.temp = this.item.timezone;
@@ -648,9 +650,6 @@ export class DashboardComponent implements OnInit {
     this.eisSelected = this.item.operatingHour.end.meridiem;
     console.log(this.srangeHr, this.srangeMin, this.sisSelected);
     console.log(this.erangeHr, this.erangeMin, this.eisSelected);
-    // this.endT = this.item.operatingHour.end.hr + String(this.item.operatingHour.end.min) + this.item.operatingHour.end.meridiem;
-    // console.log(this.changeTime(this.startT))
-    // console.log(this.changeTime(this.endT))
 
     console.log('--->', this.startT, this.endT);
     this.temp = this.item.timezone;
@@ -711,26 +710,17 @@ export class DashboardComponent implements OnInit {
       regionalSettingFormData.append('name', data.name);
       regionalSettingFormData.append('timezone', data.timezone);
       regionalSettingFormData.append('url', data.url);
-      regionalSettingFormData.append('logo', this.getLogo());
+      if (this.isLogoChanged == true) {
+        console.log('isLogoChanged~~~~', this.isLogoChanged);
+        regionalSettingFormData.append('logo', this.getLogo());
+      } else {
+        console.log('isLogoChanged~~~~', this.isLogoChanged);
+      }
       regionalSettingFormData.append(
         'operatingHour',
         JSON.stringify(data.operatingHour)
       );
     }
-    // console.log('DATA~~~', data);
-    // regionalSettingFormData.append('name', data.name);
-    // regionalSettingFormData.append('timezone', data.timezone);
-    // regionalSettingFormData.append('url', data.url);
-    // regionalSettingFormData.append('logo', this.getLogo());
-    // regionalSettingFormData.append(
-    //   'operatingHour',
-    //   JSON.stringify(data.operatingHour)
-    // );
-    // console.log(regionalSettingFormData.get('name'));
-    // console.log(regionalSettingFormData.get('timezone'));
-    // console.log(regionalSettingFormData.get('url'));
-    // console.log(regionalSettingFormData.get('logo'));
-    // console.log(regionalSettingFormData.get('operatingHour'));
 
     setTimeout(() => {
       this._service
@@ -1215,18 +1205,5 @@ export class DashboardComponent implements OnInit {
       this.sprogressSlider = false;
       this.eprogressslider = false;
     }
-  }
-
-  autogrow() {
-    setTimeout(() => {
-      let textArea = document.getElementById('settingInvNote');
-      console.log(textArea);
-      if (textArea != null) {
-        textArea.style.overflow = 'hidden';
-        textArea.style.height = 'auto';
-        textArea.style.height = textArea.scrollHeight + 'px';
-        console.log('textArea', textArea.style.height);
-      }
-    }, 1000);
   }
 }

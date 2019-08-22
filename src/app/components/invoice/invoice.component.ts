@@ -25,7 +25,6 @@ export class InvoiceComponent implements OnInit {
   public isEditInv: boolean = false;
   public type: string;
   public orgID = localStorage.getItem('OrgId');
-
   public invoiceInfo = {};
   public feesBox: boolean = false;
   public feesBox1: boolean = false;
@@ -81,7 +80,8 @@ export class InvoiceComponent implements OnInit {
     taxRes: 0,
     type: '',
     dValue: 0.0,
-    amount: 0.0
+    amount: 0.0,
+    isDefault: false
   };
 
   // public total:any;
@@ -165,6 +165,7 @@ export class InvoiceComponent implements OnInit {
           this.cDiscount.amount = this.invoice[0].courseFee.discount.amount;
           this.cDiscount.tax = this.invoice[0].tax.rate;
           this.iscDiscount = true;
+          this.cDiscount.isDefault = true;
           // this.addnewDiscount('courseFee-dis', null);
         }
 
@@ -338,7 +339,7 @@ export class InvoiceComponent implements OnInit {
         this.invoiceCourse['name'] = course.name;
         this.invoiceCourse['startDate'] = course.startDate;
         this.invoiceCourse['endDate'] = course.endDate;
-        this.invoiceCourse['lessonCount'] = course.lessonCount;
+        this.invoiceCourse['lessonCount'] = course.lessons.length;
       }
     }
   }
@@ -1075,6 +1076,57 @@ export class InvoiceComponent implements OnInit {
     } else {
       this.feesBox3 = true;
       this.activeFeeBoxId = id;
+    }
+  }
+
+  removeDiscount(type, obj, id) {
+    if (type == 'courseFee') {
+      this.iscDiscount = false;
+      if (this.cDiscount.isDefault) {
+        this.cDiscount = {
+          value: 0,
+          tax: 0,
+          taxRes: 0,
+          type: '',
+          dValue: 0.0,
+          amount: 0.0,
+          isDefault: this.cDiscount.isDefault
+        };
+        this.isEditInv = true;
+      }
+
+      this.default_disTotal = 0;
+      this.defult_disTotalTax = 0;
+    } else {
+      this.newItemArr[id].discount = {
+        value: 0,
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        type: 'Exclusive',
+        dValue: 0.0,
+        amount: 0.0
+      };
+      this.newItemArr[id].isDiscount = false;
+
+      console.log(this.newItemArr);
+    }
+    this.validateForm();
+    this.calculationTotal();
+  }
+
+  keyPress(event: any) {
+    //  /[0-9\+\-\ ]/;
+    // /[0-9]{1,4}(\.[0-9][0-9])/
+    const pattern = /[0-9\.\ ]/;
+    const pp = /^[.\d]+$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    let inputChar2 = String.fromCharCode(event.charCode);
+    console.error(pp.test(inputChar2));
+
+    console.error(pattern.test(inputChar));
+
+    if (!pattern.test(inputChar) && event.charCode != '0') {
+      event.preventDefault();
     }
   }
 }

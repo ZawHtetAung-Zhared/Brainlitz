@@ -579,7 +579,7 @@
                   -
                 </div>
               </div>
-              <div>
+              <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
                     <img
@@ -589,23 +589,17 @@
                   </div>
                   <label class="labelTitle">Invoice Note</label>
                 </div>
-                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
-                  {{invoiceData.invoiceNote}}
-                </div> -->
-                <textarea
+                <div
                   *ngIf="invoiceData.invoiceNote != ''"
-                  rows="1"
-                  name="settingInvNote"
-                  id="settingInvNote"
-                  class="labelName readonly-note"
-                  [(ngModel)]="invoiceData.invoiceNote"
-                  readonly
-                ></textarea>
+                  class="labelName inv-note"
+                >
+                  {{ invoiceData.invoiceNote }}
+                </div>
                 <label *ngIf="invoiceData.invoiceNote == ''">
                   -
                 </label>
               </div>
-              <div>
+              <div class="timezone-wrap ease">
                 <div class="title-wrap">
                   <div id="parent">
                     <img
@@ -615,9 +609,6 @@
                   </div>
                   <label class="labelTitle">Invoice Duration</label>
                 </div>
-                <!-- <div contenteditable="true" *ngIf="invoiceData.invoiceNote != '' || invoiceData.invoiceNote != undefined" class="labelName">
-                  {{invoiceData.invoiceNote}}
-                </div> -->
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
                   name="settingIdueDateCount"

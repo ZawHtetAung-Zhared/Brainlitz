@@ -1875,9 +1875,9 @@ span.circle {
   width: 2px;
   height: 2px;
   margin-top: 10px;
-  margin-left: 5px;
+  margin-left: 2px;
   background: #009940;
-  margin-right: 5px;
+  margin-right: 2px;
 }
 .time {
   color: #009940;
@@ -1888,8 +1888,8 @@ span.circle {
   width: 2px;
   height: 2px;
   margin-top: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 2px;
+  /* margin-right: 1px; */
   background: #b0b1b3;
 }
 .cancel {
