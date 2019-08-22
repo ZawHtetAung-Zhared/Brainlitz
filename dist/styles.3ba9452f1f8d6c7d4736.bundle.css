@@ -11285,8 +11285,8 @@ button.bg-dark:hover {
   .v-wrapper1 * {
     visibility: visible;
   }
-  .newItem-btn,
-  .newdiscount-btn {
+  .newItem-btn *,
+  .newdiscount-btn * {
     visibility: hidden;
   }
   .d-print-none {
