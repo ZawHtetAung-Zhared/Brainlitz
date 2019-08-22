@@ -641,3 +641,6 @@ span.removeDis {
 .tax-txt.noTax {
   opacity: 0;
 }
+.modal-title {
+  margin-bottom: 6px;
+}
