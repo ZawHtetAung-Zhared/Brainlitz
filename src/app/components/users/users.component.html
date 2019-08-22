@@ -509,7 +509,16 @@
             </div>
             <div
               class="child_two"
-              *ngFor="let course of custDetail.courses.splice(2)"
+              *ngFor="
+                let course of custDetail.courses
+                  | slice
+                    : 0
+                    : [
+                        selectedId.indexOf('course') != -1
+                          ? custDetail.courses.length
+                          : 2
+                      ]
+              "
             >
               <div class="section-one">
                 <div class="row d-flex">
