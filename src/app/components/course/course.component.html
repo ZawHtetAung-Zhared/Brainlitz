@@ -748,7 +748,16 @@
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex justify-content-between second-info">
+                      <div
+                        class="d-flex second-info"
+                        [ngClass]="{
+                          'justify-content-between':
+                            course.type == null ||
+                            course.type == 'REGULAR' ||
+                            course.type == 'FLEXY',
+                          'justify-content-end': course.type == 'ONLINE'
+                        }"
+                      >
                         <div
                           *ngIf="
                             course.type == null ||

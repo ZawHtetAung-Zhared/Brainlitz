@@ -614,15 +614,24 @@
                       class="class-label-14 mb-0"
                       style="padding-left: 20px"
                       *ngFor="let day of course.repeatDays | weekDays"
-                      >{{ day }}</label
+                      >{{ course.type == 'ONLINE' ? '' : day }}</label
                     >
                     <p
                       style="padding-left: 20px"
                       *ngIf="course.duration != undefined"
                       class="medium-label-14 mb-0"
                     >
-                      {{ course.duration.startDate | utcTime }} -
-                      {{ course.duration.endDate | utcTime }}
+                      {{
+                        course.type == 'ONLINE'
+                          ? ''
+                          : (course.duration.startDate | utcTime)
+                      }}
+                      {{ course.type == 'ONLINE' ? '' : '-' }}
+                      {{
+                        course.type == 'ONLINE'
+                          ? ''
+                          : (course.duration.endDate | utcTime)
+                      }}
                     </p>
                     <div class="line mt-3"></div>
                     <div class="d-flex justify-content-between">
