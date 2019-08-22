@@ -2112,6 +2112,7 @@ export class CourseComponent implements OnInit {
     this.showflexyCourse = false;
     this.tempCourdeId = '';
     this.tempuserType = '';
+    this.isProrated = false;
   }
   cancelClass(content) {
     this.modalReference = this.modalService.open(content, {
@@ -3630,6 +3631,7 @@ export class CourseComponent implements OnInit {
         this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
+        this.isProrated = false;
         this.showOneInvoice(this.invoice);
       });
 

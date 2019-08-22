@@ -1744,6 +1744,9 @@ label.room-name::before {
   background: #fff;
   bottom: 0;
 }
+.customer-modal-body {
+  padding: 32px 32px 0 32px;
+}
 .invoice-wrap,
 .form-wrap {
   max-height: 70vh;

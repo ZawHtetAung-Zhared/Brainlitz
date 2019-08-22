@@ -540,7 +540,7 @@ ul.pass-list li {
 }
 
 .section-wrap {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 8px;
 }
 
@@ -2892,21 +2892,25 @@ input:checked + .slider:before {
 .show-invoice {
   background: #f2f4f5;
   border-radius: 4px;
-  padding-top: 20px;
+  /* padding-top: 20px; */
   padding-right: 20px;
   width: 390px !important;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 .invoice-label {
   font-size: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  padding-left: 10px;
+  padding-left: 16px;
+  margin-bottom: 0px;
 }
 .invoice-list {
   background: #ffffff !important;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   width: 92%;
+  margin-bottom: 16px;
+  margin-left: 16px;
+  padding-left: 12px;
 }
 
 /* Track  */
@@ -2953,6 +2957,7 @@ input:checked + .slider:before {
   border-radius: 4px;
   margin-bottom: 0px;
   text-align: center;
+  margin-top: 14px;
 }
 .paybill {
   width: auto;
@@ -3051,4 +3056,18 @@ input:checked + .slider:before {
 }
 .unpaid-status ~ .right {
   border-color: transparent transparent transparent#FFDBD9;
+}
+.invoiceOflength {
+  width: 28px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  margin-left: 4px;
+  text-align: center;
+}
+.invoice-change {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
