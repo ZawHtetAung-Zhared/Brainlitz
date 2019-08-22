@@ -507,7 +507,10 @@
             >
               There is no course from this customer!
             </div>
-            <div class="child_two" *ngFor="let course of custDetail.courses">
+            <div
+              class="child_two"
+              *ngFor="let course of custDetail.courses.splice(2)"
+            >
               <div class="section-one">
                 <div class="row d-flex">
                   <div class="col-7">
@@ -543,7 +546,7 @@
                               {{ course.startDate | utcDate }}
                             </p>
                           </div>
-                          <div
+                          <!-- <div
                             class="timetable-col"
                             *ngIf="
                               course.type != 'ONLINE' &&
@@ -556,7 +559,7 @@
                               >Continuous</label
                             >
                             <p class="medium-label-14">with no end date</p>
-                          </div>
+                          </div> -->
                           <div class="timetable-col">
                             <label
                               *ngIf="course.endDate"
@@ -651,14 +654,21 @@
                   </div>
                   <div class="show-invoice col-5 ">
                     <div class="scrollbar">
-                      <label class="invoice-label">Invoice</label>
+                      <div class="d-flex invoice-change align-items-center">
+                        <label class="invoice-label">Invoice</label>
+                        <span
+                          class="invoiceOflength"
+                          *ngIf="course.invoicesOfCourse != undefined"
+                          >{{ course.invoicesOfCourse.length }}</span
+                        >
+                      </div>
                       <div
-                        class="ml-2 mb-2 invoice-list"
+                        class=" invoice-list"
                         *ngFor="let invoice of course.invoicesOfCourse"
                       >
-                        <div class="d-flex" style="padding-left: 12px">
+                        <div class="d-flex">
                           <div class="first-one d-flex flex-column">
-                            <p class="lesson mt-2">
+                            <p class="lesson">
                               {{ invoice.studentLessonsCount }} lessons
                             </p>
                             <span
@@ -678,7 +688,7 @@
                             </p>
                           </div>
                           <div class="second-one" style="padding-left: 10px">
-                            <div class="d-flex mt-2">
+                            <div class="d-flex" style="margin-top: 14px">
                               <div
                                 class="paybill"
                                 [ngClass]="{
@@ -732,7 +742,6 @@
               </div>
             </div>
           </div>
-
           <div>
             <div *ngIf="custDetail.courses?.length > 2">
               <button
@@ -744,7 +753,6 @@
                 ><i class="fa fa-angle-down" aria-hidden="true"></i>
               </button>
             </div>
-            <div></div>
           </div>
         </div>
         <div *ngIf="activeTab == 'makeup'" class="pb-20">
