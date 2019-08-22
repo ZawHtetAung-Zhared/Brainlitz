@@ -1696,6 +1696,7 @@
                   placeholder="0"
                   [(ngModel)]="paymentItem.amount"
                   #amount="ngModel"
+                  (keypress)="isDecimalValue($event)"
                   required
                 />
               </div>
@@ -1741,11 +1742,7 @@
       <button
         class="btn btn-submit cursor-on"
         (click)="payNow(selectedPayment)"
-        [disabled]="
-          paymentItem.amount == '' ||
-          paymentItem.amount == undefined ||
-          paymentItem.amount <= 0
-        "
+        [disabled]="paymentItem.amount == '' || paymentItem.amount == undefined"
       >
         PAY
       </button>
