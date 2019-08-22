@@ -1329,6 +1329,28 @@ export class CourseplanComponent implements OnInit {
     }
   }
 
+  isDecimalValue(event, val) {
+    console.log('val', val);
+    const charCode = event.which ? event.which : event.keyCode;
+    const dot1 = event.target.value.indexOf('.');
+    const dot2 = event.target.value.lastIndexOf('.');
+    console.log('charCode', charCode, 'dot1', dot1, 'dot2', dot2);
+    console.log(event.key.indexOf('.'));
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('~~~~~~~');
+      return false;
+    } else if (charCode == 46 && dot1 == dot2 && dot1 != -1 && dot2 != -1) {
+      console.log('########');
+      return false;
+    }
+    console.log(event.target.value.search(/^0/));
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+
+    return true;
+  }
+
   cplan() {
     this.showModal = false;
     this.showsubModal = true;

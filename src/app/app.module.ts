@@ -112,6 +112,7 @@ import { AssignReliefComponent } from './components/assign-relief/assign-relief.
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { RescheduleComponent } from './components/reschedule/reschedule.component';
 import { FinancialPipe } from './service/pipe/financial.pipe';
+import { NumericValidationDirective } from './components/invoice/numeric-validation.directive';
 
 @NgModule({
   declarations: [
@@ -189,7 +190,8 @@ import { FinancialPipe } from './service/pipe/financial.pipe';
     UtcDateAndDayPipe,
     RescheduleComponent,
     AssignReliefComponent,
-    FinancialPipe
+    FinancialPipe,
+    NumericValidationDirective
   ],
   imports: [
     ContentLoaderModule,
