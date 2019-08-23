@@ -1527,11 +1527,69 @@
 
           <!-- </label> -->
         </div>
-        <!-- <div *ngIf="templateList.length >=20 "
-              class="load-more">
-              
-              <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
-            </div> -->
+        <!-- user grading module -->
+        <div class="card-columns" *ngIf="apgType == 'User Grading'">
+          <div
+            *ngFor="let temp of templist; let i = index"
+            class="card card-wrap share-input "
+          >
+            <label
+              class="form-check-label"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+            >
+              <div class="d-flex justify-content-between apgBoxHead">
+                <span
+                  class="textapgType"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ apgType }}</span
+                >
+                <div class="label-checked"></div>
+              </div>
+
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="temp._id"
+                value="{{ temp.name }}"
+                (click)="chooseShareAPG(temp._id, temp.name)"
+              />
+              <span
+                class="textTempName"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+                >{{ temp.name }}</span
+              >
+              <div style="margin-top: 14px">
+                <div *ngFor="let grade of temp.data.grades; let i = index">
+                  <div class="d-flex">
+                    <div
+                      [style.background]="temp.data.color.background"
+                      [ngClass]="{
+                        'test-circle': grade.point.length === 1,
+                        circle: grade.point.length > 1
+                      }"
+                    >
+                      <span [style.color]="temp.data.color.text">
+                        {{ grade.point }}
+                      </span>
+                    </div>
+
+                    <div
+                      class="detail-line w-100"
+                      [ngClass]="{
+                        'hide-border': temp.data.grades?.length == i + 1
+                      }"
+                      style="margin-bottom: 16px"
+                    >
+                      <p class="gradename">{{ grade.name }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <div
           class="apg-share-content"
           *ngIf="apgType == 'Assessment' || apgType == 'Evaluation'"
@@ -1704,35 +1762,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- user grading module -->
-        <div class="apg-share-content" *ngIf="apgType == 'User Grading'">
-          <div class="col1">
-            <div
-              class="assement-shared-apg share-input"
-              *ngFor="let temp of templist"
-            >
-              <div>
-                <label>
-                  <span class="grade-name">Grade</span>
-                  <span class="tempname">{{ temp.name }}</span>
-                  <div class="label-checked data" style="float:right"></div>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="temp._id"
-                    value="{{ temp.name }}"
-                  />
-                  <!-- (click)="chooseShareAPG(temp._id, temp.name)" -->
-                </label>
-              </div>
-              <div
-                class="color"
-                [style.background-color]="changeBackground()"
-              ></div>
             </div>
           </div>
         </div>

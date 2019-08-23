@@ -111,122 +111,47 @@ export class ApgComponent implements OnInit, OnDestroy {
   isScroll: boolean = true;
 
   //
+
   public templist = [
     {
-      _id: '5d53e3e2a22b5c2b93907361',
-      accessPoints: [
-        {
-          _id: '5d53e3e2b3569a616ec7cee6',
-          data: {
-            color: {
-              text: '#803500',
-              background: '#ffe9d9'
-            },
-            inputTypeProperties: {
-              options: [],
-              name: '',
-              min: 0,
-              max: null
-            },
-            evaluation: {
-              allowZero: false,
-              details: []
-            },
-            sectionType: 'DATA',
-            unit: 'in',
-            inputType: 'NUMBER',
-            grades: [
-              {
-                name: 'level 1',
-                point: 1
-              },
-              {
-                name: 'level 2',
-                point: 2
-              },
-              {
-                name: 'level 3',
-                point: 3
-              },
-              {
-                name:
-                  'level ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭',
-                point: '☭'
-              }
-            ]
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'c1'
           },
-          name: '',
-          description: ''
-        }
-      ],
-      name: 'User Grading',
-      description: '',
-      module: {
-        _id: '5d53e4b0fd7d652426e9408a',
-        name: 'User Grading',
-        type: 6
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'c2'
+          }
+        ]
       },
-      share: {
-        status: false
-      }
-    },
-    {
-      _id: '5d53e3e2a22b5c2b93907361',
-      accessPoints: [
-        {
-          _id: '5d53e3e2b3569a616ec7cee6',
-          data: {
-            color: {
-              text: '#803500',
-              background: '#ffe9d9'
-            },
-            inputTypeProperties: {
-              options: [],
-              name: '',
-              min: 0,
-              max: null
-            },
-            evaluation: {
-              allowZero: false,
-              details: []
-            },
-            sectionType: 'DATA',
-            unit: 'in',
-            inputType: 'NUMBER',
-            grades: [
-              {
-                name: 'level 1',
-                point: 1
-              },
-              {
-                name: 'level 2',
-                point: 2
-              },
-              {
-                name: 'level 3',
-                point: 3
-              },
-              {
-                name:
-                  'level ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭',
-                point: '☭'
-              }
-            ]
-          },
-          name: '',
-          description: ''
-        }
-      ],
-      name: 'User Grading',
-      description: '',
-      module: {
-        _id: '5d53e4b0fd7d652426e9408a',
-        name: 'User Grading',
-        type: 6
-      },
-      share: {
-        status: false
-      }
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
     }
   ];
   public ismodule: boolean = false;
