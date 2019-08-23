@@ -669,7 +669,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.hr >= 1"
+                            *ngIf="timetable.duration.min > 60"
                           >
                             <p
                               [ngClass]="{
@@ -688,12 +688,15 @@
                               seats
                             </p>
                             <span class="dot"></span>
+
                             <p class="time">
-                              {{ timetable.duration.hr + 'hr' }}
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
-                          <div class="d-flex" *ngIf="timetable.duration.hr < 1">
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min <= 60"
+                          >
                             <p
                               [ngClass]="{
                                 selectedCourse:
@@ -723,8 +726,9 @@
                           ></p>
                         </div>
                         <div
+                          class="image"
                           *ngIf="
-                            timetable.duration.hr >= 1 && isTeacherAll == true
+                            timetable.duration.min >= 60 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1000,7 +1004,6 @@
                             </p>
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.hr + 'hr' }}
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
@@ -1042,6 +1045,7 @@
                           ></p>
                         </div>
                         <div
+                          class="image"
                           *ngIf="
                             ((timetable.end | hourToMin) -
                               (timetable.start | hourToMin)) *
@@ -1316,21 +1320,39 @@
                             </p>
                           </div>
                         </div>
-                        <div class="d-flex">
+                        <div
+                          class="d-flex"
+                          *ngIf="timetable.duration.min >= 60"
+                        >
                           <div class="mt-0  cancel-text">
                             Cancelled
                           </div>
 
                           <span class="dot-cancel"></span>
                           <p class="cancel">
-                            {{ timetable.duration.hr + 'hr' }}
                             {{ timetable.duration.min + 'min' }}
                           </p>
                         </div>
+                        <div
+                          class="d-flex"
+                          *ngIf="
+                            timetable.duration.min < 60 &&
+                            timetable.duration.min > 30
+                          "
+                        >
+                          <div class="mt-0  cancel-text">
+                            Cancelled...
+                          </div>
+                        </div>
+                        <div
+                          class="d-flex"
+                          *ngIf="timetable.duration.min <= 30"
+                        ></div>
                       </div>
                       <div
+                        class="image"
                         *ngIf="
-                          timetable.duration.hr >= 1 && isTeacherAll == true
+                          timetable.duration.min >= 60 && isTeacherAll == true
                         "
                       >
                         <div class=" tchr-img-wraper">
@@ -1405,7 +1427,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.hr >= 1"
+                            *ngIf="timetable.duration.min > 60"
                           >
                             <p
                               *ngIf="timetable.seat != null"
@@ -1427,11 +1449,13 @@
 
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.hr + 'hr' }}
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
-                          <div class="d-flex" *ngIf="timetable.duration.hr < 1">
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min <= 60"
+                          >
                             <p
                               *ngIf="timetable.seat != null"
                               [ngClass]="{
@@ -1463,8 +1487,9 @@
                         </div>
 
                         <div
+                          class="image"
                           *ngIf="
-                            timetable.duration.hr >= 1 && isTeacherAll == true
+                            timetable.duration.min >= 60 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1777,22 +1802,37 @@
                               {{ timetable.course.courseCode }}
                             </p>
                           </div>
-                          <div class="d-flex">
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min >= 60"
+                          >
                             <div class="mt-0 cancel-text">
                               Cancelled
                             </div>
 
                             <span class="dot-cancel"></span>
                             <p class="cancel">
-                              {{ timetable.duration.hr + 'hr' }}
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min < 60"
+                          >
+                            <div class="mt-0 cancel-text">
+                              Cancelled...
+                            </div>
+                          </div>
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min <= 30"
+                          ></div>
                         </div>
 
                         <div
+                          class="image"
                           *ngIf="
-                            timetable.duration.hr >= 1 && isTeacherAll == true
+                            timetable.duration.min >= 60 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1956,7 +1996,7 @@
       </div>
       <div class="d-flex flex-row">
         <div>
-          <div class="img-wrap align-self-center ">
+          <div class="profile-wrap">
             <img src="{{ selectedTeacher_modal.profilePic }}" />
           </div>
         </div>
@@ -2068,7 +2108,7 @@
         "
       >
         <form nonvalidate #custForm="ngForm">
-          <div class="modal-body confirm-text">
+          <div class="modal-body confirm-text modal-body-padding">
             <div class="d-flex flex-column" style="position: relative;">
               <div class="search-wrap d-flex">
                 <input
@@ -2100,7 +2140,7 @@
                   *ngFor="let user of userLists"
                   class="d-flex flex-row search-user justify-content-center align-items-center"
                 >
-                  <div class="img-wrap">
+                  <div class="profile-wrap">
                     <img src="{{ user.profilePic }}" />
                   </div>
                   <div
@@ -2578,7 +2618,7 @@
       </div>
     </div>
     <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
-      <div class="modal-body">
+      <div class="modal-body modal-body-padding">
         <div class="row">
           <div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
@@ -2619,7 +2659,7 @@
       </div>
     </div>
     <div *ngIf="activeTab == 'cancel'">
-      <div class="modal-body student-lists">
+      <div class="modal-body student-lists modal-body-padding">
         <div class="d-flex mb-4">
           <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
             <label class="switch">

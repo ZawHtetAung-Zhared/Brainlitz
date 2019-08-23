@@ -748,7 +748,16 @@
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex justify-content-between second-info">
+                      <div
+                        class="d-flex second-info"
+                        [ngClass]="{
+                          'justify-content-between':
+                            course.type == null ||
+                            course.type == 'REGULAR' ||
+                            course.type == 'FLEXY',
+                          'justify-content-end': course.type == 'ONLINE'
+                        }"
+                      >
                         <div
                           *ngIf="
                             course.type == null ||
@@ -1763,7 +1772,7 @@
       </button>
     </div>
     <form novalidate #cfees="ngForm">
-      <div class="modal-body confirm-text">
+      <div class="modal-body confirm-text customer-modal-body">
         <div class="d-flex">
           <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
             <h5 class="mt-03 lname">
@@ -1772,7 +1781,10 @@
             </h5>
             <b>{{ detailLists.name }}</b>
           </div>
-          <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
+          <div
+            class="col-md-4 col-lg-4 modal-ctime pr-zero"
+            *ngIf="detailLists.type != 'ONLINE'"
+          >
             <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
               {{ day }}
             </h5>

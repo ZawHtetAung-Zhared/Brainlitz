@@ -895,6 +895,7 @@ export class InvoiceComponent implements OnInit {
     console.log(this.newItemArr);
     this.feesBox1 = false;
     let taxRate = this.newItemArr[id].tax;
+    // let taxRate = this.newItemArr[id].taxtype == 'No Tax' ? this.newItemArr[id].tax = 0 : this.newItemArr[id].tax
     this.newItemArr[id].fee = this.newItemArr[id].dfee;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
 
@@ -920,6 +921,8 @@ export class InvoiceComponent implements OnInit {
       this.newItemArr[id].amount = Number(this.newItemArr[id].dfee).toFixed(2);
     } else {
       this.newItemArr[id].taxRes = 0;
+      this.newItemArr[id].fee = this.newItemArr[id].dfee;
+      this.newItemArr[id].amount = Number(this.newItemArr[id].dfee).toFixed(2);
       console.log('exit no tax');
     }
     console.log(this.newItemArr[id].isDiscount);
@@ -946,7 +949,7 @@ export class InvoiceComponent implements OnInit {
     this.totalTax = this.defult_totalTax;
     this.subTotal = this.default_subTotal;
     this.totalDiscount = this.default_disTotal;
-    this.totalDiscounTax = this.defult_disTotalTax;
+    this.totalDiscounTax = Number(this.defult_disTotalTax).toFixed(2);
 
     for (let i = 0; i < this.newItemArr.length; i++) {
       this.subTotal = (
@@ -1128,5 +1131,26 @@ export class InvoiceComponent implements OnInit {
     if (!pattern.test(inputChar) && event.charCode != '0') {
       event.preventDefault();
     }
+  }
+
+  isDecimalValue(event) {
+    const charCode = event.which ? event.which : event.keyCode;
+    const dot1 = event.target.value.indexOf('.');
+    const dot2 = event.target.value.lastIndexOf('.');
+    console.log('charCode', charCode, 'dot1', dot1, 'dot2', dot2);
+    console.log(event.key.indexOf('.'));
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('~~~~~~~');
+      return false;
+    } else if (charCode == 46 && dot1 == dot2 && dot1 != -1 && dot2 != -1) {
+      console.log('########');
+      return false;
+    }
+    console.log(event.target.value.search(/^0/));
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+
+    return true;
   }
 }
