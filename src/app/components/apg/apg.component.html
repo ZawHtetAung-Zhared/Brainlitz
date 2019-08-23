@@ -1707,6 +1707,32 @@
             </div>
           </div>
         </div>
+        <!-- user grading module -->
+        <div class="apg-share-content" *ngIf="apgType == 'User Grading'">
+          <div class="col1">
+            <div
+              class="assement-shared-apg share-input"
+              *ngFor="let temp of templist"
+            >
+              <div>
+                <label>
+                  <span class="grade-name">Grade</span>
+                  <span class="tempname">{{ temp.name }}</span>
+                  <div class="label-checked data" style="float:right"></div>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="temp._id"
+                    value="{{ temp.name }}"
+                  />
+                  <!-- (click)="chooseShareAPG(temp._id, temp.name)" -->
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row apg-share-content" *ngIf="apgType == 'Progress'">
           <div
             *ngFor="let temp of templateList; let i = index"

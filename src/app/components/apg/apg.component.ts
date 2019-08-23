@@ -111,7 +111,124 @@ export class ApgComponent implements OnInit, OnDestroy {
   isScroll: boolean = true;
 
   //
-
+  public templist = [
+    {
+      _id: '5d53e3e2a22b5c2b93907361',
+      accessPoints: [
+        {
+          _id: '5d53e3e2b3569a616ec7cee6',
+          data: {
+            color: {
+              text: '#803500',
+              background: '#ffe9d9'
+            },
+            inputTypeProperties: {
+              options: [],
+              name: '',
+              min: 0,
+              max: null
+            },
+            evaluation: {
+              allowZero: false,
+              details: []
+            },
+            sectionType: 'DATA',
+            unit: 'in',
+            inputType: 'NUMBER',
+            grades: [
+              {
+                name: 'level 1',
+                point: 1
+              },
+              {
+                name: 'level 2',
+                point: 2
+              },
+              {
+                name: 'level 3',
+                point: 3
+              },
+              {
+                name:
+                  'level ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭',
+                point: '☭'
+              }
+            ]
+          },
+          name: '',
+          description: ''
+        }
+      ],
+      name: 'User Grading',
+      description: '',
+      module: {
+        _id: '5d53e4b0fd7d652426e9408a',
+        name: 'User Grading',
+        type: 6
+      },
+      share: {
+        status: false
+      }
+    },
+    {
+      _id: '5d53e3e2a22b5c2b93907361',
+      accessPoints: [
+        {
+          _id: '5d53e3e2b3569a616ec7cee6',
+          data: {
+            color: {
+              text: '#803500',
+              background: '#ffe9d9'
+            },
+            inputTypeProperties: {
+              options: [],
+              name: '',
+              min: 0,
+              max: null
+            },
+            evaluation: {
+              allowZero: false,
+              details: []
+            },
+            sectionType: 'DATA',
+            unit: 'in',
+            inputType: 'NUMBER',
+            grades: [
+              {
+                name: 'level 1',
+                point: 1
+              },
+              {
+                name: 'level 2',
+                point: 2
+              },
+              {
+                name: 'level 3',
+                point: 3
+              },
+              {
+                name:
+                  'level ☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭☭',
+                point: '☭'
+              }
+            ]
+          },
+          name: '',
+          description: ''
+        }
+      ],
+      name: 'User Grading',
+      description: '',
+      module: {
+        _id: '5d53e4b0fd7d652426e9408a',
+        name: 'User Grading',
+        type: 6
+      },
+      share: {
+        status: false
+      }
+    }
+  ];
   public ismodule: boolean = false;
   public isshare: boolean = false;
   public shareAPG: boolean = false;
@@ -201,6 +318,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   ngOnDestroy() {
     this.dragulaService.destroy('data_COLUMNS');
     this.dragulaService.destroy('COLUMNS');
@@ -2073,7 +2191,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   getAllTemplate(limit, skip) {
     console.log(this.apgType);
     var moduleId = localStorage.getItem('moduleID');

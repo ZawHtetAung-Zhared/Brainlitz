@@ -1987,7 +1987,21 @@ li.optionlist {
   display: inline-block;
   position: absolute;
 }
-
+.grade-name {
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #64707d;
+  margin-top: 20px;
+  position: absolute;
+  display: inline-block;
+}
+.tempname {
+  padding-top: 4px;
+  font-size: 18px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #ffffff;
+  display: inline-block;
+}
 .temp-name {
   margin-top: 20px;
   font-size: 18px;
@@ -2280,4 +2294,16 @@ input.min_input_show {
 .apgTypeTxt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2e3e4d;
+}
+.grading-wrap {
+  border-radius: 4px;
+  background: #ffffff;
+  margin-top: 20px;
+}
+.color {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #ffffff;
+  border-radius: 12px;
 }
