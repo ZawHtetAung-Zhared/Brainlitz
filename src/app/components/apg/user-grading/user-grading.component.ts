@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { appService } from '../../../service/app.service';
 @Component({
   selector: 'app-user-grading',
   templateUrl: './user-grading.component.html',
@@ -7,47 +7,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserGradingComponent implements OnInit {
   public userGradeData;
+  public gradeName;
+  public selectedIndex;
+  public showPopUp = false;
+  public selectedColor = {
+    name: '1',
+    color: {
+      text: '#544600',
+      background: '#FFE04D'
+    }
+  };
+  public isFocus;
+  public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
+  public moduleID = localStorage.getItem('moduleID');
   public blockColors = [
     {
       name: '1',
       color: {
-        text: '#803500',
-        background: '#ffe9d9'
+        text: '#544600',
+        background: '#FFE04D'
       }
     },
     {
       name: '2',
       color: {
-        text: '#594a00',
-        background: '#fff4bf'
+        text: '#6E2D00',
+        background: '#FFCBA6'
       }
     },
     {
       name: '3',
       color: {
-        text: '#005934',
-        background: '#ccffea'
+        text: '#005733',
+        background: '#80FFCA'
       }
     },
     {
       name: '4',
       color: {
-        text: '#004080',
-        background: '#cce6ff'
+        text: '#003E7D',
+        background: '#B3D8FF'
       }
     },
     {
       name: '5',
       color: {
-        text: '#6600cc',
-        background: '#f2e6ff'
+        text: '#5000A1',
+        background: '#DFBFFF'
       }
     },
     {
       name: '6',
       color: {
-        text: '#990066',
-        background: '#ffe6f6'
+        text: '#7A0052',
+        background: '#FFCBA6'
       }
     }
   ];
@@ -96,7 +110,7 @@ export class UserGradingComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor(private _service: appService) {}
 
   ngOnInit() {
     this.userGradeData = {
@@ -116,13 +130,48 @@ export class UserGradingComponent implements OnInit {
           {
             name: 'level 1',
             point: '1'
-          },
-          {
-            name: 'level 1',
-            point: '1'
           }
         ]
       }
     };
+  }
+
+  addLevel() {
+    const tempObj = {
+      name: 'level 1',
+      point: '1'
+    };
+    this.userGradeData.data.grades.push(tempObj);
+  }
+
+  removeLevel(index) {
+    this.userGradeData.data.grades.splice(index, 1);
+  }
+
+  colorpalettePopUp(index) {
+    this.showPopUp = true;
+    this.selectedIndex = index;
+  }
+  applyGradeName() {
+    this.userGradeData.data.color.text = this.selectedColor.color.text;
+    this.userGradeData.data.color.background = this.selectedColor.color.background;
+    this.userGradeData.data.grades[this.selectedIndex].name = this.gradeName;
+  }
+  onFocus() {
+    this.isFocus = true;
+  }
+
+  onFocusOut() {
+    this.isFocus = false;
+  }
+  createUserGradeApg(data) {
+    this._service
+      .createAPG(this.regionID, this.regionID, data, undefined, this.moduleID)
+      .subscribe(
+        res => {},
+        err => {
+          console.error(err);
+        }
+      );
   }
 }
