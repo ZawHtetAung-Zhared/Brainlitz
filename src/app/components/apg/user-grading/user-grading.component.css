@@ -1,0 +1,32 @@
+.create-input {
+  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
+  border-radius: 0.25rem;
+  border: none;
+  margin-bottom: 15px;
+  padding: 0.6rem 0.75rem;
+  margin-top: 4px;
+  padding-left: 0;
+}
+
+.create-input:focus {
+  /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+    -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+    box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* .create-input:hover {
+    background: #f7f9fa;
+  } */
+
+.grade-name {
+  border-bottom: 1px solid #edeff0;
+}
+.grade-icon {
+  background: #ffe04d;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  text-align: center;
+}

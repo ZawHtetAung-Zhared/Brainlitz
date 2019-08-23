@@ -25,6 +25,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
 import { promise } from 'protractor';
+import { UserGradingComponent } from './user-grading/user-grading.component';
 import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
@@ -33,6 +34,7 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public userGradingAp = false;
   public tempDataValue: any;
   public tempSharedApgId: any;
   public valueArray: any = [];
@@ -808,12 +810,20 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
         this.emptymin = true;
         this.overmin = true;
-      } else {
-        this.model = {};
+      } else if (name === 'User Grading') {
+        this.userGradingAp = true;
         this.dataApCreate = false;
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
+      } else {
+        this.model = {};
+        this.userGradingAp = false;
+        this.dataApCreate = false;
+        this.iscreate = true;
+        this.isshare = false;
+        this.apCreate = false;
+        this.ismodule = false;
       }
     } else {
       console.log('Create new APg', name);
