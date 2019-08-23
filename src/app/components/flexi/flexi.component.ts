@@ -70,7 +70,7 @@ export class FlexiComponent implements OnInit {
         // tobj.teacherId = obj[i].teacherId;
         tobj.id = i;
 
-        if (j <= 10) {
+        if (j <= this.course.defaultlessonCount) {
           this.lessionIdArr.push(i);
           this.lessonObjArr.push(tobj);
         }

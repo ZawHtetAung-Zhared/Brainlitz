@@ -19,13 +19,17 @@
           <div class="">
             <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
             <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
-            <div>
+            <div class="pt-4">
               <!-- <label class="id-label">Invoice ID</label>
                   <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
-              <label class="mb-3 invID">
+              <label class="mb-2 invID">
                 <span class="invoice-label">Invoice No:</span>
                 {{ refInvID }}
               </label>
+            </div>
+            <div>
+              <label class="invoice-info semibold">{{ registration }}</label>
+              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
             </div>
             <div class="p-0" *ngIf="custDetail.user">
               <label class="invoice-label mb-0"
@@ -76,10 +80,10 @@
             >
               -
             </h5>
-            <div>
-              <label class="invoice-info semibold">{{ registration }}</label>
-              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
-            </div>
+            <!-- <div>
+              <label class="invoice-info semibold">{{ registration }}</label> -->
+            <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
+            <!-- </div> -->
             <div class="d-flex">
               <div class="address pl-zero">
                 <p
@@ -201,7 +205,7 @@
                   {{ invCurrency.sign }}{{ data.courseFee.amount }}
                 </div> -->
               <div class="col-md-2 p-0 text-right price-info">
-                {{ invCurrency.sign }}{{ data.courseFee.amount | financial }}
+                {{ invCurrency.sign }} {{ data.courseFee.amount | financial }}
               </div>
             </div>
           </div>
@@ -366,7 +370,7 @@
                 >
                   <div id="rectangle"></div>
                   <div class="p-3">
-                    <h5 class="price-info text-left">Discount</h5>
+                    <h5 class="price-info text-left">Discount:</h5>
                     <div class="d-flex popup-input">
                       <div class="input-sign">
                         {{ invCurrency.sign }}
@@ -514,10 +518,8 @@
                 [ngClass]="{ addType: obj.isDefault == true }"
                 *ngIf="invStatus == 'UNPAID'"
               >
-                <div class="tax-txt" *ngIf="obj.taxtype != 'No Tax'">
-                  {{ obj.tax }}%
-                </div>
-                <div class="tax-txt noTax" *ngIf="obj.taxtype == 'No Tax'">
+                <div *ngIf="obj.taxtype != 'No Tax'">{{ obj.tax }}%</div>
+                <div class="noTax" *ngIf="obj.taxtype == 'No Tax'">
                   0%
                 </div>
                 <div *ngIf="obj.isDefault == false">
@@ -772,13 +774,10 @@
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0 discount-number">
-                <div class="tax-txt" *ngIf="obj.discount.type != 'No Tax'">
+                <div *ngIf="obj.discount.type != 'No Tax'">
                   {{ obj.discount.tax }}%
                 </div>
-                <div
-                  class="tax-txt"
-                  *ngIf="obj.discount.type == 'No Tax'"
-                ></div>
+                <div *ngIf="obj.discount.type == 'No Tax'"></div>
               </div>
 
               <!-- <div class="col-md-2 text-right price-info">
@@ -1021,8 +1020,8 @@
                 </div>
               </div>
               <div class="col-md-4 p-0 d-flex invoice-label">
-                <span>{{ invCurrency.sign }}</span>
-                <div>{{ payment.amount }}</div>
+                <span>{{ invCurrency.sign }} {{ payment.amount }}</span>
+                <!-- <div>{{ payment.amount }}</div> -->
               </div>
             </div>
           </div>
@@ -1120,13 +1119,17 @@
           <div class="">
             <h3 class="modal-title" *ngIf="taxRate == 0">INVOICE</h3>
             <h3 class="modal-title" *ngIf="taxRate > 0">TAX INVOICE</h3>
-            <div>
+            <div class="pt-4">
               <!-- <label class="id-label">Invoice ID</label>
                     <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
-              <label class="mb-3 invID">
+              <label class="mb-2 invID">
                 <span class="invoice-label">Invoice No:</span>
                 {{ refInvID }}
               </label>
+            </div>
+            <div>
+              <label class="invoice-info semibold">{{ registration }}</label>
+              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
             </div>
             <div class="p-0" *ngIf="custDetail.user">
               <label class="invoice-label mb-0"
@@ -1177,10 +1180,10 @@
             >
               -
             </h5>
-            <div>
-              <label class="invoice-info semibold">{{ registration }}</label>
-              <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
-            </div>
+            <!-- <div>
+              <label class="invoice-info semibold">{{ registration }}</label> -->
+            <!-- <label class="mr-auto mb-0 invoice-info">{{ registration }}</label> -->
+            <!-- </div> -->
             <div class="d-flex">
               <div class="address pl-zero">
                 <p
@@ -1418,13 +1421,11 @@
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0">
-                <div class="tax-txt" *ngIf="obj.taxtype == ' No Tax'"></div>
-                <div class="tax-txt" *ngIf="obj.taxtype != 'No Tax'">
-                  {{ obj.tax }}%
-                </div>
+                <div *ngIf="obj.taxtype == ' No Tax'"></div>
+                <div *ngIf="obj.taxtype != 'No Tax'">{{ obj.tax }}%</div>
               </div>
               <div class="col-md-2 text-right price-info p-0">
-                <div class="tax-txt">{{ obj.tax }}%</div>
+                <div>{{ obj.tax }}%</div>
               </div>
               <!-- <div class="col-md-2 text-right price-info">
                 <input
@@ -1488,13 +1489,10 @@
                 </p>
               </div>
               <div class="col-md-2 text-right price-info p-0 discount-number">
-                <div class="tax-txt" *ngIf="obj.discount.type != 'No Tax'">
+                <div *ngIf="obj.discount.type != 'No Tax'">
                   {{ obj.discount.tax }}%
                 </div>
-                <div
-                  class="tax-txt"
-                  *ngIf="obj.discount.type == 'No Tax'"
-                ></div>
+                <div *ngIf="obj.discount.type == 'No Tax'"></div>
               </div>
 
               <!-- <div class="col-md-2 text-right price-info">
@@ -1560,7 +1558,7 @@
                 {{ invCurrency.sign }} {{ totalDiscounTax }}
               </div>
             </div>
-            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
+            <div class="d-flex invoice-label paid-amt-result pad-10 mb-4 mt-3">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
                   Amount due
@@ -1626,8 +1624,8 @@
               </div>
             </div>
             <div class="col-md-4 p-0 d-flex invoice-label">
-              <span>{{ invCurrency.sign }}</span>
-              <div>{{ payment.amount }}</div>
+              <span>{{ invCurrency.sign }} {{ payment.amount }}</span>
+              <!-- <div>{{ payment.amount }}</div> -->
             </div>
           </div>
         </div>
@@ -1696,6 +1694,7 @@
                   placeholder="0"
                   [(ngModel)]="paymentItem.amount"
                   #amount="ngModel"
+                  (keypress)="isDecimalValue($event)"
                   required
                 />
               </div>
@@ -1741,11 +1740,7 @@
       <button
         class="btn btn-submit cursor-on"
         (click)="payNow(selectedPayment)"
-        [disabled]="
-          paymentItem.amount == '' ||
-          paymentItem.amount == undefined ||
-          paymentItem.amount <= 0
-        "
+        [disabled]="paymentItem.amount == '' || paymentItem.amount == undefined"
       >
         PAY
       </button>
