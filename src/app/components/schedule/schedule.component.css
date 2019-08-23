@@ -1750,6 +1750,7 @@ ul.options-box li:last-child,
   border: 0px;
   outline: 0px;
   width: 100%;
+  cursor: pointer;
 }
 
 .relief-btn {
@@ -1760,6 +1761,10 @@ ul.options-box li:last-child,
 }
 .hilight-plan {
   color: #64707d;
+}
+
+.modal-body-padding {
+  padding: 16px 32px 6px 32px !important;
 }
 
 @media only screen and (min-width: 1366px) {

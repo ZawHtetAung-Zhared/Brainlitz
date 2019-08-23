@@ -949,7 +949,7 @@ export class InvoiceComponent implements OnInit {
     this.totalTax = this.defult_totalTax;
     this.subTotal = this.default_subTotal;
     this.totalDiscount = this.default_disTotal;
-    this.totalDiscounTax = this.defult_disTotalTax;
+    this.totalDiscounTax = Number(this.defult_disTotalTax).toFixed(2);
 
     for (let i = 0; i < this.newItemArr.length; i++) {
       this.subTotal = (

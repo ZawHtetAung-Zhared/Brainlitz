@@ -1995,7 +1995,7 @@
       </div>
       <div class="d-flex flex-row">
         <div>
-          <div class="align-self-center ">
+          <div class="profile-wrap">
             <img src="{{ selectedTeacher_modal.profilePic }}" />
           </div>
         </div>
@@ -2107,7 +2107,7 @@
         "
       >
         <form nonvalidate #custForm="ngForm">
-          <div class="modal-body confirm-text">
+          <div class="modal-body confirm-text modal-body-padding">
             <div class="d-flex flex-column" style="position: relative;">
               <div class="search-wrap d-flex">
                 <input
@@ -2139,7 +2139,7 @@
                   *ngFor="let user of userLists"
                   class="d-flex flex-row search-user justify-content-center align-items-center"
                 >
-                  <div>
+                  <div class="profile-wrap">
                     <img src="{{ user.profilePic }}" />
                   </div>
                   <div
