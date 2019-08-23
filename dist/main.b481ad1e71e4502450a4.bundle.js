@@ -34930,7 +34930,10 @@ webpackJsonp(
         })();
       y.production &&
         (Object(i.enableProdMode)(),
-        window && (window.console.log = function() {})),
+        window &&
+          ((window.console.log = function() {}),
+          (window.console.error = function() {}),
+          (window.console.warn = function() {}))),
         Object(s.a)()
           .bootstrapModule(gi)
           .catch(function(n) {
