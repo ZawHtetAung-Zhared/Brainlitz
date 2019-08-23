@@ -186,6 +186,7 @@ export class CoursecreateComponent implements OnInit {
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
+      this.model.description = this.coursePlan.description;
       // this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
       console.log('~~~~~', this.feesOptions);
@@ -235,6 +236,7 @@ export class CoursecreateComponent implements OnInit {
       if (this.scheduleObj) {
         this.scheduleCourse();
       }
+      console.log(this.model);
     }
 
     if (this.currency == undefined || this.currency == null) {

@@ -237,6 +237,7 @@ export class CourseComponent implements OnInit {
   tempCourdeId: any;
   tempuserType: any;
   showcb: boolean = false;
+  isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -1553,7 +1554,7 @@ export class CourseComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log(res);
+        console.error(res);
         this.detailLists = res;
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -2111,6 +2112,7 @@ export class CourseComponent implements OnInit {
     this.showflexyCourse = false;
     this.tempCourdeId = '';
     this.tempuserType = '';
+    this.isProrated = false;
   }
   cancelClass(content) {
     this.modalReference = this.modalService.open(content, {
@@ -2123,6 +2125,8 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   cancelClassFun(lessonId) {
+    console.error(lessonId);
+
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2134,6 +2138,7 @@ export class CourseComponent implements OnInit {
         students: this.studentArray
       };
       cancelData = noReason;
+      console.error('exit');
     } else {
       var reason = {
         lessonId,
@@ -2145,6 +2150,8 @@ export class CourseComponent implements OnInit {
 
     console.log(lessonId);
     console.log(this.isGlobal);
+    console.error(cancelData);
+
     // Call cancel class api service
     this.blockUI.start('Loading...');
     this._service
@@ -2579,6 +2586,8 @@ export class CourseComponent implements OnInit {
             console.log('has invoice setting');
             this.invoiceInfo = res.invoiceSettings;
           }
+          console.error(res.invoice);
+
           this.invoice = res.invoice;
           this.showInvoice = true;
           this.showOneInvoice(this.invoice);
@@ -2814,15 +2823,18 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
     this.isCourseCreate = true;
-    console.log('CPlanId', plan);
+    console.error('CPlanId', plan);
     // this.router.navigate(['/courseCreate']);
     let planObj = {
       name: plan.name,
       id: plan.coursePlanId,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
-      from: 'courses'
+      from: 'courses',
+      description: plan.description
     };
+    console.error('planObj', planObj);
+
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
   }
@@ -3584,7 +3596,10 @@ export class CourseComponent implements OnInit {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     console.log('body', lessonBody);
     this.blockUI.start('Loading...');
@@ -3616,6 +3631,7 @@ export class CourseComponent implements OnInit {
         this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
+        this.isProrated = false;
         this.showOneInvoice(this.invoice);
       });
 

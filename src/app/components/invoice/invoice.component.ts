@@ -1,4 +1,4 @@
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { BlockUI, NgBlockUI, BlockUIModule } from 'ng-block-ui';
 import {
   Component,
   OnInit,
@@ -12,6 +12,8 @@ import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { FormStyle } from '@angular/common';
+import { isBoolean } from 'util';
+import { tryParse } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-invoice',
@@ -23,10 +25,11 @@ export class InvoiceComponent implements OnInit {
   public isEditInv: boolean = false;
   public type: string;
   public orgID = localStorage.getItem('OrgId');
-
   public invoiceInfo = {};
   public feesBox: boolean = false;
   public feesBox1: boolean = false;
+  public feesBox2: boolean = false;
+  public feesBox3: boolean = false;
   public activeFeeBoxId: any;
   public noSetting: boolean;
   public invStatus: string;
@@ -45,6 +48,8 @@ export class InvoiceComponent implements OnInit {
   public total: any;
   public subTotal: any;
   public totalTax: any;
+  public totalDiscount: any;
+  public totalDiscounTax: any;
   public hideMenu: boolean = false;
   public showStudentOption: any = '';
   public xxxhello: any = '';
@@ -53,10 +58,12 @@ export class InvoiceComponent implements OnInit {
   public paymentId: any;
   public paymentProviders: any;
   public selectedPayment: any;
-  public unitPrice: any = 0;
+  public unitPrice: any;
   public hideReg: boolean = false;
   public hideMisc: boolean = false;
   public hideDeposit: boolean = false;
+  public iscDiscount: boolean = false;
+  public isNewItemDiscount: boolean = false;
   public invoiceCourse: any = {};
   public value: any = {};
   public taxRate: any;
@@ -67,6 +74,16 @@ export class InvoiceComponent implements OnInit {
   public paymentSettings: any = {};
   public registration: any;
   public min: any = 0;
+  public cDiscount = {
+    value: 0,
+    tax: 0,
+    taxRes: 0,
+    type: '',
+    dValue: 0.0,
+    amount: 0.0,
+    isDefault: false
+  };
+
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
   constructor(
@@ -81,10 +98,12 @@ export class InvoiceComponent implements OnInit {
   public default_total: any;
   public default_subTotal: any;
   public defult_totalTax: any;
+  public default_disTotal: any;
+  public defult_disTotalTax: any;
 
   ngOnInit() {
     console.log(this.custDetail);
-    console.log(this.course.invoice.status);
+    console.log(this.course);
 
     // this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];
@@ -127,11 +146,45 @@ export class InvoiceComponent implements OnInit {
         this.invoice = this.singleInv;
         this.showOneInvoice(this.course, this.invoice);
         // this.feesBox = true
+        if (this.invoice[0].courseFee.discount.amount != 0) {
+          if (
+            this.invoice[0].courseFee.taxInclusive == true &&
+            this.invoice[0].courseFee.notax == false
+          ) {
+            this.cDiscount.type = 'Inclusive';
+          } else if (
+            this.invoice[0].courseFee.taxInclusive == false &&
+            this.invoice[0].courseFee.notax == false
+          ) {
+            this.cDiscount.type = 'Exclusive';
+          } else if (this.invoice[0].courseFee.notax == true) {
+            this.cDiscount.type = 'No Tax';
+          }
+          this.cDiscount.dValue = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.value = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.amount = this.invoice[0].courseFee.discount.amount;
+          this.cDiscount.tax = this.invoice[0].tax.rate;
+          this.iscDiscount = true;
+          this.cDiscount.isDefault = true;
+          // this.addnewDiscount('courseFee-dis', null);
+        }
+
+        console.log('cDiscount', this.cDiscount);
 
         this.default_subTotal = Number(this.invoice[0].courseFee.fee).toFixed(
           2
         );
+        console.log(this.invoice[0].courseFee.discount.tax);
+        console.log('d dic', this.invoice[0].courseFee.discount.amount);
+        console.log('dis tax', this.invoice[0].courseFee.discount.tax);
+
         this.defult_totalTax = Number(this.invoice[0].courseFee.tax).toFixed(2);
+        this.default_disTotal = Number(
+          this.invoice[0].courseFee.discount.amount
+        );
+        this.defult_disTotalTax = Number(
+          this.invoice[0].courseFee.discount.tax
+        );
         // this.defa = Number(this.default_subTotal) + Number(this.defult_totalTax);
         // if(this.invoice[0].additionalFees.length >0){
         // }
@@ -179,26 +232,30 @@ export class InvoiceComponent implements OnInit {
     this.isEditInv = true;
     this.validateForm();
     this.calculationTotal();
-    // console.error(this.isEditInv);
+    // console.log(this.isEditInv);
   }
   updateInvoice() {
     console.log('Inv Update Data', this.updateInvData);
     console.log(this.newItemArr);
     let arr = [];
     for (let i = 0; i < this.newItemArr.length; i++) {
-      let type: boolean;
-      if (this.newItemArr[i].taxtype == 'inclusive') {
+      let type: boolean = true;
+      let notax: boolean;
+      if (this.newItemArr[i].taxtype == 'Inclusive') {
         type = true;
-      } else {
+      } else if (this.newItemArr[i].taxtype == 'Exclusive') {
         type = false;
+      } else if (this.newItemArr[i].taxtype == 'No Tax') {
+        notax = true;
       }
+
       let obj = {
         name: this.newItemArr[i].name,
         fee: this.newItemArr[i].dfee,
         taxInclusive: type,
-        noTax: false,
+        noTax: notax,
         discount: {
-          amount: 0
+          amount: this.newItemArr[i].discount.dValue
         }
       };
 
@@ -206,6 +263,7 @@ export class InvoiceComponent implements OnInit {
     }
     let finalObj = {
       courseFee: this.updateInvData,
+      courseFeeDiscount: this.cDiscount.dValue,
       additionalFees: arr
     };
     console.log('f obj', finalObj);
@@ -281,7 +339,7 @@ export class InvoiceComponent implements OnInit {
         this.invoiceCourse['name'] = course.name;
         this.invoiceCourse['startDate'] = course.startDate;
         this.invoiceCourse['endDate'] = course.endDate;
-        this.invoiceCourse['lessonCount'] = course.lessonCount;
+        this.invoiceCourse['lessonCount'] = course.lessons.length;
       }
     }
   }
@@ -396,7 +454,7 @@ export class InvoiceComponent implements OnInit {
         console.log(this.invoice[i].courseFee.fee);
         console.log(this.invoice[i].courseFee.tax);
 
-        // formula for calculating the inclusive tax
+        // formula for calculating the Inclusive tax
         // Product price x RATE OF TAX/ (100+RATE OF TAX);
         if (this.invoice[i].courseFee.taxInclusive == true) {
           // var taxRate = this.invoice[i].tax.rate;
@@ -421,9 +479,9 @@ export class InvoiceComponent implements OnInit {
           //   this.invoice[i].registrationFee.tax +
           //   this.invoice[i].miscFee.tax
           // ).toFixed(2);
-          var cFee =
-            this.invoice[i].courseFee.fee /
-            (1 + this.invoice[i].tax.rate / 100);
+          var cFee = Number(
+            this.invoice[i].courseFee.fee / (1 + this.invoice[i].tax.rate / 100)
+          );
           console.log(cFee);
           this.invoice[i].courseFee.fee = cFee.toFixed(2);
 
@@ -685,13 +743,13 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
-  chooseTax: any = 'inclusive';
+  chooseTax: any = 'Inclusive';
   chooseTaxOption(type, i) {
     this.isEditInv = true;
     this.newItemArr[i].taxtype = type;
+    this.newItemArr[i].discount.type = type;
     this.chooseTax = type;
     this.isShowDown = false;
-
     this.addCurseFee(i);
   }
 
@@ -702,47 +760,105 @@ export class InvoiceComponent implements OnInit {
       name: '',
       fee: 0.0,
       dfee: 0.0,
-      taxtype: 'exclusive',
+      taxtype: 'Exclusive',
       tax: this.invoice[0].tax.rate,
       taxRes: 0.0,
       amount: 0.0,
-      isDefault: false
+      isDefault: false,
+      isDiscount: false,
+      discount: {
+        value: 0,
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        type: 'Exclusive',
+        dValue: 0.0,
+        amount: 0.0
+      }
     };
 
     this.newItemArr.push(newItemObj);
     this.isEditInv = true;
   }
 
+  //this function is work for to change and calcution api response value in show ui
   changeTempObj(obj) {
     this.newItemArr = [];
     let tempArr: any = [];
     for (let i = 0; i < obj.length; i++) {
       console.log(obj[i]);
-      let tempObj: any = {};
+      let tempObj: any = {
+        name: '',
+        fee: 0.0,
+        dfee: 0.0,
+        taxtype: 'Exclusive',
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0.0,
+        amount: 0.0,
+        isDefault: false,
+        isDiscount: false,
+        discount: {
+          value: 0,
+          tax: this.invoice[0].tax.rate,
+          taxRes: 0,
+          type: 'Exclusive',
+          dValue: 0.0,
+          amount: 0.0
+        }
+      };
 
       tempObj.name = obj[i].name;
       tempObj.fee = obj[i].fee;
-
-      if (obj[i].taxInclusive == true) {
-        tempObj.taxtype = 'inclusive';
-        tempObj.dfee = Number(obj[i].fee) + Number(obj[i].tax);
-      } else {
-        tempObj.taxtype = 'exclusive';
-        tempObj.dfee = Number(obj[i].fee);
-      }
       tempObj.tax = this.invoice[0].tax.rate;
+      console.log(obj[i].discount.amount);
+
       let taxAmount = (obj[i].fee * this.invoice[0].tax.rate) / 100;
-      tempObj.taxRes = taxAmount;
+
+      if (obj[i].taxInclusive == true && obj[i].noTax == false) {
+        tempObj.taxtype = 'Inclusive';
+        tempObj.dfee = Number(obj[i].fee) + Number(obj[i].tax);
+        tempObj.taxRes = obj[i].tax;
+        tempObj.discount.type = 'Inclusive';
+      } else if (obj[i].taxInclusive == false && obj[i].noTax == false) {
+        tempObj.taxtype = 'Exclusive';
+        tempObj.dfee = Number(obj[i].fee);
+        tempObj.taxRes = obj[i].tax;
+        tempObj.taxRes = taxAmount;
+        tempObj.discount.type = 'Exclusive';
+      } else {
+        tempObj.taxtype = 'No Tax';
+        tempObj.dfee = Number(obj[i].fee);
+        tempObj.taxRes = 0;
+        tempObj.discount.type = 'No Tax';
+      }
+
       tempObj.isDefault = true;
       tempObj.amount = obj[i].amount;
+      tempObj.discount.amount = obj[i].discount.amount;
+
+      //for discount
+      if (obj[i].discount.amount != 0) {
+        tempObj.isDiscount = true;
+        tempObj.discount.tax = this.invoice[0].tax.rate;
+        tempObj.discount.taxRes = obj[i].discount.tax;
+        tempObj.discount.value = obj[i].discount.amount;
+        tempObj.discount.dValue = obj[i].discount.amount;
+
+        // let resTemp= this.calculationDiscount(tempObj.discount);
+
+        // tempObj.discount.value=resTemp.value;
+        // tempObj.discount.taxRes=resTemp.taxRes;
+        // tempObj.discount.amount=resTemp.amount;
+      }
       tempArr.push(tempObj);
     }
+
     this.newItemArr = tempArr;
-    console.log(this.newItemArr);
+
+    console.log('new item arr', this.newItemArr);
   }
   isnewItemsValid: boolean = false;
   validateForm() {
-    console.log('exit', this.newItemArr);
+    // console.log('exit', this.newItemArr);
 
     if (this.newItemArr.length != 0) {
       for (let i = 0; i < this.newItemArr.length; i++) {
@@ -758,7 +874,7 @@ export class InvoiceComponent implements OnInit {
         }
       }
     } else {
-      // console.error('here me', this.isDefaultUpdate);
+      // console.log('here me', this.isDefaultUpdate);
       this.isnewItemsValid = true;
       // if (this.isDefaultUpdate) {
       //   this.isnewItemsValid = true;
@@ -772,16 +888,20 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].dfee = value;
   }
 
+  inputDiscount(value, id) {
+    this.newItemArr[id].discount.dValue = value;
+  }
   addCurseFee(id) {
     console.log(this.newItemArr);
-
+    this.feesBox1 = false;
     let taxRate = this.newItemArr[id].tax;
+    // let taxRate = this.newItemArr[id].taxtype == 'No Tax' ? this.newItemArr[id].tax = 0 : this.newItemArr[id].tax
     this.newItemArr[id].fee = this.newItemArr[id].dfee;
     let taxAmount = (this.newItemArr[id].fee * taxRate) / 100;
-    this.newItemArr[id].taxRes = Number(taxAmount);
-    console.log('taxAmount', taxAmount);
 
-    if (this.newItemArr[id].taxtype == 'inclusive') {
+    console.log('taxAmount', taxAmount);
+    if (this.newItemArr[id].taxtype == 'Inclusive') {
+      this.newItemArr[id].taxRes = Number(taxAmount);
       var cFee = this.newItemArr[id].dfee / (1 + this.newItemArr[id].tax / 100);
       console.log(cFee);
       this.newItemArr[id].fee = cFee.toFixed(2);
@@ -791,17 +911,26 @@ export class InvoiceComponent implements OnInit {
       console.log(tax);
 
       this.newItemArr[id].amount = cFee.toFixed(2);
-    } else if (this.newItemArr[id].taxtype == 'exclusive') {
+    } else if (this.newItemArr[id].taxtype == 'Exclusive') {
       console.log('ex', this.newItemArr[id].dfee);
-
       this.newItemArr[id].taxRes = Number(taxAmount);
       this.newItemArr[id].fee = this.newItemArr[id].dfee;
       // this.newItemArr[id].amount = (
       //   Number(this.newItemArr[id].dfee) + Number(this.newItemArr[id].taxRes)
       // ).toFixed(2);
       this.newItemArr[id].amount = Number(this.newItemArr[id].dfee).toFixed(2);
+    } else {
+      this.newItemArr[id].taxRes = 0;
+      this.newItemArr[id].fee = this.newItemArr[id].dfee;
+      this.newItemArr[id].amount = Number(this.newItemArr[id].dfee).toFixed(2);
+      console.log('exit no tax');
     }
-    this.calculationTotal();
+    console.log(this.newItemArr[id].isDiscount);
+    if (this.newItemArr[id].isDiscount) {
+      this.addnewDiscount('newitem-dis', id);
+    } else {
+      this.calculationTotal();
+    }
   }
 
   calculationTotal() {
@@ -811,9 +940,16 @@ export class InvoiceComponent implements OnInit {
     this.totalTax = 0;
     this.subTotal = 0;
     this.total = 0;
+    this.totalDiscount = 0;
+    this.totalDiscounTax = 0;
+
+    console.log('dis total', this.default_disTotal);
+    console.log('dis total tax', this.defult_disTotalTax);
 
     this.totalTax = this.defult_totalTax;
     this.subTotal = this.default_subTotal;
+    this.totalDiscount = this.default_disTotal;
+    this.totalDiscounTax = Number(this.defult_disTotalTax).toFixed(2);
 
     for (let i = 0; i < this.newItemArr.length; i++) {
       this.subTotal = (
@@ -823,17 +959,29 @@ export class InvoiceComponent implements OnInit {
         Number(this.totalTax) + Number(this.newItemArr[i].taxRes)
       ).toFixed(2);
       console.log('res', this.newItemArr[i].taxRes);
+      this.totalDiscount = (
+        Number(this.totalDiscount) + Number(this.newItemArr[i].discount.value)
+      ).toFixed(2);
+      this.totalDiscounTax = (
+        Number(this.totalDiscounTax) +
+        Number(this.newItemArr[i].discount.taxRes)
+      ).toFixed(2);
     }
 
-    // console.error(this.totalTax);
-    // console.error(this.subTotal);
+    // console.log(this.totalTax);
+    // console.log(this.subTotal);
+    let tempTotal = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
+    let tempDistotal = (
+      Number(this.totalDiscount) + Number(this.totalDiscounTax)
+    ).toFixed(2);
+    console.log(tempTotal);
+    console.log(tempDistotal);
 
-    this.total = (Number(this.totalTax) + Number(this.subTotal)).toFixed(2);
+    this.total = (Number(tempTotal) - Number(tempDistotal)).toFixed(2);
+
     console.log(this.total);
     console.log(this.subTotal);
     console.log(this.totalTax);
-
-    this.feesBox1 = false;
   }
   showPopup1(id) {
     if (this.invStatus == 'UNPAID') {
@@ -844,5 +992,165 @@ export class InvoiceComponent implements OnInit {
   }
   cancelPopup2(id) {
     this.feesBox1 = false;
+  }
+  cancelPopup3() {
+    this.feesBox2 = false;
+  }
+
+  cancelPopup4() {
+    this.feesBox3 = false;
+  }
+  addnewDiscount(type, id) {
+    if (type == 'courseFee-dis') {
+      this.feesBox2 = false;
+      this.cDiscount.tax = this.invoice[0].tax.rate;
+      if (this.invoice[0].courseFee.taxInclusive == true) {
+        this.cDiscount.type = 'Inclusive';
+      } else {
+        this.cDiscount.type = 'Exclusive';
+      }
+      let resTemp = this.calculationDiscount(this.cDiscount);
+      this.iscDiscount = true;
+      this.cDiscount.value = resTemp.value;
+      this.cDiscount.taxRes = resTemp.taxRes;
+      this.cDiscount.amount = resTemp.amount;
+      this.default_disTotal = Number(resTemp.value);
+      this.defult_disTotalTax = Number(resTemp.taxRes);
+      console.log(this.cDiscount);
+      console.log(resTemp);
+    } else {
+      this.feesBox3 = false;
+      this.isNewItemDiscount = true;
+      console.log('exit');
+      this.newItemArr[id].isDiscount = true;
+
+      let resTemp = this.calculationDiscount(this.newItemArr[id].discount);
+      this.newItemArr[id].discount.value = resTemp.value;
+      this.newItemArr[id].discount.taxRes = resTemp.taxRes;
+      this.newItemArr[id].discount.amount = resTemp.amount;
+      console.log(id);
+      console.log(resTemp);
+
+      console.log(this.newItemArr);
+    }
+    this.calculationTotal();
+  }
+
+  //this calculation discount fee
+  calculationDiscount(obj) {
+    this.isEditInv = true;
+    this.isnewItemsValid = true;
+    console.log(obj);
+    let tempObj = {
+      value: 0,
+      taxRes: 0,
+      amount: 0
+    };
+    let taxRate = obj.tax;
+    let taxAmount = (obj.dValue * taxRate) / 100;
+    console.log(taxAmount);
+
+    if (obj.type == 'Inclusive') {
+      var cDis = Number(obj.dValue / (1 + obj.tax / 100));
+      console.log(cDis);
+      tempObj.value = Number(cDis.toFixed(2));
+
+      var tax = Number(cDis) * (obj.tax / 100);
+      tempObj.taxRes = Number(tax.toFixed(2));
+
+      tempObj.amount = Number(cDis.toFixed(2));
+    } else if (obj.type == 'Exclusive') {
+      tempObj.taxRes = Number(taxAmount);
+      tempObj.value = obj.dValue;
+      console.log(obj.dValue);
+      tempObj.amount = obj.dValue;
+    } else {
+      tempObj.value = obj.dValue;
+      tempObj.taxRes = 0;
+      tempObj.amount = obj.dValue;
+    }
+    console.log(tempObj);
+    return tempObj;
+  }
+  showDiscountPopup(type, id) {
+    console.log(type);
+    if (type == 'courseFee-dis') {
+      this.feesBox2 = true;
+    } else {
+      this.feesBox3 = true;
+      this.activeFeeBoxId = id;
+    }
+  }
+
+  removeDiscount(type, obj, id) {
+    if (type == 'courseFee') {
+      this.iscDiscount = false;
+      if (this.cDiscount.isDefault) {
+        this.cDiscount = {
+          value: 0,
+          tax: 0,
+          taxRes: 0,
+          type: '',
+          dValue: 0.0,
+          amount: 0.0,
+          isDefault: this.cDiscount.isDefault
+        };
+        this.isEditInv = true;
+      }
+
+      this.default_disTotal = 0;
+      this.defult_disTotalTax = 0;
+    } else {
+      this.newItemArr[id].discount = {
+        value: 0,
+        tax: this.invoice[0].tax.rate,
+        taxRes: 0,
+        type: 'Exclusive',
+        dValue: 0.0,
+        amount: 0.0
+      };
+      this.newItemArr[id].isDiscount = false;
+
+      console.log(this.newItemArr);
+    }
+    this.validateForm();
+    this.calculationTotal();
+  }
+
+  keyPress(event: any) {
+    //  /[0-9\+\-\ ]/;
+    // /[0-9]{1,4}(\.[0-9][0-9])/
+    const pattern = /[0-9\.\ ]/;
+    const pp = /^[.\d]+$/;
+    let inputChar = String.fromCharCode(event.charCode);
+    let inputChar2 = String.fromCharCode(event.charCode);
+    console.error(pp.test(inputChar2));
+
+    console.error(pattern.test(inputChar));
+
+    if (!pattern.test(inputChar) && event.charCode != '0') {
+      event.preventDefault();
+    }
+  }
+
+  isDecimalValue(event) {
+    const charCode = event.which ? event.which : event.keyCode;
+    const dot1 = event.target.value.indexOf('.');
+    const dot2 = event.target.value.lastIndexOf('.');
+    console.log('charCode', charCode, 'dot1', dot1, 'dot2', dot2);
+    console.log(event.key.indexOf('.'));
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('~~~~~~~');
+      return false;
+    } else if (charCode == 46 && dot1 == dot2 && dot1 != -1 && dot2 != -1) {
+      console.log('########');
+      return false;
+    }
+    console.log(event.target.value.search(/^0/));
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+
+    return true;
   }
 }

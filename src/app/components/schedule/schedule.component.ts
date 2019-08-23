@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FlexiComponent } from '../flexi/flexi.component';
 declare var $: any;
 @Component({
@@ -54,6 +55,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public createBoxLength;
   public isSide: boolean = false;
   public screenValue;
+  public showRelief: boolean = false;
+  selectedLesson: any = null;
   // public styleArr={top:"",left:"",right:"0"};
   // public styleArrDefault={top:"",left:"",right:""};
   // public styleArrDefault2={top:"",left:"",right:""};
@@ -74,6 +77,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public isSearch: boolean = false;
   public coursePlanSearchKeyWord: any;
   // public SelectedDate = [];
+  public mystyle;
   public monthCount: boolean = false;
   public monthArray: any = [];
   public noOfMonth: any = [];
@@ -98,6 +102,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   // public daysOfWeek = localStorage.getItem('daysofWeek');
   // public categoryId = localStorage.getItem('categoryId');
   public selectedTeacher: any = {};
+  public selectedCourse: any = {};
+  public selectedTeacher_modal: any = {};
   public selectedCategory: any = {};
   public selectedCat: boolean = true;
   public activeTab: any;
@@ -152,6 +158,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isCategory: boolean = false;
   isPlan: boolean = false;
   isCourseCreate: boolean = false;
+  public reasonValue: any;
+  public textAreaOption = false;
+  public studentArray = [];
+  isProrated: boolean = false;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
 
@@ -714,7 +724,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private http: HttpClient
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
@@ -789,8 +800,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isCourseCreate = true;
     });
   }
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event): void {}
+
   @HostListener('document:click', ['$event']) clickedOutside($event) {
-    console.log($event);
+    if (
+      $event.target.offsetParent != null &&
+      $event.target.offsetParent.className == 'single-slot test-bg'
+    ) {
+      this.overlap = true;
+      this.caculatePosition($event);
+    } else {
+      this.overlap = false;
+    }
     // here you can hide your menu
     this.testshowbox = '';
     this.testshowboxs = false;
@@ -805,7 +828,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.overFlowWidth(20, 'button');
     //to define is side or not
     var diff = window.innerWidth - this.screenValue;
-    console.log(diff);
     if (this.isSide) {
       if (diff <= 40 && diff >= 0) {
         console.log('less than');
@@ -820,7 +842,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   ngOnInit() {
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
@@ -928,16 +949,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     var diffHours = (diff - diffMins) / 60;
     console.log('hours', diffHours);
 
-    if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
-      diffHours = diffHours * 2 + 1;
-      console.log(diffHours);
-    } else if (diffMins > 30 && diffMins < 60) {
-      diffHours = diffHours * 2 + 2;
-      console.log(diffHours);
-    } else if (diffMins == 0) {
-      diffHours = diffHours * 2;
-      console.log(diffHours);
+    console.log(time.start.min);
+    if (time.start.min != 0) {
+      diffHours = diffHours + 1;
+    } else {
+      diffHours = diffHours;
     }
+    // if ((diffMins == 30 || diffMins < 30) && diffMins > 0) {
+    //   diffHours = diffHours * 2 + 1;
+    //   console.log(diffHours);
+    // } else if (diffMins > 30 && diffMins < 60) {
+    //   diffHours = diffHours * 2 + 2;
+    //   console.log(diffHours);
+    // } else if (diffMins == 0) {
+    //   diffHours = diffHours * 2;
+    //   console.log(diffHours);
+    // }
 
     // var hours= [];
     if (time.start.meridiem === 'PM') {
@@ -953,7 +980,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     for (var i = 0; i <= diffHours; i++) {
       if (i > 0) {
-        tempH = tempH + 30;
+        tempH = tempH + 60; //if u want to different "30" minus,  tempH = tempH + 30
       } else {
         tempH = tempH;
       }
@@ -1049,12 +1076,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   minSlotArr = [];
   calculateSlot(start) {
+    console.log(start);
+
     var min = start.min; // start time min
     // var temp = [];
     // var tempnext = [];
     this.minArr = [];
     this.minNextArr = [];
     var next;
+    //if u want to calculate two division in one hour
     for (var i = 0; i <= 1; i++) {
       // min += 1;
       // if(min == 60){
@@ -1070,48 +1100,52 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         // } else {
         //   min += 15;
         // }
-        var m = min + 15;
+        var m = min + 30; //if u want to different "30" minus,  min + 15
         if (m > 60) {
           min = m - 60;
           if (min == 60) {
             min = 0;
           }
         } else {
-          min += 15;
+          min += 30; //if u want to different "30" minus,   min += 15;
           if (min == 60) {
             min = 0;
           }
         }
       }
+      console.log(min);
+
       this.minArr.push(min);
       this.minSlotArr.push(min);
+      this.minNextArr.push(min);
     }
     console.log('temp', this.minArr);
-    next = this.minArr[this.minArr.length - 1];
-    console.log('next', next);
+    //if u want to calculate four division in one hour
+    // next = this.minArr[this.minArr.length - 1];
+    // for (var j = 0; j <= 1; j++) {
+    //   // if (next == 45) {
+    //   //   console.log("==59")
+    //   //   next = 0;
+    //   // } else {
+    //   //   next += 15;
+    //   // }
+    //   m = next + 30;  //if u want to different "30" minus,  m = next + 15;
+    //   if (m > 60) {
+    //     next = m - 60;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   } else {
+    //     next += 30; //if u want to different "30" minus,    next += 15;;
+    //     if (next == 60) {
+    //       next = 0;
+    //     }
+    //   }
+    //   this.minNextArr.push(next);
+    //   this.minSlotArr.push(next);
+    // }
+    console.log(this.minSlotArr);
 
-    for (var j = 0; j <= 1; j++) {
-      // if (next == 45) {
-      //   console.log("==59")
-      //   next = 0;
-      // } else {
-      //   next += 15;
-      // }
-      m = next + 15;
-      if (m > 60) {
-        next = m - 60;
-        if (next == 60) {
-          next = 0;
-        }
-      } else {
-        next += 15;
-        if (next == 60) {
-          next = 0;
-        }
-      }
-      this.minNextArr.push(next);
-      this.minSlotArr.push(next);
-    }
     console.log('temp next ===>', this.minNextArr);
   }
 
@@ -1385,7 +1419,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   overFlowWidth(index, type) {
     var arr = index;
     // for normal calling
-    // console.error('object');
     if (type == 'button') {
       if (window.innerWidth < 1366) {
         for (let i = 0; i <= 5; i++) {
@@ -1642,15 +1675,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.blockUI.stop();
         }, 100);
+
         console.log('staff timetable', res);
         setTimeout(() => {
           console.log($('.my-class').length);
           var mlen = $('.my-class').length;
-          // for(){
-
-          // }
         }, 300);
         this.finalLists = res;
+
         for (let i = 0; i < this.finalLists.length; i++) {
           this.monthArray.push(this.finalLists[i].date.month);
           this.noOfMonth = this.monthArray.filter(
@@ -1688,11 +1720,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.isEditInv = false;
       this.singleInv = [];
       this.updateInvData = {};
+      this.reasonValue = '';
+      this.textAreaOption = false;
+      this.isGlobal = false;
+      console.log('exit');
     }
     this.showflexyCourse = false;
   }
 
   activeTeachers(teacher) {
+    console.log(this.selectedTeacher);
+
     this.selectedTeacher = teacher;
     this.tempSelectedTeacher = teacher;
     this.selectedTeacher.userId = teacher.userId;
@@ -1716,6 +1754,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   public tempTchr: any;
   activeTeachers1(teacher, index) {
+    console.log(this.selectedTeacher);
+
     this.isTeacherAll = false;
     this.keyword = '';
     this.selectedTeacher = teacher;
@@ -1767,26 +1807,43 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    console.log(type);
+    console.log(this.selectedTeacher);
+
     console.log('course-id-->', courseID, seat);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+    console.log(courseID);
+
     this.courseId = courseID;
     this.selectedSeat = seat;
-    this.lessonId = '5beb8c7d1f893164fff2c32b';
-    this.getCourseDetail(this.courseId);
-    if (seat.left != null && seat.taken >= seat.total)
-      this.onClickModalTab('view');
-    else this.onClickModalTab(type);
+    this.getCourseDetail(this.courseId, modal);
+    // if (seat.left != null && seat.taken >= seat.total)
+    this.onClickModalTab(type);
+    //   else this.onClickModalTab(type);
   }
 
-  getCourseDetail(id) {
+  getCourseDetail(id, modal) {
+    console.log(this.isTeacherAll);
+
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         this.detailLists = res;
-        console.log(res);
         this.courseDetail = res;
+        if (this.isTeacherAll) {
+          this.selectedTeacher_modal = res.teacher;
+          console.log(this.selectedTeacher_modal);
+        }
+
+        console.log(res);
+        // if(modal !=  null){
+        //   this.modalReference = this.modalService.open(modal, {
+        //     backdrop: 'static',
+        //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+        //   });
+        // }
       },
       err => {
         console.log(err);
@@ -1794,17 +1851,72 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     );
   }
 
+  cancelReliefModal() {
+    console.log('cancel relirf~~~');
+    this.modalReference.close();
+    return new Promise((resolve, reject) => {
+      this.getCourseDetail(this.detailLists._id, null);
+      resolve();
+    }).then(() => {
+      setTimeout(() => {
+        // console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        // this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
+      }, 300);
+    });
+    // this._service
+    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //   });
+  }
+
   onClickModalTab(type, full?) {
     console.log(full);
-    this.activeTab = type;
+    console.log(type);
+
+    // this.activeTab = type;
     if (type == 'enroll') {
+      this.activeTab = type;
     } else if (type == 'view') {
+      this.activeTab = type;
       this.getUserInCourse();
+    } else if (type == 'relief') {
+      this.activeTab = true;
+      setTimeout(() => {
+        this.searchSelectedLesson(type);
+      }, 500);
+    } else if ((type = 'cancel')) {
+      this.activeTab = 'cancel';
+      this.getUserInCourse();
+      console.log('exit cancel');
+      setTimeout(() => {
+        this.searchSelectedLesson(type);
+      }, 500);
     } else {
       this.getUserInCourse();
+      this.activeTab = type;
     }
   }
 
+  searchSelectedLesson(type) {
+    console.log(this.courseDetail.lessons);
+
+    this.courseDetail.lessons.map(lesson => {
+      console.log(lesson.startDate);
+      var lessondate = lesson.startDate.split('T')[0];
+      console.log(lessondate);
+      var m =
+        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
+      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+      var tempDate = this.lessonD.year + '-' + m + '-' + d;
+      console.log('tempDate', tempDate);
+      if (lessondate == tempDate) {
+        this.selectedLesson = lesson;
+        console.log('selected lesson', this.selectedLesson);
+        this.activeTab = type;
+      }
+    });
+  }
   getUserInCourse() {
     //temp api for testing UI
     // this.blockUI.start('Loading...');
@@ -1815,6 +1927,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
+          res.CUSTOMER.map(customer => {
+            this.studentArray.push(customer.userId);
+          });
         },
         err => {
           console.log(err);
@@ -2317,7 +2432,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   showDp: boolean = false;
   scheduleObj = {};
+
+  testTop;
+  testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
+    const ele = document.getElementById('overlap-wrapper');
+    if (e.target.parentElement.className === 'slot-wrap border-0') {
+      this.testTop = e.clientY;
+      this.testLeft = e.clientX;
+      e.preventDefault();
+      e.stopPropagation();
+      this.caculatePosition(e);
+      return;
+    } else {
+      this.overlap = false;
+    }
+
     $('.disabledScroll').css('overflow', 'hidden');
     this.screenValue = window.innerWidth; //for resize condition to mactch window size
 
@@ -2333,6 +2463,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //     console.log("original", h, ':', min, ':', ampm);
     //    }
     // }
+    console.log('min', min);
+
     var cIdx = this.minSlotArr.indexOf(min);
     console.log('cIdx', cIdx);
     var pIdx = cIdx - 1;
@@ -2351,6 +2483,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       console.log('original', h);
     }
 
+    if (h == 12) {
+      ampm = 'PM';
+    }
     // var h = hr;
     this.slotHr = h + ':' + min + ' ' + ampm;
 
@@ -2379,9 +2514,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log('arrTop>' + this.arrTop);
     console.log('arrLeft>' + this.arrLeft);
     console.log('width>', $(document).width());
-    if ($(document).height() - this.yPosition < 180) {
-      this.yPosition = $(event.target).offset().top - 170;
-      this.arrTop = this.yPosition + 160;
+    let height;
+    if (this.isTeacherAll) {
+      height = 136;
+    } else {
+      height = 160;
+    }
+    if ($(document).height() - this.yPosition < height) {
+      this.yPosition = $(event.target).offset().top - height;
+      this.arrTop = this.yPosition + height;
       this.arrClasses = {
         'arr-box': true,
         'arr-down': true
@@ -2423,7 +2564,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
     console.log('selected', this.selectedTeacher);
     console.log('selectdate', date);
-    console.log('selectedDay', weekday);
     var day = [];
     switch (weekday) {
       case 'Sun':
@@ -2460,6 +2600,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       min: this.slotM,
       meridiem: this.slotAMPM
     };
+
     this.scheduleObj['repeatDays'] = day;
     this.scheduleObj['date'] = sDate;
     this.scheduleObj['teacher'] = this.selectedTeacher;
@@ -2501,6 +2642,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       id: plan._id,
       duration: plan.lesson.duration,
       paymentPolicy: plan.paymentPolicy,
+      description: plan.description,
       from: 'schedule'
     };
     // this.goBackCat = false;
@@ -2533,44 +2675,75 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       localStorage.removeItem('cPlan');
       localStorage.removeItem('scheduleObj');
     } else {
+      console.log('not for rollover');
       this.goBackCat = false;
       this.isCourseCreate = true;
       localStorage.removeItem('courseID');
       localStorage.setItem('cPlan', JSON.stringify(planObj));
+      console.log('scheduleObj', this.scheduleObj);
+
       localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj));
     }
     // console.log("scheduleObj",this.scheduleObj);
   }
 
-  cancelClassFun(lessonId) {
-    let data = {
-      lessonId: lessonId
-    };
-    console.log(lessonId);
+  cancelClass(lessonId) {
+    var cancelData;
+    if (
+      this.reasonValue == null ||
+      this.reasonValue.length == 0 ||
+      this.reasonValue == undefined
+    ) {
+      var noReason = {
+        lessonId: lessonId,
+        students: this.studentArray
+      };
+      cancelData = noReason;
+      console.log('exit');
+    } else {
+      var reason = {
+        lessonId,
+        students: this.studentArray,
+        message: this.reasonValue
+      };
+      cancelData = reason;
+    }
+
+    console.log(cancelData);
+    console.log(this.isGlobal);
+    console.log(this.courseId);
+
     // console.log(this.isGlobal)
     // Call cancel class api service
     // this.blockUI.start('Loading...');
     // this.isGlobal
     this._service
-      .cancelUsersFromClass(this.courseId, data, this.isGlobal)
+      .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
         (res: any) => {
           // Success function
           // this.blockUI.stop();
           // this.cancelUI=false;
           // this.cancelUi=false;
+
+          console.log(res);
+
           console.info('cancle user from class api calling is done');
           console.log(res);
           this.isGlobal = false;
           // this.disableCancel = true;
-          this.getCourseDetail(this.courseId);
+          // this.getCourseDetail(this.courseId);
+          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
           // Close Dialog box
           // Show the canceled users
+          this.reasonValue = '';
+          this.textAreaOption = false;
+          this.isGlobal = false;
         },
         err => {
           // Error function
           this.isGlobal = false;
-          console.error('cancle user from class has got error', err);
+          console.log('cancle user from class has got error', err);
           // Do something
         }
       );
@@ -2579,7 +2752,49 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   courseInfo = {};
-  onClickCourse(course, lesson, e, date) {
+
+  onClickCourse(course, lesson, e, date, list, type) {
+    this.overlap = false;
+    console.log(type);
+    if (type == 'cancel') {
+      var day = [];
+      switch (date.dayOfWeek) {
+        case 'Sun':
+          day.push(0);
+          break;
+        case 'Mon':
+          day.push(1);
+          break;
+        case 'Tue':
+          day.push(2);
+          break;
+        case 'Wed':
+          day.push(3);
+          break;
+        case 'Thu':
+          day.push(4);
+          break;
+        case 'Fri':
+          day.push(5);
+          break;
+        case 'Sat':
+          day.push(6);
+      }
+      var sDate = {
+        year: date.year,
+        month: date.month,
+        day: date.day
+      };
+      this.scheduleObj['repeatDays'] = day;
+      this.scheduleObj['date'] = sDate;
+      this.scheduleObj['teacher'] = this.selectedTeacher;
+      this.scheduleObj['time'] = course.start;
+    }
+    this.selectedCourse = course;
+    // if (list.isOverlap == true) {
+
+    //   return;
+    // }
     this.showInvoice = false;
     this.showPayment = false;
     this.selectedCustomer = {};
@@ -2606,9 +2821,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else {
       if (course.seat != {}) {
         console.log('dfdfdfdfdfdfdf');
-        this.popUpHeight = 260;
+        this.popUpHeight = 390;
       } else {
-        this.popUpHeight = 250;
+        this.popUpHeight = 380;
       }
       if ($(event.target).parents('.lesson-slot').length > 0) {
         this.yPosition =
@@ -2627,11 +2842,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.arrTop = this.yPosition - 20;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
-
-      if ($(document).height() - this.yPosition < this.popUpHeight) {
+      if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
         console.log('I found u');
-        this.yPosition = this.yPosition - this.popUpHeight - 40 - 20;
-        this.arrTop = this.yPosition + this.popUpHeight;
+        this.yPosition = this.yPosition - this.popUpHeight - 20;
+        this.arrTop = this.yPosition + this.popUpHeight - 10;
         this.arrClasses = {
           'arr-down': true
         };
@@ -2681,56 +2895,124 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     let arrTempLeft = this.xPosition + 140;
 
     setTimeout(() => {
-      if (
-        e.target.className == 'selectedCourse' ||
-        e.target.className == 'lesson-slot selectedCourse'
-      ) {
-        this.arrTop = arrTemptop;
-        this.arrLeft = arrTempLeft;
-        if ($(document).height() - this.yPosition < 180) {
-          this.yPosition = $(event.target).offset().top - 170;
-          this.arrTop = this.yPosition + 160;
-          this.arrClasses = {
-            'arr-box': true,
-            'arr-down': true
-          };
-        } else {
-          this.arrClasses = {
-            'arr-box': true,
-            'arr-up': true
-          };
-        }
-        console.log('here me');
-        this.styleArrDefault = {
+      // if (
+      //   e.target.className == 'selectedCourse' ||
+      //   e.target.className == 'lesson-slot selectedCourse'
+      // ) {
+      //   console.warn('bottom state')
+      //   this.arrTop = arrTemptop;
+      //   this.arrLeft = arrTempLeft;
+      //   if ($(document).height() - this.yPosition < 180) {
+      //     this.yPosition = $(event.target).offset().top - 170;
+      //     this.arrTop = this.yPosition + 160;
+      //     this.arrClasses = {
+      //       'arr-box': true,
+      //       'arr-down': true
+      //     };
+      //   } else {
+      //     this.arrClasses = {
+      //       'arr-box': true,
+      //       'arr-up': true
+      //     };
+      //   }
+      //   console.log('here me');
+      //   this.styleArrDefault = {
+      //     top: this.yPosition + 'px',
+      //     left: this.xPosition + 'px'
+      //   };
+      //   if ($(document).width() - this.xPosition < 300) {
+      //     console.log('here 1');
+      //     this.xPosition = 0;
+      //     this.isSide = true;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       right: '0px'
+      //     };
+      //   } else if (this.xPosition < 0) {
+      //     console.log('here 2');
+      //     this.isSide = true;
+      //     this.xPosition = 0;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       left: '0px'
+      //     };
+      //   } else {
+      //     console.log('here 3');
+      //     this.isSide = false;
+      //     this.styleArr = {
+      //       top: this.yPosition + 'px',
+      //       left: this.xPosition + 'px'
+      //     };
+      //   }
+      // }
+    }, 20);
+
+    if (lesson.cancel) {
+      this.yPosition = e.layerY + 25;
+      this.xPosition = e.layerX - 25;
+
+      console.log($(event.target).offset().left + '<left');
+      console.log($(event.target).offset().top + '<top');
+      console.log($(event.target).height() + '<height');
+      this.xPosition =
+        $(event.target).offset().left - 150 + $(event.target).width() / 2;
+      this.yPosition =
+        $(event.target).offset().top + $(event.target).height() + 10;
+      this.arrTop =
+        $(event.target).offset().top + $(event.target).height() - 10;
+      this.arrLeft = this.xPosition + 140;
+
+      console.log('xPostiton>' + this.xPosition);
+      console.log('yPosition>' + this.yPosition);
+      console.log('arrTop>' + this.arrTop);
+      console.log('arrLeft>' + this.arrLeft);
+      console.log('width>', $(document).width());
+      let height;
+      if (this.isTeacherAll) {
+        height = 136;
+      } else {
+        height = 160;
+      }
+      if ($(document).height() - (this.yPosition + height - 20) < height) {
+        this.yPosition = $(event.target).offset().top - height;
+        this.arrTop = this.yPosition + height;
+        this.arrClasses = {
+          'arr-box': true,
+          'arr-down': true
+        };
+      } else {
+        this.arrClasses = {
+          'arr-box': true,
+          'arr-up': true
+        };
+      }
+
+      this.styleArrDefault = {
+        top: this.yPosition + 'px',
+        left: this.xPosition + 'px'
+      };
+      if ($(document).width() - this.xPosition < 300) {
+        console.log('here 1');
+        this.isSide = true;
+        this.styleArr = {
+          top: this.yPosition + 'px',
+          right: '0px'
+        };
+      } else if (this.xPosition < 0) {
+        console.log('here 2');
+        this.xPosition = 0;
+        this.styleArr = {
+          top: this.yPosition + 'px',
+          left: '0px'
+        };
+      } else {
+        console.log('here 3');
+        this.styleArr = {
           top: this.yPosition + 'px',
           left: this.xPosition + 'px'
         };
-        if ($(document).width() - this.xPosition < 300) {
-          console.log('here 1');
-          this.xPosition = 0;
-          this.isSide = true;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            right: '0px'
-          };
-        } else if (this.xPosition < 0) {
-          console.log('here 2');
-          this.isSide = true;
-          this.xPosition = 0;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            left: '0px'
-          };
-        } else {
-          console.log('here 3');
-          this.isSide = false;
-          this.styleArr = {
-            top: this.yPosition + 'px',
-            left: this.xPosition + 'px'
-          };
-        }
       }
-    }, 20);
+    }
   }
 
   //  Test Course Plan List Api
@@ -2821,6 +3103,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (content != null) {
       inner.style.width = content.scrollWidth + 'px';
       if (type == 'v-wrapper') {
+        this.overlap = false;
         scrollbar.scrollLeft = content.scrollLeft;
       } else {
         content.scrollLeft = scrollbar.scrollLeft;
@@ -2872,7 +3155,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(e);
     this.checkobjArr = e;
   }
-
   flexicomfirm() {
     //add cutomer
     this.stdLists = [];
@@ -2881,7 +3163,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       userType: this.tempuserType,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
-      lessons: this.checkobjArr
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
     };
     console.log('body', lessonBody);
     this.blockUI.start('Loading...');
@@ -2928,5 +3213,75 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   printSchedule() {
     window.print();
+  }
+  showTextarea() {
+    this.textAreaOption = true;
+  }
+  //start cancel funtion
+
+  public overlapClasses = {};
+  public overlapArrClasses = {};
+  public overlapXTop;
+  public overlapYLeft;
+  public overlap = false;
+  caculatePosition(e) {
+    this.overlap = true;
+    // e.preventDefault();
+    // e.stopPropagation();
+    $('.disabledScroll').css('overflow', 'hidden');
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    this.overlapArrClasses = {
+      top: YPosition - 20 + 'px',
+      left: XPosition + 'px'
+    };
+    this.overlapXTop = YPosition + 'px';
+    this.overlapYLeft = XPosition + 'px';
+    // this.overlapClasses = {
+    //   top:  YPosition + 'px',
+    //   left: XPosition + 'px',
+    // }
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+    if ($(document).width() - XPosition < 240) {
+      // this.overlapArrClasses = {
+      //   top : YPosition + 'px',
+      //   left : XPosition-240+ 'px'
+      // }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': false,
+        'arr-up': true
+      };
+      this.overlapYLeft = XPosition - 210 + 'px';
+      this.overlapClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 210 + 'px'
+      };
+    }
+
+    if ($(document).height() - (YPosition + 112) < 56) {
+      this.overlapXTop = YPosition - 56 + 'px';
+      this.overlapClasses = {
+        top: YPosition - 56 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+      this.overlapArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
   }
 }
