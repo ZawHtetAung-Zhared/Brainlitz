@@ -23,6 +23,10 @@ ul.pass-list li,
   padding-left: 16px;
 }
 
+.bg-makeup {
+  background: #f2f4f5;
+}
+
 .paid-text {
   padding-left: 16px;
 }
