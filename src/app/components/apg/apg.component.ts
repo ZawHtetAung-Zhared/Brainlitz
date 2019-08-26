@@ -618,7 +618,6 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.idArr = [];
   }
   cancelGrading(e) {
-    console.warn('object');
     if (e) {
       this.cancelapg();
     }
@@ -1676,6 +1675,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    this.UserGradeApg = undefined;
     this.isCreateStatus = false;
     this.apgType = apgName.module.name;
     console.log(id);
@@ -1742,8 +1742,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           .then(dataCollection => {
             console.log('successs', dataCollection);
             let tempArr = [];
-            this.UserGradeApg = dataCollection;
-            this.templateAccessPointGroup = dataCollection;
+            this.model.data = dataCollection[0].data;
+            // this.UserGradeApg = dataCollection;
+            this.UserGradeApg = this.model;
             if (
               apgName.module.name == 'Evaluation' ||
               apgName.module.name == 'Assessment'

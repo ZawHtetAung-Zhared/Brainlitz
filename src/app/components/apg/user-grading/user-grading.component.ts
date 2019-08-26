@@ -4,7 +4,8 @@ import {
   HostListener,
   EventEmitter,
   Output,
-  Input
+  Input,
+  OnDestroy
 } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -149,7 +150,7 @@ export class UserGradingComponent implements OnInit {
     };
     if (!this.isCreateStatus) {
       this.blockUI.start('Loading');
-      this.userGradeData = this.UserGradeObj[0];
+      this.userGradeData = this.UserGradeObj;
       setTimeout(() => {
         this.blockUI.stop();
       }, 300);
@@ -173,6 +174,8 @@ export class UserGradingComponent implements OnInit {
     e.stopPropagation();
     this.showPopUp = true;
     this.selectedIndex = index;
+    this.gradeName = this.userGradeData.data.grades[index].point;
+    this.selectedColor = this.userGradeData.data.color.background;
     this.caculatePosition(e);
   }
   closePopUp(e) {
@@ -285,5 +288,49 @@ export class UserGradingComponent implements OnInit {
     //     'arr-up': false
     //   };
     // }
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.userGradeData = {};
+  }
+  updateAP() {
+    var editAP = {};
+    editAP['name'] = this.userGradeData.name;
+    editAP['description'] = this.userGradeData.description;
+    editAP['moduleId'] = this.userGradeData.moduleId;
+    editAP['data'] = this.userGradeData.data;
+    this._service
+      .updateAP(this.regionID, this.userGradeData.accessPoints[0], editAP)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.updateApg();
+          this.cancelGrade.emit(true);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  updateApg() {
+    this._service
+      .updateAPG(
+        this.regionID,
+        this.userGradeData._id,
+        this.userGradeData,
+        null
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  cancelUserGrade() {
+    this.cancelGrade.emit(true);
   }
 }

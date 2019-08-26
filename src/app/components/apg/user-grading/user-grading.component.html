@@ -1,7 +1,7 @@
 <h3 class="grade-title">
   Grade name
 </h3>
-<div class="form-group grade-name">
+<div class="form-group grade-name" *ngIf="userGradeData != undfined">
   <input
     type="text"
     class="form-control create-input w-100"
@@ -68,9 +68,22 @@
 </div>
 
 <div class="btn-wrapper">
-  <button class="btn  btn-cancel">Cancel</button>
-  <button class="btn btn-submit" (click)="createUserGradeApg(userGradeData)">
+  <button class="btn  btn-cancel" (click)="cancelUserGrade(userGradeData)">
+    Cancel
+  </button>
+  <button
+    class="btn btn-submit"
+    (click)="createUserGradeApg(userGradeData)"
+    *ngIf="this.isCreateStatus"
+  >
     Create
+  </button>
+  <button
+    class="btn btn-submit"
+    (click)="updateAP(userGradeData)"
+    *ngIf="!this.isCreateStatus"
+  >
+    Update
   </button>
 </div>
 
@@ -110,8 +123,8 @@
       class="color-circle"
       *ngFor="let color of blockColors"
       [style.background]="color.color.background"
-      [ngClass]="{ addBorder: color.name == selectedColor.name }"
-      (click)="selectedColor = color"
+      [ngClass]="{ addBorder: color.color.background == selectedColor }"
+      (click)="selectedColor = color.color.background"
     ></div>
   </div>
 </div>
