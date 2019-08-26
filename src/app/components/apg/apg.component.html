@@ -1151,6 +1151,31 @@
         </div>
       </div>
     </div>
+
+    <div
+      *ngIf="
+        iscreate == true &&
+        userGradingAp == true &&
+        (!isCreateStatus && UserGradeApg != undefined)
+      "
+      style="width: 480px;"
+    >
+      <app-user-grading
+        (cancelGrade)="cancelGrading($event)"
+        [UserGradeObj]="UserGradeApg"
+        [isCreateStatus]="isCreateStatus"
+      ></app-user-grading>
+    </div>
+    <div
+      *ngIf="iscreate == true && userGradingAp == true && isCreateStatus"
+      style="width: 480px;"
+    >
+      <app-user-grading
+        (cancelGrade)="cancelGrading($event)"
+        [UserGradeObj]="UserGradeApg"
+        [isCreateStatus]="isCreateStatus"
+      ></app-user-grading>
+    </div>
     <!-- End Data -->
     <form novalidate #createapgForm="ngForm">
       <div class="row" *ngIf="ismodule == true">
@@ -1243,7 +1268,12 @@
       </div>
 
       <div
-        *ngIf="iscreate == true && apCreate == false && dataApCreate == false"
+        *ngIf="
+          iscreate == true &&
+          apCreate == false &&
+          dataApCreate == false &&
+          userGradingAp == false
+        "
       >
         <div class="col-md-8 input-wrap">
           <div class="form-group">

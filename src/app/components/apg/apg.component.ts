@@ -25,6 +25,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
 import { promise } from 'protractor';
+import { UserGradingComponent } from './user-grading/user-grading.component';
 import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
@@ -33,6 +34,7 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public userGradingAp = false;
   public tempDataValue: any;
   public tempSharedApgId: any;
   public valueArray: any = [];
@@ -615,6 +617,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.tempRadioType = '';
     this.idArr = [];
   }
+  cancelGrading(e) {
+    if (e) {
+      this.cancelapg();
+    }
+  }
   // cancelAp() {
   //   this.apgList = [];
   //   this.model = {};
@@ -808,12 +815,20 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
         this.emptymin = true;
         this.overmin = true;
-      } else {
-        this.model = {};
+      } else if (name === 'User Grading') {
+        this.userGradingAp = true;
         this.dataApCreate = false;
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
+      } else {
+        this.model = {};
+        this.userGradingAp = false;
+        this.dataApCreate = false;
+        this.iscreate = true;
+        this.isshare = false;
+        this.apCreate = false;
+        this.ismodule = false;
       }
     } else {
       console.log('Create new APg', name);
@@ -880,6 +895,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   chooseModuleType(val, name) {
     console.log('ModuleId --->', val);
+    this.isCreateStatus = true;
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
@@ -1655,15 +1671,21 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(apgID);
     this.singleAPG(apgID, 'share');
   }
+  public UserGradeApg;
+  public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    this.UserGradeApg = undefined;
+    this.isCreateStatus = false;
     this.apgType = apgName.module.name;
     console.log(id);
     this.maxExit = true;
     this.apgList = [];
-    this.iscreate = true;
+    this.iscreate = false;
     this.isUpdate = true;
+    this.userGradingAp = false;
     if (apgName.module.name == 'Data') {
+      this.iscreate = true;
       var moduleId = localStorage.getItem('moduleID');
       const templateAccessPoint = {
         name: '',
@@ -1690,7 +1712,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       apgName.module.name == 'Assessment' ||
       apgName.module.name == 'Evaluation'
     ) {
+      this.iscreate = true;
       this.apCreate = true;
+    } else if (apgName.module.name == 'User Grading') {
+      this.apCreate = false;
+      this.dataApCreate = false;
+      this.ismodule = false;
+      this.userGradingAp = true;
+      this.iscreate = true;
     }
     return new Promise((resolve, reject) => {
       this.singleAPG(id, 'update')
@@ -1713,7 +1742,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           .then(dataCollection => {
             console.log('successs', dataCollection);
             let tempArr = [];
-            this.templateAccessPointGroup = dataCollection;
+            this.model.data = dataCollection[0].data;
+            // this.UserGradeApg = dataCollection;
+            this.UserGradeApg = this.model;
             if (
               apgName.module.name == 'Evaluation' ||
               apgName.module.name == 'Assessment'
