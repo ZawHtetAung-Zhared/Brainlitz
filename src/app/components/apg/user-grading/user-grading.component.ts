@@ -1,11 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  EventEmitter,
+  Output,
+  Input
+} from '@angular/core';
 import { appService } from '../../../service/app.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+declare var $: any;
 @Component({
   selector: 'app-user-grading',
   templateUrl: './user-grading.component.html',
   styleUrls: ['./user-grading.component.css']
 })
 export class UserGradingComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
+  @Output() cancelGrade = new EventEmitter();
+  @Input() UserGradeObj;
+  @Input() isCreateStatus;
   public userGradeData;
   public gradeName;
   public selectedIndex;
@@ -116,7 +129,7 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData = {
       name: '',
       description: '',
-      moduleId: '',
+      moduleId: this.moduleID,
       data: {
         color: {
           text: '#005934',
@@ -134,11 +147,18 @@ export class UserGradingComponent implements OnInit {
         ]
       }
     };
+    if (!this.isCreateStatus) {
+      this.blockUI.start('Loading');
+      this.userGradeData = this.UserGradeObj[0];
+      setTimeout(() => {
+        this.blockUI.stop();
+      }, 300);
+    }
   }
 
   addLevel() {
     const tempObj = {
-      name: 'level 1',
+      name: '',
       point: '1'
     };
     this.userGradeData.data.grades.push(tempObj);
@@ -148,14 +168,22 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData.data.grades.splice(index, 1);
   }
 
-  colorpalettePopUp(index) {
+  colorpalettePopUp(index, e) {
+    e.preventDefault();
+    e.stopPropagation();
     this.showPopUp = true;
     this.selectedIndex = index;
+    this.caculatePosition(e);
+  }
+  closePopUp(e) {
+    this.showPopUp = false;
   }
   applyGradeName() {
+    this.showPopUp = false;
+    this.userGradeData.data.grades[this.selectedIndex].point = this.gradeName;
     this.userGradeData.data.color.text = this.selectedColor.color.text;
     this.userGradeData.data.color.background = this.selectedColor.color.background;
-    this.userGradeData.data.grades[this.selectedIndex].name = this.gradeName;
+    this.gradeName = '';
   }
   onFocus() {
     this.isFocus = true;
@@ -164,14 +192,98 @@ export class UserGradingComponent implements OnInit {
   onFocusOut() {
     this.isFocus = false;
   }
+  createAp(data) {
+    this._service.createAP(this.regionID, this.locationID, data).subscribe(
+      res => {
+        if (res._id != null) this.apgCreate(res._id);
+      },
+      err => {}
+    );
+  }
   createUserGradeApg(data) {
+    console.log(data);
+    this.blockUI.start('Loading');
+    this.createAp(data);
+    setTimeout(() => {
+      this.blockUI.stop();
+    }, 300);
+  }
+  apgCreate(id) {
+    let temData = {
+      name: this.userGradeData.name,
+      description: '',
+      moduleId: this.moduleID,
+      accessPoints: [id]
+    };
     this._service
-      .createAPG(this.regionID, this.regionID, data, undefined, this.moduleID)
+      .createAPG(
+        this.regionID,
+        this.locationID,
+        temData,
+        undefined,
+        this.moduleID
+      )
       .subscribe(
-        res => {},
+        res => {
+          this.cancelGrade.emit(true);
+        },
         err => {
           console.error(err);
         }
       );
+  }
+
+  public colorWrapper = {};
+  public colorArrClasses = {};
+  public colorPopUpX;
+  public colorPopUpLeft;
+  public arrClasses: any;
+  caculatePosition(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    if (e.target.className == '') {
+      this.colorArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 34 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + 'px';
+      this.colorPopUpLeft = XPosition - 51 + 'px'; //21
+    } else {
+      this.colorArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 10 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + 'px';
+      this.colorPopUpLeft = XPosition - 40 + 'px'; //21
+    }
+
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+
+    // if ($(document).height() - (YPosition + 472) < 236) {
+    //   this.colorPopUpX = YPosition - 56 + 'px';
+    //   this.colorWrapper = {
+    //     top: YPosition - 236 + 'px',
+    //     left: XPosition + 'px'
+    //   };
+    //   this.arrClasses = {
+    //     'arr-box': true,
+    //     'arr-down': true
+    //   };
+    //   this.colorArrClasses = {
+    //     top: YPosition + 'px',
+    //     left: XPosition + 'px'
+    //   };
+    //   this.arrClasses = {
+    //     'arr-box': true,
+    //     'arr-down': true,
+    //     'arr-up': false
+    //   };
+    // }
   }
 }

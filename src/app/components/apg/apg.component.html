@@ -1153,10 +1153,17 @@
     </div>
 
     <div
-      *ngIf="iscreate == true && userGradingAp == true"
+      *ngIf="
+        iscreate == true && userGradingAp == true && UserGradeApg != undefined
+      "
       style="width: 480px;"
     >
-      <app-user-grading></app-user-grading>
+      <!-- <app-user-grading (cancelGrade)="cancelGrading($event)"></app-user-grading> -->
+      <app-user-grading
+        (cancelGrade)="cancelGrading($event)"
+        [UserGradeObj]="UserGradeApg"
+        [isCreateStatus]="isCreateStatus"
+      ></app-user-grading>
     </div>
     <!-- End Data -->
     <form novalidate #createapgForm="ngForm">

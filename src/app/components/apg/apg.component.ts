@@ -617,6 +617,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.tempRadioType = '';
     this.idArr = [];
   }
+  cancelGrading(e) {
+    console.warn('object');
+    if (e) {
+      this.cancelapg();
+    }
+  }
   // cancelAp() {
   //   this.apgList = [];
   //   this.model = {};
@@ -890,6 +896,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   chooseModuleType(val, name) {
     console.log('ModuleId --->', val);
+    this.isCreateStatus = true;
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
@@ -1665,15 +1672,20 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(apgID);
     this.singleAPG(apgID, 'share');
   }
+  public UserGradeApg;
+  public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    this.isCreateStatus = false;
     this.apgType = apgName.module.name;
     console.log(id);
     this.maxExit = true;
     this.apgList = [];
-    this.iscreate = true;
+    this.iscreate = false;
     this.isUpdate = true;
+    this.userGradingAp = false;
     if (apgName.module.name == 'Data') {
+      this.iscreate = true;
       var moduleId = localStorage.getItem('moduleID');
       const templateAccessPoint = {
         name: '',
@@ -1700,7 +1712,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       apgName.module.name == 'Assessment' ||
       apgName.module.name == 'Evaluation'
     ) {
+      this.iscreate = true;
       this.apCreate = true;
+    } else if (apgName.module.name == 'User Grading') {
+      this.apCreate = false;
+      this.dataApCreate = false;
+      this.ismodule = false;
+      this.userGradingAp = true;
+      this.iscreate = true;
     }
     return new Promise((resolve, reject) => {
       this.singleAPG(id, 'update')
@@ -1723,6 +1742,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           .then(dataCollection => {
             console.log('successs', dataCollection);
             let tempArr = [];
+            this.UserGradeApg = dataCollection;
             this.templateAccessPointGroup = dataCollection;
             if (
               apgName.module.name == 'Evaluation' ||

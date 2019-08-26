@@ -46,11 +46,15 @@
   font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   font-size: 14px;
   color: #544600;
+  cursor: pointer;
 }
 .grade-icon span {
   font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   font-size: 14px;
   color: #544600;
+}
+.down-icon {
+  cursor: pointer;
 }
 .remove-icon {
 }
@@ -155,7 +159,37 @@
 .addBorder {
   border: 2px solid #007fff;
 }
-.fcous-background {
+.focus-background {
   background: #007fff;
   color: #fff;
+}
+
+/* for popup box */
+.carret-box,
+.arr-box {
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  position: fixed;
+  /* right: 50%; */
+  top: -19px;
+  z-index: 15;
+  margin: auto;
+}
+.arr-up {
+  border-bottom: solid 10px #fff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+}
+.arr-down {
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+
+  border-top: 10px solid #fff;
+}
+.arr-box {
+  position: fixed;
+  /* right: 85%!important; */
 }
