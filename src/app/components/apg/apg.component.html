@@ -1560,26 +1560,28 @@
                 >{{ temp.name }}</span
               >
               <div style="margin-top: 14px">
-                <div class="d-flex">
-                  <div
-                    *ngFor="let accessPoint of temp.accessPoints; let i = index"
-                  >
+                <div>
+                  <div *ngFor="let accessPoint of temp.accessPoints">
                     <div
-                      *ngFor="let grade of temp.accessPoints.data.grades"
-                      [style.background]="accessPoint.data.color.background"
-                      [ngClass]="{
-                        'test-circle': grade.point.length === 1,
-                        circle: grade.point.length > 1
-                      }"
+                      *ngFor="let grade of accessPoint.data.grades"
+                      class="d-flex"
                     >
-                      <span [style.color]="accessPoint.data.color.text">
-                        {{ grade.point }}
-                      </span>
+                      <div
+                        [style.background]="accessPoint.data.color.background"
+                        [ngClass]="{
+                          'test-circle': grade.point.length == 1,
+                          circle: grade.point.length > 1
+                        }"
+                      >
+                        <span [style.color]="accessPoint.data.color.text">
+                          {{ grade.point }}
+                        </span>
+                      </div>
                       <div
                         class="detail-line w-100"
                         [ngClass]="{
                           'hide-border':
-                            temp.accessPoints.data.grades?.length == i + 1
+                            accessPoint.data.grades?.length == i + 1
                         }"
                         style="margin-bottom: 16px"
                       >
