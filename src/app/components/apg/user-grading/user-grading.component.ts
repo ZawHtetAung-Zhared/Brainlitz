@@ -25,11 +25,8 @@ export class UserGradingComponent implements OnInit {
   public selectedIndex;
   public showPopUp = false;
   public selectedColor = {
-    name: '1',
-    color: {
-      text: '#544600',
-      background: '#FFE04D'
-    }
+    text: '#544600',
+    background: '#FFE04D'
   };
   public isFocus;
   public regionID = localStorage.getItem('regionId');
@@ -175,7 +172,7 @@ export class UserGradingComponent implements OnInit {
     this.showPopUp = true;
     this.selectedIndex = index;
     this.gradeName = this.userGradeData.data.grades[index].point;
-    this.selectedColor = this.userGradeData.data.color.background;
+    this.selectedColor = this.userGradeData.data.color;
     this.caculatePosition(e);
   }
   closePopUp(e) {
@@ -184,8 +181,8 @@ export class UserGradingComponent implements OnInit {
   applyGradeName() {
     this.showPopUp = false;
     this.userGradeData.data.grades[this.selectedIndex].point = this.gradeName;
-    this.userGradeData.data.color.text = this.selectedColor.color.text;
-    this.userGradeData.data.color.background = this.selectedColor.color.background;
+    this.userGradeData.data.color.text = this.selectedColor.text;
+    this.userGradeData.data.color.background = this.selectedColor.background;
     this.gradeName = '';
   }
   onFocus() {

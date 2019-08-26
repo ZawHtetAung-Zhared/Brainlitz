@@ -121,10 +121,12 @@
   <div class="color-section d-flex flex-wrap">
     <div
       class="color-circle"
-      *ngFor="let color of blockColors"
-      [style.background]="color.color.background"
-      [ngClass]="{ addBorder: color.color.background == selectedColor }"
-      (click)="selectedColor = color.color.background"
+      *ngFor="let item of blockColors"
+      [style.background]="item.color.background"
+      [ngClass]="{
+        addBorder: item.color.background == selectedColor.background
+      }"
+      (click)="selectedColor = item.color"
     ></div>
   </div>
 </div>
