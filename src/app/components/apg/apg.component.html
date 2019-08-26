@@ -1530,7 +1530,7 @@
         <!-- user grading module -->
         <div class="card-columns" *ngIf="apgType == 'User Grading'">
           <div
-            *ngFor="let temp of templist; let i = index"
+            *ngFor="let temp of templateList; let i = index"
             class="card card-wrap share-input "
           >
             <label
@@ -1560,28 +1560,31 @@
                 >{{ temp.name }}</span
               >
               <div style="margin-top: 14px">
-                <div *ngFor="let grade of temp.data.grades; let i = index">
-                  <div class="d-flex">
+                <div class="d-flex">
+                  <div
+                    *ngFor="let accessPoint of temp.accessPoints; let i = index"
+                  >
                     <div
-                      [style.background]="temp.data.color.background"
+                      *ngFor="let grade of temp.accessPoints.data.grades"
+                      [style.background]="accessPoint.data.color.background"
                       [ngClass]="{
                         'test-circle': grade.point.length === 1,
                         circle: grade.point.length > 1
                       }"
                     >
-                      <span [style.color]="temp.data.color.text">
+                      <span [style.color]="accessPoint.data.color.text">
                         {{ grade.point }}
                       </span>
-                    </div>
-
-                    <div
-                      class="detail-line w-100"
-                      [ngClass]="{
-                        'hide-border': temp.data.grades?.length == i + 1
-                      }"
-                      style="margin-bottom: 16px"
-                    >
-                      <p class="gradename">{{ grade.name }}</p>
+                      <div
+                        class="detail-line w-100"
+                        [ngClass]="{
+                          'hide-border':
+                            temp.accessPoints.data.grades?.length == i + 1
+                        }"
+                        style="margin-bottom: 16px"
+                      >
+                        <p class="gradename">{{ grade.name }}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1790,6 +1793,7 @@
             </div>
           </div>
         </div>
+
         <div class="d-flex justify-content-end apg-share-bottom">
           <div class=" align-self-end ">
             <button

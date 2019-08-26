@@ -105,6 +105,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   allApgList: any = [];
   progressAPG: any = [];
+  usergradingAPG: any = [];
   badgeApg: any = [];
   evAPG: any = [];
   dataApgList: any = [];
@@ -113,6 +114,221 @@ export class ApgComponent implements OnInit, OnDestroy {
   //
 
   public templist = [
+    {
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'A'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'B'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'C'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'D'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'E'
+          }
+        ]
+      },
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
+    },
+    {
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'c1'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'c2'
+          }
+        ]
+      },
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
+    },
+    {
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'c1'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'c2'
+          }
+        ]
+      },
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
+    },
+    {
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'c1'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'c2'
+          }
+        ]
+      },
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
+    },
+    {
+      data: {
+        color: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        sepalColor: {
+          text: '#005934',
+          background: '#ccffea'
+        },
+        inputTypeProperties: {
+          options: []
+        },
+        evaluation: {
+          allowZero: false,
+          details: []
+        },
+        grades: [
+          {
+            _id: '5d5fa93c3a308b34e877a31a',
+            name: 'level 1',
+            point: 'c1'
+          },
+          {
+            _id: '5d5fa93c3a308b34e877a319',
+            name: 'level 2',
+            point: 'c2'
+          }
+        ]
+      },
+      name: 'grade test',
+      description: 'grade',
+      _id: '5d5fa93cb3569a616ec7cfb5',
+      regionId: '5af915541de9052c869687a3',
+      moduleId: '5d53e477fd7d652426e94069',
+      createdDate: '2019-08-23T08:52:12.909Z',
+      orgId: '5b063e2636f2e0f83cdbac88',
+      updatedDate: '2019-08-23T08:52:12.909Z',
+      __v: 0
+    },
     {
       data: {
         color: {
@@ -887,7 +1103,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.log('set share',this.singleCheckedAPG)
 
     let data = this.singleCheckedAPG;
-    // console.log(obj)
+    console.log(obj);
     let emptyObj = {};
     this.dataVal = this.singleCheckedAPG;
 
@@ -2348,6 +2564,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           } else if (this.selectedAPGTab.name.toLowerCase() == 'progress') {
             this.progressAPG = this.progressAPG.concat(res);
             this.apgList = this.progressAPG;
+          } else if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
+            this.usergradingAPG = this.usergradingAPG.concat(res);
+            this.apgList = this.usergradingAPG;
           } else if (
             this.selectedAPGTab.name.toLowerCase() == 'assessment' ||
             this.selectedAPGTab.name.toLowerCase() == 'evaluation'
@@ -2790,6 +3009,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.badgeApg = [];
     this.evAPG = [];
     this.dataApgList = [];
+    this.usergradingAPG = [];
   }
   numberOnly(event, type) {
     const charCode = event.which ? event.which : event.keyCode;

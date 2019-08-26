@@ -54,20 +54,25 @@
             />
           </div>
         </div>
-        <div
+        <!-- <div
           class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
+        > -->
+        <div
+          (click)="dropDown($event, 'profile')"
+          class="circle cursor-on d-flex flex-column justify-content-center dropdown-wrap"
         >
-          <div (click)="dropDown($event, 'profile')">
-            {{ userName }} <i class="fa fa-chevron-down dropdown-arrow"></i>
-            <span class="caret"></span>
-          </div>
-          <div *ngIf="dropMenuShow">
-            <ul class="dropdown-box">
-              <!-- <li>Profile</li> -->
-              <li (click)="logoff()">Sign Out</li>
-            </ul>
+          <!-- {{ userName }} <i class="fa fa-chevron-down dropdown-arrow"></i>
+            <span class="caret"></span> -->
+          <div (click)="logoff()">
+            <img src="./assets/images/Vector.svg" />
+            <!-- <ul class="dropdown-box"> -->
+            <!-- <li>Profile</li> -->
+            <!-- <li (click)="logoff()">Sign Out</li> -->
+            <!-- </ul> -->
           </div>
         </div>
+
+        <!-- </div> -->
         <!-- <div>
             <button class="btn dropdown-toggle" type="button" (click)="logoff()">
               Admin
