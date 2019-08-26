@@ -116,7 +116,7 @@
         </div>
         <div class="col-md-2 p-0 text-right">Amount</div>
       </div>
-      <div *ngFor="let data of invoice">
+      <div>
         <div class="cfee-wrapper">
           <div class="d-flex inv-courseFee">
             <!-- <div class="cFee-w"></div> -->
@@ -169,7 +169,7 @@
                     [disabled]="
                       value.courseFee == undefined ||
                       value.courseFee == '' ||
-                      value.courseFee == data.courseFee.fee
+                      value.courseFee == invoice.courseFee.fee
                     "
                   >
                     <span class="checkmark">
@@ -180,13 +180,13 @@
                 </div>
                 <p
                   class="mb-0 addPointer"
-                  (click)="showPopup('courseFee', data.courseFee.fee)"
+                  (click)="showPopup('courseFee', invoice.courseFee.fee)"
                 >
-                  {{ invCurrency.sign }} {{ data.courseFee.fee | financial }}
+                  {{ invCurrency.sign }} {{ invoice.courseFee.fee | financial }}
                 </p>
               </div>
               <div class="col-md-2 p-0 text-right price-info">
-                {{ data.tax.rate }} %
+                {{ invoice.tax.rate }} %
                 <!-- <span
                   *ngIf="data.courseFee.taxInclusive == true"
                   class="tax-status"
@@ -205,7 +205,8 @@
                   {{ invCurrency.sign }}{{ data.courseFee.amount }}
                 </div> -->
               <div class="col-md-2 p-0 text-right price-info">
-                {{ invCurrency.sign }} {{ data.courseFee.amount | financial }}
+                {{ invCurrency.sign }}
+                {{ invoice.courseFee.amount | financial }}
               </div>
             </div>
           </div>
@@ -565,7 +566,7 @@
                 class="col-md-2 p-0 text-right price-info"
                 *ngIf="invStatus != 'UNPAID'"
               >
-                {{ data.tax.rate }} %
+                {{ invoice.tax.rate }} %
                 <!-- <span
                   *ngIf="data.courseFee.taxInclusive == true"
                   class="tax-status"
@@ -1241,7 +1242,7 @@
         <div class="col-md-2 p-0 text-right">Amount</div>
       </div>
 
-      <div *ngFor="let data of invoice">
+      <div>
         <div class="p-0 m-0">
           <div class="cfee-wrapper">
             <!-- <div class="c-label pt-2">
@@ -1261,31 +1262,33 @@
                 <div class="col-md-1 p-0 text-right price-info">1</div>
                 <div class="col-md-2 p-0 text-right price-info">
                   <p class="mb-0">
-                    {{ invCurrency.sign }} {{ data.courseFee.fee | financial }}
+                    {{ invCurrency.sign }}
+                    {{ invoice.courseFee.fee | financial }}
                   </p>
                 </div>
 
                 <div
                   class="col-md-2 p-0 text-right price-info"
-                  *ngIf="data.courseFee.noTax == false"
+                  *ngIf="invoice.courseFee.noTax == false"
                 >
-                  {{ data.courseFee.tax }} %
+                  {{ invoice.courseFee.tax }} %
                 </div>
                 <div
                   class="col-md-2 p-0 text-right price-info"
-                  *ngIf="data.courseFee.noTax == true"
+                  *ngIf="invoice.courseFee.noTax == true"
                 ></div>
                 <div
                   class="col-md-2 p-0 text-right price-info"
-                  *ngIf="data.courseFee.taxInclusive == true"
+                  *ngIf="invoice.courseFee.taxInclusive == true"
                 >
-                  {{ invCurrency.sign }} {{ data.courseFee.fee | financial }}
+                  {{ invCurrency.sign }} {{ invoice.courseFee.fee | financial }}
                 </div>
                 <div
                   class="col-md-2 p-0 text-right price-info"
-                  *ngIf="data.courseFee.taxInclusive == false"
+                  *ngIf="invoice.courseFee.taxInclusive == false"
                 >
-                  {{ invCurrency.sign }} {{ data.courseFee.amount | financial }}
+                  {{ invCurrency.sign }}
+                  {{ invoice.courseFee.amount | financial }}
                 </div>
               </div>
               <div
@@ -1522,7 +1525,7 @@
                 <div class="col-sm-5 p-0"></div>
               </div>
               <div class="col-md-4 text-right p-0">
-                {{ invCurrency.sign }} {{ data.subtotal }}
+                {{ invCurrency.sign }} {{ invoice.subtotal }}
               </div>
             </div>
             <div class="d-flex pad-10 price-info">
@@ -1533,7 +1536,7 @@
                 <div class="col-sm-5 p-0 text-right"></div>
               </div>
               <div class="col-md-4 text-right p-0">
-                {{ invCurrency.sign }} {{ data.tax.taxTotal }}
+                {{ invCurrency.sign }} {{ invoice.tax.taxTotal }}
               </div>
             </div>
             <div class="d-flex pad-10 price-info">

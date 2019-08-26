@@ -153,6 +153,7 @@ export class UsersComponent implements OnInit {
   public updatedDate;
   public dueDate;
   public invoiceID;
+  public invoiceID2;
   public showPayment: boolean = false;
   public selectedPayment: any;
   public paymentItem: any = {};
@@ -1195,6 +1196,8 @@ export class UsersComponent implements OnInit {
   }
   selectedCustomer: any = {};
   enrollUser(course, type) {
+    console.log('enroll user');
+
     this.selectedCourse = course;
     console.log(course, type);
     if (type == 'FLEXY') {
@@ -1237,8 +1240,10 @@ export class UsersComponent implements OnInit {
             // this.showDetails(this.custDetail.user.userId);
             // this.closeModel();
             /* for invoice*/
-            this.showInvoice = true;
-            if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+            if (
+              res.body.invoiceSettings == {} ||
+              res.body.invoiceSettings == undefined
+            ) {
               console.log('no invoice setting');
               this.invoiceInfo = {
                 address: '',
@@ -1250,10 +1255,12 @@ export class UsersComponent implements OnInit {
               };
             } else {
               console.log('has invoice setting');
-              this.invoiceInfo = res.invoiceSettings;
+              this.invoiceInfo = res.body.invoiceSettings;
             }
-            this.invoice = res.invoice;
+            this.invoice = res.body.invoice;
+            this.invoiceID2 = this.invoice[0]._id;
             this.showInvoice = true;
+
             this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
           } else {
@@ -1844,6 +1851,8 @@ export class UsersComponent implements OnInit {
       });
   }
   viewInvoice(enrollModal, course) {
+    console.log('selected course', this.selectedCourse);
+
     this.selectedCourse = course;
     console.log(enrollModal, course);
     this.singleInv = [];
@@ -1894,14 +1903,7 @@ export class UsersComponent implements OnInit {
     this.selectedCourse = course;
     this.selectedCourse.invoice = invoice;
     this.singleInv = [];
-    if (invoice.status == 'PAID') {
-      this.showPaidInvoice = true;
-    } else if (
-      invoice.status == 'UNPAID' ||
-      invoice.status == 'PAID[PARTIAL]'
-    ) {
-      this.showInvoice = true;
-    }
+
     this.invStatus = invoice.status;
     this.modalReference = this.modalService.open(enrollModal, {
       backdrop: 'static',
@@ -1917,8 +1919,18 @@ export class UsersComponent implements OnInit {
         console.log('invoice detail', res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
-        console.log('invoice', this.invoice);
-        this.showOneInvoice(course, this.invoice);
+
+        this.invoiceID2 = res._id;
+
+        if (invoice.status == 'PAID') {
+          this.showPaidInvoice = true;
+        } else if (
+          invoice.status == 'UNPAID' ||
+          invoice.status == 'PAID[PARTIAL]'
+        ) {
+          this.showInvoice = true;
+        }
+        // this.showOneInvoice(course, this.invoice);
       },
       err => {
         console.log(err);
@@ -2097,12 +2109,17 @@ export class UsersComponent implements OnInit {
         console.log(res);
         console.log(this.custDetail);
         this.toastr.success('Successfully Enrolled.');
+        console.log(this.selectedCourse);
+
         Object.assign(this.selectedCourse, res.body);
         // this.showDetails(this.custDetail.user.userId);
         // this.closeModel();
         /* for invoice*/
-        this.showInvoice = true;
-        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+        // this.showInvoice = true;
+        if (
+          res.body.invoiceSettings == {} ||
+          res.body.invoiceSettings == undefined
+        ) {
           console.log('no invoice setting');
           this.invoiceInfo = {
             address: '',
@@ -2114,14 +2131,16 @@ export class UsersComponent implements OnInit {
           };
         } else {
           console.log('has invoice setting');
-          this.invoiceInfo = res.invoiceSettings;
+          this.invoiceInfo = res.body.invoiceSettings;
         }
-        this.invoice = res.invoice;
+        this.invoice = res.body.invoice;
+
         this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
+        this.invoiceID2 = res.body.invoice[0]._id;
         this.blockUI.stop();
-        this.showOneInvoice(this.selectedCourse, this.invoice);
+        // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
       err => {
         console.log(err);

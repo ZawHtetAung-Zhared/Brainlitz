@@ -154,6 +154,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public slotIdx;
   public slotJidx;
   public courseCreate: boolean = false;
+  public invoiceID2: any;
   goBackCat: boolean;
   isCategory: boolean = false;
   isPlan: boolean = false;
@@ -2089,6 +2090,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.invoice = res.invoice;
           this.showInvoice = true;
           Object.assign(this.detailLists, res.body);
+          this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
         },
         err => {
