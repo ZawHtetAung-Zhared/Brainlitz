@@ -399,7 +399,7 @@ div.ap-wrapper:last-child {
   color: #0080ff !important;
 }
 
-.hide-border {
+.order {
   border-bottom: none !important;
 }
 
@@ -1141,7 +1141,10 @@ input:checked + .slider:before {
 .gu-hide {
   left: -9999px !important;
 }
-
+.hide-border {
+  border-bottom: none;
+  margin-bottom: 0px !important;
+}
 /* added to mirrorContainer (default = body) while dragging */
 .gu-unselectable {
   -webkit-user-select: none !important;
@@ -1987,7 +1990,22 @@ li.optionlist {
   display: inline-block;
   position: absolute;
 }
-
+.grade-name {
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #64707d;
+  /* margin-top: 20px; */
+  position: absolute;
+  display: inline-block;
+}
+.tempname {
+  /* padding-top: 4px; */
+  font-size: 18px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #2e3e4d;
+  display: inline-block;
+  margin-top: 20px;
+}
 .temp-name {
   margin-top: 20px;
   font-size: 18px;
@@ -2280,4 +2298,58 @@ input.min_input_show {
 .apgTypeTxt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2e3e4d;
+}
+.grading-wrap {
+  border-radius: 4px;
+  background: #ffffff;
+  margin-top: 20px;
+}
+.circle {
+  display: flex;
+  align-items: center;
+  height: 20px !important;
+  /* border: 1.5px solid #ffffff; */
+  border-radius: 12px;
+  padding-top: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  font-size: 12px;
+  padding: 0px 15px;
+}
+.text-data {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
+  padding-left: 16px;
+}
+.line {
+  border-top: 1px solid #edeff0;
+  padding-top: 20px;
+  margin-left: 20px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.share {
+  background: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding-top: 20px !important;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.test-circle {
+  border-radius: 50%;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  display: flex;
+  align-items: center;
+}
+.gradename {
+  font-size: 14px;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
+  padding-left: 16px;
 }
