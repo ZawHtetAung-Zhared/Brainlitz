@@ -311,11 +311,11 @@ a.nav-link.active {
   }
 } */
 
-a.nav-link.active {
+/* a.nav-link.active {
   border-bottom: 4px solid #007fff;
   border-radius: 4px 4px 0px 0px;
   height: 64px !important;
-}
+} */
 .underline {
   margin-top: 20px;
   width: 100% !important;
@@ -335,7 +335,8 @@ underline-style {
   justify-content: center;
 }
 
-a .border-design.active {
+.border-design.active {
   border-top: 4px solid #007fff;
   border-radius: 4px 4px 0px 0px;
+  margin-top: 25px;
 }

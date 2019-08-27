@@ -92,7 +92,11 @@
               routerLink="/schedule"
               (click)="onClickHeaderTab('schedule')"
               >Schedule
-              <div class="border-design"></div>
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/schedule"
+              ></div>
             </a>
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item">
@@ -102,7 +106,11 @@
               routerLink="/course"
               (click)="onClickHeaderTab('course')"
               >Courses
-              <div class="border-design" routerLinkActive="active"></div>
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/course"
+              ></div>
             </a>
           </li>
           <li *ngIf="customerMenu.length > 0" class="nav-item">
@@ -111,8 +119,13 @@
               routerLinkActive="active"
               routerLink="/customer"
               (click)="onClickHeaderTab('customer')"
-              >Customers</a
-            >
+              >Customers
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/customer"
+              ></div>
+            </a>
           </li>
           <li *ngIf="staffMenu.length > 0" class="nav-item">
             <a
@@ -120,8 +133,13 @@
               routerLinkActive="active"
               routerLink="/staff"
               (click)="onClickHeaderTab('staff')"
-              >Staffs</a
-            >
+              >Staffs
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/staff"
+              ></div>
+            </a>
           </li>
           <li *ngIf="toolsMenu.length > 0" class="nav-item">
             <a
@@ -129,8 +147,13 @@
               routerLinkActive="active"
               routerLink="/tools"
               (click)="onClickHeaderTab('tool')"
-              >Tools</a
-            >
+              >Tools
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/tools"
+              ></div>
+            </a>
           </li>
           <li *ngIf="settingMenu.length > 0" class="nav-item">
             <a
@@ -138,8 +161,13 @@
               routerLinkActive="active"
               routerLink="/dashboard"
               (click)="onClickHeaderTab('setting')"
-              >Settings</a
-            >
+              >Settings
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/dashboard"
+              ></div>
+            </a>
           </li>
           <li *ngIf="reportMenu.length > 0" class="nav-item">
             <a
@@ -147,8 +175,13 @@
               routerLinkActive="active"
               routerLink="/report"
               (click)="onClickHeaderTab('report')"
-              >Reports</a
-            >
+              >Reports
+              <div
+                class="border-design"
+                routerLinkActive="active"
+                routerLink="/report"
+              ></div>
+            </a>
           </li>
         </ul>
       </div>
