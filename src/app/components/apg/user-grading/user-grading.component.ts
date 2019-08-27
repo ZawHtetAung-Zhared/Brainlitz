@@ -143,7 +143,7 @@ export class UserGradingComponent implements OnInit {
         },
         grades: [
           {
-            name: 'level 1',
+            name: '',
             point: '1'
           }
         ]
@@ -156,6 +156,7 @@ export class UserGradingComponent implements OnInit {
         this.blockUI.stop();
       }, 300);
     }
+    this.checkValidation();
   }
 
   addLevel() {
@@ -164,10 +165,12 @@ export class UserGradingComponent implements OnInit {
       point: '1'
     };
     this.userGradeData.data.grades.push(tempObj);
+    this.checkValidation();
   }
 
   removeLevel(index) {
     this.userGradeData.data.grades.splice(index, 1);
+    this.checkValidation();
   }
 
   colorpalettePopUp(index, e, data) {
@@ -343,5 +346,19 @@ export class UserGradingComponent implements OnInit {
     this.selectedSepalColor.text = item.color.text;
     this.selectedBlockColor.text = this.blockColors[i].color.text;
     this.selectedBlockColor.background = this.blockColors[i].color.background;
+  }
+  public isValid = false;
+  checkValidation() {
+    this.userGradeData.data.grades.map(grade => {
+      if (
+        grade.name === '' ||
+        grade.point === '' ||
+        this.userGradeData.name === ''
+      ) {
+        this.isValid = false;
+      } else {
+        this.isValid = true;
+      }
+    });
   }
 }

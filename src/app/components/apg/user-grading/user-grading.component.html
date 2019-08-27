@@ -11,6 +11,7 @@
     [(ngModel)]="userGradeData.name"
     required
     #name="ngModel"
+    (input)="checkValidation()"
   />
 </div>
 
@@ -40,7 +41,7 @@
         <img
           src="../.././../../assets/icons/popup.svg"
           alt=""
-          (click)="colorpalettePopUp(i, $event)"
+          (click)="colorpalettePopUp(i, $event, userGradeData.data)"
         />
       </div>
     </div>
@@ -54,6 +55,7 @@
           maxlength="60"
           [(ngModel)]="grade.name"
           #name="ngModel"
+          (input)="checkValidation()"
         />
       </div>
       <div class="remove-icon" *ngIf="userGradeData.data.grades.length > 1">
@@ -69,7 +71,6 @@
     Add new level
   </div>
 </div>
-
 <div class="btn-wrapper">
   <button class="btn  btn-cancel" (click)="cancelUserGrade(userGradeData)">
     Cancel
@@ -78,6 +79,7 @@
     class="btn btn-submit"
     (click)="createUserGradeApg(userGradeData)"
     *ngIf="this.isCreateStatus"
+    [disabled]="!isValid"
   >
     Create
   </button>
@@ -85,6 +87,7 @@
     class="btn btn-submit"
     (click)="updateAP(userGradeData)"
     *ngIf="!this.isCreateStatus"
+    [disabled]="!isValid"
   >
     Update
   </button>
@@ -111,6 +114,7 @@
       (focusout)="onFocusOut()"
       [(ngModel)]="gradeName"
       #gradename="ngModel"
+      (input)="checkValidation()"
     />
     <button
       class="btn apply-btn"
