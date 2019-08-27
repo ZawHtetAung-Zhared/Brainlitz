@@ -126,7 +126,8 @@
               'noBg-apg-header':
                 apg.module.name.toLowerCase() == 'progress' ||
                 apg.module.name.toLowerCase() == 'badge' ||
-                apg.module.name.toLowerCase() == 'data'
+                apg.module.name.toLowerCase() == 'data' ||
+                apg.module.name.toLowerCase() == 'user grading'
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
@@ -146,6 +147,7 @@
                   : 220 + 'px'
             }"
           >
+            <!-- progess or bage -->
             <p
               *ngIf="
                 apg.module.name.toLowerCase() == 'progress' ||
@@ -155,6 +157,7 @@
             >
               {{ apg.description }}
             </p>
+            <!-- assessment or evaluation -->
             <div
               *ngIf="
                 apg.module.name.toLowerCase() == 'assessment' ||
@@ -212,6 +215,7 @@
                 </div>
               </div>
             </div>
+            <!-- data -->
             <div
               *ngIf="apg.module.name.toLowerCase() == 'data'"
               class="padding-lr"
@@ -267,6 +271,40 @@
                       }"
                     >
                       {{ option }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- user grading -->
+            <!-- *ngIf="apg.module.name.toLowerCase() == 'data'" -->
+            <!-- *ngFor="let ap of apg.accessPoints" -->
+            <div
+              class="padding-lr"
+              *ngIf="apg.module.name.toLowerCase() == 'user grading'"
+            >
+              <div>
+                <div *ngFor="let ap of apg.accessPoints">
+                  <div
+                    class="d-flex flex-row"
+                    *ngFor="let grade of ap.data.grades"
+                  >
+                    <span
+                      class="point"
+                      [ngStyle]="{
+                        background: ap.data.color.background,
+                        color: ap.data.color.text
+                      }"
+                      >{{ grade.point }}</span
+                    >
+                    <!-- [ngClass]="{
+                      'hide-border':
+                        ap.data.inputTypeProperties.options?.length ==
+                        oIdx + 1
+                    }" -->
+                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100">
+                      {{ grade.name }}
                     </div>
                   </div>
                 </div>

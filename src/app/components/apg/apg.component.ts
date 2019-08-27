@@ -2346,6 +2346,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           } else if (this.selectedAPGTab.name.toLowerCase() == 'data') {
             this.dataApgList = this.dataApgList.concat(res);
             this.apgList = this.dataApgList;
+          } else if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
+            this.dataApgList = this.dataApgList.concat(res);
+            this.apgList = this.dataApgList;
           }
           for (var i = 0; i < this.apgList.length; i++) {
             if (

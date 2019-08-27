@@ -24,7 +24,11 @@
                   <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
               <label class="mb-2 invID">
                 <span class="invoice-label">Invoice No:</span>
-                {{ refInvID }}
+                {{
+                  refInvID.length > 50
+                    ? (refInvID | slice: 0:50) + '....'
+                    : refInvID
+                }}
               </label>
             </div>
             <div>
@@ -1125,7 +1129,12 @@
                     <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label> -->
               <label class="mb-2 invID">
                 <span class="invoice-label">Invoice No:</span>
-                {{ refInvID }}
+                {{
+                  refInvID.length > 50
+                    ? (refInvID | slice: 0:50) + '..'
+                    : refInvID
+                }}
+                <!-- {{ refInvID }} -->
               </label>
             </div>
             <div>
