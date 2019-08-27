@@ -1,4 +1,4 @@
-<h3 class="grade-title">
+<!-- <h3 class="grade-title">
   Grade name
 </h3>
 <div class="form-group grade-name" *ngIf="userGradeData != undfined">
@@ -11,7 +11,37 @@
     [(ngModel)]="userGradeData.name"
     required
     #name="ngModel"
+    (input)="checkValidation()"
   />
+</div> -->
+<div class="d-flex flex-row w-100">
+  <div class="d-flex flex-column w-100">
+    <label class="evaluation-Name"> Grade Name</label>
+    <div class="limit-wordcount ml-auto">
+      <span>{{ wordLength }}/12characters</span>
+    </div>
+    <input
+      type="text"
+      placeholder="Type Grade name here"
+      class=" create-input w-100 grade-name-input"
+      name="name"
+      required
+      maxlength="12"
+      (focus)="focusMethod($event, 'name', $event.target.value)"
+      (blur)="blurMethod($event, 'name')"
+      (input)="changeMethod($event.target.value)"
+      [(ngModel)]="userGradeData.name"
+      #name="ngModel"
+    />
+    <div
+      *ngIf="name.invalid && (name.dirty || name.touched)"
+      class="alert alert-danger"
+    >
+      <div [hidden]="!name.errors.required">
+        Name is required!
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="d-flex flex-column" *ngIf="userGradeData != undfined">
@@ -40,7 +70,7 @@
         <img
           src="../.././../../assets/icons/popup.svg"
           alt=""
-          (click)="colorpalettePopUp(i, $event)"
+          (click)="colorpalettePopUp(i, $event, userGradeData.data)"
         />
       </div>
     </div>
@@ -51,9 +81,10 @@
           class="form-control create-input m-0"
           placeholder="Type level name here"
           name="name"
-          maxlength="60"
+          maxlength="12"
           [(ngModel)]="grade.name"
           #name="ngModel"
+          (input)="checkValidation()"
         />
       </div>
       <div class="remove-icon" *ngIf="userGradeData.data.grades.length > 1">
@@ -69,7 +100,6 @@
     Add new level
   </div>
 </div>
-
 <div class="btn-wrapper">
   <button class="btn  btn-cancel" (click)="cancelUserGrade(userGradeData)">
     Cancel
@@ -78,6 +108,7 @@
     class="btn btn-submit"
     (click)="createUserGradeApg(userGradeData)"
     *ngIf="this.isCreateStatus"
+    [disabled]="!isValid"
   >
     Create
   </button>
@@ -85,6 +116,7 @@
     class="btn btn-submit"
     (click)="updateAP(userGradeData)"
     *ngIf="!this.isCreateStatus"
+    [disabled]="!isValid"
   >
     Update
   </button>
@@ -111,6 +143,7 @@
       (focusout)="onFocusOut()"
       [(ngModel)]="gradeName"
       #gradename="ngModel"
+      (input)="checkValidation()"
     />
     <button
       class="btn apply-btn"
