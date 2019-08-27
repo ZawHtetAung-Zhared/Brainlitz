@@ -1875,8 +1875,8 @@ input#apg_rangeId2:active + #arrowBox {
 span.textapgType {
   font-size: 12px;
   font-weight: 600;
-  color: #64707d;
   line-height: 1.33;
+  color: #64707d;
 }
 
 span.textapgType.selected {
@@ -2362,4 +2362,5 @@ span.point {
   font-size: 14px;
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
   padding-left: 16px;
+  color: #2e3d4d;
 }
