@@ -2355,7 +2355,6 @@ span.point {
   height: 20px;
   text-align: center !important;
   font-family: 'IBM-Plex-Bold', Arial, sans-serif;
-  display: flex;
   align-items: center;
 }
 .gradename {

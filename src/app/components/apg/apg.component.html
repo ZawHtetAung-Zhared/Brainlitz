@@ -1638,13 +1638,15 @@
                       class="d-flex"
                     >
                       <div
-                        [style.background]="accessPoint.data.color.background"
+                        [style.background]="
+                          accessPoint.data.sepalColor.background
+                        "
                         [ngClass]="{
                           'test-circle': grade.point.length == 1,
                           circle: grade.point.length > 1
                         }"
                       >
-                        <span [style.color]="accessPoint.data.color.text">
+                        <span [style.color]="accessPoint.data.sepalColor.text">
                           {{ grade.point }}
                         </span>
                       </div>
