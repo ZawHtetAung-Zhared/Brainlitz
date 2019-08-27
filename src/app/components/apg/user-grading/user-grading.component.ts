@@ -24,9 +24,13 @@ export class UserGradingComponent implements OnInit {
   public gradeName;
   public selectedIndex;
   public showPopUp = false;
-  public selectedColor = {
-    text: '#544600',
-    background: '#FFE04D'
+  public selectedSepalColor = {
+    text: '#6E2D00',
+    background: '#FFCBA6'
+  };
+  public selectedBlockColor = {
+    text: '#594A00',
+    background: '#FFF4BF'
   };
   public isFocus;
   public regionID = localStorage.getItem('regionId');
@@ -36,43 +40,43 @@ export class UserGradingComponent implements OnInit {
     {
       name: '1',
       color: {
-        text: '#544600',
-        background: '#FFE04D'
+        text: '#594A00',
+        background: '#FFF4BF'
       }
     },
     {
       name: '2',
       color: {
-        text: '#6E2D00',
-        background: '#FFCBA6'
+        text: '#803500',
+        background: '#FFE9D9'
       }
     },
     {
       name: '3',
       color: {
-        text: '#005733',
-        background: '#80FFCA'
+        text: '#005934',
+        background: '#CCFFEA'
       }
     },
     {
       name: '4',
       color: {
-        text: '#003E7D',
-        background: '#B3D8FF'
+        text: '#004080',
+        background: '#CCE6FF'
       }
     },
     {
       name: '5',
       color: {
-        text: '#5000A1',
-        background: '#DFBFFF'
+        text: '#6600CC',
+        background: '#F2E6FF'
       }
     },
     {
       name: '6',
       color: {
-        text: '#7A0052',
-        background: '#FFCBA6'
+        text: '#990066',
+        background: '#FFE6F7'
       }
     }
   ];
@@ -115,7 +119,7 @@ export class UserGradingComponent implements OnInit {
     {
       name: '6',
       color: {
-        text: '#7A0052',
+        text: ' #7A0052',
         background: '#FFBFE9'
       }
     }
@@ -130,12 +134,12 @@ export class UserGradingComponent implements OnInit {
       moduleId: this.moduleID,
       data: {
         color: {
-          text: '#005934',
-          background: '#ccffea'
+          text: '#594A00',
+          background: '#FFF4BF'
         },
         sepalColor: {
-          text: '#005934',
-          background: '#ccffea'
+          text: '#6E2D00',
+          background: '#FFCBA6'
         },
         grades: [
           {
@@ -166,13 +170,15 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData.data.grades.splice(index, 1);
   }
 
-  colorpalettePopUp(index, e) {
+  colorpalettePopUp(index, e, data) {
     e.preventDefault();
     e.stopPropagation();
+    let tempData = data;
     this.showPopUp = true;
     this.selectedIndex = index;
     this.gradeName = this.userGradeData.data.grades[index].point;
-    this.selectedColor = this.userGradeData.data.color;
+    this.selectedSepalColor = JSON.parse(JSON.stringify(tempData.sepalColor));
+    this.selectedBlockColor = JSON.parse(JSON.stringify(tempData.color));
     this.caculatePosition(e);
   }
   closePopUp(e) {
@@ -181,8 +187,10 @@ export class UserGradingComponent implements OnInit {
   applyGradeName() {
     this.showPopUp = false;
     this.userGradeData.data.grades[this.selectedIndex].point = this.gradeName;
-    this.userGradeData.data.color.text = this.selectedColor.text;
-    this.userGradeData.data.color.background = this.selectedColor.background;
+    this.userGradeData.data.color.text = this.selectedBlockColor.text;
+    this.userGradeData.data.color.background = this.selectedBlockColor.background;
+    this.userGradeData.data.sepalColor.background = this.selectedSepalColor.background;
+    this.userGradeData.data.sepalColor.text = this.selectedSepalColor.text;
     this.gradeName = '';
   }
   onFocus() {
@@ -329,5 +337,11 @@ export class UserGradingComponent implements OnInit {
   }
   cancelUserGrade() {
     this.cancelGrade.emit(true);
+  }
+  selectColor(i, item) {
+    this.selectedSepalColor.background = item.color.background;
+    this.selectedSepalColor.text = item.color.text;
+    this.selectedBlockColor.text = this.blockColors[i].color.text;
+    this.selectedBlockColor.background = this.blockColors[i].color.background;
   }
 }
