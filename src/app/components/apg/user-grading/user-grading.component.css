@@ -138,7 +138,9 @@
   right: -59px;
   text-align: center;
 }
-
+.grade-name-input {
+  border-bottom: 1px solid #edeff0;
+}
 .color-title {
   font-family: 'Inter-UI-Bold', 'Arial', sans-serif;
   font-size: 12px;

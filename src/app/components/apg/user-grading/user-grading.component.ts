@@ -199,7 +199,32 @@ export class UserGradingComponent implements OnInit {
   onFocus() {
     this.isFocus = true;
   }
-
+  public wordLength;
+  focusMethod(e, status, word) {
+    this.wordLength = word.length;
+    if (status == 'name') {
+      $('.limit-wordcount').show('slow');
+    } else if ((status = 'input_method')) {
+      $('.limit-type-wordcount').show('slow');
+    } else {
+      $('.limit-wordcount1').show('slow');
+    }
+  }
+  blurMethod(e, status) {
+    this.wordLength = 0;
+    if (status == 'name') {
+      $('.limit-wordcount').hide('slow');
+    } else if ((status = 'input_method')) {
+      $('.limit-type-wordcount').hide('slow');
+    } else {
+      $('.limit-wordcount1').hide('slow');
+    }
+  }
+  changeMethod(val: string) {
+    console.log(val);
+    this.wordLength = val.length;
+    this.checkValidation();
+  }
   onFocusOut() {
     this.isFocus = false;
   }
