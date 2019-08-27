@@ -1882,7 +1882,10 @@
           </div>
         </div>
         <div class="d-flex justify-content-center shareApgLoadMore loadMore1">
-          <div *ngIf="templateList.length >= 20" class="load-more1">
+          <div
+            *ngIf="templateList.length >= 20 && result.length == 20"
+            class="load-more1"
+          >
             <button
               class="btn remove-outline"
               (click)="showMoreShareApg(templateList.length)"
