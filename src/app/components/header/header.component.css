@@ -334,3 +334,8 @@ underline-style {
   align-items: center;
   justify-content: center;
 }
+
+a .border-design.active {
+  border-top: 4px solid #007fff;
+  border-radius: 4px 4px 0px 0px;
+}

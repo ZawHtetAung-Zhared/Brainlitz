@@ -59,7 +59,7 @@
         > -->
         <div
           (click)="dropDown($event, 'profile')"
-          class="circle cursor-on d-flex flex-column justify-content-center dropdown-wrap"
+          class="circle cursor-on flex-column justify-content-center dropdown-wrap"
         >
           <!-- {{ userName }} <i class="fa fa-chevron-down dropdown-arrow"></i>
             <span class="caret"></span> -->
@@ -91,8 +91,9 @@
               routerLinkActive="active"
               routerLink="/schedule"
               (click)="onClickHeaderTab('schedule')"
-              >Schedule</a
-            >
+              >Schedule
+              <div class="border-design"></div>
+            </a>
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item">
             <a
@@ -100,8 +101,9 @@
               routerLinkActive="active"
               routerLink="/course"
               (click)="onClickHeaderTab('course')"
-              >Courses</a
-            >
+              >Courses
+              <div class="border-design" routerLinkActive="active"></div>
+            </a>
           </li>
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a

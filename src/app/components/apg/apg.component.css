@@ -1141,7 +1141,10 @@ input:checked + .slider:before {
 .gu-hide {
   left: -9999px !important;
 }
-
+.hide-border {
+  border-bottom: none;
+  margin-bottom: 0px !important;
+}
 /* added to mirrorContainer (default = body) while dragging */
 .gu-unselectable {
   -webkit-user-select: none !important;
@@ -2302,8 +2305,8 @@ input.min_input_show {
   margin-top: 20px;
 }
 .circle {
-  /* position: absolute; */
-  /* width: 20px !important; */
+  display: flex;
+  align-items: center;
   height: 20px !important;
   /* border: 1.5px solid #ffffff; */
   border-radius: 12px;
@@ -2342,6 +2345,8 @@ input.min_input_show {
   height: 20px;
   text-align: center !important;
   font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  display: flex;
+  align-items: center;
 }
 .gradename {
   font-size: 14px;

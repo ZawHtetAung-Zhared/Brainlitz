@@ -1563,7 +1563,10 @@
                 <div>
                   <div *ngFor="let accessPoint of temp.accessPoints">
                     <div
-                      *ngFor="let grade of accessPoint.data.grades"
+                      *ngFor="
+                        let grade of accessPoint.data.grades;
+                        let j = index
+                      "
                       class="d-flex"
                     >
                       <div
@@ -1580,8 +1583,7 @@
                       <div
                         class="detail-line w-100"
                         [ngClass]="{
-                          'hide-border':
-                            accessPoint.data.grades?.length == i + 1
+                          'hide-border': accessPoint.data.grades.length == j + 1
                         }"
                         style="margin-bottom: 16px"
                       >
