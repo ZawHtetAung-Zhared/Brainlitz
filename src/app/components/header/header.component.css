@@ -132,7 +132,9 @@ select {
   margin-bottom: 0;
   position: absolute;
   z-index: 99;
-  padding: 0px 15px;
+  /* padding: 0px 15px; */
+  margin-left: -110px;
+  margin-top: 10px;
   top: 55px;
   /*right: 15px;*/
   /*display: none;*/

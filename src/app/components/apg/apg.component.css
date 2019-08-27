@@ -577,7 +577,9 @@ div.ap-wrapper:last-child {
   color: #fff;
   box-shadow: 0 1px 5px 1px rgb(22, 131, 251);
 }
-
+.share-input label.selected .b-white {
+  border: 1.5px solid #ffffff;
+}
 .module-input label.selected .label-checked,
 .share-input label.selected .label-checked {
   border: 2px solid #fff;
@@ -1993,7 +1995,7 @@ li.optionlist {
 .grade-name {
   font-size: 12px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #64707d;
+  color: #2e3d4d;
   /* margin-top: 20px; */
   position: absolute;
   display: inline-block;
@@ -2325,6 +2327,8 @@ span.point {
   font-family: 'IBM-Plex-Bold', Arial, sans-serif;
   font-size: 12px;
   padding: 0px 15px;
+  width: 28px !important;
+  justify-content: center;
 }
 .text-data {
   font-size: 14px;
