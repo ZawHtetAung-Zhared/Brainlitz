@@ -107,13 +107,12 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   allApgList: any = [];
   progressAPG: any = [];
+  usergradingAPG: any = [];
   badgeApg: any = [];
   evAPG: any = [];
   dataApgList: any = [];
   isScroll: boolean = true;
-
   //
-
   public ismodule: boolean = false;
   public isshare: boolean = false;
   public shareAPG: boolean = false;
@@ -203,6 +202,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     });
   }
+  // userGrading(){
+  //   let i=0;
+  //   let j=this.templateList[this.templateList.length].accessPoints.data.grades[i];
+  //   for(let j;j<=this.templateList.length;j++){
+  //     console.log(i);
+  //       i++;
+  //   }
+  // }
   ngOnDestroy() {
     this.dragulaService.destroy('data_COLUMNS');
     this.dragulaService.destroy('COLUMNS');
@@ -859,7 +866,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.log('set share',this.singleCheckedAPG)
 
     let data = this.singleCheckedAPG;
-    // console.log(obj)
+    console.log(obj);
     let emptyObj = {};
     this.dataVal = this.singleCheckedAPG;
 
@@ -2104,7 +2111,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   getAllTemplate(limit, skip) {
     console.log(this.apgType);
     var moduleId = localStorage.getItem('moduleID');
@@ -2337,6 +2343,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           } else if (this.selectedAPGTab.name.toLowerCase() == 'progress') {
             this.progressAPG = this.progressAPG.concat(res);
             this.apgList = this.progressAPG;
+          } else if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
+            this.usergradingAPG = this.usergradingAPG.concat(res);
+            this.apgList = this.usergradingAPG;
           } else if (
             this.selectedAPGTab.name.toLowerCase() == 'assessment' ||
             this.selectedAPGTab.name.toLowerCase() == 'evaluation'
@@ -2782,6 +2791,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.badgeApg = [];
     this.evAPG = [];
     this.dataApgList = [];
+    this.usergradingAPG = [];
   }
   numberOnly(event, type) {
     const charCode = event.which ? event.which : event.keyCode;
