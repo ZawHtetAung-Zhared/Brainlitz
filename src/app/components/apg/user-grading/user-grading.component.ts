@@ -195,6 +195,7 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData.data.sepalColor.background = this.selectedSepalColor.background;
     this.userGradeData.data.sepalColor.text = this.selectedSepalColor.text;
     this.gradeName = '';
+    this.checkValidation();
   }
   onFocus() {
     this.isFocus = true;
@@ -374,16 +375,28 @@ export class UserGradingComponent implements OnInit {
   }
   public isValid = false;
   checkValidation() {
+    let tempNameArr = [];
+    let tempPointArr = [];
     this.userGradeData.data.grades.map(grade => {
-      if (
-        grade.name === '' ||
-        grade.point === '' ||
-        this.userGradeData.name === ''
-      ) {
+      tempNameArr.push(grade.name);
+      tempPointArr.push(grade.point);
+      if (tempNameArr.includes('') || tempPointArr.includes('')) {
         this.isValid = false;
       } else {
         this.isValid = true;
       }
+      if (this.userGradeData.name === '') {
+        this.isValid = false;
+      }
+      // if (
+      //   grade.name.length < 1 ||
+      //   grade.point === '' ||
+      //   this.userGradeData.name === ''
+      // ) {
+      //   this.isValid = false;
+      // } else {
+      //   this.isValid = true;
+      // }
     });
   }
 }
