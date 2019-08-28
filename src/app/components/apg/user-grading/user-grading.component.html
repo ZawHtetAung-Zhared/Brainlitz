@@ -50,9 +50,12 @@
     class="d-flex level-wrapper"
     *ngFor="let grade of userGradeData.data.grades; let i = index"
   >
-    <div class="d-flex align-items-center">
+    <div
+      class="d-flex align-items-center sepalColor-wrapper justify-content-between"
+    >
       <div
         class="grade-icon d-flex justify-content-center align-items-center"
+        [ngClass]="{ 'ml-1': grade.point && grade.point.length <= 1 }"
         [style.background]="userGradeData.data.sepalColor.background"
         (click)="colorpalettePopUp(i, $event, userGradeData.data)"
         [ngStyle]="{

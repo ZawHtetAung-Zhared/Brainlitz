@@ -1307,60 +1307,66 @@
                     </div>
 
                     <div *ngIf="timetable.lesson.cancel">
-                      <div>
-                        <div class="d-flex align-items-center mb-0">
-                          <div
-                            class="cancel-icon d-flex justify-content-center align-items-center"
-                          >
-                            <span class="dash-icon align-self-center"> - </span>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <div class="d-flex align-items-center mb-0">
+                            <div
+                              class="cancel-icon d-flex justify-content-center align-items-center"
+                            >
+                              <span class="dash-icon align-self-center">
+                                -
+                              </span>
+                            </div>
+                            <div class="d-flex">
+                              <p class="ml-1 cancelled-course-Code">
+                                {{ timetable.course.courseCode }}
+                              </p>
+                            </div>
                           </div>
-                          <div class="d-flex">
-                            <p class="ml-1 cancelled-course-Code">
-                              {{ timetable.course.courseCode }}
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min > 60"
+                          >
+                            <div class="mt-0  cancel-text">
+                              Cancelled
+                            </div>
+
+                            <span class="dot-cancel"></span>
+                            <p class="cancel">
+                              {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
-                        </div>
-                        <div
-                          class="d-flex"
-                          *ngIf="timetable.duration.min >= 60"
-                        >
-                          <div class="mt-0  cancel-text">
-                            Cancelled
+                          <div
+                            class="d-flex"
+                            *ngIf="
+                              timetable.duration.min <= 60 &&
+                              timetable.duration.min > 30
+                            "
+                          >
+                            <div class="mt-0  cancel-text">
+                              Cancelled...
+                            </div>
                           </div>
-
-                          <span class="dot-cancel"></span>
-                          <p class="cancel">
-                            {{ timetable.duration.min + 'min' }}
-                          </p>
+                          <div
+                            class="d-flex"
+                            *ngIf="timetable.duration.min <= 30"
+                          ></div>
                         </div>
                         <div
-                          class="d-flex"
+                          class="image"
                           *ngIf="
-                            timetable.duration.min < 60 &&
-                            timetable.duration.min > 30
+                            timetable.duration.min >= 60 && isTeacherAll == true
                           "
                         >
-                          <div class="mt-0  cancel-text">
-                            Cancelled...
+                          <div class=" tchr-img-wraper">
+                            <img
+                              src="{{
+                                timetable.course.teachers[0].profilePic
+                              }}"
+                              alt=""
+                              class="teacher-pic"
+                            />
                           </div>
-                        </div>
-                        <div
-                          class="d-flex"
-                          *ngIf="timetable.duration.min <= 30"
-                        ></div>
-                      </div>
-                      <div
-                        class="image"
-                        *ngIf="
-                          timetable.duration.min >= 60 && isTeacherAll == true
-                        "
-                      >
-                        <div class=" tchr-img-wraper">
-                          <img
-                            src="{{ timetable.course.teachers[0].profilePic }}"
-                            alt=""
-                            class="teacher-pic"
-                          />
                         </div>
                       </div>
                     </div>
@@ -1804,7 +1810,7 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min >= 60"
+                            *ngIf="timetable.duration.min > 60"
                           >
                             <div class="mt-0 cancel-text">
                               Cancelled
@@ -1817,7 +1823,10 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min < 60"
+                            *ngIf="
+                              timetable.duration.min <= 60 &&
+                              timetable.duration.min > 30
+                            "
                           >
                             <div class="mt-0 cancel-text">
                               Cancelled...

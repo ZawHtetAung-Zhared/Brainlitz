@@ -82,17 +82,17 @@ export class UserGradingComponent implements OnInit {
   ];
   public sepalColor = [
     {
-      name: '1',
-      color: {
-        text: '#6E2D00',
-        background: '#FFCBA6'
-      }
-    },
-    {
       name: '2',
       color: {
         text: '#544600',
         background: '#FFE04D'
+      }
+    },
+    {
+      name: '1',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
       }
     },
     {
@@ -174,7 +174,6 @@ export class UserGradingComponent implements OnInit {
   }
 
   colorpalettePopUp(index, e, data) {
-    console.warn(e);
     e.preventDefault();
     e.stopPropagation();
     let tempData = data;
@@ -183,10 +182,12 @@ export class UserGradingComponent implements OnInit {
     this.gradeName = this.userGradeData.data.grades[index].point;
     this.selectedSepalColor = JSON.parse(JSON.stringify(tempData.sepalColor));
     this.selectedBlockColor = JSON.parse(JSON.stringify(tempData.color));
+    $('body').css('overflow', 'hidden');
     this.caculatePosition(e);
   }
   closePopUp(e) {
     this.showPopUp = false;
+    $('body').css('overflow', 'overlay');
   }
   applyGradeName() {
     this.showPopUp = false;
@@ -196,6 +197,7 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData.data.sepalColor.background = this.selectedSepalColor.background;
     this.userGradeData.data.sepalColor.text = this.selectedSepalColor.text;
     this.gradeName = '';
+    $('body').css('overflow', 'overlay');
     this.checkValidation();
   }
   onFocus() {
@@ -286,14 +288,14 @@ export class UserGradingComponent implements OnInit {
         top: YPosition + 'px',
         left: XPosition - 34 + 'px' //11
       };
-      this.colorPopUpX = YPosition + 20 + 'px';
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
       this.colorPopUpLeft = XPosition - 51 + 'px'; //21
     } else {
       this.colorArrClasses = {
         top: YPosition + 'px',
         left: XPosition - 10 + 'px' //11
       };
-      this.colorPopUpX = YPosition + 20 + 'px';
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
       this.colorPopUpLeft = XPosition - 40 + 'px'; //21
     }
 
@@ -302,27 +304,35 @@ export class UserGradingComponent implements OnInit {
       'arr-down': false,
       'arr-up': true
     };
-
-    // if ($(document).height() - (YPosition + 472) < 236) {
-    //   this.colorPopUpX = YPosition - 56 + 'px';
-    //   this.colorWrapper = {
-    //     top: YPosition - 236 + 'px',
-    //     left: XPosition + 'px'
-    //   };
-    //   this.arrClasses = {
-    //     'arr-box': true,
-    //     'arr-down': true
-    //   };
-    //   this.colorArrClasses = {
-    //     top: YPosition + 'px',
-    //     left: XPosition + 'px'
-    //   };
-    //   this.arrClasses = {
-    //     'arr-box': true,
-    //     'arr-down': true,
-    //     'arr-up': false
-    //   };
-    // }
+    if ($(document)[0].children[0].clientHeight - e.clientY < 236) {
+      this.colorPopUpX = e.clientY - 236 + this.scrollHeight + 'px';
+      this.colorWrapper = {
+        top: YPosition - 236 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+      if (e.target.className == '') {
+        this.colorArrClasses = {
+          top: YPosition + 'px',
+          left: XPosition - 34 + 'px' //11
+        };
+        this.colorPopUpLeft = XPosition - 51 + 'px'; //21
+      } else {
+        this.colorArrClasses = {
+          top: YPosition + 'px',
+          left: XPosition - 10 + 'px' //11
+        };
+        this.colorPopUpLeft = XPosition - 40 + 'px'; //21
+      }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
@@ -391,7 +401,9 @@ export class UserGradingComponent implements OnInit {
       }
     });
   }
-  @HostListener('document:click', ['$event']) clickout($event) {
-    console.warn($event);
+  @HostListener('document:click', ['$event']) clickout($event) {}
+  public scrollHeight = 0;
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    this.scrollHeight = $event.target.scrollingElement.scrollTop;
   }
 }
