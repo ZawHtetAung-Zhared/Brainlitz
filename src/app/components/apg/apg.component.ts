@@ -602,6 +602,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   cancelapg() {
+    this.userGradingAp = false;
     this.apgList = [];
     this.clearAPGTypeArr();
     this.model = {};
@@ -1723,12 +1724,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     ) {
       this.iscreate = true;
       this.apCreate = true;
-      this.userGradingAp = true;
+      this.userGradingAp = false;
     } else if (apgName.module.name == 'User Grading') {
       this.apCreate = false;
       this.dataApCreate = false;
       this.ismodule = false;
       this.userGradingAp = true;
+      this.iscreate = true;
+    } else {
       this.iscreate = true;
     }
     return new Promise((resolve, reject) => {
@@ -1750,11 +1753,13 @@ export class ApgComponent implements OnInit, OnDestroy {
           apgName.module.name
         )
           .then(dataCollection => {
+            if (apgName.module.name == 'User Grading') {
+              this.model.data = dataCollection[0].data;
+              this.UserGradeApg = this.model;
+            }
             console.log('successs', dataCollection);
             let tempArr = [];
-            this.model.data = dataCollection[0].data;
-            // this.UserGradeApg = dataCollection;
-            this.UserGradeApg = this.model;
+            this.templateAccessPointGroup = dataCollection;
             if (
               apgName.module.name == 'Evaluation' ||
               apgName.module.name == 'Assessment'
