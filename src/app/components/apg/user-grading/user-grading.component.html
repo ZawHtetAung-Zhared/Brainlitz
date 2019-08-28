@@ -88,6 +88,7 @@
           [(ngModel)]="grade.name"
           #name="ngModel"
           (input)="checkValidation()"
+          id="{{ 'level-input' + i }}"
         />
       </div>
       <div class="remove-icon" *ngIf="userGradeData.data.grades.length > 1">
@@ -99,7 +100,7 @@
       </div>
     </div>
   </div>
-  <div class="add-new-lvl" (click)="addLevel()">
+  <div class="add-new-lvl" (click)="addLevel(i)">
     Add new level
   </div>
 </div>
