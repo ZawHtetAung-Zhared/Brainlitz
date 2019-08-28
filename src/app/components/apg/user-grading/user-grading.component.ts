@@ -174,6 +174,7 @@ export class UserGradingComponent implements OnInit {
   }
 
   colorpalettePopUp(index, e, data) {
+    console.warn(e);
     e.preventDefault();
     e.stopPropagation();
     let tempData = data;
@@ -195,6 +196,7 @@ export class UserGradingComponent implements OnInit {
     this.userGradeData.data.sepalColor.background = this.selectedSepalColor.background;
     this.userGradeData.data.sepalColor.text = this.selectedSepalColor.text;
     this.gradeName = '';
+    this.checkValidation();
   }
   onFocus() {
     this.isFocus = true;
@@ -374,16 +376,22 @@ export class UserGradingComponent implements OnInit {
   }
   public isValid = false;
   checkValidation() {
+    let tempNameArr = [];
+    let tempPointArr = [];
     this.userGradeData.data.grades.map(grade => {
-      if (
-        grade.name === '' ||
-        grade.point === '' ||
-        this.userGradeData.name === ''
-      ) {
+      tempNameArr.push(grade.name);
+      tempPointArr.push(grade.point);
+      if (tempNameArr.includes('') || tempPointArr.includes('')) {
         this.isValid = false;
       } else {
         this.isValid = true;
       }
+      if (this.userGradeData.name === '') {
+        this.isValid = false;
+      }
     });
+  }
+  @HostListener('document:click', ['$event']) clickout($event) {
+    console.warn($event);
   }
 }

@@ -610,6 +610,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dataApCreate = false;
     this.ismodule = false;
     this.isUpdate = false;
+    this.userGradingAp = false;
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
@@ -1714,6 +1715,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
       this.dataApCreate = true;
       this.ismodule = false;
+      this.userGradingAp = false;
       this.apCreate = false;
     } else if (
       apgName.module.name == 'Assessment' ||
@@ -1721,6 +1723,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     ) {
       this.iscreate = true;
       this.apCreate = true;
+      this.userGradingAp = true;
     } else if (apgName.module.name == 'User Grading') {
       this.apCreate = false;
       this.dataApCreate = false;
