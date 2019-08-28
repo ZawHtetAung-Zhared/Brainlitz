@@ -56,7 +56,8 @@
 .down-icon {
   cursor: pointer;
 }
-.remove-icon {
+.remove-icon img {
+  cursor: pointer;
 }
 .btn-cancel {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
