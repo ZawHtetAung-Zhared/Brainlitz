@@ -109,6 +109,9 @@
   font-size: 14px;
 }
 
+.sepalColor-wrapper {
+  width: 48px;
+}
 .lvl-name-input {
   background: #f2f4f5;
   border-radius: 4px;
