@@ -174,6 +174,7 @@ export class UserGradingComponent implements OnInit {
   }
 
   colorpalettePopUp(index, e, data) {
+    console.warn(e);
     e.preventDefault();
     e.stopPropagation();
     let tempData = data;
@@ -388,15 +389,9 @@ export class UserGradingComponent implements OnInit {
       if (this.userGradeData.name === '') {
         this.isValid = false;
       }
-      // if (
-      //   grade.name.length < 1 ||
-      //   grade.point === '' ||
-      //   this.userGradeData.name === ''
-      // ) {
-      //   this.isValid = false;
-      // } else {
-      //   this.isValid = true;
-      // }
     });
+  }
+  @HostListener('document:click', ['$event']) clickout($event) {
+    console.warn($event);
   }
 }
