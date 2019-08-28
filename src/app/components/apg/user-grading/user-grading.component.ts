@@ -82,17 +82,17 @@ export class UserGradingComponent implements OnInit {
   ];
   public sepalColor = [
     {
-      name: '1',
-      color: {
-        text: '#6E2D00',
-        background: '#FFCBA6'
-      }
-    },
-    {
       name: '2',
       color: {
         text: '#544600',
         background: '#FFE04D'
+      }
+    },
+    {
+      name: '1',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
       }
     },
     {
