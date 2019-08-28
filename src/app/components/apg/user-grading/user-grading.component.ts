@@ -159,17 +159,27 @@ export class UserGradingComponent implements OnInit {
     this.checkValidation();
   }
 
-  addLevel() {
+  addLevel(i) {
     const tempObj = {
       name: '',
-      point: '1'
+      point: this.userGradeData.data.grades.length + 1
     };
     this.userGradeData.data.grades.push(tempObj);
+    setTimeout(() => {
+      var a = this.userGradeData.data.grades.length - 1;
+      console.log(a);
+      document.getElementById('level-input' + a).focus();
+    }, 300);
     this.checkValidation();
   }
 
   removeLevel(index) {
     this.userGradeData.data.grades.splice(index, 1);
+    setTimeout(() => {
+      var a = this.userGradeData.data.grades.length - 1;
+      console.log(a);
+      document.getElementById('level-input' + a).focus();
+    }, 300);
     this.checkValidation();
   }
 

@@ -116,10 +116,11 @@
   display: flex;
 }
 .loadMore1 {
-  bottom: 67px;
+  bottom: 65px;
   background: white;
-  width: 105%;
+  width: 110%;
   position: sticky;
+  margin-left: -50px;
 }
 .share-input .label-checked {
   /* background: #fff; */
