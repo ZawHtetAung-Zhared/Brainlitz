@@ -12,5 +12,5 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - apt-get update
           - apt-get install rsync -y     
-          - rsync -avhze ssh $BITBUCKET_CLONE_DIR/ ssh htetshweyilin@13.229.235.46:/public_html/brainlitz-web/
+          - rsync -avhze ssh $BITBUCKET_CLONE_DIR/ htetshweyilin@13.229.235.46:/public_html/brainlitz-web/
           - cat ./deploy.sh | ssh htetshweyilin@13.229.235.46
