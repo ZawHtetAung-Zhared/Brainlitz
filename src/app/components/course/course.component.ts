@@ -1602,6 +1602,8 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state) {
+    console.log(type, state);
+    this.isFlexyInvoice = false;
     this.currentDateObj = '';
     if (state == 'course') {
       this.activeTab = type;
@@ -1768,6 +1770,12 @@ export class CourseComponent implements OnInit {
       this.getAllAC(20, 0, this.singleUserData.userId);
     } else if (type == 'invoice') {
       console.log('tab inv user id', this.singleUserData);
+      console.log(this.courseType);
+      if (this.courseType == 'FLEXY') {
+        this.isFlexyInvoice = true;
+      } else {
+        this.isFlexyInvoice = false;
+      }
       this.viewInvoice(this.singleUserData);
     }
   }
@@ -1786,8 +1794,8 @@ export class CourseComponent implements OnInit {
     console.log(this.todayDate, 'today');
     console.log('.....', onlytodayTime);
     console.log('.....', this.cancelUi);
-    // console.error(onlytodayTime)
-    // console.error(onlytodayDate)
+    // console.log(onlytodayTime)
+    // console.log(onlytodayDate)
 
     // Validate for giving attendence
     // if (lessonDate <= onlytodayDate) {
@@ -1913,7 +1921,7 @@ export class CourseComponent implements OnInit {
     console.log(state);
     console.log(this.selectCustomer);
     console.log(this.selectedTeacherLists);
-    // console.error(this.detailLists);
+    // console.log(this.detailLists);
     this.selectedCustomer = {};
     this.selectedTeacherLists = [];
     this.isvalidID = state;
@@ -2174,7 +2182,7 @@ export class CourseComponent implements OnInit {
         err => {
           // Error function
           this.isGlobal = false;
-          console.error('cancle user from class has got error', err);
+          console.log('cancle user from class has got error', err);
           // Do something
         }
       );
@@ -2269,7 +2277,7 @@ export class CourseComponent implements OnInit {
   isDisabledBtn = false;
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
-    // console.error(this.detailLists);
+    // console.log(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       this.blockUI.stop();
@@ -2565,7 +2573,7 @@ export class CourseComponent implements OnInit {
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
           console.log('-------->', res);
-          // console.error(this.detailLists.invoice);
+          // console.log(this.detailLists.invoice);
 
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
@@ -3268,8 +3276,9 @@ export class CourseComponent implements OnInit {
   //   })
   // }
   invoicesOfCourse: any = [];
+  isFlexyInvoice: boolean = false;
   showTabsModal(modal, type, data) {
-    console.error('show Tabs Modal', data);
+    console.log('show Tabs Modal', data);
 
     this.showStudentOption = '';
     this.xxxhello = '';
@@ -3285,10 +3294,11 @@ export class CourseComponent implements OnInit {
       this.getAllAC(20, 0, data.userId);
     } else if (type == 'invoice') {
       if (data.invoice != null) {
-        console.error('exit');
+        console.log('exit');
         if (this.courseType == 'FLEXY') {
           this.invoicesOfCourse = data.invoicesOfCourse;
-          console.error('invoicesOfCourse', this.invoicesOfCourse);
+          this.isFlexyInvoice = true;
+          console.log('invoicesOfCourse', this.invoicesOfCourse);
         }
         this.invoiceID2 = data.invoice._id;
 
@@ -3299,7 +3309,7 @@ export class CourseComponent implements OnInit {
       console.log('ddddd');
       this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
-    console.error('show Tabs Modal', this.activeUserTab);
+    console.log('show Tabs Modal', this.activeUserTab);
   }
 
   getAllAC(limit, skip, userId) {
@@ -3804,5 +3814,15 @@ export class CourseComponent implements OnInit {
     //   .subscribe((res: any) => {
     //     console.log(res);
     //   });
+  }
+
+  viewSingleInvoice(id) {
+    console.log('id', id, this.activeUserTab);
+    this.invoiceID2 = id;
+    this.isFlexyInvoice = false;
+  }
+
+  backToInvoiceList() {
+    this.isFlexyInvoice = true;
   }
 }
