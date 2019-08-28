@@ -272,7 +272,7 @@ export class InvoiceComponent implements OnInit {
       courseFeeDiscount: this.cDiscount.dValue,
       additionalFees: arr
     };
-    console.log('f obj', finalObj);
+    console.error('f obj', finalObj);
 
     this._service.updateInvoiceInfo(this.invoiceId, finalObj).subscribe(
       (res: any) => {
@@ -451,89 +451,83 @@ export class InvoiceComponent implements OnInit {
     this.isnewItemsValid = true;
     this.isDefaultUpdate = true;
     this.feesBox = false;
-    for (var i in this.invoice) {
-      if (this.invoice[i].courseFee.fee != data) {
-        console.log('===not same');
-        this.updateInvData = data;
-        this.invoice[i].courseFee.fee = Number(data);
-        console.log(this.invoice[i].courseFee.fee);
-        console.log(this.invoice[i].courseFee.tax);
+    if (this.invoice.courseFee.fee != data) {
+      console.log('===not same');
+      this.updateInvData = data;
+      this.invoice.courseFee.fee = Number(data);
+      console.log(this.invoice.courseFee.fee);
+      console.log(this.invoice.courseFee.tax);
 
-        // formula for calculating the Inclusive tax
-        // Product price x RATE OF TAX/ (100+RATE OF TAX);
-        if (this.invoice[i].courseFee.taxInclusive == true) {
-          // var taxRate = this.invoice[i].tax.rate;
-          // var taxAmount = (
-          //   (this.invoice[i].courseFee.fee * taxRate) /
-          //   100
-          // ).toFixed(2);
-          // this.invoice[i].courseFee.tax = Number(taxAmount);
-          // console.log('inclusiveTax for CFee', this.invoice[i].courseFee.tax);
-          // var cFee = (
-          //   this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax
-          // ).toFixed(2);
+      // formula for calculating the Inclusive tax
+      // Product price x RATE OF TAX/ (100+RATE OF TAX);
+      if (this.invoice.courseFee.taxInclusive == true) {
+        // var taxRate = this.invoice[i].tax.rate;
+        // var taxAmount = (
+        //   (this.invoice[i].courseFee.fee * taxRate) /
+        //   100
+        // ).toFixed(2);
+        // this.invoice[i].courseFee.tax = Number(taxAmount);
+        // console.log('inclusiveTax for CFee', this.invoice[i].courseFee.tax);
+        // var cFee = (
+        //   this.invoice[i].courseFee.fee - this.invoice[i].courseFee.tax
+        // ).toFixed(2);
 
-          // this.invoice[i].courseFee.amount = (
-          //   this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax
-          // ).toFixed(2);
-          // this.invoice[i].courseFee.amount = this.invoice[
-          //   i
-          // ].courseFee.fee.toFixed(2);
-          // this.invoice[i].tax.taxTotal = (
-          //   this.invoice[i].courseFee.tax +
-          //   this.invoice[i].registrationFee.tax +
-          //   this.invoice[i].miscFee.tax
-          // ).toFixed(2);
-          var cFee = Number(
-            this.invoice[i].courseFee.fee / (1 + this.invoice[i].tax.rate / 100)
-          );
-          console.log(cFee);
-          this.invoice[i].courseFee.fee = cFee.toFixed(2);
+        // this.invoice[i].courseFee.amount = (
+        //   this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax
+        // ).toFixed(2);
+        // this.invoice[i].courseFee.amount = this.invoice[
+        //   i
+        // ].courseFee.fee.toFixed(2);
+        // this.invoice[i].tax.taxTotal = (
+        //   this.invoice[i].courseFee.tax +
+        //   this.invoice[i].registrationFee.tax +
+        //   this.invoice[i].miscFee.tax
+        // ).toFixed(2);
+        var cFee = Number(
+          this.invoice.courseFee.fee / (1 + this.invoice.tax.rate / 100)
+        );
+        console.log(cFee);
+        this.invoice.courseFee.fee = cFee.toFixed(2);
 
-          var tax = cFee * (this.invoice[i].tax.rate / 100);
-          this.invoice[i].courseFee.tax = tax.toFixed(2);
-          console.log(tax);
+        var tax = cFee * (this.invoice.tax.rate / 100);
+        this.invoice.courseFee.tax = tax.toFixed(2);
+        console.log(tax);
 
-          this.invoice[i].courseFee.amount = cFee.toFixed(2);
-          this.invoice[i].tax.taxTotal = tax.toFixed(2);
-          this.defult_totalTax = tax.toFixed(2);
-          this.default_subTotal = cFee.toFixed(2);
-          this.default_total =
-            Number(this.default_subTotal) + Number(this.defult_totalTax);
-          console.log(this.invoice);
-        } else if (this.invoice[i].courseFee.taxInclusive == false) {
-          var taxRate = this.invoice[i].tax.rate;
-          var taxAmount = (
-            (this.invoice[i].courseFee.fee * taxRate) /
-            100
-          ).toFixed(2);
-          this.invoice[i].courseFee.tax = Number(taxAmount);
-          console.log('inclusiveTax for CFee', this.invoice[i].courseFee.tax);
-          // this.invoice[i].courseFee.amount =
-          //   this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
-          this.invoice[i].courseFee.amount = this.invoice[
-            i
-          ].courseFee.fee.toFixed(2);
-          // this.invoice[i].tax.taxTotal = (
-          //   this.invoice[i].courseFee.tax +
-          //   this.invoice[i].registrationFee.tax +
-          //   this.invoice[i].miscFee.tax
-          // ).toFixed(2);
-          this.invoice[i].tax.taxTotal = this.invoice[i].courseFee.tax.toFixed(
-            2
-          );
-          // this.totalTax = this.invoice[i].courseFee.tax.toFixed(2);
-          this.defult_totalTax = this.invoice[i].courseFee.tax.toFixed(2);
-          this.default_subTotal = this.invoice[i].courseFee.fee.toFixed(2);
-          this.default_total =
-            Number(this.default_subTotal) + Number(this.defult_totalTax);
-        }
-
-        // this.calculateHideFees('cFees');
-      } else {
-        console.log('===same');
+        this.invoice.courseFee.amount = cFee.toFixed(2);
+        this.invoice.tax.taxTotal = tax.toFixed(2);
+        this.defult_totalTax = tax.toFixed(2);
+        this.default_subTotal = cFee.toFixed(2);
+        this.default_total =
+          Number(this.default_subTotal) + Number(this.defult_totalTax);
+        console.log(this.invoice);
+      } else if (this.invoice.courseFee.taxInclusive == false) {
+        var taxRate = this.invoice.tax.rate;
+        var taxAmount = ((this.invoice.courseFee.fee * taxRate) / 100).toFixed(
+          2
+        );
+        this.invoice.courseFee.tax = Number(taxAmount);
+        console.log('inclusiveTax for CFee', this.invoice.courseFee.tax);
+        // this.invoice[i].courseFee.amount =
+        //   this.invoice[i].courseFee.fee + this.invoice[i].courseFee.tax;
+        this.invoice.courseFee.amount = this.invoice.courseFee.fee.toFixed(2);
+        // this.invoice[i].tax.taxTotal = (
+        //   this.invoice[i].courseFee.tax +
+        //   this.invoice[i].registrationFee.tax +
+        //   this.invoice[i].miscFee.tax
+        // ).toFixed(2);
+        this.invoice.tax.taxTotal = this.invoice.courseFee.tax.toFixed(2);
+        // this.totalTax = this.invoice[i].courseFee.tax.toFixed(2);
+        this.defult_totalTax = this.invoice.courseFee.tax.toFixed(2);
+        this.default_subTotal = this.invoice.courseFee.fee.toFixed(2);
+        this.default_total =
+          Number(this.default_subTotal) + Number(this.defult_totalTax);
       }
+
+      // this.calculateHideFees('cFees');
+    } else {
+      console.log('===same');
     }
+    // }
     this.calculationTotal();
   }
   calculateHideFees(type) {
@@ -1088,20 +1082,22 @@ export class InvoiceComponent implements OnInit {
   }
 
   removeDiscount(type, obj, id) {
+    console.error('type', type, this.cDiscount.isDefault);
+
     if (type == 'courseFee') {
       this.iscDiscount = false;
-      if (this.cDiscount.isDefault) {
-        this.cDiscount = {
-          value: 0,
-          tax: 0,
-          taxRes: 0,
-          type: '',
-          dValue: 0.0,
-          amount: 0.0,
-          isDefault: this.cDiscount.isDefault
-        };
-        this.isEditInv = true;
-      }
+      // if (this.cDiscount.isDefault) {
+      this.cDiscount = {
+        value: 0,
+        tax: 0,
+        taxRes: 0,
+        type: '',
+        dValue: 0.0,
+        amount: 0.0,
+        isDefault: this.cDiscount.isDefault
+      };
+      this.isEditInv = true;
+      // }
 
       this.default_disTotal = 0;
       this.defult_disTotalTax = 0;
