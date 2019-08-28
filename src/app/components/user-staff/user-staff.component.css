@@ -872,6 +872,7 @@ input[type='radio']:checked ~ label {
 .activeTab {
   color: #007fff !important;
   border-bottom: 2px solid #007fff !important;
+  border-radius: unset !important;
 }
 
 .classes-tab,

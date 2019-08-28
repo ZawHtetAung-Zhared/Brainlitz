@@ -578,7 +578,7 @@ div.ap-wrapper:last-child {
   box-shadow: 0 1px 5px 1px rgb(22, 131, 251);
 }
 .share-input label.selected .b-white {
-  border: 1.5px solid #ffffff;
+  border: 1px solid #ffffff;
 }
 .module-input label.selected .label-checked,
 .share-input label.selected .label-checked {
