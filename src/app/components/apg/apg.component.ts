@@ -93,7 +93,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   moduleAPList: any;
   getAccessPoint: any;
   tempModuleId: any;
-  result: any;
+  result: any = [];
   emptyAP: boolean = false;
   isFirst: boolean = false;
   searchWord: any;

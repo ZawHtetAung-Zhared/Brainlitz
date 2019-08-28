@@ -2727,6 +2727,73 @@
     </div>
 
     <!-- for view invoice -->
+    <div class="show-invoice col-5 " *ngIf="courseType == 'FLEXYa'">
+      <div class="scrollbar">
+        <div class="d-flex invoice-change align-items-center">
+          <label class="invoice-label">Invoice</label>
+          <span class="invoiceOflength" *ngIf="invoicesOfCourse != undefined">{{
+            invoicesOfCourse.length
+          }}</span>
+        </div>
+        <div class=" invoice-list" *ngFor="let invoice of invoicesOfCourse">
+          <div class="d-flex">
+            <div class="first-one d-flex flex-column">
+              <p class="lesson">{{ invoice.studentLessonsCount }} lessons</p>
+              <span
+                class="date"
+                *ngIf="
+                  invoice.courseDuration != undefined &&
+                  invoice.courseDuration.startDate != undefined &&
+                  invoice.courseDuration.endDate != undefined
+                "
+              >
+                {{ invoice.courseDuration.startDate | utcDate }} -
+                {{ invoice.courseDuration.endDate | utcDate }}
+              </span>
+              <label class="payment">Payment date</label>
+              <p class="date1">
+                {{ invoice.updatedDate | utcDate }}
+              </p>
+            </div>
+            <div class="second-one" style="padding-left: 10px">
+              <div class="d-flex" style="margin-top: 14px">
+                <div
+                  class="paybill"
+                  [ngClass]="{
+                    'paid-status': invoice.status == 'PAID',
+                    'unpaid-status': invoice.status == 'UNPAID',
+                    'partially-paid-status': invoice.status == 'PAID[PARTIAL]'
+                  }"
+                >
+                  <p>
+                    {{
+                      invoice.status == 'PAID[PARTIAL]'
+                        ? 'Partially paid'
+                        : invoice.status == 'PAID'
+                        ? 'Paid'
+                        : 'Unpaid'
+                    }}
+                  </p>
+                </div>
+                <span class="right"></span>
+              </div>
+              <div class="date" *ngIf="course.invoice != null; currency">
+                <span class="currency date">{{ invoice.currency.sign }}</span>
+                {{ invoice.total }}
+              </div>
+              <!-- (click)="viewInvoice(classEnrollModal, course)"
+      [disabled]="course.invoice == null" -->
+              <button
+                class="btn view-invoice"
+                (click)="viewFlexyInvoice(classEnrollModal, course, invoice)"
+              >
+                View invoice
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="invoice-wrap"
       *ngIf="activeUserTab == 'invoice'"

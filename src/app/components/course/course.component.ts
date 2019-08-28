@@ -2279,6 +2279,7 @@ export class CourseComponent implements OnInit {
         if (info.controlType === 'Datepicker')
           info.value = moment(info.value).format('YYYY-MM-DD');
       });
+
       this.activeUserTab = type;
 
       this.custDetail.user = res;
@@ -2977,7 +2978,7 @@ export class CourseComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully sent the Invoice.');
-          // this.modalReference.close();
+          // this.modalReferencshowTabsModal
           // this.getCourseDetail(this.detailLists._id)
           // this.getUsersInCourse(this.detailLists._id);
           // this.cancelModal();
@@ -3266,9 +3267,10 @@ export class CourseComponent implements OnInit {
   //     this.cancelModal();
   //   })
   // }
-
+  invoicesOfCourse: any = [];
   showTabsModal(modal, type, data) {
-    console.log('show Tabs Modal', type, data);
+    console.error('show Tabs Modal', data);
+
     this.showStudentOption = '';
     this.xxxhello = '';
     this.getSingleCustomer(data.userId, type);
@@ -3283,7 +3285,13 @@ export class CourseComponent implements OnInit {
       this.getAllAC(20, 0, data.userId);
     } else if (type == 'invoice') {
       if (data.invoice != null) {
+        console.error('exit');
+        if (this.courseType == 'FLEXY') {
+          this.invoicesOfCourse = data.invoicesOfCourse;
+          console.error('invoicesOfCourse', this.invoicesOfCourse);
+        }
         this.invoiceID2 = data.invoice._id;
+
         // this.viewInvoice(data);
       }
     } else if (type == 'makeup') {
@@ -3291,6 +3299,7 @@ export class CourseComponent implements OnInit {
       console.log('ddddd');
       this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
+    console.error('show Tabs Modal', this.activeUserTab);
   }
 
   getAllAC(limit, skip, userId) {

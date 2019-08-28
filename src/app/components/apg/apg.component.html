@@ -100,7 +100,9 @@
         [ngClass]="{ 'active-apg-tab': selectedAPGTab.name == module.name }"
         (click)="onClickApgTab(module.name, module._id)"
       >
-        {{ module.name }}
+        {{
+          module.name.toLowerCase() == 'user grading' ? 'Grade' : module.name
+        }}
       </button>
     </div>
   </div>
@@ -131,7 +133,13 @@
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
-              {{ apg.module.name }}
+              <!-- {{ apg.module.name }} -->
+
+              {{
+                apg.module.name.toLowerCase() == 'user grading'
+                  ? 'Grade'
+                  : apg.module.name
+              }}
             </p>
             <p class="apg-type" *ngIf="!apg.module">-</p>
             <h4>{{ apg.name }}</h4>
@@ -288,22 +296,31 @@
                 <div *ngFor="let ap of apg.accessPoints">
                   <div
                     class="d-flex flex-row"
-                    *ngFor="let grade of ap.data.grades"
+                    *ngFor="let grade of ap.data.grades; let j = index"
                   >
                     <span
                       class="point"
                       [ngStyle]="{
-                        background: ap.data.color.background,
-                        color: ap.data.color.text
+                        background: ap.data.sepalColor.background,
+                        color: ap.data.sepalColor.text
                       }"
                       >{{ grade.point }}</span
                     >
-                    <!-- [ngClass]="{
-                      'hide-border':
-                        ap.data.inputTypeProperties.options?.length ==
-                        oIdx + 1
-                    }" -->
-                    <div class="mb-0 list-dot-wrap detail-line apg-desc w-100">
+                    <!-- <span
+                    class="point" *ngIf="ap.data.sepalColor == undefined"
+                    [ngStyle]="{
+                      background: ap.data.color.background,
+                      color: ap.data.color.text
+                    }"
+                    >{{ grade.point }}</span
+                  > -->
+
+                    <div
+                      class="mb-0 list-dot-wrap detail-line apg-desc w-100"
+                      [ngClass]="{
+                        'hide-border': ap.data.grades?.length == j + 1
+                      }"
+                    >
                       {{ grade.name }}
                     </div>
                   </div>
@@ -381,10 +398,10 @@
     </div>
   </div>
 </div>
+
 <div
   *ngIf="
-    apgList.length >= 20 &&
-    result != 0 &&
+    result.length >= 20 &&
     iscreate == false &&
     ismodule == false &&
     shareAPG == false &&
@@ -1878,6 +1895,7 @@
             </button>
           </div>
         </div>
+        {{ templateList.length }}
         <div class="d-flex justify-content-center shareApgLoadMore loadMore1">
           <div
             *ngIf="templateList.length >= 20 && result.length == 20"
