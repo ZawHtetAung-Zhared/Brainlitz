@@ -2304,12 +2304,12 @@ input.min_input_show {
 }
 span.point {
   border-radius: 12px;
-  height: 25px;
-  padding: 4px 10px 4px 10px;
+  height: 20px;
+  padding: 0px 10px 4px 10px;
   text-align: center;
   font-size: 12px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  margin-top: 14px;
+  margin-top: 16px;
   margin-right: 12px;
 }
 .grading-wrap {
