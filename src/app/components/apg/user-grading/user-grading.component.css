@@ -59,6 +59,9 @@
 .remove-icon img {
   cursor: pointer;
 }
+.remove-boxshadow {
+  box-shadow: none !important;
+}
 .btn-cancel {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   border: none;
@@ -80,8 +83,10 @@
 }
 .btn-wrapper {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  bottom: 0;
+  padding: 14px;
+  right: 0;
+  background: #fff;
 }
 .add-new-lvl {
   padding-left: 52px;

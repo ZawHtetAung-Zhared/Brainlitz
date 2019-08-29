@@ -202,10 +202,6 @@ export class UserGradingComponent implements OnInit {
   applyGradeName() {
     this.showPopUp = false;
     this.userGradeData.data.grades[this.selectedIndex].point = this.gradeName;
-    this.userGradeData.data.color.text = this.selectedBlockColor.text;
-    this.userGradeData.data.color.background = this.selectedBlockColor.background;
-    this.userGradeData.data.sepalColor.background = this.selectedSepalColor.background;
-    this.userGradeData.data.sepalColor.text = this.selectedSepalColor.text;
     this.gradeName = '';
     $('body').css('overflow', 'overlay');
     this.checkValidation();
@@ -393,6 +389,13 @@ export class UserGradingComponent implements OnInit {
     this.selectedSepalColor.text = item.color.text;
     this.selectedBlockColor.text = this.blockColors[i].color.text;
     this.selectedBlockColor.background = this.blockColors[i].color.background;
+
+    this.userGradeData.data.color.text = this.blockColors[i].color.text;
+    this.userGradeData.data.color.background = this.blockColors[
+      i
+    ].color.background;
+    this.userGradeData.data.sepalColor.background = item.color.background;
+    this.userGradeData.data.sepalColor.text = item.color.text;
   }
   public isValid = false;
   checkValidation() {
