@@ -18,6 +18,7 @@ declare var $: any;
 export class UserGradingComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @Output() cancelGrade = new EventEmitter();
+  @Output() createGrade = new EventEmitter();
   @Input() UserGradeObj;
   @Input() isCreateStatus;
   public userGradeData;
@@ -272,6 +273,7 @@ export class UserGradingComponent implements OnInit {
       .subscribe(
         res => {
           this.cancelGrade.emit(true);
+          this.createGrade.emit(true);
         },
         err => {
           console.error(err);
