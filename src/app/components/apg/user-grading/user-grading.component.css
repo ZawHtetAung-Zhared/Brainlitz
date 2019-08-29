@@ -59,6 +59,9 @@
 .remove-icon img {
   cursor: pointer;
 }
+.remove-boxshadow {
+  box-shadow: none !important;
+}
 .btn-cancel {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   border: none;

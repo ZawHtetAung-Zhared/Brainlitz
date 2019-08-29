@@ -151,8 +151,12 @@
     />
     <button
       class="btn apply-btn"
-      [ngClass]="{ 'focus-background': isFocus }"
+      [ngClass]="{
+        'remove-boxshadow': isFocus,
+        'focus-background': gradename.dirty
+      }"
       (click)="applyGradeName()"
+      [disabled]="!gradename.dirty || gradeName.length < 1"
     >
       Apply
     </button>
