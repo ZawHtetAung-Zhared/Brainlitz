@@ -239,11 +239,12 @@ export class InvoiceComponent implements OnInit {
     // console.log(this.isEditInv);
   }
   updateInvoice() {
-    console.error('id', this.invoiceId);
+    console.log('id', this.invoiceId);
 
     console.log('Inv Update Data', this.updateInvData);
     console.log(this.newItemArr);
     let arr = [];
+
     for (let i = 0; i < this.newItemArr.length; i++) {
       let type: boolean = true;
       let notax: boolean;
@@ -272,11 +273,11 @@ export class InvoiceComponent implements OnInit {
       courseFeeDiscount: this.cDiscount.dValue,
       additionalFees: arr
     };
-    console.error('f obj', finalObj);
+    console.log('f obj', finalObj);
 
     this._service.updateInvoiceInfo(this.invoiceId, finalObj).subscribe(
       (res: any) => {
-        console.error('res update', res);
+        console.log('res update', res);
         this.isEditInv = false;
         //for updating invoice ui
         // this.singleInv = [];
@@ -776,6 +777,7 @@ export class InvoiceComponent implements OnInit {
     };
 
     this.newItemArr.push(newItemObj);
+
     this.isEditInv = true;
   }
 
@@ -1082,7 +1084,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   removeDiscount(type, obj, id) {
-    console.error('type', type, this.cDiscount.isDefault);
+    console.log('type', type, this.cDiscount.isDefault);
 
     if (type == 'courseFee') {
       this.iscDiscount = false;

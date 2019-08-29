@@ -53,7 +53,7 @@ export class InvoiceReportComponent implements OnInit {
     this.blockUI.start('Loading');
     this.selectedCourse = invoice.courseDetails;
     this.selectedCourse.invoice = invoice;
-    console.error(invoice);
+    console.log(invoice);
     this.invoiceID2 = invoice._id;
     this.custDetail.user = invoice.userDetails;
     if (invoice.user !== null || invoice.user !== undefined)
