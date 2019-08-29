@@ -146,6 +146,7 @@
           </div>
           <div
             class="apg-scroll"
+            style="margin-top: 14px;"
             [ngStyle]="{
               'max-height':
                 apg.module.name == 'Progress'
@@ -295,17 +296,32 @@
               <div>
                 <div *ngFor="let ap of apg.accessPoints">
                   <div
-                    class="d-flex flex-row"
+                    class="d-flex"
                     *ngFor="let grade of ap.data.grades; let j = index"
                   >
-                    <span
+                    <!-- <span
                       class="point"
                       [ngStyle]="{
                         background: ap.data.sepalColor.background,
                         color: ap.data.sepalColor.text
                       }"
                       >{{ grade.point }}</span
+                    > -->
+                    <div
+                      class="b-white"
+                      [ngStyle]="{
+                        background: ap.data.color.background,
+                        color: ap.data.color.text
+                      }"
+                      [ngClass]="{
+                        'test-circle': grade.point.length == 1,
+                        circle: grade.point.length > 1
+                      }"
                     >
+                      <span>
+                        {{ grade.point }}
+                      </span>
+                    </div>
                     <!-- <span
                     class="point" *ngIf="ap.data.sepalColor == undefined"
                     [ngStyle]="{
@@ -316,12 +332,12 @@
                   > -->
 
                     <div
-                      class="mb-0 list-dot-wrap detail-line apg-grade w-100"
+                      class="detail-line apg-grade w-100"
                       [ngClass]="{
                         'hide-border': ap.data.grades?.length == j + 1
                       }"
                     >
-                      {{ grade.name }}
+                      <p class="gradename">{{ grade.name }}</p>
                     </div>
                   </div>
                 </div>
