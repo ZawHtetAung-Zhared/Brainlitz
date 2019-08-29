@@ -3,6 +3,7 @@ import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 @Component({
   selector: 'app-invoice-report',
   templateUrl: './invoice-report.component.html',
@@ -14,7 +15,8 @@ export class InvoiceReportComponent implements OnInit {
   constructor(
     private _service: appService,
     private router: Router,
-    public modalService: NgbModal
+    public modalService: NgbModal,
+    public toastr: ToastsManager
   ) {}
   public custDetail: any = {};
   public selectedCourse: any = {};
@@ -22,7 +24,7 @@ export class InvoiceReportComponent implements OnInit {
   public locationId = localStorage.getItem('locationId');
   public invlistsResult = [];
   public showDp = false;
-
+  public invoiceID2: any;
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
@@ -51,6 +53,8 @@ export class InvoiceReportComponent implements OnInit {
     this.blockUI.start('Loading');
     this.selectedCourse = invoice.courseDetails;
     this.selectedCourse.invoice = invoice;
+    console.log(invoice);
+    this.invoiceID2 = invoice._id;
     this.custDetail.user = invoice.userDetails;
     if (invoice.user !== null || invoice.user !== undefined)
       this.custDetail.user.email = invoice.user.email;

@@ -154,6 +154,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public slotIdx;
   public slotJidx;
   public courseCreate: boolean = false;
+  public invoiceID2: any;
   goBackCat: boolean;
   isCategory: boolean = false;
   isPlan: boolean = false;
@@ -2089,6 +2090,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.invoice = res.invoice;
           this.showInvoice = true;
           Object.assign(this.detailLists, res.body);
+          this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
         },
         err => {
@@ -3179,7 +3181,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         console.log('-------->', this.detailLists);
 
         console.log('res Assign customer', res);
-        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+        if (
+          res.body.invoiceSettings == {} ||
+          res.body.invoiceSettings == undefined
+        ) {
           console.log('no invoice setting');
           this.invoiceInfo = {
             address: '',
@@ -3191,10 +3196,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           };
         } else {
           console.log('has invoice setting');
-          this.invoiceInfo = res.invoiceSettings;
+          this.invoiceInfo = res.body.invoiceSettings;
         }
         this.blockUI.stop();
-        this.invoice = res.invoice;
+        this.invoice = res.body.invoice;
+        this.invoiceID2 = this.invoice[0]._id;
         this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;

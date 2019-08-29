@@ -100,7 +100,9 @@
         [ngClass]="{ 'active-apg-tab': selectedAPGTab.name == module.name }"
         (click)="onClickApgTab(module.name, module._id)"
       >
-        {{ module.name }}
+        {{
+          module.name.toLowerCase() == 'user grading' ? 'Grade' : module.name
+        }}
       </button>
     </div>
   </div>
@@ -126,11 +128,18 @@
               'noBg-apg-header':
                 apg.module.name.toLowerCase() == 'progress' ||
                 apg.module.name.toLowerCase() == 'badge' ||
-                apg.module.name.toLowerCase() == 'data'
+                apg.module.name.toLowerCase() == 'data' ||
+                apg.module.name.toLowerCase() == 'user grading'
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
-              {{ apg.module.name }}
+              <!-- {{ apg.module.name }} -->
+
+              {{
+                apg.module.name.toLowerCase() == 'user grading'
+                  ? 'Grade'
+                  : apg.module.name
+              }}
             </p>
             <p class="apg-type" *ngIf="!apg.module">-</p>
             <h4>{{ apg.name }}</h4>
@@ -146,6 +155,7 @@
                   : 220 + 'px'
             }"
           >
+            <!-- progess or bage -->
             <p
               *ngIf="
                 apg.module.name.toLowerCase() == 'progress' ||
@@ -155,6 +165,7 @@
             >
               {{ apg.description }}
             </p>
+            <!-- assessment or evaluation -->
             <div
               *ngIf="
                 apg.module.name.toLowerCase() == 'assessment' ||
@@ -212,6 +223,7 @@
                 </div>
               </div>
             </div>
+            <!-- data -->
             <div
               *ngIf="apg.module.name.toLowerCase() == 'data'"
               class="padding-lr"
@@ -267,6 +279,49 @@
                       }"
                     >
                       {{ option }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- user grading -->
+            <!-- *ngIf="apg.module.name.toLowerCase() == 'data'" -->
+            <!-- *ngFor="let ap of apg.accessPoints" -->
+            <div
+              class="padding-lr"
+              *ngIf="apg.module.name.toLowerCase() == 'user grading'"
+            >
+              <div>
+                <div *ngFor="let ap of apg.accessPoints">
+                  <div
+                    class="d-flex flex-row"
+                    *ngFor="let grade of ap.data.grades; let j = index"
+                  >
+                    <span
+                      class="point"
+                      [ngStyle]="{
+                        background: ap.data.sepalColor.background,
+                        color: ap.data.sepalColor.text
+                      }"
+                      >{{ grade.point }}</span
+                    >
+                    <!-- <span
+                    class="point" *ngIf="ap.data.sepalColor == undefined"
+                    [ngStyle]="{
+                      background: ap.data.color.background,
+                      color: ap.data.color.text
+                    }"
+                    >{{ grade.point }}</span
+                  > -->
+
+                    <div
+                      class="mb-0 list-dot-wrap detail-line apg-grade w-100"
+                      [ngClass]="{
+                        'hide-border': ap.data.grades?.length == j + 1
+                      }"
+                    >
+                      {{ grade.name }}
                     </div>
                   </div>
                 </div>
@@ -343,10 +398,10 @@
     </div>
   </div>
 </div>
+
 <div
   *ngIf="
-    apgList.length >= 20 &&
-    result != 0 &&
+    result.length >= 20 &&
     iscreate == false &&
     ismodule == false &&
     shareAPG == false &&
@@ -1151,6 +1206,31 @@
         </div>
       </div>
     </div>
+
+    <div
+      *ngIf="
+        iscreate == true &&
+        userGradingAp == true &&
+        (!isCreateStatus && UserGradeApg != undefined)
+      "
+      style="width: 480px;"
+    >
+      <app-user-grading
+        (cancelGrade)="cancelGrading($event)"
+        [UserGradeObj]="UserGradeApg"
+        [isCreateStatus]="isCreateStatus"
+      ></app-user-grading>
+    </div>
+    <div
+      *ngIf="iscreate == true && userGradingAp == true && isCreateStatus"
+      style="width: 480px;"
+    >
+      <app-user-grading
+        (cancelGrade)="cancelGrading($event)"
+        [UserGradeObj]="UserGradeApg"
+        [isCreateStatus]="isCreateStatus"
+      ></app-user-grading>
+    </div>
     <!-- End Data -->
     <form novalidate #createapgForm="ngForm">
       <div class="row" *ngIf="ismodule == true">
@@ -1243,7 +1323,12 @@
       </div>
 
       <div
-        *ngIf="iscreate == true && apCreate == false && dataApCreate == false"
+        *ngIf="
+          iscreate == true &&
+          apCreate == false &&
+          dataApCreate == false &&
+          userGradingAp == false
+        "
       >
         <div class="col-md-8 input-wrap">
           <div class="form-group">
@@ -1527,11 +1612,79 @@
 
           <!-- </label> -->
         </div>
-        <!-- <div *ngIf="templateList.length >=20 "
-              class="load-more">
-              
-              <button class="btn remove-outline" (click)="showmore('apg',apgList.length)">load more</button>
-            </div> -->
+        <!-- user grading module -->
+        <div class="card-columns" *ngIf="apgType == 'User Grading'">
+          <div
+            *ngFor="let temp of templateList; let i = index"
+            class="card card-wrap share-input "
+          >
+            <label
+              class="form-check-label"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+            >
+              <div class="d-flex justify-content-between apgBoxHead">
+                <span
+                  class="textapgType"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ apgType }}</span
+                >
+                <div class="label-checked"></div>
+              </div>
+
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="temp._id"
+                value="{{ temp.name }}"
+                (click)="chooseShareAPG(temp._id, temp.name)"
+              />
+              <span
+                class="textTempName"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+                >{{ temp.name }}</span
+              >
+              <div style="margin-top: 14px">
+                <div>
+                  <div *ngFor="let accessPoint of temp.accessPoints">
+                    <div
+                      *ngFor="
+                        let grade of accessPoint.data.grades;
+                        let j = index
+                      "
+                      class="d-flex"
+                    >
+                      <div
+                        class="b-white"
+                        [style.background]="
+                          accessPoint.data.sepalColor.background
+                        "
+                        [ngClass]="{
+                          'test-circle': grade.point.length == 1,
+                          circle: grade.point.length > 1
+                        }"
+                      >
+                        <span [style.color]="accessPoint.data.sepalColor.text">
+                          {{ grade.point }}
+                        </span>
+                      </div>
+                      <div
+                        class="detail-line w-100"
+                        [ngClass]="{
+                          'hide-border': accessPoint.data.grades.length == j + 1
+                        }"
+                        style="margin-bottom: 16px"
+                      >
+                        <p class="gradename">{{ grade.name }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
         <div
           class="apg-share-content"
           *ngIf="apgType == 'Assessment' || apgType == 'Evaluation'"
@@ -1707,6 +1860,7 @@
             </div>
           </div>
         </div>
+
         <div class="row apg-share-content" *ngIf="apgType == 'Progress'">
           <div
             *ngFor="let temp of templateList; let i = index"
@@ -1731,6 +1885,7 @@
             </div>
           </div>
         </div>
+
         <div class="d-flex justify-content-end apg-share-bottom">
           <div class=" align-self-end ">
             <button
