@@ -1753,6 +1753,7 @@ label.room-name::before {
   min-height: 70vh;
   overflow: overlay;
 }
+
 .target {
   color: #ff3d33;
 }
@@ -3337,4 +3338,177 @@ p.reschedule-title {
   height: 14px;
   margin-bottom: 3px;
   padding-left: 0px !important;
+}
+
+/* flexi invoice view list */
+
+.scrollbar {
+  /* overflow-y: scroll; */
+  /* min-height: 220px;
+  max-height: 220px; */
+  /* overflow: overlay;
+  overflow-x: overlay; */
+  position: relative;
+  margin-right: -10px;
+}
+
+.scrollbar {
+  margin-right: -15px;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #007fff;
+}
+
+.invoice-change {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.invoiceOflength {
+  width: 28px;
+  height: 18px;
+  background: #f2f4f5;
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  margin-left: 4px;
+  text-align: center;
+}
+
+.first-one {
+  width: 52%;
+}
+
+.lesson {
+  font-size: 12px;
+  color: #004080;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* padding-left: 10px; */
+  width: 72px;
+  height: 20px;
+  background: #cce5ff;
+  border-radius: 4px;
+  margin-bottom: 0px;
+  text-align: center;
+  margin-top: 14px;
+}
+
+.payment-courseinvoice {
+  font-size: 14px;
+  color: #64707d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+.date1 {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  word-wrap: break-word !important;
+}
+
+.paybill {
+  width: auto;
+  height: 20px;
+  background: #ffdbd9;
+}
+
+.show-invoice {
+  /* background: #f2f4f5; */
+  border-radius: 4px;
+  padding-right: 20px;
+  margin: 16px;
+  min-height: 67vh;
+  height: 67vh;
+}
+
+.invoice-list {
+  background: #ffffff !important;
+  -webkit-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 92%;
+  margin-bottom: 16px;
+  margin-left: 16px;
+  padding-left: 12px;
+}
+
+.invoice-box {
+  display: flex;
+}
+
+.date {
+  font-size: 14px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.paid-status-invoice p,
+.unpaid-status-invoice p,
+.partially-paid-status-invoice p {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 12px;
+  padding-left: 5px;
+}
+.paid-status-invoice {
+  background: #c2f2d6;
+}
+.paid-status-invoice p {
+  color: #009940;
+}
+
+.unpaid-status-invoice {
+  background: #ffdbd9;
+}
+.unpaid-status-invoice p {
+  color: #b22b24;
+}
+
+.partially-paid-status-invoice {
+  background: #ffe9d9;
+}
+.partially-paid-status p {
+  color: #803500;
+}
+.partially-paid-status-invoice ~ .right-arrow {
+  border-color: transparent transparent transparent#FFE9D9;
+}
+.paid-status-invoice ~ .right-arrow {
+  border-color: transparent transparent transparent#C2F2D6;
+}
+.unpaid-status-invoice ~ .right-arrow {
+  border-color: transparent transparent transparent#FFDBD9;
+}
+
+.right-arrow {
+  width: 60px;
+  height: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent#FFDBD9;
+}
+
+button.btn.view-invoice {
+  color: #007fff;
+  margin-bottom: 0;
+  display: table;
+  background: #fff;
+  cursor: pointer;
+  line-height: 2.5;
+  padding: 0;
+  font-size: 14px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.invoice-main {
+  overflow: overlay;
+  max-height: 56vh;
+}
+
+i.fa.fa-angle-left.flexiBackicon {
+  font-size: 20px;
+  color: #3d5266;
+  font-weight: bold;
+  padding-right: 4px;
 }

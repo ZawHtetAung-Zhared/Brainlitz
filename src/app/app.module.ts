@@ -113,6 +113,7 @@ import { AssignReliefComponent } from './components/assign-relief/assign-relief.
 import { RescheduleComponent } from './components/reschedule/reschedule.component';
 import { FinancialPipe } from './service/pipe/financial.pipe';
 import { NumericValidationDirective } from './components/invoice/numeric-validation.directive';
+import { UserGradingComponent } from './components/apg/user-grading/user-grading.component';
 
 @NgModule({
   declarations: [
@@ -191,7 +192,8 @@ import { NumericValidationDirective } from './components/invoice/numeric-validat
     RescheduleComponent,
     AssignReliefComponent,
     FinancialPipe,
-    NumericValidationDirective
+    NumericValidationDirective,
+    UserGradingComponent
   ],
   imports: [
     ContentLoaderModule,
