@@ -865,9 +865,10 @@ export class InvoiceComponent implements OnInit {
       for (let i = 0; i < this.newItemArr.length; i++) {
         if (
           this.newItemArr[i].name != '' &&
-          this.newItemArr[i].amount != '' &&
-          this.newItemArr[i].quantity != '' &&
-          this.newItemArr[i].price != ''
+          this.newItemArr[i].fee != '' &&
+          this.newItemArr[i].fee != 0 &&
+          this.newItemArr[i].dfee != '' &&
+          this.newItemArr[i].dfee != 0
         ) {
           this.isnewItemsValid = true;
         } else {

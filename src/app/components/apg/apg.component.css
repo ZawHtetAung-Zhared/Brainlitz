@@ -2308,7 +2308,7 @@ span.point {
   padding: 0px 10px 4px 10px;
   text-align: center;
   font-size: 12px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   margin-top: 16px;
   margin-right: 12px;
 }
@@ -2367,4 +2367,11 @@ span.point {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
   padding-left: 16px;
   color: #2e3d4d;
+}
+
+.apg-grade {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+  text-align: justify;
 }
