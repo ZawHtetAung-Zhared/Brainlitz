@@ -604,8 +604,9 @@ ul.data-listing {
   overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
-  padding-left: 20px;
+  /* padding-left: 20px; */
 }
+
 ul.data-listing li.disabled {
   opacity: 0.4;
   pointer-events: none;
@@ -625,7 +626,16 @@ ul.data-listing li.disabled {
   overflow: overlay;
   margin-top: 3px;
   cursor: pointer;
+  /* padding-left: 20px; */
+}
+.scedule-data-listing > li,
+ul.data-listing > li {
   padding-left: 20px;
+}
+.all-category {
+  border-bottom: 1px solid #e3e4e6;
+  padding-bottom: 4px;
+  padding-top: 4px;
 }
 ul.scedule-data-listing li.disabled {
   opacity: 0.4;
