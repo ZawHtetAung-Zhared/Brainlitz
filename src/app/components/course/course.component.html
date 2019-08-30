@@ -2746,7 +2746,7 @@
           >
             <div class="invoice-box">
               <div class="first-one d-flex flex-column">
-                <p class="lesson">
+                <p class="lesson" *ngIf="invoice.studentLessons != undefined">
                   {{ invoice.studentLessons.length }} lessons
                 </p>
                 <span

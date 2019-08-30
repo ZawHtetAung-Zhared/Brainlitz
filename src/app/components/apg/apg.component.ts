@@ -2949,4 +2949,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   $(".skill-name").append(bold)
   //   console.log(window.getSelection().toString())
   // }
+  createUserGrade(e) {
+    if (e) {
+      this.toastr.success('APG successfully created.');
+    }
+  }
 }

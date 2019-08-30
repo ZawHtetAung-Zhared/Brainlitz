@@ -2356,6 +2356,8 @@ span.point {
 .test-circle {
   border-radius: 50%;
   font-size: 12px;
+  min-width: 20px;
+  min-height: 20px;
   width: 20px;
   height: 20px;
   text-align: center !important;
@@ -2374,4 +2376,5 @@ span.point {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   text-align: justify;
+  margin-bottom: 16px;
 }
