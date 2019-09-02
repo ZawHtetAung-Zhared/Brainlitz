@@ -172,6 +172,7 @@
                     class="btn"
                     (click)="updateCfee(value.courseFee)"
                     [disabled]="
+                      value.courseFee == 0 ||
                       value.courseFee == undefined ||
                       value.courseFee == '' ||
                       value.courseFee == invoice.courseFee.fee
@@ -510,7 +511,11 @@
                     type="submit"
                     class="btn"
                     (click)="addCurseFee(i)"
-                    [disabled]="unitPrice == undefined || unitPrice == ''"
+                    [disabled]="
+                      unitPrice == undefined ||
+                      unitPrice == '' ||
+                      unitPrice === 0
+                    "
                   >
                     <span class="checkmark">
                       <div class="checkmark_stem"></div>
