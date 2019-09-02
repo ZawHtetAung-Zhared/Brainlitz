@@ -19,7 +19,6 @@ input[type='number']::-webkit-outer-spin-button {
 ::-webkit-input-placeholder {
   color: #788796 !important;
 }
-
 .header {
   padding: 10px 16px;
   background: #555;

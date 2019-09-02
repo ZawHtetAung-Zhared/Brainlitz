@@ -2801,12 +2801,6 @@ input[type='radio'] {
 .switch input {
   display: none;
 }
-.slider.round {
-  border-radius: 34px;
-  border: 2px solid #64707d;
-  margin-top: 10px;
-  margin-left: 20px;
-}
 
 .slider {
   position: absolute;

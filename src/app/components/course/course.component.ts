@@ -192,6 +192,7 @@ export class CourseComponent implements OnInit {
   public updatedDate;
   public dueDate;
   public invoiceID;
+  public invoiceID2;
   public showPayment: boolean = false;
   public selectedPayment: any;
   public paymentItem: any = {};
@@ -239,6 +240,7 @@ export class CourseComponent implements OnInit {
   showcb: boolean = false;
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
+
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -1554,7 +1556,7 @@ export class CourseComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.error(res);
+        console.log('here details list', res);
         this.detailLists = res;
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -1600,6 +1602,8 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state) {
+    console.log(type, state);
+    this.isFlexyInvoice = false;
     this.currentDateObj = '';
     if (state == 'course') {
       this.activeTab = type;
@@ -1766,6 +1770,12 @@ export class CourseComponent implements OnInit {
       this.getAllAC(20, 0, this.singleUserData.userId);
     } else if (type == 'invoice') {
       console.log('tab inv user id', this.singleUserData);
+      console.log(this.courseType);
+      if (this.courseType == 'FLEXY') {
+        this.isFlexyInvoice = true;
+      } else {
+        this.isFlexyInvoice = false;
+      }
       this.viewInvoice(this.singleUserData);
     }
   }
@@ -1784,8 +1794,8 @@ export class CourseComponent implements OnInit {
     console.log(this.todayDate, 'today');
     console.log('.....', onlytodayTime);
     console.log('.....', this.cancelUi);
-    // console.error(onlytodayTime)
-    // console.error(onlytodayDate)
+    // console.log(onlytodayTime)
+    // console.log(onlytodayDate)
 
     // Validate for giving attendence
     // if (lessonDate <= onlytodayDate) {
@@ -1911,7 +1921,7 @@ export class CourseComponent implements OnInit {
     console.log(state);
     console.log(this.selectCustomer);
     console.log(this.selectedTeacherLists);
-    // console.error(this.detailLists);
+    // console.log(this.detailLists);
     this.selectedCustomer = {};
     this.selectedTeacherLists = [];
     this.isvalidID = state;
@@ -2063,6 +2073,8 @@ export class CourseComponent implements OnInit {
 
   onClickCustomer(id) {
     // localStorage.setItem("courseCustomer",id)
+    console.log('*-------*', id);
+
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
   }
@@ -2125,8 +2137,6 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   cancelClassFun(lessonId) {
-    console.error(lessonId);
-
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2138,7 +2148,6 @@ export class CourseComponent implements OnInit {
         students: this.studentArray
       };
       cancelData = noReason;
-      console.error('exit');
     } else {
       var reason = {
         lessonId,
@@ -2150,7 +2159,7 @@ export class CourseComponent implements OnInit {
 
     console.log(lessonId);
     console.log(this.isGlobal);
-    console.error(cancelData);
+    console.log(cancelData);
 
     // Call cancel class api service
     this.blockUI.start('Loading...');
@@ -2175,7 +2184,7 @@ export class CourseComponent implements OnInit {
         err => {
           // Error function
           this.isGlobal = false;
-          console.error('cancle user from class has got error', err);
+          console.log('cancle user from class has got error', err);
           // Do something
         }
       );
@@ -2270,7 +2279,7 @@ export class CourseComponent implements OnInit {
   isDisabledBtn = false;
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
-    // console.error(this.detailLists);
+    // console.log(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       this.blockUI.stop();
@@ -2280,6 +2289,7 @@ export class CourseComponent implements OnInit {
         if (info.controlType === 'Datepicker')
           info.value = moment(info.value).format('YYYY-MM-DD');
       });
+
       this.activeUserTab = type;
 
       this.custDetail.user = res;
@@ -2565,7 +2575,7 @@ export class CourseComponent implements OnInit {
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
           console.log('-------->', res);
-          // console.error(this.detailLists.invoice);
+          // console.log(this.detailLists.invoice);
 
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
@@ -2586,10 +2596,11 @@ export class CourseComponent implements OnInit {
             console.log('has invoice setting');
             this.invoiceInfo = res.invoiceSettings;
           }
-          console.error(res.invoice);
 
           this.invoice = res.invoice;
           this.showInvoice = true;
+
+          this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
           this.blockUI.stop();
           // for(var i in this.invoice){
@@ -2823,7 +2834,6 @@ export class CourseComponent implements OnInit {
     localStorage.removeItem('tempObj');
     this.goBackCat = false;
     this.isCourseCreate = true;
-    console.error('CPlanId', plan);
     // this.router.navigate(['/courseCreate']);
     let planObj = {
       name: plan.name,
@@ -2833,7 +2843,6 @@ export class CourseComponent implements OnInit {
       from: 'courses',
       description: plan.description
     };
-    console.error('planObj', planObj);
 
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
@@ -2979,7 +2988,7 @@ export class CourseComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully sent the Invoice.');
-          // this.modalReference.close();
+          // this.modalReferencshowTabsModal
           // this.getCourseDetail(this.detailLists._id)
           // this.getUsersInCourse(this.detailLists._id);
           // this.cancelModal();
@@ -3268,9 +3277,11 @@ export class CourseComponent implements OnInit {
   //     this.cancelModal();
   //   })
   // }
-
+  invoicesOfCourse: any = [];
+  isFlexyInvoice: boolean = false;
   showTabsModal(modal, type, data) {
-    console.log('show Tabs Modal', type, data);
+    console.log('show Tabs Modal', data);
+
     this.showStudentOption = '';
     this.xxxhello = '';
     this.getSingleCustomer(data.userId, type);
@@ -3280,18 +3291,27 @@ export class CourseComponent implements OnInit {
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
-    console.log('user data', data);
+
     if (type == 'transfer') {
       this.getAllAC(20, 0, data.userId);
     } else if (type == 'invoice') {
       if (data.invoice != null) {
-        this.viewInvoice(data);
+        console.log('exit');
+        if (this.courseType == 'FLEXY') {
+          this.invoicesOfCourse = data.invoicesOfCourse;
+          this.isFlexyInvoice = true;
+          console.log('invoicesOfCourse', this.invoicesOfCourse);
+        }
+        this.invoiceID2 = data.invoice._id;
+
+        // this.viewInvoice(data);
       }
     } else if (type == 'makeup') {
       this.activeUserTab = type;
       console.log('ddddd');
       this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
+    console.log('show Tabs Modal', this.activeUserTab);
   }
 
   getAllAC(limit, skip, userId) {
@@ -3632,7 +3652,8 @@ export class CourseComponent implements OnInit {
         this.showflexyCourse = false;
         this.showPayment = false;
         this.isProrated = false;
-        this.showOneInvoice(this.invoice);
+        this.invoiceID2 = this.detailLists.invoice[0]._id;
+        // this.showOneInvoice(this.invoice);
       });
 
     //add lesson
@@ -3795,5 +3816,15 @@ export class CourseComponent implements OnInit {
     //   .subscribe((res: any) => {
     //     console.log(res);
     //   });
+  }
+
+  viewSingleInvoice(id) {
+    console.log('id', id, this.activeUserTab);
+    this.invoiceID2 = id;
+    this.isFlexyInvoice = false;
+  }
+
+  backToInvoiceList() {
+    this.isFlexyInvoice = true;
   }
 }

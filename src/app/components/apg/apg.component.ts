@@ -25,6 +25,7 @@ import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
 import { promise } from 'protractor';
+import { UserGradingComponent } from './user-grading/user-grading.component';
 import { InvokeFunctionExpr } from '@angular/compiler';
 @Component({
   selector: 'app-apg',
@@ -33,6 +34,7 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class ApgComponent implements OnInit, OnDestroy {
   // temp value to selected radio
+  public userGradingAp = false;
   public tempDataValue: any;
   public tempSharedApgId: any;
   public valueArray: any = [];
@@ -91,7 +93,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   moduleAPList: any;
   getAccessPoint: any;
   tempModuleId: any;
-  result: any;
+  result: any = [];
   emptyAP: boolean = false;
   isFirst: boolean = false;
   searchWord: any;
@@ -105,13 +107,12 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   allApgList: any = [];
   progressAPG: any = [];
+  usergradingAPG: any = [];
   badgeApg: any = [];
   evAPG: any = [];
   dataApgList: any = [];
   isScroll: boolean = true;
-
   //
-
   public ismodule: boolean = false;
   public isshare: boolean = false;
   public shareAPG: boolean = false;
@@ -201,6 +202,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     });
   }
+  // userGrading(){
+  //   let i=0;
+  //   let j=this.templateList[this.templateList.length].accessPoints.data.grades[i];
+  //   for(let j;j<=this.templateList.length;j++){
+  //     console.log(i);
+  //       i++;
+  //   }
+  // }
   ngOnDestroy() {
     this.dragulaService.destroy('data_COLUMNS');
     this.dragulaService.destroy('COLUMNS');
@@ -593,6 +602,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   cancelapg() {
+    this.userGradingAp = false;
     this.apgList = [];
     this.clearAPGTypeArr();
     this.model = {};
@@ -601,6 +611,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dataApCreate = false;
     this.ismodule = false;
     this.isUpdate = false;
+    this.userGradingAp = false;
     this.shareAPG = false;
     this.isshare = false;
     this.isGlobal = false;
@@ -614,6 +625,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     // for tempValue
     this.tempRadioType = '';
     this.idArr = [];
+  }
+  cancelGrading(e) {
+    if (e) {
+      this.cancelapg();
+    }
   }
   // cancelAp() {
   //   this.apgList = [];
@@ -808,12 +824,20 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.emptymax = true;
         this.emptymin = true;
         this.overmin = true;
-      } else {
-        this.model = {};
+      } else if (name === 'User Grading') {
+        this.userGradingAp = true;
         this.dataApCreate = false;
         this.iscreate = true;
         this.isshare = false;
         this.apCreate = false;
+      } else {
+        this.model = {};
+        this.userGradingAp = false;
+        this.dataApCreate = false;
+        this.iscreate = true;
+        this.isshare = false;
+        this.apCreate = false;
+        this.ismodule = false;
       }
     } else {
       console.log('Create new APg', name);
@@ -844,7 +868,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // console.log('set share',this.singleCheckedAPG)
 
     let data = this.singleCheckedAPG;
-    // console.log(obj)
+    console.log(obj);
     let emptyObj = {};
     this.dataVal = this.singleCheckedAPG;
 
@@ -880,6 +904,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   };
   chooseModuleType(val, name) {
     console.log('ModuleId --->', val);
+    this.isCreateStatus = true;
     this.apgType = name;
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
@@ -1655,15 +1680,21 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(apgID);
     this.singleAPG(apgID, 'share');
   }
+  public UserGradeApg;
+  public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    this.UserGradeApg = undefined;
+    this.isCreateStatus = false;
     this.apgType = apgName.module.name;
     console.log(id);
     this.maxExit = true;
     this.apgList = [];
-    this.iscreate = true;
+    this.iscreate = false;
     this.isUpdate = true;
+    this.userGradingAp = false;
     if (apgName.module.name == 'Data') {
+      this.iscreate = true;
       var moduleId = localStorage.getItem('moduleID');
       const templateAccessPoint = {
         name: '',
@@ -1685,12 +1716,23 @@ export class ApgComponent implements OnInit, OnDestroy {
 
       this.dataApCreate = true;
       this.ismodule = false;
+      this.userGradingAp = false;
       this.apCreate = false;
     } else if (
       apgName.module.name == 'Assessment' ||
       apgName.module.name == 'Evaluation'
     ) {
+      this.iscreate = true;
       this.apCreate = true;
+      this.userGradingAp = false;
+    } else if (apgName.module.name == 'User Grading') {
+      this.apCreate = false;
+      this.dataApCreate = false;
+      this.ismodule = false;
+      this.userGradingAp = true;
+      this.iscreate = true;
+    } else {
+      this.iscreate = true;
     }
     return new Promise((resolve, reject) => {
       this.singleAPG(id, 'update')
@@ -1711,6 +1753,10 @@ export class ApgComponent implements OnInit, OnDestroy {
           apgName.module.name
         )
           .then(dataCollection => {
+            if (apgName.module.name == 'User Grading') {
+              this.model.data = dataCollection[0].data;
+              this.UserGradeApg = this.model;
+            }
             console.log('successs', dataCollection);
             let tempArr = [];
             this.templateAccessPointGroup = dataCollection;
@@ -2073,7 +2119,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   getAllTemplate(limit, skip) {
     console.log(this.apgType);
     var moduleId = localStorage.getItem('moduleID');
@@ -2306,6 +2351,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           } else if (this.selectedAPGTab.name.toLowerCase() == 'progress') {
             this.progressAPG = this.progressAPG.concat(res);
             this.apgList = this.progressAPG;
+          } else if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
+            this.usergradingAPG = this.usergradingAPG.concat(res);
+            this.apgList = this.usergradingAPG;
           } else if (
             this.selectedAPGTab.name.toLowerCase() == 'assessment' ||
             this.selectedAPGTab.name.toLowerCase() == 'evaluation'
@@ -2313,6 +2361,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.evAPG = this.evAPG.concat(res);
             this.apgList = this.evAPG;
           } else if (this.selectedAPGTab.name.toLowerCase() == 'data') {
+            this.dataApgList = this.dataApgList.concat(res);
+            this.apgList = this.dataApgList;
+          } else if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
             this.dataApgList = this.dataApgList.concat(res);
             this.apgList = this.dataApgList;
           }
@@ -2748,6 +2799,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.badgeApg = [];
     this.evAPG = [];
     this.dataApgList = [];
+    this.usergradingAPG = [];
   }
   numberOnly(event, type) {
     const charCode = event.which ? event.which : event.keyCode;
@@ -2897,4 +2949,9 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   $(".skill-name").append(bold)
   //   console.log(window.getSelection().toString())
   // }
+  createUserGrade(e) {
+    if (e) {
+      this.toastr.success('APG successfully created.');
+    }
+  }
 }
