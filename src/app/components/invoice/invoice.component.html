@@ -146,6 +146,7 @@
                         class="w-100 input-txt"
                         placeholder="0"
                         [(ngModel)]="value.courseFee"
+                        (keypress)="isDecimalValue($event, value.courseFee)"
                         type="text"
                         appNumericValidation
                       />
@@ -250,6 +251,7 @@
                     class="w-100 input-txt"
                     placeholder="0"
                     [(ngModel)]="cDiscount.dValue"
+                    (keypress)="isDecimalValue($event, value.courseFee)"
                     appNumericValidation
                   />
                 </div>
@@ -391,6 +393,7 @@
                         class="w-100 input-txt"
                         placeholder="0"
                         [(ngModel)]="cDiscount.dValue"
+                        (keypress)="isDecimalValue($event, value.courseFee)"
                         appNumericValidation
                       />
                     </div>
@@ -483,6 +486,7 @@
                         (input)="inputUnitPrice($event.target.value, i)"
                         (input)="unitPrice = $event.target.value"
                         [ngModel]="obj.fee"
+                        (keypress)="isDecimalValue($event, obj.fee)"
                         appNumericValidation
                       />
                       <!-- <input
