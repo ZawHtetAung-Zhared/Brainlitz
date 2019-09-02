@@ -2683,7 +2683,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       localStorage.removeItem('courseID');
       localStorage.setItem('cPlan', JSON.stringify(planObj));
       console.log('scheduleObj', this.scheduleObj);
-
+      if (this.isTeacherAll) {
+        this.scheduleObj['teacher'] = '';
+      }
       localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj));
     }
     // console.log("scheduleObj",this.scheduleObj);
