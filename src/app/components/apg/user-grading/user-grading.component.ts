@@ -120,7 +120,7 @@ export class UserGradingComponent implements OnInit {
     {
       name: '6',
       color: {
-        text: ' #7A0052',
+        text: '#7A0052',
         background: '#FFBFE9'
       }
     }
