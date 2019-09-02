@@ -417,7 +417,8 @@ star-rating-comp.custDetail-rating .star-container {
 }
 
 .limit-wordcount,
-.limit-wordcount1 {
+.limit-wordcount1,
+.limit-wordcount2 {
   display: none;
   font-size: 14px;
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
@@ -755,8 +756,12 @@ span.scrollup.show:hover:before {
   box-shadow: 0px 0px 0px 3px rgba(0, 127, 255, 1);
   border: 0px !important;
 }
+
 @media print {
   /* on modal open bootstrap adds class "modal-open" to body, so you can handle that case and hide body */
+  ngb-modal-window.modal.fade.show.d-block.modal-xl.modal-inv.d-flex.justify-content-center.align-items-center {
+    align-items: unset !important;
+  }
   * {
     overflow: hidden;
   }
@@ -771,6 +776,7 @@ span.scrollup.show:hover:before {
   .row-icon img {
     visibility: hidden;
   }
+
   .invoice-container,
   .invoice-container *,
   .v-wrapper1,
@@ -778,9 +784,14 @@ span.scrollup.show:hover:before {
   #schedule-timetable-wrap,
   #schedule-timetable-wrap * {
     visibility: visible;
+    /* position:absolute; */
+    left: 0;
+    top: 0;
+
     /* make visible modal body and header */
     /*display: block;*/
   }
+
   .newdiscount-btn *,
   .newItem-btn * {
     visibility: hidden;

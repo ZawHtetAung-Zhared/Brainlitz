@@ -143,6 +143,7 @@
           <input
             class="form-control br-bshadow-none all-left-box-10"
             type="text"
+            id="name"
             (focus)="focusMethod($event, 'name', $event.target.value)"
             (blur)="blurMethod($event, 'name')"
             maxlength="60"
@@ -167,21 +168,30 @@
           <hr class="limit-hr-length" />
         </div>
         <div>
-          <label
-            for="seat"
-            class="input-title font-medium"
-            [ngClass]="{
-              changeColor:
-                model.courseCode == '' || model.courseCode == undefined
-            }"
-            >Course Code</label
-          >
+          <div class="d-flex justify-content-between">
+            <label
+              for="seat"
+              class="input-title font-medium"
+              [ngClass]="{
+                changeColor:
+                  model.courseCode == '' || model.courseCode == undefined
+              }"
+              >Course Code</label
+            >
+            <div class="limit-wordcount2">
+              <span>{{ wordLength }}/8characters</span>
+            </div>
+          </div>
           <input
             type="text"
             placeholder="Type relevant course code here"
             class="form-control br-bshadow-none all-left-box-10"
             id="courseCode"
             name="courseCode"
+            maxlength="8"
+            (focus)="focusMethod($event, 'code', $event.target.value)"
+            (blur)="blurMethod($event, 'code')"
+            (input)="changeMethod($event.target.value)"
             [(ngModel)]="model.courseCode"
             required
             #code="ngModel"

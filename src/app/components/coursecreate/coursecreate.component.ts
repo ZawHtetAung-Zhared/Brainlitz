@@ -809,6 +809,9 @@ export class CoursecreateComponent implements OnInit {
     if (status == 'name') {
       this.wordLength = word.length;
       $('.limit-wordcount').show('slow');
+    } else if (status == 'code') {
+      this.wordLength = word.length;
+      $('.limit-wordcount2').show('slow');
     } else {
       this.wordLength = word.length;
       $('.limit-wordcount1').show('slow');
@@ -819,6 +822,8 @@ export class CoursecreateComponent implements OnInit {
     console.log('blur', e);
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
+    } else if (status == 'code') {
+      $('.limit-wordcount2').hide('slow');
     } else {
       $('.limit-wordcount1').hide('slow');
     }
