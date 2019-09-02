@@ -2073,6 +2073,8 @@ export class CourseComponent implements OnInit {
 
   onClickCustomer(id) {
     // localStorage.setItem("courseCustomer",id)
+    console.log('*-------*', id);
+
     this.router.navigate(['/customer']);
     this.dataservice.nevigateCustomer(id);
   }
