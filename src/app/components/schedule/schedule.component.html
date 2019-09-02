@@ -95,6 +95,10 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectData(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
@@ -344,8 +348,12 @@
 
           <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
             <li
-              *ngFor="let category of categoryList"
+              *ngFor="let category of categoryList; let i = index"
               (click)="selectDataApiCall(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
