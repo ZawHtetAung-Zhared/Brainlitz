@@ -1907,6 +1907,11 @@
         <div class="d-flex justify-content-end apg-share-bottom">
           <div class=" align-self-end ">
             <button
+              [disabled]="
+                sharechecked == null ||
+                sharechecked == '' ||
+                sharechecked == undefined
+              "
               *ngIf="isUpdate == false"
               type="button"
               class="btn btn-submit"
