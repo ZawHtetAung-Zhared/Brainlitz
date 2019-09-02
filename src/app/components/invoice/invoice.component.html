@@ -172,6 +172,7 @@
                     class="btn"
                     (click)="updateCfee(value.courseFee)"
                     [disabled]="
+                      value.courseFee == 0 ||
                       value.courseFee == undefined ||
                       value.courseFee == '' ||
                       value.courseFee == invoice.courseFee.fee
@@ -300,7 +301,10 @@
                 <span class="mb-0 ml-1 discount-name-txt">
                   {{ invCurrency.sign }} {{ cDiscount.value | financial }}
                 </span>
-                <span class="removeDis" (click)="removeDiscount('courseFee')"
+                <span
+                  class="removeDis"
+                  (click)="removeDiscount('courseFee')"
+                  *ngIf="invStatus == 'UNPAID'"
                   >Remove</span
                 >
                 <!-- <div
@@ -507,7 +511,11 @@
                     type="submit"
                     class="btn"
                     (click)="addCurseFee(i)"
-                    [disabled]="unitPrice == undefined || unitPrice == ''"
+                    [disabled]="
+                      unitPrice == undefined ||
+                      unitPrice == '' ||
+                      unitPrice === 0
+                    "
                   >
                     <span class="checkmark">
                       <div class="checkmark_stem"></div>
@@ -680,6 +688,7 @@
                 <span
                   class="removeDis"
                   (click)="removeDiscount('newitem-dis', obj, i)"
+                  *ngIf="invStatus == 'UNPAID'"
                   >Remove</span
                 >
               </div>
