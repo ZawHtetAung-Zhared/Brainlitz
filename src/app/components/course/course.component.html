@@ -743,12 +743,21 @@
                             <span
                               class="medium-font"
                               *ngIf="course.students.other >= 1"
-                              >{{ course.students.other }}</span
+                              >+{{ course.students.other }}</span
                             >
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex justify-content-between second-info">
+                      <div
+                        class="d-flex second-info"
+                        [ngClass]="{
+                          'justify-content-between':
+                            course.type == null ||
+                            course.type == 'REGULAR' ||
+                            course.type == 'FLEXY',
+                          'justify-content-end': course.type == 'ONLINE'
+                        }"
+                      >
                         <div
                           *ngIf="
                             course.type == null ||
@@ -1763,7 +1772,7 @@
       </button>
     </div>
     <form novalidate #cfees="ngForm">
-      <div class="modal-body confirm-text">
+      <div class="modal-body confirm-text customer-modal-body">
         <div class="d-flex">
           <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
             <h5 class="mt-03 lname">
@@ -1772,7 +1781,10 @@
             </h5>
             <b>{{ detailLists.name }}</b>
           </div>
-          <div class="col-md-4 col-lg-4 modal-ctime pr-zero">
+          <div
+            class="col-md-4 col-lg-4 modal-ctime pr-zero"
+            *ngIf="detailLists.type != 'ONLINE'"
+          >
             <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
               {{ day }}
             </h5>
@@ -2035,7 +2047,7 @@
         </button>
       </div>
       <form nonvalidate #custForm="ngForm">
-        <div class="modal-body confirm-text">
+        <div class="modal-body confirm-text customer-modal-body">
           <div class="d-flex">
             <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
               <h5 class="mt-03">
@@ -2256,6 +2268,19 @@
         style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
       >
         <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (click)="isProrated = !this.isProrated"
+                  [checked]="isProrated"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Prorated</label>
+          </div>
           <div>
             <p class="defaultLessonCount">
               Default lessons count: {{ detailLists.defaultlessonCount }}
@@ -2304,6 +2329,7 @@
       <app-invoice
         [custDetail]="custDetail"
         [course]="detailLists"
+        [invoiceId]="invoiceID2"
         (closed)="cancelInvoiceModal()"
       ></app-invoice>
     </div>
@@ -2355,7 +2381,11 @@
         </button>
       </div>
     </div>
-    <div *ngIf="activeUserTab == 'makeup'" class="d-flex w-100">
+    <div
+      *ngIf="activeUserTab == 'makeup' && isFlexyInvoice == false"
+      class="d-flex w-100"
+      style="  min-height: 70vh; height: 70vh;"
+    >
       <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
         <div class="modal-body">
           <div class="col-md-12 input-wrap">
@@ -2701,14 +2731,98 @@
     </div>
 
     <!-- for view invoice -->
+    <div class="show-invoice" *ngIf="isFlexyInvoice">
+      <div class="scrollbar">
+        <div class="d-flex invoice-change align-items-center ml-3">
+          <label class="invoice-label">Invoice</label>
+          <span class="invoiceOflength" *ngIf="invoicesOfCourse != undefined">{{
+            invoicesOfCourse.length
+          }}</span>
+        </div>
+        <div class="row ml-1 invoice-main">
+          <div
+            class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 invoice-list"
+            *ngFor="let invoice of invoicesOfCourse"
+          >
+            <div class="invoice-box">
+              <div class="first-one d-flex flex-column">
+                <p class="lesson" *ngIf="invoice.studentLessons != undefined">
+                  {{ invoice.studentLessons.length }} lessons
+                </p>
+                <span
+                  class="date"
+                  *ngIf="
+                    detailLists.duration != undefined &&
+                    detailLists.duration.startDate != undefined &&
+                    detailLists.duration.endDate != undefined
+                  "
+                >
+                  {{ detailLists.duration.startDate | utcDate }} -
+                  {{ detailLists.duration.endDate | utcDate }}
+                </span>
+                <label class="payment-courseinvoice">Payment date</label>
+                <p class="date1">
+                  {{ invoice.updatedDate | utcDate }}
+                </p>
+              </div>
+              <div class="second-one" style="padding-left: 10px">
+                <div class="d-flex" style="margin-top: 14px">
+                  <div
+                    class="paybill"
+                    [ngClass]="{
+                      'paid-status-invoice': invoice.status == 'PAID',
+                      'unpaid-status-invoice': invoice.status == 'UNPAID',
+                      'partially-paid-status-invoice':
+                        invoice.status == 'PAID[PARTIAL]'
+                    }"
+                  >
+                    <p>
+                      {{
+                        invoice.status == 'PAID[PARTIAL]'
+                          ? 'Partially paid'
+                          : invoice.status == 'PAID'
+                          ? 'Paid'
+                          : 'Unpaid'
+                      }}
+                    </p>
+                  </div>
+                  <span class="right-arrow"></span>
+                </div>
+                <div class="date" *ngIf="invoice != null; currency">
+                  <span class="currency date">{{ invoice.currency.sign }}</span>
+                  {{ invoice.total }}
+                </div>
+                <!-- (click)="viewInvoice(classEnrollModal, course)"
+      [disabled]="course.invoice == null" -->
+                <button
+                  class="btn view-invoice"
+                  (click)="viewSingleInvoice(invoice._id)"
+                >
+                  View invoice
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="invoice-wrap"
-      *ngIf="activeUserTab == 'invoice'"
+      *ngIf="activeUserTab == 'invoice' && isFlexyInvoice == false"
       id="print-section"
     >
+      <div
+        class="d-flex back ml-5 mt-2"
+        *ngIf="courseType == 'FLEXY'"
+        (click)="backToInvoiceList()"
+      >
+        <i class="fa fa-angle-left flexiBackicon"></i>
+        <p class="mb-0 font-medium ">Invoices List</p>
+      </div>
       <app-invoice
         [custDetail]="custDetail"
         [course]="courseInfo"
+        [invoiceId]="invoiceID2"
         (closed)="cancelInvoiceModal()"
       ></app-invoice>
     </div>

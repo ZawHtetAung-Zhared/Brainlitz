@@ -521,6 +521,7 @@ export class CourseplanComponent implements OnInit {
     });
     if (index !== -1) {
       this.createdAPGstore.splice(index, 1);
+      this.selectedAPGidArray.splice(index, 1);
     }
     console.log(this.createdAPGstore);
   }
@@ -710,32 +711,34 @@ export class CourseplanComponent implements OnInit {
         console.log(this.formField.paymentPolicy.deposit);
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;
       }
-      this.blockUI.start('Loading...');
-      this._service
-        .updateSignlecPlan(this.editPlanId, data, this.locationID)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            setTimeout(() => {
-              this.toastr.success('Successfully Updated.');
-            }, 300);
-            this.blockUI.stop();
-            this.cancel();
-            this.mainForm.reset();
-            this.formField = new cPlanField();
-            this.pdfId = [];
-            this.timeInminutes = '';
-            this.selectedAPGidArray = [];
-            this.createdAPGstore = [];
-            this.model = '';
-            this.selectedAPGlists = false;
-          },
-          err => {
-            console.log(err);
-            this.toastr.error('Update Fail');
-            this.blockUI.stop();
-          }
-        );
+      if (type == 'update') {
+        this.blockUI.start('Loading...');
+        this._service
+          .updateSignlecPlan(this.editPlanId, data, this.locationID)
+          .subscribe(
+            (res: any) => {
+              console.warn(res);
+              setTimeout(() => {
+                this.toastr.success('Successfully Updated.');
+              }, 300);
+              this.blockUI.stop();
+              this.cancel();
+              this.mainForm.reset();
+              this.formField = new cPlanField();
+              this.pdfId = [];
+              this.timeInminutes = '';
+              this.selectedAPGidArray = [];
+              this.createdAPGstore = [];
+              this.model = '';
+              this.selectedAPGlists = false;
+            },
+            err => {
+              console.log(err);
+              this.toastr.error('Update Fail');
+              this.blockUI.stop();
+            }
+          );
+      }
     }
   }
 
@@ -1327,6 +1330,28 @@ export class CourseplanComponent implements OnInit {
     if (event.target.value.search(/^0/) != -1) {
       event.target.value = '';
     }
+  }
+
+  isDecimalValue(event, val) {
+    console.log('val', val);
+    const charCode = event.which ? event.which : event.keyCode;
+    const dot1 = event.target.value.indexOf('.');
+    const dot2 = event.target.value.lastIndexOf('.');
+    console.log('charCode', charCode, 'dot1', dot1, 'dot2', dot2);
+    console.log(event.key.indexOf('.'));
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+      console.log('~~~~~~~');
+      return false;
+    } else if (charCode == 46 && dot1 == dot2 && dot1 != -1 && dot2 != -1) {
+      console.log('########');
+      return false;
+    }
+    console.log(event.target.value.search(/^0/));
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+
+    return true;
   }
 
   cplan() {

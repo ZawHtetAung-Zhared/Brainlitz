@@ -544,6 +544,10 @@ input:checked + .slider:before {
   outline: none;
   resize: none;
 }
+.inv-note {
+  white-space: pre-line;
+  margin-top: -15px;
+}
 .timezone-wrap {
   padding-top: 1.5rem;
 }

@@ -186,6 +186,7 @@ export class CoursecreateComponent implements OnInit {
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
       this.model.duration = this.coursePlan.duration;
+      this.model.description = this.coursePlan.description;
       // this.createList(this.model.duration);
       this.feesOptions = this.coursePlan.paymentPolicy.courseFeeOptions;
       console.log('~~~~~', this.feesOptions);
@@ -235,6 +236,7 @@ export class CoursecreateComponent implements OnInit {
       if (this.scheduleObj) {
         this.scheduleCourse();
       }
+      console.log(this.model);
     }
 
     if (this.currency == undefined || this.currency == null) {
@@ -807,6 +809,9 @@ export class CoursecreateComponent implements OnInit {
     if (status == 'name') {
       this.wordLength = word.length;
       $('.limit-wordcount').show('slow');
+    } else if (status == 'code') {
+      this.wordLength = word.length;
+      $('.limit-wordcount2').show('slow');
     } else {
       this.wordLength = word.length;
       $('.limit-wordcount1').show('slow');
@@ -817,6 +822,8 @@ export class CoursecreateComponent implements OnInit {
     console.log('blur', e);
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
+    } else if (status == 'code') {
+      $('.limit-wordcount2').hide('slow');
     } else {
       $('.limit-wordcount1').hide('slow');
     }

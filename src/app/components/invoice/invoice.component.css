@@ -39,6 +39,7 @@
 }
 .inv-address {
   white-space: pre-line;
+  margin-top: -25px;
 }
 
 .invoice-label {
@@ -46,7 +47,9 @@
   font-size: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-
+.alignRight {
+  text-align: right;
+}
 .logo-wrapper img {
   height: 100%;
   object-fit: contain;
@@ -59,7 +62,7 @@ h3 {
 }
 
 .fees-header {
-  padding: 10px 15px 10px 30px;
+  padding: 10px 16px;
 }
 
 .bg-label {
@@ -74,7 +77,8 @@ h3 {
 
 .price-info,
 .payment-label,
-.invID {
+.invID,
+.c-fee {
   color: #2e3e4d;
   font-size: 18px;
 }
@@ -87,9 +91,10 @@ h3 {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .price-info {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
-.semibold {
+.semibold,
+.c-fee {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .tax-status {
@@ -98,6 +103,11 @@ h3 {
 }
 
 .amount-result {
+  background: #fff080;
+  margin-right: -16px;
+}
+
+.paid-amt-result {
   background: #fff080;
 }
 
@@ -189,6 +199,7 @@ h3 {
   margin-right: 15px;
   margin-left: 30px;
   border: none;
+  outline: none;
 }
 
 .send-btn {
@@ -403,6 +414,7 @@ input[type='number']::-webkit-outer-spin-button {
   outline: none;
   white-space: pre-line;
   padding: 0px 40px;
+  margin-top: -15px;
 }
 @media (max-width: 1024px) {
   .invModal-cancel {
@@ -422,6 +434,10 @@ input[type='number']::-webkit-outer-spin-button {
   /*padding-top: 20px;*/
   outline: none;
   margin-top: 10px;
+}
+
+.newItem-btn-txt {
+  line-height: 1.8;
 }
 
 .br-bshadow-none {
@@ -603,6 +619,7 @@ button.newdiscount-btn {
 .discount-name {
   color: #2e3d4d;
   font-size: 16px;
+  display: flex;
 }
 
 .discount-number {
@@ -614,4 +631,21 @@ button.newdiscount-btn {
   color: #007fff;
   font-size: 16px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+span.removeDis {
+  color: #ff3d33;
+  padding-left: 14px;
+  cursor: pointer;
+}
+
+.addPointer {
+  cursor: pointer;
+}
+
+.tax-txt.noTax {
+  opacity: 0;
+}
+.modal-title {
+  margin-bottom: 6px;
 }
