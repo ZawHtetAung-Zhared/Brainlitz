@@ -635,6 +635,7 @@
                         appNumericValidation
                         (input)="unitPrice = $event.target.value"
                         (input)="inputDiscount($event.target.value, i)"
+                        (keypress)="isDecimalValue($event, obj.discount.dValue)"
                         [value]="obj.discount.dValue"
                       />
                     </div>
