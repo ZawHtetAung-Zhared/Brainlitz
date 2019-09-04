@@ -301,6 +301,13 @@
           >
             Makeup pass
           </button>
+          <button
+            [ngClass]="{ active: activeTab == 'Tracking module' }"
+            class="btn tab-btn"
+            (click)="clickTab('Tracking module')"
+          >
+            Tracking module
+          </button>
         </div>
         <div *ngIf="activeTab == 'class'" class="pb-20">
           <div class="d-flex title-space">
@@ -1955,6 +1962,8 @@
         <button
           type="button"
           class="btn modal-cancel-btn"
+          d-flex
+          tab-section
           (click)="closeModal('close')"
         >
           Cancel
