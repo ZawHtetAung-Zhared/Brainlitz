@@ -158,22 +158,28 @@ export class InvoiceComponent implements OnInit {
         ) {
           this.showInvoice = true;
         }
+
         if (this.invoice.courseFee.discount != undefined) {
           if (this.invoice.courseFee.discount.amount != 0) {
             if (
               this.invoice.courseFee.taxInclusive == true &&
-              this.invoice.courseFee.notax == false
+              this.invoice.courseFee.noTax == false
             ) {
               this.cDiscount.type = 'Inclusive';
+              this.cDiscount.dValue =
+                this.invoice.courseFee.discount.amount +
+                this.invoice.courseFee.discount.tax;
             } else if (
               this.invoice.courseFee.taxInclusive == false &&
-              this.invoice.courseFee.notax == false
+              this.invoice.courseFee.noTax == false
             ) {
               this.cDiscount.type = 'Exclusive';
-            } else if (this.invoice.courseFee.notax == true) {
+              this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
+            } else if (this.invoice.courseFee.noTax == true) {
               this.cDiscount.type = 'No Tax';
+              this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
             }
-            this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
+
             this.cDiscount.value = this.invoice.courseFee.discount.amount;
             this.cDiscount.amount = this.invoice.courseFee.discount.amount;
             this.cDiscount.tax = this.invoice.tax.rate;
@@ -196,6 +202,8 @@ export class InvoiceComponent implements OnInit {
         if (res.additionalFees != undefined || res.additionalFees != null) {
           this.changeTempObj(res.additionalFees);
         }
+
+        console.log('c Discount', this.cDiscount);
 
         setTimeout(() => {
           this.calculationTotal();
@@ -225,6 +233,7 @@ export class InvoiceComponent implements OnInit {
   // }
 
   hideInvoiceRow(obj) {
+    console.log(this.cDiscount);
     console.log('remove', this.newItemArr);
     this.newItemArr.splice(
       // this.lessonObjArr.map(x => x._id).indexOf(id),
@@ -240,9 +249,8 @@ export class InvoiceComponent implements OnInit {
   }
   updateInvoice() {
     console.log('id', this.invoiceId);
-
-    console.log('Inv Update Data', this.updateInvData);
-    console.log(this.newItemArr);
+    console.log('c Discount', this.cDiscount);
+    console.log('new itemarr ', this.newItemArr);
     let arr = [];
 
     for (let i = 0; i < this.newItemArr.length; i++) {
@@ -262,7 +270,7 @@ export class InvoiceComponent implements OnInit {
         taxInclusive: type,
         noTax: notax,
         discount: {
-          amount: this.newItemArr[i].discount.dValue
+          amount: Number(this.newItemArr[i].discount.dValue)
         }
       };
 
@@ -782,7 +790,10 @@ export class InvoiceComponent implements OnInit {
   }
 
   //this function is work for to change and calcution api response value in show ui
+
   changeTempObj(obj) {
+    console.log(obj);
+
     this.newItemArr = [];
     let tempArr: any = [];
     for (let i = 0; i < obj.length; i++) {
@@ -835,6 +846,7 @@ export class InvoiceComponent implements OnInit {
       tempObj.isDefault = true;
       tempObj.amount = obj[i].amount;
       tempObj.discount.amount = obj[i].discount.amount;
+      console.log(obj[i].discount);
 
       //for discount
       if (obj[i].discount.amount != 0) {
@@ -842,7 +854,14 @@ export class InvoiceComponent implements OnInit {
         tempObj.discount.tax = this.invoice.tax.rate;
         tempObj.discount.taxRes = obj[i].discount.tax;
         tempObj.discount.value = obj[i].discount.amount;
-        tempObj.discount.dValue = obj[i].discount.amount;
+        if (obj[i].taxInclusive == true && obj[i].noTax == false) {
+          tempObj.discount.dValue =
+            obj[i].discount.amount + obj[i].discount.tax;
+        } else if (obj[i].taxInclusive == false && obj[i].noTax == false) {
+          tempObj.discount.dValue = obj[i].discount.amount;
+        } else {
+          tempObj.discount.dValue = obj[i].discount.amount;
+        }
 
         // let resTemp= this.calculationDiscount(tempObj.discount);
 
@@ -894,6 +913,8 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].discount.dValue = value;
   }
   addCurseFee(id) {
+    console.log('cDiscount', this.cDiscount);
+
     console.log(this.newItemArr);
     this.feesBox1 = false;
     let taxRate = this.newItemArr[id].tax;

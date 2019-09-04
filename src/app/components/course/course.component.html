@@ -1327,6 +1327,27 @@
                         <span *ngIf="user.invoice.status == 'PAID[PARTIAL]'" class="paid">Paid[Partial]</span>
                       </p> -->
                       </div>
+                      <div
+                        class="single-user-info d-flex flex-column justify-content-center"
+                      >
+                        <h4
+                          *ngIf="user.preferredName == ''"
+                          (click)="onClickCustomer(user.userId)"
+                          class="clickable-user"
+                        >
+                          {{
+                            user.email.length > 20
+                              ? (user.email | slice: 0:20) + '...'
+                              : user.email
+                          }}
+                        </h4>
+                        <!-- Paid/Unpaid -->
+                        <!-- <p *ngIf="user.invoice != null">
+                        <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
+                        <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
+                        <span *ngIf="user.invoice.status == 'PAID[PARTIAL]'" class="paid">Paid[Partial]</span>
+                      </p> -->
+                      </div>
                       <div class="ml-auto remover-wrap">
                         <span
                           class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
@@ -1870,7 +1891,11 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>{{ user.preferredName }}</h4>
+                  <h4>
+                    {{
+                      user.preferredName == '' ? user.email : user.preferredName
+                    }}
+                  </h4>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
@@ -2139,7 +2164,11 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>{{ user.preferredName }}</h4>
+                  <h4>
+                    {{
+                      user.preferredName == '' ? user.email : user.preferredName
+                    }}
+                  </h4>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
