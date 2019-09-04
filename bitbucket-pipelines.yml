@@ -10,7 +10,8 @@ pipelines:
     test:
     - step:
         script: # Modify the commands below to build your repository.
+          - npm install
+          - npm run build
           - apt-get update
           - apt-get install rsync -y     
-          - rsync -avhze ssh $BITBUCKET_CLONE_DIR/ ssh htetshweyilin@...:/public_html/.../
-          - cat ./deploy.sh | ssh htetshweyilin@...
+          - rsync -crlOt -e ssh $BITBUCKET_CLONE_DIR/dist/ htetshweyilin@...:/public_html/.../
