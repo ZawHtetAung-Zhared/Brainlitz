@@ -1229,8 +1229,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         .getSearchCategory(this.regionId, val, this.locationID)
         .subscribe(
           (res: any) => {
-            res.unshift({ name: 'All category', _id: 'all' });
-            console.log(res.length);
+            // res.unshift({ name: 'All category', _id: 'all' });
+            // console.log(res.length);
             console.log(this.categoryList.name);
             var element = <HTMLInputElement>(
               document.getElementById('categoryList')
@@ -1254,7 +1254,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         (res: any) => {
           console.log(res);
           console.log(this.categoryList.name);
-          res.unshift({ name: 'All category', _id: 'all' });
+          // res.unshift({ name: 'All category', _id: 'all' });
           this.categoryList = res;
           this.blockUI.stop();
         },
@@ -1270,7 +1270,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this._service.getCategory(this.regionId, 20, 0).subscribe(
       (res: any) => {
         console.log(res);
-        res.unshift({ name: 'All category', _id: 'all' });
+        // res.unshift({ name: 'All category', _id: 'all' });
         this.categoryList = res;
         console.log(val, 'OK');
       },
