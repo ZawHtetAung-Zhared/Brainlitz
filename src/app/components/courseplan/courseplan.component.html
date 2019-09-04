@@ -546,7 +546,11 @@
                             [value]="tax.name"
                             [selected]="tax.name == 'inclusive'"
                             *ngFor="let tax of optArray[idx].taxOption"
-                            >{{ tax.name }}</option
+                            >{{
+                              tax.name == 'inclusive'
+                                ? 'Tax Inclusive'
+                                : 'Tax Exclusive'
+                            }}</option
                           >
                         </select>
                       </div>
