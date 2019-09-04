@@ -262,7 +262,7 @@ export class InvoiceComponent implements OnInit {
         taxInclusive: type,
         noTax: notax,
         discount: {
-          amount: this.newItemArr[i].discount.dValue
+          amount: Number(this.newItemArr[i].discount.dValue)
         }
       };
 
@@ -782,7 +782,10 @@ export class InvoiceComponent implements OnInit {
   }
 
   //this function is work for to change and calcution api response value in show ui
+
   changeTempObj(obj) {
+    console.log(obj);
+
     this.newItemArr = [];
     let tempArr: any = [];
     for (let i = 0; i < obj.length; i++) {
@@ -835,6 +838,7 @@ export class InvoiceComponent implements OnInit {
       tempObj.isDefault = true;
       tempObj.amount = obj[i].amount;
       tempObj.discount.amount = obj[i].discount.amount;
+      console.log(obj[i].discount);
 
       //for discount
       if (obj[i].discount.amount != 0) {
@@ -842,7 +846,14 @@ export class InvoiceComponent implements OnInit {
         tempObj.discount.tax = this.invoice.tax.rate;
         tempObj.discount.taxRes = obj[i].discount.tax;
         tempObj.discount.value = obj[i].discount.amount;
-        tempObj.discount.dValue = obj[i].discount.amount;
+        if (obj[i].taxInclusive == true && obj[i].noTax == false) {
+          tempObj.discount.dValue =
+            obj[i].discount.amount + obj[i].discount.tax;
+        } else if (obj[i].taxInclusive == false && obj[i].noTax == false) {
+          tempObj.discount.dValue = obj[i].discount.amount;
+        } else {
+          tempObj.discount.dValue = obj[i].discount.amount;
+        }
 
         // let resTemp= this.calculationDiscount(tempObj.discount);
 
