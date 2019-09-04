@@ -1230,7 +1230,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         .subscribe(
           (res: any) => {
             res.unshift({ name: 'All category', _id: 'all' });
-            console.log(res.length);
+            // console.log(res.length);
             console.log(this.categoryList.name);
             var element = <HTMLInputElement>(
               document.getElementById('categoryList')
@@ -2686,7 +2686,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       localStorage.removeItem('courseID');
       localStorage.setItem('cPlan', JSON.stringify(planObj));
       console.log('scheduleObj', this.scheduleObj);
-
+      if (this.isTeacherAll) {
+        this.scheduleObj['teacher'] = '';
+      }
       localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj));
     }
     // console.log("scheduleObj",this.scheduleObj);
