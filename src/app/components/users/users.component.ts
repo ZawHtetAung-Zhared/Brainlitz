@@ -1692,10 +1692,14 @@ export class UsersComponent implements OnInit {
     } else if (val == 'class') {
       this.showDetails(this.custDetail.user.userId);
     } else if (val == 'Tracking module') {
-      console.error('Tracking module');
+      console.log('Tracking module');
+      this.callTrackingModule();
     }
   }
 
+  callTrackingModule() {
+    console.log('cus details', this.custDetail);
+  }
   callMakeupLists() {
     this.blockUI.start('Loading...');
     this._service
