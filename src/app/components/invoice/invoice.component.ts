@@ -158,22 +158,28 @@ export class InvoiceComponent implements OnInit {
         ) {
           this.showInvoice = true;
         }
+
         if (this.invoice.courseFee.discount != undefined) {
           if (this.invoice.courseFee.discount.amount != 0) {
             if (
               this.invoice.courseFee.taxInclusive == true &&
-              this.invoice.courseFee.notax == false
+              this.invoice.courseFee.noTax == false
             ) {
               this.cDiscount.type = 'Inclusive';
+              this.cDiscount.dValue =
+                this.invoice.courseFee.discount.amount +
+                this.invoice.courseFee.discount.tax;
             } else if (
               this.invoice.courseFee.taxInclusive == false &&
-              this.invoice.courseFee.notax == false
+              this.invoice.courseFee.noTax == false
             ) {
               this.cDiscount.type = 'Exclusive';
-            } else if (this.invoice.courseFee.notax == true) {
+              this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
+            } else if (this.invoice.courseFee.noTax == true) {
               this.cDiscount.type = 'No Tax';
+              this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
             }
-            this.cDiscount.dValue = this.invoice.courseFee.discount.amount;
+
             this.cDiscount.value = this.invoice.courseFee.discount.amount;
             this.cDiscount.amount = this.invoice.courseFee.discount.amount;
             this.cDiscount.tax = this.invoice.tax.rate;
@@ -196,6 +202,8 @@ export class InvoiceComponent implements OnInit {
         if (res.additionalFees != undefined || res.additionalFees != null) {
           this.changeTempObj(res.additionalFees);
         }
+
+        console.log('c Discount', this.cDiscount);
 
         setTimeout(() => {
           this.calculationTotal();
@@ -225,6 +233,7 @@ export class InvoiceComponent implements OnInit {
   // }
 
   hideInvoiceRow(obj) {
+    console.log(this.cDiscount);
     console.log('remove', this.newItemArr);
     this.newItemArr.splice(
       // this.lessonObjArr.map(x => x._id).indexOf(id),
@@ -240,9 +249,8 @@ export class InvoiceComponent implements OnInit {
   }
   updateInvoice() {
     console.log('id', this.invoiceId);
-
-    console.log('Inv Update Data', this.updateInvData);
-    console.log(this.newItemArr);
+    console.log('c Discount', this.cDiscount);
+    console.log('new itemarr ', this.newItemArr);
     let arr = [];
 
     for (let i = 0; i < this.newItemArr.length; i++) {
@@ -905,6 +913,8 @@ export class InvoiceComponent implements OnInit {
     this.newItemArr[id].discount.dValue = value;
   }
   addCurseFee(id) {
+    console.log('cDiscount', this.cDiscount);
+
     console.log(this.newItemArr);
     this.feesBox1 = false;
     let taxRate = this.newItemArr[id].tax;
