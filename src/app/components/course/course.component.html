@@ -739,6 +739,12 @@
                                   "
                                 />
                               </span>
+                              <!-- user grading -->
+                              <div
+                                style="background-color: red; border-radius:50%;margin-left: -10px;margin-top: 30px;position: relative;width: 20px;height: 20px;text-align: center"
+                              >
+                                A
+                              </div>
                             </div>
                             <span
                               class="medium-font"
@@ -1084,14 +1090,14 @@
             >
               Lesson
             </button>
-            <button
+            <!-- <button
               [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('APG', 'course')"
               [disabled]="disabledTab"
             >
               Tracking Module
-            </button>
+            </button> -->
           </div>
           <div class="activeTab-content" *ngIf="activeTab == 'People'">
             <div
@@ -1300,10 +1306,20 @@
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
                         </div>
+                        <div
+                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+                        >
+                          A
+                        </div>
                       </div>
                       <div *ngIf="user.invoice == null">
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
+                        </div>
+                        <div
+                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+                        >
+                          A
                         </div>
                       </div>
                       <div

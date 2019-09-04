@@ -91,6 +91,11 @@
                 src="{{ customer.profilePic }}"
               />
             </div>
+            <div
+              style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
+            >
+              A
+            </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
             <h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">
@@ -172,6 +177,11 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
+            <div
+              style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
+            >
+              A
+            </div>
           </div>
           <div class="pad-left-15" style="width: 80%">
             <div class="infoGp-wrap">
@@ -210,6 +220,11 @@
                       *ngIf="guardian.profilePic != undefined"
                       src="{{ guardian.profilePic }}"
                     />
+                    <div
+                      style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
+                    >
+                      A
+                    </div>
                   </div>
                   <div class="guar-name">
                     {{
@@ -615,29 +630,36 @@
                         </div>
                       </div>
                     </div>
-                    <label
-                      class="class-label-14 mb-0"
-                      style="padding-left: 20px"
-                      *ngFor="let day of course.repeatDays | weekDays"
-                      >{{ course.type == 'ONLINE' ? '' : day }}</label
-                    >
-                    <p
-                      style="padding-left: 20px"
-                      *ngIf="course.duration != undefined"
-                      class="medium-label-14 mb-0"
-                    >
-                      {{
-                        course.type == 'ONLINE'
-                          ? ''
-                          : (course.duration.startDate | utcTime)
-                      }}
-                      {{ course.type == 'ONLINE' ? '' : '-' }}
-                      {{
-                        course.type == 'ONLINE'
-                          ? ''
-                          : (course.duration.endDate | utcTime)
-                      }}
-                    </p>
+                    <div class="d-flex info-wrap justify-content-between">
+                      <div>
+                        <label
+                          class="class-label-14 mb-0"
+                          style="padding-left: 20px"
+                          *ngFor="let day of course.repeatDays | weekDays"
+                          >{{ course.type == 'ONLINE' ? '' : day }}</label
+                        >
+                        <p
+                          style="padding-left: 20px"
+                          *ngIf="course.duration != undefined"
+                          class="medium-label-14 mb-0"
+                        >
+                          {{
+                            course.type == 'ONLINE'
+                              ? ''
+                              : (course.duration.startDate | utcTime)
+                          }}
+                          {{ course.type == 'ONLINE' ? '' : '-' }}
+                          {{
+                            course.type == 'ONLINE'
+                              ? ''
+                              : (course.duration.endDate | utcTime)
+                          }}
+                        </p>
+                      </div>
+                      <div class="remaining">
+                        <span class="class-label-14">5 remaining lessons</span>
+                      </div>
+                    </div>
                     <div class="line mt-3"></div>
                     <div class="d-flex justify-content-between">
                       <div class="d-flex" style="padding-left: 20px">

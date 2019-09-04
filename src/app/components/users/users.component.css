@@ -3069,3 +3069,17 @@ input:checked + .slider:before {
   margin-top: 16px;
   margin-bottom: 16px;
 }
+.remaining {
+  width: 250px !important;
+}
+.test-circle {
+  border-radius: 50%;
+  font-size: 12px;
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  align-items: center;
+}
