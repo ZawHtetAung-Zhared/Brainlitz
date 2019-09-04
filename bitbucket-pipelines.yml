@@ -7,10 +7,10 @@ image: node:10.15.3
 
 pipelines:
   branches:
-    staging:
+    test:
     - step:
         script: # Modify the commands below to build your repository.
           - apt-get update
           - apt-get install rsync -y     
-          - rsync -avhze ssh $BITBUCKET_CLONE_DIR/ ssh htetshweyilin@13.229.235.46:/public_html/brainlitz-web/
-          - cat ./deploy.sh | ssh htetshweyilin@13.229.235.46
+          - rsync -avhze ssh $BITBUCKET_CLONE_DIR/ ssh htetshweyilin@...:/public_html/.../
+          - cat ./deploy.sh | ssh htetshweyilin@...
