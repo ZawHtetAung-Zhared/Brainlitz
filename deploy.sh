@@ -1,3 +1,4 @@
+# for live deployment
 cd /public_html/brainlitz-web-multi/
 rm -rf assets/
 cd dist
