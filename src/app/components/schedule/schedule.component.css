@@ -891,7 +891,7 @@ thead th:first-child,
 }
 
 .single-range {
-  min-width: 121px;
+  min-width: 181px;
   display: table-cell;
 }
 .single-slot {
@@ -900,7 +900,7 @@ thead th:first-child,
   float: left;
 }
 .single-slot:first-child {
-  min-width: 121px;
+  min-width: 181px;
   text-align: center;
   /*padding-left: 15px;*/
 }
@@ -1048,7 +1048,7 @@ tbody td {
   border-right: 1px solid #edeff0;
 }
 .one-slot {
-  width: 60px;
+  width: 90px;
   /*width: 4px;*/
   /*background: red;*/
   /*outline: 1px solid #eee;*/
