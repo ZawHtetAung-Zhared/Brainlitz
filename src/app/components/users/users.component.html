@@ -302,11 +302,11 @@
             Makeup pass
           </button>
           <button
-            [ngClass]="{ active: activeTab == 'Tracking module' }"
+            [ngClass]="{ active: activeTab == 'achievements' }"
             class="btn tab-btn"
-            (click)="clickTab('Tracking module')"
+            (click)="clickTab('achievements')"
           >
-            Tracking module
+            Achievements
           </button>
         </div>
         <div *ngIf="activeTab == 'class'" class="pb-20">
@@ -1002,60 +1002,124 @@
 						</div>
 					</div> -->
         </div>
-        <div *ngIf="activeTab == 'Tracking module'" class="pb-20">
-          <div *ngFor="let widget of custDetail.widgets">
-            <h6 class="title-space">{{ widget.name }}</h6>
-            <div class="btn-wrap no-item" *ngIf="widget.APG.length <= 0">
-              There is no {{ widget.name | lowercase }} for this customer!
+        <div *ngIf="activeTab == 'achievements'" class="pb-20">
+          <div class="achievements-main" *ngIf="achievementProgess.length != 0">
+            <div class="achievements-header">
+              <h6 class="title-space">Progress</h6>
             </div>
-            <div>
-              <div class="list-wrapper">
-                <div
-                  *ngFor="
-                    let apg of widget.APG
-                      | slice
-                        : 0
-                        : [
-                            selectedId.indexOf(widget._id) != -1
-                              ? widget.APG.length
-                              : 2
-                          ]
-                  "
-                >
-                  <div>
-                    <div class="child">
-                      <label class="info-p">{{ apg.name }}</label>
-                      <div *ngFor="let accessPoint of apg.accessPoints">
-                        <div class="bar-wrapper">
-                          <ngb-progressbar
-                            [value]="accessPoint.score"
-                            height="0.3rem"
-                          ></ngb-progressbar>
+
+            <div class="row progress-list">
+              <div
+                class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mr-box display-block"
+                *ngFor="let progress of achievementProgess"
+              >
+                <div class="progress-box">
+                  <p class="course-name">{{ progress.course.name }}</p>
+
+                  <span class="score">{{ progress.score }}% accomplished</span>
+                  <div class="bar-wrapper achievements-progress">
+                    <ngb-progressbar
+                      [value]="progress.score"
+                      height="0.3rem"
+                    ></ngb-progressbar>
+                  </div>
+                  <div class="progress-footer">
+                    <span class="update-date"
+                      >Update on {{ progress.createdDate | utcDate }}</span
+                    >
+                    <span class="by-name"
+                      >by {{ progress.by.preferredName }}</span
+                    >
+                  </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="achievements-main"
+            *ngIf="achievementEvaluation.length != 0"
+          >
+            <div class="achievements-header">
+              <h6 class="title-space">Evaluation</h6>
+            </div>
+
+            <div class="card-columns evaluation-list">
+              <div
+                class="card"
+                *ngFor="let evaluation of achievementEvaluation"
+              >
+                <div class="evaluation-main">
+                  <div class="evaluation-header">
+                    <p class="apg-name">
+                      {{ evaluation.apg.name }}
+                    </p>
+                  </div>
+                  <div class="evaluation-body">
+                    <div *ngFor="let ass of evaluation.assessments">
+                      <div
+                        class="assessment-list"
+                        *ngFor="let evaluate of ass.evaluations"
+                      >
+                        <p class="assessment-name">
+                          {{ evaluate.apName }}
+                        </p>
+                        <div class="d-flex flex-row">
+                          <div
+                            class="list-dot-wrap"
+                            *ngFor="
+                              let detail of evaluate.details;
+                              let i = index
+                            "
+                          >
+                            <span
+                              class="noData-dot"
+                              *ngIf="detail.selectedIndex == 'null'"
+                            ></span>
+                            <span
+                              class="exitData-dot zero"
+                              *ngIf="detail.selectedIndex == '0'"
+                              >{{ detail.selectedIndex }}</span
+                            >
+                            <span
+                              class="exitData-dot one"
+                              *ngIf="detail.selectedIndex == '1'"
+                              >{{ detail.selectedIndex }}</span
+                            >
+                            <span
+                              class="exitData-dot two"
+                              *ngIf="detail.selectedIndex == '2'"
+                              >{{ detail.selectedIndex }}</span
+                            >
+                          </div>
                         </div>
-                        <span class="class-label-12"
-                          >{{ accessPoint.score }}% accomplished</span
-                        >
                       </div>
                     </div>
                   </div>
                 </div>
+                <!-- <div class="d-flex flex-row justify-content-between">
+                    <p
+                      class="mb-0 ev-apgName"
+                      [ngClass]="{ changeColor: ap.isExpand }"
+                    >
+                      {{ ap.name }}
+                    </p>
+                    <span
+                      class="lists-down-arrow"
+                      [ngClass]="{ 'transform-y': ap.isExpand }"
+                      (click)="expandAccessPoint(i, ind, 'apg')"
+                    >
+                      <i
+                        class="fa fa-angle-down"
+                        style="font-size: 25px;color: #007fff;"
+                      ></i>
+                    </span>
+                </div> -->
               </div>
-            </div>
-            <div class="btn-wrap">
-              <div *ngIf="widget.APG.length > 2">
-                <button
-                  *ngIf="selectedId.indexOf(widget._id) == -1"
-                  class="btn-showmore pad-0"
-                  (click)="showMoreItem(widget._id)"
-                >
-                  <span>Show More {{ widget.name }}</span
-                  ><i class="fa fa-angle-down" aria-hidden="true"></i>
-                </button>
-              </div>
-              <div></div>
             </div>
           </div>
         </div>
+
         <div class="d-flex">
           <div class="firstCol">
             <div>
@@ -1918,7 +1982,8 @@
       [invoiceId]="invoiceID2"
       (closed)="closeModal('closeInv')"
       class="app-inv-wrap"
-    ></app-invoice>
+    >
+    </app-invoice>
     <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
     <div
       class="flexiModal"
@@ -1950,7 +2015,8 @@
           [showcb]="showcb"
           (passDataconflictBoxShow)="conflictBoxShow($event)"
           (checkObjArr)="lessionObjArr($event)"
-        ></app-flexi>
+        >
+        </app-flexi>
       </div>
       <div
         class="modal-footer d-flex justify-content-between"

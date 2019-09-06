@@ -179,6 +179,8 @@ export class UsersComponent implements OnInit {
   public invStatus: any;
   public invCurrency: any = {};
   public invPayment: any = [];
+  public achievementProgess: any = [];
+  public achievementEvaluation: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
   //flexy
@@ -1691,17 +1693,15 @@ export class UsersComponent implements OnInit {
       this.callMakeupLists();
     } else if (val == 'class') {
       this.showDetails(this.custDetail.user.userId);
-    } else if (val == 'Tracking module') {
-      console.log('Tracking module');
-      this.callTrackingModule();
+    } else if (val == 'achievements') {
+      console.log('achievements');
+      this.callAchievements(1);
+      this.callAchievements(3);
     }
   }
 
-  callTrackingModule() {
-    console.log('cus details', this.custDetail);
-  }
   callMakeupLists() {
-    this.blockUI.start('Loading...');
+    console.log('cus details', this.custDetail);
     this._service
       .getMakeupLists(
         this.custDetail.user.userId,
@@ -1714,6 +1714,28 @@ export class UsersComponent implements OnInit {
           this.blockUI.stop();
           console.log(res);
           this.makeupLists = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  callAchievements(type) {
+    this.blockUI.start('Loading...');
+    this._service
+      .getAchievementsByType(this.custDetail.user.userId, type)
+      .subscribe(
+        (res: any) => {
+          this.blockUI.stop();
+          console.log('get achievements', res);
+          if (type == 1) {
+            this.achievementProgess = res;
+          } else if (type == 3) {
+            this.achievementEvaluation = res;
+          }
+          console.log('Progress', this.achievementProgess);
+          console.log('Evaluation', this.achievementEvaluation);
         },
         err => {
           console.log(err);
