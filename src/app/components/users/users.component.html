@@ -1002,7 +1002,11 @@
 						</div>
 					</div> -->
         </div>
-        <div *ngIf="activeTab == 'achievements'" class="pb-20">
+        <div
+          *ngIf="activeTab == 'achievements'"
+          class="pb-20"
+          style="overflow:hiiden"
+        >
           <div class="achievements-main" *ngIf="achievementProgess.length != 0">
             <div class="achievements-header">
               <h6 class="title-space">Progress</h6>
@@ -1056,65 +1060,65 @@
                     </p>
                   </div>
                   <div class="evaluation-body">
-                    <div *ngFor="let ass of evaluation.assessments">
-                      <div
-                        class="assessment-list"
-                        *ngFor="let evaluate of ass.evaluations"
-                      >
-                        <p class="assessment-name">
-                          {{ evaluate.apName }}
-                        </p>
-                        <div class="d-flex flex-row">
+                    <!-- {{vedificationPagination(evaluation.assessments)}} -->
+                    {{ evaluation.assessments.isLoadmore }}
+                    <carousel [showControls]="evaluation.assessments.length">
+                      <ng-container *ngFor="let ass of evaluation.assessments">
+                        <ng-container *carouselItem>
                           <div
-                            class="list-dot-wrap"
-                            *ngFor="
-                              let detail of evaluate.details;
-                              let i = index
-                            "
+                            class="createdDate"
+                            *ngIf="ass.createdDate != null"
                           >
-                            <span
-                              class="noData-dot"
-                              *ngIf="detail.selectedIndex == 'null'"
-                            ></span>
-                            <span
-                              class="exitData-dot zero"
-                              *ngIf="detail.selectedIndex == '0'"
-                              >{{ detail.selectedIndex }}</span
-                            >
-                            <span
-                              class="exitData-dot one"
-                              *ngIf="detail.selectedIndex == '1'"
-                              >{{ detail.selectedIndex }}</span
-                            >
-                            <span
-                              class="exitData-dot two"
-                              *ngIf="detail.selectedIndex == '2'"
-                              >{{ detail.selectedIndex }}</span
-                            >
+                            {{ ass.createdDate | utcDate }}
                           </div>
-                        </div>
-                      </div>
-                    </div>
+
+                          <div class="assessment-list-gp">
+                            <div
+                              class="assessment-list"
+                              *ngFor="let evaluate of ass.evaluations"
+                            >
+                              <p class="assessment-name">
+                                {{ evaluate.apName }}
+                              </p>
+                              <div
+                                class="d-flex flex-wrap"
+                                style="max-width: 300px;"
+                              >
+                                <span
+                                  class="list-dot-wrap"
+                                  *ngFor="
+                                    let detail of evaluate.details;
+                                    let i = index
+                                  "
+                                >
+                                  <span
+                                    class="noData-dot"
+                                    *ngIf="detail.selectedIndex == 'null'"
+                                  ></span>
+                                  <span
+                                    class="exitData-dot zero"
+                                    *ngIf="detail.selectedIndex == '0'"
+                                    >{{ detail.selectedIndex }}</span
+                                  >
+                                  <span
+                                    class="exitData-dot one"
+                                    *ngIf="detail.selectedIndex == '1'"
+                                    >{{ detail.selectedIndex }}</span
+                                  >
+                                  <span
+                                    class="exitData-dot two"
+                                    *ngIf="detail.selectedIndex == '2'"
+                                    >{{ detail.selectedIndex }}</span
+                                  >
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </carousel>
                   </div>
                 </div>
-                <!-- <div class="d-flex flex-row justify-content-between">
-                    <p
-                      class="mb-0 ev-apgName"
-                      [ngClass]="{ changeColor: ap.isExpand }"
-                    >
-                      {{ ap.name }}
-                    </p>
-                    <span
-                      class="lists-down-arrow"
-                      [ngClass]="{ 'transform-y': ap.isExpand }"
-                      (click)="expandAccessPoint(i, ind, 'apg')"
-                    >
-                      <i
-                        class="fa fa-angle-down"
-                        style="font-size: 25px;color: #007fff;"
-                      ></i>
-                    </span>
-                </div> -->
               </div>
             </div>
           </div>

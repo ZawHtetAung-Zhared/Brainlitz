@@ -3136,11 +3136,10 @@ span.by-name {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   transition: 0.3s all ease-out;
-  max-height: 300px;
+  /* max-height: 300px; */
 }
 .evaluation-header {
-  padding: 10px;
-  background: #f2f4f5;
+  padding: 5px 10px 5px 10px;
   font-size: 16px;
   color: #2e3e4d;
 }
@@ -3169,6 +3168,7 @@ span.exitData-dot {
   color: #fff;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
+  margin-bottom: 3px;
 }
 p.assessment-name {
   margin-bottom: 6px;
@@ -3188,7 +3188,31 @@ span.exitData-dot.one {
   background: #fda625 !important;
 }
 .evaluation-body {
-  max-height: 210px;
-  overflow: overlay;
+  /* max-height: 220px;
+  overflow-y: overlay; */
+  overflow-x: hidden;
+}
+
+.createdDate {
+  padding: 0px 0px 0px 10px;
+  border-bottom: 1px solid #edeff0;
+  color: #007fff;
+  font-size: 12px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+.item {
+  padding: 0;
+  width: 300px;
+  height: 300px;
+  background-color: crimson;
+  color: #fff;
+  font-size: 50px;
+  line-height: 300px;
+  text-align: center;
+}
+.assessment-list-gp {
+  max-height: 220px;
+  overflow-y: overlay;
 }
 /* end achievements */
