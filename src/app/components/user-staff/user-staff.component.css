@@ -933,3 +933,18 @@ input[_ngcontent-c6]:focus {
     width: 100%;
   }
 }
+ngb-datepicker {
+  padding: 0px !important;
+  left: 0px !important;
+  top: 0px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  position: absolute !important;
+  /* transform: translate(0px, 28px)!important; */
+}
+::ng-deep .dropdown-menu.show {
+  top: auto !important;
+}
+/* ::ng-deep .dropdown-item { color:red !important; } */

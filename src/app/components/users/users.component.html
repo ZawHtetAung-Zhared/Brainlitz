@@ -92,9 +92,24 @@
               />
             </div>
             <div
-              style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
+              style="margin-left: 60px;margin-top: -30px;position: relative;"
             >
-              A
+              <div
+                *ngIf="
+                  customer.userGrading.grade.point != undefined &&
+                  customer.userGrading.grade.point != null
+                "
+                class="b-white justify-content-center d-flex"
+                [style.background]="customer.userGrading.sepalColor.background"
+                [ngClass]="{
+                  'test-circle': customer.userGrading.grade.point.length == 1,
+                  circle: customer.userGrading.grade.point.length > 1
+                }"
+              >
+                <span [style.color]="customer.userGrading.sepalColor.text">
+                  {{ customer.userGrading.grade.point }}
+                </span>
+              </div>
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
@@ -177,10 +192,28 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
-            <div
-              style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
-            >
-              A
+            <div class="user-grade">
+              <div
+                *ngIf="
+                  custDetail.user.userGrading?.grade.point != undefined &&
+                  custDetail.user.userGrading?.grade.point != null
+                "
+                class="b-white justify-content-center d-flex"
+                [style.background]="
+                  custDetail.user.userGrading.sepalColor.background
+                "
+                [ngClass]="{
+                  'test-circle':
+                    custDetail.user.userGrading.grade.point.length == 1,
+                  circle: custDetail.user.userGrading.grade.point.length > 1
+                }"
+              >
+                <span
+                  [style.color]="custDetail.user.userGrading.sepalColor.text"
+                >
+                  {{ custDetail.user.userGrading.grade.point }}
+                </span>
+              </div>
             </div>
           </div>
           <div class="pad-left-15" style="width: 80%">
@@ -193,7 +226,11 @@
               <p *ngIf="custDetail.user.about" class="mb-0">
                 {{ custDetail.user.about }}
               </p>
-              <p *ngIf="!custDetail.user.about" class="mb-0 info-p">
+              <p
+                *ngIf="!custDetail.user.about"
+                class="mb-0 info-p"
+                style="margin-top: -20px"
+              >
                 -
               </p>
             </div>
@@ -220,12 +257,8 @@
                       *ngIf="guardian.profilePic != undefined"
                       src="{{ guardian.profilePic }}"
                     />
-                    <div
-                      style="background-color: red; border-radius:50%;margin-left: 60px;margin-top: -30px;position: relative;width: 20px;height: 20px;text-align: center"
-                    >
-                      A
-                    </div>
                   </div>
+
                   <div class="guar-name">
                     {{
                       guardian.fullName == '' || guardian.fullName == null
@@ -261,10 +294,17 @@
         </div>
         <div class="pad-left-15 col-right">
           <div>
-            <div class="infoGp-wrap">
+            <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
               <label class="info-mail">Full name</label>
               <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
               <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
+            </div>
+            <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
+              <label class="info-mail">Full name</label>
+              <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
+              <p class="mb-0 info-p">
+                -
+              </p>
             </div>
             <div class="d-flex info-wrap details-list-wrap">
               <div class="list-wrapper detail-list">
@@ -664,7 +704,10 @@
                         </p>
                       </div>
                       <div class="remaining">
-                        <span class="class-label-14">5 remaining lessons</span>
+                        <span class="medium-label-14"
+                          >{{ course.upComingLessonCount }} remaining
+                          lessons</span
+                        >
                       </div>
                     </div>
                     <div class="line mt-3"></div>
