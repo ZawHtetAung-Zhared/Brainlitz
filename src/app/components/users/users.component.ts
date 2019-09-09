@@ -35,6 +35,7 @@ import { DataService } from '../../service/data.service';
 import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Component({
@@ -84,12 +85,35 @@ export class UsersComponent implements OnInit {
   isSticky: boolean = false;
   modalReference: any;
   closeResult: any;
+  items = [
+    {
+      title: [
+        { test: 'Slide 1' },
+        { test: 'Slide 2' },
+        { test: 'Slide 3' },
+        { test: 'Slide 14' },
+        { test: 'Slide 1d' }
+      ]
+    },
+    {
+      title: [
+        { test: 'Slide 1' },
+        { test: 'Slide 2' },
+        { test: 'Slide 3' },
+        { test: 'Slide 14' },
+        { test: 'Slide 1d' }
+      ]
+    }
+  ];
 
   public showLoading: boolean = false;
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
   >;
+
+  @ViewChild('carousel') carousel: NgbCarousel;
+
   customerLists: Array<any> = [];
   availableCourses: Array<any> = [];
   userType: any;
@@ -179,6 +203,8 @@ export class UsersComponent implements OnInit {
   public invStatus: any;
   public invCurrency: any = {};
   public invPayment: any = [];
+  public achievementProgess: any = [];
+  public achievementEvaluation: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
   //flexy
@@ -189,7 +215,6 @@ export class UsersComponent implements OnInit {
   dataObj: any = [];
   flexiTemp: any = [];
   checkobjArr: any = [];
-
   constructor(
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
@@ -1691,13 +1716,17 @@ export class UsersComponent implements OnInit {
       this.callMakeupLists();
     } else if (val == 'class') {
       this.showDetails(this.custDetail.user.userId);
-    } else if (val == 'Tracking module') {
-      console.error('Tracking module');
+    } else if (val == 'achievements') {
+      console.log('cos', this.carousel);
+      // this.carousel.pause();
+      console.log('achievements');
+      this.callAchievements(1);
+      this.callAchievements(3);
     }
   }
 
   callMakeupLists() {
-    this.blockUI.start('Loading...');
+    console.log('cus details', this.custDetail);
     this._service
       .getMakeupLists(
         this.custDetail.user.userId,
@@ -1710,6 +1739,29 @@ export class UsersComponent implements OnInit {
           this.blockUI.stop();
           console.log(res);
           this.makeupLists = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  callAchievements(type) {
+    this.blockUI.start('Loading...');
+    this._service
+      .getAchievementsByType(this.custDetail.user.userId, type)
+      .subscribe(
+        (res: any) => {
+          this.blockUI.stop();
+          console.log('get achievements', res);
+          if (type == 1) {
+            this.achievementProgess = res;
+          } else if (type == 3) {
+            this.achievementEvaluation = res;
+            this.vedificationPagination('a');
+          }
+          console.log('Progress', this.achievementProgess);
+          console.log('Evaluation', this.achievementEvaluation);
         },
         err => {
           console.log(err);
@@ -2184,6 +2236,22 @@ export class UsersComponent implements OnInit {
     }
     if (event.target.value.search(/^0/) != -1) {
       event.target.value = '';
+    }
+  }
+  isNext: boolean = false;
+  vedificationPagination(obj) {
+    console.log(this.achievementEvaluation);
+    for (let i = 0; i < this.achievementEvaluation.length; i++) {
+      // console.log(this.achievementEvaluation[i].assessments)
+
+      if (this.achievementEvaluation[i].assessments.length > 1) {
+        this.achievementEvaluation[i].isLoadmore = true;
+        this.isNext = true;
+      } else {
+        this.achievementEvaluation[i].isLoadmore = false;
+        this.isNext = false;
+      }
+      console.log(this.isNext);
     }
   }
 }

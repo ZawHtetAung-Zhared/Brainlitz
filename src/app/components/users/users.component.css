@@ -3069,3 +3069,150 @@ input:checked + .slider:before {
   margin-top: 16px;
   margin-bottom: 16px;
 }
+/* start achievements */
+/* progess */
+.achievements-main {
+  border: 1px solid #edeff0;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.progress-box {
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+.achievements-header {
+  background: #f2f4f5;
+  border-radius: 4px 4px 0px 0px;
+  padding: 15px;
+}
+
+.achievements-header .title-space {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  color: #2e3d4d;
+  padding: 0 !important;
+}
+
+.card-columns.evaluation-list {
+  column-count: 3;
+  padding: 0px 20px 20px 20px;
+}
+p.course-name {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  margin-bottom: 10px;
+}
+span.score {
+  color: #007fff;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
+}
+.bar-wrapper.achievements-progress {
+  margin-top: 4px;
+}
+.progress-footer {
+  font-size: 14px;
+  color: #64707d;
+  font-family: 'Inter-UI-Mediumn', Arial, sans-serif;
+}
+span.by-name {
+  float: right;
+}
+
+/* evaluation */
+.ev-apgName {
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #2e3d4d !important;
+  cursor: pointer;
+}
+
+.evaluation-main {
+  margin-top: 5px;
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: 0.3s all ease-out;
+  /* max-height: 300px; */
+}
+.evaluation-header {
+  padding: 5px 10px 5px 10px;
+  font-size: 16px;
+  color: #2e3e4d;
+}
+p.apg-name {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  margin-bottom: 0px;
+}
+.list-dot-wrap {
+  display: flex;
+}
+span.noData-dot {
+  height: 10px;
+  width: 10px;
+  background-color: #e3e4e6;
+  border-radius: 50%;
+  margin-right: 12px;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
+span.exitData-dot {
+  height: 21px;
+  width: 21px;
+  background-color: #e3e4e6;
+  border-radius: 50%;
+  margin-right: 12px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+p.assessment-name {
+  margin-bottom: 6px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+}
+.assessment-list {
+  padding: 10px 10px 20px 20px;
+}
+span.exitData-dot.zero {
+  background: #ff3d33 !important;
+}
+span.exitData-dot.two {
+  background: #009940 !important;
+}
+span.exitData-dot.one {
+  background: #fda625 !important;
+}
+.evaluation-body {
+  /* max-height: 220px;
+  overflow-y: overlay; */
+  overflow-x: hidden;
+}
+
+.createdDate {
+  padding: 0px 0px 0px 10px;
+  border-bottom: 1px solid #edeff0;
+  color: #007fff;
+  font-size: 12px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+.item {
+  padding: 0;
+  width: 300px;
+  height: 300px;
+  background-color: crimson;
+  color: #fff;
+  font-size: 50px;
+  line-height: 300px;
+  text-align: center;
+}
+.assessment-list-gp {
+  max-height: 220px;
+  overflow-y: overlay;
+}
+/* end achievements */
