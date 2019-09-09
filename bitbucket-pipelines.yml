@@ -14,4 +14,4 @@ pipelines:
           - npm run build
           - apt-get update
           - apt-get install rsync -y     
-          - rsync -crlOt -e ssh $BITBUCKET_CLONE_DIR/dist/ htetshweyilin@...:/public_html/.../
+          - rsync -crlOt -e ssh $BITBUCKET_CLONE_DIR/dist/ htetshweyilin@54.255.192.117:/public_html/brainlitz-web-multi/
