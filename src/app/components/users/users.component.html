@@ -1136,6 +1136,11 @@
                             {{ ass.createdDate | utcDate }}
                           </div>
 
+                          <div
+                            class="createdDate-boder"
+                            *ngIf="ass.createdDate == null"
+                          ></div>
+
                           <div class="assessment-list-gp">
                             <div
                               class="assessment-list"
@@ -1144,6 +1149,21 @@
                               <p class="assessment-name">
                                 {{ evaluate.apName }}
                               </p>
+                              <span
+                                class="evaluation-status noData"
+                                *ngIf="evaluate.status == 'NEUTRAL'"
+                                >No Data</span
+                              >
+                              <span
+                                class="evaluation-status in-Progess"
+                                *ngIf="evaluate.status == 'IN-PROGRESS'"
+                                >In Progess</span
+                              >
+                              <span
+                                class="evaluation-status achieved"
+                                *ngIf="evaluate.status == 'PASS'"
+                                >Achieved</span
+                              >
                               <div
                                 class="d-flex flex-wrap"
                                 style="max-width: 300px;"
@@ -1188,7 +1208,7 @@
           </div>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex" *ngIf="activeTab == 'class'">
           <div class="firstCol">
             <div>
               <h6 class="title-space">Ratings and reviews</h6>

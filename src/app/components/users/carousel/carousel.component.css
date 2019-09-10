@@ -27,4 +27,6 @@ ul {
 button.btn.btn-default {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
+  outline: 0;
+  box-shadow: none !important;
 }
