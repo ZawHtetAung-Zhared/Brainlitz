@@ -740,14 +740,19 @@
                                 />
                               </span>
 
-                              <div class="user-grade">
+                              <div
+                                class="user-grade"
+                                *ngIf="
+                                  (student.userGrading.grade | json) != '{}'
+                                "
+                              >
                                 <div
                                   *ngIf="
                                     student.userGrading.grade.point !=
                                       undefined &&
                                     student.userGrading.grade.point != null
                                   "
-                                  class="b-white justify-content-center d-flex"
+                                  class="justify-content-center d-flex"
                                   [style.background]="
                                     student.userGrading.sepalColor.background
                                   "
