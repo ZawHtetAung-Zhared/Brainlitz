@@ -739,6 +739,40 @@
                                   "
                                 />
                               </span>
+
+                              <div
+                                class="user-grade"
+                                *ngIf="
+                                  (student.userGrading.grade | json) != '{}'
+                                "
+                              >
+                                <div
+                                  *ngIf="
+                                    student.userGrading.grade.point !=
+                                      undefined &&
+                                    student.userGrading.grade.point != null
+                                  "
+                                  class="justify-content-center d-flex"
+                                  [style.background]="
+                                    student.userGrading.sepalColor.background
+                                  "
+                                  [ngClass]="{
+                                    'test-circle':
+                                      student.userGrading.grade.point.length ==
+                                      1,
+                                    circle:
+                                      student.userGrading.grade.point.length > 1
+                                  }"
+                                >
+                                  <span
+                                    [style.color]="
+                                      student.userGrading.sepalColor.text
+                                    "
+                                  >
+                                    {{ student.userGrading.grade.point }}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
                             <span
                               class="medium-font"
@@ -1084,14 +1118,14 @@
             >
               Lesson
             </button>
-            <button
+            <!-- <button
               [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
               class="btn course-tab"
               (click)="clickTab('APG', 'course')"
               [disabled]="disabledTab"
             >
               Tracking Module
-            </button>
+            </button> -->
           </div>
           <div class="activeTab-content" *ngIf="activeTab == 'People'">
             <div
@@ -1300,11 +1334,21 @@
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
                         </div>
+                        <!-- <div
+                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+                        >
+                          A
+                        </div> -->
                       </div>
                       <div *ngIf="user.invoice == null">
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
                         </div>
+                        <!-- <div
+                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+                        >
+                          A
+                        </div> -->
                       </div>
                       <div
                         class="single-user-info d-flex flex-column justify-content-center"
@@ -1341,12 +1385,6 @@
                               : user.email
                           }}
                         </h4>
-                        <!-- Paid/Unpaid -->
-                        <!-- <p *ngIf="user.invoice != null">
-                        <span *ngIf="user.invoice.status == 'PAID'" class="paid">Paid</span>
-                        <span *ngIf="user.invoice.status == 'UNPAID'" class="unpaid">Unpaid</span>
-                        <span *ngIf="user.invoice.status == 'PAID[PARTIAL]'" class="paid">Paid[Partial]</span>
-                      </p> -->
                       </div>
                       <div class="ml-auto remover-wrap">
                         <span
@@ -1589,6 +1627,16 @@
                         }}
                       </p>
                     </div>
+                    <div class="single-user-info d-flex">
+                      <p *ngIf="user.preferredName == ''">
+                        {{
+                          user.email.length > 20
+                            ? (user.email | slice: 0:20) + '...'
+                            : user.email
+                        }}
+                      </p>
+                    </div>
+
                     <div class="d-flex ml-auto pr-3">
                       <span
                         class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
@@ -2194,10 +2242,17 @@
                       <label class="mail">{{ selectedCustomer.email }}</label>
                     </div>
                   </div>
-                  <div class="col-md-6 modal-userInfo">
+                  <div
+                    class="col-md-6 modal-userInfo"
+                    *ngIf="selectedCustomer.fullName != ''"
+                  >
                     <label class="mb-0">Full name</label>
                     <p class="modal-p">{{ selectedCustomer.fullName }}</p>
                   </div>
+                  <div
+                    class="col-md-6 modal-userInfo"
+                    *ngIf="selectedCustomer.fullName == ''"
+                  ></div>
                 </div>
                 <div class="row single-user-wrap pad-15">
                   <div
