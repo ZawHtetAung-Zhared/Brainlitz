@@ -3098,7 +3098,7 @@ input:checked + .slider:before {
 
 .card-columns.evaluation-list {
   column-count: 3;
-  padding: 10px;
+  padding: 20px;
 }
 p.course-name {
   color: #2e3d4d;
@@ -3131,7 +3131,7 @@ span.by-name {
 }
 
 .row.progress-list {
-  padding: 10px;
+  padding: 20px;
   max-height: 320px;
   overflow: overlay;
 }
