@@ -1165,8 +1165,17 @@ li button {
   height: 25px;
 }
 .student-profile-wrapper {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  margin-right: 20px;
+  height: 50px;
+  background: #c8e2f4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.student-profile-wrapper1 {
+  width: 50px;
+  height: 50px;
   background: #c8e2f4;
   position: relative;
   overflow: hidden;
@@ -3511,4 +3520,34 @@ i.fa.fa-angle-left.flexiBackicon {
   color: #3d5266;
   font-weight: bold;
   padding-right: 4px;
+}
+.test-circle {
+  border-radius: 50%;
+  font-size: 12px;
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  align-items: center;
+}
+.circle {
+  display: flex;
+  align-items: center;
+  height: 20px !important;
+  /* border: 1.5px solid #ffffff; */
+  border-radius: 12px;
+  padding-top: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  font-size: 12px;
+  padding: 0px 15px;
+  width: 28px !important;
+  justify-content: center;
+}
+.user-grade {
+  margin-left: 35px;
+  margin-top: 30px;
+  position: absolute;
 }

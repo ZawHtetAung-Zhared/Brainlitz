@@ -2233,8 +2233,8 @@ export class UsersComponent implements OnInit {
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
-    if (event.target.value.search(/^0/) != -1) {
-      event.target.value = '';
-    }
+    // if (event.target.value.search(/^0/) != -1) {
+    //   event.target.value = '';
+    // }
   }
 }

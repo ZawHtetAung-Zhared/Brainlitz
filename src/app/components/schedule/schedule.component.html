@@ -95,10 +95,6 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectData(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
             >
               {{ category.name }}
             </li>
@@ -348,12 +344,8 @@
 
           <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
             <li
-              *ngFor="let category of categoryList; let i = index"
+              *ngFor="let category of categoryList"
               (click)="selectDataApiCall(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
             >
               {{ category.name }}
             </li>
@@ -2165,6 +2157,12 @@
                   >
                     <h4 class="mb-0">{{ user.preferredName }}</h4>
                   </div>
+                  <div
+                    class="single-user-info d-flex flex-column justify-content-center"
+                    *ngIf="user.preferredName == ''"
+                  >
+                    <h4 class="mb-0">{{ user.email }}</h4>
+                  </div>
                   <div class="ml-auto remover-wrap">
                     <div class="add-user d-flex justify-content-end"></div>
                   </div>
@@ -2189,10 +2187,17 @@
                         <label class="mail">{{ selectedCustomer.email }}</label>
                       </div>
                     </div>
-                    <div class="col-md-6 modal-userInfo">
+                    <div
+                      class="col-md-6 modal-userInfo"
+                      *ngIf="selectedCustomer.fullName != ''"
+                    >
                       <label class="mb-0">Full name</label>
                       <p class="modal-p">{{ selectedCustomer.fullName }}</p>
                     </div>
+                    <div
+                      class="col-md-6 modal-userInfo"
+                      *ngIf="selectedCustomer.fullName == ''"
+                    ></div>
                   </div>
                   <div class="row single-user-wrap pad-15 m-0 p-0">
                     <div
@@ -2657,6 +2662,18 @@
                   }}
                 </p>
               </div>
+              <div
+                class="d-flex justify-content-center flex-column"
+                *ngIf="student.preferredName == ''"
+              >
+                <p class="mb-0 student-name pl-2">
+                  {{
+                    student.email.length > 20
+                      ? (student.email | slice: 0:15) + '...'
+                      : student.email
+                  }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -2705,6 +2722,18 @@
               <div class="d-flex justify-content-center flex-column">
                 <p class="mb-0 student-name text-white pl-2">
                   {{ student.preferredName }}
+                </p>
+              </div>
+              <div
+                class="d-flex justify-content-center flex-column"
+                *ngIf="student.preferredName == ''"
+              >
+                <p class="mb-0 student-name  text-white pl-2">
+                  {{
+                    student.email.length > 20
+                      ? (student.email | slice: 0:15) + '...'
+                      : student.email
+                  }}
                 </p>
               </div>
             </div>

@@ -91,6 +91,26 @@
                 src="{{ customer.profilePic }}"
               />
             </div>
+            <div
+              style="margin-left: 60px;margin-top: -30px;position: relative;"
+            >
+              <div
+                *ngIf="
+                  customer.userGrading.grade.point != undefined &&
+                  customer.userGrading.grade.point != null
+                "
+                class="b-white justify-content-center d-flex"
+                [style.background]="customer.userGrading.sepalColor.background"
+                [ngClass]="{
+                  'test-circle': customer.userGrading.grade.point.length == 1,
+                  circle: customer.userGrading.grade.point.length > 1
+                }"
+              >
+                <span [style.color]="customer.userGrading.sepalColor.text">
+                  {{ customer.userGrading.grade.point }}
+                </span>
+              </div>
+            </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
             <h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">
@@ -172,6 +192,29 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
+            <div class="user-grade">
+              <div
+                *ngIf="
+                  custDetail.user.userGrading?.grade.point != undefined &&
+                  custDetail.user.userGrading?.grade.point != null
+                "
+                class="b-white justify-content-center d-flex"
+                [style.background]="
+                  custDetail.user.userGrading.sepalColor.background
+                "
+                [ngClass]="{
+                  'test-circle':
+                    custDetail.user.userGrading.grade.point.length == 1,
+                  circle: custDetail.user.userGrading.grade.point.length > 1
+                }"
+              >
+                <span
+                  [style.color]="custDetail.user.userGrading.sepalColor.text"
+                >
+                  {{ custDetail.user.userGrading.grade.point }}
+                </span>
+              </div>
+            </div>
           </div>
           <div class="pad-left-15" style="width: 80%">
             <div class="infoGp-wrap">
@@ -183,7 +226,11 @@
               <p *ngIf="custDetail.user.about" class="mb-0">
                 {{ custDetail.user.about }}
               </p>
-              <p *ngIf="!custDetail.user.about" class="mb-0 info-p">
+              <p
+                *ngIf="!custDetail.user.about"
+                class="mb-0 info-p"
+                style="margin-top: -20px"
+              >
                 -
               </p>
             </div>
@@ -211,6 +258,7 @@
                       src="{{ guardian.profilePic }}"
                     />
                   </div>
+
                   <div class="guar-name">
                     {{
                       guardian.fullName == '' || guardian.fullName == null
@@ -246,10 +294,17 @@
         </div>
         <div class="pad-left-15 col-right">
           <div>
-            <div class="infoGp-wrap">
+            <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
               <label class="info-mail">Full name</label>
               <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
               <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
+            </div>
+            <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
+              <label class="info-mail">Full name</label>
+              <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
+              <p class="mb-0 info-p">
+                -
+              </p>
             </div>
             <div class="d-flex info-wrap details-list-wrap">
               <div class="list-wrapper detail-list">
@@ -622,29 +677,39 @@
                         </div>
                       </div>
                     </div>
-                    <label
-                      class="class-label-14 mb-0"
-                      style="padding-left: 20px"
-                      *ngFor="let day of course.repeatDays | weekDays"
-                      >{{ course.type == 'ONLINE' ? '' : day }}</label
-                    >
-                    <p
-                      style="padding-left: 20px"
-                      *ngIf="course.duration != undefined"
-                      class="medium-label-14 mb-0"
-                    >
-                      {{
-                        course.type == 'ONLINE'
-                          ? ''
-                          : (course.duration.startDate | utcTime)
-                      }}
-                      {{ course.type == 'ONLINE' ? '' : '-' }}
-                      {{
-                        course.type == 'ONLINE'
-                          ? ''
-                          : (course.duration.endDate | utcTime)
-                      }}
-                    </p>
+                    <div class="d-flex info-wrap justify-content-between">
+                      <div>
+                        <label
+                          class="class-label-14 mb-0"
+                          style="padding-left: 20px"
+                          *ngFor="let day of course.repeatDays | weekDays"
+                          >{{ course.type == 'ONLINE' ? '' : day }}</label
+                        >
+                        <p
+                          style="padding-left: 20px"
+                          *ngIf="course.duration != undefined"
+                          class="medium-label-14 mb-0"
+                        >
+                          {{
+                            course.type == 'ONLINE'
+                              ? ''
+                              : (course.duration.startDate | utcTime)
+                          }}
+                          {{ course.type == 'ONLINE' ? '' : '-' }}
+                          {{
+                            course.type == 'ONLINE'
+                              ? ''
+                              : (course.duration.endDate | utcTime)
+                          }}
+                        </p>
+                      </div>
+                      <div class="remaining">
+                        <span class="medium-label-14"
+                          >{{ course.upComingLessonCount }} remaining
+                          lessons</span
+                        >
+                      </div>
+                    </div>
                     <div class="line mt-3"></div>
                     <div class="d-flex justify-content-between">
                       <div class="d-flex" style="padding-left: 20px">
