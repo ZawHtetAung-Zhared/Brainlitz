@@ -740,7 +740,12 @@
                                 />
                               </span>
 
-                              <div class="user-grade">
+                              <div
+                                class="user-grade"
+                                *ngIf="
+                                  (student.userGrading.grade | json) != '{}'
+                                "
+                              >
                                 <div
                                   *ngIf="
                                     student.userGrading.grade.point !=
