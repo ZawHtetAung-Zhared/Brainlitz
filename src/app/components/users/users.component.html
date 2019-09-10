@@ -1060,9 +1060,8 @@
                     </p>
                   </div>
                   <div class="evaluation-body">
-                    <!-- {{vedificationPagination(evaluation.assessments)}} -->
                     {{ evaluation.assessments.isLoadmore }}
-                    <carousel [showControls]="evaluation.assessments.length">
+                    <carousel>
                       <ng-container *ngFor="let ass of evaluation.assessments">
                         <ng-container *carouselItem>
                           <div
