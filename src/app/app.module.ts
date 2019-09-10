@@ -114,6 +114,11 @@ import { RescheduleComponent } from './components/reschedule/reschedule.componen
 import { FinancialPipe } from './service/pipe/financial.pipe';
 import { NumericValidationDirective } from './components/invoice/numeric-validation.directive';
 import { UserGradingComponent } from './components/apg/user-grading/user-grading.component';
+import {
+  CarouselComponent,
+  CarouselItemElement
+} from './components/users/carousel/carousel.component';
+import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
 
 @NgModule({
   declarations: [
@@ -193,7 +198,10 @@ import { UserGradingComponent } from './components/apg/user-grading/user-grading
     AssignReliefComponent,
     FinancialPipe,
     NumericValidationDirective,
-    UserGradingComponent
+    UserGradingComponent,
+    CarouselComponent,
+    CarouselItemDirective,
+    CarouselItemElement
   ],
   imports: [
     ContentLoaderModule,
