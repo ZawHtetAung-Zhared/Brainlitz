@@ -1904,8 +1904,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   searchSelectedLesson(type) {
     console.log(this.courseDetail.lessons);
-
-    this.courseDetail.lessons.map(lesson => {
+    if(this.courseDetail.lessons != undefined){
+      this.courseDetail.lessons.map(lesson => {
       console.log(lesson.startDate);
       var lessondate = lesson.startDate.split('T')[0];
       console.log(lessondate);
@@ -1920,6 +1920,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.activeTab = type;
       }
     });
+    }
   }
   getUserInCourse() {
     //temp api for testing UI
