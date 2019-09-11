@@ -1948,11 +1948,11 @@ export class CourseComponent implements OnInit {
       // }
       // console.log(this.stdLists)
 
-      // if (this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats) {
-      //   this.isSeatAvailable = false;
-      // } else {
-      //   this.isSeatAvailable = true;
-      // }
+      if (this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats) {
+        this.isSeatAvailable = false;
+      } else {
+        this.isSeatAvailable = true;
+      }
     }
 
     // if(state == 'outside'){
