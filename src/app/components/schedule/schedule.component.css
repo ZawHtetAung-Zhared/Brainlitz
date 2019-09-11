@@ -1056,6 +1056,10 @@ tbody td {
   height: 52px;
   display: table-cell;
 }
+.teacher_name {
+  color: #64707d !important;
+  font-size: 14px !important;
+}
 .lesson-slot {
   position: absolute;
   /*top: 0;*/

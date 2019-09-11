@@ -2846,7 +2846,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           $(event.target).offset().top + $(event.target).height() + 20;
       }
 
-      this.arrTop = this.yPosition - 20;
+      this.arrTop = this.yPosition - 41;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
       if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
@@ -2861,18 +2861,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           'arr-up': true
         };
       }
-
       if ($(document).width() - this.xPosition < 420) {
         this.xPosition = 0;
         this.styleArr = {
-          top: this.yPosition + 'px',
+          top: this.yPosition - 21 + 'px',
           right: '0px'
         };
         // this.styleArr.top=this.yPosition+"px";
         // this.styleArr.right="0px";
       } else {
         this.styleArr = {
-          top: this.yPosition + 'px',
+          top: this.yPosition - 21 + 'px',
           left: this.xPosition + 'px'
         };
         // this.styleArr.top=this.yPosition+"px";
