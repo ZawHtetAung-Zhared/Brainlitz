@@ -1960,6 +1960,13 @@ export class CourseComponent implements OnInit {
     //   this.getUsersInCourse(id);
     // }
 
+    if (this.detailLists.type == 'REGULAR') {
+      for (var i in this.pplLists.CUSTOMER) {
+        console.log(this.pplLists.CUSTOMER[i]);
+        this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
+      }
+    }
+
     this.selectedUserLists = [];
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, {
