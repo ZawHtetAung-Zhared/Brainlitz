@@ -1916,7 +1916,7 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  addUserModal(type, userModal, state, id) {
+  addUserModal(type, userModal, state, id, courseType) {
     console.log(type);
     console.log(state);
     console.log(this.selectCustomer);
@@ -1959,13 +1959,16 @@ export class CourseComponent implements OnInit {
     //   console.log("outside");
     //   this.getUsersInCourse(id);
     // }
-
-    if (this.detailLists.type == 'REGULAR') {
-      for (var i in this.pplLists.CUSTOMER) {
-        console.log(this.pplLists.CUSTOMER[i]);
-        this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
+    console.log('courseType', courseType);
+    setTimeout(() => {
+      if (courseType == 'REGULAR') {
+        for (var i in this.pplLists.CUSTOMER) {
+          console.log(this.pplLists.CUSTOMER[i]);
+          this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
+        }
       }
-    }
+      console.log('stdLists', this.stdLists);
+    }, 1000);
 
     this.selectedUserLists = [];
     this.selectedUserId = [];
