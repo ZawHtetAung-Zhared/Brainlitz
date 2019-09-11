@@ -835,7 +835,8 @@
                                 'customer',
                                 customerModal,
                                 'outside',
-                                course._id
+                                course._id,
+                                course.type
                               )
                             "
                           >
@@ -1142,7 +1143,15 @@
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
                     class="btn btn-create"
-                    (click)="addUserModal('teacher', userModal, 'inside', '')"
+                    (click)="
+                      addUserModal(
+                        'teacher',
+                        userModal,
+                        'inside',
+                        '',
+                        detailLists.type
+                      )
+                    "
                   >
                     Change teacher
                   </button>
@@ -1181,7 +1190,15 @@
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
                     class="btn btn-create"
-                    (click)="addUserModal('staff', userModal, 'inside', '')"
+                    (click)="
+                      addUserModal(
+                        'staff',
+                        userModal,
+                        'inside',
+                        '',
+                        detailLists.type
+                      )
+                    "
                   >
                     Add teacher
                   </button>
@@ -1309,7 +1326,12 @@
                     type="button"
                     class="btn btn-create"
                     (click)="
-                      addUserModal('customer', customerModal, 'inside', '')
+                      addUserModal(
+                        'customer',
+                        customerModal,
+                        'inside',
+                        detailLists.type
+                      )
                     "
                     style="height:40px;"
                   >
