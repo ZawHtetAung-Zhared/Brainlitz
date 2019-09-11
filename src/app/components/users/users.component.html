@@ -1146,9 +1146,18 @@
                               class="assessment-list"
                               *ngFor="let evaluate of ass.evaluations"
                             >
-                              <p class="assessment-name">
-                                {{ evaluate.apName }}
-                              </p>
+                              <div class="d-flex">
+                                <p class="assessment-name">
+                                  {{ evaluate.apName }}
+                                </p>
+                                <p
+                                  class="assessment-by"
+                                  *ngIf="ass.createdDate != null"
+                                >
+                                  by {{ evaluate.by }}
+                                </p>
+                              </div>
+
                               <span
                                 class="evaluation-status noData"
                                 *ngIf="evaluate.status == 'NEUTRAL'"
@@ -1164,10 +1173,7 @@
                                 *ngIf="evaluate.status == 'PASS'"
                                 >Achieved</span
                               >
-                              <div
-                                class="d-flex flex-wrap"
-                                style="max-width: 300px;"
-                              >
+                              <div class="d-flex flex-wrap evaluate-details">
                                 <span
                                   class="list-dot-wrap"
                                   *ngFor="
