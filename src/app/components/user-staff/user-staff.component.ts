@@ -107,6 +107,7 @@ export class UserStaffComponent implements OnInit {
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/staff') {
         this.permissionType = data;
+        this.staffLists = [];
         this.checkPermission();
       }
     });
