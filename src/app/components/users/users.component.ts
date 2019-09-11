@@ -1759,7 +1759,6 @@ export class UsersComponent implements OnInit {
             this.achievementProgess = res;
           } else if (type == 3) {
             this.achievementEvaluation = res;
-            this.vedificationPagination('a');
           }
           console.log('Progress', this.achievementProgess);
           console.log('Evaluation', this.achievementEvaluation);
@@ -2235,24 +2234,8 @@ export class UsersComponent implements OnInit {
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }
-    if (event.target.value.search(/^0/) != -1) {
-      event.target.value = '';
-    }
-  }
-  isNext: boolean = false;
-  vedificationPagination(obj) {
-    console.log(this.achievementEvaluation);
-    for (let i = 0; i < this.achievementEvaluation.length; i++) {
-      // console.log(this.achievementEvaluation[i].assessments)
-
-      if (this.achievementEvaluation[i].assessments.length > 1) {
-        this.achievementEvaluation[i].isLoadmore = true;
-        this.isNext = true;
-      } else {
-        this.achievementEvaluation[i].isLoadmore = false;
-        this.isNext = false;
-      }
-      console.log(this.isNext);
-    }
+    // if (event.target.value.search(/^0/) != -1) {
+    //   event.target.value = '';
+    // }
   }
 }

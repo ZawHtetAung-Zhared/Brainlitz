@@ -37,12 +37,12 @@ export class CarouselItemElement {}
       </ul>
     </section>
     <div
-      *ngIf="isShow"
+      *ngIf="this.items.length > 1"
       class="d-flex justify-content-between carousel-footer"
       id="carousel-footer"
     >
-      <button (click)="next()" class="btn btn-default">Next</button>
-      <button (click)="prev()" class="btn btn-default">Prev</button>
+      <button (click)="next()" class="btn btn-default">Prev</button>
+      <button (click)="prev()" class="btn btn-default">Next</button>
     </div>
   `,
   styleUrls: ['./carousel.component.css']
@@ -91,14 +91,9 @@ export class CarouselComponent implements AfterViewInit {
   }
 
   constructor(private builder: AnimationBuilder) {}
-  isShow: boolean = false;
   ngAfterViewInit() {
-    if (this.showControls > 1) {
-      this.isShow = true;
-    } else {
-      this.isShow = false;
-    }
-    console.log(this.isShow);
+    console.log('a', this.showControls);
+    console.log('b', this.items.length);
     // For some reason only here I need to add setTimeout, in my local env it's working without this.
     setTimeout(() => {
       this.itemWidth = this.itemsElements.first.nativeElement.getBoundingClientRect().width;
