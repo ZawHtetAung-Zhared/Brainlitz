@@ -95,10 +95,6 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectData(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
             >
               {{ category.name }}
             </li>
@@ -350,10 +346,6 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectDataApiCall(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
             >
               {{ category.name }}
             </li>
@@ -2067,14 +2059,10 @@
     <div class="d-flex tabs-wrapper tab-name">
       <button
         class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
+        [disabled]="enrollBtnDisabled"
         [ngClass]="{
           active: activeTab == 'enroll',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
+          disabled: enrollBtnDisabled
         }"
         (click)="
           onClickModalTab(

@@ -2819,17 +2819,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.showPayment = false;
     this.selectedCustomer = {};
     // this.showDp = true;
-    console.log(e);
-    console.log(course.seat);
-    console.log(course.seat.left);
-    console.log(course.seat.taken, course.seat.total);
-    console.log(lesson);
+    console.log(this.selectedCourse.course.type);
+
     e.preventDefault();
     e.stopPropagation();
-    if (course.seat.left != null && course.seat.taken >= course.seat.total)
+    console.log(this.courseDetail);
+
+    if (
+      course.seat.left != null &&
+      course.seat.taken >= course.seat.total &&
+      this.selectedCourse.course.type == 'REGULAR'
+    )
       this.enrollBtnDisabled = true;
     else this.enrollBtnDisabled = false;
-    console.log('date', date);
+    console.log('enrollBtnDisable', this.enrollBtnDisabled);
     this.lessonD = date;
     console.log(course.seat);
     console.log($(event.target).parents());
