@@ -1,16 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment-timezone';
+import { months, monthsShort } from 'moment';
 
 @Pipe({
   name: 'utcDateAndDay'
 })
 export class UtcDateAndDayPipe implements PipeTransform {
   transform(getDate): any {
-    if (true) {
-      getDate = moment(getDate).format('YYYY-MM-DD');
-      // console.warn(getDate)
-    }
-
     let d = new Date(getDate).getUTCDay();
     const monthNames = [
       'Jan',
@@ -60,7 +56,7 @@ export class UtcDateAndDayPipe implements PipeTransform {
       ' ' +
       monthName +
       ' ' +
-      year;
+      year.substr(-2);
     return utcDateAndDay;
   }
 }

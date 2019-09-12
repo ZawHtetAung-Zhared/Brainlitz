@@ -95,6 +95,10 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectData(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
@@ -346,6 +350,10 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectDataApiCall(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
@@ -794,6 +802,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -808,6 +819,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -1116,6 +1128,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -1130,6 +1145,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -1559,6 +1575,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -1573,6 +1592,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -2016,7 +2036,7 @@
             class="tearchDate"
             *ngIf="selectedCourse != null || selectedCourse != undefined"
           >
-            {{ lessonD | utcDateAndDay }}
+            {{ lessonD | utcDateByObj }}
             /
             {{ selectedCourse.start.hr }} :
             {{
@@ -2047,14 +2067,10 @@
     <div class="d-flex tabs-wrapper tab-name">
       <button
         class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
+        [disabled]="enrollBtnDisabled"
         [ngClass]="{
           active: activeTab == 'enroll',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
+          disabled: enrollBtnDisabled
         }"
         (click)="
           onClickModalTab(
@@ -2148,6 +2164,12 @@
                   (click)="selectCustomer('user', user.userId, 'customer')"
                   *ngFor="let user of userLists"
                   class="d-flex flex-row search-user justify-content-center align-items-center"
+                  [ngClass]="
+                    stdArr.indexOf(user.userId) > -1 &&
+                    detailLists.type == 'REGULAR'
+                      ? 'hide-user'
+                      : ''
+                  "
                 >
                   <div class="profile-wrap">
                     <img src="{{ user.profilePic }}" />
@@ -2247,7 +2269,9 @@
               type="submit"
               class="btn btn-submit"
               [disabled]="
-                (selectedCustomer | json) == '{}' || noSetting == true
+                (selectedCustomer | json) == '{}' ||
+                isDisabledBtn ||
+                noSetting == true
               "
               (click)="addCustomer(courseDetail, userType)"
             >

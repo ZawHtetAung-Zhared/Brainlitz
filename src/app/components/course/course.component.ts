@@ -1916,50 +1916,10 @@ export class CourseComponent implements OnInit {
     });
   }
 
-  addUserModal(type, userModal, state, id) {
-    console.log(type);
-    console.log(state);
-    console.log(this.selectCustomer);
-    console.log(this.selectedTeacherLists);
-    // console.log(this.detailLists);
+  addUserModal(type, userModal, state, id, courseType) {
     this.selectedCustomer = {};
     this.selectedTeacherLists = [];
     this.isvalidID = state;
-    if (state != 'inside') {
-      console.log('first');
-      this.isSeatAvailable = true;
-      this.getCourseDetail(id);
-      this.getUsersInCourse(id);
-    } else if (this.detailLists.seat_left == null) {
-      console.log('second');
-      this.isSeatAvailable = true;
-      // this.getCourseDetail(id);
-    } else {
-      console.log('third');
-      // if(this.detailLists.seat_left == 0){
-      //   this.isSeatAvailable = false;
-      // }else{
-      //   this.isSeatAvailable = true;
-      // }
-
-      // for (var i in this.pplLists.CUSTOMER) {
-      //   console.log(this.pplLists.CUSTOMER[i])
-      //   this.stdLists.push(this.pplLists.CUSTOMER[i].userId)
-      // }
-      // console.log(this.stdLists)
-
-      if (this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats) {
-        this.isSeatAvailable = false;
-      } else {
-        this.isSeatAvailable = true;
-      }
-    }
-
-    // if(state == 'outside'){
-    //   console.log("outside");
-    //   this.getUsersInCourse(id);
-    // }
-
     this.selectedUserLists = [];
     this.selectedUserId = [];
     this.modalReference = this.modalService.open(userModal, {
@@ -1968,11 +1928,40 @@ export class CourseComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this.userType = type;
-    console.log('detail seats left', this.detailLists.seat_left);
-    console.log(this.selectedUserLists.length);
-    console.log(this.isSeatAvailable);
-    console.log((this.showInvoice = false));
-    console.log((this.showPayment = false));
+    return new Promise((resolve, reject) => {
+      if (state != 'inside') {
+        console.log('first');
+        this.isSeatAvailable = true;
+        this.getCourseDetail(id);
+        this.getUsersInCourse(id);
+      } else if (this.detailLists.seat_left == null) {
+        console.log('second');
+        this.isSeatAvailable = true;
+        // this.getCourseDetail(id);
+      } else {
+        console.log('third');
+
+        if (
+          this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats
+        ) {
+          this.isSeatAvailable = false;
+        } else {
+          this.isSeatAvailable = true;
+        }
+      }
+      resolve();
+    }).then(() => {
+      setTimeout(() => {
+        console.log('detail lists', this.detailLists);
+        if (courseType == 'REGULAR' && type == 'customer') {
+          for (var i in this.pplLists.CUSTOMER) {
+            console.log(this.pplLists.CUSTOMER[i]);
+            this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
+          }
+        }
+        console.log(this.stdLists);
+      }, 500);
+    });
   }
 
   viewInvoice(data) {

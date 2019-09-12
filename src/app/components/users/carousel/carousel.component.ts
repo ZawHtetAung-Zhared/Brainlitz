@@ -41,8 +41,8 @@ export class CarouselItemElement {}
       class="d-flex justify-content-between carousel-footer"
       id="carousel-footer"
     >
-      <button (click)="next()" class="btn btn-default">Next</button>
-      <button (click)="prev()" class="btn btn-default">Prev</button>
+      <button (click)="next()" class="btn btn-default">Prev</button>
+      <button (click)="prev()" class="btn btn-default">Next</button>
     </div>
   `,
   styleUrls: ['./carousel.component.css']
