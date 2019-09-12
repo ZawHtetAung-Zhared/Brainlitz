@@ -1727,6 +1727,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.reasonValue = '';
       this.textAreaOption = false;
       this.isGlobal = false;
+      this.stdArr = [];
       console.log('exit');
     }
     this.showflexyCourse = false;
@@ -1810,7 +1811,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }, 400);
   }
 
+  stdArr = [];
   addEnrollModal(modal, type, courseID, seat) {
+    this.stdArr = [];
     console.log(type);
     console.log(this.selectedTeacher);
 
@@ -1881,6 +1884,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.activeTab = type;
     if (type == 'enroll') {
       this.activeTab = type;
+      return new Promise((resolve, reject) => {
+        this.getUserInCourse();
+        resolve();
+      }).then(() => {
+        setTimeout(() => {
+          console.log(this.detailLists);
+          if (this.detailLists.type == 'REGULAR') {
+            this.studentLists.map(customer => {
+              this.stdArr.push(customer.userId);
+            });
+          }
+        }, 1000);
+      });
     } else if (type == 'view') {
       this.activeTab = type;
       this.getUserInCourse();
@@ -1904,22 +1920,25 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   searchSelectedLesson(type) {
     console.log(this.courseDetail.lessons);
-    if(this.courseDetail.lessons != undefined){
+    if (this.courseDetail.lessons != undefined) {
       this.courseDetail.lessons.map(lesson => {
-      console.log(lesson.startDate);
-      var lessondate = lesson.startDate.split('T')[0];
-      console.log(lessondate);
-      var m =
-        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
-      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
-      var tempDate = this.lessonD.year + '-' + m + '-' + d;
-      console.log('tempDate', tempDate);
-      if (lessondate == tempDate) {
-        this.selectedLesson = lesson;
-        console.log('selected lesson', this.selectedLesson);
-        this.activeTab = type;
-      }
-    });
+        console.log(lesson.startDate);
+        var lessondate = lesson.startDate.split('T')[0];
+        console.log(lessondate);
+        var m =
+          this.lessonD.month < 10
+            ? '0' + this.lessonD.month
+            : this.lessonD.month;
+        var d =
+          this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+        var tempDate = this.lessonD.year + '-' + m + '-' + d;
+        console.log('tempDate', tempDate);
+        if (lessondate == tempDate) {
+          this.selectedLesson = lesson;
+          console.log('selected lesson', this.selectedLesson);
+          this.activeTab = type;
+        }
+      });
     }
   }
   getUserInCourse() {
@@ -2052,6 +2071,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else {
       this.stdLists = [];
+      this.stdArr = [];
       console.log('call from addCustomer', this.selectedCustomer);
       let body = {
         courseId: cDetail._id,
