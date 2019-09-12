@@ -1361,7 +1361,44 @@
                           style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
                         >
                           A
+                         *ngIf="
+                        (user.grade | json) != '{}'
+                      "
+                      *ngIf="
+                           option.point !=
+                              undefined &&
+                              option.point != null
+                          "
                         </div> -->
+                        <div
+                          style="margin-left: 35px;margin-top: -20px;position: relative;"
+                          class="user-grade"
+                        >
+                          <div
+                            [ngClass]="{
+                              'test-circle':
+                                user.grade.gradeOptions[
+                                  user.grade.gradeOptions.length - 1
+                                ].point.length == 1,
+                              circle:
+                                user.grade.gradeOptions[
+                                  user.grade.gradeOptions.length - 1
+                                ].point.length > 1
+                            }"
+                            class="justify-content-center d-flex"
+                            [style.background]="
+                              user.grade.sepalColor.background
+                            "
+                          >
+                            <span [style.color]="user.grade.sepalColor.text">
+                              {{
+                                user.grade.gradeOptions[
+                                  user.grade.gradeOptions.length - 1
+                                ].point
+                              }}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <div *ngIf="user.invoice == null">
                         <div class="img-wrap">
