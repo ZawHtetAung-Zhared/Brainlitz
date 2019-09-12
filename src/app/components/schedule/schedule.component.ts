@@ -197,6 +197,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   tempCourdeId: any;
   tempuserType: any;
   public showflexyCourse: boolean = false;
+  public courseInfo = {};
+  isDisabledBtn = false;
+  stdArr = [];
   showcb: boolean = false;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -1728,6 +1731,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.textAreaOption = false;
       this.isGlobal = false;
       this.stdArr = [];
+      this.isDisabledBtn = false;
       console.log('exit');
     }
     this.showflexyCourse = false;
@@ -1811,7 +1815,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }, 400);
   }
 
-  stdArr = [];
   addEnrollModal(modal, type, courseID, seat) {
     this.stdArr = [];
     console.log(type);
@@ -2035,6 +2038,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       this.showList = false;
+      if (this.detailLists.type == 'FLEXY') {
+        if (this.detailLists.seat_left === 0) {
+          // console.log(this.pplLists)
+          var includedUserId = this.studentLists.findIndex(
+            x => x.userId === this.selectedCustomer.userId
+          );
+          console.log('includedUserId~~~', includedUserId);
+          if (includedUserId == -1) {
+            this.isDisabledBtn = true;
+            console.log('includedUserId == -1', this.isDisabledBtn);
+          } else {
+            this.isDisabledBtn = false;
+            console.log('includedUserId != -1', this.isDisabledBtn);
+          }
+        }
+      }
     });
   }
 
@@ -2051,6 +2070,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   ctype: any;
   addCustomer(cDetail, userType) {
+    this.isDisabledBtn = false;
     console.log(userType);
     console.log(cDetail);
     console.log(this.selectCustomer);
@@ -2787,8 +2807,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-
-  courseInfo = {};
 
   onClickCourse(course, lesson, e, date, list, type) {
     this.overlap = false;

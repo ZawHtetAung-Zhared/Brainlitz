@@ -2273,7 +2273,9 @@
               type="submit"
               class="btn btn-submit"
               [disabled]="
-                (selectedCustomer | json) == '{}' || noSetting == true
+                (selectedCustomer | json) == '{}' ||
+                isDisabledBtn ||
+                noSetting == true
               "
               (click)="addCustomer(courseDetail, userType)"
             >
