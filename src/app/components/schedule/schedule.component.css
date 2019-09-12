@@ -18,6 +18,9 @@
 .payment-item {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
+.hide-user {
+  display: none !important;
+}
 .info-header {
   font-size: 20px;
   color: #2e3d4d;
@@ -1055,6 +1058,10 @@ tbody td {
   /*height: 42px;*/
   height: 52px;
   display: table-cell;
+}
+.teacher_name {
+  color: #64707d !important;
+  font-size: 14px !important;
 }
 .lesson-slot {
   position: absolute;

@@ -119,6 +119,7 @@ import {
   CarouselItemElement
 } from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
+import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
 
 @NgModule({
   declarations: [
@@ -201,7 +202,8 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     UserGradingComponent,
     CarouselComponent,
     CarouselItemDirective,
-    CarouselItemElement
+    CarouselItemElement,
+    UtcDateByObjPipe
   ],
   imports: [
     ContentLoaderModule,

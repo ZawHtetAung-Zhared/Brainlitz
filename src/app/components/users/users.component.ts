@@ -250,6 +250,7 @@ export class UsersComponent implements OnInit {
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/customer') {
         this.permissionType = data;
+        this.customerLists = [];
         this.checkPermission();
       }
     });

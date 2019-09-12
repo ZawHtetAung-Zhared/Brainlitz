@@ -197,6 +197,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   tempCourdeId: any;
   tempuserType: any;
   public showflexyCourse: boolean = false;
+  public courseInfo = {};
+  isDisabledBtn = false;
+  stdArr = [];
   showcb: boolean = false;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -1727,6 +1730,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.reasonValue = '';
       this.textAreaOption = false;
       this.isGlobal = false;
+      this.stdArr = [];
+      this.isDisabledBtn = false;
       console.log('exit');
     }
     this.showflexyCourse = false;
@@ -1811,6 +1816,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    this.stdArr = [];
     console.log(type);
     console.log(this.selectedTeacher);
 
@@ -1823,6 +1829,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     this.courseId = courseID;
     this.selectedSeat = seat;
+    console.log(this.selectedSeat);
+
     this.getCourseDetail(this.courseId, modal);
     // if (seat.left != null && seat.taken >= seat.total)
     this.onClickModalTab(type);
@@ -1881,6 +1889,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.activeTab = type;
     if (type == 'enroll') {
       this.activeTab = type;
+      return new Promise((resolve, reject) => {
+        this.getUserInCourse();
+        resolve();
+      }).then(() => {
+        setTimeout(() => {
+          console.log(this.detailLists);
+          if (this.detailLists.type == 'REGULAR') {
+            this.studentLists.map(customer => {
+              this.stdArr.push(customer.userId);
+            });
+          }
+        }, 1000);
+      });
     } else if (type == 'view') {
       this.activeTab = type;
       this.getUserInCourse();
@@ -1904,22 +1925,26 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   searchSelectedLesson(type) {
     console.log(this.courseDetail.lessons);
-
-    this.courseDetail.lessons.map(lesson => {
-      console.log(lesson.startDate);
-      var lessondate = lesson.startDate.split('T')[0];
-      console.log(lessondate);
-      var m =
-        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
-      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
-      var tempDate = this.lessonD.year + '-' + m + '-' + d;
-      console.log('tempDate', tempDate);
-      if (lessondate == tempDate) {
-        this.selectedLesson = lesson;
-        console.log('selected lesson', this.selectedLesson);
-        this.activeTab = type;
-      }
-    });
+    if (this.courseDetail.lessons != undefined) {
+      this.courseDetail.lessons.map(lesson => {
+        console.log(lesson.startDate);
+        var lessondate = lesson.startDate.split('T')[0];
+        console.log(lessondate);
+        var m =
+          this.lessonD.month < 10
+            ? '0' + this.lessonD.month
+            : this.lessonD.month;
+        var d =
+          this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+        var tempDate = this.lessonD.year + '-' + m + '-' + d;
+        console.log('tempDate', tempDate);
+        if (lessondate == tempDate) {
+          this.selectedLesson = lesson;
+          console.log('selected lesson', this.selectedLesson);
+          this.activeTab = type;
+        }
+      });
+    }
   }
   getUserInCourse() {
     //temp api for testing UI
@@ -1931,6 +1956,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
+          this.selectedSeat.taken = this.studentLists.length;
+          this.selectedSeat.left =
+            this.selectedSeat.total - this.selectedSeat.taken;
+          console.log(this.selectedSeat);
+
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
           });
@@ -2008,6 +2038,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       this.showList = false;
+      if (this.detailLists.type == 'FLEXY') {
+        if (this.detailLists.seat_left === 0) {
+          // console.log(this.pplLists)
+          var includedUserId = this.studentLists.findIndex(
+            x => x.userId === this.selectedCustomer.userId
+          );
+          console.log('includedUserId~~~', includedUserId);
+          if (includedUserId == -1) {
+            this.isDisabledBtn = true;
+            console.log('includedUserId == -1', this.isDisabledBtn);
+          } else {
+            this.isDisabledBtn = false;
+            console.log('includedUserId != -1', this.isDisabledBtn);
+          }
+        }
+      }
     });
   }
 
@@ -2024,6 +2070,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   ctype: any;
   addCustomer(cDetail, userType) {
+    this.isDisabledBtn = false;
     console.log(userType);
     console.log(cDetail);
     console.log(this.selectCustomer);
@@ -2051,6 +2098,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else {
       this.stdLists = [];
+      this.stdArr = [];
       console.log('call from addCustomer', this.selectedCustomer);
       let body = {
         courseId: cDetail._id,
@@ -2095,6 +2143,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           Object.assign(this.detailLists, res.body);
           this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
+
+          this.getUserInCourse();
         },
         err => {
           console.log(err);
@@ -2758,8 +2808,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.cancelUItext= false;
   }
 
-  courseInfo = {};
-
   onClickCourse(course, lesson, e, date, list, type) {
     this.overlap = false;
     console.log(type);
@@ -2806,17 +2854,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.showPayment = false;
     this.selectedCustomer = {};
     // this.showDp = true;
-    console.log(e);
-    console.log(course.seat);
-    console.log(course.seat.left);
-    console.log(course.seat.taken, course.seat.total);
-    console.log(lesson);
+    console.log(this.selectedCourse.course.type);
+
     e.preventDefault();
     e.stopPropagation();
-    if (course.seat.left != null && course.seat.taken >= course.seat.total)
+    console.log(this.courseDetail);
+
+    if (
+      course.seat.left != null &&
+      course.seat.taken >= course.seat.total &&
+      this.selectedCourse.course.type == 'REGULAR'
+    )
       this.enrollBtnDisabled = true;
     else this.enrollBtnDisabled = false;
-    console.log('date', date);
+    console.log('enrollBtnDisable', this.enrollBtnDisabled);
     this.lessonD = date;
     console.log(course.seat);
     console.log($(event.target).parents());
@@ -2846,7 +2897,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           $(event.target).offset().top + $(event.target).height() + 20;
       }
 
-      this.arrTop = this.yPosition - 20;
+      this.arrTop = this.yPosition - 41;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
       if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
@@ -2861,18 +2912,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           'arr-up': true
         };
       }
-
       if ($(document).width() - this.xPosition < 420) {
         this.xPosition = 0;
         this.styleArr = {
-          top: this.yPosition + 'px',
+          top: this.yPosition - 21 + 'px',
           right: '0px'
         };
         // this.styleArr.top=this.yPosition+"px";
         // this.styleArr.right="0px";
       } else {
         this.styleArr = {
-          top: this.yPosition + 'px',
+          top: this.yPosition - 21 + 'px',
           left: this.xPosition + 'px'
         };
         // this.styleArr.top=this.yPosition+"px";
@@ -3181,6 +3231,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
+
         // this.courseInfo = this.detailLists;
         Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
@@ -3211,7 +3262,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.showPayment = false;
         this.showOneInvoice(this.invoice);
       });
-
+    this.getUserInCourse();
     //add lesson
     console.log(this.checkobjArr);
   }

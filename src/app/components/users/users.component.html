@@ -1079,7 +1079,7 @@
 
             <div class="row progress-list">
               <div
-                class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-1 mb-1 display-block"
+                class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4"
                 *ngFor="let progress of achievementProgess"
               >
                 <div class="progress-box">
@@ -1146,9 +1146,18 @@
                               class="assessment-list"
                               *ngFor="let evaluate of ass.evaluations"
                             >
-                              <p class="assessment-name">
-                                {{ evaluate.apName }}
-                              </p>
+                              <div class="d-flex">
+                                <p class="assessment-name">
+                                  {{ evaluate.apName }}
+                                </p>
+                                <p
+                                  class="assessment-by"
+                                  *ngIf="ass.createdDate != null"
+                                >
+                                  by {{ evaluate.by }}
+                                </p>
+                              </div>
+
                               <span
                                 class="evaluation-status noData"
                                 *ngIf="evaluate.status == 'NEUTRAL'"
@@ -1164,10 +1173,7 @@
                                 *ngIf="evaluate.status == 'PASS'"
                                 >Achieved</span
                               >
-                              <div
-                                class="d-flex flex-wrap"
-                                style="max-width: 300px;"
-                              >
+                              <div class="d-flex flex-wrap evaluate-details">
                                 <span
                                   class="list-dot-wrap"
                                   *ngFor="
