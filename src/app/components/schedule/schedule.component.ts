@@ -1823,6 +1823,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     this.courseId = courseID;
     this.selectedSeat = seat;
+    console.log(this.selectedSeat);
+
     this.getCourseDetail(this.courseId, modal);
     // if (seat.left != null && seat.taken >= seat.total)
     this.onClickModalTab(type);
@@ -1931,6 +1933,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           // this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
+          this.selectedSeat.taken = this.studentLists.length;
+          this.selectedSeat.left =
+            this.selectedSeat.total - this.selectedSeat.taken;
+          console.log(this.selectedSeat);
+
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
           });
@@ -2095,6 +2102,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           Object.assign(this.detailLists, res.body);
           this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
+
+          this.getUserInCourse();
         },
         err => {
           console.log(err);
@@ -3180,6 +3189,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
+
         // this.courseInfo = this.detailLists;
         Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
@@ -3210,7 +3220,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.showPayment = false;
         this.showOneInvoice(this.invoice);
       });
-
+    this.getUserInCourse();
     //add lesson
     console.log(this.checkobjArr);
   }

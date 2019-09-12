@@ -2028,7 +2028,7 @@
             class="tearchDate"
             *ngIf="selectedCourse != null || selectedCourse != undefined"
           >
-            {{ lessonD | utcDateAndDay }}
+            {{ lessonD | utcDateByObj }}
             /
             {{ selectedCourse.start.hr }} :
             {{
