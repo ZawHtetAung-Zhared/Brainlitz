@@ -179,6 +179,7 @@ export class CourseComponent implements OnInit {
   public planCategory: any;
   showList: boolean = false;
 
+  public grade = 1;
   public draft: boolean;
   public selectedCustomer: any = {};
   public showInvoice: boolean = false;
