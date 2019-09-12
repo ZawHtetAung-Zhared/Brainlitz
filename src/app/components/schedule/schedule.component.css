@@ -18,6 +18,9 @@
 .payment-item {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
+.hide-user {
+  display: none !important;
+}
 .info-header {
   font-size: 20px;
   color: #2e3d4d;
@@ -891,7 +894,7 @@ thead th:first-child,
 }
 
 .single-range {
-  min-width: 121px;
+  min-width: 181px;
   display: table-cell;
 }
 .single-slot {
@@ -900,7 +903,7 @@ thead th:first-child,
   float: left;
 }
 .single-slot:first-child {
-  min-width: 121px;
+  min-width: 181px;
   text-align: center;
   /*padding-left: 15px;*/
 }
@@ -1048,13 +1051,17 @@ tbody td {
   border-right: 1px solid #edeff0;
 }
 .one-slot {
-  width: 60px;
+  width: 90px;
   /*width: 4px;*/
   /*background: red;*/
   /*outline: 1px solid #eee;*/
   /*height: 42px;*/
   height: 52px;
   display: table-cell;
+}
+.teacher_name {
+  color: #64707d !important;
+  font-size: 14px !important;
 }
 .lesson-slot {
   position: absolute;

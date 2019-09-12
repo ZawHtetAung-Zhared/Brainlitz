@@ -348,7 +348,7 @@
 
           <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
             <li
-              *ngFor="let category of categoryList; let i = index"
+              *ngFor="let category of categoryList"
               (click)="selectDataApiCall(category)"
               [ngClass]="{
                 'all-category': category._id == 'all',
@@ -650,13 +650,13 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          121 +
-                        121 +
+                          181 +
+                        181 +
                         'px',
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          2.01 +
+                          3.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null && !timetable.lesson.cancel"
@@ -677,7 +677,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min > 60"
+                            *ngIf="timetable.duration.min > 40"
                           >
                             <p
                               [ngClass]="{
@@ -703,7 +703,7 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min <= 60"
+                            *ngIf="timetable.duration.min <= 40"
                           >
                             <p
                               [ngClass]="{
@@ -736,7 +736,7 @@
                         <div
                           class="image"
                           *ngIf="
-                            timetable.duration.min >= 60 && isTeacherAll == true
+                            timetable.duration.min >= 40 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -802,6 +802,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -816,6 +819,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -960,13 +964,13 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          121 +
-                        121 +
+                          181 +
+                        181 +
                         'px',
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          2.01 +
+                          3.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null && timetable.lesson.cancel"
@@ -1124,6 +1128,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -1138,6 +1145,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -1333,7 +1341,7 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min > 60"
+                            *ngIf="timetable.duration.min > 40"
                           >
                             <div class="mt-0  cancel-text">
                               Cancelled
@@ -1347,8 +1355,8 @@
                           <div
                             class="d-flex"
                             *ngIf="
-                              timetable.duration.min <= 60 &&
-                              timetable.duration.min > 30
+                              timetable.duration.min <= 40 &&
+                              timetable.duration.min > 20
                             "
                           >
                             <div class="mt-0  cancel-text">
@@ -1363,7 +1371,7 @@
                         <div
                           class="image"
                           *ngIf="
-                            timetable.duration.min >= 60 && isTeacherAll == true
+                            timetable.duration.min >= 40 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1403,13 +1411,13 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          121 +
-                        121 +
+                          181 +
+                        181 +
                         'px',
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          2.01 +
+                          3.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null && !timetable.lesson.cancel"
@@ -1441,7 +1449,7 @@
                           </h6>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min > 60"
+                            *ngIf="timetable.duration.min > 40"
                           >
                             <p
                               *ngIf="timetable.seat != null"
@@ -1468,7 +1476,7 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min <= 60"
+                            *ngIf="timetable.duration.min <= 40"
                           >
                             <p
                               *ngIf="timetable.seat != null"
@@ -1503,7 +1511,7 @@
                         <div
                           class="image"
                           *ngIf="
-                            timetable.duration.min >= 60 && isTeacherAll == true
+                            timetable.duration.min >= 40 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -1567,6 +1575,9 @@
                             >
                               {{ timetable.course.name }}
                             </div>
+                            <p class="teacher_name">
+                              {{ timetable.course.teachers[0].preferredName }}
+                            </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
                                 >{{ timetable.lesson.count }} lesson
@@ -1581,6 +1592,7 @@
                                 </li>
                               </ul>
                             </div>
+                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
                           </div>
                         </div>
                         <div class="">
@@ -1718,13 +1730,13 @@
                       left:
                         ((timetable.start | calculatePM) -
                           (startTime | calculatePM)) *
-                          121 +
-                        121 +
+                          181 +
+                        181 +
                         'px',
                       width:
                         ((timetable.end | hourToMin) -
                           (timetable.start | hourToMin)) *
-                          2.01 +
+                          3.01 +
                         'px'
                     }"
                     *ngIf="timetable.course != null && timetable.lesson.cancel"
@@ -1818,7 +1830,7 @@
                           </div>
                           <div
                             class="d-flex"
-                            *ngIf="timetable.duration.min > 60"
+                            *ngIf="timetable.duration.min > 40"
                           >
                             <div class="mt-0 cancel-text">
                               Cancelled
@@ -1832,8 +1844,8 @@
                           <div
                             class="d-flex"
                             *ngIf="
-                              timetable.duration.min <= 60 &&
-                              timetable.duration.min > 30
+                              timetable.duration.min <= 40 &&
+                              timetable.duration.min > 20
                             "
                           >
                             <div class="mt-0 cancel-text">
@@ -1849,7 +1861,7 @@
                         <div
                           class="image"
                           *ngIf="
-                            timetable.duration.min >= 60 && isTeacherAll == true
+                            timetable.duration.min >= 40 && isTeacherAll == true
                           "
                         >
                           <div class=" tchr-img-wraper">
@@ -2024,7 +2036,7 @@
             class="tearchDate"
             *ngIf="selectedCourse != null || selectedCourse != undefined"
           >
-            {{ lessonD | utcDateAndDay }}
+            {{ lessonD | utcDateByObj }}
             /
             {{ selectedCourse.start.hr }} :
             {{
@@ -2055,14 +2067,10 @@
     <div class="d-flex tabs-wrapper tab-name">
       <button
         class="modal-tab cursor-on"
-        [disabled]="
-          selectedSeat.left !== null && selectedSeat.taken >= selectedSeat.total
-        "
+        [disabled]="enrollBtnDisabled"
         [ngClass]="{
           active: activeTab == 'enroll',
-          disabled:
-            selectedSeat.left !== null &&
-            selectedSeat.taken >= selectedSeat.total
+          disabled: enrollBtnDisabled
         }"
         (click)="
           onClickModalTab(
@@ -2156,6 +2164,12 @@
                   (click)="selectCustomer('user', user.userId, 'customer')"
                   *ngFor="let user of userLists"
                   class="d-flex flex-row search-user justify-content-center align-items-center"
+                  [ngClass]="
+                    stdArr.indexOf(user.userId) > -1 &&
+                    detailLists.type == 'REGULAR'
+                      ? 'hide-user'
+                      : ''
+                  "
                 >
                   <div class="profile-wrap">
                     <img src="{{ user.profilePic }}" />
@@ -2164,6 +2178,12 @@
                     class="single-user-info d-flex flex-column justify-content-center pl-4"
                   >
                     <h4 class="mb-0">{{ user.preferredName }}</h4>
+                  </div>
+                  <div
+                    class="single-user-info d-flex flex-column justify-content-center"
+                    *ngIf="user.preferredName == ''"
+                  >
+                    <h4 class="mb-0">{{ user.email }}</h4>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <div class="add-user d-flex justify-content-end"></div>
@@ -2189,10 +2209,17 @@
                         <label class="mail">{{ selectedCustomer.email }}</label>
                       </div>
                     </div>
-                    <div class="col-md-6 modal-userInfo">
+                    <div
+                      class="col-md-6 modal-userInfo"
+                      *ngIf="selectedCustomer.fullName != ''"
+                    >
                       <label class="mb-0">Full name</label>
                       <p class="modal-p">{{ selectedCustomer.fullName }}</p>
                     </div>
+                    <div
+                      class="col-md-6 modal-userInfo"
+                      *ngIf="selectedCustomer.fullName == ''"
+                    ></div>
                   </div>
                   <div class="row single-user-wrap pad-15 m-0 p-0">
                     <div
@@ -2242,7 +2269,9 @@
               type="submit"
               class="btn btn-submit"
               [disabled]="
-                (selectedCustomer | json) == '{}' || noSetting == true
+                (selectedCustomer | json) == '{}' ||
+                isDisabledBtn ||
+                noSetting == true
               "
               (click)="addCustomer(courseDetail, userType)"
             >
@@ -2657,6 +2686,18 @@
                   }}
                 </p>
               </div>
+              <div
+                class="d-flex justify-content-center flex-column"
+                *ngIf="student.preferredName == ''"
+              >
+                <p class="mb-0 student-name pl-2">
+                  {{
+                    student.email.length > 20
+                      ? (student.email | slice: 0:15) + '...'
+                      : student.email
+                  }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -2705,6 +2746,18 @@
               <div class="d-flex justify-content-center flex-column">
                 <p class="mb-0 student-name text-white pl-2">
                   {{ student.preferredName }}
+                </p>
+              </div>
+              <div
+                class="d-flex justify-content-center flex-column"
+                *ngIf="student.preferredName == ''"
+              >
+                <p class="mb-0 student-name  text-white pl-2">
+                  {{
+                    student.email.length > 20
+                      ? (student.email | slice: 0:15) + '...'
+                      : student.email
+                  }}
                 </p>
               </div>
             </div>
