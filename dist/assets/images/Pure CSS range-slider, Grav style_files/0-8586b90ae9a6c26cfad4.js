@@ -14196,9 +14196,10 @@ webpackJsonp([0], {
           }
           return (
             (t.createSynthesizedRemoteEventForCurrentChange = function(e, n) {
-              var r = ((i = {}),
-              (i[e] = Mn.createSynthesizedTargetChangeForCurrentChange(e, n)),
-              i);
+              var r =
+                ((i = {}),
+                (i[e] = Mn.createSynthesizedTargetChangeForCurrentChange(e, n)),
+                i);
               return new t(dn.MIN, r, it(), tt(), rt());
               var i;
             }),
@@ -15856,183 +15857,184 @@ webpackJsonp([0], {
           }
           return t;
         })(),
-        ar = ((function(t) {
-          function e() {
-            var e = t.call(this) || this;
-            (e.chain_ = []),
-              (e.buf_ = []),
-              (e.W_ = []),
-              (e.pad_ = []),
-              (e.inbuf_ = 0),
-              (e.total_ = 0),
-              (e.blockSize = 64),
-              (e.pad_[0] = 128);
-            for (var n = 1; n < e.blockSize; ++n) e.pad_[n] = 0;
-            return e.reset(), e;
-          }
-          se.__extends(e, t),
-            (e.prototype.reset = function() {
-              (this.chain_[0] = 1732584193),
-                (this.chain_[1] = 4023233417),
-                (this.chain_[2] = 2562383102),
-                (this.chain_[3] = 271733878),
-                (this.chain_[4] = 3285377520),
-                (this.inbuf_ = 0),
-                (this.total_ = 0);
-            }),
-            (e.prototype.compress_ = function(t, e) {
-              e || (e = 0);
-              var n = this.W_;
-              if ('string' == typeof t)
-                for (var r = 0; r < 16; r++)
-                  (n[r] =
-                    (t.charCodeAt(e) << 24) |
-                    (t.charCodeAt(e + 1) << 16) |
-                    (t.charCodeAt(e + 2) << 8) |
-                    t.charCodeAt(e + 3)),
-                    (e += 4);
-              else
-                for (var r = 0; r < 16; r++)
-                  (n[r] =
-                    (t[e] << 24) |
-                    (t[e + 1] << 16) |
-                    (t[e + 2] << 8) |
-                    t[e + 3]),
-                    (e += 4);
-              for (var r = 16; r < 80; r++) {
-                var i = n[r - 3] ^ n[r - 8] ^ n[r - 14] ^ n[r - 16];
-                n[r] = 4294967295 & ((i << 1) | (i >>> 31));
-              }
-              for (
-                var o,
-                  a,
-                  s = this.chain_[0],
-                  u = this.chain_[1],
-                  c = this.chain_[2],
-                  h = this.chain_[3],
-                  l = this.chain_[4],
-                  r = 0;
-                r < 80;
-                r++
-              ) {
-                r < 40
-                  ? r < 20
-                    ? ((o = h ^ (u & (c ^ h))), (a = 1518500249))
-                    : ((o = u ^ c ^ h), (a = 1859775393))
-                  : r < 60
-                  ? ((o = (u & c) | (h & (u | c))), (a = 2400959708))
-                  : ((o = u ^ c ^ h), (a = 3395469782));
-                var i =
-                  (((s << 5) | (s >>> 27)) + o + l + a + n[r]) & 4294967295;
-                (l = h),
-                  (h = c),
-                  (c = 4294967295 & ((u << 30) | (u >>> 2))),
-                  (u = s),
-                  (s = i);
-              }
-              (this.chain_[0] = (this.chain_[0] + s) & 4294967295),
-                (this.chain_[1] = (this.chain_[1] + u) & 4294967295),
-                (this.chain_[2] = (this.chain_[2] + c) & 4294967295),
-                (this.chain_[3] = (this.chain_[3] + h) & 4294967295),
-                (this.chain_[4] = (this.chain_[4] + l) & 4294967295);
-            }),
-            (e.prototype.update = function(t, e) {
-              if (null != t) {
-                void 0 === e && (e = t.length);
-                for (
-                  var n = e - this.blockSize,
-                    r = 0,
-                    i = this.buf_,
-                    o = this.inbuf_;
-                  r < e;
-
-                ) {
-                  if (0 == o)
-                    for (; r <= n; )
-                      this.compress_(t, r), (r += this.blockSize);
-                  if ('string' == typeof t) {
-                    for (; r < e; )
-                      if (
-                        ((i[o] = t.charCodeAt(r)),
-                        ++o,
-                        ++r,
-                        o == this.blockSize)
-                      ) {
-                        this.compress_(i), (o = 0);
-                        break;
-                      }
-                  } else
-                    for (; r < e; )
-                      if (((i[o] = t[r]), ++o, ++r, o == this.blockSize)) {
-                        this.compress_(i), (o = 0);
-                        break;
-                      }
+        ar =
+          ((function(t) {
+            function e() {
+              var e = t.call(this) || this;
+              (e.chain_ = []),
+                (e.buf_ = []),
+                (e.W_ = []),
+                (e.pad_ = []),
+                (e.inbuf_ = 0),
+                (e.total_ = 0),
+                (e.blockSize = 64),
+                (e.pad_[0] = 128);
+              for (var n = 1; n < e.blockSize; ++n) e.pad_[n] = 0;
+              return e.reset(), e;
+            }
+            se.__extends(e, t),
+              (e.prototype.reset = function() {
+                (this.chain_[0] = 1732584193),
+                  (this.chain_[1] = 4023233417),
+                  (this.chain_[2] = 2562383102),
+                  (this.chain_[3] = 271733878),
+                  (this.chain_[4] = 3285377520),
+                  (this.inbuf_ = 0),
+                  (this.total_ = 0);
+              }),
+              (e.prototype.compress_ = function(t, e) {
+                e || (e = 0);
+                var n = this.W_;
+                if ('string' == typeof t)
+                  for (var r = 0; r < 16; r++)
+                    (n[r] =
+                      (t.charCodeAt(e) << 24) |
+                      (t.charCodeAt(e + 1) << 16) |
+                      (t.charCodeAt(e + 2) << 8) |
+                      t.charCodeAt(e + 3)),
+                      (e += 4);
+                else
+                  for (var r = 0; r < 16; r++)
+                    (n[r] =
+                      (t[e] << 24) |
+                      (t[e + 1] << 16) |
+                      (t[e + 2] << 8) |
+                      t[e + 3]),
+                      (e += 4);
+                for (var r = 16; r < 80; r++) {
+                  var i = n[r - 3] ^ n[r - 8] ^ n[r - 14] ^ n[r - 16];
+                  n[r] = 4294967295 & ((i << 1) | (i >>> 31));
                 }
-                (this.inbuf_ = o), (this.total_ += e);
-              }
-            }),
-            (e.prototype.digest = function() {
-              var t = [],
-                e = 8 * this.total_;
-              this.inbuf_ < 56
-                ? this.update(this.pad_, 56 - this.inbuf_)
-                : this.update(this.pad_, this.blockSize - (this.inbuf_ - 56));
-              for (var n = this.blockSize - 1; n >= 56; n--)
-                (this.buf_[n] = 255 & e), (e /= 256);
-              this.compress_(this.buf_);
-              for (var r = 0, n = 0; n < 5; n++)
-                for (var i = 24; i >= 0; i -= 8)
-                  (t[r] = (this.chain_[n] >> i) & 255), ++r;
-              return t;
-            });
-        })(or),
-        (function() {
-          function t(t) {
-            (this.sendFn = t.sendFn), (this.closeFn = t.closeFn);
-          }
-          return (
-            (t.prototype.onOpen = function(t) {
-              c(!this.wrappedOnOpen, 'Called onOpen on stream twice!'),
-                (this.wrappedOnOpen = t);
-            }),
-            (t.prototype.onClose = function(t) {
-              c(!this.wrappedOnClose, 'Called onClose on stream twice!'),
-                (this.wrappedOnClose = t);
-            }),
-            (t.prototype.onMessage = function(t) {
-              c(!this.wrappedOnMessage, 'Called onMessage on stream twice!'),
-                (this.wrappedOnMessage = t);
-            }),
-            (t.prototype.close = function() {
-              this.closeFn();
-            }),
-            (t.prototype.send = function(t) {
-              this.sendFn(t);
-            }),
-            (t.prototype.callOnOpen = function() {
-              c(
-                void 0 !== this.wrappedOnOpen,
-                'Cannot call onOpen because no callback was set'
-              ),
-                this.wrappedOnOpen();
-            }),
-            (t.prototype.callOnClose = function(t) {
-              c(
-                void 0 !== this.wrappedOnClose,
-                'Cannot call onClose because no callback was set'
-              ),
-                this.wrappedOnClose(t);
-            }),
-            (t.prototype.callOnMessage = function(t) {
-              c(
-                void 0 !== this.wrappedOnMessage,
-                'Cannot call onMessage because no callback was set'
-              ),
-                this.wrappedOnMessage(t);
-            }),
-            t
-          );
-        })()),
+                for (
+                  var o,
+                    a,
+                    s = this.chain_[0],
+                    u = this.chain_[1],
+                    c = this.chain_[2],
+                    h = this.chain_[3],
+                    l = this.chain_[4],
+                    r = 0;
+                  r < 80;
+                  r++
+                ) {
+                  r < 40
+                    ? r < 20
+                      ? ((o = h ^ (u & (c ^ h))), (a = 1518500249))
+                      : ((o = u ^ c ^ h), (a = 1859775393))
+                    : r < 60
+                    ? ((o = (u & c) | (h & (u | c))), (a = 2400959708))
+                    : ((o = u ^ c ^ h), (a = 3395469782));
+                  var i =
+                    (((s << 5) | (s >>> 27)) + o + l + a + n[r]) & 4294967295;
+                  (l = h),
+                    (h = c),
+                    (c = 4294967295 & ((u << 30) | (u >>> 2))),
+                    (u = s),
+                    (s = i);
+                }
+                (this.chain_[0] = (this.chain_[0] + s) & 4294967295),
+                  (this.chain_[1] = (this.chain_[1] + u) & 4294967295),
+                  (this.chain_[2] = (this.chain_[2] + c) & 4294967295),
+                  (this.chain_[3] = (this.chain_[3] + h) & 4294967295),
+                  (this.chain_[4] = (this.chain_[4] + l) & 4294967295);
+              }),
+              (e.prototype.update = function(t, e) {
+                if (null != t) {
+                  void 0 === e && (e = t.length);
+                  for (
+                    var n = e - this.blockSize,
+                      r = 0,
+                      i = this.buf_,
+                      o = this.inbuf_;
+                    r < e;
+
+                  ) {
+                    if (0 == o)
+                      for (; r <= n; )
+                        this.compress_(t, r), (r += this.blockSize);
+                    if ('string' == typeof t) {
+                      for (; r < e; )
+                        if (
+                          ((i[o] = t.charCodeAt(r)),
+                          ++o,
+                          ++r,
+                          o == this.blockSize)
+                        ) {
+                          this.compress_(i), (o = 0);
+                          break;
+                        }
+                    } else
+                      for (; r < e; )
+                        if (((i[o] = t[r]), ++o, ++r, o == this.blockSize)) {
+                          this.compress_(i), (o = 0);
+                          break;
+                        }
+                  }
+                  (this.inbuf_ = o), (this.total_ += e);
+                }
+              }),
+              (e.prototype.digest = function() {
+                var t = [],
+                  e = 8 * this.total_;
+                this.inbuf_ < 56
+                  ? this.update(this.pad_, 56 - this.inbuf_)
+                  : this.update(this.pad_, this.blockSize - (this.inbuf_ - 56));
+                for (var n = this.blockSize - 1; n >= 56; n--)
+                  (this.buf_[n] = 255 & e), (e /= 256);
+                this.compress_(this.buf_);
+                for (var r = 0, n = 0; n < 5; n++)
+                  for (var i = 24; i >= 0; i -= 8)
+                    (t[r] = (this.chain_[n] >> i) & 255), ++r;
+                return t;
+              });
+          })(or),
+          (function() {
+            function t(t) {
+              (this.sendFn = t.sendFn), (this.closeFn = t.closeFn);
+            }
+            return (
+              (t.prototype.onOpen = function(t) {
+                c(!this.wrappedOnOpen, 'Called onOpen on stream twice!'),
+                  (this.wrappedOnOpen = t);
+              }),
+              (t.prototype.onClose = function(t) {
+                c(!this.wrappedOnClose, 'Called onClose on stream twice!'),
+                  (this.wrappedOnClose = t);
+              }),
+              (t.prototype.onMessage = function(t) {
+                c(!this.wrappedOnMessage, 'Called onMessage on stream twice!'),
+                  (this.wrappedOnMessage = t);
+              }),
+              (t.prototype.close = function() {
+                this.closeFn();
+              }),
+              (t.prototype.send = function(t) {
+                this.sendFn(t);
+              }),
+              (t.prototype.callOnOpen = function() {
+                c(
+                  void 0 !== this.wrappedOnOpen,
+                  'Cannot call onOpen because no callback was set'
+                ),
+                  this.wrappedOnOpen();
+              }),
+              (t.prototype.callOnClose = function(t) {
+                c(
+                  void 0 !== this.wrappedOnClose,
+                  'Cannot call onClose because no callback was set'
+                ),
+                  this.wrappedOnClose(t);
+              }),
+              (t.prototype.callOnMessage = function(t) {
+                c(
+                  void 0 !== this.wrappedOnMessage,
+                  'Cannot call onMessage because no callback was set'
+                ),
+                  this.wrappedOnMessage(t);
+              }),
+              t
+            );
+          })()),
         sr = 'Connection',
         ur = { BatchGetDocuments: 'batchGet', Commit: 'commit' },
         cr = 'gl-js/ fire/' + ce,

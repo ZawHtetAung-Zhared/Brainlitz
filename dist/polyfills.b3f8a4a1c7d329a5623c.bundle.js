@@ -1788,13 +1788,14 @@ webpackJsonp(
               q(C);
               var A = t.fetch;
               'function' == typeof A &&
-                (t.fetch = ((L = A),
-                function() {
-                  var t = L.apply(this, arguments);
-                  if (t instanceof I) return t;
-                  var e = t.constructor;
-                  return e[F] || q(e), t;
-                }));
+                (t.fetch =
+                  ((L = A),
+                  function() {
+                    var t = L.apply(this, arguments);
+                    if (t instanceof I) return t;
+                    var e = t.constructor;
+                    return e[F] || q(e), t;
+                  }));
             }
             return (Promise[e.__symbol__('uncaughtPromiseErrors')] = a), I;
           });

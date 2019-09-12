@@ -4613,10 +4613,11 @@
       (this.abbreviation = e),
         (this.range = t),
         (this.config = n),
-        (this.ast = ((r = e),
-        'stylesheet' === Xe((i = Ve((i = n))).type, i.syntax)
-          ? Pe(r, i)
-          : Ue(r, i))),
+        (this.ast =
+          ((r = e),
+          'stylesheet' === Xe((i = Ve((i = n))).type, i.syntax)
+            ? Pe(r, i)
+            : Ue(r, i))),
         (this.snippet = De(this.ast, n)),
         (this.preview = vt(this.snippet));
     };

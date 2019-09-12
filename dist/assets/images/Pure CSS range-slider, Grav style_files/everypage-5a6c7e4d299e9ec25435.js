@@ -38,21 +38,22 @@ webpackJsonp(
         c = t(1),
         l = t.n(c),
         s = t(69),
-        p = (t.n(s),
-        (function() {
-          function e(e, n) {
-            for (var t = 0; t < n.length; t++) {
-              var r = n[t];
-              (r.enumerable = r.enumerable || !1),
-                (r.configurable = !0),
-                'value' in r && (r.writable = !0),
-                Object.defineProperty(e, r.key, r);
+        p =
+          (t.n(s),
+          (function() {
+            function e(e, n) {
+              for (var t = 0; t < n.length; t++) {
+                var r = n[t];
+                (r.enumerable = r.enumerable || !1),
+                  (r.configurable = !0),
+                  'value' in r && (r.writable = !0),
+                  Object.defineProperty(e, r.key, r);
+              }
             }
-          }
-          return function(n, t, r) {
-            return t && e(n.prototype, t), r && e(n, r), n;
-          };
-        })()),
+            return function(n, t, r) {
+              return t && e(n.prototype, t), r && e(n, r), n;
+            };
+          })()),
         f = (function(e) {
           function n() {
             return (
@@ -2865,10 +2866,11 @@ webpackJsonp(
           return i;
         });
       var r = t(6),
-        o = (t.n(r),
-        function e(n) {
-          return c(a, e, n);
-        }),
+        o =
+          (t.n(r),
+          function e(n) {
+            return c(a, e, n);
+          }),
         a = function(e) {
           return e.replace(/_\w/g, function(e) {
             return e[1].toUpperCase();
@@ -5476,21 +5478,22 @@ webpackJsonp(
         l = t(407),
         s = t(15),
         p = t(21),
-        f = (t.n(p),
-        (function() {
-          function e(e, n) {
-            for (var t = 0; t < n.length; t++) {
-              var r = n[t];
-              (r.enumerable = r.enumerable || !1),
-                (r.configurable = !0),
-                'value' in r && (r.writable = !0),
-                Object.defineProperty(e, r.key, r);
+        f =
+          (t.n(p),
+          (function() {
+            function e(e, n) {
+              for (var t = 0; t < n.length; t++) {
+                var r = n[t];
+                (r.enumerable = r.enumerable || !1),
+                  (r.configurable = !0),
+                  'value' in r && (r.writable = !0),
+                  Object.defineProperty(e, r.key, r);
+              }
             }
-          }
-          return function(n, t, r) {
-            return t && e(n.prototype, t), r && e(n, r), n;
-          };
-        })()),
+            return function(n, t, r) {
+              return t && e(n.prototype, t), r && e(n, r), n;
+            };
+          })()),
         d = (function(e) {
           function n() {
             return (
@@ -5980,15 +5983,16 @@ webpackJsonp(
             '\n  {\n    popups @client {\n      id\n      modal {\n        id\n        type\n        props {\n          name\n          value\n        }\n      }\n    }\n  }\n'
           ]
         ),
-        S = ((u = {}),
-        i(u, d.a.PROJECT_LIMIT, l.a.createElement(f.a, null)),
-        i(u, d.a.LOG_IN_TO_CREATE_COLLECTION, l.a.createElement(E.a, null)),
-        i(u, d.a.LOG_IN_TO_CREATE_POSTS, l.a.createElement(h.a, null)),
-        i(u, d.a.LOG_IN_TO_CREATE_PROJECTS, l.a.createElement(v.a, null)),
-        i(u, d.a.CONFIRM_LOGOUT, l.a.createElement(O.a, null)),
-        i(u, d.a.QUERY_ERROR, l.a.createElement(_.a, null)),
-        i(u, d.a.MUTATION_ERROR, l.a.createElement(w.a, null)),
-        u),
+        S =
+          ((u = {}),
+          i(u, d.a.PROJECT_LIMIT, l.a.createElement(f.a, null)),
+          i(u, d.a.LOG_IN_TO_CREATE_COLLECTION, l.a.createElement(E.a, null)),
+          i(u, d.a.LOG_IN_TO_CREATE_POSTS, l.a.createElement(h.a, null)),
+          i(u, d.a.LOG_IN_TO_CREATE_PROJECTS, l.a.createElement(v.a, null)),
+          i(u, d.a.CONFIRM_LOGOUT, l.a.createElement(O.a, null)),
+          i(u, d.a.QUERY_ERROR, l.a.createElement(_.a, null)),
+          i(u, d.a.MUTATION_ERROR, l.a.createElement(w.a, null)),
+          u),
         j = b()(P),
         C = (function(e) {
           function n() {
@@ -7045,11 +7049,12 @@ webpackJsonp(
           ['\n  {\n    popups @client {\n      id\n      dialog\n    }\n  }\n'],
           ['\n  {\n    popups @client {\n      id\n      dialog\n    }\n  }\n']
         ),
-        _ = ((u = {}),
-        i(u, f.a, l.a.createElement(y.a, null)),
-        i(u, f.b, l.a.createElement(E.a, null)),
-        i(u, f.c, l.a.createElement(h.a, null)),
-        u),
+        _ =
+          ((u = {}),
+          i(u, f.a, l.a.createElement(y.a, null)),
+          i(u, f.b, l.a.createElement(E.a, null)),
+          i(u, f.c, l.a.createElement(h.a, null)),
+          u),
         w = m()(O),
         T = (function(e) {
           function n() {
@@ -8432,78 +8437,79 @@ webpackJsonp(
             return e.apply(this, arguments);
           };
         })(),
-        C = ((function() {
-          var e = r(
-            regeneratorRuntime.mark(function e(n) {
-              var t, r, o;
-              return regeneratorRuntime.wrap(
-                function(e) {
-                  for (;;)
-                    switch ((e.prev = e.next)) {
-                      case 0:
-                        return (e.next = 2), d();
-                      case 2:
-                        return (
-                          (t = e.sent),
-                          (e.next = 5),
-                          t.doc('analytics/' + n).get()
-                        );
-                      case 5:
-                        return (
-                          (r = e.sent),
-                          (o = void 0),
-                          r.exists && (o = r.data().events),
-                          e.abrupt('return', Array.isArray(o) ? o : [])
-                        );
-                      case 9:
-                      case 'end':
-                        return e.stop();
-                    }
-                },
-                e,
-                l
-              );
-            })
-          );
-        })(),
-        (function() {
-          var e = r(
-            regeneratorRuntime.mark(function e() {
-              var n, t;
-              return regeneratorRuntime.wrap(
-                function(e) {
-                  for (;;)
-                    switch ((e.prev = e.next)) {
-                      case 0:
-                        return (e.next = 2), d();
-                      case 2:
-                        return (
-                          (n = e.sent),
-                          (e.next = 5),
-                          n.doc('analytics/heap').get()
-                        );
-                      case 5:
-                        if (((t = e.sent), !t.exists)) {
-                          e.next = 8;
-                          break;
-                        }
-                        return e.abrupt('return', t.data());
-                      case 8:
-                        return e.abrupt('return', { enabled: !1 });
-                      case 9:
-                      case 'end':
-                        return e.stop();
-                    }
-                },
-                e,
-                l
-              );
-            })
-          );
-          return function() {
-            return e.apply(this, arguments);
-          };
-        })());
+        C =
+          ((function() {
+            var e = r(
+              regeneratorRuntime.mark(function e(n) {
+                var t, r, o;
+                return regeneratorRuntime.wrap(
+                  function(e) {
+                    for (;;)
+                      switch ((e.prev = e.next)) {
+                        case 0:
+                          return (e.next = 2), d();
+                        case 2:
+                          return (
+                            (t = e.sent),
+                            (e.next = 5),
+                            t.doc('analytics/' + n).get()
+                          );
+                        case 5:
+                          return (
+                            (r = e.sent),
+                            (o = void 0),
+                            r.exists && (o = r.data().events),
+                            e.abrupt('return', Array.isArray(o) ? o : [])
+                          );
+                        case 9:
+                        case 'end':
+                          return e.stop();
+                      }
+                  },
+                  e,
+                  l
+                );
+              })
+            );
+          })(),
+          (function() {
+            var e = r(
+              regeneratorRuntime.mark(function e() {
+                var n, t;
+                return regeneratorRuntime.wrap(
+                  function(e) {
+                    for (;;)
+                      switch ((e.prev = e.next)) {
+                        case 0:
+                          return (e.next = 2), d();
+                        case 2:
+                          return (
+                            (n = e.sent),
+                            (e.next = 5),
+                            n.doc('analytics/heap').get()
+                          );
+                        case 5:
+                          if (((t = e.sent), !t.exists)) {
+                            e.next = 8;
+                            break;
+                          }
+                          return e.abrupt('return', t.data());
+                        case 8:
+                          return e.abrupt('return', { enabled: !1 });
+                        case 9:
+                        case 'end':
+                          return e.stop();
+                      }
+                  },
+                  e,
+                  l
+                );
+              })
+            );
+            return function() {
+              return e.apply(this, arguments);
+            };
+          })());
       window.firestoreConnect = { onItemChanges: j, setItemAttributes: S };
       var R = window.__rtData,
         A = null,
@@ -9638,48 +9644,50 @@ webpackJsonp(
     },
     569: function(e, n) {
       n.__esModule = !0;
-      var t = ((n.ATTRIBUTE_NAMES = {
-          BODY: 'bodyAttributes',
-          HTML: 'htmlAttributes',
-          TITLE: 'titleAttributes'
-        }),
-        (n.TAG_NAMES = {
-          BASE: 'base',
-          BODY: 'body',
-          HEAD: 'head',
-          HTML: 'html',
-          LINK: 'link',
-          META: 'meta',
-          NOSCRIPT: 'noscript',
-          SCRIPT: 'script',
-          STYLE: 'style',
-          TITLE: 'title'
-        })),
-        r = ((n.VALID_TAG_NAMES = Object.keys(t).map(function(e) {
-          return t[e];
-        })),
-        (n.TAG_PROPERTIES = {
-          CHARSET: 'charset',
-          CSS_TEXT: 'cssText',
-          HREF: 'href',
-          HTTPEQUIV: 'http-equiv',
-          INNER_HTML: 'innerHTML',
-          ITEM_PROP: 'itemprop',
-          NAME: 'name',
-          PROPERTY: 'property',
-          REL: 'rel',
-          SRC: 'src'
-        }),
-        (n.REACT_TAG_MAP = {
-          accesskey: 'accessKey',
-          charset: 'charSet',
-          class: 'className',
-          contenteditable: 'contentEditable',
-          contextmenu: 'contextMenu',
-          'http-equiv': 'httpEquiv',
-          itemprop: 'itemProp',
-          tabindex: 'tabIndex'
-        }));
+      var t =
+          ((n.ATTRIBUTE_NAMES = {
+            BODY: 'bodyAttributes',
+            HTML: 'htmlAttributes',
+            TITLE: 'titleAttributes'
+          }),
+          (n.TAG_NAMES = {
+            BASE: 'base',
+            BODY: 'body',
+            HEAD: 'head',
+            HTML: 'html',
+            LINK: 'link',
+            META: 'meta',
+            NOSCRIPT: 'noscript',
+            SCRIPT: 'script',
+            STYLE: 'style',
+            TITLE: 'title'
+          })),
+        r =
+          ((n.VALID_TAG_NAMES = Object.keys(t).map(function(e) {
+            return t[e];
+          })),
+          (n.TAG_PROPERTIES = {
+            CHARSET: 'charset',
+            CSS_TEXT: 'cssText',
+            HREF: 'href',
+            HTTPEQUIV: 'http-equiv',
+            INNER_HTML: 'innerHTML',
+            ITEM_PROP: 'itemprop',
+            NAME: 'name',
+            PROPERTY: 'property',
+            REL: 'rel',
+            SRC: 'src'
+          }),
+          (n.REACT_TAG_MAP = {
+            accesskey: 'accessKey',
+            charset: 'charSet',
+            class: 'className',
+            contenteditable: 'contentEditable',
+            contextmenu: 'contextMenu',
+            'http-equiv': 'httpEquiv',
+            itemprop: 'itemProp',
+            tabindex: 'tabIndex'
+          }));
       (n.HELMET_PROPS = {
         DEFAULT_TITLE: 'defaultTitle',
         DEFER: 'defer',
@@ -12246,21 +12254,22 @@ webpackJsonp(
         f = t.n(p),
         d = t(4),
         m = t(919),
-        b = (t.n(m),
-        (function() {
-          function e(e, n) {
-            for (var t = 0; t < n.length; t++) {
-              var r = n[t];
-              (r.enumerable = r.enumerable || !1),
-                (r.configurable = !0),
-                'value' in r && (r.writable = !0),
-                Object.defineProperty(e, r.key, r);
+        b =
+          (t.n(m),
+          (function() {
+            function e(e, n) {
+              for (var t = 0; t < n.length; t++) {
+                var r = n[t];
+                (r.enumerable = r.enumerable || !1),
+                  (r.configurable = !0),
+                  'value' in r && (r.writable = !0),
+                  Object.defineProperty(e, r.key, r);
+              }
             }
-          }
-          return function(n, t, r) {
-            return t && e(n.prototype, t), r && e(n, r), n;
-          };
-        })()),
+            return function(n, t, r) {
+              return t && e(n.prototype, t), r && e(n, r), n;
+            };
+          })()),
         y = i(
           [
             '\n  {\n    item @client {\n      id\n    }\n    itemLocalState @client {\n      title\n    }\n  }\n'
@@ -15447,16 +15456,17 @@ webpackJsonp(
           f = t(945),
           d = t(946),
           m = (t.n(d), t(947)),
-          b = (t.n(m),
-          Object.assign ||
-            function(e) {
-              for (var n = 1; n < arguments.length; n++) {
-                var t = arguments[n];
-                for (var r in t)
-                  Object.prototype.hasOwnProperty.call(t, r) && (e[r] = t[r]);
-              }
-              return e;
-            }),
+          b =
+            (t.n(m),
+            Object.assign ||
+              function(e) {
+                for (var n = 1; n < arguments.length; n++) {
+                  var t = arguments[n];
+                  for (var r in t)
+                    Object.prototype.hasOwnProperty.call(t, r) && (e[r] = t[r]);
+                }
+                return e;
+              }),
           y = function(e, n) {
             return {
               __typename: 'Mutation',

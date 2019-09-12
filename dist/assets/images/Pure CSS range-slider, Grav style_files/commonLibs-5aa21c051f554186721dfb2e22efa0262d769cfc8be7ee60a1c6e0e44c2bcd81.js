@@ -82,12 +82,13 @@
           ? o
           : t(this[0].ownerDocument || document);
       },
-      uniqueId: ((n = 0),
-      function() {
-        return this.each(function() {
-          this.id || (this.id = 'ui-id-' + ++n);
-        });
-      }),
+      uniqueId:
+        ((n = 0),
+        function() {
+          return this.each(function() {
+            this.id || (this.id = 'ui-id-' + ++n);
+          });
+        }),
       removeUniqueId: function() {
         return this.each(function() {
           /^ui-id-\d+$/.test(this.id) && t(this).removeAttr('id');
@@ -159,32 +160,35 @@
       .data('a-b', 'a')
       .removeData('a-b')
       .data('a-b') &&
-      (t.fn.removeData = ((s = t.fn.removeData),
-      function(e) {
-        return arguments.length ? s.call(this, t.camelCase(e)) : s.call(this);
-      })),
+      (t.fn.removeData =
+        ((s = t.fn.removeData),
+        function(e) {
+          return arguments.length ? s.call(this, t.camelCase(e)) : s.call(this);
+        })),
     (t.ui.ie = !!/msie [\w.]+/.exec(navigator.userAgent.toLowerCase())),
     t.fn.extend({
-      focus: ((r = t.fn.focus),
-      function(e, i) {
-        return 'number' == typeof e
-          ? this.each(function() {
-              var n = this;
-              setTimeout(function() {
-                t(n).focus(), i && i.call(n);
-              }, e);
-            })
-          : r.apply(this, arguments);
-      }),
-      disableSelection: ((o =
-        'onselectstart' in document.createElement('div')
-          ? 'selectstart'
-          : 'mousedown'),
-      function() {
-        return this.bind(o + '.ui-disableSelection', function(t) {
-          t.preventDefault();
-        });
-      }),
+      focus:
+        ((r = t.fn.focus),
+        function(e, i) {
+          return 'number' == typeof e
+            ? this.each(function() {
+                var n = this;
+                setTimeout(function() {
+                  t(n).focus(), i && i.call(n);
+                }, e);
+              })
+            : r.apply(this, arguments);
+        }),
+      disableSelection:
+        ((o =
+          'onselectstart' in document.createElement('div')
+            ? 'selectstart'
+            : 'mousedown'),
+        function() {
+          return this.bind(o + '.ui-disableSelection', function(t) {
+            t.preventDefault();
+          });
+        }),
       enableSelection: function() {
         return this.unbind('.ui-disableSelection');
       },
@@ -277,25 +281,26 @@
         t.each(n, function(e, n) {
           var s, o;
           t.isFunction(n)
-            ? (h[e] = ((s = function() {
-                return i.prototype[e].apply(this, arguments);
-              }),
-              (o = function(t) {
-                return i.prototype[e].apply(this, t);
-              }),
-              function() {
-                var t,
-                  e = this._super,
-                  i = this._superApply;
-                return (
-                  (this._super = s),
-                  (this._superApply = o),
-                  (t = n.apply(this, arguments)),
-                  (this._super = e),
-                  (this._superApply = i),
-                  t
-                );
-              }))
+            ? (h[e] =
+                ((s = function() {
+                  return i.prototype[e].apply(this, arguments);
+                }),
+                (o = function(t) {
+                  return i.prototype[e].apply(this, t);
+                }),
+                function() {
+                  var t,
+                    e = this._super,
+                    i = this._superApply;
+                  return (
+                    (this._super = s),
+                    (this._superApply = o),
+                    (t = n.apply(this, arguments)),
+                    (this._super = e),
+                    (this._superApply = i),
+                    t
+                  );
+                }))
             : (h[e] = n);
         }),
         (r.prototype = t.widget.extend(

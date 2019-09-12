@@ -5934,22 +5934,23 @@
               if (this.props.skip) return !1;
               var e = this.props,
                 t = (e.children, e.ssr),
-                n = (e.displayName,
-                e.skip,
-                e.client,
-                e.onCompleted,
-                e.onError,
-                e.partialRefetch,
-                Q(e, [
-                  'children',
-                  'ssr',
-                  'displayName',
-                  'skip',
-                  'client',
-                  'onCompleted',
-                  'onError',
-                  'partialRefetch'
-                ])),
+                n =
+                  (e.displayName,
+                  e.skip,
+                  e.client,
+                  e.onCompleted,
+                  e.onError,
+                  e.partialRefetch,
+                  Q(e, [
+                    'children',
+                    'ssr',
+                    'displayName',
+                    'skip',
+                    'client',
+                    'onCompleted',
+                    'onError',
+                    'partialRefetch'
+                  ])),
                 r = n.fetchPolicy;
               if (!1 === t) return !1;
               ('network-only' !== r && 'cache-and-network' !== r) ||
@@ -6330,100 +6331,101 @@
           };
         })(),
         J = n(339),
-        $ = (n(61),
-        (function(e) {
-          function t(t, n) {
-            var r = e.call(this, t, n) || this;
+        $ =
+          (n(61),
+          (function(e) {
+            function t(t, n) {
+              var r = e.call(this, t, n) || this;
+              return (
+                (r.initialize = function(e) {
+                  r.queryObservable ||
+                    (r.queryObservable = r.client.subscribe({
+                      query: e.subscription,
+                      variables: e.variables,
+                      fetchPolicy: e.fetchPolicy
+                    }));
+                }),
+                (r.startSubscription = function() {
+                  r.querySubscription ||
+                    (r.querySubscription = r.queryObservable.subscribe({
+                      next: r.updateCurrentData,
+                      error: r.updateError
+                    }));
+                }),
+                (r.getInitialState = function() {
+                  return { loading: !0, error: void 0, data: void 0 };
+                }),
+                (r.updateCurrentData = function(e) {
+                  var t = r,
+                    n = t.client,
+                    i = t.props.onSubscriptionData;
+                  i && i({ client: n, subscriptionData: e }),
+                    r.setState({ data: e.data, loading: !1, error: void 0 });
+                }),
+                (r.updateError = function(e) {
+                  r.setState({ error: e, loading: !1 });
+                }),
+                (r.endSubscription = function() {
+                  r.querySubscription &&
+                    (r.querySubscription.unsubscribe(),
+                    delete r.querySubscription);
+                }),
+                (r.client = m(t, n)),
+                r.initialize(t),
+                (r.state = r.getInitialState()),
+                r
+              );
+            }
             return (
-              (r.initialize = function(e) {
-                r.queryObservable ||
-                  (r.queryObservable = r.client.subscribe({
-                    query: e.subscription,
-                    variables: e.variables,
-                    fetchPolicy: e.fetchPolicy
-                  }));
+              Y(t, e),
+              (t.prototype.componentDidMount = function() {
+                this.startSubscription();
               }),
-              (r.startSubscription = function() {
-                r.querySubscription ||
-                  (r.querySubscription = r.queryObservable.subscribe({
-                    next: r.updateCurrentData,
-                    error: r.updateError
-                  }));
+              (t.prototype.componentWillReceiveProps = function(e, t) {
+                var n = m(e, t);
+                if (
+                  !J(this.props.variables, e.variables) ||
+                  this.client !== n ||
+                  this.props.subscription !== e.subscription
+                ) {
+                  var r = e.shouldResubscribe;
+                  'function' == typeof r && (r = !!r(this.props, e));
+                  var i = !1 === r;
+                  if ((this.client !== n && (this.client = n), !i))
+                    return (
+                      this.endSubscription(),
+                      delete this.queryObservable,
+                      this.initialize(e),
+                      this.startSubscription(),
+                      void this.setState(this.getInitialState())
+                    );
+                  this.initialize(e), this.startSubscription();
+                }
               }),
-              (r.getInitialState = function() {
-                return { loading: !0, error: void 0, data: void 0 };
+              (t.prototype.componentWillUnmount = function() {
+                this.endSubscription();
               }),
-              (r.updateCurrentData = function(e) {
-                var t = r,
-                  n = t.client,
-                  i = t.props.onSubscriptionData;
-                i && i({ client: n, subscriptionData: e }),
-                  r.setState({ data: e.data, loading: !1, error: void 0 });
+              (t.prototype.render = function() {
+                var e = this.props.children;
+                return e
+                  ? e(
+                      Object.assign({}, this.state, {
+                        variables: this.props.variables
+                      })
+                    )
+                  : null;
               }),
-              (r.updateError = function(e) {
-                r.setState({ error: e, loading: !1 });
+              (t.contextTypes = { client: r.object.isRequired }),
+              (t.propTypes = {
+                subscription: r.object.isRequired,
+                variables: r.object,
+                children: r.func,
+                onSubscriptionData: r.func,
+                shouldResubscribe: r.oneOfType([r.func, r.bool])
               }),
-              (r.endSubscription = function() {
-                r.querySubscription &&
-                  (r.querySubscription.unsubscribe(),
-                  delete r.querySubscription);
-              }),
-              (r.client = m(t, n)),
-              r.initialize(t),
-              (r.state = r.getInitialState()),
-              r
+              t
             );
-          }
-          return (
-            Y(t, e),
-            (t.prototype.componentDidMount = function() {
-              this.startSubscription();
-            }),
-            (t.prototype.componentWillReceiveProps = function(e, t) {
-              var n = m(e, t);
-              if (
-                !J(this.props.variables, e.variables) ||
-                this.client !== n ||
-                this.props.subscription !== e.subscription
-              ) {
-                var r = e.shouldResubscribe;
-                'function' == typeof r && (r = !!r(this.props, e));
-                var i = !1 === r;
-                if ((this.client !== n && (this.client = n), !i))
-                  return (
-                    this.endSubscription(),
-                    delete this.queryObservable,
-                    this.initialize(e),
-                    this.startSubscription(),
-                    void this.setState(this.getInitialState())
-                  );
-                this.initialize(e), this.startSubscription();
-              }
-            }),
-            (t.prototype.componentWillUnmount = function() {
-              this.endSubscription();
-            }),
-            (t.prototype.render = function() {
-              var e = this.props.children;
-              return e
-                ? e(
-                    Object.assign({}, this.state, {
-                      variables: this.props.variables
-                    })
-                  )
-                : null;
-            }),
-            (t.contextTypes = { client: r.object.isRequired }),
-            (t.propTypes = {
-              subscription: r.object.isRequired,
-              variables: r.object,
-              children: r.func,
-              onSubscriptionData: r.func,
-              shouldResubscribe: r.oneOfType([r.func, r.bool])
-            }),
-            t
-          );
-        })(t.Component)),
+          })(t.Component)),
         X = (function() {
           var e = function(t, n) {
             return (e =
@@ -7534,17 +7536,18 @@
               o = void 0 === i ? 'group' : i,
               a = t.component,
               u = void 0 === a ? 'div' : a,
-              c = (t.uri,
-              t.location,
-              r(t, [
-                'children',
-                'style',
-                'requestFocus',
-                'role',
-                'component',
-                'uri',
-                'location'
-              ]));
+              c =
+                (t.uri,
+                t.location,
+                r(t, [
+                  'children',
+                  'style',
+                  'requestFocus',
+                  'role',
+                  'component',
+                  'uri',
+                  'location'
+                ]));
             return s.a.createElement(
               u,
               g(
@@ -7635,8 +7638,16 @@
               i = (e.from, e.replace),
               o = void 0 === i || i,
               a = e.state,
-              u = (e.noThrow,
-              r(e, ['navigate', 'to', 'from', 'replace', 'state', 'noThrow']));
+              u =
+                (e.noThrow,
+                r(e, [
+                  'navigate',
+                  'to',
+                  'from',
+                  'replace',
+                  'state',
+                  'noThrow'
+                ]));
             Promise.resolve().then(function() {
               t(Object(m.a)(n, u), { replace: o, state: a });
             });
@@ -13989,18 +14000,19 @@
     }
     var o,
       a = n(483),
-      u = (n(0),
-      {
-        childContextTypes: !0,
-        contextTypes: !0,
-        defaultProps: !0,
-        displayName: !0,
-        getDefaultProps: !0,
-        getDerivedStateFromProps: !0,
-        mixins: !0,
-        propTypes: !0,
-        type: !0
-      }),
+      u =
+        (n(0),
+        {
+          childContextTypes: !0,
+          contextTypes: !0,
+          defaultProps: !0,
+          displayName: !0,
+          getDefaultProps: !0,
+          getDerivedStateFromProps: !0,
+          mixins: !0,
+          propTypes: !0,
+          type: !0
+        }),
       c = {
         name: !0,
         length: !0,
@@ -17399,23 +17411,25 @@
     }
     (t.b = p), (t.a = d);
     var h = n(241),
-      y = (n.n(h),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (y =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            y.apply(this, arguments)
-          );
-        });
+      y =
+        (n.n(h),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (y =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              y.apply(this, arguments)
+            );
+          });
   },
   function(e, t, n) {
     'use strict';
@@ -17535,23 +17549,25 @@
     }
     (t.b = p), (t.a = d);
     var h = n(241),
-      y = (n.n(h),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (y =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            y.apply(this, arguments)
-          );
-        });
+      y =
+        (n.n(h),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (y =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              y.apply(this, arguments)
+            );
+          });
   },
   function(e, t, n) {
     'use strict';
@@ -17990,23 +18006,25 @@
     }
     (t.b = p), (t.a = d);
     var h = n(241),
-      y = (n.n(h),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (y =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            y.apply(this, arguments)
-          );
-        });
+      y =
+        (n.n(h),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (y =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              y.apply(this, arguments)
+            );
+          });
   },
   function(e, t, n) {
     'use strict';
@@ -21218,31 +21236,32 @@
       (t.b = a);
     var c = n(643),
       s = (n(331), n(38)),
-      l = (n.n(s),
-      (this && this.__extends) ||
-        (function() {
-          var e = function(t, n) {
-            return (e =
-              Object.setPrototypeOf ||
-              ({ __proto__: [] } instanceof Array &&
+      l =
+        (n.n(s),
+        (this && this.__extends) ||
+          (function() {
+            var e = function(t, n) {
+              return (e =
+                Object.setPrototypeOf ||
+                ({ __proto__: [] } instanceof Array &&
+                  function(e, t) {
+                    e.__proto__ = t;
+                  }) ||
                 function(e, t) {
-                  e.__proto__ = t;
-                }) ||
-              function(e, t) {
-                for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
-              })(t, n);
-          };
-          return function(t, n) {
-            function r() {
-              this.constructor = t;
-            }
-            e(t, n),
-              (t.prototype =
-                null === n
-                  ? Object.create(n)
-                  : ((r.prototype = n.prototype), new r()));
-          };
-        })()),
+                  for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
+                })(t, n);
+            };
+            return function(t, n) {
+              function r() {
+                this.constructor = t;
+              }
+              e(t, n),
+                (t.prototype =
+                  null === n
+                    ? Object.create(n)
+                    : ((r.prototype = n.prototype), new r()));
+            };
+          })()),
       f =
         (this && this.__assign) ||
         function() {
@@ -21491,31 +21510,32 @@
       (t.b = a);
     var c = n(243),
       s = (n(336), n(38)),
-      l = (n.n(s),
-      (this && this.__extends) ||
-        (function() {
-          var e = function(t, n) {
-            return (e =
-              Object.setPrototypeOf ||
-              ({ __proto__: [] } instanceof Array &&
+      l =
+        (n.n(s),
+        (this && this.__extends) ||
+          (function() {
+            var e = function(t, n) {
+              return (e =
+                Object.setPrototypeOf ||
+                ({ __proto__: [] } instanceof Array &&
+                  function(e, t) {
+                    e.__proto__ = t;
+                  }) ||
                 function(e, t) {
-                  e.__proto__ = t;
-                }) ||
-              function(e, t) {
-                for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
-              })(t, n);
-          };
-          return function(t, n) {
-            function r() {
-              this.constructor = t;
-            }
-            e(t, n),
-              (t.prototype =
-                null === n
-                  ? Object.create(n)
-                  : ((r.prototype = n.prototype), new r()));
-          };
-        })()),
+                  for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
+                })(t, n);
+            };
+            return function(t, n) {
+              function r() {
+                this.constructor = t;
+              }
+              e(t, n),
+                (t.prototype =
+                  null === n
+                    ? Object.create(n)
+                    : ((r.prototype = n.prototype), new r()));
+            };
+          })()),
       f =
         (this && this.__assign) ||
         function() {
@@ -22941,31 +22961,32 @@
     var s = n(243),
       l = n(347),
       f = n(38),
-      p = (n.n(f),
-      (this && this.__extends) ||
-        (function() {
-          var e = function(t, n) {
-            return (e =
-              Object.setPrototypeOf ||
-              ({ __proto__: [] } instanceof Array &&
+      p =
+        (n.n(f),
+        (this && this.__extends) ||
+          (function() {
+            var e = function(t, n) {
+              return (e =
+                Object.setPrototypeOf ||
+                ({ __proto__: [] } instanceof Array &&
+                  function(e, t) {
+                    e.__proto__ = t;
+                  }) ||
                 function(e, t) {
-                  e.__proto__ = t;
-                }) ||
-              function(e, t) {
-                for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
-              })(t, n);
-          };
-          return function(t, n) {
-            function r() {
-              this.constructor = t;
-            }
-            e(t, n),
-              (t.prototype =
-                null === n
-                  ? Object.create(n)
-                  : ((r.prototype = n.prototype), new r()));
-          };
-        })()),
+                  for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
+                })(t, n);
+            };
+            return function(t, n) {
+              function r() {
+                this.constructor = t;
+              }
+              e(t, n),
+                (t.prototype =
+                  null === n
+                    ? Object.create(n)
+                    : ((r.prototype = n.prototype), new r()));
+            };
+          })()),
       d =
         (this && this.__assign) ||
         function() {
@@ -26068,10 +26089,11 @@
     }
     function o(e, t) {
       return function(t, n) {
-        var r = (n.displayName,
-        function(e, t) {
-          return r.dependsOnOwnProps ? r.mapToProps(e, t) : r.mapToProps(e);
-        });
+        var r =
+          (n.displayName,
+          function(e, t) {
+            return r.dependsOnOwnProps ? r.mapToProps(e, t) : r.mapToProps(e);
+          });
         return (
           (r.dependsOnOwnProps = !0),
           (r.mapToProps = function(t, n) {
@@ -26162,15 +26184,16 @@
       d = r(p),
       h = n(532),
       y = (r(h), n(883)),
-      v = (d.default.any,
-      d.default.func,
-      d.default.node,
-      {
-        component: 'span',
-        childFactory: function(e) {
-          return e;
-        }
-      }),
+      v =
+        (d.default.any,
+        d.default.func,
+        d.default.node,
+        {
+          component: 'span',
+          childFactory: function(e) {
+            return e;
+          }
+        }),
       m = (function(e) {
         function t(n, r) {
           i(this, t);
@@ -34611,23 +34634,25 @@
       o = n(654),
       a = n(670),
       u = n(671),
-      c = (n.n(u),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (c =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            c.apply(this, arguments)
-          );
-        }),
+      c =
+        (n.n(u),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (c =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              c.apply(this, arguments)
+            );
+          }),
       s = !1,
       l = (function() {
         function e(e) {
@@ -38408,23 +38433,25 @@
       return c;
     });
     var i = n(96),
-      o = (n.n(i),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (o =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            o.apply(this, arguments)
-          );
-        }),
+      o =
+        (n.n(i),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (o =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              o.apply(this, arguments)
+            );
+          }),
       a = Object.create(null),
       u = Object.prototype.toString,
       c = (function() {
@@ -38831,23 +38858,25 @@
         return y;
       });
     var r = n(38),
-      i = (n.n(r),
-      (this && this.__assign) ||
-        function() {
-          return (
-            (i =
-              Object.assign ||
-              function(e) {
-                for (var t, n = 1, r = arguments.length; n < r; n++) {
-                  t = arguments[n];
-                  for (var i in t)
-                    Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-                }
-                return e;
-              }),
-            i.apply(this, arguments)
-          );
-        }),
+      i =
+        (n.n(r),
+        (this && this.__assign) ||
+          function() {
+            return (
+              (i =
+                Object.assign ||
+                function(e) {
+                  for (var t, n = 1, r = arguments.length; n < r; n++) {
+                    t = arguments[n];
+                    for (var i in t)
+                      Object.prototype.hasOwnProperty.call(t, i) &&
+                        (e[i] = t[i]);
+                  }
+                  return e;
+                }),
+              i.apply(this, arguments)
+            );
+          }),
       o = { includeQuery: !0, includeExtensions: !1 },
       a = { accept: '*/*', 'content-type': 'application/json' },
       u = { method: 'POST' },
@@ -44415,10 +44444,8 @@
           store: u.a.isRequired,
           children: a.a.element.isRequired
         }),
-        (o.childContextTypes = ((t = {}),
-        (t[e] = u.a.isRequired),
-        (t[n] = u.b),
-        t)),
+        (o.childContextTypes =
+          ((t = {}), (t[e] = u.a.isRequired), (t[n] = u.b), t)),
         o
       );
     })();
@@ -45375,14 +45402,15 @@
       h = n(884),
       y = r(h),
       v = n(564),
-      m = (v.nameShape.isRequired,
-      f.default.bool,
-      f.default.bool,
-      f.default.bool,
-      (0, v.transitionTimeout)('Appear'),
-      (0, v.transitionTimeout)('Enter'),
-      (0, v.transitionTimeout)('Leave'),
-      { transitionAppear: !1, transitionEnter: !0, transitionLeave: !0 }),
+      m =
+        (v.nameShape.isRequired,
+        f.default.bool,
+        f.default.bool,
+        f.default.bool,
+        (0, v.transitionTimeout)('Appear'),
+        (0, v.transitionTimeout)('Enter'),
+        (0, v.transitionTimeout)('Leave'),
+        { transitionAppear: !1, transitionEnter: !0, transitionLeave: !0 }),
       b = (function(e) {
         function t() {
           var n, r, a;
@@ -45561,111 +45589,112 @@
       T = [];
     y.transitionEnd && T.push(y.transitionEnd),
       y.animationEnd && T.push(y.animationEnd);
-    var O = (g.default.node,
-    w.nameShape.isRequired,
-    g.default.bool,
-    g.default.bool,
-    g.default.bool,
-    g.default.number,
-    g.default.number,
-    g.default.number,
-    (function(e) {
-      function t() {
-        var n, r, a;
-        i(this, t);
-        for (var u = arguments.length, c = Array(u), s = 0; s < u; s++)
-          c[s] = arguments[s];
-        return (
-          (n = r = o(this, e.call.apply(e, [this].concat(c)))),
-          (r.componentWillAppear = function(e) {
-            r.props.appear
-              ? r.transition('appear', e, r.props.appearTimeout)
-              : e();
-          }),
-          (r.componentWillEnter = function(e) {
-            r.props.enter
-              ? r.transition('enter', e, r.props.enterTimeout)
-              : e();
-          }),
-          (r.componentWillLeave = function(e) {
-            r.props.leave
-              ? r.transition('leave', e, r.props.leaveTimeout)
-              : e();
-          }),
-          (a = n),
-          o(r, a)
-        );
-      }
-      return (
-        a(t, e),
-        (t.prototype.componentWillMount = function() {
-          (this.classNameAndNodeQueue = []), (this.transitionTimeouts = []);
-        }),
-        (t.prototype.componentWillUnmount = function() {
-          (this.unmounted = !0),
-            this.timeout && clearTimeout(this.timeout),
-            this.transitionTimeouts.forEach(function(e) {
-              clearTimeout(e);
-            }),
-            (this.classNameAndNodeQueue.length = 0);
-        }),
-        (t.prototype.transition = function(e, t, n) {
-          var r = (0, _.findDOMNode)(this);
-          if (!r) return void (t && t());
-          var i = this.props.name[e] || this.props.name + '-' + e,
-            o = this.props.name[e + 'Active'] || i + '-active',
-            a = null,
-            c = void 0;
-          (0, l.default)(r, i), this.queueClassAndNode(o, r);
-          var s = function(e) {
-            (e && e.target !== r) ||
-              (clearTimeout(a),
-              c && c(),
-              (0, p.default)(r, i),
-              (0, p.default)(r, o),
-              c && c(),
-              t && t());
-          };
-          n
-            ? ((a = setTimeout(s, n)), this.transitionTimeouts.push(a))
-            : y.transitionEnd && (c = u(r, s));
-        }),
-        (t.prototype.queueClassAndNode = function(e, t) {
-          var n = this;
-          this.classNameAndNodeQueue.push({ className: e, node: t }),
-            this.rafHandle ||
-              (this.rafHandle = (0, h.default)(function() {
-                return n.flushClassNameAndNodeQueue();
-              }));
-        }),
-        (t.prototype.flushClassNameAndNodeQueue = function() {
-          this.unmounted ||
-            this.classNameAndNodeQueue.forEach(function(e) {
-              e.node.scrollTop, (0, l.default)(e.node, e.className);
-            }),
-            (this.classNameAndNodeQueue.length = 0),
-            (this.rafHandle = null);
-        }),
-        (t.prototype.render = function() {
-          var e = c({}, this.props);
+    var O =
+      (g.default.node,
+      w.nameShape.isRequired,
+      g.default.bool,
+      g.default.bool,
+      g.default.bool,
+      g.default.number,
+      g.default.number,
+      g.default.number,
+      (function(e) {
+        function t() {
+          var n, r, a;
+          i(this, t);
+          for (var u = arguments.length, c = Array(u), s = 0; s < u; s++)
+            c[s] = arguments[s];
           return (
-            delete e.name,
-            delete e.appear,
-            delete e.enter,
-            delete e.leave,
-            delete e.appearTimeout,
-            delete e.enterTimeout,
-            delete e.leaveTimeout,
-            delete e.children,
-            m.default.cloneElement(
-              m.default.Children.only(this.props.children),
-              e
-            )
+            (n = r = o(this, e.call.apply(e, [this].concat(c)))),
+            (r.componentWillAppear = function(e) {
+              r.props.appear
+                ? r.transition('appear', e, r.props.appearTimeout)
+                : e();
+            }),
+            (r.componentWillEnter = function(e) {
+              r.props.enter
+                ? r.transition('enter', e, r.props.enterTimeout)
+                : e();
+            }),
+            (r.componentWillLeave = function(e) {
+              r.props.leave
+                ? r.transition('leave', e, r.props.leaveTimeout)
+                : e();
+            }),
+            (a = n),
+            o(r, a)
           );
-        }),
-        t
-      );
-    })(m.default.Component));
+        }
+        return (
+          a(t, e),
+          (t.prototype.componentWillMount = function() {
+            (this.classNameAndNodeQueue = []), (this.transitionTimeouts = []);
+          }),
+          (t.prototype.componentWillUnmount = function() {
+            (this.unmounted = !0),
+              this.timeout && clearTimeout(this.timeout),
+              this.transitionTimeouts.forEach(function(e) {
+                clearTimeout(e);
+              }),
+              (this.classNameAndNodeQueue.length = 0);
+          }),
+          (t.prototype.transition = function(e, t, n) {
+            var r = (0, _.findDOMNode)(this);
+            if (!r) return void (t && t());
+            var i = this.props.name[e] || this.props.name + '-' + e,
+              o = this.props.name[e + 'Active'] || i + '-active',
+              a = null,
+              c = void 0;
+            (0, l.default)(r, i), this.queueClassAndNode(o, r);
+            var s = function(e) {
+              (e && e.target !== r) ||
+                (clearTimeout(a),
+                c && c(),
+                (0, p.default)(r, i),
+                (0, p.default)(r, o),
+                c && c(),
+                t && t());
+            };
+            n
+              ? ((a = setTimeout(s, n)), this.transitionTimeouts.push(a))
+              : y.transitionEnd && (c = u(r, s));
+          }),
+          (t.prototype.queueClassAndNode = function(e, t) {
+            var n = this;
+            this.classNameAndNodeQueue.push({ className: e, node: t }),
+              this.rafHandle ||
+                (this.rafHandle = (0, h.default)(function() {
+                  return n.flushClassNameAndNodeQueue();
+                }));
+          }),
+          (t.prototype.flushClassNameAndNodeQueue = function() {
+            this.unmounted ||
+              this.classNameAndNodeQueue.forEach(function(e) {
+                e.node.scrollTop, (0, l.default)(e.node, e.className);
+              }),
+              (this.classNameAndNodeQueue.length = 0),
+              (this.rafHandle = null);
+          }),
+          (t.prototype.render = function() {
+            var e = c({}, this.props);
+            return (
+              delete e.name,
+              delete e.appear,
+              delete e.enter,
+              delete e.leave,
+              delete e.appearTimeout,
+              delete e.enterTimeout,
+              delete e.leaveTimeout,
+              delete e.children,
+              m.default.cloneElement(
+                m.default.Children.only(this.props.children),
+                e
+              )
+            );
+          }),
+          t
+        );
+      })(m.default.Component));
     (O.displayName = 'CSSTransitionGroupChild'),
       (O.propTypes = {}),
       (t.default = O),
