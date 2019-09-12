@@ -197,6 +197,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   tempCourdeId: any;
   tempuserType: any;
   public showflexyCourse: boolean = false;
+  public courseInfo = {};
+  isDisabledBtn = false;
+  stdArr = [];
   showcb: boolean = false;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -1727,6 +1730,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.reasonValue = '';
       this.textAreaOption = false;
       this.isGlobal = false;
+      this.stdArr = [];
+      this.isDisabledBtn = false;
       console.log('exit');
     }
     this.showflexyCourse = false;
@@ -1811,6 +1816,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   addEnrollModal(modal, type, courseID, seat) {
+    this.stdArr = [];
     console.log(type);
     console.log(this.selectedTeacher);
 
@@ -1883,6 +1889,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // this.activeTab = type;
     if (type == 'enroll') {
       this.activeTab = type;
+      return new Promise((resolve, reject) => {
+        this.getUserInCourse();
+        resolve();
+      }).then(() => {
+        setTimeout(() => {
+          console.log(this.detailLists);
+          if (this.detailLists.type == 'REGULAR') {
+            this.studentLists.map(customer => {
+              this.stdArr.push(customer.userId);
+            });
+          }
+        }, 1000);
+      });
     } else if (type == 'view') {
       this.activeTab = type;
       this.getUserInCourse();
@@ -2019,6 +2038,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       this.showList = false;
+      if (this.detailLists.type == 'FLEXY') {
+        if (this.detailLists.seat_left === 0) {
+          // console.log(this.pplLists)
+          var includedUserId = this.studentLists.findIndex(
+            x => x.userId === this.selectedCustomer.userId
+          );
+          console.log('includedUserId~~~', includedUserId);
+          if (includedUserId == -1) {
+            this.isDisabledBtn = true;
+            console.log('includedUserId == -1', this.isDisabledBtn);
+          } else {
+            this.isDisabledBtn = false;
+            console.log('includedUserId != -1', this.isDisabledBtn);
+          }
+        }
+      }
     });
   }
 
@@ -2035,6 +2070,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   ctype: any;
   addCustomer(cDetail, userType) {
+    this.isDisabledBtn = false;
     console.log(userType);
     console.log(cDetail);
     console.log(this.selectCustomer);
@@ -2062,6 +2098,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else {
       this.stdLists = [];
+      this.stdArr = [];
       console.log('call from addCustomer', this.selectedCustomer);
       let body = {
         courseId: cDetail._id,
@@ -2770,8 +2807,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.modalReference.close();
     // this.cancelUItext= false;
   }
-
-  courseInfo = {};
 
   onClickCourse(course, lesson, e, date, list, type) {
     this.overlap = false;

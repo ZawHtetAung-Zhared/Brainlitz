@@ -2156,6 +2156,12 @@
                   (click)="selectCustomer('user', user.userId, 'customer')"
                   *ngFor="let user of userLists"
                   class="d-flex flex-row search-user justify-content-center align-items-center"
+                  [ngClass]="
+                    stdArr.indexOf(user.userId) > -1 &&
+                    detailLists.type == 'REGULAR'
+                      ? 'hide-user'
+                      : ''
+                  "
                 >
                   <div class="profile-wrap">
                     <img src="{{ user.profilePic }}" />
@@ -2255,7 +2261,9 @@
               type="submit"
               class="btn btn-submit"
               [disabled]="
-                (selectedCustomer | json) == '{}' || noSetting == true
+                (selectedCustomer | json) == '{}' ||
+                isDisabledBtn ||
+                noSetting == true
               "
               (click)="addCustomer(courseDetail, userType)"
             >

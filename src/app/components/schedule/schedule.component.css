@@ -18,6 +18,9 @@
 .payment-item {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
+.hide-user {
+  display: none !important;
+}
 .info-header {
   font-size: 20px;
   color: #2e3d4d;
