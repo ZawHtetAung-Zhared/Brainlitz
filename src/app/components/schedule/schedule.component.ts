@@ -1906,22 +1906,26 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   searchSelectedLesson(type) {
     console.log(this.courseDetail.lessons);
-
-    this.courseDetail.lessons.map(lesson => {
-      console.log(lesson.startDate);
-      var lessondate = lesson.startDate.split('T')[0];
-      console.log(lessondate);
-      var m =
-        this.lessonD.month < 10 ? '0' + this.lessonD.month : this.lessonD.month;
-      var d = this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
-      var tempDate = this.lessonD.year + '-' + m + '-' + d;
-      console.log('tempDate', tempDate);
-      if (lessondate == tempDate) {
-        this.selectedLesson = lesson;
-        console.log('selected lesson', this.selectedLesson);
-        this.activeTab = type;
-      }
-    });
+    if (this.courseDetail.lessons != undefined) {
+      this.courseDetail.lessons.map(lesson => {
+        console.log(lesson.startDate);
+        var lessondate = lesson.startDate.split('T')[0];
+        console.log(lessondate);
+        var m =
+          this.lessonD.month < 10
+            ? '0' + this.lessonD.month
+            : this.lessonD.month;
+        var d =
+          this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
+        var tempDate = this.lessonD.year + '-' + m + '-' + d;
+        console.log('tempDate', tempDate);
+        if (lessondate == tempDate) {
+          this.selectedLesson = lesson;
+          console.log('selected lesson', this.selectedLesson);
+          this.activeTab = type;
+        }
+      });
+    }
   }
   getUserInCourse() {
     //temp api for testing UI

@@ -95,6 +95,10 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectData(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
@@ -346,6 +350,10 @@
             <li
               *ngFor="let category of categoryList"
               (click)="selectDataApiCall(category)"
+              [ngClass]="{
+                'all-category': category._id == 'all',
+                'mb-1': category._id == 'all'
+              }"
             >
               {{ category.name }}
             </li>
