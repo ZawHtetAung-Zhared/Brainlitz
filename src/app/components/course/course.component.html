@@ -1357,21 +1357,65 @@
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
                         </div>
-                        <!-- <div
-                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+
+                        <div
+                          style="margin-left: 35px;margin-top: -20px;position: relative;"
+                          class="user-grade"
                         >
-                          A
-                        </div> -->
+                          <div
+                            *ngIf="
+                              user.grade &&
+                              user.grade.recentGrade != undefined &&
+                              user.grade.recentGrade.grade != undefined
+                            "
+                            [ngClass]="{
+                              'test-circle':
+                                user.grade.recentGrade.grade.point.length == 1,
+                              circle:
+                                user.grade.recentGrade.grade.point.length > 1
+                            }"
+                            class="justify-content-center d-flex"
+                            [style.background]="
+                              user.grade.sepalColor.background
+                            "
+                          >
+                            <span [style.color]="user.grade.sepalColor.text">
+                              {{ user.grade.recentGrade.grade.point }}
+                            </span>
+                          </div>
+                        </div>
                       </div>
+
                       <div *ngIf="user.invoice == null">
                         <div class="img-wrap">
                           <img src="{{ user.profilePic }}" />
                         </div>
-                        <!-- <div
-                          style="background-color: red; border-radius:50%;margin-left: 35px;margin-top: -20px;position: relative;width: 20px;height: 20px;text-align: center"
+                        <div
+                          style="margin-left: 35px;margin-top: -20px;position: relative;"
+                          class="user-grade"
                         >
-                          A
-                        </div> -->
+                          <div
+                            *ngIf="
+                              user.grade &&
+                              user.grade.recentGrade != undefined &&
+                              user.grade.recentGrade.grade != undefined
+                            "
+                            [ngClass]="{
+                              'test-circle':
+                                user.grade.recentGrade.grade.point.length == 1,
+                              circle:
+                                user.grade.recentGrade.grade.point.length > 1
+                            }"
+                            class="justify-content-center d-flex"
+                            [style.background]="
+                              user.grade.sepalColor.background
+                            "
+                          >
+                            <span [style.color]="user.grade.sepalColor.text">
+                              {{ user.grade.recentGrade.grade.point }}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <div
                         class="single-user-info d-flex flex-column justify-content-center"
