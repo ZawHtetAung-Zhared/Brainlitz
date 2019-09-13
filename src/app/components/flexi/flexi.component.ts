@@ -54,20 +54,12 @@ export class FlexiComponent implements OnInit {
     this.lessionIdArr = [];
     var j = 0;
     for (let i = 0; i < obj.length; i++) {
-      console.log(obj[i]);
-      if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
+      if (obj[i].isEnrolled == false) {
         j++;
-        // console.warn(j);
 
         //to remove id
         let tobj: any = {};
         tobj = obj[i];
-        // tobj.startDate = obj[i].startDate;
-        // tobj.conflictWith = obj[i].conflictWith;
-        // tobj.endDate = obj[i].endDate;
-        // tobj.hasConflict = obj[i].hasConflict;
-        // tobj.isEnrolled = obj[i].isEnrolled;
-        // tobj.teacherId = obj[i].teacherId;
         tobj.id = i;
 
         if (j <= this.course.defaultlessonCount) {
@@ -173,7 +165,12 @@ export class FlexiComponent implements OnInit {
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 150 + 112;
       this.arrTop = e.clientY - 150 + 92;
-      if (e.srcElement.className == 'fa fa-angle-down downIcon') {
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
         this.arrLeft = e.path[4].offsetLeft + 40;
       } else {
         this.arrLeft = e.path[3].offsetLeft + 40;

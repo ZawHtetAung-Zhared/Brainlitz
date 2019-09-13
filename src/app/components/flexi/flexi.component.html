@@ -120,24 +120,109 @@
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict && !obj.isEnrolled"
+        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == false"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj.id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+        (click)="lessonCheck(obj.id, obj)"
       >
         <div class="d-flex justify-content-between">
           <div class="d-flex">
-            <div class="exIcon">
-              <i class="fa fa-exclamation-circle exclamationIcon"></i>
+            <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
+              <i class="fa fa-check checkIcon"></i>
             </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessionIdArr.indexOf(obj.id) == -1"
+            ></div>
             <div class="showDate">
-              <p class="date">{{ obj.startDate | utcShortDate }}</p>
-              <p class="day">{{ obj.startDate | utcFullDay }}</p>
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
             </div>
           </div>
-          <div class="downArrow" (click)="showConflictBox($event, obj)">
+          <!-- <div class="downArrow">
             <i class="fa fa-angle-down downIcon"></i>
+          </div> -->
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+              }"
+            ></i>
           </div>
         </div>
 
-        <div class="statusBox">
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
+        >
+          <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict"
+        id="lessonbox-conflict"
+        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == true"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj.id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
+              <i class="fa fa-check checkIcon"></i>
+            </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessionIdArr.indexOf(obj.id) == -1"
+            ></div>
+            <div class="showDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <!-- <div class="downArrow">
+          <i class="fa fa-angle-down downIcon"></i>
+        </div> -->
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+              }"
+            ></i>
+          </div>
+        </div>
+
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
+        >
           <p class="statusText">Skip: Conflict</p>
         </div>
       </div>
