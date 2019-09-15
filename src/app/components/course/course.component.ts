@@ -2117,6 +2117,8 @@ export class CourseComponent implements OnInit {
     this.isProrated = false;
   }
   cancelClass(content) {
+    this.modalType = '';
+    this.getUsersInCourse(this.courseId);
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass:
@@ -2126,7 +2128,44 @@ export class CourseComponent implements OnInit {
   showTextarea() {
     this.textAreaOption = true;
   }
+  absentClass() {
+    if (this.modalType == 'absent' && !this.isGlobal) {
+      console.log(this.activeCourseInfo);
+      console.log('LASD~~~', this.LASD);
+      var d = new Date(this.LASD).getUTCDate();
+      var m = new Date(this.LASD).getUTCMonth() + 1;
+      var y = new Date(this.LASD).getUTCFullYear();
+      var obj = {
+        studentId: this.absentInfo.userId
+      };
+      // if (type == 'present') {
+      //   obj['attendance'] = 'true';
+      // } else {
+      obj['attendance'] = 'false';
+      // }
+      console.log(d, '/', m, '/', y);
+      console.log('obj~~~', obj);
+      console.log(this.courseId);
+      this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
+        (res: any) => {
+          this.toastr.success(res.message);
+          console.log('res', res);
+          // this.getUsersInCourse(this.courseId);
+          this.activeTab = 'Class';
+          this.attdBox = false;
+          this.getAssignUsers(d, m, y);
+          this.modalClose();
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('');
+        }
+      );
+      return;
+    }
+  }
   cancelClassFun(lessonId) {
+    this.modalType = '';
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2146,7 +2185,6 @@ export class CourseComponent implements OnInit {
       };
       cancelData = reason;
     }
-
     console.log(lessonId);
     console.log(this.isGlobal);
     console.log(cancelData);
@@ -3478,7 +3516,21 @@ export class CourseComponent implements OnInit {
     this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
-  onClickRadio(type, id) {
+  public modalType;
+  public absentInfo;
+  onClickRadio(type, id, modal, user) {
+    if (type == 'absent') {
+      this.modalType = type;
+      this.absentInfo = user;
+      this.modalReference = this.modalService.open(modal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      });
+      return;
+    }
+
+    this.activeCourseInfo = [];
     console.log('LASD~~~', this.LASD);
     var d = new Date(this.LASD).getUTCDate();
     var m = new Date(this.LASD).getUTCMonth() + 1;

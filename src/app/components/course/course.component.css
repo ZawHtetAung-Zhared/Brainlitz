@@ -363,6 +363,9 @@ ul.data-listing li.disabled {
   left: 0;
   top: 42px;
 }
+.hide-invoice {
+  display: none !important;
+}
 .hide-dropbox {
   position: absolute;
   background: #fff;

@@ -1471,13 +1471,14 @@
                           Issue makeup pass
                         </li>
                         <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
+                        <!-- [disabled]="user.invoice == null" -->
                         <li
                           (click)="showTabsModal(tabsModal, 'invoice', user)"
                           class="view-li"
                         >
                           <button
                             class="cursor-on"
-                            [disabled]="user.invoice == null"
+                            [ngClass]="{'hide-invoice:user.invoice==null'}"
                           >
                             View invoice
                           </button>
@@ -1757,7 +1758,14 @@
                               <input
                                 type="radio"
                                 name="radio"
-                                (click)="onClickRadio('present', user.userId)"
+                                (click)="
+                                  onClickRadio(
+                                    'present',
+                                    user.userId,
+                                    content,
+                                    user
+                                  )
+                                "
                                 [checked]="user.attendance == true"
                               />
                               <span class="checkmark"></span>
@@ -1780,7 +1788,14 @@
                               <input
                                 type="radio"
                                 name="radio"
-                                (click)="onClickRadio('absent', user.userId)"
+                                (click)="
+                                  onClickRadio(
+                                    'absent',
+                                    user.userId,
+                                    content,
+                                    user
+                                  )
+                                "
                                 [checked]="user.attendance == false"
                               />
                               <span class="checkmark"></span>
@@ -2982,7 +2997,12 @@
   <ng-template #content let-modal>
     <div class="modal-header">
       <div class="d-flex flex-column ">
-        <h3 class="makeup-pass-title">Cancel lesson</h3>
+        <h3 class="makeup-pass-title" *ngIf="this.modalType != 'absent'">
+          Cancel lesson
+        </h3>
+        <h3 class="makeup-pass-title" *ngIf="this.modalType == 'absent'">
+          Absent
+        </h3>
         <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
         <p
           *ngIf="pplLists.CUSTOMER.length == 0"
@@ -3016,9 +3036,24 @@
           </label>
         </div>
         <label class="switch-label" for="online">Issue makeup pass</label>
+        <div *ngIf="isGlobal" class="form-group" class="mb-0 mt-2">
+          <label for="name" class="input-label">Name</label>
+          <input
+            type="text"
+            class="form-control create-input"
+            placeholder="Type makeup pass name here"
+            name="name"
+            [(ngModel)]="makeupForm.name"
+            required
+            #name="ngModel"
+          />
+        </div>
       </div>
       <div class="d-flex flex-wrap ">
-        <div class="row w-100 users-wrap-box">
+        <div
+          class="row w-100 users-wrap-box"
+          *ngIf="this.modalType != 'absent'"
+        >
           <div
             *ngFor="let user of activeCourseInfo.CUSTOMER"
             class="col-xs-6 col-sm-3 col-md-3 col-lg-3"
@@ -3034,6 +3069,7 @@
               </div>
               <div class="d-flex mr-auto  justify-content-center ">
                 <h4
+                  *ngIf="user.preferredName != ''"
                   class="text-white align-self-center mb-0"
                   style="font-size:14px!important; word-break: break-all; "
                 >
@@ -3043,10 +3079,67 @@
                       : user.preferredName
                   }}
                 </h4>
+                <h4
+                  *ngIf="user.preferredName == ''"
+                  class="text-white align-self-center mb-0"
+                  style="font-size:14px!important; word-break: break-all; "
+                >
+                  {{
+                    user.email.length > 20
+                      ? (user.email | slice: 0:20) + '...'
+                      : user.email
+                  }}
+                </h4>
               </div>
               <div class="pr-2">
                 <div class="std-img-wrap1 justify-content-end">
                   <img src="{{ user.profilePic }}" class="user-pic" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row w-100 users-wrap-box"
+          *ngIf="this.modalType == 'absent'"
+        >
+          <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+            <div
+              class="d-flex flex-row justify-content-center align-items-center bg-primary single-student-modal "
+            >
+              <div class="d-flex pl-2 mr-2">
+                <span class="checkmark">
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
+                </span>
+              </div>
+              <div class="d-flex mr-auto  justify-content-center ">
+                <h4
+                  *ngIf="absentInfo.preferredName != ''"
+                  class="text-white align-self-center mb-0"
+                  style="font-size:14px!important; word-break: break-all; "
+                >
+                  {{
+                    absentInfo.preferredName.length > 20
+                      ? (absentInfo.preferredName | slice: 0:20) + '...'
+                      : absentInfo.preferredName
+                  }}
+                </h4>
+                <h4
+                  *ngIf="absentInfo.preferredName == ''"
+                  class="text-white align-self-center mb-0"
+                  style="font-size:14px!important; word-break: break-all; "
+                >
+                  {{
+                    absentInfo.email.length > 20
+                      ? (absentInfo.email | slice: 0:20) + '...'
+                      : absentInfo.email
+                  }}
+                </h4>
+              </div>
+              <div class="pr-2">
+                <div class="std-img-wrap1 justify-content-end">
+                  <img src="{{ absentInfo.profilePic }}" class="user-pic" />
                 </div>
               </div>
             </div>
@@ -3073,12 +3166,30 @@
       </div>
       <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
       <button
+        *ngIf="this.modalType != 'absent'"
         class="btn btn-done-crt"
         (click)="cancelClassFun(currentDateObj)"
         [disabled]="activeCourseInfo.CUSTOMER.length == 0"
       >
         Confirm
       </button>
+      <button
+        *ngIf="this.modalType == 'absent'"
+        class="btn btn-done-crt"
+        (click)="absentClass()"
+        [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+      >
+        Confirm
+      </button>
+      <!-- 
+    <button
+      *ngIf="this.modalType == 'absent'"
+      class="btn btn-done-crt"
+      (click)="issueForAbsent(makeupForm, singleUserData.userId)"
+      [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+    >
+      Confirm
+    </button> -->
     </div>
   </ng-template>
   <ng-template #reschedule let-modal>
