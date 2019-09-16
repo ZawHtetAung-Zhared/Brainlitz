@@ -2117,6 +2117,8 @@ export class CourseComponent implements OnInit {
     this.isProrated = false;
   }
   cancelClass(content) {
+    this.modalType = '';
+    this.getUsersInCourse(this.courseId);
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass:
@@ -2126,7 +2128,106 @@ export class CourseComponent implements OnInit {
   showTextarea() {
     this.textAreaOption = true;
   }
+  absentClass(obj, userId) {
+    if (this.modalType == 'absent' && !this.isGlobal) {
+      console.log(this.activeCourseInfo);
+      console.log('LASD~~~', this.LASD);
+      var d = new Date(this.LASD).getUTCDate();
+      var m = new Date(this.LASD).getUTCMonth() + 1;
+      var y = new Date(this.LASD).getUTCFullYear();
+      var studentID = {
+        studentId: this.absentInfo.userId
+      };
+      // if (type == 'present') {
+      //   obj['attendance'] = 'true';
+      // } else {
+      studentID['attendance'] = 'false';
+      // }
+      console.log(d, '/', m, '/', y);
+      console.log('obj~~~', obj);
+      console.log(this.courseId);
+      this._service.markAttendance(this.courseId, studentID, d, m, y).subscribe(
+        (res: any) => {
+          this.toastr.success(res.message);
+          console.log('res', res);
+          // this.getUsersInCourse(this.courseId);
+          this.activeTab = 'Class';
+          this.attdBox = false;
+          this.getAssignUsers(d, m, y);
+          this.modalClose();
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('');
+        }
+      );
+      return;
+    } else if (this.modalType == 'absent' && this.isGlobal) {
+      return new Promise((resolve, reject) => {
+        var d = new Date(this.LASD).getUTCDate();
+        var m = new Date(this.LASD).getUTCMonth() + 1;
+        var y = new Date(this.LASD).getUTCFullYear();
+        var studentID = {
+          studentId: this.absentInfo.userId
+        };
+        // if (type == 'present') {
+        //   obj['attendance'] = 'true';
+        // } else {
+        studentID['attendance'] = 'false';
+        // }
+        console.log(d, '/', m, '/', y);
+        console.log('obj~~~', obj);
+        console.log(this.courseId);
+        this._service
+          .markAttendance(this.courseId, studentID, d, m, y)
+          .subscribe(
+            (res: any) => {
+              this.toastr.success(res.message);
+              console.log('res', res);
+              // this.getUsersInCourse(this.courseId);
+              this.activeTab = 'Class';
+              this.attdBox = false;
+              this.getAssignUsers(d, m, y);
+              this.modalClose();
+            },
+            err => {
+              console.log(err);
+              this.toastr.error('');
+            }
+          );
+        resolve();
+      }).then(() => {
+        setTimeout(() => {
+          this.showStudentOption = '';
+          this.xxxhello = '';
+          this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
+            (res: any) => {
+              console.log(res);
+              this.blockUI.stop();
+              this.modalReference.close();
+              // this.activeTab = 'People';
+              this.toastr.success('Makeup pass successfully created.');
+              // setTimeout(()=>{
+              //   this.toastr.success('Makeup pass successfully created.');
+              // },100)
+              this.makeupForm = {};
+            },
+            err => {
+              this.modalReference.close();
+              // setTimeout(()=>{
+              //   this.toastr.error('Fail to issue makeup pass.');
+              // },100)
+              this.toastr.error('Fail to issue makeup pass.');
+              this.blockUI.stop();
+              console.log(err);
+            }
+          );
+        }, 500);
+      });
+    }
+  }
   cancelClassFun(lessonId) {
+    this.modalType = '';
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2146,7 +2247,6 @@ export class CourseComponent implements OnInit {
       };
       cancelData = reason;
     }
-
     console.log(lessonId);
     console.log(this.isGlobal);
     console.log(cancelData);
@@ -3418,13 +3518,39 @@ export class CourseComponent implements OnInit {
       }
     );
   }
-
+  issueForAbsent(obj, userId) {
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.blockUI.stop();
+        this.modalReference.close();
+        this.activeTab = 'People';
+        this.toastr.success('Makeup pass successfully created.');
+        // setTimeout(()=>{
+        //   this.toastr.success('Makeup pass successfully created.');
+        // },100)
+        this.makeupForm = {};
+      },
+      err => {
+        this.modalReference.close();
+        // setTimeout(()=>{
+        //   this.toastr.error('Fail to issue makeup pass.');
+        // },100)
+        this.toastr.error('Fail to issue makeup pass.');
+        this.blockUI.stop();
+        console.log(err);
+      }
+    );
+  }
   issuePass(obj, userId) {
     console.log(obj);
     console.log(userId);
     console.log(this.detailLists._id);
     this.showStudentOption = '';
     this.xxxhello = '';
+    this.modalType = ';';
     this._service.makeupPassIssue(obj, this.detailLists._id, userId).subscribe(
       (res: any) => {
         console.log(res);
@@ -3478,7 +3604,21 @@ export class CourseComponent implements OnInit {
     this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
-  onClickRadio(type, id) {
+  public modalType;
+  public absentInfo;
+  onClickRadio(type, id, modal, user) {
+    if (type == 'absent') {
+      this.modalType = type;
+      this.absentInfo = user;
+      this.modalReference = this.modalService.open(modal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      });
+      return;
+    }
+
+    this.activeCourseInfo = [];
     console.log('LASD~~~', this.LASD);
     var d = new Date(this.LASD).getUTCDate();
     var m = new Date(this.LASD).getUTCMonth() + 1;
