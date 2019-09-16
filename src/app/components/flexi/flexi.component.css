@@ -590,3 +590,7 @@ span.small-line2 {
 .set-overflow {
   overflow: auto !important;
 }
+
+.exclamationIconSelected {
+  color: #fff !important;
+}

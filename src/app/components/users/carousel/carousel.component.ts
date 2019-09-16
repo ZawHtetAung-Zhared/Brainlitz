@@ -68,7 +68,6 @@ export class CarouselComponent implements AfterViewInit {
     const myAnimation: AnimationFactory = this.buildAnimation(offset);
     this.player = myAnimation.create(this.carousel.nativeElement);
     this.player.play();
-    console.log(offset);
   }
 
   private buildAnimation(offset) {
@@ -87,13 +86,10 @@ export class CarouselComponent implements AfterViewInit {
     const myAnimation: AnimationFactory = this.buildAnimation(offset);
     this.player = myAnimation.create(this.carousel.nativeElement);
     this.player.play();
-    console.log(offset);
   }
 
   constructor(private builder: AnimationBuilder) {}
   ngAfterViewInit() {
-    console.log('a', this.showControls);
-    console.log('b', this.items.length);
     // For some reason only here I need to add setTimeout, in my local env it's working without this.
     setTimeout(() => {
       this.itemWidth = this.itemsElements.first.nativeElement.getBoundingClientRect().width;
