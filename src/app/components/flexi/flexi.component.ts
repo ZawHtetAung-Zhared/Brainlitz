@@ -263,6 +263,19 @@ export class FlexiComponent implements OnInit {
       this.tempSkip.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      console.log('exit skip');
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
 
     if (this.tempSignle.find(d => d == data) == undefined) {
@@ -352,7 +365,20 @@ export class FlexiComponent implements OnInit {
       this.tempskipAll.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
+    console.log(this.lessonObjArr);
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
       this.conflictBoxShow = false;
