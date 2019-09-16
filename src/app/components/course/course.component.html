@@ -2148,7 +2148,7 @@
           [disabled]="selectedUserLists.length == 0 || noSetting == true"
           (click)="enrollUserToCourse(detailLists._id, userType)"
         >
-          Confirm
+          {{ noSetting }} {{ selectedUserLists.length }}Confirm Yo
         </button>
         <button
           *ngIf="userType == 'teacher'"
@@ -2373,7 +2373,7 @@
               isDisabledBtn ||
               noSetting == true
             "
-            (click)="addCustomer(detailLists._id, userType)"
+            (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
           >
             Confirm
           </button>
@@ -2460,7 +2460,7 @@
             type="submit"
             class="btn btn-submit"
             *ngIf="checkobjArr.length != 0"
-            (click)="flexicomfirm()"
+            (click)="flexicomfirm(invoiceAlert)"
           >
             Confirm
           </button>
@@ -3186,6 +3186,37 @@
       (closed)="cancelReliefModal()"
       [scheduleRelief]="false"
     ></app-assign-relief>
+  </ng-template>
+  <ng-template #invoiceAlert>
+    <div class="modal-header">
+      <h3 class="modal-title">Invoice issue</h3>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body apg-confirm">
+      <p>
+        "Do you want to issue invoice for this enrollment?"
+        <span class="target"></span>
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelInvoiceAlert()"
+      >
+        No
+      </button>
+      <button
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmInvoiceAlert()"
+      >
+        Yes
+      </button>
+    </div>
   </ng-template>
 
   <block-ui message="Deafult Message"></block-ui>

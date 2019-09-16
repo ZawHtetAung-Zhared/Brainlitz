@@ -2083,6 +2083,7 @@ export class CourseComponent implements OnInit {
           this.modalReference.close();
           console.log(res);
           this.toastr.success('User successfully withdrawled.');
+          this.getCourseDetail(this.courseId);
           this.getUsersInCourse(this.courseId);
         },
         err => {
@@ -2530,11 +2531,34 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  addCustomer(courseId, userType) {
+  confirmInvoiceAlert(courseId, userType) {
+    // this.confirmInvoiceAlert(courseId,userType,invoiceAlert)
+    // this.addCustomer
+    this.disableInvoice = false;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+  }
+  public invoiceModalReference;
+  public disableInvoice;
+  addCustomer(courseId, userType, invoiceAlert) {
+    this.tempCourdeId = courseId;
+    this.tempuserType = userType;
     if (this.courseType == 'FLEXY') {
       this.blockUI.start('Loading...');
-      this.tempCourdeId = courseId;
-      this.tempuserType = userType;
+      // this.tempCourdeId = courseId;
+      // this.tempuserType = userType;
       //  getflexi
       let startDate;
       let endDate;
@@ -2553,12 +2577,22 @@ export class CourseComponent implements OnInit {
           }
         );
     } else {
+      if (invoiceAlert) {
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+
+        return;
+      }
       this.stdLists = [];
       console.log('call from addCustomer', this.selectedCustomer);
       let body = {
         courseId: courseId,
         userId: this.selectedCustomer.userId,
-        userType: userType
+        userType: userType,
+        disableInvoice: this.disableInvoice
       };
       console.log('body', body);
       this.blockUI.start('Loading...');
@@ -2566,7 +2600,13 @@ export class CourseComponent implements OnInit {
         (res: any) => {
           console.log('-------->', res);
           // console.log(this.detailLists.invoice);
-
+          if (this.disableInvoice) {
+            this.invoiceModalReference.close();
+            this.cancelInvoiceModal();
+            // this.modalReference.close();
+            this.blockUI.stop();
+            return;
+          }
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
           console.log('-------->', this.courseInfo);
@@ -3594,9 +3634,18 @@ export class CourseComponent implements OnInit {
     this.checkobjArr = e;
   }
 
-  flexicomfirm() {
+  flexicomfirm(invoiceAlert) {
     //add cutomer
     this.stdLists = [];
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+
+      return;
+    }
     console.log('call from addCustomer', this.selectedCustomer);
     //sorting array as iso date string
     // var myArray = this.checkobjArr;
@@ -3604,6 +3653,7 @@ export class CourseComponent implements OnInit {
     // console.log("sort Array",myArray)
     let lessonBody = {
       userType: this.tempuserType,
+      disableInvoice: this.disableInvoice,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
       lessons: this.checkobjArr,
@@ -3617,6 +3667,13 @@ export class CourseComponent implements OnInit {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
+        if (this.disableInvoice) {
+          this.invoiceModalReference.close();
+          // this.modalReference.close();
+          this.blockUI.stop();
+          this.cancelInvoiceModal();
+          return;
+        }
         this.courseInfo = this.detailLists;
         Object.assign(this.courseInfo, res.body);
         console.log('-------->', this.courseInfo);

@@ -1221,7 +1221,8 @@ export class UsersComponent implements OnInit {
     }
   }
   selectedCustomer: any = {};
-  enrollUser(course, type) {
+  public disableInvoice;
+  enrollUser(course, type, invoiceAlert) {
     console.log('enroll user');
 
     this.selectedCourse = course;
@@ -1248,6 +1249,14 @@ export class UsersComponent implements OnInit {
           }
         );
     } else {
+      if (invoiceAlert) {
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+        return;
+      }
       this.blockUI.start('Loading...');
       console.log(this.custDetail);
       let courseId = course._id;
@@ -1262,6 +1271,12 @@ export class UsersComponent implements OnInit {
           console.log(this.custDetail);
           if (res.status == 200) {
             this.toastr.success('Successfully Enrolled.');
+            if (this.disableInvoice) {
+              this.invoiceModalReference.close();
+              this.closeModal('closeInv');
+              this.blockUI.stop();
+              return;
+            }
             Object.assign(this.selectedCourse, res.body);
             // this.showDetails(this.custDetail.user.userId);
             // this.closeModel();
@@ -2146,7 +2161,15 @@ export class UsersComponent implements OnInit {
     console.log(e);
     this.checkobjArr = e;
   }
-  flexicomfirm() {
+  flexicomfirm(invoiceAlert) {
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+      return;
+    }
     //add cutomer
     let courseId = this.selectedCourse._id;
     let body = {
@@ -2154,6 +2177,7 @@ export class UsersComponent implements OnInit {
       userId: this.custDetail.user.userId,
       userType: 'customer',
       lessons: this.checkobjArr,
+      disableInvoice: this.disableInvoice,
       paymentPolicy: {
         allowProrated: this.isProrated
       }
@@ -2161,6 +2185,12 @@ export class UsersComponent implements OnInit {
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
+        if (this.disableInvoice) {
+          this.invoiceModalReference.close();
+          this.closeModal('closeInv');
+          this.blockUI.stop();
+          return;
+        }
         console.log(this.custDetail);
         this.toastr.success('Successfully Enrolled.');
         console.log(this.selectedCourse);
@@ -2238,4 +2268,23 @@ export class UsersComponent implements OnInit {
     //   event.target.value = '';
     // }
   }
+  confirmInvoiceAlert(courseId, userType) {
+    this.disableInvoice = false;
+    if (this.selectedCourse.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.enrollUser(this.selectedCourse, this.selectedCourse.type, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.selectedCourse.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.enrollUser(this.selectedCourse, this.selectedCourse.type, undefined);
+    }
+    // this.invoiceModalReference.close();
+  }
+  public invoiceModalReference;
 }
