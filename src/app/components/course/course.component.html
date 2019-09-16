@@ -1478,7 +1478,7 @@
                         >
                           <button
                             class="cursor-on"
-                            [ngClass]="{'hide-invoice:user.invoice==null'}"
+                            [ngClass]="{ 'hide-invoice': user.invoice == null }"
                           >
                             View invoice
                           </button>
@@ -1694,17 +1694,14 @@
                             : user.preferredName
                         }}
                       </p>
-                    </div>
-                    <div class="single-user-info d-flex">
                       <p *ngIf="user.preferredName == ''">
                         {{
-                          user.email.length > 20
-                            ? (user.email | slice: 0:20) + '...'
+                          user.email.length > 15
+                            ? (user.email | slice: 0:15) + '...'
                             : user.email
                         }}
                       </p>
                     </div>
-
                     <div class="d-flex ml-auto pr-3">
                       <span
                         class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
@@ -3024,7 +3021,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="d-flex mb-4">
+      <div class="d-flex">
         <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
           <label class="switch">
             <input
@@ -3036,7 +3033,9 @@
           </label>
         </div>
         <label class="switch-label" for="online">Issue makeup pass</label>
-        <div *ngIf="isGlobal" class="form-group" class="mb-0 mt-2">
+      </div>
+      <div class="col-md-8 input-wrap">
+        <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
           <label for="name" class="input-label">Name</label>
           <input
             type="text"
@@ -3048,8 +3047,20 @@
             #name="ngModel"
           />
         </div>
+        <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
+          <label for="name" class="input-label">Reason</label>
+          <textarea
+            class="form-control create-input"
+            rows="4"
+            placeholder="Got any reasons?"
+            name="reason"
+            [(ngModel)]="makeupForm.reason"
+            #reason="ngModel"
+            required
+          ></textarea>
+        </div>
       </div>
-      <div class="d-flex flex-wrap ">
+      <div class="d-flex flex-wrap mt-3">
         <div
           class="row w-100 users-wrap-box"
           *ngIf="this.modalType != 'absent'"
@@ -3157,13 +3168,13 @@
       [(ngModel)]="reasonValue"
     ></textarea>
     <div class="modal-footer">
-      <div
+      <!-- <div
         class="mr-auto add-reason"
         *ngIf="!textAreaOption"
         (click)="showTextarea()"
       >
         Add makeup pass reason
-      </div>
+      </div> -->
       <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
       <button
         *ngIf="this.modalType != 'absent'"
@@ -3174,22 +3185,22 @@
         Confirm
       </button>
       <button
-        *ngIf="this.modalType == 'absent'"
+        *ngIf="this.modalType == 'absent' && !isGlobal"
         class="btn btn-done-crt"
         (click)="absentClass()"
         [disabled]="activeCourseInfo.CUSTOMER.length == 0"
       >
         Confirm
       </button>
-      <!-- 
-    <button
-      *ngIf="this.modalType == 'absent'"
-      class="btn btn-done-crt"
-      (click)="issueForAbsent(makeupForm, singleUserData.userId)"
-      [disabled]="activeCourseInfo.CUSTOMER.length == 0"
-    >
-      Confirm
-    </button> -->
+
+      <button
+        *ngIf="this.modalType == 'absent' && isGlobal"
+        class="btn btn-done-crt"
+        (click)="absentClass(makeupForm, absentInfo.userId)"
+        [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+      >
+        Confirm
+      </button>
     </div>
   </ng-template>
   <ng-template #reschedule let-modal>
