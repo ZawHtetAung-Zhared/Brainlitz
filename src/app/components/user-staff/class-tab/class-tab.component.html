@@ -1,53 +1,49 @@
 <!-- <pre>{{ courseList | json }}</pre> -->
 <div *ngIf="loading == true">
-  <<<<<<< HEAD
-  <div class="row" style="margin-bottom: 80px">
-    =======
-    <div class="row test">
-      >>>>>>> tinthuzarwin
-      <div class="class-block">
-        <div class="course-title">
-          <content-loader>
-            <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
-            <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
-            <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
-            <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
-          </content-loader>
-        </div>
+  <div class="row test">
+    <div class="class-block">
+      <div class="course-title">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+          <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+          <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
+          <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
+        </content-loader>
       </div>
-      <div class="class-block">
-        <div class="course-title">
-          <content-loader>
-            <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
-            <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
-            <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
-            <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
-          </content-loader>
-        </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+          <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+          <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
+        </content-loader>
       </div>
-      <div class="class-block">
-        <div class="course-title">
-          <content-loader>
-            <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
-            <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
-            <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
-            <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
-          </content-loader>
-        </div>
+    </div>
+    <div class="class-block">
+      <div class="course-title">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+          <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+          <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
+        </content-loader>
       </div>
-      <div class="class-block" style="margin-bottom: 20px">
-        <div class="course-title">
-          <content-loader>
-            <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
-            <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
-            <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
-            <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
-          </content-loader>
-        </div>
+    </div>
+    <div class="class-block" style="margin-bottom: 20px">
+      <div class="course-title">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+          <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+          <svg:rect x="0" y="50" rx="3" ry="3" width="200" height="10" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="200" height="10" />
+        </content-loader>
       </div>
     </div>
   </div>
-  <!-- <div class="d-flex justify-content-between">
+</div>
+<!-- <div class="d-flex justify-content-between">
   <h3 class="leave-title">Attending Classess</h3>
   <button
     class="btn btn-primary add-leave"
@@ -56,97 +52,96 @@
     Add new absent
   </button>
 </div> -->
-  <div class="row" *ngIf="courses?.length > 0" style="margin-bottom: 80px">
-    <div class="class-block" *ngFor="let course of courses">
-      <div class="row">
-        <div class="course-title">
-          <!-- <span>Bedok centre</span>
+<div class="row" *ngIf="courses?.length > 0">
+  <div class="class-block" *ngFor="let course of courses">
+    <div class="row">
+      <div class="course-title">
+        <!-- <span>Bedok centre</span>
         <span>Beginner Piano Course</span> -->
-          <div class="col-md-10 location">
-            <i class="fa fa-map-marker"></i>
-            {{ course?.location.name }}
-          </div>
-          <div
-            class="col-md-12 title"
-            (click)="navigateToCourseDetail(course._id)"
-          >
-            {{ course?.name }}
-          </div>
+        <div class="col-md-10 location">
+          <i class="fa fa-map-marker"></i>
+          {{ course?.location.name }}
+        </div>
+        <div
+          class="col-md-12 title"
+          (click)="navigateToCourseDetail(course._id)"
+        >
+          {{ course?.name }}
         </div>
       </div>
-      <div class="row">
-        <div class="overview-shedule d-flex">
-          <div class="col-md-5" *ngIf="course.type != 'ONLINE'">
-            <span class="d-flex shedule-text ">
-              <label
-                class="class-label-14 mb-0"
-                *ngFor="let day of course.repeatDays | weekDays"
-                >{{ day }}</label
-              >
-            </span>
-            <span
-              *ngIf="course.duration != undefined"
-              class="d-flex shedule-text "
-              >{{ course?.duration.startDate | utcTime }} -
-              {{ course?.duration.startDate | utcTime }}</span
+    </div>
+    <div class="row">
+      <div class="overview-shedule d-flex">
+        <div class="col-md-5" *ngIf="course.type != 'ONLINE'">
+          <span class="d-flex shedule-text ">
+            <label
+              class="class-label-14 mb-0"
+              *ngFor="let day of course.repeatDays | weekDays"
+              >{{ day }}</label
             >
+          </span>
+          <span
+            *ngIf="course.duration != undefined"
+            class="d-flex shedule-text "
+            >{{ course?.duration.startDate | utcTime }} -
+            {{ course?.duration.startDate | utcTime }}</span
+          >
+        </div>
+        <div class="v-line"></div>
+        <div class="col-md-6 d-flex">
+          <div class="col-md-6" *ngIf="course.startDate">
+            <span class="d-flex shedule-text ">From</span>
+            <span class="d-flex shedule-text ">{{
+              course?.startDate | utcDate
+            }}</span>
           </div>
-          <div class="v-line"></div>
-          <div class="col-md-6 d-flex">
-            <div class="col-md-6" *ngIf="course.startDate">
-              <span class="d-flex shedule-text ">From</span>
-              <span class="d-flex shedule-text ">{{
-                course?.startDate | utcDate
-              }}</span>
-            </div>
-            <div class="col-md-6" *ngIf="course.endDate">
-              <span class="d-flex shedule-text ">To</span>
-              <span class="d-flex shedule-text ">{{
-                course?.endDate | utcDate
-              }}</span>
-            </div>
-            <div class="col-md-6" *ngIf="course.lessonCount">
-              <p class="d-flex lessons">{{ course?.lessonCount }} Lessons</p>
-            </div>
+          <div class="col-md-6" *ngIf="course.endDate">
+            <span class="d-flex shedule-text ">To</span>
+            <span class="d-flex shedule-text ">{{
+              course?.endDate | utcDate
+            }}</span>
+          </div>
+          <div class="col-md-6" *ngIf="course.lessonCount">
+            <p class="d-flex lessons">{{ course?.lessonCount }} Lessons</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- nocourse-{{nocourse}} -->
-  <div *ngIf="nocourse == true">
-    <!-- <div class="d-flex title-space">
+</div>
+<!-- nocourse-{{nocourse}} -->
+<div *ngIf="nocourse == true">
+  <!-- <div class="d-flex title-space">
     <div class="d-flex flex-column justify-content-center">
       <h4 class="mb-0 tab-title">Attending Classes</h4>
     </div>
   </div> -->
-    <div class="btn-wrap no-item">
-      There is no course.
+  <div class="btn-wrap no-item">
+    There is no course.
+  </div>
+</div>
+
+<ng-template #finalmodal let-modal>
+  <div class="final-class-wrapper">
+    <div class="d-flex w-100 justify-content-between">
+      <h1 class="final-class-modal-title">Cancel class</h1>
+      <span class="close-icon" (click)="closeModal()"></span>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex flex-column col-md-8 class-list-box">
+        <div class="class-list-box-title"></div>
+      </div>
+      <div class="col-md-4 leavedays-box">
+        ggwp
+      </div>
     </div>
   </div>
-
-  <ng-template #finalmodal let-modal>
-    <div class="final-class-wrapper">
-      <div class="d-flex w-100 justify-content-between">
-        <h1 class="final-class-modal-title">Cancel class</h1>
-        <span class="close-icon" (click)="closeModal()"></span>
-      </div>
-      <div class="d-flex">
-        <div class="d-flex flex-column col-md-8 class-list-box">
-          <div class="class-list-box-title"></div>
-        </div>
-        <div class="col-md-4 leavedays-box">
-          ggwp
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer footer-shadow">
-      <button class="btn bg-white" (click)="closeModal()">
-        Cancel
-      </button>
-      <button class="btn btn-primary create-button-pos" (click)="closeModal()">
-        Confirm
-      </button>
-    </div>
-  </ng-template>
-</div>
+  <div class="modal-footer footer-shadow">
+    <button class="btn bg-white" (click)="closeModal()">
+      Cancel
+    </button>
+    <button class="btn btn-primary create-button-pos" (click)="closeModal()">
+      Confirm
+    </button>
+  </div>
+</ng-template>
