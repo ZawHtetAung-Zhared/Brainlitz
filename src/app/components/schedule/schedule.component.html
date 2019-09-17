@@ -2123,8 +2123,8 @@
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
   </div>
-  <div style="height:700px">
-    <div class="pt-2 body-wrap" *ngIf="activeTab == 'enroll'">
+  <div class="body-wrap">
+    <div class="pt-2" *ngIf="activeTab == 'enroll'">
       <div
         *ngIf="
           showInvoice == false &&
@@ -2273,7 +2273,7 @@
                 isDisabledBtn ||
                 noSetting == true
               "
-              (click)="addCustomer(courseDetail, userType)"
+              (click)="addCustomer(courseDetail, userType, invoiceAlert)"
             >
               Confirm
             </button>
@@ -2354,7 +2354,7 @@
               type="submit"
               class="btn btn-submit"
               *ngIf="checkobjArr.length != 0"
-              (click)="flexicomfirm()"
+              (click)="flexicomfirm(invoiceAlert)"
             >
               Confirm
             </button>
@@ -2664,7 +2664,7 @@
         </div>
       </div>
     </div>
-    <div class="body-wrap pt-2" *ngIf="activeTab == 'view'">
+    <div class="pt-2" *ngIf="activeTab == 'view'">
       <div class="modal-body modal-body-padding">
         <div class="row">
           <div
@@ -2704,7 +2704,7 @@
       </div>
     </div>
 
-    <div class="body-wrap pt-2" *ngIf="activeTab == 'relief'">
+    <div class="pt-2" *ngIf="activeTab == 'relief'">
       <div class="modal-body">
         <div class="row">
           <app-assign-relief
@@ -2717,7 +2717,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="activeTab == 'cancel'">
+    <div class="pt-2" *ngIf="activeTab == 'cancel'">
       <div class="modal-body student-lists modal-body-padding">
         <div class="d-flex mb-4">
           <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
@@ -2799,7 +2799,37 @@
     </div>
   </div>
 </ng-template>
-
+<ng-template #invoiceAlert>
+  <div class="modal-header">
+    <h3 class="modal-title">Invoice issue</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button> -->
+  </div>
+  <div class="modal-body apg-confirm">
+    <p>
+      "Do you want to issue invoice for this enrollment?"
+      <span class="target"></span>
+      <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+    </p>
+  </div>
+  <div class="modal-footer invoiceAlert-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn"
+      (click)="cancelInvoiceAlert()"
+    >
+      No
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn"
+      (click)="confirmInvoiceAlert()"
+    >
+      Yes
+    </button>
+  </div>
+</ng-template>
 <div
   class="overlap-popup"
   id="overlap-wrapper"

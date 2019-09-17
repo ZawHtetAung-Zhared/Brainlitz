@@ -2069,10 +2069,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   ctype: any;
-  addCustomer(cDetail, userType) {
+  addCustomer(cDetail, userType, invoiceAlert) {
     this.isDisabledBtn = false;
     console.log(userType);
     console.log(cDetail);
+    console.log(this.courseDetail);
     console.log(this.selectCustomer);
     if (cDetail.type == 'FLEXY') {
       this.ctype = 'schedule';
@@ -2097,6 +2098,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           }
         );
     } else {
+      if (invoiceAlert) {
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+        return;
+      }
       this.stdLists = [];
       this.stdArr = [];
       console.log('call from addCustomer', this.selectedCustomer);
@@ -2120,6 +2129,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
               this.selectedTeacher.userId,
               this.selectedDay.toString()
             );
+          }
+          if (this.disableInvoice) {
+            this.invoiceModalReference.close();
+            this.cancelModal('closeInv');
+            this.blockUI.stop();
+            return;
           }
           console.log('res Assign customer', res);
           if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
@@ -2855,7 +2870,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.selectedCustomer = {};
     // this.showDp = true;
     console.log(this.selectedCourse.course.type);
-
     e.preventDefault();
     e.stopPropagation();
     console.log(this.courseDetail);
@@ -3212,7 +3226,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(e);
     this.checkobjArr = e;
   }
-  flexicomfirm() {
+  flexicomfirm(invoiceAlert) {
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+
+      return;
+    }
     //add cutomer
     this.stdLists = [];
     console.log('call from addCustomer', this.selectedCustomer);
@@ -3231,7 +3254,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
-
+        if (this.disableInvoice) {
+          this.cancelModal('closeInv');
+          this.blockUI.stop();
+          return;
+        }
         // this.courseInfo = this.detailLists;
         Object.assign(this.detailLists, res.body);
         console.log('-------->', this.detailLists);
@@ -3346,4 +3373,24 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       };
     }
   }
+  public disableInvoice;
+  confirmInvoiceAlert(courseId, userType) {
+    this.disableInvoice = false;
+    if (this.courseDetail.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.courseDetail, this.tempuserType, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.courseDetail.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.courseDetail, this.tempuserType, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  public invoiceModalReference;
 }
