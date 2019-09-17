@@ -1473,13 +1473,11 @@
                         <!-- <li (click)="showTabsModal(tabsModal,'transfer',user)">Transfer class</li> -->
                         <!-- [disabled]="user.invoice == null" -->
                         <li
+                          [ngClass]="{ 'hide-invoice': user.invoice == null }"
                           (click)="showTabsModal(tabsModal, 'invoice', user)"
                           class="view-li"
                         >
-                          <button
-                            class="cursor-on"
-                            [ngClass]="{ 'hide-invoice': user.invoice == null }"
-                          >
+                          <button class="cursor-on">
                             View invoice
                           </button>
                         </li>
