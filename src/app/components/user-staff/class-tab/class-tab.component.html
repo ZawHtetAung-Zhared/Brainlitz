@@ -1,6 +1,6 @@
 <!-- <pre>{{ courseList | json }}</pre> -->
 <div *ngIf="loading == true">
-  <div class="row">
+  <div class="row" style="margin-bottom: 80px">
     <div class="class-block">
       <div class="course-title">
         <content-loader>
@@ -52,7 +52,7 @@
     Add new absent
   </button>
 </div> -->
-<div class="row" *ngIf="courses?.length > 0">
+<div class="row" *ngIf="courses?.length > 0" style="margin-bottom: 80px">
   <div class="class-block" *ngFor="let course of courses">
     <div class="row">
       <div class="course-title">
