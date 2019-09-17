@@ -3811,6 +3811,7 @@ export class CourseComponent implements OnInit {
           this.invoiceModalReference.close();
           // this.modalReference.close();
           this.blockUI.stop();
+          this.showflexyCourse = false;
           this.cancelInvoiceModal();
           return;
         }

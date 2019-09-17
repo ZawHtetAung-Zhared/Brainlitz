@@ -1308,6 +1308,12 @@ export class UsersComponent implements OnInit {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.blockUI.stop();
             this.showInvoice = false;
+            if (this.disableInvoice) {
+              this.invoiceModalReference.close();
+              this.closeModal('closeInv');
+              this.blockUI.stop();
+              return;
+            }
           }
           // for(var i in this.invoice){
           //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -2185,16 +2191,16 @@ export class UsersComponent implements OnInit {
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
+
+        console.log(this.custDetail);
+        this.toastr.success('Successfully Enrolled.');
+        console.log(this.selectedCourse);
         if (this.disableInvoice) {
           this.invoiceModalReference.close();
           this.closeModal('closeInv');
           this.blockUI.stop();
           return;
         }
-        console.log(this.custDetail);
-        this.toastr.success('Successfully Enrolled.');
-        console.log(this.selectedCourse);
-
         Object.assign(this.selectedCourse, res.body);
         // this.showDetails(this.custDetail.user.userId);
         // this.closeModel();
