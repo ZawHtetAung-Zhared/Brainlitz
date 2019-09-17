@@ -119,3 +119,6 @@
 .footer-shadow {
   box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.08);
 }
+::ng-deep .row {
+  margin-bottom: 20px !important;
+}

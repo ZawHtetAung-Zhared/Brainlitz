@@ -1107,7 +1107,7 @@ export class InvoiceComponent implements OnInit {
 
   removeDiscount(type, obj, id) {
     console.log('type', type, this.cDiscount.isDefault);
-
+    this.isEditInv = true;
     if (type == 'courseFee') {
       this.iscDiscount = false;
       // if (this.cDiscount.isDefault) {
@@ -1120,7 +1120,7 @@ export class InvoiceComponent implements OnInit {
         amount: 0.0,
         isDefault: this.cDiscount.isDefault
       };
-      this.isEditInv = true;
+
       // }
 
       this.default_disTotal = 0;

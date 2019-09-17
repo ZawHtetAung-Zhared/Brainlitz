@@ -1916,9 +1916,15 @@ export class appService {
   getAssignUser(regionid, courseid, date, month, year) {
     let url;
     if (date == null && month == null && year == null) {
-      url = this.baseUrl + '/' + regionid + '/course/user/' + courseid;
-    } else {
       url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/course/user/' +
+        courseid +
+        '?usergrade=1';
+    } else {
+      (url =
         this.baseUrl +
         '/' +
         regionid +
@@ -1929,7 +1935,8 @@ export class appService {
         '&month=' +
         month +
         '&year=' +
-        year;
+        year),
+        '&usergrade=1';
     }
 
     const httpOptions = {
