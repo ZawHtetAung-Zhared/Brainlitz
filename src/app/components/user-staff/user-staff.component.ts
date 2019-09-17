@@ -732,7 +732,7 @@ export class UserStaffComponent implements OnInit {
     this.staffObj = data;
     console.log('show Staff details', this.staffObj);
     console.log(ID);
-    this.blockUI.start('Loading...');
+    // this.blockUI.start('Loading...');
     this.showStaffDetail = true;
     this._service
       .getUserDetail(this.regionID, data.userId, this.locationID)
@@ -744,12 +744,12 @@ export class UserStaffComponent implements OnInit {
               info.value = moment(info.value).format('YYYY-MM-DD');
           });
           console.log('StaffDetail', res);
-          setTimeout(() => {
-            this.blockUI.stop();
-          }, 100);
+          // setTimeout(() => {
+          //   this.blockUI.stop();
+          // }, 100);
         },
         err => {
-          this.blockUI.stop();
+          // this.blockUI.stop();
           console.log(err);
         }
       );

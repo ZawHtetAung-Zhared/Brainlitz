@@ -3195,7 +3195,7 @@
         *ngIf="this.modalType == 'absent' && isGlobal"
         class="btn btn-done-crt"
         (click)="absentClass(makeupForm, absentInfo.userId)"
-        [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+        [disabled]="makeupForm.reason == null || makeupForm.name == null"
       >
         Confirm
       </button>
