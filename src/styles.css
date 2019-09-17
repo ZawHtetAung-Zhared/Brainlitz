@@ -793,7 +793,9 @@ span.scrollup.show:hover:before {
   }
 
   .newdiscount-btn *,
-  .newItem-btn * {
+  .newItem-btn *,
+  .removeDis,
+  .removeDis * {
     visibility: hidden;
   }
 }
