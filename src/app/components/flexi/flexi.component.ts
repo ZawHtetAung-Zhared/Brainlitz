@@ -150,9 +150,9 @@ export class FlexiComponent implements OnInit {
     }
     if (this.ctype == 'schedule') {
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 50 + 85;
-      this.arrTop = e.clientY - 50 + 68;
-      this.arrLeft = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 50 + 25;
+      this.arrTop = e.clientY - 50 + 5;
+      this.arrLeft = e.clientX - 173 - 55;
       this.styleArr = {
         top: this.yPos + 'px'
       };
@@ -163,17 +163,17 @@ export class FlexiComponent implements OnInit {
       console.log(e.path[4].offsetLeft);
       console.log($(event.target).offset().top);
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 112;
-      this.arrTop = e.clientY - 150 + 92;
+      this.yPos = e.clientY - 150 + 64;
+      this.arrTop = e.clientY - 150 + 50;
 
       if (
         e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
         e.srcElement.className ==
           'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
       ) {
-        this.arrLeft = e.path[4].offsetLeft + 40;
+        this.arrLeft = e.path[4].offsetLeft + 130;
       } else {
-        this.arrLeft = e.path[3].offsetLeft + 40;
+        this.arrLeft = e.path[3].offsetLeft + 130;
       }
 
       this.styleArr = {
