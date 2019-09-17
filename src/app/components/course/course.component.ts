@@ -2149,7 +2149,9 @@ export class CourseComponent implements OnInit {
       console.log(this.courseId);
       this._service.markAttendance(this.courseId, studentID, d, m, y).subscribe(
         (res: any) => {
-          this.toastr.success(res.message);
+          setTimeout(() => {
+            this.toastr.success(res.message);
+          }, 100);
           console.log('res', res);
           // this.getUsersInCourse(this.courseId);
           this.activeTab = 'Class';
@@ -2183,7 +2185,9 @@ export class CourseComponent implements OnInit {
           .markAttendance(this.courseId, studentID, d, m, y)
           .subscribe(
             (res: any) => {
-              this.toastr.success(res.message);
+              setTimeout(() => {
+                this.toastr.success(res.message);
+              }, 100);
               console.log('res', res);
               // this.getUsersInCourse(this.courseId);
               this.activeTab = 'Class';
@@ -2207,18 +2211,18 @@ export class CourseComponent implements OnInit {
               this.blockUI.stop();
               this.modalReference.close();
               // this.activeTab = 'People';
-              this.toastr.success('Makeup pass successfully created.');
-              // setTimeout(()=>{
-              //   this.toastr.success('Makeup pass successfully created.');
-              // },100)
+              // this.toastr.success('Makeup pass successfully created.');
+              setTimeout(() => {
+                this.toastr.success('Makeup pass successfully created.');
+              }, 100);
               this.makeupForm = {};
             },
             err => {
               this.modalReference.close();
-              // setTimeout(()=>{
-              //   this.toastr.error('Fail to issue makeup pass.');
-              // },100)
-              this.toastr.error('Fail to issue makeup pass.');
+              setTimeout(() => {
+                this.toastr.error('Fail to issue makeup pass.');
+              }, 100);
+              // this.toastr.error('Fail to issue makeup pass.');
               this.blockUI.stop();
               console.log(err);
             }
@@ -3676,7 +3680,9 @@ export class CourseComponent implements OnInit {
     console.log(this.courseId);
     this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
       (res: any) => {
-        this.toastr.success(res.message);
+        setTimeout(() => {
+          this.toastr.success(res.message);
+        }, 100);
         console.log('res', res);
         // this.getUsersInCourse(this.courseId);
         this.activeTab = 'Class';
