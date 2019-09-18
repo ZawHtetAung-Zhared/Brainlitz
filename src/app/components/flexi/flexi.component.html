@@ -67,6 +67,11 @@
 <div
   class="flexiMid"
   id="flexiMid"
+  [ngStyle]="
+    ctype == 'schedule'
+      ? { height: 'unset', 'padding-bottom': '180px' }
+      : { height: '300px', 'padding-bottom': '80px' }
+  "
   [ngClass]="{
     'set-overflow': !conflictBoxShow
   }"
