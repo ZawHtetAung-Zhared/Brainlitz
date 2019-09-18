@@ -291,6 +291,8 @@ export class UserGradingComponent implements OnInit {
     e.stopPropagation();
     let YPosition = e.clientY;
     let XPosition = e.clientX;
+    console.error(YPosition);
+
     if (e.target.className == '') {
       this.colorArrClasses = {
         top: YPosition + 'px',
