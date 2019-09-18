@@ -3659,6 +3659,8 @@ export class CourseComponent implements OnInit {
         windowClass:
           'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
+
+      this.getMakeupLists(user.userId, 'course', this.regionId, this.courseId);
       return;
     }
 

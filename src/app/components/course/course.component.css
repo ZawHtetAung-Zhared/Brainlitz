@@ -3112,7 +3112,10 @@ p.textCount {
   min-height: 42px;
   overflow: overlay;
 }
-
+.makeup-des {
+  max-height: 42px;
+  overflow: overlay;
+}
 .makeup-box {
   background: #f2f4f5;
   padding: 8px;
@@ -3185,7 +3188,11 @@ p.textCount {
   max-height: 63vh;
   min-height: 63vh;
 }
-
+.makeup-side {
+  background: #f2f4f5;
+  overflow: auto;
+  max-height: 360px;
+}
 .makeup-footer {
   padding: 16px;
   border-top: 2px dotted #d4d5d6;
