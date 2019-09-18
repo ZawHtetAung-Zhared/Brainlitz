@@ -3018,7 +3018,7 @@
         </span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="makeup-style">
       <div class="d-flex">
         <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
           <label class="switch">
@@ -3032,7 +3032,7 @@
         </div>
         <label class="switch-label" for="online">Issue makeup pass</label>
       </div>
-      <div class="col-md-8 input-wrap">
+      <div class="col-md-8 input-wrap p-0">
         <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
           <label for="name" class="input-label">Name</label>
           <input
@@ -3309,14 +3309,14 @@
   </ng-template>
   <ng-template #invoiceAlert>
     <div class="modal-header">
-      <h3 class="modal-title">Invoice issue</h3>
+      <h3 class="modal-title">Generate invoice</h3>
       <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     </div>
     <div class="modal-body apg-confirm">
       <p>
-        "Do you want to issue invoice for this enrollment?"
+        "Do you want to generate invoice for this enrollment?"
         <span class="target"></span>
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>
