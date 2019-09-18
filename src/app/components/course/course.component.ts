@@ -241,6 +241,7 @@ export class CourseComponent implements OnInit {
   showcb: boolean = false;
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
+  public isDisabledBtn = false;
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -2116,6 +2117,7 @@ export class CourseComponent implements OnInit {
     this.tempCourdeId = '';
     this.tempuserType = '';
     this.isProrated = false;
+    this.isDisabledBtn = false;
   }
   cancelClass(content) {
     this.modalType = '';
@@ -2371,7 +2373,7 @@ export class CourseComponent implements OnInit {
       }
     );
   }
-  isDisabledBtn = false;
+
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
     // console.log(this.detailLists);
@@ -2659,6 +2661,7 @@ export class CourseComponent implements OnInit {
   addCustomer(courseId, userType, invoiceAlert) {
     this.tempCourdeId = courseId;
     this.tempuserType = userType;
+    this.isDisabledBtn = false;
     if (this.courseType == 'FLEXY') {
       this.blockUI.start('Loading...');
       // this.tempCourdeId = courseId;
