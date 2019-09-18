@@ -152,7 +152,8 @@ export class FlexiComponent implements OnInit {
       this.xPos = e.clientX - 173 - 65;
       this.yPos = e.clientY - 50 + 25;
       this.arrTop = e.clientY - 50 + 5;
-      this.arrLeft = e.clientX - 173 - 55;
+      this.arrLeft = e.clientX - 173 + 75;
+
       this.styleArr = {
         top: this.yPos + 'px'
       };
@@ -163,8 +164,8 @@ export class FlexiComponent implements OnInit {
       console.log(e.path[4].offsetLeft);
       console.log($(event.target).offset().top);
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 64;
-      this.arrTop = e.clientY - 150 + 50;
+      this.yPos = e.clientY - 150 + 74;
+      this.arrTop = e.clientY - 150 + 55;
 
       if (
         e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
