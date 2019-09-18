@@ -179,6 +179,7 @@ export class CourseComponent implements OnInit {
   public planCategory: any;
   showList: boolean = false;
 
+  public grade = 1;
   public draft: boolean;
   public selectedCustomer: any = {};
   public showInvoice: boolean = false;
@@ -240,6 +241,7 @@ export class CourseComponent implements OnInit {
   showcb: boolean = false;
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
+  public isDisabledBtn = false;
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -2082,6 +2084,7 @@ export class CourseComponent implements OnInit {
           this.modalReference.close();
           console.log(res);
           this.toastr.success('User successfully withdrawled.');
+          this.getCourseDetail(this.courseId);
           this.getUsersInCourse(this.courseId);
         },
         err => {
@@ -2114,8 +2117,11 @@ export class CourseComponent implements OnInit {
     this.tempCourdeId = '';
     this.tempuserType = '';
     this.isProrated = false;
+    this.isDisabledBtn = false;
   }
   cancelClass(content) {
+    this.modalType = '';
+    this.getUsersInCourse(this.courseId);
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass:
@@ -2125,7 +2131,110 @@ export class CourseComponent implements OnInit {
   showTextarea() {
     this.textAreaOption = true;
   }
+  absentClass(obj, userId) {
+    if (this.modalType == 'absent' && !this.isGlobal) {
+      console.log(this.activeCourseInfo);
+      console.log('LASD~~~', this.LASD);
+      var d = new Date(this.LASD).getUTCDate();
+      var m = new Date(this.LASD).getUTCMonth() + 1;
+      var y = new Date(this.LASD).getUTCFullYear();
+      var studentID = {
+        studentId: this.absentInfo.userId
+      };
+      // if (type == 'present') {
+      //   obj['attendance'] = 'true';
+      // } else {
+      studentID['attendance'] = 'false';
+      // }
+      console.log(d, '/', m, '/', y);
+      console.log('obj~~~', obj);
+      console.log(this.courseId);
+      this._service.markAttendance(this.courseId, studentID, d, m, y).subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.toastr.success(res.message);
+          }, 100);
+          console.log('res', res);
+          // this.getUsersInCourse(this.courseId);
+          this.activeTab = 'Class';
+          this.attdBox = false;
+          this.getAssignUsers(d, m, y);
+          this.modalClose();
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('');
+        }
+      );
+      return;
+    } else if (this.modalType == 'absent' && this.isGlobal) {
+      return new Promise((resolve, reject) => {
+        var d = new Date(this.LASD).getUTCDate();
+        var m = new Date(this.LASD).getUTCMonth() + 1;
+        var y = new Date(this.LASD).getUTCFullYear();
+        var studentID = {
+          studentId: this.absentInfo.userId
+        };
+        // if (type == 'present') {
+        //   obj['attendance'] = 'true';
+        // } else {
+        studentID['attendance'] = 'false';
+        // }
+        console.log(d, '/', m, '/', y);
+        console.log('obj~~~', obj);
+        console.log(this.courseId);
+        this._service
+          .markAttendance(this.courseId, studentID, d, m, y)
+          .subscribe(
+            (res: any) => {
+              setTimeout(() => {
+                this.toastr.success(res.message);
+              }, 100);
+              console.log('res', res);
+              // this.getUsersInCourse(this.courseId);
+              this.activeTab = 'Class';
+              this.attdBox = false;
+              this.getAssignUsers(d, m, y);
+              this.modalClose();
+            },
+            err => {
+              console.log(err);
+              this.toastr.error('');
+            }
+          );
+        resolve();
+      }).then(() => {
+        setTimeout(() => {
+          this.showStudentOption = '';
+          this.xxxhello = '';
+          this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
+            (res: any) => {
+              console.log(res);
+              this.blockUI.stop();
+              this.modalReference.close();
+              // this.activeTab = 'People';
+              // this.toastr.success('Makeup pass successfully created.');
+              setTimeout(() => {
+                this.toastr.success('Makeup pass successfully created.');
+              }, 100);
+              this.makeupForm = {};
+            },
+            err => {
+              this.modalReference.close();
+              setTimeout(() => {
+                this.toastr.error('Fail to issue makeup pass.');
+              }, 100);
+              // this.toastr.error('Fail to issue makeup pass.');
+              this.blockUI.stop();
+              console.log(err);
+            }
+          );
+        }, 500);
+      });
+    }
+  }
   cancelClassFun(lessonId) {
+    this.modalType = '';
     var cancelData;
     if (
       this.reasonValue == null ||
@@ -2145,7 +2254,6 @@ export class CourseComponent implements OnInit {
       };
       cancelData = reason;
     }
-
     console.log(lessonId);
     console.log(this.isGlobal);
     console.log(cancelData);
@@ -2265,7 +2373,7 @@ export class CourseComponent implements OnInit {
       }
     );
   }
-  isDisabledBtn = false;
+
   getSingleCustomer(ID, type?) {
     this.blockUI.start('Loading...');
     // console.log(this.detailLists);
@@ -2529,11 +2637,35 @@ export class CourseComponent implements OnInit {
     );
   }
 
-  addCustomer(courseId, userType) {
+  confirmInvoiceAlert(courseId, userType) {
+    // this.confirmInvoiceAlert(courseId,userType,invoiceAlert)
+    // this.addCustomer
+    this.disableInvoice = false;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+  }
+  public invoiceModalReference;
+  public disableInvoice;
+  addCustomer(courseId, userType, invoiceAlert) {
+    this.tempCourdeId = courseId;
+    this.tempuserType = userType;
+    this.isDisabledBtn = false;
     if (this.courseType == 'FLEXY') {
       this.blockUI.start('Loading...');
-      this.tempCourdeId = courseId;
-      this.tempuserType = userType;
+      // this.tempCourdeId = courseId;
+      // this.tempuserType = userType;
       //  getflexi
       let startDate;
       let endDate;
@@ -2552,12 +2684,22 @@ export class CourseComponent implements OnInit {
           }
         );
     } else {
+      if (invoiceAlert) {
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+
+        return;
+      }
       this.stdLists = [];
       console.log('call from addCustomer', this.selectedCustomer);
       let body = {
         courseId: courseId,
         userId: this.selectedCustomer.userId,
-        userType: userType
+        userType: userType,
+        disableInvoice: this.disableInvoice
       };
       console.log('body', body);
       this.blockUI.start('Loading...');
@@ -2565,7 +2707,13 @@ export class CourseComponent implements OnInit {
         (res: any) => {
           console.log('-------->', res);
           // console.log(this.detailLists.invoice);
-
+          if (this.disableInvoice) {
+            this.invoiceModalReference.close();
+            this.cancelInvoiceModal();
+            // this.modalReference.close();
+            this.blockUI.stop();
+            return;
+          }
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
           console.log('-------->', this.courseInfo);
@@ -3417,13 +3565,39 @@ export class CourseComponent implements OnInit {
       }
     );
   }
-
+  issueForAbsent(obj, userId) {
+    this.showStudentOption = '';
+    this.xxxhello = '';
+    this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.blockUI.stop();
+        this.modalReference.close();
+        this.activeTab = 'People';
+        this.toastr.success('Makeup pass successfully created.');
+        // setTimeout(()=>{
+        //   this.toastr.success('Makeup pass successfully created.');
+        // },100)
+        this.makeupForm = {};
+      },
+      err => {
+        this.modalReference.close();
+        // setTimeout(()=>{
+        //   this.toastr.error('Fail to issue makeup pass.');
+        // },100)
+        this.toastr.error('Fail to issue makeup pass.');
+        this.blockUI.stop();
+        console.log(err);
+      }
+    );
+  }
   issuePass(obj, userId) {
     console.log(obj);
     console.log(userId);
     console.log(this.detailLists._id);
     this.showStudentOption = '';
     this.xxxhello = '';
+    this.modalType = ';';
     this._service.makeupPassIssue(obj, this.detailLists._id, userId).subscribe(
       (res: any) => {
         console.log(res);
@@ -3477,7 +3651,21 @@ export class CourseComponent implements OnInit {
     this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
-  onClickRadio(type, id) {
+  public modalType;
+  public absentInfo;
+  onClickRadio(type, id, modal, user) {
+    if (type == 'absent') {
+      this.modalType = type;
+      this.absentInfo = user;
+      this.modalReference = this.modalService.open(modal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      });
+      return;
+    }
+
+    this.activeCourseInfo = [];
     console.log('LASD~~~', this.LASD);
     var d = new Date(this.LASD).getUTCDate();
     var m = new Date(this.LASD).getUTCMonth() + 1;
@@ -3495,7 +3683,9 @@ export class CourseComponent implements OnInit {
     console.log(this.courseId);
     this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
       (res: any) => {
-        this.toastr.success(res.message);
+        setTimeout(() => {
+          this.toastr.success(res.message);
+        }, 100);
         console.log('res', res);
         // this.getUsersInCourse(this.courseId);
         this.activeTab = 'Class';
@@ -3593,9 +3783,18 @@ export class CourseComponent implements OnInit {
     this.checkobjArr = e;
   }
 
-  flexicomfirm() {
+  flexicomfirm(invoiceAlert) {
     //add cutomer
     this.stdLists = [];
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+
+      return;
+    }
     console.log('call from addCustomer', this.selectedCustomer);
     //sorting array as iso date string
     // var myArray = this.checkobjArr;
@@ -3603,6 +3802,7 @@ export class CourseComponent implements OnInit {
     // console.log("sort Array",myArray)
     let lessonBody = {
       userType: this.tempuserType,
+      disableInvoice: this.disableInvoice,
       courseId: this.tempCourdeId,
       userId: this.selectedCustomer.userId,
       lessons: this.checkobjArr,
@@ -3616,6 +3816,14 @@ export class CourseComponent implements OnInit {
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
+        if (this.disableInvoice) {
+          this.invoiceModalReference.close();
+          // this.modalReference.close();
+          this.blockUI.stop();
+          this.showflexyCourse = false;
+          this.cancelInvoiceModal();
+          return;
+        }
         this.courseInfo = this.detailLists;
         Object.assign(this.courseInfo, res.body);
         console.log('-------->', this.courseInfo);

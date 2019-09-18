@@ -82,7 +82,7 @@ select {
 .menu-border {
   border-top: 1px solid #e3e4e6;
   border-bottom: 1px solid #e3e4e6;
-  height: 75px !important;
+  height: 60px !important;
 }
 
 .first-row {
@@ -252,6 +252,7 @@ ul.nav-style li:hover a {
 li.nav-item {
   padding: 5px 15px 10px;
   float: left;
+  align-items: center !important;
 }
 a.nav-link.active {
   /*border-bottom: 2px solid #4392f1 !important;*/
@@ -340,5 +341,5 @@ underline-style {
 .border-design.active {
   border-top: 4px solid #007fff;
   border-radius: 4px 4px 0px 0px;
-  margin-top: 25px;
+  margin-top: 9px;
 }

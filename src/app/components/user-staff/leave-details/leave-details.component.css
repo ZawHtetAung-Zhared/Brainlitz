@@ -1329,3 +1329,10 @@ p.left-txt {
   float: right;
   cursor: pointer;
 }
+
+@media screen and (max-height: 768px) {
+  .main-openleave {
+    max-height: 500px;
+    overflow: overlay;
+  }
+}

@@ -125,8 +125,14 @@ input:checked + .slider:before {
   margin-bottom: 0;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-.input-wrap .form-group {
+.form-group {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.border-style {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.create-input:hover {
+  background: #f7f9fa;
 }
 .create-input:focus {
   box-shadow: none;
@@ -362,6 +368,9 @@ ul.data-listing li.disabled {
   height: 300px;
   left: 0;
   top: 42px;
+}
+.hide-invoice {
+  display: none !important;
 }
 .hide-dropbox {
   position: absolute;
@@ -3550,4 +3559,8 @@ i.fa.fa-angle-left.flexiBackicon {
   margin-top: 30px;
   margin-left: -15px;
   position: relative;
+}
+.makeup-style {
+  padding: 32px 32px 0 32px !important;
+  margin-top: -20px;
 }

@@ -54,20 +54,12 @@ export class FlexiComponent implements OnInit {
     this.lessionIdArr = [];
     var j = 0;
     for (let i = 0; i < obj.length; i++) {
-      console.log(obj[i]);
-      if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
+      if (obj[i].isEnrolled == false) {
         j++;
-        // console.warn(j);
 
         //to remove id
         let tobj: any = {};
         tobj = obj[i];
-        // tobj.startDate = obj[i].startDate;
-        // tobj.conflictWith = obj[i].conflictWith;
-        // tobj.endDate = obj[i].endDate;
-        // tobj.hasConflict = obj[i].hasConflict;
-        // tobj.isEnrolled = obj[i].isEnrolled;
-        // tobj.teacherId = obj[i].teacherId;
         tobj.id = i;
 
         if (j <= this.course.defaultlessonCount) {
@@ -158,9 +150,10 @@ export class FlexiComponent implements OnInit {
     }
     if (this.ctype == 'schedule') {
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 50 + 85;
-      this.arrTop = e.clientY - 50 + 68;
-      this.arrLeft = e.clientX - 173 - 65;
+      this.yPos = e.clientY - 50 + 25;
+      this.arrTop = e.clientY - 50 + 5;
+      this.arrLeft = e.clientX - 173 + 75;
+
       this.styleArr = {
         top: this.yPos + 'px'
       };
@@ -171,12 +164,17 @@ export class FlexiComponent implements OnInit {
       console.log(e.path[4].offsetLeft);
       console.log($(event.target).offset().top);
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 112;
-      this.arrTop = e.clientY - 150 + 92;
-      if (e.srcElement.className == 'fa fa-angle-down downIcon') {
-        this.arrLeft = e.path[4].offsetLeft + 40;
+      this.yPos = e.clientY - 150 + 74;
+      this.arrTop = e.clientY - 150 + 55;
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        this.arrLeft = e.path[4].offsetLeft + 130;
       } else {
-        this.arrLeft = e.path[3].offsetLeft + 40;
+        this.arrLeft = e.path[3].offsetLeft + 130;
       }
 
       this.styleArr = {
@@ -266,6 +264,19 @@ export class FlexiComponent implements OnInit {
       this.tempSkip.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      console.log('exit skip');
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
 
     if (this.tempSignle.find(d => d == data) == undefined) {
@@ -355,7 +366,20 @@ export class FlexiComponent implements OnInit {
       this.tempskipAll.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
+    console.log(this.lessonObjArr);
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
       this.conflictBoxShow = false;

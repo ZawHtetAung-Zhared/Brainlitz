@@ -67,6 +67,11 @@
 <div
   class="flexiMid"
   id="flexiMid"
+  [ngStyle]="
+    ctype == 'schedule'
+      ? { height: 'unset', 'padding-bottom': '180px' }
+      : { height: '300px', 'padding-bottom': '80px' }
+  "
   [ngClass]="{
     'set-overflow': !conflictBoxShow
   }"
@@ -120,24 +125,109 @@
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict && !obj.isEnrolled"
+        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == false"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj.id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+        (click)="lessonCheck(obj.id, obj)"
       >
         <div class="d-flex justify-content-between">
           <div class="d-flex">
-            <div class="exIcon">
-              <i class="fa fa-exclamation-circle exclamationIcon"></i>
+            <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
+              <i class="fa fa-check checkIcon"></i>
             </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessionIdArr.indexOf(obj.id) == -1"
+            ></div>
             <div class="showDate">
-              <p class="date">{{ obj.startDate | utcShortDate }}</p>
-              <p class="day">{{ obj.startDate | utcFullDay }}</p>
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
             </div>
           </div>
-          <div class="downArrow" (click)="showConflictBox($event, obj)">
+          <!-- <div class="downArrow">
             <i class="fa fa-angle-down downIcon"></i>
+          </div> -->
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+              }"
+            ></i>
           </div>
         </div>
 
-        <div class="statusBox">
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
+        >
+          <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict"
+        id="lessonbox-conflict"
+        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == true"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj.id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
+              <i class="fa fa-check checkIcon"></i>
+            </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessionIdArr.indexOf(obj.id) == -1"
+            ></div>
+            <div class="showDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <!-- <div class="downArrow">
+          <i class="fa fa-angle-down downIcon"></i>
+        </div> -->
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+              }"
+            ></i>
+          </div>
+        </div>
+
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
+        >
           <p class="statusText">Skip: Conflict</p>
         </div>
       </div>
@@ -273,7 +363,8 @@
           class="conflictBox"
           *ngFor="let lesson of cobj.lessons; let j = index"
         >
-          <div class="d-flex" style="border-bottom: solid 2px #E3E4E6;">
+          <!-- style="border-bottom: solid 2px #E3E4E6;" -->
+          <div class="d-flex">
             <div class="col-md-3" style="padding-bottom: 15px;padding-left: 0;">
               <div class="boxDiv">
                 <h5 class="flexi-day">{{ lesson.startDate | dateFormat }}</h5>
@@ -306,7 +397,7 @@
               </div>
             </div>
           </div>
-          <div class="conflictBoxFotter">
+          <!-- <div class="conflictBoxFotter">
             <button
               class="btn-action remove-outline"
               (click)="onClickSkandAg(i, j, 'skip')"
@@ -320,9 +411,9 @@
             >
               Ignore
             </button>
-          </div>
+          </div> -->
         </div>
-        <div class="fixconflictBoxFotter">
+        <!-- <div class="fixconflictBoxFotter">
           <button
             class="btn-action remove-outline"
             (click)="onClickSkandAgall(i, 'skip')"
@@ -336,7 +427,7 @@
           >
             Ignore All
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

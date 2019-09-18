@@ -487,12 +487,10 @@ p.txtConflict {
 }
 .conflictBox {
   width: 912px;
-  height: 131px;
+  /* height: 131px; */
   background: #f2f4f5;
   border-radius: 8px;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 20px;
   margin-bottom: 20px;
 }
 h5.ctitle {
@@ -578,7 +576,7 @@ span.small-line2 {
 .flexiMid {
   /* overflow-y: overlay; */
   height: 300px;
-  padding: 0px 46px 20px 32px;
+  padding: 0px 46px 180px 32px;
   overflow-x: hidden;
 }
 
@@ -589,4 +587,8 @@ span.small-line2 {
 /* end flexy course modal*/
 .set-overflow {
   overflow: auto !important;
+}
+
+.exclamationIconSelected {
+  color: #fff !important;
 }
