@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener
+} from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { templateJitUrl } from '@angular/compiler';
@@ -114,6 +121,7 @@ export class FlexiComponent implements OnInit {
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj) {
+    this.getScreenSize();
     console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
@@ -150,22 +158,53 @@ export class FlexiComponent implements OnInit {
     }
     if (this.ctype == 'schedule') {
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 50 + 25;
-      this.arrTop = e.clientY - 50 + 5;
-      this.arrLeft = e.clientX - 173 + 75;
+      // this.yPos = e.clientY - 50 + 25;
+      // this.arrTop = e.clientY - 50 + 5;
+      this.arrLeft = e.clientX - 205;
+      console.log(e.clientX, 'x');
+      console.log($(event.target).offset().top, 'top');
+      console.log(e.clientY + 'Y');
 
+      if (this.screenHeight < 969 && this.screenHeight > 855) {
+        console.log('less than 969');
+        this.yPos = e.clientY + 10;
+        this.arrTop = e.clientY - 10;
+      } else if (this.screenHeight <= 855) {
+        console.log('less than 855');
+        this.yPos = e.clientY + 3;
+        this.arrTop = e.clientY - 17;
+      } else if (this.screenHeight >= 969) {
+        console.log('greater than 969');
+        this.yPos = e.clientY - 31;
+        this.arrTop = e.clientY - 50;
+      }
       this.styleArr = {
         top: this.yPos + 'px'
       };
-      console.log(this.xPos);
-      console.log(this.yPos);
     } else {
       console.log(e);
       console.log(e.path[4].offsetLeft);
-      console.log($(event.target).offset().top);
+
       this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 74;
-      this.arrTop = e.clientY - 150 + 55;
+
+      console.log($(event.target).offset().top, 'top');
+      console.log(e.clientY + 'Y');
+
+      // this.yPos = e.clientY - 150 + 74;
+      // this.arrTop = e.clientY - 150 + 55;
+      if (this.screenHeight < 969 && this.screenHeight >= 855) {
+        console.log('less than 969');
+        this.yPos = e.clientY - 31;
+        this.arrTop = e.clientY - 50;
+      } else if (this.screenHeight < 855) {
+        console.log('less than 855');
+        this.yPos = e.clientY + 30;
+        this.arrTop = e.clientY + 10;
+      } else if (this.screenHeight >= 969) {
+        console.log('greater than 969');
+        this.yPos = e.clientY - 80;
+        this.arrTop = e.clientY - 100;
+      }
 
       if (
         e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
@@ -186,6 +225,16 @@ export class FlexiComponent implements OnInit {
     }
     console.log(this.lessonsCount);
     console.log(this.lessonsObj);
+  }
+
+  screenHeight: any;
+  screenWidth: any;
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?) {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+    console.log(this.screenHeight, this.screenWidth);
   }
 
   getPreLessons() {
