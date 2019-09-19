@@ -67,20 +67,20 @@
 <div
   class="flexiMid"
   id="flexiMid"
-  [ngStyle]="
-    ctype == 'schedule'
-      ? { height: 'unset', 'padding-bottom': '180px' }
-      : { height: '300px', 'padding-bottom': '80px' }
-  "
   [ngClass]="{
-    'set-overflow': !conflictBoxShow
+    'set-overflow': !conflictBoxShow,
+    scheduleFlexi: ctype == 'schedule',
+    courseFlexi: ctype != 'schedule'
   }"
 >
   <div class="row lessonBoxgp">
     <div
       class="col-lg-2 col-md-3 lessonbox"
+      id="lessonbox"
       *ngFor="let obj of lessonsObj"
-      [ngStyle]="clickId == obj.id ? { 'z-index': '100' } : { 'z-index': '0' }"
+      [ngStyle]="
+        clickId == obj.id && showcb ? { 'z-index': '100' } : { 'z-index': '0' }
+      "
     >
       <div
         class="lessonbox-inner"
