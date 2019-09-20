@@ -3571,6 +3571,7 @@ i.fa.fa-angle-left.flexiBackicon {
   padding: 32px 32px 0 32px !important;
   margin-top: -20px;
 }
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -3604,4 +3605,26 @@ i.fa.fa-angle-left.flexiBackicon {
   border-width: 5px;
   border-style: solid;
   border-color: #555f69 transparent transparent transparent;
+}
+
+.addVisible {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+::ng-deep .tooltip-inner {
+  background-color: #555f69;
+  color: #fff;
+  z-index: 1;
+  border: 1px solid gray;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.tooltip .tooltip-arrow {
+  border-top: 5px solid red !important;
+}
+.tooltip.top .tooltip-arrow {
+  border-top-color: #000;
+}
+::ng-deep .tooltip > .tooltip-arrow {
+  border-top: #8447cf;
 }

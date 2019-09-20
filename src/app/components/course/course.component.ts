@@ -31,6 +31,7 @@ import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
+import { bindCallback } from 'rxjs/observable/bindCallback';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -450,12 +451,6 @@ export class CourseComponent implements OnInit {
       console.log('permission deny');
       this.courseList = [];
     }
-  }
-  imgClick(student) {
-    let tooltip = document.getElementById('tooltip' + student.fullName);
-    let ttxt = document.getElementById('tooltiptxt' + student.fullName);
-    tooltip.classList.add('addVisible');
-    ttxt.classList.add('addVisible');
   }
   ngAfterViewInit() {
     console.log('AfterViewInit');

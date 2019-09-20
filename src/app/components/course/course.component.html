@@ -731,27 +731,8 @@
                               <span
                                 *ngIf="student.fullName != ''"
                                 class="student-profile-wrapper"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="{{ student.fullName }}"
-                              >
-                                <img
-                                  class="d-inline-block"
-                                  src="{{ student.profilePic }}"
-                                  alt=""
-                                  class="student_profilePic"
-                                  *ngIf="
-                                    student.profilePic != undefined ||
-                                    student.profilePic == null
-                                  "
-                                />
-                              </span>
-                              <span
-                                *ngIf="student.fullName == ''"
-                                class="student-profile-wrapper"
-                                data-toggle="tooltip"
-                                data-placement="top"
-                                title="{{ student.email }}"
+                                placement="bottom"
+                                ngbTooltip="{{ student.fullName }}"
                               >
                                 <img
                                   class="d-inline-block"
