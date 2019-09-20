@@ -68,14 +68,19 @@
   class="flexiMid"
   id="flexiMid"
   [ngClass]="{
-    'set-overflow': !conflictBoxShow
+    'set-overflow': !conflictBoxShow,
+    scheduleFlexi: ctype == 'schedule',
+    courseFlexi: ctype != 'schedule'
   }"
 >
   <div class="row lessonBoxgp">
     <div
       class="col-lg-2 col-md-3 lessonbox"
+      id="lessonbox"
       *ngFor="let obj of lessonsObj"
-      [ngStyle]="clickId == obj.id ? { 'z-index': '100' } : { 'z-index': '0' }"
+      [ngStyle]="
+        clickId == obj.id && showcb ? { 'z-index': '100' } : { 'z-index': '0' }
+      "
     >
       <div
         class="lessonbox-inner"
@@ -358,7 +363,8 @@
           class="conflictBox"
           *ngFor="let lesson of cobj.lessons; let j = index"
         >
-          <div class="d-flex" style="border-bottom: solid 2px #E3E4E6;">
+          <!-- style="border-bottom: solid 2px #E3E4E6;" -->
+          <div class="d-flex">
             <div class="col-md-3" style="padding-bottom: 15px;padding-left: 0;">
               <div class="boxDiv">
                 <h5 class="flexi-day">{{ lesson.startDate | dateFormat }}</h5>
@@ -391,7 +397,7 @@
               </div>
             </div>
           </div>
-          <div class="conflictBoxFotter">
+          <!-- <div class="conflictBoxFotter">
             <button
               class="btn-action remove-outline"
               (click)="onClickSkandAg(i, j, 'skip')"
@@ -405,9 +411,9 @@
             >
               Ignore
             </button>
-          </div>
+          </div> -->
         </div>
-        <div class="fixconflictBoxFotter">
+        <!-- <div class="fixconflictBoxFotter">
           <button
             class="btn-action remove-outline"
             (click)="onClickSkandAgall(i, 'skip')"
@@ -421,7 +427,7 @@
           >
             Ignore All
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

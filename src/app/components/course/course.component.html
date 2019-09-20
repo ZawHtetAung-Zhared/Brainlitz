@@ -728,8 +728,15 @@
                               "
                               class="d-flex"
                             >
-                              <span class="student-profile-wrapper">
+                              <span
+                                *ngIf="student.fullName != ''"
+                                class="student-profile-wrapper"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ student.fullName }}"
+                              >
                                 <img
+                                  class="d-inline-block"
                                   src="{{ student.profilePic }}"
                                   alt=""
                                   class="student_profilePic"
@@ -739,7 +746,24 @@
                                   "
                                 />
                               </span>
-
+                              <span
+                                *ngIf="student.fullName == ''"
+                                class="student-profile-wrapper"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{ student.email }}"
+                              >
+                                <img
+                                  class="d-inline-block"
+                                  src="{{ student.profilePic }}"
+                                  alt=""
+                                  class="student_profilePic"
+                                  *ngIf="
+                                    student.profilePic != undefined ||
+                                    student.profilePic == null
+                                  "
+                                />
+                              </span>
                               <div
                                 class="user-grade"
                                 *ngIf="
@@ -3034,7 +3058,10 @@
       </div>
       <div class="w-100 d-flex">
         <div class="input-wrap p-0" style="width:80%;margin-right:20px">
-          <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
+          <div
+            *ngIf="isGlobal && this.modalType == 'absent'"
+            class="mb-0 mt-2 form-group"
+          >
             <label for="name" class="input-label">Name</label>
             <input
               type="text"
@@ -3046,7 +3073,10 @@
               #name="ngModel"
             />
           </div>
-          <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
+          <div
+            *ngIf="isGlobal && this.modalType == 'absent'"
+            class="mb-0 mt-2 form-group"
+          >
             <label for="name" class="input-label">Reason</label>
             <textarea
               class="form-control create-input"
@@ -3147,9 +3177,7 @@
                         }}</strong>
                         <label *ngIf="makeup.course.type !== 'ONLINE'">
                           <span
-                            >{{
-                              makeup.makeupCourse.startTime.hr | timeFormat
-                            }}
+                            >{{ makeup.makeupCourse.startTime.hr | timeFormat }}
                             :
                             {{ makeup.makeupCourse.startTime.min | timeFormat }}
                             {{ makeup.makeupCourse.startTime.meridiem }}</span
@@ -3280,13 +3308,13 @@
       [(ngModel)]="reasonValue"
     ></textarea>
     <div class="modal-footer">
-      <!-- <div
+      <div
         class="mr-auto add-reason"
-        *ngIf="!textAreaOption"
+        *ngIf="!textAreaOption && this.modalType != 'absent' && isGlobal"
         (click)="showTextarea()"
       >
         Add makeup pass reason
-      </div> -->
+      </div>
       <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
       <button
         *ngIf="this.modalType != 'absent'"
@@ -3423,14 +3451,14 @@
   </ng-template>
   <ng-template #invoiceAlert>
     <div class="modal-header">
-      <h3 class="modal-title">Invoice issue</h3>
+      <h3 class="modal-title">Generate invoice</h3>
       <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     </div>
     <div class="modal-body apg-confirm">
       <p>
-        "Do you want to issue invoice for this enrollment?"
+        "Do you want to generate invoice for this enrollment?"
         <span class="target"></span>
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>

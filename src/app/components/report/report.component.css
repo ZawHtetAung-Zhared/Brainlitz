@@ -491,7 +491,8 @@ h3.head-rating-count {
 }*/
 .active .noti-tab {
   /*background: #e6ecf2;*/
-  color: #4292f1;
+  color: #fff;
+  background: #4292f1;
   /*text-align: left;*/
   /*border-left: 3px solid #4292f1;*/
 }
@@ -521,6 +522,8 @@ h3.head-rating-count {
 .tab-wrap {
   position: relative;
   outline: none;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .sticky-menu {

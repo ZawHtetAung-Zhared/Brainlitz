@@ -3213,6 +3213,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         let hideoverlay: HTMLElement = document.getElementById('flexiMid');
         hideoverlay.setAttribute('style', 'overflow: overlay;');
       }
+      if (document.getElementById('lessonbox') != null) {
+        let hideindex: HTMLElement = document.getElementById('lessonbox');
+
+        hideindex.setAttribute('style', 'z-index: 0;');
+      }
     });
   }
 

@@ -398,6 +398,8 @@ input:checked + .slider:before {
 
 .tab-wrap {
   /*padding: 9px 0px;*/
+  margin-left: 8px;
+  margin-right: 8px;
   position: relative;
   outline: none;
 }
@@ -440,7 +442,8 @@ input:checked + .slider:before {
 */
 .active .noti-tab {
   /*background: #e6ecf2;*/
-  color: #4292f1;
+  color: #fff;
+  background: #4292f1;
   /*border-left: 3px solid #4292f1;*/
 }
 .noti-tab {

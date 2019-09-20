@@ -702,7 +702,7 @@ ul.options-box,
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   padding: 0 20px;
   margin: 0;
-  margin-left: 40px;
+  margin-left: 30px;
   /*bottom: 0px;*/
   border-radius: 4px;
 }
@@ -3570,4 +3570,38 @@ i.fa.fa-angle-left.flexiBackicon {
 .makeup-style {
   padding: 32px 32px 0 32px !important;
   margin-top: -20px;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  opacity: 0;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: #555f69;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 3px;
+  position: absolute;
+  z-index: 1;
+  bottom: 44px;
+  /* left: 50%; */
+  margin-left: -84px;
+  opacity: 0;
+  left: 35px;
+  width: 88px;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555f69 transparent transparent transparent;
 }
