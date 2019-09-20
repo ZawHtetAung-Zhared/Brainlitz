@@ -124,7 +124,7 @@ export class FlexiComponent implements OnInit {
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj, ref: ElementRef) {
-    console.error('ele', this.elelf.nativeElement.getBoundingClientRect());
+    console.log('ele', this.elelf.nativeElement.getBoundingClientRect());
     console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
@@ -160,45 +160,31 @@ export class FlexiComponent implements OnInit {
       });
     }
 
-    if (this.ctype == 'schedule') {
-      this.xPos = e.clientX - 173 - 65;
-      // this.yPos = e.clientY - 50 + 25;
-      // this.arrTop = e.clientY - 50 + 5;
-      this.arrLeft = e.clientX - 205;
-
-      // if (this.screenHeight < 969 && this.screenHeight > 855) {
-      //   console.log('less than 969');
-      //   this.yPos = e.clientY + 10;
-      //   this.arrTop = e.clientY - 10;
-      // } else if (this.screenHeight <= 855) {
-      //   console.log('less than 855');
-      //   this.yPos = e.clientY + 3;
-      //   this.arrTop = e.clientY - 17;
-      // } else if (this.screenHeight >= 969) {
-      //   console.log('greater than 969');
-      //   this.yPos = e.clientY - 31;
-      //   this.arrTop = e.clientY - 50;
-      // }
-      this.styleArr = {
-        top: this.yPos + 'px'
-      };
-    } else {
-      this.xPos = e.clientX - 173 - 65;
-
-      if (
-        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
-        e.srcElement.className ==
-          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
-      ) {
-        this.arrLeft = e.path[4].offsetLeft + 130;
-      } else {
-        this.arrLeft = e.path[3].offsetLeft + 130;
+    this.xPos = e.clientX - 173 - 65;
+    console.log('e>>', e);
+    for (let i = 0; i < e.path.length; i++) {
+      if (e.path[i].classList != undefined) {
+        if (e.path[i].classList.value == 'modal-dialog') {
+          this.yPos = e.clientY - e.path[i].offsetTop + 16;
+          break;
+        }
       }
-
-      // this.styleArr = {
-      //   top: this.yPos + 'px'
-      // };
     }
+    console.log('yPos', this.yPos);
+    if (
+      e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+      e.srcElement.className ==
+        'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+    ) {
+      this.arrLeft = e.path[4].offsetLeft + 130;
+    } else {
+      this.arrLeft = e.path[3].offsetLeft + 130;
+    }
+
+    this.styleArr = {
+      top: this.yPos + 'px'
+    };
+
     for (let x = 0; x < this.conflictObj.conflictWith.length; x++) {
       this.lessonsCount += this.conflictObj.conflictWith[x].lessons.length;
     }
