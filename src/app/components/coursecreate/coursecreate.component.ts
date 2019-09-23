@@ -1929,7 +1929,14 @@ export class CoursecreateComponent implements OnInit {
             }, 300);
             localStorage.removeItem('coursePlanId');
             localStorage.removeItem('splan');
-            if (this.course) {
+            if (
+              this.scheduleObj != null ||
+              this.scheduleObj != {} ||
+              this.scheduleObj != undefined
+            ) {
+              this.router.navigate(['schedule/']);
+              this.dataService.backToScheduleTable(true);
+            } else if (this.course) {
               if (this.course.type == 'rollover') {
                 console.log('RES', res);
                 let createdId = res.body.courseId;
