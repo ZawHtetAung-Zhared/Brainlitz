@@ -847,6 +847,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    localStorage.removeItem('scheduleObj');
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log('undefined currency', this.currency);
@@ -3335,6 +3336,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
+    localStorage.removeItem('scheduleObj');
   }
 
   printSchedule() {
