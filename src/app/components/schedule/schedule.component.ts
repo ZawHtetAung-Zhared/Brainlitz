@@ -869,7 +869,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       );
       console.log('rolloverCID', this.rolloverCourse);
       this.dataService.categoryId.subscribe(cId => {
-        console.warn(cId);
         if (cId) {
           this.courseCreate = false;
           this.isCategory = false;
@@ -877,15 +876,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.isCourseCreate = false;
           this.selectedIndex = localStorage.getItem('teacherIndex');
           if (this.selectedDay.length == 0) {
-            console.warn(this.selectedTeacher);
             this.getStaffTimetable(
               this.selectedTeacher.userId,
               '0,1,2,3,4,5,6'
             );
           } else if (this.selectedDay.length > 0) {
-            console.warn(this.selectedTeacher);
             this.getStaffTimetable(
-              this.selectedTeacher,
+              this.selectedTeacher.userId,
               this.selectedDay.toString()
             );
           }
@@ -1455,7 +1452,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   public selectedIndex;
   overFlowWidth(index, type) {
-    console.warn(index);
     // this.selectedIndex = index;
     localStorage.setItem('teacherIndex', index);
     var arr = index;
@@ -1493,12 +1489,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         console.log(index - 6, 'index =======', index);
         if (index >= 6) {
           for (let i = index - 5; i <= index; i++) {
-            console.warn(Math.round($('#overFlowWidth' + i).width()) + 8);
             var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
             this.totalWidth += removeDecimal;
             console.log(removeDecimal, '###', i);
           }
-          console.warn(this.totalWidth);
           $('.teacher-wrapper').width(this.totalWidth);
           var tempNum = index - 6;
           for (let i = 0; i <= tempNum; i++) {
