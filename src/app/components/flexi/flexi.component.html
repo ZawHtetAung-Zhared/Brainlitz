@@ -92,7 +92,7 @@
             : { background: '#FFFFFF' }
         "
       >
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
             <i class="fa fa-check checkIcon"></i>
           </div>
@@ -133,7 +133,7 @@
         "
         (click)="lessonCheck(obj.id, obj)"
       >
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-2">
           <div class="d-flex">
             <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
               <i class="fa fa-check checkIcon"></i>
@@ -187,7 +187,7 @@
             : { background: '#FFFFFF' }
         "
       >
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-2">
           <div class="d-flex">
             <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
               <i class="fa fa-check checkIcon"></i>
@@ -321,114 +321,126 @@
       </div>
     </div>
   </div>
+  <div
+    class="conflictPopUp"
+    [ngStyle]="styleArr"
+    *ngIf="conflictBoxShow"
+    id="conflictPopUp"
+  >
+    <div
+      [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
+      class="arr-box arr-up"
+      [ngClass]="arrClasses"
+    ></div>
+    <div class="innner-conflictPopUp">
+      <div *ngFor="let cobj of conflictObj.conflictWith; let i = index">
+        <div class="d-flex teacher-gp">
+          <div class="flexi-img-div teacherImg">
+            <div class="flexi-img-wrap teacherImg-wrap">
+              <img
+                src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+              />
+            </div>
+          </div>
+          <div class="flexi-teacher-div">
+            <p class="flexi-teacher-position">{{ cobj.position }}</p>
+            <label class="flexi-teacher-name">{{ cobj.preferredName }}</label>
+          </div>
+        </div>
+        <div class="conflictBoxGp">
+          <div class="d-flex conflictTxt">
+            <div class="circleExclamation">
+              <i class="fa fa-exclamation"></i>
+            </div>
+            <p class="txtConflict">
+              conflicts on the following lessons
+            </p>
+          </div>
+          <div
+            class="conflictBox"
+            *ngFor="let lesson of cobj.lessons; let j = index"
+          >
+            <!-- style="border-bottom: solid 2px #E3E4E6;" -->
+            <div class="d-flex">
+              <div
+                class="col-md-3"
+                style="padding-bottom: 15px;padding-left: 0;"
+              >
+                <div class="boxDiv">
+                  <h5 class="flexi-day">
+                    {{ lesson.startDate | dateFormat }}
+                  </h5>
+
+                  <div class="conflict-duration">
+                    {{ lesson.startDate | utcTime }} -
+                    {{ lesson.endDate | utcTime }}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-4"
+                style="padding-bottom: 15px;padding-left: 0"
+              >
+                <div class="boxDiv">
+                  <h5 class="ctitle">Lesson</h5>
+                  <div class="cText">{{ lesson.name }}</div>
+                </div>
+              </div>
+              <div
+                class="col-md-3"
+                style="padding-bottom: 15px;padding-bottom: 15px;padding-left: 0"
+              >
+                <div class="boxDiv">
+                  <h5 class="ctitle">Location</h5>
+                  <div class="cText">{{ lesson.location }}</div>
+                </div>
+              </div>
+              <div class="col-md-2" style="padding-left: 8px;">
+                <div class="">
+                  <h5 class="ctitle">Number of students</h5>
+                  <div class="ctext">{{ lesson.no_of_student }}</div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="conflictBoxFotter">
+                        <button
+                          class="btn-action remove-outline"
+                          (click)="onClickSkandAg(i, j, 'skip')"
+                        >
+                          Skip
+                        </button>
+                        <span class="small-line"></span>
+                        <button
+                          class="btn-action remove-outline"
+                          (click)="onClickSkandAg(i, j, 'ignore')"
+                        >
+                          Ignore
+                        </button>
+                      </div> -->
+          </div>
+          <!-- <div class="fixconflictBoxFotter">
+                      <button
+                        class="btn-action remove-outline"
+                        (click)="onClickSkandAgall(i, 'skip')"
+                      >
+                        Skip All
+                      </button>
+                      <span class="small-line"></span>
+                      <button
+                        class="btn-action remove-outline"
+                        (click)="onClickSkandAgall(i, 'ignore')"
+                      >
+                        Ignore All
+                      </button>
+                    </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="d-flex">
     <div class="flexiCircle" (click)="loadmoreLessons()">
       <i class="fa fa-plus circlePlus"></i>
     </div>
     <p class="previousDate">Load More</p>
-  </div>
-</div>
-
-<div class="conflictPopUp" [ngStyle]="styleArr" *ngIf="conflictBoxShow" id="">
-  <div
-    [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
-    class="arr-box arr-up"
-    [ngClass]="arrClasses"
-  ></div>
-  <div class="innner-conflictPopUp">
-    <div *ngFor="let cobj of conflictObj.conflictWith; let i = index">
-      <div class="d-flex teacher-gp">
-        <div class="flexi-img-div teacherImg">
-          <div class="flexi-img-wrap teacherImg-wrap">
-            <img
-              src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-            />
-          </div>
-        </div>
-        <div class="flexi-teacher-div">
-          <p class="flexi-teacher-position">{{ cobj.position }}</p>
-          <label class="flexi-teacher-name">{{ cobj.preferredName }}</label>
-        </div>
-      </div>
-      <div class="conflictBoxGp">
-        <div class="d-flex conflictTxt">
-          <div class="circleExclamation">
-            <i class="fa fa-exclamation"></i>
-          </div>
-          <p class="txtConflict">
-            conflicts on the following lessons
-          </p>
-        </div>
-        <div
-          class="conflictBox"
-          *ngFor="let lesson of cobj.lessons; let j = index"
-        >
-          <!-- style="border-bottom: solid 2px #E3E4E6;" -->
-          <div class="d-flex">
-            <div class="col-md-3" style="padding-bottom: 15px;padding-left: 0;">
-              <div class="boxDiv">
-                <h5 class="flexi-day">{{ lesson.startDate | dateFormat }}</h5>
-
-                <div class="conflict-duration">
-                  {{ lesson.startDate | utcTime }} -
-                  {{ lesson.endDate | utcTime }}
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4" style="padding-bottom: 15px;padding-left: 0">
-              <div class="boxDiv">
-                <h5 class="ctitle">Lesson</h5>
-                <div class="cText">{{ lesson.name }}</div>
-              </div>
-            </div>
-            <div
-              class="col-md-3"
-              style="padding-bottom: 15px;padding-bottom: 15px;padding-left: 0"
-            >
-              <div class="boxDiv">
-                <h5 class="ctitle">Location</h5>
-                <div class="cText">{{ lesson.location }}</div>
-              </div>
-            </div>
-            <div class="col-md-2" style="padding-left: 8px;">
-              <div class="">
-                <h5 class="ctitle">Number of students</h5>
-                <div class="ctext">{{ lesson.no_of_student }}</div>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="conflictBoxFotter">
-            <button
-              class="btn-action remove-outline"
-              (click)="onClickSkandAg(i, j, 'skip')"
-            >
-              Skip
-            </button>
-            <span class="small-line"></span>
-            <button
-              class="btn-action remove-outline"
-              (click)="onClickSkandAg(i, j, 'ignore')"
-            >
-              Ignore
-            </button>
-          </div> -->
-        </div>
-        <!-- <div class="fixconflictBoxFotter">
-          <button
-            class="btn-action remove-outline"
-            (click)="onClickSkandAgall(i, 'skip')"
-          >
-            Skip All
-          </button>
-          <span class="small-line"></span>
-          <button
-            class="btn-action remove-outline"
-            (click)="onClickSkandAgall(i, 'ignore')"
-          >
-            Ignore All
-          </button>
-        </div> -->
-      </div>
-    </div>
   </div>
 </div>
