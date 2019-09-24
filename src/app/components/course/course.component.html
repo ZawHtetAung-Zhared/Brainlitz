@@ -745,6 +745,23 @@
                                   "
                                 />
                               </span>
+                              <span
+                                *ngIf="student.fullName == ''"
+                                class="student-profile-wrapper"
+                                placement="bottom"
+                                ngbTooltip="{{ student.guardianEmail }}"
+                              >
+                                <img
+                                  class="d-inline-block"
+                                  src="{{ student.profilePic }}"
+                                  alt=""
+                                  class="student_profilePic"
+                                  *ngIf="
+                                    student.profilePic != undefined ||
+                                    student.profilePic == null
+                                  "
+                                />
+                              </span>
                               <div
                                 class="user-grade"
                                 *ngIf="

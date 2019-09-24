@@ -1097,6 +1097,7 @@ export class CourseComponent implements OnInit {
             this.blockUI.stop();
 
             this.courseList = this.courseList.concat(res);
+            // localStorage.setItem('courselist',res)
             console.log(this.courseList);
             $('#course-search').blur();
             this.iscourseSearch = false;
@@ -1413,6 +1414,7 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
+    // localStorage.getItem('courselist');
     this.courseList = [];
     this.getCourseLists(20, 0);
     this.activeTab = 'People';

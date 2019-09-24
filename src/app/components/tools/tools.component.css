@@ -311,6 +311,7 @@ img.setting-icon {
 }
 .tab-wrap {
   /*padding: 9px 0px;*/
+  margin-bottom: 10px;
   margin-left: 8px;
   margin-right: 8px;
   position: relative;
@@ -353,7 +354,7 @@ img.setting-icon {
   z-index: 99;
   text-align: left;
   background: #f2f4f5;
-  padding: 15px 26px;
+  padding: 10px 26px;
   border-radius: 0;
   outline: none;
   border-left: 3px solid transparent;
