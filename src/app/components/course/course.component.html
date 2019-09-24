@@ -1618,6 +1618,14 @@
                     >
                       Cancel lesson
                     </button>
+                    <button
+                      *ngIf="activeCourseInfo.CUSTOMER.length < 1"
+                      type="button"
+                      class="btn btn-delete-lesson"
+                      (click)="deleteLesson()"
+                    >
+                      delete lesson
+                    </button>
                   </div>
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"

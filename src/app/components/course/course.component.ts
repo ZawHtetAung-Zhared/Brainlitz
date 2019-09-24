@@ -4027,4 +4027,6 @@ export class CourseComponent implements OnInit {
   backToInvoiceList() {
     this.isFlexyInvoice = true;
   }
+
+  deleteLesson() {}
 }

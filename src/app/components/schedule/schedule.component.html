@@ -388,7 +388,7 @@
             <div
               class="d-flex teacher-list"
               [class.selectedteacher]="teacher.userId == selectedTeacher.userId"
-              (click)="activeTeachers(teacher)"
+              (click)="activeTeachers(teacher, i)"
               id="{{ 'overFlowWidth' + i }}"
             >
               <div>
