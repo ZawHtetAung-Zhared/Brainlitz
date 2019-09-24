@@ -3208,6 +3208,7 @@
     </div>
   </ng-template>
   <ng-template #reschedule let-modal>
+    <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
     <div class="flexiModal">
       <div class="innerFlexiModal" *ngIf="isReschedule">
         <div class="d-flex" style="margin: 20px 20px 0px 32px;">
@@ -3236,6 +3237,8 @@
           (checkObjArr)="checkObj($event)"
           [course]="detailLists"
           (unavaiableLen)="getlen($event)"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
         ></app-reschedule>
       </div>
       <div

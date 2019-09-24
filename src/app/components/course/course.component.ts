@@ -239,6 +239,7 @@ export class CourseComponent implements OnInit {
   tempCourdeId: any;
   tempuserType: any;
   showcb: boolean = false;
+  showcb_reschedule: boolean = false;
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   public isDisabledBtn = false;
@@ -3749,6 +3750,8 @@ export class CourseComponent implements OnInit {
 
   //startFlexi
   conflictBoxShow(e) {
+    console.log('eee', e);
+
     this.showcb = e;
     console.log($('.conflictPopUp'));
     // $('.conflictPopUp').show();
