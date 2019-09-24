@@ -349,6 +349,8 @@ export class CourseComponent implements OnInit {
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
     this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
+    console.log('recent lists', this.recentLists);
+    console.log('0', this.recentLists[0]);
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
@@ -702,6 +704,9 @@ export class CourseComponent implements OnInit {
     if (val.length > 0) {
       this.iswordcount = true;
     } else {
+      console.log('clear search');
+      this.searchVal = ''; ///zzz
+      // this.searchObj = ''; ///zzz
       this.iswordcount = false;
       this.courseList = [];
       setTimeout(() => {
@@ -1409,12 +1414,24 @@ export class CourseComponent implements OnInit {
   // start course detail
 
   cancel() {
+    ///zzz start
+    if (this.isCourseDetail == true && this.iswordcount == true) {
+      this.recentSearch(this.courseVal.keyword, 20, 0);
+    } else if (
+      (this.isCourseDetail == true && this.iswordcount == false) ||
+      this.isCoursePlanDetail == true
+    ) {
+      this.courseList = [];
+      this.getCourseLists(20, 0);
+    }
+    ///zzz end
+
     this.xxxhello = '';
     this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
-    this.courseList = [];
-    this.getCourseLists(20, 0);
+    // this.courseList = []; //zzz
+    // this.getCourseLists(20, 0); //zzz
     this.activeTab = 'People';
     this.showList = false;
     this.selectedCustomer = {};
@@ -1433,7 +1450,7 @@ export class CourseComponent implements OnInit {
   showCourseDetail(courseId) {
     this.hideSearch = false;
     this.searchMore = false;
-    this.iswordcount = false;
+    // this.iswordcount = false; //zzz
     this.repeatedDaysTemp = [];
     this.tempCategory = [];
     this.tempPlan = [];
@@ -1455,7 +1472,7 @@ export class CourseComponent implements OnInit {
     this.categoryIDArray = [];
     this.planIDArray = [];
     this.repeatedDaysTemp = [];
-    this.courseVal.keyword = '';
+    // this.courseVal.keyword = ''; //zzz
     this.xxxhello = '';
     this.showStudentOption = '';
     this.activeTab = 'People';
@@ -2862,6 +2879,7 @@ export class CourseComponent implements OnInit {
     console.log(this.simple);
     console.log(this.searchMore);
     console.log(this.searchObj);
+    console.log(this.searchVal);
     if (this.searchMore == true) {
       if (this.simple == true) {
         console.log('in the if');
