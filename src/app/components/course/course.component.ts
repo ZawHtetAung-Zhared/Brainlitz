@@ -31,6 +31,7 @@ import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
+import { bindCallback } from 'rxjs/observable/bindCallback';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -452,7 +453,6 @@ export class CourseComponent implements OnInit {
       this.courseList = [];
     }
   }
-
   ngAfterViewInit() {
     console.log('AfterViewInit');
     this.detailLists = {
@@ -1098,6 +1098,7 @@ export class CourseComponent implements OnInit {
             this.blockUI.stop();
 
             this.courseList = this.courseList.concat(res);
+            // localStorage.setItem('courselist',res)
             console.log(this.courseList);
             $('#course-search').blur();
             this.iscourseSearch = false;
@@ -1414,6 +1415,7 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
+    // localStorage.getItem('courselist');
     this.courseList = [];
     this.getCourseLists(20, 0);
     this.activeTab = 'People';
@@ -3663,6 +3665,8 @@ export class CourseComponent implements OnInit {
         windowClass:
           'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
+
+      this.getMakeupLists(user.userId, 'course', this.regionId, this.courseId);
       return;
     }
 
