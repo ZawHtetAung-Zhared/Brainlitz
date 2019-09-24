@@ -61,6 +61,9 @@
     <div
       class="col-lg-2 col-md-3 lessonbox"
       *ngFor="let obj of reScheduleLists"
+      [ngStyle]="
+        clickObj == obj && showcb ? { 'z-index': '100' } : { 'z-index': '0' }
+      "
     >
       <div
         class="lessonbox-inner"
@@ -142,7 +145,7 @@
         class="lessonbox-skipped"
         *ngIf="obj.isAvaiable == false && obj.hasConflict == false"
       >
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="checkBox">
             <i class="fa fa-check checkIcon"></i>
           </div>
@@ -167,7 +170,12 @@
         class="lessonbox-conflict"
         id="lessonbox-conflict"
         (click)="lessonCheck(obj._id, obj)"
-        *ngIf="obj.hasConflict && obj.isAvaiable == true && obj.isCheck == true"
+        *ngIf="
+          obj.hasConflict &&
+          obj.isAvaiable == true &&
+          obj.isCheck == true &&
+          showcb == false
+        "
         [ngStyle]="
           lessonObjArr.indexOf(obj) != -1
             ? { background: ' #007FFF' }
@@ -210,13 +218,73 @@
         <!-- [ngClass]="{
           exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
         }" -->
-        <div class="statusBox">
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
+        >
+          <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict"
+        id="lessonbox-conflict"
+        *ngIf="
+          obj.hasConflict &&
+          obj.isAvaiable == true &&
+          obj.isCheck == true &&
+          showcb
+        "
+        [ngStyle]="
+          lessonObjArr.indexOf(obj) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex justify-content-between pt-2 pr-2">
+          <div class="d-flex">
+            <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
+              <i class="fa fa-check checkIcon"></i>
+            </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessonObjArr.indexOf(obj) == -1"
+            ></div>
+            <div class="showDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessonObjArr.indexOf(obj) != -1
+              }"
+            ></i>
+          </div>
+        </div>
+        <!-- [ngClass]="{
+        exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+      }" -->
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
+        >
           <p class="statusText">Skip: Conflict</p>
         </div>
       </div>
       <div
         class="lessonbox-conflict-disable"
-        id="lessonbox-conflict"
         *ngIf="
           obj.hasConflict && obj.isAvaiable == true && obj.isCheck == false
         "
@@ -235,7 +303,7 @@
               <p class="day">{{ obj.startDate | utcFullDay }}</p>
             </div>
           </div>
-          <div class="downArrow" (click)="showConflictBox($event, obj)">
+          <div class="downArrow">
             <i class="fa fa-exclamation-circle exclamationIcon"></i>
           </div>
         </div>

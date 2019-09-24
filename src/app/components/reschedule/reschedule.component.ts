@@ -89,6 +89,7 @@ export class RescheduleComponent implements OnInit {
         );
         this.unavaiableLen.emit(this.unavaiableLessons);
       }
+      // this.reScheduleLists[i].re_id=i;
     }
     console.log(this.lessonObjArr, 'lessonObjArr');
   }
@@ -160,7 +161,7 @@ export class RescheduleComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res.lessons);
         console.log(this.avaiableLessonsCount);
-        console.log(this.reScheduleLists.length);
+        console.log(this.reScheduleLists.length, '<length');
         console.log(this.lessonObjArr.length - this.unavaiableLessons.length);
         for (let i = 0; i < res.lessons.length; i++) {
           // res.lessons[i]._id=this.reScheduleLists.length+i;
@@ -180,7 +181,7 @@ export class RescheduleComponent implements OnInit {
       });
   }
 
-  clickId: any;
+  clickObj: any;
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj) {
@@ -192,7 +193,7 @@ export class RescheduleComponent implements OnInit {
     this.tempskipAll = [];
     this.tempIgnore = [];
     this.tempSkip = [];
-    this.clickId = obj.id;
+    this.clickObj = obj;
     this.conflictObj = obj;
     console.log(e);
     if (this.conflictBoxShow && this.showcb) {
