@@ -847,6 +847,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    localStorage.removeItem('scheduleObj');
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log('undefined currency', this.currency);
@@ -868,23 +869,50 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         cId => (this.rolloverCourse = cId)
       );
       console.log('rolloverCID', this.rolloverCourse);
-      if (this.rolloverCourse != '') {
-        console.log('redirect to pick course plan');
-        this.scheduleList = false;
-        this.courseCreate = true;
-        this.isCategory = false;
-        this.isPlan = false;
-        this.isCourseCreate = false;
-        this.selectedID = this.rolloverCourse.category.id;
-        this.item.itemID = this.rolloverCourse.category.name;
-        this.highlightPlan = this.rolloverCourse.coursePlan.id;
-        this.selectedCategory._id = this.rolloverCourse.category.id;
-        this.selectedCategory.name = this.rolloverCourse.category.name;
-        this.courseplanLists = [];
-        this.getAllCoursePlan('0', '20');
-      } else {
-        this.highlightPlan = '';
-      }
+      this.dataService.categoryId.subscribe(cId => {
+        if (cId) {
+          this.courseCreate = false;
+          this.isCategory = false;
+          this.isPlan = false;
+          this.isCourseCreate = false;
+          this.selectedIndex = localStorage.getItem('teacherIndex');
+          if (this.selectedDay.length == 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              '0,1,2,3,4,5,6'
+            );
+          } else if (this.selectedDay.length > 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              this.selectedDay.toString()
+            );
+          }
+          setTimeout(() => {
+            this.overFlowWidth(this.selectedIndex, 'modalteacher');
+          }, 30);
+          // courseCreate == false &&
+          // isCategory == false &&
+          // isPlan == false &&
+          // isCourseCreate == false
+        }
+      });
+      // if (this.rolloverCourse != '') {
+      //   console.log('redirect to pick course plan');
+      //   this.scheduleList = false;
+      //   this.courseCreate = true;
+      //   this.isCategory = false;
+      //   this.isPlan = false;
+      //   this.isCourseCreate = false;
+      //   this.selectedID = this.rolloverCourse.category.id;
+      //   this.item.itemID = this.rolloverCourse.category.name;
+      //   this.highlightPlan = this.rolloverCourse.coursePlan.id;
+      //   this.selectedCategory._id = this.rolloverCourse.category.id;
+      //   this.selectedCategory.name = this.rolloverCourse.category.name;
+      //   this.courseplanLists = [];
+      //   this.getAllCoursePlan('0', '20');
+      // } else {
+      //   this.highlightPlan = '';
+      // }
     }, 300);
   }
 
@@ -1423,7 +1451,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         }
       );
   }
+  public selectedIndex;
   overFlowWidth(index, type) {
+    // this.selectedIndex = index;
+    localStorage.setItem('teacherIndex', index);
     var arr = index;
     // for normal calling
     if (type == 'button') {
@@ -1737,7 +1768,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.showflexyCourse = false;
   }
 
-  activeTeachers(teacher) {
+  activeTeachers(teacher, index) {
+    // this.selectedIndex = index;
+    localStorage.setItem('teacherIndex', index);
     console.log(this.selectedTeacher);
 
     this.selectedTeacher = teacher;
@@ -3303,6 +3336,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
+    localStorage.removeItem('scheduleObj');
   }
 
   printSchedule() {

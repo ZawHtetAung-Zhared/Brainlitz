@@ -92,11 +92,13 @@
               />
             </div>
             <div
-              style="margin-left: 60px;margin-top: -30px;position: relative;"
+              class="user-grade"
+              *ngIf="(customer.userGrading.grade | json) != '{}'"
             >
               <div
                 *ngIf="
                   customer.userGrading.grade.point != undefined &&
+                  customer.userGrading != undefined &&
                   customer.userGrading.grade.point != null
                 "
                 class="b-white justify-content-center d-flex"
@@ -113,14 +115,14 @@
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <h5 *ngIf="customer.preferredName" style="margin-bottom: 0.3rem">
+            <h5 *ngIf="customer.preferredName" style="margin-bottom: 0px">
               {{
                 customer.preferredName.length > 20
                   ? (customer.preferredName | slice: 0:20) + '...'
                   : customer.preferredName
               }}
             </h5>
-            <p class="info-mail" style="margin-bottom: 0.8rem">
+            <p class="info-mail mb-0">
               {{ customer.email }}
             </p>
             <p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
@@ -192,7 +194,7 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
-            <div class="user-grade">
+            <div class="user-grading">
               <div
                 *ngIf="
                   custDetail.user.userGrading?.grade.point != undefined &&
@@ -1657,7 +1659,9 @@
                     <input
                       type="radio"
                       id="{{ 'radio' + i + j }}"
-                      (click)="radioCheck(item, field.inputValues)"
+                      (click)="
+                        radioCheck(item, field.inputValues, 'radio', i, j)
+                      "
                       name="{{ 'radio' + i + j }}"
                       class="d-none"
                     />
@@ -2901,14 +2905,14 @@
   </ng-template>
   <ng-template #invoiceAlert>
     <div class="modal-header">
-      <h3 class="modal-title">Generate invoice</h3>
+      <h3 class="modal-title">Invoice issue</h3>
       <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     </div>
     <div class="modal-body apg-confirm">
       <p>
-        "Do you want to generate invoice for this enrollment?"
+        "Do you want to issue invoice for this enrollment?"
         <span class="target"></span>
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>
