@@ -58,8 +58,8 @@ export class RescheduleComponent implements OnInit {
     let todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     let currentTime = this.datePipe.transform(new Date(), 'h:MM:ss TT');
 
-    console.log(todayDate);
-    console.log(currentTime);
+    console.log(todayDate, 'today date');
+    console.log(currentTime, 'current date');
 
     for (let i = 0; i < this.reScheduleLists.length; i++) {
       let endDate = this.datePipe.transform(

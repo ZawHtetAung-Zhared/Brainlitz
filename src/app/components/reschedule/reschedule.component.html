@@ -332,13 +332,11 @@
         <div class="d-flex teacher-gp">
           <div class="flexi-img-div teacherImg">
             <div class="flexi-img-wrap teacherImg-wrap">
-              <img
-                src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-              />
+              <img src="{{ cobj.profilePic }} " />
             </div>
           </div>
           <div class="flexi-teacher-div">
-            <p class="flexi-teacher-position">{{ cobj.position }}</p>
+            <!-- <p class="flexi-teacher-position">{{ cobj.position }}</p> -->
             <label class="flexi-teacher-name">{{ cobj.preferredName }}</label>
           </div>
         </div>

@@ -310,6 +310,11 @@ div.conflictPopUp {
   border-radius: 50%;
   background: #ddd;
 }
+.flexi-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .flexi-teacher-div {
   line-height: 5px;
   padding-top: 7px;
