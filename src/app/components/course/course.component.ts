@@ -703,6 +703,7 @@ export class CourseComponent implements OnInit {
     // this.courseVal = val
     if (val.length > 0) {
       this.iswordcount = true;
+      console.log(val);
     } else {
       console.log('clear search');
       this.searchVal = ''; ///zzz
@@ -1422,6 +1423,7 @@ export class CourseComponent implements OnInit {
       this.isCoursePlanDetail == true
     ) {
       this.courseList = [];
+      this.iswordcount = false;
       this.getCourseLists(20, 0);
     }
     ///zzz end
@@ -1439,7 +1441,7 @@ export class CourseComponent implements OnInit {
     this.showPayment = false;
     this.searchMore = false;
     this.hideSearch = false;
-    this.iswordcount = false;
+    // this.iswordcount = false;//zzz
     this.paymentItem = {};
     this.cancelUItext = false;
     this.cancelUI = false;
@@ -4041,5 +4043,37 @@ export class CourseComponent implements OnInit {
 
   backToInvoiceList() {
     this.isFlexyInvoice = true;
+  }
+
+  deleteLesson(deleteLesson) {
+    this.modalReference = this.modalService.open(deleteLesson, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+  cancelLessonDelete() {
+    this.modalReference.close();
+  }
+
+  confirmLessonDelete() {
+    console.warn(this.selectedLesson);
+    this.blockUI.start('Loading');
+    this._service
+      .deleteLesson(this.courseId, this.selectedLesson._id)
+      .subscribe(
+        res => {
+          console.log(res, '====> successfully delete lesson');
+          this.getCourseDetail(this.courseId);
+          setTimeout(() => {
+            this.blockUI.stop();
+            this.toastr.success('Lesson successfully deleted');
+          }, 100);
+        },
+        err => {
+          console.error(err, '====> error msg for  delete lesson');
+        }
+      );
+    this.modalReference.close();
   }
 }
