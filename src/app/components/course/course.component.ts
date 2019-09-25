@@ -4066,6 +4066,8 @@ export class CourseComponent implements OnInit {
           console.log(res, '====> successfully delete lesson');
           this.getCourseDetail(this.courseId);
           setTimeout(() => {
+            this.activeToday = true;
+            this.clickTab('Class', 'course');
             this.blockUI.stop();
             this.toastr.success('Lesson successfully deleted');
           }, 100);
