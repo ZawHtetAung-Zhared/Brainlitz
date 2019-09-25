@@ -4025,5 +4025,35 @@ export class CourseComponent implements OnInit {
     this.isFlexyInvoice = true;
   }
 
-  deleteLesson() {}
+  deleteLesson(deleteLesson) {
+    this.modalReference = this.modalService.open(deleteLesson, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+  cancelLessonDelete() {
+    this.modalReference.close();
+  }
+
+  confirmLessonDelete() {
+    console.warn(this.selectedLesson);
+    this.blockUI.start('Loading');
+    this._service
+      .deleteLesson(this.courseId, this.selectedLesson._id)
+      .subscribe(
+        res => {
+          console.log(res, '====> successfully delete lesson');
+          this.getCourseDetail(this.courseId);
+          setTimeout(() => {
+            this.blockUI.stop();
+            this.toastr.success('Lesson successfully deleted');
+          }, 100);
+        },
+        err => {
+          console.error(err, '====> error msg for  delete lesson');
+        }
+      );
+    this.modalReference.close();
+  }
 }
