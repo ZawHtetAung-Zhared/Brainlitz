@@ -3810,4 +3810,18 @@ export class appService {
       return result;
     });
   }
+  deleteLesson(courseID, lessonId) {
+    let url = this.baseUrl + `/courses/${courseID}/lessons/${lessonId}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
 }

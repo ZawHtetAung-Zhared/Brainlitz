@@ -783,10 +783,12 @@ h5 {
 .mr-box {
   margin-top: 20px;
 }
-
+.profileimg-wrap {
+  display: flex;
+}
 .circular-image {
-  width: 80px;
-  height: 80px;
+  width: 52px;
+  height: 52px;
 }
 
 .circular-image,
@@ -803,7 +805,11 @@ h5 {
   height: 100%;
   object-fit: contain;
 }
-
+.user-grade {
+  margin-left: -10px;
+  margin-top: 32px;
+  position: relative;
+}
 .info-mail {
   color: #64707d;
   word-wrap: break-word;
@@ -825,7 +831,8 @@ h5 {
   justify-content: center;
   flex-direction: column;
   word-break: break-all;
-  padding: 0 15px;
+  /* padding: 0 15px; */
+  padding-left: 15px;
 }
 
 .right-arrow {
@@ -1028,7 +1035,14 @@ h5 {
 .profile-label {
   /*padding: 25px 0 10px 0;*/
 }
-
+.hide-grade {
+  display: none !important;
+}
+.user-grading {
+  margin-left: 42px;
+  margin-top: -28px;
+  position: absolute;
+}
 .profile-box p {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
@@ -3319,12 +3333,6 @@ ngb-datepicker {
   width: 28px !important;
   justify-content: center;
 }
-.user-grade {
-  margin-left: 60px !important;
-  margin-top: -30px !important;
-  position: absolute;
-}
-
 p.assessment-by {
   margin-bottom: -5px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;

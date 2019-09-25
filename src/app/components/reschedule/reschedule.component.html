@@ -61,6 +61,9 @@
     <div
       class="col-lg-2 col-md-3 lessonbox"
       *ngFor="let obj of reScheduleLists"
+      [ngStyle]="
+        clickObj == obj && showcb ? { 'z-index': '100' } : { 'z-index': '0' }
+      "
     >
       <div
         class="lessonbox-inner"
@@ -76,7 +79,7 @@
             : { background: '#FFFFFF' }
         "
       >
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
             <i class="fa fa-check checkIcon"></i>
           </div>
@@ -111,7 +114,7 @@
           obj.isCheck == false
         "
       >
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
             <i class="fa fa-check checkIcon"></i>
           </div>
@@ -142,7 +145,7 @@
         class="lessonbox-skipped"
         *ngIf="obj.isAvaiable == false && obj.hasConflict == false"
       >
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="checkBox">
             <i class="fa fa-check checkIcon"></i>
           </div>
@@ -166,25 +169,233 @@
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict"
+        (click)="lessonCheck(obj._id, obj)"
+        *ngIf="
+          obj.hasConflict &&
+          obj.isAvaiable == true &&
+          obj.isCheck == true &&
+          showcb == false
+        "
+        [ngStyle]="
+          lessonObjArr.indexOf(obj) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
       >
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between pt-2 pr-2">
           <div class="d-flex">
-            <div class="exIcon">
-              <i class="fa fa-exclamation-circle exclamationIcon"></i>
+            <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
+              <i class="fa fa-check checkIcon"></i>
             </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessonObjArr.indexOf(obj) == -1"
+            ></div>
+            <div class="showDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessonObjArr.indexOf(obj) != -1
+              }"
+            ></i>
+          </div>
+        </div>
+        <!-- [ngClass]="{
+          exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+        }" -->
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
+        >
+          <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict"
+        id="lessonbox-conflict"
+        *ngIf="
+          obj.hasConflict &&
+          obj.isAvaiable == true &&
+          obj.isCheck == true &&
+          showcb
+        "
+        [ngStyle]="
+          lessonObjArr.indexOf(obj) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex justify-content-between pt-2 pr-2">
+          <div class="d-flex">
+            <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
+              <i class="fa fa-check checkIcon"></i>
+            </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessonObjArr.indexOf(obj) == -1"
+            ></div>
+            <div class="showDate">
+              <p
+                class="date"
+                [ngClass]="{ checkedDate: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcShortDate }}
+              </p>
+              <p
+                class="day"
+                [ngClass]="{ checkedDext: lessonObjArr.indexOf(obj) != -1 }"
+              >
+                {{ obj.startDate | utcFullDay }}
+              </p>
+            </div>
+          </div>
+          <div class="downArrow" (click)="showConflictBox($event, obj)">
+            <i
+              class="fa fa-exclamation-circle exclamationIcon"
+              [ngClass]="{
+                exclamationIconSelected: lessonObjArr.indexOf(obj) != -1
+              }"
+            ></i>
+          </div>
+        </div>
+        <!-- [ngClass]="{
+        exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+      }" -->
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessonObjArr.indexOf(obj) != -1 }"
+        >
+          <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+      <div
+        class="lessonbox-conflict-disable"
+        *ngIf="
+          obj.hasConflict && obj.isAvaiable == true && obj.isCheck == false
+        "
+      >
+        <div class="d-flex justify-content-between pt-2 pr-2">
+          <div class="d-flex">
+            <div class="checkBox" *ngIf="lessonObjArr.indexOf(obj) != -1">
+              <i class="fa fa-check checkIcon"></i>
+            </div>
+            <div
+              class="uncheckBox"
+              *ngIf="lessonObjArr.indexOf(obj) == -1"
+            ></div>
             <div class="showDate">
               <p class="date">{{ obj.startDate | utcShortDate }}</p>
               <p class="day">{{ obj.startDate | utcFullDay }}</p>
             </div>
           </div>
-          <!-- <div class="downArrow" (click)="showConflictBox($event, obj)">
-          <i class="fa fa-angle-down downIcon"></i>
-        </div> -->
+          <div class="downArrow">
+            <i class="fa fa-exclamation-circle exclamationIcon"></i>
+          </div>
         </div>
-
+        <!-- [ngClass]="{
+        exclamationIconSelected: lessionIdArr.indexOf(obj.id) != -1
+      }" -->
         <div class="statusBox">
           <p class="statusText">Skip: Conflict</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="conflictPopUp"
+    [ngStyle]="styleArr"
+    *ngIf="conflictBoxShow"
+    id="conflictPopUp"
+  >
+    <div
+      [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
+      class="arr-box arr-up"
+      [ngClass]="arrClasses"
+    ></div>
+    <div class="innner-conflictPopUp">
+      <div *ngFor="let cobj of conflictObj.conflictWith; let i = index">
+        <div class="d-flex teacher-gp">
+          <div class="flexi-img-div teacherImg">
+            <div class="flexi-img-wrap teacherImg-wrap">
+              <img src="{{ cobj.profilePic }} " />
+            </div>
+          </div>
+          <div class="flexi-teacher-div">
+            <!-- <p class="flexi-teacher-position">{{ cobj.position }}</p> -->
+            <label class="flexi-teacher-name">{{ cobj.preferredName }}</label>
+          </div>
+        </div>
+        <div class="conflictBoxGp">
+          <div class="d-flex conflictTxt">
+            <div class="circleExclamation">
+              <i class="fa fa-exclamation"></i>
+            </div>
+            <p class="txtConflict">
+              conflicts on the following lessons
+            </p>
+          </div>
+          <div
+            class="conflictBox"
+            *ngFor="let lesson of cobj.lessons; let j = index"
+          >
+            <!-- style="border-bottom: solid 2px #E3E4E6;" -->
+            <div class="d-flex">
+              <div
+                class="col-md-3"
+                style="padding-bottom: 15px;padding-left: 0;"
+              >
+                <div class="boxDiv">
+                  <h5 class="flexi-day">
+                    {{ lesson.startDate | dateFormat }}
+                  </h5>
+
+                  <div class="conflict-duration">
+                    {{ lesson.startDate | utcTime }} -
+                    {{ lesson.endDate | utcTime }}
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-4"
+                style="padding-bottom: 15px;padding-left: 0"
+              >
+                <div class="boxDiv">
+                  <h5 class="ctitle">Lesson</h5>
+                  <div class="cText">{{ lesson.name }}</div>
+                </div>
+              </div>
+              <div
+                class="col-md-3"
+                style="padding-bottom: 15px;padding-bottom: 15px;padding-left: 0"
+              >
+                <div class="boxDiv">
+                  <h5 class="ctitle">Location</h5>
+                  <div class="cText">{{ lesson.location }}</div>
+                </div>
+              </div>
+              <div class="col-md-2" style="padding-left: 8px;">
+                <div class="">
+                  <h5 class="ctitle">Number of students</h5>
+                  <div class="ctext">{{ lesson.no_of_student }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

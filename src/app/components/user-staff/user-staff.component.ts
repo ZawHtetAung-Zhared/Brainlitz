@@ -794,7 +794,10 @@ export class UserStaffComponent implements OnInit {
     item.isCheck = !item.isCheck;
   }
 
-  radioCheck(item, fields) {
+  radioCheck(item, fields, idx1, idx2) {
+    var id = idx1 + idx2;
+    console.log('id', id);
+
     fields.map(field => {
       field.isCheck = false;
     });
