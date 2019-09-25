@@ -703,6 +703,7 @@ export class CourseComponent implements OnInit {
     // this.courseVal = val
     if (val.length > 0) {
       this.iswordcount = true;
+      console.log(val);
     } else {
       console.log('clear search');
       this.searchVal = ''; ///zzz
@@ -1422,6 +1423,7 @@ export class CourseComponent implements OnInit {
       this.isCoursePlanDetail == true
     ) {
       this.courseList = [];
+      this.iswordcount = false;
       this.getCourseLists(20, 0);
     }
     ///zzz end
@@ -1439,7 +1441,7 @@ export class CourseComponent implements OnInit {
     this.showPayment = false;
     this.searchMore = false;
     this.hideSearch = false;
-    this.iswordcount = false;
+    // this.iswordcount = false;//zzz
     this.paymentItem = {};
     this.cancelUItext = false;
     this.cancelUI = false;
