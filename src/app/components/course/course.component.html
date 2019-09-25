@@ -728,8 +728,14 @@
                               "
                               class="d-flex"
                             >
-                              <span class="student-profile-wrapper">
+                              <span
+                                *ngIf="student.fullName != ''"
+                                class="student-profile-wrapper"
+                                placement="bottom"
+                                ngbTooltip="{{ student.fullName }}"
+                              >
                                 <img
+                                  class="d-inline-block"
                                   src="{{ student.profilePic }}"
                                   alt=""
                                   class="student_profilePic"
@@ -739,7 +745,23 @@
                                   "
                                 />
                               </span>
-
+                              <span
+                                *ngIf="student.fullName == ''"
+                                class="student-profile-wrapper"
+                                placement="bottom"
+                                ngbTooltip="{{ student.guardianEmail }}"
+                              >
+                                <img
+                                  class="d-inline-block"
+                                  src="{{ student.profilePic }}"
+                                  alt=""
+                                  class="student_profilePic"
+                                  *ngIf="
+                                    student.profilePic != undefined ||
+                                    student.profilePic == null
+                                  "
+                                />
+                              </span>
                               <div
                                 class="user-grade"
                                 *ngIf="
@@ -3041,36 +3063,148 @@
         </div>
         <label class="switch-label" for="online">Issue makeup pass</label>
       </div>
-      <div class="col-md-8 input-wrap p-0">
-        <div
-          *ngIf="isGlobal && this.modalType == 'absent'"
-          class="mb-0 mt-2 form-group"
-        >
-          <label for="name" class="input-label">Name</label>
-          <input
-            type="text"
-            class="form-control create-input"
-            placeholder="Type makeup pass name here"
-            name="name"
-            [(ngModel)]="makeupForm.name"
-            required
-            #name="ngModel"
-          />
+      <div class="w-100 d-flex">
+        <div class="input-wrap p-0" style="width:80%;margin-right:20px">
+          <div
+            *ngIf="isGlobal && this.modalType == 'absent'"
+            class="mb-0 mt-2 form-group"
+          >
+            <label for="name" class="input-label">Name</label>
+            <input
+              type="text"
+              class="form-control create-input"
+              placeholder="Type makeup pass name here"
+              name="name"
+              [(ngModel)]="makeupForm.name"
+              required
+              #name="ngModel"
+            />
+          </div>
+          <div
+            *ngIf="isGlobal && this.modalType == 'absent'"
+            class="mb-0 mt-2 form-group"
+          >
+            <label for="name" class="input-label">Reason</label>
+            <textarea
+              class="form-control create-input"
+              rows="4"
+              placeholder="Got any reasons?"
+              name="reason"
+              [(ngModel)]="makeupForm.reason"
+              #reason="ngModel"
+              required
+            ></textarea>
+          </div>
         </div>
         <div
-          *ngIf="isGlobal && this.modalType == 'absent'"
-          class="mb-0 mt-2 form-group"
+          *ngIf="
+            makeupLists.length > 0 && this.modalType == 'absent' && isGlobal
+          "
+          class="d-flex flex-column makeup-side"
+          style="width:50%;"
         >
-          <label for="name" class="input-label">Reason</label>
-          <textarea
-            class="form-control create-input"
-            rows="4"
-            placeholder="Got any reasons?"
-            name="reason"
-            [(ngModel)]="makeupForm.reason"
-            #reason="ngModel"
-            required
-          ></textarea>
+          <h1 class="release-text container">Released makeup passes</h1>
+          <div class="" *ngFor="let makeup of makeupLists">
+            <!--for valid start-->
+            <div class="col-md-12 av-block claimed-height">
+              <!-- [ngClass]="{'claimed-height': makeup.passType === 'claimed'}" -->
+              <div class="single-makeup claimed-height">
+                <div
+                  class="makeup-head"
+                  [ngClass]="{
+                    'claimed-header': makeup.passType === 'claimed',
+                    'expired-header': makeup.passType === 'expired'
+                  }"
+                >
+                  <p>
+                    <span *ngIf="makeup.passType === 'available'">
+                      Valid until
+                      <span class="valid-date"
+                        >{{ makeup.expirationDate.day }}
+                        {{ makeup.expirationDate.month - 1 | TTmonth }}
+                        {{ makeup.expirationDate.year }}</span
+                      >
+                    </span>
+                    <span *ngIf="makeup.passType === 'claimed'">
+                      <span>
+                        <img
+                          src="../../../assets/icons/badge_tick.svg"
+                          alt=""
+                        />
+                      </span>
+                      Claimed pass
+                    </span>
+                    <span *ngIf="makeup.passType === 'expired'">
+                      <span>
+                        <img
+                          src="../../../assets/icons/badge_minus.svg"
+                          alt=""
+                        />
+                      </span>
+                      Expired pass
+                    </span>
+                  </p>
+                </div>
+                <div class="makeup-body">
+                  <h5 class="makeup-title">{{ makeup.name }}</h5>
+                  <p class="makeup-des">{{ makeup.reason }}</p>
+                  <div class="makeup-box">
+                    <p>
+                      Issued on {{ makeup.issueDate.day }}
+                      {{ makeup.issueDate.month - 1 | TTmonth }}
+                      {{ makeup.issueDate.year }}
+                    </p>
+                    <div class="issue-box d-flex flex-column">
+                      <strong class="makeup-course-name"
+                        >{{ makeup.course.name }}
+                      </strong>
+                      <label *ngIf="makeup.course.type !== 'ONLINE'">
+                        <span
+                          >{{ makeup.course.startTime.hr | timeFormat }} :
+                          {{ makeup.course.startTime.min | timeFormat }}
+                          {{ makeup.course.startTime.meridiem }}</span
+                        >
+                        -
+                        <span
+                          >{{ makeup.course.endTime.hr | timeFormat }} :
+                          {{ makeup.course.endTime.min | timeFormat }}
+                          {{ makeup.course.endTime.meridiem }}</span
+                        ></label
+                      >
+                    </div>
+                    <div *ngIf="makeup.passType === 'claimed'">
+                      <p>
+                        Issued on {{ makeup.claimedDateFor.day }}
+                        {{ makeup.claimedDateFor.month - 1 | TTmonth }}
+                        {{ makeup.claimedDateFor.year }}
+                      </p>
+                      <div class="issue-box d-flex flex-column">
+                        <strong class="makeup-course-name">{{
+                          makeup.makeupCourse.name
+                        }}</strong>
+                        <label *ngIf="makeup.course.type !== 'ONLINE'">
+                          <span
+                            >{{ makeup.makeupCourse.startTime.hr | timeFormat }}
+                            :
+                            {{ makeup.makeupCourse.startTime.min | timeFormat }}
+                            {{ makeup.makeupCourse.startTime.meridiem }}</span
+                          >
+                          -
+                          <span
+                            >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
+                            {{ makeup.makeupCourse.endTime.min | timeFormat }}
+                            {{ makeup.makeupCourse.endTime.meridiem }}</span
+                          ></label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="left-scoope"></div>
+                <div class="right-scoope"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="d-flex flex-wrap mt-3">
@@ -3217,6 +3351,7 @@
     </div>
   </ng-template>
   <ng-template #reschedule let-modal>
+    <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
     <div class="flexiModal">
       <div class="innerFlexiModal" *ngIf="isReschedule">
         <div class="d-flex" style="margin: 20px 20px 0px 32px;">
@@ -3245,6 +3380,8 @@
           (checkObjArr)="checkObj($event)"
           [course]="detailLists"
           (unavaiableLen)="getlen($event)"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
         ></app-reschedule>
       </div>
       <div

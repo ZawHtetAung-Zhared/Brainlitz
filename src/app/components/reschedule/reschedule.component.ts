@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment-timezone';
 import { appService } from '../../service/app.service';
 import { log } from 'util';
+declare var $: any;
 
 @Component({
   selector: 'app-reschedule',
@@ -14,16 +15,30 @@ export class RescheduleComponent implements OnInit {
   @Input() reScheduleData;
   @Input() course;
   @Input() selectedCustomer;
-
+  @Input() showcb;
   @Output() defaultCount = new EventEmitter();
   @Output() checkObjArr: any = new EventEmitter<any>();
   @Output() unavaiableLen: any = new EventEmitter<any>();
-
+  conflictBoxShow: boolean = false;
+  @Output() passDataconflictBoxShow = new EventEmitter();
+  temp: any = [];
+  tempSignle: any = [];
+  tempSkip: any = [];
+  tempIgnore: any = [];
+  tempAll: any = [];
+  tempskipAll: any = [];
+  tempIgnoreAll: any = [];
   teacherDetail: any = {};
   reScheduleLists: any = [];
   unavaiableLessons: any = [];
   lessonObjArr: any = [];
   lessonsObj: any = [];
+  public yPos: any;
+  public xPos: any;
+  public arrTop: any;
+  public arrLeft: any;
+  public arrClasses: any;
+  public styleArr = {};
   avaiableLessonsCount: any = 0;
   constructor(private datePipe: DatePipe, private _service: appService) {}
 
@@ -74,7 +89,9 @@ export class RescheduleComponent implements OnInit {
         );
         this.unavaiableLen.emit(this.unavaiableLessons);
       }
+      // this.reScheduleLists[i].re_id=i;
     }
+    console.log(this.lessonObjArr, 'lessonObjArr');
   }
 
   lessonCheck(id, obj) {
@@ -144,7 +161,7 @@ export class RescheduleComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res.lessons);
         console.log(this.avaiableLessonsCount);
-        console.log(this.reScheduleLists.length);
+        console.log(this.reScheduleLists.length, '<length');
         console.log(this.lessonObjArr.length - this.unavaiableLessons.length);
         for (let i = 0; i < res.lessons.length; i++) {
           // res.lessons[i]._id=this.reScheduleLists.length+i;
@@ -162,5 +179,76 @@ export class RescheduleComponent implements OnInit {
         this.checkAvaiableReschedule(true);
         console.log(this.reScheduleLists);
       });
+  }
+
+  clickObj: any;
+  conflictObj: any;
+  lessonsCount: number = 0;
+  showConflictBox(e, obj) {
+    console.log(obj);
+    this.lessonsCount = 0;
+    this.tempSignle = [];
+    this.tempAll = [];
+    this.tempIgnoreAll = [];
+    this.tempskipAll = [];
+    this.tempIgnore = [];
+    this.tempSkip = [];
+    this.clickObj = obj;
+    this.conflictObj = obj;
+    console.log(e);
+    if (this.conflictBoxShow && this.showcb) {
+      this.passDataconflictBoxShow.emit(false);
+      this.conflictBoxShow = false;
+      setTimeout(() => {
+        if (document.getElementById('flexiMid') != null) {
+          document
+            .getElementById('flexiMid')
+            .setAttribute('style', 'overflow: overlay;');
+        }
+      });
+    } else {
+      this.temp = [];
+      this.passDataconflictBoxShow.emit(true);
+      this.conflictBoxShow = true;
+      // hideoverlay.setAttribute('style','background: red;');
+      setTimeout(function() {
+        console.log($('.conflictPopUp'));
+        $('.conflictPopUp').show();
+        document
+          .getElementById('flexiMid')
+          .setAttribute('style', 'overflow: hidden;');
+      });
+    }
+
+    this.xPos = e.clientX - 173 - 65;
+    console.log('e>>', e);
+    for (let i = 0; i < e.path.length; i++) {
+      if (e.path[i].classList != undefined) {
+        if (e.path[i].classList.value == 'modal-dialog') {
+          this.yPos = e.clientY - e.path[i].offsetTop + 16;
+          break;
+        }
+      }
+    }
+    console.log('yPos', this.yPos);
+    if (
+      e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+      e.srcElement.className ==
+        'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+    ) {
+      this.arrLeft = e.path[4].offsetLeft + 130;
+    } else {
+      this.arrLeft = e.path[3].offsetLeft + 130;
+    }
+
+    this.styleArr = {
+      top: this.yPos + 'px'
+    };
+
+    for (let x = 0; x < this.conflictObj.conflictWith.length; x++) {
+      this.lessonsCount += this.conflictObj.conflictWith[x].lessons.length;
+    }
+    console.log(this.lessonsCount);
+    console.log(this.lessonsObj);
   }
 }

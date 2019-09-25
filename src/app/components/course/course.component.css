@@ -3112,7 +3112,10 @@ p.textCount {
   min-height: 42px;
   overflow: overlay;
 }
-
+.makeup-des {
+  max-height: 42px;
+  overflow: overlay;
+}
 .makeup-box {
   background: #f2f4f5;
   padding: 8px;
@@ -3185,7 +3188,11 @@ p.textCount {
   max-height: 63vh;
   min-height: 63vh;
 }
-
+.makeup-side {
+  background: #f2f4f5;
+  overflow: auto;
+  max-height: 360px;
+}
 .makeup-footer {
   padding: 16px;
   border-top: 2px dotted #d4d5d6;
@@ -3574,4 +3581,14 @@ i.fa.fa-angle-left.flexiBackicon {
   background: #fff;
   border: solid 2px red;
   color: red;
+}
+::ng-deep .tooltip-inner {
+  background-color: #555f69;
+  color: #fff;
+  z-index: 1;
+  border: 1px solid gray;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+::ng-deep .tooltip .arrow::before {
+  border-bottom-color: #555f69 !important;
 }

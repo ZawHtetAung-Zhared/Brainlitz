@@ -116,7 +116,7 @@ p.previousDate {
   border-radius: 2px;
   width: 16px;
   height: 16px;
-  margin-top: 12px;
+  /* margin-top: 12px; */
   line-height: 1;
   text-align: center;
 }
@@ -126,7 +126,11 @@ p.previousDate {
   height: 16px;
   border: 2px solid #64707d;
   border-radius: 2px;
-  margin-top: 12px;
+  /* margin-top: 12px; */
+}
+
+.exclamationIconSelected {
+  color: #fff !important;
 }
 
 .lessonbox-inner,
@@ -138,16 +142,18 @@ p.previousDate {
   height: 88px;
   padding-left: 12px;
 }
-.lessonbox-inner-disable {
-  background: #f2f4f5;
+.lessonbox-inner-disable,
+.lessonbox-conflict-disable {
+  background: #f2f4f5 !important;
 }
+
 i.fa.fa-check.checkIcon {
   color: #007fff;
   font-size: 12px;
 }
 .showDate {
   padding-left: 12px;
-  padding-top: 10px;
+  /* padding-top: 10px; */
 }
 p.date {
   margin-bottom: 4px;
@@ -181,7 +187,8 @@ p.day {
   font-size: 12px;
   color: #64707d;
 }
-.lessonbox-conflict {
+.lessonbox-conflict,
+.lessonbox-conflict-disable {
   background: #ffffff;
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -233,4 +240,150 @@ i.fa.fa-exclamation-circle.exclamationIcon {
 .exIcon {
   padding-top: 8px;
   padding-left: 6px;
+}
+
+/* conflict box */
+div.conflictPopUp {
+  position: absolute;
+  background: #fff;
+  z-index: 100 !important;
+  padding: 0px;
+  list-style: none;
+  -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  /* top: 50px; */
+  width: 958px;
+  /* max-height: 650px; */
+  left: 0px;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* margin-bottom: 100px; */
+  /* max-height: 650px;
+  overflow: overlay; */
+}
+.arr-box {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+  position: absolute;
+  /* right: 50%; */
+  /* top: -19px; */
+  z-index: 15;
+  margin: auto;
+  top: -7%;
+}
+
+.arr-up {
+  border-bottom: solid 10px #ffffff;
+  border-left: solid 10px transparent;
+  border-right: solid 10px transparent;
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /*z-index:5;*/
+  z-index: 10;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+.d-flex.teacher-gp {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+.flexi-img-wrap.teacherImg-wrap {
+  width: 40px;
+  height: 40px;
+}
+.flexi-img-div.teacherImg {
+  width: 50px;
+}
+
+.flexi-img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+}
+.flexi-teacher-div {
+  line-height: 5px;
+  padding-top: 7px;
+}
+p.flexi-teacher-position {
+  font-weight: 500;
+  font-size: 12px;
+  color: #64707d;
+}
+
+label.flexi-teacher-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2e3d4d;
+  line-height: 1.5;
+}
+
+.conflictBoxGp {
+  max-height: 650px;
+  overflow: overlay;
+}
+
+.circleExclamation {
+  width: 20px;
+  height: 20px;
+  border: solid 2px #f26500;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #f26500;
+  text-align: center;
+  line-height: 1.5;
+}
+
+p.txtConflict {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #e66000;
+  padding-left: 10px;
+}
+
+.conflictBox {
+  width: 912px;
+  /* height: 131px; */
+  background: #f2f4f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.boxDiv {
+  border-right: solid #ffffff;
+}
+
+h5.flexi-day {
+  font-size: 16px;
+  color: #2e3d4d;
+  font-weight: 600;
+}
+.conflict-duration {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #64707d;
+}
+h5.ctitle {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #64707d;
+}
+
+.cText {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #2e3d4d;
 }
