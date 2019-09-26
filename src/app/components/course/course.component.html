@@ -1530,84 +1530,106 @@
             </div>
           </div>
           <div class="activeTab-content m-bottom" *ngIf="activeTab == 'Class'">
-            <div *ngIf="LASD != null" class="timeline">
-              <div
-                [ngStyle]="{ left: i * 80 + 'px' }"
-                class="single-date"
-                *ngFor="let timeline of detailLists.lessons; let i = index"
-                [ngClass]="{
-                  today:
-                    (timeline.startDate | timelineDate) ==
-                    (todayDate | timelineDate),
-                  'disable-add': timeline.startDate > todayDate
-                }"
-              >
-                <!-- <pre>{{timeline | json}}</pre> -->
+            <div class="d-flex flex-row lesson-list">
+              <div *ngIf="LASD != null" class="timeline">
+                <div
+                  [ngStyle]="{ left: i * 80 + 'px' }"
+                  class="single-date"
+                  *ngFor="let timeline of detailLists.lessons; let i = index"
+                  [ngClass]="{
+                    today:
+                      (timeline.startDate | timelineDate) ==
+                      (todayDate | timelineDate),
+                    'disable-add': timeline.startDate > todayDate
+                  }"
+                >
+                  <!-- <pre>{{timeline | json}}</pre> -->
 
-                <div
-                  *ngIf="timeline.startDate < todayDate"
-                  (click)="
-                    checkAttendance(timeline.startDate, timeline, cancelUI, i)
-                  "
-                >
+                  <div
+                    *ngIf="timeline.startDate < todayDate"
+                    (click)="
+                      checkAttendance(timeline.startDate, timeline, cancelUI, i)
+                    "
+                  >
+                    <div
+                      *ngIf="
+                        (timeline.startDate | timelineDate) !=
+                        (todayDate | timelineDate)
+                      "
+                      (click)="
+                        checkAttendance(
+                          timeline.startDate,
+                          timeline,
+                          cancelUI,
+                          i
+                        )
+                      "
+                    >
+                      <b>{{ timeline.startDate | timelineDate }} </b>
+                      <p>
+                        {{ timeline.startDate | timelineDay }}
+                        <span
+                          *ngIf="timeline.cancel == true"
+                          class="makeup-icon"
+                          >C</span
+                        >
+                      </p>
+                    </div>
+                  </div>
                   <div
                     *ngIf="
-                      (timeline.startDate | timelineDate) !=
+                      (timeline.startDate | timelineDate) ==
                       (todayDate | timelineDate)
                     "
                     (click)="
                       checkAttendance(timeline.startDate, timeline, cancelUI, i)
                     "
                   >
-                    <b>{{ timeline.startDate | timelineDate }} </b>
-                    <p>
-                      {{ timeline.startDate | timelineDay }}
-                      <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >C</span
-                      >
-                    </p>
+                    <div>
+                      <b>{{ timeline.startDate | timelineDate }}</b>
+                      <p>
+                        {{ timeline.startDate | timelineDay }}
+                        <span
+                          *ngIf="timeline.cancel == true"
+                          class="makeup-icon"
+                          >C</span
+                        >
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div
-                  *ngIf="
-                    (timeline.startDate | timelineDate) ==
-                    (todayDate | timelineDate)
-                  "
-                  (click)="
-                    checkAttendance(timeline.startDate, timeline, cancelUI, i)
-                  "
-                >
-                  <div>
-                    <b>{{ timeline.startDate | timelineDate }}</b>
-                    <p>
-                      {{ timeline.startDate | timelineDay }}
-                      <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >C</span
-                      >
-                    </p>
-                  </div>
-                </div>
-                <div *ngIf="timeline.startDate > todayDate">
-                  <div
-                    *ngIf="
-                      (timeline.startDate | timelineDate) !=
-                      (todayDate | timelineDate)
-                    "
-                    (click)="
-                      checkAttendance(timeline.startDate, timeline, cancelUI, i)
-                    "
-                  >
-                    <b>{{ timeline.startDate | timelineDate }}</b>
-                    <p>
-                      {{ timeline.startDate | timelineDay }}
-                      <span *ngIf="timeline.cancel == true" class="makeup-icon"
-                        >C</span
-                      >
-                    </p>
+                  <div *ngIf="timeline.startDate > todayDate">
+                    <div
+                      *ngIf="
+                        (timeline.startDate | timelineDate) !=
+                        (todayDate | timelineDate)
+                      "
+                      (click)="
+                        checkAttendance(
+                          timeline.startDate,
+                          timeline,
+                          cancelUI,
+                          i
+                        )
+                      "
+                    >
+                      <b>{{ timeline.startDate | timelineDate }}</b>
+                      <p>
+                        {{ timeline.startDate | timelineDay }}
+                        <span
+                          *ngIf="timeline.cancel == true"
+                          class="makeup-icon"
+                          >C</span
+                        >
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
+              <button class="btn-newLesson" (click)="addNewLesson()">
+                Add new lesson
+              </button>
             </div>
+
             <div class="mt-20">
               <div class="d-flex justify-content-between">
                 <div *ngIf="LASD != null" class="mr-auto">

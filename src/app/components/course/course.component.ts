@@ -4078,4 +4078,7 @@ export class CourseComponent implements OnInit {
       );
     this.modalReference.close();
   }
+  addNewLesson() {
+    console.log('Here add new lesson');
+  }
 }
