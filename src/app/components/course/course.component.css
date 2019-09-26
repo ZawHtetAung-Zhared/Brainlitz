@@ -3591,4 +3591,5 @@ i.fa.fa-angle-left.flexiBackicon {
 }
 ::ng-deep .tooltip .arrow::before {
   border-bottom-color: #555f69 !important;
+  margin-bottom: -2px !important;
 }
