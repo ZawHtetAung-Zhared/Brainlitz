@@ -341,13 +341,13 @@ export class CoursecreateComponent implements OnInit {
   showDraftCourse(cId, type) {
     console.log('Function Works');
     this.getAllLocations();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getSingleCourse(cId, this.currentLocation)
       .subscribe((res: any) => {
         console.log('Course Detail', res);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         this.model = res;
         this.courseFeess = res.paymentPolicy.courseFee;
@@ -528,13 +528,13 @@ export class CoursecreateComponent implements OnInit {
   rolloverCourse(cId, type) {
     console.log('Function Works');
     this.getAllLocations();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getSingleCourse(cId, this.currentLocation)
       .subscribe((res: any) => {
         console.log('Course Detail', res);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         this.endOptChecked = 'end';
         this.model = res;
@@ -1442,13 +1442,13 @@ export class CoursecreateComponent implements OnInit {
   }
 
   getAllUsers(type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, 20, 0).subscribe(
       (res: any) => {
         this.userLists = res;
         console.log('this.userLists', this.userLists);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
@@ -1901,7 +1901,7 @@ export class CoursecreateComponent implements OnInit {
 
     console.log('Course', this.courseObj);
     console.log('course model', this.model);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .createCourse(
         this.regionID,
@@ -1915,7 +1915,7 @@ export class CoursecreateComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.status === 201) {
             this.toastr.success('You have no conflict.');
             this.addCheck = false;
@@ -1956,7 +1956,7 @@ export class CoursecreateComponent implements OnInit {
         err => {
           console.log(err);
           console.log(err.status);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (err.status == 409) {
             console.log('course model', this.model);
             console.log(this.model.end);
@@ -2100,17 +2100,17 @@ export class CoursecreateComponent implements OnInit {
   //     this.courseObj["courseFee"] = this.chooseFee;
   //   }
   //   console.log('update CourseObj',this.courseObj);
-  //   this.blockUI.start('Loading...');
+  //   //this.blockUI.start('Loading...');
   //   this._service.updateCourse(this.conflitCourseId,this.courseObj, this.currentLocation)
   //   .subscribe((res:any)=>{
   //     console.log(res);
-  //     this.blockUI.stop();
+  //     //this.blockUI.stop();
   //     this.backToCourses('');
   //     setTimeout(() => {
   //       this.toastr.success('Successfully Created.');
   //     }, 300);
   //   },err=>{
-  //     this.blockUI.stop();
+  //     //this.blockUI.stop();
   //     setTimeout(() => {
   //       this.toastr.error('Update Fail');
   //     }, 300);

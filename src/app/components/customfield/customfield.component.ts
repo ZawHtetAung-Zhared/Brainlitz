@@ -70,12 +70,12 @@ export class CustomfieldComponent implements OnInit {
 
   getAllCustomfields() {
     this.checkFieldArr = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllFields(this.regionID).subscribe((res: any) => {
       console.log(res);
       this.fieldLists = res.userInfoPermitted;
       console.log(this.fieldLists);
-      this.blockUI.stop();
+      //this.blockUI.stop();
     });
   }
 
@@ -190,7 +190,7 @@ export class CustomfieldComponent implements OnInit {
     }
 
     console.log('Field Obj', fieldObj);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     if (id == '') {
       console.log('CREATE');
       this._service.createCustomField(this.regionID, fieldObj).subscribe(
@@ -199,13 +199,13 @@ export class CustomfieldComponent implements OnInit {
           this.model = {};
           this.showForm = false;
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.getAllCustomfields();
         },
         err => {
           console.log(err);
           this.toastr.success('Create Fail');
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }
       );
     } else {
@@ -215,14 +215,14 @@ export class CustomfieldComponent implements OnInit {
           console.log(res);
           this.model = {};
           this.toastr.success('Successfully Updated.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.getAllCustomfields();
           this.showForm = false;
         },
         err => {
           console.log(err);
           this.toastr.success('Update Fail');
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }
       );
     }
@@ -277,7 +277,7 @@ export class CustomfieldComponent implements OnInit {
   }
 
   deleteField(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.deleteCustomField(this.regionID, id).subscribe(
       (res: any) => {
         console.log(res);

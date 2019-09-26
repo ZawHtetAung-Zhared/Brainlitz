@@ -129,12 +129,12 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   showReport() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getMASReport(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getfilteredData(res);
           } else {

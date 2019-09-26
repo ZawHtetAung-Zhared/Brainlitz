@@ -177,13 +177,13 @@ export class ReportComponent implements OnInit {
 
   getStaffRating(limit, skip) {
     this.showFeedback = false;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this.locationID = localStorage.getItem('locationId');
     this._service.getRatingList(this.locationID, limit, skip).subscribe(
       (res: any) => {
         this.ratingLists = res;
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         if (this.ratingLists == []) {
           this.noData = true;

@@ -534,7 +534,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //to get leave taken day by one month
   getleaveforuser() {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let tempArr = [];
     let res = this.viewDate;
     //this for to get start and end date for current months
@@ -632,7 +632,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         // console.log(tempArr);
 
         this.events = tempArr;
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(this.events);
       },
       err => {}

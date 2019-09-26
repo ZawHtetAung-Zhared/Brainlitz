@@ -468,12 +468,12 @@ export class ToolsComponent implements OnInit {
 
     this.showDayType();
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.viewNoti(limit, skip, this.locationId).subscribe(
       (res: any) => {
         console.log('~~~', this.notiLists);
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
 
         // this.notiLists = res;
         this.notiLists = this.notiLists.concat(res);
@@ -509,7 +509,7 @@ export class ToolsComponent implements OnInit {
         console.log('Noti List', this.notiLists);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.error('View sent history fail');
         console.log(err);
       }
@@ -826,7 +826,7 @@ export class ToolsComponent implements OnInit {
     dataObj['id'] = this.selectedID;
     console.log(dataObj);
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.createNoti(dataObj, body).subscribe(
       (res: any) => {
         console.log('~~~', res);
@@ -834,7 +834,7 @@ export class ToolsComponent implements OnInit {
         setTimeout(() => {
           this.toastr.success('Successfully notified.');
         }, 100);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.item = {};
         this.item.sendType = 'app';
         this.checkedType = [];

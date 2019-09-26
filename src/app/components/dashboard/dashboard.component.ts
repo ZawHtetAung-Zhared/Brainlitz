@@ -673,8 +673,9 @@ export class DashboardComponent implements OnInit {
 
     return this.dataURItoBlob(logo);
   }
-
+  public singleLoading = false;
   updateRegionalInfo(data, type) {
+    this.singleLoading = true;
     console.log(data, type);
     let regionalSettingFormData = new FormData();
     this.token = localStorage.getItem('token');
@@ -737,6 +738,7 @@ export class DashboardComponent implements OnInit {
             } else {
               this.blockUIRegionInfo.stop();
             }
+            this.singleLoading = false;
             this.toastr.success('Successfully Updated.');
             console.log('~~~', res);
             this.orgLogo = res.logo;
@@ -1009,10 +1011,10 @@ export class DashboardComponent implements OnInit {
     }
 
     console.log(body);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.updateInvoiceSetting(this.regionId, body).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(res);
         this.invoiceData = res.invoiceSettings;
         this.paymentData = res.paymentSettings;
@@ -1025,7 +1027,7 @@ export class DashboardComponent implements OnInit {
         this.cancel();
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
