@@ -158,6 +158,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public absentmakeupLists: any = [];
   // public currency:any = {};
   public currency = JSON.parse(localStorage.getItem('currency'));
   public invCurrency: any = {};
@@ -3677,6 +3678,7 @@ export class CourseComponent implements OnInit {
     if (type == 'absent') {
       this.modalType = type;
       this.absentInfo = user;
+      this.getMakeupLists(id, 'course', this.regionId, this.courseId);
       this.modalReference = this.modalService.open(modal, {
         backdrop: 'static',
         windowClass:
@@ -3684,7 +3686,6 @@ export class CourseComponent implements OnInit {
       });
       return;
     }
-
     this.activeCourseInfo = [];
     console.log('LASD~~~', this.LASD);
     var d = new Date(this.LASD).getUTCDate();
@@ -3701,6 +3702,7 @@ export class CourseComponent implements OnInit {
     console.log(d, '/', m, '/', y);
     console.log('obj~~~', obj);
     console.log(this.courseId);
+
     this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
       (res: any) => {
         setTimeout(() => {

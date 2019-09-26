@@ -947,7 +947,7 @@
   <div class="d-flex lfex-column justify-content-center align-items-center">
     <div class="inner-wrapper w-100" *ngIf="isCourseDetail == true">
       <div class="back-wrap d-flex justify-content-between">
-        <div class="back-to" (click)="cancel()">
+        <div class="back-to " (click)="cancel()">
           <i class="fa fa-angle-left"></i>
           <p>Courses</p>
         </div>
@@ -1653,7 +1653,6 @@
                       Assign Relief Teacher
                     </button>
                     <button
-                      *ngIf="activeCourseInfo.CUSTOMER.length > 0"
                       type="button"
                       [disabled]="
                         disableCancel == true || reliefTeacher != null
@@ -1666,10 +1665,10 @@
                     <button
                       *ngIf="activeCourseInfo.CUSTOMER.length < 1"
                       type="button"
-                      class="btn btn-delete-lesson ml-3"
-                      (click)="deleteLesson(lessonDelete)"
+                      class="btn btn-delete-lesson"
+                      (click)="deleteLesson()"
                     >
-                      Delete lesson
+                      delete lesson
                     </button>
                   </div>
                   <div
@@ -2211,7 +2210,7 @@
           [disabled]="selectedUserLists.length == 0 || noSetting == true"
           (click)="enrollUserToCourse(detailLists._id, userType)"
         >
-          Confirm
+          {{ noSetting }} {{ selectedUserLists.length }}Confirm Yo
         </button>
         <button
           *ngIf="userType == 'teacher'"
@@ -3512,36 +3511,6 @@
       </button>
     </div>
   </ng-template>
-  <ng-template #lessonDelete>
-    <div class="modal-header">
-      <h3 class="modal-title">Delete lesson</h3>
-      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
-    </div>
-    <div class="modal-body apg-confirm">
-      <p>
-        Are you sure want to delete lesson for {{ LASD | utcDate }}?
-        <span class="target"></span>
-        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn modal-cancel-btn"
-        (click)="cancelLessonDelete()"
-      >
-        No
-      </button>
-      <button
-        type="submit"
-        class="btn modal-delete-btn"
-        (click)="confirmLessonDelete()"
-      >
-        Yes
-      </button>
-    </div>
-  </ng-template>
+
   <block-ui message="Deafult Message"></block-ui>
 </div>
