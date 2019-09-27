@@ -4,6 +4,8 @@ import {
   OnChanges,
   OnDestroy,
   Input,
+  Output,
+  EventEmitter,
   ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -29,6 +31,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
   @Input() regionId: string;
   @Input() userId: string;
   @Input() locationId: string;
+  @Output() showLoading = new EventEmitter();
 
   courses: Course[] = [];
   loading = true;
@@ -48,6 +51,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     console.log(this.userId);
     console.log(this.locationId);
     this.loading = true;
+    this.showLoading.emit(false);
     this.subscription = this._service
       .getUserDetail(this.regionId, this.userId, this.locationId)
       .subscribe(
@@ -59,6 +63,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
             console.log('nocourse');
             this.nocourse = true;
           }
+          this.showLoading.emit(true);
         },
         err => {
           this.loading = false;
