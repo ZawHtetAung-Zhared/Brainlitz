@@ -1,4 +1,5 @@
 <!-- <pre>{{ courseList | json }}</pre> -->
+<!-- {{loading}} -->
 <div *ngIf="loading == true">
   <div class="row test">
     <div class="class-block">
@@ -53,26 +54,28 @@
   </button>
 </div> -->
 <div class="row" *ngIf="courses?.length > 0">
-  <div class="class-block" *ngFor="let course of courses">
-    <div class="row">
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"
+    *ngFor="let course of courses"
+  >
+    <div class="course-block">
       <div class="course-title">
         <!-- <span>Bedok centre</span>
         <span>Beginner Piano Course</span> -->
-        <div class="col-md-10 location">
+        <div class="col-md-10 location p-0">
           <i class="fa fa-map-marker"></i>
           {{ course?.location.name }}
         </div>
         <div
-          class="col-md-12 title"
+          class="col-md-12 title p-0"
           (click)="navigateToCourseDetail(course._id)"
         >
           {{ course?.name }}
         </div>
       </div>
-    </div>
-    <div class="row">
+
       <div class="overview-shedule d-flex">
-        <div class="col-md-5" *ngIf="course.type != 'ONLINE'">
+        <div class="col-md-5 p-0" *ngIf="course.type != 'ONLINE'">
           <span class="d-flex shedule-text ">
             <label
               class="class-label-14 mb-0"
