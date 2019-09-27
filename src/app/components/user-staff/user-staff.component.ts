@@ -817,7 +817,7 @@ export class UserStaffComponent implements OnInit {
       event.target.value = '';
     }
   }
-  showloading;
+  showloading = true;
   showLoadingFun(e) {
     this.showloading = e;
   }
