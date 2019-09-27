@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'timelineDate'
 })
 export class GetTimelineDatePipe implements PipeTransform {
-  transform(date: any) {
+  transform(date) {
     const monthNames = [
       'Jan',
       'Feb',
@@ -19,8 +19,8 @@ export class GetTimelineDatePipe implements PipeTransform {
       'Nov',
       'Dec'
     ];
-    var monthName = monthNames[new Date(date).getUTCMonth()].toLowerCase();
-    var timeDate = new Date(date).getUTCDate() + ' ' + monthName;
+    var monthName = monthNames[new Date(date).getUTCMonth()];
+    var timeDate = new Date(date).getUTCDate() + ' ' + monthName.toLowerCase();
     // console.log(utcDate)
     return timeDate;
   }

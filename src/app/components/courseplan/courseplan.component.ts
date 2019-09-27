@@ -680,14 +680,14 @@ export class CourseplanComponent implements OnInit {
 
     if (type == 'create') {
       console.log('CreatePlan');
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .createCoursePlan(this.regionID, this.locationID, data)
         .subscribe(
           (res: any) => {
             console.log('success post', res);
             this.toastr.success('Successfully Created.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.getAllCoursePlan();
             this.cancel();
             this.mainForm.reset();
@@ -701,7 +701,7 @@ export class CourseplanComponent implements OnInit {
           },
           err => {
             this.toastr.error('Create Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -712,7 +712,7 @@ export class CourseplanComponent implements OnInit {
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;
       }
       if (type == 'update') {
-        this.blockUI.start('Loading...');
+        //this.blockUI.start('Loading...');
         this._service
           .updateSignlecPlan(this.editPlanId, data, this.locationID)
           .subscribe(
@@ -721,7 +721,7 @@ export class CourseplanComponent implements OnInit {
               setTimeout(() => {
                 this.toastr.success('Successfully Updated.');
               }, 300);
-              this.blockUI.stop();
+              //this.blockUI.stop();
               this.cancel();
               this.mainForm.reset();
               this.formField = new cPlanField();
@@ -735,7 +735,7 @@ export class CourseplanComponent implements OnInit {
             err => {
               console.log(err);
               this.toastr.error('Update Fail');
-              this.blockUI.stop();
+              //this.blockUI.stop();
             }
           );
       }
@@ -765,13 +765,13 @@ export class CourseplanComponent implements OnInit {
 
   //  deleteCoursePlan(id) {
   //   console.log(id)
-  //    this.blockUI.start('Loading...');
+  //    //this.blockUI.start('Loading...');
   //    this.modalReference1.close();
   //   this._service.deleteCoursePlan(id)
   //   .subscribe((res:any) => {
   //     console.log(res);
   //      setTimeout(() => {
-  //        this.blockUI.stop(); // Stop blocking
+  //        //this.blockUI.stop(); // Stop blocking
   //      }, 300);
   //      this.toastr.success('Successfully Deleted.');
   //     this.getAllCoursePlan();
@@ -880,7 +880,7 @@ export class CourseplanComponent implements OnInit {
   // }
 
   getAllCoursePlan() {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let cid, key, skip, limit;
     this._service
       .getAllCourseplan(this.regionID, this.locationID, cid, skip, limit, key)
@@ -888,7 +888,7 @@ export class CourseplanComponent implements OnInit {
         (res: any) => {
           this.courseplanLists = res;
           setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+            //this.blockUI.stop(); // Stop blocking
           }, 300);
           console.log(this.courseplanLists);
         },
@@ -1012,10 +1012,10 @@ export class CourseplanComponent implements OnInit {
   }
 
   singleAPG(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getSingleAPG(this.regionID, id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('editapg', res);
         this.clickedItem = res;
         this.createdAPGstore.push(this.clickedItem);
@@ -1025,7 +1025,7 @@ export class CourseplanComponent implements OnInit {
         this.formField.searchText = '';
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -1086,13 +1086,13 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllAPG(skip, limit) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllAPG(this.regionID, '', skip, limit).subscribe(
       (res: any) => {
         console.log('apgLists', res);
         this.apgList = res;
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
