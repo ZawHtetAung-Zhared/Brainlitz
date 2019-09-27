@@ -208,12 +208,16 @@
           [regionId]="regionID"
           [userId]="userId"
           [locationId]="locationID"
+          (showLoading)="showLoadingFun($event)"
         ></app-class-tab>
       </div>
       <!-- for classess end -->
       <!-- for leave start -->
       <div *ngIf="activeTab == 'Absent'" class="mt-3">
-        <app-leave-details [staffObj]="staffObj"></app-leave-details>
+        <app-leave-details
+          [staffObj]="staffObj"
+          (showLoading)="showLoadingFun($event)"
+        ></app-leave-details>
       </div>
 
       <!-- for leave end -->
@@ -682,4 +686,4 @@
   </div>
 </div>
 
-<block-ui message="Deafult Message"></block-ui>
+<block-ui message="Deafult Message" *ngIf="showloading"></block-ui>
