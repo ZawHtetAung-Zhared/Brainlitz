@@ -243,17 +243,17 @@ export class UserStaffComponent implements OnInit {
   }
 
   getAllUsers(type, limit, skip) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.result = res;
         this.staffLists = this.staffLists.concat(res);
         // this.staffLists = res;
         console.log('this.staffLists', this.staffLists);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -488,16 +488,16 @@ export class UserStaffComponent implements OnInit {
         objData.append('profilePic', this.ulFile);
       }
       console.log('create');
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.back();
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           // if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
           // 	this.toastr.error('Email already exist');
           // }
@@ -514,7 +514,7 @@ export class UserStaffComponent implements OnInit {
         }
       );
     } else {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       let getImg = document.getElementsByClassName('circular-profile');
       if (getImg != undefined) {
         $('.circular-profile img:last-child').attr('id', 'blobUrl');
@@ -539,12 +539,12 @@ export class UserStaffComponent implements OnInit {
           (res: any) => {
             console.log(res);
             this.toastr.success('Successfully Updated.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.backToDetails();
           },
           err => {
             // this.toastr.error('Update Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
             if (err.status == 400) {
               this.toastr.error('Email already exist');
@@ -732,7 +732,7 @@ export class UserStaffComponent implements OnInit {
     this.staffObj = data;
     console.log('show Staff details', this.staffObj);
     console.log(ID);
-    // this.blockUI.start('Loading...');
+    // //this.blockUI.start('Loading...');
     this.showStaffDetail = true;
     this._service
       .getUserDetail(this.regionID, data.userId, this.locationID)
@@ -745,11 +745,11 @@ export class UserStaffComponent implements OnInit {
           });
           console.log('StaffDetail', res);
           // setTimeout(() => {
-          //   this.blockUI.stop();
+          //   //this.blockUI.stop();
           // }, 100);
         },
         err => {
-          // this.blockUI.stop();
+          // //this.blockUI.stop();
           console.log(err);
         }
       );
