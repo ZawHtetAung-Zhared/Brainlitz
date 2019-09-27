@@ -893,6 +893,8 @@ export class CourseComponent implements OnInit {
     this.rangeEndMin = '0';
     this.showStartFormat = '00:00';
     this.showEndFormat = '00:00';
+    this.start24HourFormat = undefined;
+    this.end24HourFormat = undefined;
     this.courseVal = {};
     this.tempCategory = [];
     this.tempPlan = [];
@@ -1234,9 +1236,14 @@ export class CourseComponent implements OnInit {
   }
 
   advancedSearch(obj, limit, skip) {
-    console.log(obj);
-    console.log(this.days);
-    console.log(this.searching);
+    console.log(this.end24HourFormat, 'end24HourFormat');
+    console.log(this.start24HourFormat, 'start24HourFormat');
+    let eventStart: any;
+    let eventEnd: any;
+    console.log(this.courseVal, 'courseVal');
+    // console.log(obj);
+    // console.log(this.days);
+    // console.log(this.searching);
     this.searchObj = obj;
     if (this.searching == false) {
       this.courseList = [];
@@ -1273,9 +1280,8 @@ export class CourseComponent implements OnInit {
         ' UTC';
       console.log(tempStart);
       var eventStartTemp = new Date(tempStart);
-      var eventStart = eventStartTemp.toISOString();
+      eventStart = eventStartTemp.toISOString();
     } else {
-      console.log(this.selectedEndHrRange);
       console.log(this.selectedEndMinRange);
       if (this.start24HourFormat != undefined) {
         var eventStartTemp = new Date(
@@ -1289,7 +1295,7 @@ export class CourseComponent implements OnInit {
           )
         );
         console.log(eventStartTemp);
-        var eventStart = eventStartTemp.toISOString();
+        eventStart = eventStartTemp.toISOString();
       } else {
         eventStart = null;
       }
@@ -1309,14 +1315,14 @@ export class CourseComponent implements OnInit {
         this.end24HourFormat +
         ' UTC';
       var eventEndTemp = new Date(tempEnd);
-      var eventEnd = eventEndTemp.toISOString();
+      eventEnd = eventEndTemp.toISOString();
     } else {
       if (this.end24HourFormat != undefined) {
         var tempEnd = '9999-01-01' + ' ' + this.end24HourFormat + ' UTC';
         console.log(tempEnd);
         var eventEndTemp = new Date(tempEnd);
         console.log(eventEndTemp);
-        var eventEnd = eventEndTemp.toISOString();
+        eventEnd = eventEndTemp.toISOString();
       } else {
         eventEnd = null;
       }
@@ -1349,8 +1355,8 @@ export class CourseComponent implements OnInit {
     this.searchVal = obj.keyword;
 
     console.log(repeatedDays);
-    console.log(eventStart);
-    console.log(eventEnd);
+    console.log(eventStart, 'eventStart');
+    console.log(eventEnd, 'event end');
     console.log(obj.keyword);
     console.log(this.planIDArray);
     console.log(this.categoryIDArray);
