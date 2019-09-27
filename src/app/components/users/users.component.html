@@ -194,7 +194,10 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
-            <div class="user-grading">
+            <div
+              class="user-grading"
+              *ngIf="(custDetail.user.userGrading?.grade | json) != '{}'"
+            >
               <div
                 *ngIf="
                   custDetail.user.userGrading?.grade.point != undefined &&
@@ -914,16 +917,16 @@
                       >
 
                       <div *ngIf="list.cancelledLesson">
-                        <strong
+                        <span
                           *ngIf="list.cancelledLesson.startDate != undefined"
                         >
-                          <span>{{
-                            list.cancelledLesson.startDate | timelineDate
-                          }}</span>
-                          <span>{{
-                            list.cancelledLesson.startDate | yearFormat
-                          }}</span>
-                        </strong>
+                          <span
+                            >{{ list.cancelledLesson.startDate | timelineDate }}
+                          </span>
+                          <span
+                            >{{ list.cancelledLesson.startDate | yearFormat }}
+                          </span>
+                        </span>
 
                         <strong
                           *ngIf="list.cancelledLesson.startDate == undefined"

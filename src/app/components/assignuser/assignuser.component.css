@@ -1,32 +1,32 @@
-.item-list{
-	list-style: none;
-	column-count: 3;
+.item-list {
+  list-style: none;
+  column-count: 3;
 }
 
-.itemlist-wrap{
-	height: 400px;
-	overflow: overlay;
+.itemlist-wrap {
+  height: 400px;
+  overflow: overlay;
 }
 
-.name-label{
-	font-size: 28px;
+.name-label {
+  font-size: 28px;
 }
 
-.name{
-	font-size: 30px;
-	font-weight: bold;
+.name {
+  font-size: 30px;
+  font-weight: bold;
 }
-.checkedName{
-	background: #e9ecef;
-    padding: 5px;
-    margin: 0px 10px 5px 0px;
+.checkedName {
+  background: #e9ecef;
+  padding: 5px;
+  margin: 0px 10px 5px 0px;
 }
-.user{
-	word-break: break-all;
+.user {
+  word-break: break-all;
 }
-.user-wrap{
-	padding: .75rem 1.25rem;
-	border-bottom: 1px solid rgba(0,0,0,.125); 
+.user-wrap {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 /*.bt-color {
 	color: #703bc1;
@@ -39,34 +39,38 @@
 	box-shadow: none;
 	outline: none;
 }*/
-.tab-wrap{
-    padding: 9px 0px;
-    position: relative;
-    outline: none;
+.tab-wrap {
+  padding: 9px 0px;
+  position: relative;
+  outline: none;
 }
 
 .noti-sidebar {
-    padding-top: 20px;
-    padding-right: 0;
-    padding-left: 0;
-    border-right: 1px solid #dedede;
+  padding-top: 20px;
+  padding-right: 0;
+  padding-left: 0;
+  border-right: 1px solid #dedede;
 }
 
 .active {
-    background: #e6ecf2;
+  background: #e6ecf2;
 }
 .active .noti-tab {
-    background: #e6ecf2;
-    color: #4292f1;
-    border-left: 3px solid #4292f1;
+  background: #e6ecf2;
+  color: #4292f1;
+  border-left: 3px solid #4292f1;
 }
 
 .min-scroll {
-    min-height: 350px; 
-    overflow: overlay;
-    border-left: 1px solid #dedede; 
+  min-height: 350px;
+  overflow: overlay;
+  border-left: 1px solid #dedede;
 }
 
-.emptyMsg{
-	padding: 10px 0px 0px 40px;
+.emptyMsg {
+  padding: 10px 0px 0px 40px;
+}
+
+.inner-w {
+  width: 400px;
 }

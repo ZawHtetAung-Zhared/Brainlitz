@@ -125,9 +125,9 @@ input:checked + .slider:before {
   margin-bottom: 0;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-.form-group {
+/* .form-group {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
+} */
 .border-style {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
