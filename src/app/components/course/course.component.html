@@ -4,7 +4,7 @@
     (click)="clickoutSide()"
   ></div>
   <app-header
-    *ngIf="!isCategory && !isPlan && !isCourseCreate"
+    *ngIf="!isCategory && !isPlan && !isCourseCreate && !isTodayLesson"
     [ngClass]="{ stick: isSticky == true }"
   ></app-header>
   <div class="d-flex flex-column justify-content-center align-items-center">
@@ -15,15 +15,21 @@
         !isPlan &&
         !isCourseDetail &&
         !isCourseCreate &&
-        !isCoursePlanDetail
+        !isCoursePlanDetail &&
+        !isTodayLesson
       "
       [ngClass]="{ active: isSticky == true }"
     >
       <block-ui message="Deafult Message"></block-ui>
       <div *ngIf="coursePermission.length > 0" class="card-container">
-        <div class="d-flex flex-row title">
-          <h3 class="header-font">Courses</h3>
-          <span class="location-name">{{ locationName }}</span>
+        <div class="d-flex justify-content-between title">
+          <div>
+            <h3 class="header-font">Courses</h3>
+            <span class="location-name">{{ locationName }}</span>
+          </div>
+          <button class="today-button" (click)="gotoTodayLesson()">
+            Today’s lessons
+          </button>
         </div>
         <div class="d-flex flex-column course-search-wrap">
           <div *ngIf="!isAdvancedSearch">
@@ -901,6 +907,7 @@
         !isPlan &&
         !isCourseDetail &&
         !isCourseCreate &&
+        !isTodayLesson &&
         result.length != 0 &&
         !isCoursePlanDetail &&
         searchMore
@@ -919,6 +926,7 @@
         courseList.length >= 20 &&
         !isCategory &&
         !isPlan &&
+        !isTodayLesson &&
         !isCourseDetail &&
         !isCourseCreate &&
         result.length != 0 &&
@@ -944,6 +952,8 @@
     class="category-content"
     *ngIf="isCourseCreate == true"
   ></app-coursecreate>
+  <app-today-lessons *ngIf="isTodayLesson"> </app-today-lessons>
+
   <div class="d-flex lfex-column justify-content-center align-items-center">
     <div class="inner-wrapper w-100" *ngIf="isCourseDetail == true">
       <div class="back-wrap d-flex justify-content-between">

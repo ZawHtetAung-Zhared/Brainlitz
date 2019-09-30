@@ -1,11 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment-timezone';
-import { months, monthsShort } from 'moment';
 
 @Pipe({
-  name: 'utcDateAndDay'
+  name: 'utcDateandFullDay'
 })
-export class UtcDateAndDayPipe implements PipeTransform {
+export class UtcDateandFullDayPipe implements PipeTransform {
   transform(getDate): any {
     let d = new Date(getDate).getUTCDay();
     const monthNames = [
@@ -25,25 +23,25 @@ export class UtcDateAndDayPipe implements PipeTransform {
     let fullDay;
     switch (d) {
       case 0:
-        fullDay = 'Sunday';
+        fullDay = 'Sun';
         break;
       case 1:
-        fullDay = 'Monday';
+        fullDay = 'Mon';
         break;
       case 2:
-        fullDay = 'Tuesday';
+        fullDay = 'Tue';
         break;
       case 3:
-        fullDay = 'Wednesday';
+        fullDay = 'Wed';
         break;
       case 4:
-        fullDay = 'Thursday';
+        fullDay = 'Thu';
         break;
       case 5:
-        fullDay = 'Friday';
+        fullDay = 'Fri';
         break;
       case 6:
-        fullDay = 'Saturday';
+        fullDay = 'Sat';
     }
     var monthName = monthNames[new Date(getDate).getUTCMonth()];
     var yearName = new Date(getDate).getUTCFullYear();
@@ -56,7 +54,7 @@ export class UtcDateAndDayPipe implements PipeTransform {
       ' ' +
       monthName +
       ' ' +
-      year;
+      year.substr(-2);
     return utcDateAndDay;
   }
 }

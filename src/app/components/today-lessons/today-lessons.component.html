@@ -1,0 +1,50 @@
+<div class="today-container">
+  <button type="button" class="d-flex back-button" (click)="backToCourse()">
+    <i class="fa fa-angle-left left-arrow"></i>
+    <p class="backtxt">Courses</p>
+  </button>
+  <div class="today-date">
+    {{ todayDate | utcDateAndDay }}
+  </div>
+
+  <div class="today-courselist">
+    <div class="d-flex today-coruse">
+      <div class="list-downarrow">
+        <i class="fa fa-angle-right right-arrow"></i>
+      </div>
+      <div class="d-flex justify-content-between w-100 pl-2">
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <p class="course-name">Piano Basic Wednesday</p>
+
+            <span class="course-code">
+              Room 120
+            </span>
+          </div>
+          <div class="d-flex">
+            <span class="course-time">
+              1:30 PM -2:30 PM
+            </span>
+            <div class="course-duration">
+              1hr duration
+            </div>
+          </div>
+        </div>
+        <div class="d-flex course-attance">
+          <div class="count-box present">
+            <p class="student-txt present mb-0">25</p>
+            <p class="student-txt present mb-0">Present</p>
+          </div>
+          <div class="count-box absent">
+            <p class="student-txt absent mb-0">25</p>
+            <p class="student-txt absent mb-0">Present</p>
+          </div>
+          <div class="count-box total">
+            <p class="student-txt total mb-0">25</p>
+            <p class="student-txt total mb-0">Present</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

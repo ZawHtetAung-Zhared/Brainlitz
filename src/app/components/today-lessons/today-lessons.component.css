@@ -1,0 +1,96 @@
+.today-container {
+  padding: 30px;
+  width: 100%;
+}
+
+p.backtxt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  color: #2e3d4d;
+  font-size: 16px;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+.left-arrow {
+  font-size: 25px;
+  float: left;
+}
+
+.back-button {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  padding: 0;
+}
+.today-date {
+  color: #2e3d4d;
+  font-weight: 600;
+  font-size: 24px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 15px 0;
+}
+
+.right-arrow {
+  font-size: 25px;
+  float: left;
+}
+
+p.course-name {
+  font-size: 20px;
+  color: #007fff;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+.course-code {
+  color: #004080;
+  font-size: 12px;
+  background: #cce5ff;
+  padding: 3px 8px 0px 8px;
+  border-radius: 25px;
+  margin-left: 10px;
+  height: 24px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  margin-top: 6px;
+}
+
+span.course-time {
+  color: #64707d;
+  font-size: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+.course-duration {
+  background: #f2f4f5;
+  color: #64707d;
+  border-radius: 15px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  margin-left: 10px;
+}
+
+.count-box {
+  border-radius: 4px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 10px;
+  text-align: center;
+  margin-left: 20px;
+}
+
+.present {
+  background: #c2f2d6;
+  color: #004d20;
+}
+
+.absent {
+  background: #ffdbd9;
+  color: #7d1e19;
+}
+.total {
+  background: #edeff0;
+  color: #64707d;
+}
+
+.d-flex.today-coruse {
+  border-bottom: 1px solid #edeff0;
+  padding-bottom: 20px;
+}

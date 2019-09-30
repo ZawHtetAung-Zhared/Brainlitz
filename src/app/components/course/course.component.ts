@@ -243,6 +243,7 @@ export class CourseComponent implements OnInit {
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   public isDisabledBtn = false;
+  public isTodayLesson = false;
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -291,6 +292,7 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
+      this.isTodayLesson = false;
       this.courseList = [];
       console.log(this.courseList.length);
     });
@@ -332,6 +334,7 @@ export class CourseComponent implements OnInit {
   }
   cID: string;
   ngOnInit() {
+    console.log('exit');
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
@@ -4088,5 +4091,10 @@ export class CourseComponent implements OnInit {
   }
   addNewLesson() {
     console.log('Here add new lesson');
+  }
+
+  gotoTodayLesson() {
+    console.log('today lesson');
+    this.isTodayLesson = true;
   }
 }

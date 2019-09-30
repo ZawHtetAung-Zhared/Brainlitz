@@ -119,6 +119,8 @@ import {
 } from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
 import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
+import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
+import { UtcDateandFullDayPipe } from './service/pipe/utc-dateand-full-day.pipe';
 
 @NgModule({
   declarations: [
@@ -202,7 +204,9 @@ import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
     CarouselComponent,
     CarouselItemDirective,
     CarouselItemElement,
-    UtcDateByObjPipe
+    UtcDateByObjPipe,
+    TodayLessonsComponent,
+    UtcDateandFullDayPipe
   ],
   imports: [
     ContentLoaderModule,

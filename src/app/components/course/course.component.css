@@ -3608,3 +3608,13 @@ button.btn-newLesson {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
+
+button.today-button {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  background-color: #1682fb;
+  color: #ffffff;
+  padding: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
