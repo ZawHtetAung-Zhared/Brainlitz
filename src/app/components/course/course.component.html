@@ -1608,7 +1608,7 @@
                 </div>
               </div>
             </div>
-            <div class="mt-20">
+            <div *ngIf="!isRescheduleLesson" class="mt-20">
               <div class="d-flex justify-content-between">
                 <div *ngIf="LASD != null" class="mr-auto">
                   <p class="class-day">{{ LASD | attandanceDay }}</p>
@@ -1622,33 +1622,29 @@
                     class="d-flex align-items-center"
                     *ngIf="disableCancel == false && reliefTeacher == null"
                   >
-                    <button
-                      type="button"
-                      [disabled]="disableCancel == true"
-                      class="btn btn-assignRelief"
-                      (click)="onClickAssignRelief(reliefModal, selectedLesson)"
-                    >
-                      Assign Relief Teacher
-                    </button>
-                    <button
+                    <div
                       *ngIf="activeCourseInfo.CUSTOMER.length > 0"
-                      type="button"
-                      [disabled]="
-                        disableCancel == true || reliefTeacher != null
-                      "
-                      class="btn btn-class-cancel ml-3"
+                      class="delete-lesson"
                       (click)="cancelClass(content)"
                     >
                       Cancel lesson
-                    </button>
-                    <button
+                    </div>
+                    <div
                       *ngIf="activeCourseInfo.CUSTOMER.length < 1"
-                      type="button"
-                      class="btn btn-delete-lesson ml-3"
+                      class="delete-lesson"
                       (click)="deleteLesson(lessonDelete)"
                     >
                       Delete lesson
-                    </button>
+                    </div>
+                    <div class="reschedule-lesson" (click)="rescheduleLesson()">
+                      Reschedule
+                    </div>
+                    <div
+                      class="btn-assignRelief"
+                      (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                    >
+                      Assign Relief Teacher
+                    </div>
                   </div>
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"
@@ -1843,6 +1839,13 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div *ngIf="isRescheduleLesson" class="mt-20">
+              <app-reschedule-lesson
+                (cancelReschedule)="cancelRescheduleLesson($event)"
+                [courseDetail]="detailLists"
+                [LASD]="LASD"
+              ></app-reschedule-lesson>
             </div>
           </div>
           <div class="activeTab-content" *ngIf="activeTab == 'APG'">
