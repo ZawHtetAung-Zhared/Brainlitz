@@ -94,11 +94,11 @@
 
 .cc-start {
   position: relative;
-  width: 100%;
   background: #ffffff;
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   cursor: pointer;
+  height: 44px;
 }
 
 .btn-padding {

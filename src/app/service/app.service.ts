@@ -3840,4 +3840,19 @@ export class appService {
       return result;
     });
   }
+  // reschedule lesson
+  updateLesson(courseId, lessonId, body) {
+    let url = this.baseUrl + '/courses/' + courseId + '/lessons/' + lessonId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.put(url, body, httpOptions).map((res: Response) => {
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      console.log(res);
+      return res;
+    });
+  }
 }
