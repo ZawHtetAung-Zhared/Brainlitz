@@ -1929,9 +1929,18 @@ button:disabled {
 }
 
 .btn-assignRelief {
-  background: #fff;
+  /* background: #fff;
   border: solid 2px #007fff;
+  color: #0080ff; */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
   color: #0080ff;
+  cursor: pointer;
+  padding-left: 16px;
 }
 .btn-class-cancel,
 .btn-assignRelief {
@@ -3580,6 +3589,32 @@ i.fa.fa-angle-left.flexiBackicon {
   background: #fff;
   border: solid 2px red;
   color: red;
+}
+.delete-lesson {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: #f23a30;
+  cursor: pointer;
+  padding-right: 16px;
+  border-right: 1px solid #d4d5d6;
+}
+.delete-lesson-disable {
+  cursor: not-allowed;
+}
+.reschedule-lesson {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0080ff;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-right: 1px solid #d4d5d6;
+  cursor: pointer;
 }
 ::ng-deep .tooltip-inner {
   background-color: #555f69;

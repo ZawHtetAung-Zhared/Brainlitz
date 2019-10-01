@@ -31,6 +31,7 @@ import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
+import { isThisISOWeek } from 'date-fns';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -245,6 +246,9 @@ export class CourseComponent implements OnInit {
   public isDisabledBtn = false;
   public isTodayLesson = false;
 
+  //reschedule
+  public isRescheduleLesson: boolean;
+
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -308,6 +312,35 @@ export class CourseComponent implements OnInit {
       this.courseList = [];
     });
 
+    this._service.goCourseDetail1.subscribe(() => {
+      console.log('go back CDetail', this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCourseDetail = true;
+      // this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
+      console.log(this.reliefTeacher, this.disableCancel);
+      // this.reliefTeacher = null;
+      // this.disableCancel = false;
+      console.log(this.showCancelButton);
+      this.clickTab('Class', 'course');
+      this.activeToday = false;
+      this.courseList = [];
+    });
+
+    this._service.goCourseDetail2.subscribe(() => {
+      console.log('go back CDetail', this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      this.isCourseCreate = false;
+      this.isCourseDetail = true;
+      this.clickTab('Class', 'course');
+      this.isRescheduleLesson = true;
+      this.courseList = [];
+    });
+
     this._service.goPlanDetail.subscribe(() => {
       console.log('go back PlanDetail', this.courseId);
       this.isCategory = false;
@@ -335,6 +368,7 @@ export class CourseComponent implements OnInit {
   cID: string;
   ngOnInit() {
     console.log('exit');
+    localStorage.removeItem('isRescheduleLesson');
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
@@ -1633,6 +1667,8 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state) {
+    // this.isRescheduleLesson= JSON.parse(localStorage.getItem('isRescheduleLesson'));
+    // console.log("is reschedule lesson",this.isRescheduleLesson);
     console.log(type, state);
     this.isFlexyInvoice = false;
     this.currentDateObj = '';
@@ -1810,7 +1846,11 @@ export class CourseComponent implements OnInit {
       this.viewInvoice(this.singleUserData);
     }
   }
-
+  cancelRescheduleLesson(e) {
+    if (!e) {
+      this.isRescheduleLesson = e;
+    }
+  }
   cancelButtonShowHide() {
     // this.cancelUi=true;
     // let onlyTime = this.LASD.toString().substring(11, 19)
@@ -4096,5 +4136,9 @@ export class CourseComponent implements OnInit {
   gotoTodayLesson() {
     console.log('today lesson');
     this.isTodayLesson = true;
+  }
+  rescheduleLesson() {
+    this.isRescheduleLesson = true;
+    localStorage.removeItem('isRescheduleLesson');
   }
 }
