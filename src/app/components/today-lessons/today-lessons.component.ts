@@ -8,7 +8,7 @@ import { appService } from '../../service/app.service';
 })
 export class TodayLessonsComponent implements OnInit {
   todayDate: any;
-
+  isExpand: boolean = false;
   constructor(private _service: appService) {}
 
   ngOnInit() {
@@ -17,5 +17,9 @@ export class TodayLessonsComponent implements OnInit {
 
   backToCourse() {
     this._service.backCourse();
+  }
+
+  expandTodayCourse() {
+    this.isExpand = true;
   }
 }

@@ -94,3 +94,110 @@ span.course-time {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
 }
+
+.img-wrap.align-self-center {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+  width: 48px;
+  height: 48px;
+}
+
+.img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+p.positon {
+  color: #64707d;
+  font-family: 'Inter-UI-semibold', Arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+p.teacher-name {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-semibold', Arial, sans-serif;
+  font-size: 14px;
+}
+
+.d-flex.student-box {
+  background: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+p.student-name {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-semibold', Arial, sans-serif;
+  font-size: 16px;
+}
+
+.present-wrap {
+  border: 1px solid #00b34a;
+  border-radius: 25px;
+}
+.absent-wrap {
+  border: 1px solid #ff3d33;
+  border-radius: 25px;
+  margin-left: 18px;
+}
+
+.radio-present,
+.radio-absent {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.radio-present p,
+.radio-absent p {
+  padding: 0px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #00b34a;
+}
+
+.radio-present input,
+.radio-absent input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.radio-present .checkmark,
+.radio-absent .checkmark {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  height: 15px;
+  width: 15px;
+  background-color: #fff;
+  border: 1.5px solid #00b34a;
+  border-radius: 50%;
+  top: 8px;
+}
+
+div#divToHide {
+  height: 32px;
+}
+
+.radio-absent p {
+  color: #f23a30;
+}
+
+.radio-absent .checkmark {
+  border: 1.5px solid #ff3d33;
+}
+
+.card-columns {
+  column-count: 2;
+}
+
+.card {
+  border: none;
+}
