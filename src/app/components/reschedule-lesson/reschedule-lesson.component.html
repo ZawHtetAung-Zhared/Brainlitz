@@ -1,0 +1,197 @@
+<!-- <block-ui> -->
+<div *ngIf="!isReschedule" class="d-flex justify-content-center">
+  <div class="col-md-6 mx-auto">
+    <h3 class="header">Reschedule</h3>
+    <p class="pick-a-date mt-20 ">Pick a date</p>
+    <div class="d-flex flex-row input-wrap">
+      <div class="d-flex flex-row align-items-center cc-start pdRight-20">
+        <input
+          type="text"
+          placeholder="Starting date"
+          class="input-day dropD w-100 search-input"
+          style="padding-left: 10px;"
+          name="start"
+          required
+          (click)="start.toggle()"
+          (ngModelChange)="setMinDate($event)"
+          [(ngModel)]="model.start"
+          ngbDatepicker
+          #start="ngbDatepicker"
+          (document:click)="closeDropdown($event, 'start', start)"
+          readonly
+        />
+        <div (click)="start.toggle()">
+          <i
+            class="fa fa-chevron-down dropdown-arrow"
+            style="font-size: 12px;"
+          ></i>
+        </div>
+        {{ pickdate | attandanceDay }}, {{ pickdate | timelineDate }}
+      </div>
+      <!-- <p> {{ pickdate | attandanceDay }}</p> -->
+      <!-- <p>{{ pickdate | timelineDate }}</p> -->
+    </div>
+    <div class="d-flex" style="padding-top: 20px;">
+      <div class="time-box d-flex flex-column w-100">
+        <h3 class="starting-time">Starting Time</h3>
+        <div class="d-flex flex-row time-box-input justify-content-between">
+          <input
+            type="text"
+            style="border:none; padding-left: 10px; outline: none; cursor: not allowed;"
+            placeholder="start time"
+            name="starttime"
+            required
+            [(ngModel)]="model.startT"
+            readonly
+            (click)="durationProgress($event)"
+          />
+          <div class="bg-box duration-progress">
+            <div id="rectangle"></div>
+            <div class="time-wrapper d-flex justify-content-center">
+              <div class="d-flex flex-column justify-content-center showTime">
+                {{ showFormat }}
+              </div>
+              <div>
+                <div class="time-box1">
+                  <label
+                    [ngClass]="{ selected: isSelected == 'AM' }"
+                    class="mb-0"
+                    ><input
+                      style="min-height: 0px;"
+                      type="radio"
+                      name="prop"
+                      (click)="chooseTimeOpt('AM')"
+                    />
+                    AM
+                  </label>
+                  <label
+                    [ngClass]="{ selected: isSelected == 'PM' }"
+                    class="mb-0"
+                  >
+                    <input
+                      style="min-height: 0px;"
+                      type="radio"
+                      [(ngModel)]="model.prop"
+                      name="prop"
+                      (click)="chooseTimeOpt('PM')"
+                    />
+                    PM
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="gap-box">
+              <label>
+                <div class="col-md-4 max-range">Hour</div>
+                <input
+                  class="max-range-box"
+                  type="range"
+                  id="hrDuration"
+                  name="pointsHr"
+                  min="0"
+                  max="12"
+                  (input)="ChangedRangeValue($event.target.value, 'hr')"
+                  [(ngModel)]="rangeHr"
+                />
+              </label>
+            </div>
+            <div class="gap-range-min">
+              <label>
+                <div class="col-md-4 min-range">Minute</div>
+                <input
+                  class="min-range-box"
+                  type="range"
+                  id="minDuration"
+                  name="pointsMin"
+                  min="0"
+                  max="59"
+                  step="1"
+                  (input)="ChangedRangeValue($event.target.value, 'min')"
+                  [(ngModel)]="rangeMin"
+                />
+                <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+              </label>
+            </div>
+          </div>
+          <div class="d-flex align-items-center duration-box">
+            Duration {{ duration }} min
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="classend" class="light-text" style="padding-top: 20px;">
+      It will end at {{ classend }}
+    </div>
+
+    <div class="d-flex justify-content-end btn-padding">
+      <button
+        type="button"
+        class="align-self-end btn-cancel"
+        (click)="backTo()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="align-self-end btn-reschedule"
+        (click)="rescheduleTo()"
+      >
+        Reschedule
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isReschedule" class="d-flex flex-column">
+  <div class="d-flex flex-row">
+    <img src="./assets/img/clock.png" />
+    <div class="d-flex flex-column" style="padding-left: 20px;">
+      <span class="light-text">Teacher name</span>
+      <span class="weight-text"> name </span>
+    </div>
+  </div>
+  <div class="conflict-text">2 conflicts</div>
+  <div class="d-flex flex-column tab-body">
+    <div
+      class="d-flex flex-row justify-content-between"
+      style="margin-left:32px; margin-right: 32px;"
+    >
+      <div class="d-flex flex-column">
+        <p class="weight-text">8 Aug 2018</p>
+        <p class="light-text">11:00am - 12:00pm</p>
+      </div>
+      <div class="d-flex flex-column split-line1">
+        <p class="light-text">Lesson</p>
+        <p class="weight-text">Sample Lesson</p>
+      </div>
+      <div class="d-flex flex-column split-line1">
+        <p class="light-text">Location</p>
+        <p class="weight-text">Sample Location</p>
+      </div>
+      <div class="d-flex flex-column split-line1">
+        <p class="light-text">Number of students</p>
+        <p class="weight-text">Sample students</p>
+      </div>
+    </div>
+    <!-- <div class="split-line"></div>
+    <div class="d-flex flex-row justify-content-start">
+      <span class="skip-text"> skip </span>
+      <span class="vertical-line"></span>
+      <span class="skip-text"> igonre </span>
+    </div> -->
+  </div>
+  <div class="d-flex justify-content-end btn-padding">
+    <button type="button" class="align-self-end btn-cancel" (click)="backTo()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="align-self-end btn-reschedule"
+      (click)="rescheduleTo()"
+    >
+      Confirm reschedule
+    </button>
+  </div>
+</div>
+<!-- </block-ui> -->
