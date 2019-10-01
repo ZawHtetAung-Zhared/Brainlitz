@@ -50,6 +50,7 @@ export class RescheduleLessonComponent implements OnInit {
   public classend: any;
   public rangeHr: any;
   public rangeMin: any;
+  public endDate: any;
 
   //checkfor date
   public correctRescheduleDate: boolean = false;
@@ -108,117 +109,85 @@ export class RescheduleLessonComponent implements OnInit {
         this.model.start,
         this.model.starttime
       );
+      this.endDate = this.changeDateFormat(
+        this.model.start,
+        this.model.endTime
+      );
       console.log(this.pickdate);
+      console.log(this.endDate);
 
-      let timeLine = this.courseDetail.lessons;
-      let i = 0;
-      // for (let i = 0; i < timeLine.length; i++) {
+      // let timeLine = this.courseDetail.lessons;
+      // let i = 0;
+      // // for (let i = 0; i < timeLine.length; i++) {
 
-      let lsessonTime = timeLine[i].startDate
-        .toLocaleString()
-        .substring(11, 19);
-      let lessonDate = timeLine[i].startDate.toLocaleString().substring(0, 10);
+      // let lsessonTime = timeLine[i].startDate
+      //   .toLocaleString()
+      //   .substring(11, 19);
+      // let lessonDate = timeLine[i].startDate.toLocaleString().substring(0, 10);
 
-      var todaydate = new Date(this.pickdate);
-      // let onlytodayTime = todaydate.toString().substring(16, 24);
-      // let onlytodayDate = todaydate.toISOString().substring(0, 10);
+      // var todaydate = new Date(this.pickdate);
+      // // let onlytodayTime = todaydate.toString().substring(16, 24);
+      // // let onlytodayDate = todaydate.toISOString().substring(0, 10);
 
-      let onlytodayTime = this.pickdate.toLocaleString().substring(11, 19);
-      let onlytodayDate = this.pickdate.toLocaleString().substring(0, 10);
+      // let onlytodayTime = this.pickdate.toLocaleString().substring(11, 19);
+      // let onlytodayDate = this.pickdate.toLocaleString().substring(0, 10);
 
-      console.log(timeLine[i].startDate);
-      console.log(this.pickdate, 'pick date');
-      console.log('.....', onlytodayTime);
-      console.log('....', lsessonTime);
-      console.log('>>>>', onlytodayDate);
-      console.log('>>>>>', lessonDate);
-      console.log('.....', this.correctRescheduleDate);
-      // console.log(this.validDay('2019-09-27T11:00:00.000Z'));
-
-      this.validDay(timeLine[i].startDate);
-
-      // if (lessonDate >= onlytodayDate) {
-      //   // console.log('lesson date is grater than and equal to today');
-      //   if (lessonDate == onlytodayDate) {
-      //     if (onlytodayTime >= lsessonTime) {
-      //       // console.log('current time is grater');
-      //       this.correctRescheduleDate = true;
-      //     } else {
-      //       // console.log('~~~');
-      //       this.correctRescheduleDate = false;
-      //     }
-      //   } else {
-      //     // console.log('===');
-      //     this.correctRescheduleDate = false;
-      //   }
-      // } else {
-      //   // console.log('noooooo');
-      //   this.correctRescheduleDate = true;
-      // }
-      console.log(i + '>>>>' + this.correctRescheduleDate);
-
-      // if(this.pickdate == timeLine[i]) {
-      //   this.correctRescheduleDate = false;
-      //   break;
-      // }
-      // else {
-      //   let newDate = new Date(this.pickdate).getUTCDate();
-      //   let newMonth = new Date(this.pickdate).getUTCMonth() + 1;
-      //   let newYear = new Date(this.pickdate).getUTCFullYear();
-      //   let newHr = new Date(this.pickdate).getUTCHours();
-      //   let newMin = new Date(this.pickdate).getUTCMinutes();
-
-      //   let strDate = timeLine[i].startDate;
-      //   let sDate = new Date(strDate).getUTCDate();
-      //   let sMonth = new Date(strDate).getUTCMonth() + 1;
-      //   let sYear = new Date(strDate).getUTCFullYear();
-      //   let sHr = new Date(strDate).getUTCHours();
-      //   let sMin = new Date(strDate).getUTCMinutes();
-
-      //   let endDate = timeLine[i].endDate;
-      //   let eDate = new Date(endDate).getUTCDate();
-      //   let eMonth = new Date(endDate).getUTCMonth() + 1;
-      //   let eYear = new Date(endDate).getUTCFullYear();
-      //   let eHr = new Date(endDate).getUTCHours();
-      //   let eMin = new Date(endDate).getUTCMinutes();
-      //   if(sDate==newDate && sMonth==newMonth && sYear==newYear){
-      //     console.log("equal date");
-      //     if(newHr >= sHr && newHr <= eHr){
-
-      //     }
-      //   }
-      //   else if(sDate>newDate || sMonth>newMonth || sYear>newYear){
-
-      //   }
-      // }
-
-      // }
+      this.checkDayExist(this.pickdate);
     }
   }
 
-  msToTime(s) {
-    var ms = s % 1000;
-    s = (s - ms) / 1000;
-    var secs = s % 60;
-    s = (s - secs) / 60;
-    var mins = s % 60;
-    var hrs = (s - mins) / 60;
+  checkDayExist(day) {
+    let lessons = this.courseDetail.lessons;
+    let pickDate = day.toLocaleString().substring(0, 10);
+    for (let i = 0; i < lessons.length; i++) {
+      let existingDate = lessons[i].startDate.toLocaleString().substring(0, 10);
+      if (existingDate == pickDate) {
+        this.correctRescheduleDate = false;
+        break;
+      } else {
+        this.correctRescheduleDate = true;
+      }
+    }
+    if (this.correctRescheduleDate == true) {
+      var todaydate = new Date();
+      let onlytodayTime = todaydate.toString().substring(16, 24);
+      let onlytodayDate = todaydate.toISOString().substring(0, 10);
 
-    return hrs + ':' + mins + ':' + secs + '.' + ms;
+      let pickTime = day.toLocaleString().substring(11, 19);
+
+      if (pickDate >= onlytodayDate) {
+        // console.log('lesson date is grater than and equal to today');
+
+        if (pickDate == onlytodayDate) {
+          // console.log('same as today');
+
+          if (onlytodayTime < pickTime) {
+            // console.log(' grater time ==>today');
+            this.correctRescheduleDate = true;
+          } else {
+            // console.log('~~~ less time');
+            this.correctRescheduleDate = false;
+          }
+        } else {
+          // console.log('=== grater today');
+          this.correctRescheduleDate = true;
+        }
+      } else {
+        // console.log('less than today ');
+        this.correctRescheduleDate = false;
+      }
+    }
+    console.log(this.correctRescheduleDate);
   }
+
   validDay(new_day) {
     var todaydate = new Date();
-    console.warn(this.pickdate);
 
-    new_day = this.pickdate;
     var newTempTime = this.pickdate;
     var hr = new Date(this.pickdate).getUTCHours();
     var min = new Date(this.pickdate).getUTCMinutes();
     var totalMin = hr * 60 + this.duration + min;
     console.warn(totalMin);
-
-    //  var b = this.msToTime(newTempTime)
-    //   console.warn(b);
 
     let onlytodayTime = todaydate.toString().substring(16, 24);
     let onlytodayDate = todaydate.toISOString().substring(0, 10);
@@ -235,6 +204,7 @@ export class RescheduleLessonComponent implements OnInit {
       .substring(0, 10);
     // console.warn(new_date);
     this.courseDetail.lessons.map(lesson => {
+      console.log('equal date');
       let targetdate = String(lesson.startDate)
         .toLocaleString()
         .substring(0, 10);
@@ -435,6 +405,7 @@ export class RescheduleLessonComponent implements OnInit {
       let mins = Number(piece[0]) * 60 + Number(piece[1]) + duration;
       var endTime =
         this.D(((mins % (24 * 60)) / 60) | 0) + ':' + this.D(mins % 60);
+      this.model.endTime = endTime;
       console.log('Classend', endTime);
       var H = +endTime.substr(0, 2);
       var h = H % 12 || 12;

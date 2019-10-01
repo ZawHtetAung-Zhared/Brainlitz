@@ -120,12 +120,8 @@
       </div>
     </div>
 
-    <div class="light-text" style="padding-top: 20px;">
+    <div *ngIf="classend" class="light-text" style="padding-top: 20px;">
       It will end at {{ classend }}
-    </div>
-
-    <div class="light-text" style="padding-top: 20px;">
-      checking {{ correctRescheduleDate }}
     </div>
 
     <div class="d-flex justify-content-end btn-padding">
@@ -178,12 +174,24 @@
         <p class="weight-text">Sample students</p>
       </div>
     </div>
-    <div class="split-line"></div>
+    <!-- <div class="split-line"></div>
     <div class="d-flex flex-row justify-content-start">
       <span class="skip-text"> skip </span>
       <span class="vertical-line"></span>
       <span class="skip-text"> igonre </span>
-    </div>
+    </div> -->
+  </div>
+  <div class="d-flex justify-content-end btn-padding">
+    <button type="button" class="align-self-end btn-cancel" (click)="backTo()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="align-self-end btn-reschedule"
+      (click)="rescheduleTo()"
+    >
+      Confirm reschedule
+    </button>
   </div>
 </div>
 <!-- </block-ui> -->

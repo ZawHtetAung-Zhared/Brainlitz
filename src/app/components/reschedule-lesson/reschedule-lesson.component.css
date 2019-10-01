@@ -136,7 +136,8 @@ input.input-day.dropD.startInput.w-100 {
 }
 
 .tab-body {
-  background: #f2f4f5;
+  background: #ffffff;
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   padding-top: 20px;
 }
@@ -147,7 +148,7 @@ input.input-day.dropD.startInput.w-100 {
   margin-right: 20px;
 }
 .split-line1 {
-  border-left: 1px solid #ffffff;
+  border-left: 1px solid #f2f4f5;
   margin-bottom: 20px;
   padding-left: 20px;
 }
