@@ -1,7 +1,8 @@
 <!-- <block-ui> -->
 <div *ngIf="!isReschedule" class="d-flex justify-content-center">
   <div class="col-md-6 mx-auto">
-    <h3 class="header">Reschedule</h3>
+    <h3 class="header" *ngIf="defineType == 'Reschedule'">Reschedule</h3>
+    <h3 class="header" *ngIf="defineType == 'New'">New Lesson</h3>
     <p class="pick-a-date mt-20 ">Pick a date</p>
     <div class="d-flex flex-row input-wrap">
       <div class="d-flex flex-row align-items-center cc-start pdRight-20">
@@ -134,10 +135,19 @@
       </button>
       <button
         type="button"
+        *ngIf="defineType == 'Reschedule'"
         class="align-self-end btn-reschedule"
         (click)="rescheduleTo()"
       >
         Reschedule
+      </button>
+      <button
+        type="button"
+        *ngIf="defineType == 'New'"
+        class="align-self-end btn-reschedule"
+        (click)="createNewLesson()"
+      >
+        New Lesson
       </button>
     </div>
   </div>
@@ -186,11 +196,20 @@
       Cancel
     </button>
     <button
+      *ngIf="defineType == 'Reschedule'"
       type="button"
       class="align-self-end btn-reschedule"
       (click)="rescheduleTo()"
     >
       Confirm reschedule
+    </button>
+    <button
+      *ngIf="defineType == 'New'"
+      type="button"
+      class="align-self-end btn-reschedule"
+      (click)="createNewLesson()"
+    >
+      Confirm New Lessons
     </button>
   </div>
 </div>

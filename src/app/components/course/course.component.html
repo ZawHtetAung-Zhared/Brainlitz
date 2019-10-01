@@ -1640,7 +1640,7 @@
               </button>
             </div>
 
-            <div *ngIf="!isRescheduleLesson" class="mt-20">
+            <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
               <div class="d-flex justify-content-between">
                 <div *ngIf="LASD != null" class="mr-auto">
                   <p class="class-day">{{ LASD | attandanceDay }}</p>
@@ -1877,6 +1877,15 @@
                 (cancelReschedule)="cancelRescheduleLesson($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
+                [defineType]="defineType"
+              ></app-reschedule-lesson>
+            </div>
+            <div *ngIf="isNewLesson" class="mt-20">
+              <app-reschedule-lesson
+                (cancelReschedule)="cancelRescheduleLesson($event)"
+                [courseDetail]="detailLists"
+                [LASD]="LASD"
+                [defineType]="defineType"
               ></app-reschedule-lesson>
             </div>
           </div>

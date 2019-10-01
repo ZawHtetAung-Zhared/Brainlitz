@@ -244,8 +244,9 @@ export class CourseComponent implements OnInit {
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   public isDisabledBtn = false;
-  public isTodayLesson = false;
-
+  public isTodayLesson: boolean = false;
+  public isNewLesson: boolean = false;
+  public defineType: any;
   //reschedule
   public isRescheduleLesson: boolean;
 
@@ -4129,8 +4130,11 @@ export class CourseComponent implements OnInit {
       );
     this.modalReference.close();
   }
+
   addNewLesson() {
-    console.log('Here add new lesson');
+    console.log('Here add new lesson', this.detailLists);
+    this.defineType = 'New';
+    this.isNewLesson = true;
   }
 
   gotoTodayLesson() {
@@ -4138,6 +4142,7 @@ export class CourseComponent implements OnInit {
     this.isTodayLesson = true;
   }
   rescheduleLesson() {
+    this.defineType = 'Reschedule';
     this.isRescheduleLesson = true;
     localStorage.removeItem('isRescheduleLesson');
   }
