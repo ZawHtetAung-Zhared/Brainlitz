@@ -358,10 +358,10 @@
                 class="input-day dropD startInput"
                 name="start"
                 required
-                [(ngModel)]="model.start"
+                [maxDate]="maxDate"
                 (click)="start.toggle()"
                 (ngModelChange)="setMinDate($event)"
-                [maxDate]="maxDate"
+                [(ngModel)]="model.start"
                 ngbDatepicker
                 #start="ngbDatepicker"
                 (document:click)="closeDropdown($event, 'start', start)"
