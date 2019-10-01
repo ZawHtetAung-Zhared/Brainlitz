@@ -444,5 +444,22 @@ export class RescheduleLessonComponent implements OnInit {
 
   createNewLesson() {
     console.log('here create new lesson');
+    console.log('pick date', this.pickdate);
+    console.log('end date', this.endDate);
+    let tempObj = {
+      startDate: this.pickdate,
+      endDate: this.endDate,
+      teacherId: this.courseDetail.teacherId
+    };
+    this._service.createNewLesson(this.courseDetail._id, tempObj).subscribe(
+      (res: any) => {
+        //this.blockUI.stop();
+        console.log(res, 'res create new lesson');
+      },
+      err => {
+        //this.blockUI.stop(); // Stop blocking
+        console.log(err);
+      }
+    );
   }
 }
