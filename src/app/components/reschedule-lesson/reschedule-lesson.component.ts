@@ -86,6 +86,10 @@ export class RescheduleLessonComponent implements OnInit {
   }
   public date1: any;
   setMinDate(event) {
+    var formattedDate = moment(
+      `${event.year}-${event.month}-${event.day}`
+    ).format('dddd, D MMM YYYY');
+    $('.input-day')[0].value = formattedDate;
     console.log('setMinDate', event);
     if (this.pickdate == undefined)
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
