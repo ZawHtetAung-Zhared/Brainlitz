@@ -1910,6 +1910,7 @@ export class CourseComponent implements OnInit {
   selectedLesson: any = null;
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     console.log('hi', targetDate);
+
     console.log('....', classInfo);
     $('.timeline div.single-date').on('click', function() {
       $(this)

@@ -121,6 +121,7 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
 import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
 import { UtcDateandFullDayPipe } from './service/pipe/utc-dateand-full-day.pipe';
+import { TodayDatePipe } from './service/pipe/today-date.pipe';
 import { RescheduleLessonComponent } from './components/reschedule-lesson/reschedule-lesson.component';
 
 @NgModule({
@@ -208,6 +209,7 @@ import { RescheduleLessonComponent } from './components/reschedule-lesson/resche
     UtcDateByObjPipe,
     TodayLessonsComponent,
     UtcDateandFullDayPipe,
+    TodayDatePipe,
     RescheduleLessonComponent
   ],
   imports: [
