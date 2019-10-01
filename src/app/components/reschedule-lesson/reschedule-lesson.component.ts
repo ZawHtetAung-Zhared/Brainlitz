@@ -69,9 +69,12 @@ export class RescheduleLessonComponent implements OnInit {
   @Input() LASD;
   @Input() courseId;
   @Input() lessonId;
+  @Input() defineType;
+
   // @Output() rescheduleLesson: any = new EventEmitter<any>();
 
   ngOnInit() {
+    console.log(this.defineType);
     this.duration = this.courseDetail.coursePlan.lesson.duration;
 
     this.isSelected = 'AM';
@@ -471,5 +474,9 @@ export class RescheduleLessonComponent implements OnInit {
       console.log('this.selectedMinRange', this.selectedMinRange);
     }
     this.formatTime();
+  }
+
+  createNewLesson() {
+    console.log('here create new lesson');
   }
 }

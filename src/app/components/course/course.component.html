@@ -1645,15 +1645,141 @@
               </button>
             </div>
 
-            <div *ngIf="!isRescheduleLesson" class="mt-20">
+            <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
               <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column">
+                  <span class="selected_date">{{ LASD | todayDate }}</span>
+                  <div class="d-flex" *ngIf="showCancelButton == true">
+                    <button
+                      class="d-flex btn assign_relief_button align-items-center"
+                      *ngIf="disableCancel == false && reliefTeacher == null"
+                      (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                      [disabled]="disableCancel == true"
+                    >
+                      <span
+                        ><img
+                          src="../../../assets/icons/assignReliefIcon.svg"
+                          alt=""/></span
+                      >Assign relieft teacher
+                    </button>
+                    <button
+                      class="d-flex btn reschedule_button align-items-center"
+                      *ngIf="disableCancel == false && reliefTeacher == null"
+                      (click)="rescheduleLesson()"
+                    >
+                      <span
+                        ><img
+                          src="../../../assets/icons/Calendar.svg"
+                          alt=""/></span
+                      >Reschedule
+                    </button>
+                    <button
+                      class="d-flex btn cancel_class_button align-items-center"
+                      *ngIf="
+                        disableCancel == false &&
+                        reliefTeacher == null &&
+                        activeCourseInfo.CUSTOMER.length > 0
+                      "
+                      (click)="cancelClass(content)"
+                      [disabled]="
+                        disableCancel == true || reliefTeacher != null
+                      "
+                    >
+                      <span
+                        ><img
+                          src="../../../assets/icons/Minus.svg"
+                          alt=""/></span
+                      >Cancel class
+                    </button>
+                    <button
+                      class="d-flex btn cancel_class_button align-items-center"
+                      *ngIf="
+                        activeCourseInfo.CUSTOMER.length < 1 &&
+                        disableCancel == false &&
+                        reliefTeacher == null
+                      "
+                      (click)="deleteLesson()"
+                    >
+                      <span
+                        ><img
+                          src="../../../assets/icons/Minus.svg"
+                          alt=""/></span
+                      >Delete lesson
+                    </button>
+                  </div>
+                  <div
+                    (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                    class="d-flex align-items-center"
+                    *ngIf="
+                      disableCancel == false &&
+                      reliefTeacher != null &&
+                      showCancelButton == true
+                    "
+                  >
+                    <div class="relief-name">
+                      <label class="mb-0">Relief Teacher</label>
+                      <h5>
+                        {{ reliefTeacher.preferredName }}
+                      </h5>
+                    </div>
+                    <div class="relief-img-wrap ml-2">
+                      <img src="{{ reliefTeacher.profilePic }}" />
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex"
+                    *ngIf="
+                      disableCancel == true &&
+                      reliefTeacher == null &&
+                      showCancelButton == true
+                    "
+                  >
+                    <div class="d-flex align-items-center relief-name">
+                      <h5 class="mb-0">Cancelled Class</h5>
+                    </div>
+                    <div
+                      class="d-flex justify-content-center align-items-center pl-2"
+                    >
+                      <div class="cc-icon-wrap">
+                        <div class="icon-wrap">
+                          <img src="./assets/images/withdraw-ico@2x.png" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div
+                    class="present_student d-flex justify-content-center align-items-center"
+                  >
+                    <div>
+                      <p class="present_count">{{ presentStudent }}</p>
+                      <span class="present_text">Present</span>
+                    </div>
+                  </div>
+                  <div
+                    class="absent_student d-flex justify-content-center align-items-center"
+                  >
+                    <div>
+                      <p class="absent_count">{{ absentStudent }}</p>
+                      <span class="absent_text">Absent</span>
+                    </div>
+                  </div>
+                  <div
+                    class="total_student d-flex justify-content-center align-items-center"
+                  >
+                    <div>
+                      <p class="total_count">{{ noStudent }}</p>
+                      <span class="total_text">Total</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="d-flex justify-content-between">
                 <div *ngIf="LASD != null" class="mr-auto">
                   <p class="class-day">{{ LASD | attandanceDay }}</p>
                   <p class="class-date">{{ LASD | utcDate }}</p>
                 </div>
-                <!-- {{showCancelButton}} -->
-                <!-- {{cancelUI}} -->
-                <!-- {{cancelUi}} -->
                 <div class="d-flex" *ngIf="showCancelButton == true">
                   <div
                     class="d-flex align-items-center"
@@ -1716,16 +1842,15 @@
                     </div>
                   </div>
                 </div>
-                <!-- <button type="button"  *ngIf="(LASD | timelineDate) < (todayDate | timelineDate)" class="btn btn-class-cancel"  (click)="cancelClass(content)"> class</button> -->
-              </div>
-              <div *ngIf="cancelUI && cancelUItext" class="cancel-text">
+              </div> -->
+              <!-- <div *ngIf="cancelUI && cancelUItext" class="cancel-text">
                 Cancelled class
-              </div>
-              <div *ngIf="cancelUI == false">
+              </div> -->
+              <!-- <div *ngIf="cancelUI == false">
                 <label class="present">{{ presentStudent }} present</label>
                 <label class="absent">{{ absentStudent }} absent</label>
                 <label class="no-data">{{ noStudent }} no data</label>
-              </div>
+              </div> -->
               <div class="student-lists row">
                 <div
                   *ngFor="let user of activeCourseInfo.CUSTOMER"
@@ -1884,6 +2009,15 @@
                 [LASD]="LASD"
                 [courseId]="courseId"
                 [lessonId]="currentDateObj"
+                [defineType]="defineType"
+              ></app-reschedule-lesson>
+            </div>
+            <div *ngIf="isNewLesson" class="mt-20">
+              <app-reschedule-lesson
+                (cancelReschedule)="cancelRescheduleLesson($event)"
+                [courseDetail]="detailLists"
+                [LASD]="LASD"
+                [defineType]="defineType"
               ></app-reschedule-lesson>
             </div>
           </div>
