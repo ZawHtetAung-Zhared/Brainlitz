@@ -31,7 +31,7 @@ import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
-import { isThisISOWeek } from 'date-fns';
+import { isThisISOWeek, isThisSecond } from 'date-fns';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -369,7 +369,6 @@ export class CourseComponent implements OnInit {
   cID: string;
   ngOnInit() {
     console.log('exit');
-    localStorage.removeItem('isRescheduleLesson');
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
@@ -384,6 +383,9 @@ export class CourseComponent implements OnInit {
         this.showCourseDetail(this.courseId);
       }, 300);
     }
+
+    console.log(this.courseId);
+    console.log(this.cID);
     let recentTemp = localStorage.getItem('recentSearchLists');
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
@@ -1492,6 +1494,7 @@ export class CourseComponent implements OnInit {
     this.cancelUI = false;
     this.dataservice.nevigateCourse('');
     this.activeToday = false;
+    this.isRescheduleLesson = false;
   }
 
   showCourseDetail(courseId) {
@@ -1830,6 +1833,7 @@ export class CourseComponent implements OnInit {
       this.presentStudent = 0;
       this.absentStudent = 0;
     } else if (type == 'People') {
+      this.isRescheduleLesson = false;
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
@@ -4145,6 +4149,5 @@ export class CourseComponent implements OnInit {
   rescheduleLesson() {
     this.defineType = 'Reschedule';
     this.isRescheduleLesson = true;
-    localStorage.removeItem('isRescheduleLesson');
   }
 }

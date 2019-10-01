@@ -9,6 +9,7 @@ import {
 
 import { Router } from '@angular/router';
 import { appService } from '../../service/app.service';
+import { DataService } from '../../service/data.service';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -51,6 +52,7 @@ export class RescheduleLessonComponent implements OnInit {
   public rangeHr: any;
   public rangeMin: any;
   public endDate: any;
+  public formattedDate1: any;
 
   //checkfor date
   public correctRescheduleDate: boolean = false;
@@ -58,13 +60,17 @@ export class RescheduleLessonComponent implements OnInit {
   constructor(
     private router: Router,
     private _service: appService,
+    public dataservice: DataService,
     config: NgbDatepickerConfig,
     private datePipe: DatePipe
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
   @Input() courseDetail;
   @Input() LASD;
+  @Input() courseId;
+  @Input() lessonId;
   @Input() defineType;
+
   // @Output() rescheduleLesson: any = new EventEmitter<any>();
 
   ngOnInit() {
@@ -83,15 +89,43 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   rescheduleTo() {
-    this.isReschedule = true;
-    this.isConflict = true;
+    // this.isReschedule = true;
+    // this.isConflict = true;
+
+    // if(this.correctRescheduleDate==true){
+    //   console.log("API Callsssssssssssss");
+
+    // }
+    if (this.correctRescheduleDate == true) {
+      let lessonObj = {
+        startDate: this.pickdate,
+        endDate: this.endDate,
+        teacherId: this.courseDetail.teacherId
+      };
+      console.log(lessonObj);
+      this.putRescheduleLesson(lessonObj);
+    } else {
+      alert('error');
+    }
   }
-  public date1: any;
+
+  putRescheduleLesson(data) {
+    this._service.updateLesson(this.courseId, this.lessonId, data).subscribe(
+      (res: any) => {
+        console.log('..........reschedule lesson.........', res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   setMinDate(event) {
     var formattedDate = moment(
       `${event.year}-${event.month}-${event.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
+    this.formattedDate1 = formattedDate;
     console.log('setMinDate', event);
     if (this.pickdate == undefined)
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
@@ -122,22 +156,6 @@ export class RescheduleLessonComponent implements OnInit {
       console.log(this.pickdate);
       console.log(this.endDate);
 
-      // let timeLine = this.courseDetail.lessons;
-      // let i = 0;
-      // // for (let i = 0; i < timeLine.length; i++) {
-
-      // let lsessonTime = timeLine[i].startDate
-      //   .toLocaleString()
-      //   .substring(11, 19);
-      // let lessonDate = timeLine[i].startDate.toLocaleString().substring(0, 10);
-
-      // var todaydate = new Date(this.pickdate);
-      // // let onlytodayTime = todaydate.toString().substring(16, 24);
-      // // let onlytodayDate = todaydate.toISOString().substring(0, 10);
-
-      // let onlytodayTime = this.pickdate.toLocaleString().substring(11, 19);
-      // let onlytodayDate = this.pickdate.toLocaleString().substring(0, 10);
-
       this.checkDayExist(this.pickdate);
     }
   }
@@ -145,15 +163,31 @@ export class RescheduleLessonComponent implements OnInit {
   checkDayExist(day) {
     let lessons = this.courseDetail.lessons;
     let pickDate = day.toLocaleString().substring(0, 10);
-    for (let i = 0; i < lessons.length; i++) {
-      let existingDate = lessons[i].startDate.toLocaleString().substring(0, 10);
-      if (existingDate == pickDate) {
-        this.correctRescheduleDate = false;
-        break;
-      } else {
+
+    let oldDate = this.LASD.toLocaleString().substring(0, 10);
+
+    if (pickDate == oldDate) {
+      let oldTime = this.LASD.toLocaleString().substring(11, 19);
+      let pickTime = day.toLocaleString().substring(11, 19);
+      if (oldTime != pickTime) {
         this.correctRescheduleDate = true;
+      } else {
+        this.correctRescheduleDate = false;
+      }
+    } else {
+      for (let i = 0; i < lessons.length; i++) {
+        let existingDate = lessons[i].startDate
+          .toLocaleString()
+          .substring(0, 10);
+        if (existingDate == pickDate) {
+          this.correctRescheduleDate = false;
+          break;
+        } else {
+          this.correctRescheduleDate = true;
+        }
       }
     }
+
     if (this.correctRescheduleDate == true) {
       var todaydate = new Date();
       let onlytodayTime = todaydate.toString().substring(16, 24);

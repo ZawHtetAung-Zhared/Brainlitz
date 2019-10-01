@@ -852,6 +852,10 @@ ul.options-box li button:hover {
   opacity: 0.7;
   cursor: none;
 }
+.disable-cursor {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
 .disable-add1 {
   pointer-events: none;
   opacity: 0.7;

@@ -1550,7 +1550,8 @@
                     today:
                       (timeline.startDate | timelineDate) ==
                       (todayDate | timelineDate),
-                    'disable-add': timeline.startDate > todayDate
+                    'disable-add': timeline.startDate > todayDate,
+                    'disable-cursor': isRescheduleLesson
                   }"
                 >
                   <!-- <pre>{{timeline | json}}</pre> -->
@@ -1635,7 +1636,11 @@
                   </div>
                 </div>
               </div>
-              <button class="btn-newLesson" (click)="addNewLesson()">
+              <button
+                class="btn-newLesson"
+                (click)="addNewLesson()"
+                [ngClass]="{ 'disable-cursor': isRescheduleLesson }"
+              >
                 Add new lesson
               </button>
             </div>
@@ -1660,6 +1665,7 @@
                     <button
                       class="d-flex btn reschedule_button align-items-center"
                       *ngIf="disableCancel == false && reliefTeacher == null"
+                      (click)="rescheduleLesson()"
                     >
                       <span
                         ><img
@@ -2001,6 +2007,8 @@
                 (cancelReschedule)="cancelRescheduleLesson($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
+                [courseId]="courseId"
+                [lessonId]="currentDateObj"
                 [defineType]="defineType"
               ></app-reschedule-lesson>
             </div>
