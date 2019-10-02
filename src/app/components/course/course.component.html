@@ -1679,7 +1679,7 @@
                       *ngIf="
                         disableCancel == false &&
                         reliefTeacher == null &&
-                        activeCourseInfo.CUSTOMER.length > 0
+                        activeCourseInfo.CUSTOMER?.length > 0
                       "
                       (click)="cancelClass(content)"
                       [disabled]="
@@ -1695,7 +1695,7 @@
                     <button
                       class="d-flex btn cancel_class_button align-items-center"
                       *ngIf="
-                        activeCourseInfo.CUSTOMER.length < 1 &&
+                        activeCourseInfo.CUSTOMER?.length < 1 &&
                         disableCancel == false &&
                         reliefTeacher == null
                       "
@@ -2366,7 +2366,7 @@
           [disabled]="selectedUserLists.length == 0 || noSetting == true"
           (click)="enrollUserToCourse(detailLists._id, userType)"
         >
-          {{ noSetting }} {{ selectedUserLists.length }}Confirm Yo
+          Confirm
         </button>
         <button
           *ngIf="userType == 'teacher'"
@@ -3504,7 +3504,7 @@
         *ngIf="this.modalType != 'absent'"
         class="btn btn-done-crt"
         (click)="cancelClassFun(currentDateObj)"
-        [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+        [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
       >
         Confirm
       </button>
@@ -3512,7 +3512,7 @@
         *ngIf="this.modalType == 'absent' && !isGlobal"
         class="btn btn-done-crt"
         (click)="absentClass()"
-        [disabled]="activeCourseInfo.CUSTOMER.length == 0"
+        [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
       >
         Confirm
       </button>
