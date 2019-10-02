@@ -1498,6 +1498,7 @@ export class CourseComponent implements OnInit {
   }
 
   showCourseDetail(courseId) {
+    this.isNewLesson = false;
     this.hideSearch = false;
     this.searchMore = false;
     // this.iswordcount = false; //zzz
@@ -1852,8 +1853,12 @@ export class CourseComponent implements OnInit {
     }
   }
   cancelRescheduleLesson(e) {
+    console.log(e);
     if (!e) {
       this.isRescheduleLesson = e;
+      this.isNewLesson = e;
+      this.getCourseDetail(this.detailLists._id);
+      console.log('course detail', this.detailLists);
     }
   }
   cancelButtonShowHide() {
