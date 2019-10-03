@@ -1647,6 +1647,7 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state) {
+    this.isNewLesson = false;
     // this.isRescheduleLesson= JSON.parse(localStorage.getItem('isRescheduleLesson'));
     // console.log("is reschedule lesson",this.isRescheduleLesson);
     console.log(type, state);
