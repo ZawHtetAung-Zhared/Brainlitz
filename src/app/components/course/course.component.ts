@@ -1498,6 +1498,7 @@ export class CourseComponent implements OnInit {
   }
 
   showCourseDetail(courseId) {
+    this.isNewLesson = false;
     this.hideSearch = false;
     this.searchMore = false;
     // this.iswordcount = false; //zzz
@@ -1771,7 +1772,7 @@ export class CourseComponent implements OnInit {
           console.log('~~ dateID ~~', this.currentDateObj);
         }
       } else {
-        console.log('hello in else');
+        console.log('hello in else', lessonCount[0].startDate);
         lastActiveDate = 0;
         this.currentLessonIdx = 0;
         this.checkForRelief(lessonCount[0]);
@@ -1788,6 +1789,9 @@ export class CourseComponent implements OnInit {
       let ACD = new Date(this.LASD).getUTCDate();
       let ACM = new Date(this.LASD).getUTCMonth() + 1;
       let ACY = new Date(this.LASD).getUTCFullYear();
+      console.log('ACD', ACD);
+      console.log('ACM', ACM);
+      console.log('ACY', ACY);
       this._service
         .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
         .subscribe(
@@ -1852,8 +1856,12 @@ export class CourseComponent implements OnInit {
     }
   }
   cancelRescheduleLesson(e) {
+    console.log(e);
     if (!e) {
       this.isRescheduleLesson = e;
+      this.isNewLesson = e;
+      this.getCourseDetail(this.detailLists._id);
+      console.log('course detail', this.detailLists);
     }
   }
   cancelButtonShowHide() {
@@ -1950,7 +1958,7 @@ export class CourseComponent implements OnInit {
           this.presentStudent = 0;
           this.absentStudent = 0;
           this.noStudent = 0;
-          console.log(res);
+          console.log(res, 'Res');
           //this.blockUI.stop();
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
@@ -3785,7 +3793,7 @@ export class CourseComponent implements OnInit {
       .getAssignUser(this.regionId, this.currentCourse, d, m, y)
       .subscribe(
         (res: any) => {
-          console.log(res);
+          console.log(res, 'active course info');
           this.activeCourseInfo = res;
           for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
             if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
@@ -3796,6 +3804,7 @@ export class CourseComponent implements OnInit {
               this.noStudent += 1;
             }
           }
+          console.log(this.activeCourseInfo, 'activeCourseInfo');
           if (this.LASD != null) {
             this.cancelButtonShowHide();
           }

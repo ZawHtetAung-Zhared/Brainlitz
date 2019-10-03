@@ -3840,6 +3840,23 @@ export class appService {
       return result;
     });
   }
+
+  createNewLesson(id, obj) {
+    let url = this.baseUrl + `/courses/${id}/lessons/`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.post(url, obj, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
   // reschedule lesson
   updateLesson(courseId, lessonId, body) {
     let url = this.baseUrl + '/courses/' + courseId + '/lessons/' + lessonId;
