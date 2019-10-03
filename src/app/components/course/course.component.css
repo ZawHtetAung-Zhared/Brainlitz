@@ -3733,3 +3733,15 @@ button.today-button {
   font-weight: bold;
   margin-bottom: 12px;
 }
+.reschedule_box {
+  margin-left: 12px;
+  background: #fff4bf;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+}

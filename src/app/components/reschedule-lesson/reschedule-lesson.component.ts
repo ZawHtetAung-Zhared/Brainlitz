@@ -60,6 +60,7 @@ export class RescheduleLessonComponent implements OnInit {
   public correctRescheduleTime: boolean = false;
   public todayDate: any;
   public disableReschedule: boolean = true;
+  public dateSelect: any;
   // public isDisableDate: boolean=true;
 
   constructor(
@@ -82,6 +83,7 @@ export class RescheduleLessonComponent implements OnInit {
   ngOnInit() {
     console.log(this.defineType);
     this.duration = this.courseDetail.coursePlan.lesson.duration;
+    this.dateSelect = this.LASD;
 
     this.isSelected = 'AM';
     this.rangeHr = '0';
@@ -110,7 +112,7 @@ export class RescheduleLessonComponent implements OnInit {
 
     // }
     var formattedDate = moment(
-      `${this.formattedDate1.year}-${this.formattedDate1.month}-${this.formattedDate1.day}`
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
     console.log(formattedDate);
@@ -125,12 +127,12 @@ export class RescheduleLessonComponent implements OnInit {
         teacherId: this.courseDetail.teacherId
       };
       console.log(lessonObj);
-      this.putRescheduleLesson(lessonObj);
+      // this.putRescheduleLesson(lessonObj);
 
       //if there is conflict in reschedule lesson api response
-      // this.isReschedule= false;
-      // this.isConflict = true;
-      // this.goConflict();
+      this.isReschedule = false;
+      this.isConflict = true;
+      this.goConflict();
       // end if
     } else {
       this.toastr.error(
@@ -156,24 +158,25 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   setMinDate(event) {
-    var formattedDate = moment(
-      `${event.year}-${event.month}-${event.day}`
-    ).format('dddd, D MMM YYYY');
-    $('.input-day')[0].value = formattedDate;
-    this.formattedDate1 = formattedDate;
     console.log('setMinDate', event);
     if (this.pickdate == undefined) {
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
     }
     this.model.start = event;
+    this.changeDateTimeFormat();
     console.log(this.pickdate);
     console.log(this.model.start);
     console.log(this.courseDetail);
     this.checkDate();
   }
-  check() {
-    console.log(this.model.start);
+
+  changeDateTimeFormat() {
+    var formattedDate = moment(
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
+    ).format('dddd, D MMM YYYY');
+    $('.input-day')[0].value = formattedDate;
   }
+
   checkDate() {
     console.log('check date');
     console.log(this.courseDetail.lessons);
@@ -274,7 +277,12 @@ export class RescheduleLessonComponent implements OnInit {
       // if(this.correctRescheduleDate && this.correctRescheduleTime) this.disableReschedule= false;
     }
 
-    if (this.correctRescheduleDate && this.correctRescheduleTime)
+    if (
+      this.correctRescheduleDate &&
+      this.correctRescheduleTime &&
+      this.model.start &&
+      this.classend
+    )
       this.disableReschedule = false;
     else this.disableReschedule = true;
     console.log('today time:::::::::::' + this.correctRescheduleTime);
@@ -539,14 +547,8 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   goConflict() {
-    this.LASD = '2019-10-11T11:00:00.000Z';
-    if (this.model.start) {
-      var formattedDate = moment(
-        `${this.formattedDate1.year}-${this.formattedDate1.month}-${this.formattedDate1.day}`
-      ).format('dddd, D MMM YYYY');
-      $('.input-day')[0].value = formattedDate;
-      console.log('formatted Date: ', formattedDate);
-    }
+    this.LASD = this.pickdate;
+    this.checkDayExist(this.pickdate);
 
     console.log('LASD ' + this.LASD);
     console.log('courseId ' + this.courseId);

@@ -1551,8 +1551,7 @@
                       (timeline.startDate | timelineDate) ==
                       (todayDate | timelineDate),
                     'disable-add': timeline.startDate > todayDate,
-                    'disable-cursor': isRescheduleLesson,
-                    'disable-cursor': isNewLesson
+                    'disable-cursor': isRescheduleLesson || isNewLesson
                   }"
                 >
                   <!-- <pre>{{timeline | json}}</pre> -->
@@ -1638,10 +1637,11 @@
                   </div>
                 </div>
               </div>
+              <!-- [ngClass]="{ 'disable-cursor': isRescheduleLesson }" -->
               <button
-                class="btn-newLesson"
+                class="btn btn-newLesson"
                 (click)="addNewLesson()"
-                [ngClass]="{ 'disable-cursor': isRescheduleLesson }"
+                [disabled]="isRescheduleLesson"
               >
                 Add new lesson
               </button>
@@ -1651,6 +1651,20 @@
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-column">
                   <span class="selected_date">{{ LASD | todayDate }}</span>
+
+                  <div
+                    *ngIf="showCancelButton == true"
+                    class="d-flex"
+                    style="margin-bottom:15px"
+                  >
+                    <span style="margin-right:8px">start time</span>
+                    -
+                    <span style="margin-left:8px">end time</span>
+                    <div class="d-flex align-items-center reschedule_box">
+                      <span>Rescheduled from todayDatePipe strat_time</span>
+                    </div>
+                  </div>
+
                   <div class="d-flex" *ngIf="showCancelButton == true">
                     <button
                       class="d-flex btn assign_relief_button align-items-center"

@@ -11,6 +11,7 @@
   font-size: 24px;
   line-height: 30px;
   color: #2e3d4d;
+  margin-bottom: 36px;
 }
 
 .pick-a-date {
@@ -19,6 +20,7 @@
   font-weight: 500;
   font-size: 18px;
   color: #64707d;
+  margin-bottom: 16px;
 }
 .starting-time {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
@@ -27,6 +29,7 @@
   font-size: 18px;
   line-height: 22px;
   color: #2e3d4d;
+  margin-bottom: 16px;
 }
 
 .duration {
@@ -411,4 +414,13 @@ input.input-day.dropD.startInput.w-100 {
 .teacher-profilePic {
   width: 45px;
   height: 45px;
+  border-radius: 50%;
+}
+
+.invalid-text {
+  color: red;
+  /* opacity: 1 !important; */
+}
+.valid-text {
+  opacity: 0;
 }

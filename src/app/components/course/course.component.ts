@@ -32,6 +32,7 @@ import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
 import { isThisISOWeek, isThisSecond } from 'date-fns';
+import { TodayDatePipe } from '../../service/pipe/today-date.pipe';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -40,7 +41,7 @@ declare var $: any;
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
-  providers: [NgbDatepickerConfig]
+  providers: [NgbDatepickerConfig, TodayDatePipe]
 })
 export class CourseComponent implements OnInit {
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -259,7 +260,8 @@ export class CourseComponent implements OnInit {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     config: NgbDatepickerConfig,
-    calendar: NgbCalendar
+    calendar: NgbCalendar,
+    private TodayDatePipe: TodayDatePipe
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
@@ -313,35 +315,6 @@ export class CourseComponent implements OnInit {
       this.courseList = [];
     });
 
-    this._service.goCourseDetail1.subscribe(() => {
-      console.log('go back CDetail', this.courseId);
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = false;
-      this.isCourseDetail = true;
-      // this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
-      console.log(this.reliefTeacher, this.disableCancel);
-      // this.reliefTeacher = null;
-      // this.disableCancel = false;
-      console.log(this.showCancelButton);
-      this.clickTab('Class', 'course');
-      this.activeToday = false;
-      this.courseList = [];
-    });
-
-    this._service.goCourseDetail2.subscribe(() => {
-      console.log('go back CDetail', this.courseId);
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = false;
-      this.isCourseDetail = true;
-      this.clickTab('Class', 'course');
-      this.isRescheduleLesson = true;
-      this.courseList = [];
-    });
-
     this._service.goPlanDetail.subscribe(() => {
       console.log('go back PlanDetail', this.courseId);
       this.isCategory = false;
@@ -369,6 +342,8 @@ export class CourseComponent implements OnInit {
   cID: string;
   ngOnInit() {
     console.log('exit');
+    var requiredResult = this.TodayDatePipe.transform(this.LASD);
+    console.log('today-date-pipe:  ', requiredResult);
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
