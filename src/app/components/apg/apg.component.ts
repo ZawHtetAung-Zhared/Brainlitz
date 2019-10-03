@@ -1097,7 +1097,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
         for (var j = 0; j < data[i].data.evaluation.details.length; j++) {
           const requirement: HTMLElement = document.getElementById(
-            'requirement' + j
+            'requirement' + i + j
           );
           req_total_height += requirement.clientHeight;
         }
@@ -1143,12 +1143,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     const innerBoxHeight: HTMLElement = document.getElementById(
       'requirement-inner-box-' + skillId
     );
+
     var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       const requirement: HTMLElement = document.getElementById(
-        'requirement' + j
+        'requirement' + skillId + j
       );
+
       req_total_height += requirement.clientHeight;
     }
 
@@ -1159,7 +1161,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     if (totalHeight < 400) {
       skillHeight.setAttribute('style', 'height: auto;');
-      innerBoxHeight.setAttribute('style', 'height:auto;overflow:none;');
+      innerBoxHeight.setAttribute('style', 'height:auto;overflow:unset;');
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
@@ -2526,9 +2528,9 @@ export class ApgComponent implements OnInit, OnDestroy {
     );
   }
   autoResize(item, e, id, name, x) {
-    console.log(e.target.style);
-    console.log(e.target.scrollHeight);
-    console.log(id);
+    // console.log(e.target.style);
+    // console.log(e.target.scrollHeight);
+    console.log(id, 'id');
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
     this.scrollCalculation(item, id);
