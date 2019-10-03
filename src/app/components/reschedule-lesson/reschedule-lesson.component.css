@@ -119,6 +119,7 @@ input.input-day.dropD.startInput.w-100 {
   background: #007fff;
   border-radius: 4px;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .btn-cancel {
@@ -133,6 +134,7 @@ input.input-day.dropD.startInput.w-100 {
   background: #ffffff;
   border-radius: 4px;
   border: 0;
+  cursor: pointer;
 }
 
 .tab-body {
@@ -404,4 +406,9 @@ input.input-day.dropD.startInput.w-100 {
 .max-range {
   position: absolute;
   left: 10px;
+}
+
+.teacher-profilePic {
+  width: 45px;
+  height: 45px;
 }

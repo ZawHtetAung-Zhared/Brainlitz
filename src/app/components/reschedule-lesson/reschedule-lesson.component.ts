@@ -20,6 +20,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { lastDayOfISOWeek } from 'date-fns';
 
 declare var $: any;
@@ -32,7 +33,7 @@ declare var $: any;
 })
 export class RescheduleLessonComponent implements OnInit {
   public isConflict: boolean = false;
-  public isReschedule: boolean = false;
+  public isReschedule: boolean = true;
   public progressSlider: boolean = false;
   public date: any;
   public pickdate: any;
@@ -56,13 +57,18 @@ export class RescheduleLessonComponent implements OnInit {
 
   //checkfor date
   public correctRescheduleDate: boolean = false;
+  public correctRescheduleTime: boolean = false;
+  public todayDate: any;
+  public disableReschedule: boolean = true;
+  // public isDisableDate: boolean=true;
 
   constructor(
     private router: Router,
     private _service: appService,
     public dataservice: DataService,
     config: NgbDatepickerConfig,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public toastr: ToastsManager
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
   @Input() courseDetail;
@@ -81,6 +87,13 @@ export class RescheduleLessonComponent implements OnInit {
     this.rangeHr = '0';
     this.rangeMin = '0';
     this.showFormat = '00:00';
+
+    const current = new Date();
+    this.todayDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
   }
 
   backTo() {
@@ -96,7 +109,16 @@ export class RescheduleLessonComponent implements OnInit {
     //   console.log("API Callsssssssssssss");
 
     // }
-    if (this.correctRescheduleDate == true) {
+    var formattedDate = moment(
+      `${this.formattedDate1.year}-${this.formattedDate1.month}-${this.formattedDate1.day}`
+    ).format('dddd, D MMM YYYY');
+    $('.input-day')[0].value = formattedDate;
+    console.log(formattedDate);
+    console.log(this.correctRescheduleDate, this.correctRescheduleTime);
+    if (
+      this.correctRescheduleDate == true &&
+      this.correctRescheduleTime == true
+    ) {
       let lessonObj = {
         startDate: this.pickdate,
         endDate: this.endDate,
@@ -104,17 +126,30 @@ export class RescheduleLessonComponent implements OnInit {
       };
       console.log(lessonObj);
       this.putRescheduleLesson(lessonObj);
+
+      //if there is conflict in reschedule lesson api response
+      // this.isReschedule= false;
+      // this.isConflict = true;
+      // this.goConflict();
+      // end if
     } else {
-      alert('error');
+      this.toastr.error(
+        'You cannot reschedule this lesson to ' +
+          formattedDate +
+          ' ' +
+          this.startTime
+      );
     }
   }
 
   putRescheduleLesson(data) {
     this._service.updateLesson(this.courseId, this.lessonId, data).subscribe(
       (res: any) => {
+        this.toastr.success('Successfully reschedule the lesson');
         console.log('..........reschedule lesson.........', res);
       },
       err => {
+        this.toastr.error('Error at rescheduling lesson');
         console.log(err);
       }
     );
@@ -127,9 +162,11 @@ export class RescheduleLessonComponent implements OnInit {
     $('.input-day')[0].value = formattedDate;
     this.formattedDate1 = formattedDate;
     console.log('setMinDate', event);
-    if (this.pickdate == undefined)
+    if (this.pickdate == undefined) {
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
+    }
     this.model.start = event;
+    console.log(this.pickdate);
     console.log(this.model.start);
     console.log(this.courseDetail);
     this.checkDate();
@@ -157,24 +194,39 @@ export class RescheduleLessonComponent implements OnInit {
       console.log(this.endDate);
 
       this.checkDayExist(this.pickdate);
+    } else if (
+      this.model.start != undefined &&
+      this.model.startT == undefined
+    ) {
+      console.log('checkkk');
+      this.pickdate = this.changeDateFormat(this.model.start, '00:00:00:000');
+      console.log(this.pickdate);
+      this.checkDayExist(this.pickdate);
+    } else if (
+      this.model.start == undefined &&
+      this.model.startT != undefined
+    ) {
+      this.correctRescheduleTime = true;
     }
   }
 
   checkDayExist(day) {
     let lessons = this.courseDetail.lessons;
     let pickDate = day.toLocaleString().substring(0, 10);
-
+    console.log(pickDate);
     let oldDate = this.LASD.toLocaleString().substring(0, 10);
 
     if (pickDate == oldDate) {
+      this.correctRescheduleDate = true;
       let oldTime = this.LASD.toLocaleString().substring(11, 19);
       let pickTime = day.toLocaleString().substring(11, 19);
       if (oldTime != pickTime) {
-        this.correctRescheduleDate = true;
+        this.correctRescheduleTime = true;
       } else {
-        this.correctRescheduleDate = false;
+        this.correctRescheduleTime = false;
       }
     } else {
+      this.correctRescheduleTime = true;
       for (let i = 0; i < lessons.length; i++) {
         let existingDate = lessons[i].startDate
           .toLocaleString()
@@ -188,7 +240,10 @@ export class RescheduleLessonComponent implements OnInit {
       }
     }
 
-    if (this.correctRescheduleDate == true) {
+    if (
+      this.correctRescheduleDate == true &&
+      this.correctRescheduleTime == true
+    ) {
       var todaydate = new Date();
       let onlytodayTime = todaydate.toString().substring(16, 24);
       let onlytodayDate = todaydate.toISOString().substring(0, 10);
@@ -203,21 +258,28 @@ export class RescheduleLessonComponent implements OnInit {
 
           if (onlytodayTime < pickTime) {
             // console.log(' grater time ==>today');
-            this.correctRescheduleDate = true;
+            this.correctRescheduleTime = true;
           } else {
             // console.log('~~~ less time');
-            this.correctRescheduleDate = false;
+            this.correctRescheduleTime = false;
           }
         } else {
           // console.log('=== grater today');
-          this.correctRescheduleDate = true;
+          this.correctRescheduleTime = true;
         }
       } else {
         // console.log('less than today ');
-        this.correctRescheduleDate = false;
+        this.correctRescheduleTime = false;
       }
+      // if(this.correctRescheduleDate && this.correctRescheduleTime) this.disableReschedule= false;
     }
-    console.log(this.correctRescheduleDate);
+
+    if (this.correctRescheduleDate && this.correctRescheduleTime)
+      this.disableReschedule = false;
+    else this.disableReschedule = true;
+    console.log('today time:::::::::::' + this.correctRescheduleTime);
+    console.log('today date:::::::' + this.correctRescheduleDate);
+    console.log('Disable:::::::' + this.disableReschedule);
   }
 
   validDay(new_day) {
@@ -474,6 +536,23 @@ export class RescheduleLessonComponent implements OnInit {
       console.log('this.selectedMinRange', this.selectedMinRange);
     }
     this.formatTime();
+  }
+
+  goConflict() {
+    this.LASD = '2019-10-11T11:00:00.000Z';
+    if (this.model.start) {
+      var formattedDate = moment(
+        `${this.formattedDate1.year}-${this.formattedDate1.month}-${this.formattedDate1.day}`
+      ).format('dddd, D MMM YYYY');
+      $('.input-day')[0].value = formattedDate;
+      console.log('formatted Date: ', formattedDate);
+    }
+
+    console.log('LASD ' + this.LASD);
+    console.log('courseId ' + this.courseId);
+    console.log('lessonId ' + this.lessonId);
+    console.log('teacher name ' + this.courseDetail.teacher.fullName); //this.courseDetail.teacher.profilePic
+    // console.log(this.courseDetail.lessons.filter(lesson=>lesson.lessonId.indexOf(this.lessonId) !== -1));
   }
 
   createNewLesson() {
