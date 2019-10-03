@@ -1,5 +1,5 @@
 <!-- <block-ui> -->
-<div *ngIf="!isReschedule" class="d-flex justify-content-center">
+<div *ngIf="isReschedule" class="d-flex justify-content-center">
   <div class="col-md-6 mx-auto">
     <h3 class="header" *ngIf="defineType == 'Reschedule'">Reschedule</h3>
     <h3 class="header" *ngIf="defineType == 'New'">New Lesson</h3>
@@ -15,6 +15,7 @@
           class="input-day dropD w-100 search-input"
           style="padding-left: 10px;"
           name="start"
+          [minDate]="todayDate"
           required
           (click)="start.toggle()"
           (ngModelChange)="setMinDate($event)"
@@ -22,6 +23,7 @@
           ngbDatepicker
           #start="ngbDatepicker"
           (document:click)="closeDropdown($event, 'start', start)"
+          [markDisabled]="isDisabledDate == true"
           readonly
         />
         <div (click)="start.toggle()">
@@ -35,6 +37,15 @@
       <!-- <p> {{ pickdate | attandanceDay }}</p> -->
       <!-- <p>{{ pickdate | timelineDate }}</p> -->
     </div>
+
+    <div
+      *ngIf="model.start && !correctRescheduleDate"
+      style="padding-top:20px; color: red;"
+      class="light-text"
+    >
+      Invalid Date
+    </div>
+
     <div class="d-flex" style="padding-top: 20px;">
       <div class="time-box d-flex flex-column w-100">
         <h3 class="starting-time">Starting Time</h3>
@@ -124,8 +135,20 @@
       </div>
     </div>
 
-    <div *ngIf="classend" class="light-text" style="padding-top: 20px;">
+    <div
+      *ngIf="classend && correctRescheduleTime"
+      class="light-text"
+      style="padding-top: 20px;"
+    >
       It will end at {{ classend }}
+    </div>
+
+    <div
+      *ngIf="classend && !correctRescheduleTime"
+      style="padding-top:20px; color: red;"
+      class="light-text"
+    >
+      Invalid Time
     </div>
 
     <div class="d-flex justify-content-end btn-padding">
@@ -136,11 +159,14 @@
       >
         Cancel
       </button>
+
+      <!-- [ngClass]="{'disable-btn': !correctRescheduleDate }" -->
       <button
         type="button"
         *ngIf="defineType == 'Reschedule'"
-        class="align-self-end btn-reschedule"
+        class="align-self-end btn btn-reschedule"
         (click)="rescheduleTo()"
+        [disabled]="disableReschedule"
       >
         Reschedule
       </button>
@@ -274,10 +300,15 @@
   </div>
 
   <div class="d-flex flex-row" style="padding-top: 20px;">
-    <img src="./assets/img/clock.png" />
+    <img
+      class="teacher-profilePic"
+      src="{{ courseDetail.teacher.profilePic }}"
+    />
     <div class="d-flex flex-column" style="padding-left: 20px;">
-      <span class="light-text">Senior Teacher</span>
-      <span class="weight-text"> name </span>
+      <span class="light-text" style="padding-bottom: 4px;"
+        >Senior Teacher</span
+      >
+      <span class="weight-text"> {{ courseDetail.teacher.fullName }} </span>
     </div>
   </div>
   <div class="conflict-text">2 conflicts found on the following lessons</div>
