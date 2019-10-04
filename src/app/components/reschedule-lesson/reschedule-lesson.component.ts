@@ -127,12 +127,12 @@ export class RescheduleLessonComponent implements OnInit {
         teacherId: this.courseDetail.teacherId
       };
       console.log(lessonObj);
-      // this.putRescheduleLesson(lessonObj);
+      this.putRescheduleLesson(lessonObj);
 
       //if there is conflict in reschedule lesson api response
-      this.isReschedule = false;
-      this.isConflict = true;
-      this.goConflict();
+      // this.isReschedule = false;
+      // this.isConflict = true;
+      // this.goConflict();
       // end if
     } else {
       this.toastr.error(
@@ -149,6 +149,7 @@ export class RescheduleLessonComponent implements OnInit {
       (res: any) => {
         this.toastr.success('Successfully reschedule the lesson');
         console.log('..........reschedule lesson.........', res);
+        this.cancelReschedule.emit(false);
       },
       err => {
         this.toastr.error('Error at rescheduling lesson');
