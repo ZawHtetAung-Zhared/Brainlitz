@@ -1906,12 +1906,12 @@ export class CourseComponent implements OnInit {
     console.log('hi', targetDate);
 
     console.log('....', classInfo);
-    $('.timeline div.single-date').on('click', function() {
-      $(this)
-        .addClass('day-highlight')
-        .siblings()
-        .removeClass('day-highlight');
-    });
+    // $('.timeline div.single-date').on('click', function() {
+    //   $(this)
+    //     .addClass('day-highlight')
+    //     .siblings()
+    //     .removeClass('day-highlight');
+    // });
 
     this.currentLessonIdx = currentIdx;
     this.checkForRelief(classInfo);
