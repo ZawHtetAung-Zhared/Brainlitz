@@ -165,11 +165,13 @@
       >
         Reschedule
       </button>
+
       <button
         type="button"
         *ngIf="defineType == 'New'"
-        class="align-self-end btn-reschedule"
+        class="align-self-end btn btn-reschedule"
         (click)="createNewLesson()"
+        [disabled]="disableReschedule"
       >
         New Lesson
       </button>

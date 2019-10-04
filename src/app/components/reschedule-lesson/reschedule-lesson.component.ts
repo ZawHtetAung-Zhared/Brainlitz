@@ -112,7 +112,9 @@ export class RescheduleLessonComponent implements OnInit {
 
     // }
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
+      `${this.model.start.year}-${this.model.start.month}-${
+        this.model.start.day
+      }`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
     console.log(formattedDate);
@@ -158,11 +160,19 @@ export class RescheduleLessonComponent implements OnInit {
     );
   }
 
+  isSameDate: boolean = false;
   setMinDate(event) {
-    console.log('setMinDate', event);
     if (this.pickdate == undefined) {
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
     }
+    let tempdate = event.year + '-' + event.month + '-' + event.day;
+    console.log('temp date', tempdate);
+    if (this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == tempdate) {
+      this.isSameDate = true;
+    } else {
+      this.isSameDate = false;
+    }
+    console.log('is same date', this.isSameDate);
     this.model.start = event;
     this.changeDateTimeFormat();
     console.log(this.pickdate);
@@ -173,7 +183,9 @@ export class RescheduleLessonComponent implements OnInit {
 
   changeDateTimeFormat() {
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
+      `${this.model.start.year}-${this.model.start.month}-${
+        this.model.start.day
+      }`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
   }
@@ -286,6 +298,9 @@ export class RescheduleLessonComponent implements OnInit {
     )
       this.disableReschedule = false;
     else this.disableReschedule = true;
+    if (this.defineType == 'New' && this.isSameDate) {
+      this.disableReschedule = true;
+    }
     console.log('today time:::::::::::' + this.correctRescheduleTime);
     console.log('today date:::::::' + this.correctRescheduleDate);
     console.log('Disable:::::::' + this.disableReschedule);
