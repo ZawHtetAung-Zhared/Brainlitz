@@ -1674,6 +1674,7 @@ export class CourseComponent implements OnInit {
       let lessonCount = this.detailLists.lessons;
       console.log(lessonCount);
       console.log(lessonCount.length);
+      console.log(this.selectedLesson);
       let finishedDate = [];
       let unfinishedDate = [];
       let xx = false;
@@ -1760,6 +1761,7 @@ export class CourseComponent implements OnInit {
       }
 
       console.log(this.LASD);
+      this.lastSelectedObj = null;
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate();
@@ -1838,6 +1840,7 @@ export class CourseComponent implements OnInit {
       this.isNewLesson = e;
       this.getCourseDetail(this.detailLists._id);
       console.log('course detail', this.detailLists);
+      // this.checkAttendance(this.LASD, this.selectedLesson, false, this.currentLessonIdx);
     }
   }
   cancelButtonShowHide() {
@@ -1884,6 +1887,7 @@ export class CourseComponent implements OnInit {
     }
 
     console.log(this.showCancelButton);
+
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')
     //   this.showCancelButton=true;
@@ -1896,7 +1900,9 @@ export class CourseComponent implements OnInit {
 
   currentLessonIdx: any = null;
   selectedLesson: any = null;
+  lastSelectedObj: any = null;
   checkAttendance(targetDate, classInfo, status, currentIdx) {
+    this.lastSelectedObj = classInfo;
     console.log('hi', targetDate);
 
     console.log('....', classInfo);
@@ -1906,6 +1912,7 @@ export class CourseComponent implements OnInit {
         .siblings()
         .removeClass('day-highlight');
     });
+
     this.currentLessonIdx = currentIdx;
     this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;
@@ -4041,8 +4048,8 @@ export class CourseComponent implements OnInit {
 
   reliefTeacher: any = null;
   checkForRelief(classInfo) {
-    console.log('checkForRelief', this.selectedLesson);
     this.selectedLesson = classInfo;
+    console.log('checkForRelief', this.selectedLesson);
     if (
       this.selectedLesson.makeup != undefined &&
       this.selectedLesson.makeup == true

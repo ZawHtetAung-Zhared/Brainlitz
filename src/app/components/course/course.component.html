@@ -1551,7 +1551,10 @@
                       (timeline.startDate | timelineDate) ==
                       (todayDate | timelineDate),
                     'disable-add': timeline.startDate > todayDate,
-                    'disable-cursor': isRescheduleLesson || isNewLesson
+                    'disable-cursor': isRescheduleLesson || isNewLesson,
+                    'day-highlight':
+                      lastSelectedObj != null &&
+                      lastSelectedObj._id == timeline._id
                   }"
                 >
                   <!-- <pre>{{timeline | json}}</pre> -->
@@ -1657,9 +1660,10 @@
                     class="d-flex"
                     style="margin-bottom:15px"
                   >
-                    <span style="margin-right:8px">start time</span>
-                    -
-                    <span style="margin-left:8px">end time</span>
+                    <span>
+                      {{ selectedLesson.startDate | utcTime }} -
+                      {{ selectedLesson.endDate | utcTime }}
+                    </span>
                     <div class="d-flex align-items-center reschedule_box">
                       <span>Rescheduled from todayDatePipe strat_time</span>
                     </div>
