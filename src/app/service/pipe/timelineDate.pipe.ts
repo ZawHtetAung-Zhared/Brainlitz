@@ -20,7 +20,7 @@ export class GetTimelineDatePipe implements PipeTransform {
       'Dec'
     ];
     var monthName = monthNames[new Date(date).getUTCMonth()];
-    var timeDate = new Date(date).getUTCDate() + ' ' + monthName.toLowerCase();
+    var timeDate = new Date(date).getUTCDate() + ' ' + monthName;
     // console.log(utcDate)
     return timeDate;
   }
