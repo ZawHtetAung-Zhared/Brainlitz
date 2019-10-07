@@ -129,3 +129,10 @@
 ::ng-deep .row {
   margin-bottom: 20px !important;
 }
+.classes-title {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 0px;
+}

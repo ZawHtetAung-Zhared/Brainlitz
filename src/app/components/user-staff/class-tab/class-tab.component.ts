@@ -63,6 +63,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
             console.log('nocourse');
             this.nocourse = true;
           }
+
           this.showLoading.emit(true);
         },
         err => {
