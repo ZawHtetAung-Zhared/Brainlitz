@@ -374,11 +374,7 @@
           <div class="d-flex radio-wrap">
             <label
               [ngClass]="{
-                selected: endOptChecked == 'defaultLesson',
-                'disabled-endOpt':
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'end') ||
-                  (isEdit && endOptChecked == 'lesson')
+                selected: endOptChecked == 'defaultLesson'
               }"
               class="mb-0 cursor-on"
             >
@@ -386,20 +382,12 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'defaultLesson')"
-                [disabled]="
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'end') ||
-                  (isEdit && endOptChecked == 'lesson')
-                "
               />
               Regular Lessons
             </label>
             <label
               [ngClass]="{
-                selected: endOptChecked == 'lesson',
-                'disabled-endOpt':
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'defaultLesson')
+                selected: endOptChecked == 'lesson'
               }"
               class="mb-0 cursor-on"
             >
@@ -407,17 +395,12 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'lesson')"
-                [disabled]="
-                  timeOptChecked == 'hideTimeSlot' ||
-                  (isEdit && endOptChecked == 'defaultLesson')
-                "
               />
               End By Lessons
             </label>
             <label
               [ngClass]="{
-                selected: endOptChecked == 'end',
-                'disabled-endOpt': isEdit && endOptChecked == 'defaultLesson'
+                selected: endOptChecked == 'end'
               }"
               class="mb-0 cursor-on"
             >
@@ -425,7 +408,6 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'end')"
-                [disabled]="isEdit && endOptChecked == 'defaultLesson'"
               />
               End By Date
             </label>
