@@ -1588,6 +1588,11 @@
                           class="makeup-icon"
                           >C</span
                         >
+                        <!-- <span
+                          
+                          class="makeup-icon"
+                          > R
+                        </span> -->
                       </p>
                     </div>
                   </div>
@@ -1655,16 +1660,19 @@
                 <div class="d-flex flex-column">
                   <span class="selected_date">{{ LASD | todayDate }}</span>
 
-                  <div
-                    *ngIf="showCancelButton == true"
-                    class="d-flex"
-                    style="margin-bottom:15px"
-                  >
+                  <div class="d-flex" style="margin-bottom:15px">
                     <span>
                       {{ selectedLesson.startDate | utcTime }} -
                       {{ selectedLesson.endDate | utcTime }}
                     </span>
-                    <div class="d-flex align-items-center reschedule_box">
+                    <div
+                      *ngIf="
+                        showCancelButton == true &&
+                        disableCancel == false &&
+                        reliefTeacher == null
+                      "
+                      class="d-flex align-items-center reschedule_box"
+                    >
                       <span>Rescheduled from todayDatePipe strat_time</span>
                     </div>
                   </div>
