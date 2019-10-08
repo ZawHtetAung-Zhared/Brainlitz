@@ -1818,6 +1818,8 @@ label.room-name::before {
   background-color: #1682fb;
   margin-left: 15px;
   box-shadow: none;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 16px;
 }
 .modal-cfees h5,
 .discount-info {
@@ -1909,7 +1911,7 @@ button:disabled {
   background-color: #f2f4f5;
   /* padding: 6px;
   padding-top: 12px; */
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   height: 56px;
 }
 .single-student-modal {
@@ -2485,12 +2487,19 @@ input[type='number']::-webkit-outer-spin-button {
   width: 96px;
   height: 44px;
   border-radius: 3px;
-  background: #f2f4f5;
+  background: #ffffff;
   font-family: Inter-UI-SemiBold;
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
   color: #2e3d4d;
+}
+.btn-cancel-crt:hover {
+  background: #f2f4f5;
+}
+.btn-cancel-crt:focus {
+  outline: none;
+  box-shadow: none;
 }
 .cancel-btn-create {
   width: 96px;
@@ -2817,6 +2826,7 @@ input[type='number']::-webkit-outer-spin-button {
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .makeup-icon {

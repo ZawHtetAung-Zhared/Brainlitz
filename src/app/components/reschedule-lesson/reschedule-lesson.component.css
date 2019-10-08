@@ -138,6 +138,15 @@ input.input-day.dropD.startInput.w-100 {
   border-radius: 4px;
   border: 0;
   cursor: pointer;
+  min-width: 90px;
+  margin-right: 20px;
+}
+.btn-cancel:hover {
+  background: #f2f4f5;
+}
+.btn-cancel:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .tab-body {

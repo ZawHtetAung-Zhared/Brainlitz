@@ -162,7 +162,7 @@ export class RescheduleLessonComponent implements OnInit {
         this.cancelReschedule.emit(false);
       },
       err => {
-        this.toastr.error('Error at rescheduling lesson');
+        this.toastr.error(err.error.message);
         console.log(err);
       }
     );
