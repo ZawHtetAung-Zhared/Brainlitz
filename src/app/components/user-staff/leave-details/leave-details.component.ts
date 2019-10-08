@@ -183,7 +183,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   getUserLeaves(userId) {
     this.totalLeaveDay = 0;
-    this.showLoading.emit(false);
+    // this.showLoading.emit(false);
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
@@ -196,7 +196,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.leaveLogsLoading = false;
         }, 1000);
-        this.showLoading.emit(true);
+        // this.showLoading.emit(true);
       },
       err => {
         console.error(err);

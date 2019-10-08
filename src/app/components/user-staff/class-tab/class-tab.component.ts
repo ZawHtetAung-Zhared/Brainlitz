@@ -51,7 +51,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     console.log(this.userId);
     console.log(this.locationId);
     this.loading = true;
-    this.showLoading.emit(false);
+    // this.showLoading.emit(false);
     this.subscription = this._service
       .getUserDetail(this.regionId, this.userId, this.locationId)
       .subscribe(
@@ -64,7 +64,7 @@ export class ClassTabComponent implements OnInit, OnDestroy {
             this.nocourse = true;
           }
 
-          this.showLoading.emit(true);
+          // this.showLoading.emit(true);
         },
         err => {
           this.loading = false;
