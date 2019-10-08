@@ -158,7 +158,7 @@
         type="button"
         *ngIf="defineType == 'Reschedule'"
         class="align-self-end btn btn-reschedule"
-        (click)="rescheduleTo()"
+        (click)="goConflict(customerModal)"
         [disabled]="disableReschedule"
       >
         Reschedule
@@ -210,11 +210,12 @@
         <span
           *ngIf="model.start && !correctRescheduleDate"
           class="light-text invalid-text"
-          >Invalid Date</span
         >
-        <span *ngIf="model.start && correctRescheduleDate" class="valid-text"
-          >Valid Date</span
-        >
+          Invalid Date
+        </span>
+        <span *ngIf="model.start && correctRescheduleDate" class="valid-text">
+          Valid Date
+        </span>
       </div>
     </div>
 
@@ -380,4 +381,86 @@
     </button>
   </div>
 </div>
+
+<ng-template #customerModal let-c="close" let-d="dismiss">
+  <div class="d-flex modal-header">
+    <div class="d-flex flex-row">
+      <img
+        class="teacher-profilePic"
+        src="{{ courseDetail.teacher.profilePic }}"
+      />
+      <div class="d-flex flex-column" style="padding-left: 20px;">
+        <span class="light-text" style="padding-bottom: 4px;"
+          >Senior Teacher</span
+        >
+        <span class="weight-text"> {{ courseDetail.teacher.fullName }} </span>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="cancelModal()"
+    >
+      <span class="closemark">
+        <div class="closemark_stem"></div>
+        <div class="closemark_kick"></div>
+      </span>
+    </button>
+  </div>
+  <div class="modal-body conflict-modal-body">
+    <div class="conflict-text">2 conflicts found on the following lessons</div>
+    <div class="d-flex flex-column tab-body">
+      <div
+        class="d-flex flex-row justify-content-between"
+        style="margin-left:32px; margin-right: 32px;"
+      >
+        <div class="d-flex flex-column">
+          <p class="weight-text">8 Aug 2018</p>
+          <p class="light-text">11:00am - 12:00pm</p>
+        </div>
+        <div class="d-flex flex-column split-line1">
+          <p class="light-text">Lesson</p>
+          <p class="weight-text">Sample Lesson</p>
+        </div>
+        <div class="d-flex flex-column split-line1">
+          <p class="light-text">Location</p>
+          <p class="weight-text">Sample Location</p>
+        </div>
+        <div class="d-flex flex-column split-line1">
+          <p class="light-text">Number of students</p>
+          <p class="weight-text">Sample students</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-flex justify-content-end">
+    <button
+      type="button"
+      class="align-self-end btn-cancel"
+      (click)="cancelModal()"
+    >
+      Cancel
+    </button>
+    <button
+      *ngIf="defineType == 'Reschedule'"
+      type="button"
+      class="align-self-end btn btn-reschedule"
+      (click)="rescheduleTo()"
+      style="width: 185px;"
+      [disabled]="disableReschedule"
+    >
+      Confirm reschedule
+    </button>
+    <button
+      *ngIf="defineType == 'New'"
+      type="button"
+      class="align-self-end btn-reschedule"
+      (click)="createNewLesson()"
+      style="width: 185px;"
+    >
+      Confirm New Lessons
+    </button>
+  </div>
+</ng-template>
 <!-- </block-ui> -->

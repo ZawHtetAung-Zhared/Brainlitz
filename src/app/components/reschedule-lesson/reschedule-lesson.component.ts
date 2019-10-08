@@ -64,13 +64,17 @@ export class RescheduleLessonComponent implements OnInit {
   public dateSelect: any;
   // public isDisableDate: boolean=true;
 
+  //conflict modal
+  public modalReference: any;
+
   constructor(
     private router: Router,
     private _service: appService,
     public dataservice: DataService,
     config: NgbDatepickerConfig,
     private datePipe: DatePipe,
-    public toastr: ToastsManager
+    public toastr: ToastsManager,
+    private modalService: NgbModal
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
   @Input() courseDetail;
@@ -139,7 +143,7 @@ export class RescheduleLessonComponent implements OnInit {
         teacherId: this.courseDetail.teacherId
       };
       console.log(lessonObj);
-      this.putRescheduleLesson(lessonObj);
+      // this.putRescheduleLesson(lessonObj);
 
       //if there is conflict in reschedule lesson api response
       // this.isReschedule = false;
@@ -566,7 +570,12 @@ export class RescheduleLessonComponent implements OnInit {
     this.formatTime();
   }
 
-  goConflict() {
+  goConflict(userModal) {
+    //to test modal
+    // this.isReschedule = false;
+    // this.isConflict = true;
+    //end to test modal
+
     this.LASD = this.pickdate;
     this.checkDayExist(this.pickdate);
 
@@ -574,7 +583,23 @@ export class RescheduleLessonComponent implements OnInit {
     console.log('courseId ' + this.courseId);
     console.log('lessonId ' + this.lessonId);
     console.log('teacher name ' + this.courseDetail.teacher.fullName); //this.courseDetail.teacher.profilePic
+
+    this.addUserModal(userModal);
+
     // console.log(this.courseDetail.lessons.filter(lesson=>lesson.lessonId.indexOf(this.lessonId) !== -1));
+  }
+
+  addUserModal(userModal) {
+    this.modalReference = this.modalService.open(userModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelModal() {
+    console.log('....');
+    this.modalReference.close();
   }
 
   createNewLesson() {
