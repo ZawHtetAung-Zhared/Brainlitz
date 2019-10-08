@@ -724,6 +724,7 @@ export class UserStaffComponent implements OnInit {
   }
 
   showDetails(data, ID) {
+    this.showloading = false;
     this.userId = data.userId;
     this.isPasswordChange = false;
     this.activeTab = 'Classes';
@@ -747,6 +748,7 @@ export class UserStaffComponent implements OnInit {
           // setTimeout(() => {
           //   //this.blockUI.stop();
           // }, 100);
+          this.showloading = true;
         },
         err => {
           // //this.blockUI.stop();
@@ -805,7 +807,11 @@ export class UserStaffComponent implements OnInit {
   }
 
   clickTab(type) {
+    this.showloading = false;
     this.activeTab = type;
+    setTimeout(() => {
+      this.showloading = true;
+    }, 4000);
   }
 
   numberOnly(event, type) {
@@ -820,6 +826,6 @@ export class UserStaffComponent implements OnInit {
   showloading = true;
   showLoadingFun(e) {
     // console.warn(e)
-    this.showloading = e;
+    // this.showloading = e;
   }
 }
