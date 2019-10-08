@@ -2033,6 +2033,7 @@
             <div *ngIf="isRescheduleLesson" class="mt-20">
               <app-reschedule-lesson
                 (cancelReschedule)="cancelRescheduleLesson($event)"
+                (updatedlessonObj)="updatedLessonObj($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
                 [courseId]="courseId"

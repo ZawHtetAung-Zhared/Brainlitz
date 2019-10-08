@@ -1840,8 +1840,17 @@ export class CourseComponent implements OnInit {
       this.isNewLesson = e;
       this.getCourseDetail(this.detailLists._id);
       console.log('course detail', this.detailLists);
-      // this.checkAttendance(this.LASD, this.selectedLesson, false, this.currentLessonIdx);
     }
+  }
+  updatedLessonObj(e) {
+    console.log(e);
+    this.lastSelectedObj = e;
+    this.checkAttendance(
+      this.lastSelectedObj.startDate,
+      this.lastSelectedObj,
+      false,
+      this.currentLessonIdx
+    );
   }
   cancelButtonShowHide() {
     // this.cancelUi=true;

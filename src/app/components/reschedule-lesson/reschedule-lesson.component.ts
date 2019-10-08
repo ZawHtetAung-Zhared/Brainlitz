@@ -77,6 +77,7 @@ export class RescheduleLessonComponent implements OnInit {
     private modalService: NgbModal
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
+  @Output() updatedlessonObj: any = new EventEmitter<any>();
   @Input() courseDetail;
   @Input() LASD;
   @Input() courseId;
@@ -126,9 +127,7 @@ export class RescheduleLessonComponent implements OnInit {
 
     // }
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${
-        this.model.start.day
-      }`
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
     console.log(formattedDate);
@@ -143,7 +142,7 @@ export class RescheduleLessonComponent implements OnInit {
         teacherId: this.courseDetail.teacherId
       };
       console.log(lessonObj);
-      // this.putRescheduleLesson(lessonObj);
+      this.putRescheduleLesson(lessonObj);
 
       //if there is conflict in reschedule lesson api response
       // this.isReschedule = false;
@@ -165,13 +164,33 @@ export class RescheduleLessonComponent implements OnInit {
       (res: any) => {
         this.toastr.success('Successfully reschedule the lesson');
         console.log('..........reschedule lesson.........', res);
-        this.cancelReschedule.emit(false);
+        this.getUpdatedObj();
       },
       err => {
         this.toastr.error(err.error.message);
         console.log(err);
       }
     );
+  }
+
+  getUpdatedObj() {
+    this._service
+      .getSingleCourse(this.courseId, this.currentLocation)
+      .subscribe(
+        (res: any) => {
+          this.courseDetail = res;
+          var lessons = this.courseDetail.lessons;
+          for (var i = 0; i < lessons.length; i++) {
+            if (lessons[i].startDate == this.pickdate) {
+              this.updatedlessonObj.emit(lessons[i]);
+              this.cancelReschedule.emit(false);
+            }
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   isSameDate: boolean = false;
@@ -201,9 +220,7 @@ export class RescheduleLessonComponent implements OnInit {
 
   changeDateTimeFormat() {
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${
-        this.model.start.day
-      }`
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
   }
