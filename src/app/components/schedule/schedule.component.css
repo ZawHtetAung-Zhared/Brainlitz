@@ -774,6 +774,9 @@ ul.scedule-data-listing li.disabled {
 .teacher-more-view {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px;
   padding: 6px;
   cursor: pointer;
   border-radius: 16px;
@@ -839,9 +842,10 @@ ul.scedule-data-listing li.disabled {
 }
 
 .selectedteacher {
-  background: #007bff;
+  background: #007fff;
   color: #fff !important;
   font-size: 12px;
+  padding: 8px 16px;
 }
 
 /* //timeline table*/
@@ -1951,4 +1955,9 @@ span.circle {
 
 .teacher-header {
   padding: 10px 32px;
+}
+
+.pl-4,
+.px-4 {
+  padding-left: 1rem !important;
 }
