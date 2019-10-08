@@ -342,8 +342,8 @@ export class CourseComponent implements OnInit {
   cID: string;
   ngOnInit() {
     console.log('exit');
-    var requiredResult = this.TodayDatePipe.transform(this.LASD);
-    console.log('today-date-pipe:  ', requiredResult);
+    // var requiredResult = this.TodayDatePipe.transform(this.LASD);
+    // console.log('today-date-pipe:  ', requiredResult);
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
