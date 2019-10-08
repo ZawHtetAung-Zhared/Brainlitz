@@ -176,8 +176,22 @@ export class RescheduleLessonComponent implements OnInit {
       this.pickdate = this.changeDateFormat(event, '00:00:00:000');
     }
     let tempdate = event.year + '-' + event.month + '-' + event.day;
+    let temptoday =
+      this.todayDate.year +
+      '-' +
+      this.todayDate.month +
+      '-' +
+      this.todayDate.day;
     console.log('temp date', tempdate);
-    if (this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == tempdate) {
+    console.log('today date', this.todayDate);
+    console.log(
+      'date slected',
+      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d')
+    );
+    if (
+      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == tempdate &&
+      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == temptoday
+    ) {
       this.isSameDate = true;
     } else {
       this.isSameDate = false;
@@ -304,6 +318,7 @@ export class RescheduleLessonComponent implements OnInit {
     else this.disableReschedule = true;
     if (this.defineType == 'New' && this.isSameDate) {
       this.disableReschedule = true;
+      this.correctRescheduleDate = false;
     }
     console.log('today time:::::::::::' + this.correctRescheduleTime);
     console.log('today date:::::::' + this.correctRescheduleDate);
