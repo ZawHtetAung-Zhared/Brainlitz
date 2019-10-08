@@ -250,9 +250,12 @@ ul.nav-style li:hover a {
   color: #535353;
 }
 li.nav-item {
-  padding: 5px 15px 10px;
+  padding: 2px 15px 10px;
   float: left;
   align-items: center !important;
+}
+li.header2-nav-item {
+  padding: 5px 15px 10px !important;
 }
 a.nav-link.active {
   /*border-bottom: 2px solid #4392f1 !important;*/

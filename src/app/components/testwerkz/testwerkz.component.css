@@ -1626,11 +1626,22 @@ p.g_title {
 .conceptName,
 .tag-name,
 .testwerkzTitle,
-.cTitle {
+.cTitle,
+p.single-collection-title,
+p.single-collection-title1,
+.viewallBtn,
+.collection-title,
+.input-label-collection,
+.btn-submit,
+.concept-name {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
-.pd-text {
+.pd-text,
+.backTotxt,
+.collection-desc1,
+.remove-outline,
+.tagName_collection {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
@@ -1741,6 +1752,7 @@ div.pdLine-wrap:last-child {
   background: #f2f4f5;
   border: none;
   z-index: auto !important;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 .btn-design {
   padding: 12px;
@@ -1957,6 +1969,7 @@ span.detail-dot1 {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 12px;
   /* padding-left: 12px; */
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
 }
 .mb-0.list-dot-wrap.detail-line.collection-desc1.w-100 {
   font-size: 14px;
@@ -1970,6 +1983,7 @@ span.tagName {
   color: #64707d;
   font-size: 12px;
   padding-left: 22px;
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
 }
 
 .single-collection-list {
@@ -2305,5 +2319,30 @@ label.form-title.input-label-collection {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fafafa);
 }
 /* end selected concept */
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  padding-top: 24px;
+}
 
+h3.modal-title {
+  font-size: 20px;
+  color: #2e3d4d;
+}
+.pdf-confirm p {
+  color: #64707d;
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 0;
+}
+
+.btnDelete {
+  color: red !important;
+}
+
+.back-wrap {
+  padding: 23px 15px 15px 0px;
+}
 /* end collection  */

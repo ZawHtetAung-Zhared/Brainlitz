@@ -50,7 +50,7 @@
     <label class="cTitle mb-0">Plan</label>
     <div>
       <button class="btn btn-create" (click)="goToaddNewCollection()">
-        Add new Plan
+        Add new plan
       </button>
     </div>
   </div>
@@ -271,7 +271,7 @@
             </button>
             |
             <button
-              class="btn-action remove-outline"
+              class="btn-action remove-outline btnDelete"
               (click)="onclickCollectionDelete(colDeleteModal, col)"
             >
               Delete
@@ -299,10 +299,10 @@
 <div *ngIf="isCollectionCreate || isCollectionEdit">
   <div class="col-md-12">
     <!-- <div class="createForm-wrap"> -->
-    <div class="mr-auto p-2 pl-0 pb-0">
+    <div class="mr-auto back-wrap">
       <div class="back-to d-flex" (click)="backTocollectionList()">
         <i class="fa fa-angle-left"></i>
-        <p>TestWerkz</p>
+        <p class="backTotxt">TestWerkz</p>
       </div>
     </div>
     <h3 class="collection-title" *ngIf="isCollectionCreate">
@@ -579,10 +579,10 @@
       class="d-flex pr-5 d-wrapper"
       [ngClass]="{ stickywrap: navIsFixed == true }"
     >
-      <div class="mr-auto p-2 pl-0 pb-0" (click)="backToList()">
+      <div class="mr-auto back-wrap" (click)="backToList()">
         <div class="back-to d-flex">
           <i class="fa fa-angle-left"></i>
-          <p>TestWerkz</p>
+          <p class="backTotxt">TestWerkz</p>
         </div>
       </div>
       <div class="pr-5">

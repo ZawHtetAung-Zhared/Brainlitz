@@ -3441,7 +3441,7 @@ export class TestwerkzComponent implements OnInit {
   hideSearch(e) {
     console.log(e);
     setTimeout(() => {
-      this.isFocus_collection = false;
+      // this.isFocus_collection = false;
       // this.showfixedcreate = false;
     }, 300);
   }
