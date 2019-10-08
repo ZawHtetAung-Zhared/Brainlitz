@@ -809,9 +809,9 @@ export class UserStaffComponent implements OnInit {
   clickTab(type) {
     this.showloading = false;
     this.activeTab = type;
-    setTimeout(() => {
-      this.showloading = true;
-    }, 4000);
+    // setTimeout(() => {
+    //   this.showloading = true;
+    // }, 4000);
   }
 
   numberOnly(event, type) {
