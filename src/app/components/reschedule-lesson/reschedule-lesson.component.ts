@@ -64,15 +64,20 @@ export class RescheduleLessonComponent implements OnInit {
   public dateSelect: any;
   // public isDisableDate: boolean=true;
 
+  //conflict modal
+  public modalReference: any;
+
   constructor(
     private router: Router,
     private _service: appService,
     public dataservice: DataService,
     config: NgbDatepickerConfig,
     private datePipe: DatePipe,
-    public toastr: ToastsManager
+    public toastr: ToastsManager,
+    private modalService: NgbModal
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
+  @Output() updatedlessonObj: any = new EventEmitter<any>();
   @Input() courseDetail;
   @Input() LASD;
   @Input() courseId;
@@ -122,9 +127,7 @@ export class RescheduleLessonComponent implements OnInit {
 
     // }
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${
-        this.model.start.day
-      }`
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
     console.log(formattedDate);
@@ -161,13 +164,33 @@ export class RescheduleLessonComponent implements OnInit {
       (res: any) => {
         this.toastr.success('Successfully reschedule the lesson');
         console.log('..........reschedule lesson.........', res);
-        this.cancelReschedule.emit(false);
+        this.getUpdatedObj();
       },
       err => {
         this.toastr.error(err.error.message);
         console.log(err);
       }
     );
+  }
+
+  getUpdatedObj() {
+    this._service
+      .getSingleCourse(this.courseId, this.currentLocation)
+      .subscribe(
+        (res: any) => {
+          this.courseDetail = res;
+          var lessons = this.courseDetail.lessons;
+          for (var i = 0; i < lessons.length; i++) {
+            if (lessons[i].startDate == this.pickdate) {
+              this.updatedlessonObj.emit(lessons[i]);
+              this.cancelReschedule.emit(false);
+            }
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   isSameDate: boolean = false;
@@ -211,9 +234,7 @@ export class RescheduleLessonComponent implements OnInit {
 
   changeDateTimeFormat() {
     var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${
-        this.model.start.day
-      }`
+      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
     $('.input-day')[0].value = formattedDate;
   }
@@ -581,7 +602,12 @@ export class RescheduleLessonComponent implements OnInit {
     this.formatTime();
   }
 
-  goConflict() {
+  goConflict(userModal) {
+    //to test modal
+    // this.isReschedule = false;
+    // this.isConflict = true;
+    //end to test modal
+
     this.LASD = this.pickdate;
     this.checkDayExist(this.pickdate);
 
@@ -589,7 +615,23 @@ export class RescheduleLessonComponent implements OnInit {
     console.log('courseId ' + this.courseId);
     console.log('lessonId ' + this.lessonId);
     console.log('teacher name ' + this.courseDetail.teacher.fullName); //this.courseDetail.teacher.profilePic
+
+    this.addUserModal(userModal);
+
     // console.log(this.courseDetail.lessons.filter(lesson=>lesson.lessonId.indexOf(this.lessonId) !== -1));
+  }
+
+  addUserModal(userModal) {
+    this.modalReference = this.modalService.open(userModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelModal() {
+    console.log('....');
+    this.modalReference.close();
   }
 
   createNewLesson() {
