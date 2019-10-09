@@ -133,6 +133,7 @@ p.student-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-semibold', Arial, sans-serif;
   font-size: 16px;
+  padding: 0px 26px 0px 12px;
 }
 
 .present-wrap {

@@ -9,7 +9,7 @@
 
   <div class="today-courselist" *ngIf="todayCourse != undefined">
     <div
-      class="d-flex today-coruse"
+      class="d-flex today-coruse mb-4"
       *ngFor="let tcourse of todayCourse.courses"
     >
       <!-- <div class="list-downarrow" (click)="expandTodayCourse()">
@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="expand-list">
-          <div class="d-flex teacher-box">
+          <div class="d-flex teacher-box mb-4">
             <div class="d-flex">
               <div class="img-wrap align-self-center">
                 <img src="{{ tcourse.teacher.profilePic }}" />
@@ -95,7 +95,7 @@
           </div>
           <div class="card-columns student-list ">
             <div class="card" *ngFor="let student of tcourse.students">
-              <div class="d-flex student-box">
+              <div class="d-flex student-box align-items-center">
                 <div class="img-wrap align-self-center">
                   <img src="{{ student.userDetails.profilePic }}" />
                 </div>
