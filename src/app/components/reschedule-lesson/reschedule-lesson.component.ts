@@ -42,7 +42,6 @@ export class RescheduleLessonComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
-  public course = JSON.parse(localStorage.getItem('courseID'));
   public duration: any;
   public showFormat: any;
   model: any = {};
@@ -80,7 +79,6 @@ export class RescheduleLessonComponent implements OnInit {
   @Output() updatedlessonObj: any = new EventEmitter<any>();
   @Input() courseDetail;
   @Input() LASD;
-  @Input() courseId;
   @Input() lessonId;
   @Input() defineType;
 
@@ -160,22 +158,24 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   putRescheduleLesson(data) {
-    this._service.updateLesson(this.courseId, this.lessonId, data).subscribe(
-      (res: any) => {
-        this.toastr.success('Successfully reschedule the lesson');
-        console.log('..........reschedule lesson.........', res);
-        this.getUpdatedObj();
-      },
-      err => {
-        this.toastr.error(err.error.message);
-        console.log(err);
-      }
-    );
+    this._service
+      .updateLesson(this.courseDetail._id, this.lessonId, data)
+      .subscribe(
+        (res: any) => {
+          this.toastr.success('Successfully reschedule the lesson');
+          console.log('..........reschedule lesson.........', res);
+          this.getUpdatedObj();
+        },
+        err => {
+          this.toastr.error(err.error.message);
+          console.log(err);
+        }
+      );
   }
 
   getUpdatedObj() {
     this._service
-      .getSingleCourse(this.courseId, this.currentLocation)
+      .getSingleCourse(this.courseDetail._id, this.currentLocation)
       .subscribe(
         (res: any) => {
           this.courseDetail = res;
@@ -183,7 +183,7 @@ export class RescheduleLessonComponent implements OnInit {
           for (var i = 0; i < lessons.length; i++) {
             if (lessons[i].startDate == this.pickdate) {
               this.updatedlessonObj.emit(lessons[i]);
-              this.cancelReschedule.emit(false);
+              this.backTo();
             }
           }
         },
@@ -195,32 +195,33 @@ export class RescheduleLessonComponent implements OnInit {
 
   isSameDate: boolean = false;
   setMinDate(event) {
-    if (this.pickdate == undefined) {
-      this.pickdate = this.changeDateFormat(event, '00:00:00:000');
-    }
-    let tempdate = event.year + '-' + event.month + '-' + event.day;
-    let temptoday =
-      this.todayDate.year +
-      '-' +
-      this.todayDate.month +
-      '-' +
-      this.todayDate.day;
-    console.log('temp date', tempdate);
-    console.log('today date', this.todayDate);
-    console.log(
-      'date slected',
-      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d')
-    );
-    if (
-      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == tempdate &&
-      this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == temptoday
-    ) {
-      this.isSameDate = true;
-    } else {
-      this.isSameDate = false;
-    }
-    console.log('is same date', this.isSameDate);
-    console.log('setMinDate', event);
+    // if (this.pickdate == undefined) {
+    //   this.pickdate = this.changeDateFormat(event, '00:00:00:000');
+    // }
+    // let tempdate = event.year + '-' + event.month + '-' + event.day;
+    // let temptoday =
+    //   this.todayDate.year +
+    //   '-' +
+    //   this.todayDate.month +
+    //   '-' +
+    //   this.todayDate.day;
+    // console.log('temp date', tempdate);
+    // console.log('today date', this.todayDate);
+    // console.log(
+    //   'date slected',
+    //   this.datePipe.transform(this.dateSelect, 'yyyy-MM-d')
+    // );
+    // if (
+    //   this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == tempdate ||
+    //   this.datePipe.transform(this.dateSelect, 'yyyy-MM-d') == temptoday
+    // ) {
+    //   this.isSameDate = true;
+    // } else {
+    //   this.isSameDate = false;
+    // }
+    // console.log('is same date', this.isSameDate);
+    // console.log('setMinDate', event);
+
     // if (this.pickdate == undefined) {
     //   this.pickdate = this.changeDateFormat(event, '00:00:00:000');
     // }
@@ -271,16 +272,7 @@ export class RescheduleLessonComponent implements OnInit {
     console.log(pickDate);
     let oldDate = this.LASD.toLocaleString().substring(0, 10);
 
-    if (pickDate == oldDate) {
-      this.correctRescheduleDate = true;
-      let oldTime = this.LASD.toLocaleString().substring(11, 19);
-      let pickTime = day.toLocaleString().substring(11, 19);
-      if (oldTime != pickTime) {
-        this.correctRescheduleTime = true;
-      } else {
-        this.correctRescheduleTime = false;
-      }
-    } else {
+    if (this.defineType == 'New') {
       this.correctRescheduleTime = true;
       for (let i = 0; i < lessons.length; i++) {
         let existingDate = lessons[i].startDate
@@ -291,6 +283,30 @@ export class RescheduleLessonComponent implements OnInit {
           break;
         } else {
           this.correctRescheduleDate = true;
+        }
+      }
+    } else if (this.defineType == 'Reschedule') {
+      if (pickDate == oldDate) {
+        this.correctRescheduleDate = true;
+        let oldTime = this.LASD.toLocaleString().substring(11, 19);
+        let pickTime = day.toLocaleString().substring(11, 19);
+        if (oldTime != pickTime) {
+          this.correctRescheduleTime = true;
+        } else {
+          this.correctRescheduleTime = false;
+        }
+      } else {
+        this.correctRescheduleTime = true;
+        for (let i = 0; i < lessons.length; i++) {
+          let existingDate = lessons[i].startDate
+            .toLocaleString()
+            .substring(0, 10);
+          if (existingDate == pickDate) {
+            this.correctRescheduleDate = false;
+            break;
+          } else {
+            this.correctRescheduleDate = true;
+          }
         }
       }
     }
@@ -337,10 +353,10 @@ export class RescheduleLessonComponent implements OnInit {
     )
       this.disableReschedule = false;
     else this.disableReschedule = true;
-    if (this.defineType == 'New' && this.isSameDate) {
-      this.disableReschedule = true;
-      this.correctRescheduleDate = false;
-    }
+    // if (this.defineType == 'New' && this.isSameDate) {
+    //   this.disableReschedule = true;
+    //   this.correctRescheduleDate = false;
+    // }
     console.log('today time:::::::::::' + this.correctRescheduleTime);
     console.log('today date:::::::' + this.correctRescheduleDate);
     console.log('Disable:::::::' + this.disableReschedule);
@@ -492,20 +508,6 @@ export class RescheduleLessonComponent implements OnInit {
       });
       this.progressSlider = false;
     }
-
-    // if (this.focusCfee == true) {
-    //   $('.cfee-bg').addClass('focus-bg');
-    // } else {
-    //   $('.cfee-bg').removeClass('focus-bg');
-    // }
-    // this.focusCfee = false;
-
-    // if (this.focusMisfee == true) {
-    //   $('.misfee-bg').addClass('focus-bg');
-    // } else {
-    //   $('.misfee-bg').removeClass('focus-bg');
-    // }
-    // this.focusMisfee = false;
   }
 
   chooseTimeOpt(type) {
@@ -612,7 +614,7 @@ export class RescheduleLessonComponent implements OnInit {
     this.checkDayExist(this.pickdate);
 
     console.log('LASD ' + this.LASD);
-    console.log('courseId ' + this.courseId);
+    console.log('courseId ' + this.courseDetail._id);
     console.log('lessonId ' + this.lessonId);
     console.log('teacher name ' + this.courseDetail.teacher.fullName); //this.courseDetail.teacher.profilePic
 
@@ -648,11 +650,14 @@ export class RescheduleLessonComponent implements OnInit {
       this._service.createNewLesson(this.courseDetail._id, tempObj).subscribe(
         (res: any) => {
           //this.blockUI.stop();
-          this.backTo();
+          // this.backTo();
+          this.getUpdatedObj();
+          this.toastr.success('Successfully created new lesson');
           console.log(res, 'res create new lesson');
         },
         err => {
           //this.blockUI.stop(); // Stop blocking
+          this.toastr.error('Error in creating new lesson');
           console.log(err);
         }
       );

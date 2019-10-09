@@ -1658,7 +1658,7 @@
             <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-column">
-                  <span class="selected_date">{{ LASD | todayDate }}</span>
+                  <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
 
                   <div class="d-flex lesson-time" style="margin-bottom:15px">
                     <span>
@@ -2037,7 +2037,6 @@
                 (updatedlessonObj)="updatedLessonObj($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
-                [courseId]="courseId"
                 [lessonId]="currentDateObj"
                 [defineType]="defineType"
               ></app-reschedule-lesson>
@@ -2045,6 +2044,7 @@
             <div *ngIf="isNewLesson" class="mt-20">
               <app-reschedule-lesson
                 (cancelReschedule)="cancelRescheduleLesson($event)"
+                (updatedlessonObj)="updatedLessonObj($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
                 [defineType]="defineType"
