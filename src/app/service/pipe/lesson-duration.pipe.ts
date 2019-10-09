@@ -20,8 +20,6 @@ export class LessonDurationPipe implements PipeTransform {
       h = h < 10 ? '0' + h : h;
       m = m < 10 ? '0' + m : m;
 
-      console.log(h + ' ><<<<' + m);
-      console.log('diff', diff);
       if (m == '00') {
         res = h + 'hr';
       } else if (h == '00') {

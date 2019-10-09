@@ -53,7 +53,7 @@
               <p class="student-txt absent mb-0">
                 {{ tcourse.attendance.absent }}
               </p>
-              <p class="student-txt absent mb-0">Present</p>
+              <p class="student-txt absent mb-0">Absent</p>
             </div>
             <div class="count-box total">
               <p class="student-txt total mb-0">
@@ -103,25 +103,65 @@
                   {{ student.userDetails.fullName }}
                 </p>
                 <div class="d-flex" id="divToHide">
-                  <div class="present-wrap" id="divToHide">
-                    <label class="radio-present mb-0" id="divToHide">
-                      <p class="mb-0">
+                  <div
+                    id="divToHide"
+                    class="present-wrap"
+                    [ngClass]="{
+                      'attendance-radio': student.todayLesson.attendance == true
+                    }"
+                  >
+                    <label id="divToHide" class="radio-present mb-0"
+                      ><p
+                        class="mb-0"
+                        [ngClass]="{
+                          'present-text': student.todayLesson.attendance
+                        }"
+                      >
                         Present
                       </p>
-                      <input name="radio" type="radio" />
+                      <input
+                        type="radio"
+                        name="radio"
+                        (click)="
+                          onClickRadio(
+                            'present',
+                            student.userDetails._id,
+                            tcourse._id
+                          )
+                        "
+                        [checked]="student.todayLesson.attendance == true"
+                      />
                       <span class="checkmark"></span>
                     </label>
                   </div>
                   <div
-                    class="absent-wrap"
                     id="divToHide"
-                    ng-reflect-klass="absent-wrap"
+                    class="absent-wrap"
+                    [ngClass]="{
+                      'absent-radio': student.todayLesson.attendance == false
+                    }"
                   >
-                    <label class="radio-absent mb-0" id="divToHide">
-                      <p class="mb-0">
+                    <label id="divToHide" class="radio-absent mb-0"
+                      ><p
+                        class="mb-0"
+                        [ngClass]="{
+                          'absent-text': student.todayLesson.attendance
+                        }"
+                      >
                         Absent
                       </p>
-                      <input name="radio" type="radio" />
+                      <input
+                        type="radio"
+                        name="radio"
+                        (click)="
+                          onClickRadio(
+                            'absent',
+                            student.userDetails._id,
+                            tcourse._id
+                          )
+                        "
+                        [checked]="student.todayLesson.attendance == false"
+                      />
                       <span class="checkmark"></span>
                     </label>
                   </div>
