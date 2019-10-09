@@ -10,7 +10,7 @@
   <div class="today-courselist" *ngIf="todayCourse != undefined">
     <div
       class="d-flex today-coruse"
-      *ngFor="let tcourse of todayCourse.courses"
+      *ngFor="let tcourse of todayCourse.courses; let i = index"
     >
       <!-- <div class="list-downarrow" (click)="expandTodayCourse()">
         <i class="fa fa-angle-right right-arrow"></i>
@@ -123,11 +123,7 @@
                         type="radio"
                         name="radio"
                         (click)="
-                          onClickRadio(
-                            'present',
-                            student.userDetails._id,
-                            tcourse._id
-                          )
+                          onClickRadio('present', student.userDetails._id, i)
                         "
                         [checked]="student.todayLesson.attendance == true"
                       />
@@ -154,11 +150,7 @@
                         type="radio"
                         name="radio"
                         (click)="
-                          onClickRadio(
-                            'absent',
-                            student.userDetails._id,
-                            tcourse._id
-                          )
+                          onClickRadio('absent', student.userDetails._id, i)
                         "
                         [checked]="student.todayLesson.attendance == false"
                       />

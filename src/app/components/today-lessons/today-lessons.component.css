@@ -167,11 +167,11 @@ div#divToHide {
 }
 
 .radio-absent p {
-  color: #f23a30;
+  color: #f23a30 !important;
 }
 
 .radio-absent .checkmark {
-  border: 1.5px solid #ff3d33;
+  border: 1.5px solid #ff3d33 !important;
 }
 
 .card-columns {
