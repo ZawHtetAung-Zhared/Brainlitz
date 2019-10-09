@@ -320,7 +320,8 @@ ul.recent-lists li:last-child {
 }
 .reset-as,
 .cancel-as,
-.search-as {
+.search-as,
+.lesson-time {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
 }
@@ -1726,6 +1727,8 @@ label.room-name::before {
 }
 .confirm-text p {
   color: #64707d;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 16px;
 }
 
 .modal-cancel-btn,
