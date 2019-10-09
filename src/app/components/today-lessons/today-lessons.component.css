@@ -1,5 +1,5 @@
 .today-container {
-  padding: 30px;
+  padding: 30px 20px 30px 40px;
   width: 100%;
 }
 
@@ -62,7 +62,7 @@ span.course-time {
   background: #f2f4f5;
   color: #64707d;
   border-radius: 15px;
-  padding: 0 10px;
+  padding: 5px 10px;
   font-size: 14px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   margin-left: 10px;
@@ -74,6 +74,7 @@ span.course-time {
   padding: 10px;
   text-align: center;
   margin-left: 20px;
+  width: 80px;
 }
 
 .present {
@@ -121,6 +122,7 @@ p.teacher-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-semibold', Arial, sans-serif;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .d-flex.student-box {
@@ -134,7 +136,7 @@ p.student-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-semibold', Arial, sans-serif;
   font-size: 16px;
-  padding: 0px 26px 0px 12px;
+  padding: 10px 26px 0px 12px;
 }
 
 div#divToHide {
@@ -156,7 +158,7 @@ div#divToHide {
 /* Style the indicator (dot/circle) */
 .radio-present .checkmark:after,
 .radio-absent .checkmark:after {
-  right: 3px;
+  right: 2px;
   bottom: 3px;
   width: 7px;
   height: 7px;
@@ -166,10 +168,7 @@ div#divToHide {
 
 .radio-absent .checkmark:after {
   background: #801f19;
-}
-
-.radio-absent p {
-  color: #f23a30 !important;
+  right: 3px !important;
 }
 
 .radio-absent .checkmark {
@@ -185,12 +184,12 @@ div#divToHide {
 }
 
 .present-wrap {
-  border: 1px solid #00b34a;
+  border: 2px solid #00b34a;
   border-radius: 25px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .absent-wrap {
-  border: 1px solid #ff3d33;
+  border: 2px solid #ff3d33;
   border-radius: 25px;
   margin-left: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
@@ -206,12 +205,18 @@ div#divToHide {
   font-size: 22px;
 }
 
-.radio-present p,
-.radio-absent p {
+.radio-present p {
   padding: 0px 10px;
   font-size: 14px;
   line-height: 2.2;
   color: #00b34a;
+}
+
+.radio-absent p {
+  padding: 0px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  color: #f23a30;
 }
 
 .radio-present input,
@@ -259,5 +264,9 @@ div#divToHide {
 
 .radio-absent input:checked ~ .checkmark {
   background-color: #fff;
-  border: 1.5px solid #801f19;
+  border: 1.5px solid #801f19 !important;
+}
+
+.d-flex.teacher-box.mb-4 {
+  overflow: overlay;
 }

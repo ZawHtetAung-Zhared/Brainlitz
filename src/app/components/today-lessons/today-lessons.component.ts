@@ -12,6 +12,7 @@ export class TodayLessonsComponent implements OnInit {
   isExpand: boolean = false;
   todayCourse: any;
   public regionId = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
   @Output() courseDetail = new EventEmitter();
 
   constructor(private _service: appService, public toastr: ToastsManager) {}
@@ -22,7 +23,7 @@ export class TodayLessonsComponent implements OnInit {
   }
 
   getTodayLesson() {
-    this._service.gettodayLesson(this.regionId).subscribe(
+    this._service.gettodayLesson(this.regionId, this.locationID).subscribe(
       (res: any) => {
         console.log(this.todayCourse);
 

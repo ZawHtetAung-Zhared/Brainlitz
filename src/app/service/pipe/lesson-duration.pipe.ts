@@ -16,15 +16,15 @@ export class LessonDurationPipe implements PipeTransform {
       h = Math.floor(diff / 1000 / 60 / 60);
       m = Math.floor((diff / 1000 / 60 / 60 - h) * 60);
 
-      h = h < 10 ? '0' + h : h;
-      m = m < 10 ? '0' + m : m;
+      // h = h < 10 ? '0' + h : h;
+      // m = m < 10 ? '0' + m : m;
 
       if (m == '00') {
-        res = h + 'hr';
+        res = h + 'hr duration';
       } else if (h == '00') {
-        res = m + 'min';
+        res = m + 'min duration';
       } else {
-        res = h + 'hr ' + m + 'min';
+        res = h + 'hr ' + m + 'min duration';
       }
     } else {
       res = '';

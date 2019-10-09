@@ -3875,8 +3875,13 @@ export class appService {
   }
 
   // today lesson
-  gettodayLesson(regionId) {
-    let url = this.baseUrl + '/regions/' + regionId + '/courses/today-lessons/';
+  gettodayLesson(regionId, locationid) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/today-lessons?locationId=' +
+      locationid;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
