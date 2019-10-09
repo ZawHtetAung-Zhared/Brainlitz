@@ -93,6 +93,7 @@ span.course-time {
 .d-flex.today-coruse {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 .img-wrap.align-self-center {
@@ -134,6 +135,53 @@ p.student-name {
   font-family: 'Inter-UI-semibold', Arial, sans-serif;
   font-size: 16px;
   padding: 0px 26px 0px 12px;
+}
+
+div#divToHide {
+  height: 32px;
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-present input:checked ~ .checkmark:after,
+.radio-absent input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-present .checkmark:after,
+.radio-absent .checkmark:after {
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00662b;
+}
+
+.radio-absent .checkmark:after {
+  background: #801f19;
+}
+
+.radio-absent p {
+  color: #f23a30 !important;
+}
+
+.radio-absent .checkmark {
+  border: 1.5px solid #ff3d33 !important;
+}
+
+.card-columns {
+  column-count: 2;
+}
+
+.card {
+  border: none;
 }
 
 .present-wrap {
@@ -183,22 +231,36 @@ p.student-name {
   top: 8px;
 }
 
-div#divToHide {
-  height: 32px;
+.attendance-radio,
+.absent-radio {
+  border-radius: 25px;
+}
+.attendance-radio {
+  background: #c2f2d6;
 }
 
-.radio-absent p {
-  color: #f23a30;
+.absent-radio {
+  background: #ffdbd9;
+}
+.present-text {
+  color: #004d20 !important;
+}
+.absent-text {
+  color: #801f19 !important;
 }
 
-.radio-absent .checkmark {
-  border: 1.5px solid #ff3d33;
+.radio-present input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 1.5px solid #00662b;
 }
 
-.card-columns {
-  column-count: 2;
+.radio-absent input:checked ~ .checkmark {
+  background-color: #fff;
+  border: 1.5px solid #801f19;
 }
 
-.card {
-  border: none;
+input[type='radio'] {
+  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
+  -moz-appearance: checkbox; /* Firefox */
+  -ms-appearance: checkbox; /* not currently supported */
 }

@@ -9,8 +9,8 @@
 
   <div class="today-courselist" *ngIf="todayCourse != undefined">
     <div
-      class="d-flex today-coruse mb-4"
-      *ngFor="let tcourse of todayCourse.courses"
+      class="d-flex today-coruse"
+      *ngFor="let tcourse of todayCourse.courses; let i = index"
     >
       <!-- <div class="list-downarrow" (click)="expandTodayCourse()">
         <i class="fa fa-angle-right right-arrow"></i>
@@ -53,7 +53,7 @@
               <p class="student-txt absent mb-0">
                 {{ tcourse.attendance.absent }}
               </p>
-              <p class="student-txt absent mb-0">Present</p>
+              <p class="student-txt absent mb-0">Absent</p>
             </div>
             <div class="count-box total">
               <p class="student-txt total mb-0">
@@ -94,36 +94,71 @@
             </div>
           </div>
           <div class="card-columns student-list ">
-            <div class="card" *ngFor="let student of tcourse.students">
+            <div class="card  mb-4" *ngFor="let student of tcourse.students">
               <div class="d-flex student-box align-items-center">
                 <div class="img-wrap align-self-center">
                   <img src="{{ student.userDetails.profilePic }}" />
                 </div>
-                <p class="student-name mb-0">
-                  {{ student.userDetails.fullName }}
-                </p>
-                <div class="d-flex" id="divToHide">
-                  <div class="present-wrap" id="divToHide">
-                    <label class="radio-present mb-0" id="divToHide">
-                      <p class="mb-0">
-                        Present
-                      </p>
-                      <input name="radio" type="radio" />
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                  <div
-                    class="absent-wrap"
-                    id="divToHide"
-                    ng-reflect-klass="absent-wrap"
-                  >
-                    <label class="radio-absent mb-0" id="divToHide">
-                      <p class="mb-0">
-                        Absent
-                      </p>
-                      <input name="radio" type="radio" />
-                      <span class="checkmark"></span>
-                    </label>
+                <div class="d-flex justify-content-between w-100">
+                  <p class="student-name mb-0">
+                    {{ student.userDetails.fullName }}
+                  </p>
+                  <div class="d-flex" id="divToHide">
+                    <div
+                      id="divToHide"
+                      class="present-wrap"
+                      [ngClass]="{
+                        'attendance-radio':
+                          student.todayLesson.attendance == true
+                      }"
+                    >
+                      <label id="divToHide" class="radio-present mb-0"
+                        ><p
+                          class="mb-0"
+                          [ngClass]="{
+                            'present-text': student.todayLesson.attendance
+                          }"
+                        >
+                          Present
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}"
+                          (click)="
+                            onClickRadio('present', student.userDetails._id, i)
+                          "
+                          [checked]="student.todayLesson.attendance == true"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div
+                      id="divToHide"
+                      class="absent-wrap"
+                      [ngClass]="{
+                        'absent-radio': student.todayLesson.attendance == false
+                      }"
+                    >
+                      <label id="divToHide" class="radio-absent mb-0"
+                        ><p
+                          class="mb-0"
+                          [ngClass]="{
+                            'absent-text': student.todayLesson.attendance
+                          }"
+                        >
+                          Absent
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio"
+                          (click)="
+                            onClickRadio('absent', student.userDetails._id, i)
+                          "
+                          [checked]="student.todayLesson.attendance == false"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
