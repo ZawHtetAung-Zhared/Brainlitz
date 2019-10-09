@@ -143,6 +143,11 @@ div#divToHide {
   height: 32px;
 }
 
+.checkmark {
+  display: inline-block;
+  transform: rotate(45deg);
+}
+
 .checkmark:after {
   content: '';
   position: absolute;
