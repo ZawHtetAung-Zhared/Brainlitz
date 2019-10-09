@@ -7,24 +7,35 @@
     {{ todayDate | utcDateAndDay }}
   </div>
 
-  <div class="today-courselist">
-    <div class="d-flex today-coruse">
-      <div class="list-downarrow" (click)="expandTodayCourse()">
+  <div class="today-courselist" *ngIf="todayCourse != undefined">
+    <div
+      class="d-flex today-coruse"
+      *ngFor="let tcourse of todayCourse.courses"
+    >
+      <!-- <div class="list-downarrow" (click)="expandTodayCourse()">
         <i class="fa fa-angle-right right-arrow"></i>
-      </div>
+      </div> -->
       <div class="w-100 ">
         <div class="d-flex justify-content-between pl-2 mb-2">
           <div class="d-flex flex-column">
             <div class="d-flex">
-              <p class="course-name mb-1">Piano Basic Wednesday</p>
+              <p class="course-name mb-1">{{ tcourse.name }}</p>
 
               <span class="course-code">
-                Room 120
+                {{ tcourse.courseCode }}
               </span>
             </div>
             <div class="d-flex">
-              <span class="course-time">
-                1:30 PM -2:30 PM
+              <span
+                class="course-time"
+                *ngIf="
+                  tcourse.lessonDuration.startDate != undefined ||
+                  tcourse.lessonDuration.endDate != undefined
+                "
+              >
+                {{ tcourse.lessonDuration.startDate | utcTime }} -{{
+                  tcourse.lessonDuration.endDate | utcTime
+                }}
               </span>
               <div class="course-duration">
                 1hr duration
@@ -33,15 +44,21 @@
           </div>
           <div class="d-flex course-attance">
             <div class="count-box present">
-              <p class="student-txt present mb-0">25</p>
+              <p class="student-txt present mb-0">
+                {{ tcourse.attendance.present }}
+              </p>
               <p class="student-txt present mb-0">Present</p>
             </div>
             <div class="count-box absent">
-              <p class="student-txt absent mb-0">25</p>
+              <p class="student-txt absent mb-0">
+                {{ tcourse.attendance.absent }}
+              </p>
               <p class="student-txt absent mb-0">Present</p>
             </div>
             <div class="count-box total">
-              <p class="student-txt total mb-0">25</p>
+              <p class="student-txt total mb-0">
+                {{ tcourse.attendance.total }}
+              </p>
               <p class="student-txt total mb-0">Present</p>
             </div>
           </div>
@@ -50,76 +67,41 @@
           <div class="d-flex teacher-box">
             <div class="d-flex">
               <div class="img-wrap align-self-center">
-                <img
-                  src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-                />
+                <img src="{{ tcourse.teacher.profilePic }}" />
               </div>
 
               <div
                 class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
               >
-                <p class="positon">Senior Teacher</p>
-                <p class="teacher-name">Arron Wamsley</p>
+                <!-- <p class="positon">Senior Teacher</p> -->
+                <p class="teacher-name">{{ tcourse.teacher.fullName }}</p>
               </div>
             </div>
-            <div class="d-flex mr-3">
+            <div
+              class="d-flex mr-3"
+              *ngFor="let assTeacher of tcourse.assistants"
+            >
               <div class="img-wrap align-self-center">
-                <img
-                  src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-                />
+                <img src="{{ assTeacher.profilePic }}" />
               </div>
 
               <div
                 class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
               >
-                <p class="positon">Senior Teacher</p>
-                <p class="teacher-name">Arron Wamsley</p>
+                <!-- <p class="positon">Senior Teacher</p> -->
+                <p class="teacher-name">{{ assTeacher.fullName }}</p>
               </div>
             </div>
           </div>
           <div class="card-columns student-list ">
-            <div class="card">
+            <div class="card" *ngFor="let student of tcourse.students">
               <div class="d-flex student-box">
                 <div class="img-wrap align-self-center">
-                  <img
-                    src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-                  />
+                  <img src="{{ student.userDetails.profilePic }}" />
                 </div>
-                <p class="student-name mb-0">Matthew Lina</p>
-                <div class="d-flex" id="divToHide">
-                  <div class="present-wrap" id="divToHide">
-                    <label class="radio-present mb-0" id="divToHide">
-                      <p class="mb-0">
-                        Present
-                      </p>
-                      <input name="radio" type="radio" />
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                  <div
-                    class="absent-wrap"
-                    id="divToHide"
-                    ng-reflect-klass="absent-wrap"
-                  >
-                    <label class="radio-absent mb-0" id="divToHide">
-                      <p class="mb-0">
-                        Absent
-                      </p>
-                      <input name="radio" type="radio" />
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="d-flex student-box">
-                <div class="img-wrap align-self-center mr-4">
-                  <img
-                    src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
-                  />
-                </div>
-                <p class="student-name mb-0">Matthew Lina</p>
+                <p class="student-name mb-0">
+                  {{ student.userDetails.fullName }}
+                </p>
                 <div class="d-flex" id="divToHide">
                   <div class="present-wrap" id="divToHide">
                     <label class="radio-present mb-0" id="divToHide">

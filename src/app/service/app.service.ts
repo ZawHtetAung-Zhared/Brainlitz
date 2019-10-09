@@ -3873,4 +3873,20 @@ export class appService {
       return res;
     });
   }
+
+  // today lesson
+  gettodayLesson(regionId) {
+    let url = this.baseUrl + '/regions/' + regionId + '/courses/today-lessons/';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
 }
