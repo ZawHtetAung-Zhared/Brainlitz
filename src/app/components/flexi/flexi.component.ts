@@ -196,7 +196,7 @@ export class FlexiComponent implements OnInit {
     let startDate;
     let date = new Date(this.lessonsObj[0].startDate);
     let dres = new Date(date.setDate(date.getDate() - 1)).toISOString();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getFlexi(this.course._id, this.selectedCustomer.userId, startDate, dres)
       .subscribe(
@@ -232,7 +232,7 @@ export class FlexiComponent implements OnInit {
           // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
@@ -309,7 +309,7 @@ export class FlexiComponent implements OnInit {
     let date = new Date(this.lessonsObj[this.lessonsObj.length - 1].startDate);
     let startDate = new Date(date.setDate(date.getDate() + 1)).toISOString();
     console.log(startDate);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getFlexi(
         this.course._id,
@@ -334,7 +334,7 @@ export class FlexiComponent implements OnInit {
           console.log(this.lessonsObj);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);

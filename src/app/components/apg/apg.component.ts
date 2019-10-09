@@ -885,7 +885,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         (res: any) => {
           console.log(res);
           this.toastr.success('APG successfully created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           setTimeout(() => {
             this.cancelapg();
           }, 200);
@@ -893,7 +893,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         },
         err => {
           this.toastr.success(status + ' Fail.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(err);
         }
       );
@@ -1097,7 +1097,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
         for (var j = 0; j < data[i].data.evaluation.details.length; j++) {
           const requirement: HTMLElement = document.getElementById(
-            'requirement' + j
+            'requirement' + i + j
           );
           req_total_height += requirement.clientHeight;
         }
@@ -1143,12 +1143,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     const innerBoxHeight: HTMLElement = document.getElementById(
       'requirement-inner-box-' + skillId
     );
+
     var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       const requirement: HTMLElement = document.getElementById(
-        'requirement' + j
+        'requirement' + skillId + j
       );
+
       req_total_height += requirement.clientHeight;
     }
 
@@ -1159,7 +1161,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     if (totalHeight < 400) {
       skillHeight.setAttribute('style', 'height: auto;');
-      innerBoxHeight.setAttribute('style', 'height:auto;overflow:none;');
+      innerBoxHeight.setAttribute('style', 'height:auto;overflow:unset;');
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
@@ -1375,22 +1377,22 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   updateEVApgOnly(idArray) {
-    setTimeout(() => {
-      console.log('UPDATE');
-      console.log(idArray);
-      this.model.accessPoints = idArray;
-      this._service
-        .updateAPG(this.regionID, this.model._id, this.model, null)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            this.cancelapg();
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }, 200);
+    // setTimeout(() => {
+    console.log('UPDATE');
+    console.log(idArray);
+    this.model.accessPoints = idArray;
+    this._service
+      .updateAPG(this.regionID, this.model._id, this.model, null)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.cancelapg();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    // }, 200);
   }
 
   createEvaluateApgs(nameparam) {
@@ -1419,9 +1421,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             (res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res);
-              setTimeout(() => {
-                this.cancelapg();
-              }, 200);
+              // setTimeout(() => {
+              this.cancelapg();
+              // }, 200);
               this.setSelectedTab(this.pickedMType);
             },
             err => {
@@ -1553,9 +1555,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             (res: any) => {
               console.log(res);
               this.toastr.success('APG successfully Created.');
-              setTimeout(() => {
-                this.cancelapg();
-              }, 200);
+              // setTimeout(() => {
+              this.cancelapg();
+              // }, 200);
               this.setSelectedTab(this.pickedMType);
               // this.optionsArray = [];
             },
@@ -1653,7 +1655,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('update');
       console.log(data);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .updateAPG(this.regionID, data._id, data, templateID)
         .subscribe(
@@ -1661,7 +1663,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             console.log('success update', res);
             this.toastr.success('Successfully APG Updated.');
             this.cancelapg();
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             this.toastr.error('Updated APG Fail');
@@ -1803,13 +1805,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   singleAPG(id, state) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this._service.getSingleAPG(this.regionID, id).subscribe(
           (res: any) => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log('editapg', res);
             this.model = res;
             console.log('resolve res.accessPoints', res.accessPoints);
@@ -1824,7 +1826,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -1833,7 +1835,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // setTimeout(() => {
     //   this._service.getSingleAPG(this.regionID, id)
     //     .subscribe((res: any) => {
-    //       this.blockUI.stop();
+    //       //this.blockUI.stop();
     //       console.log('editapg', res)
     //       this.model = res;
     //       if (state == 'share') {
@@ -1846,7 +1848,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     //       }
     //     }, err => {
-    //       this.blockUI.stop();
+    //       //this.blockUI.stop();
     //       console.log(err)
     //     })
     // }, 10);
@@ -1855,16 +1857,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // getAllTemplate(){
-  //   this.blockUI.start('Loading...');
+  //   //this.blockUI.start('Loading...');
   //   this._service.getAllTemplate(this.regionID)
   //   .subscribe((res:any) => {
   //      console.log(res.length)
   //      console.log(res)
-  //      this.blockUI.stop();
+  //      //this.blockUI.stop();
   //      this.tempLists = res;
   //      this.isempty = (res.length === 0) ? true : false;
   //   }, err => {
-  //       this.blockUI.stop();
+  //       //this.blockUI.stop();
   //       console.log(err)
   //   })
   // }
@@ -2024,14 +2026,14 @@ export class ApgComponent implements OnInit, OnDestroy {
   //      console.log('create',data)
   //      this.newAPList = [];
   //      this.modalReference.close();
-  //      this.blockUI.start('Loading...');
+  //      //this.blockUI.start('Loading...');
   //      this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
   //        .subscribe((res:any) => {
   //            console.log('success post',res);
   //            this.toastr.success('Successfully APG Created.');
   //            this.apArray = [];
   //            this.getAllAPG();
-  //            this.blockUI.stop();
+  //            //this.blockUI.stop();
   //        }, err => {
   //            this.toastr.error('Created APG Fail');
   //            console.log(err)
@@ -2041,13 +2043,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   //      console.log('update', data)
   //      this.newAPList = [];
   //      this.modalReference.close();
-  //      this.blockUI.start('Loading...');
+  //      //this.blockUI.start('Loading...');
   //      this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
   //        .subscribe((res:any) => {
   //            console.log('success update',res);
   //            this.toastr.success('Successfully APG Updated.');
   //            this.getAllAPG();
-  //            this.blockUI.stop();
+  //            //this.blockUI.stop();
   //        }, err => {
   //            this.toastr.error('Updated APG Fail');
   //            console.log(err)
@@ -2123,7 +2125,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.apgType);
     var moduleId = localStorage.getItem('moduleID');
     console.log(moduleId);
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service
       .getAllTemplate(this.regionID, limit, skip, moduleId)
       .subscribe(
@@ -2143,9 +2145,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           }
           console.log(this.templateList);
-          setTimeout(() => {
-            this.blockUI.stop();
-          }, 300);
+          // setTimeout(() => {
+          //this.blockUI.stop();
+          // }, 300);
         },
         err => {
           console.log(err);
@@ -2235,11 +2237,11 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      setTimeout(() => {
-        this.templateList = [];
-        this.getAllTemplate(20, 0);
-        this.isSearch = false;
-      }, 100);
+      // setTimeout(() => {
+      this.templateList = [];
+      this.getAllTemplate(20, 0);
+      this.isSearch = false;
+      // }, 100);
     }
   }
 
@@ -2286,12 +2288,12 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      setTimeout(() => {
-        this.apgList = [];
-        this.clearAPGTypeArr();
-        this.getAllAPG(limit, skip);
-        this.isSearch = false;
-      }, 100);
+      // setTimeout(() => {
+      this.apgList = [];
+      this.clearAPGTypeArr();
+      this.getAllAPG(limit, skip);
+      this.isSearch = false;
+      // }, 100);
     }
   }
 
@@ -2333,7 +2335,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   getAllAPG(limit, skip) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     console.log(this.selectedAPGTab);
     this._service
       .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
@@ -2389,7 +2391,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.emptyAPG = false;
           }
           setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+            //this.blockUI.stop(); // Stop blocking
           }, 300);
         },
         err => {
@@ -2419,13 +2421,13 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   apgDelete(id) {
     this.modalReference.close();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.deleteAPG(this.regionID, id).subscribe(
       (res: any) => {
         console.log('deleteapg', res);
-        setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
-        }, 200);
+        // setTimeout(() => {
+        //this.blockUI.stop(); // Stop blocking
+        // }, 200);
         this.toastr.success('Successfully APG deleted.');
         this.apgList = [];
         this.getAllAPG(20, 0);
@@ -2494,7 +2496,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     };
     this.tempSharedApgId = id;
     console.log(data, id);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.convertApgTemplate(id, data).subscribe(
       (res: any) => {
         console.log(res);
@@ -2516,19 +2518,19 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.clearAPGTypeArr();
         this.getAllAPG(20, 0);
         this.toastr.success('Successfully shared to public.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
       },
       err => {
         this.toastr.success(status + ' Fail.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
   }
   autoResize(item, e, id, name, x) {
-    console.log(e.target.style);
-    console.log(e.target.scrollHeight);
-    console.log(id);
+    // console.log(e.target.style);
+    // console.log(e.target.scrollHeight);
+    console.log(id, 'id');
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
     this.scrollCalculation(item, id);

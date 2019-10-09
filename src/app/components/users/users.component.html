@@ -183,7 +183,7 @@
             *ngIf="customerDemo.editCustomer != ''"
             class="back"
             (click)="getSingleInfo(editId)"
-            >Edit Profile</span
+            >Edit profile</span
           >
         </div>
       </div>
@@ -194,7 +194,10 @@
               <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
               <img src="{{ custDetail.user.profilePic }}" />
             </div>
-            <div class="user-grading">
+            <div
+              class="user-grading"
+              *ngIf="(custDetail.user.userGrading?.grade | json) != '{}'"
+            >
               <div
                 *ngIf="
                   custDetail.user.userGrading?.grade.point != undefined &&
@@ -369,7 +372,7 @@
         <div *ngIf="activeTab == 'class'" class="pb-20">
           <div class="d-flex title-space">
             <div class="d-flex flex-column justify-content-center">
-              <h4 class="mb-0 tab-title">Attending Lessons</h4>
+              <h4 class="mb-0 tab-title">Attending lessons</h4>
             </div>
             <button
               *ngIf="customerDemo.enrollStudent != ''"
@@ -726,7 +729,7 @@
                             )
                           "
                         >
-                          View Journal
+                          View journal
                         </label>
                       </div>
                       <!-- <div class="d-flex auto-enroll">
@@ -846,7 +849,7 @@
                 class="btn-showmore pad-0"
                 (click)="showMoreItem('course')"
               >
-                <span>Show More</span
+                <span>Show more</span
                 ><i class="fa fa-angle-down" aria-hidden="true"></i>
               </button>
             </div>
@@ -914,16 +917,16 @@
                       >
 
                       <div *ngIf="list.cancelledLesson">
-                        <strong
+                        <span
                           *ngIf="list.cancelledLesson.startDate != undefined"
                         >
-                          <span>{{
-                            list.cancelledLesson.startDate | timelineDate
-                          }}</span>
-                          <span>{{
-                            list.cancelledLesson.startDate | yearFormat
-                          }}</span>
-                        </strong>
+                          <span
+                            >{{ list.cancelledLesson.startDate | timelineDate }}
+                          </span>
+                          <span
+                            >{{ list.cancelledLesson.startDate | yearFormat }}
+                          </span>
+                        </span>
 
                         <strong
                           *ngIf="list.cancelledLesson.startDate == undefined"
@@ -1870,7 +1873,7 @@
             </button>
           </div>
 
-          <p class="learn-journal  col-md-12">Progress Book</p>
+          <p class="learn-journal  col-md-12">Progress book</p>
           <p class="class-name  col-md-12">{{ className }}</p>
           <div class="no-journal" *ngIf="toShowNoJournl">
             <img
@@ -2905,14 +2908,14 @@
   </ng-template>
   <ng-template #invoiceAlert>
     <div class="modal-header">
-      <h3 class="modal-title">Invoice issue</h3>
+      <h3 class="modal-title">Generate invoice</h3>
       <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     </div>
     <div class="modal-body apg-confirm">
       <p>
-        "Do you want to issue invoice for this enrollment?"
+        Do you want to generate invoice for this enrollment?
         <span class="target"></span>
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>

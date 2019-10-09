@@ -342,6 +342,7 @@ img.setting-icon {
   /*background: #e6ecf2;*/
   color: #fff;
   background: #007fff;
+  border-radius: 4px;
   /*border-left: 3px solid #4292f1;*/
 }
 .tab-wrap:first-child {

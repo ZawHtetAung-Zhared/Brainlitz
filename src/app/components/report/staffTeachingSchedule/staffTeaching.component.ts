@@ -98,7 +98,7 @@ export class StaffTeachingScheduleReport implements OnInit {
 
   showReportByLocation() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStaffTeachingReport(
         this.regionID,
@@ -108,7 +108,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByLocation(res);
           } else {
@@ -129,7 +129,7 @@ export class StaffTeachingScheduleReport implements OnInit {
 
   showReportByCategory() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStaffTeachingReport(
         this.regionID,
@@ -139,7 +139,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCategory(res);
           } else {
@@ -164,7 +164,7 @@ export class StaffTeachingScheduleReport implements OnInit {
 
   showReportByCoursePlan() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStaffTeachingReport(
         this.regionID,
@@ -174,7 +174,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCoursePlan(res);
           } else {

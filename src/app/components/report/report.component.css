@@ -492,7 +492,8 @@ h3.head-rating-count {
 .active .noti-tab {
   /*background: #e6ecf2;*/
   color: #fff;
-  background: #4292f1;
+  background: #007fff;
+  border-radius: 4px;
   /*text-align: left;*/
   /*border-left: 3px solid #4292f1;*/
 }

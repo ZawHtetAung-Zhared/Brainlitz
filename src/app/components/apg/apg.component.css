@@ -1537,7 +1537,7 @@ input#apg_rangeId2 {
   padding-right: 0;
   cursor: pointer;
   height: 26px;
-  margin-right: 22px;
+  margin: 0 22px;
   padding-top: 4px;
 }
 

@@ -609,16 +609,16 @@ export class UsersComponent implements OnInit {
       objData.append('location', JSON.stringify([]));
 
       console.log('Data', objData);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.back();
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           // if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
           // 	this.toastr.error('Email already exist');
           // }
@@ -669,7 +669,7 @@ export class UsersComponent implements OnInit {
       guardianArray = obj.guardianEmail ? guardianArray : [];
       objData.append('guardianEmail', JSON.stringify(guardianArray));
 
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .updateUser(this.regionID, this.locationID, obj.userId, objData)
         .subscribe(
@@ -677,12 +677,12 @@ export class UsersComponent implements OnInit {
             console.log(res);
             this.backToDetails();
             this.toastr.success('Successfully updated.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.back();
           },
           err => {
             // this.toastr.error('Update Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
             if (err.status == 400) {
               this.toastr.error('Email already exist');
@@ -724,7 +724,7 @@ export class UsersComponent implements OnInit {
   getAllUsers(type, limit, skip) {
     console.log('calling all users ....');
     console.log('....', this.customerLists);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
       (res: any) => {
         console.log(res);
@@ -733,11 +733,11 @@ export class UsersComponent implements OnInit {
         // this.customerLists = res;
         console.log('this.customerLists', this.customerLists);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -994,7 +994,7 @@ export class UsersComponent implements OnInit {
       }
     }
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
@@ -1012,12 +1012,12 @@ export class UsersComponent implements OnInit {
             .format(format);
         }
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 300);
       },
       err => {
         console.log(err);
-        this.blockUI.stop();
+        //this.blockUI.stop();
       }
     );
   }
@@ -1172,7 +1172,7 @@ export class UsersComponent implements OnInit {
   callEnrollModal(enrollModal, userId) {
     console.log(userId);
     console.log(enrollModal);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this.showInvoice = false;
     this.showPaidInvoice = false;
     console.log(this.showInvoice, this.showPaidInvoice);
@@ -1195,7 +1195,7 @@ export class UsersComponent implements OnInit {
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
           this.checkedDisabled(this.availableCourses);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
@@ -1228,7 +1228,7 @@ export class UsersComponent implements OnInit {
     this.selectedCourse = course;
     console.log(course, type);
     if (type == 'FLEXY') {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this.selectedCourse = course;
       this.selectedCustomer = this.custDetail.user;
       console.log('is flexy');
@@ -1242,7 +1242,7 @@ export class UsersComponent implements OnInit {
             this.flexyarr = res;
             this.showInvoice = false;
             this.showflexyCourse = true;
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
@@ -1257,7 +1257,7 @@ export class UsersComponent implements OnInit {
         });
         return;
       }
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       console.log(this.custDetail);
       let courseId = course._id;
       let body = {
@@ -1274,7 +1274,7 @@ export class UsersComponent implements OnInit {
             if (this.disableInvoice) {
               this.invoiceModalReference.close();
               this.closeModal('closeInv');
-              this.blockUI.stop();
+              //this.blockUI.stop();
               return;
             }
             Object.assign(this.selectedCourse, res.body);
@@ -1302,16 +1302,16 @@ export class UsersComponent implements OnInit {
             this.invoiceID2 = this.invoice[0]._id;
             this.showInvoice = true;
 
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
           } else {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.showInvoice = false;
             if (this.disableInvoice) {
               this.invoiceModalReference.close();
               this.closeModal('closeInv');
-              this.blockUI.stop();
+              //this.blockUI.stop();
               return;
             }
           }
@@ -1758,7 +1758,7 @@ export class UsersComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.makeupLists = res;
         },
@@ -1769,12 +1769,12 @@ export class UsersComponent implements OnInit {
   }
 
   callAchievements(type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getAchievementsByType(this.custDetail.user.userId, type)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log('get achievements', res);
           if (type == 1) {
             this.achievementProgess = res;
@@ -1800,15 +1800,15 @@ export class UsersComponent implements OnInit {
   }
 
   getClaimCourses(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getClaimPassCourses(id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(res);
         this.claimCourses = res;
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -1826,7 +1826,7 @@ export class UsersComponent implements OnInit {
       passId: this.currentPassObj.passId
     };
     console.log(body);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .enrollPass(
         body,
@@ -1837,7 +1837,7 @@ export class UsersComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.modalReference.close();
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.isChecked = '';
           this.checkCourse = '';
           this.toastr.success('Successfully passed.');
@@ -1847,7 +1847,7 @@ export class UsersComponent implements OnInit {
           console.log(err);
           // this.toastr.error('Claim pass failed.');
           this.toastr.error(err.error.message);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.isChecked = '';
           this.checkCourse = '';
           this.modalReference.close();
@@ -1885,7 +1885,7 @@ export class UsersComponent implements OnInit {
         }
         console.log(this.journals);
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
   trackByFn(index, item) {
@@ -1922,7 +1922,7 @@ export class UsersComponent implements OnInit {
           windowClass:
             'jouranlModal d-flex justify-content-center align-items-center'
         });
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
   viewInvoice(enrollModal, course) {
@@ -1958,10 +1958,10 @@ export class UsersComponent implements OnInit {
     } else {
       console.log('no invoice id');
     }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getSingleInvoice(invoiceId).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('invoice detail', res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
@@ -1986,11 +1986,11 @@ export class UsersComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this.getRegionInfo();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     this._service.getSingleInvoice(invoice._id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('invoice detail', res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
@@ -2084,17 +2084,17 @@ export class UsersComponent implements OnInit {
 
   searchMakeup(keyword) {
     if (keyword.length > 0) {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .searchMakeupCourse(keyword, this.currentPassObj.course.courseId, 20, 0)
         .subscribe(
           (res: any) => {
             console.log(res);
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.claimCourses = res;
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -2198,7 +2198,7 @@ export class UsersComponent implements OnInit {
         if (this.disableInvoice) {
           this.invoiceModalReference.close();
           this.closeModal('closeInv');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           return;
         }
         Object.assign(this.selectedCourse, res.body);
@@ -2229,7 +2229,7 @@ export class UsersComponent implements OnInit {
         this.showflexyCourse = false;
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
-        this.blockUI.stop();
+        //this.blockUI.stop();
         // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
       err => {

@@ -14,17 +14,19 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'invoiceReport'"
         >
-          <span class="btnSpan">
-            <img
-              *ngIf="reportType == 'invoiceReport'"
-              src="./assets/icons/2stroke_invoiceActive.svg"
-            />
-            <img
-              *ngIf="reportType != 'invoiceReport'"
-              src="./assets/icons/2stroke_invoice.svg"
-            />
-          </span>
-          <span class="span-label">Invoice reports</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                *ngIf="reportType == 'invoiceReport'"
+                src="./assets/icons/2stroke_invoiceActive.svg"
+              />
+              <img
+                *ngIf="reportType != 'invoiceReport'"
+                src="./assets/icons/2stroke_invoice.svg"
+              />
+            </span>
+            <span class="span-label">Invoice reports</span>
+          </div>
         </button>
       </div>
       <div
@@ -35,19 +37,21 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'averageRating'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'averageRating'"
-              src="./assets/images/sidebar-average-ratings_a.svg"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'averageRating'"
-              src="./assets/images/sidebar-average-ratings@2x.png"
-            />
-          </span>
-          <span class="span-label">Average ratings</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'averageRating'"
+                src="./assets/images/sidebar-average-ratings_a.svg"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'averageRating'"
+                src="./assets/images/sidebar-average-ratings@2x.png"
+              />
+            </span>
+            <span class="span-label">Average ratings</span>
+          </div>
         </button>
       </div>
       <div
@@ -58,19 +62,21 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'staffPerformance'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'staffPerformance'"
-              src="./assets/images/sidebar-general@2x.png"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'staffPerformance'"
-              src="./assets/images/sidebar-general.svg"
-            />
-          </span>
-          <span class="span-label">Staff Performance</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'staffPerformance'"
+                src="./assets/images/sidebar-general@2x.png"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'staffPerformance'"
+                src="./assets/images/sidebar-general.svg"
+              />
+            </span>
+            <span class="span-label">Staff performance</span>
+          </div>
         </button>
       </div>
       <div
@@ -81,20 +87,22 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'courseActivities'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'courseActivities'"
-              src="./assets/images/sidebar-location@2x.png"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'courseActivities'"
-              src="./assets/images/sidebar-location.svg"
-            />
-          </span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'courseActivities'"
+                src="./assets/images/sidebar-location@2x.png"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'courseActivities'"
+                src="./assets/images/sidebar-location.svg"
+              />
+            </span>
 
-          <span class="span-label">Course Activities</span>
+            <span class="span-label">Course activities</span>
+          </div>
         </button>
       </div>
       <div
@@ -105,19 +113,21 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'studentEnrollment'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'studentEnrollment'"
-              src="./assets/images/profile@2x.png"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'studentEnrollment'"
-              src="./assets/images/profile.svg"
-            />
-          </span>
-          <span class="span-label">Student Enrollment</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'studentEnrollment'"
+                src="./assets/images/profile@2x.png"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'studentEnrollment'"
+                src="./assets/images/profile.svg"
+              />
+            </span>
+            <span class="span-label">Student enrollment</span>
+          </div>
         </button>
       </div>
       <div
@@ -128,19 +138,21 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'monthlyActiveStudent'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'monthlyActiveStudent'"
-              src="./assets/images/profile@2x.png"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'monthlyActiveStudent'"
-              src="./assets/images/profile.svg"
-            />
-          </span>
-          <span class="span-label">Monthly Active Students</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'monthlyActiveStudent'"
+                src="./assets/images/profile@2x.png"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'monthlyActiveStudent'"
+                src="./assets/images/profile.svg"
+              />
+            </span>
+            <span class="span-label">Monthly cctive students</span>
+          </div>
         </button>
       </div>
       <div
@@ -151,19 +163,21 @@
           class="btn noti-tab w-100"
           (click)="reportType = 'staffTeachingSchedule'"
         >
-          <span class="btnSpan">
-            <img
-              class="setting-icon"
-              *ngIf="reportType != 'staffTeachingSchedule'"
-              src="./assets/images/profile@2x.png"
-            />
-            <img
-              class="setting-icon"
-              *ngIf="reportType == 'staffTeachingSchedule'"
-              src="./assets/images/profile.svg"
-            />
-          </span>
-          <span class="span-label">Staff Teaching Schedule</span>
+          <div class="d-flex">
+            <span class="btnSpan">
+              <img
+                class="setting-icon"
+                *ngIf="reportType != 'staffTeachingSchedule'"
+                src="./assets/images/profile@2x.png"
+              />
+              <img
+                class="setting-icon"
+                *ngIf="reportType == 'staffTeachingSchedule'"
+                src="./assets/images/profile.svg"
+              />
+            </span>
+            <span class="span-label">Staff teaching schedule</span>
+          </div>
         </button>
       </div>
     </div>

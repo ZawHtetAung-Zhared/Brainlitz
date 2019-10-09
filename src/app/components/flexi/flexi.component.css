@@ -446,7 +446,8 @@ div.conflictPopUp {
   /* top: -19px; */
   z-index: 15;
   margin: auto;
-  top: -7%;
+  /* top: -7%; */
+  top: -20px;
 }
 
 .arr-up {

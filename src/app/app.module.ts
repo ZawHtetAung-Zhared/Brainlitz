@@ -61,6 +61,7 @@ import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/pipe/time.pipe';
+import { HourMinutePipe } from './service/pipe/hourMinute.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
@@ -120,6 +121,11 @@ import {
 } from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
 import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
+import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
+import { UtcDateandFullDayPipe } from './service/pipe/utc-dateand-full-day.pipe';
+import { TodayDatePipe } from './service/pipe/today-date.pipe';
+import { RescheduleLessonComponent } from './components/reschedule-lesson/reschedule-lesson.component';
+import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
 
 @NgModule({
   declarations: [
@@ -155,6 +161,7 @@ import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
     TemplateComponent,
     ModuleComponent,
     MinuteSecondsPipe,
+    HourMinutePipe,
     WeekDaysPipe,
     ScheduleWeekDaysPipe,
     GroupByPipe,
@@ -203,7 +210,12 @@ import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
     CarouselComponent,
     CarouselItemDirective,
     CarouselItemElement,
-    UtcDateByObjPipe
+    UtcDateByObjPipe,
+    TodayLessonsComponent,
+    UtcDateandFullDayPipe,
+    TodayDatePipe,
+    RescheduleLessonComponent,
+    LessonDurationPipe
   ],
   imports: [
     ContentLoaderModule,
