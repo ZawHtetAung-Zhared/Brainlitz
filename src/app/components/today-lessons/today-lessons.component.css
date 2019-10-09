@@ -50,7 +50,7 @@ p.course-name {
   margin-left: 10px;
   height: 24px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
-  margin-top: 6px;
+  /* margin-top: 6px; */
 }
 
 span.course-time {
