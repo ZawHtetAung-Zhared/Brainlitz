@@ -1609,11 +1609,12 @@
                           class="makeup-icon"
                           >C</span
                         >
-                        <!-- <span
-                          
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
                           class="makeup-icon"
-                          > R
-                        </span> -->
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -1635,6 +1636,12 @@
                           class="makeup-icon"
                           >C</span
                         >
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
+                          class="makeup-icon"
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -1661,6 +1668,12 @@
                           class="makeup-icon"
                           >C</span
                         >
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
+                          class="makeup-icon"
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
