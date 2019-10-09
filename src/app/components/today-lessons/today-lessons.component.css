@@ -158,7 +158,7 @@ div#divToHide {
 /* Style the indicator (dot/circle) */
 .radio-present .checkmark:after,
 .radio-absent .checkmark:after {
-  right: 2px;
+  right: 3px;
   bottom: 3px;
   width: 7px;
   height: 7px;
