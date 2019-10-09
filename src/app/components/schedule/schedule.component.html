@@ -694,12 +694,26 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
 
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div
@@ -1019,11 +1033,25 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div
@@ -1479,12 +1507,26 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
 
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div

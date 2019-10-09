@@ -650,7 +650,9 @@
                       *ngIf="course.seat_left > 0"
                       class="absolute"
                     >
-                      {{ course.seat_left }} seats left
+                      {{ course.seat_left }}
+                      <span *ngIf="course.seat_left > 1"> seats left </span>
+                      <span *ngIf="course.seat_left == 1"> seat left </span>
                     </div>
                     <div
                       [hidden]="course.draft == true"
@@ -1324,7 +1326,22 @@
                             detailLists.coursePlan.seats -
                               pplLists.CUSTOMER.length
                           }}
-                          seat left
+                          <span
+                            *ngIf="
+                              detailLists.coursePlan.seats -
+                                pplLists.CUSTOMER.length >
+                              1
+                            "
+                            >seats left</span
+                          >
+                          <span
+                            *ngIf="
+                              detailLists.coursePlan.seats -
+                                pplLists.CUSTOMER.length <=
+                              1
+                            "
+                            >seat left</span
+                          >
                         </li>
                       </ul>
                     </div>
@@ -1570,7 +1587,6 @@
                     (click)="
                       checkAttendance(timeline.startDate, timeline, cancelUI, i)
                     "
-                    style="text-align: center;"
                   >
                     <div
                       *ngIf="
@@ -1594,11 +1610,12 @@
                           class="makeup-icon"
                           >C</span
                         >
-                        <!-- <span
-                          
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
                           class="makeup-icon"
-                          > R
-                        </span> -->
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -1620,6 +1637,12 @@
                           class="makeup-icon"
                           >C</span
                         >
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
+                          class="makeup-icon"
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -1646,6 +1669,12 @@
                           class="makeup-icon"
                           >C</span
                         >
+                        <span
+                          *ngIf="timeline.rescheduledLesson == true"
+                          class="makeup-icon"
+                        >
+                          R
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -1664,7 +1693,7 @@
             <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-column">
-                  <span class="selected_date">{{ LASD | todayDate }}</span>
+                  <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
 
                   <div class="d-flex lesson-time" style="margin-bottom:15px">
                     <span>
@@ -2043,7 +2072,6 @@
                 (updatedlessonObj)="updatedLessonObj($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
-                [courseId]="courseId"
                 [lessonId]="currentDateObj"
                 [defineType]="defineType"
               ></app-reschedule-lesson>
@@ -2051,6 +2079,7 @@
             <div *ngIf="isNewLesson" class="mt-20">
               <app-reschedule-lesson
                 (cancelReschedule)="cancelRescheduleLesson($event)"
+                (updatedlessonObj)="updatedLessonObj($event)"
                 [courseDetail]="detailLists"
                 [LASD]="LASD"
                 [defineType]="defineType"

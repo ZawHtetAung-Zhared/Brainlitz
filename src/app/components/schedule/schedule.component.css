@@ -1251,6 +1251,34 @@ tbody td {
   padding: 15px 0 15px 15px;
   cursor: pointer;
 }
+.add-user {
+  border: 2px solid #007fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  /* float: left; */
+}
+.add-user:before,
+.add-user:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #007fff;
+}
+.add-user:before {
+  width: 2px;
+  margin: 2px auto;
+}
+.add-user:after {
+  margin: auto 2px;
+  height: 2px;
+}
 
 .user-row-wrap {
   margin-bottom: 20px;
