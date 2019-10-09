@@ -4151,4 +4151,10 @@ export class CourseComponent implements OnInit {
     this.defineType = 'Reschedule';
     this.isRescheduleLesson = true;
   }
+
+  callcourseDetail(e) {
+    console.log('id', e);
+    this.isTodayLesson = false;
+    this.showCourseDetail(e);
+  }
 }

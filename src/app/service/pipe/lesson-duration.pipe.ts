@@ -6,7 +6,6 @@ import { retry } from 'rxjs/operator/retry';
 })
 export class LessonDurationPipe implements PipeTransform {
   transform(duration: any): string {
-    console.log(duration);
     let h, m, s;
     let res;
     if (duration.startDate != undefined || duration.endDate != undefined) {

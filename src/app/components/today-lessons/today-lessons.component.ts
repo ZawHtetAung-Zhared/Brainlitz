@@ -12,6 +12,7 @@ export class TodayLessonsComponent implements OnInit {
   isExpand: boolean = false;
   todayCourse: any;
   public regionId = localStorage.getItem('regionId');
+  @Output() courseDetail = new EventEmitter();
 
   constructor(private _service: appService, public toastr: ToastsManager) {}
 
@@ -112,5 +113,10 @@ export class TodayLessonsComponent implements OnInit {
     setTimeout(() => {
       //this.blockUI.stop();
     }, 500);
+  }
+
+  getcourseDetail(cid) {
+    console.log(cid);
+    this.courseDetail.emit(cid);
   }
 }

@@ -187,11 +187,13 @@ div#divToHide {
 .present-wrap {
   border: 1px solid #00b34a;
   border-radius: 25px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .absent-wrap {
   border: 1px solid #ff3d33;
   border-radius: 25px;
   margin-left: 18px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .radio-present,
@@ -234,6 +236,7 @@ div#divToHide {
 .attendance-radio,
 .absent-radio {
   border-radius: 25px;
+  border: none !important;
 }
 .attendance-radio {
   background: #c2f2d6;
@@ -257,10 +260,4 @@ div#divToHide {
 .radio-absent input:checked ~ .checkmark {
   background-color: #fff;
   border: 1.5px solid #801f19;
-}
-
-input[type='radio'] {
-  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
-  -moz-appearance: checkbox; /* Firefox */
-  -ms-appearance: checkbox; /* not currently supported */
 }
