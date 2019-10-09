@@ -60,6 +60,7 @@ import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/pipe/time.pipe';
+import { HourMinutePipe } from './service/pipe/hourMinute.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
@@ -159,6 +160,7 @@ import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
     TemplateComponent,
     ModuleComponent,
     MinuteSecondsPipe,
+    HourMinutePipe,
     WeekDaysPipe,
     ScheduleWeekDaysPipe,
     GroupByPipe,
