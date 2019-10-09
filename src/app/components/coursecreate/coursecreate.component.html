@@ -37,7 +37,7 @@
           "
           (click)="saveDraft()"
         >
-          Save Draft
+          Save draft
         </button>
         <button
           *ngIf="isEdit == false && flexiOn == false"
@@ -110,8 +110,8 @@
   </div>
   <form #courseForm="ngForm" novalidate>
     <div class="info-wrap">
-      <h3 *ngIf="isEdit == false" class="font-semi">Create Course</h3>
-      <h3 *ngIf="isEdit == true" class="font-semi">Update Course</h3>
+      <h3 *ngIf="isEdit == false" class="font-semi">Create course</h3>
+      <h3 *ngIf="isEdit == true" class="font-semi">Update course</h3>
       <div class="d-flex courseInfo font-medium">
         <p class="mb-0">Plan</p>
         <span class="sticky-dot">&#183;</span>
@@ -120,7 +120,7 @@
     </div>
     <div class="d-flex step-wrapper">
       <div class="col-md-5">
-        <label class="all-title-font">Course Information</label>
+        <label class="all-title-font">Course information</label>
         <p class="info-p font-medium">
           Enter the course name, code and description here.
         </p>
@@ -176,7 +176,7 @@
                 changeColor:
                   model.courseCode == '' || model.courseCode == undefined
               }"
-              >Course Code</label
+              >Course code</label
             >
             <div class="limit-wordcount2">
               <span>{{ wordLength }}/8characters</span>
@@ -241,7 +241,7 @@
             <label
               class="input-title font-medium"
               [ngClass]="{ changeColor: chooseFee == '' }"
-              >CourseFee</label
+              >Course fee</label
             >
             <div>
               <div
@@ -358,10 +358,10 @@
                 class="input-day dropD startInput"
                 name="start"
                 required
-                [(ngModel)]="model.start"
+                [maxDate]="maxDate"
                 (click)="start.toggle()"
                 (ngModelChange)="setMinDate($event)"
-                [maxDate]="maxDate"
+                [(ngModel)]="model.start"
                 ngbDatepicker
                 #start="ngbDatepicker"
                 (document:click)="closeDropdown($event, 'start', start)"
@@ -392,7 +392,7 @@
                   (isEdit && endOptChecked == 'lesson')
                 "
               />
-              Regular Lessons
+              Regular lessons
             </label>
             <label
               [ngClass]="{
@@ -412,7 +412,7 @@
                   (isEdit && endOptChecked == 'defaultLesson')
                 "
               />
-              End By Lessons
+              End by lessons
             </label>
             <label
               [ngClass]="{
@@ -427,7 +427,7 @@
                 (click)="chooseOpt('endOpt', 'end')"
                 [disabled]="isEdit && endOptChecked == 'defaultLesson'"
               />
-              End By Date
+              End by date
             </label>
           </div>
           <div class="input-wrap">
@@ -582,7 +582,7 @@
               [ngClass]="{
                 changeColor: model.startT == '' || model.startT == undefined
               }"
-              >Start Time</label
+              >Start time</label
             >
             <div class="input-wrap start-wrap">
               <span class="dp-icon">
@@ -1057,7 +1057,7 @@
           <span class="number-wrap font-medium">{{
             conflit.conflictWith?.length
           }}</span
-          ><label class="conflit-title font-medium">Overlapped Lessons</label>
+          ><label class="conflit-title font-medium">Overlapped lessons</label>
           <div class="d-flex" style="padding-top: 15px">
             <span class="round-number font-medium">{{
               conflit.conflictWith?.length
@@ -1399,7 +1399,7 @@
           "
           (click)="saveDraft()"
         >
-          Save Draft
+          Save draft
         </button>
         <button
           *ngIf="isEdit == false && flexiOn == false"

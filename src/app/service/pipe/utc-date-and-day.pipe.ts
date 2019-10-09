@@ -25,25 +25,25 @@ export class UtcDateAndDayPipe implements PipeTransform {
     let fullDay;
     switch (d) {
       case 0:
-        fullDay = 'Sun';
+        fullDay = 'Sunday';
         break;
       case 1:
-        fullDay = 'Mon';
+        fullDay = 'Monday';
         break;
       case 2:
-        fullDay = 'Tue';
+        fullDay = 'Tuesday';
         break;
       case 3:
-        fullDay = 'Wed';
+        fullDay = 'Wednesday';
         break;
       case 4:
-        fullDay = 'Thu';
+        fullDay = 'Thursday';
         break;
       case 5:
-        fullDay = 'Fri';
+        fullDay = 'Friday';
         break;
       case 6:
-        fullDay = 'Sat';
+        fullDay = 'Saturday';
     }
     var monthName = monthNames[new Date(getDate).getUTCMonth()];
     var yearName = new Date(getDate).getUTCFullYear();
@@ -56,7 +56,7 @@ export class UtcDateAndDayPipe implements PipeTransform {
       ' ' +
       monthName +
       ' ' +
-      year.substr(-2);
+      year;
     return utcDateAndDay;
   }
 }

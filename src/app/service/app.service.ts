@@ -58,6 +58,12 @@ export class appService {
   goCourseDetail: Observable<any>;
   private backCDetail = new Subject<any>();
 
+  goCourseDetail1: Observable<any>;
+  private backCDetail1 = new Subject<any>();
+
+  goCourseDetail2: Observable<any>;
+  private backCDetail2 = new Subject<any>();
+
   goPlanDetail: Observable<any>;
   private backCPdetail = new Subject<any>();
 
@@ -88,6 +94,8 @@ export class appService {
     this.goCourse = this.backCo.asObservable();
     this.goCourseCreate = this.backCC.asObservable();
     this.goCourseDetail = this.backCDetail.asObservable();
+    this.goCourseDetail1 = this.backCDetail1.asObservable();
+    this.goCourseDetail2 = this.backCDetail2.asObservable();
     this.goPlanDetail = this.backCPdetail.asObservable();
     this.lnameChanges = this.lnameUpdated.asObservable();
     this.goSchedule = this.backSc.asObservable();
@@ -125,6 +133,14 @@ export class appService {
 
   backCourseDetail() {
     this.backCDetail.next(false);
+  }
+
+  backCourseDetail1() {
+    this.backCDetail1.next(false);
+  }
+
+  backCourseDetail2() {
+    this.backCDetail2.next(false);
   }
 
   backPlanDetail() {
@@ -3821,6 +3837,60 @@ export class appService {
     return this.httpClient.delete(url, httpOptions).map((res: Response) => {
       let result = res;
       console.log('result', result);
+      return result;
+    });
+  }
+
+  createNewLesson(id, obj) {
+    let url = this.baseUrl + `/courses/${id}/lessons/`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.post(url, obj, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  // reschedule lesson
+  updateLesson(courseId, lessonId, body) {
+    let url = this.baseUrl + '/courses/' + courseId + '/lessons/' + lessonId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log(this.tokenType + ' ' + this.accessToken);
+    return this.httpClient.put(url, body, httpOptions).map((res: Response) => {
+      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      console.log(res);
+      return res;
+    });
+  }
+
+  // today lesson
+  gettodayLesson(regionId, locationid) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/today-lessons?locationId=' +
+      locationid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
       return result;
     });
   }

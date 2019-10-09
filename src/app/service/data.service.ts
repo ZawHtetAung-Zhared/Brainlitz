@@ -36,7 +36,6 @@ export class DataService {
   }
 
   nevigateSchedule(id: any) {
-    console.warn(id);
     this.rolloverCourse.next(id);
   }
 

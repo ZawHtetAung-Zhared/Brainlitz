@@ -151,10 +151,10 @@ export class UserGradingComponent implements OnInit {
       }
     };
     if (!this.isCreateStatus) {
-      this.blockUI.start('Loading');
+      //this.blockUI.start('Loading');
       this.userGradeData = this.UserGradeObj;
       setTimeout(() => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
       }, 300);
     }
     this.checkValidation();
@@ -249,10 +249,10 @@ export class UserGradingComponent implements OnInit {
   }
   createUserGradeApg(data) {
     console.log(data);
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this.createAp(data);
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 300);
   }
   apgCreate(id) {
