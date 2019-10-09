@@ -1660,7 +1660,7 @@
                 <div class="d-flex flex-column">
                   <span class="selected_date">{{ LASD | todayDate }}</span>
 
-                  <div class="d-flex" style="margin-bottom:15px">
+                  <div class="d-flex lesson-time" style="margin-bottom:15px">
                     <span>
                       {{ selectedLesson.startDate | utcTime }} -
                       {{ selectedLesson.endDate | utcTime }}
@@ -2141,6 +2141,9 @@
       <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">
         Add customer
       </h3>
+      <h3 *ngIf="userType == 'teacher'" class="modal-title d-flex mr-auto">
+        Change teacher
+      </h3>
       <button
         (click)="cancelModal()"
         aria-label="Close"
@@ -2359,6 +2362,9 @@
                 <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
                 <h3 *ngIf="userType == 'customer'">
                   Add Customer to this Course
+                </h3>
+                <h3 *ngIf="userType == 'teacher'">
+                  Change Teacher to this Course
                 </h3>
               </div>
               <div class="arrow-pos">
