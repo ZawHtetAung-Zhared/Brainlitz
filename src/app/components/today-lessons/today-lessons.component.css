@@ -50,7 +50,7 @@ p.course-name {
   margin-left: 10px;
   height: 24px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
-  margin-top: 6px;
+  /* margin-top: 6px; */
 }
 
 span.course-time {
@@ -93,6 +93,7 @@ span.course-time {
 .d-flex.today-coruse {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 
 .img-wrap.align-self-center {
@@ -133,6 +134,7 @@ p.student-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-semibold', Arial, sans-serif;
   font-size: 16px;
+  padding: 0px 26px 0px 12px;
 }
 
 div#divToHide {
@@ -255,4 +257,10 @@ div#divToHide {
 .radio-absent input:checked ~ .checkmark {
   background-color: #fff;
   border: 1.5px solid #801f19;
+}
+
+input[type='radio'] {
+  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
+  -moz-appearance: checkbox; /* Firefox */
+  -ms-appearance: checkbox; /* not currently supported */
 }
