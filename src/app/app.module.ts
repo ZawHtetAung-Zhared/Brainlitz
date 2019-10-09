@@ -123,6 +123,7 @@ import { TodayLessonsComponent } from './components/today-lessons/today-lessons.
 import { UtcDateandFullDayPipe } from './service/pipe/utc-dateand-full-day.pipe';
 import { TodayDatePipe } from './service/pipe/today-date.pipe';
 import { RescheduleLessonComponent } from './components/reschedule-lesson/reschedule-lesson.component';
+import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
 
 @NgModule({
   declarations: [
@@ -210,7 +211,8 @@ import { RescheduleLessonComponent } from './components/reschedule-lesson/resche
     TodayLessonsComponent,
     UtcDateandFullDayPipe,
     TodayDatePipe,
-    RescheduleLessonComponent
+    RescheduleLessonComponent,
+    LessonDurationPipe
   ],
   imports: [
     ContentLoaderModule,
