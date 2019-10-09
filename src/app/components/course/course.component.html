@@ -954,7 +954,11 @@
     class="category-content"
     *ngIf="isCourseCreate == true"
   ></app-coursecreate>
-  <app-today-lessons *ngIf="isTodayLesson"> </app-today-lessons>
+  <app-today-lessons
+    *ngIf="isTodayLesson"
+    (courseDetail)="callcourseDetail($event)"
+  >
+  </app-today-lessons>
 
   <div class="d-flex lfex-column justify-content-center align-items-center">
     <div class="inner-wrapper w-100" *ngIf="isCourseDetail == true">

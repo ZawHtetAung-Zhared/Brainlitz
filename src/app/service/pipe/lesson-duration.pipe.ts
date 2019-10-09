@@ -6,7 +6,6 @@ import { retry } from 'rxjs/operator/retry';
 })
 export class LessonDurationPipe implements PipeTransform {
   transform(duration: any): string {
-    console.log(duration);
     let h, m, s;
     let res;
     if (duration.startDate != undefined || duration.endDate != undefined) {
@@ -20,8 +19,6 @@ export class LessonDurationPipe implements PipeTransform {
       h = h < 10 ? '0' + h : h;
       m = m < 10 ? '0' + m : m;
 
-      console.log(h + ' ><<<<' + m);
-      console.log('diff', diff);
       if (m == '00') {
         res = h + 'hr';
       } else if (h == '00') {
