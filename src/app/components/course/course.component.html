@@ -650,7 +650,9 @@
                       *ngIf="course.seat_left > 0"
                       class="absolute"
                     >
-                      {{ course.seat_left }} seats left
+                      {{ course.seat_left }}
+                      <span *ngIf="course.seat_left > 1"> seats left </span>
+                      <span *ngIf="course.seat_left == 1"> seat left </span>
                     </div>
                     <div
                       [hidden]="course.draft == true"
@@ -1318,7 +1320,22 @@
                             detailLists.coursePlan.seats -
                               pplLists.CUSTOMER.length
                           }}
-                          seat left
+                          <span
+                            *ngIf="
+                              detailLists.coursePlan.seats -
+                                pplLists.CUSTOMER.length >
+                              1
+                            "
+                            >seats left</span
+                          >
+                          <span
+                            *ngIf="
+                              detailLists.coursePlan.seats -
+                                pplLists.CUSTOMER.length <=
+                              1
+                            "
+                            >seat left</span
+                          >
                         </li>
                       </ul>
                     </div>

@@ -694,11 +694,25 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
 
                             <p class="time">
+                              <!-- {{timetable.duration.min | minuteseconds}} -->
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
@@ -1019,10 +1033,24 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
                             <p class="time">
+                              <!-- {{timetable.duration.min | minuteseconds}} -->
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
@@ -1479,11 +1507,25 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
 
                             <span class="dot"></span>
                             <p class="time">
+                              <!-- {{timetable.duration.min | minuteseconds}} -->
                               {{ timetable.duration.min + 'min' }}
                             </p>
                           </div>
