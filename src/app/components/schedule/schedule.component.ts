@@ -13,6 +13,7 @@ import {
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { MinuteSecondsPipe } from '../../service/pipe/time.pipe';
+import { HourMinutePipe } from '../../service/pipe/hourMinute.pipe';
 import {
   NgbModal,
   ModalDismissReasons,
