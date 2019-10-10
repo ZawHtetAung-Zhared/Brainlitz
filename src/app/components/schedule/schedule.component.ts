@@ -13,6 +13,7 @@ import {
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { MinuteSecondsPipe } from '../../service/pipe/time.pipe';
+import { HourMinutePipe } from '../../service/pipe/hourMinute.pipe';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -847,6 +848,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    localStorage.removeItem('scheduleObj');
     this.activeTab = 'enroll';
     this.getAutoSelectDate();
     console.log('undefined currency', this.currency);
@@ -868,23 +870,50 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         cId => (this.rolloverCourse = cId)
       );
       console.log('rolloverCID', this.rolloverCourse);
-      if (this.rolloverCourse != '') {
-        console.log('redirect to pick course plan');
-        this.scheduleList = false;
-        this.courseCreate = true;
-        this.isCategory = false;
-        this.isPlan = false;
-        this.isCourseCreate = false;
-        this.selectedID = this.rolloverCourse.category.id;
-        this.item.itemID = this.rolloverCourse.category.name;
-        this.highlightPlan = this.rolloverCourse.coursePlan.id;
-        this.selectedCategory._id = this.rolloverCourse.category.id;
-        this.selectedCategory.name = this.rolloverCourse.category.name;
-        this.courseplanLists = [];
-        this.getAllCoursePlan('0', '20');
-      } else {
-        this.highlightPlan = '';
-      }
+      this.dataService.categoryId.subscribe(cId => {
+        if (cId) {
+          this.courseCreate = false;
+          this.isCategory = false;
+          this.isPlan = false;
+          this.isCourseCreate = false;
+          this.selectedIndex = localStorage.getItem('teacherIndex');
+          if (this.selectedDay.length == 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              '0,1,2,3,4,5,6'
+            );
+          } else if (this.selectedDay.length > 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              this.selectedDay.toString()
+            );
+          }
+          setTimeout(() => {
+            this.overFlowWidth(this.selectedIndex, 'modalteacher');
+          }, 30);
+          // courseCreate == false &&
+          // isCategory == false &&
+          // isPlan == false &&
+          // isCourseCreate == false
+        }
+      });
+      // if (this.rolloverCourse != '') {
+      //   console.log('redirect to pick course plan');
+      //   this.scheduleList = false;
+      //   this.courseCreate = true;
+      //   this.isCategory = false;
+      //   this.isPlan = false;
+      //   this.isCourseCreate = false;
+      //   this.selectedID = this.rolloverCourse.category.id;
+      //   this.item.itemID = this.rolloverCourse.category.name;
+      //   this.highlightPlan = this.rolloverCourse.coursePlan.id;
+      //   this.selectedCategory._id = this.rolloverCourse.category.id;
+      //   this.selectedCategory.name = this.rolloverCourse.category.name;
+      //   this.courseplanLists = [];
+      //   this.getAllCoursePlan('0', '20');
+      // } else {
+      //   this.highlightPlan = '';
+      // }
     }, 300);
   }
 
@@ -912,7 +941,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   getRegionalInfo() {
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType');
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe(
@@ -922,11 +951,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.calculateSlot(res.operatingHour.start);
           this.startTime = res.operatingHour.start;
           setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+            //this.blockUI.stop(); // Stop blocking
           }, 300);
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(err);
         }
       );
@@ -1156,11 +1185,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   getAutoSelectDate() {
     const todayDay = new Date().getDay();
     // this.selectedDay.push(todayDay);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     setTimeout(() => {
       this.selectedDay.push(todayDay);
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 300);
 
     // this.SelectedDate.push(this.days[todayDay].day);
@@ -1225,9 +1254,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   searchCategoryList(val, type) {
     console.log(val, type);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     if (val.length > 0) {
-      // this.blockUI.start('Loading...');
+      // //this.blockUI.start('Loading...');
       this._service
         .getSearchCategory(this.regionId, val, this.locationID)
         .subscribe(
@@ -1244,26 +1273,26 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             }
 
             this.categoryList = res;
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
-            this.blockUI.stop();
+            //this.blockUI.stop();
           }
         );
     } else if (val.length <= 0) {
-      // this.blockUI.start('Loading...');
+      // //this.blockUI.start('Loading...');
       this._service.getCategory(this.regionId, 20, 0).subscribe(
         (res: any) => {
           console.log(res);
           console.log(this.categoryList.name);
           res.unshift({ name: 'All category', _id: 'all' });
           this.categoryList = res;
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }
       );
     }
@@ -1423,7 +1452,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         }
       );
   }
+  public selectedIndex;
   overFlowWidth(index, type) {
+    // this.selectedIndex = index;
+    localStorage.setItem('teacherIndex', index);
     var arr = index;
     // for normal calling
     if (type == 'button') {
@@ -1549,7 +1581,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       repeatDays = this.selectedDay.toString();
     }
     this.scheduleList = false;
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     console.log(this.selectedID);
     this._service
       .getscheduleStaffList(
@@ -1562,7 +1594,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: any) => {
           setTimeout(() => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
           }, 300);
           this.result = res;
           if (type == 'search') {
@@ -1636,9 +1668,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else {
       this.tempstafflist = [];
-      this.blockUI.start('Loading');
+      //this.blockUI.start('Loading');
       setTimeout(() => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.getViewAllStaff('search', skip, limit);
       }, 100);
 
@@ -1669,7 +1701,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   getStaffTimetable(staffId, repeatDays) {
     console.log('ok');
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let data;
     if (this.isTeacherAll) {
       data = 'all';
@@ -1680,7 +1712,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       .getStaffSchedule(this.regionId, data, repeatDays, this.selectedID)
       .subscribe((res: any) => {
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 100);
 
         console.log('staff timetable', res);
@@ -1737,7 +1769,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.showflexyCourse = false;
   }
 
-  activeTeachers(teacher) {
+  activeTeachers(teacher, index) {
+    // this.selectedIndex = index;
+    localStorage.setItem('teacherIndex', index);
     console.log(this.selectedTeacher);
 
     this.selectedTeacher = teacher;
@@ -1948,12 +1982,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
   getUserInCourse() {
     //temp api for testing UI
-    // this.blockUI.start('Loading...');
+    // //this.blockUI.start('Loading...');
     this._service
       .getAssignUser(this.regionId, this.courseId, null, null, null)
       .subscribe(
         (res: any) => {
-          // this.blockUI.stop();
+          // //this.blockUI.stop();
           console.log(res);
           this.studentLists = res.CUSTOMER;
           this.selectedSeat.taken = this.studentLists.length;
@@ -2023,14 +2057,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   getSingleCustomer(ID) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       res.details.map(info => {
         if (info.controlType === 'Datepicker')
           info.value = moment(info.value).format('YYYY-MM-DD');
       });
-      this.blockUI.stop();
+      //this.blockUI.stop();
       console.log('selected Customer', res);
       this.selectedCustomer = res;
       this.custDetail.user = res;
@@ -2077,7 +2111,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(this.selectCustomer);
     if (cDetail.type == 'FLEXY') {
       this.ctype = 'schedule';
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this.tempCourdeId = cDetail._id;
       this.tempuserType = userType;
       //  getflexi
@@ -2091,7 +2125,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             this.flexyarr = res;
             this.showInvoice = false;
             this.showflexyCourse = true;
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
@@ -2115,10 +2149,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         userType: userType
       };
       console.log('body', body);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (this.selectedDay.length == 0) {
             this.getStaffTimetable(
               this.selectedTeacher.userId,
@@ -2133,7 +2167,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           if (this.disableInvoice) {
             this.invoiceModalReference.close();
             this.cancelModal('closeInv');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             return;
           }
           console.log('res Assign customer', res);
@@ -2383,13 +2417,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     console.log('Inv Update Data', this.updateInvData);
     this._service
       .updateInvoiceInfo(this.invoiceID, this.updateInvData)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.isEditInv = false;
           //for updating invoice ui
@@ -2787,14 +2821,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
     // console.log(this.isGlobal)
     // Call cancel class api service
-    // this.blockUI.start('Loading...');
+    // //this.blockUI.start('Loading...');
     // this.isGlobal
     this._service
       .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
         (res: any) => {
           // Success function
-          // this.blockUI.stop();
+          // //this.blockUI.stop();
           // this.cancelUI=false;
           // this.cancelUi=false;
 
@@ -3097,7 +3131,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   getAllCoursePlan(skip, limit) {
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     let keyboard;
     this._service
       .getAllCourseplan(
@@ -3115,11 +3149,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           //  this.courseplanLists = [];
           this.courseplanLists = this.courseplanLists.concat(res);
           setTimeout(() => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
           }, 300);
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(err);
         }
       );
@@ -3254,14 +3288,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }
     };
     console.log('body', lessonBody);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
         console.log('-------->', res);
         if (this.disableInvoice) {
           this.cancelModal('closeInv');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           return;
         }
         // this.courseInfo = this.detailLists;
@@ -3286,7 +3320,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           console.log('has invoice setting');
           this.invoiceInfo = res.body.invoiceSettings;
         }
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.invoice = res.body.invoice;
         this.invoiceID2 = this.invoice[0]._id;
         this.showInvoice = true;
@@ -3303,6 +3337,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
+    localStorage.removeItem('scheduleObj');
   }
 
   printSchedule() {

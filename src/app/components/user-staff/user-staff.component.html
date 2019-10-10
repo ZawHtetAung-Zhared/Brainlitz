@@ -124,7 +124,7 @@
           ><span>Staff</span>
         </div>
         <div class="ml-auto">
-          <span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
+          <span class="back" (click)="getSingleInfo(editId)">Edit profile</span>
         </div>
       </div>
 
@@ -208,12 +208,16 @@
           [regionId]="regionID"
           [userId]="userId"
           [locationId]="locationID"
+          (showLoading)="showLoadingFun($event)"
         ></app-class-tab>
       </div>
       <!-- for classess end -->
       <!-- for leave start -->
       <div *ngIf="activeTab == 'Absent'" class="mt-3">
-        <app-leave-details [staffObj]="staffObj"></app-leave-details>
+        <app-leave-details
+          [staffObj]="staffObj"
+          (showLoading)="showLoadingFun($event)"
+        ></app-leave-details>
       </div>
 
       <!-- for leave end -->
@@ -251,7 +255,7 @@
                 <span
                   >e.g. How your call you or like your preferred name</span
                 > -->
-                Display Name
+                Display name
               </label>
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/15characters</span>
@@ -357,7 +361,7 @@
           </div> -->
           <div *ngIf="isupdate" class="form-group form-divider">
             <div class="d-flex flex-row">
-              <label for="" class="label-txt">Change Password</label>
+              <label for="" class="label-txt">Change password</label>
               <div class="toggle-wrap">
                 <label class="switch">
                   <input
@@ -469,9 +473,10 @@
                   class="m-0 p-0 d-flex align-items-center"
                 >
                   <input
+                    checked="checked"
                     type="radio"
                     id="{{ 'radio' + i + j }}"
-                    (click)="radioCheck(item, field.inputValues)"
+                    (click)="radioCheck(item, field.inputValues, i, j)"
                     name="{{ 'radio' + i + j }}"
                     class="d-none"
                   />
@@ -681,4 +686,4 @@
   </div>
 </div>
 
-<block-ui message="Deafult Message"></block-ui>
+<block-ui message="Deafult Message" *ngIf="showloading"></block-ui>

@@ -1,0 +1,198 @@
+<div class="today-container">
+  <button type="button" class="d-flex back-button" (click)="backToCourse()">
+    <i class="fa fa-angle-left left-arrow"></i>
+    <p class="backtxt">Courses</p>
+  </button>
+  <div class="today-date">
+    {{ todayDate | utcDateAndDay }}
+  </div>
+
+  <div class="today-courselist" *ngIf="todayCourse != undefined">
+    <div
+      class="d-flex today-coruse"
+      *ngFor="let tcourse of todayCourse.courses; let i = index"
+    >
+      <!-- <div class="list-downarrow" (click)="expandTodayCourse()">
+        <i class="fa fa-angle-right right-arrow"></i>
+      </div> -->
+      <div class="w-100 ">
+        <div class="d-flex justify-content-between pl-2 mb-3">
+          <div class="d-flex flex-column">
+            <div class="d-flex align-items-center" style="margin-bottom:10px;">
+              <p
+                class="course-name mb-0"
+                (click)="getcourseDetail(tcourse._id)"
+              >
+                {{ tcourse.name }}
+              </p>
+
+              <span class="course-code">
+                {{ tcourse.courseCode }}
+              </span>
+            </div>
+            <div
+              class="d-flex"
+              *ngIf="
+                tcourse.lessonDuration.startDate != undefined ||
+                tcourse.lessonDuration.endDate != undefined
+              "
+            >
+              <span class="course-time">
+                {{ tcourse.lessonDuration.startDate | utcTime }} -{{
+                  tcourse.lessonDuration.endDate | utcTime
+                }}
+              </span>
+              <div class="course-duration">
+                {{ tcourse.lessonDuration | lessonDuration }}
+              </div>
+            </div>
+          </div>
+          <div class="d-flex course-attance">
+            <div class="count-box present">
+              <p class="student-txt present mb-0">
+                {{ tcourse.attendance.present }}
+              </p>
+              <p class="student-txt present mb-0">Present</p>
+            </div>
+            <div class="count-box absent">
+              <p class="student-txt absent mb-0">
+                {{ tcourse.attendance.absent }}
+              </p>
+              <p class="student-txt absent mb-0">Absent</p>
+            </div>
+            <div class="count-box total">
+              <p class="student-txt total mb-0">
+                {{ tcourse.attendance.total }}
+              </p>
+              <p class="student-txt total mb-0">Total</p>
+            </div>
+          </div>
+        </div>
+        <div class="expand-list">
+          <div class="d-flex teacher-box mb-4">
+            <div class="d-flex">
+              <div>
+                <div class="img-wrap align-self-center">
+                  <img src="{{ tcourse.teacher.profilePic }}" />
+                </div>
+              </div>
+
+              <!-- 
+              <div
+                class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
+              > -->
+              <!-- <p class="positon">Senior Teacher</p> -->
+              <div>
+                <p class="teacher-name pl-2 pt-2">
+                  {{ tcourse.teacher.fullName }}
+                </p>
+              </div>
+
+              <!-- </div> -->
+            </div>
+            <div
+              class="d-flex ml-3"
+              *ngFor="let assTeacher of tcourse.assistants"
+            >
+              <div>
+                <div class="img-wrap align-self-center">
+                  <img src="{{ assTeacher.userDetails.profilePic }}" />
+                </div>
+              </div>
+
+              <!-- <div
+                class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
+              > -->
+              <!-- <p class="positon">Senior Teacher</p> -->
+              <div>
+                <p class="teacher-name pl-2 pt-2">
+                  {{ assTeacher.userDetails.fullName }}
+                </p>
+              </div>
+
+              <!-- </div> -->
+            </div>
+          </div>
+          <div class="card-columns student-list ">
+            <div
+              class="card  mb-4"
+              *ngFor="let student of tcourse.students; let j = index"
+            >
+              <div
+                class="d-flex justify-content-between student-box align-items-center"
+              >
+                <div class="d-flex">
+                  <div>
+                    <div class="img-wrap align-self-center">
+                      <img src="{{ student.userDetails.profilePic }}" />
+                    </div>
+                  </div>
+
+                  <p class="student-name mb-0">
+                    {{ student.userDetails.fullName }}
+                  </p>
+                </div>
+                <div class="d-flex" id="divToHide">
+                  <div
+                    id="divToHide"
+                    class="present-wrap"
+                    [ngClass]="{
+                      'attendance-radio': student.todayLesson.attendance == true
+                    }"
+                  >
+                    <label id="divToHide" class="radio-present mb-0">
+                      <p
+                        class="mb-0"
+                        [ngClass]="{
+                          'present-text': student.todayLesson.attendance
+                        }"
+                      >
+                        Present
+                      </p>
+                      <input
+                        type="radio"
+                        name="radio{{ i }}{{ j }}"
+                        (click)="
+                          onClickRadio('present', student.userDetails._id, i)
+                        "
+                        [checked]="student.todayLesson.attendance == true"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div
+                    id="divToHide"
+                    class="absent-wrap"
+                    [ngClass]="{
+                      'absent-radio': student.todayLesson.attendance == false
+                    }"
+                  >
+                    <label id="divToHide" class="radio-absent mb-0">
+                      <p
+                        class="mb-0"
+                        [ngClass]="{
+                          'absent-text': student.todayLesson.attendance == false
+                        }"
+                      >
+                        Absent
+                      </p>
+                      <input
+                        type="radio"
+                        name="radio{{ i }}{{ j }}"
+                        (click)="
+                          onClickRadio('absent', student.userDetails._id, i)
+                        "
+                        [checked]="student.todayLesson.attendance == false"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

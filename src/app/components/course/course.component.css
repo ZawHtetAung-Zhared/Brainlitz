@@ -125,9 +125,9 @@ input:checked + .slider:before {
   margin-bottom: 0;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-.form-group {
+/* .form-group {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
+} */
 .border-style {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -320,7 +320,8 @@ ul.recent-lists li:last-child {
 }
 .reset-as,
 .cancel-as,
-.search-as {
+.search-as,
+.lesson-time {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
 }
@@ -702,7 +703,7 @@ ul.options-box,
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   padding: 0 20px;
   margin: 0;
-  margin-left: 40px;
+  margin-left: 30px;
   /*bottom: 0px;*/
   border-radius: 4px;
 }
@@ -851,6 +852,10 @@ ul.options-box li button:hover {
   /* pointer-events: none; */
   opacity: 0.7;
   cursor: none;
+}
+.disable-cursor {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
 }
 .disable-add1 {
   pointer-events: none;
@@ -1722,6 +1727,8 @@ label.room-name::before {
 }
 .confirm-text p {
   color: #64707d;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 16px;
 }
 
 .modal-cancel-btn,
@@ -1814,6 +1821,8 @@ label.room-name::before {
   background-color: #1682fb;
   margin-left: 15px;
   box-shadow: none;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 16px;
 }
 .modal-cfees h5,
 .discount-info {
@@ -1881,14 +1890,13 @@ button:disabled {
 /*class timeline*/
 
 .timeline {
-  border-radius: 4px;
   background-color: #ffffff;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 16px 20px;
+  padding: 16px 0px;
   white-space: nowrap;
   overflow-x: overlay;
   position: relative;
   height: 75px;
+  width: 90% !important;
 }
 .single-date {
   display: inline-block;
@@ -1897,6 +1905,7 @@ button:disabled {
   cursor: pointer;
   padding-left: 2px;
   padding-bottom: 2px;
+  text-align: center;
 }
 .student-lists {
   margin-top: 20px;
@@ -1906,7 +1915,7 @@ button:disabled {
   background-color: #f2f4f5;
   /* padding: 6px;
   padding-top: 12px; */
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   height: 56px;
 }
 .single-student-modal {
@@ -1930,9 +1939,18 @@ button:disabled {
 }
 
 .btn-assignRelief {
-  background: #fff;
+  /* background: #fff;
   border: solid 2px #007fff;
+  color: #0080ff; */
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
   color: #0080ff;
+  cursor: pointer;
+  padding-left: 16px;
 }
 .btn-class-cancel,
 .btn-assignRelief {
@@ -2473,12 +2491,19 @@ input[type='number']::-webkit-outer-spin-button {
   width: 96px;
   height: 44px;
   border-radius: 3px;
-  background: #f2f4f5;
+  background: #ffffff;
   font-family: Inter-UI-SemiBold;
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
   color: #2e3d4d;
+}
+.btn-cancel-crt:hover {
+  background: #f2f4f5;
+}
+.btn-cancel-crt:focus {
+  outline: none;
+  box-shadow: none;
 }
 .cancel-btn-create {
   width: 96px;
@@ -2805,6 +2830,7 @@ input[type='number']::-webkit-outer-spin-button {
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .makeup-icon {
@@ -3112,7 +3138,10 @@ p.textCount {
   min-height: 42px;
   overflow: overlay;
 }
-
+.makeup-des {
+  max-height: 42px;
+  overflow: overlay;
+}
 .makeup-box {
   background: #f2f4f5;
   padding: 8px;
@@ -3185,7 +3214,11 @@ p.textCount {
   max-height: 63vh;
   min-height: 63vh;
 }
-
+.makeup-side {
+  background: #f2f4f5;
+  overflow: auto;
+  max-height: 360px;
+}
 .makeup-footer {
   padding: 16px;
   border-top: 2px dotted #d4d5d6;
@@ -3563,4 +3596,167 @@ i.fa.fa-angle-left.flexiBackicon {
 .makeup-style {
   padding: 32px 32px 0 32px !important;
   margin-top: -20px;
+}
+
+.btn-delete-lesson {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 14px;
+  padding: 9px 12px;
+  line-height: 1;
+  max-height: 36px;
+  background: #fff;
+  border: solid 2px red;
+  color: red;
+}
+.delete-lesson {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: #f23a30;
+  cursor: pointer;
+  padding-right: 16px;
+  border-right: 1px solid #d4d5d6;
+}
+.delete-lesson-disable {
+  cursor: not-allowed;
+}
+.reschedule-lesson {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0080ff;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-right: 1px solid #d4d5d6;
+  cursor: pointer;
+}
+::ng-deep .tooltip-inner {
+  background-color: #555f69;
+  color: #fff;
+  z-index: 1;
+  border: 1px solid gray;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+::ng-deep .tooltip .arrow::before {
+  border-bottom-color: #555f69 !important;
+  margin-bottom: -2px !important;
+}
+
+button.btn-newLesson {
+  background: #007fff;
+  border-radius: 20px;
+  width: 131px;
+  border: none;
+  height: 33px;
+  color: white;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-right: 8px;
+}
+.lesson-list {
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+button.today-button {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  background-color: #1682fb;
+  color: #ffffff;
+  padding: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  cursor: pointer;
+}
+
+.assign_relief_button,
+.reschedule_button,
+.cancel_class_button {
+  background: #f2f4f5;
+  border-radius: 4px;
+  padding: 7px 12px 7px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #64707d;
+  margin-right: 12px;
+  cursor: pointer;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+.assign_relief_button span,
+.reschedule_button span,
+.cancel_class_button span {
+  padding-right: 10px;
+}
+.present_student,
+.absent_student,
+.total_student {
+  min-width: 72px;
+  min-height: 72px;
+  max-width: 72px;
+  max-height: 72px;
+  border-radius: 100%;
+  margin-left: 16px;
+}
+.present_student {
+  background: #c2f2d6;
+}
+.absent_student {
+  background: #ffdbd9;
+}
+.total_student {
+  background: #edeff0;
+}
+.present_count,
+.absent_count,
+.total_count {
+  margin: 0;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+}
+.present_text,
+.absent_text,
+.total_text {
+  font-weight: 600;
+  font-size: 12px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
+.present_count,
+.present_text {
+  color: #004d20;
+}
+.absent_count,
+.absent_text {
+  color: #7d1e19;
+}
+.total_student,
+.total_text {
+  color: #64707d;
+}
+.selected_date {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.reschedule_box {
+  margin-left: 12px;
+  background: #fff4bf;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
 }

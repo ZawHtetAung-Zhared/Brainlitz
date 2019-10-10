@@ -3,7 +3,9 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  HostListener
+  HostListener,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import {
   NgbModalRef,
@@ -71,6 +73,8 @@ const colors: any = {
 })
 export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @Input() staffObj: any;
+  @Output() showLoading = new EventEmitter();
+
   loading: boolean = false;
   public leaveLogsLoading = true;
   public userLeave = [];
@@ -179,6 +183,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   getUserLeaves(userId) {
     this.totalLeaveDay = 0;
+    // this.showLoading.emit(false);
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
@@ -191,6 +196,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.leaveLogsLoading = false;
         }, 1000);
+        // this.showLoading.emit(true);
       },
       err => {
         console.error(err);
@@ -293,6 +299,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    this.showLoading.emit(true);
     this.viewDate = new Date();
     this.getleaveforuser();
     this.selectedDays = [];
@@ -534,7 +541,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //to get leave taken day by one month
   getleaveforuser() {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let tempArr = [];
     let res = this.viewDate;
     //this for to get start and end date for current months
@@ -632,7 +639,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         // console.log(tempArr);
 
         this.events = tempArr;
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(this.events);
       },
       err => {}

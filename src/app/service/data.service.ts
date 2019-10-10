@@ -19,6 +19,8 @@ export class DataService {
   private rolloverCourse = new BehaviorSubject('');
   rolloverCId = this.rolloverCourse.asObservable();
 
+  private backtoSchedule = new BehaviorSubject('');
+  categoryId = this.backtoSchedule;
   constructor() {}
 
   nevigateCourse(message: string) {
@@ -39,5 +41,9 @@ export class DataService {
 
   defineCurrentTab(tab: string) {
     this.currentTab.next(tab);
+  }
+
+  backToScheduleTable(id: any) {
+    this.backtoSchedule.next(id);
   }
 }

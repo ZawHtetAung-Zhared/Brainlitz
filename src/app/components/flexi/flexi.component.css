@@ -229,12 +229,12 @@ p.previousDate {
   height: 16px;
   border: 2px solid #64707d;
   border-radius: 2px;
-  margin-top: 12px;
+  /* margin-top: 12px; */
 }
 
 .showDate {
   padding-left: 12px;
-  padding-top: 10px;
+  /* padding-top: 10px; */
 }
 
 p.date {
@@ -275,7 +275,7 @@ p.day {
   border-radius: 2px;
   width: 16px;
   height: 16px;
-  margin-top: 12px;
+  /* margin-top: 12px; */
   line-height: 1;
   text-align: center;
 }
@@ -342,8 +342,8 @@ i.fa.fa-exclamation-circle.exclamationIcon {
   width: 25px;
   height: 22px;
   text-align: center;
-  padding-top: 7px;
-  padding-right: 9px;
+  /* margin-top: 7px;
+  margin-right: 7px; */
   cursor: pointer;
 }
 i.fa.fa-angle-down.downIcon {
@@ -415,8 +415,7 @@ i.fa.fa-check.statusCheckIcon {
 
 /* conflict modal */
 div.conflictPopUp {
-  position: fixed;
-  width: 420px;
+  position: absolute;
   background: #fff;
   z-index: 100 !important;
   padding: 0px;
@@ -425,13 +424,13 @@ div.conflictPopUp {
   -ms-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  top: 50px;
+  /* top: 50px; */
   width: 958px;
   /* max-height: 650px; */
-  left: 1px;
+  left: 0px;
   padding-left: 20px;
   padding-right: 20px;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
   /* max-height: 650px;
   overflow: overlay; */
 }
@@ -439,19 +438,18 @@ div.conflictPopUp {
 .arr-box {
   width: 20px;
   height: 20px;
-  position: fixed;
+  position: absolute;
   -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
   filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
-  position: fixed;
+  position: absolute;
   /* right: 50%; */
-  top: -19px;
+  /* top: -19px; */
   z-index: 15;
   margin: auto;
+  /* top: -7%; */
+  top: -20px;
 }
-.arr-box {
-  position: fixed;
-  /* right: 85%!important; */
-}
+
 .arr-up {
   border-bottom: solid 10px #ffffff;
   border-left: solid 10px transparent;

@@ -31,6 +31,8 @@ import { isDate } from 'moment';
 import { EmitterVisitorContext } from '@angular/compiler';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
+import { isThisISOWeek, isThisSecond } from 'date-fns';
+import { TodayDatePipe } from '../../service/pipe/today-date.pipe';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -39,7 +41,7 @@ declare var $: any;
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css'],
-  providers: [NgbDatepickerConfig]
+  providers: [NgbDatepickerConfig, TodayDatePipe]
 })
 export class CourseComponent implements OnInit {
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -158,6 +160,7 @@ export class CourseComponent implements OnInit {
   public modalReference: any;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public absentmakeupLists: any = [];
   // public currency:any = {};
   public currency = JSON.parse(localStorage.getItem('currency'));
   public invCurrency: any = {};
@@ -242,6 +245,11 @@ export class CourseComponent implements OnInit {
   isProrated: boolean = false;
   public showflexyCourse: boolean = false;
   public isDisabledBtn = false;
+  public isTodayLesson: boolean = false;
+  public isNewLesson: boolean = false;
+  public defineType: any;
+  //reschedule
+  public isRescheduleLesson: boolean;
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
@@ -252,7 +260,8 @@ export class CourseComponent implements OnInit {
     public toastr: ToastsManager,
     public vcr: ViewContainerRef,
     config: NgbDatepickerConfig,
-    calendar: NgbCalendar
+    calendar: NgbCalendar,
+    private TodayDatePipe: TodayDatePipe
   ) {
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
@@ -290,6 +299,7 @@ export class CourseComponent implements OnInit {
       this.isPlan = false;
       this.goBackCat = false;
       this.isCourseCreate = false;
+      this.isTodayLesson = false;
       this.courseList = [];
       console.log(this.courseList.length);
     });
@@ -331,6 +341,9 @@ export class CourseComponent implements OnInit {
   }
   cID: string;
   ngOnInit() {
+    console.log('exit');
+    // var requiredResult = this.TodayDatePipe.transform(this.LASD);
+    // console.log('today-date-pipe:  ', requiredResult);
     // this.courseId = localStorage.getItem("userCourse");
     this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
     if (this.cID != '') {
@@ -345,10 +358,15 @@ export class CourseComponent implements OnInit {
         this.showCourseDetail(this.courseId);
       }, 300);
     }
+
+    console.log(this.courseId);
+    console.log(this.cID);
     let recentTemp = localStorage.getItem('recentSearchLists');
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
     this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
+    console.log('recent lists', this.recentLists);
+    console.log('0', this.recentLists[0]);
     localStorage.removeItem('categoryID');
     localStorage.removeItem('categoryName');
     setTimeout(() => {
@@ -641,12 +659,12 @@ export class CourseComponent implements OnInit {
   }
 
   getAllCategories(limit, skip) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getCategory(this.regionId, limit, skip)
       .subscribe((res: any) => {
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         this.categoryList = res;
         console.log(res);
@@ -701,7 +719,11 @@ export class CourseComponent implements OnInit {
     // this.courseVal = val
     if (val.length > 0) {
       this.iswordcount = true;
+      console.log(val);
     } else {
+      console.log('clear search');
+      this.searchVal = ''; ///zzz
+      // this.searchObj = ''; ///zzz
       this.iswordcount = false;
       this.courseList = [];
       setTimeout(() => {
@@ -886,6 +908,8 @@ export class CourseComponent implements OnInit {
     this.rangeEndMin = '0';
     this.showStartFormat = '00:00';
     this.showEndFormat = '00:00';
+    this.start24HourFormat = undefined;
+    this.end24HourFormat = undefined;
     this.courseVal = {};
     this.tempCategory = [];
     this.tempPlan = [];
@@ -1034,7 +1058,7 @@ export class CourseComponent implements OnInit {
       .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.courseList = this.courseList.concat(res);
           console.log('----- ', this.courseList);
@@ -1054,14 +1078,14 @@ export class CourseComponent implements OnInit {
     this.searchVal = val;
     this.courseVal.keyword = val;
     this.iswordcount = true;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
           this.courseList = this.courseList.concat(res);
           console.log('----- ', this.courseList);
           this.searchMore = res.length == 0 ? false : true;
@@ -1071,7 +1095,7 @@ export class CourseComponent implements OnInit {
           this.advance = false;
         },
         err => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
           console.log(err);
         }
       );
@@ -1083,7 +1107,7 @@ export class CourseComponent implements OnInit {
     if (e.keyCode == 13) {
       this.courseList = [];
       this.recentLists.unshift(e.target.value);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .simpleCourseSearch(
           this.regionId,
@@ -1094,7 +1118,7 @@ export class CourseComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
 
             this.courseList = this.courseList.concat(res);
             console.log(this.courseList);
@@ -1227,9 +1251,14 @@ export class CourseComponent implements OnInit {
   }
 
   advancedSearch(obj, limit, skip) {
-    console.log(obj);
-    console.log(this.days);
-    console.log(this.searching);
+    console.log(this.end24HourFormat, 'end24HourFormat');
+    console.log(this.start24HourFormat, 'start24HourFormat');
+    let eventStart: any;
+    let eventEnd: any;
+    console.log(this.courseVal, 'courseVal');
+    // console.log(obj);
+    // console.log(this.days);
+    // console.log(this.searching);
     this.searchObj = obj;
     if (this.searching == false) {
       this.courseList = [];
@@ -1266,9 +1295,8 @@ export class CourseComponent implements OnInit {
         ' UTC';
       console.log(tempStart);
       var eventStartTemp = new Date(tempStart);
-      var eventStart = eventStartTemp.toISOString();
+      eventStart = eventStartTemp.toISOString();
     } else {
-      console.log(this.selectedEndHrRange);
       console.log(this.selectedEndMinRange);
       if (this.start24HourFormat != undefined) {
         var eventStartTemp = new Date(
@@ -1282,7 +1310,7 @@ export class CourseComponent implements OnInit {
           )
         );
         console.log(eventStartTemp);
-        var eventStart = eventStartTemp.toISOString();
+        eventStart = eventStartTemp.toISOString();
       } else {
         eventStart = null;
       }
@@ -1302,14 +1330,14 @@ export class CourseComponent implements OnInit {
         this.end24HourFormat +
         ' UTC';
       var eventEndTemp = new Date(tempEnd);
-      var eventEnd = eventEndTemp.toISOString();
+      eventEnd = eventEndTemp.toISOString();
     } else {
       if (this.end24HourFormat != undefined) {
         var tempEnd = '9999-01-01' + ' ' + this.end24HourFormat + ' UTC';
         console.log(tempEnd);
         var eventEndTemp = new Date(tempEnd);
         console.log(eventEndTemp);
-        var eventEnd = eventEndTemp.toISOString();
+        eventEnd = eventEndTemp.toISOString();
       } else {
         eventEnd = null;
       }
@@ -1342,8 +1370,8 @@ export class CourseComponent implements OnInit {
     this.searchVal = obj.keyword;
 
     console.log(repeatedDays);
-    console.log(eventStart);
-    console.log(eventEnd);
+    console.log(eventStart, 'eventStart');
+    console.log(eventEnd, 'event end');
     console.log(obj.keyword);
     console.log(this.planIDArray);
     console.log(this.categoryIDArray);
@@ -1354,7 +1382,7 @@ export class CourseComponent implements OnInit {
       repeatedDays != null
         ? true
         : false;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .advanceCourseSearch(
         this.regionId,
@@ -1370,7 +1398,7 @@ export class CourseComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.searchMore = res.length == 0 ? false : true;
           this.hideSearch = true;
@@ -1409,12 +1437,25 @@ export class CourseComponent implements OnInit {
   // start course detail
 
   cancel() {
+    ///zzz start
+    if (this.isCourseDetail == true && this.iswordcount == true) {
+      this.recentSearch(this.courseVal.keyword, 20, 0);
+    } else if (
+      (this.isCourseDetail == true && this.iswordcount == false) ||
+      this.isCoursePlanDetail == true
+    ) {
+      this.courseList = [];
+      this.iswordcount = false;
+      this.getCourseLists(20, 0);
+    }
+    ///zzz end
+
     this.xxxhello = '';
     this.showStudentOption = '';
     this.isCourseDetail = false;
     this.isCoursePlanDetail = false;
-    this.courseList = [];
-    this.getCourseLists(20, 0);
+    // this.courseList = []; //zzz
+    // this.getCourseLists(20, 0); //zzz
     this.activeTab = 'People';
     this.showList = false;
     this.selectedCustomer = {};
@@ -1422,18 +1463,20 @@ export class CourseComponent implements OnInit {
     this.showPayment = false;
     this.searchMore = false;
     this.hideSearch = false;
-    this.iswordcount = false;
+    // this.iswordcount = false;//zzz
     this.paymentItem = {};
     this.cancelUItext = false;
     this.cancelUI = false;
     this.dataservice.nevigateCourse('');
     this.activeToday = false;
+    this.isRescheduleLesson = false;
   }
 
   showCourseDetail(courseId) {
+    this.isNewLesson = false;
     this.hideSearch = false;
     this.searchMore = false;
-    this.iswordcount = false;
+    // this.iswordcount = false; //zzz
     this.repeatedDaysTemp = [];
     this.tempCategory = [];
     this.tempPlan = [];
@@ -1455,7 +1498,7 @@ export class CourseComponent implements OnInit {
     this.categoryIDArray = [];
     this.planIDArray = [];
     this.repeatedDaysTemp = [];
-    this.courseVal.keyword = '';
+    // this.courseVal.keyword = ''; //zzz
     this.xxxhello = '';
     this.showStudentOption = '';
     this.activeTab = 'People';
@@ -1512,10 +1555,10 @@ export class CourseComponent implements OnInit {
   }
 
   getCoursePlanDetail(planID, type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getSinglePlan(planID, this.locationID).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.singlePlanData = res;
         this.planCategory = res.category;
         if (type == 'edit') {
@@ -1588,12 +1631,12 @@ export class CourseComponent implements OnInit {
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
     this.reScheduleCId = courseId;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getAssignUser(this.regionId, courseId, null, null, null)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.pplLists = res;
         },
@@ -1604,6 +1647,9 @@ export class CourseComponent implements OnInit {
   }
 
   clickTab(type, state) {
+    this.isNewLesson = false;
+    // this.isRescheduleLesson= JSON.parse(localStorage.getItem('isRescheduleLesson'));
+    // console.log("is reschedule lesson",this.isRescheduleLesson);
     console.log(type, state);
     this.isFlexyInvoice = false;
     this.currentDateObj = '';
@@ -1619,7 +1665,7 @@ export class CourseComponent implements OnInit {
     this.cancelUItext = false;
     this.cancelUI = false;
     if (type == 'Class') {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       const today = new Date();
       this.todayDate = today.toISOString();
       var to_day = new Date(today).getUTCDate();
@@ -1628,6 +1674,7 @@ export class CourseComponent implements OnInit {
       let lessonCount = this.detailLists.lessons;
       console.log(lessonCount);
       console.log(lessonCount.length);
+      console.log(this.selectedLesson);
       let finishedDate = [];
       let unfinishedDate = [];
       let xx = false;
@@ -1702,7 +1749,7 @@ export class CourseComponent implements OnInit {
           console.log('~~ dateID ~~', this.currentDateObj);
         }
       } else {
-        console.log('hello in else');
+        console.log('hello in else', lessonCount[0].startDate);
         lastActiveDate = 0;
         this.currentLessonIdx = 0;
         this.checkForRelief(lessonCount[0]);
@@ -1714,17 +1761,21 @@ export class CourseComponent implements OnInit {
       }
 
       console.log(this.LASD);
+      this.lastSelectedObj = null;
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate();
       let ACM = new Date(this.LASD).getUTCMonth() + 1;
       let ACY = new Date(this.LASD).getUTCFullYear();
+      console.log('ACD', ACD);
+      console.log('ACM', ACM);
+      console.log('ACY', ACY);
       this._service
         .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
         .subscribe(
           (res: any) => {
             console.log(res);
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.activeCourseInfo = res;
             for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
               if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
@@ -1743,7 +1794,7 @@ export class CourseComponent implements OnInit {
             $('.timeline').scrollLeft(80 * (lastActiveDate - 1));
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -1756,7 +1807,7 @@ export class CourseComponent implements OnInit {
             this.apgLists = res;
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -1764,6 +1815,7 @@ export class CourseComponent implements OnInit {
       this.presentStudent = 0;
       this.absentStudent = 0;
     } else if (type == 'People') {
+      this.isRescheduleLesson = false;
       this.noStudent = 0;
       this.presentStudent = 0;
       this.absentStudent = 0;
@@ -1781,7 +1833,25 @@ export class CourseComponent implements OnInit {
       this.viewInvoice(this.singleUserData);
     }
   }
-
+  cancelRescheduleLesson(e) {
+    console.log(e);
+    if (!e) {
+      this.isRescheduleLesson = e;
+      this.isNewLesson = e;
+      this.getCourseDetail(this.detailLists._id);
+      console.log('course detail', this.detailLists);
+    }
+  }
+  updatedLessonObj(e) {
+    console.log(e);
+    this.lastSelectedObj = e;
+    this.checkAttendance(
+      this.lastSelectedObj.startDate,
+      this.lastSelectedObj,
+      false,
+      this.currentLessonIdx
+    );
+  }
   cancelButtonShowHide() {
     // this.cancelUi=true;
     // let onlyTime = this.LASD.toString().substring(11, 19)
@@ -1826,6 +1896,7 @@ export class CourseComponent implements OnInit {
     }
 
     console.log(this.showCancelButton);
+
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')
     //   this.showCancelButton=true;
@@ -1838,15 +1909,19 @@ export class CourseComponent implements OnInit {
 
   currentLessonIdx: any = null;
   selectedLesson: any = null;
+  lastSelectedObj: any = null;
   checkAttendance(targetDate, classInfo, status, currentIdx) {
+    this.lastSelectedObj = classInfo;
     console.log('hi', targetDate);
+
     console.log('....', classInfo);
-    $('.timeline div.single-date').on('click', function() {
-      $(this)
-        .addClass('day-highlight')
-        .siblings()
-        .removeClass('day-highlight');
-    });
+    // $('.timeline div.single-date').on('click', function() {
+    //   $(this)
+    //     .addClass('day-highlight')
+    //     .siblings()
+    //     .removeClass('day-highlight');
+    // });
+
     this.currentLessonIdx = currentIdx;
     this.checkForRelief(classInfo);
     this.disableCancel = classInfo.cancel == true ? true : false;
@@ -1875,8 +1950,8 @@ export class CourseComponent implements OnInit {
           this.presentStudent = 0;
           this.absentStudent = 0;
           this.noStudent = 0;
-          console.log(res);
-          this.blockUI.stop();
+          console.log(res, 'Res');
+          //this.blockUI.stop();
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
           });
@@ -1894,7 +1969,7 @@ export class CourseComponent implements OnInit {
           }
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(err);
         }
       );
@@ -1992,10 +2067,10 @@ export class CourseComponent implements OnInit {
     // this.getRegionInfo();
     // console.log(this.invoiceInfo);
     // var invoiceId = data.invoice._id;
-    // this.blockUI.start('Loading...');
+    // //this.blockUI.start('Loading...');
     // this._service.getSingleInvoice(invoiceId)
     // .subscribe((res:any) => {
-    //   this.blockUI.stop();
+    //   //this.blockUI.stop();
     //   console.log('invoice detail',res);
     //   this.singleInv.push(res);
     //   this.invoice = this.singleInv;
@@ -2210,7 +2285,7 @@ export class CourseComponent implements OnInit {
           this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
             (res: any) => {
               console.log(res);
-              this.blockUI.stop();
+              //this.blockUI.stop();
               this.modalReference.close();
               // this.activeTab = 'People';
               // this.toastr.success('Makeup pass successfully created.');
@@ -2225,7 +2300,7 @@ export class CourseComponent implements OnInit {
                 this.toastr.error('Fail to issue makeup pass.');
               }, 100);
               // this.toastr.error('Fail to issue makeup pass.');
-              this.blockUI.stop();
+              //this.blockUI.stop();
               console.log(err);
             }
           );
@@ -2259,13 +2334,13 @@ export class CourseComponent implements OnInit {
     console.log(cancelData);
 
     // Call cancel class api service
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
         (res: any) => {
           // Success function
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.cancelUI = false;
           this.cancelUi = false;
           console.info('cancle user from class api calling is done');
@@ -2299,13 +2374,13 @@ export class CourseComponent implements OnInit {
   }
 
   getAllUsers(type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionId, type, 20, 0).subscribe(
       (res: any) => {
         this.userLists = res;
         console.log('this.userLists', this.userLists);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
@@ -2329,10 +2404,10 @@ export class CourseComponent implements OnInit {
 
   getSingleUser(ID, state) {
     console.log('~~~ ', state);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.editProfile(this.regionId, ID).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(res);
         if (state == 'user') {
           this.isFous = false;
@@ -2375,11 +2450,11 @@ export class CourseComponent implements OnInit {
   }
 
   getSingleCustomer(ID, type?) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     // console.log(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
       console.log('selected Customer', res);
       console.log(res);
       res.details.map(info => {
@@ -2578,10 +2653,10 @@ export class CourseComponent implements OnInit {
     let body = {
       newTeacherId: teacherId
     };
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.swapTeacher(courseId, body).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.success('Teacher successfully swaped.');
         console.log(res);
         this.modalReference.close();
@@ -2590,7 +2665,7 @@ export class CourseComponent implements OnInit {
       },
       err => {
         this.modalReference.close();
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.error('Swap teacher failed.');
         console.log(err);
       }
@@ -2608,11 +2683,11 @@ export class CourseComponent implements OnInit {
       userType: userType
     };
     console.log('~~~~', body);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.assignUser(this.regionId, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         setTimeout(() => {
           this.toastr.success('Assistant successfully assigned.');
         }, 100);
@@ -2630,7 +2705,7 @@ export class CourseComponent implements OnInit {
       },
       err => {
         this.modalReference.close();
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.error('Assign teacher failed.');
         console.log(err);
       }
@@ -2663,7 +2738,7 @@ export class CourseComponent implements OnInit {
     this.tempuserType = userType;
     this.isDisabledBtn = false;
     if (this.courseType == 'FLEXY') {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       // this.tempCourdeId = courseId;
       // this.tempuserType = userType;
       //  getflexi
@@ -2677,7 +2752,7 @@ export class CourseComponent implements OnInit {
             this.flexyarr = res;
             this.showInvoice = false;
             this.showflexyCourse = true;
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
@@ -2702,7 +2777,7 @@ export class CourseComponent implements OnInit {
         disableInvoice: this.disableInvoice
       };
       console.log('body', body);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
           console.log('-------->', res);
@@ -2711,7 +2786,7 @@ export class CourseComponent implements OnInit {
             this.invoiceModalReference.close();
             this.cancelInvoiceModal();
             // this.modalReference.close();
-            this.blockUI.stop();
+            //this.blockUI.stop();
             return;
           }
           this.courseInfo = this.detailLists;
@@ -2739,7 +2814,7 @@ export class CourseComponent implements OnInit {
 
           this.invoiceID2 = this.detailLists.invoice[0]._id;
           this.showOneInvoice(this.invoice);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           // for(var i in this.invoice){
           //   this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
           //   this.dueDate = this.dateFormat(this.invoice[i].dueDate);
@@ -2862,6 +2937,7 @@ export class CourseComponent implements OnInit {
     console.log(this.simple);
     console.log(this.searchMore);
     console.log(this.searchObj);
+    console.log(this.searchVal);
     if (this.searchMore == true) {
       if (this.simple == true) {
         console.log('in the if');
@@ -2878,7 +2954,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCourseLists(limit, skip) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
       .subscribe((res: any) => {
@@ -2930,7 +3006,7 @@ export class CourseComponent implements OnInit {
           this.emptyCourse = true;
         }
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 500);
       });
   }
@@ -3222,12 +3298,12 @@ export class CourseComponent implements OnInit {
   getRegionInfo() {
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getRegionalAdministrator(this.regionId, this.token, this.type)
       .subscribe((res: any) => {
         console.log('regional info', res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         if (
           res.invoiceSettings == {} ||
           res.invoiceSettings == undefined ||
@@ -3381,13 +3457,13 @@ export class CourseComponent implements OnInit {
     // }else if(this.invoiceCourse.fees != this.value.courseFee){
     //   data["courseFee"] = this.value.courseFee;
     // }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     console.log('Inv Update Data', this.updateInvData);
     this._service
       .updateInvoiceInfo(this.invoiceID, this.updateInvData)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.isEditInv = false;
           //for updating invoice ui
@@ -3571,7 +3647,7 @@ export class CourseComponent implements OnInit {
     this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
       (res: any) => {
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.modalReference.close();
         this.activeTab = 'People';
         this.toastr.success('Makeup pass successfully created.');
@@ -3586,7 +3662,7 @@ export class CourseComponent implements OnInit {
         //   this.toastr.error('Fail to issue makeup pass.');
         // },100)
         this.toastr.error('Fail to issue makeup pass.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -3601,7 +3677,7 @@ export class CourseComponent implements OnInit {
     this._service.makeupPassIssue(obj, this.detailLists._id, userId).subscribe(
       (res: any) => {
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.modalReference.close();
         this.activeTab = 'People';
         this.toastr.success('Makeup pass successfully created.');
@@ -3616,7 +3692,7 @@ export class CourseComponent implements OnInit {
         //   this.toastr.error('Fail to issue makeup pass.');
         // },100)
         this.toastr.error('Fail to issue makeup pass.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -3657,6 +3733,7 @@ export class CourseComponent implements OnInit {
     if (type == 'absent') {
       this.modalType = type;
       this.absentInfo = user;
+      this.getMakeupLists(id, 'course', this.regionId, this.courseId);
       this.modalReference = this.modalService.open(modal, {
         backdrop: 'static',
         windowClass:
@@ -3664,7 +3741,6 @@ export class CourseComponent implements OnInit {
       });
       return;
     }
-
     this.activeCourseInfo = [];
     console.log('LASD~~~', this.LASD);
     var d = new Date(this.LASD).getUTCDate();
@@ -3681,6 +3757,7 @@ export class CourseComponent implements OnInit {
     console.log(d, '/', m, '/', y);
     console.log('obj~~~', obj);
     console.log(this.courseId);
+
     this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
       (res: any) => {
         setTimeout(() => {
@@ -3703,12 +3780,12 @@ export class CourseComponent implements OnInit {
     this.presentStudent = 0;
     this.absentStudent = 0;
     this.noStudent = 0;
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service
       .getAssignUser(this.regionId, this.currentCourse, d, m, y)
       .subscribe(
         (res: any) => {
-          console.log(res);
+          console.log(res, 'active course info');
           this.activeCourseInfo = res;
           for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
             if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
@@ -3719,25 +3796,26 @@ export class CourseComponent implements OnInit {
               this.noStudent += 1;
             }
           }
+          console.log(this.activeCourseInfo, 'activeCourseInfo');
           if (this.LASD != null) {
             this.cancelButtonShowHide();
           }
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(err);
         }
       );
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 500);
   }
 
   getMakeupLists(userId, type, regionId, courseId) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getMakeupLists(userId, type, regionId, courseId).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(res);
         this.makeupLists = res;
       },
@@ -3811,7 +3889,7 @@ export class CourseComponent implements OnInit {
       }
     };
     console.log('body', lessonBody);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .assignUser(this.regionId, lessonBody, this.locationID)
       .subscribe((res: any) => {
@@ -3819,7 +3897,7 @@ export class CourseComponent implements OnInit {
         if (this.disableInvoice) {
           this.invoiceModalReference.close();
           // this.modalReference.close();
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.showflexyCourse = false;
           this.cancelInvoiceModal();
           return;
@@ -3843,7 +3921,7 @@ export class CourseComponent implements OnInit {
           console.log('has invoice setting');
           this.invoiceInfo = res.invoiceSettings;
         }
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.invoice = res.invoice;
         this.showInvoice = true;
         this.showflexyCourse = false;
@@ -3860,7 +3938,7 @@ export class CourseComponent implements OnInit {
   public resechduleList: any = [];
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this.isReschedule = false;
     this.resechduleList = [];
     this.modalReference = this.modalService.open(reschedule, {
@@ -3881,7 +3959,7 @@ export class CourseComponent implements OnInit {
         res.teacherDetails = this.pplLists.TEACHER;
         this.resechduleList = res;
         this.isReschedule = true;
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
 
@@ -3979,8 +4057,8 @@ export class CourseComponent implements OnInit {
 
   reliefTeacher: any = null;
   checkForRelief(classInfo) {
-    console.log('checkForRelief', this.selectedLesson);
     this.selectedLesson = classInfo;
+    console.log('checkForRelief', this.selectedLesson);
     if (
       this.selectedLesson.makeup != undefined &&
       this.selectedLesson.makeup == true
@@ -4023,5 +4101,60 @@ export class CourseComponent implements OnInit {
 
   backToInvoiceList() {
     this.isFlexyInvoice = true;
+  }
+
+  deleteLesson(deleteLesson) {
+    this.modalReference = this.modalService.open(deleteLesson, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+  cancelLessonDelete() {
+    this.modalReference.close();
+  }
+
+  confirmLessonDelete() {
+    console.warn(this.selectedLesson);
+    //this.blockUI.start('Loading');
+    this._service
+      .deleteLesson(this.courseId, this.selectedLesson._id)
+      .subscribe(
+        res => {
+          console.log(res, '====> successfully delete lesson');
+          this.getCourseDetail(this.courseId);
+          setTimeout(() => {
+            // this.activeToday = true;
+            this.clickTab('Class', 'course');
+            //this.blockUI.stop();
+            this.toastr.success('Lesson successfully deleted');
+          }, 100);
+        },
+        err => {
+          console.error(err, '====> error msg for  delete lesson');
+        }
+      );
+    this.modalReference.close();
+  }
+
+  addNewLesson() {
+    console.log('Here add new lesson', this.detailLists);
+    this.defineType = 'New';
+    this.isNewLesson = true;
+  }
+
+  gotoTodayLesson() {
+    console.log('today lesson');
+    this.isTodayLesson = true;
+  }
+  rescheduleLesson() {
+    this.defineType = 'Reschedule';
+    this.isRescheduleLesson = true;
+  }
+
+  callcourseDetail(e) {
+    console.log('id', e);
+    this.isTodayLesson = false;
+    this.showCourseDetail(e);
   }
 }

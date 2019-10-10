@@ -100,12 +100,12 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByLocation() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStudentReport(this.regionID, 'location', this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByLocation(res);
           } else {
@@ -125,12 +125,12 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByCategory() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStudentReport(this.regionID, 'category', this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCategory(res);
           } else {
@@ -154,7 +154,7 @@ export class StudentEnrollmentReport implements OnInit {
   }
   showReportByCoursePlan() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getStudentReport(
         this.regionID,
@@ -164,7 +164,7 @@ export class StudentEnrollmentReport implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCoursePlan(res);
           } else {

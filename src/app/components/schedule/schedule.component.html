@@ -68,7 +68,7 @@
           </span>
         </div>
         <div class="d-flex">
-          <h3 class="category-title">Pick Category</h3>
+          <h3 class="category-title">Pick category</h3>
         </div>
         <div class="input-group mt-3 gg">
           <input
@@ -191,7 +191,7 @@
         <div class="d-flex flex-column">
           <p class="category-title">#{{ item.itemID }}</p>
           <!-- <p class="category-title">#Piano</p> -->
-          <p class="pickCourseplan">Pick Course Plan</p>
+          <p class="pickCourseplan">Pick course plan</p>
         </div>
         <div class="input-group mt-3 pr-4">
           <span class="input-group-append">
@@ -207,7 +207,7 @@
             class="form-control search-courseplan"
             autocomplete="off"
             type="search"
-            placeholder="Search Course Plan"
+            placeholder="Search course plan"
             (input)="getSearchCoursePlan($event.target.value, '', '')"
           />
         </div>
@@ -217,7 +217,7 @@
           >
             <div class="createcouresplan">
               <p class="createCourseText" (click)="createPlan()">
-                <i class="fa plus-sign fa-plus mr-2"></i>Create New Course Plan
+                <i class="fa plus-sign fa-plus mr-2"></i>Create new course plan
               </p>
             </div>
           </div>
@@ -260,11 +260,11 @@
         </div>
         <div
           class="btn w-100 remove-outline"
-          style="position:sticky"
+          style="position:sticky; color: #0080ff; font-size: 14px; font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
           *ngIf="courseplanLists && courseplanLists.length >= 20"
           (click)="showMore(courseplanLists.length)"
         >
-          Load More
+          load more
         </div>
       </div>
     </div>
@@ -374,7 +374,7 @@
           [class.selectedteacher]="isTeacherAll == true"
           (click)="getschedulestaff('button', undefined, undefined, '20')"
         >
-          All Teacher
+          All teachers
         </div>
         <div
           class="d-flex  teacher-list-wrapper "
@@ -388,7 +388,7 @@
             <div
               class="d-flex teacher-list"
               [class.selectedteacher]="teacher.userId == selectedTeacher.userId"
-              (click)="activeTeachers(teacher)"
+              (click)="activeTeachers(teacher, i)"
               id="{{ 'overFlowWidth' + i }}"
             >
               <div>
@@ -445,8 +445,9 @@
           <div class="time-range">
             <div class="single-range"></div>
             <div class="single-range" *ngFor="let time of operationTime">
-              {{ time.start.hr }} :
-              {{ time.start.min < 10 ? '0' + time.start.min : time.start.min }}
+              {{ time.start.hr }}:{{
+                time.start.min < 10 ? '0' + time.start.min : time.start.min
+              }}
               {{ time.start.meridiem }}
             </div>
             <!-- <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : <span *ngIf="time.start.min < 10" >0</span>{{time.start.min}} {{time.start.meridiem}}</div>         -->
@@ -610,7 +611,7 @@
                       *ngIf="courseplanLists"
                       (click)="onClickCreate()"
                     >
-                      <span>Create New Course </span
+                      <span>Create new course </span
                       ><span
                         ><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i
                       ></span>
@@ -693,12 +694,26 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
 
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div
@@ -807,7 +822,13 @@
                             </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }} lesson
+                                >{{ timetable.lesson.count }}
+                                <span *ngIf="timetable.lesson.count > 1"
+                                  >lessons</span
+                                >
+                                <span *ngIf="timetable.lesson.count <= 1"
+                                  >lesson</span
+                                >
                               </label>
                               <ul class="endate lessoncount-EndDate">
                                 <li>
@@ -839,7 +860,7 @@
                                 )
                               "
                             >
-                              <span>Enroll Student </span>
+                              <span>Enroll new customer </span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -861,7 +882,7 @@
                                 )
                               "
                             >
-                              <span>View Student</span>
+                              <span>View students</span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -901,7 +922,7 @@
                                 )
                               "
                             >
-                              <span>Assign Relief</span
+                              <span>Relief teacher</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -923,7 +944,7 @@
                                 )
                               "
                             >
-                              <span>Cancel Class</span
+                              <span>Cancel class</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1012,11 +1033,25 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div
@@ -1133,7 +1168,13 @@
                             </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }} lesson
+                                >{{ timetable.lesson.count }}
+                                <span *ngIf="timetable.lesson.count > 1"
+                                  >lessons</span
+                                >
+                                <span *ngIf="timetable.lesson.count <= 1"
+                                  >lesson</span
+                                >
                               </label>
                               <ul class="endate lessoncount-EndDate">
                                 <li>
@@ -1165,7 +1206,7 @@
                                 )
                               "
                             >
-                              <span>Enroll Student </span>
+                              <span>Enroll new customer </span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1187,7 +1228,7 @@
                                 )
                               "
                             >
-                              <span>View Student</span>
+                              <span>View students</span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1227,7 +1268,7 @@
                                 )
                               "
                             >
-                              <span>Assign Relief</span
+                              <span>Relief teacher</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1249,7 +1290,7 @@
                                 )
                               "
                             >
-                              <span>Cancel Class</span
+                              <span>Cancel class</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1466,12 +1507,26 @@
                                   ? timetable.seat.taken
                                   : '-'
                               }}
-                              seats
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken > 1
+                                "
+                                >seats</span
+                              >
+                              <span
+                                *ngIf="
+                                  timetable.seat != null &&
+                                  timetable.seat.taken <= 1
+                                "
+                                >seat</span
+                              >
                             </p>
 
                             <span class="dot"></span>
                             <p class="time">
-                              {{ timetable.duration.min + 'min' }}
+                              {{ timetable.duration.min | hrMin }}
+                              <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
                           </div>
                           <div
@@ -1580,7 +1635,13 @@
                             </p>
                             <div class="d-flex">
                               <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }} lesson
+                                >{{ timetable.lesson.count }}
+                                <span *ngIf="timetable.lesson.count > 1"
+                                  >lessons</span
+                                >
+                                <span *ngIf="timetable.lesson.count <= 1"
+                                  >lesson</span
+                                >
                               </label>
                               <ul class="endate lessoncount-EndDate">
                                 <li>
@@ -1612,7 +1673,7 @@
                                 )
                               "
                             >
-                              <span>Enroll Student </span>
+                              <span>Enroll new customer </span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1634,7 +1695,7 @@
                                 )
                               "
                             >
-                              <span>View Student</span>
+                              <span>View students</span>
                               <span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1674,7 +1735,7 @@
                                 )
                               "
                             >
-                              <span>Assign Relief</span
+                              <span>Relief teacher</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1696,7 +1757,7 @@
                                 )
                               "
                             >
-                              <span>Cancel Class</span
+                              <span>Cancel class</span
                               ><span
                                 ><i
                                   class="fa lesson-slot-box fa-2x  fa-angle-right"
@@ -1921,7 +1982,7 @@
       </span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body teacher-header">
     <p class="modal-title c">Teachers</p>
     <div class="input-group mt-3">
       <input
@@ -1983,7 +2044,7 @@
       class="btn remove-outline"
       (click)="staffLoadMore(tempstafflist.length)"
     >
-      Load more
+      load more
     </button>
     <!-- <button class="btn" (click)="teacherListTypeAheadLoadMore()">Load more</button> -->
   </div>
@@ -2038,16 +2099,14 @@
           >
             {{ lessonD | utcDateByObj }}
             /
-            {{ selectedCourse.start.hr }} :
-            {{
+            {{ selectedCourse.start.hr }}:{{
               selectedCourse.start.min < 10
                 ? '0' + selectedCourse.start.min
                 : selectedCourse.start.min
             }}
             {{ selectedCourse.start.meridiem }}
             -
-            {{ selectedCourse.end.hr }} :
-            {{
+            {{ selectedCourse.end.hr }}:{{
               selectedCourse.end.min < 10
                 ? '0' + selectedCourse.end.min
                 : selectedCourse.end.min
@@ -2087,7 +2146,7 @@
         [ngClass]="{ active: activeTab == 'view' }"
         (click)="onClickModalTab('view')"
       >
-        View Student
+        View students
       </button>
 
       <button
@@ -2103,7 +2162,7 @@
           )
         "
       >
-        Assign Relief
+        Relief teacher
       </button>
       <button
         class="modal-tab cursor-on"
@@ -2118,7 +2177,7 @@
           )
         "
       >
-        Cancel Class
+        Cancel class
       </button>
       <!-- <button class="modal-tab cursor-on" [ngClass]="{'active': activeTab == 'cancelClass'}" (click)="onClickModalTab('cancelClass')">Cancel Class</button> -->
     </div>
@@ -2808,7 +2867,7 @@
   </div>
   <div class="modal-body apg-confirm">
     <p>
-      "Do you want to generate invoice for this enrollment?"
+      Do you want to generate invoice for this enrollment?
       <span class="target"></span>
       <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
     </p>
