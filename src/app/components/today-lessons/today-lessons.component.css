@@ -39,6 +39,7 @@ p.course-name {
   font-size: 20px;
   color: #007fff;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  cursor: pointer;
 }
 
 .course-code {
@@ -240,7 +241,7 @@ div#divToHide {
   background-color: #fff;
   border: 1.5px solid #00b34a;
   border-radius: 50%;
-  top: 8px;
+  top: 7px;
 }
 
 .attendance-radio,
