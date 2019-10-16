@@ -3670,6 +3670,7 @@ button.today-button {
   color: #ffffff;
   padding: 12px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  cursor: pointer;
 }
 
 .assign_relief_button,
