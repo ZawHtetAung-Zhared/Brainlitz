@@ -729,7 +729,10 @@
                         </span>
                         <div class="">
                           <p class="Student-text pt-2 mb-0">Student</p>
-                          <div class="d-flex align-items-center">
+                          <div
+                            class="d-flex align-items-center"
+                            *ngIf="course.students.earlyAttendees?.length > 0"
+                          >
                             <div
                               *ngFor="
                                 let student of course.students.earlyAttendees
@@ -809,6 +812,12 @@
                               *ngIf="course.students.other >= 1"
                               >+{{ course.students.other }}</span
                             >
+                          </div>
+                          <div
+                            class="Student-text"
+                            *ngIf="course.students.earlyAttendees?.length == 0"
+                          >
+                            -
                           </div>
                         </div>
                       </div>
