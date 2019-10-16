@@ -1223,7 +1223,7 @@
             </div>
             <div class="card-columns grade-list">
               <div *ngFor="let grade of achievementGrade">
-                <div class="card" *ngFor="let log of grade.assessment.logs">
+                <div class="card">
                   <div class="grade-main">
                     <div class="grade-header">
                       <p class="grade-txt">Grade level for</p>
@@ -1231,24 +1231,22 @@
                         {{ grade.assessment.apgName }}
                       </p>
                     </div>
-                    <div
-                      class="d-flex grade-body"
-                      [ngClass]="{
-                        addBorder: log.isSelected == true
-                      }"
-                    >
-                      <div>
+                    <div class="d-flex grade-body">
+                      <div *ngFor="let log of grade.assessment.logs">
                         <div
                           class="d-flex flex-column grade-box"
                           [ngStyle]="{
                             background: grade.assessment.sepalColor.background,
                             color: grade.assessment.sepalColor.text
                           }"
+                          [ngClass]="{
+                            addBorder: log.isSelected == true
+                          }"
                         >
                           <span class="grade-name">{{ log.grade.name }}</span>
                           <span class="grade-by">by {{ log.by }}</span>
                           <span class="grade-date">
-                            {{ log.createdDate | utcDate }}</span
+                            {{ log.createdDate | dateFormat }}</span
                           >
                         </div>
                       </div>
