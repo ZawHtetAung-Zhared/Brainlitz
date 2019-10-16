@@ -3402,11 +3402,18 @@ span.grade-date {
 }
 
 .d-flex.flex-column.grade-box {
-  width: 100%;
   border: 2px solid #ffffff;
   border-radius: 4px;
   padding: 12px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  width: 193px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  -webkit-transition: 0.3s all ease-out;
+  transition: 0.3s all ease-out;
+  max-height: 312px;
+  position: relative;
 }
 .grade-body {
   overflow: overlay;

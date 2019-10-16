@@ -1232,23 +1232,25 @@
                       </p>
                     </div>
                     <div
-                      class="grade-body"
+                      class="d-flex grade-body"
                       [ngClass]="{
                         addBorder: log.isSelected == true
                       }"
                     >
-                      <div
-                        class="d-flex flex-column grade-box"
-                        [ngStyle]="{
-                          background: grade.assessment.sepalColor.background,
-                          color: grade.assessment.sepalColor.text
-                        }"
-                      >
-                        <span class="grade-name">{{ log.grade.name }}</span>
-                        <span class="grade-by">by {{ log.by }}</span>
-                        <span class="grade-date">
-                          {{ log.createdDate | utcDate }}</span
+                      <div>
+                        <div
+                          class="d-flex flex-column grade-box"
+                          [ngStyle]="{
+                            background: grade.assessment.sepalColor.background,
+                            color: grade.assessment.sepalColor.text
+                          }"
                         >
+                          <span class="grade-name">{{ log.grade.name }}</span>
+                          <span class="grade-by">by {{ log.by }}</span>
+                          <span class="grade-date">
+                            {{ log.createdDate | utcDate }}</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
