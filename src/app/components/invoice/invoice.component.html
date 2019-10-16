@@ -912,7 +912,7 @@
               <span class="addIcn-wrap">
                 <img src="assets/img/plus.png" />
               </span>
-              <span class="pl-3 newItem-btn-txt">Add New Item</span>
+              <span class="pl-3 newItem-btn-txt">Add new item</span>
             </div>
           </div>
           <div class="w-50">
@@ -942,7 +942,7 @@
             <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
-                  Total Discount
+                  Total discount
                 </div>
                 <div class="col-sm-5 p-0 text-right"></div>
               </div>
@@ -953,7 +953,7 @@
             <div class="d-flex pad-10 price-info">
               <div class="col-md-8 d-flex p-0">
                 <div class="col-sm-7 text-right p-0">
-                  Discount Tax
+                  Discount tax
                 </div>
                 <div class="col-sm-5 p-0 text-right"></div>
               </div>
@@ -993,7 +993,7 @@
         <div *ngIf="invPayment?.length > 0" class="inv-margin">
           <div class="d-flex">
             <div class="col-md-4 p-0">
-              <label class="invoice-label">Payment Date</label>
+              <label class="invoice-label">Payment date</label>
             </div>
             <div class="col-md-4 p-0">
               <label class="invoice-label">Payment method</label>
@@ -1029,7 +1029,7 @@
                     Cash
                   </div>
                   <div class="c-label" *ngIf="payment.paymentMethod == 1">
-                    Credit/Debit Card
+                    Credit/Debit card
                   </div>
                   <div class="c-label" *ngIf="payment.paymentMethod == 2">
                     Cheque
@@ -1605,7 +1605,7 @@
       <div *ngIf="invPayment?.length > 0" class="inv-margin">
         <div class="d-flex">
           <div class="col-md-4 p-0">
-            <label class="invoice-label">Payment Date</label>
+            <label class="invoice-label">Payment date</label>
           </div>
           <div class="col-md-4 p-0">
             <label class="invoice-label">Payment method</label>
@@ -1645,7 +1645,7 @@
                   Cheque
                 </div>
                 <div class="c-label" *ngIf="payment.paymentMethod == 2">
-                  Credit/Debit Card
+                  Credit/Debit card
                 </div>
                 <div class="c-label" *ngIf="payment.paymentMethod == 3">
                   Others
@@ -1670,12 +1670,12 @@
   </div>
   <div *ngIf="showPayment == true">
     <div class="inv-payment-container">
-      <div class="logo-wrapper">
+      <div class="logo-wrapper mb-3">
         <img src="{{ logo }}" />
       </div>
       <div class="mt-40">
         <label class="payment-label">Choose payment method</label>
-        <div class="d-flex mt-1">
+        <div class="d-flex mt-1 mb-4">
           <div class="payment-item" *ngFor="let provider of paymentProviders">
             <label
               [ngClass]="{ selectedItem: selectedPayment == provider.name }"
@@ -1697,7 +1697,7 @@
         </div>
         <div>
           <form #paymentForm="ngForm" nonvalidate>
-            <div class="mt-30">
+            <div class="mb-4">
               <label class="payment-label">Reference number</label>
               <div>
                 <input
@@ -1710,7 +1710,7 @@
                 />
               </div>
             </div>
-            <div class="mt-30">
+            <div>
               <label class="payment-label">Amount</label>
               <div class="d-flex popup-input w-75">
                 <div class="input-sign">
