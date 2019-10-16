@@ -3399,11 +3399,11 @@ span.grade-date {
 
 .card-columns.grade-list {
   column-count: 3;
+  padding: 20px;
 }
 
 .d-flex.flex-column.grade-box {
   border: 2px solid #ffffff;
-  border-radius: 4px;
   padding: 12px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   width: 193px;
@@ -3413,7 +3413,7 @@ span.grade-date {
   -webkit-transition: 0.3s all ease-out;
   transition: 0.3s all ease-out;
   max-height: 312px;
-  position: relative;
+  margin-right: 10px;
 }
 .grade-body {
   overflow: overlay;
