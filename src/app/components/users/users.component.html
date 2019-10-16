@@ -1217,6 +1217,45 @@
               </div>
             </div>
           </div>
+          <div class="achievements-main" *ngIf="achievementGrade.length != 0">
+            <div class="achievements-header">
+              <h6 class="title-space">Grade</h6>
+            </div>
+            <div class="card-columns grade-list">
+              <div *ngFor="let grade of achievementGrade">
+                <div class="card" *ngFor="let log of grade.assessment.logs">
+                  <div class="grade-main">
+                    <div class="grade-header">
+                      <p class="grade-txt">Grade level for</p>
+                      <p class="grade-apg-name">
+                        {{ grade.assessment.apgName }}
+                      </p>
+                    </div>
+                    <div
+                      class="grade-body"
+                      [ngClass]="{
+                        addBorder: log.isSelected == true
+                      }"
+                    >
+                      <div
+                        class="d-flex flex-column grade-box"
+                        [ngStyle]="{
+                          background: grade.assessment.sepalColor.background,
+                          color: grade.assessment.sepalColor.text
+                        }"
+                      >
+                        <span class="grade-name">{{ log.grade.name }}</span>
+                        <span class="grade-by">by {{ log.by }}</span>
+                        <span class="grade-date">
+                          {{ log.createdDate | utcDate }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="d-flex" *ngIf="activeTab == 'class'">

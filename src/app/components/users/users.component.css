@@ -3154,7 +3154,8 @@ span.by-name {
   border-bottom: 1px solid #edeff0;
 }
 
-.evaluation-main {
+.evaluation-main,
+.grade-main {
   margin-top: 5px;
   border: solid 1px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -3362,4 +3363,56 @@ p.assessment-by {
 }
 .apg-confirm p {
   color: #64707d;
+}
+
+p.grade-txt {
+  color: #64707d;
+  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding: 12px 12px 0px 12px;
+}
+
+.grade-apg-name {
+  color: #2e3d4d;
+  font-size: 17px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 0px 12px 12px 12px;
+  margin-bottom: 0;
+}
+
+.grade-header {
+  background: #f2f4f5;
+}
+
+span.grade-name {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+span.grade-by {
+  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+}
+
+span.grade-date {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
+
+.card-columns.grade-list {
+  column-count: 3;
+}
+
+.d-flex.flex-column.grade-box {
+  width: 100%;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+.grade-body {
+  overflow: overlay;
+  padding: 12px;
+}
+
+.addBorder {
+  border-top: solid;
 }
