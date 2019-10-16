@@ -1232,7 +1232,9 @@
                       </p>
                     </div>
                     <div class="d-flex grade-body">
-                      <div *ngFor="let log of grade.assessment.logs">
+                      <div
+                        *ngFor="let log of grade.assessment.logs; let i = index"
+                      >
                         <div
                           class="d-flex flex-column grade-box"
                           [ngStyle]="{
@@ -1240,7 +1242,7 @@
                             color: grade.assessment.sepalColor.text
                           }"
                           [ngClass]="{
-                            addBorder: log.isSelected == true
+                            addBorder: i == grade.assessment.logs.length - 1
                           }"
                         >
                           <span class="grade-name">{{ log.grade.name }}</span>

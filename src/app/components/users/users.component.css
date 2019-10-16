@@ -3403,7 +3403,7 @@ span.grade-date {
 }
 
 .d-flex.flex-column.grade-box {
-  border: 2px solid #ffffff;
+  /* border: 2px solid #ffffff; */
   padding: 12px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   width: 193px;
@@ -3421,5 +3421,5 @@ span.grade-date {
 }
 
 .addBorder {
-  border-top: solid;
+  border-top: solid 4px;
 }
