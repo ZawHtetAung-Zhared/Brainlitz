@@ -470,6 +470,7 @@ ul.pass-list li {
   background: #fff;
   cursor: pointer;
 }
+
 .claim-text {
   color: #0080ff;
   margin-bottom: 0;
@@ -1840,7 +1841,8 @@ h5 {
 }
 
 .invModal-cancel,
-.send-btn {
+.send-btn,
+.view-journal {
   font-size: 16px;
   color: #2e3d4d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
@@ -2762,7 +2764,8 @@ card-body {
   color: #80bfff;
 }
 
-.view-invoice {
+.view-invoice,
+.remaining-lessons {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 /* .currency{
@@ -3154,7 +3157,8 @@ span.by-name {
   border-bottom: 1px solid #edeff0;
 }
 
-.evaluation-main {
+.evaluation-main,
+.grade-main {
   margin-top: 5px;
   border: solid 1px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -3283,6 +3287,12 @@ span.exitData-dot.one {
 .remaining {
   width: 250px !important;
 }
+.remaining-lessons {
+  color: #007fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
 .test-circle {
   border-radius: 50%;
   font-size: 12px;
@@ -3362,4 +3372,184 @@ p.assessment-by {
 }
 .apg-confirm p {
   color: #64707d;
+}
+.noInvoicetxt > h3 {
+  color: #2e3d4d;
+  font-size: 20px;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  margin-bottom: 12px;
+}
+.noInvoicetxt > p {
+  color: #64707d;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
+}
+.cross_close {
+  background: url('../../../assets/icons/cross_close.svg');
+  background-position: center;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.student_name {
+  font-size: 14px;
+  color: #64707d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+.lessons_body {
+  padding: 8px 32px 0px 32px !important;
+  height: 600px;
+}
+.lessons_body > div > h3 {
+  color: #2e3d4d;
+  font-size: 28px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  margin-bottom: 8px !important;
+}
+.lessons_body > div > p {
+  color: #64707d;
+  font-size: 16px;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  margin-bottom: 36px !important;
+}
+.lesson_block {
+  min-width: 162px;
+  height: 88px;
+  margin-right: 16px;
+  display: inline-block;
+  padding: 12px;
+  border-radius: 4px;
+  background: #f2f4f5;
+  margin-bottom: 16px;
+}
+.inner-header > p {
+  color: #64707d;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-size: 16px;
+}
+.inner-header > span {
+  background-position: center;
+  background-size: 16px 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.absent_icon {
+  background: url('../../../assets/icons/_absent.svg');
+}
+.present_icon {
+  background: url('../../../assets/icons/_present.svg');
+}
+.noData_icon {
+  background: url('../../../assets/icons/_nodata.svg');
+}
+.bg-none {
+  background: none;
+}
+.absent_text {
+  color: #ff3d33;
+}
+.present_text {
+  color: #009940;
+}
+.noData_text {
+  color: #788796;
+}
+
+.absent_date {
+  color: #7d1e19 !important;
+}
+.present_date {
+  color: #004d20 !important;
+}
+.noData_date {
+  color: #2e3d4d !important;
+}
+
+.inner-body > p {
+  font-size: 14px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+.inner-body > span {
+  font-size: 12px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+._lessons_left {
+  color: #2e3d4d;
+  font-size: 16px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+.absent_block {
+  background: #ffe2e0;
+}
+.present_block {
+  background: #c2f2d6;
+}
+.noData_block {
+  background: #f2f4f5;
+}
+p.grade-txt {
+  color: #64707d;
+  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding: 12px 12px 0px 12px;
+}
+
+.grade-apg-name {
+  color: #2e3d4d;
+  font-size: 17px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 0px 12px 12px 12px;
+  margin-bottom: 0;
+}
+
+.grade-header {
+  background: #f2f4f5;
+}
+
+span.grade-name {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+}
+
+span.grade-by {
+  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+}
+
+span.grade-date {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
+
+.card-columns.grade-list {
+  column-count: 3;
+  padding: 20px;
+}
+
+.d-flex.flex-column.grade-box {
+  /* border: 2px solid #ffffff; */
+  padding: 12px;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  width: 193px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  -webkit-transition: 0.3s all ease-out;
+  transition: 0.3s all ease-out;
+  max-height: 312px;
+  margin-right: 10px;
+}
+.grade-body {
+  overflow: overlay;
+  padding: 12px;
+}
+
+.addBorder {
+  border-top: solid 4px;
+}
+.lesson_block_wrapper {
+  height: 400px;
+  /* position: absolute; */
+  display: block;
+  overflow: overlay;
 }

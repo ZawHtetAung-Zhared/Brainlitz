@@ -205,6 +205,7 @@ export class UsersComponent implements OnInit {
   public invPayment: any = [];
   public achievementProgess: any = [];
   public achievementEvaluation: any = [];
+  public achievementGrade: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
   //flexy
@@ -1744,6 +1745,7 @@ export class UsersComponent implements OnInit {
       console.log('achievements');
       this.callAchievements(1);
       this.callAchievements(3);
+      this.callAchievements(6);
     }
   }
 
@@ -1780,9 +1782,12 @@ export class UsersComponent implements OnInit {
             this.achievementProgess = res;
           } else if (type == 3) {
             this.achievementEvaluation = res;
+          } else if (type == 6) {
+            this.achievementGrade = res;
           }
           console.log('Progress', this.achievementProgess);
           console.log('Evaluation', this.achievementEvaluation);
+          console.log('Grade', this.achievementGrade);
         },
         err => {
           console.log(err);
@@ -2293,4 +2298,12 @@ export class UsersComponent implements OnInit {
     // this.invoiceModalReference.close();
   }
   public invoiceModalReference;
+  public lessonOfStudent;
+  openLessonsModal(modal, course) {
+    this.lessonOfStudent = course;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+  }
 }
