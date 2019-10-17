@@ -89,11 +89,6 @@ export class RescheduleLessonComponent implements OnInit {
     this.duration = this.courseDetail.coursePlan.lesson.duration;
     this.dateSelect = this.LASD;
 
-    // this.isSelected = 'AM';
-    // this.rangeHr = '0';
-    // this.rangeMin = '0';
-    // this.showFormat = '00:00';
-
     const current = new Date();
     this.todayDate = {
       year: current.getFullYear(),
@@ -108,6 +103,8 @@ export class RescheduleLessonComponent implements OnInit {
     this.selectedHrRange = h + '';
     var ampm = H < 12 ? 'AM' : 'PM';
     this.isSelected = ampm;
+    this.rangeHr = h;
+    this.rangeMin = this.selectedMinRange;
     this.formatTime();
   }
 
@@ -117,13 +114,6 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   rescheduleTo() {
-    // this.isReschedule = true;
-    // this.isConflict = true;
-
-    // if(this.correctRescheduleDate==true){
-    //   console.log("API Callsssssssssssss");
-
-    // }
     var formattedDate = moment(
       `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
@@ -142,7 +132,7 @@ export class RescheduleLessonComponent implements OnInit {
       console.log(lessonObj);
       this.putRescheduleLesson(lessonObj);
 
-      //if there is conflict in reschedule lesson api response
+      // if there is conflict in reschedule lesson api response
       // this.isReschedule = false;
       // this.isConflict = true;
       // this.goConflict();

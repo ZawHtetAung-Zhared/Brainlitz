@@ -4,6 +4,7 @@ import { NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { appService } from '../../../service/app.service';
 import courseSampleData from './sampleData';
+import sampleCSV from './csvJson';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 @Component({
   selector: 'staff-teaching-report',
@@ -506,5 +507,60 @@ export class StaffTeachingScheduleReport implements OnInit {
         this.showReportByCoursePlan();
         break;
     }
+  }
+
+  exportCSV() {
+    console.log('export report');
+    console.log(sampleCSV);
+    this.downloadFile(sampleCSV, 'staffTeachingSchedule');
+  }
+  downloadFile(data, name) {
+    var csvData = this.ConvertToCSV(data);
+    var a = document.createElement('a');
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([csvData], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    var filename = new Date().toISOString();
+    console.log('~~~', name + filename);
+    a.download = name + filename + '.csv';
+    a.click();
+  }
+
+  ConvertToCSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    // console.log(array);
+    var str = '';
+    var row = 'Staff name,Email,Course name,Lessons,Total teaching hours';
+    //append Label row with line break
+    str += row + '\r\n';
+
+    for (var i = 0; i < array.length; i++) {
+      var line = '';
+      var tempObject = {};
+      tempObject['staffName'] = array[i].staffName;
+      tempObject['staffEmail'] = array[i].staffEmail;
+      tempObject['courseName'] = array[i].courseName;
+      if (array[i].lessonDate.length > 0) {
+        var lessonData = '';
+        var lessonArr = array[i].lessonDate;
+        for (var j = 0; j < lessonArr.length; j++) {
+          if (lessonData != '') lessonData += '/ ';
+          lessonData += lessonArr[j];
+        }
+        tempObject['lessons'] = lessonData;
+      } else {
+        tempObject['lessons'] = '';
+      }
+      tempObject['totalTeachingHour'] = array[i].totalTeachingHour;
+
+      for (var index in tempObject) {
+        if (line != '') line += ',';
+        line += tempObject[index];
+      }
+      str += line + '\r\n';
+    }
+    return str;
   }
 }
