@@ -3537,3 +3537,8 @@ span.grade-date {
 .addBorder {
   border-top: solid 4px;
 }
+.lesson_block_wrapper {
+  height: 400px;
+  position: absolute;
+  overflow: overlay;
+}
