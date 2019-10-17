@@ -23,6 +23,7 @@ ul {
 
 .carousel-footer {
   border-top: 1px solid #edeff0;
+  padding: 0px 10px;
 }
 button.btn.btn-default {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
