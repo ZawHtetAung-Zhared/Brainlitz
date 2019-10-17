@@ -470,6 +470,7 @@ ul.pass-list li {
   background: #fff;
   cursor: pointer;
 }
+
 .claim-text {
   color: #0080ff;
   margin-bottom: 0;
@@ -1840,7 +1841,8 @@ h5 {
 }
 
 .invModal-cancel,
-.send-btn {
+.send-btn,
+.view-journal {
   font-size: 16px;
   color: #2e3d4d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
@@ -2762,7 +2764,8 @@ card-body {
   color: #80bfff;
 }
 
-.view-invoice {
+.view-invoice,
+.remaining-lessons {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 /* .currency{
@@ -3164,7 +3167,7 @@ span.by-name {
   /* max-height: 300px; */
 }
 .evaluation-header {
-  padding: 5px 10px 5px 20px;
+  padding: 10px 10px 5px 20px;
   font-size: 16px;
   color: #2e3e4d;
 }
@@ -3209,7 +3212,7 @@ span.exitData-dot {
   margin-bottom: 3px;
 }
 p.assessment-name {
-  margin-bottom: -5px;
+  margin-bottom: 0px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   width: 274px;
@@ -3233,7 +3236,7 @@ span.exitData-dot.one {
 }
 
 .createdDate {
-  padding: 0px 0px 0px 20px;
+  padding: 0px 0px 10px 20px;
   border-bottom: 1px solid #edeff0;
   color: #007fff;
   font-size: 12px;
@@ -3258,6 +3261,7 @@ span.exitData-dot.one {
 
 .evaluate-details {
   max-width: 300px;
+  margin: 2px 0px;
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -3283,6 +3287,12 @@ span.exitData-dot.one {
 
 .remaining {
   width: 250px !important;
+}
+.remaining-lessons {
+  color: #007fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
 }
 .test-circle {
   border-radius: 50%;
@@ -3502,14 +3512,17 @@ p.grade-txt {
 
 span.grade-name {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
 }
 
 span.grade-by {
-  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
 }
 
 span.grade-date {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
 }
 
 .card-columns.grade-list {
