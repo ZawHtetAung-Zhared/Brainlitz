@@ -470,6 +470,7 @@ ul.pass-list li {
   background: #fff;
   cursor: pointer;
 }
+
 .claim-text {
   color: #0080ff;
   margin-bottom: 0;
@@ -1840,7 +1841,8 @@ h5 {
 }
 
 .invModal-cancel,
-.send-btn {
+.send-btn,
+.view-journal {
   font-size: 16px;
   color: #2e3d4d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
