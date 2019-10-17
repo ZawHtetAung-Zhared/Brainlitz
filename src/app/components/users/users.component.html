@@ -3024,9 +3024,11 @@
         <div
           class="lesson_block"
           [ngClass]="{
-            absent_block: lesson.attendance == false,
-            present_block: lesson.attendance == true,
-            noData_block: lesson.attendance == null
+            absent_block:
+              lesson.attendance == false && !lesson.isUpcomingLesson,
+            present_block:
+              lesson.attendance == true && !lesson.isUpcomingLesson,
+            noData_block: lesson.attendance == null && !lesson.isUpcomingLesson
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3034,18 +3036,24 @@
             <p
               class="mb-0"
               [ngClass]="{
-                absent_date: lesson.attendance == false,
-                present_date: lesson.attendance == true,
-                noData_date: lesson.attendance == null
+                absent_date:
+                  lesson.attendance == false && !lesson.isUpcomingLesson,
+                present_date:
+                  lesson.attendance == true && !lesson.isUpcomingLesson,
+                noData_date:
+                  lesson.attendance == null && !lesson.isUpcomingLesson
               }"
             >
               {{ lesson.startDate | remainingLessonDate }}
             </p>
             <span
               [ngClass]="{
-                absent_icon: lesson.attendance == false,
-                present_icon: lesson.attendance == true,
-                noData_icon: lesson.attendance == null,
+                absent_icon:
+                  lesson.attendance == false && !lesson.isUpcomingLesson,
+                present_icon:
+                  lesson.attendance == true && !lesson.isUpcomingLesson,
+                noData_icon:
+                  lesson.attendance == null && !lesson.isUpcomingLesson,
                 'bg-none': lesson.isUpcomingLesson
               }"
             ></span>
