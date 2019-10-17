@@ -2764,7 +2764,8 @@ card-body {
   color: #80bfff;
 }
 
-.view-invoice {
+.view-invoice,
+.remaining-lessons {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 /* .currency{
@@ -3285,6 +3286,12 @@ span.exitData-dot.one {
 
 .remaining {
   width: 250px !important;
+}
+.remaining-lessons {
+  color: #007fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
 }
 .test-circle {
   border-radius: 50%;

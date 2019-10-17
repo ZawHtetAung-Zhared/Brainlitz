@@ -709,12 +709,13 @@
                         </p>
                       </div>
                       <div class="remaining">
-                        <span
-                          class="medium-label-14"
+                        <div
+                          class="remaining-lessons"
                           (click)="openLessonsModal(remainingLessons, course)"
-                          >{{ course.upComingLessonCountOfStudent }} remaining
-                          lessons</span
                         >
+                          {{ course.upComingLessonCountOfStudent }} remaining
+                          lessons
+                        </div>
                       </div>
                     </div>
                     <div class="line mt-3"></div>
