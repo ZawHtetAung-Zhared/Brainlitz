@@ -3009,7 +3009,7 @@
 
   <ng-template #remainingLessons>
     <div class="d-flex modal-header">
-      <h3 class="student_name">Name</h3>
+      <h3 class="student_name">{{ custDetail.user.preferredName }}</h3>
       <span class="cross_close" (click)="closeModal('')"></span>
     </div>
     <div class="modal-body lessons_body">
@@ -3017,7 +3017,9 @@
         <h3>Lesson</h3>
         <p class="pb-0">{{ lessonOfStudent.name }}</p>
       </div>
-      <p class="_lessons_left">4 lessons left</p>
+      <p class="_lessons_left">
+        {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons left
+      </p>
       <div class="d-flex flex-wrap">
         <div
           class="lesson_block"
@@ -3077,7 +3079,7 @@
             >
               Not avaliable
             </p>
-            <span
+            <!-- <span
               [ngClass]="{
                 absent_text: lesson.attendance == false,
                 present_text: lesson.attendance == true,
@@ -3085,7 +3087,7 @@
               }"
               *ngIf="!lesson.isUpcomingLesson"
               >by jerrrsd</span
-            >
+            > -->
             <span style="color:#788796;" *ngIf="lesson.isUpcomingLesson"
               >-</span
             >
