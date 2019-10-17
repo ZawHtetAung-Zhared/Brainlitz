@@ -3410,6 +3410,7 @@ p.assessment-by {
   min-width: 162px;
   height: 88px;
   margin-right: 16px;
+  display: inline-block;
   padding: 12px;
   border-radius: 4px;
   background: #f2f4f5;
@@ -3538,4 +3539,10 @@ span.grade-date {
 
 .addBorder {
   border-top: solid 4px;
+}
+.lesson_block_wrapper {
+  height: 400px;
+  /* position: absolute; */
+  display: block;
+  overflow: overlay;
 }
