@@ -709,10 +709,13 @@
                         </p>
                       </div>
                       <div class="remaining">
-                        <span class="medium-label-14"
-                          >{{ course.upComingLessonCountOfStudent }} remaining
-                          lessons</span
+                        <div
+                          class="remaining-lessons"
+                          (click)="openLessonsModal(remainingLessons, course)"
                         >
+                          {{ course.upComingLessonCountOfStudent }} remaining
+                          lessons
+                        </div>
                       </div>
                     </div>
                     <div class="line mt-3"></div>
@@ -720,7 +723,7 @@
                       <div class="d-flex" style="padding-left: 20px">
                         <img src="./assets/icons/journal.svg" />
                         <label
-                          class="btn view-invoice ml-2"
+                          class="btn view-journal mb-0"
                           (click)="
                             viewJournal(
                               journalContent,
@@ -752,9 +755,35 @@
                       </div> -->
                     </div>
                   </div>
-                  <div class="show-invoice col-5 ">
+                  <div
+                    class="show-invoice col-5"
+                    [ngClass]="{
+                      'd-flex justify-content-center align-items-center':
+                        course.invoicesOfCourse &&
+                        course.invoicesOfCourse.length < 1
+                    }"
+                  >
+                    <div
+                      class="d-flex flex-column"
+                      class="noInvoicetxt"
+                      *ngIf="
+                        course.invoicesOfCourse &&
+                        course.invoicesOfCourse.length < 1
+                      "
+                    >
+                      <h3>Invoice</h3>
+                      <p>
+                        There is no invoice generated for this customer yet.
+                      </p>
+                    </div>
                     <div class="scrollbar">
-                      <div class="d-flex invoice-change align-items-center">
+                      <div
+                        class="d-flex invoice-change align-items-center"
+                        *ngIf="
+                          course.invoicesOfCourse &&
+                          course.invoicesOfCourse.length > 0
+                        "
+                      >
                         <label class="invoice-label">Invoice</label>
                         <span
                           class="invoiceOflength"
@@ -2978,5 +3007,104 @@
       </button>
     </div>
   </ng-template>
+
+  <ng-template #remainingLessons>
+    <div class="d-flex modal-header">
+      <h3 class="student_name">{{ custDetail.user.preferredName }}</h3>
+      <span class="cross_close" (click)="closeModal('')"></span>
+    </div>
+    <div class="modal-body lessons_body">
+      <div class="d-flex flex-column">
+        <h3>Lesson</h3>
+        <p class="pb-0">{{ lessonOfStudent.name }}</p>
+      </div>
+      <p class="_lessons_left">
+        {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons left
+      </p>
+      <div class="lesson_block_wrapper">
+        <div
+          class="lesson_block"
+          [ngClass]="{
+            absent_block:
+              lesson.attendance == false && !lesson.isUpcomingLesson,
+            present_block:
+              lesson.attendance == true && !lesson.isUpcomingLesson,
+            noData_block: lesson.attendance == null && !lesson.isUpcomingLesson
+          }"
+          *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
+        >
+          <div class="d-flex inner-header justify-content-between">
+            <p
+              class="mb-0"
+              [ngClass]="{
+                absent_date:
+                  lesson.attendance == false && !lesson.isUpcomingLesson,
+                present_date:
+                  lesson.attendance == true && !lesson.isUpcomingLesson,
+                noData_date:
+                  lesson.attendance == null && !lesson.isUpcomingLesson
+              }"
+            >
+              {{ lesson.startDate | remainingLessonDate }}
+            </p>
+            <span
+              [ngClass]="{
+                absent_icon:
+                  lesson.attendance == false && !lesson.isUpcomingLesson,
+                present_icon:
+                  lesson.attendance == true && !lesson.isUpcomingLesson,
+                noData_icon:
+                  lesson.attendance == null && !lesson.isUpcomingLesson,
+                'bg-none': lesson.isUpcomingLesson
+              }"
+            ></span>
+          </div>
+          <div class="d-flex flex-column inner-body">
+            <p
+              class="mb-0"
+              style="color:#006E2E;"
+              *ngIf="lesson.attendance == true && !lesson.isUpcomingLesson"
+            >
+              Present
+            </p>
+            <p
+              class="mb-0"
+              style="color:#C73028;"
+              *ngIf="lesson.attendance == false && !lesson.isUpcomingLesson"
+            >
+              Absent
+            </p>
+            <p
+              class="mb-0"
+              style="color:#64707D;"
+              *ngIf="lesson.attendance == null && !lesson.isUpcomingLesson"
+            >
+              No data
+            </p>
+            <p
+              class="mb-0"
+              style="color:#B0B1B2;"
+              *ngIf="lesson.isUpcomingLesson"
+            >
+              Not avaliable
+            </p>
+            <!-- <span
+              [ngClass]="{
+                absent_text: lesson.attendance == false,
+                present_text: lesson.attendance == true,
+                noData_text: lesson.attendance == null
+              }"
+              *ngIf="!lesson.isUpcomingLesson"
+              >by jerrrsd</span
+            > -->
+            <span style="color:#788796;" *ngIf="lesson.isUpcomingLesson"
+              >-</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
   <block-ui message="Deafult Message"></block-ui>
 </div>

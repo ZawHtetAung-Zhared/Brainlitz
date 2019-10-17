@@ -2298,4 +2298,12 @@ export class UsersComponent implements OnInit {
     // this.invoiceModalReference.close();
   }
   public invoiceModalReference;
+  public lessonOfStudent;
+  openLessonsModal(modal, course) {
+    this.lessonOfStudent = course;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+  }
 }
