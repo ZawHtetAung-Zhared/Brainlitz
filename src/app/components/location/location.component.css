@@ -264,7 +264,7 @@ input:valid + span:after {
   min-height: 30px !important;
   border-radius: 100%;
   cursor: pointer;
-  background: url('../../../../../../XOR/image.png') 50% 50% !important;
+  /* background: url('../../../../../../XOR/image.png') 50% 50% !important; */
 }
 .color_code_input {
   margin-left: 12px !important;
