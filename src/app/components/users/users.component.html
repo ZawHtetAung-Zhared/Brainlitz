@@ -713,8 +713,24 @@
                           class="remaining-lessons"
                           (click)="openLessonsModal(remainingLessons, course)"
                         >
-                          {{ course.upComingLessonCountOfStudent }} remaining
-                          lessons
+                          {{ course.upComingLessonCountOfStudent }}
+                          <span *ngIf="course.upComingLessonCountOfStudent > 1">
+                            remaining lessons
+                          </span>
+                          <span
+                            *ngIf="course.upComingLessonCountOfStudent <= 1"
+                          >
+                            remaining lesson
+                          </span>
+                          <span *ngIf="course.lessonsOfStudent">
+                            of total {{ course.lessonsOfStudent.length }}
+                            <span *ngIf="course.lessonsOfStudent.length > 1">
+                              lessons
+                            </span>
+                            <span *ngIf="course.lessonsOfStudent.length <= 1">
+                              lesson
+                            </span>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -798,7 +814,13 @@
                         <div class="d-flex">
                           <div class="first-one d-flex flex-column">
                             <p class="lesson">
-                              {{ invoice.studentLessonsCount }} lessons
+                              {{ invoice.studentLessonsCount }}
+                              <span *ngIf="invoice.studentLessonsCount > 1">
+                                lessons
+                              </span>
+                              <span *ngIf="invoice.studentLessonsCount <= 1">
+                                lesson
+                              </span>
                             </p>
                             <span
                               class="date"
@@ -3019,7 +3041,22 @@
         <p class="pb-0">{{ lessonOfStudent.name }}</p>
       </div>
       <p class="_lessons_left">
-        {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons left
+        {{ lessonOfStudent.upComingLessonCountOfStudent }}
+        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
+          lessons left
+        </span>
+        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
+          lesson left
+        </span>
+        <span *ngIf="lessonOfStudent.lessonsOfStudent">
+          in total {{ lessonOfStudent.lessonsOfStudent.length }}
+          <span *ngIf="lessonOfStudent.lessonsOfStudent.length > 1">
+            lessons
+          </span>
+          <span *ngIf="lessonOfStudent.lessonsOfStudent.length <= 1">
+            lesson
+          </span>
+        </span>
       </p>
       <div class="lesson_block_wrapper">
         <div
