@@ -528,7 +528,7 @@
                   <div id="parent">
                     <img src="./assets/images/email.png" />
                   </div>
-                  <label class="labelTitle">Email</label>
+                  <label class="labelTitle">Contact email</label>
                 </div>
                 <label *ngIf="invoiceData.email != ''" class="labelName">{{
                   invoiceData.email
@@ -607,7 +607,7 @@
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice duration</label>
+                  <label class="labelTitle">Invoice validity(days)</label>
                 </div>
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
@@ -901,7 +901,7 @@
                       <input
                         type="text"
                         class="form-control tax-input"
-                        placeholder="Post code"
+                        placeholder="Postal code"
                         name="postal"
                         [(ngModel)]="invoiceData.postal"
                         #postal="ngModel"
