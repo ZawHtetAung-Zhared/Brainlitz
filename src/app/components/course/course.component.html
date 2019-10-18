@@ -1842,7 +1842,7 @@
                     class="total_student d-flex justify-content-center align-items-center"
                   >
                     <div>
-                      <p class="total_count">
+                      <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
                         {{ activeCourseInfo.CUSTOMER.length }}
                       </p>
                       <span class="total_text">Total</span>
