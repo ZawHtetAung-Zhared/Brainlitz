@@ -193,10 +193,13 @@ export class TodayLessonsComponent implements OnInit {
     this.isGlobal = false;
     this.reasonValue = '';
     this.index = '';
+    if (this.attan_type == 'absent') {
+      this.getTodayLesson();
+      this.modalReference.close();
+    }
     this.attan_type = '';
     this.studentDetail = {};
     this.courseId = '';
-    this.modalReference.close();
   }
 
   issuePass(obj, userId) {
