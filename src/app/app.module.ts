@@ -12,6 +12,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
 import { NgDragDropModule } from 'ng-drag-drop';
+import { ColorPickerModule } from 'ngx-color-picker';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { Ng2TelInputModule } from 'ng2-tel-input';
@@ -253,7 +254,8 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
     StarRatingModule,
     Ng2TelInputModule,
     MediumEditorModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    ColorPickerModule
   ],
   providers: [
     appService,

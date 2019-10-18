@@ -18,6 +18,7 @@ export class TodayLessonsComponent implements OnInit {
   todayDate: any;
   isExpand: boolean = false;
   todayCourse: any;
+  isEmptyLesson: boolean = true;
   public regionId = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public modalReference: any;
@@ -47,6 +48,10 @@ export class TodayLessonsComponent implements OnInit {
 
         this.todayCourse = res;
         console.log('tday lessons', this.todayCourse);
+
+        if (this.todayCourse.courses.length > 0) {
+          this.isEmptyLesson = false;
+        } else this.isEmptyLesson = true;
       },
       err => {
         console.log(err);

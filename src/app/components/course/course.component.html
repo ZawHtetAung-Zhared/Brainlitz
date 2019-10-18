@@ -814,10 +814,10 @@
                             >
                           </div>
                           <div
-                            class="Student-text"
+                            class="medium-font"
                             *ngIf="course.students.earlyAttendees?.length == 0"
                           >
-                            -
+                            There is no student enroll
                           </div>
                         </div>
                       </div>
@@ -1842,7 +1842,9 @@
                     class="total_student d-flex justify-content-center align-items-center"
                   >
                     <div>
-                      <p class="total_count">{{ noStudent }}</p>
+                      <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
+                        {{ activeCourseInfo.CUSTOMER.length }}
+                      </p>
                       <span class="total_text">Total</span>
                     </div>
                   </div>
