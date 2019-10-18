@@ -370,9 +370,9 @@ export class LocationComponent implements OnInit {
     this.currentID = id;
   }
   removeHtml(e) {
-    console.warn(e);
+    // console.warn(e);
     setTimeout(() => {
-      console.error($('.right'));
+      // console.error($('.right'));
       $('.box')[7].children[0].style.background = '#F2F4FA';
       $('.box')[7].children[0].style.color = '#495057';
       $('.box')[7].children[0].style.padding = '16px';
