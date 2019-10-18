@@ -8,7 +8,14 @@
     {{ todayDate | utcDateAndDay }}
   </div>
 
-  <div class="today-courselist" *ngIf="todayCourse != undefined">
+  <div *ngIf="isEmptyLesson == true" class="margin-top20">
+    <span calss="no-data-text">There is no lessons for today</span>
+  </div>
+
+  <div
+    class="today-courselist"
+    *ngIf="todayCourse != undefined && isEmptyLesson == false"
+  >
     <div
       class="d-flex today-coruse"
       *ngFor="let tcourse of todayCourse.courses; let i = index"

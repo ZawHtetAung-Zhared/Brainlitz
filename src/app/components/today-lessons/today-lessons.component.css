@@ -282,3 +282,12 @@ div#divToHide {
 .d-flex.teacher-box.mb-4 {
   overflow: overlay;
 }
+
+.no-data-text {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+}
+
+.margin-top20 {
+  margin-top: 20px;
+}
