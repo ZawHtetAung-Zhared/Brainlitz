@@ -65,6 +65,7 @@ export class TodayLessonsComponent implements OnInit {
   courseId: any;
   index: any;
   attan_type: any;
+  lessonObj: any;
   onClickRadio(modal, type, student, index) {
     console.log('student', student);
     console.log('index', index);
@@ -73,6 +74,8 @@ export class TodayLessonsComponent implements OnInit {
     this.studentDetail = student.userDetails;
     this.index = index;
     this.attan_type = type;
+    this.lessonObj = student.todayLesson;
+
     if (type == 'absent') {
       this.modalReference = this.modalService.open(modal, {
         backdrop: 'static',
@@ -84,7 +87,8 @@ export class TodayLessonsComponent implements OnInit {
       var m = new Date(this.todayDate).getUTCMonth() + 1;
       var y = new Date(this.todayDate).getUTCFullYear();
       var tempObj = {
-        studentId: this.studentDetail._id
+        studentId: this.studentDetail._id,
+        lessonId: this.lessonObj._id
       };
       if (this.attan_type == 'present') {
         tempObj['attendance'] = 'true';
@@ -207,7 +211,8 @@ export class TodayLessonsComponent implements OnInit {
         var m = new Date(this.todayDate).getUTCMonth() + 1;
         var y = new Date(this.todayDate).getUTCFullYear();
         var tempObj = {
-          studentId: this.studentDetail._id
+          studentId: this.studentDetail._id,
+          lessonId: this.lessonObj._id
         };
         if (this.attan_type == 'present') {
           tempObj['attendance'] = 'true';
@@ -278,7 +283,8 @@ export class TodayLessonsComponent implements OnInit {
       var m = new Date(this.todayDate).getUTCMonth() + 1;
       var y = new Date(this.todayDate).getUTCFullYear();
       var tempObj = {
-        studentId: this.studentDetail._id
+        studentId: this.studentDetail._id,
+        lessonId: this.lessonObj._id
       };
       if (this.attan_type == 'present') {
         tempObj['attendance'] = 'true';
