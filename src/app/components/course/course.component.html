@@ -691,7 +691,13 @@
                     <div class="course-info">
                       <div class="course-detail">
                         <div>
-                          <label class="category item-width semibold">
+                          <label
+                            class="category item-width semibold"
+                            [ngStyle]="{
+                              color: course.location.textColorHex,
+                              background: course.location.backgroundColorHex
+                            }"
+                          >
                             <i
                               class="fa fa-map-marker"
                               style="font-size:15px"
