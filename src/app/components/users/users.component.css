@@ -2494,7 +2494,9 @@ input[_ngcontent-c1]:focus {
   }
 
   .button-group {
-    width: 1225px !important;
+    width: 1080px !important;
+    margin: 0 auto;
+    left: unset !important;
   }
 }
 

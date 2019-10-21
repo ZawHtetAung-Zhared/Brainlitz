@@ -2591,6 +2591,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       ampm = 'PM';
     }
     // var h = hr;
+
+    if (min == ['']) {
+      min = '00';
+    }
     this.slotHr = h + ':' + min + ' ' + ampm;
 
     this.slotM = min;

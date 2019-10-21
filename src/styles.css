@@ -86,7 +86,7 @@ body {
 
 .inner-wrapper {
   padding: 30px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 main {
