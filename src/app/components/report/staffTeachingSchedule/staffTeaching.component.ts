@@ -555,10 +555,10 @@ export class StaffTeachingScheduleReport implements OnInit {
         var lessonData = '';
         var lessonArr = array[i].lessonDate;
         for (var j = 0; j < lessonArr.length; j++) {
-          if (lessonData != '') lessonData += '/ ';
+          if (lessonData != '') lessonData += ', ';
           lessonData += lessonArr[j];
         }
-        tempObject['lessons'] = lessonData;
+        tempObject['lessons'] = '"' + lessonData + '"';
       } else {
         tempObject['lessons'] = '';
       }
