@@ -511,10 +511,19 @@ export class StaffTeachingScheduleReport implements OnInit {
 
   exportCSV() {
     console.log('export report');
-    console.log(sampleCSV);
-    this.downloadFile(sampleCSV, 'staffTeachingSchedule');
+    this._service.getTeachingHours(this.regionID).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.downloadFile(res.teachingHours, 'staff-teaching-hours');
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
+
   downloadFile(data, name) {
+    console.log(data);
     var csvData = this.ConvertToCSV(data);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
@@ -523,14 +532,14 @@ export class StaffTeachingScheduleReport implements OnInit {
     var url = window.URL.createObjectURL(blob);
     a.href = url;
     var filename = new Date().toISOString();
-    console.log('~~~', name + filename);
-    a.download = name + filename + '.csv';
+    console.log('~~~', name + '-' + filename);
+    a.download = name + '-' + filename + '.csv';
     a.click();
   }
 
   ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-    // console.log(array);
+
     var str = '';
     var row = 'Staff name,Email,Course name,Lessons,Total teaching hours';
     //append Label row with line break
@@ -539,7 +548,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var tempObject = {};
-      tempObject['staffName'] = array[i].staffName;
+      tempObject['staffName'] = array[i].staffPreferredName;
       tempObject['staffEmail'] = array[i].staffEmail;
       tempObject['courseName'] = array[i].courseName;
       if (array[i].lessonDate.length > 0) {
@@ -561,6 +570,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       }
       str += line + '\r\n';
     }
+
     return str;
   }
 }

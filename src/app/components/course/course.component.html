@@ -1104,7 +1104,8 @@
                 "
               >
                 {{ detailLists.actualLessonCount }}
-                Lessons
+                <span *ngIf="detailLists.actualLessonCount > 1"> Lessons </span>
+                <span *ngIf="detailLists.actualLessonCount <= 1"> Lesson </span>
                 <!-- {{
                   detailLists.type == 'FLEXY'
                     ? detailLists.defaultlessonCount
