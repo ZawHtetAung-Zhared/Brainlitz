@@ -3071,7 +3071,10 @@
           [ngClass]="{
             absent_block: lesson.attendance == false,
             present_block: lesson.attendance == true,
-            noData_block: lesson.attendance == null
+            noData_block:
+              lesson.attendance == null && lesson.isUpcomingLesson == false,
+            notAvailable_block:
+              lesson.attendance == null && lesson.isUpcomingLesson == true
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3125,15 +3128,15 @@
             >
               Not avaliable
             </p>
-            <!-- <span
+            <span
               [ngClass]="{
                 absent_text: lesson.attendance == false,
                 present_text: lesson.attendance == true,
                 noData_text: lesson.attendance == null
               }"
               *ngIf="!lesson.isUpcomingLesson"
-              >by jerrrsd</span
-            > -->
+              >by {{ lesson.teacher?.preferredName }}</span
+            >
             <span
               style="color:#788796;"
               *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
