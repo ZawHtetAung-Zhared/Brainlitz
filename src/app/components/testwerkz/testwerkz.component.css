@@ -152,6 +152,10 @@
   padding-bottom: 0 !important;
 }
 
+.cancelbtn {
+  cursor: pointer;
+}
+
 .closemark {
   display: inline-block;
   width: 11px;
@@ -569,6 +573,7 @@ h3.category-h3 {
   height: 45px;
   border-radius: 3px;
   width: 100px;
+  cursor: pointer;
 }
 
 .form-footer {
@@ -660,6 +665,7 @@ h3.category-h3 {
 
 .add-new-question {
   padding: 20px;
+  cursor: pointer;
 }
 
 .add-new-question p {
@@ -844,6 +850,7 @@ input:checked + .slider:before {
   font-size: 16px;
   font-family: 'InterUI-Regular', Arial, sans-serif;
   color: #007fff;
+  cursor: pointer;
 }
 
 .question-checkbox {
@@ -2333,10 +2340,10 @@ h3.modal-title {
   color: #64707d;
 }
 
-.modal-footer {
+/* .modal-footer {
   border-top: none;
   padding-top: 0;
-}
+} */
 
 .btnDelete {
   color: red !important;

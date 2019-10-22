@@ -247,7 +247,8 @@
       <p class="back-staff-txt">Staff</p>
     </button>
     <div class="col-md-12 pad-0 mr-bt-top">
-      <h3>Create staff account</h3>
+      <h3 *ngIf="isupdate == false">Create staff account</h3>
+      <h3 *ngIf="isupdate == true">Update staff account</h3>
     </div>
     <form class="form-wrap" novalidate #createForm="ngForm">
       <div class="row display-flex">

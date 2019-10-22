@@ -95,7 +95,7 @@
       class="btn-action remove-outline viewallBtn"
       (click)="goToCollection()"
     >
-      View All
+      View all
       <span class="lists-down-arrow">
         <i class="fa fa-angle-right rightArrow"></i>
       </span>
@@ -569,7 +569,7 @@
  -->
 
 <!-- For test list create and Edit Start -->
-<div *ngIf="testWerkzCategory">
+<div *ngIf="testWerkzCategory" style="padding-top: 15px;">
   <header
     [ngClass]="{ blury: isfocus == true || iseditfocus == true }"
     style="height: 115px;"
@@ -579,7 +579,7 @@
       class="d-flex pr-5 d-wrapper"
       [ngClass]="{ stickywrap: navIsFixed == true }"
     >
-      <div class="mr-auto back-wrap" (click)="backToList()">
+      <div class="mr-auto p-2 pl-0 pb-0 back-wrap" (click)="backToList()">
         <div class="back-to d-flex">
           <i class="fa fa-angle-left"></i>
           <p class="backTotxt">TestWerkz</p>
@@ -604,7 +604,7 @@
       </div>
     </div>
     <h3 class="category-h3" [ngClass]="{ stickywrap: navIsFixed == true }">
-      Pick Tag
+      Pick tag
     </h3>
   </header>
   <div>
@@ -853,9 +853,9 @@
             </div>
             <label class="inform-text mb-0 mt-2">#{{ pickedTag.name }}</label>
             <h3 class="assessment-title" *ngIf="conceptCreate">
-              Creating Concept
+              Creating concept
             </h3>
-            <h3 class="assessment-title" *ngIf="conceptEdit">Edit Concept</h3>
+            <h3 class="assessment-title" *ngIf="conceptEdit">Edit concept</h3>
             <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
               <div class="d-flex justify-content-between">
                 <label class="form-title input-label" for="address">
@@ -870,7 +870,7 @@
                 type="text"
                 class="form-control selfAssessmentName col-12"
                 autocomplete="off"
-                placeholder="Type Concept name here"
+                placeholder="Type concept name here"
                 name="name"
                 maxlength="120"
                 [(ngModel)]="concept.name"
@@ -1455,19 +1455,19 @@
               <span class="pd-No">{{ this.focusType.no + 1 }}</span>
             </div>
             <p class="mr-auto pl-3 pd-setting" *ngIf="focusType.type == 'pd'">
-              PD Setting
+              PD setting
             </p>
             <p
               class="mr-auto pl-3 pd-setting"
               *ngIf="focusType.type == 'question'"
             >
-              Question Setting
+              Question setting
             </p>
             <p
               class="mr-auto pl-3 pd-setting"
               *ngIf="focusType.type == 'answer'"
             >
-              Answer Setting
+              Answer setting
             </p>
             <p
               (click)="closeSetting()"
@@ -2133,6 +2133,7 @@
         <button
           class="btn remove-outline"
           (click)="showMoreContent(ImgArr.length)"
+          style="color: #0080ff; font-size: 14px;"
         >
           load more
         </button>
@@ -2271,7 +2272,7 @@
           <input
             class="form-control py-2 input-search-bg"
             type="search"
-            placeholder="Search Videos"
+            placeholder="Search videos"
             id="example-search-input"
             (input)="contentSearch($event.target.value)"
             autocomplete="off"
@@ -2361,7 +2362,11 @@
       *ngIf="result && result.length == 20"
     >
       <div>
-        <button class="btn remove-outline" (click)="showMoreVideo()">
+        <button
+          class="btn remove-outline"
+          (click)="showMoreVideo()"
+          style="color: #0080ff; font-size: 14px;"
+        >
           load more
         </button>
       </div>
