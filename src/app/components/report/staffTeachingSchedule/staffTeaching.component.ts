@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
-import { NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbDatepickerConfig,
+  NgbCalendar
+} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { appService } from '../../../service/app.service';
 import courseSampleData from './sampleData';
 import sampleCSV from './csvJson';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+declare var $: any;
 @Component({
   selector: 'staff-teaching-report',
   templateUrl: './staffTeaching.component.html',
@@ -50,12 +55,15 @@ export class StaffTeachingScheduleReport implements OnInit {
   endDate: any;
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
+  model: any = {};
+  public todayDate: any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
     private modalService: NgbModal,
-    private _service: appService
+    private _service: appService,
+    config: NgbDatepickerConfig
   ) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -95,6 +103,13 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.reportData = [];
     console.log(courseSampleData);
     this.showReportByLocation();
+
+    const current = new Date();
+    this.todayDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
   }
 
   showReportByLocation() {
@@ -509,6 +524,73 @@ export class StaffTeachingScheduleReport implements OnInit {
     }
   }
 
+  openDownloadModal(downloadModal) {
+    this.modalReference = this.modalService.open(downloadModal, {
+      backdrop: 'static',
+      windowClass: 'downloadStaffTeachingReportModal'
+    });
+  }
+
+  tartDate: any;
+  setMinDate(event, type) {
+    console.log(event);
+    console.log(type);
+    if (type == 'start') this.model.start = event;
+    else if (type == 'end') this.model.end = event;
+
+    if (this.model.start != undefined && this.model.end != undefined) {
+    }
+  }
+  test() {
+    console.log('hello');
+  }
+
+  closeDropdown(event, type, datePicker?) {
+    console.log(event);
+    console.log(type);
+
+    if (event.target.className.includes('cstart')) {
+      console.log(type);
+      datePicker.open();
+
+      // } else if(event.target.className.includes('cend')){
+      //   console.log(type);
+      //   datePicker.open();
+    } else {
+      if (type == 'start') {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+          console.log('hh');
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+          console.log('hh');
+        }
+      }
+    }
+  }
+  closeDropdown1(event, type, datePicker?) {
+    if (event.target.className.includes('cend')) {
+      console.log(type);
+      datePicker.open();
+    } else {
+      if (type == 'end') {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+          console.log('hh');
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+          console.log('hh');
+        }
+      }
+    }
+  }
+  open(event, type, datePicker?) {
+    if (event.target.className.includes('cend')) {
+      console.log(type);
+      datePicker.open();
+    }
+  }
+
   exportCSV() {
     console.log('export report');
     this._service.getTeachingHours(this.regionID).subscribe(
@@ -572,5 +654,72 @@ export class StaffTeachingScheduleReport implements OnInit {
     }
 
     return str;
+  }
+
+  //////./
+  openDatePicker(datePicker) {
+    datePicker.open();
+  }
+
+  closefix(event, datePicker) {
+    if (event.target.offsetParent == null) datePicker.close();
+    else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
+      datePicker.close();
+  }
+
+  closeFix(event, datePicker) {
+    var parentWrap = event.path.filter(function(res) {
+      return res.className == 'xxx-start';
+    });
+    console.log('~~~ ', parentWrap.length);
+    if (parentWrap.length == 0) {
+      console.log('blank');
+      datePicker.close();
+    }
+
+    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
+    //       console.log('in the if')
+    //       datePicker.open();
+    // }else if(event.target.id != "dpStart"){
+    //   console.log('in the else if')
+    //   datePicker.close();
+    // }
+  }
+
+  closeFixEnd(event, endPicker) {
+    var parentWrap = event.path.filter(function(res) {
+      return res.className == 'xxx-end';
+    });
+    console.log('~~~ ', parentWrap.length);
+    if (parentWrap.length == 0) {
+      console.log('blank');
+      endPicker.close();
+    }
+  }
+  setMinDate1(event) {
+    console.log('setMinDate', event);
+  }
+  currentMonth(event) {
+    console.log(event.next.month);
+    let vim = event;
+    if (vim.next.month == 12) {
+      console.log(vim.next.month);
+      $('.datepicker-wrap').addClass('hideRight');
+    } else {
+      $('.datepicker-wrap').removeClass('hideRight');
+    }
+    if (vim.next.month == 1) {
+      console.log(vim.next.month);
+      $('.datepicker-wrap').addClass('hideLeft');
+    } else {
+      $('.datepicker-wrap').removeClass('hideLeft');
+    }
+  }
+
+  onDateSelect(e) {
+    console.log(e);
+  }
+  setMaxDate(date) {
+    console.log('setMaxDate', date);
   }
 }

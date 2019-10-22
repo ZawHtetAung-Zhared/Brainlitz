@@ -478,6 +478,8 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   closeDropdown(event, type, datePicker?) {
+    console.log(event);
+
     if (event.target.className.includes('dropD')) {
       console.log('dropD');
     } else {
