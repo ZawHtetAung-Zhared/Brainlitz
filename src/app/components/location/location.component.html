@@ -187,10 +187,10 @@
                 (clickOutside)="console.warn('ss')"
                 ></span> -->
         </div>
-        <div class="pl-3">
+        <!-- <div class="pl-3">
           <span class="pb-1 choose_color">Background color</span>
           <div class="d-flex align-items-center">
-            <!-- <div
+            <div
               class="color_picker_menu"
               [cpCancelButton]="true"
               [cpOKButton]="true"
@@ -202,7 +202,7 @@
               [cpOutputFormat]="'hex'"
               [(colorPicker)]="bg_code"
               (click)="removeHtml($event)"
-            ></div> -->
+            ></div>
 
             <input
               type="text"
@@ -220,7 +220,7 @@
         <div class="pl-3">
           <span class="pb-1 choose_color">Text color</span>
           <div class="d-flex align-items-center">
-            <!-- <div
+            <div
               class="color_picker_menu"
               [cpCancelButton]="true"
               [cpOKButton]="true"
@@ -232,7 +232,7 @@
               [cpOutputFormat]="'hex'"
               [(colorPicker)]="txt_code"
               (click)="removeHtml($event)"
-            ></div> -->
+            ></div>
 
             <input
               type="text"
@@ -245,7 +245,7 @@
               [ngStyle]="{ background: txt_code }"
             ></div>
           </div>
-        </div>
+        </div> -->
 
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="back()">
