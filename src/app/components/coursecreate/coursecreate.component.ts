@@ -1097,6 +1097,8 @@ export class CoursecreateComponent implements OnInit {
     }
   }
   closeDropdown(event, type, datePicker?) {
+    console.log('exit here close drop down');
+
     // if(event.path){
     //   if(type == 'feeOpt'){
     //     var parentWrap = event.path.filter(function(res){
