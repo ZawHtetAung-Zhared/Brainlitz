@@ -85,6 +85,9 @@ export class UserStaffComponent implements OnInit {
   userId: string;
   visited: boolean = false;
   staffObj: any = {};
+  public gtxtColor: any;
+  public gbgColor: any;
+
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
@@ -103,6 +106,8 @@ export class UserStaffComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/staff') {
@@ -150,6 +155,8 @@ export class UserStaffComponent implements OnInit {
 
     if (this.staffPermission.includes('VIEWSTAFFS') != false) {
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       this.getAllUsers('staff', 20, 0);
       this.getAllpermission();
     } else {

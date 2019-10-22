@@ -140,6 +140,14 @@ export class HeaderComponent implements OnInit, OnChanges {
                   'locationName',
                   this.headerlocationLists[i].name
                 );
+                localStorage.setItem(
+                  'txtColor',
+                  this.headerlocationLists[i].textColorHex
+                );
+                localStorage.setItem(
+                  'backgroundColor',
+                  this.headerlocationLists[i].backgroundColorHex
+                );
                 this.selectedLocation['id'] = this.headerlocationLists[i]._id;
                 this.selectedLocation['name'] = this.headerlocationLists[
                   i
@@ -204,8 +212,16 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     for (var i in this.headerlocationLists) {
       if (this.headerlocationLists[i]._id == LocationId) {
-        console.log('same');
+        console.error('same', this.headerlocationLists[i]);
         localStorage.setItem('locationName', this.headerlocationLists[i].name);
+        localStorage.setItem(
+          'txtColor',
+          this.headerlocationLists[i].textColorHex
+        );
+        localStorage.setItem(
+          'backgroundColor',
+          this.headerlocationLists[i].backgroundColorHex
+        );
       }
     }
     // let Locationname = e.target.value.name;

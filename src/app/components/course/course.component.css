@@ -1260,7 +1260,6 @@ li button {
 .back-to,
 .edit-course-btn,
 .course-time h5,
-.cdetail h5,
 .room-name,
 .invoice-info,
 .payment-item,
@@ -1437,9 +1436,10 @@ li button {
 .course-bg:nth-child(4) .cdetail {
   background-image: url('../../../assets/img/wave-4@3x.png');
 }
-.cdetail h5 {
+.cdetail span {
   line-height: 1.5;
   margin-bottom: 0;
+  font-size: 16px;
 }
 .cdetail p,
 .course-time p {
