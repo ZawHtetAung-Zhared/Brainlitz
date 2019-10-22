@@ -26,6 +26,10 @@
           <div>
             <h3 class="header-font">Courses</h3>
             <span class="location-name">{{ locationName }}</span>
+            <!--  [ngStyle]="{
+                color: gtxtColor,
+                background: gbgColor
+              }" -->
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -691,12 +695,16 @@
                     <div class="course-info">
                       <div class="course-detail">
                         <div>
-                          <label class="category item-width semibold">
+                          <label class="category item-width semibold mb-2">
+                            <!--  [ngStyle]="{
+                              color: course.location.textColorHex,
+                              background: course.location.backgroundColorHex
+                            }" -->
                             <i
                               class="fa fa-map-marker"
                               style="font-size:15px"
                             ></i>
-                            <span>{{ course.location.name }}</span>
+                            <span class="ml-1">{{ course.location.name }}</span>
                           </label>
                         </div>
                         <h5
@@ -1071,7 +1079,11 @@
           >
             <div class="cdetail">
               <p>Location</p>
-              <h5>{{ detailLists.location.name }}</h5>
+              <span>{{ detailLists.location.name }}</span>
+              <!-- [ngStyle]="{
+                  color: detailLists.location.textColorHex,
+                  background: detailLists.location.backgroundColorHex
+                }" -->
             </div>
           </div>
           <div

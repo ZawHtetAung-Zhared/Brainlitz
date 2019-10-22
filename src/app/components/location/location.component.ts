@@ -19,7 +19,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
-  public color_code = '#8f4949';
+  public bg_code: any;
+  public txt_code: any;
   public limitno: Location;
   public PHpattern: any;
   public result: any;
@@ -254,6 +255,8 @@ export class LocationComponent implements OnInit {
   createLocation(obj, update, locationID) {
     console.log('Location Obj', obj);
     console.log(obj.phonenumber);
+    console.log(this.txt_code, 'txt-code');
+    console.log(this.bg_code, 'bg_code');
     var phNum;
 
     phNum =
@@ -270,6 +273,8 @@ export class LocationComponent implements OnInit {
         number: phNum,
         countryName: this.countryname
       }
+      // backgroundColorHex: this.bg_code,
+      // textColorHex: this.txt_code
     };
     console.log('location Data', data);
     if (update == true) {
@@ -349,6 +354,8 @@ export class LocationComponent implements OnInit {
         this.currentID = res._id;
         this.locationName = res.name;
         this.model = res;
+        // this.txt_code = res.textColorHex;
+        // this.bg_code = res.backgroundColorHex;
         this.model.phonenumber = res.phoneNumber.number;
         this.countrycode = res.phoneNumber.countryCode;
         this.countryname = res.phoneNumber.countryName;

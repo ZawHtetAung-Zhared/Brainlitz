@@ -2953,7 +2953,7 @@ input:checked + .slider:before {
 .scrollbar {
   overflow-y: scroll;
   min-height: 220px;
-  max-height: 220px;
+  max-height: 260px;
   overflow: overlay;
   overflow-x: overlay;
   position: relative;
@@ -2972,7 +2972,7 @@ input:checked + .slider:before {
   height: 20px;
   background: #cce5ff;
   border-radius: 4px;
-  margin-bottom: 0px;
+  margin-bottom: 12px;
   text-align: center;
   margin-top: 14px;
 }
@@ -3018,7 +3018,8 @@ input:checked + .slider:before {
     margin-right: -15px;
   }
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #007fff;
+    /* background: #007fff; */
+    background: red;
   }
   .switch {
     margin-left: 5px;

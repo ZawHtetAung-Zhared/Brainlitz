@@ -30,7 +30,11 @@
       <div class="col-md-5 pad-0">
         <div class="d-flex flex-row">
           <h3>Customers</h3>
-          <span class="location-name">{{ locationName }}</span>
+          <span class="location-name"> {{ locationName }}</span>
+          <!--  [ngStyle]="{
+              color: gtxtColor,
+              background: gbgColor
+            }" -->
         </div>
       </div>
       <div class="col-md-7 pad-0">
@@ -839,7 +843,10 @@
                             </p>
                           </div>
                           <div class="second-one" style="padding-left: 10px">
-                            <div class="d-flex" style="margin-top: 14px">
+                            <div
+                              class="d-flex"
+                              style="margin-top: 14px;margin-bottom: 12px"
+                            >
                               <div
                                 class="paybill"
                                 [ngClass]="{
