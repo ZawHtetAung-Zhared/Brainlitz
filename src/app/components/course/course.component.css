@@ -1038,7 +1038,14 @@ li button {
   font-size: 12px;
 }
 .item-width {
-  width: 65%;
+  /* width: 65%; */
+  position: relative;
+  font-size: 12px;
+  background: #cce6ff;
+  padding: 3px 7px;
+  margin-bottom: 0;
+  border-radius: 25px;
+  display: table;
 }
 .header-info {
   font-size: 16px;

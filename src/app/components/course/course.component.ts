@@ -2207,6 +2207,7 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   absentClass(obj, userId) {
+    console.log(this.selectedLesson, 'last selected obj');
     if (this.modalType == 'absent' && !this.isGlobal) {
       console.log(this.activeCourseInfo);
       console.log('LASD~~~', this.LASD);
@@ -2214,7 +2215,8 @@ export class CourseComponent implements OnInit {
       var m = new Date(this.LASD).getUTCMonth() + 1;
       var y = new Date(this.LASD).getUTCFullYear();
       var studentID = {
-        studentId: this.absentInfo.userId
+        studentId: this.absentInfo.userId,
+        lessonId: this.selectedLesson._id
       };
       // if (type == 'present') {
       //   obj['attendance'] = 'true';
@@ -2248,7 +2250,8 @@ export class CourseComponent implements OnInit {
         var m = new Date(this.LASD).getUTCMonth() + 1;
         var y = new Date(this.LASD).getUTCFullYear();
         var studentID = {
-          studentId: this.absentInfo.userId
+          studentId: this.absentInfo.userId,
+          lessonId: this.selectedLesson._id
         };
         // if (type == 'present') {
         //   obj['attendance'] = 'true';
