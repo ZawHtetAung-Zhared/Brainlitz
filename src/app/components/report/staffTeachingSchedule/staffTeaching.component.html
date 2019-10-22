@@ -1,4 +1,12 @@
-<h3 class="pd-lft-15">Staff Teaching Schedule</h3>
+<div
+  class="pd-lft-15 d-flex flex-row justify-content-between align-items-center"
+>
+  <h3>Staff Teaching Schedule</h3>
+  <button class="btn btn-submit" (click)="exportCSV()">
+    Download report
+  </button>
+</div>
+<!-- <h3 class="pd-lft-15">Staff teaching schedule</h3> -->
 <div class="pd-lft-15 report-content">
   <div class="row">
     <div class="report-time-range d-flex flex-column col-md-4">
@@ -140,7 +148,7 @@
         </button>
       </span>
     </div>
-    <div style="" class="search-result-box" *ngIf="searchResult.show == true">
+    <div class="search-result-box" *ngIf="searchResult.show == true">
       <div
         class="single-result"
         *ngFor="let suggestedItem of searchResult.value"

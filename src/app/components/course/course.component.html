@@ -691,12 +691,18 @@
                     <div class="course-info">
                       <div class="course-detail">
                         <div>
-                          <label class="category item-width semibold">
+                          <label
+                            class="category item-width semibold mb-2"
+                            [ngStyle]="{
+                              color: course.location.textColorHex,
+                              background: course.location.backgroundColorHex
+                            }"
+                          >
                             <i
                               class="fa fa-map-marker"
                               style="font-size:15px"
                             ></i>
-                            <span>{{ course.location.name }}</span>
+                            <span class="ml-1">{{ course.location.name }}</span>
                           </label>
                         </div>
                         <h5
@@ -814,10 +820,10 @@
                             >
                           </div>
                           <div
-                            class="Student-text"
+                            class="medium-font"
                             *ngIf="course.students.earlyAttendees?.length == 0"
                           >
-                            -
+                            There is no student enroll
                           </div>
                         </div>
                       </div>
@@ -963,7 +969,7 @@
     class="category-content"
     *ngIf="isCourseCreate == true"
   ></app-coursecreate>
-  <div class="inner-wrapper w-100">
+  <div class="w-100">
     <app-today-lessons
       *ngIf="isTodayLesson"
       (courseDetail)="callcourseDetail($event)"
@@ -1104,7 +1110,8 @@
                 "
               >
                 {{ detailLists.actualLessonCount }}
-                Lessons
+                <span *ngIf="detailLists.actualLessonCount > 1"> Lessons </span>
+                <span *ngIf="detailLists.actualLessonCount <= 1"> Lesson </span>
                 <!-- {{
                   detailLists.type == 'FLEXY'
                     ? detailLists.defaultlessonCount
@@ -1842,7 +1849,9 @@
                     class="total_student d-flex justify-content-center align-items-center"
                   >
                     <div>
-                      <p class="total_count">{{ noStudent }}</p>
+                      <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
+                        {{ activeCourseInfo.CUSTOMER.length }}
+                      </p>
                       <span class="total_text">Total</span>
                     </div>
                   </div>

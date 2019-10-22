@@ -2494,7 +2494,9 @@ input[_ngcontent-c1]:focus {
   }
 
   .button-group {
-    width: 1225px !important;
+    width: 1080px !important;
+    margin: 0 auto;
+    left: unset !important;
   }
 }
 
@@ -2951,7 +2953,7 @@ input:checked + .slider:before {
 .scrollbar {
   overflow-y: scroll;
   min-height: 220px;
-  max-height: 220px;
+  max-height: 260px;
   overflow: overlay;
   overflow-x: overlay;
   position: relative;
@@ -2970,7 +2972,7 @@ input:checked + .slider:before {
   height: 20px;
   background: #cce5ff;
   border-radius: 4px;
-  margin-bottom: 0px;
+  margin-bottom: 12px;
   text-align: center;
   margin-top: 14px;
 }
@@ -3016,7 +3018,8 @@ input:checked + .slider:before {
     margin-right: -15px;
   }
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #007fff;
+    /* background: #007fff; */
+    background: red;
   }
   .switch {
     margin-left: 5px;
@@ -3167,7 +3170,7 @@ span.by-name {
   /* max-height: 300px; */
 }
 .evaluation-header {
-  padding: 5px 10px 5px 20px;
+  padding: 10px 10px 5px 20px;
   font-size: 16px;
   color: #2e3e4d;
 }
@@ -3212,7 +3215,7 @@ span.exitData-dot {
   margin-bottom: 3px;
 }
 p.assessment-name {
-  margin-bottom: -5px;
+  margin-bottom: 0px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   width: 274px;
@@ -3236,7 +3239,7 @@ span.exitData-dot.one {
 }
 
 .createdDate {
-  padding: 0px 0px 0px 20px;
+  padding: 0px 0px 10px 20px;
   border-bottom: 1px solid #edeff0;
   color: #007fff;
   font-size: 12px;
@@ -3261,6 +3264,7 @@ span.exitData-dot.one {
 
 .evaluate-details {
   max-width: 300px;
+  margin: 2px 0px;
 }
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -3511,14 +3515,17 @@ p.grade-txt {
 
 span.grade-name {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
 }
 
 span.grade-by {
-  font-family: 'Inter-UI-Mediun', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
 }
 
 span.grade-date {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  font-size: 14px;
 }
 
 .card-columns.grade-list {

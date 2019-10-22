@@ -3894,4 +3894,18 @@ export class appService {
       return result;
     });
   }
+
+  getTeachingHours(regionId) {
+    let url = this.baseUrl + '/regions/' + regionId + '/staff/teachinghours';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }

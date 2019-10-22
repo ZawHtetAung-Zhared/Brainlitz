@@ -713,8 +713,24 @@
                           class="remaining-lessons"
                           (click)="openLessonsModal(remainingLessons, course)"
                         >
-                          {{ course.upComingLessonCountOfStudent }} remaining
-                          lessons
+                          {{ course.upComingLessonCountOfStudent }}
+                          <span *ngIf="course.upComingLessonCountOfStudent > 1">
+                            remaining lessons
+                          </span>
+                          <span
+                            *ngIf="course.upComingLessonCountOfStudent <= 1"
+                          >
+                            remaining lesson
+                          </span>
+                          <!-- <span *ngIf="course.lessonsOfStudent">
+                            of total {{ course.lessonsOfStudent.length }}
+                            <span *ngIf="course.lessonsOfStudent.length > 1">
+                              lessons
+                            </span>
+                            <span *ngIf="course.lessonsOfStudent.length <= 1">
+                              lesson
+                            </span>
+                          </span> -->
                         </div>
                       </div>
                     </div>
@@ -798,7 +814,13 @@
                         <div class="d-flex">
                           <div class="first-one d-flex flex-column">
                             <p class="lesson">
-                              {{ invoice.studentLessonsCount }} lessons
+                              {{ invoice.studentLessonsCount }}
+                              <span *ngIf="invoice.studentLessonsCount > 1">
+                                lessons
+                              </span>
+                              <span *ngIf="invoice.studentLessonsCount <= 1">
+                                lesson
+                              </span>
                             </p>
                             <span
                               class="date"
@@ -817,7 +839,10 @@
                             </p>
                           </div>
                           <div class="second-one" style="padding-left: 10px">
-                            <div class="d-flex" style="margin-top: 14px">
+                            <div
+                              class="d-flex"
+                              style="margin-top: 14px;margin-bottom: 12px"
+                            >
                               <div
                                 class="paybill"
                                 [ngClass]="{
@@ -1139,6 +1164,47 @@
               </div>
             </div>
           </div>
+          <div class="achievements-main" *ngIf="achievementGrade.length != 0">
+            <div class="achievements-header">
+              <h6 class="title-space">Grade</h6>
+            </div>
+            <div class="card-columns grade-list">
+              <div *ngFor="let grade of achievementGrade">
+                <div class="card">
+                  <div class="grade-main">
+                    <div class="grade-header">
+                      <p class="grade-txt">Grade level for</p>
+                      <p class="grade-apg-name">
+                        {{ grade.assessment.apgName }}
+                      </p>
+                    </div>
+                    <div class="d-flex grade-body">
+                      <div
+                        *ngFor="let log of grade.assessment.logs; let i = index"
+                      >
+                        <div
+                          class="d-flex flex-column grade-box"
+                          [ngStyle]="{
+                            background: grade.assessment.sepalColor.background,
+                            color: grade.assessment.sepalColor.text
+                          }"
+                          [ngClass]="{
+                            addBorder: i == grade.assessment.logs.length - 1
+                          }"
+                        >
+                          <span class="grade-name">{{ log.grade.name }}</span>
+                          <span class="grade-by">by {{ log.by }}</span>
+                          <span class="grade-date">
+                            {{ log.createdDate | dateFormat }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             class="achievements-main"
             *ngIf="achievementEvaluation.length != 0"
@@ -1241,47 +1307,6 @@
                         </ng-container>
                       </ng-container>
                     </carousel>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="achievements-main" *ngIf="achievementGrade.length != 0">
-            <div class="achievements-header">
-              <h6 class="title-space">Grade</h6>
-            </div>
-            <div class="card-columns grade-list">
-              <div *ngFor="let grade of achievementGrade">
-                <div class="card">
-                  <div class="grade-main">
-                    <div class="grade-header">
-                      <p class="grade-txt">Grade level for</p>
-                      <p class="grade-apg-name">
-                        {{ grade.assessment.apgName }}
-                      </p>
-                    </div>
-                    <div class="d-flex grade-body">
-                      <div
-                        *ngFor="let log of grade.assessment.logs; let i = index"
-                      >
-                        <div
-                          class="d-flex flex-column grade-box"
-                          [ngStyle]="{
-                            background: grade.assessment.sepalColor.background,
-                            color: grade.assessment.sepalColor.text
-                          }"
-                          [ngClass]="{
-                            addBorder: i == grade.assessment.logs.length - 1
-                          }"
-                        >
-                          <span class="grade-name">{{ log.grade.name }}</span>
-                          <span class="grade-by">by {{ log.by }}</span>
-                          <span class="grade-date">
-                            {{ log.createdDate | dateFormat }}</span
-                          >
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -3019,17 +3044,30 @@
         <p class="pb-0">{{ lessonOfStudent.name }}</p>
       </div>
       <p class="_lessons_left">
-        {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons left
+        {{ lessonOfStudent.upComingLessonCountOfStudent }}
+        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
+          lessons left
+        </span>
+        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
+          lesson left
+        </span>
+        <span *ngIf="lessonOfStudent.lessonsOfStudent">
+          in total {{ lessonOfStudent.lessonsOfStudent.length }}
+          <span *ngIf="lessonOfStudent.lessonsOfStudent.length > 1">
+            lessons
+          </span>
+          <span *ngIf="lessonOfStudent.lessonsOfStudent.length <= 1">
+            lesson
+          </span>
+        </span>
       </p>
       <div class="lesson_block_wrapper">
         <div
           class="lesson_block"
           [ngClass]="{
-            absent_block:
-              lesson.attendance == false && !lesson.isUpcomingLesson,
-            present_block:
-              lesson.attendance == true && !lesson.isUpcomingLesson,
-            noData_block: lesson.attendance == null && !lesson.isUpcomingLesson
+            absent_block: lesson.attendance == false,
+            present_block: lesson.attendance == true,
+            noData_block: lesson.attendance == null
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3037,10 +3075,8 @@
             <p
               class="mb-0"
               [ngClass]="{
-                absent_date:
-                  lesson.attendance == false && !lesson.isUpcomingLesson,
-                present_date:
-                  lesson.attendance == true && !lesson.isUpcomingLesson,
+                absent_date: lesson.attendance == false,
+                present_date: lesson.attendance == true,
                 noData_date:
                   lesson.attendance == null && !lesson.isUpcomingLesson
               }"
@@ -3049,12 +3085,9 @@
             </p>
             <span
               [ngClass]="{
-                absent_icon:
-                  lesson.attendance == false && !lesson.isUpcomingLesson,
-                present_icon:
-                  lesson.attendance == true && !lesson.isUpcomingLesson,
-                noData_icon:
-                  lesson.attendance == null && !lesson.isUpcomingLesson,
+                absent_icon: lesson.attendance == false,
+                present_icon: lesson.attendance == true,
+                noData_icon: lesson.attendance == null,
                 'bg-none': lesson.isUpcomingLesson
               }"
             ></span>
@@ -3063,14 +3096,14 @@
             <p
               class="mb-0"
               style="color:#006E2E;"
-              *ngIf="lesson.attendance == true && !lesson.isUpcomingLesson"
+              *ngIf="lesson.attendance == true"
             >
               Present
             </p>
             <p
               class="mb-0"
               style="color:#C73028;"
-              *ngIf="lesson.attendance == false && !lesson.isUpcomingLesson"
+              *ngIf="lesson.attendance == false"
             >
               Absent
             </p>
@@ -3084,7 +3117,7 @@
             <p
               class="mb-0"
               style="color:#B0B1B2;"
-              *ngIf="lesson.isUpcomingLesson"
+              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
             >
               Not avaliable
             </p>
@@ -3097,7 +3130,9 @@
               *ngIf="!lesson.isUpcomingLesson"
               >by jerrrsd</span
             > -->
-            <span style="color:#788796;" *ngIf="lesson.isUpcomingLesson"
+            <span
+              style="color:#788796;"
+              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
               >-</span
             >
           </div>

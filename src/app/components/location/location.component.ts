@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
+  public bg_code: any;
+  public txt_code: any;
   public limitno: Location;
   public PHpattern: any;
   public result: any;
@@ -253,6 +255,8 @@ export class LocationComponent implements OnInit {
   createLocation(obj, update, locationID) {
     console.log('Location Obj', obj);
     console.log(obj.phonenumber);
+    console.log(this.txt_code, 'txt-code');
+    console.log(this.bg_code, 'bg_code');
     var phNum;
 
     phNum =
@@ -268,7 +272,9 @@ export class LocationComponent implements OnInit {
         countryCode: this.countrycode,
         number: phNum,
         countryName: this.countryname
-      }
+      },
+      backgroundColorHex: this.bg_code,
+      textColorHex: this.txt_code
     };
     console.log('location Data', data);
     if (update == true) {
@@ -348,6 +354,8 @@ export class LocationComponent implements OnInit {
         this.currentID = res._id;
         this.locationName = res.name;
         this.model = res;
+        this.txt_code = res.textColorHex;
+        this.bg_code = res.backgroundColorHex;
         this.model.phonenumber = res.phoneNumber.number;
         this.countrycode = res.phoneNumber.countryCode;
         this.countryname = res.phoneNumber.countryName;
@@ -368,4 +376,35 @@ export class LocationComponent implements OnInit {
     this.locationName = name;
     this.currentID = id;
   }
+  removeHtml(e) {
+    // console.warn(e);
+    setTimeout(() => {
+      // console.error($('.right'));
+      $('.box')[7].children[0].style.background = '#F2F4FA';
+      $('.box')[7].children[0].style.color = '#495057';
+      $('.box')[7].children[0].style.padding = '16px';
+      $('.box')[7].children[0].style.border = 'none';
+      $('.color-picker')[0].style.boxShadow = '0px 2px 8px rgba(0, 0, 0, 0.08)';
+      $('.color-picker')[0].style.width = '250px';
+      $('.color-picker')[0].style.border = 'none';
+      $('.color-picker')[0].style.padding = '9px';
+      $('.color-picker')[0].style.paddingBottom = '0px';
+      $('.arrow-bottom')[0].style.borderWidth = '10px 10px';
+      $('.arrow-bottom')[0].style.borderColor =
+        'rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #fff rgba(0, 0, 0, 0)';
+      $('.arrow-bottom')[0].style.filter =
+        'drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1))';
+      $('.button-area')[0].style.paddingBottom = '7px';
+      $('.hue')[0].style.borderRadius = '7px';
+      $('.hue-alpha')[0].style.marginBottom = '0px';
+      $('.hue-alpha')[0].style.paddingBottom = '0px';
+      $('.selected-color-background')[0].style.width = '30px';
+      $('.selected-color-background')[0].style.height = '30px';
+      $('.selected-color')[0].style.width = '30px';
+      $('.selected-color')[0].style.height = '30px';
+      $('.box')[$('.box').length - 1].style.display = 'none';
+      $('.type-policy')[0].style.display = 'none';
+    }, 100);
+  }
 }
+// order-width: 10px 10px;    filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));     padding-bottom: 7px;

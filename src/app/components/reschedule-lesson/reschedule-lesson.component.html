@@ -2,7 +2,7 @@
 <div *ngIf="isReschedule" class="d-flex justify-content-center">
   <div class="col-md-6 mx-auto">
     <h3 class="header" *ngIf="defineType == 'Reschedule'">Reschedule</h3>
-    <h3 class="header" *ngIf="defineType == 'New'">New Lesson</h3>
+    <h3 class="header" *ngIf="defineType == 'New'">New lesson</h3>
     <p class="pick-a-date mt-20 ">Pick a date</p>
     <div class="d-flex flex-row input-wrap">
       <div
@@ -26,13 +26,11 @@
           [markDisabled]="isDisabledDate == true"
           readonly
         />
-        <div (click)="start.toggle()">
-          <i
-            class="fa fa-chevron-down dropdown-arrow"
-            style="font-size: 12px;"
-            (click)="start.toggle()"
-          ></i>
-        </div>
+        <i
+          class="fa fa-chevron-down dropdown-arrow dropD"
+          style="font-size: 12px;"
+          (click)="start.toggle()"
+        ></i>
       </div>
     </div>
 
