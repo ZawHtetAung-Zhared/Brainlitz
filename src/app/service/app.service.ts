@@ -3866,9 +3866,7 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    console.log(this.tokenType + ' ' + this.accessToken);
     return this.httpClient.put(url, body, httpOptions).map((res: Response) => {
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       console.log(res);
       return res;
     });
