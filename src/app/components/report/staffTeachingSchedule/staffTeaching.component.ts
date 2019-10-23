@@ -531,40 +531,56 @@ export class StaffTeachingScheduleReport implements OnInit {
     });
   }
 
-  tartDate: any;
+  reportSDate: any;
+  reportEDate: any;
   setMinDate(event, type) {
     console.log(event);
     console.log(type);
     if (type == 'start') this.model.start = event;
     else if (type == 'end') this.model.end = event;
+    this.reportSDate = this.changeDateFormat(this.model.start, '23:59:59:999');
+    console.log(this.reportSDate);
 
     if (this.model.start != undefined && this.model.end != undefined) {
+      this.reportSDate = this.changeDateFormat(
+        this.model.start,
+        '00:00:00:000'
+      );
+      this.reportEDate = this.changeDateFormat(this.model.end, '23:59:59:999');
+      console.log(this.reportEDate, this.reportSDate);
     }
   }
-  test() {
+  test(datePicker?) {
     console.log('hello');
+    datePicker.toggle();
   }
 
   closeDropdown(event, type, datePicker?) {
     console.log(event);
+    console.log(event.target.className);
     console.log(type);
 
     if (event.target.className.includes('cstart')) {
-      console.log(type);
       datePicker.open();
 
       // } else if(event.target.className.includes('cend')){
-      //   console.log(type);
       //   datePicker.open();
     } else {
       if (type == 'start') {
-        if (event.target.offsetParent == null) {
-          datePicker.close();
-          console.log('hh');
-        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-          datePicker.close();
+        if (
+          event.target.className == 'ngb-dp-navigation-chevron' ||
+          event.target.className == 'ngb-dp-arrow'
+        ) {
+          console.log('still open');
+          datePicker.open();
+        } else if (event.target.offsetParent == null) {
+          // datePicker.close();
           console.log('hh');
         }
+        // else if (event.target.className != 'ngb-dp-navigation-chevron' || event.target.className != 'ngb-dp-arrow') {
+        //   datePicker.close();
+        //   console.log('hh');
+        // }
       }
     }
   }
@@ -573,15 +589,25 @@ export class StaffTeachingScheduleReport implements OnInit {
       console.log(type);
       datePicker.open();
     } else {
-      if (type == 'end') {
-        if (event.target.offsetParent == null) {
-          datePicker.close();
-          console.log('hh');
-        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-          datePicker.close();
-          console.log('hh');
-        }
+      if (
+        event.target.className == 'ngb-dp-navigation-chevron' ||
+        event.target.className == 'ngb-dp-arrow'
+      ) {
+        console.log('still open');
+        datePicker.open();
+      } else if (event.target.offsetParent == null) {
+        // datePicker.close();
+        console.log('hh');
       }
+      // if (type == 'end') {
+      //   if (event.target.offsetParent == null) {
+      //     datePicker.close();
+      //     console.log('hh');
+      //   } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+      //     datePicker.close();
+      //     console.log('hh');
+      //   }
+      // }
     }
   }
   open(event, type, datePicker?) {
@@ -593,15 +619,28 @@ export class StaffTeachingScheduleReport implements OnInit {
 
   exportCSV() {
     console.log('export report');
-    this._service.getTeachingHours(this.regionID).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.downloadFile(res.teachingHours, 'staff-teaching-hours');
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    console.log(this.startDate, this.endDate);
+    var str = this.startDate.split('T');
+    var str2 = this.endDate.split('T');
+    var SDate = str[0] + 'T' + '00:00:00.000Z';
+    var EDate = str2[0] + 'T' + '23:59:59.999Z';
+    let fullStartDate = new Date(SDate).toISOString();
+    let fullEndDate = new Date(EDate).toISOString();
+    console.log(SDate, EDate, fullStartDate, fullEndDate);
+
+    //'00:00:00:000' 00:00:00.000Z
+    //'23:59:59:999' 23:59:00.000Z
+    this._service
+      .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.downloadFile(res.teachingHours, 'staff-teaching-hours');
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   downloadFile(data, name) {
@@ -656,70 +695,34 @@ export class StaffTeachingScheduleReport implements OnInit {
     return str;
   }
 
-  //////./
-  openDatePicker(datePicker) {
-    datePicker.open();
-  }
-
-  closefix(event, datePicker) {
-    if (event.target.offsetParent == null) datePicker.close();
-    else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
-      datePicker.close();
-  }
-
-  closeFix(event, datePicker) {
-    var parentWrap = event.path.filter(function(res) {
-      return res.className == 'xxx-start';
-    });
-    console.log('~~~ ', parentWrap.length);
-    if (parentWrap.length == 0) {
-      console.log('blank');
-      datePicker.close();
-    }
-
-    // if(event.target.id == "dpStart" || event.target.nodeName == 'SELECT' || event.target.className =='ngb-dp-navigation-chevron' || event.target.nodeName == 'ngb-datepicker-navigation'){
-    //       console.log('in the if')
-    //       datePicker.open();
-    // }else if(event.target.id != "dpStart"){
-    //   console.log('in the else if')
-    //   datePicker.close();
-    // }
-  }
-
-  closeFixEnd(event, endPicker) {
-    var parentWrap = event.path.filter(function(res) {
-      return res.className == 'xxx-end';
-    });
-    console.log('~~~ ', parentWrap.length);
-    if (parentWrap.length == 0) {
-      console.log('blank');
-      endPicker.close();
-    }
-  }
-  setMinDate1(event) {
-    console.log('setMinDate', event);
-  }
-  currentMonth(event) {
-    console.log(event.next.month);
-    let vim = event;
-    if (vim.next.month == 12) {
-      console.log(vim.next.month);
-      $('.datepicker-wrap').addClass('hideRight');
+  changeDateFormat(date, time) {
+    // console.log('==>date,time', date, time);
+    if (date == null) {
+      // console.log('null', date);
+      return '';
     } else {
-      $('.datepicker-wrap').removeClass('hideRight');
+      // console.log('utc date', date);
+      // console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      // console.log(sdate);
+      let dateParts = sdate.split('-');
+      // console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        // console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        // console.log('ISO', fullDate);
+        return fullDate;
+      }
     }
-    if (vim.next.month == 1) {
-      console.log(vim.next.month);
-      $('.datepicker-wrap').addClass('hideLeft');
-    } else {
-      $('.datepicker-wrap').removeClass('hideLeft');
-    }
-  }
-
-  onDateSelect(e) {
-    console.log(e);
-  }
-  setMaxDate(date) {
-    console.log('setMaxDate', date);
+    // console.log('ELSE');
   }
 }

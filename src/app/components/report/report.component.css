@@ -1040,3 +1040,6 @@ h3.head-rating-count {
   height: 44px;
   width: 100%;
 }
+.datepicker-wrap.hideRight .ngb-dp-arrow.right {
+  opacity: 0;
+}
