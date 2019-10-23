@@ -82,24 +82,38 @@
       <form novalidate #locationForm="ngForm" class="form-wrap">
         <div class="form-group form-divider">
           <div class="d-flex justify-content-between">
-            <label class="form-title" for="name">Location name</label>
+            <label class="form-title location-name" for="name"
+              >Location name</label
+            >
             <div class="limit-wordcount">
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Type location name here"
-            name="name"
-            maxlength="60"
-            [(ngModel)]="model.name"
-            (focus)="focusMethod($event, $event.target.value)"
-            (blur)="blurMethod($event)"
-            (input)="changeMethod($event.target.value)"
-            required
-            #name="ngModel"
-          />
+          <div class="d-flex flex-row pl-2">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Type location name here"
+              name="name"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              (focus)="focusMethod($event, $event.target.value)"
+              (blur)="blurMethod($event)"
+              (input)="changeMethod($event.target.value)"
+              required
+              #name="ngModel"
+              [ngStyle]="{
+                background: selectedLocationColor.background,
+                color: selectedLocationColor.text
+              }"
+            />
+            <div class="color-box" (click)="showColorPicker($event)">
+              <span class="icon-img">
+                <img src="../../../assets/img/Vector.png" />
+              </span>
+            </div>
+          </div>
+
           <div
             *ngIf="name.errors && (name.dirty || name.touched)"
             class="alert alert-danger"
@@ -109,6 +123,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="form-group col-sm-12 col-md-6 col-lg-7">
             <label class="form-title" for="address">Address</label>
@@ -247,6 +262,8 @@
           </div>
         </div> -->
 
+        <!-- color picker -->
+
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="back()">
             Cancel
@@ -272,6 +289,30 @@
         </div>
       </form>
     </div>
+  </div>
+</div>
+<div
+  id="colorPletteBox"
+  *ngIf="isShowPicker"
+  [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }"
+>
+  <div
+    class="carret-box"
+    [ngClass]="arrClasses"
+    [ngStyle]="colorArrClasses"
+  ></div>
+
+  <p class="color-title mb-0 pb-0">Color</p>
+  <div class="color-section d-flex flex-wrap">
+    <div
+      class="color-circle"
+      *ngFor="let item of sepalColor; let i = index"
+      [style.background]="item.color.background"
+      [ngClass]="{
+        addBorder: item.color.background == selectedLocationColor.background
+      }"
+      (click)="selectColor(i, item)"
+    ></div>
   </div>
 </div>
 <!-- Delete Modal -->

@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  HostListener
+} from '@angular/core';
 import { Location } from './location';
 import {
   NgbModal,
@@ -51,9 +56,106 @@ export class LocationComponent implements OnInit {
   public locPermission: any = [];
   public locationDemo: any = [];
   public setTrue: any = null;
+  public isShowPicker: boolean = false;
+  public selectedLocationColor = {
+    text: '#544600',
+    background: '#FFE04D'
+  };
+  public colorWrapper = {};
+  public colorArrClasses = {};
+  public colorPopUpX;
+  public colorPopUpLeft;
+  public arrClasses: any;
 
   @BlockUI() blockUI: NgBlockUI;
 
+  // colour group
+  public sepalColor = [
+    {
+      name: '2',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
+      }
+    },
+    {
+      name: '1',
+      color: {
+        text: '#544600',
+        background: '#FFE04D'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005733',
+        background: '#80FFCA'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#003E7D',
+        background: '#005733'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#5000A1',
+        background: '#DFBFFF'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#7A0052',
+        background: '#FFBFE9'
+      }
+    },
+    {
+      name: '7',
+      color: {
+        text: '#005959',
+        background: '#A6FFFF'
+      }
+    },
+    {
+      name: '8',
+      color: {
+        text: '#1E5900',
+        background: '#C4FFA6'
+      }
+    },
+    {
+      name: '9',
+      color: {
+        text: '#001EB3',
+        background: '#BFC9FF'
+      }
+    },
+    {
+      name: '10',
+      color: {
+        text: '#664400',
+        background: '#FFE6B3'
+      }
+    },
+    {
+      name: '11',
+      color: {
+        text: '#64707D',
+        background: '#F2F4F5'
+      }
+    },
+    {
+      name: '12',
+      color: {
+        text: '#FFFFFF',
+        background: '#64707D'
+      }
+    }
+  ];
   constructor(
     private modalService: NgbModal,
     private _service: appService,
@@ -405,6 +507,91 @@ export class LocationComponent implements OnInit {
       $('.box')[$('.box').length - 1].style.display = 'none';
       $('.type-policy')[0].style.display = 'none';
     }, 100);
+  }
+
+  showColorPicker(e) {
+    this.isShowPicker = true;
+    console.log('open', this.isShowPicker);
+    $('body').css('overflow', 'hidden');
+    this.caculatePosition(e);
+  }
+  closePopUp(e) {
+    this.isShowPicker = false;
+    $('body').css('overflow', 'overlay');
+  }
+
+  selectColor(i, item) {
+    console.log(i, '<i>');
+    console.log(item, 'item');
+  }
+
+  caculatePosition(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    console.error(YPosition, 'ypostion');
+    console.error(XPosition, 'XPosition');
+    if (e.target.className == '') {
+      this.colorArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 34 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 51 + 'px'; //21
+      console.log('here mee>if');
+    } else {
+      this.colorArrClasses = {
+        top: YPosition + 'px',
+        left: XPosition - 10 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 160 + 'px'; //21
+      console.log('here mee>else');
+    }
+
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+    if ($(document)[0].children[0].clientHeight - e.clientY < 236) {
+      this.colorPopUpX = e.clientY - 236 + this.scrollHeight + 'px';
+      this.colorWrapper = {
+        top: YPosition - 236 + 'px',
+        left: XPosition + 'px'
+      };
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true
+      };
+
+      if (e.target.className == '') {
+        console.log('arr if');
+        this.colorArrClasses = {
+          top: YPosition + 'px',
+          left: XPosition - 34 + 'px' //11
+        };
+        this.colorPopUpLeft = XPosition - 51 + 'px'; //21
+      } else {
+        console.log('arr else');
+        this.colorArrClasses = {
+          top: YPosition + 'px',
+          left: XPosition - 10 + 'px' //11
+        };
+        this.colorPopUpLeft = XPosition - 40 + 'px'; //21
+      }
+      this.arrClasses = {
+        'arr-box': true,
+        'arr-down': true,
+        'arr-up': false
+      };
+    }
+  }
+  @HostListener('document:click', ['$event']) clickout($event) {}
+  public scrollHeight = 0;
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    this.scrollHeight = $event.target.scrollingElement.scrollTop;
   }
 }
 // order-width: 10px 10px;    filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));     padding-bottom: 7px;
