@@ -16,39 +16,38 @@
         Add new location
       </button>
     </div>
-    <div class="location-group">
+    <div class="location-group card-columns">
       <div
-        class="single-item"
+        class="card"
         *ngFor="let location of locationLists; let i = index"
         [attr.data-index]="i"
       >
-        <div class="row">
-          <h5 class="h5-title col-md-9">{{ location.name }}</h5>
-          <div class="col-md-3 d-flex justify-content-end">
-            <button
-              *ngIf="locationDemo.editLocation != ''"
-              class="btn edit-btn"
-              (click)="getSingleLocation(location._id)"
+        <div class="single-item">
+          <h5
+            class="h5-title"
+            [ngStyle]="{
+              background: selectedLocationColor.background,
+              color: selectedLocationColor.text
+            }"
+          >
+            {{ location.name }}
+          </h5>
+
+          <div class="d-flex flex-row">
+            <div class="pl-0 address-text">{{ location.address }}</div>
+            <div
+              class="pl-0 h5-title"
+              *ngIf="location.phoneNumber.number != null"
             >
-              Edit
-            </button>
-            <!-- <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id, location.name)" class="btn delete-btn">Delete</button> -->
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-md-6 pl-0 address-text">{{ location.address }}</div>
-          <div
-            class="col-md-6 pl-0 h5-title"
-            *ngIf="location.phoneNumber.number != null"
-          >
-            +{{ location.phoneNumber.countryCode }}
-            {{ location.phoneNumber.number }}
-          </div>
-          <div
-            class="col-md-6 pl-0 h5-title"
-            *ngIf="location.phoneNumber.number == null"
-          >
-            -
+              +{{ location.phoneNumber.countryCode }}
+              {{ location.phoneNumber.number }}
+            </div>
+            <div
+              class="pl-0 h5-title"
+              *ngIf="location.phoneNumber.number == null"
+            >
+              -
+            </div>
           </div>
         </div>
       </div>
@@ -295,6 +294,7 @@
   id="colorPletteBox"
   *ngIf="isShowPicker"
   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }"
+  (clickOutside)="closePopUp($event)"
 >
   <div
     class="carret-box"

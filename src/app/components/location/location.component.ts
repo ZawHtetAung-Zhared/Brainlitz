@@ -24,8 +24,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
-  public bg_code: any;
-  public txt_code: any;
   public limitno: Location;
   public PHpattern: any;
   public result: any;
@@ -96,7 +94,7 @@ export class LocationComponent implements OnInit {
       name: '4',
       color: {
         text: '#003E7D',
-        background: '#005733'
+        background: '#B3D8FF'
       }
     },
     {
@@ -294,6 +292,10 @@ export class LocationComponent implements OnInit {
   }
 
   back() {
+    this.selectedLocationColor = {
+      text: '#544600',
+      background: '#FFE04D'
+    };
     this.locationLists = [];
     this.iscreate = false;
     this.isUpdate = false;
@@ -357,8 +359,6 @@ export class LocationComponent implements OnInit {
   createLocation(obj, update, locationID) {
     console.log('Location Obj', obj);
     console.log(obj.phonenumber);
-    console.log(this.txt_code, 'txt-code');
-    console.log(this.bg_code, 'bg_code');
     var phNum;
 
     phNum =
@@ -374,9 +374,9 @@ export class LocationComponent implements OnInit {
         countryCode: this.countrycode,
         number: phNum,
         countryName: this.countryname
-      }
-      // backgroundColorHex: this.bg_code,
-      // textColorHex: this.txt_code
+      },
+      backgroundColorHex: this.selectedLocationColor.background,
+      textColorHex: this.selectedLocationColor.text
     };
     console.log('location Data', data);
     if (update == true) {
@@ -461,6 +461,19 @@ export class LocationComponent implements OnInit {
         this.model.phonenumber = res.phoneNumber.number;
         this.countrycode = res.phoneNumber.countryCode;
         this.countryname = res.phoneNumber.countryName;
+        if (
+          res.backgroundColorHex != undefined ||
+          res.textColorHex != undefined
+        ) {
+          this.selectedLocationColor.background = res.backgroundColorHex;
+          this.selectedLocationColor.text = res.textColorHex;
+        } else {
+          this.selectedLocationColor = {
+            text: '#544600',
+            background: '#FFE04D'
+          };
+        }
+
         console.log('this.model', this.model);
       },
       err => {
@@ -523,6 +536,8 @@ export class LocationComponent implements OnInit {
   selectColor(i, item) {
     console.log(i, '<i>');
     console.log(item, 'item');
+    this.selectedLocationColor.background = item.color.background;
+    this.selectedLocationColor.text = item.color.text;
   }
 
   caculatePosition(e) {
@@ -538,7 +553,7 @@ export class LocationComponent implements OnInit {
         left: XPosition - 34 + 'px' //11
       };
       this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
-      this.colorPopUpLeft = XPosition - 51 + 'px'; //21
+      this.colorPopUpLeft = XPosition - 149 + 'px'; //21
       console.log('here mee>if');
     } else {
       this.colorArrClasses = {
@@ -555,38 +570,6 @@ export class LocationComponent implements OnInit {
       'arr-down': false,
       'arr-up': true
     };
-    if ($(document)[0].children[0].clientHeight - e.clientY < 236) {
-      this.colorPopUpX = e.clientY - 236 + this.scrollHeight + 'px';
-      this.colorWrapper = {
-        top: YPosition - 236 + 'px',
-        left: XPosition + 'px'
-      };
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-down': true
-      };
-
-      if (e.target.className == '') {
-        console.log('arr if');
-        this.colorArrClasses = {
-          top: YPosition + 'px',
-          left: XPosition - 34 + 'px' //11
-        };
-        this.colorPopUpLeft = XPosition - 51 + 'px'; //21
-      } else {
-        console.log('arr else');
-        this.colorArrClasses = {
-          top: YPosition + 'px',
-          left: XPosition - 10 + 'px' //11
-        };
-        this.colorPopUpLeft = XPosition - 40 + 'px'; //21
-      }
-      this.arrClasses = {
-        'arr-box': true,
-        'arr-down': true,
-        'arr-up': false
-      };
-    }
   }
   @HostListener('document:click', ['$event']) clickout($event) {}
   public scrollHeight = 0;
