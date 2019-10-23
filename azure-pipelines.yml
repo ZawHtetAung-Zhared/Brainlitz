@@ -35,8 +35,8 @@ steps:
 #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish built artifact to System default working directory'
+  displayName: 'Publish dist.zip to System default working directory'
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/dist.zip'
 
     
