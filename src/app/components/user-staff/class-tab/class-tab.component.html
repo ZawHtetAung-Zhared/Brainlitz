@@ -68,7 +68,7 @@
           {{ course?.location.name }}
         </div>
         <div
-          class="col-md-12 title p-0"
+          class="col-md-12 title p-0 pt-1"
           (click)="navigateToCourseDetail(course._id)"
         >
           {{ course?.name }}
@@ -77,11 +77,11 @@
 
       <div class="overview-shedule d-flex">
         <div class="col-md-5 p-0" *ngIf="course.type != 'ONLINE'">
-          <span class="d-flex shedule-text ">
+          <span class="d-flex shedule-text pb-2">
             <label
               class="class-label-14 mb-0"
               *ngFor="let day of course.repeatDays | weekDays"
-              >{{ day }}</label
+              >{{ day | uppercase }}</label
             >
           </span>
           <span
@@ -94,19 +94,33 @@
         <div class="v-line"></div>
         <div class="col-md-6 d-flex">
           <div class="col-md-6" *ngIf="course.startDate">
-            <span class="d-flex shedule-text ">From</span>
+            <span class="d-flex shedule-text pb-2">From</span>
             <span class="d-flex shedule-text ">{{
               course?.startDate | utcDate
             }}</span>
           </div>
           <div class="col-md-6" *ngIf="course.endDate">
-            <span class="d-flex shedule-text ">To</span>
+            <span class="d-flex shedule-text pb-2">To</span>
             <span class="d-flex shedule-text ">{{
               course?.endDate | utcDate
             }}</span>
           </div>
+          <div
+            class="col-md-6"
+            *ngIf="course.type == 'FLEXY' && course.lessons.length != 0"
+          >
+            <span class="d-flex shedule-text pb-2">To</span>
+            <span class="d-flex shedule-text">{{
+              (course?.lessons)[course.lessons.length - 1].endDate | utcDate
+            }}</span>
+          </div>
           <div class="col-md-6" *ngIf="course.lessonCount">
-            <p class="d-flex lessons">{{ course?.lessonCount }} Lessons</p>
+            <span class="d-flex shedule-text pb-2" style="opacity:0"
+              >Lesson</span
+            >
+            <span class="d-flex shedule-text lessons"
+              >{{ course?.lessonCount }} Lessons</span
+            >
           </div>
         </div>
       </div>

@@ -186,3 +186,207 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template
+  #downloadReport
+  let-c="close"
+  let-d="dismiss"
+  class="downloadModal"
+>
+  <div class="modal-downloadreport">
+    <div class="d-flex align-items-center justify-content-between">
+      <h3 class="modal-title " style="font-size: 18px;">Download report</h3>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modalReference.close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class=" downloadreport-body">
+      <div class="d-flex flex-column">
+        <span class="date-text">Date</span>
+        <div class="d-flex justify-content-between">
+          <div class="date-wrap cc-start" style="margin-right: 10px;">
+            <input
+              type="text"
+              placeholder="From"
+              class="input-day cstart w-100 search-input"
+              name="start"
+              required
+              (ngModelChange)="setMinDate($event, 'start')"
+              [(ngModel)]="model.start"
+              ngbDatepicker
+              #start="ngbDatepicker"
+              (document:click)="closeDropdown($event, 'start', start)"
+              readonly
+            />
+          </div>
+          <!-- (document:click)="closeDropdown($event, 'start', start)" -->
+          <!-- <div class="date-wrap">
+            <input
+              type="text"
+              placeholder="To"
+              class="input-day cend w-100 search-input"
+              name="end"
+              [maxDate]="todayDate"
+              required
+              (ngModelChange)="setMinDate($event, 'end')"
+              [(ngModel)]="model.end"
+              ngbDatepicker
+              #end="ngbDatepicker"
+              (document:click)="closeDropdown1($event, 'end', end)"
+              readonly
+            />
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end downloadreport-footer">
+      <button
+        class="btn btn-default cancel-filter"
+        (click)="modalReference.close()"
+      >
+        Cancel
+      </button>
+      <button class="btn btn-primary confirm-filter">
+        Download
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentCreate let-c="close" let-d="dismiss">
+  <div class="modal-body modal-wrap">
+    <h3 class="input-label color-2">Create Holiday</h3>
+    <form #holidayForm="ngForm">
+      <div class="input-wrap">
+        <label class="color-6 font16">Date</label>
+        <!-- <div class="input-group input-daterange">
+              <input type="text" class="form-control" value="2012-04-05">
+              <div class="input-group-addon">to</div>
+              <input type="text" class="form-control" value="2012-04-19">
+          </div> -->
+        <div class="datepicker-wrap d-flex">
+          <div class="xxx-start">
+            <input
+              id="dpStart"
+              class="input-day text-container"
+              type="text"
+              placeholder="First Day"
+              name="start"
+              required
+              [(ngModel)]="model.start"
+              (focus)="openDatePicker(start)"
+              (clickOutside)="closefix($event, start)"
+              (ngModelChange)="setMinDate($event)"
+              [maxDate]="maxDate"
+              (navigate)="currentMonth($event)"
+              [autoClose]="true"
+              ngbDatepicker
+              (dateSelect)="onDateSelect($event)"
+              #start="ngbDatepicker"
+              readonly
+            />
+          </div>
+          <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
+          <span class="center-span"> To</span>
+          <div class="xxx-end">
+            <input
+              id="dpEnd"
+              class="input-day"
+              type="test"
+              placeholder="Last Day"
+              required
+              (ngModelChange)="setMaxDate($event)"
+              [minDate]="minDate"
+              [autoClose]="true"
+              name="end"
+              [(ngModel)]="model.end"
+              (click)="end.toggle()"
+              (focus)="openDatePicker(end)"
+              (clickOutside)="closefix($event, end)"
+              ngbDatepicker
+              #end="ngbDatepicker"
+              (navigate)="currentMonth($event)"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <div class="input-wrap">
+        <div class="d-flex justify-content-between">
+          <label class="color-6 font16">Holiday name</label>
+          <div class="limit-wordcount">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+        </div>
+        <div>
+          <input
+            class="input-name"
+            type="text"
+            placeholder="Type holiday name"
+            name="name"
+            (focus)="focusMethod($event, $event.target.value)"
+            (blur)="blurMethod($event)"
+            (input)="changeMethod($event.target.value)"
+            maxlength="60"
+            [(ngModel)]="model.name"
+            required
+            #holidayName="ngModel"
+          />
+          <div
+            *ngIf="
+              holidayName.invalid && (holidayName.dirty || holidayName.touched)
+            "
+            class="alert alert-danger mb-0"
+          >
+            <div [hidden]="!holidayName.errors.required">
+              Display name is required!
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btns-wrap d-flex">
+        <div>
+          <button
+            class="btn-delete"
+            *ngIf="isEdit && calendarDemo.deleteHoliday != ''"
+            (click)="deleteHoliday(this.model._id)"
+          >
+            Delete
+          </button>
+        </div>
+        <div class="btn-inner-wrap">
+          <button type="button" class="btn btn-cancel" (click)="cancelModal()">
+            Cancel
+          </button>
+          <button
+            *ngIf="!isEdit"
+            type="submit"
+            class="btn btn-Primary btnC"
+            (click)="createHoliday()"
+            [disabled]="!holidayForm.form.valid"
+          >
+            Create
+          </button>
+          <button
+            *ngIf="isEdit"
+            type="submit"
+            class="btn btn-Primary btnC"
+            (click)="updateHolidays()"
+            [disabled]="!holidayForm.form.valid"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-danger">Create</button>
+    </div> -->
+</ng-template>

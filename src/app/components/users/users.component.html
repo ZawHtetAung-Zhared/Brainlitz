@@ -30,7 +30,11 @@
       <div class="col-md-5 pad-0">
         <div class="d-flex flex-row">
           <h3>Customers</h3>
-          <span class="location-name">{{ locationName }}</span>
+          <span class="location-name"> {{ locationName }}</span>
+          <!--  [ngStyle]="{
+              color: gtxtColor,
+              background: gbgColor
+            }" -->
         </div>
       </div>
       <div class="col-md-7 pad-0">
@@ -789,7 +793,7 @@
                     >
                       <h3>Invoice</h3>
                       <p>
-                        There is no invoice generated for this customer yet.
+                        There is no invoice generated for this course yet.
                       </p>
                     </div>
                     <div class="scrollbar">
@@ -1491,8 +1495,8 @@
         <p class="back-staff-txt fl-txt-rt">Customers</p>
       </button>
       <div class="col-md-12 pad-0 mr-bt-top">
-        <h3 *ngIf="isupdate == false">Create Customer account</h3>
-        <h3 *ngIf="isupdate == true">Update Customer account</h3>
+        <h3 *ngIf="isupdate == false">Create customer account</h3>
+        <h3 *ngIf="isupdate == true">Update customer account</h3>
       </div>
       <form class="form-wrap" novalidate #customerForm="ngForm">
         <div class="row display-flex">
@@ -3044,21 +3048,14 @@
         <p class="pb-0">{{ lessonOfStudent.name }}</p>
       </div>
       <p class="_lessons_left">
-        {{ lessonOfStudent.upComingLessonCountOfStudent }}
+        {{ lessonOfStudent.upComingLessonCountOfStudent }}/{{
+          lessonOfStudent.lessonsOfStudent.length
+        }}
         <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
           lessons left
         </span>
         <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
           lesson left
-        </span>
-        <span *ngIf="lessonOfStudent.lessonsOfStudent">
-          in total {{ lessonOfStudent.lessonsOfStudent.length }}
-          <span *ngIf="lessonOfStudent.lessonsOfStudent.length > 1">
-            lessons
-          </span>
-          <span *ngIf="lessonOfStudent.lessonsOfStudent.length <= 1">
-            lesson
-          </span>
         </span>
       </p>
       <div class="lesson_block_wrapper">
@@ -3067,7 +3064,10 @@
           [ngClass]="{
             absent_block: lesson.attendance == false,
             present_block: lesson.attendance == true,
-            noData_block: lesson.attendance == null
+            noData_block:
+              lesson.attendance == null && lesson.isUpcomingLesson == false,
+            notAvailable_block:
+              lesson.attendance == null && lesson.isUpcomingLesson == true
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3088,7 +3088,7 @@
                 absent_icon: lesson.attendance == false,
                 present_icon: lesson.attendance == true,
                 noData_icon: lesson.attendance == null,
-                'bg-none': lesson.isUpcomingLesson
+                'bg-none': lesson.isUpcomingLesson && lesson.attendance == null
               }"
             ></span>
           </div>
@@ -3121,15 +3121,18 @@
             >
               Not avaliable
             </p>
-            <!-- <span
+            <span
               [ngClass]="{
                 absent_text: lesson.attendance == false,
                 present_text: lesson.attendance == true,
                 noData_text: lesson.attendance == null
               }"
-              *ngIf="!lesson.isUpcomingLesson"
-              >by jerrrsd</span
-            > -->
+              *ngIf="
+                !lesson.isUpcomingLesson ||
+                (lesson.isUpcomingLesson && lesson.attendance != null)
+              "
+              >by {{ lesson.teacher?.preferredName }}</span
+            >
             <span
               style="color:#788796;"
               *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"

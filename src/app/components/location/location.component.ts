@@ -272,9 +272,9 @@ export class LocationComponent implements OnInit {
         countryCode: this.countrycode,
         number: phNum,
         countryName: this.countryname
-      },
-      backgroundColorHex: this.bg_code,
-      textColorHex: this.txt_code
+      }
+      // backgroundColorHex: this.bg_code,
+      // textColorHex: this.txt_code
     };
     console.log('location Data', data);
     if (update == true) {
@@ -354,8 +354,8 @@ export class LocationComponent implements OnInit {
         this.currentID = res._id;
         this.locationName = res.name;
         this.model = res;
-        this.txt_code = res.textColorHex;
-        this.bg_code = res.backgroundColorHex;
+        // this.txt_code = res.textColorHex;
+        // this.bg_code = res.backgroundColorHex;
         this.model.phonenumber = res.phoneNumber.number;
         this.countrycode = res.phoneNumber.countryCode;
         this.countryname = res.phoneNumber.countryName;
