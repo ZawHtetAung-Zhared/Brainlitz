@@ -793,7 +793,7 @@
                     >
                       <h3>Invoice</h3>
                       <p>
-                        There is no invoice generated for this customer yet.
+                        There is no invoice generated for this course yet.
                       </p>
                     </div>
                     <div class="scrollbar">
@@ -3048,21 +3048,14 @@
         <p class="pb-0">{{ lessonOfStudent.name }}</p>
       </div>
       <p class="_lessons_left">
-        {{ lessonOfStudent.upComingLessonCountOfStudent }}
+        {{ lessonOfStudent.upComingLessonCountOfStudent }}/{{
+          lessonOfStudent.lessonsOfStudent.length
+        }}
         <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
           lessons left
         </span>
         <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
           lesson left
-        </span>
-        <span *ngIf="lessonOfStudent.lessonsOfStudent">
-          in total {{ lessonOfStudent.lessonsOfStudent.length }}
-          <span *ngIf="lessonOfStudent.lessonsOfStudent.length > 1">
-            lessons
-          </span>
-          <span *ngIf="lessonOfStudent.lessonsOfStudent.length <= 1">
-            lesson
-          </span>
         </span>
       </p>
       <div class="lesson_block_wrapper">
@@ -3095,7 +3088,7 @@
                 absent_icon: lesson.attendance == false,
                 present_icon: lesson.attendance == true,
                 noData_icon: lesson.attendance == null,
-                'bg-none': lesson.isUpcomingLesson
+                'bg-none': lesson.isUpcomingLesson && lesson.attendance == null
               }"
             ></span>
           </div>
@@ -3134,7 +3127,10 @@
                 present_text: lesson.attendance == true,
                 noData_text: lesson.attendance == null
               }"
-              *ngIf="!lesson.isUpcomingLesson"
+              *ngIf="
+                !lesson.isUpcomingLesson ||
+                (lesson.isUpcomingLesson && lesson.attendance != null)
+              "
               >by {{ lesson.teacher?.preferredName }}</span
             >
             <span

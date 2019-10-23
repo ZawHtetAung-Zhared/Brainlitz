@@ -189,6 +189,7 @@ export class TodayLessonsComponent implements OnInit {
   }
 
   closemakeupmodal() {
+    console.log('here close modal');
     this.isGlobal = false;
     this.reasonValue = '';
     this.index = '';
@@ -264,6 +265,7 @@ export class TodayLessonsComponent implements OnInit {
               //   this.toastr.success('Makeup pass successfully created.');
               // },100)
               this.makeupForm = {};
+              this.closemakeupmodal();
               this.getTodayLesson();
             },
             err => {
@@ -271,7 +273,7 @@ export class TodayLessonsComponent implements OnInit {
               //   this.toastr.error('Fail to issue makeup pass.');
               // },100)
               this.toastr.error('Fail to issue makeup pass.');
-              this.closemakeupmodal();
+
               //this.blockUI.stop();
               console.log(err);
             }

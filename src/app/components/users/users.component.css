@@ -3495,7 +3495,7 @@ p.assessment-by {
 }
 .notAvailable_block {
   background: #ffffff;
-  border: 2px solid #edeff0;
+  box-shadow: 0 0 0 2px #edeff0 inset;
 }
 p.grade-txt {
   color: #64707d;
