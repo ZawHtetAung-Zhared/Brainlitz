@@ -19,3 +19,14 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+
+- task: CopyFiles@2
+  displayName: 'Copy /dist folder to Artifact directory'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish built artifact to System default working directory'
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
