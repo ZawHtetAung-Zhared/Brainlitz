@@ -3895,8 +3895,15 @@ export class appService {
     });
   }
 
-  getTeachingHours(regionId) {
-    let url = this.baseUrl + '/regions/' + regionId + '/staff/teachinghours';
+  getTeachingHours(regionId, startDate, endDate) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/staff/teachinghours?startDate=' +
+      startDate +
+      '&endDate=' +
+      endDate;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

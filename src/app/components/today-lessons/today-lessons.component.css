@@ -21,6 +21,7 @@ p.backtxt {
   border: none !important;
   cursor: pointer;
   padding: 0;
+  outline: none;
 }
 .today-date {
   color: #2e3d4d;
