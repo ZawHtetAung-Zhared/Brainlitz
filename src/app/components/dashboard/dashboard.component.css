@@ -635,8 +635,7 @@ input:checked + .slider:before {
 }
 .link-wrap {
   /*border-bottom: 1px dashed #eaeaeb;*/
-  border-bottom: 1.5px dashed #ecedee;
-  border-bottom: 1.5px dashed #ecedee;
+  /*border-bottom: 1.5px dashed #ecedee;*/
   padding-bottom: 20px;
 }
 .module-container {

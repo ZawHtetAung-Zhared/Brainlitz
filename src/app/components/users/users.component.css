@@ -3493,6 +3493,10 @@ p.assessment-by {
 .noData_block {
   background: #f2f4f5;
 }
+.notAvailable_block {
+  background: #ffffff;
+  border: 2px solid #edeff0;
+}
 p.grade-txt {
   color: #64707d;
   font-family: 'Inter-UI-Mediun', Arial, sans-serif;
