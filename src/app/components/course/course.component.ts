@@ -248,6 +248,8 @@ export class CourseComponent implements OnInit {
   public isTodayLesson: boolean = false;
   public isNewLesson: boolean = false;
   public defineType: any;
+  public gtxtColor: any;
+  public gbgColor: any;
   //reschedule
   public isRescheduleLesson: boolean;
 
@@ -340,6 +342,7 @@ export class CourseComponent implements OnInit {
     // })
   }
   cID: string;
+
   ngOnInit() {
     console.log('exit');
     // var requiredResult = this.TodayDatePipe.transform(this.LASD);
@@ -373,6 +376,8 @@ export class CourseComponent implements OnInit {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
+      // this.gtxtColor = localStorage.getItem('txtColor');
+      // this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
     this.activeTab = 'People';
 
@@ -460,6 +465,10 @@ export class CourseComponent implements OnInit {
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
+      // this.gtxtColor = localStorage.getItem('txtColor');
+      // this.gbgColor = localStorage.getItem('backgroundColor');
+      // console.error(this.gbgColor, 'backgroundColor', this.gtxtColor);
+
       console.log('hi permission', this.locationName, this.locationID);
       // this.getCPlanList(0,20);
       this.courseList = [];
@@ -2207,6 +2216,7 @@ export class CourseComponent implements OnInit {
     this.textAreaOption = true;
   }
   absentClass(obj, userId) {
+    console.log(this.selectedLesson, 'last selected obj');
     if (this.modalType == 'absent' && !this.isGlobal) {
       console.log(this.activeCourseInfo);
       console.log('LASD~~~', this.LASD);
@@ -2214,7 +2224,8 @@ export class CourseComponent implements OnInit {
       var m = new Date(this.LASD).getUTCMonth() + 1;
       var y = new Date(this.LASD).getUTCFullYear();
       var studentID = {
-        studentId: this.absentInfo.userId
+        studentId: this.absentInfo.userId,
+        lessonId: this.selectedLesson._id
       };
       // if (type == 'present') {
       //   obj['attendance'] = 'true';
@@ -2248,7 +2259,8 @@ export class CourseComponent implements OnInit {
         var m = new Date(this.LASD).getUTCMonth() + 1;
         var y = new Date(this.LASD).getUTCFullYear();
         var studentID = {
-          studentId: this.absentInfo.userId
+          studentId: this.absentInfo.userId,
+          lessonId: this.selectedLesson._id
         };
         // if (type == 'present') {
         //   obj['attendance'] = 'true';

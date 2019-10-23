@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
-import { NgbModal, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  NgbDatepickerConfig,
+  NgbCalendar
+} from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { appService } from '../../../service/app.service';
 import courseSampleData from './sampleData';
+import sampleCSV from './csvJson';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+declare var $: any;
 @Component({
   selector: 'staff-teaching-report',
   templateUrl: './staffTeaching.component.html',
@@ -49,12 +55,15 @@ export class StaffTeachingScheduleReport implements OnInit {
   endDate: any;
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
+  model: any = {};
+  public todayDate: any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
     private modalService: NgbModal,
-    private _service: appService
+    private _service: appService,
+    config: NgbDatepickerConfig
   ) {
     window.scroll(0, 0);
     this.daterangepickerOptions.settings = {
@@ -94,6 +103,13 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.reportData = [];
     console.log(courseSampleData);
     this.showReportByLocation();
+
+    const current = new Date();
+    this.todayDate = {
+      year: current.getFullYear(),
+      month: current.getMonth() + 1,
+      day: current.getDate()
+    };
   }
 
   showReportByLocation() {
@@ -506,5 +522,207 @@ export class StaffTeachingScheduleReport implements OnInit {
         this.showReportByCoursePlan();
         break;
     }
+  }
+
+  openDownloadModal(downloadModal) {
+    this.modalReference = this.modalService.open(downloadModal, {
+      backdrop: 'static',
+      windowClass: 'downloadStaffTeachingReportModal'
+    });
+  }
+
+  reportSDate: any;
+  reportEDate: any;
+  setMinDate(event, type) {
+    console.log(event);
+    console.log(type);
+    if (type == 'start') this.model.start = event;
+    else if (type == 'end') this.model.end = event;
+    this.reportSDate = this.changeDateFormat(this.model.start, '23:59:59:999');
+    console.log(this.reportSDate);
+
+    if (this.model.start != undefined && this.model.end != undefined) {
+      this.reportSDate = this.changeDateFormat(
+        this.model.start,
+        '00:00:00:000'
+      );
+      this.reportEDate = this.changeDateFormat(this.model.end, '23:59:59:999');
+      console.log(this.reportEDate, this.reportSDate);
+    }
+  }
+  test(datePicker?) {
+    console.log('hello');
+    datePicker.toggle();
+  }
+
+  closeDropdown(event, type, datePicker?) {
+    console.log(event);
+    console.log(event.target.className);
+    console.log(type);
+
+    if (event.target.className.includes('cstart')) {
+      datePicker.open();
+
+      // } else if(event.target.className.includes('cend')){
+      //   datePicker.open();
+    } else {
+      if (type == 'start') {
+        if (
+          event.target.className == 'ngb-dp-navigation-chevron' ||
+          event.target.className == 'ngb-dp-arrow'
+        ) {
+          console.log('still open');
+          datePicker.open();
+        } else if (event.target.offsetParent == null) {
+          // datePicker.close();
+          console.log('hh');
+        }
+        // else if (event.target.className != 'ngb-dp-navigation-chevron' || event.target.className != 'ngb-dp-arrow') {
+        //   datePicker.close();
+        //   console.log('hh');
+        // }
+      }
+    }
+  }
+  closeDropdown1(event, type, datePicker?) {
+    if (event.target.className.includes('cend')) {
+      console.log(type);
+      datePicker.open();
+    } else {
+      if (
+        event.target.className == 'ngb-dp-navigation-chevron' ||
+        event.target.className == 'ngb-dp-arrow'
+      ) {
+        console.log('still open');
+        datePicker.open();
+      } else if (event.target.offsetParent == null) {
+        // datePicker.close();
+        console.log('hh');
+      }
+      // if (type == 'end') {
+      //   if (event.target.offsetParent == null) {
+      //     datePicker.close();
+      //     console.log('hh');
+      //   } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+      //     datePicker.close();
+      //     console.log('hh');
+      //   }
+      // }
+    }
+  }
+  open(event, type, datePicker?) {
+    if (event.target.className.includes('cend')) {
+      console.log(type);
+      datePicker.open();
+    }
+  }
+
+  exportCSV() {
+    console.log('export report');
+    console.log(this.startDate, this.endDate);
+    var str = this.startDate.split('T');
+    var str2 = this.endDate.split('T');
+    var SDate = str[0] + 'T' + '00:00:00.000Z';
+    var EDate = str2[0] + 'T' + '23:59:59.999Z';
+    let fullStartDate = new Date(SDate).toISOString();
+    let fullEndDate = new Date(EDate).toISOString();
+    console.log(SDate, EDate, fullStartDate, fullEndDate);
+
+    //'00:00:00:000' 00:00:00.000Z
+    //'23:59:59:999' 23:59:00.000Z
+    this._service
+      .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.downloadFile(res.teachingHours, 'staff-teaching-hours');
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  downloadFile(data, name) {
+    console.log(data);
+    var csvData = this.ConvertToCSV(data);
+    var a = document.createElement('a');
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([csvData], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    var filename = new Date().toISOString();
+    console.log('~~~', name + '-' + filename);
+    a.download = name + '-' + filename + '.csv';
+    a.click();
+  }
+
+  ConvertToCSV(objArray) {
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+
+    var str = '';
+    var row = 'Staff name,Email,Course name,Lessons,Total teaching hours';
+    //append Label row with line break
+    str += row + '\r\n';
+
+    for (var i = 0; i < array.length; i++) {
+      var line = '';
+      var tempObject = {};
+      tempObject['staffName'] = array[i].staffPreferredName;
+      tempObject['staffEmail'] = array[i].staffEmail;
+      tempObject['courseName'] = array[i].courseName;
+      if (array[i].lessonDate.length > 0) {
+        var lessonData = '';
+        var lessonArr = array[i].lessonDate;
+        for (var j = 0; j < lessonArr.length; j++) {
+          if (lessonData != '') lessonData += ', ';
+          lessonData += lessonArr[j];
+        }
+        tempObject['lessons'] = '"' + lessonData + '"';
+      } else {
+        tempObject['lessons'] = '';
+      }
+      tempObject['totalTeachingHour'] = array[i].totalTeachingHour;
+
+      for (var index in tempObject) {
+        if (line != '') line += ',';
+        line += tempObject[index];
+      }
+      str += line + '\r\n';
+    }
+
+    return str;
+  }
+
+  changeDateFormat(date, time) {
+    // console.log('==>date,time', date, time);
+    if (date == null) {
+      // console.log('null', date);
+      return '';
+    } else {
+      // console.log('utc date', date);
+      // console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      // console.log(sdate);
+      let dateParts = sdate.split('-');
+      // console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        // console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        // console.log('ISO', fullDate);
+        return fullDate;
+      }
+    }
+    // console.log('ELSE');
   }
 }

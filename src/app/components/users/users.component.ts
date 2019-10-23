@@ -205,6 +205,7 @@ export class UsersComponent implements OnInit {
   public invPayment: any = [];
   public achievementProgess: any = [];
   public achievementEvaluation: any = [];
+  public achievementGrade: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
   //flexy
@@ -215,6 +216,9 @@ export class UsersComponent implements OnInit {
   dataObj: any = [];
   flexiTemp: any = [];
   checkobjArr: any = [];
+  public gtxtColor: any;
+  public gbgColor: any;
+
   constructor(
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
@@ -239,6 +243,8 @@ export class UsersComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
+      // this.gtxtColor = localStorage.getItem('txtColor');
+      // this.gbgColor = localStorage.getItem('backgroundColor');
       var userId;
       this.dataService.currentCustomer.subscribe(uId => (userId = uId));
       if (userId != '') {
@@ -345,6 +351,8 @@ export class UsersComponent implements OnInit {
     if (this.customerPermission.includes('VIEWCUSTOMERS') != false) {
       this.getAllUsers('customer', 20, 0);
       this.locationName = localStorage.getItem('locationName');
+      // this.gtxtColor = localStorage.getItem('txtColor');
+      // this.gbgColor = localStorage.getItem('backgroundColor');
     } else {
       console.log('permission deny');
       this.customerLists = [];
@@ -1744,6 +1752,7 @@ export class UsersComponent implements OnInit {
       console.log('achievements');
       this.callAchievements(1);
       this.callAchievements(3);
+      this.callAchievements(6);
     }
   }
 
@@ -1780,9 +1789,12 @@ export class UsersComponent implements OnInit {
             this.achievementProgess = res;
           } else if (type == 3) {
             this.achievementEvaluation = res;
+          } else if (type == 6) {
+            this.achievementGrade = res;
           }
           console.log('Progress', this.achievementProgess);
           console.log('Evaluation', this.achievementEvaluation);
+          console.log('Grade', this.achievementGrade);
         },
         err => {
           console.log(err);
@@ -2293,4 +2305,12 @@ export class UsersComponent implements OnInit {
     // this.invoiceModalReference.close();
   }
   public invoiceModalReference;
+  public lessonOfStudent;
+  openLessonsModal(modal, course) {
+    this.lessonOfStudent = course;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+  }
 }

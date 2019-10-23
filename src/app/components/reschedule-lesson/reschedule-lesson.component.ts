@@ -23,6 +23,7 @@ import * as moment from 'moment';
 import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { lastDayOfISOWeek } from 'date-fns';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { UtcDateAndDayPipe } from '../../service/pipe/utc-date-and-day.pipe';
 
 declare var $: any;
 
@@ -30,7 +31,7 @@ declare var $: any;
   selector: 'app-reschedule-lesson',
   templateUrl: './reschedule-lesson.component.html',
   styleUrls: ['./reschedule-lesson.component.css'],
-  providers: [NgbDatepickerConfig, DatePipe]
+  providers: [NgbDatepickerConfig, DatePipe, UtcDateAndDayPipe]
 })
 export class RescheduleLessonComponent implements OnInit {
   public isConflict: boolean = false;
@@ -73,7 +74,8 @@ export class RescheduleLessonComponent implements OnInit {
     config: NgbDatepickerConfig,
     private datePipe: DatePipe,
     public toastr: ToastsManager,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private utcDateAndDayPipe: UtcDateAndDayPipe
   ) {}
   @Output() cancelReschedule: any = new EventEmitter<any>();
   @Output() updatedlessonObj: any = new EventEmitter<any>();
@@ -89,11 +91,6 @@ export class RescheduleLessonComponent implements OnInit {
     this.duration = this.courseDetail.coursePlan.lesson.duration;
     this.dateSelect = this.LASD;
 
-    // this.isSelected = 'AM';
-    // this.rangeHr = '0';
-    // this.rangeMin = '0';
-    // this.showFormat = '00:00';
-
     const current = new Date();
     this.todayDate = {
       year: current.getFullYear(),
@@ -108,6 +105,8 @@ export class RescheduleLessonComponent implements OnInit {
     this.selectedHrRange = h + '';
     var ampm = H < 12 ? 'AM' : 'PM';
     this.isSelected = ampm;
+    this.rangeHr = h;
+    this.rangeMin = this.selectedMinRange;
     this.formatTime();
   }
 
@@ -117,13 +116,6 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   rescheduleTo() {
-    // this.isReschedule = true;
-    // this.isConflict = true;
-
-    // if(this.correctRescheduleDate==true){
-    //   console.log("API Callsssssssssssss");
-
-    // }
     var formattedDate = moment(
       `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
     ).format('dddd, D MMM YYYY');
@@ -142,7 +134,7 @@ export class RescheduleLessonComponent implements OnInit {
       console.log(lessonObj);
       this.putRescheduleLesson(lessonObj);
 
-      //if there is conflict in reschedule lesson api response
+      // if there is conflict in reschedule lesson api response
       // this.isReschedule = false;
       // this.isConflict = true;
       // this.goConflict();
@@ -226,6 +218,11 @@ export class RescheduleLessonComponent implements OnInit {
     //   this.pickdate = this.changeDateFormat(event, '00:00:00:000');
     // }
     this.model.start = event;
+    this.pickdate = this.changeDateFormat(
+      this.model.start,
+      this.model.starttime
+    );
+    this.endDate = this.changeDateFormat(this.model.start, this.model.endTime);
     this.changeDateTimeFormat();
     console.log(this.pickdate);
     console.log(this.model.start);
@@ -234,9 +231,13 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   changeDateTimeFormat() {
-    var formattedDate = moment(
-      `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
-    ).format('dddd, D MMM YYYY');
+    // var formattedDate = moment(
+    //   `${this.model.start.year}-${this.model.start.month}-${this.model.start.day}`
+    // ).format('dddd, D MMM YYYY');
+    // $('.input-day')[0].value = formattedDate;
+    // console.log("formatted Date?????????????", formattedDate);
+
+    var formattedDate = this.utcDateAndDayPipe.transform(this.pickdate);
     $('.input-day')[0].value = formattedDate;
   }
 
@@ -249,17 +250,16 @@ export class RescheduleLessonComponent implements OnInit {
 
     // if (this.model.start != undefined && this.model.starttime != undefined) {
     if (this.model.start != undefined) {
-      this.pickdate = this.changeDateFormat(
-        this.model.start,
-        this.model.starttime
-      );
-      this.endDate = this.changeDateFormat(
-        this.model.start,
-        this.model.endTime
-      );
-      console.log(this.pickdate);
-      console.log(this.endDate);
-
+      // this.pickdate = this.changeDateFormat(
+      //   this.model.start,
+      //   this.model.starttime
+      // );
+      // this.endDate = this.changeDateFormat(
+      //   this.model.start,
+      //   this.model.endTime
+      // );
+      // console.log(this.pickdate);
+      // console.log(this.endDate);
       this.checkDayExist(this.pickdate);
     } else if (this.model.start == undefined) {
       this.correctRescheduleTime = true;
@@ -478,6 +478,8 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   closeDropdown(event, type, datePicker?) {
+    console.log(event);
+
     if (event.target.className.includes('dropD')) {
       console.log('dropD');
     } else {

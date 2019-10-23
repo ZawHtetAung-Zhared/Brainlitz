@@ -528,7 +528,7 @@
                   <div id="parent">
                     <img src="./assets/images/email.png" />
                   </div>
-                  <label class="labelTitle">Email</label>
+                  <label class="labelTitle">Contact email</label>
                 </div>
                 <label *ngIf="invoiceData.email != ''" class="labelName">{{
                   invoiceData.email
@@ -607,7 +607,7 @@
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice duration</label>
+                  <label class="labelTitle">Invoice validity(days)</label>
                 </div>
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
@@ -652,7 +652,7 @@
                     </p>
                     <label class="labelName">{{ item.url }}</label>
                   </div>
-                  <div class="timezone-wrap">
+                  <div class="timezone-wrap d-none">
                     <div>
                       <div class="title-wrap">
                         <div id="parent">
@@ -684,8 +684,8 @@
                           [(ngModel)]="item.url"
                           #url="ngModel"
                           required
-                          pattern="https?://.+"
                         />
+                        <!-- pattern="https?://.+" -->
                         <div
                           *ngIf="url.errors && (url.dirty || url.touched)"
                           class="alert alert-danger"
@@ -901,7 +901,7 @@
                       <input
                         type="text"
                         class="form-control tax-input"
-                        placeholder="Post code"
+                        placeholder="Postal code"
                         name="postal"
                         [(ngModel)]="invoiceData.postal"
                         #postal="ngModel"
@@ -911,7 +911,7 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Email</label>
+                    <label class="input-label" for="name">Contact email</label>
                   </div>
                   <input
                     type="email"
@@ -1002,7 +1002,7 @@
                 </div>
                 <div class="form-group mb-45">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label">Invoice duration</label>
+                    <label class="input-label">Invoice validity(days)</label>
                   </div>
                   <input
                     type="number"

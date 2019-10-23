@@ -106,6 +106,16 @@
   padding: 5px 10px;
 }
 
+.btn-submit {
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 150px;
+  color: #fff;
+  background-color: #1682fb;
+}
+
 /*.divide-line {
 	border-bottom: 1px solid rgba(0,0,0,.125);
 	padding-top: 15px;
@@ -989,4 +999,47 @@ h3.head-rating-count {
 }
 .nottaken-icon {
   background: #edeff0;
+}
+.modal-downloadreport {
+  padding: 30px;
+}
+
+.date-text {
+  padding-bottom: 10px;
+  color: #64707d;
+  font-size: 16px;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
+.downloadreport-body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.downloadreport-footer {
+  padding-top: 20px;
+  /* border-top: 1px solid; */
+}
+.input-day {
+  border: 0;
+  padding: 8px 15px;
+  /*width: 90%;*/
+  outline: none;
+  background: #ffffff;
+}
+.search-input:focus {
+  box-shadow: none;
+}
+.search-input {
+  outline: none;
+}
+.date-wrap {
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  height: 44px;
+  width: 100%;
+}
+.datepicker-wrap.hideRight .ngb-dp-arrow.right {
+  opacity: 0;
 }

@@ -86,13 +86,25 @@ body {
 
 .inner-wrapper {
   padding: 30px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 main {
   height: 100%;
 }
-
+.cancel_btn,
+.ok_btn {
+  font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
+  font-size: 14px !important;
+}
+.ok_btn {
+  color: white !important;
+  background: #1682fb !important;
+}
+.cancel_btn {
+  color: #435569 !important;
+  background: #f2f4f5 !important;
+}
 /*.overflow{*/
 /*overflow-y: auto; */
 /*min-height: 0px;*/
@@ -1322,4 +1334,9 @@ input::-webkit-inner-spin-button {
   /* display: none; <- Crashes Chrome on hover */
   -webkit-appearance: none;
   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+/* modal-box display in the center in Reports>Staff teaching schedule>'Download report' button */
+.downloadStaffTeachingReportModal {
+  top: 30% !important;
 }
