@@ -16,39 +16,47 @@
         Add new location
       </button>
     </div>
-    <div class="location-group card-columns">
+    <div class="location-group card-columns pt-2">
       <div
         class="card"
         *ngFor="let location of locationLists; let i = index"
         [attr.data-index]="i"
       >
         <div class="single-item">
-          <h5
+          <span
             class="h5-title"
             [ngStyle]="{
-              background: selectedLocationColor.background,
-              color: selectedLocationColor.text
+              background: location.backgroundColorHex,
+              color: location.textColorHex
             }"
           >
             {{ location.name }}
-          </h5>
+          </span>
 
-          <div class="d-flex flex-row">
-            <div class="pl-0 address-text">{{ location.address }}</div>
-            <div
-              class="pl-0 h5-title"
-              *ngIf="location.phoneNumber.number != null"
-            >
-              +{{ location.phoneNumber.countryCode }}
-              {{ location.phoneNumber.number }}
-            </div>
-            <div
-              class="pl-0 h5-title"
-              *ngIf="location.phoneNumber.number == null"
-            >
-              -
-            </div>
+          <div class="pl-0 address-text pt-2">{{ location.address }}</div>
+          <div
+            class="pl-0 h5-title"
+            *ngIf="location.phoneNumber.number != null"
+          >
+            +{{ location.phoneNumber.countryCode }}
+            {{ location.phoneNumber.number }}
           </div>
+          <div
+            class="pl-0 h5-title"
+            *ngIf="location.phoneNumber.number == null"
+          >
+            -
+          </div>
+        </div>
+        <div class="location-footer d-flex justify-content-end">
+          <button
+            *ngIf="locationDemo.editLocation != ''"
+            class="btn edit-btn"
+            (click)="getSingleLocation(location._id)"
+          >
+            Edit
+          </button>
+          <!-- <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id, location.name)" class="btn delete-btn">Delete</button> -->
         </div>
       </div>
     </div>
@@ -123,84 +131,84 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="form-group col-sm-12 col-md-6 col-lg-7">
-            <label class="form-title" for="address">Address</label>
-            <textarea
-              class="form-control"
-              rows="3"
-              placeholder="Type address here"
-              name="address"
-              [(ngModel)]="model.address"
-              #address="ngModel"
-            ></textarea>
-            <!-- <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+        <!-- <div class="row"> -->
+        <div class="form-group form-divider">
+          <label class="form-title" for="address">Address</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            placeholder="Type address here"
+            name="address"
+            [(ngModel)]="model.address"
+            #address="ngModel"
+          ></textarea>
+          <!-- <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
               <div [hidden]="!address.errors.required">
                 Address is required!
               </div>
             </div> -->
-          </div>
-          <div class="form-group col-md-12 col-md-6 col-lg-5">
-            <label class="form-title" for="address">Telephone</label>
-            <div class="coun-code">+{{ countrycode }}</div>
-            <input
-              *ngIf="isUpdate == false"
-              style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-              type="tel"
-              class="form-control"
-              name="phoneNumber"
-              [(ngModel)]="model.phonenumber"
-              #phoneNumber="ngModel"
-              ng2TelInput
-              (intlTelInputObject)="telInputObject($event)"
-              (hasError)="hasError($event)"
-              [ng2TelInputOptions]="{ initialCountry: 'mm' }"
-              (countryChange)="onCountryChange($event)"
-              (ng2TelOutput)="getNumber($event)"
-              (input)="onSearchChange($event.target.value, $event)"
-              (input)="charCheck($event.target.value)"
-            />
-            <input
-              *ngIf="isUpdate == true"
-              style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-              type="tel"
-              class="form-control"
-              name="phoneNumber"
-              [(ngModel)]="model.phonenumber"
-              #phoneNumber="ngModel"
-              ng2TelInput
-              (intlTelInputObject)="telInputObject($event)"
-              (hasError)="hasError($event)"
-              (countryChange)="onCountryChange($event)"
-              (ng2TelOutput)="getNumber($event)"
-              (input)="charCheck($event.target.value)"
-            />
-            <!-- {{isrequired}} -->
-            <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
+        </div>
+        <div class="form-group form-divider">
+          <label class="form-title" for="address">Telephone</label>
+          <div class="coun-code">+{{ countrycode }}</div>
+          <input
+            *ngIf="isUpdate == false"
+            style="width: 90%;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+            type="tel"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="model.phonenumber"
+            #phoneNumber="ngModel"
+            ng2TelInput
+            (intlTelInputObject)="telInputObject($event)"
+            (hasError)="hasError($event)"
+            [ng2TelInputOptions]="{ initialCountry: 'mm' }"
+            (countryChange)="onCountryChange($event)"
+            (ng2TelOutput)="getNumber($event)"
+            (input)="onSearchChange($event.target.value, $event)"
+            (input)="charCheck($event.target.value)"
+          />
+          <input
+            *ngIf="isUpdate == true"
+            style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+            type="tel"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="model.phonenumber"
+            #phoneNumber="ngModel"
+            ng2TelInput
+            (intlTelInputObject)="telInputObject($event)"
+            (hasError)="hasError($event)"
+            (countryChange)="onCountryChange($event)"
+            (ng2TelOutput)="getNumber($event)"
+            (input)="charCheck($event.target.value)"
+          />
+          <!-- {{isrequired}} -->
+          <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
               <div>
                 Phone number is required!
               </div>
             </div> -->
-            <div *ngIf="isnumber == true" class="alert alert-danger">
-              <div>
-                Phone number should be number!
-              </div>
+          <div *ngIf="isnumber == true" class="alert alert-danger">
+            <div>
+              Phone number should be number!
             </div>
+          </div>
 
-            <!-- [cpCancelButton]="true"
+          <!-- [cpCancelButton]="true"
             [cpOKButton]="true"
             [cpCancelButtonClass]= "'btn btn-primary'"
             [cpOKButtonClass]= "'btn btn-primary'" -->
-          </div>
+        </div>
 
-          <!-- <span [style.background]="ss"
+        <!-- <span [style.background]="ss"
                 [cpToggle]="true"
                 [cpDialogDisplay]="'inline'"
                 [(colorPicker)]="ss"
                 class=""
                 (clickOutside)="console.warn('ss')"
                 ></span> -->
-        </div>
+        <!-- </div> -->
         <!-- <div class="pl-3">
           <span class="pb-1 choose_color">Background color</span>
           <div class="d-flex align-items-center">

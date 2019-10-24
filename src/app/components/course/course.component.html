@@ -25,11 +25,14 @@
         <div class="d-flex justify-content-between title">
           <div>
             <h3 class="header-font">Courses</h3>
-            <span class="location-name">{{ locationName }}</span>
-            <!--  [ngStyle]="{
+            <span
+              class="location-name"
+              [ngStyle]="{
                 color: gtxtColor,
                 background: gbgColor
-              }" -->
+              }"
+              >{{ locationName }}</span
+            >
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -1079,11 +1082,13 @@
           >
             <div class="cdetail">
               <p>Location</p>
-              <h5>{{ detailLists.location.name }}</h5>
-              <!-- [ngStyle]="{
+              <span
+                [ngStyle]="{
                   color: detailLists.location.textColorHex,
                   background: detailLists.location.backgroundColorHex
-                }" -->
+                }"
+                >{{ detailLists.location.name }}</span
+              >
             </div>
           </div>
           <div

@@ -93,10 +93,14 @@
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   color: #2f3d4c;
   font-size: 16px;
+  font-weight: 600;
+  padding: 3px;
+  border-radius: 2px;
 }
 .single-item {
   /* padding: 30px 0; */
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd; */
+  padding: 16px;
 }
 /*.sperator{
 	padding-top: 10px;
@@ -115,7 +119,7 @@
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   background: #fff;
   height: 45px;
-  margin-top: -13px;
+  /* margin-top: -13px; */
 }
 .edit-btn {
   color: orange;
@@ -383,4 +387,17 @@ p.color-title {
 /* start location list */
 .card-columns {
   column-count: 2;
+}
+
+.location-box {
+  max-height: 300px;
+}
+
+.location-footer {
+  box-shadow: 0px -1px 0px #edeff0;
+}
+
+input::placeholder {
+  color: red;
+  opacity: 1; /* Firefox */
 }

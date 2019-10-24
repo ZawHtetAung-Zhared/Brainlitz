@@ -1287,6 +1287,7 @@ li button {
 .modal-userInfo p,
 .single-progress h4,
 .cdetail h5,
+.cdetail span,
 .course-time h5,
 .room-name,
 .detail-info h4,
@@ -1424,6 +1425,13 @@ li button {
   background-repeat: no-repeat;
   height: 110px;
 }
+
+.cdetail span {
+  font-size: 16px;
+  padding: 3px;
+  border-radius: 2px;
+}
+
 .course-bg:nth-child(1) .cdetail {
   background-image: url('../../../assets/img/wave-1@3x.png');
 }
