@@ -129,6 +129,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   };
   skipLessonsCount: any = 0;
   actualSkipLessons: any = 0;
+  public isConflict: boolean = false;
+  public isSingleLeave: boolean = false;
 
   constructor(
     private _service: appService,
@@ -507,7 +509,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
           this.calculateSkipLessons(this.skipCourseArr);
           this.loading = false;
           // }
-          console.log(this.skipCourseArr);
+          console.log(this.skipCourseArr, this.selectedDays);
         },
         err => {}
       );
@@ -899,6 +901,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.reliefObj.dateLevelIdx = '';
       this.reliefObj.courseIdx = '';
       this.modalCourseData = data;
+      this.isSingleLeave = false;
       console.log('for all', this.modalCourseData);
     } else {
       // clicked assignRelife btn for single courses
@@ -911,6 +914,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       };
       obj.courses.push(data);
       this.modalCourseData.push(obj);
+      this.isSingleLeave = true;
       console.log('for single', this.modalCourseData);
     }
   }
@@ -959,6 +963,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSelectTeacher(data) {
+    this.isConflict = false;
     console.log('onSelectTeacher', this.skipCourseArr);
     this.selectedTeacher = data;
     this.conflictLessonArr = [];
@@ -976,6 +981,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
             .subscribe(
               (res: any) => {
                 console.log('conflict lessons', res);
+                if (res.courses.length > 0 && this.isConflict == false)
+                  this.isConflict = true;
                 this.conflictLessonArr.push(res);
                 console.log('conflictLessonArr', this.conflictLessonArr);
               },
