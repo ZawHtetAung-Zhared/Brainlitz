@@ -1042,9 +1042,9 @@ li button {
   position: relative;
   font-size: 12px;
   /* background: #cce6ff; */
-  padding: 3px 7px;
+  padding: 3px;
   margin-bottom: 0;
-  border-radius: 25px;
+  border-radius: 2px;
   display: table;
 }
 .header-info {
