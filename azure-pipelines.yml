@@ -25,7 +25,7 @@ steps:
     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/dist.zip'
+    archiveFile: '$(System.DefaultWorkingDirectory)/dist.zip'
     replaceExistingArchive: true
 
 # - task: CopyFiles@2
