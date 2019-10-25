@@ -472,11 +472,11 @@
             <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
               >{{ staffObj.preferredName }} </span
             >will skip
-            <span
-              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-              >{{ skipLessonsCount }}</span
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}
+              {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}</span
             >
-            lessons in this following days
+            in this following days
           </div>
 
           <div

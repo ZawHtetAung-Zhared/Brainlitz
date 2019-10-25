@@ -386,6 +386,7 @@
         (focusout)="hideSearch($event)"
         [(ngModel)]="searchWords"
         (input)="changeSearch($event.target.value, 'apg')"
+        #searchConcept="ngModel"
         autocomplete="off"
       />
     </div>

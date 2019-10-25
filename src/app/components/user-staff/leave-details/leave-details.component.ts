@@ -301,7 +301,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //start leave modal
   openLeaveModal(openLeave) {
-    this.showLoading.emit(true);
+    // this.showLoading.emit(true);
     this.viewDate = new Date();
     this.getleaveforuser();
     this.selectedDays = [];
