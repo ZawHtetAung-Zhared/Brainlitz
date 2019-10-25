@@ -401,3 +401,7 @@ input::placeholder {
   color: red;
   opacity: 1; /* Firefox */
 }
+
+.form-control::-webkit-input-placeholder {
+  color: red;
+}

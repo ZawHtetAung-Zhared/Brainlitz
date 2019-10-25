@@ -124,7 +124,7 @@ export class FlexiComponent implements OnInit {
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj, ref: ElementRef) {
-    console.log('ele', this.elelf.nativeElement.getBoundingClientRect());
+    console.log('ele', e);
     console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
@@ -161,25 +161,47 @@ export class FlexiComponent implements OnInit {
     }
 
     this.xPos = e.clientX - 173 - 65;
-    console.log('e>>', e);
-    for (let i = 0; i < e.path.length; i++) {
-      if (e.path[i].classList != undefined) {
-        if (e.path[i].classList.value == 'modal-dialog') {
-          this.yPos = e.clientY - e.path[i].offsetTop + 16;
+    console.log('e>>', e.composedPath());
+    if (e.path == undefined) {
+      for (let i = 0; i < e.composedPath().length; i++) {
+        if (e.composedPath()[i].classList.value == 'modal-dialog') {
+          this.yPos = e.clientY - e.composedPath()[i].offsetTop + 16;
           break;
         }
       }
-    }
-    console.log('yPos', this.yPos);
-    if (
-      e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
-      e.srcElement.className ==
-        'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
-    ) {
-      this.arrLeft = e.path[4].offsetLeft + 130;
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        this.arrLeft = e.composedPath()[4].offsetLeft + 130;
+      } else {
+        this.arrLeft = e.composedPath()[3].offsetLeft + 130;
+      }
     } else {
-      this.arrLeft = e.path[3].offsetLeft + 130;
+      for (let i = 0; i < e.path.length; i++) {
+        if (e.path[i].classList != undefined) {
+          if (e.path[i].classList.value == 'modal-dialog') {
+            this.yPos = e.clientY - e.path[i].offsetTop + 16;
+            break;
+          }
+        }
+      }
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        this.arrLeft = e.path[4].offsetLeft + 130;
+      } else {
+        this.arrLeft = e.path[3].offsetLeft + 130;
+      }
     }
+
+    console.log('yPos', this.yPos);
+    console.log(e.srcElement.className, 'e.srcElement.className');
 
     this.styleArr = {
       top: this.yPos + 'px'
