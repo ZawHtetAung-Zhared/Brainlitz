@@ -179,7 +179,14 @@
         >
           Send notification
         </h2>
-        <span class="location-name">{{ locationName }}</span>
+        <span
+          class="location-name"
+          [ngStyle]="{
+            color: gtxtColor,
+            background: gbgColor
+          }"
+          >{{ locationName }}</span
+        >
         <!-- [ngStyle]="{
             color: gtxtColor,
             background: gbgColor
