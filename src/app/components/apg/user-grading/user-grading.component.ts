@@ -196,6 +196,7 @@ export class UserGradingComponent implements OnInit {
     $('body').css('overflow', 'hidden');
     this.caculatePosition(e);
   }
+
   closePopUp(e) {
     this.showPopUp = false;
     $('body').css('overflow', 'overlay');

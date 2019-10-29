@@ -77,6 +77,50 @@
         />
       </div>
     </div>
+    <div
+      id="colorPletteBox"
+      *ngIf="showPopUp && selectedIndex == i"
+      (clickOutside)="closePopUp($event, i)"
+    >
+      <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+      <div class="carret-box" [ngClass]="arrClasses"></div>
+      <div class="input-section">
+        <p class="pb-0 mb-0">2 characters max</p>
+        <input
+          type="text"
+          class="lvl-name-input"
+          maxlength="2"
+          (focus)="onFocus()"
+          (focusout)="onFocusOut()"
+          [(ngModel)]="gradeName"
+          #gradename="ngModel"
+          (input)="checkValidation()"
+        />
+        <button
+          class="btn apply-btn"
+          [ngClass]="{
+            'remove-boxshadow': isFocus,
+            'focus-background': gradename.dirty
+          }"
+          (click)="applyGradeName()"
+          [disabled]="!gradename.dirty || gradeName.length < 1"
+        >
+          Apply
+        </button>
+      </div>
+      <p class="color-title mb-0 pb-0">Color</p>
+      <div class="color-section d-flex flex-wrap">
+        <div
+          class="color-circle"
+          *ngFor="let item of sepalColor; let i = index"
+          [style.background]="item.color.background"
+          [ngClass]="{
+            addBorder: item.color.background == selectedSepalColor.background
+          }"
+          (click)="selectColor(i, item)"
+        ></div>
+      </div>
+    </div>
     <div class="flex-grow-1 d-flex grade-name-wrapper ml-3">
       <div class="w-100">
         <input
@@ -124,53 +168,4 @@
   >
     Update
   </button>
-</div>
-
-<div
-  id="colorPletteBox"
-  *ngIf="showPopUp"
-  [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }"
-  (clickOutside)="closePopUp($event)"
->
-  <div
-    class="carret-box"
-    [ngClass]="arrClasses"
-    [ngStyle]="colorArrClasses"
-  ></div>
-  <div class="input-section">
-    <p class="pb-0 mb-0">2 characters max</p>
-    <input
-      type="text"
-      class="lvl-name-input"
-      maxlength="2"
-      (focus)="onFocus()"
-      (focusout)="onFocusOut()"
-      [(ngModel)]="gradeName"
-      #gradename="ngModel"
-      (input)="checkValidation()"
-    />
-    <button
-      class="btn apply-btn"
-      [ngClass]="{
-        'remove-boxshadow': isFocus,
-        'focus-background': gradename.dirty
-      }"
-      (click)="applyGradeName()"
-      [disabled]="!gradename.dirty || gradeName.length < 1"
-    >
-      Apply
-    </button>
-  </div>
-  <p class="color-title mb-0 pb-0">Color</p>
-  <div class="color-section d-flex flex-wrap">
-    <div
-      class="color-circle"
-      *ngFor="let item of sepalColor; let i = index"
-      [style.background]="item.color.background"
-      [ngClass]="{
-        addBorder: item.color.background == selectedSepalColor.background
-      }"
-      (click)="selectColor(i, item)"
-    ></div>
-  </div>
 </div>

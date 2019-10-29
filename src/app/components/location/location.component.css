@@ -332,6 +332,8 @@ input:valid + span:after {
   background: #ffffff;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1), 0px 4px 15px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
+  right: 30px;
+  top: 250px;
 }
 
 .carret-box,
@@ -360,6 +362,7 @@ input:valid + span:after {
 }
 .arr-box {
   position: fixed;
+  top: 364px !important;
   /* right: 85%!important; */
 }
 

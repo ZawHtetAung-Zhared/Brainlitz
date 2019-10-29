@@ -118,9 +118,36 @@
               <span class="icon-img">
                 <img src="../../../assets/img/Vector.png" />
               </span>
+              <div
+                *ngIf="isShowPicker"
+                class="carret-box"
+                [ngClass]="arrClasses"
+              ></div>
+              <!--      [ngStyle]="colorArrClasses" -->
             </div>
           </div>
+          <div
+            id="colorPletteBox"
+            *ngIf="isShowPicker"
+            (clickOutside)="closePopUp($event)"
+          >
+            <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
 
+            <!--  [ngClass]="arrClasses"
+            [ngStyle]="colorArrClasses" -->
+            <p class="color-title mb-0 pb-0">Color</p>
+            <div class="color-section d-flex flex-wrap">
+              <div
+                class="color-circle"
+                *ngFor="let item of sepalColor; let i = index"
+                [style.background]="item.color.background"
+                (click)="selectColor(i, item)"
+              ></div>
+              <!-- [ngClass]="{
+                addBorder: item.color.background == selectedLocationColor.background
+              }" -->
+            </div>
+          </div>
           <div
             *ngIf="name.errors && (name.dirty || name.touched)"
             class="alert alert-danger"
@@ -194,80 +221,7 @@
               Phone number should be number!
             </div>
           </div>
-
-          <!-- [cpCancelButton]="true"
-            [cpOKButton]="true"
-            [cpCancelButtonClass]= "'btn btn-primary'"
-            [cpOKButtonClass]= "'btn btn-primary'" -->
         </div>
-
-        <!-- <span [style.background]="ss"
-                [cpToggle]="true"
-                [cpDialogDisplay]="'inline'"
-                [(colorPicker)]="ss"
-                class=""
-                (clickOutside)="console.warn('ss')"
-                ></span> -->
-        <!-- </div> -->
-        <!-- <div class="pl-3">
-          <span class="pb-1 choose_color">Background color</span>
-          <div class="d-flex align-items-center">
-            <div
-              class="color_picker_menu"
-              [cpCancelButton]="true"
-              [cpOKButton]="true"
-              [cpCancelButtonClass]="'btn cancel_btn'"
-              [cpOKButtonClass]="'btn ok_btn'"
-              [cpSaveClickOutside]="true"
-              [cpPosition]="'bottom'"
-              [cpPositionOffset]="'0%'"
-              [cpOutputFormat]="'hex'"
-              [(colorPicker)]="bg_code"
-              (click)="removeHtml($event)"
-            ></div>
-
-            <input
-              type="text"
-              class="color_code_input"
-              [(ngModel)]="bg_code"
-              name="colo_code"
-              placeholder="Type Background"
-            />
-            <div
-              class="sample_color ml-3"
-              [ngStyle]="{ background: bg_code }"
-            ></div>
-          </div>
-        </div>
-        <div class="pl-3">
-          <span class="pb-1 choose_color">Text color</span>
-          <div class="d-flex align-items-center">
-            <div
-              class="color_picker_menu"
-              [cpCancelButton]="true"
-              [cpOKButton]="true"
-              [cpCancelButtonClass]="'btn cancel_btn'"
-              [cpOKButtonClass]="'btn ok_btn'"
-              [cpSaveClickOutside]="true"
-              [cpPosition]="'bottom'"
-              [cpPositionOffset]="'0%'"
-              [cpOutputFormat]="'hex'"
-              [(colorPicker)]="txt_code"
-              (click)="removeHtml($event)"
-            ></div>
-
-            <input
-              type="text"
-              class="color_code_input"
-              [(ngModel)]="txt_code"
-              name="txt_code"
-            />
-            <div
-              class="sample_color ml-3"
-              [ngStyle]="{ background: txt_code }"
-            ></div>
-          </div>
-        </div> -->
 
         <!-- color picker -->
 
@@ -298,7 +252,7 @@
     </div>
   </div>
 </div>
-<div
+<!-- <div
   id="colorPletteBox"
   *ngIf="isShowPicker"
   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }"
@@ -322,7 +276,7 @@
       (click)="selectColor(i, item)"
     ></div>
   </div>
-</div>
+</div> -->
 <!-- Delete Modal -->
 <ng-template #deletemodal let-c="close" let-d="dismiss">
   <div class="modal-header">
