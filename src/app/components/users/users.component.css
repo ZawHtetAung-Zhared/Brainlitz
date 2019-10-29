@@ -2461,6 +2461,10 @@ input[_ngcontent-c1]:focus {
 
 .guar-name {
   line-height: 2;
+  cursor: pointer;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  color: #007fff;
+  font-size: 16px;
 }
 
 ::-webkit-scrollbar {
@@ -3126,7 +3130,7 @@ p.course-name {
   margin-bottom: 10px;
 }
 span.score {
-  color: #007fff;
+  color: #9da8b3;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-size: 14px;
 }

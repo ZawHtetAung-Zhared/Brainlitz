@@ -201,6 +201,7 @@ export class FlexiComponent implements OnInit {
       .getFlexi(this.course._id, this.selectedCustomer.userId, startDate, dres)
       .subscribe(
         (res: any) => {
+          console.log(res);
           let tempLesson = [];
           let tempflexy = [];
           let tempdata = [];
@@ -213,6 +214,11 @@ export class FlexiComponent implements OnInit {
               tempLesson.push(i);
               tempdata.push(res.lessons[i]);
             }
+            // console.log(i+".........",res.lessons[i]);
+            // this.lessonsObj.unshift(res.lessons[i]);
+          }
+
+          for (let i = res.lessons.length - 1; i >= 0; i--) {
             this.lessonsObj.unshift(res.lessons[i]);
           }
 
@@ -228,6 +234,7 @@ export class FlexiComponent implements OnInit {
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
+          console.log(this.lessonsObj);
           // this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
           // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);
