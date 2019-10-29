@@ -37,6 +37,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
   loading = true;
   nocourse = false;
   private subscription: ISubscription;
+  public gtxtColor: any;
+  public gbgColor: any;
 
   constructor(
     private _service: appService,
@@ -52,6 +54,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     console.log(this.locationId);
     this.loading = true;
     // this.showLoading.emit(false);
+    this.gtxtColor = localStorage.getItem('txtColor');
+    this.gbgColor = localStorage.getItem('backgroundColor');
     this.subscription = this._service
       .getUserDetail(this.regionId, this.userId, this.locationId)
       .subscribe(

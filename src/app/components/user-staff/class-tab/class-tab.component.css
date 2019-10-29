@@ -36,6 +36,8 @@
   font-size: 12px;
   line-height: 16px;
   color: #64707d;
+  padding: 3px;
+  border-radius: 2px;
 }
 
 .title {
