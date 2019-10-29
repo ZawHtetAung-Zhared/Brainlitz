@@ -224,9 +224,6 @@ export class RescheduleLessonComponent implements OnInit {
     );
     this.endDate = this.changeDateFormat(this.model.start, this.model.endTime);
     this.changeDateTimeFormat();
-    console.log(this.pickdate);
-    console.log(this.model.start);
-    console.log(this.courseDetail);
     this.checkDate();
   }
 
@@ -243,21 +240,17 @@ export class RescheduleLessonComponent implements OnInit {
 
   checkDate() {
     console.log('check date');
-    console.log(this.courseDetail.lessons);
-    console.log(this.LASD);
-    console.log(this.model.startT);
-    console.log(this.model.start);
 
     // if (this.model.start != undefined && this.model.starttime != undefined) {
     if (this.model.start != undefined) {
-      // this.pickdate = this.changeDateFormat(
-      //   this.model.start,
-      //   this.model.starttime
-      // );
-      // this.endDate = this.changeDateFormat(
-      //   this.model.start,
-      //   this.model.endTime
-      // );
+      this.pickdate = this.changeDateFormat(
+        this.model.start,
+        this.model.starttime
+      );
+      this.endDate = this.changeDateFormat(
+        this.model.start,
+        this.model.endTime
+      );
       // console.log(this.pickdate);
       // console.log(this.endDate);
       this.checkDayExist(this.pickdate);
@@ -360,6 +353,7 @@ export class RescheduleLessonComponent implements OnInit {
     console.log('today time:::::::::::' + this.correctRescheduleTime);
     console.log('today date:::::::' + this.correctRescheduleDate);
     console.log('Disable:::::::' + this.disableReschedule);
+    console.log('start and end date>>>>>>', this.pickdate, this.endDate);
   }
 
   validDay(new_day) {
@@ -478,8 +472,6 @@ export class RescheduleLessonComponent implements OnInit {
   }
 
   closeDropdown(event, type, datePicker?) {
-    console.log(event);
-
     if (event.target.className.includes('dropD')) {
       console.log('dropD');
     } else {

@@ -3431,17 +3431,18 @@ export class TestwerkzComponent implements OnInit {
   focusSearch(e) {
     console.log(e);
 
-    this.isFocus_collection = true;
+    this.isFocus_collection = false;
     // this.showfixedcreate = true;
     // this.apgList = [];
-    // this.concept_in_collection=[];
-    // this.conceptsArr=[];
+    this.concept_in_collection = [];
+    this.conceptsArr = [];
   }
 
   hideSearch(e) {
     console.log(e);
     setTimeout(() => {
-      // this.isFocus_collection = false;
+      this.isFocus_collection = false;
+      this.searchWords = '';
       // this.showfixedcreate = false;
     }, 300);
   }
@@ -3451,6 +3452,7 @@ export class TestwerkzComponent implements OnInit {
     this.searchWords = keyword;
     if (keyword == 0 || keyword == '') {
       this.concept_in_collection = [];
+      this.isFocus_collection = false;
       console.log(this.concept_in_collection);
       // this.getAllAPG(20, 0)
     } else {
@@ -3468,6 +3470,9 @@ export class TestwerkzComponent implements OnInit {
           this.conceptsArr = res;
         } else {
           this.concept_in_collection = res;
+          this.isFocus_collection = true;
+          if (this.concept_in_collection.length == 0)
+            this.isFocus_collection = false;
         }
         //this.blockUI.stop();
       },

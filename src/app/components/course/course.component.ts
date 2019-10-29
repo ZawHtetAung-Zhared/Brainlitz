@@ -265,6 +265,7 @@ export class CourseComponent implements OnInit {
     calendar: NgbCalendar,
     private TodayDatePipe: TodayDatePipe
   ) {
+    console.error('reach');
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
@@ -376,8 +377,8 @@ export class CourseComponent implements OnInit {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
     this.activeTab = 'People';
 
@@ -465,8 +466,8 @@ export class CourseComponent implements OnInit {
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       // console.error(this.gbgColor, 'backgroundColor', this.gtxtColor);
 
       console.log('hi permission', this.locationName, this.locationID);
