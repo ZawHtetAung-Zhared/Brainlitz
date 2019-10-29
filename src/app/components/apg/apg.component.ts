@@ -909,6 +909,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
     console.log('ModuleName --->', name);
+
     this.ischecked = val;
     this.moduleID = val;
     this.pickedMType.name = name;

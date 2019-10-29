@@ -108,6 +108,7 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
 import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
+import { UtcDateAndDayObjPipe } from './service/pipe/utc-date-and-day-obj.pipe';
 import { AssignReliefComponent } from './components/assign-relief/assign-relief.component';
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -127,6 +128,7 @@ import { TodayDatePipe } from './service/pipe/today-date.pipe';
 import { RescheduleLessonComponent } from './components/reschedule-lesson/reschedule-lesson.component';
 import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
 import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pipe';
+import { from } from 'rxjs/observable/from';
 
 @NgModule({
   declarations: [
@@ -203,6 +205,7 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
     ClassTabComponent,
     LeaveDetailsComponent,
     UtcDateAndDayPipe,
+    UtcDateAndDayObjPipe,
     RescheduleComponent,
     AssignReliefComponent,
     FinancialPipe,
