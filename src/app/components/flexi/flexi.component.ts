@@ -200,9 +200,6 @@ export class FlexiComponent implements OnInit {
       }
     }
 
-    console.log('yPos', this.yPos);
-    console.log(e.srcElement.className, 'e.srcElement.className');
-
     this.styleArr = {
       top: this.yPos + 'px'
     };

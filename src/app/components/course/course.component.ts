@@ -265,6 +265,7 @@ export class CourseComponent implements OnInit {
     calendar: NgbCalendar,
     private TodayDatePipe: TodayDatePipe
   ) {
+    console.error('reach');
     this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
