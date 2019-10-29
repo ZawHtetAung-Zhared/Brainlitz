@@ -1990,3 +1990,7 @@ span.circle {
 .px-4 {
   padding-left: 1rem !important;
 }
+
+.bg_white {
+  background: white;
+}
