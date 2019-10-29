@@ -10,7 +10,6 @@ import { appService } from '../../../service/app.service';
 import courseSampleData from './sampleData';
 import sampleCSV from './csvJson';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-declare var $: any;
 @Component({
   selector: 'staff-teaching-report',
   templateUrl: './staffTeaching.component.html',
@@ -56,8 +55,12 @@ export class StaffTeachingScheduleReport implements OnInit {
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
   model: any = {};
-  public todayDate: any;
   @BlockUI() blockUI: NgBlockUI;
+
+  //for download report
+  public todayDate: any;
+  public downloadSdate: any;
+  public downloadEdate: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -508,7 +511,10 @@ export class StaffTeachingScheduleReport implements OnInit {
 
     this.modalReference.close();
   }
+
   applyDateRange(evt) {
+    this.downloadSdate = evt.picker.startDate.format();
+    this.downloadEdate = evt.picker.endDate.format();
     this.startDate = new Date(evt.picker.startDate).toISOString();
     this.endDate = new Date(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
@@ -531,111 +537,22 @@ export class StaffTeachingScheduleReport implements OnInit {
     });
   }
 
-  reportSDate: any;
-  reportEDate: any;
-  setMinDate(event, type) {
-    console.log(event);
-    console.log(type);
-    if (type == 'start') this.model.start = event;
-    else if (type == 'end') this.model.end = event;
-    this.reportSDate = this.changeDateFormat(this.model.start, '23:59:59:999');
-    console.log(this.reportSDate);
-
-    if (this.model.start != undefined && this.model.end != undefined) {
-      this.reportSDate = this.changeDateFormat(
-        this.model.start,
-        '00:00:00:000'
-      );
-      this.reportEDate = this.changeDateFormat(this.model.end, '23:59:59:999');
-      console.log(this.reportEDate, this.reportSDate);
-    }
-  }
-  test(datePicker?) {
-    console.log('hello');
-    datePicker.toggle();
-  }
-
-  closeDropdown(event, type, datePicker?) {
-    console.log(event);
-    console.log(event.target.className);
-    console.log(type);
-
-    if (event.target.className.includes('cstart')) {
-      datePicker.open();
-
-      // } else if(event.target.className.includes('cend')){
-      //   datePicker.open();
-    } else {
-      if (type == 'start') {
-        if (
-          event.target.className == 'ngb-dp-navigation-chevron' ||
-          event.target.className == 'ngb-dp-arrow'
-        ) {
-          console.log('still open');
-          datePicker.open();
-        } else if (event.target.offsetParent == null) {
-          // datePicker.close();
-          console.log('hh');
-        }
-        // else if (event.target.className != 'ngb-dp-navigation-chevron' || event.target.className != 'ngb-dp-arrow') {
-        //   datePicker.close();
-        //   console.log('hh');
-        // }
-      }
-    }
-  }
-  closeDropdown1(event, type, datePicker?) {
-    if (event.target.className.includes('cend')) {
-      console.log(type);
-      datePicker.open();
-    } else {
-      if (
-        event.target.className == 'ngb-dp-navigation-chevron' ||
-        event.target.className == 'ngb-dp-arrow'
-      ) {
-        console.log('still open');
-        datePicker.open();
-      } else if (event.target.offsetParent == null) {
-        // datePicker.close();
-        console.log('hh');
-      }
-      // if (type == 'end') {
-      //   if (event.target.offsetParent == null) {
-      //     datePicker.close();
-      //     console.log('hh');
-      //   } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-      //     datePicker.close();
-      //     console.log('hh');
-      //   }
-      // }
-    }
-  }
-  open(event, type, datePicker?) {
-    if (event.target.className.includes('cend')) {
-      console.log(type);
-      datePicker.open();
-    }
-  }
-
   exportCSV() {
     console.log('export report');
-    console.log(this.startDate, this.endDate);
-    var str = this.startDate.split('T');
-    var str2 = this.endDate.split('T');
+    var str = this.downloadSdate.split('T');
+    var str2 = this.downloadEdate.split('T');
     var SDate = str[0] + 'T' + '00:00:00.000Z';
     var EDate = str2[0] + 'T' + '23:59:59.999Z';
     let fullStartDate = new Date(SDate).toISOString();
     let fullEndDate = new Date(EDate).toISOString();
-    console.log(SDate, EDate, fullStartDate, fullEndDate);
+    let filename = 'staff-teaching-hours-from-' + str[0] + '-to-' + str2[0];
 
-    //'00:00:00:000' 00:00:00.000Z
-    //'23:59:59:999' 23:59:00.000Z
     this._service
       .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.downloadFile(res.teachingHours, 'staff-teaching-hours');
+          this.downloadFile(res.teachingHours, filename);
         },
         err => {
           console.log(err);
@@ -644,7 +561,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   downloadFile(data, name) {
-    console.log(data);
     var csvData = this.ConvertToCSV(data);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
@@ -652,9 +568,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     var blob = new Blob([csvData], { type: 'text/csv' });
     var url = window.URL.createObjectURL(blob);
     a.href = url;
-    var filename = new Date().toISOString();
-    console.log('~~~', name + '-' + filename);
-    a.download = name + '-' + filename + '.csv';
+    a.download = name + '.csv';
     a.click();
   }
 
@@ -693,36 +607,5 @@ export class StaffTeachingScheduleReport implements OnInit {
     }
 
     return str;
-  }
-
-  changeDateFormat(date, time) {
-    // console.log('==>date,time', date, time);
-    if (date == null) {
-      // console.log('null', date);
-      return '';
-    } else {
-      // console.log('utc date', date);
-      // console.log('Time', time);
-      let sdate = date.year + '-' + date.month + '-' + date.day;
-      // console.log(sdate);
-      let dateParts = sdate.split('-');
-      // console.log('dateParts', dateParts);
-      if (dateParts[1]) {
-        // console.log(Number(dateParts[1]) - 1);
-        let newParts = Number(dateParts[1]) - 1;
-        dateParts[1] = newParts.toString();
-      }
-      let timeParts = time.split(':');
-      if (dateParts && timeParts) {
-        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-        // console.log("UTC",testDate)
-        let fullDate = new Date(
-          Date.UTC.apply(undefined, dateParts.concat(timeParts))
-        ).toISOString();
-        // console.log('ISO', fullDate);
-        return fullDate;
-      }
-    }
-    // console.log('ELSE');
   }
 }

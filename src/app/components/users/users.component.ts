@@ -243,8 +243,8 @@ export class UsersComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       var userId;
       this.dataService.currentCustomer.subscribe(uId => (userId = uId));
       if (userId != '') {
@@ -351,8 +351,8 @@ export class UsersComponent implements OnInit {
     if (this.customerPermission.includes('VIEWCUSTOMERS') != false) {
       this.getAllUsers('customer', 20, 0);
       this.locationName = localStorage.getItem('locationName');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     } else {
       console.log('permission deny');
       this.customerLists = [];

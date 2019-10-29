@@ -16,40 +16,47 @@
         Add new location
       </button>
     </div>
-    <div class="location-group">
+    <div class="location-group card-columns pt-2">
       <div
-        class="single-item"
+        class="card"
         *ngFor="let location of locationLists; let i = index"
         [attr.data-index]="i"
       >
-        <div class="row">
-          <h5 class="h5-title col-md-9">{{ location.name }}</h5>
-          <div class="col-md-3 d-flex justify-content-end">
-            <button
-              *ngIf="locationDemo.editLocation != ''"
-              class="btn edit-btn"
-              (click)="getSingleLocation(location._id)"
-            >
-              Edit
-            </button>
-            <!-- <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id, location.name)" class="btn delete-btn">Delete</button> -->
-          </div>
-        </div>
-        <div class="d-flex">
-          <div class="col-md-6 pl-0 address-text">{{ location.address }}</div>
+        <div class="single-item">
+          <span
+            class="h5-title"
+            [ngStyle]="{
+              background: location.backgroundColorHex,
+              color: location.textColorHex
+            }"
+          >
+            {{ location.name }}
+          </span>
+
+          <div class="pl-0 address-text pt-2">{{ location.address }}</div>
           <div
-            class="col-md-6 pl-0 h5-title"
+            class="pl-0 h5-title"
             *ngIf="location.phoneNumber.number != null"
           >
             +{{ location.phoneNumber.countryCode }}
             {{ location.phoneNumber.number }}
           </div>
           <div
-            class="col-md-6 pl-0 h5-title"
+            class="pl-0 h5-title"
             *ngIf="location.phoneNumber.number == null"
           >
             -
           </div>
+        </div>
+        <div class="location-footer d-flex justify-content-end">
+          <button
+            *ngIf="locationDemo.editLocation != ''"
+            class="btn edit-btn"
+            (click)="getSingleLocation(location._id)"
+          >
+            Edit
+          </button>
+          <!-- <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id, location.name)" class="btn delete-btn">Delete</button> -->
         </div>
       </div>
     </div>
@@ -73,8 +80,8 @@
       </div>
     </div>
     <div class="location-group">
-      <h3 *ngIf="isUpdate == false" class="location-h3">Create Location</h3>
-      <h3 *ngIf="isUpdate == true" class="location-h3">Update Location</h3>
+      <h3 *ngIf="isUpdate == false" class="location-h3">Create location</h3>
+      <h3 *ngIf="isUpdate == true" class="location-h3">Update location</h3>
       <p class="input-recommend">
         Add different locations of your training centres (if any). This will
         help to retrieve data/ information from any location.
@@ -82,24 +89,38 @@
       <form novalidate #locationForm="ngForm" class="form-wrap">
         <div class="form-group form-divider">
           <div class="d-flex justify-content-between">
-            <label class="form-title" for="name">Location name</label>
+            <label class="form-title location-name" for="name"
+              >Location name</label
+            >
             <div class="limit-wordcount">
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Type location name here"
-            name="name"
-            maxlength="60"
-            [(ngModel)]="model.name"
-            (focus)="focusMethod($event, $event.target.value)"
-            (blur)="blurMethod($event)"
-            (input)="changeMethod($event.target.value)"
-            required
-            #name="ngModel"
-          />
+          <div class="d-flex flex-row pl-2">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Type location name here"
+              name="name"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              (focus)="focusMethod($event, $event.target.value)"
+              (blur)="blurMethod($event)"
+              (input)="changeMethod($event.target.value)"
+              required
+              #name="ngModel"
+              [ngStyle]="{
+                background: selectedLocationColor.background,
+                color: selectedLocationColor.text
+              }"
+            />
+            <div class="color-box" (click)="showColorPicker($event)">
+              <span class="icon-img">
+                <img src="../../../assets/img/Vector.png" />
+              </span>
+            </div>
+          </div>
+
           <div
             *ngIf="name.errors && (name.dirty || name.touched)"
             class="alert alert-danger"
@@ -109,84 +130,85 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="form-group col-sm-12 col-md-6 col-lg-7">
-            <label class="form-title" for="address">Address</label>
-            <textarea
-              class="form-control"
-              rows="3"
-              placeholder="Type address here"
-              name="address"
-              [(ngModel)]="model.address"
-              #address="ngModel"
-            ></textarea>
-            <!-- <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
+
+        <!-- <div class="row"> -->
+        <div class="form-group form-divider">
+          <label class="form-title" for="address">Address</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            placeholder="Type address here"
+            name="address"
+            [(ngModel)]="model.address"
+            #address="ngModel"
+          ></textarea>
+          <!-- <div *ngIf="address.errors && (address.dirty || address.touched)" class="alert alert-danger">
               <div [hidden]="!address.errors.required">
                 Address is required!
               </div>
             </div> -->
-          </div>
-          <div class="form-group col-md-12 col-md-6 col-lg-5">
-            <label class="form-title" for="address">Telephone</label>
-            <div class="coun-code">+{{ countrycode }}</div>
-            <input
-              *ngIf="isUpdate == false"
-              style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-              type="tel"
-              class="form-control"
-              name="phoneNumber"
-              [(ngModel)]="model.phonenumber"
-              #phoneNumber="ngModel"
-              ng2TelInput
-              (intlTelInputObject)="telInputObject($event)"
-              (hasError)="hasError($event)"
-              [ng2TelInputOptions]="{ initialCountry: 'mm' }"
-              (countryChange)="onCountryChange($event)"
-              (ng2TelOutput)="getNumber($event)"
-              (input)="onSearchChange($event.target.value, $event)"
-              (input)="charCheck($event.target.value)"
-            />
-            <input
-              *ngIf="isUpdate == true"
-              style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-              type="tel"
-              class="form-control"
-              name="phoneNumber"
-              [(ngModel)]="model.phonenumber"
-              #phoneNumber="ngModel"
-              ng2TelInput
-              (intlTelInputObject)="telInputObject($event)"
-              (hasError)="hasError($event)"
-              (countryChange)="onCountryChange($event)"
-              (ng2TelOutput)="getNumber($event)"
-              (input)="charCheck($event.target.value)"
-            />
-            <!-- {{isrequired}} -->
-            <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
+        </div>
+        <div class="form-group form-divider">
+          <label class="form-title" for="address">Telephone</label>
+          <div class="coun-code">+{{ countrycode }}</div>
+          <input
+            *ngIf="isUpdate == false"
+            style="width: 90%;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+            type="tel"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="model.phonenumber"
+            #phoneNumber="ngModel"
+            ng2TelInput
+            (intlTelInputObject)="telInputObject($event)"
+            (hasError)="hasError($event)"
+            [ng2TelInputOptions]="{ initialCountry: 'mm' }"
+            (countryChange)="onCountryChange($event)"
+            (ng2TelOutput)="getNumber($event)"
+            (input)="onSearchChange($event.target.value, $event)"
+            (input)="charCheck($event.target.value)"
+          />
+          <input
+            *ngIf="isUpdate == true"
+            style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+            type="tel"
+            class="form-control"
+            name="phoneNumber"
+            [(ngModel)]="model.phonenumber"
+            #phoneNumber="ngModel"
+            ng2TelInput
+            (intlTelInputObject)="telInputObject($event)"
+            (hasError)="hasError($event)"
+            (countryChange)="onCountryChange($event)"
+            (ng2TelOutput)="getNumber($event)"
+            (input)="charCheck($event.target.value)"
+          />
+          <!-- {{isrequired}} -->
+          <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
               <div>
                 Phone number is required!
               </div>
             </div> -->
-            <div *ngIf="isnumber == true" class="alert alert-danger">
-              <div>
-                Phone number should be number!
-              </div>
+          <div *ngIf="isnumber == true" class="alert alert-danger">
+            <div>
+              Phone number should be number!
             </div>
+          </div>
 
-            <!-- [cpCancelButton]="true"
+          <!-- [cpCancelButton]="true"
             [cpOKButton]="true"
             [cpCancelButtonClass]= "'btn btn-primary'"
             [cpOKButtonClass]= "'btn btn-primary'" -->
-          </div>
+        </div>
 
-          <!-- <span [style.background]="ss"
+        <!-- <span [style.background]="ss"
                 [cpToggle]="true"
                 [cpDialogDisplay]="'inline'"
                 [(colorPicker)]="ss"
                 class=""
                 (clickOutside)="console.warn('ss')"
                 ></span> -->
-        </div>
+        <!-- </div> -->
         <!-- <div class="pl-3">
           <span class="pb-1 choose_color">Background color</span>
           <div class="d-flex align-items-center">
@@ -247,6 +269,8 @@
           </div>
         </div> -->
 
+        <!-- color picker -->
+
         <div class="d-flex justify-content-end form-footer">
           <button type="button" class="btn btn-cancel" (click)="back()">
             Cancel
@@ -272,6 +296,31 @@
         </div>
       </form>
     </div>
+  </div>
+</div>
+<div
+  id="colorPletteBox"
+  *ngIf="isShowPicker"
+  [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }"
+  (clickOutside)="closePopUp($event)"
+>
+  <div
+    class="carret-box"
+    [ngClass]="arrClasses"
+    [ngStyle]="colorArrClasses"
+  ></div>
+
+  <p class="color-title mb-0 pb-0">Color</p>
+  <div class="color-section d-flex flex-wrap">
+    <div
+      class="color-circle"
+      *ngFor="let item of sepalColor; let i = index"
+      [style.background]="item.color.background"
+      [ngClass]="{
+        addBorder: item.color.background == selectedLocationColor.background
+      }"
+      (click)="selectColor(i, item)"
+    ></div>
   </div>
 </div>
 <!-- Delete Modal -->

@@ -469,7 +469,7 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} tracking module</p>
+        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -481,7 +481,7 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} tracking module</p>
+        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -489,7 +489,7 @@
   </div>
   <div class="location-group">
     <h3 *ngIf="ismodule == true" class="title-heading">
-      Updating {{ apgType }} Pick tracking module type
+      Pick tracking module type
     </h3>
     <p
       *ngIf="ismodule == true"
@@ -504,16 +504,16 @@
     <!-- <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
       <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3> -->
     <h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">
-      Creating {{ apgType }} tracking module
+      Creating {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">
-      Create {{ apgType }} tracking module
+      Create {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">
-      Update {{ apgType }} tracking module
+      Update {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">
-      Shared {{ apgType }} tracking module
+      Shared {{ apgType.toLowerCase() }} tracking module
     </h3>
   </div>
   <div class="apg-form">
@@ -1315,7 +1315,7 @@
                 <div class="icon-apg"></div>
               </div>
               <label class="form-title input-label apgTypeTxt" for="address"
-                >Create new {{ apgType }} Tracking Module</label
+                >Create new {{ apgType.toLowerCase() }} tracking module</label
               >
             </div>
           </div>
@@ -1335,8 +1335,8 @@
                 <div class="icon-apg"></div>
               </div>
               <label class="form-title input-label" for="address"
-                >Create using publicly shared {{ apgType }} tracking
-                module</label
+                >Create using publicly shared
+                {{ apgType.toLowerCase() }} tracking module</label
               >
             </div>
           </div>

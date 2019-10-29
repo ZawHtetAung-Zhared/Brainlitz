@@ -160,7 +160,7 @@
                 >
                   <button
                     type="submit"
-                    class="btn"
+                    class="btn popup-btn"
                     (click)="cancelPopup('courseFee')"
                   >
                     <span class="closemark">
@@ -265,7 +265,11 @@
               "
               class="d-flex btns-wrap btns-wrap-dis"
             >
-              <button type="submit" class="btn" (click)="cancelPopup3()">
+              <button
+                type="submit"
+                class="btn popup-btn"
+                (click)="cancelPopup3()"
+              >
                 <span class="closemark">
                   <div class="closemark_stem"></div>
                   <div class="closemark_kick"></div>
@@ -273,7 +277,7 @@
               </button>
               <button
                 type="submit"
-                class="btn"
+                class="btn popup-btn"
                 (click)="addnewDiscount('courseFee-dis')"
                 [disabled]="
                   cDiscount.dValue == undefined || cDiscount.dValue == ''
@@ -407,7 +411,11 @@
                   "
                   class="d-flex btns-wrap"
                 >
-                  <button type="submit" class="btn" (click)="cancelPopup3()">
+                  <button
+                    type="submit"
+                    class="btn popup-btn"
+                    (click)="cancelPopup3()"
+                  >
                     <span class="closemark">
                       <div class="closemark_stem"></div>
                       <div class="closemark_kick"></div>
@@ -415,7 +423,7 @@
                   </button>
                   <button
                     type="submit"
-                    class="btn"
+                    class="btn popup-btn"
                     (click)="addnewDiscount('courseFee-dis')"
                     [disabled]="
                       cDiscount.dValue == undefined || cDiscount.dValue == ''
@@ -505,7 +513,11 @@
                   *ngIf="feesBox1 == true && activeFeeBoxId == i"
                   class="d-flex btns-wrap"
                 >
-                  <button type="submit" class="btn" (click)="cancelPopup2(i)">
+                  <button
+                    type="submit"
+                    class="btn popup-btn"
+                    (click)="cancelPopup2(i)"
+                  >
                     <span class="closemark">
                       <div class="closemark_stem"></div>
                       <div class="closemark_kick"></div>
@@ -513,7 +525,7 @@
                   </button>
                   <button
                     type="submit"
-                    class="btn"
+                    class="btn popup-btn"
                     (click)="addCurseFee(i)"
                     [disabled]="
                       unitPrice == undefined ||
@@ -650,14 +662,18 @@
                   "
                   class="d-flex btns-wrap btns-wrap-dis"
                 >
-                  <button type="submit" class="btn" (click)="cancelPopup4()">
+                  <button
+                    type="submit"
+                    class="btn popup-btn"
+                    (click)="cancelPopup4()"
+                  >
                     <span class="closemark">
                       <div class="closemark_stem"></div>
                       <div class="closemark_kick"></div>
                     </span>
                   </button>
                   <button
-                    type="submit"
+                    type="submit popup-btn"
                     class="btn"
                     (click)="addnewDiscount('newitem-dis', i)"
                     [disabled]="unitPrice == undefined || unitPrice == ''"
