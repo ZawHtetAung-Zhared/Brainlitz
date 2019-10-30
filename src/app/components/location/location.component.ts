@@ -322,6 +322,9 @@ export class LocationComponent implements OnInit {
         this.headerlocationLists[i].name = data.name;
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
+      } else {
+        this.setTrue = 'true';
+        localStorage.setItem('locationUpdate', this.setTrue);
       }
     }
   }
