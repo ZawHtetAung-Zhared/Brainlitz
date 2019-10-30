@@ -3379,6 +3379,14 @@ p.assessment-by {
 
 .modal-cancel-btn {
   color: #2e3d4d;
+  background: #fff;
+}
+.modal-cancel-btn:hover {
+  background: #f2f4f5;
+}
+.modal-cancel-btn:focus {
+  outline: none;
+  box-shadow: none;
 }
 .apg-confirm p {
   color: #64707d;
