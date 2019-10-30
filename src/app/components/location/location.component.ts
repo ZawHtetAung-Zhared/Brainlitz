@@ -184,6 +184,7 @@ export class LocationComponent implements OnInit {
   }
 
   checkPermission() {
+    this.locationLists = [];
     console.log(this.permissionType, 'permission');
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
