@@ -184,6 +184,7 @@ export class LocationComponent implements OnInit {
   }
 
   checkPermission() {
+    this.locationLists = [];
     console.log(this.permissionType, 'permission');
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
@@ -320,6 +321,9 @@ export class LocationComponent implements OnInit {
       if (this.headerlocationLists[i]._id == id) {
         console.log('same');
         this.headerlocationLists[i].name = data.name;
+        this.setTrue = 'true';
+        localStorage.setItem('locationUpdate', this.setTrue);
+      } else {
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
       }

@@ -1157,3 +1157,10 @@ input[type='range' i] {
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
 }
+
+.inner-img {
+  height: 100% !important;
+}
+.outter-img {
+  max-height: 340px;
+}
