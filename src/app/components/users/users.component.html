@@ -272,7 +272,7 @@
                     />
                   </div>
 
-                  <div class="guar-name">
+                  <div class="guar-name" (click)="showDetails(guardian.userId)">
                     {{
                       guardian.fullName == '' || guardian.fullName == null
                         ? guardian.email
@@ -3037,6 +3037,7 @@
         No
       </button>
       <button
+        style="background: #1682fb!important;"
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmInvoiceAlert()"

@@ -2225,8 +2225,7 @@ export class CourseComponent implements OnInit {
       var m = new Date(this.LASD).getUTCMonth() + 1;
       var y = new Date(this.LASD).getUTCFullYear();
       var studentID = {
-        studentId: this.absentInfo.userId,
-        lessonId: this.selectedLesson._id
+        studentId: this.absentInfo.userId
       };
       // if (type == 'present') {
       //   obj['attendance'] = 'true';
@@ -2260,8 +2259,7 @@ export class CourseComponent implements OnInit {
         var m = new Date(this.LASD).getUTCMonth() + 1;
         var y = new Date(this.LASD).getUTCFullYear();
         var studentID = {
-          studentId: this.absentInfo.userId,
-          lessonId: this.selectedLesson._id
+          studentId: this.absentInfo.userId
         };
         // if (type == 'present') {
         //   obj['attendance'] = 'true';
@@ -2295,6 +2293,8 @@ export class CourseComponent implements OnInit {
         setTimeout(() => {
           this.showStudentOption = '';
           this.xxxhello = '';
+          obj.lessonId = this.selectedLesson._id;
+          console.log('obj', obj);
           this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
             (res: any) => {
               console.log(res);
@@ -3657,6 +3657,8 @@ export class CourseComponent implements OnInit {
   issueForAbsent(obj, userId) {
     this.showStudentOption = '';
     this.xxxhello = '';
+    obj.lessonId = this.selectedLesson._id;
+    console.log('obj', obj);
     this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
       (res: any) => {
         console.log(res);
@@ -3687,6 +3689,8 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = '';
     this.xxxhello = '';
     this.modalType = ';';
+    obj.lessonId = this.selectedLesson._id;
+    console.log('obj', obj);
     this._service.makeupPassIssue(obj, this.detailLists._id, userId).subscribe(
       (res: any) => {
         console.log(res);

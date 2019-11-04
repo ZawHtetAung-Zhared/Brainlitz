@@ -193,7 +193,11 @@
                       <label class="labelTitle">Organization logo</label>
                     </div>
                     <div class="preview" *ngIf="!isEdit">
-                      <img class="img-fluid" id="org-logo" [src]="orgLogo" />
+                      <img
+                        class="img-fluid outter-img"
+                        id="org-logo"
+                        [src]="orgLogo"
+                      />
                     </div>
                   </div>
 
@@ -430,7 +434,11 @@
                             message
                           }}</span>
                           <div class="preview" *ngIf="imgURL">
-                            <img class="img-fluid" id="imgURL" [src]="imgURL" />
+                            <img
+                              class="img-fluid inner-img"
+                              id="imgURL"
+                              [src]="imgURL"
+                            />
                           </div>
                         </div>
                       </div>

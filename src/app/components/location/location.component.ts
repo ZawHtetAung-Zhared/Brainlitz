@@ -184,7 +184,8 @@ export class LocationComponent implements OnInit {
   }
 
   checkPermission() {
-    console.log(this.permissionType);
+    this.locationLists = [];
+    console.log(this.permissionType, 'permission');
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
       value => -1 !== this.permissionType.indexOf(value)
@@ -302,6 +303,17 @@ export class LocationComponent implements OnInit {
     this.getAllLocation(20, 0);
   }
 
+  back1() {
+    this.selectedLocationColor = {
+      text: '#544600',
+      background: '#FFE04D'
+    };
+    this.locationLists = [];
+    this.iscreate = false;
+    this.isUpdate = false;
+    // this.getAllLocation(20, 0);
+  }
+
   updateHeaderLocation(id, data) {
     console.log(id, data);
     console.log(this.headerlocationLists);
@@ -309,6 +321,9 @@ export class LocationComponent implements OnInit {
       if (this.headerlocationLists[i]._id == id) {
         console.log('same');
         this.headerlocationLists[i].name = data.name;
+        this.setTrue = 'true';
+        localStorage.setItem('locationUpdate', this.setTrue);
+      } else {
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
       }
@@ -326,7 +341,6 @@ export class LocationComponent implements OnInit {
   }
 
   showMore(skip: any) {
-    console.log(skip);
     this.getAllLocation(20, skip);
   }
 
@@ -389,7 +403,7 @@ export class LocationComponent implements OnInit {
           this.toastr.success('Successfully Updated.');
           //this.blockUI.stop();
           this.updateHeaderLocation(locationID, data);
-          this.back();
+          this.back1();
         },
         err => {
           this.toastr.error('Update fail');
@@ -408,7 +422,8 @@ export class LocationComponent implements OnInit {
             this.model = {};
             this.toastr.success('Successfully Created.');
             //this.blockUI.stop();
-            this.back();
+            this.updateHeaderLocation(locationID, data);
+            this.back1();
           },
           err => {
             console.log(err);
@@ -545,11 +560,12 @@ export class LocationComponent implements OnInit {
     e.stopPropagation();
     let YPosition = e.clientY;
     let XPosition = e.clientX;
-    console.error(YPosition, 'ypostion');
-    console.error(XPosition, 'XPosition');
+    console.log(YPosition, 'ypostion');
+    console.log(XPosition, 'XPosition');
+
     if (e.target.className == '') {
       this.colorArrClasses = {
-        top: YPosition + 'px',
+        // top: YPosition + 'px',
         left: XPosition - 34 + 'px' //11
       };
       this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
@@ -557,7 +573,7 @@ export class LocationComponent implements OnInit {
       console.log('here mee>if');
     } else {
       this.colorArrClasses = {
-        top: YPosition + 'px',
+        // top: YPosition + 'px',
         left: XPosition - 10 + 'px' //11
       };
       this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
