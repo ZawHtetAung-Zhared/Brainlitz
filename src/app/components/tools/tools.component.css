@@ -980,3 +980,6 @@ hr {
   outline: none;
   box-shadow: none;
 }
+.remove-outline {
+  background: none;
+}

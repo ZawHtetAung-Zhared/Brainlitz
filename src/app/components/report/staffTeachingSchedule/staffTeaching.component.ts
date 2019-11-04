@@ -583,9 +583,9 @@ export class StaffTeachingScheduleReport implements OnInit {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var tempObject = {};
-      tempObject['staffName'] = array[i].staffPreferredName;
-      tempObject['staffEmail'] = array[i].staffEmail;
-      tempObject['courseName'] = array[i].courseName;
+      tempObject['staffName'] = '"' + array[i].staffPreferredName + '"';
+      tempObject['staffEmail'] = '"' + array[i].staffEmail + '"';
+      tempObject['courseName'] = '"' + array[i].courseName + '"';
       if (array[i].lessonDate.length > 0) {
         var lessonData = '';
         var lessonArr = array[i].lessonDate;
@@ -597,7 +597,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       } else {
         tempObject['lessons'] = '';
       }
-      tempObject['totalTeachingHour'] = array[i].totalTeachingHour;
+      tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
 
       for (var index in tempObject) {
         if (line != '') line += ',';

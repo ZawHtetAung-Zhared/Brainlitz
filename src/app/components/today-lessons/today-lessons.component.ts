@@ -212,8 +212,7 @@ export class TodayLessonsComponent implements OnInit {
         var m = new Date(this.todayDate).getUTCMonth() + 1;
         var y = new Date(this.todayDate).getUTCFullYear();
         var tempObj = {
-          studentId: this.studentDetail._id,
-          lessonId: this.lessonObj._id
+          studentId: this.studentDetail._id
         };
         if (this.attan_type == 'present') {
           tempObj['attendance'] = 'true';
@@ -253,6 +252,7 @@ export class TodayLessonsComponent implements OnInit {
         resolve();
       }).then(() => {
         console.log(this.studentDetail);
+        obj.lessonId = this.lessonObj._id;
         this._service
           .makeupPassIssue(obj, this.courseId, this.studentDetail._id)
           .subscribe(
