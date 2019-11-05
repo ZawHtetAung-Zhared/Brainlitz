@@ -1990,10 +1990,10 @@
       <form>
         <div class="form-group">
           <div class="" style="padding-right:5px">
-            <p class="cus-name col-md-10">
+            <p class="cus-name col-md-10 mb-2">
               {{ custDetail.user.preferredName }}
             </p>
-            <button
+            <!-- <button
               (click)="closeModal()"
               aria-label="Close"
               class="modal-close ml-auto"
@@ -2004,11 +2004,13 @@
                 <div class="closemark_stem"></div>
                 <div class="closemark_kick"></div>
               </span>
-              <!-- <span aria-hidden="true" >×</span> -->
-            </button>
+            </button> -->
+            <div class="journal_modal_close" (click)="closeModal()"></div>
           </div>
 
-          <p class="learn-journal  col-md-12">Progress book</p>
+          <p class="learn-journal  col-md-12 mb-0" style="padding-bottom:8px;">
+            Progress book
+          </p>
           <p class="class-name  col-md-12">{{ className }}</p>
           <div class="no-journal" *ngIf="toShowNoJournl">
             <img
@@ -2044,13 +2046,19 @@
                 <div class="journal-content" [class.border-bott]="last">
                   <div class="journal-header">
                     Message
-                    <div>
+                    <div class="d-flex align-items-center justify-content-end">
                       <p class="from">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right">
+                      <p class="date float-right ml-auto">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
+                      <span class="journal_delete_dotted"></span>
+                      <span
+                        class="journal_delete"
+                        (click)="journalDeleteModal(journal, journal_delete)"
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2082,13 +2090,19 @@
                 <div class="journal-content" [class.border-bott]="last">
                   <div class="journal-header">
                     Private notes
-                    <div>
-                      <p class="from">
+                    <div class="d-flex align-items-center justify-content-end">
+                      <p class="from" mb-0>
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right">
+                      <p class="date float-right mb-0 ml-auto">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
+                      <span class="journal_delete_dotted"></span>
+                      <span
+                        class="journal_delete"
+                        (click)="journalDeleteModal(journal, journal_delete)"
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2116,13 +2130,19 @@
                 <div class="journal-content" [class.border-bott]="last">
                   <div class="journal-header">
                     Payment
-                    <div>
-                      <p class="from">
+                    <div class="d-flex align-items-center justify-content-end">
+                      <p class="from mb-0 ">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right">
+                      <p class="date float-right mb-0 ml-auto">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
+                      <span class="journal_delete_dotted"></span>
+                      <span
+                        class="journal_delete"
+                        (click)="journalDeleteModal(journal, journal_delete)"
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2150,13 +2170,22 @@
                 <div class="journal-content" [class.border-bott]="last">
                   <div class="journal-header">
                     Attendance
-                    <div>
-                      <p class="from">
+                    <div
+                      class="d-flex align-items-center justify-content-end"
+                      style="padding-top:4px;"
+                    >
+                      <p class="from mb-0">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right">
+                      <p class="date float-right mb-0 ml-auto">
                         {{ journal.updatedDate | timezoneDate }}
                       </p>
+                      <span class="journal_delete_dotted"></span>
+                      <span
+                        class="journal_delete"
+                        (click)="journalDeleteModal(journal, journal_delete)"
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -3181,15 +3210,15 @@
     </div>
   </ng-template>
 
-  <<ng-template #auto_Enroll>
-    <h3 class="modal-title enroll_title" *ngIf="tempCourse.autoEnroll">
+  <ng-template #auto_Enroll>
+    <h3 class="modal-title enroll_title">
       Confirm auto enroll?
     </h3>
     <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     <div class="autoEnroll-body">
-      <p *ngIf="tempCourse.autoEnroll">
+      <p>
         Are you sure you want to do it? It will have some effects.
         <!-- <span class="target"></span> -->
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
@@ -3214,5 +3243,38 @@
     </div>
   </ng-template>
 
+  <ng-template #journal_delete>
+    <h3 class="modal-title enroll_title">
+      Confirm delete?
+    </h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+    <div class="autoEnroll-body">
+      <p>
+        Are you sure you want to delete? You won’t back it return.
+        <!-- <span class="target"></span> -->
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer autoEnroll-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelAutoEnroll()"
+      >
+        No
+      </button>
+      <button
+        style="background: #FF3D33!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmJournalDelete()"
+      >
+        Yes
+      </button>
+    </div>
+  </ng-template>
+  <div class="custom_backdrop" *ngIf="isJournal_delete"></div>
   <block-ui message="Deafult Message"></block-ui>
 </div>

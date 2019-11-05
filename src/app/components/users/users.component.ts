@@ -2316,7 +2316,9 @@ export class UsersComponent implements OnInit {
   }
 
   public tempcIndex;
+  public tempCourse;
   autoEnroll(i, data, autoEnroll) {
+    this.tempCourse = data;
     console.warn(autoEnroll);
     this.autoEnrollModal = this.modalService.open(autoEnroll, {
       backdrop: 'static',
@@ -2330,6 +2332,7 @@ export class UsersComponent implements OnInit {
   cancelAutoEnroll() {
     console.error('object');
     this.autoEnrollModal.close();
+    this.isJournal_delete = false;
   }
 
   confirmAutoEnroll() {
@@ -2349,6 +2352,19 @@ export class UsersComponent implements OnInit {
         console.error(err);
       }
     );
+    this.autoEnrollModal.close();
+  }
+  public isJournal_delete = false;
+  journalDeleteModal(data, modal) {
+    this.isJournal_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+  confirmJournalDelete() {
+    this.isJournal_delete = false;
     this.autoEnrollModal.close();
   }
 }

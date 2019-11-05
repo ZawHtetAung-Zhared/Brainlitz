@@ -1340,3 +1340,7 @@ input::-webkit-inner-spin-button {
 .downloadStaffTeachingReportModal {
   top: 30% !important;
 }
+
+.journal-delete-modal {
+  z-index: 1052 !important;
+}
