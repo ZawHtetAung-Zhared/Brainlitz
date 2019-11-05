@@ -219,6 +219,7 @@ export class UserStaffComponent implements OnInit {
     }
 
     if (searchWord.length != 0) {
+      console.log(limit, skip);
       this.isSearch = true;
       this._service
         .getSearchUser(this.regionID, searchWord, userType, limit, skip, '')

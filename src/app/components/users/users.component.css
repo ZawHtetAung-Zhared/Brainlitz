@@ -3578,3 +3578,12 @@ span.grade-date {
   display: block;
   overflow: overlay;
 }
+.pwd-container {
+  margin-top: 430px;
+  float: right;
+  margin-right: 70px;
+}
+.btn-pwd {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  width: 200px;
+}

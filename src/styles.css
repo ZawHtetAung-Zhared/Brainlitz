@@ -1274,6 +1274,7 @@ td.off {
   color: #2e3d4d !important;
   min-width: 96px !important;
   font-size: 16px !important;
+  background: #fff;
 }
 .daterangepicker .drp-selected {
   width: 100%;
@@ -1339,4 +1340,9 @@ input::-webkit-inner-spin-button {
 /* modal-box display in the center in Reports>Staff teaching schedule>'Download report' button */
 .downloadStaffTeachingReportModal {
   top: 30% !important;
+}
+
+/* for cancel button bg color in safari and no effect in other browser */
+.rangePicker footer .cancel {
+  background: #fff;
 }

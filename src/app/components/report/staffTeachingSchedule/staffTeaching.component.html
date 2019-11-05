@@ -1,7 +1,7 @@
 <div
   class="pd-lft-15 d-flex flex-row justify-content-between align-items-center"
 >
-  <h3>Staff Teaching Schedule</h3>
+  <h3>Staff teaching schedule</h3>
   <button class="btn btn-submit" (click)="exportCSV()">
     Download report
   </button>
@@ -45,6 +45,41 @@
         </select>
       </div>
     </div>
+    <!-- <div class="report-location-input d-flex flex-column col-md-4">
+      <div class="rpt-input-title">
+        Teacher name
+      </div>
+      <div style="padding-top: 15px">
+        <div class="d-flex justify-content-end teacher-box ">
+          <input
+            class="form-control py-2 input-search-dropdown-bg"
+            type="search"
+            autocomplete="off"
+            placeholder="Choose teacher"
+            name="teacherID"
+            [(ngModel)]="staff"
+            #teacherID="ngModel"
+            id="example-search-input"
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event)"
+            (input)="searchStaffList($event.target.value)"
+          />
+          <button
+            class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event)"
+          ></button>
+          <ul class="scedule-data-listing" *ngIf="isFocusCategory == true">
+            <li
+              *ngFor="let staff of staffLists"
+              (click)="selectData(staff)"
+            >
+              {{ staff.preferredName }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
   </div>
   <div
     class="d-flex flex-column w-100 h-100"
@@ -54,7 +89,7 @@
     <div style="padding:15px;" class="row">
       <div class="col-md-4">
         <button class="btn btn-filter" (click)="showFilterModal(filterFields)">
-          Filter Fields
+          Filter fields
         </button>
       </div>
     </div>
@@ -104,7 +139,7 @@
 
 <ng-template #filterFields let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title " id="modal-basic-title">Filter Fields</h3>
+    <h3 class="modal-title " id="modal-basic-title">Filter fields</h3>
     <button
       type="button"
       class="close"
@@ -115,7 +150,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
+    <div class="slt-rpt-filter rpt-input-title">Select filter</div>
     <div class="pd-top-15">
       <select
         id="filterType"
@@ -177,10 +212,7 @@
       <button class="btn btn-primary confirm-filter" (click)="applyFilters()">
         Confirm
       </button>
-      <button
-        class="btn btn-default cancel-filter"
-        (click)="modalReference.close()"
-      >
+      <button class="btn btn-default cancel-filter" (click)="cancelModal()">
         Cancel
       </button>
     </div>
