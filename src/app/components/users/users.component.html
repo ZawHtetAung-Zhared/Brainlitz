@@ -360,7 +360,7 @@
             class="btn tab-btn"
             (click)="clickTab('class')"
           >
-            Class
+            Course
           </button>
           <button
             [ngClass]="{ active: activeTab == 'makeup' }"
@@ -595,7 +595,8 @@
                         selectedId.indexOf('course') != -1
                           ? custDetail.courses.length
                           : 2
-                      ]
+                      ];
+                let i = index
               "
             >
               <div class="section-one">
@@ -764,24 +765,50 @@
                           View journal
                         </label>
                       </div>
-                      <!-- <div class="d-flex auto-enroll">
-                        <label class="switch-label" for="online"
+                      <div
+                        class="d-flex auto-enroll align-items-center"
+                        [ngClass]="{ autoEnrollTrue: course.autoEnroll }"
+                      >
+                        <label class="switch-label mt-0" for="online"
                           >Auto enroll for next term</label
                         >
-                        <div
-                          class="toggle-wrap"
-                          (click)="this.isGlobal = !isGlobal"
-                        >
-                          <label class="switch">
+                        <div class="toggle-wrap d-flex align-items-center">
+                          <label
+                            class="switch"
+                            *ngIf="
+                              course.autoEnroll != undefined &&
+                              course.autoEnroll
+                            "
+                          >
                             <input
-                              type="checkbox"
-                              (click)="isGlobal = !this.isGlobal"
-                              [checked]="isGlobal"
+                              type="button"
+                              (click)="autoEnroll(i, course, auto_Enroll)"
+                            />
+                            <span
+                              class="slider round"
+                              [ngClass]="{
+                                'checked-slider':
+                                  course.autoEnroll != undefined &&
+                                  course.autoEnroll
+                              }"
+                            ></span>
+                          </label>
+                          <label
+                            class="switch"
+                            *ngIf="
+                              course.autoEnroll == undefined ||
+                              !course.autoEnroll
+                            "
+                          >
+                            <input
+                              type="button"
+                              (click)="autoEnroll(i, course, auto_Enroll)"
                             />
                             <span class="slider round"></span>
+                            <!-- (click)="autoEnroll(i,course,auto_Enroll)" -->
                           </label>
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                   </div>
                   <div
@@ -3151,6 +3178,39 @@
           </div>
         </div>
       </div>
+    </div>
+  </ng-template>
+
+  <<ng-template #auto_Enroll>
+    <h3 class="modal-title enroll_title" *ngIf="tempCourse.autoEnroll">
+      Confirm auto enroll?
+    </h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+    <div class="autoEnroll-body">
+      <p *ngIf="tempCourse.autoEnroll">
+        Are you sure you want to do it? It will have some effects.
+        <!-- <span class="target"></span> -->
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer autoEnroll-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelAutoEnroll()"
+      >
+        No
+      </button>
+      <button
+        style="background: #1682fb!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmAutoEnroll()"
+      >
+        Yes
+      </button>
     </div>
   </ng-template>
 

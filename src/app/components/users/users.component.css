@@ -3578,3 +3578,38 @@ span.grade-date {
   display: block;
   overflow: overlay;
 }
+.toggle-wrap {
+  padding-left: 20px;
+}
+
+.enroll_title {
+  font-size: 20px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 24px 24px 0px 24px;
+}
+
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+.autoEnroll-footer {
+  border: none !important;
+}
+
+.checked-slider {
+  background: #cce5ff;
+  border: 2px solid #0080ff !important;
+}
+
+.checked-slider::before {
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.autoEnrollTrue {
+  background: #cce5ff;
+}
