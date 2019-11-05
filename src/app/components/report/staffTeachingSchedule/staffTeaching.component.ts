@@ -16,7 +16,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
   styleUrls: ['../report.component.css'] // we share same style url for all nested report component
 })
 export class StaffTeachingScheduleReport implements OnInit {
-  stsGroupByList = ['Location', 'Category', 'Course Plan'];
+  stsGroupByList = ['Location', 'Category', 'Course Plan', 'Teacher Name'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
   categoryList = [
     'Art & Science',
@@ -61,6 +61,11 @@ export class StaffTeachingScheduleReport implements OnInit {
   public todayDate: any;
   public downloadSdate: any;
   public downloadEdate: any;
+
+  //for group by teacher name
+  public isFocusCategory: boolean = false;
+  public staffLists: any;
+  public staff: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -128,6 +133,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
+          console.log(res);
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByLocation(res);
           } else {
@@ -159,6 +165,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
+          console.log(res);
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCategory(res);
           } else {
@@ -194,6 +201,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
+          console.log(res);
           if (res.length) {
             this.reportData = this.getFilteredDataGroupByCoursePlan(res);
           } else {
@@ -211,6 +219,34 @@ export class StaffTeachingScheduleReport implements OnInit {
     //   this.reportData = [];
     // }
   }
+
+  showReportByTeacherName() {
+    //
+    this.reportData = [];
+    //this.blockUI.start('Loading...');
+    this._service
+      .getStaffTeachingReport(
+        this.regionID,
+        'location',
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (res: any) => {
+          //this.blockUI.stop();
+          console.log(res);
+          if (res.length) {
+            this.reportData = this.getFilteredDataGroupByTeacherName(res);
+          } else {
+            this.reportData = [];
+          }
+        },
+        err => {
+          this.reportData = [];
+        }
+      );
+  }
+
   getFilteredDataGroupByLocation(data) {
     let filter = this.filter;
     let _self = this;
@@ -282,6 +318,13 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
     }
+    console.log(
+      _self.categoryList,
+      _self.locationList,
+      _self.coursePlanList,
+      _self.courseNameList,
+      res
+    );
     return res;
   }
 
@@ -345,6 +388,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    console.log(_self.locationList);
     return result;
   }
 
@@ -356,6 +400,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.categoryList = [];
     _self.coursePlanList = [];
     _self.courseNameList = [];
+    console.log(filter.type, filter.value);
     if (filter.type == 'coursePlan' && filter.value.length) {
       data = data.filter(function(d) {
         return filter.value.indexOf(d.coursePlanName) > -1;
@@ -407,8 +452,89 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    console.log(_self.locationList);
     return result;
   }
+
+  getFilteredDataGroupByTeacherName(data) {
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
+    console.log(filter.type, filter.value.length);
+
+    if (filter.type == 'location' && filter.value.length) {
+      data = data.filter(function(d) {
+        return filter.value.indexOf(d.locationName) > -1;
+      });
+    }
+    data.forEach(function(location) {
+      let obj = {
+        groupTypeValue: location.locationName,
+        staffCount: 0,
+        staffHours: 0
+      };
+      _self.locationList.push(location.locationName);
+      //if filter type is location, we will push to end of this loop
+      let categories = location.categories || [];
+      if (filter.type == 'category' && filter.value.length) {
+        categories = categories.filter(function(d) {
+          return filter.value.indexOf(d.catName) > -1;
+        });
+        console.log(categories);
+      }
+
+      categories.forEach(function(category) {
+        _self.categoryList.push(category.catName);
+        let coursePlans = category.coursePlans || [];
+
+        if (filter.type == 'coursePlan' && filter.value.length) {
+          coursePlans = coursePlans.filter(function(d) {
+            return filter.value.indexOf(d.coursePlanName) > -1;
+          });
+        }
+
+        //iterate coursePlans under categories
+        coursePlans.forEach(function(coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
+          let courses = coursePlan.courses || [];
+          //iterate courses under coursePlans
+          if (filter.type == 'course' && filter.value.length) {
+            courses = courses.filter(function(d) {
+              return filter.value.indexOf(d.locationName) > -1;
+            });
+          }
+
+          courses.forEach(function(course) {
+            _self.courseNameList.push(course.courseName);
+            let staff = course.staff || [];
+            obj.staffCount += 1;
+            obj.staffHours += staff.hours;
+          });
+        });
+      });
+      if (obj.staffHours > 0) {
+        res.push(obj);
+      }
+    });
+    _self.categoryList = Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    console.log(
+      _self.categoryList,
+      _self.locationList,
+      _self.coursePlanList,
+      _self.courseNameList,
+      res
+    );
+    return res;
+  }
+
   updateGraphUsingGroupBy(event) {
     this.filter.value = [];
 
@@ -424,6 +550,10 @@ export class StaffTeachingScheduleReport implements OnInit {
       case 'Course Plan':
         this.groupBy = 'coursePlan';
         this.showReportByCoursePlan();
+        break;
+      case 'Teacher Name':
+        this.groupBy = 'teacherName';
+        this.showReportByTeacherName();
         break;
       default:
         this.groupBy = 'location';
@@ -507,6 +637,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       case 'coursePlan':
         this.showReportByCoursePlan();
         break;
+      case 'teacherName':
+        this.showReportByTeacherName();
+        break;
     }
 
     this.modalReference.close();
@@ -527,6 +660,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       case 'coursePlan':
         this.showReportByCoursePlan();
         break;
+      case 'teacherName':
+        this.showReportByTeacherName();
+        break;
     }
   }
 
@@ -535,6 +671,12 @@ export class StaffTeachingScheduleReport implements OnInit {
       backdrop: 'static',
       windowClass: 'downloadStaffTeachingReportModal'
     });
+  }
+
+  cancelModal() {
+    // this.removeAllFilters();
+    // console.log();
+    this.modalReference.close();
   }
 
   exportCSV() {
@@ -607,5 +749,51 @@ export class StaffTeachingScheduleReport implements OnInit {
     }
 
     return str;
+  }
+
+  //for group by teacher name
+  //  Hide Search
+  hideSearch() {
+    setTimeout(() => {
+      this.isFocusCategory = false;
+    }, 300);
+  }
+  focusSearch2(val) {
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFocusCategory = true;
+    this.getStaffList();
+  }
+
+  getStaffList() {
+    //this.blockUI.start('Loading...');
+    this._service.getAllUsers(this.regionID, 'staff', 10, 0).subscribe(
+      (res: any) => {
+        this.staffLists = res;
+        console.log('this.staffLists', res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  searchStaffList(searchWord) {
+    console.log(searchWord);
+    this._service
+      .getSearchUser(this.regionID, searchWord, 'staff', 10, 0, '')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.staffLists = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  selectData(val) {
+    this.staff = val.preferredName;
+    console.log(val);
   }
 }

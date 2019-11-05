@@ -1274,6 +1274,7 @@ td.off {
   color: #2e3d4d !important;
   min-width: 96px !important;
   font-size: 16px !important;
+  background: #fff;
 }
 .daterangepicker .drp-selected {
   width: 100%;
@@ -1343,4 +1344,8 @@ input::-webkit-inner-spin-button {
 
 .journal-delete-modal {
   z-index: 1052 !important;
+}
+/* for cancel button bg color in safari and no effect in other browser */
+.rangePicker footer .cancel {
+  background: #fff;
 }
