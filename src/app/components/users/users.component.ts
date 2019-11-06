@@ -2323,7 +2323,7 @@ export class UsersComponent implements OnInit {
     this.autoEnrollModal = this.modalService.open(autoEnroll, {
       backdrop: 'static',
       windowClass:
-        'deleteModal d-flex justify-content-center align-items-center'
+        'deleteModal autoEnrollModal d-flex justify-content-center align-items-center'
     });
     this.tempcIndex = i;
     console.warn(this.custDetail.courses[this.tempcIndex].autoEnroll);
@@ -2354,7 +2354,9 @@ export class UsersComponent implements OnInit {
     );
     this.autoEnrollModal.close();
   }
+
   public isJournal_delete = false;
+
   journalDeleteModal(data, modal) {
     this.isJournal_delete = true;
     this.autoEnrollModal = this.modalService.open(modal, {
@@ -2363,8 +2365,17 @@ export class UsersComponent implements OnInit {
         'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
     });
   }
+
   confirmJournalDelete() {
     this.isJournal_delete = false;
+    this._service.journalDelete(this.regionID, 'id').subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
     this.autoEnrollModal.close();
   }
 }

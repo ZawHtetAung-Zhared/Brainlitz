@@ -3929,4 +3929,19 @@ export class appService {
       return result;
     });
   }
+
+  journalDelete(regionId, journalId) {
+    let url = this.baseUrl + `${regionId}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
 }
