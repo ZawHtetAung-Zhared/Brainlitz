@@ -1092,7 +1092,11 @@
           Close
         </button>
         <div class="l-border">
-          <button class="btn-print cursor-on" (click)="printInvoice()">
+          <button
+            class="btn btn-print cursor-on"
+            (click)="printInvoice()"
+            [disabled]="isEditInv == true"
+          >
             <img src="./assets/images/print@2x.png" />
           </button>
         </div>

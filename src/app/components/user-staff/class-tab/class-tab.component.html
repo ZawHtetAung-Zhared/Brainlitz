@@ -113,7 +113,11 @@
           </div>
           <div
             class="col-md-6"
-            *ngIf="course.type == 'FLEXY' && course.lessons.length != 0"
+            *ngIf="
+              course.type == 'FLEXY' &&
+              course.lessons.length != 0 &&
+              course.endDate == undefined
+            "
           >
             <span class="d-flex shedule-text pb-2">To</span>
             <span class="d-flex shedule-text">{{
