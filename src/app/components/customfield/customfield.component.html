@@ -154,7 +154,7 @@
                   (click)="chooseType(list)"
                 />
                 <span *ngIf="list == 'String'">Text</span>
-                <span *ngIf="list == 'Radio'">Choice</span>
+                <!-- <span *ngIf="list == 'Radio'">Choice</span> -->
                 <span *ngIf="list != 'String' && list != 'Radio'">{{
                   list
                 }}</span>
@@ -164,17 +164,34 @@
         </div>
       </div>
       <div
-        *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'"
-        class="input-value-wrapper"
+        class="d-flex justify-content-between"
+        *ngIf="isChecked == 'Selection'"
       >
-        <label class="form-title field-name font-semi" for="name"
-          >Options</label
-        >
-        <div *ngFor="let cobj of checkFieldArr; let idx = index" class="d-flex">
+        <p class="switchTxt">Allow multiple selection</p>
+        <div class="toggle-wrap" (click)="choiceMultiple()">
+          <label class="switch">
+            <input
+              type="checkbox"
+              (change)="choiceMultiple()"
+              [checked]="isMultipleSelection"
+            />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+      <div class="container" dragula="HANDLES" [(dragulaModel)]="checkFieldArr">
+        <div *ngFor="let cobj of checkFieldArr; let idx = index">
+          <span class="handle">
+            <img
+              class="handle"
+              src="../../../assets/images/disable-holder.svg"
+            />
+          </span>
+
           <input
             type="text"
             name="name"
-            class="input-field"
+            class="input-field choice"
             placeholder="Type field name"
             maxlength="60"
             (focus)="focusMethod($event, 'name', $event.target.value)"
@@ -185,29 +202,23 @@
             [value]="cobj.name"
             required
           />
-          <!-- <div *ngIf="cname.errors && (cname.dirty || cname.touched)" class="alert alert-danger">
-            <div [hidden]="!cname.errors.required">
-              Name is required!
-            </div>
-          </div> -->
-          <div *ngIf="checkFieldArr?.length > 1" class="removeBtn-wrap">
-            <div class="removeIcon-shadow">
-              <div class="removeIcon" (click)="removeFeeOption(idx)"></div>
-            </div>
-          </div>
+
+          <div
+            class="close-search"
+            *ngIf="checkFieldArr?.length > 1"
+            (click)="removeFeeOption(idx)"
+          ></div>
         </div>
       </div>
       <div class="d-flex justify-content-end form-footer">
         <button type="button" class="btn-cancel cursor-on" (click)="cancel()">
           Cancel
         </button>
-        <div
-          class="d-none"
-          *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'"
-        >
+        <div class="d-none" *ngIf="isChecked == 'Selection'">
           {{ validateForm() }}
         </div>
-        <div *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'">
+
+        <div *ngIf="isChecked == 'Selection'">
           <button
             *ngIf="!isUpdate"
             type="button"
@@ -235,7 +246,7 @@
             Create
           </button>
         </div>
-        <div *ngIf="isChecked == 'Checkbox' || isChecked == 'Radio'">
+        <div *ngIf="isChecked == 'Selection'">
           <button
             *ngIf="isUpdate"
             type="button"
