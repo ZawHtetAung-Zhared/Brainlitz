@@ -759,6 +759,7 @@ export class StaffTeachingScheduleReport implements OnInit {
         break;
       case 'coursePlan':
         this.filterModel = 'Course Plan';
+        break;
       case 'course':
         this.filterModel = 'Course Name';
         break;

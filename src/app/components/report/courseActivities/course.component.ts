@@ -48,6 +48,15 @@ export class CourseActivitiesReport implements OnInit {
   public regionID = localStorage.getItem('regionId');
   @BlockUI() blockUI: NgBlockUI;
 
+  //for bug fixs by zzkz
+  public fullCategoryList: any = [];
+  public fullLocationList: any = [];
+  public fullCoursePlanList: any = [];
+  public fullCourseNameList: any = [];
+  public selectFilterTemp: any = [];
+  public removeFilterTemp: any = [];
+  public updateFilterTemp: any = {};
+
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
     private modalService: NgbModal,
@@ -254,6 +263,13 @@ export class CourseActivitiesReport implements OnInit {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
     }
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+
     return res;
   }
 
@@ -324,6 +340,12 @@ export class CourseActivitiesReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
 
     return result;
   }
@@ -394,6 +416,12 @@ export class CourseActivitiesReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
     return result;
   }
   updateGraphUsingGroupBy(event) {
@@ -417,31 +445,56 @@ export class CourseActivitiesReport implements OnInit {
     }
   }
   updateFilterType(value) {
-    this.filterModel = value;
-    this.filter = {
-      value: []
-    };
-    switch (value) {
-      case 'Category':
+    if (this.filter.value.length) {
+      this.updateFilterTemp = {
+        value: []
+      };
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.updateFilterTemp.value.push(this.filter.value[i]);
+      }
+      this.updateFilterTemp.type = this.filter.type;
+
+      this.filter = {
+        value: []
+      };
+    }
+
+    switch (true) {
+      case value == 'Category' || value == 'category':
         this.filter.type = 'category';
-        this.searchResult.value = this.categoryList;
+        this.searchResult.value = this.fullCategoryList;
         break;
-      case 'Course Plan':
+      case value == 'Course Plan' || value == 'coursePlan':
         this.filter.type = 'coursePlan';
-        this.searchResult.value = this.coursePlanList;
+        this.searchResult.value = this.fullCoursePlanList;
         break;
-      case 'Course Name':
+      case value == 'Course Name' || value == 'course':
         this.filter.type = 'course';
-        this.searchResult.value = this.courseNameList;
+        this.searchResult.value = this.fullCourseNameList;
         break;
-      case 'Location':
+      case value == 'Location' || value == 'location':
         this.filter.type = 'location';
-        this.searchResult.value = this.locationList;
+        this.searchResult.value = this.fullLocationList;
         break;
+    }
+
+    if (this.updateFilterTemp.type == this.filter.type) {
+      this.filter.value = this.updateFilterTemp.value;
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.searchResult.value = this.searchResult.value.filter(
+          e => e !== this.filter.value[i]
+        );
+      }
     }
   }
   showFilterModal(content) {
+    if (this.filter.value.length == 0) {
+      this.updateFilterType(this.filter.type);
+    }
     this.searchResult.show = false;
+    this.selectFilterTemp = [];
+    this.removeFilterTemp = [];
+    this.updateFilterTemp = { value: [] };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -456,6 +509,13 @@ export class CourseActivitiesReport implements OnInit {
         //console.log(reason);
       }
     );
+  }
+
+  removeCurrentFilterForModal(value) {
+    this.removeFilterTemp.push(value);
+    this.filter.value = this.filter.value.filter(e => e !== value);
+    this.searchResult.value.push(value);
+    // this.applyFilters();
   }
 
   removeCurrentFilter(value) {
@@ -474,6 +534,19 @@ export class CourseActivitiesReport implements OnInit {
 
   filterSearch(value) {
     if (value) {
+      var temp = this.searchResult.value;
+      var filteredLists;
+      for (var i = 0; i < temp.length; i++) {
+        // searching input value in search box
+        if (temp[i].toLowerCase().includes(value)) {
+          filteredLists = this.searchResult.value.filter(
+            item => item !== temp[i]
+          );
+          filteredLists.unshift(temp[i]);
+          filteredLists = Array.from(new Set(filteredLists));
+          this.searchResult.value = filteredLists;
+        }
+      }
       this.searchResult.show = true;
     } else {
       this.searchResult.show = false;
@@ -481,6 +554,7 @@ export class CourseActivitiesReport implements OnInit {
   }
 
   selectFilter(value) {
+    this.selectFilterTemp.push(value);
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
@@ -514,5 +588,42 @@ export class CourseActivitiesReport implements OnInit {
         this.showReportByCoursePlan();
         break;
     }
+  }
+
+  cancelModal() {
+    for (var i = 0; i < this.selectFilterTemp.length; i++) {
+      this.filter.value = this.filter.value.filter(
+        e => e !== this.selectFilterTemp[i]
+      );
+      this.searchResult.value.push(this.selectFilterTemp[i]);
+    }
+    for (var i = 0; i < this.removeFilterTemp.length; i++) {
+      this.filter.value.push(this.removeFilterTemp[i]);
+      this.searchResult.value = this.searchResult.value.filter(
+        e => e !== this.removeFilterTemp[i]
+      );
+    }
+    if (this.updateFilterTemp.value.length) {
+      this.filter.value = [];
+      for (var i = 0; i < this.updateFilterTemp.value.length; i++) {
+        this.filter.value.push(this.updateFilterTemp.value[i]);
+      }
+      this.filter.type = this.updateFilterTemp.type;
+    }
+    switch (this.filter.type) {
+      case 'category':
+        this.filterModel = 'Category';
+        break;
+      case 'coursePlan':
+        this.filterModel = 'Course Plan';
+        break;
+      case 'course':
+        this.filterModel = 'Course Name';
+        break;
+      case 'location':
+        this.filterModel = 'Location';
+        break;
+    }
+    this.modalReference.close();
   }
 }
