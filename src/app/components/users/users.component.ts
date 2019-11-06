@@ -2305,6 +2305,7 @@ export class UsersComponent implements OnInit {
     // this.invoiceModalReference.close();
   }
   public invoiceModalReference;
+  public autoEnrollModal;
   public lessonOfStudent;
   openLessonsModal(modal, course) {
     this.lessonOfStudent = course;
@@ -2312,5 +2313,58 @@ export class UsersComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+  }
+
+  public tempcIndex;
+  public tempCourse;
+  autoEnroll(i, data, autoEnroll) {
+    this.tempCourse = data;
+    console.warn(autoEnroll);
+    this.autoEnrollModal = this.modalService.open(autoEnroll, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+    this.tempcIndex = i;
+    console.warn(this.custDetail.courses[this.tempcIndex].autoEnroll);
+  }
+
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isJournal_delete = false;
+  }
+
+  confirmAutoEnroll() {
+    console.error('object');
+    this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
+      .courses[this.tempcIndex].autoEnroll;
+    let tempObj = {
+      courseId: this.custDetail.courses[this.tempcIndex]._id,
+      userId: this.custDetail.user.userId,
+      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll
+    };
+    this._service.autoEnroll(this.regionID, tempObj).subscribe(
+      res => {
+        console.log(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+    this.autoEnrollModal.close();
+  }
+  public isJournal_delete = false;
+  journalDeleteModal(data, modal) {
+    this.isJournal_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+  confirmJournalDelete() {
+    this.isJournal_delete = false;
+    this.autoEnrollModal.close();
   }
 }

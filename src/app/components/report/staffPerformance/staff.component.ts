@@ -1252,6 +1252,19 @@ export class StaffPerformanceReport implements OnInit {
 
   filterSearch(value) {
     if (value) {
+      //zz start
+      // var temp = this.searchResult.value;
+      // var filteredLists;
+      // for(var i=0; i<temp.length; i++){
+      //   // searching input value in search box
+      //   if(temp[i].toLowerCase().includes(value)) {
+      //     filteredLists = this.searchResult.value.filter(item => item !== temp[i]);
+      //     filteredLists.unshift(temp[i]);
+      //     filteredLists = Array.from(new Set(filteredLists));
+      //     this.searchResult.value= filteredLists;
+      //   }
+      // }
+      //zz end
       this.searchResult.show = true;
     } else {
       this.searchResult.show = false;
