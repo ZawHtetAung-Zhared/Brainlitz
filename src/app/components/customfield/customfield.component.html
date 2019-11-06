@@ -179,7 +179,11 @@
           </label>
         </div>
       </div>
-      <div class="container" dragula="HANDLES" [(dragulaModel)]="checkFieldArr">
+      <div
+        class="container mb-5"
+        dragula="HANDLES"
+        [(dragulaModel)]="checkFieldArr"
+      >
         <div *ngFor="let cobj of checkFieldArr; let idx = index">
           <span class="handle">
             <img
@@ -210,7 +214,7 @@
           ></div>
         </div>
       </div>
-      <div class="d-flex justify-content-end form-footer">
+      <div class="d-flex justify-content-end form-footer mt-5">
         <button type="button" class="btn-cancel cursor-on" (click)="cancel()">
           Cancel
         </button>

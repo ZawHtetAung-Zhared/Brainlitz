@@ -376,6 +376,13 @@
           >
             Achievements
           </button>
+          <button
+            [ngClass]="{ active: activeTab == 'activity' }"
+            class="btn tab-btn"
+            (click)="clickTab('activity')"
+          >
+            Activity
+          </button>
         </div>
         <div *ngIf="activeTab == 'class'" class="pb-20">
           <div class="d-flex title-space">
@@ -1354,15 +1361,12 @@
           </div>
         </div>
 
-        <div class="d-flex" *ngIf="activeTab == 'class'">
+        <div class="d-flex pb-20" *ngIf="activeTab == 'activity'">
           <div class="firstCol">
             <div>
               <h6 class="title-space">Ratings and reviews</h6>
               <div>
-                <div
-                  class="btn-wrap no-item"
-                  *ngIf="custDetail.ratings?.length <= 0"
-                >
+                <div class="no-item" *ngIf="custDetail.ratings?.length <= 0">
                   There is no rating and review from this customer!
                 </div>
                 <div class="card-columns">
@@ -1454,7 +1458,7 @@
               </div>
             </div>
           </div>
-          <div class="secondCol">
+          <!-- <div class="secondCol">
             <div class="inner-secondCol">
               <h6>Activity</h6>
               <div class="no-item" *ngIf="custDetail.journals?.length <= 0">
@@ -1499,7 +1503,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
