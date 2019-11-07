@@ -75,6 +75,10 @@ export class StaffTeachingScheduleReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
+  public locationData: any;
+  public categoryData: any;
+  public coursePlanData: any;
+  public teacherNameData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -142,7 +146,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByLocation(res);
+            this.locationData = res;
+            this.getFilteredDataGroupByLocation(res);
           } else {
             this.reportData = [];
           }
@@ -173,7 +178,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCategory(res);
+            this.categoryData = res;
+            this.getFilteredDataGroupByCategory(res);
           } else {
             this.reportData = [];
           }
@@ -208,7 +214,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCoursePlan(res);
+            this.coursePlanData = res;
+            this.getFilteredDataGroupByCoursePlan(res);
           } else {
             this.reportData = [];
           }
@@ -232,7 +239,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     this._service
       .getStaffTeachingReport(
         this.regionID,
-        'location',
+        'staff',
         this.startDate,
         this.endDate
       )
@@ -240,7 +247,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByTeacherName(res);
+            this.teacherNameData = res;
+            this.getFilteredDataGroupByTeacherName(res);
           } else {
             this.reportData = [];
           }
@@ -328,7 +336,8 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    return res;
+    this.reportData = res;
+    // return res;
   }
 
   getFilteredDataGroupByCategory(data) {
@@ -397,7 +406,8 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    return result;
+    this.reportData = result;
+    // return result;
   }
 
   getFilteredDataGroupByCoursePlan(data) {
@@ -465,7 +475,8 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    return result;
+    this.reportData = result;
+    // return result;
   }
 
   getFilteredDataGroupByTeacherName(data) {
@@ -478,20 +489,13 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.coursePlanList = [];
     _self.courseNameList = [];
 
-    if (filter.type == 'location' && filter.value.length) {
-      data = data.filter(function(d) {
-        return filter.value.indexOf(d.locationName) > -1;
-      });
-    }
-    data.forEach(function(location) {
+    data.forEach(function(staff) {
       let obj = {
-        groupTypeValue: location.locationName,
+        groupTypeValue: staff.preferredName,
         staffCount: 0,
         staffHours: 0
       };
-      _self.locationList.push(location.locationName);
-      //if filter type is location, we will push to end of this loop
-      let categories = location.categories || [];
+      let categories = staff.categories || [];
       if (filter.type == 'category' && filter.value.length) {
         categories = categories.filter(function(d) {
           return filter.value.indexOf(d.catName) > -1;
@@ -518,9 +522,15 @@ export class StaffTeachingScheduleReport implements OnInit {
               return filter.value.indexOf(d.courseName) > -1;
             });
           }
+          if (filter.type == 'location' && filter.value.length) {
+            courses = courses.filter(function(d) {
+              return filter.value.indexOf(d.locationName) > -1;
+            });
+          }
 
           courses.forEach(function(course) {
             _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.locationName);
             let staff = course.staff || [];
             obj.staffCount += 1;
             obj.staffHours += staff.hours;
@@ -541,7 +551,8 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    return res;
+    this.reportData = res;
+    // return res;
   }
 
   updateGraphUsingGroupBy(event) {
@@ -689,16 +700,20 @@ export class StaffTeachingScheduleReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case 'location':
-        this.showReportByLocation();
+        // this.showReportByLocation();
+        this.getFilteredDataGroupByLocation(this.locationData);
         break;
       case 'category':
-        this.showReportByCategory();
+        // this.showReportByCategory();
+        this.getFilteredDataGroupByCategory(this.categoryData);
         break;
       case 'coursePlan':
-        this.showReportByCoursePlan();
+        // this.showReportByCoursePlan();
+        this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
         break;
       case 'teacherName':
-        this.showReportByTeacherName();
+        // this.showReportByTeacherName();
+        this.getFilteredDataGroupByTeacherName(this.teacherNameData);
         break;
     }
 
