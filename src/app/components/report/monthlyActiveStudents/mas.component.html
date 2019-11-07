@@ -80,7 +80,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="modalReference.close()"
+      (click)="cancelModal()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
@@ -136,7 +136,7 @@
         {{ selectedItem }}
         <div
           class="remove-selected-filter"
-          (click)="removeCurrentFilter(selectedItem)"
+          (click)="removeCurrentFilterForModal(selectedItem)"
         >
           <span>-</span>
         </div>
@@ -148,10 +148,7 @@
       <button class="btn btn-primary confirm-filter" (click)="applyFilters()">
         Confirm
       </button>
-      <button
-        class="btn btn-default cancel-filter"
-        (click)="modalReference.close()"
-      >
+      <button class="btn btn-default cancel-filter" (click)="cancelModal()">
         Cancel
       </button>
     </div>
