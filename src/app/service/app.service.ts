@@ -3929,4 +3929,16 @@ export class appService {
       return result;
     });
   }
+  setRandomPassword(regionId, data) {
+    let url = this.baseUrl + '/regions/' + regionId + '/user-random-password';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
