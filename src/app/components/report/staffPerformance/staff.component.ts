@@ -70,6 +70,9 @@ export class StaffPerformanceReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
+  public locationData: any;
+  public categoryData: any;
+  public coursePlanData: any;
 
   /**
    * Initialize the StaffPerformanceReport
@@ -184,7 +187,8 @@ export class StaffPerformanceReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByLocation(res);
+            this.locationData = res;
+            this.getFilteredDataGroupByLocation(res);
           } else {
             this.reportData = [];
           }
@@ -223,7 +227,8 @@ export class StaffPerformanceReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCategory(res);
+            this.categoryData = res;
+            this.getFilteredDataGroupByCategory(res);
           } else {
             this.reportData = [];
           }
@@ -264,7 +269,8 @@ export class StaffPerformanceReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCoursePlan(res);
+            this.coursePlanData = res;
+            this.getFilteredDataGroupByCoursePlan(res);
           } else {
             this.reportData = [];
           }
@@ -319,7 +325,8 @@ export class StaffPerformanceReport implements OnInit {
       default:
         res = getLocationData(data);
     }
-    return res;
+    this.reportData = res;
+    // return res;
     function getLocationData(data) {
       _self.locationList = [];
       _self.categoryList = [];
@@ -623,7 +630,8 @@ export class StaffPerformanceReport implements OnInit {
       default:
         res = getCategoryData(data);
     }
-    return res;
+    this.reportData = res;
+    // return res;
 
     function getCategoryData(data) {
       _self.locationList = [];
@@ -912,7 +920,8 @@ export class StaffPerformanceReport implements OnInit {
       default:
         res = getCoursePlanData(data);
     }
-    return res;
+    this.reportData = res;
+    // return res;
 
     function getCoursePlanData(data) {
       console.log(data);
@@ -1368,7 +1377,6 @@ export class StaffPerformanceReport implements OnInit {
 
   filterSearch(value) {
     if (value) {
-      //zz start
       var temp = this.searchResult.value;
       var filteredLists;
       for (var i = 0; i < temp.length; i++) {
@@ -1382,7 +1390,6 @@ export class StaffPerformanceReport implements OnInit {
           this.searchResult.value = filteredLists;
         }
       }
-      //zz end
       this.searchResult.show = true;
     } else {
       this.searchResult.show = false;
@@ -1397,18 +1404,18 @@ export class StaffPerformanceReport implements OnInit {
   }
 
   applyFilters() {
-    console.log('inside applyFilters');
-    console.log(this.filter);
     switch (this.groupBy) {
       case 'location':
-        console.log('calling showReportByLocation');
-        this.showReportByLocation();
+        // this.showReportByLocation();
+        this.getFilteredDataGroupByLocation(this.locationData);
         break;
       case 'category':
-        this.showReportByCategory();
+        // this.showReportByCategory();
+        this.getFilteredDataGroupByCategory(this.categoryData);
         break;
       case 'coursePlan':
-        this.showReportByCoursePlan();
+        // this.showReportByCoursePlan();
+        this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
         break;
     }
 
