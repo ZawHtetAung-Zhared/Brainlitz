@@ -3221,22 +3221,22 @@
   </ng-template>
 
   <ng-template #auto_Enroll>
-    <h3 class="modal-title enroll_title" *ngIf="tempCourse.autoEnroll">
+    <h3 class="modal-title enroll_title" *ngIf="!tempCourse.autoEnroll">
       Enable automatic enrollment
     </h3>
-    <h3 class="modal-title enroll_title" *ngIf="!tempCourse.autoEnroll">
+    <h3 class="modal-title enroll_title" *ngIf="tempCourse.autoEnroll">
       Disable automatic enrollment
     </h3>
     <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
     <div class="autoEnroll-body">
-      <p *ngIf="tempCourse.autoEnroll" class="auto_enroll_body">
+      <p *ngIf="!tempCourse.autoEnroll" class="auto_enroll_body">
         Enabling this will allow automatic assigment of lessons to the student
         once the current payment term ends. This will also generate a new
         invoice if the invoice option is available.
       </p>
-      <p *ngIf="!tempCourse.autoEnroll" class="auto_enroll_body">
+      <p *ngIf="tempCourse.autoEnroll" class="auto_enroll_body">
         Disabling this will cancel the automatic assignment of lessons to the
         student once the current payment term ends. You will still be able to
         assign new lessons manually.
@@ -3255,7 +3255,7 @@
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmAutoEnroll()"
-        *ngIf="tempCourse.autoEnroll"
+        *ngIf="!tempCourse.autoEnroll"
       >
         Enable
       </button>
@@ -3264,7 +3264,7 @@
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmAutoEnroll()"
-        *ngIf="!tempCourse.autoEnroll"
+        *ngIf="tempCourse.autoEnroll"
       >
         Disable
       </button>
