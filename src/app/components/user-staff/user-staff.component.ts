@@ -836,4 +836,21 @@ export class UserStaffComponent implements OnInit {
     // console.warn(e)
     this.showloading = e;
   }
+
+  setRandomPwd() {
+    // console.log(this.userid, this.custDetail.user.userId);
+    let data = {
+      customerId: this.staffDetail.user.userId
+    };
+    this._service.setRandomPassword(this.regionID, data).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('New password has been sent successfully.');
+      },
+      err => {
+        console.error(err);
+        this.toastr.error('Fail to set new password.');
+      }
+    );
+  }
 }
