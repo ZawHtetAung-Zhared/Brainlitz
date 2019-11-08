@@ -3930,13 +3930,16 @@ export class appService {
     });
   }
 
-  journalDelete(regionId, journalId) {
-    let url = this.baseUrl + `${regionId}`;
+  journalDelete(regionId, journalId, coruseId, customerId) {
+    let url =
+      this.baseUrl +
+      `/regions/${regionId}/courses/${coruseId}/journals/${journalId}/delete-journal`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
-      })
+      }),
+      body: { customerId }
     };
     return this.httpClient.delete(url, httpOptions).map((res: Response) => {
       let result = res;
@@ -3944,6 +3947,7 @@ export class appService {
       return result;
     });
   }
+
   setRandomPassword(regionId, data) {
     let url = this.baseUrl + '/regions/' + regionId + '/user-random-password';
     const httpOptions = {
