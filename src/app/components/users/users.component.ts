@@ -1905,6 +1905,7 @@ export class UsersComponent implements OnInit {
   }
   viewJournal(journalModal, course, name) {
     this.jSkip = 0;
+    this.tempCourse = course;
     this.journals = [];
     console.log(this.custDetail);
     console.log(course);
@@ -2347,6 +2348,7 @@ export class UsersComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
+        this.showDetails(this.custDetail.user.userId);
       },
       err => {
         console.error(err);
@@ -2356,9 +2358,13 @@ export class UsersComponent implements OnInit {
   }
 
   public isJournal_delete = false;
-
-  journalDeleteModal(data, modal) {
+  public tempJournal;
+  journalDeleteModal(journal, course, modal) {
+    console.log(journal);
+    console.log(course);
+    console.log(modal);
     this.isJournal_delete = true;
+    this.tempJournal = journal;
     this.autoEnrollModal = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
@@ -2368,16 +2374,43 @@ export class UsersComponent implements OnInit {
 
   confirmJournalDelete() {
     this.isJournal_delete = false;
-    this._service.journalDelete(this.regionID, 'id').subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.error(err);
-      }
-    );
+    this._service
+      .journalDelete(
+        this.regionID,
+        this.tempJournal._id,
+        this.tempCourse._id,
+        this.custDetail.user.userId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this._service
+            .getJournal(
+              this.tempCourse._id,
+              this.custDetail.user.userId,
+              String(this.jSkip),
+              String(this.jLimit),
+              null
+            )
+            .subscribe((res: any) => {
+              console.log(res.length);
+              if (res.length >= 20) this.toShowLoadMore = true;
+              else this.toShowLoadMore = false;
+              this.jSlectedCourse = this.tempCourse._id;
+              this.journals = res;
+              console.log(this.journals.length);
+              if (this.journals.length == 0) this.toShowNoJournl = true;
+              else this.toShowNoJournl = false;
+              //this.blockUI.stop();
+            });
+        },
+        err => {
+          console.error(err);
+        }
+      );
     this.autoEnrollModal.close();
   }
+
   setRandomPwd() {
     // console.log(this.userid, this.custDetail.user.userId);
     let data = {
