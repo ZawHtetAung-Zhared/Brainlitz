@@ -2744,7 +2744,11 @@ p.textCount {
   left: 1.5px;
   top: 1.5px;
 }
-
+.rounded-checked {
+  display: inline-block;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 .attending-class {
   padding-left: 20px;
   padding-right: 20px;
