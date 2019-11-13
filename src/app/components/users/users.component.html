@@ -348,12 +348,10 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <div></div>
+        <!-- <div></div> -->
       </div>
-      <div
-        class="section-wrap"
-        [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }"
-      >
+      <div class="section-wrap">
+        <!--    [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }" -->
         <div class="d-flex tab-section">
           <button
             [ngClass]="{ active: activeTab == 'class' }"
@@ -629,7 +627,7 @@
                       >
                     </div>
                     <p
-                      class="info-p clickable"
+                      class="info-p clickable pt-2"
                       (click)="onClickCourse(course)"
                       style="padding-left: 20px"
                     >
