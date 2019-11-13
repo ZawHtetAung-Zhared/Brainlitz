@@ -1905,6 +1905,7 @@ export class UsersComponent implements OnInit {
   }
   viewJournal(journalModal, course, name) {
     this.jSkip = 0;
+    this.tempCourse = course;
     this.journals = [];
     console.log(this.custDetail);
     console.log(course);
@@ -2305,6 +2306,7 @@ export class UsersComponent implements OnInit {
     // this.invoiceModalReference.close();
   }
   public invoiceModalReference;
+  public autoEnrollModal;
   public lessonOfStudent;
   openLessonsModal(modal, course) {
     this.lessonOfStudent = course;
@@ -2312,5 +2314,117 @@ export class UsersComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+  }
+
+  public tempcIndex;
+  public tempCourse;
+  autoEnroll(i, data, autoEnroll) {
+    this.tempCourse = data;
+    console.warn(autoEnroll);
+    this.autoEnrollModal = this.modalService.open(autoEnroll, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal autoEnrollModal d-flex justify-content-center align-items-center'
+    });
+    this.tempcIndex = i;
+    console.warn(this.custDetail.courses[this.tempcIndex].autoEnroll);
+  }
+
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isJournal_delete = false;
+  }
+
+  confirmAutoEnroll() {
+    console.error('object');
+    this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
+      .courses[this.tempcIndex].autoEnroll;
+    let tempObj = {
+      courseId: this.custDetail.courses[this.tempcIndex]._id,
+      userId: this.custDetail.user.userId,
+      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll
+    };
+    this._service.autoEnroll(this.regionID, tempObj).subscribe(
+      res => {
+        console.log(res);
+        this.showDetails(this.custDetail.user.userId);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+    this.autoEnrollModal.close();
+  }
+
+  public isJournal_delete = false;
+  public tempJournal;
+  journalDeleteModal(journal, course, modal) {
+    console.log(journal);
+    console.log(course);
+    console.log(modal);
+    this.isJournal_delete = true;
+    this.tempJournal = journal;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  confirmJournalDelete() {
+    this.isJournal_delete = false;
+    this._service
+      .journalDelete(
+        this.regionID,
+        this.tempJournal._id,
+        this.tempCourse._id,
+        this.custDetail.user.userId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this._service
+            .getJournal(
+              this.tempCourse._id,
+              this.custDetail.user.userId,
+              String(this.jSkip),
+              String(this.jLimit),
+              null
+            )
+            .subscribe((res: any) => {
+              console.log(res.length);
+              if (res.length >= 20) this.toShowLoadMore = true;
+              else this.toShowLoadMore = false;
+              this.jSlectedCourse = this.tempCourse._id;
+              this.journals = res;
+              console.log(this.journals.length);
+              if (this.journals.length == 0) this.toShowNoJournl = true;
+              else this.toShowNoJournl = false;
+              //this.blockUI.stop();
+            });
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    this.autoEnrollModal.close();
+  }
+
+  setRandomPwd() {
+    // console.log(this.userid, this.custDetail.user.userId);
+    let data = {
+      customerId: this.custDetail.user.userId
+    };
+    this._service.setRandomPassword(this.regionID, data).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('New password has been sent successfully.');
+      },
+      err => {
+        console.error(err);
+        this.toastr.error('Fail to set new password.');
+      }
+    );
   }
 }

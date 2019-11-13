@@ -1352,7 +1352,7 @@ h5 {
 }
 
 .title-space {
-  padding: 20px 20px 0 20px;
+  padding: 20px 20px 0 0px;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
 }
 
@@ -2272,7 +2272,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .from,
 .date {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 
   display: inline;
 }
@@ -2744,7 +2744,11 @@ p.textCount {
   left: 1.5px;
   top: 1.5px;
 }
-
+.rounded-checked {
+  display: inline-block;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 .attending-class {
   padding-left: 20px;
   padding-right: 20px;
@@ -2895,7 +2899,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 .switch-label {
-  line-height: 1.8;
   margin-left: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
@@ -2907,7 +2910,6 @@ input:checked + .slider:before {
 .auto-enroll {
   background: #f2f4f5;
   border-radius: 25px !important;
-  height: 40px;
 }
 .tchr-img {
   width: 250px !important;
@@ -3369,6 +3371,7 @@ p.assessment-by {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   border-radius: 3px;
   height: 44px;
+  cursor: pointer;
   min-width: 90px;
 }
 
@@ -3577,4 +3580,93 @@ span.grade-date {
   /* position: absolute; */
   display: block;
   overflow: overlay;
+}
+.pwd-container {
+  margin-top: 430px;
+  float: right;
+  margin-right: 70px;
+}
+.btn-pwd {
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  width: 200px;
+}
+
+.toggle-wrap {
+  padding-left: 20px;
+}
+
+.enroll_title {
+  font-size: 20px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  padding: 24px 24px 0px 24px;
+}
+
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+.autoEnroll-footer {
+  border: none !important;
+}
+
+.checked-slider {
+  background: #cce5ff;
+  border: 2px solid #0080ff !important;
+}
+
+.checked-slider::before {
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.autoEnrollTrue {
+  background: #cce5ff;
+}
+.journal_delete {
+  color: #ff3d33;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.journal_delete_dotted {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 100%;
+  background: #e3e4e6;
+  margin: 0px 8px 0px 8px;
+}
+.journal_modal_close {
+  background: url('../../../assets/icons/modal_close.svg');
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-size: 40px;
+  background-position: center;
+  right: 0px;
+  position: absolute;
+  display: inline-block;
+}
+
+.custom_backdrop {
+  width: 100%;
+  height: 100%;
+  background: #333333;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1051;
+}
+.auto_enroll_body {
+  font-size: 16px;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }

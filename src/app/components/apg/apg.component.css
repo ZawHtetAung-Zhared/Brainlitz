@@ -641,6 +641,7 @@ div.ap-wrapper:last-child {
 
 .modal-cancel-btn {
   color: #2e3d4d;
+  background: #fff;
 }
 
 .modal-header {
