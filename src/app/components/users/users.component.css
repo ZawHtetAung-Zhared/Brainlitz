@@ -903,10 +903,14 @@ h5 {
   background-repeat: no-repeat;
   background-position: center;
 }
-.addEmail-text {
+.addEmail-text,
+.sent-randon-psw {
   color: #007fff;
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+}
+
+.addEmail-text {
   padding-left: 16px;
 }
 
@@ -3583,8 +3587,10 @@ span.grade-date {
 }
 .pwd-container {
   margin-top: 430px;
-  float: right;
-  margin-right: 70px;
+  position: absolute;
+  width: 337px;
+  right: 15px;
+  text-align: center;
 }
 .btn-pwd {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;

@@ -1935,10 +1935,13 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!imgDemoSlider" class=" pwd-container">
-              <button class="btn btn-submit btn-pwd" (click)="setRandomPwd()">
-                Set random password
-              </button>
+            <div
+              *ngIf="!imgDemoSlider && isupdate == true"
+              class=" pwd-container"
+            >
+              <span class="sent-randon-psw cursor-on" (click)="setRandomPwd()">
+                Sent random password
+              </span>
             </div>
           </div>
         </div>
