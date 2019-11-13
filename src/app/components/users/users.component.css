@@ -524,6 +524,7 @@ ul.pass-list li {
 
 .tab-section {
   border-bottom: 1px solid #e3e4e6;
+  border-top: 1px solid #e3e4e6;
 }
 
 .tab-btn {
@@ -1349,6 +1350,7 @@ h5 {
 .child_two {
   flex: 1 0 40%;
   margin: 20px;
+  margin-left: 0 !important;
   /* padding: 20px;  */
   background: #fff;
   border-radius: 8px;
@@ -3637,6 +3639,10 @@ span.grade-date {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   cursor: pointer;
+  background: url(../../../assets/icons/dustbin.svg);
+  background-size: 100%;
+  width: 24px;
+  height: 24px;
 }
 
 .journal_delete_dotted {
