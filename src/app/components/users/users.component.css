@@ -3627,6 +3627,10 @@ span.grade-date {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   cursor: pointer;
+  background: url(../../../assets/icons/dustbin.svg);
+  background-size: 100%;
+  width: 24px;
+  height: 24px;
 }
 
 .journal_delete_dotted {
