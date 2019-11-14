@@ -110,7 +110,7 @@
             HLAF - {{ log.meridian }}
           </p>
           <p class="leave-type-info mb-0" *ngIf="log.meridian == 'DAY'">
-            1 DAY
+            FULL DAY
           </p>
         </div>
         <div class="d-flex align-items-center pb-3 pt-2">
@@ -129,7 +129,7 @@
 <ng-template #cancelClass let-modal>
   <div class="cancel-class-wrapper">
     <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
-      <h1 class="cancel-class-title">Cancel Lesson</h1>
+      <h1 class="cancel-class-title">Cancel lesson</h1>
       <span class="close-icon" (click)="closeCancelClassModal()"></span>
     </div>
     <div class="d-flex">
@@ -171,7 +171,7 @@
           /></span>
           <span class="total-student-text"
             >Total of {{ studentCount }} students will be affected as
-            <span *ngIf="giveMakeUp">MakeUp Pass</span>
+            <span *ngIf="giveMakeUp">MakeUp pass</span>
             <span *ngIf="!giveMakeUp">Cancel class</span>
           </span>
         </p>
@@ -369,10 +369,7 @@
           >
           </mwl-calendar-month-view>
         </div>
-        <div
-          class="d-flex flex-column leave-day-part"
-          *ngIf="selectedDays.length != 0"
-        >
+        <div class="leave-day-part" *ngIf="selectedDays.length != 0">
           <div class="leave-day-title">
             Leave days
           </div>
@@ -386,7 +383,8 @@
               *ngFor="let sday of selectedDays; let i = index"
             >
               <div class="leave-day-date">
-                {{ sday.date | utcDateAndDay }}
+                <!-- {{ sday.date | utcDateAndDay }} -->
+                {{ sday.date | todayDate2 }}
               </div>
               <div class="leave-day-Choosetype">
                 <div class="input-group leave-input-gp">
@@ -471,11 +469,11 @@
             <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
               >{{ staffObj.preferredName }} </span
             >will skip
-            <span
-              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-              >{{ skipLessonsCount }}</span
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}
+              {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}</span
             >
-            lessons in this following days
+            in this following days
           </div>
 
           <div
@@ -763,7 +761,7 @@
                       class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
                       <label class="mb-0 selected-name pl-3">
-                        Cancelled Class
+                        Cancelled class
                       </label>
                       <div
                         class="d-flex justify-content-center align-items-center pl-2"
@@ -842,7 +840,7 @@
                             <label
                               *ngIf="course.pass == false"
                               class="mb-0 selected-name pl-3"
-                              >Cancelled Class</label
+                              >Cancelled class</label
                             >
                             <label
                               *ngIf="course.pass == true"
@@ -948,7 +946,7 @@
   <div class="modal-wrap">
     <div class="assign-modal-header">
       <div class="d-flex justify-content-between w-100">
-        <h4 class="assignmodal-title">Assingn relief teacher</h4>
+        <h4 class="assignmodal-title">Assign relief teacher</h4>
         <button class="closeBtn" (click)="cancelModal('relief')">
           <img src="assets/img/removeIcon.png" />
         </button>
@@ -1023,12 +1021,32 @@
         </div>
       </div>
       <div *ngIf="!isFocusSearch && selectedTeacher != null">
-        <div class="d-flex pt-3 pb-3">
+        <div class="d-flex align-items-center pt-3 pb-3">
           <div>
             <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
           </div>
-          <div class="pl-3 selected-name lh-3">
-            {{ selectedTeacher.preferredName }}
+          <div class="d-flex flex-column pl-3">
+            <div class="teacher-text">
+              Senior teacher
+            </div>
+            <div class="selected-name">
+              {{ selectedTeacher.preferredName }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isConflict" class="d-flex align-items-center conflict-box">
+          <div class="circleExclamation">
+            <i class="fa fa-exclamation"></i>
+          </div>
+          <div class="conflict-text">
+            The selected
+            <span *ngIf="!isSingleLeave && skipLessonsCount > 1"
+              >lessons conflict</span
+            >
+            <span *ngIf="skipLessonsCount <= 1 || isSingleLeave"
+              >lesson conflicts</span
+            >
+            with the following.
           </div>
         </div>
         <div *ngFor="let conflictLesson of conflictLessonArr">

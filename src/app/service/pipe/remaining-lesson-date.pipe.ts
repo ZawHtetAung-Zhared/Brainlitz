@@ -5,7 +5,9 @@ import * as moment from 'moment-timezone';
 })
 export class RemainingLessonDatePipe implements PipeTransform {
   transform(value: any, args?: any): any {
-    var date = moment(value).format('D MMM YYYY');
+    var date = moment(value)
+      .utc()
+      .format('D MMM YYYY');
     return date;
   }
 }

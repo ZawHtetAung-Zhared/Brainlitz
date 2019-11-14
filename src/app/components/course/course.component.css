@@ -1042,9 +1042,9 @@ li button {
   position: relative;
   font-size: 12px;
   /* background: #cce6ff; */
-  padding: 3px 7px;
+  padding: 3px;
   margin-bottom: 0;
-  border-radius: 25px;
+  border-radius: 2px;
   display: table;
 }
 .header-info {
@@ -1287,6 +1287,7 @@ li button {
 .modal-userInfo p,
 .single-progress h4,
 .cdetail h5,
+.cdetail span,
 .course-time h5,
 .room-name,
 .detail-info h4,
@@ -1424,6 +1425,13 @@ li button {
   background-repeat: no-repeat;
   height: 110px;
 }
+
+.cdetail span {
+  font-size: 16px;
+  padding: 3px;
+  border-radius: 2px;
+}
+
 .course-bg:nth-child(1) .cdetail {
   background-image: url('../../../assets/img/wave-1@3x.png');
 }
@@ -1753,7 +1761,7 @@ label.room-name::before {
   margin-right: 30px;
 }
 .modal-delete-btn {
-  background: #ff3d33;
+  background: #1682fb;
   color: #fff;
 }
 .modal-cancel-btn {

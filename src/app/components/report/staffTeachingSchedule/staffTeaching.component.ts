@@ -10,14 +10,13 @@ import { appService } from '../../../service/app.service';
 import courseSampleData from './sampleData';
 import sampleCSV from './csvJson';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-declare var $: any;
 @Component({
   selector: 'staff-teaching-report',
   templateUrl: './staffTeaching.component.html',
   styleUrls: ['../report.component.css'] // we share same style url for all nested report component
 })
 export class StaffTeachingScheduleReport implements OnInit {
-  stsGroupByList = ['Location', 'Category', 'Course Plan'];
+  stsGroupByList = ['Location', 'Category', 'Course Plan', 'Teacher Name'];
   filterList = ['Category', 'Course Plan', 'Course Name', 'Location'];
   categoryList = [
     'Art & Science',
@@ -56,8 +55,30 @@ export class StaffTeachingScheduleReport implements OnInit {
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
   model: any = {};
-  public todayDate: any;
   @BlockUI() blockUI: NgBlockUI;
+
+  //for download report
+  public todayDate: any;
+  public downloadSdate: any;
+  public downloadEdate: any;
+
+  //for group by teacher name
+  public isFocusCategory: boolean = false;
+  public staffLists: any;
+  public staff: any;
+
+  //for bug fixs by zzkz
+  public fullCategoryList: any = [];
+  public fullLocationList: any = [];
+  public fullCoursePlanList: any = [];
+  public fullCourseNameList: any = [];
+  public selectFilterTemp: any = [];
+  public removeFilterTemp: any = [];
+  public updateFilterTemp: any = {};
+  public locationData: any;
+  public categoryData: any;
+  public coursePlanData: any;
+  public teacherNameData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -101,7 +122,6 @@ export class StaffTeachingScheduleReport implements OnInit {
       alwaysShowCalendars: true
     };
     this.reportData = [];
-    console.log(courseSampleData);
     this.showReportByLocation();
 
     const current = new Date();
@@ -126,7 +146,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByLocation(res);
+            this.locationData = res;
+            this.getFilteredDataGroupByLocation(res);
           } else {
             this.reportData = [];
           }
@@ -157,7 +178,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCategory(res);
+            this.categoryData = res;
+            this.getFilteredDataGroupByCategory(res);
           } else {
             this.reportData = [];
           }
@@ -192,7 +214,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.reportData = this.getFilteredDataGroupByCoursePlan(res);
+            this.coursePlanData = res;
+            this.getFilteredDataGroupByCoursePlan(res);
           } else {
             this.reportData = [];
           }
@@ -208,6 +231,34 @@ export class StaffTeachingScheduleReport implements OnInit {
     //   this.reportData = [];
     // }
   }
+
+  showReportByTeacherName() {
+    //
+    this.reportData = [];
+    //this.blockUI.start('Loading...');
+    this._service
+      .getStaffTeachingReport(
+        this.regionID,
+        'staff',
+        this.startDate,
+        this.endDate
+      )
+      .subscribe(
+        (res: any) => {
+          //this.blockUI.stop();
+          if (res.length) {
+            this.teacherNameData = res;
+            this.getFilteredDataGroupByTeacherName(res);
+          } else {
+            this.reportData = [];
+          }
+        },
+        err => {
+          this.reportData = [];
+        }
+      );
+  }
+
   getFilteredDataGroupByLocation(data) {
     let filter = this.filter;
     let _self = this;
@@ -255,7 +306,7 @@ export class StaffTeachingScheduleReport implements OnInit {
           //iterate courses under coursePlans
           if (filter.type == 'course' && filter.value.length) {
             courses = courses.filter(function(d) {
-              return filter.value.indexOf(d.locationName) > -1;
+              return filter.value.indexOf(d.courseName) > -1;
             });
           }
 
@@ -279,7 +330,14 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
     }
-    return res;
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+    this.reportData = res;
+    // return res;
   }
 
   getFilteredDataGroupByCategory(data) {
@@ -322,12 +380,12 @@ export class StaffTeachingScheduleReport implements OnInit {
         }
         if (filter.type == 'location' && filter.value.length) {
           courses = courses.filter(function(d) {
-            return filter.value.indexOf(d.locationName) > -1;
+            return filter.value.indexOf(d.location) > -1;
           });
         }
 
         courses.forEach(function(course) {
-          _self.locationList.push(course.locationName);
+          _self.locationList.push(course.location);
           _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
           obj.staffCount += 1;
@@ -342,7 +400,14 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
-    return result;
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+    this.reportData = result;
+    // return result;
   }
 
   getFilteredDataGroupByCoursePlan(data) {
@@ -404,8 +469,92 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
-    return result;
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+    this.reportData = result;
+    // return result;
   }
+
+  getFilteredDataGroupByTeacherName(data) {
+    let filter = this.filter;
+    let _self = this;
+    let res = [];
+
+    _self.locationList = [];
+    _self.categoryList = [];
+    _self.coursePlanList = [];
+    _self.courseNameList = [];
+
+    data.forEach(function(staff) {
+      let obj = {
+        groupTypeValue: staff.preferredName,
+        staffCount: 0,
+        staffHours: 0
+      };
+      let categories = staff.categories || [];
+      if (filter.type == 'category' && filter.value.length) {
+        categories = categories.filter(function(d) {
+          return filter.value.indexOf(d.catName) > -1;
+        });
+      }
+
+      categories.forEach(function(category) {
+        _self.categoryList.push(category.catName);
+        let coursePlans = category.coursePlans || [];
+
+        if (filter.type == 'coursePlan' && filter.value.length) {
+          coursePlans = coursePlans.filter(function(d) {
+            return filter.value.indexOf(d.coursePlanName) > -1;
+          });
+        }
+
+        //iterate coursePlans under categories
+        coursePlans.forEach(function(coursePlan) {
+          _self.coursePlanList.push(coursePlan.coursePlanName);
+          let courses = coursePlan.courses || [];
+          //iterate courses under coursePlans
+          if (filter.type == 'course' && filter.value.length) {
+            courses = courses.filter(function(d) {
+              return filter.value.indexOf(d.courseName) > -1;
+            });
+          }
+          if (filter.type == 'location' && filter.value.length) {
+            courses = courses.filter(function(d) {
+              return filter.value.indexOf(d.locationName) > -1;
+            });
+          }
+
+          courses.forEach(function(course) {
+            _self.courseNameList.push(course.courseName);
+            _self.locationList.push(course.locationName);
+            let staff = course.staff || [];
+            obj.staffCount += 1;
+            obj.staffHours += staff.hours;
+          });
+        });
+      });
+      if (obj.staffHours > 0) {
+        res.push(obj);
+      }
+    });
+    _self.categoryList = Array.from(new Set(_self.categoryList));
+    _self.locationList = Array.from(new Set(_self.locationList));
+    _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
+    _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+    this.reportData = res;
+    // return res;
+  }
+
   updateGraphUsingGroupBy(event) {
     this.filter.value = [];
 
@@ -422,36 +571,68 @@ export class StaffTeachingScheduleReport implements OnInit {
         this.groupBy = 'coursePlan';
         this.showReportByCoursePlan();
         break;
+      case 'Teacher Name':
+        this.groupBy = 'teacherName';
+        this.showReportByTeacherName();
+        break;
       default:
         this.groupBy = 'location';
         this.showReportByLocation();
     }
   }
+
   updateFilterType(value) {
-    this.filter = {
-      value: []
-    };
-    switch (value) {
-      case 'Category':
+    if (this.filter.value.length) {
+      this.updateFilterTemp = {
+        value: []
+      };
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.updateFilterTemp.value.push(this.filter.value[i]);
+      }
+      this.updateFilterTemp.type = this.filter.type;
+
+      this.filter = {
+        value: []
+      };
+    }
+
+    switch (true) {
+      case value == 'Category' || value == 'category':
         this.filter.type = 'category';
-        this.searchResult.value = this.categoryList;
+        this.searchResult.value = this.fullCategoryList;
         break;
-      case 'Course Plan':
+      case value == 'Course Plan' || value == 'coursePlan':
         this.filter.type = 'coursePlan';
-        this.searchResult.value = this.coursePlanList;
+        this.searchResult.value = this.fullCoursePlanList;
         break;
-      case 'Course Name':
+      case value == 'Course Name' || value == 'course':
         this.filter.type = 'course';
-        this.searchResult.value = this.courseNameList;
+        this.searchResult.value = this.fullCourseNameList;
         break;
-      case 'Location':
+      case value == 'Location' || value == 'location':
         this.filter.type = 'location';
-        this.searchResult.value = this.locationList;
+        this.searchResult.value = this.fullLocationList;
         break;
     }
+
+    if (this.updateFilterTemp.type == this.filter.type) {
+      this.filter.value = this.updateFilterTemp.value;
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.searchResult.value = this.searchResult.value.filter(
+          e => e !== this.filter.value[i]
+        );
+      }
+    }
   }
+
   showFilterModal(content) {
+    if (this.filter.value.length == 0) {
+      this.updateFilterType(this.filter.type);
+    }
     this.searchResult.show = false;
+    this.selectFilterTemp = [];
+    this.removeFilterTemp = [];
+    this.updateFilterTemp = { value: [] };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -468,6 +649,13 @@ export class StaffTeachingScheduleReport implements OnInit {
     );
   }
 
+  removeCurrentFilterForModal(value) {
+    this.removeFilterTemp.push(value);
+    this.filter.value = this.filter.value.filter(e => e !== value);
+    this.searchResult.value.push(value);
+    // this.applyFilters();
+  }
+
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
@@ -482,6 +670,21 @@ export class StaffTeachingScheduleReport implements OnInit {
   clearSearch() {}
   filterSearch(value) {
     if (value) {
+      //zz start
+      var temp = this.searchResult.value;
+      var filteredLists;
+      for (var i = 0; i < temp.length; i++) {
+        // searching input value in search box
+        if (temp[i].toLowerCase().includes(value)) {
+          filteredLists = this.searchResult.value.filter(
+            item => item !== temp[i]
+          );
+          filteredLists.unshift(temp[i]);
+          filteredLists = Array.from(new Set(filteredLists));
+          this.searchResult.value = filteredLists;
+        }
+      }
+      //zz end
       this.searchResult.show = true;
     } else {
       this.searchResult.show = false;
@@ -489,6 +692,7 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   selectFilter(value) {
+    this.selectFilterTemp.push(value);
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
@@ -496,19 +700,29 @@ export class StaffTeachingScheduleReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case 'location':
-        this.showReportByLocation();
+        // this.showReportByLocation();
+        this.getFilteredDataGroupByLocation(this.locationData);
         break;
       case 'category':
-        this.showReportByCategory();
+        // this.showReportByCategory();
+        this.getFilteredDataGroupByCategory(this.categoryData);
         break;
       case 'coursePlan':
-        this.showReportByCoursePlan();
+        // this.showReportByCoursePlan();
+        this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
+        break;
+      case 'teacherName':
+        // this.showReportByTeacherName();
+        this.getFilteredDataGroupByTeacherName(this.teacherNameData);
         break;
     }
 
     this.modalReference.close();
   }
+
   applyDateRange(evt) {
+    this.downloadSdate = evt.picker.startDate.format();
+    this.downloadEdate = evt.picker.endDate.format();
     this.startDate = new Date(evt.picker.startDate).toISOString();
     this.endDate = new Date(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
@@ -521,6 +735,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       case 'coursePlan':
         this.showReportByCoursePlan();
         break;
+      case 'teacherName':
+        this.showReportByTeacherName();
+        break;
     }
   }
 
@@ -531,111 +748,57 @@ export class StaffTeachingScheduleReport implements OnInit {
     });
   }
 
-  reportSDate: any;
-  reportEDate: any;
-  setMinDate(event, type) {
-    console.log(event);
-    console.log(type);
-    if (type == 'start') this.model.start = event;
-    else if (type == 'end') this.model.end = event;
-    this.reportSDate = this.changeDateFormat(this.model.start, '23:59:59:999');
-    console.log(this.reportSDate);
-
-    if (this.model.start != undefined && this.model.end != undefined) {
-      this.reportSDate = this.changeDateFormat(
-        this.model.start,
-        '00:00:00:000'
+  cancelModal() {
+    for (var i = 0; i < this.selectFilterTemp.length; i++) {
+      this.filter.value = this.filter.value.filter(
+        e => e !== this.selectFilterTemp[i]
       );
-      this.reportEDate = this.changeDateFormat(this.model.end, '23:59:59:999');
-      console.log(this.reportEDate, this.reportSDate);
+      this.searchResult.value.push(this.selectFilterTemp[i]);
     }
-  }
-  test(datePicker?) {
-    console.log('hello');
-    datePicker.toggle();
-  }
-
-  closeDropdown(event, type, datePicker?) {
-    console.log(event);
-    console.log(event.target.className);
-    console.log(type);
-
-    if (event.target.className.includes('cstart')) {
-      datePicker.open();
-
-      // } else if(event.target.className.includes('cend')){
-      //   datePicker.open();
-    } else {
-      if (type == 'start') {
-        if (
-          event.target.className == 'ngb-dp-navigation-chevron' ||
-          event.target.className == 'ngb-dp-arrow'
-        ) {
-          console.log('still open');
-          datePicker.open();
-        } else if (event.target.offsetParent == null) {
-          // datePicker.close();
-          console.log('hh');
-        }
-        // else if (event.target.className != 'ngb-dp-navigation-chevron' || event.target.className != 'ngb-dp-arrow') {
-        //   datePicker.close();
-        //   console.log('hh');
-        // }
+    for (var i = 0; i < this.removeFilterTemp.length; i++) {
+      this.filter.value.push(this.removeFilterTemp[i]);
+      this.searchResult.value = this.searchResult.value.filter(
+        e => e !== this.removeFilterTemp[i]
+      );
+    }
+    if (this.updateFilterTemp.value.length) {
+      this.filter.value = [];
+      for (var i = 0; i < this.updateFilterTemp.value.length; i++) {
+        this.filter.value.push(this.updateFilterTemp.value[i]);
       }
+      this.filter.type = this.updateFilterTemp.type;
     }
-  }
-  closeDropdown1(event, type, datePicker?) {
-    if (event.target.className.includes('cend')) {
-      console.log(type);
-      datePicker.open();
-    } else {
-      if (
-        event.target.className == 'ngb-dp-navigation-chevron' ||
-        event.target.className == 'ngb-dp-arrow'
-      ) {
-        console.log('still open');
-        datePicker.open();
-      } else if (event.target.offsetParent == null) {
-        // datePicker.close();
-        console.log('hh');
-      }
-      // if (type == 'end') {
-      //   if (event.target.offsetParent == null) {
-      //     datePicker.close();
-      //     console.log('hh');
-      //   } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-      //     datePicker.close();
-      //     console.log('hh');
-      //   }
-      // }
+    switch (this.filter.type) {
+      case 'category':
+        this.filterModel = 'Category';
+        break;
+      case 'coursePlan':
+        this.filterModel = 'Course Plan';
+        break;
+      case 'course':
+        this.filterModel = 'Course Name';
+        break;
+      case 'location':
+        this.filterModel = 'Location';
+        break;
     }
-  }
-  open(event, type, datePicker?) {
-    if (event.target.className.includes('cend')) {
-      console.log(type);
-      datePicker.open();
-    }
+    this.modalReference.close();
   }
 
   exportCSV() {
-    console.log('export report');
-    console.log(this.startDate, this.endDate);
-    var str = this.startDate.split('T');
-    var str2 = this.endDate.split('T');
+    var str = this.downloadSdate.split('T');
+    var str2 = this.downloadEdate.split('T');
     var SDate = str[0] + 'T' + '00:00:00.000Z';
     var EDate = str2[0] + 'T' + '23:59:59.999Z';
     let fullStartDate = new Date(SDate).toISOString();
     let fullEndDate = new Date(EDate).toISOString();
-    console.log(SDate, EDate, fullStartDate, fullEndDate);
+    let filename = 'staff-teaching-hours-from-' + str[0] + '-to-' + str2[0];
 
-    //'00:00:00:000' 00:00:00.000Z
-    //'23:59:59:999' 23:59:00.000Z
     this._service
       .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
       .subscribe(
         (res: any) => {
-          console.log(res);
-          this.downloadFile(res.teachingHours, 'staff-teaching-hours');
+          this.downloadFile(res.teachingHours, filename);
         },
         err => {
           console.log(err);
@@ -644,7 +807,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   downloadFile(data, name) {
-    console.log(data);
     var csvData = this.ConvertToCSV(data);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
@@ -652,9 +814,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     var blob = new Blob([csvData], { type: 'text/csv' });
     var url = window.URL.createObjectURL(blob);
     a.href = url;
-    var filename = new Date().toISOString();
-    console.log('~~~', name + '-' + filename);
-    a.download = name + '-' + filename + '.csv';
+    a.download = name + '.csv';
     a.click();
   }
 
@@ -669,9 +829,9 @@ export class StaffTeachingScheduleReport implements OnInit {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var tempObject = {};
-      tempObject['staffName'] = array[i].staffPreferredName;
-      tempObject['staffEmail'] = array[i].staffEmail;
-      tempObject['courseName'] = array[i].courseName;
+      tempObject['staffName'] = '"' + array[i].staffPreferredName + '"';
+      tempObject['staffEmail'] = '"' + array[i].staffEmail + '"';
+      tempObject['courseName'] = '"' + array[i].courseName + '"';
       if (array[i].lessonDate.length > 0) {
         var lessonData = '';
         var lessonArr = array[i].lessonDate;
@@ -683,7 +843,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       } else {
         tempObject['lessons'] = '';
       }
-      tempObject['totalTeachingHour'] = array[i].totalTeachingHour;
+      tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
 
       for (var index in tempObject) {
         if (line != '') line += ',';
@@ -695,34 +855,49 @@ export class StaffTeachingScheduleReport implements OnInit {
     return str;
   }
 
-  changeDateFormat(date, time) {
-    // console.log('==>date,time', date, time);
-    if (date == null) {
-      // console.log('null', date);
-      return '';
-    } else {
-      // console.log('utc date', date);
-      // console.log('Time', time);
-      let sdate = date.year + '-' + date.month + '-' + date.day;
-      // console.log(sdate);
-      let dateParts = sdate.split('-');
-      // console.log('dateParts', dateParts);
-      if (dateParts[1]) {
-        // console.log(Number(dateParts[1]) - 1);
-        let newParts = Number(dateParts[1]) - 1;
-        dateParts[1] = newParts.toString();
+  //for group by teacher name
+  //  Hide Search
+  hideSearch() {
+    setTimeout(() => {
+      this.isFocusCategory = false;
+    }, 300);
+  }
+  focusSearch2(val) {
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFocusCategory = true;
+    this.getStaffList();
+  }
+
+  getStaffList() {
+    //this.blockUI.start('Loading...');
+    this._service.getAllUsers(this.regionID, 'staff', 10, 0).subscribe(
+      (res: any) => {
+        this.staffLists = res;
+        console.log('this.staffLists', res);
+      },
+      err => {
+        console.log(err);
       }
-      let timeParts = time.split(':');
-      if (dateParts && timeParts) {
-        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
-        // console.log("UTC",testDate)
-        let fullDate = new Date(
-          Date.UTC.apply(undefined, dateParts.concat(timeParts))
-        ).toISOString();
-        // console.log('ISO', fullDate);
-        return fullDate;
-      }
-    }
-    // console.log('ELSE');
+    );
+  }
+  searchStaffList(searchWord) {
+    console.log(searchWord);
+    this._service
+      .getSearchUser(this.regionID, searchWord, 'staff', 10, 0, '')
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.staffLists = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  selectData(val) {
+    this.staff = val.preferredName;
+    console.log(val);
   }
 }

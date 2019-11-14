@@ -649,3 +649,8 @@ span.removeDis {
 .modal-title {
   margin-bottom: 6px;
 }
+.popup-btn,
+.addPointer,
+.newdiscount-btn {
+  background: #fff;
+}

@@ -340,7 +340,6 @@
             <!-- remove click event to stop repeat api call -->
             <button
               class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
-              (focus)="focusSearch($event, 'category')"
               (clickOutside)="hideSearch($event)"
               (click)="focusSearch2($event, 'category')"
             ></button>
@@ -709,9 +708,27 @@
                                 >seat</span
                               >
                             </p>
-                            <span class="dot"></span>
+                            <span
+                              class="dot"
+                              [ngClass]="{
+                                bg_white:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            ></span>
 
-                            <p class="time">
+                            <p
+                              class="time"
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
                               {{ timetable.duration.min | hrMin }}
                               <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
@@ -1048,8 +1065,26 @@
                                 >seat</span
                               >
                             </p>
-                            <span class="dot"></span>
-                            <p class="time">
+                            <span
+                              class="dot"
+                              [ngClass]="{
+                                bg_white:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            ></span>
+                            <p
+                              class="time"
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
                               {{ timetable.duration.min | hrMin }}
                               <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
@@ -1523,8 +1558,26 @@
                               >
                             </p>
 
-                            <span class="dot"></span>
-                            <p class="time">
+                            <span
+                              class="dot"
+                              [ngClass]="{
+                                bg_white:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            ></span>
+                            <p
+                              class="time"
+                              [ngClass]="{
+                                selectedCourse:
+                                  testshowbox == timetable.course.courseId &&
+                                  list.date.year == lessonD.year &&
+                                  list.date.month == lessonD.month &&
+                                  list.date.day == lessonD.day
+                              }"
+                            >
                               {{ timetable.duration.min | hrMin }}
                               <!-- {{ timetable.duration.min + 'min' }} -->
                             </p>
@@ -2881,6 +2934,7 @@
       No
     </button>
     <button
+      style="background: #1682fb!important;"
       type="submit"
       class="btn modal-delete-btn"
       (click)="confirmInvoiceAlert()"

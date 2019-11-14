@@ -3866,9 +3866,7 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    console.log(this.tokenType + ' ' + this.accessToken);
     return this.httpClient.put(url, body, httpOptions).map((res: Response) => {
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       console.log(res);
       return res;
     });
@@ -3912,6 +3910,53 @@ export class appService {
     };
 
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  autoEnroll(regionId, obj) {
+    let url =
+      this.baseUrl + '/' + regionId + '/course/user/user-autoenrollment';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.post(url, obj, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  journalDelete(regionId, journalId, coruseId, customerId) {
+    let url =
+      this.baseUrl +
+      `/regions/${regionId}/courses/${coruseId}/journals/${journalId}/delete-journal`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      }),
+      body: { customerId }
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  setRandomPassword(regionId, data) {
+    let url = this.baseUrl + '/regions/' + regionId + '/user-random-password';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
       return res;
     });
   }

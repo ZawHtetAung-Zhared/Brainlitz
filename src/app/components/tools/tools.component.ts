@@ -178,8 +178,8 @@ export class ToolsComponent implements OnInit {
     if (this.notiSidebar.length > 0) {
       console.log('noti');
       this.locationName = localStorage.getItem('locationName');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       this.notiType = this.notiSidebar.includes('SENDNOTIFICATION')
         ? 'send'
         : 'view';

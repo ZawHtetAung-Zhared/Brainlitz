@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  HostListener
+} from '@angular/core';
 import { Location } from './location';
 import {
   NgbModal,
@@ -19,8 +24,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
-  public bg_code: any;
-  public txt_code: any;
   public limitno: Location;
   public PHpattern: any;
   public result: any;
@@ -51,9 +54,106 @@ export class LocationComponent implements OnInit {
   public locPermission: any = [];
   public locationDemo: any = [];
   public setTrue: any = null;
+  public isShowPicker: boolean = false;
+  public selectedLocationColor = {
+    text: '#544600',
+    background: '#FFE04D'
+  };
+  public colorWrapper = {};
+  public colorArrClasses = {};
+  public colorPopUpX;
+  public colorPopUpLeft;
+  public arrClasses: any;
 
   @BlockUI() blockUI: NgBlockUI;
 
+  // colour group
+  public sepalColor = [
+    {
+      name: '2',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
+      }
+    },
+    {
+      name: '1',
+      color: {
+        text: '#544600',
+        background: '#FFE04D'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005733',
+        background: '#80FFCA'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#003E7D',
+        background: '#B3D8FF'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#5000A1',
+        background: '#DFBFFF'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#7A0052',
+        background: '#FFBFE9'
+      }
+    },
+    {
+      name: '7',
+      color: {
+        text: '#005959',
+        background: '#A6FFFF'
+      }
+    },
+    {
+      name: '8',
+      color: {
+        text: '#1E5900',
+        background: '#C4FFA6'
+      }
+    },
+    {
+      name: '9',
+      color: {
+        text: '#001EB3',
+        background: '#BFC9FF'
+      }
+    },
+    {
+      name: '10',
+      color: {
+        text: '#664400',
+        background: '#FFE6B3'
+      }
+    },
+    {
+      name: '11',
+      color: {
+        text: '#64707D',
+        background: '#F2F4F5'
+      }
+    },
+    {
+      name: '12',
+      color: {
+        text: '#FFFFFF',
+        background: '#64707D'
+      }
+    }
+  ];
   constructor(
     private modalService: NgbModal,
     private _service: appService,
@@ -84,7 +184,8 @@ export class LocationComponent implements OnInit {
   }
 
   checkPermission() {
-    console.log(this.permissionType);
+    this.locationLists = [];
+    console.log(this.permissionType, 'permission');
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
       value => -1 !== this.permissionType.indexOf(value)
@@ -192,10 +293,25 @@ export class LocationComponent implements OnInit {
   }
 
   back() {
+    this.selectedLocationColor = {
+      text: '#544600',
+      background: '#FFE04D'
+    };
     this.locationLists = [];
     this.iscreate = false;
     this.isUpdate = false;
     this.getAllLocation(20, 0);
+  }
+
+  back1() {
+    this.selectedLocationColor = {
+      text: '#544600',
+      background: '#FFE04D'
+    };
+    this.locationLists = [];
+    this.iscreate = false;
+    this.isUpdate = false;
+    // this.getAllLocation(20, 0);
   }
 
   updateHeaderLocation(id, data) {
@@ -205,6 +321,9 @@ export class LocationComponent implements OnInit {
       if (this.headerlocationLists[i]._id == id) {
         console.log('same');
         this.headerlocationLists[i].name = data.name;
+        this.setTrue = 'true';
+        localStorage.setItem('locationUpdate', this.setTrue);
+      } else {
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
       }
@@ -222,7 +341,6 @@ export class LocationComponent implements OnInit {
   }
 
   showMore(skip: any) {
-    console.log(skip);
     this.getAllLocation(20, skip);
   }
 
@@ -255,8 +373,6 @@ export class LocationComponent implements OnInit {
   createLocation(obj, update, locationID) {
     console.log('Location Obj', obj);
     console.log(obj.phonenumber);
-    console.log(this.txt_code, 'txt-code');
-    console.log(this.bg_code, 'bg_code');
     var phNum;
 
     phNum =
@@ -272,9 +388,9 @@ export class LocationComponent implements OnInit {
         countryCode: this.countrycode,
         number: phNum,
         countryName: this.countryname
-      }
-      // backgroundColorHex: this.bg_code,
-      // textColorHex: this.txt_code
+      },
+      backgroundColorHex: this.selectedLocationColor.background,
+      textColorHex: this.selectedLocationColor.text
     };
     console.log('location Data', data);
     if (update == true) {
@@ -287,7 +403,7 @@ export class LocationComponent implements OnInit {
           this.toastr.success('Successfully Updated.');
           //this.blockUI.stop();
           this.updateHeaderLocation(locationID, data);
-          this.back();
+          this.back1();
         },
         err => {
           this.toastr.error('Update fail');
@@ -306,7 +422,8 @@ export class LocationComponent implements OnInit {
             this.model = {};
             this.toastr.success('Successfully Created.');
             //this.blockUI.stop();
-            this.back();
+            this.updateHeaderLocation(locationID, data);
+            this.back1();
           },
           err => {
             console.log(err);
@@ -359,6 +476,19 @@ export class LocationComponent implements OnInit {
         this.model.phonenumber = res.phoneNumber.number;
         this.countrycode = res.phoneNumber.countryCode;
         this.countryname = res.phoneNumber.countryName;
+        if (
+          res.backgroundColorHex != undefined ||
+          res.textColorHex != undefined
+        ) {
+          this.selectedLocationColor.background = res.backgroundColorHex;
+          this.selectedLocationColor.text = res.textColorHex;
+        } else {
+          this.selectedLocationColor = {
+            text: '#544600',
+            background: '#FFE04D'
+          };
+        }
+
         console.log('this.model', this.model);
       },
       err => {
@@ -405,6 +535,62 @@ export class LocationComponent implements OnInit {
       $('.box')[$('.box').length - 1].style.display = 'none';
       $('.type-policy')[0].style.display = 'none';
     }, 100);
+  }
+
+  showColorPicker(e) {
+    this.isShowPicker = true;
+    console.log('open', this.isShowPicker);
+    $('body').css('overflow', 'hidden');
+    this.caculatePosition(e);
+  }
+  closePopUp(e) {
+    this.isShowPicker = false;
+    $('body').css('overflow', 'overlay');
+  }
+
+  selectColor(i, item) {
+    console.log(i, '<i>');
+    console.log(item, 'item');
+    this.selectedLocationColor.background = item.color.background;
+    this.selectedLocationColor.text = item.color.text;
+  }
+
+  caculatePosition(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    console.log(YPosition, 'ypostion');
+    console.log(XPosition, 'XPosition');
+
+    if (e.target.className == '') {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 34 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 149 + 'px'; //21
+      console.log('here mee>if');
+    } else {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 10 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 160 + 'px'; //21
+      console.log('here mee>else');
+    }
+
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+  }
+  @HostListener('document:click', ['$event']) clickout($event) {}
+  public scrollHeight = 0;
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    this.scrollHeight = $event.target.scrollingElement.scrollTop;
   }
 }
 // order-width: 10px 10px;    filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));     padding-bottom: 7px;

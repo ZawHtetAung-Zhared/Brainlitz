@@ -63,10 +63,16 @@
       <div class="course-title">
         <!-- <span>Bedok centre</span>
         <span>Beginner Piano Course</span> -->
-        <div class="col-md-10 location p-0">
+        <span
+          class="col-md-10 location"
+          [ngStyle]="{
+            color: course?.location.textColorHex,
+            background: course?.location.backgroundColorHex
+          }"
+        >
           <i class="fa fa-map-marker"></i>
           {{ course?.location.name }}
-        </div>
+        </span>
         <div
           class="col-md-12 title p-0 pt-1"
           (click)="navigateToCourseDetail(course._id)"
@@ -107,7 +113,11 @@
           </div>
           <div
             class="col-md-6"
-            *ngIf="course.type == 'FLEXY' && course.lessons.length != 0"
+            *ngIf="
+              course.type == 'FLEXY' &&
+              course.lessons.length != 0 &&
+              course.endDate == undefined
+            "
           >
             <span class="d-flex shedule-text pb-2">To</span>
             <span class="d-flex shedule-text">{{

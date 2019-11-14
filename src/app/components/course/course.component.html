@@ -25,11 +25,14 @@
         <div class="d-flex justify-content-between title">
           <div>
             <h3 class="header-font">Courses</h3>
-            <span class="location-name">{{ locationName }}</span>
-            <!--  [ngStyle]="{
+            <span
+              class="location-name"
+              [ngStyle]="{
                 color: gtxtColor,
                 background: gbgColor
-              }" -->
+              }"
+              >{{ locationName }}</span
+            >
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -695,11 +698,13 @@
                     <div class="course-info">
                       <div class="course-detail">
                         <div>
-                          <label class="category item-width semibold mb-2">
-                            <!--  [ngStyle]="{
+                          <label
+                            class="category item-width semibold mb-2"
+                            [ngStyle]="{
                               color: course.location.textColorHex,
                               background: course.location.backgroundColorHex
-                            }" -->
+                            }"
+                          >
                             <i
                               class="fa fa-map-marker"
                               style="font-size:15px"
@@ -1079,11 +1084,13 @@
           >
             <div class="cdetail">
               <p>Location</p>
-              <h5>{{ detailLists.location.name }}</h5>
-              <!-- [ngStyle]="{
+              <span
+                [ngStyle]="{
                   color: detailLists.location.textColorHex,
                   background: detailLists.location.backgroundColorHex
-                }" -->
+                }"
+                >{{ detailLists.location.name }}</span
+              >
             </div>
           </div>
           <div
@@ -3279,8 +3286,8 @@
         *ngIf="courseType == 'FLEXY'"
         (click)="backToInvoiceList()"
       >
-        <i class="fa fa-angle-left flexiBackicon"></i>
-        <p class="mb-0 font-medium ">Invoices List</p>
+        <i class="fa fa-angle-left flexiBackicon" style="cursor: pointer"></i>
+        <p class="mb-0 font-medium " style="cursor: pointer">Invoices list</p>
       </div>
       <app-invoice
         [custDetail]="custDetail"
@@ -3744,7 +3751,7 @@
         <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" style="background: none!important;">
       <button
         type="button"
         class="btn modal-cancel-btn"
@@ -3753,6 +3760,7 @@
         No
       </button>
       <button
+        style="background: #1682fb!important;"
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmInvoiceAlert()"

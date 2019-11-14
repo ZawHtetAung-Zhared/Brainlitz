@@ -106,8 +106,8 @@ export class UserStaffComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/staff') {
@@ -155,8 +155,8 @@ export class UserStaffComponent implements OnInit {
 
     if (this.staffPermission.includes('VIEWSTAFFS') != false) {
       this.locationName = localStorage.getItem('locationName');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       this.getAllUsers('staff', 20, 0);
       this.getAllpermission();
     } else {
@@ -219,6 +219,7 @@ export class UserStaffComponent implements OnInit {
     }
 
     if (searchWord.length != 0) {
+      console.log(limit, skip);
       this.isSearch = true;
       this._service
         .getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
@@ -834,5 +835,22 @@ export class UserStaffComponent implements OnInit {
   showLoadingFun(e) {
     // console.warn(e)
     this.showloading = e;
+  }
+
+  setRandomPwd() {
+    // console.log(this.userid, this.custDetail.user.userId);
+    let data = {
+      customerId: this.staffDetail.user.userId
+    };
+    this._service.setRandomPassword(this.regionID, data).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('New password has been sent successfully.');
+      },
+      err => {
+        console.error(err);
+        this.toastr.error('Fail to set new password.');
+      }
+    );
   }
 }

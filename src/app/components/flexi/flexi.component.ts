@@ -124,7 +124,7 @@ export class FlexiComponent implements OnInit {
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj, ref: ElementRef) {
-    console.log('ele', this.elelf.nativeElement.getBoundingClientRect());
+    console.log('ele', e);
     console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
@@ -161,24 +161,43 @@ export class FlexiComponent implements OnInit {
     }
 
     this.xPos = e.clientX - 173 - 65;
-    console.log('e>>', e);
-    for (let i = 0; i < e.path.length; i++) {
-      if (e.path[i].classList != undefined) {
-        if (e.path[i].classList.value == 'modal-dialog') {
-          this.yPos = e.clientY - e.path[i].offsetTop + 16;
+    console.log('e>>', e.composedPath());
+    if (e.path == undefined) {
+      for (let i = 0; i < e.composedPath().length; i++) {
+        if (e.composedPath()[i].classList.value == 'modal-dialog') {
+          this.yPos = e.clientY - e.composedPath()[i].offsetTop + 16;
           break;
         }
       }
-    }
-    console.log('yPos', this.yPos);
-    if (
-      e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
-      e.srcElement.className ==
-        'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
-    ) {
-      this.arrLeft = e.path[4].offsetLeft + 130;
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        this.arrLeft = e.composedPath()[4].offsetLeft + 130;
+      } else {
+        this.arrLeft = e.composedPath()[3].offsetLeft + 130;
+      }
     } else {
-      this.arrLeft = e.path[3].offsetLeft + 130;
+      for (let i = 0; i < e.path.length; i++) {
+        if (e.path[i].classList != undefined) {
+          if (e.path[i].classList.value == 'modal-dialog') {
+            this.yPos = e.clientY - e.path[i].offsetTop + 16;
+            break;
+          }
+        }
+      }
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        this.arrLeft = e.path[4].offsetLeft + 130;
+      } else {
+        this.arrLeft = e.path[3].offsetLeft + 130;
+      }
     }
 
     this.styleArr = {
@@ -201,6 +220,7 @@ export class FlexiComponent implements OnInit {
       .getFlexi(this.course._id, this.selectedCustomer.userId, startDate, dres)
       .subscribe(
         (res: any) => {
+          console.log(res);
           let tempLesson = [];
           let tempflexy = [];
           let tempdata = [];
@@ -213,6 +233,11 @@ export class FlexiComponent implements OnInit {
               tempLesson.push(i);
               tempdata.push(res.lessons[i]);
             }
+            // console.log(i+".........",res.lessons[i]);
+            // this.lessonsObj.unshift(res.lessons[i]);
+          }
+
+          for (let i = res.lessons.length - 1; i >= 0; i--) {
             this.lessonsObj.unshift(res.lessons[i]);
           }
 
@@ -228,6 +253,7 @@ export class FlexiComponent implements OnInit {
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
+          console.log(this.lessonsObj);
           // this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
           // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);

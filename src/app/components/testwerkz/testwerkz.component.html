@@ -306,10 +306,10 @@
       </div>
     </div>
     <h3 class="collection-title" *ngIf="isCollectionCreate">
-      Create Plan
+      Create plan
     </h3>
     <h3 class="collection-title" *ngIf="isCollectionEdit">
-      Update Plan
+      Update plan
     </h3>
     <div class="form-group  name-input-wrapper col-11 pr-0 pl-0">
       <div class="d-flex justify-content-between collection-title">
@@ -325,7 +325,7 @@
         type="text"
         class="form-control selfAssessmentName col-12"
         autocomplete="off"
-        placeholder="Type Plan name here"
+        placeholder="Type plan name here"
         name="name"
         maxlength="60"
         [(ngModel)]="collectionName"
@@ -358,7 +358,7 @@
         type="text"
         class="form-control selfAssessmentName col-12"
         autocomplete="off"
-        placeholder="Type Plan name here"
+        placeholder="Type description here"
         name="name"
         maxlength="280"
         [(ngModel)]="collectionDescription"
@@ -379,13 +379,14 @@
       <input
         class="form-control py-2 input-search-bg"
         type="search"
-        placeholder="Search Concepts to add to this plan"
+        placeholder="Search concepts to add to this plan"
         id="search-concept"
         name="searchConcept"
         (focus)="focusSearch($event)"
         (focusout)="hideSearch($event)"
         [(ngModel)]="searchWords"
         (input)="changeSearch($event.target.value, 'apg')"
+        #searchConcept="ngModel"
         autocomplete="off"
       />
     </div>
@@ -2145,7 +2146,7 @@
         class="mr-auto ml-3 d-flex justify-content-center align-items-center video-pick"
       >
         <p class="slected-content-text mb-0 pb-0">
-          <span *ngIf="selectedImgArr.length == 1"> A image picked</span>
+          <span *ngIf="selectedImgArr.length == 1"> An image picked</span>
           <span *ngIf="selectedImgArr.length > 1"
             >{{ selectedImgArr.length }} images picked</span
           >
