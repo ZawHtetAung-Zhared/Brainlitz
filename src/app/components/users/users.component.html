@@ -348,12 +348,10 @@
         </div>
       </div>
       <div class="btn-wrap">
-        <div></div>
+        <!-- <div></div> -->
       </div>
-      <div
-        class="section-wrap"
-        [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }"
-      >
+      <div class="section-wrap">
+        <!--    [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }" -->
         <div class="d-flex tab-section">
           <button
             [ngClass]="{ active: activeTab == 'class' }"
@@ -629,7 +627,7 @@
                       >
                     </div>
                     <p
-                      class="info-p clickable"
+                      class="info-p clickable pt-2"
                       (click)="onClickCourse(course)"
                       style="padding-left: 20px"
                     >
@@ -772,7 +770,7 @@
                           View journal
                         </label>
                       </div>
-                      <div
+                      <!-- <div
                         class="d-flex auto-enroll align-items-center"
                         [ngClass]="{ autoEnrollTrue: course.autoEnroll }"
                         *ngIf="course.type == 'FLEXY'"
@@ -813,10 +811,9 @@
                               (click)="autoEnroll(i, course, auto_Enroll)"
                             />
                             <span class="slider round"></span>
-                            <!-- (click)="autoEnroll(i,course,auto_Enroll)" -->
                           </label>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div
@@ -1370,7 +1367,7 @@
                 <div class="no-item" *ngIf="custDetail.ratings?.length <= 0">
                   There is no rating and review from this customer!
                 </div>
-                <div class="card-columns">
+                <div class="card-columns pl-0 pr-0">
                   <div
                     *ngFor="
                       let rating of custDetail.ratings
@@ -1416,7 +1413,7 @@
                       ></read-more>
                     </p>
                     <div class="d-flex info-wrap">
-                      <div class="timetable-col d-flex">
+                      <div class="d-flex col-md-6 pl-0">
                         <div class="small-circular-image">
                           <img src="{{ rating.teacher_info.profilePic }}" />
                         </div>
@@ -1435,7 +1432,7 @@
                           </p>
                         </div>
                       </div>
-                      <div class="timetable-col course-wrap">
+                      <div class="timetable-col course-wrap col-md-6 pr-0">
                         <label class="medium-label-12 mb-0">Course</label>
                         <p class="teacher-label-12 mb-0">
                           {{ rating.course_info.name }}
@@ -1935,10 +1932,13 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="!imgDemoSlider" class=" pwd-container">
-              <button class="btn btn-submit btn-pwd" (click)="setRandomPwd()">
-                Set random password
-              </button>
+            <div
+              *ngIf="!imgDemoSlider && isupdate == true"
+              class=" pwd-container"
+            >
+              <span class="sent-randon-psw cursor-on" (click)="setRandomPwd()">
+                Sent random password
+              </span>
             </div>
           </div>
         </div>
@@ -2069,8 +2069,7 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                        >Delete</span
-                      >
+                      ></span>
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2115,8 +2114,7 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                        >Delete</span
-                      >
+                      ></span>
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2157,8 +2155,7 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                        >Delete</span
-                      >
+                      ></span>
                     </div>
                   </div>
                   <div class="journal-detail">
@@ -2202,8 +2199,7 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                        >Delete</span
-                      >
+                      ></span>
                     </div>
                   </div>
                   <div class="journal-detail">
