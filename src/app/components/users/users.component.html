@@ -770,7 +770,7 @@
                           View journal
                         </label>
                       </div>
-                      <div
+                      <!-- <div
                         class="d-flex auto-enroll align-items-center"
                         [ngClass]="{ autoEnrollTrue: course.autoEnroll }"
                         *ngIf="course.type == 'FLEXY'"
@@ -811,10 +811,9 @@
                               (click)="autoEnroll(i, course, auto_Enroll)"
                             />
                             <span class="slider round"></span>
-                            <!-- (click)="autoEnroll(i,course,auto_Enroll)" -->
                           </label>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                   <div
@@ -1368,7 +1367,7 @@
                 <div class="no-item" *ngIf="custDetail.ratings?.length <= 0">
                   There is no rating and review from this customer!
                 </div>
-                <div class="card-columns">
+                <div class="card-columns pl-0 pr-0">
                   <div
                     *ngFor="
                       let rating of custDetail.ratings
@@ -1414,7 +1413,7 @@
                       ></read-more>
                     </p>
                     <div class="d-flex info-wrap">
-                      <div class="timetable-col d-flex">
+                      <div class="d-flex col-md-6 pl-0">
                         <div class="small-circular-image">
                           <img src="{{ rating.teacher_info.profilePic }}" />
                         </div>
@@ -1433,7 +1432,7 @@
                           </p>
                         </div>
                       </div>
-                      <div class="timetable-col course-wrap">
+                      <div class="timetable-col course-wrap col-md-6 pr-0">
                         <label class="medium-label-12 mb-0">Course</label>
                         <p class="teacher-label-12 mb-0">
                           {{ rating.course_info.name }}
