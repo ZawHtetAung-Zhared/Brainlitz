@@ -57,11 +57,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   model: any = {};
   @BlockUI() blockUI: NgBlockUI;
 
-  //for download report
-  public todayDate: any;
-  public downloadSdate: any;
-  public downloadEdate: any;
-
   //for group by teacher name
   public isFocusCategory: boolean = false;
   public staffLists: any;
@@ -113,10 +108,25 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = new Date('04/01/2018').toISOString();
-    this.endDate = new Date().toISOString();
+    // this.startDate = new Date('04/01/2018').toISOString();
+    // this.endDate = new Date().toISOString();
+    // this.options = {
+    //   startDate: moment('04/01/2018').startOf('hour'),
+    //   endDate: moment().startOf('hour'),
+    //   locale: { format: 'ddd, DD MMM YYYY' },
+    //   alwaysShowCalendars: true
+    // };
+
+    var start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    var end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    this.startDate = start.toISOString();
+    this.endDate = end.toISOString();
     this.options = {
-      startDate: moment('04/01/2018').startOf('hour'),
+      startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true
@@ -125,11 +135,6 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.showReportByLocation();
 
     const current = new Date();
-    this.todayDate = {
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      day: current.getDate()
-    };
   }
 
   showReportByLocation() {
@@ -721,8 +726,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   applyDateRange(evt) {
-    this.downloadSdate = evt.picker.startDate.format();
-    this.downloadEdate = evt.picker.endDate.format();
     this.startDate = new Date(evt.picker.startDate).toISOString();
     this.endDate = new Date(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
@@ -786,16 +789,22 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   exportCSV() {
-    var str = this.downloadSdate.split('T');
-    var str2 = this.downloadEdate.split('T');
-    var SDate = str[0] + 'T' + '00:00:00.000Z';
-    var EDate = str2[0] + 'T' + '23:59:59.999Z';
-    let fullStartDate = new Date(SDate).toISOString();
-    let fullEndDate = new Date(EDate).toISOString();
-    let filename = 'staff-teaching-hours-from-' + str[0] + '-to-' + str2[0];
+    var sDate =
+      new Date(this.startDate).getFullYear() +
+      '-' +
+      String(new Date(this.startDate).getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(new Date(this.startDate).getDate()).padStart(2, '0');
+    var eDate =
+      new Date(this.endDate).getFullYear() +
+      '-' +
+      String(new Date(this.endDate).getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(new Date(this.endDate).getDate()).padStart(2, '0');
+    let filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
 
     this._service
-      .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
+      .getTeachingHours(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
           this.downloadFile(res.teachingHours, filename);
