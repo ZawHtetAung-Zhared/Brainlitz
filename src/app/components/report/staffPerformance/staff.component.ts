@@ -130,10 +130,24 @@ export class StaffPerformanceReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = new Date('04/01/2018').toISOString();
-    this.endDate = new Date().toISOString();
+    // this.startDate = new Date('04/01/2018').toISOString();
+    // this.endDate = new Date().toISOString();
+    // this.options = {
+    //   startDate: moment('04/01/2018').startOf('hour'),
+    //   endDate: moment().startOf('hour'),
+    //   locale: { format: 'ddd, DD MMM YYYY' },
+    //   alwaysShowCalendars: true
+    // };
+    var start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    var end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    this.startDate = start.toISOString();
+    this.endDate = end.toISOString();
     this.options = {
-      startDate: moment('04/01/2018').startOf('hour'),
+      startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true

@@ -2,7 +2,8 @@
   max-width: 140px;
   width: 140px;
   float: left;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
+  overflow: hidden;
   height: 24px;
 }
 .logo-wrap {
