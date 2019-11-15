@@ -333,7 +333,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
       var filteredLists;
       for (var i = 0; i < temp.length; i++) {
         // searching input value in search box
-        if (temp[i].toLowerCase().includes(value)) {
+        if (temp[i].toLowerCase().includes(value.toLowerCase())) {
           filteredLists = this.searchResult.value.filter(
             item => item !== temp[i]
           );
