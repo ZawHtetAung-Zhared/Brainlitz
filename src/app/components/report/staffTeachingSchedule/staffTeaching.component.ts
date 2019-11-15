@@ -47,6 +47,7 @@ export class StaffTeachingScheduleReport implements OnInit {
   filter: any;
   modalReference: any;
   reportData: any;
+  staffCount: any;
   daterange: any = {};
   options: any;
   filterModel: any;
@@ -268,6 +269,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let staffList = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -282,7 +284,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(location) {
       let obj = {
         groupTypeValue: location.locationName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       _self.locationList.push(location.locationName);
@@ -318,8 +320,11 @@ export class StaffTeachingScheduleReport implements OnInit {
           courses.forEach(function(course) {
             _self.courseNameList.push(course.courseName);
             let staff = course.staff || [];
-            obj.staffCount += 1;
             obj.staffHours += staff.hours;
+            // obj.staffCount += 1;
+            if (staffList.indexOf(staff.preferredName) <= -1) {
+              staffList.push(staff.preferredName);
+            }
           });
         });
       });
@@ -342,6 +347,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = res;
+    this.staffCount = staffList.length;
     // return res;
   }
 
@@ -349,6 +355,8 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let result = [];
+    let staffList = [];
+
     _self.locationList = [];
     _self.categoryList = [];
     _self.coursePlanList = [];
@@ -361,7 +369,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(category) {
       let obj = {
         groupTypeValue: category.catName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       let coursePlans = category.coursePlans || [];
@@ -393,8 +401,11 @@ export class StaffTeachingScheduleReport implements OnInit {
           _self.locationList.push(course.location);
           _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
-          obj.staffCount += 1;
+          // obj.staffCount += 1;
           obj.staffHours += staff.hours;
+          if (staffList.indexOf(staff.preferredName) <= -1) {
+            staffList.push(staff.preferredName);
+          }
         });
       });
       if (obj.staffHours > 0) {
@@ -412,6 +423,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = result;
+    this.staffCount = staffList.length;
     // return result;
   }
 
@@ -419,6 +431,8 @@ export class StaffTeachingScheduleReport implements OnInit {
     let result = [];
     let filter = this.filter;
     let _self = this;
+    let staffList = [];
+
     _self.locationList = [];
     _self.categoryList = [];
     _self.coursePlanList = [];
@@ -431,7 +445,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(coursePlan) {
       let obj = {
         groupTypeValue: coursePlan.coursePlanName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       _self.coursePlanList.push(coursePlan.coursePlanName);
@@ -462,8 +476,11 @@ export class StaffTeachingScheduleReport implements OnInit {
           _self.locationList.push(course.location);
           _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
-          obj.staffCount += 1;
+          // obj.staffCount += 1;
           obj.staffHours += staff.hours;
+          if (staffList.indexOf(staff.preferredName) <= -1) {
+            staffList.push(staff.preferredName);
+          }
         });
       });
       if (obj.staffHours > 0) {
@@ -481,6 +498,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = result;
+    this.staffCount = staffList.length;
     // return result;
   }
 
@@ -488,6 +506,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let staffList = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -497,7 +516,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(staff) {
       let obj = {
         groupTypeValue: staff.preferredName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       let categories = staff.categories || [];
@@ -537,8 +556,11 @@ export class StaffTeachingScheduleReport implements OnInit {
             _self.courseNameList.push(course.courseName);
             _self.locationList.push(course.locationName);
             let staff = course.staff || [];
-            obj.staffCount += 1;
+            // obj.staffCount += 1;
             obj.staffHours += staff.hours;
+            // if(staffList.indexOf(staff.preferredName) <= -1){
+            staffList.push(staff.preferredName);
+            // }
           });
         });
       });
@@ -556,7 +578,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
+    console.log(staffList);
     this.reportData = res;
+    this.staffCount = staffList.length;
     // return res;
   }
 
