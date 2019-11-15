@@ -320,11 +320,10 @@ export class StaffTeachingScheduleReport implements OnInit {
           courses.forEach(function(course) {
             _self.courseNameList.push(course.courseName);
             let staff = course.staff || [];
-            obj.staffHours += staff.hours;
             // obj.staffCount += 1;
-            if (staffList.indexOf(staff.preferredName) <= -1) {
-              staffList.push(staff.preferredName);
-            }
+            obj.staffHours += staff.hours;
+            obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+            staffList.push(staff.preferredName);
           });
         });
       });
@@ -336,6 +335,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (_self.initFilter) {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
@@ -403,9 +403,8 @@ export class StaffTeachingScheduleReport implements OnInit {
           let staff = course.staff || [];
           // obj.staffCount += 1;
           obj.staffHours += staff.hours;
-          if (staffList.indexOf(staff.preferredName) <= -1) {
-            staffList.push(staff.preferredName);
-          }
+          obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+          staffList.push(staff.preferredName);
         });
       });
       if (obj.staffHours > 0) {
@@ -416,6 +415,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
@@ -478,9 +478,8 @@ export class StaffTeachingScheduleReport implements OnInit {
           let staff = course.staff || [];
           // obj.staffCount += 1;
           obj.staffHours += staff.hours;
-          if (staffList.indexOf(staff.preferredName) <= -1) {
-            staffList.push(staff.preferredName);
-          }
+          obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+          staffList.push(staff.preferredName);
         });
       });
       if (obj.staffHours > 0) {
@@ -491,6 +490,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
@@ -558,9 +558,8 @@ export class StaffTeachingScheduleReport implements OnInit {
             let staff = course.staff || [];
             // obj.staffCount += 1;
             obj.staffHours += staff.hours;
-            // if(staffList.indexOf(staff.preferredName) <= -1){
+            obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
             staffList.push(staff.preferredName);
-            // }
           });
         });
       });
@@ -572,15 +571,17 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    console.log(staffList);
+
     this.reportData = res;
     this.staffCount = staffList.length;
+    console.log(this.reportData);
     // return res;
   }
 
