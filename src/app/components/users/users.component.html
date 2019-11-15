@@ -1934,11 +1934,15 @@
             </div>
             <div
               *ngIf="!imgDemoSlider && isupdate == true"
-              class=" pwd-container"
+              class="btn pwd-container"
             >
-              <span class="sent-randon-psw cursor-on" (click)="setRandomPwd()">
+              <button
+                class="btn sent-randon-psw cursor-on"
+                (click)="setRandomPwd()"
+                [disabled]="customerEmail == false"
+              >
                 Sent random password
-              </span>
+              </button>
             </div>
           </div>
         </div>
