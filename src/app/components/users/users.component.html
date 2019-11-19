@@ -583,11 +583,7 @@
           </div> -->
           <!-- Attending lessons -->
           <div>
-            <div
-              class="btn-wrap no-item"
-              style="padding-left: 20px;padding-right: 20px"
-              *ngIf="custDetail.courses?.length <= 0"
-            >
+            <div class="no-item" *ngIf="custDetail.courses?.length <= 0">
               There is no course from this customer!
             </div>
             <div
@@ -1934,11 +1930,15 @@
             </div>
             <div
               *ngIf="!imgDemoSlider && isupdate == true"
-              class=" pwd-container"
+              class="btn pwd-container"
             >
-              <span class="sent-randon-psw cursor-on" (click)="setRandomPwd()">
+              <button
+                class="btn sent-randon-psw cursor-on"
+                (click)="setRandomPwd()"
+                [disabled]="customerEmail == false"
+              >
                 Sent random password
-              </span>
+              </button>
             </div>
           </div>
         </div>

@@ -3960,4 +3960,18 @@ export class appService {
       return res;
     });
   }
+
+  //for auto enrollment setting
+  setAutoEnrol(regionId, data) {
+    let url = this.baseUrl + '/' + regionId + '/setting/autoEnrol';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.put(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
