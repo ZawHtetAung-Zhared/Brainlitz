@@ -638,7 +638,16 @@ export class UsersComponent implements OnInit {
           if (err.status == 400) {
             this.toastr.error('Email already exist');
           } else {
-            this.toastr.error('Create Fail');
+            if (
+              err.error != undefined &&
+              (err.error.message != undefined ||
+                err.error.message != null ||
+                err.error.message != '')
+            ) {
+              this.toastr.error(err.error.message);
+            } else {
+              this.toastr.error('Create Fail');
+            }
           }
         }
       );
