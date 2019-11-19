@@ -5,6 +5,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 })
 export class StaffTeachingReportGraph implements OnInit {
   @Input() reportItems: any;
+  @Input() staffCount: any;
   plotOption: any;
   echarts: any;
   barColor: any;
@@ -69,10 +70,10 @@ export class StaffTeachingReportGraph implements OnInit {
         }
       ]
     };
-    let totalStaff = 0;
+    let totalStaff = this.staffCount;
     let totalHours = 0;
     this.reportItems.forEach(function(item, i) {
-      totalStaff += item.staffCount;
+      // totalStaff += item.staffCount;
       totalHours += item.staffHours;
       if (_self.barColor[i]) {
         _self.plotOption.series[0].data.push({

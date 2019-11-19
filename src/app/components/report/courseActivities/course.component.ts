@@ -93,14 +93,29 @@ export class CourseActivitiesReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = moment('04/01/2018').toISOString();
-    this.endDate = moment().toISOString();
+    // this.startDate = moment('04/01/2018').toISOString();
+    // this.endDate = moment().toISOString();
+    // this.options = {
+    //   startDate: moment('04/01/2018').startOf('hour'),
+    //   endDate: moment().startOf('hour'),
+    //   locale: { format: 'ddd, DD MMM YYYY' },
+    //   alwaysShowCalendars: true
+    // };
+    var start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    var end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    this.startDate = start.toISOString();
+    this.endDate = end.toISOString();
     this.options = {
-      startDate: moment('04/01/2018').startOf('hour'),
+      startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true
     };
+
     console.log(courseSampleData);
     this.showReportByLocation();
     this.updateFilterType('Category');
@@ -548,7 +563,7 @@ export class CourseActivitiesReport implements OnInit {
       var filteredLists;
       for (var i = 0; i < temp.length; i++) {
         // searching input value in search box
-        if (temp[i].toLowerCase().includes(value)) {
+        if (temp[i].toLowerCase().includes(value.toLowerCase())) {
           filteredLists = this.searchResult.value.filter(
             item => item !== temp[i]
           );

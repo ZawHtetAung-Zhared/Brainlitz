@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
   @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
   @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
+  @BlockUI('auto-enrol-setting') blockUIAutoEnrol: NgBlockUI;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -447,6 +448,7 @@ export class DashboardComponent implements OnInit {
           this.item.timezone = res.timezone;
           this.item.url = res.url;
           this.item.logo = res.logo;
+          this.enroll = res.autoEnrolDay;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
             this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
@@ -660,6 +662,38 @@ export class DashboardComponent implements OnInit {
     this.isUrlEdit = true;
     this.urlTemp = this.item.url;
   }
+
+  //for Auto-enroll setting
+  isEnrollEdit = false;
+  enroll = '';
+  tempEnroll: any;
+  editEnroll(value) {
+    this.isEnrollEdit = true;
+    this.tempEnroll = this.enroll;
+  }
+  updateEnroll() {
+    let data = { autoEnrolDay: this.enroll };
+    this.blockUIAutoEnrol.start('Updating auto enrollment setting...');
+    setTimeout(() => {
+      this._service.setAutoEnrol(this.regionId, data).subscribe(
+        (res: any) => {
+          console.log(res);
+          this.blockUIAutoEnrol.stop();
+          this.toastr.success('Successfully Updated.');
+          this.isEnrollEdit = false;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }, 100);
+  }
+  closeEnroll() {
+    this.enroll = this.tempEnroll;
+    this.isEnrollEdit = false;
+  }
+  //end for Auto-enroll setting
+
   validateTime(time) {
     var starTTemp = time.trim().split(':');
     console.log(starTTemp);
