@@ -272,12 +272,16 @@ ul.pass-list li {
 .right-scoope,
 .left-scoope1,
 .left-scoope {
-  background: #f2f4f5;
+  background: #ffffff;
   height: 30px;
   width: 30px;
   position: absolute;
   border-radius: 20px;
   bottom: 57px;
+
+  border-bottom-color: transparent !important;
+  border-left-color: transparent !important;
+  border: 1px solid #f2f4f5;
 }
 
 .right-scoope1,
@@ -288,11 +292,13 @@ ul.pass-list li {
 .right-scoope1,
 .right-scoope {
   left: 0px;
+  transform: rotate(45deg);
 }
 
 .left-scoope1,
 .left-scoope {
   right: 0px;
+  transform: rotate(-135deg);
 }
 
 .tr-name,
