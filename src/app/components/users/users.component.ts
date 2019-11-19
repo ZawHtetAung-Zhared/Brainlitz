@@ -2384,6 +2384,7 @@ export class UsersComponent implements OnInit {
       .subscribe(
         res => {
           console.log(res);
+          this.toastr.success('A Journal has been successfully removed.');
           this._service
             .getJournal(
               this.tempCourse._id,
@@ -2394,12 +2395,13 @@ export class UsersComponent implements OnInit {
             )
             .subscribe((res: any) => {
               console.log(res.length);
+              // tslint:disable-next-line: curly
               if (res.length >= 20) this.toShowLoadMore = true;
               else this.toShowLoadMore = false;
               this.jSlectedCourse = this.tempCourse._id;
               this.journals = res;
               console.log(this.journals.length);
-              if (this.journals.length == 0) this.toShowNoJournl = true;
+              if (this.journals.length === 0) this.toShowNoJournl = true;
               else this.toShowNoJournl = false;
               //this.blockUI.stop();
             });
