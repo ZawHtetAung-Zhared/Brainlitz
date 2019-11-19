@@ -47,6 +47,7 @@ export class StaffTeachingScheduleReport implements OnInit {
   filter: any;
   modalReference: any;
   reportData: any;
+  staffCount: any;
   daterange: any = {};
   options: any;
   filterModel: any;
@@ -56,11 +57,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   public regionID = localStorage.getItem('regionId');
   model: any = {};
   @BlockUI() blockUI: NgBlockUI;
-
-  //for download report
-  public todayDate: any;
-  public downloadSdate: any;
-  public downloadEdate: any;
 
   //for group by teacher name
   public isFocusCategory: boolean = false;
@@ -113,10 +109,25 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = new Date('04/01/2018').toISOString();
-    this.endDate = new Date().toISOString();
+    // this.startDate = new Date('04/01/2018').toISOString();
+    // this.endDate = new Date().toISOString();
+    // this.options = {
+    //   startDate: moment('04/01/2018').startOf('hour'),
+    //   endDate: moment().startOf('hour'),
+    //   locale: { format: 'ddd, DD MMM YYYY' },
+    //   alwaysShowCalendars: true
+    // };
+
+    var start = new Date();
+    start.setHours(0, 0, 0, 0);
+
+    var end = new Date();
+    end.setHours(23, 59, 59, 999);
+
+    this.startDate = start.toISOString();
+    this.endDate = end.toISOString();
     this.options = {
-      startDate: moment('04/01/2018').startOf('hour'),
+      startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
       locale: { format: 'ddd, DD MMM YYYY' },
       alwaysShowCalendars: true
@@ -125,11 +136,6 @@ export class StaffTeachingScheduleReport implements OnInit {
     this.showReportByLocation();
 
     const current = new Date();
-    this.todayDate = {
-      year: current.getFullYear(),
-      month: current.getMonth() + 1,
-      day: current.getDate()
-    };
   }
 
   showReportByLocation() {
@@ -263,6 +269,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let staffList = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -277,7 +284,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(location) {
       let obj = {
         groupTypeValue: location.locationName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       _self.locationList.push(location.locationName);
@@ -313,8 +320,10 @@ export class StaffTeachingScheduleReport implements OnInit {
           courses.forEach(function(course) {
             _self.courseNameList.push(course.courseName);
             let staff = course.staff || [];
-            obj.staffCount += 1;
+            // obj.staffCount += 1;
             obj.staffHours += staff.hours;
+            obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+            staffList.push(staff.preferredName);
           });
         });
       });
@@ -326,6 +335,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (_self.initFilter) {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
@@ -337,6 +347,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = res;
+    this.staffCount = staffList.length;
     // return res;
   }
 
@@ -344,6 +355,8 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let result = [];
+    let staffList = [];
+
     _self.locationList = [];
     _self.categoryList = [];
     _self.coursePlanList = [];
@@ -356,7 +369,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(category) {
       let obj = {
         groupTypeValue: category.catName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       let coursePlans = category.coursePlans || [];
@@ -388,8 +401,10 @@ export class StaffTeachingScheduleReport implements OnInit {
           _self.locationList.push(course.location);
           _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
-          obj.staffCount += 1;
+          // obj.staffCount += 1;
           obj.staffHours += staff.hours;
+          obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+          staffList.push(staff.preferredName);
         });
       });
       if (obj.staffHours > 0) {
@@ -400,6 +415,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
@@ -407,6 +423,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = result;
+    this.staffCount = staffList.length;
     // return result;
   }
 
@@ -414,6 +431,8 @@ export class StaffTeachingScheduleReport implements OnInit {
     let result = [];
     let filter = this.filter;
     let _self = this;
+    let staffList = [];
+
     _self.locationList = [];
     _self.categoryList = [];
     _self.coursePlanList = [];
@@ -426,7 +445,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(coursePlan) {
       let obj = {
         groupTypeValue: coursePlan.coursePlanName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       _self.coursePlanList.push(coursePlan.coursePlanName);
@@ -457,8 +476,10 @@ export class StaffTeachingScheduleReport implements OnInit {
           _self.locationList.push(course.location);
           _self.courseNameList.push(course.courseName);
           let staff = course.staff || [];
-          obj.staffCount += 1;
+          // obj.staffCount += 1;
           obj.staffHours += staff.hours;
+          obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+          staffList.push(staff.preferredName);
         });
       });
       if (obj.staffHours > 0) {
@@ -469,6 +490,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
@@ -476,6 +498,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
     this.reportData = result;
+    this.staffCount = staffList.length;
     // return result;
   }
 
@@ -483,6 +506,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let staffList = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -492,7 +516,7 @@ export class StaffTeachingScheduleReport implements OnInit {
     data.forEach(function(staff) {
       let obj = {
         groupTypeValue: staff.preferredName,
-        staffCount: 0,
+        // staffCount: 0,
         staffHours: 0
       };
       let categories = staff.categories || [];
@@ -532,8 +556,10 @@ export class StaffTeachingScheduleReport implements OnInit {
             _self.courseNameList.push(course.courseName);
             _self.locationList.push(course.locationName);
             let staff = course.staff || [];
-            obj.staffCount += 1;
+            // obj.staffCount += 1;
             obj.staffHours += staff.hours;
+            obj.staffHours = Number(parseFloat(obj.staffHours + '').toFixed(2));
+            staffList.push(staff.preferredName);
           });
         });
       });
@@ -545,13 +571,17 @@ export class StaffTeachingScheduleReport implements OnInit {
     _self.locationList = Array.from(new Set(_self.locationList));
     _self.coursePlanList = Array.from(new Set(_self.coursePlanList));
     _self.courseNameList = Array.from(new Set(_self.courseNameList));
+    staffList = Array.from(new Set(staffList));
     if (filter.value.length == 0) {
       _self.fullCategoryList = _self.categoryList;
       _self.fullLocationList = _self.locationList;
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
+
     this.reportData = res;
+    this.staffCount = staffList.length;
+    console.log(this.reportData);
     // return res;
   }
 
@@ -675,7 +705,7 @@ export class StaffTeachingScheduleReport implements OnInit {
       var filteredLists;
       for (var i = 0; i < temp.length; i++) {
         // searching input value in search box
-        if (temp[i].toLowerCase().includes(value)) {
+        if (temp[i].toLowerCase().includes(value.toLowerCase())) {
           filteredLists = this.searchResult.value.filter(
             item => item !== temp[i]
           );
@@ -721,8 +751,6 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   applyDateRange(evt) {
-    this.downloadSdate = evt.picker.startDate.format();
-    this.downloadEdate = evt.picker.endDate.format();
     this.startDate = new Date(evt.picker.startDate).toISOString();
     this.endDate = new Date(evt.picker.endDate).toISOString();
     switch (this.groupBy) {
@@ -786,16 +814,22 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   exportCSV() {
-    var str = this.downloadSdate.split('T');
-    var str2 = this.downloadEdate.split('T');
-    var SDate = str[0] + 'T' + '00:00:00.000Z';
-    var EDate = str2[0] + 'T' + '23:59:59.999Z';
-    let fullStartDate = new Date(SDate).toISOString();
-    let fullEndDate = new Date(EDate).toISOString();
-    let filename = 'staff-teaching-hours-from-' + str[0] + '-to-' + str2[0];
+    var sDate =
+      new Date(this.startDate).getFullYear() +
+      '-' +
+      String(new Date(this.startDate).getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(new Date(this.startDate).getDate()).padStart(2, '0');
+    var eDate =
+      new Date(this.endDate).getFullYear() +
+      '-' +
+      String(new Date(this.endDate).getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(new Date(this.endDate).getDate()).padStart(2, '0');
+    let filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
 
     this._service
-      .getTeachingHours(this.regionID, fullStartDate, fullEndDate)
+      .getTeachingHours(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
           this.downloadFile(res.teachingHours, filename);
