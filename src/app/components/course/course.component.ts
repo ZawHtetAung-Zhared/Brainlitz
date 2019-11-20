@@ -3689,7 +3689,7 @@ export class CourseComponent implements OnInit {
     this.showStudentOption = '';
     this.xxxhello = '';
     this.modalType = ';';
-    obj.lessonId = this.selectedLesson._id;
+    // obj.lessonId = this.selectedLesson._id;
     console.log('obj', obj);
     this._service.makeupPassIssue(obj, this.detailLists._id, userId).subscribe(
       (res: any) => {
