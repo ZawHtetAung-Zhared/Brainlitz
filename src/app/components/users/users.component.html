@@ -1935,7 +1935,12 @@
               <button
                 class="btn sent-randon-psw cursor-on"
                 (click)="setRandomPwd()"
-                [disabled]="customerEmail == false"
+                [disabled]="
+                  formFieldc.email == undefined ||
+                  formFieldc.email == '' ||
+                  sameMail ||
+                  !personalMail
+                "
               >
                 Sent random password
               </button>
