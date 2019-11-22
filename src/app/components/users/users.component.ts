@@ -639,7 +639,16 @@ export class UsersComponent implements OnInit {
           if (err.status == 400) {
             this.toastr.error('Email already exist');
           } else {
-            this.toastr.error('Create Fail');
+            if (
+              err.error != undefined &&
+              (err.error.message != undefined ||
+                err.error.message != null ||
+                err.error.message != '')
+            ) {
+              this.toastr.error(err.error.message);
+            } else {
+              this.toastr.error('Create Fail');
+            }
           }
         }
       );
@@ -2385,6 +2394,7 @@ export class UsersComponent implements OnInit {
       .subscribe(
         res => {
           console.log(res);
+          this.toastr.success('A Journal has been successfully removed.');
           this._service
             .getJournal(
               this.tempCourse._id,
@@ -2395,12 +2405,13 @@ export class UsersComponent implements OnInit {
             )
             .subscribe((res: any) => {
               console.log(res.length);
+              // tslint:disable-next-line: curly
               if (res.length >= 20) this.toShowLoadMore = true;
               else this.toShowLoadMore = false;
               this.jSlectedCourse = this.tempCourse._id;
               this.journals = res;
               console.log(this.journals.length);
-              if (this.journals.length == 0) this.toShowNoJournl = true;
+              if (this.journals.length === 0) this.toShowNoJournl = true;
               else this.toShowNoJournl = false;
               //this.blockUI.stop();
             });

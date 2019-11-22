@@ -664,6 +664,10 @@ ul.data-listing li.disabled {
 .min-range-box:hover {
   background: none;
 }
+.max-range-box,
+.min-range-box {
+  outline: none;
+}
 .as-result {
   border-radius: 16px;
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);

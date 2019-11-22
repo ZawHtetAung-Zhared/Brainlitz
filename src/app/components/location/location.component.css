@@ -53,9 +53,12 @@
   width: 50px;
   /*border: 1px solid;*/
   text-align: center;
-  position: absolute;
+  /* position: absolute;
   left: 60px;
-  top: 514px;
+  top: 514px; */
+  position: relative;
+  left: 31px;
+  top: 32px;
 }
 .content-wrapper {
   /*padding: 15px;*/
@@ -407,4 +410,8 @@ input::placeholder {
 
 .form-control::-webkit-input-placeholder {
   color: red;
+}
+.tel-box {
+  position: relative;
+  top: -20px;
 }

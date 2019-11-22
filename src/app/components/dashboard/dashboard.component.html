@@ -2,7 +2,11 @@
   [orgLogo]="orgLogo"
   [ngClass]="{ stick: navIsFixed == true }"
 ></app-header>
-<div [ngClass]="{ mainOverlay: isEdit == true || isUrlEdit == true }"></div>
+<div
+  [ngClass]="{
+    mainOverlay: isEdit == true || isUrlEdit == true || isEnrollEdit == true
+  }"
+></div>
 <div
   class="d-flex flex-row h-100 w-100 content-wrapper"
   [ngClass]="{ 'p-top': navIsFixed == true }"
@@ -110,7 +114,10 @@
         <div class="card-columns">
           <div *blockUI="'region-info'">
             <div
-              [ngClass]="{ showZindex: isEdit, blur: isUrlEdit }"
+              [ngClass]="{
+                showZindex: isEdit,
+                blur: isUrlEdit || isEnrollEdit
+              }"
               *ngIf="generalDemo.appsetting != ''"
               class="card card-wrap region-wrap"
             >
@@ -473,7 +480,7 @@
           </div>
 
           <div
-            [ngClass]="{ blur: isEdit || isUrlEdit }"
+            [ngClass]="{ blur: isEdit || isUrlEdit || isEnrollEdit }"
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
@@ -630,6 +637,52 @@
                   -
                 </label>
               </div>
+              <div class="timezone-wrap ease">
+                <div class="title-wrap">
+                  <div id="parent">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle">Before due</label>
+                </div>
+                <input
+                  *ngIf="invoiceData.beforeDue != ''"
+                  name="settingIdueDateCount"
+                  id="settingInvNote"
+                  class="labelName readonly-note"
+                  [(ngModel)]="invoiceData.beforeDue"
+                  readonly
+                />
+                <!-- ∂</input> -->
+                <label *ngIf="invoiceData.beforeDue == ''">
+                  -
+                </label>
+              </div>
+              <div class="timezone-wrap ease">
+                <div class="title-wrap">
+                  <div id="parent">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle">Overdue</label>
+                </div>
+                <input
+                  *ngIf="invoiceData.overDue != ''"
+                  name="settingIdueDateCount"
+                  id="settingInvNote"
+                  class="labelName readonly-note"
+                  [(ngModel)]="invoiceData.overDue"
+                  readonly
+                />
+                <!-- ∂</input> -->
+                <label *ngIf="invoiceData.overDue == ''">
+                  -
+                </label>
+              </div>
             </div>
             <div>
               <a class="link-btn" (click)="editSetting('Invoice')">Edit</a>
@@ -638,7 +691,10 @@
 
           <div *blockUI="'app-setting'">
             <div
-              [ngClass]="{ blur: isEdit, showZindex: isUrlEdit }"
+              [ngClass]="{
+                blur: isEdit || isEnrollEdit,
+                showZindex: isUrlEdit
+              }"
               *ngIf="generalDemo.regional != ''"
               class="card card-wrap"
             >
@@ -739,7 +795,7 @@
           </div>
 
           <div
-            [ngClass]="{ blur: isEdit || isUrlEdit }"
+            [ngClass]="{ blur: isEdit || isUrlEdit || isEnrollEdit }"
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
@@ -817,6 +873,97 @@
               <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
             </div>
           </div>
+
+          <!-- for test setting -->
+          <div *blockUI="'auto-enrol-setting'">
+            <div
+              [ngClass]="{
+                showZindex: isEnrollEdit,
+                blur: isEdit || isUrlEdit
+              }"
+              *ngIf="generalDemo.appsetting != ''"
+              class="card card-wrap region-wrap"
+            >
+              <div class="title">
+                Auto enroll settings
+              </div>
+              <div class="setting-container">
+                <div class="setting-info" [ngClass]="{ blur: isEnrollEdit }">
+                  <div class="link-wrap">
+                    <div class="title-wrap">
+                      <div id="parent">
+                        <img src="./assets/images/profile.png" />
+                      </div>
+                      <label class="labelTitle">Auto enrollment</label>
+                      <div class="urlEdit">
+                        <a (click)="editEnroll(enroll)">Edit</a>
+                      </div>
+                    </div>
+                    <label *ngIf="enroll !== ''" class="labelName">{{
+                      enroll
+                    }}</label>
+                    <label *ngIf="enroll == ''" class="labelName">-</label>
+                  </div>
+                </div>
+                <div class="overlay" *ngIf="isEnrollEdit">
+                  <div class="text">
+                    <form novalidate #dashboradForm="ngForm">
+                      <div class="form-group url-edit">
+                        <label class="labelTitle">Auto enrollment</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          placeholder="enter auto enrollment day"
+                          name="enrol"
+                          [(ngModel)]="enroll"
+                          #enrol="ngModel"
+                          required
+                        />
+                        <div
+                          *ngIf="enrol.errors && (enrol.dirty || enrol.touched)"
+                          class="alert alert-danger"
+                        >
+                          <div [hidden]="!enrol.errors.required">
+                            This is required!
+                          </div>
+                        </div>
+                      </div>
+                      <div class="overlayBtns">
+                        <button
+                          type="submit"
+                          class="btn"
+                          (click)="closeEnroll()"
+                        >
+                          <span class="closemark">
+                            <div class="closemark_stem"></div>
+                            <div class="closemark_kick"></div>
+                          </span>
+                        </button>
+                        <button
+                          type="submit"
+                          class="btn"
+                          (click)="updateEnroll()"
+                          [disabled]="!dashboradForm.valid"
+                        >
+                          <span class="checkmark">
+                            <div
+                              [ngClass]="{ colorD: !dashboradForm.valid }"
+                              class="checkmark_stem"
+                            ></div>
+                            <div
+                              [ngClass]="{ colorD: !dashboradForm.valid }"
+                              class="checkmark_kick"
+                            ></div>
+                          </span>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end for test setting -->
         </div>
       </div>
 
@@ -1008,7 +1155,7 @@
                     #invnote="ngModel"
                   ></textarea>
                 </div>
-                <div class="form-group mb-45">
+                <div class="form-group">
                   <div class="d-flex justify-content-between">
                     <label class="input-label">Invoice validity(days)</label>
                   </div>
@@ -1019,6 +1166,32 @@
                     name="invDuration"
                     [(ngModel)]="invoiceData.dueDateCount"
                     #invDuration="ngModel"
+                  />
+                </div>
+                <div class="form-group">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label">Before due</label>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control create-textarea"
+                    placeholder="Before due"
+                    name="invBeforedue"
+                    [(ngModel)]="invoiceData.beforeDue"
+                    #invBeforedue="ngModel"
+                  />
+                </div>
+                <div class="form-group mb-45">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label">Overdue</label>
+                  </div>
+                  <input
+                    type="number"
+                    class="form-control create-textarea"
+                    placeholder="Overdue"
+                    name="invOverdue"
+                    [(ngModel)]="invoiceData.overDue"
+                    #invOverdue="ngModel"
                   />
                 </div>
                 <!-- </div> -->
@@ -1276,4 +1449,4 @@
     <app-emailtemplate></app-emailtemplate>
   </div>
 </div>
-<block-ui message="Deafult Message" *ngIf="!singleLoading"></block-ui>
+<!-- <block-ui message="Deafult Message" *ngIf="!singleLoading"></block-ui> -->

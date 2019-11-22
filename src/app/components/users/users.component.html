@@ -583,11 +583,7 @@
           </div> -->
           <!-- Attending lessons -->
           <div>
-            <div
-              class="btn-wrap no-item"
-              style="padding-left: 20px;padding-right: 20px"
-              *ngIf="custDetail.courses?.length <= 0"
-            >
+            <div class="no-item" *ngIf="custDetail.courses?.length <= 0">
               There is no course from this customer!
             </div>
             <div
@@ -770,7 +766,7 @@
                           View journal
                         </label>
                       </div>
-                      <!-- <div
+                      <div
                         class="d-flex auto-enroll align-items-center"
                         [ngClass]="{ autoEnrollTrue: course.autoEnroll }"
                         *ngIf="course.type == 'FLEXY'"
@@ -813,7 +809,7 @@
                             <span class="slider round"></span>
                           </label>
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                   </div>
                   <div
