@@ -174,7 +174,7 @@ export class UserStaffComponent implements OnInit {
   }
 
   getSingleUser(ID) {
-    console.log(this.formFields.details);
+    console.log(this.formFields.details, this.formFields.permission);
     this._service.editProfile(this.regionID, ID).subscribe(
       (res: any) => {
         console.log('SingleUser', res);
@@ -350,7 +350,8 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          console.log(this.formFields.details);
+          this.formFields.permission = '5b9b706ee235ad03e159af53';
+          console.log(this.formFields.details, this.customFields);
         }
       }
     });
@@ -483,7 +484,6 @@ export class UserStaffComponent implements OnInit {
     if (state == 'create' || this.isPasswordChange == true) {
       objData.append('password', obj.password);
     }
-
     if (state == 'create') {
       objData.append('location', JSON.stringify(locationObj));
       let getImg = document.getElementById('blobUrl');
@@ -541,6 +541,8 @@ export class UserStaffComponent implements OnInit {
         objData.append('profilePic', this.ulFile);
       }
       console.log('update');
+      console.log('locationobj permission>>>>>>', locationObj);
+      console.log(objData);
       this._service
         .updateUser(this.regionID, this.locationID, this.editId, objData)
         .subscribe(
