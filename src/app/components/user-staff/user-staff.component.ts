@@ -853,4 +853,5 @@ export class UserStaffComponent implements OnInit {
       }
     );
   }
+  jj = false;
 }

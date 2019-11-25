@@ -965,3 +965,36 @@ ngb-datepicker {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   cursor: pointer;
 }
+.auto-enroll {
+  background: #f2f4f5;
+  border-radius: 25px !important;
+  min-width: 156px;
+  margin-right: 14px;
+}
+.checked-slider {
+  background: #cce5ff;
+  border: 2px solid #0080ff !important;
+}
+
+.checked-slider::before {
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.autoEnrollTrue {
+  background: #cce5ff;
+}
+
+.switch-label {
+  margin-left: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+  color: #64707d;
+  margin-bottom: 0;
+  margin-top: 7px;
+  margin-right: 10px;
+}
