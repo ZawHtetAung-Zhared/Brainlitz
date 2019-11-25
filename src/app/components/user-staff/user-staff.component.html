@@ -562,7 +562,7 @@
             <!-- <input *ngIf="field.dataType == 'Number'" type="number" class="texHeight" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
 						<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea> -->
           </div>
-          <div *ngIf="!isupdate" class="col-md-12 pad-bottom">
+          <div class="col-md-12 pad-bottom">
             <div
               style="border-bottom: 1px solid #e3e4e6;"
               class="form-group"
@@ -579,6 +579,9 @@
                   <label
                     for="{{ user._id }}"
                     style="cursor: pointer; position: relative;"
+                    [ngClass]="{
+                      'radio-bg-active': formFields.permission == user._id
+                    }"
                   >
                     <div class="permission-box permission-name">
                       <input

@@ -147,7 +147,61 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymax: boolean = true;
   overmin: boolean = true;
   showDp: boolean = false;
-
+  public selectedLocationColor = {
+    text: '#544600',
+    background: '#FFE04D'
+  };
+  public isShowPicker: boolean = false;
+  public colorWrapper = {};
+  public colorArrClasses = {};
+  public colorPopUpX;
+  public colorPopUpLeft;
+  public arrClasses: any;
+  // colour group
+  public sepalColor = [
+    {
+      name: '1',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
+      }
+    },
+    {
+      name: '2',
+      color: {
+        text: '#544600',
+        background: '#FFE04D'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005733',
+        background: '#80FFCA'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#003E7D',
+        background: '#B3D8FF'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#5000A1',
+        background: '#DFBFFF'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#7A0052',
+        background: '#FFBFE9'
+      }
+    }
+  ];
   constructor(
     private modalService: NgbModal,
     private _service: appService,
@@ -551,24 +605,24 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   console.log("DRRRRAAG")
   // }
 
-  @HostListener('window:scroll', ['$event']) onScroll($event) {
-    // console.log('==== ',$('.pad-bottom').height() + 150)
-    // console.log($(window).height())
-    // if(window.pageYOffset < 15){
-    //   console.log('less than 40')
-    //   this.isSticky = false;
-    // }
-    // console.log($event);
-    // console.log("scrolling");
-    // console.log(window.pageYOffset)
-    // if(window.pageYOffset > 40){
-    //   console.log('greater than 100')
-    //   this.navIsFixed = true;
-    // }else{
-    //   console.log('less than 100')
-    //   this.navIsFixed = false;
-    // }
-  }
+  // @HostListener('window:scroll', ['$event']) onScroll($event) {
+  // console.log('==== ',$('.pad-bottom').height() + 150)
+  // console.log($(window).height())
+  // if(window.pageYOffset < 15){
+  //   console.log('less than 40')
+  //   this.isSticky = false;
+  // }
+  // console.log($event);
+  // console.log("scrolling");
+  // console.log(window.pageYOffset)
+  // if(window.pageYOffset > 40){
+  //   console.log('greater than 100')
+  //   this.navIsFixed = true;
+  // }else{
+  //   console.log('less than 100')
+  //   this.navIsFixed = false;
+  // }
+  // }
 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.showDp = false;
@@ -2956,5 +3010,63 @@ export class ApgComponent implements OnInit, OnDestroy {
     if (e) {
       this.toastr.success('APG successfully created.');
     }
+  }
+
+  showColorPicker(e) {
+    this.isShowPicker = true;
+    console.log('open', this.isShowPicker);
+    $('body').css('overflow', 'hidden');
+    this.caculatePosition(e);
+  }
+
+  caculatePosition(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    console.log(YPosition, 'ypostion');
+    console.log(XPosition, 'XPosition');
+
+    if (e.target.className == '') {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 34 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 149 + 'px'; //21
+      console.log('here mee>if');
+    } else {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 10 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 160 + 'px'; //21
+      console.log('here mee>else');
+    }
+
+    this.arrClasses = {
+      'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+  }
+  // @HostListener('document:click', ['$event']) clickout($event) {}
+  public scrollHeight = 0;
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    this.scrollHeight = $event.target.scrollingElement.scrollTop;
+  }
+
+  closePopUp(e) {
+    this.isShowPicker = false;
+    $('body').css('overflow', 'overlay');
+  }
+
+  selectColor(i, item) {
+    console.log(i, '<i>');
+    console.log(item, 'item');
+    this.selectedLocationColor.background = item.color.background;
+    this.selectedLocationColor.text = item.color.text;
+    this.isShowPicker = false;
   }
 }

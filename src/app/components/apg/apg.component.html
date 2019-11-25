@@ -808,19 +808,58 @@
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <input
-            type="text"
-            class="form-control create-input"
-            placeholder="Type preffered name here"
-            name="name"
-            maxlength="60"
-            [(ngModel)]="model.name"
-            (focus)="focusMethod($event, 'name', $event.target.value)"
-            (blur)="blurMethod($event, 'name')"
-            (input)="changeMethod($event.target.value)"
-            required
-            #name="ngModel"
-          />
+          <div class="d-flex flex-row pl-2">
+            <input
+              type="text"
+              class="form-control create-input"
+              placeholder="Type preffered name here"
+              name="name"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              (focus)="focusMethod($event, 'name', $event.target.value)"
+              (blur)="blurMethod($event, 'name')"
+              (input)="changeMethod($event.target.value)"
+              required
+              #name="ngModel"
+              [ngStyle]="{
+                background: selectedLocationColor.background,
+                color: selectedLocationColor.text
+              }"
+            />
+            <div class="color-box" (click)="showColorPicker($event)">
+              <span class="icon-img">
+                <img src="../../../assets/img/Vector.png" />
+              </span>
+              <div
+                *ngIf="isShowPicker"
+                class="carret-box"
+                [ngClass]="arrClasses"
+              ></div>
+              <!--      [ngStyle]="colorArrClasses" -->
+            </div>
+            <div
+              id="colorPletteBox"
+              *ngIf="isShowPicker"
+              (clickOutside)="closePopUp($event)"
+            >
+              <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+
+              <!--  [ngClass]="arrClasses"
+          [ngStyle]="colorArrClasses" -->
+              <p class="color-title mb-0 pb-0">Color</p>
+              <div class="color-section d-flex flex-wrap">
+                <div
+                  class="color-circle"
+                  *ngFor="let item of sepalColor; let i = index"
+                  [style.background]="item.color.background"
+                  (click)="selectColor(i, item)"
+                ></div>
+                <!-- [ngClass]="{
+              addBorder: item.color.background == selectedLocationColor.background
+            }" -->
+              </div>
+            </div>
+          </div>
           <div
             *ngIf="name.invalid && (name.dirty || name.touched)"
             class="alert alert-danger"
@@ -1230,7 +1269,8 @@
       *ngIf="
         iscreate == true &&
         userGradingAp == true &&
-        (!isCreateStatus && UserGradeApg != undefined)
+        !isCreateStatus &&
+        UserGradeApg != undefined
       "
       style="width: 480px;"
     >
