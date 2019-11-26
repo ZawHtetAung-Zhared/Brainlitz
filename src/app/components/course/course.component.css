@@ -1308,7 +1308,8 @@ li button {
 .payment-label,
 .invModal-cancel,
 .send-btn,
-.relief-name h5 {
+.relief-name h5,
+.locationTxt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -1430,10 +1431,12 @@ li button {
   height: 110px;
 }
 
-.cdetail span {
+.cdetail .locationTxt {
   font-size: 16px;
   padding: 3px;
   border-radius: 2px;
+  max-height: 40px;
+  overflow: overlay;
 }
 
 .course-bg:nth-child(1) .cdetail {

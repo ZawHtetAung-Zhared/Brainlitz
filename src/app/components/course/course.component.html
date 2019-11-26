@@ -1084,13 +1084,15 @@
           >
             <div class="cdetail">
               <p>Location</p>
-              <span
+              <p
+                class="locationTxt"
                 [ngStyle]="{
                   color: detailLists.location.textColorHex,
                   background: detailLists.location.backgroundColorHex
                 }"
-                >{{ detailLists.location.name }}</span
               >
+                {{ detailLists.location.name }}
+              </p>
             </div>
           </div>
           <div
