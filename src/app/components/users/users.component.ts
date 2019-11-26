@@ -2439,4 +2439,5 @@ export class UsersComponent implements OnInit {
       }
     );
   }
+  jj = false;
 }

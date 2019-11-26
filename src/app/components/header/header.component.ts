@@ -328,4 +328,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     this._dataservice.nevigateSchedule('');
     // this._dataservice.defineCurrentTab(type);
   }
+  switchRegion() {
+    this._router.navigateByUrl('/region', { skipLocationChange: true });
+  }
 }

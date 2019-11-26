@@ -130,7 +130,33 @@
           ></i
           ><span>Staff</span>
         </div>
-        <div class="ml-auto">
+        <div class="ml-auto d-flex align-items-center">
+          <div
+            class="d-flex auto-enroll align-items-center justify-content-between"
+            [ngClass]="{ autoEnrollTrue: jj }"
+          >
+            <label class="switch-label mt-0" for="online" *ngIf="jj"
+              >Archive</label
+            >
+            <label class="switch-label mt-0" for="online" *ngIf="!jj"
+              >Unarchive</label
+            >
+            <div class="toggle-wrap d-flex align-items-center mr-2 ">
+              <label class="switch" *ngIf="jj" style="margin-top: 8px;">
+                <input type="button" (click)="jj = !jj" />
+                <span
+                  class="slider round"
+                  [ngClass]="{
+                    'checked-slider': true
+                  }"
+                ></span>
+              </label>
+              <label *ngIf="!jj" class="switch" style="margin-top: 8px;">
+                <input type="button" (click)="jj = !jj" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
           <span class="back" (click)="getSingleInfo(editId)">Edit profile</span>
         </div>
       </div>
