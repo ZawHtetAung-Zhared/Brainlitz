@@ -32,8 +32,8 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-  public returnProfile: boolean = false;
-  public isCrop: boolean = false;
+  public returnProfile = false;
+  public isCrop = false;
   public locationName: any;
   public permissionType: any;
   public staffPermission: any = [];
@@ -42,11 +42,11 @@ export class UserStaffComponent implements OnInit {
   public orgID = localStorage.getItem('OrgId');
   public regionID = localStorage.getItem('regionId');
   public staffLists: Array<any> = [];
-  showFormCreate: boolean = false;
-  isPasswordChange: boolean = false;
-  emailAlert: boolean = false;
-  public permissionCount: boolean = false;
-  public hideMenu: boolean = false;
+  showFormCreate = false;
+  isPasswordChange = false;
+  emailAlert = false;
+  public permissionCount = false;
+  public hideMenu = false;
   public img: any;
   public ulFile: any;
   public activeTab = 'Classes';
@@ -60,13 +60,13 @@ export class UserStaffComponent implements OnInit {
   cropperSettings1: CropperSettings;
   input: any;
   uploadCrop: any;
-  blankCrop: boolean = false;
-  validProfile: boolean = false;
-  isupdate: boolean = false;
-  imgDemoSlider: boolean = false;
-  isSticky: boolean = false;
-  public navIsFixed: boolean = false;
-  public isCreateFix: boolean = false;
+  blankCrop = false;
+  validProfile = false;
+  isupdate = false;
+  imgDemoSlider = false;
+  isSticky = false;
+  public navIsFixed = false;
+  public isCreateFix = false;
   // public atLeastOneMail: boolean = false;
   permissionId: any;
   editId: any;
@@ -74,16 +74,16 @@ export class UserStaffComponent implements OnInit {
   public wordLength: any = 0;
   public aboutTest = 'Owns Guitar & PianoOwns Guitar & PianoOwnsijii';
   public aboutTest1 = ' How your call you or like your preferred name kuiui';
-  public showStaffDetail: boolean = false;
+  public showStaffDetail = false;
   public staffDetail: any = {};
-  isSearch: boolean = false;
+  isSearch = false;
   searchword: any;
   usertype: any;
   result: any;
   public customFields: any = [];
   courseList: any = [];
   userId: string;
-  visited: boolean = false;
+  visited = false;
   staffObj: any = {};
   public gtxtColor: any;
   public gbgColor: any;
@@ -457,8 +457,8 @@ export class UserStaffComponent implements OnInit {
     }
     console.log('formFields details', this.formFields.details);
 
-    let objData = new FormData();
-    let locationObj = [
+    const objData = new FormData();
+    const locationObj = [
       { locationId: this.locationID, permissionId: obj.permission }
     ];
 
@@ -486,7 +486,7 @@ export class UserStaffComponent implements OnInit {
     }
     if (state == 'create') {
       objData.append('location', JSON.stringify(locationObj));
-      let getImg = document.getElementById('blobUrl');
+      const getImg = document.getElementById('blobUrl');
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -523,7 +523,7 @@ export class UserStaffComponent implements OnInit {
       );
     } else {
       //this.blockUI.start('Loading...');
-      let getImg = document.getElementsByClassName('circular-profile');
+      const getImg = document.getElementsByClassName('circular-profile');
       if (getImg != undefined) {
         $('.circular-profile img:last-child').attr('id', 'blobUrl');
       }
@@ -681,7 +681,7 @@ export class UserStaffComponent implements OnInit {
   cropResult(modal) {
     this.validProfile = true;
     this.isCrop = true;
-    let self = this;
+    const self = this;
     this.imgDemoSlider = false;
     setTimeout(function() {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
@@ -713,14 +713,14 @@ export class UserStaffComponent implements OnInit {
   }
 
   dataURItoBlob(dataURI: any) {
-    var byteString = atob(dataURI.split(',')[1]);
-    var mimeString = dataURI
+    let byteString = atob(dataURI.split(',')[1]);
+    let mimeString = dataURI
       .split(',')[0]
       .split(':')[1]
       .split(';')[0];
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
+    let ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: mimeString });
@@ -735,6 +735,7 @@ export class UserStaffComponent implements OnInit {
 
   showDetails(data, ID) {
     this.showloading = false;
+    this.userArchive = data.isArchive;
     this.userId = data.userId;
     this.isPasswordChange = false;
     this.activeTab = 'Classes';
@@ -751,8 +752,9 @@ export class UserStaffComponent implements OnInit {
         (res: any) => {
           this.staffDetail = res;
           res.user.details.map(info => {
-            if (info.controlType === 'Datepicker')
+            if (info.controlType === 'Datepicker') {
               info.value = moment(info.value).format('YYYY-MM-DD');
+            }
           });
           console.log('StaffDetail', res);
           // setTimeout(() => {
@@ -807,7 +809,7 @@ export class UserStaffComponent implements OnInit {
   }
 
   radioCheck(item, fields, idx1, idx2) {
-    var id = idx1 + idx2;
+    let id = idx1 + idx2;
     console.log('id', id);
 
     fields.map(field => {
@@ -841,7 +843,7 @@ export class UserStaffComponent implements OnInit {
 
   setRandomPwd() {
     // console.log(this.userid, this.custDetail.user.userId);
-    let data = {
+    const data = {
       customerId: this.staffDetail.user.userId
     };
     this._service.setRandomPassword(this.regionID, data).subscribe(
@@ -855,5 +857,26 @@ export class UserStaffComponent implements OnInit {
       }
     );
   }
-  jj = false;
+  userArchive = false;
+
+  staffArchive(archive) {
+    this.userArchive = archive;
+    let customerId = this.staffDetail.user.userId;
+    let isArchive = archive;
+    isArchive = this.userArchive;
+    let regionId = this.regionID;
+    const tempData = {
+      customerId,
+      isArchive,
+      regionId
+    };
+    this._service.userArchive(tempData).subscribe(
+      res => {
+        console.error(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
 }

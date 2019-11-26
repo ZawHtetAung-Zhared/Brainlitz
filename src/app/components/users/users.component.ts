@@ -1016,6 +1016,7 @@ export class UsersComponent implements OnInit {
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
+        this.userArchive = res.user.isArchive;
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker')
             info.value = moment(info.value).format('YYYY-MM-DD');
@@ -2439,5 +2440,26 @@ export class UsersComponent implements OnInit {
       }
     );
   }
-  jj = false;
+  userArchive = false;
+
+  staffArchive(archive) {
+    this.userArchive = archive;
+    let customerId = this.custDetail.user.userId;
+    let isArchive = archive;
+    isArchive = this.userArchive;
+    let regionId = this.regionID;
+    const tempData = {
+      customerId,
+      isArchive,
+      regionId
+    };
+    this._service.userArchive(tempData).subscribe(
+      res => {
+        console.error(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
 }

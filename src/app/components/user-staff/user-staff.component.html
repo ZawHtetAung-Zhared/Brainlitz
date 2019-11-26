@@ -133,17 +133,21 @@
         <div class="ml-auto d-flex align-items-center">
           <div
             class="d-flex auto-enroll align-items-center justify-content-between"
-            [ngClass]="{ autoEnrollTrue: jj }"
+            [ngClass]="{ autoEnrollTrue: userArchive }"
           >
-            <label class="switch-label mt-0" for="online" *ngIf="jj"
+            <label class="switch-label mt-0" for="online" *ngIf="userArchive"
               >Archive</label
             >
-            <label class="switch-label mt-0" for="online" *ngIf="!jj"
+            <label class="switch-label mt-0" for="online" *ngIf="!userArchive"
               >Unarchive</label
             >
             <div class="toggle-wrap d-flex align-items-center mr-2 ">
-              <label class="switch" *ngIf="jj" style="margin-top: 8px;">
-                <input type="button" (click)="jj = !jj" />
+              <label
+                class="switch"
+                *ngIf="userArchive"
+                style="margin-top: 8px;"
+              >
+                <input type="button" (click)="staffArchive(false)" />
                 <span
                   class="slider round"
                   [ngClass]="{
@@ -151,8 +155,12 @@
                   }"
                 ></span>
               </label>
-              <label *ngIf="!jj" class="switch" style="margin-top: 8px;">
-                <input type="button" (click)="jj = !jj" />
+              <label
+                *ngIf="!userArchive"
+                class="switch"
+                style="margin-top: 8px;"
+              >
+                <input type="button" (click)="staffArchive(true)" />
                 <span class="slider round"></span>
               </label>
             </div>
