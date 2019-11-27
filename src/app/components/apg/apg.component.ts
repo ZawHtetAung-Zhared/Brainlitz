@@ -147,9 +147,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymax: boolean = true;
   overmin: boolean = true;
   showDp: boolean = false;
-  public selectedLocationColor = {
+  public selectedDataColor = {
     text: '#544600',
     background: '#FFE04D'
+  };
+  public selectedDataPattel = {
+    text: '#594a00',
+    background: '#fff4bf'
   };
   public isShowPicker: boolean = false;
   public colorWrapper = {};
@@ -202,6 +206,52 @@ export class ApgComponent implements OnInit, OnDestroy {
       }
     }
   ];
+
+  public colorPalette = [
+    {
+      name: '1',
+      color: {
+        text: '#803500',
+        background: '#ffe9d9'
+      }
+    },
+    {
+      name: '2',
+      color: {
+        text: '#594a00',
+        background: '#fff4bf'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005934',
+        background: '#ccffea'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#004080',
+        background: '#cce6ff'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#6600cc',
+        background: '#f2e6ff'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#990066',
+        background: '#ffe6f6'
+      }
+    }
+  ];
+
   constructor(
     private modalService: NgbModal,
     private _service: appService,
@@ -1595,6 +1645,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   createDataApg() {
     // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
     // this.optionsArray = [];
+    console.log('create data ap');
     this.createDataAccessPoint()
       .then(apId => {
         var moduleId = localStorage.getItem('moduleID');
@@ -1602,7 +1653,9 @@ export class ApgComponent implements OnInit, OnDestroy {
           name: this.model.name,
           description: '',
           moduleId: moduleId,
-          accessPoints: [apId]
+          accessPoints: [apId],
+          color: this.selectedDataPattel,
+          sepalColor: this.selectedDataColor
         };
         this._service
           .createAPG(this.regionID, this.locationID, apg, null, moduleId)
@@ -1632,6 +1685,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('not data apg');
     }
+    console.log('model', this.model);
     // ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve, reject) => {
       this._service.updateAP(this.regionID, apId, ap).subscribe((res: any) => {
@@ -3065,8 +3119,11 @@ export class ApgComponent implements OnInit, OnDestroy {
   selectColor(i, item) {
     console.log(i, '<i>');
     console.log(item, 'item');
-    this.selectedLocationColor.background = item.color.background;
-    this.selectedLocationColor.text = item.color.text;
+    this.selectedDataColor.background = item.color.background;
+    this.selectedDataColor.text = item.color.text;
+    this.selectedDataPattel.background = this.colorPalette[i].color.background;
+    this.selectedDataPattel.text = this.colorPalette[i].color.text;
+
     this.isShowPicker = false;
   }
 }
