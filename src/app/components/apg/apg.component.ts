@@ -2851,6 +2851,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   downloadFile(res, name) {
     var csvData = this.ConvertToCSV(res);
+    console.log(csvData);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);

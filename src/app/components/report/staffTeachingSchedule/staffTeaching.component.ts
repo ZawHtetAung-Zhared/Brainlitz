@@ -828,10 +828,12 @@ export class StaffTeachingScheduleReport implements OnInit {
       String(new Date(this.endDate).getDate()).padStart(2, '0');
     let filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
 
+    // this.downloadFile(sampleCSV.teachingHours, filename);
     this._service
       .getTeachingHours(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
+          console.log(res);
           this.downloadFile(res.teachingHours, filename);
         },
         err => {
@@ -856,28 +858,34 @@ export class StaffTeachingScheduleReport implements OnInit {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
     var str = '';
-    var row = 'Staff name,Email,Course name,Lessons,Total teaching hours';
+    var row =
+      'Category,Course Plan,Course,Staff Name,Lesson Date,Time,Duration';
     //append Label row with line break
     str += row + '\r\n';
 
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var tempObject = {};
-      tempObject['staffName'] = '"' + array[i].staffPreferredName + '"';
-      tempObject['staffEmail'] = '"' + array[i].staffEmail + '"';
-      tempObject['courseName'] = '"' + array[i].courseName + '"';
-      if (array[i].lessonDate.length > 0) {
-        var lessonData = '';
-        var lessonArr = array[i].lessonDate;
-        for (var j = 0; j < lessonArr.length; j++) {
-          if (lessonData != '') lessonData += ', ';
-          lessonData += lessonArr[j];
-        }
-        tempObject['lessons'] = '"' + lessonData + '"';
-      } else {
-        tempObject['lessons'] = '';
-      }
-      tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
+      tempObject['category'] = array[i].category;
+      tempObject['coursePlan'] = array[i].coursePlan;
+      tempObject['course'] = array[i].course;
+      tempObject['staffPreferredName'] = array[i].staffPreferredName;
+      tempObject['lessonDate'] = array[i].lessonDate;
+      tempObject['time'] = array[i].time;
+      tempObject['Duration'] = array[i].Duration;
+
+      // if (array[i].lessonDate.length > 0) {
+      //   var lessonData = '';
+      //   var lessonArr = array[i].lessonDate;
+      //   for (var j = 0; j < lessonArr.length; j++) {
+      //     if (lessonData != '') lessonData += ', ';
+      //     lessonData += lessonArr[j];
+      //   }
+      //   tempObject['lessons'] = '"' + lessonData + '"';
+      // } else {
+      //   tempObject['lessons'] = '';
+      // }
+      // tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
 
       for (var index in tempObject) {
         if (line != '') line += ',';
