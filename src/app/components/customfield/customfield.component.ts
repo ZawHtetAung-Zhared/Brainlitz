@@ -82,13 +82,16 @@ export class CustomfieldComponent implements OnInit {
   }
 
   focusMethod(e, status, word) {
-    console.log('hi', e);
+    console.log('hi', e, status);
     if (status == 'name') {
       this.wordLength = word.length;
       $('.limit-wordcount').show('slow');
-    } else {
+    } else if (status == 'sub') {
       this.wordLength = word.length;
       $('.limit-wordcount1').show('slow');
+    } else {
+      this.wordLength = word.length;
+      $('.limit-wordcount2').show('slow');
     }
   }
 
@@ -96,8 +99,10 @@ export class CustomfieldComponent implements OnInit {
     console.log('blur', e);
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
-    } else {
+    } else if (status == 'sub') {
       $('.limit-wordcount1').hide('slow');
+    } else {
+      $('.limit-wordcount2').hide('slow');
     }
     this.wordLength = 0;
   }

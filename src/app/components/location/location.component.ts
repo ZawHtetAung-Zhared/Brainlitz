@@ -290,7 +290,7 @@ export class LocationComponent implements OnInit {
     this.isvalid = false;
     this.isrequired = true;
     this.model = {};
-    $('body').append(
+    $('#placeholder_color').append(
       "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
         this.selectedLocationColor.text +
         ' !important;}</style>'
@@ -559,7 +559,7 @@ export class LocationComponent implements OnInit {
     this.selectedLocationColor.background = item.color.background;
     this.selectedLocationColor.text = item.color.text;
     $('#feedback').remove();
-    $('body').append(
+    $('#placeholder_color').append(
       "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
         this.selectedLocationColor.text +
         ' !important;}</style>'
