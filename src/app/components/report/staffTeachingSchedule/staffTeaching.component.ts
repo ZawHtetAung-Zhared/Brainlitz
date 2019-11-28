@@ -118,14 +118,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     //   alwaysShowCalendars: true
     // };
 
-    var start = new Date();
-    start.setHours(0, 0, 0, 0);
+    var today = moment(new Date()).format('YYYY-MM-DD');
 
-    var end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    this.startDate = start.toISOString();
-    this.endDate = end.toISOString();
+    this.startDate = new Date(today).toISOString();
+    this.endDate = new Date(today + 'T23:59:59.999Z').toISOString();
     this.options = {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -751,8 +747,14 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   applyDateRange(evt) {
-    this.startDate = new Date(evt.picker.startDate).toISOString();
-    this.endDate = new Date(evt.picker.endDate).toISOString();
+    // this.startDate = new Date(evt.picker.startDate).toISOString();
+    // this.endDate = new Date(evt.picker.endDate).toISOString();
+    this.startDate = new Date(
+      evt.picker.startDate.format('YYYY-MM-DD')
+    ).toISOString();
+    this.endDate = new Date(
+      evt.picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999Z'
+    ).toISOString();
     switch (this.groupBy) {
       case 'location':
         this.showReportByLocation();
@@ -814,26 +816,18 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   exportCSV() {
-    var sDate =
-      new Date(this.startDate).getFullYear() +
-      '-' +
-      String(new Date(this.startDate).getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(new Date(this.startDate).getDate()).padStart(2, '0');
-    var eDate =
-      new Date(this.endDate).getFullYear() +
-      '-' +
-      String(new Date(this.endDate).getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(new Date(this.endDate).getDate()).padStart(2, '0');
-    let filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
+    var sDate = this.startDate.split('T')[0];
+    var eDate = this.endDate.split('T')[0];
+    let filename;
+    if (sDate == eDate) {
+      filename = 'staff-teaching-hours-' + sDate;
+    } else filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
 
     // this.downloadFile(sampleCSV.teachingHours, filename);
     this._service
       .getTeachingHours(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
-          console.log(res);
           this.downloadFile(res.teachingHours, filename);
         },
         err => {
