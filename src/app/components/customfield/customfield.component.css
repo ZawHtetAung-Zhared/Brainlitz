@@ -421,11 +421,11 @@ p.switchTxt {
 
 .handle {
   margin: 0;
-  padding: 0px 10px 0px 0px;
+  padding: 16px 10px 0px 0px;
   /* position: absolute; */
   /* height: 32px; */
-  top: 50%;
-  transform: translate(0, -50%);
+  /* top: 50%;
+  transform: translate(0, -50%);*/
   cursor: all-scroll;
   /* background-image: url(../../../assets/images/single-holder.svg); */
 }
