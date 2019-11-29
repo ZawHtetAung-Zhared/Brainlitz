@@ -79,7 +79,7 @@
 
 .btn-wrap.no-item {
   padding-top: 10px;
-  padding-left: 10px;
+  /*padding-left: 10px;*/
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;
   font-size: 15px;

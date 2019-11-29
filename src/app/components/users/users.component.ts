@@ -383,6 +383,7 @@ export class UsersComponent implements OnInit {
         this.goCreateForm('edit');
         if (res.email && res.email.length > 0) {
           this.customerEmail = true;
+          this.personalMail = true;
         } else {
           this.customerEmail = false;
         }
@@ -417,7 +418,7 @@ export class UsersComponent implements OnInit {
         testArray = [];
       });
       this.customFields = res.userInfoPermitted;
-
+      console.error(this.customFields, 'custom fields');
       for (var i = 0; i < this.customFields.length; i++) {
         console.log('^^i', this.customFields[i]);
         var fieldName = this.customFields[i].name.toLowerCase();
@@ -432,7 +433,7 @@ export class UsersComponent implements OnInit {
           var test = this.formFieldc.details.filter(
             item => item.permittedUserInfoId == findId
           );
-          console.log('Test', test);
+          console.error('Test', test);
           if (test.length > 0) {
             console.log('value', test[0].value);
             // var dateTime = test[0].value;
@@ -1015,6 +1016,7 @@ export class UsersComponent implements OnInit {
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
+        this.userArchive = res.user.isArchive;
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker')
             info.value = moment(info.value).format('YYYY-MM-DD');
@@ -2435,6 +2437,28 @@ export class UsersComponent implements OnInit {
       err => {
         console.error(err);
         this.toastr.error('Fail to set new password.');
+      }
+    );
+  }
+  userArchive = false;
+
+  staffArchive(archive) {
+    this.userArchive = archive;
+    let customerId = this.custDetail.user.userId;
+    let isArchive = archive;
+    isArchive = this.userArchive;
+    let regionId = this.regionID;
+    const tempData = {
+      customerId,
+      isArchive,
+      regionId
+    };
+    this._service.userArchive(tempData).subscribe(
+      res => {
+        console.error(res);
+      },
+      err => {
+        console.error(err);
       }
     );
   }

@@ -66,21 +66,26 @@ export class RescheduleComponent implements OnInit {
         this.reScheduleLists[i].endDate,
         'yyyy-MM-dd'
       );
-      //past or future depend on today date
-      if (todayDate < endDate) {
-        //this is past date
-        this.reScheduleLists[i].isAvaiable = true; //this is future isAvaiable 'true'
-        //this method call the load more function if loadmore 'false' this condition is working
-        if (loadmore == false) {
-          this.avaiableLessonsCount += 1; //this for default lessons count
-          this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
-        }
-      } else {
-        this.reScheduleLists[i].isAvaiable = false; //this is past isAvaiable 'false'
-        if (loadmore == false) {
-          this.unavaiableLessons.push(this.reScheduleLists[i]);
-        }
+      this.reScheduleLists[i].isAvaiable = true;
+      if (loadmore == false) {
+        this.avaiableLessonsCount += 1; //this for default lessons count
+        this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
       }
+      //past or future depend on today date
+      // if (todayDate < endDate) {
+      //   //this is past date
+      //   this.reScheduleLists[i].isAvaiable = true; //this is future isAvaiable 'true'
+      //   //this method call the load more function if loadmore 'false' this condition is working
+      //   if (loadmore == false) {
+      //     this.avaiableLessonsCount += 1; //this for default lessons count
+      //     this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
+      //   }
+      // } else {
+      //   this.reScheduleLists[i].isAvaiable = false; //this is past isAvaiable 'false'
+      //   if (loadmore == false) {
+      //     this.unavaiableLessons.push(this.reScheduleLists[i]);
+      //   }
+      // }
       if (loadmore == false) {
         this.lessonObjArr.push(this.reScheduleLists[i]);
         this.checkObjArr.emit(this.lessonObjArr);
@@ -91,6 +96,8 @@ export class RescheduleComponent implements OnInit {
       }
       // this.reScheduleLists[i].re_id=i;
     }
+    console.log(this.reScheduleLists, 'reschedule list');
+
     console.log(this.lessonObjArr, 'lessonObjArr');
   }
 

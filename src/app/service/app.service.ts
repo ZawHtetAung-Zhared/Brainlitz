@@ -3974,4 +3974,20 @@ export class appService {
       return res;
     });
   }
+  userArchive(data) {
+    let url =
+      this.baseUrl +
+      '/users/' +
+      `${localStorage.getItem('userId')}` +
+      '/archive-user';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
