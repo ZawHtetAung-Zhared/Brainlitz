@@ -83,7 +83,11 @@
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <div><label class="staff-label">Staff</label></div>
+            <div>
+              <label class="staff-label" *ngIf="staff.permission">{{
+                staff.permission.name
+              }}</label>
+            </div>
             <h5>
               {{
                 staff.preferredName.length > 20
