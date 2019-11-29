@@ -174,7 +174,7 @@ export class UserStaffComponent implements OnInit {
   }
 
   getSingleUser(ID) {
-    console.log(this.formFields.details, this.formFields.permission);
+    console.log(this.formFields.details);
     this._service.editProfile(this.regionID, ID).subscribe(
       (res: any) => {
         console.log('SingleUser', res);
@@ -350,7 +350,9 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          this.formFields.permission = '5b9b71a899be7256ea1b692f';
+          this.formFields.permission = this.staffObj.permission._id;
+          if (this.formFields.permission) this.permissionCount = true;
+          else this.permissionCount = false;
           console.log(this.formFields.details, this.customFields);
         }
       }
