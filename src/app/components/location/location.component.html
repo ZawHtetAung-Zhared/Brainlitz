@@ -150,7 +150,7 @@
           </div>
           <div
             *ngIf="name.errors && (name.dirty || name.touched)"
-            class="alert alert-danger"
+            class="alert alert-danger z-index"
           >
             <div [hidden]="!name.errors.required">
               Name is required!
@@ -177,39 +177,41 @@
         </div>
         <div class="form-group form-divider">
           <label class="form-title" for="address">Telephone</label>
-          <div class="coun-code">+{{ countrycode }}</div>
-          <input
-            *ngIf="isUpdate == false"
-            style="width: 90%;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-            type="tel"
-            class="form-control"
-            name="phoneNumber"
-            [(ngModel)]="model.phonenumber"
-            #phoneNumber="ngModel"
-            ng2TelInput
-            (intlTelInputObject)="telInputObject($event)"
-            (hasError)="hasError($event)"
-            [ng2TelInputOptions]="{ initialCountry: 'mm' }"
-            (countryChange)="onCountryChange($event)"
-            (ng2TelOutput)="getNumber($event)"
-            (input)="onSearchChange($event.target.value, $event)"
-            (input)="charCheck($event.target.value)"
-          />
-          <input
-            *ngIf="isUpdate == true"
-            style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
-            type="tel"
-            class="form-control"
-            name="phoneNumber"
-            [(ngModel)]="model.phonenumber"
-            #phoneNumber="ngModel"
-            ng2TelInput
-            (intlTelInputObject)="telInputObject($event)"
-            (hasError)="hasError($event)"
-            (countryChange)="onCountryChange($event)"
-            (ng2TelOutput)="getNumber($event)"
-            (input)="charCheck($event.target.value)"
-          />
+          <div class="tel-box">
+            <div class="coun-code">+{{ countrycode }}</div>
+            <input
+              *ngIf="isUpdate == false"
+              style="width: 90%;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+              type="tel"
+              class="form-control"
+              name="phoneNumber"
+              [(ngModel)]="model.phonenumber"
+              #phoneNumber="ngModel"
+              ng2TelInput
+              (intlTelInputObject)="telInputObject($event)"
+              (hasError)="hasError($event)"
+              [ng2TelInputOptions]="{ initialCountry: 'mm' }"
+              (countryChange)="onCountryChange($event)"
+              (ng2TelOutput)="getNumber($event)"
+              (input)="onSearchChange($event.target.value, $event)"
+              (input)="charCheck($event.target.value)"
+            />
+            <input
+              *ngIf="isUpdate == true"
+              style="width: 170px;margin-left: 100px;border-left: 1px solid #ddd; border-radius: 0; padding-left: 8px;"
+              type="tel"
+              class="form-control"
+              name="phoneNumber"
+              [(ngModel)]="model.phonenumber"
+              #phoneNumber="ngModel"
+              ng2TelInput
+              (intlTelInputObject)="telInputObject($event)"
+              (hasError)="hasError($event)"
+              (countryChange)="onCountryChange($event)"
+              (ng2TelOutput)="getNumber($event)"
+              (input)="charCheck($event.target.value)"
+            />
+          </div>
           <!-- {{isrequired}} -->
           <!-- <div [hidden]="isrequired == true" class="alert alert-danger">
               <div>
@@ -305,3 +307,4 @@
     </button>
   </div>
 </ng-template>
+<div id="placeholder_color"></div>

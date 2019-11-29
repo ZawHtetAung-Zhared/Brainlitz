@@ -186,7 +186,33 @@
           ></i
           ><span>Customers</span>
         </div>
-        <div class="ml-auto">
+        <div class="ml-auto d-flex align-items-center">
+          <div
+            class="d-flex auto-enroll align-items-center justify-content-between"
+            [ngClass]="{ autoEnrollTrue: userArchive }"
+          >
+            <label class="switch-label mt-0" for="online" *ngIf="userArchive"
+              >Archive</label
+            >
+            <label class="switch-label mt-0" for="online" *ngIf="!userArchive"
+              >Unarchive</label
+            >
+            <div class="toggle-wrap d-flex align-items-center">
+              <label class="switch" *ngIf="userArchive">
+                <input type="button" (click)="staffArchive(false)" />
+                <span
+                  class="slider round"
+                  [ngClass]="{
+                    'checked-slider': true
+                  }"
+                ></span>
+              </label>
+              <label *ngIf="!userArchive" class="switch">
+                <input type="button" (click)="staffArchive(true)" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
           <span
             *ngIf="customerDemo.editCustomer != ''"
             class="back"
@@ -1935,7 +1961,12 @@
               <button
                 class="btn sent-randon-psw cursor-on"
                 (click)="setRandomPwd()"
-                [disabled]="customerEmail == false"
+                [disabled]="
+                  formFieldc.email == undefined ||
+                  formFieldc.email == '' ||
+                  sameMail ||
+                  !personalMail
+                "
               >
                 Sent random password
               </button>
@@ -3299,6 +3330,34 @@
       </button>
       <button
         style="background: #FF3D33!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmJournalDelete()"
+      >
+        Yes
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #archive_modal>
+    <h3 class="modal-title enroll_title">
+      Confirm archive?
+    </h3>
+    <div class="autoEnroll-body">
+      <p>
+        Are you sure you want to archive?
+      </p>
+    </div>
+    <div class="modal-footer autoEnroll-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelAutoEnroll()"
+      >
+        Cancel
+      </button>
+      <button
+        style="background: #1682fb!important;"
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmJournalDelete()"
