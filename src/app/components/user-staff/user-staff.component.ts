@@ -350,7 +350,7 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          this.formFields.permission = '5b9b706ee235ad03e159af53';
+          this.formFields.permission = '5b9b71a899be7256ea1b692f';
           console.log(this.formFields.details, this.customFields);
         }
       }
@@ -484,8 +484,8 @@ export class UserStaffComponent implements OnInit {
     if (state == 'create' || this.isPasswordChange == true) {
       objData.append('password', obj.password);
     }
+    objData.append('location', JSON.stringify(locationObj));
     if (state == 'create') {
-      objData.append('location', JSON.stringify(locationObj));
       const getImg = document.getElementById('blobUrl');
       this.img =
         getImg != undefined

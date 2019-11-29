@@ -290,6 +290,11 @@ export class LocationComponent implements OnInit {
     this.isvalid = false;
     this.isrequired = true;
     this.model = {};
+    $('#placeholder_color').append(
+      "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
+        this.selectedLocationColor.text +
+        ' !important;}</style>'
+    );
   }
 
   back() {
@@ -553,6 +558,12 @@ export class LocationComponent implements OnInit {
     console.log(item, 'item');
     this.selectedLocationColor.background = item.color.background;
     this.selectedLocationColor.text = item.color.text;
+    $('#feedback').remove();
+    $('#placeholder_color').append(
+      "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
+        this.selectedLocationColor.text +
+        ' !important;}</style>'
+    );
   }
 
   caculatePosition(e) {
