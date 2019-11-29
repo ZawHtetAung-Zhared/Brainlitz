@@ -66,12 +66,12 @@
         <span
           class="col-md-10 location"
           [ngStyle]="{
-            color: course?.location.textColorHex,
-            background: course?.location.backgroundColorHex
+            color: course?.location?.textColorHex,
+            background: course?.location?.backgroundColorHex
           }"
         >
           <i class="fa fa-map-marker"></i>
-          {{ course?.location.name }}
+          {{ course?.location?.name }}
         </span>
         <div
           class="col-md-12 title p-0 pt-1"
