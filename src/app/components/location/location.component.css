@@ -415,3 +415,6 @@ input::placeholder {
   position: relative;
   top: -20px;
 }
+.z-index {
+  z-index: -1;
+}
