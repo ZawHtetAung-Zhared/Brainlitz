@@ -2948,8 +2948,8 @@ export class ApgComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('report json', res);
         if (res.length > 0) {
-          console.log('download file');
-          this.downloadFile(res, apgName);
+          console.log('download file', res);
+          // this.downloadFile(res, apgName);
         } else {
           console.log('no report');
           this.toastr.error('There is no report for csv export');
