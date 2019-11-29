@@ -118,10 +118,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     //   alwaysShowCalendars: true
     // };
 
-    var today = moment(new Date()).format('YYYY-MM-DD');
-
-    this.startDate = new Date(today).toISOString();
-    this.endDate = new Date(today + 'T23:59:59.999Z').toISOString();
+    this.startDate = new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString();
+    this.endDate = new Date(
+      new Date().setUTCHours(23, 59, 59, 999)
+    ).toISOString();
     this.options = {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
