@@ -3221,7 +3221,7 @@
                 <p class="lesson" *ngIf="invoice.studentLessons != undefined">
                   {{ invoice.studentLessons.length }} lessons
                 </p>
-                <span
+                <!-- <span
                   class="date"
                   *ngIf="
                     detailLists.duration != undefined &&
@@ -3231,6 +3231,21 @@
                 >
                   {{ detailLists.duration.startDate | utcDate }} -
                   {{ detailLists.duration.endDate | utcDate }}
+                </span> -->
+                <span
+                  class="date"
+                  *ngIf="
+                    invoice.studentLessons != undefined &&
+                    invoice.studentLessons[0]?.startDate != undefined &&
+                    invoice.studentLessons[invoice.studentLessons?.length - 1]
+                      .endDate != undefined
+                  "
+                >
+                  {{ invoice.studentLessons[0].startDate | utcDate }} -
+                  {{
+                    invoice.studentLessons[invoice.studentLessons?.length - 1]
+                      .endDate | utcDate
+                  }}
                 </span>
                 <label class="payment-courseinvoice">Payment date</label>
                 <p class="date1">
