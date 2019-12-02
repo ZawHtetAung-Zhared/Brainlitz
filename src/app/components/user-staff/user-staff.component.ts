@@ -179,6 +179,7 @@ export class UserStaffComponent implements OnInit {
       (res: any) => {
         console.log('SingleUser', res);
         this.formFields = res;
+        this.formFields.permission = res.location[0].permissionId;
         this.isupdate = true;
         this.returnProfile = res.profilePic;
         // console.log('~~~', this.returnProfile)
@@ -350,10 +351,11 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          this.formFields.permission = this.staffObj.permission._id;
-          if (this.formFields.permission) this.permissionCount = true;
-          else this.permissionCount = false;
-          console.log(this.formFields.details, this.customFields);
+          console.log(
+            this.formFields.details,
+            this.customFields,
+            this.formFields.permission
+          );
         }
       }
     });
