@@ -753,7 +753,12 @@ export class StaffTeachingScheduleReport implements OnInit {
       evt.picker.startDate.format('YYYY-MM-DD')
     ).toISOString();
     this.endDate = new Date(
-      evt.picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999Z'
+      new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
     ).toISOString();
     switch (this.groupBy) {
       case 'location':
