@@ -2996,14 +2996,14 @@ export class ApgComponent implements OnInit, OnDestroy {
       apgObject['teacherName'] = array[i].teacher.preferredName || ' ';
       apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
       apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
-      apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['classStartTime'] = array[i].classStartTime.replace(/,/g, ' ');
       apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
       apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
-      apgObject['result'] = array[i].results.replace(/,/g, ' ');
+      apgObject['result'] = array[i].results || ' ';
       apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
-      apgObject['previousGrade'] = array[i].previousGrade || '-';
-      apgObject['currentGrade'] = array[i].currentGrade || '-';
-      apgObject['gradeResult'] = array[i].gradeResult || '-';
+      apgObject['previousGrade'] = array[i].previousGrade.replace(/,/g, ' ');
+      apgObject['currentGrade'] = array[i].currentGrade.replace(/,/g, ' ');
+      apgObject['gradeResult'] = array[i].gradeResult.replace(/,/g, ' ');
       for (var index in apgObject) {
         if (line != '') line += ',';
         line += apgObject[index];
