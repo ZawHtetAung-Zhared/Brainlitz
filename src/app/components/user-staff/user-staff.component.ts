@@ -174,11 +174,12 @@ export class UserStaffComponent implements OnInit {
   }
 
   getSingleUser(ID) {
-    console.log(this.formFields.details, this.formFields.permission);
+    console.log(this.formFields.details);
     this._service.editProfile(this.regionID, ID).subscribe(
       (res: any) => {
         console.log('SingleUser', res);
         this.formFields = res;
+        this.formFields.permission = res.location[0].permissionId;
         this.isupdate = true;
         this.returnProfile = res.profilePic;
         // console.log('~~~', this.returnProfile)
@@ -350,8 +351,11 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          this.formFields.permission = '5b9b71a899be7256ea1b692f';
-          console.log(this.formFields.details, this.customFields);
+          console.log(
+            this.formFields.details,
+            this.customFields,
+            this.formFields.permission
+          );
         }
       }
     });

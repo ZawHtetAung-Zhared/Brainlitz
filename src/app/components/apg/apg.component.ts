@@ -2948,7 +2948,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('report json', res);
         if (res.length > 0) {
-          console.log('download file');
           this.downloadFile(res, apgName);
         } else {
           console.log('no report');
@@ -2985,7 +2984,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // }
     // row = row.slice(0, -1);
     row =
-      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date';
+      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date,Previous Grade,Current Grade,Grade Result';
     //append Label row with line break
     str += row + '\r\n';
     // console.log(str);
@@ -2993,16 +2992,18 @@ export class ApgComponent implements OnInit, OnDestroy {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var apgObject = {};
-      apgObject['studentName'] = array[i].student.preferredName;
-      apgObject['teacherName'] = array[i].teacher.preferredName;
+      apgObject['studentName'] = array[i].student.preferredName || ' ';
+      apgObject['teacherName'] = array[i].teacher.preferredName || ' ';
       apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
       apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
-      apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['classStartTime'] = array[i].classStartTime.replace(/,/g, ' ');
       apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
       apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
-      apgObject['result'] = array[i].results;
+      apgObject['result'] = array[i].results || ' ';
       apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
-      console.log(apgObject);
+      apgObject['previousGrade'] = array[i].previousGrade.replace(/,/g, ' ');
+      apgObject['currentGrade'] = array[i].currentGrade.replace(/,/g, ' ');
+      apgObject['gradeResult'] = array[i].gradeResult.replace(/,/g, ' ');
       for (var index in apgObject) {
         if (line != '') line += ',';
         line += apgObject[index];
