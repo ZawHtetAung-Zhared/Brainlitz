@@ -138,14 +138,11 @@ export class StaffPerformanceReport implements OnInit {
     //   locale: { format: 'ddd, DD MMM YYYY' },
     //   alwaysShowCalendars: true
     // };
-    var start = new Date();
-    start.setHours(0, 0, 0, 0);
 
-    var end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    this.startDate = start.toISOString();
-    this.endDate = end.toISOString();
+    this.startDate = new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString();
+    this.endDate = new Date(
+      new Date().setUTCHours(23, 59, 59, 999)
+    ).toISOString();
     this.options = {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -1436,8 +1433,19 @@ export class StaffPerformanceReport implements OnInit {
     this.modalReference.close();
   }
   applyDateRange(evt) {
-    this.startDate = new Date(evt.picker.startDate).toISOString();
-    this.endDate = new Date(evt.picker.endDate).toISOString();
+    // this.startDate = new Date(evt.picker.startDate).toISOString();
+    // this.endDate = new Date(evt.picker.endDate).toISOString();
+    this.startDate = new Date(
+      evt.picker.startDate.format('YYYY-MM-DD')
+    ).toISOString();
+    this.endDate = new Date(
+      new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
     switch (this.groupBy) {
       case 'location':
         this.showReportByLocation();
