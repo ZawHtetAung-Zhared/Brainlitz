@@ -2285,9 +2285,10 @@ input[type='number']::-webkit-outer-spin-button {
 
 .from,
 .date {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
-
   display: inline;
+}
+.form {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 }
 
 .message-img {
