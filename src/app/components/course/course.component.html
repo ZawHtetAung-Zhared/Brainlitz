@@ -3223,6 +3223,8 @@
                 </p>
                 <!-- <span
                   class="date"
+                <span
+                  class="date pt-2"
                   *ngIf="
                     detailLists.duration != undefined &&
                     detailLists.duration.startDate != undefined &&
@@ -3275,7 +3277,7 @@
                   </div>
                   <span class="right-arrow"></span>
                 </div>
-                <div class="date" *ngIf="invoice != null; currency">
+                <div class="date pt-2" *ngIf="invoice != null; currency">
                   <span class="currency date">{{ invoice.currency.sign }}</span>
                   {{ invoice.total }}
                 </div>
