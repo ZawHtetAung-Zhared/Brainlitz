@@ -780,6 +780,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.model = {};
     this.ismodule = true;
     this.isUpdate = false;
+
+    $('#placeholder_color').append(
+      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+        this.selectedDataColor.text +
+        ' !important;}</style>'
+    );
   }
 
   // createNewAPG(status) {
@@ -3127,5 +3133,12 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.selectedDataPattel.text = this.colorPalette[i].color.text;
 
     this.isShowPicker = false;
+
+    $('#feedback').remove();
+    $('#placeholder_color').append(
+      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+        this.selectedDataColor.text +
+        ' !important;}</style>'
+    );
   }
 }
