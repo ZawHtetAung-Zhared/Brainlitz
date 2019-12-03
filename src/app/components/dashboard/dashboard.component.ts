@@ -665,20 +665,30 @@ export class DashboardComponent implements OnInit {
 
   //for Auto-enroll setting
   isEnrollEdit = false;
-  enroll = '';
-  tempEnroll: any;
+  enroll = 0;
+  tempSchedule: any = {
+    enroll: 0,
+    beforeD: 0,
+    overD: 0
+  };
+  isAuto = false;
   editEnroll(value) {
+    if (this.enroll > 0) this.isAuto = true;
+    else this.isAuto = false;
     this.isEnrollEdit = true;
-    this.tempEnroll = this.enroll;
+    this.tempSchedule.enroll = this.enroll;
+    this.tempSchedule.beforeD = this.invoiceData.beforeDue;
+    this.tempSchedule.overD = this.invoiceData.overDue;
   }
   updateEnroll() {
+    this.updateInvoice(this.invoiceData, 'invoice');
     let data = { autoEnrolDay: this.enroll };
-    this.blockUIAutoEnrol.start('Updating auto enrollment setting...');
+    // this.blockUIAutoEnrol.start('Updating auto enrollment setting...');
     setTimeout(() => {
       this._service.setAutoEnrol(this.regionId, data).subscribe(
         (res: any) => {
           console.log(res);
-          this.blockUIAutoEnrol.stop();
+          // this.blockUIAutoEnrol.stop();
           this.toastr.success('Successfully Updated.');
           this.isEnrollEdit = false;
         },
@@ -689,8 +699,16 @@ export class DashboardComponent implements OnInit {
     }, 100);
   }
   closeEnroll() {
-    this.enroll = this.tempEnroll;
+    this.enroll = this.tempSchedule.enroll;
+    this.invoiceData.beforeDue = this.tempSchedule.beforeD;
+    this.invoiceData.overDue = this.tempSchedule.overD;
     this.isEnrollEdit = false;
+  }
+  autoEnrollSwitch() {
+    this.isAuto = !this.isAuto;
+    if (!this.isAuto) this.enroll = 0;
+    else if (this.tempSchedule.enroll == 0) this.enroll = 30;
+    else this.enroll = this.tempSchedule.enroll;
   }
   //end for Auto-enroll setting
 
