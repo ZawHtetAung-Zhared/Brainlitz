@@ -2406,6 +2406,7 @@ span.point {
   border-radius: 4px;
   right: 14px;
   top: 90px;
+  z-index: 1;
 }
 
 .carret-box,
