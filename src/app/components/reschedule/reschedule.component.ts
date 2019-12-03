@@ -67,7 +67,7 @@ export class RescheduleComponent implements OnInit {
         'yyyy-MM-dd'
       );
       this.reScheduleLists[i].isAvaiable = true;
-      if (loadmore == false) {
+      if (loadmore == false && this.reScheduleLists[i].isEnrolled) {
         this.avaiableLessonsCount += 1; //this for default lessons count
         this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
       }
