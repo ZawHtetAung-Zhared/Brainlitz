@@ -118,14 +118,10 @@ export class StaffTeachingScheduleReport implements OnInit {
     //   alwaysShowCalendars: true
     // };
 
-    var start = new Date();
-    start.setHours(0, 0, 0, 0);
-
-    var end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    this.startDate = start.toISOString();
-    this.endDate = end.toISOString();
+    this.startDate = new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString();
+    this.endDate = new Date(
+      new Date().setUTCHours(23, 59, 59, 999)
+    ).toISOString();
     this.options = {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -751,8 +747,19 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   applyDateRange(evt) {
-    this.startDate = new Date(evt.picker.startDate).toISOString();
-    this.endDate = new Date(evt.picker.endDate).toISOString();
+    // this.startDate = new Date(evt.picker.startDate).toISOString();
+    // this.endDate = new Date(evt.picker.endDate).toISOString();
+    this.startDate = new Date(
+      evt.picker.startDate.format('YYYY-MM-DD')
+    ).toISOString();
+    this.endDate = new Date(
+      new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
     switch (this.groupBy) {
       case 'location':
         this.showReportByLocation();
@@ -814,20 +821,14 @@ export class StaffTeachingScheduleReport implements OnInit {
   }
 
   exportCSV() {
-    var sDate =
-      new Date(this.startDate).getFullYear() +
-      '-' +
-      String(new Date(this.startDate).getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(new Date(this.startDate).getDate()).padStart(2, '0');
-    var eDate =
-      new Date(this.endDate).getFullYear() +
-      '-' +
-      String(new Date(this.endDate).getMonth() + 1).padStart(2, '0') +
-      '-' +
-      String(new Date(this.endDate).getDate()).padStart(2, '0');
-    let filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
+    var sDate = this.startDate.split('T')[0];
+    var eDate = this.endDate.split('T')[0];
+    let filename;
+    if (sDate == eDate) {
+      filename = 'staff-teaching-hours-' + sDate;
+    } else filename = 'staff-teaching-hours-from-' + sDate + '-to-' + eDate;
 
+    // this.downloadFile(sampleCSV.teachingHours, filename);
     this._service
       .getTeachingHours(this.regionID, this.startDate, this.endDate)
       .subscribe(
@@ -856,28 +857,34 @@ export class StaffTeachingScheduleReport implements OnInit {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
     var str = '';
-    var row = 'Staff name,Email,Course name,Lessons,Total teaching hours';
+    var row =
+      'Category,Course Plan,Course,Staff Name,Lesson Date,Time,Duration';
     //append Label row with line break
     str += row + '\r\n';
 
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var tempObject = {};
-      tempObject['staffName'] = '"' + array[i].staffPreferredName + '"';
-      tempObject['staffEmail'] = '"' + array[i].staffEmail + '"';
-      tempObject['courseName'] = '"' + array[i].courseName + '"';
-      if (array[i].lessonDate.length > 0) {
-        var lessonData = '';
-        var lessonArr = array[i].lessonDate;
-        for (var j = 0; j < lessonArr.length; j++) {
-          if (lessonData != '') lessonData += ', ';
-          lessonData += lessonArr[j];
-        }
-        tempObject['lessons'] = '"' + lessonData + '"';
-      } else {
-        tempObject['lessons'] = '';
-      }
-      tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
+      tempObject['category'] = array[i].category;
+      tempObject['coursePlan'] = array[i].coursePlan;
+      tempObject['course'] = array[i].course;
+      tempObject['staffPreferredName'] = array[i].staffPreferredName;
+      tempObject['lessonDate'] = array[i].lessonDate;
+      tempObject['time'] = array[i].time;
+      tempObject['Duration'] = array[i].Duration;
+
+      // if (array[i].lessonDate.length > 0) {
+      //   var lessonData = '';
+      //   var lessonArr = array[i].lessonDate;
+      //   for (var j = 0; j < lessonArr.length; j++) {
+      //     if (lessonData != '') lessonData += ', ';
+      //     lessonData += lessonArr[j];
+      //   }
+      //   tempObject['lessons'] = '"' + lessonData + '"';
+      // } else {
+      //   tempObject['lessons'] = '';
+      // }
+      // tempObject['totalTeachingHour'] = '"' + array[i].totalTeachingHour + '"';
 
       for (var index in tempObject) {
         if (line != '') line += ',';

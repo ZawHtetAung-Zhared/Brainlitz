@@ -83,7 +83,11 @@
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <div><label class="staff-label">Staff</label></div>
+            <div>
+              <label class="staff-label" *ngIf="staff.permission">{{
+                staff.permission.name
+              }}</label>
+            </div>
             <h5>
               {{
                 staff.preferredName.length > 20
@@ -130,7 +134,41 @@
           ></i
           ><span>Staff</span>
         </div>
-        <div class="ml-auto">
+        <div class="ml-auto d-flex align-items-center">
+          <div
+            class="d-flex auto-enroll align-items-center justify-content-between"
+            [ngClass]="{ autoEnrollTrue: userArchive }"
+          >
+            <label class="switch-label mt-0" for="online" *ngIf="userArchive"
+              >Archive</label
+            >
+            <label class="switch-label mt-0" for="online" *ngIf="!userArchive"
+              >Unarchive</label
+            >
+            <div class="toggle-wrap d-flex align-items-center mr-2 ">
+              <label
+                class="switch"
+                *ngIf="userArchive"
+                style="margin-top: 8px;"
+              >
+                <input type="button" (click)="staffArchive(false)" />
+                <span
+                  class="slider round"
+                  [ngClass]="{
+                    'checked-slider': true
+                  }"
+                ></span>
+              </label>
+              <label
+                *ngIf="!userArchive"
+                class="switch"
+                style="margin-top: 8px;"
+              >
+                <input type="button" (click)="staffArchive(true)" />
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
           <span class="back" (click)="getSingleInfo(editId)">Edit profile</span>
         </div>
       </div>
@@ -536,7 +574,7 @@
             <!-- <input *ngIf="field.dataType == 'Number'" type="number" class="texHeight" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
 						<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea> -->
           </div>
-          <div *ngIf="!isupdate" class="col-md-12 pad-bottom">
+          <div class="col-md-12 pad-bottom">
             <div
               style="border-bottom: 1px solid #e3e4e6;"
               class="form-group"
@@ -553,6 +591,9 @@
                   <label
                     for="{{ user._id }}"
                     style="cursor: pointer; position: relative;"
+                    [ngClass]="{
+                      'radio-bg-active': formFields.permission == user._id
+                    }"
                   >
                     <div class="permission-box permission-name">
                       <input

@@ -283,7 +283,7 @@ ul.recent-lists li:last-child {
   margin-bottom: 0 !important;
 }
 .as-section {
-  position: relative;
+  position: absolute;
   border: 1px solid #eee;
   border-radius: 4px;
   width: 100%;
@@ -663,6 +663,10 @@ ul.data-listing li.disabled {
 .max-range-box:hover,
 .min-range-box:hover {
   background: none;
+}
+.max-range-box,
+.min-range-box {
+  outline: none;
 }
 .as-result {
   border-radius: 16px;
@@ -1304,7 +1308,8 @@ li button {
 .payment-label,
 .invModal-cancel,
 .send-btn,
-.relief-name h5 {
+.relief-name h5,
+.locationTxt {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -1426,10 +1431,12 @@ li button {
   height: 110px;
 }
 
-.cdetail span {
+.cdetail .locationTxt {
   font-size: 16px;
   padding: 3px;
   border-radius: 2px;
+  max-height: 40px;
+  overflow: overlay;
 }
 
 .course-bg:nth-child(1) .cdetail {

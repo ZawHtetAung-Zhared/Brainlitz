@@ -113,6 +113,7 @@ export class AppComponent implements OnInit {
   }
 
   public setTitle(newTitle: string) {
+    console.log('object');
     this.titleService.setTitle(newTitle);
   }
 }

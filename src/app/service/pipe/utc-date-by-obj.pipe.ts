@@ -10,7 +10,14 @@ export class UtcDateByObjPipe implements PipeTransform {
     var year = yearName.toString();
     monthName;
     var utcDateAndDay =
-      getDate.dayOfWeek + ', ' + getDate.day + ' ' + monthName + ' ' + year;
+      getDate.dayOfWeek +
+      ', ' +
+      '0' +
+      getDate.day.slice(-2) +
+      ' ' +
+      monthName +
+      ' ' +
+      year;
     return utcDateAndDay;
   }
 }

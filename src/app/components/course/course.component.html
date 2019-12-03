@@ -1084,13 +1084,9 @@
           >
             <div class="cdetail">
               <p>Location</p>
-              <span
-                [ngStyle]="{
-                  color: detailLists.location.textColorHex,
-                  background: detailLists.location.backgroundColorHex
-                }"
-                >{{ detailLists.location.name }}</span
-              >
+              <p class="locationTxt">
+                {{ detailLists.location.name }}
+              </p>
             </div>
           </div>
           <div
@@ -3219,8 +3215,10 @@
                 <p class="lesson" *ngIf="invoice.studentLessons != undefined">
                   {{ invoice.studentLessons.length }} lessons
                 </p>
-                <span
+                <!-- <span
                   class="date"
+                <span
+                  class="date pt-2"
                   *ngIf="
                     detailLists.duration != undefined &&
                     detailLists.duration.startDate != undefined &&
@@ -3229,6 +3227,21 @@
                 >
                   {{ detailLists.duration.startDate | utcDate }} -
                   {{ detailLists.duration.endDate | utcDate }}
+                </span> -->
+                <span
+                  class="date pt-2"
+                  *ngIf="
+                    invoice.studentLessons != undefined &&
+                    invoice.studentLessons[0]?.startDate != undefined &&
+                    invoice.studentLessons[invoice.studentLessons?.length - 1]
+                      .endDate != undefined
+                  "
+                >
+                  {{ invoice.studentLessons[0].startDate | utcDate }} -
+                  {{
+                    invoice.studentLessons[invoice.studentLessons?.length - 1]
+                      .endDate | utcDate
+                  }}
                 </span>
                 <label class="payment-courseinvoice">Payment date</label>
                 <p class="date1">
@@ -3258,7 +3271,7 @@
                   </div>
                   <span class="right-arrow"></span>
                 </div>
-                <div class="date" *ngIf="invoice != null; currency">
+                <div class="date pt-2" *ngIf="invoice != null; currency">
                   <span class="currency date">{{ invoice.currency.sign }}</span>
                   {{ invoice.total }}
                 </div>
