@@ -1501,7 +1501,7 @@ export class CourseComponent implements OnInit {
       { day: 'Sat', val: 6, checked: false }
     ];
     console.log('~~~~~');
-    console.log(this.showCancelButton);
+    console.error(this.showCancelButton);
     console.log(this.cancelUI);
     console.log(this.cancelUi);
     window.scroll(0, 0);
