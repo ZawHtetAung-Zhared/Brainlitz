@@ -61,7 +61,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
-  public monthlyActiveData: any;
+  // public monthlyActiveData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -147,8 +147,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.monthlyActiveData = res;
-            this.getfilteredData(res);
+            // this.monthlyActiveData = res;
+            this.reportData = this.getfilteredData(res);
           } else {
             this.reportData = [];
           }
@@ -240,8 +240,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    this.reportData = res;
-    // return res;
+    // this.reportData = res;
+    return res;
   }
   updateFilterType(value) {
     if (this.filter.value.length) {
@@ -355,8 +355,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
   }
   applyFilters() {
-    // this.showReport();
-    this.getfilteredData(this.monthlyActiveData);
+    this.showReport();
+    // this.getfilteredData(this.monthlyActiveData);
     this.modalReference.close();
   }
 

@@ -56,9 +56,9 @@ export class CourseActivitiesReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
-  public locationData: any;
-  public categoryData: any;
-  public coursePlanData: any;
+  // public locationData: any;
+  // public categoryData: any;
+  // public coursePlanData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -126,8 +126,8 @@ export class CourseActivitiesReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.locationData = res;
-            this.getFilteredDataGroupByLocation(res);
+            // this.locationData = res;
+            this.reportData = this.getFilteredDataGroupByLocation(res);
             //this.searchResult.value = this.categoryList;
           } else {
             this.reportData = [];
@@ -153,8 +153,8 @@ export class CourseActivitiesReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.categoryData = res;
-            this.getFilteredDataGroupByCategory(res);
+            // this.categoryData = res;
+            this.reportData = this.getFilteredDataGroupByCategory(res);
           } else {
             this.reportData = [];
           }
@@ -188,8 +188,8 @@ export class CourseActivitiesReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.coursePlanData = res;
-            this.getFilteredDataGroupByCoursePlan(res);
+            // this.coursePlanData = res;
+            this.reportData = this.getFilteredDataGroupByCoursePlan(res);
           } else {
             this.reportData = [];
           }
@@ -288,8 +288,8 @@ export class CourseActivitiesReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
 
-    this.reportData = res;
-    // return res;
+    // this.reportData = res;
+    return res;
   }
 
   getFilteredDataGroupByCategory(data) {
@@ -366,8 +366,8 @@ export class CourseActivitiesReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
 
-    this.reportData = result;
-    // return result;
+    // this.reportData = result;
+    return result;
   }
 
   getFilteredDataGroupByCoursePlan(data) {
@@ -443,8 +443,8 @@ export class CourseActivitiesReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
 
-    this.reportData = result;
-    // return result;
+    // this.reportData = result;
+    return result;
   }
   updateGraphUsingGroupBy(event) {
     this.filter.value = [];
@@ -584,16 +584,16 @@ export class CourseActivitiesReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case 'location':
-        // this.showReportByLocation();
-        this.getFilteredDataGroupByLocation(this.locationData);
+        this.showReportByLocation();
+        // this.getFilteredDataGroupByLocation(this.locationData);
         break;
       case 'category':
-        // this.showReportByCategory();
-        this.getFilteredDataGroupByCategory(this.categoryData);
+        this.showReportByCategory();
+        // this.getFilteredDataGroupByCategory(this.categoryData);
         break;
       case 'coursePlan':
-        // this.showReportByCoursePlan();
-        this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
+        this.showReportByCoursePlan();
+        // this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
         break;
     }
 
