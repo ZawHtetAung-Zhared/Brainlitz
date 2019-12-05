@@ -4,7 +4,7 @@
 ></app-header>
 <div
   [ngClass]="{
-    mainOverlay: isEdit == true || isUrlEdit == true || isEnrollEdit == true
+    mainOverlay: isEdit == true || isUrlEdit == true
   }"
 ></div>
 <div
@@ -107,7 +107,7 @@
     class="d-flex flex-column justify-content-center align-items-center pl-zero large-col"
   >
     <div class="d-flex flex-column h-100 setting-wrapper">
-      <div *ngIf="option != 'Invoice' && option != 'Payment'">
+      <div *ngIf="option != 'Invoice' && option != 'Payment' && !isEnrollEdit">
         <div *ngIf="generalSidebar.length > 0" class="header-wrap">
           <h3 class="general">General</h3>
         </div>
@@ -116,7 +116,7 @@
             <div
               [ngClass]="{
                 showZindex: isEdit,
-                blur: isUrlEdit || isEnrollEdit
+                blur: isUrlEdit
               }"
               *ngIf="generalDemo.appsetting != ''"
               class="card card-wrap region-wrap"
@@ -205,6 +205,23 @@
                         id="org-logo"
                         [src]="orgLogo"
                       />
+                    </div>
+                    <!--Testing-->
+                    <div class="d-flex timezone-wrap" *ngIf="!isEdit">
+                      <div class="toggle-wrap">
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            (change)="SendCreEmail()"
+                            disabled="disabled"
+                            [checked]="item.notificationSettings.sendEmailNoti"
+                          />
+                          <span class="slider round nocur"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label cre-email" for="online"
+                        >Send Credential Emails upon user registration</label
+                      >
                     </div>
                   </div>
 
@@ -450,6 +467,22 @@
                         </div>
                       </div>
                     </div>
+                    <!--Testing-->
+                    <div class="d-flex" *ngIf="isEdit">
+                      <div class="toggle-wrap">
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            (change)="SendCreEmail()"
+                            [checked]="item.notificationSettings.sendEmailNoti"
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label cre-email" for="online"
+                        >Send Credential Emails upon user registration</label
+                      >
+                    </div>
 
                     <div
                       class="editBtns  d-flex justify-content-end "
@@ -480,7 +513,7 @@
           </div>
 
           <div
-            [ngClass]="{ blur: isEdit || isUrlEdit || isEnrollEdit }"
+            [ngClass]="{ blur: isEdit || isUrlEdit }"
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
@@ -637,52 +670,6 @@
                   -
                 </label>
               </div>
-              <div class="timezone-wrap ease">
-                <div class="title-wrap">
-                  <div id="parent">
-                    <img
-                      style="width: 60%"
-                      src="./assets/images/sidebar-quizwerkz@2x.png"
-                    />
-                  </div>
-                  <label class="labelTitle">Before due</label>
-                </div>
-                <input
-                  *ngIf="invoiceData.beforeDue != ''"
-                  name="settingIdueDateCount"
-                  id="settingInvNote"
-                  class="labelName readonly-note"
-                  [(ngModel)]="invoiceData.beforeDue"
-                  readonly
-                />
-                <!-- ∂</input> -->
-                <label *ngIf="invoiceData.beforeDue == ''">
-                  -
-                </label>
-              </div>
-              <div class="timezone-wrap ease">
-                <div class="title-wrap">
-                  <div id="parent">
-                    <img
-                      style="width: 60%"
-                      src="./assets/images/sidebar-quizwerkz@2x.png"
-                    />
-                  </div>
-                  <label class="labelTitle">Overdue</label>
-                </div>
-                <input
-                  *ngIf="invoiceData.overDue != ''"
-                  name="settingIdueDateCount"
-                  id="settingInvNote"
-                  class="labelName readonly-note"
-                  [(ngModel)]="invoiceData.overDue"
-                  readonly
-                />
-                <!-- ∂</input> -->
-                <label *ngIf="invoiceData.overDue == ''">
-                  -
-                </label>
-              </div>
             </div>
             <div>
               <a class="link-btn" (click)="editSetting('Invoice')">Edit</a>
@@ -692,7 +679,7 @@
           <div *blockUI="'app-setting'">
             <div
               [ngClass]="{
-                blur: isEdit || isEnrollEdit,
+                blur: isEdit,
                 showZindex: isUrlEdit
               }"
               *ngIf="generalDemo.regional != ''"
@@ -795,7 +782,7 @@
           </div>
 
           <div
-            [ngClass]="{ blur: isEdit || isUrlEdit || isEnrollEdit }"
+            [ngClass]="{ blur: isEdit || isUrlEdit }"
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
@@ -875,95 +862,225 @@
           </div>
 
           <!-- for test setting -->
-          <div *blockUI="'auto-enrol-setting'">
-            <div
-              [ngClass]="{
+          <!-- [ngClass]="{
                 showZindex: isEnrollEdit,
                 blur: isEdit || isUrlEdit
-              }"
-              *ngIf="generalDemo.appsetting != ''"
-              class="card card-wrap region-wrap"
-            >
-              <div class="title">
-                Auto enroll settings
-              </div>
-              <div class="setting-container">
-                <div class="setting-info" [ngClass]="{ blur: isEnrollEdit }">
-                  <div class="link-wrap">
-                    <div class="title-wrap">
-                      <div id="parent">
-                        <img src="./assets/images/profile.png" />
-                      </div>
-                      <label class="labelTitle">Auto enrollment</label>
-                      <div class="urlEdit">
-                        <a (click)="editEnroll(enroll)">Edit</a>
-                      </div>
+              }" -->
+          <!-- <div *blockUI="'auto-enrol-setting'"> -->
+          <div
+            [ngClass]="{ blur: isEdit || isUrlEdit }"
+            *ngIf="generalDemo.appsetting != ''"
+            class="card card-wrap region-wrap"
+          >
+            <div class="title">
+              Schedule settings
+            </div>
+            <div class="setting-container">
+              <div class="schedule-setting">
+                <div class="ease">
+                  <div class="title-wrap">
+                    <div id="parent" class="schedule-img">
+                      <img
+                        style="width: 60%"
+                        src="./assets/images/sidebar-quizwerkz@2x.png"
+                      />
                     </div>
-                    <label *ngIf="enroll !== ''" class="labelName">{{
-                      enroll
-                    }}</label>
-                    <label *ngIf="enroll == ''" class="labelName">-</label>
+                    <label class="labelTitle"
+                      >Send payment reminder notification for invoice</label
+                    >
+                  </div>
+                  <div class="d-flex">
+                    <input
+                      *ngIf="invoiceData.beforeDue != ''"
+                      name="settingIdueDateCount"
+                      id="settingInvBeforeD"
+                      class="labelName readonly-note"
+                      [(ngModel)]="invoiceData.beforeDue"
+                      readonly
+                    />
+                    <label *ngIf="invoiceData.beforeDue == ''">
+                      -
+                    </label>
+                    <label class="labelTitle day-color">
+                      days before due date
+                    </label>
                   </div>
                 </div>
-                <div class="overlay" *ngIf="isEnrollEdit">
-                  <div class="text">
-                    <form novalidate #dashboradForm="ngForm">
-                      <div class="form-group url-edit">
-                        <label class="labelTitle">Auto enrollment</label>
-                        <input
-                          type="number"
-                          class="form-control"
-                          placeholder="enter auto enrollment day"
-                          name="enrol"
-                          [(ngModel)]="enroll"
-                          #enrol="ngModel"
-                          required
-                        />
-                        <div
-                          *ngIf="enrol.errors && (enrol.dirty || enrol.touched)"
-                          class="alert alert-danger"
-                        >
-                          <div [hidden]="!enrol.errors.required">
-                            This is required!
-                          </div>
-                        </div>
-                      </div>
-                      <div class="overlayBtns">
-                        <button
-                          type="submit"
-                          class="btn"
-                          (click)="closeEnroll()"
-                        >
-                          <span class="closemark">
-                            <div class="closemark_stem"></div>
-                            <div class="closemark_kick"></div>
-                          </span>
-                        </button>
-                        <button
-                          type="submit"
-                          class="btn"
-                          (click)="updateEnroll()"
-                          [disabled]="!dashboradForm.valid"
-                        >
-                          <span class="checkmark">
-                            <div
-                              [ngClass]="{ colorD: !dashboradForm.valid }"
-                              class="checkmark_stem"
-                            ></div>
-                            <div
-                              [ngClass]="{ colorD: !dashboradForm.valid }"
-                              class="checkmark_kick"
-                            ></div>
-                          </span>
-                        </button>
-                      </div>
-                    </form>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent" class="schedule-img">
+                      <img
+                        style="width: 60%"
+                        src="./assets/images/sidebar-quizwerkz@2x.png"
+                      />
+                    </div>
+                    <label class="labelTitle"
+                      >Send payment overdue notification for invoice</label
+                    >
                   </div>
+                  <div class="d-flex">
+                    <input
+                      *ngIf="invoiceData.overDue != ''"
+                      name="settingIdueDateCount"
+                      id="settingInvOverD"
+                      class="labelName readonly-note"
+                      [(ngModel)]="invoiceData.overDue"
+                      readonly
+                    />
+                    <label *ngIf="invoiceData.overDue == ''">
+                      -
+                    </label>
+                    <label class="labelTitle day-color">
+                      days after due date
+                    </label>
+                  </div>
+                </div>
+                <div class="timezone-wrap ease">
+                  <div class="title-wrap">
+                    <div id="parent" class="schedule-img">
+                      <img src="./assets/images/profile.png" />
+                    </div>
+                    <label class="labelTitle"
+                      >Auto-enrollment will start if the last lesson is
+                      within(days)</label
+                    >
+                  </div>
+                  <input
+                    name="settingIdueDateCount"
+                    id="settingAutoEnroll"
+                    class="labelName readonly-note"
+                    [(ngModel)]="enroll"
+                    readonly
+                  />
                 </div>
               </div>
             </div>
+            <div>
+              <a class="link-btn" (click)="editEnroll('enroll')">Edit</a>
+            </div>
           </div>
+          <!-- </div> -->
           <!-- end for test setting -->
+        </div>
+      </div>
+
+      <!-- for edit schedule form -->
+      <div *ngIf="isEnrollEdit">
+        <div class="content-wrapper">
+          <div class="back-wrap d-flex">
+            <div class="back-to" (click)="closeEnroll()">
+              <i class="fa fa-angle-left"></i>
+              <p>General</p>
+            </div>
+          </div>
+          <div class="setting-edit-wrap">
+            <h3 class="heading-h3">Schedule setting</h3>
+            <form novalidate #invoiceForm="ngForm" class="form-wrap">
+              <div class="col-md-10 input-wrap">
+                <div class="form-group">
+                  <label class="input-label" for="name"
+                    >Send payment reminder notification for invoice</label
+                  >
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <input
+                      type="number"
+                      class="form-control create-input due-input"
+                      placeholder="Before due"
+                      name="invBeforedue"
+                      [(ngModel)]="invoiceData.beforeDue"
+                      #invBeforedue="ngModel"
+                    />
+                    <label for="name" class="labelTitle day-color"
+                      >days before due date</label
+                    >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="input-label" for="name"
+                    >Send payment overdue notification for invoice</label
+                  >
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <input
+                      type="number"
+                      class="form-control create-input due-input"
+                      placeholder="Overdue"
+                      name="invOverdue"
+                      [(ngModel)]="invoiceData.overDue"
+                      #invOverdue="ngModel"
+                    />
+                    <label for="name" class="labelTitle day-color"
+                      >days after due date</label
+                    >
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="d-flex">
+                    <div class="toggle-wrap" (click)="autoEnrollSwitch()">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          (change)="autoEnrollSwitch()"
+                          [checked]="isAuto"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <label class="switch-label" for="name"
+                      >Auto-enrollment</label
+                    >
+                  </div>
+                  <div *ngIf="isAuto">
+                    <label class="input-label" for="name"
+                      >Auto-enrollment will start if the last lesson is
+                      within</label
+                    >
+                    <div
+                      class="d-flex align-items-center justify-content-between"
+                    >
+                      <input
+                        type="number"
+                        class="form-control create-input"
+                        placeholder="Enter auto-enrollment day"
+                        name="enrol"
+                        [(ngModel)]="enroll"
+                        #enrol="ngModel"
+                        required
+                      />
+                      <label for="day" class="labelTitle day-color">days</label>
+                    </div>
+                    <div
+                      *ngIf="enrol.errors && (enrol.dirty || enrol.touched)"
+                      class="alert alert-danger"
+                    >
+                      <div [hidden]="!enrol.errors.required">
+                        This is required!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end form-footer">
+                <button
+                  type="button"
+                  class="btn btn-cancel"
+                  (click)="closeEnroll()"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-submit"
+                  (click)="updateEnroll()"
+                >
+                  Done
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -1155,7 +1272,7 @@
                     #invnote="ngModel"
                   ></textarea>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-45">
                   <div class="d-flex justify-content-between">
                     <label class="input-label">Invoice validity(days)</label>
                   </div>
@@ -1166,32 +1283,6 @@
                     name="invDuration"
                     [(ngModel)]="invoiceData.dueDateCount"
                     #invDuration="ngModel"
-                  />
-                </div>
-                <div class="form-group">
-                  <div class="d-flex justify-content-between">
-                    <label class="input-label">Before due</label>
-                  </div>
-                  <input
-                    type="number"
-                    class="form-control create-textarea"
-                    placeholder="Before due"
-                    name="invBeforedue"
-                    [(ngModel)]="invoiceData.beforeDue"
-                    #invBeforedue="ngModel"
-                  />
-                </div>
-                <div class="form-group mb-45">
-                  <div class="d-flex justify-content-between">
-                    <label class="input-label">Overdue</label>
-                  </div>
-                  <input
-                    type="number"
-                    class="form-control create-textarea"
-                    placeholder="Overdue"
-                    name="invOverdue"
-                    [(ngModel)]="invoiceData.overDue"
-                    #invOverdue="ngModel"
                   />
                 </div>
                 <!-- </div> -->
