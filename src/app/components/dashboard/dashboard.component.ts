@@ -72,7 +72,8 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: '',
     logo: '',
-    operatingHour: {}
+    operatingHour: {},
+    notificationSettings: {}
   };
 
   // public menuType:any = "location";
@@ -93,6 +94,7 @@ export class DashboardComponent implements OnInit {
   public invoice: any = {};
 
   public isOnline: boolean = false;
+  public CreEmail: any;
   public showDropdown: boolean = false;
   public showProvider: boolean = false;
   public online: any = {};
@@ -313,6 +315,10 @@ export class DashboardComponent implements OnInit {
           min: '',
           meridiem: ''
         }
+      },
+      notificationSettings: {
+        sendEmailNoti: null,
+        sendAppNoti: null
       }
     };
     // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem;
@@ -333,6 +339,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.getInvoiceSetting('invoiceSettings');
+    console.log('invoice return');
     this.getPaymentSetting('paymentSettings');
     this.orgLogo = localStorage.getItem('OrgLogo');
   }
@@ -448,6 +455,18 @@ export class DashboardComponent implements OnInit {
           this.item.timezone = res.timezone;
           this.item.url = res.url;
           this.item.logo = res.logo;
+          // notificationSettings: {sendEmailNoti: true, sendAppNoti: true}
+
+          this.item.notificationSettings.sendAppNoti =
+            res.notificationSettings.sendAppNoti != undefined
+              ? res.notificationSettings.sendAppNoti
+              : true;
+          this.item.notificationSettings.sendEmailNoti =
+            res.notificationSettings.sendEmailNoti != undefined
+              ? res.notificationSettings.sendEmailNoti
+              : true;
+          console.log('zhazha', this.item.notificationSettings.sendEmailNoti);
+          this.CreEmail = res.notificationSettings.sendEmailNoti;
           this.enroll = res.autoEnrolDay;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
@@ -473,6 +492,7 @@ export class DashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.invoiceData = res;
+
         console.log('this.invoiceData', this.invoiceData);
         console.log(Object.keys(this.invoiceData).length);
 
@@ -650,10 +670,10 @@ export class DashboardComponent implements OnInit {
     this.erangeHr = this.item.operatingHour.end.hr;
     this.erangeMin = this.item.operatingHour.end.min;
     this.eisSelected = this.item.operatingHour.end.meridiem;
-    console.log(this.srangeHr, this.srangeMin, this.sisSelected);
-    console.log(this.erangeHr, this.erangeMin, this.eisSelected);
+    // console.log(this.srangeHr, this.srangeMin, this.sisSelected);
+    // console.log(this.erangeHr, this.erangeMin, this.eisSelected);
 
-    console.log('--->', this.startT, this.endT);
+    // console.log('--->', this.startT, this.endT);
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
     // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
@@ -748,12 +768,22 @@ export class DashboardComponent implements OnInit {
       if (this.isLogoChanged == true) {
         console.log('isLogoChanged~~~~', this.isLogoChanged);
         regionalSettingFormData.append('logo', this.getLogo());
-      } else {
-        console.log('isLogoChanged~~~~', this.isLogoChanged);
       }
+
+      console.log('isLogoChanged~~~~', data.operatingHour);
+
       regionalSettingFormData.append(
         'operatingHour',
         JSON.stringify(data.operatingHour)
+      );
+      console.log('isLogoChanged~~~~', regionalSettingFormData);
+      regionalSettingFormData.append(
+        'notificationSettings',
+        JSON.stringify(data.notificationSettings)
+      );
+      console.log(
+        'zhadata',
+        JSON.parse(JSON.stringify(data.notificationSettings))
       );
     }
 
@@ -794,6 +824,7 @@ export class DashboardComponent implements OnInit {
   cancelUpdate() {
     this.isEdit = false;
     this.item.timezone = this.temp;
+    this.item.notificationSettings.sendEmailNoti = this.CreEmail;
   }
   closeEdit() {
     this.isUrlEdit = false;
@@ -1118,6 +1149,14 @@ export class DashboardComponent implements OnInit {
       this.payment = {};
     }
   }
+
+  SendCreEmail() {
+    this.item.notificationSettings.sendEmailNoti = !this.item
+      .notificationSettings.sendEmailNoti;
+    // this.item.notificationSettings = !this.item.notificationSettings;
+    console.log('zhatest', this.item.notificationSettings);
+  }
+
   getTwentyFourHourStartTime(obj) {
     console.log('time obj', obj);
     this.operationStart = obj.hr + ':' + obj.min + ' ' + obj.meridiem;
@@ -1163,16 +1202,16 @@ export class DashboardComponent implements OnInit {
     }
   }
   editTime(hr, min, medrian) {
-    console.log(hr, min, medrian);
-    console.log(String(hr).length);
-    console.log(String(min).length);
+    // console.log(hr, min, medrian);
+    // console.log(String(hr).length);
+    // console.log(String(min).length);
     if (String(hr).length == 1) {
       hr = '0' + String(hr);
     }
     if (String(min).length == 1) {
       min = '0' + String(min);
     }
-    console.log('res', hr + ':' + min + ' ' + medrian);
+    // console.log('res', hr + ':' + min + ' ' + medrian);
     return hr + ':' + min + ' ' + medrian;
   }
   updateBtnDisabled() {
