@@ -206,6 +206,23 @@
                         [src]="orgLogo"
                       />
                     </div>
+                    <!--Testing-->
+                    <div class="d-flex timezone-wrap" *ngIf="!isEdit">
+                      <div class="toggle-wrap">
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            (change)="SendCreEmail()"
+                            disabled="disabled"
+                            [checked]="item.notificationSettings.sendEmailNoti"
+                          />
+                          <span class="slider round nocur"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label cre-email" for="online"
+                        >Send Credential Emails upon user registration</label
+                      >
+                    </div>
                   </div>
 
                   <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
@@ -449,6 +466,22 @@
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <!--Testing-->
+                    <div class="d-flex" *ngIf="isEdit">
+                      <div class="toggle-wrap">
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            (change)="SendCreEmail()"
+                            [checked]="item.notificationSettings.sendEmailNoti"
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label cre-email" for="online"
+                        >Send Credential Emails upon user registration</label
+                      >
                     </div>
 
                     <div
