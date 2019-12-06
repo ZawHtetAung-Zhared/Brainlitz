@@ -101,13 +101,13 @@ export class CourseComponent implements OnInit {
   public daysLoop: any;
   public studentArray = [];
   public days = [
-    { day: 'Sun', val: 0, checked: false },
-    { day: 'Mon', val: 1, checked: false },
-    { day: 'Tue', val: 2, checked: false },
-    { day: 'Wed', val: 3, checked: false },
-    { day: 'Thu', val: 4, checked: false },
-    { day: 'Fri ', val: 5, checked: false },
-    { day: 'Sat', val: 6, checked: false }
+    { day: 'Sun', val: 0, checked: true },
+    { day: 'Mon', val: 1, checked: true },
+    { day: 'Tue', val: 2, checked: true },
+    { day: 'Wed', val: 3, checked: true },
+    { day: 'Thu', val: 4, checked: true },
+    { day: 'Fri ', val: 5, checked: true },
+    { day: 'Sat', val: 6, checked: true }
   ];
   public advancedSearchOn: boolean = false;
   public iswordcount: boolean = false;
@@ -927,13 +927,13 @@ export class CourseComponent implements OnInit {
     this.categoryIDArray = [];
     this.repeatedDaysTemp = [];
     this.days = [
-      { day: 'Sun', val: 0, checked: false },
-      { day: 'Mon', val: 1, checked: false },
-      { day: 'Tue', val: 2, checked: false },
-      { day: 'Wed', val: 3, checked: false },
-      { day: 'Thu', val: 4, checked: false },
-      { day: 'Fri ', val: 5, checked: false },
-      { day: 'Sat', val: 6, checked: false }
+      { day: 'Sun', val: 0, checked: true },
+      { day: 'Mon', val: 1, checked: true },
+      { day: 'Tue', val: 2, checked: true },
+      { day: 'Wed', val: 3, checked: true },
+      { day: 'Thu', val: 4, checked: true },
+      { day: 'Fri ', val: 5, checked: true },
+      { day: 'Sat', val: 6, checked: true }
     ];
   }
 
@@ -1214,13 +1214,13 @@ export class CourseComponent implements OnInit {
     console.log('call updates ...');
     if (state == 'day') {
       this.days = [
-        { day: 'Sun', val: 0, checked: false },
-        { day: 'Mon', val: 1, checked: false },
-        { day: 'Tue', val: 2, checked: false },
-        { day: 'Wed', val: 3, checked: false },
-        { day: 'Thu', val: 4, checked: false },
-        { day: 'Fri ', val: 5, checked: false },
-        { day: 'Sat', val: 6, checked: false }
+        { day: 'Sun', val: 0, checked: true },
+        { day: 'Mon', val: 1, checked: true },
+        { day: 'Tue', val: 2, checked: true },
+        { day: 'Wed', val: 3, checked: true },
+        { day: 'Thu', val: 4, checked: true },
+        { day: 'Fri ', val: 5, checked: true },
+        { day: 'Sat', val: 6, checked: true }
       ];
       this.repeatedDaysTemp = [];
     } else if (state == 'cat') {
@@ -1501,7 +1501,7 @@ export class CourseComponent implements OnInit {
       { day: 'Sat', val: 6, checked: false }
     ];
     console.log('~~~~~');
-    console.log(this.showCancelButton);
+    console.error(this.showCancelButton);
     console.log(this.cancelUI);
     console.log(this.cancelUi);
     window.scroll(0, 0);

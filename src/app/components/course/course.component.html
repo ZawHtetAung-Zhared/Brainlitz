@@ -1736,8 +1736,8 @@
                       <span>Rescheduled from todayDatePipe strat_time</span>
                     </div> -->
                   </div>
-
-                  <div class="d-flex" *ngIf="showCancelButton == true">
+                  <!--  *ngIf="showCancelButton == true" -->
+                  <div class="d-flex">
                     <button
                       class="d-flex btn assign_relief_button align-items-center"
                       *ngIf="disableCancel == false && reliefTeacher == null"
@@ -1998,10 +1998,7 @@
                       (!disableCancel || detailLists.type == 'FLEXY')
                     "
                   >
-                    <div class="carret-box"></div>
-                    <li
-                      *ngIf="!disableCancel"
-                      [ngClass]="{
+                    <!-- [ngClass]="{
                         'attendance-wrap':
                           detailLists.type == 'FLEXY' &&
                           showCancelButton == true,
@@ -2011,6 +2008,14 @@
                         'mb-3':
                           detailLists.type == 'FLEXY' &&
                           showCancelButton == true
+                      }" -->
+                    <div class="carret-box"></div>
+                    <li
+                      *ngIf="!disableCancel"
+                      [ngClass]="{
+                        'attendance-wrap': detailLists.type == 'FLEXY',
+                        'pb-3': detailLists.type == 'FLEXY',
+                        'mb-3': detailLists.type == 'FLEXY'
                       }"
                     >
                       <div id="divToHide">
@@ -2079,11 +2084,9 @@
                         </div>
                       </div>
                     </li>
-
+                    <!-- && showCancelButton == true -->
                     <button
-                      *ngIf="
-                        detailLists.type == 'FLEXY' && showCancelButton == true
-                      "
+                      *ngIf="detailLists.type == 'FLEXY'"
                       (click)="getReschedule(reschedule, user)"
                       class="btn w-100 reschedule-btn p-0"
                     >

@@ -9,7 +9,26 @@
         class="d-flex flex-row align-items-center cc-start pdRight-20"
         style="width: 100%;"
       >
+        <!--    [minDate]="todayDate" -->
         <input
+          *ngIf="defineType == 'Reschedule'"
+          type="text"
+          placeholder="Start date"
+          class="input-day dropD w-100 search-input"
+          style="padding-left: 10px;"
+          name="start"
+          required
+          (click)="start.toggle()"
+          (ngModelChange)="setMinDate($event)"
+          [(ngModel)]="model.start"
+          ngbDatepicker
+          #start="ngbDatepicker"
+          (document:click)="closeDropdown($event, 'start', start)"
+          [markDisabled]="isDisabledDate == true"
+          readonly
+        />
+        <input
+          *ngIf="defineType == 'New'"
           type="text"
           placeholder="Start date"
           class="input-day dropD w-100 search-input"
