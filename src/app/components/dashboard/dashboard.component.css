@@ -362,7 +362,7 @@ input:checked + .slider:before {
   margin-left: 8px;
 }
 .nocur {
-  cursor: default;
+  cursor: no-drop;
 }
 .slider.round {
   border-radius: 34px;
