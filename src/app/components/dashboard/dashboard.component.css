@@ -356,6 +356,14 @@ input:checked + .slider:before {
   color: #2e3e4d;
   margin-bottom: 0;
 }
+.cre-email {
+  line-height: 2.5;
+  font-size: 15px;
+  margin-left: 8px;
+}
+.nocur {
+  cursor: no-drop;
+}
 .slider.round {
   border-radius: 34px;
   border: 2px solid #64707d;
@@ -543,7 +551,7 @@ input:checked + .slider:before {
   margin-left: 47px;
 }
 .readonly-note {
-  width: 90%;
+  width: 20%;
   background: none;
   border: none;
   outline: none;
@@ -1163,4 +1171,24 @@ input[type='range' i] {
 }
 .outter-img {
   max-height: 340px;
+}
+.schedule-setting {
+  padding: 1rem;
+  position: relative;
+  border-bottom: 1px solid #edeff0;
+}
+.due-input {
+  width: 50%;
+}
+.due-input:hover {
+  background: #f2f4f5;
+  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
+  border-radius: 0.25rem;
+  border: none;
+}
+.day-color {
+  color: #000 !important;
+}
+.schedule-img {
+  margin-top: 10px;
 }

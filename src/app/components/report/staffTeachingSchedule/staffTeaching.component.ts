@@ -71,10 +71,10 @@ export class StaffTeachingScheduleReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
-  public locationData: any;
-  public categoryData: any;
-  public coursePlanData: any;
-  public teacherNameData: any;
+  // public locationData: any;
+  // public categoryData: any;
+  // public coursePlanData: any;
+  // public teacherNameData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -148,8 +148,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.locationData = res;
-            this.getFilteredDataGroupByLocation(res);
+            // this.locationData = res;
+            this.reportData = this.getFilteredDataGroupByLocation(res);
           } else {
             this.reportData = [];
           }
@@ -180,8 +180,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.categoryData = res;
-            this.getFilteredDataGroupByCategory(res);
+            // this.categoryData = res;
+            this.reportData = this.getFilteredDataGroupByCategory(res);
           } else {
             this.reportData = [];
           }
@@ -216,8 +216,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.coursePlanData = res;
-            this.getFilteredDataGroupByCoursePlan(res);
+            // this.coursePlanData = res;
+            this.reportData = this.getFilteredDataGroupByCoursePlan(res);
           } else {
             this.reportData = [];
           }
@@ -249,8 +249,8 @@ export class StaffTeachingScheduleReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.teacherNameData = res;
-            this.getFilteredDataGroupByTeacherName(res);
+            // this.teacherNameData = res;
+            this.reportData = this.getFilteredDataGroupByTeacherName(res);
           } else {
             this.reportData = [];
           }
@@ -342,9 +342,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    this.reportData = res;
+    // this.reportData = res;
     this.staffCount = staffList.length;
-    // return res;
+    return res;
   }
 
   getFilteredDataGroupByCategory(data) {
@@ -418,9 +418,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    this.reportData = result;
+    // this.reportData = result;
     this.staffCount = staffList.length;
-    // return result;
+    return result;
   }
 
   getFilteredDataGroupByCoursePlan(data) {
@@ -493,9 +493,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    this.reportData = result;
+    // this.reportData = result;
     this.staffCount = staffList.length;
-    // return result;
+    return result;
   }
 
   getFilteredDataGroupByTeacherName(data) {
@@ -575,10 +575,9 @@ export class StaffTeachingScheduleReport implements OnInit {
       _self.fullCoursePlanList = _self.coursePlanList;
     }
 
-    this.reportData = res;
+    // this.reportData = res;
     this.staffCount = staffList.length;
-    console.log(this.reportData);
-    // return res;
+    return res;
   }
 
   updateGraphUsingGroupBy(event) {
@@ -726,20 +725,20 @@ export class StaffTeachingScheduleReport implements OnInit {
   applyFilters() {
     switch (this.groupBy) {
       case 'location':
-        // this.showReportByLocation();
-        this.getFilteredDataGroupByLocation(this.locationData);
+        this.showReportByLocation();
+        // this.getFilteredDataGroupByLocation(this.locationData);
         break;
       case 'category':
-        // this.showReportByCategory();
-        this.getFilteredDataGroupByCategory(this.categoryData);
+        this.showReportByCategory();
+        // this.getFilteredDataGroupByCategory(this.categoryData);
         break;
       case 'coursePlan':
-        // this.showReportByCoursePlan();
-        this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
+        this.showReportByCoursePlan();
+        // this.getFilteredDataGroupByCoursePlan(this.coursePlanData);
         break;
       case 'teacherName':
-        // this.showReportByTeacherName();
-        this.getFilteredDataGroupByTeacherName(this.teacherNameData);
+        this.showReportByTeacherName();
+        // this.getFilteredDataGroupByTeacherName(this.teacherNameData);
         break;
     }
 
