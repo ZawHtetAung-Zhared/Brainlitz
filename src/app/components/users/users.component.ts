@@ -635,7 +635,20 @@ export class UsersComponent implements OnInit {
           // 	this.toastr.error('Create Fail');
           // }
           console.log(err);
-          console.log(err.status);
+          for (var i = 0; i < this.customFields.length; i++) {
+            if (this.customFields[i].controlType === 'Datepicker') {
+              var dateTime = this.customFields[i].value;
+              var ok = dateTime.substring(0, dateTime.search('T'));
+              var testSplit = ok.split('-');
+              var format = {
+                year: Number(testSplit[0]),
+                month: Number(testSplit[1]),
+                day: Number(testSplit[2])
+              };
+              this.customFields[i]['value'] = format;
+            }
+          }
+          console.log(this.customFields);
           if (err.status == 400) {
             this.toastr.error('Email already exist');
           } else {
