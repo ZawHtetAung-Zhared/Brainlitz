@@ -95,8 +95,16 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = moment('02/28/2015').toISOString();
-    this.endDate = moment().toISOString();
+    this.startDate = new Date('2015-02-01').toISOString();
+    this.endDate = new Date(
+      new Date(moment().year(), moment().month() + 1).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+    // this.endDate = moment().toISOString();
     this.options = {
       startDate: moment('28/02/2015').startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -128,10 +136,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
             new Date(result[1][1], result[1][0] - 1)
           );
           _self.startDate = new Date(
-            result[0][1],
-            result[0][0] - 1
+            new Date(result[0][1], result[0][0] - 1).setUTCHours(24, 0, 0, 0)
           ).toISOString();
-          _self.endDate = new Date(result[1][1], result[1][0]).toISOString();
+          _self.endDate = new Date(
+            new Date(result[1][1], result[1][0]).setUTCHours(23, 59, 59, 999)
+          ).toISOString();
           _self.showReport();
         } else {
           console.log(result);
