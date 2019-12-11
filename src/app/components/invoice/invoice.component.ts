@@ -107,6 +107,7 @@ export class InvoiceComponent implements OnInit {
     this.singleInv = [];
     this.getSingleinvoice();
     this.getRegionInfo();
+
     // if (Array.isArray(this.course.invoice)) {
     //   if (this.course.invoice[0].status == 'PAID') {
     //     this.showPaidInvoice = true;
@@ -140,6 +141,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   getSingleinvoice() {
+    console.error(this.course, 'course');
     this._service.getSingleInvoice(this.invoiceId).subscribe(
       (res: any) => {
         console.log('single invoice>>', res);
@@ -321,6 +323,7 @@ export class InvoiceComponent implements OnInit {
   }
   showOneInvoice(course, invoice) {
     // for (var i in this.invoice) {
+    console.error(invoice, 'invoice');
     this.invStatus = this.invoice.status;
     this.taxRate = this.invoice.tax.rate;
     this.updatedDate = this.dateFormat(invoice.updatedDate);
@@ -349,8 +352,15 @@ export class InvoiceComponent implements OnInit {
     // if (invoice.courseId == course._id) {
 
     this.invoiceCourse['name'] = this.invoice.courseDetails.name;
-    this.invoiceCourse['startDate'] = this.invoice.studentLessons[0].startDate;
     this.invoiceCourse['endDate'] = this.invoice.courseDetails.endDate;
+    if (this.invoice.studentLessons.length == 0) {
+      this.invoiceCourse['startDate'] = this.invoice.courseDetails.startDate;
+    } else {
+      this.invoiceCourse[
+        'startDate'
+      ] = this.invoice.studentLessons[0].startDate;
+    }
+
     if (this.invoice.studentLessons != undefined) {
       this.invoiceCourse['lessonCount'] = this.invoice.studentLessons.length;
     }

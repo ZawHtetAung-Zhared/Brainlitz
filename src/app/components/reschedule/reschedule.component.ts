@@ -67,12 +67,15 @@ export class RescheduleComponent implements OnInit {
         'yyyy-MM-dd'
       );
       this.reScheduleLists[i].isAvaiable = true;
-      if (loadmore == false && this.reScheduleLists[i].isEnrolled) {
-        this.avaiableLessonsCount += 1; //this for default lessons count
-        this.reScheduleLists[i].isCheck = true; //this is for check or uncheck condition
-      } else {
-        this.reScheduleLists[i].isCheck = false;
+      if (loadmore == false) {
+        if (this.reScheduleLists[i].isEnrolled) {
+          this.avaiableLessonsCount += 1; //this for default lessons count
+          this.reScheduleLists[i].isCheck = true;
+        } else {
+          this.reScheduleLists[i].isCheck = false;
+        }
       }
+
       //past or future depend on today date
       // if (todayDate < endDate) {
       //   //this is past date
@@ -89,17 +92,21 @@ export class RescheduleComponent implements OnInit {
       //   }
       // }
       if (loadmore == false) {
-        this.lessonObjArr.push(this.reScheduleLists[i]);
-        this.checkObjArr.emit(this.lessonObjArr);
-        this.defaultCount.emit(
-          this.lessonObjArr.length - this.unavaiableLessons.length
-        );
-        this.unavaiableLen.emit(this.unavaiableLessons);
+        if (this.reScheduleLists[i].isEnrolled) {
+          this.lessonObjArr.push(this.reScheduleLists[i]);
+          this.checkObjArr.emit(this.lessonObjArr);
+          // this.defaultCount.emit(
+          //   this.lessonObjArr.length - this.unavaiableLessons.length
+          // );
+          this.defaultCount.emit(this.lessonObjArr.length);
+        }
+
+        // this.unavaiableLen.emit(this.unavaiableLessons);
       }
       // this.reScheduleLists[i].re_id=i;
     }
     console.log(this.reScheduleLists, 'reschedule list');
-
+    console.log(this.unavaiableLessons, 'unavaliable');
     console.log(this.lessonObjArr, 'lessonObjArr');
   }
 
@@ -108,7 +115,7 @@ export class RescheduleComponent implements OnInit {
     console.log(obj);
     console.log(this.lessonsObj);
     console.log(this.lessonObjArr);
-    console.log(this.unavaiableLessons);
+    console.error(this.avaiableLessonsCount);
 
     if (this.lessonObjArr.includes(obj)) {
       // this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);
@@ -123,12 +130,10 @@ export class RescheduleComponent implements OnInit {
       this.lessonObjArr.push(obj);
       this.checkObjArr.emit(this.lessonObjArr);
     }
-    console.log(this.reScheduleLists.indexOf(obj));
 
-    if (
-      this.lessonObjArr.length - this.unavaiableLessons.length <
-      this.avaiableLessonsCount
-    ) {
+    // - this.unavaiableLessons.length
+    console.error(this.lessonObjArr.length, 'lesson lenght');
+    if (this.lessonObjArr.length < this.avaiableLessonsCount) {
       console.log('this equal');
       for (let i = 0; i < this.reScheduleLists.length; i++) {
         this.reScheduleLists[i].isCheck = true;
@@ -171,22 +176,22 @@ export class RescheduleComponent implements OnInit {
         console.log(res.lessons);
         console.log(this.avaiableLessonsCount);
         console.log(this.reScheduleLists.length, '<length');
-        console.log(this.lessonObjArr.length - this.unavaiableLessons.length);
+        console.log(this.lessonObjArr.length, 'lesson object arr');
+        console.log(this.unavaiableLessons, 'unavaiable ');
         for (let i = 0; i < res.lessons.length; i++) {
           // res.lessons[i]._id=this.reScheduleLists.length+i;
 
-          if (
-            this.lessonObjArr.length - this.unavaiableLessons.length <
-            this.avaiableLessonsCount
-          ) {
+          if (this.lessonObjArr.length < this.avaiableLessonsCount) {
+            console.log('is check');
             res.lessons[i].isCheck = true;
           } else {
             res.lessons[i].isCheck = false;
           }
         }
+        console.log(res.lessons);
         this.reScheduleLists = this.reScheduleLists.concat(res.lessons);
-        this.checkAvaiableReschedule(true);
         console.log(this.reScheduleLists);
+        this.checkAvaiableReschedule(true);
       });
   }
 
