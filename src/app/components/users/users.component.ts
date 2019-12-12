@@ -635,7 +635,20 @@ export class UsersComponent implements OnInit {
           // 	this.toastr.error('Create Fail');
           // }
           console.log(err);
-          console.log(err.status);
+          for (var i = 0; i < this.customFields.length; i++) {
+            if (this.customFields[i].controlType === 'Datepicker') {
+              var dateTime = this.customFields[i].value;
+              var ok = dateTime.substring(0, dateTime.search('T'));
+              var testSplit = ok.split('-');
+              var format = {
+                year: Number(testSplit[0]),
+                month: Number(testSplit[1]),
+                day: Number(testSplit[2])
+              };
+              this.customFields[i]['value'] = format;
+            }
+          }
+          console.log(this.customFields);
           if (err.status == 400) {
             this.toastr.error('Email already exist');
           } else {
@@ -785,11 +798,14 @@ export class UsersComponent implements OnInit {
   sameMail;
   validateEmail(data) {
     console.log(data);
-    if (data === this.formFieldc.guardianEmail) {
-      this.sameMail = true;
-    } else {
-      this.sameMail = false;
+    if (data != '') {
+      if (data === this.formFieldc.guardianEmail) {
+        this.sameMail = true;
+      } else {
+        this.sameMail = false;
+      }
     }
+
     // this.atLeastOneMail = false;
     this.emailAlert = !this.isValidateEmail(data) ? true : false;
     this.personalMail = this.isValidateEmail(data) ? true : false;
@@ -800,11 +816,15 @@ export class UsersComponent implements OnInit {
   }
 
   validateGuarmail(gData) {
-    if (gData === this.formFieldc.email) {
-      this.sameMail = true;
-    } else {
-      this.sameMail = false;
+    // console.error(gData=='','gdata')
+    if (gData != '') {
+      if (gData === this.formFieldc.email) {
+        this.sameMail = true;
+      } else {
+        this.sameMail = false;
+      }
     }
+
     console.log(gData);
     // this.atLeastOneMail = false;
     this.guardianAlert = !this.isValidateEmail(gData) ? true : false;
