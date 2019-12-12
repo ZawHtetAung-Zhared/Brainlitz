@@ -759,6 +759,12 @@ h5 {
   box-shadow: none;
 }
 
+.input-search-bg:focus {
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
+}
+
 .user-info-wrap {
   padding: 0 15px;
 }
