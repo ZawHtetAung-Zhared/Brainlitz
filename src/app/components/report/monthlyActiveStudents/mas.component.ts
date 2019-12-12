@@ -61,7 +61,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
   public selectFilterTemp: any = [];
   public removeFilterTemp: any = [];
   public updateFilterTemp: any = {};
-  public monthlyActiveData: any;
+  // public monthlyActiveData: any;
 
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
@@ -95,8 +95,16 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = moment('02/28/2015').toISOString();
-    this.endDate = moment().toISOString();
+    this.startDate = new Date('2015-02-01').toISOString();
+    this.endDate = new Date(
+      new Date(moment().year(), moment().month() + 1).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+    // this.endDate = moment().toISOString();
     this.options = {
       startDate: moment('28/02/2015').startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -113,7 +121,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     console.log(endMonth, endYear);
     $('#monthRangePicker')
       .rangePicker({
-        setDate: [[2, 2015], [endMonth, endYear]],
+        setDate: [
+          [2, 2015],
+          [endMonth, endYear]
+        ],
         minDate: [2, 2015],
         maxDate: [endMonth, endYear],
         closeOnSelect: true,
@@ -128,10 +139,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
             new Date(result[1][1], result[1][0] - 1)
           );
           _self.startDate = new Date(
-            result[0][1],
-            result[0][0] - 1
+            new Date(result[0][1], result[0][0] - 1).setUTCHours(24, 0, 0, 0)
           ).toISOString();
-          _self.endDate = new Date(result[1][1], result[1][0]).toISOString();
+          _self.endDate = new Date(
+            new Date(result[1][1], result[1][0]).setUTCHours(23, 59, 59, 999)
+          ).toISOString();
           _self.showReport();
         } else {
           console.log(result);
@@ -147,8 +159,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
         (res: any) => {
           //this.blockUI.stop();
           if (res.length) {
-            this.monthlyActiveData = res;
-            this.getfilteredData(res);
+            // this.monthlyActiveData = res;
+            this.reportData = this.getfilteredData(res);
           } else {
             this.reportData = [];
           }
@@ -240,8 +252,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
       _self.fullCourseNameList = _self.courseNameList;
       _self.fullCoursePlanList = _self.coursePlanList;
     }
-    this.reportData = res;
-    // return res;
+    // this.reportData = res;
+    return res;
   }
   updateFilterType(value) {
     if (this.filter.value.length) {
@@ -355,8 +367,8 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
   }
   applyFilters() {
-    // this.showReport();
-    this.getfilteredData(this.monthlyActiveData);
+    this.showReport();
+    // this.getfilteredData(this.monthlyActiveData);
     this.modalReference.close();
   }
 

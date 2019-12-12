@@ -262,9 +262,9 @@ export class RescheduleLessonComponent implements OnInit {
   checkDayExist(day) {
     let lessons = this.courseDetail.lessons;
     let pickDate = day.toLocaleString().substring(0, 10);
-    console.log(pickDate);
+    console.error(pickDate, 'pick date');
     let oldDate = this.LASD.toLocaleString().substring(0, 10);
-
+    console.error(oldDate, 'olddate');
     if (this.defineType == 'New') {
       this.correctRescheduleTime = true;
       for (let i = 0; i < lessons.length; i++) {
@@ -289,6 +289,7 @@ export class RescheduleLessonComponent implements OnInit {
           this.correctRescheduleTime = false;
         }
       } else {
+        console.log(this.correctRescheduleTime, 'correct time');
         this.correctRescheduleTime = true;
         for (let i = 0; i < lessons.length; i++) {
           let existingDate = lessons[i].startDate
@@ -304,39 +305,41 @@ export class RescheduleLessonComponent implements OnInit {
       }
     }
 
-    if (
-      this.correctRescheduleDate == true &&
-      this.correctRescheduleTime == true
-    ) {
-      var todaydate = new Date();
-      let onlytodayTime = todaydate.toString().substring(16, 24);
-      let onlytodayDate = todaydate.toISOString().substring(0, 10);
+    // if (
+    //   this.correctRescheduleDate == true &&
+    //   this.correctRescheduleTime == true
+    // ) {
+    //   var todaydate = new Date();
+    //   let onlytodayTime = todaydate.toString().substring(16, 24);
+    //   let onlytodayDate = todaydate.toISOString().substring(0, 10);
 
-      let pickTime = day.toLocaleString().substring(11, 19);
+    //   let pickTime = day.toLocaleString().substring(11, 19);
 
-      if (pickDate >= onlytodayDate) {
-        // console.log('lesson date is grater than and equal to today');
+    //   console.error(onlytodayTime,'only today time');
+    //   console.error(pickTime,'pick time')
+    //   if (pickDate >= onlytodayDate) {
+    //     // console.log('lesson date is grater than and equal to today');
 
-        if (pickDate == onlytodayDate) {
-          // console.log('same as today');
+    //     if (pickDate == onlytodayDate) {
+    //       // console.log('same as today');
 
-          if (onlytodayTime < pickTime) {
-            // console.log(' grater time ==>today');
-            this.correctRescheduleTime = true;
-          } else {
-            // console.log('~~~ less time');
-            this.correctRescheduleTime = false;
-          }
-        } else {
-          // console.log('=== grater today');
-          this.correctRescheduleTime = true;
-        }
-      } else {
-        // console.log('less than today ');
-        this.correctRescheduleTime = false;
-      }
-      // if(this.correctRescheduleDate && this.correctRescheduleTime) this.disableReschedule= false;
-    }
+    //       if (onlytodayTime < pickTime) {
+    //         // console.log(' grater time ==>today');
+    //         this.correctRescheduleTime = true;
+    //       } else {
+    //         // console.log('~~~ less time');
+    //         this.correctRescheduleTime = false;
+    //       }
+    //     } else {
+    //       // console.log('=== grater today');
+    //       this.correctRescheduleTime = true;
+    //     }
+    //   } else {
+    //     console.log('less than today ');
+    //     this.correctRescheduleTime = false;
+    //   }
+    //   // if(this.correctRescheduleDate && this.correctRescheduleTime) this.disableReschedule= false;
+    // }
 
     if (
       this.correctRescheduleDate &&

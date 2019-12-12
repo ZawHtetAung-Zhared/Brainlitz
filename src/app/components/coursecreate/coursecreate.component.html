@@ -376,7 +376,8 @@
           <div class="d-flex radio-wrap">
             <label
               [ngClass]="{
-                selected: endOptChecked == 'defaultLesson'
+                selected: endOptChecked == 'defaultLesson',
+                'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
               class="mb-0 cursor-on"
             >
@@ -384,12 +385,14 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'defaultLesson')"
+                [disabled]="timeOptChecked == 'hideTimeSlot'"
               />
               Regular lessons
             </label>
             <label
               [ngClass]="{
-                selected: endOptChecked == 'lesson'
+                selected: endOptChecked == 'lesson',
+                'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
               class="mb-0 cursor-on"
             >
@@ -397,6 +400,7 @@
                 type="radio"
                 name="prop"
                 (click)="chooseOpt('endOpt', 'lesson')"
+                [disabled]="timeOptChecked == 'hideTimeSlot'"
               />
               End by lessons
             </label>
@@ -464,7 +468,7 @@
             </div>
           </div>
         </div>
-        <div class="pb-3" *ngIf="endOptChecked != 'defaultLesson'">
+        <div class="pb-3" *ngIf="endOptChecked == 'end'">
           <div class="d-flex">
             <!-- <div class="toggle-wrap">
               <label class="switch mb-0">
