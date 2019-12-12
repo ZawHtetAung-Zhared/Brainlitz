@@ -1736,7 +1736,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
             }
           }
         }
-        console.log('finalLists', this.finalLists);
+        console.error('finalLists', this.finalLists);
       });
   }
 
@@ -2574,7 +2574,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     var pIdx = cIdx - 1;
     if (
       (cIdx == 1 || cIdx == 3) &&
-      (this.minSlotArr[cIdx] >= 0 && this.minSlotArr[cIdx] <= 15) &&
+      this.minSlotArr[cIdx] >= 0 && this.minSlotArr[cIdx] <= 15 &&
       this.minSlotArr[pIdx] > this.minSlotArr[cIdx]
     ) {
       var h = hr + 1;
