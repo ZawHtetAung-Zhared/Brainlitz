@@ -1,0 +1,182 @@
+.back-txt,
+#navbar a,
+p.txt-for,
+.all-fix {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+}
+.header-txt,
+p.txt-msg,
+p.txt-name {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
+}
+
+/*Extra large devices (large desktops, 2000px and up)*/
+
+/* start sticky header */
+.left-arrow {
+  font-size: 25px;
+  float: left;
+}
+
+p.back-txt {
+  color: #2e3d4d;
+  font-size: 16px;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+p.header-txt {
+  color: #363f4d;
+  font-weight: bold;
+  font-size: 28px;
+  padding-top: 16px;
+  margin-bottom: 0;
+}
+
+.header {
+  background-color: #ffffff;
+  padding: 20px;
+  transition: 0.5s all ease-out;
+}
+
+#navbar {
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0px 1px 0px #e3e4e5;
+  z-index: 9999 !important;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #363f4d;
+  text-align: center;
+  padding: 16px 24px 0px 24px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+a.nav-link.active {
+  color: #0080ff !important;
+}
+
+.border-design.active {
+  border-top: 4px solid #007fff;
+  border-radius: 4px 4px 0px 0px;
+  margin-top: 12px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
+
+/* end header */
+
+/* start message list */
+.message-list {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 1px 0px 0px #e3e4e5;
+  width: 320px;
+  position: fixed;
+  z-index: 1;
+  overflow: hidden;
+  top: 184px;
+  transition: 0.5s all ease-out;
+}
+
+.content-wrapper {
+  height: 100%;
+}
+
+p.txt-msg {
+  color: #0065f2;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 13px;
+  padding: 3px;
+}
+
+.msg-con {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.msg-con img {
+  height: 100%;
+  object-fit: contain;
+}
+p.txt-name {
+  margin-bottom: 4px;
+  color: #5c6773;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+p.txt-for {
+  color: #5c6773;
+  font-size: 15px;
+  margin-bottom: 0;
+}
+.message-preview {
+  padding: 16px 24px;
+}
+.message-preview.active {
+  background: #f2f3f5;
+}
+/* end message list */
+
+/* start message detail */
+.message-detail {
+  margin-left: 320px;
+  width: 100%;
+  background: #f7f9fa;
+}
+.detail-wrapper {
+  overflow: hidden;
+  position: relative;
+  top: 50px;
+  z-index: -99;
+  height: 100%;
+}
+
+.all-fix {
+  position: fixed;
+  width: 100%;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 8px;
+  font-size: 15px;
+  z-index: 999 !important;
+}
+
+.btn-gp {
+  width: 100%;
+  margin-right: 320px;
+  padding: 0;
+}
+
+.addtop {
+  top: 57px !important;
+}
+
+button.btn.all-reject {
+  color: #bf2926;
+}
+button.btn.all-approve {
+  color: #0065f2;
+}
+
+/* end message detail */

@@ -1,0 +1,92 @@
+<div class="h-100">
+  <div class="w-100 h-100">
+    <div class="header">
+      <div class="back-wrapper">
+        <div class="d-flex back" (click)="backToCourses()">
+          <i class="fa fa-angle-left left-arrow"></i>
+          <p class="mb-0 back-txt">Back</p>
+        </div>
+      </div>
+      <p class="header-txt">Reviews</p>
+    </div>
+
+    <div id="navbar">
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'New' }"
+        (click)="activeType = 'New'"
+      >
+        New({{ reviewList.length }})
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'New' }"
+        ></div>
+      </a>
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'Approved' }"
+        (click)="activeType = 'Approved'"
+      >
+        Approved
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'Approved' }"
+        ></div>
+      </a>
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'Rejected' }"
+        (click)="activeType = 'Rejected'"
+      >
+        Rejected
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'Rejected' }"
+        ></div>
+      </a>
+    </div>
+
+    <div class="d-flex content-wrapper">
+      <div class="message-list" id="message-list">
+        <div
+          class="d-flex message-preview"
+          *ngFor="let list of reviewList; let i = index"
+          [ngClass]="{ active: activeId == list._id }"
+          (click)="showMessageDetail(list)"
+        >
+          <div class="d-flex message-content">
+            <div class="msg-con">
+              <img src="../../../assets/img/Union.svg" />
+            </div>
+            <div class="">
+              <p class="txt-msg">MESSAGE</p>
+              <p class="txt-name">{{ list.sender.preferredName }}</p>
+              <p class="txt-for">For: {{ list.student.preferredName }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="message-detail">
+        <div class="d-flex all-fix" id="all-fix">
+          <div class="d-flex justify-content-end btn-gp">
+            <button class="btn all-reject">
+              Reject all({{ reviewList.length }})
+            </button>
+            <button class="btn all-approve">
+              Approve all({{ reviewList.length }})
+            </button>
+          </div>
+        </div>
+
+        <div class="detail-wrapper">
+          <div class="d-flex msg-title">
+            <div class="msg-con">
+              <img src="../../../assets/img/Union.svg" />
+            </div>
+            <div class="msg-title">Message</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
