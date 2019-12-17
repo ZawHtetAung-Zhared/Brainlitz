@@ -1,12 +1,18 @@
 .back-txt,
 #navbar a,
 p.txt-for,
-.all-fix {
+.all-fix,
+.nameWrapper,
+p.msg-body {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
 p.txt-msg,
-p.txt-name {
+p.txt-name,
+.msg-title,
+p.msg-subject,
+button.btn.btn-reject,
+button.btn.btn-approve {
   font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
 }
 
@@ -148,8 +154,8 @@ p.txt-for {
   overflow: hidden;
   position: relative;
   top: 50px;
-  z-index: -99;
   height: 100%;
+  padding: 24px;
 }
 
 .all-fix {
@@ -179,4 +185,98 @@ button.btn.all-approve {
   color: #0065f2;
 }
 
+.msg-title {
+  color: #0065f2;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.profile-pic {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+  width: 40px;
+  height: 40px;
+}
+
+.profile-pic img,
+.msg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.box-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.lbl-text {
+  color: #5c6773;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
+.nameWrapper {
+  margin-left: 16px;
+}
+
+p.msg-subject {
+  color: #5c6773;
+  font-weight: bold;
+  font-size: 17px;
+  margin-top: 24px;
+}
+p.msg-body {
+  color: #363f4d;
+  font-weight: 500;
+  font-size: 17px;
+}
+.msg-img {
+  width: 640px;
+  height: 360px;
+  background: #c8e2f4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.review-footer {
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  box-shadow: 1px -2px 16px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+.arr-left,
+.arr-right {
+  background: #f2f3f5;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 6px;
+}
+.comfirm-wrapper {
+  margin-right: 320px;
+}
+
+button.btn.btn-reject {
+  color: #bf2926;
+  font-weight: 500;
+  font-size: 17px;
+}
+button.btn.btn-approve {
+  background-color: #1682fb;
+  color: #ffffff;
+  font-size: 17px;
+  padding: 12px;
+}
 /* end message detail */

@@ -85,6 +85,47 @@
             </div>
             <div class="msg-title">Message</div>
           </div>
+          <div class="d-flex box-wrapper">
+            <div class="d-flex col-md-6">
+              <div class="profile-pic">
+                <img src="{{ activeObj.sender.profilePic }}" />
+              </div>
+              <div class="d-flex flex-column nameWrapper">
+                <p class="lbl-text">From</p>
+                <p class="txt-name">{{ activeObj.sender.preferredName }}</p>
+              </div>
+            </div>
+            <div class="d-flex col-md-6">
+              <div class="profile-pic">
+                <img src="{{ activeObj.student.profilePic }}" />
+              </div>
+              <div class="d-flex flex-column nameWrapper">
+                <p class="lbl-text">To</p>
+                <p class="txt-name">{{ activeObj.student.preferredName }}</p>
+              </div>
+            </div>
+          </div>
+          <p class="msg-subject">Course: {{ activeObj.title }}</p>
+          <p class="msg-body">
+            {{ activeObj.message }}
+          </p>
+          <div class="msg-img" *ngIf="activeObj.photo">
+            <img src="{{ activeObj.photo }}" />
+          </div>
+        </div>
+        <div class="d-flex justify-content-between review-footer">
+          <div class="d-flex direction-wrapper">
+            <div class="arr-left mr-4">
+              <img src="../../../assets/img/arrow_left.svg" />
+            </div>
+            <div class="arr-right">
+              <img src="../../../assets/img/arrow_right.svg" />
+            </div>
+          </div>
+          <div class="comfirm-wrapper">
+            <button class="btn btn-reject">Reject</button>
+            <button class="btn btn-approve">Approve</button>
+          </div>
         </div>
       </div>
     </div>
