@@ -14,7 +14,7 @@
       <a
         class="nav-link"
         [ngClass]="{ active: activeType == 'New' }"
-        (click)="activeType = 'New'"
+        (click)="clickMsgType((activeType = 'New'))"
       >
         New({{ reviewList.length }})
         <div
@@ -51,15 +51,21 @@
         <div
           class="d-flex message-preview"
           *ngFor="let list of reviewList; let i = index"
-          [ngClass]="{ active: activeIndex == list._id }"
+          [ngClass]="{ active: activeIndex == i }"
           (click)="showMessageDetail(list, i)"
         >
           <div class="d-flex message-content">
-            <div class="msg-con">
+            <div class="msg-con" *ngIf="!list.teacherOnly">
               <img src="../../../assets/img/Union.svg" />
             </div>
+            <div class="msg-con" *ngIf="list.teacherOnly">
+              <img src="../../../assets/img/lock.svg" />
+            </div>
             <div class="">
-              <p class="txt-msg">MESSAGE</p>
+              <p class="txt-msg" *ngIf="!list.teacherOnly">MESSAGE</p>
+              <p class="txt-msg privateNote" *ngIf="list.teacherOnly">
+                PRIVATE NOTES
+              </p>
               <p class="txt-name">{{ list.sender.preferredName }}</p>
               <p class="txt-for">For: {{ list.student.preferredName }}</p>
             </div>
@@ -103,7 +109,9 @@
                   <img src="{{ activeObj.student.profilePic }}" />
                 </div>
                 <div class="d-flex flex-column nameWrapper">
-                  <p class="lbl-text">To</p>
+                  <p class="lbl-text" *ngIf="!activeObj.teacherOnly">To</p>
+                  <p class="lbl-text" *ngIf="activeObj.teacherOnly">For</p>
+
                   <p class="txt-name">{{ activeObj.student.preferredName }}</p>
                 </div>
               </div>

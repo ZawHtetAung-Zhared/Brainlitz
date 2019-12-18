@@ -142,6 +142,10 @@ p.txt-for {
 .message-preview.active {
   background: #f2f3f5;
 }
+
+.privateNote {
+  color: #363f4d !important;
+}
 /* end message list */
 
 /* start message detail */
