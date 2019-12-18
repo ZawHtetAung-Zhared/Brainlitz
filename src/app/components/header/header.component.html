@@ -60,9 +60,9 @@
         <div
           class="cursor-on d-flex flex-column pr justify-content-center dropdown-wrap"
         >
-          <div class="oval">
+          <div *ngIf="count > 0" class="oval">
             <label>
-              25
+              {{ count }}
             </label>
           </div>
           <div class="circle">
@@ -198,13 +198,24 @@
         </ul>
       </div>
     </div>
-    <div class="d-flex align-items-center justify-content-center notibg">
+    <div
+      *ngIf="count > 0"
+      class="d-flex align-items-center justify-content-center notibg"
+    >
       <div id="notibar" class="d-flex justify-content-between .inner-wrapper">
-        <label>
-          You need to review 25 messages from Bessie Edwards, Jorge Murphy and 2
+        <label *ngIf="stuNames.length > 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }},
+          {{ stuNames[1] }} and {{ stuNames.length - 2 }}
           others.
         </label>
-        <label style="color: #0054C9;">
+        <label *ngIf="stuNames.length == 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }} and
+          {{ stuNames[1] }}.
+        </label>
+        <label *ngIf="stuNames.length == 1">
+          You need to review {{ count }} messages from {{ stuNames[0] }}
+        </label>
+        <label (click)="count = 0" style="color: #0054C9;cursor:pointer">
           Review
         </label>
       </div>
@@ -288,13 +299,24 @@
     </div>
   </div>
   <div id="sc">
-    <div class="d-flex align-items-center justify-content-center notibg">
+    <div
+      *ngIf="count > 0"
+      class="d-flex align-items-center justify-content-center notibg"
+    >
       <div id="notibar2" class="d-flex justify-content-between .inner-wrapper">
-        <label>
-          You need to review 25 messages from Bessie Edwards, Jorge Murphy and 2
+        <label *ngIf="stuNames.length > 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }},
+          {{ stuNames[1] }} and {{ stuNames.length - 2 }}
           others.
         </label>
-        <label style="color: #0054C9;">
+        <label *ngIf="stuNames.length == 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }} and
+          {{ stuNames[1] }}.
+        </label>
+        <label *ngIf="stuNames.length == 1">
+          You need to review {{ count }} messages from {{ stuNames[0] }}
+        </label>
+        <label (click)="count = 0" style="color: #0054C9;cursor:pointer">
           Review
         </label>
       </div>
