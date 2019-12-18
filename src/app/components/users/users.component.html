@@ -1555,95 +1555,121 @@
             >
               <h4 class="mb-0 tab-title title-space">Notifications</h4>
               <!-- ngfor outer start -->
-              <div class="d-flex flex-column">
-                <div class="title-space noti-date">Date</div>
-                <!-- ngfor inner start -->
-                <div class="d-flex justify-content-between title-space">
-                  <div class="d-flex align-items-center">
-                    <div id="parent">
-                      <img
-                        class="img-read"
-                        src="./assets/images/Attendance.png"
-                      />
-                    </div>
-                    <div class="status-p noti-title status-unread">Title</div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="status-p status-read">Status</div>
-                    <div class="noti-dot"></div>
-                    <div class="status-p status-read">Time</div>
-                  </div>
+              <div
+                *ngFor="let notification of notifications; let i = index"
+                class="d-flex flex-column"
+              >
+                <div class="title-space noti-date">
+                  {{ notification.date.utcDate | todayDate2 }}
                 </div>
-                <div class="noti-body body-read">body text here !</div>
-                <div class="noti-body body-unread">body text here !</div>
-                <div class="inner-line"></div>
-                <!-- ngfor inner end -->
                 <!-- ngfor inner start -->
-                <div class="d-flex justify-content-between title-space">
-                  <div class="d-flex align-items-center">
-                    <div id="parent">
-                      <img
-                        class="img-unread"
-                        style="filter: brightness(50%);"
-                        src="./assets/images/courseIconFrame.png"
-                      />
+                <div
+                  *ngFor="let noti of notification.noti; let j = index"
+                  class="d-flex flex-column"
+                >
+                  <div class="d-flex justify-content-between title-space">
+                    <div class="d-flex align-items-center">
+                      <div id="parent">
+                        <img
+                          *ngIf="noti.type == 1"
+                          [ngClass]="{
+                            'img-read': noti.isRead == true,
+                            'img-unread': noti.isRead == false
+                          }"
+                          src="./assets/images/Attendance.png"
+                        />
+                        <img
+                          *ngIf="noti.type == 2"
+                          [ngClass]="{
+                            'img-read': noti.isRead == true,
+                            'img-unread': noti.isRead == false
+                          }"
+                          style="filter: brightness(50%);"
+                          src="./assets/images/courseIconFrame.png"
+                        />
+                        <img
+                          *ngIf="noti.type == 3"
+                          [ngClass]="{
+                            'img-read': noti.isRead == true,
+                            'img-unread': noti.isRead == false
+                          }"
+                          src="./assets/images/attendanceChange.png"
+                        />
+                        <img
+                          *ngIf="noti.type == 4"
+                          [ngClass]="{
+                            'img-read': noti.isRead == true,
+                            'img-unread': noti.isRead == false
+                          }"
+                          src="./assets/images/lessonAbsentFrame.png"
+                        />
+                      </div>
+                      <div
+                        class="status-p noti-title"
+                        [ngClass]="{
+                          'status-read': noti.isRead == true,
+                          'status-unread': noti.isRead == false
+                        }"
+                      >
+                        {{ noti.title }}
+                      </div>
                     </div>
-                    <div class="status-p noti-title status-unread">Title</div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="status-p status-read">Status</div>
-                    <div class="noti-dot"></div>
-                    <div class="status-p status-read">Time</div>
-                  </div>
-                </div>
-                <div class="noti-body body-read">body text here !</div>
-                <div class="noti-body body-unread">body text here !</div>
-                <div class="inner-line"></div>
-                <!-- ngfor inner end -->
-                <!-- ngfor inner start -->
-                <div class="d-flex justify-content-between title-space">
-                  <div class="d-flex align-items-center">
-                    <div id="parent">
-                      <img
-                        class="img-read"
-                        src="./assets/images/attendanceChange.png"
-                      />
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="status-p"
+                        [ngClass]="{
+                          'status-read': noti.isRead == true,
+                          'status-unread': noti.isRead == false
+                        }"
+                      >
+                        {{ noti.isRead == true ? 'Read' : 'Unread' }}
+                      </div>
+                      <div class="noti-dot"></div>
+                      <div
+                        class="status-p"
+                        [ngClass]="{
+                          'status-read': noti.isRead == true,
+                          'status-unread': noti.isRead == false
+                        }"
+                      >
+                        Time
+                      </div>
                     </div>
-                    <div class="status-p noti-title status-unread">Title</div>
                   </div>
-                  <div class="d-flex align-items-center">
-                    <div class="status-p status-read">Status</div>
-                    <div class="noti-dot"></div>
-                    <div class="status-p status-read">Time</div>
+                  <div
+                    *ngIf="noti.regard.regard != null"
+                    class="noti-body"
+                    [ngClass]="{
+                      'body-read': noti.isRead == true,
+                      'body-unread': noti.isRead == false
+                    }"
+                  >
+                    <span class="body-read"> Regarding: </span>
+                    {{ noti.regard.regard }}
                   </div>
+                  <div
+                    class="noti-body"
+                    [ngClass]="{
+                      'body-read': noti.isRead == true,
+                      'body-unread': noti.isRead == false
+                    }"
+                  >
+                    {{ noti.message }}
+                  </div>
+                  <div
+                    *ngIf="notification.noti.length - 1 > j"
+                    class="inner-line"
+                  ></div>
                 </div>
-                <div class="noti-body body-read">body text here !</div>
-                <div class="noti-body body-unread">body text here !</div>
-                <div class="inner-line"></div>
                 <!-- ngfor inner end -->
-                <!-- ngfor inner start -->
-                <div class="d-flex justify-content-between title-space">
-                  <div class="d-flex align-items-center">
-                    <div id="parent">
-                      <img
-                        class="img-unread"
-                        src="./assets/images/lessonAbsentFrame.png"
-                      />
-                    </div>
-                    <div class="status-p noti-title status-unread">Title</div>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <div class="status-p status-read">Status</div>
-                    <div class="noti-dot"></div>
-                    <div class="status-p status-read">Time</div>
-                  </div>
-                </div>
-                <div class="noti-body body-read">body text here !</div>
-                <div class="noti-body body-unread">body text here !</div>
-                <div class="inner-line"></div>
-                <!-- ngfor inner end -->
+                <div
+                  [ngClass]="{
+                    'outer-line': notifications.length - 1 > i,
+                    'inner-line': notifications.length - 1 == i
+                  }"
+                ></div>
               </div>
-              <div class="outer-line"></div>
+
               <!-- ngfor outer end -->
             </div>
 

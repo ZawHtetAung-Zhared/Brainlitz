@@ -36,6 +36,7 @@ import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import sampleData from './notiSample';
 declare var $: any;
 
 @Component({
@@ -69,6 +70,7 @@ export class UsersComponent implements OnInit {
   public className: any;
   public showflexyCourse: boolean = false;
   public isGlobal: boolean = false;
+  public notifications: any;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -1791,6 +1793,14 @@ export class UsersComponent implements OnInit {
       this.callAchievements(1);
       this.callAchievements(3);
       this.callAchievements(6);
+    } else if (val == 'notifications') {
+      this.notifications = sampleData;
+      this.notifications = this.notifications.sort(
+        (a, b) =>
+          moment(b.date.utcDate).format('YYYYMMDD') -
+          moment(a.date.utcDate).format('YYYYMMDD')
+      );
+      console.log(this.notifications);
     }
   }
 
