@@ -51,8 +51,8 @@
         <div
           class="d-flex message-preview"
           *ngFor="let list of reviewList; let i = index"
-          [ngClass]="{ active: activeId == list._id }"
-          (click)="showMessageDetail(list)"
+          [ngClass]="{ active: activeIndex == list._id }"
+          (click)="showMessageDetail(list, i)"
         >
           <div class="d-flex message-content">
             <div class="msg-con">
@@ -78,47 +78,52 @@
           </div>
         </div>
 
-        <div class="detail-wrapper">
-          <div class="d-flex msg-title">
-            <div class="msg-con">
-              <img src="../../../assets/img/Union.svg" />
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <div class="detail-wrapper">
+            <div class="d-flex msg-title">
+              <div class="msg-con">
+                <img src="../../../assets/img/Union.svg" />
+              </div>
+              <div class="msg-title">Message</div>
             </div>
-            <div class="msg-title">Message</div>
-          </div>
-          <div class="d-flex box-wrapper">
-            <div class="d-flex col-md-6">
-              <div class="profile-pic">
-                <img src="{{ activeObj.sender.profilePic }}" />
+            <div class="d-flex box-wrapper">
+              <div class="d-flex col-md-6">
+                <div class="profile-pic">
+                  <img src="{{ activeObj.sender.profilePic }}" />
+                </div>
+                <div class="d-flex flex-column nameWrapper">
+                  <p class="lbl-text">From</p>
+                  <p class="txt-name">{{ activeObj.sender.preferredName }}</p>
+                </div>
               </div>
-              <div class="d-flex flex-column nameWrapper">
-                <p class="lbl-text">From</p>
-                <p class="txt-name">{{ activeObj.sender.preferredName }}</p>
+              <div class="d-flex col-md-6">
+                <div class="profile-pic">
+                  <img src="{{ activeObj.student.profilePic }}" />
+                </div>
+                <div class="d-flex flex-column nameWrapper">
+                  <p class="lbl-text">To</p>
+                  <p class="txt-name">{{ activeObj.student.preferredName }}</p>
+                </div>
               </div>
             </div>
-            <div class="d-flex col-md-6">
-              <div class="profile-pic">
-                <img src="{{ activeObj.student.profilePic }}" />
-              </div>
-              <div class="d-flex flex-column nameWrapper">
-                <p class="lbl-text">To</p>
-                <p class="txt-name">{{ activeObj.student.preferredName }}</p>
-              </div>
+            <p class="msg-subject">Course: {{ activeObj.title }}</p>
+            <p class="msg-body">
+              {{ activeObj.message }}
+            </p>
+            <div class="msg-img" *ngIf="activeObj.photo">
+              <img src="{{ activeObj.photo }}" />
             </div>
-          </div>
-          <p class="msg-subject">Course: {{ activeObj.title }}</p>
-          <p class="msg-body">
-            {{ activeObj.message }}
-          </p>
-          <div class="msg-img" *ngIf="activeObj.photo">
-            <img src="{{ activeObj.photo }}" />
+            <div></div>
           </div>
         </div>
         <div class="d-flex justify-content-between review-footer">
           <div class="d-flex direction-wrapper">
-            <div class="arr-left mr-4">
+            <div class="arr-left mr-4" (click)="goToPrev()">
               <img src="../../../assets/img/arrow_left.svg" />
             </div>
-            <div class="arr-right">
+            <div class="arr-right" (click)="goToNex()">
               <img src="../../../assets/img/arrow_right.svg" />
             </div>
           </div>

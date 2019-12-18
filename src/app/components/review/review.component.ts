@@ -13,7 +13,7 @@ import {
 })
 export class ReviewComponent implements OnInit {
   public activeType: any = 'New';
-  public activeId: any;
+  public activeIndex: any;
   public activeObj: any;
   public reviewList = [
     {
@@ -54,6 +54,7 @@ export class ReviewComponent implements OnInit {
       type: 3,
       teacherOnly: false,
       isApproved: false,
+      photo: '',
       message:
         'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
       type_detail: {
@@ -86,7 +87,7 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit() {
     if (this.reviewList.length > 0) {
-      this.activeId = this.reviewList[0]._id;
+      this.activeIndex = 0;
       this.activeObj = this.reviewList[0];
     }
   }
@@ -111,10 +112,31 @@ export class ReviewComponent implements OnInit {
     this.backto.emit(false);
   }
 
-  showMessageDetail(obj) {
+  showMessageDetail(obj, index) {
     console.log('exit');
-    this.activeId = obj._id;
+
     this.activeObj = obj;
-    console.log(this.activeId);
+    this.activeIndex = index;
+  }
+
+  goToPrev() {
+    console.log(this.activeIndex, 'active id');
+    console.log(this.reviewList.length - 1);
+    if (this.activeIndex == 0) {
+      this.activeObj = this.reviewList[this.activeIndex];
+    } else {
+      this.activeIndex = this.activeIndex - 1;
+      this.activeObj = this.reviewList[this.activeIndex];
+    }
+    console.log(this.activeIndex);
+  }
+
+  goToNex() {
+    console.log(this.activeIndex, 'active id');
+    if (this.reviewList.length - 1 != this.activeIndex) {
+      this.activeIndex = this.activeIndex + 1;
+      this.activeObj = this.reviewList[this.activeIndex];
+    }
+    console.log(this.activeIndex);
   }
 }

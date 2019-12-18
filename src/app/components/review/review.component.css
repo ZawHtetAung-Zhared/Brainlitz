@@ -279,4 +279,19 @@ button.btn.btn-approve {
   font-size: 17px;
   padding: 12px;
 }
+
+@media only screen and (min-width: 1366px) {
+  .detail-wrapper {
+    width: 960px !important;
+  }
+  /* .control-apg{
+   width:960px!important;
+ } */
+}
+@media (max-width: 1365px) {
+  .detail-wrapper {
+    width: 100%;
+  }
+}
+
 /* end message detail */
