@@ -220,11 +220,10 @@
             >
           </div>
         </div>
-        <div class="user-info-wrap d-flex -justify-content-between">
+        <!-- <div class="user-info-wrap d-flex -justify-content-between">
           <div class="d-flex col-left">
             <div class="img-wrap">
               <div class="circular-image">
-                <!-- <img *ngIf="custDetail.user.profilePic == 'undefined'" src="assets/img/user.svg"> -->
                 <img src="{{ custDetail.user.profilePic }}" />
               </div>
               <div
@@ -253,10 +252,9 @@
                   </span>
                 </div>
               </div>
-            </div>
+            </div> 
             <div class="pad-left-15" style="width: 80%">
               <div class="infoGp-wrap">
-                <!-- <p>{{custDetail.user.profilePic}}</p> -->
                 <h5>{{ custDetail.user.preferredName }}</h5>
                 <p class="info-mail mb-0">{{ custDetail.user.email }}</p>
               </div>
@@ -309,27 +307,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="" style="overflow-x: scroll;">
-                    <div class="gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
-                      <div class="small-circular-image">
-                        <img *ngIf="gurdian.profilePic == undefined || gurdian.profilePic == ''" src="assets/img/user.svg">
-                        <img *ngIf="gurdian.profilePic != undefined" src="{{gurdian.profilePic}}">
-                      </div>
-                      <p>{{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}</p>
-                    </div>
-                  </div> -->
-                <!-- <div class="d-flex gurdian-wrap" *ngFor="let gurdian of custDetail.user.guardians">
-                      <div *ngIf="gurdian.length<=0">
-                        -
-                      </div>
-                      <div class="small-circular-image">
-                        <img src="{{gurdian.profilePic}}">
-    
-                      </div>
-                      <div class="d-flex justify-content-center flex-column info-p padL-5">
-                        {{ (gurdian.fullname == null )? ("-") : (gurdian.fullname) }}
-                      </div>
-                    </div> -->
               </div>
             </div>
           </div>
@@ -337,12 +314,10 @@
             <div>
               <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
                 <label class="info-mail">Full name</label>
-                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
                 <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
               </div>
               <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
                 <label class="info-mail">Full name</label>
-                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
                 <p class="mb-0 info-p">
                   -
                 </p>
@@ -362,38 +337,144 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="d-flex infoGp-wrap info-wrap">
-                <div class="timetable-col">
-                  <label class="info-mail">Weight</label>
-                  <p class="mb-0 info-p">-</p>
-                </div>
-                <div class="timetable-col">
-                  <label class="info-mail">Height</label>
-                  <p class="mb-0 info-p">-</p>
-                </div>
-              </div> -->
+            </div>
+          </div> 
+        </div>-->
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="half-profile-wrap">
+            <div class="circular-image big-circular-image">
+              <img src="{{ custDetail.user.profilePic }}" />
+            </div>
+            <div
+              class="user-grading"
+              *ngIf="(custDetail.user.userGrading?.grade | json) != '{}'"
+            >
+              <div
+                *ngIf="
+                  custDetail.user.userGrading?.grade.point != undefined &&
+                  custDetail.user.userGrading?.grade.point != null
+                "
+                class="b-white justify-content-center d-flex"
+                [style.background]="
+                  custDetail.user.userGrading.sepalColor.background
+                "
+                [ngClass]="{
+                  'big-test-circle':
+                    custDetail.user.userGrading.grade.point.length == 1,
+                  circle: custDetail.user.userGrading.grade.point.length > 1
+                }"
+              >
+                <span
+                  [style.color]="custDetail.user.userGrading.sepalColor.text"
+                >
+                  {{ custDetail.user.userGrading.grade.point }}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="half-profile-wrap">
-          <div class="circular-image big-circular-image">
-            <img src="{{ custDetail.user.profilePic }}" />
+          <div
+            *ngIf="custDetail.user.guardians?.length > 0"
+            class="infoGp-wrap"
+          >
+            <label class="info-mail">Guardians</label>
+            <div class="guardian-main-wrap d-flex">
+              <div
+                *ngFor="let guardian of custDetail.user.guardians"
+                class="g-inner-wrap d-flex"
+              >
+                <div class="small-circular-image">
+                  <img
+                    *ngIf="
+                      guardian.profilePic == undefined ||
+                      guardian.profilePic == ''
+                    "
+                    src="assets/img/user.svg"
+                  />
+                  <img
+                    *ngIf="guardian.profilePic != undefined"
+                    src="{{ guardian.profilePic }}"
+                  />
+                </div>
+
+                <div class="guar-name" (click)="showDetails(guardian.userId)">
+                  {{
+                    guardian.fullName == '' || guardian.fullName == null
+                      ? guardian.email
+                      : guardian.fullName
+                  }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="btn-wrap">
         <!-- <div></div> -->
       </div>
-      <div class="section-wrap">
+      <div class="">
         <!--    [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }" -->
-        <div class="row">
+        <div class="row section-wrap">
           <div class="d-flex flex-column profile-left col-md-4">
-            <label> Name </label>
-            <label> Name </label>
-            <label> Name </label>
+            <div class="infoGp-wrap">
+              <!-- <p>{{custDetail.user.profilePic}}</p> -->
+              <h5 class="cust-name">{{ custDetail.user.preferredName }}</h5>
+              <p class="info-mail customer-email mb-0">
+                {{ custDetail.user.email }}
+              </p>
+            </div>
+            <div
+              class="infoGp-wrap mb-0"
+              style="border-bottom: 1px dotted #7A8A99;"
+            >
+              <p *ngIf="custDetail.user.about" class="mb-0 cust-p">
+                {{ custDetail.user.about }}
+              </p>
+              <p
+                *ngIf="!custDetail.user.about"
+                class="mb-0 cust-p"
+                style="margin-top: -20px"
+              >
+                -
+              </p>
+            </div>
+            <div>
+              <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
+                <label class="info-mail">Full name</label>
+                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
+                <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
+              </div>
+              <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
+                <label class="info-mail">Full name</label>
+                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
+                <p class="mb-0 info-p">
+                  -
+                </p>
+              </div>
+              <div
+                *ngFor="let detail of custDetail.user.details"
+                class="infoGp-wrap"
+              >
+                <label class="info-mail" *ngIf="detail.value.length != 0">{{
+                  detail.name
+                }}</label>
+                <div *ngIf="detail.dataType == 'Date'">
+                  <span class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                    {{ detail.value | todayDate2 }}
+                  </span>
+                  <span class="info-mail" *ngIf="detail.value.length != 0">
+                    (Age {{ age }})
+                  </span>
+                </div>
+                <div *ngIf="detail.dataType != 'Date'">
+                  <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                    {{ detail.value }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-md-8 d-flex flex-column">
-            <div class="d-flex tab-section">
+          <div class="col-md-8 d-flex flex-column profile-right">
+            <div class="d-flex tab-section justify-content-between">
               <button
                 [ngClass]="{ active: activeTab == 'class' }"
                 class="btn tab-btn"
@@ -414,6 +495,13 @@
                 (click)="clickTab('achievements')"
               >
                 Achievements
+              </button>
+              <button
+                [ngClass]="{ active: activeTab == 'notifications' }"
+                class="btn tab-btn"
+                (click)="clickTab('notifications')"
+              >
+                Notifications
               </button>
               <button
                 [ngClass]="{ active: activeTab == 'activity' }"
@@ -800,7 +888,10 @@
                         </div>
                         <div class="line mt-3"></div>
                         <div class="d-flex justify-content-between">
-                          <div class="d-flex" style="padding-left: 20px">
+                          <div
+                            class="d-flex align-items-center"
+                            style="padding-left: 20px"
+                          >
                             <img src="./assets/icons/journal.svg" />
                             <label
                               class="btn view-journal mb-0"
@@ -975,8 +1066,8 @@
                                 </div>
                                 <!-- (click)="viewInvoice(classEnrollModal, course)"
                       [disabled]="course.invoice == null" -->
-                                <button
-                                  class="btn view-invoice"
+                                <span
+                                  class="view-invoice"
                                   (click)="
                                     viewFlexyInvoice(
                                       classEnrollModal,
@@ -986,7 +1077,7 @@
                                   "
                                 >
                                   View invoice
-                                </button>
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -1133,9 +1224,7 @@
                               >
                               -
                               <span>
-                                {{
-                                  list.makeupCourse.endTime.hr | timeFormat
-                                }}
+                                {{ list.makeupCourse.endTime.hr | timeFormat }}
                                 :
                                 {{ list.makeupCourse.endTime.min | timeFormat }}
                                 {{ list.makeupCourse.endTime.meridiem }}
@@ -1458,6 +1547,104 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div
+              class="d-flex flex-column pb-20"
+              *ngIf="activeTab == 'notifications'"
+            >
+              <h4 class="mb-0 tab-title title-space">Notifications</h4>
+              <!-- ngfor outer start -->
+              <div class="d-flex flex-column">
+                <div class="title-space noti-date">Date</div>
+                <!-- ngfor inner start -->
+                <div class="d-flex justify-content-between title-space">
+                  <div class="d-flex align-items-center">
+                    <div id="parent">
+                      <img
+                        class="img-read"
+                        src="./assets/images/Attendance.png"
+                      />
+                    </div>
+                    <div class="status-p noti-title status-unread">Title</div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="status-p status-read">Status</div>
+                    <div class="noti-dot"></div>
+                    <div class="status-p status-read">Time</div>
+                  </div>
+                </div>
+                <div class="noti-body body-read">body text here !</div>
+                <div class="noti-body body-unread">body text here !</div>
+                <div class="inner-line"></div>
+                <!-- ngfor inner end -->
+                <!-- ngfor inner start -->
+                <div class="d-flex justify-content-between title-space">
+                  <div class="d-flex align-items-center">
+                    <div id="parent">
+                      <img
+                        class="img-unread"
+                        style="filter: brightness(50%);"
+                        src="./assets/images/courseIconFrame.png"
+                      />
+                    </div>
+                    <div class="status-p noti-title status-unread">Title</div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="status-p status-read">Status</div>
+                    <div class="noti-dot"></div>
+                    <div class="status-p status-read">Time</div>
+                  </div>
+                </div>
+                <div class="noti-body body-read">body text here !</div>
+                <div class="noti-body body-unread">body text here !</div>
+                <div class="inner-line"></div>
+                <!-- ngfor inner end -->
+                <!-- ngfor inner start -->
+                <div class="d-flex justify-content-between title-space">
+                  <div class="d-flex align-items-center">
+                    <div id="parent">
+                      <img
+                        class="img-read"
+                        src="./assets/images/attendanceChange.png"
+                      />
+                    </div>
+                    <div class="status-p noti-title status-unread">Title</div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="status-p status-read">Status</div>
+                    <div class="noti-dot"></div>
+                    <div class="status-p status-read">Time</div>
+                  </div>
+                </div>
+                <div class="noti-body body-read">body text here !</div>
+                <div class="noti-body body-unread">body text here !</div>
+                <div class="inner-line"></div>
+                <!-- ngfor inner end -->
+                <!-- ngfor inner start -->
+                <div class="d-flex justify-content-between title-space">
+                  <div class="d-flex align-items-center">
+                    <div id="parent">
+                      <img
+                        class="img-unread"
+                        src="./assets/images/lessonAbsentFrame.png"
+                      />
+                    </div>
+                    <div class="status-p noti-title status-unread">Title</div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="status-p status-read">Status</div>
+                    <div class="noti-dot"></div>
+                    <div class="status-p status-read">Time</div>
+                  </div>
+                </div>
+                <div class="noti-body body-read">body text here !</div>
+                <div class="noti-body body-unread">body text here !</div>
+                <div class="inner-line"></div>
+                <!-- ngfor inner end -->
+              </div>
+              <div class="outer-line"></div>
+              <!-- ngfor outer end -->
             </div>
 
             <div class="d-flex pb-20" *ngIf="activeTab == 'activity'">

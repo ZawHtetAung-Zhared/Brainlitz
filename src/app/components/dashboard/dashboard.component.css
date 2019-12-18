@@ -537,6 +537,7 @@ input:checked + .slider:before {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   font-size: 15px;
   padding-top: 6px;
+  width: 70%;
 }
 .labelName,
 .sectionTitle {

@@ -6,7 +6,7 @@ import * as moment from 'moment-timezone';
 })
 export class UtcDateAndDayObjPipe implements PipeTransform {
   transform(getDate): any {
-    var date = moment(getDate).format('dddd, D MMM YYYY');
+    var date = moment(getDate).format('D MMMM YYYY');
     return date;
   }
 }
