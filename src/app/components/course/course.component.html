@@ -6,6 +6,7 @@
   <app-header
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isTodayLesson"
     [ngClass]="{ stick: isSticky == true }"
+    (newItemEvent)="reviewToggle($event)"
   ></app-header>
   <div class="d-flex flex-column justify-content-center align-items-center">
     <div
@@ -38,7 +39,7 @@
             Today’s lessons
           </button>
         </div>
-        <button (click)="gotoReview()">Review</button>
+
         <div class="d-flex flex-column course-search-wrap">
           <div *ngIf="!isAdvancedSearch">
             <div class="simple-search input-group col-md-12 pd-zero">

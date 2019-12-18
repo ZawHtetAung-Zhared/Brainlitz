@@ -41,6 +41,281 @@ export class HeaderComponent implements OnInit, OnChanges {
   public dropMenuShow: boolean = false;
   public locationDpShow: boolean = false;
   public selectedLocation: any = {};
+  public stuNames: Array<any>;
+  public notis: Array<any> = [
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Rachel',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Branda',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Branda',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Branda',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Susan',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Susan',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Sunny',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    },
+    {
+      _id: '5df1ef3d31ce9f0014a15563',
+      title: 'Attendance',
+      type: 3,
+      isApproved: false,
+      teacherOnly: false,
+      message:
+        'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+      type_detail: {
+        attendance: true,
+        date: '2019-12-12T09:41:49.000Z'
+      },
+      sender: {
+        preferredName: 'Arron Walm TEST',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+        senderId: '5b063ee136f2e0f83cdbac8c'
+      },
+      student: {
+        preferredName: 'Sunny',
+        profilePic:
+          'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+        studentId: '5de8ca0631f64d0013c2bd39'
+      },
+      course: {
+        courseCode: 'Yogayago',
+        name: 'Yoga Beginner Class',
+        courseId: '5de8caad31f64d0013c2bd40'
+      }
+    }
+  ];
+  public count = this.notis.length;
+
+  public notizha: any = {
+    _id: '5df1ef3d31ce9f0014a15563',
+    title: 'Attendance',
+    type: 3,
+    isApproved: false,
+    teacherOnly: false,
+    message:
+      'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+    type_detail: {
+      attendance: true,
+      date: '2019-12-12T09:41:49.000Z'
+    },
+    sender: {
+      preferredName: 'Arron Walm TEST',
+      profilePic:
+        'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+      senderId: '5b063ee136f2e0f83cdbac8c'
+    },
+    student: {
+      preferredName: 'Rachel',
+      profilePic:
+        'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+      studentId: '5de8ca0631f64d0013c2bd39'
+    },
+    course: {
+      courseCode: 'Yogayago',
+      name: 'Yoga Beginner Class',
+      courseId: '5de8caad31f64d0013c2bd40'
+    }
+  };
 
   constructor(
     private _router: Router,
@@ -64,6 +339,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     console.log('headerLocation work');
     console.log('Org Log', this.orgLogo);
     this.getAdministrator();
+    this.notiFrom();
     setTimeout(() => {
       this.userName = localStorage.getItem('userName');
     }, 400);
@@ -80,6 +356,20 @@ export class HeaderComponent implements OnInit, OnChanges {
     } else {
       console.log(this._router.url);
     }
+  }
+  notiFrom() {
+    let temp = [];
+    let temp2 = [];
+    for (var i = 0; i < this.notis.length; i++) {
+      temp.push(this.notis[i].student.preferredName);
+    }
+    // console.log("name test",temp.includes(this.notis[1].student.preferredName));
+    for (var j = 0; j < this.notis.length; j++) {
+      if (!temp2.includes(this.notis[j].student.preferredName)) {
+        temp2.push(this.notis[j].student.preferredName);
+      }
+    }
+    this.stuNames = temp2;
   }
 
   getAdministrator() {
