@@ -1,4 +1,4 @@
-<div class="h-100" id="courseWrapper">
+<div class="h-100" id="courseWrapper" *ngIf="!isReview">
   <div
     [ngClass]="{ overlay: iscourseSearch == true || isAdvancedSearch == true }"
     (click)="clickoutSide()"
@@ -38,6 +38,7 @@
             Today’s lessons
           </button>
         </div>
+        <button (click)="gotoReview()">Review</button>
         <div class="d-flex flex-column course-search-wrap">
           <div *ngIf="!isAdvancedSearch">
             <div class="simple-search input-group col-md-12 pd-zero">
@@ -649,7 +650,7 @@
                     class="course-type"
                     *ngIf="course.draft == false && course.type != undefined"
                   >
-                    {{ course.type }}
+                    {{ course.type | lowercase }}
                   </div>
                   <div class="d-flex course-wrap">
                     <div
@@ -932,6 +933,7 @@
         !isCourseDetail &&
         !isCourseCreate &&
         !isTodayLesson &&
+        !isReview &&
         result.length != 0 &&
         !isCoursePlanDetail &&
         searchMore
@@ -951,6 +953,7 @@
         !isCategory &&
         !isPlan &&
         !isTodayLesson &&
+        !isReview &&
         !isCourseDetail &&
         !isCourseCreate &&
         result.length != 0 &&
@@ -3818,3 +3821,5 @@
   </ng-template>
   <block-ui message="Deafult Message"></block-ui>
 </div>
+
+<app-review *ngIf="isReview"></app-review>

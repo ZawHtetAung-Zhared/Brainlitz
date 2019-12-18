@@ -121,7 +121,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     console.log(endMonth, endYear);
     $('#monthRangePicker')
       .rangePicker({
-        setDate: [[2, 2015], [endMonth, endYear]],
+        setDate: [
+          [2, 2015],
+          [endMonth, endYear]
+        ],
         minDate: [2, 2015],
         maxDate: [endMonth, endYear],
         closeOnSelect: true,
