@@ -16,7 +16,7 @@
         [ngClass]="{ active: activeType == 'New' }"
         (click)="clickMsgType((activeType = 'New'))"
       >
-        New({{ reviewList.length }})
+        New{{ reviewList.length == 0 ? '' : '(' + reviewList.length + ')' }}
         <div
           class="border-design"
           [ngClass]="{ active: activeType == 'New' }"
@@ -45,7 +45,7 @@
         ></div>
       </a>
     </div>
-    <div class="d-flex content-wrapper">
+    <div class="d-flex content-wrapper" *ngIf="reviewList.length > 0">
       <div class="message-list" id="message-list">
         <div
           class="d-flex message-preview"
@@ -244,6 +244,17 @@
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="d-flex flex-column  align-items-center h-100 empty-wrapper"
+      *ngIf="reviewList.length == 0"
+    >
+      <p class="empty-header">No new message yet.</p>
+      <p class="empty-body">
+        Laborum labore eiusmod nostrud dolor nisi ad pariatur proident laborum
+        excepteur. Id qui aliquip amet commodo voluptate exercitation cillum. Et
+        consequat sint non deserunt.
+      </p>
     </div>
   </div>
 </div>

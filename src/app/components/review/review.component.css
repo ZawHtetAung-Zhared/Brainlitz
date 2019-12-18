@@ -3,7 +3,8 @@
 p.txt-for,
 .all-fix,
 .nameWrapper,
-p.msg-body {
+p.msg-body,
+p.empty-body {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
@@ -12,7 +13,8 @@ p.txt-name,
 .msg-title,
 p.msg-subject,
 button.btn.btn-reject,
-button.btn.btn-approve {
+button.btn.btn-approve,
+p.empty-header {
   font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
 }
 
@@ -325,3 +327,22 @@ button.btn.btn-approve {
 }
 
 /* end message detail */
+
+/* start empty */
+.empty-wrapper {
+  background: #f7f9fa;
+  padding-top: 128px;
+}
+
+p.empty-header {
+  color: #363f4d;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+p.empty-body {
+  color: #5c6773;
+  font-size: 17px;
+  width: 360px;
+  height: 140px;
+}
