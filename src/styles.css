@@ -263,7 +263,9 @@ app-pagenotfound {
 app-login,
 app-dashboard,
 app-tools,
-app-report {
+app-report,
+app-review,
+app-course {
   display: flex;
   flex-direction: column;
   height: 100%;

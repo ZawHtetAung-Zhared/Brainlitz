@@ -1,0 +1,301 @@
+.back-txt,
+#navbar a,
+p.txt-for,
+.all-fix,
+.nameWrapper,
+p.msg-body {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+}
+.header-txt,
+p.txt-msg,
+p.txt-name,
+.msg-title,
+p.msg-subject,
+button.btn.btn-reject,
+button.btn.btn-approve {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
+}
+
+/*Extra large devices (large desktops, 2000px and up)*/
+
+/* start sticky header */
+.left-arrow {
+  font-size: 25px;
+  float: left;
+}
+
+p.back-txt {
+  color: #2e3d4d;
+  font-size: 16px;
+  margin: 0;
+  padding: 2px 5px;
+}
+
+p.header-txt {
+  color: #363f4d;
+  font-weight: bold;
+  font-size: 28px;
+  padding-top: 16px;
+  margin-bottom: 0;
+}
+
+.header {
+  background-color: #ffffff;
+  padding: 20px;
+  transition: 0.5s all ease-out;
+}
+
+#navbar {
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0px 1px 0px #e3e4e5;
+  z-index: 9999 !important;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #363f4d;
+  text-align: center;
+  padding: 16px 24px 0px 24px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+a.nav-link.active {
+  color: #0080ff !important;
+}
+
+.border-design.active {
+  border-top: 4px solid #007fff;
+  border-radius: 4px 4px 0px 0px;
+  margin-top: 12px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
+
+/* end header */
+
+/* start message list */
+.message-list {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 1px 0px 0px #e3e4e5;
+  width: 320px;
+  position: fixed;
+  z-index: 1;
+  overflow: hidden;
+  top: 184px;
+  transition: 0.5s all ease-out;
+}
+
+.content-wrapper {
+  height: 100%;
+}
+
+p.txt-msg {
+  color: #0065f2;
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 13px;
+  padding: 3px;
+}
+
+.msg-con {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.msg-con img {
+  height: 100%;
+  object-fit: contain;
+}
+p.txt-name {
+  margin-bottom: 4px;
+  color: #5c6773;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+p.txt-for {
+  color: #5c6773;
+  font-size: 15px;
+  margin-bottom: 0;
+}
+.message-preview {
+  padding: 16px 24px;
+}
+.message-preview.active {
+  background: #f2f3f5;
+}
+
+.privateNote {
+  color: #363f4d !important;
+}
+/* end message list */
+
+/* start message detail */
+.message-detail {
+  margin-left: 320px;
+  width: 100%;
+  background: #f7f9fa;
+}
+.detail-wrapper {
+  overflow: hidden;
+  position: relative;
+  top: 50px;
+  height: 100%;
+  padding: 24px;
+}
+
+.all-fix {
+  position: fixed;
+  width: 100%;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 8px;
+  font-size: 15px;
+  z-index: 999 !important;
+}
+
+.btn-gp {
+  width: 100%;
+  margin-right: 320px;
+  padding: 0;
+}
+
+.addtop {
+  top: 57px !important;
+}
+
+button.btn.all-reject {
+  color: #bf2926;
+}
+button.btn.all-approve {
+  color: #0065f2;
+}
+
+.msg-title {
+  color: #0065f2;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.profile-pic {
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #ddd;
+  width: 40px;
+  height: 40px;
+}
+
+.profile-pic img,
+.msg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.box-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.lbl-text {
+  color: #5c6773;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
+.nameWrapper {
+  margin-left: 16px;
+}
+
+p.msg-subject {
+  color: #5c6773;
+  font-weight: bold;
+  font-size: 17px;
+  margin-top: 24px;
+}
+p.msg-body {
+  color: #363f4d;
+  font-weight: 500;
+  font-size: 17px;
+}
+.msg-img {
+  width: 640px;
+  height: 360px;
+  background: #c8e2f4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.review-footer {
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  box-shadow: 1px -2px 16px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+.arr-left,
+.arr-right {
+  background: #f2f3f5;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 6px;
+}
+.comfirm-wrapper {
+  margin-right: 320px;
+}
+
+button.btn.btn-reject {
+  color: #bf2926;
+  font-weight: 500;
+  font-size: 17px;
+}
+button.btn.btn-approve {
+  background-color: #1682fb;
+  color: #ffffff;
+  font-size: 17px;
+  padding: 12px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .detail-wrapper {
+    width: 960px !important;
+  }
+  /* .control-apg{
+   width:960px!important;
+ } */
+}
+@media (max-width: 1365px) {
+  .detail-wrapper {
+    width: 100%;
+  }
+}
+
+/* end message detail */
