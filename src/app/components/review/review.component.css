@@ -3,7 +3,8 @@
 p.txt-for,
 .all-fix,
 .nameWrapper,
-p.msg-body {
+p.msg-body,
+p.empty-body {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
@@ -12,7 +13,8 @@ p.txt-name,
 .msg-title,
 p.msg-subject,
 button.btn.btn-reject,
-button.btn.btn-approve {
+button.btn.btn-approve,
+p.empty-header {
   font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
 }
 
@@ -90,6 +92,18 @@ a.nav-link.active {
 /* end header */
 
 /* start message list */
+.approvemsg {
+  color: #7a8a99 !important;
+}
+
+.cross-icon {
+  width: 12px;
+  height: 12px;
+  margin-top: 8px;
+}
+.msg-con.approveicon {
+  margin-top: -2px;
+}
 .message-list {
   height: 100%;
   background: #ffffff;
@@ -145,6 +159,15 @@ p.txt-for {
 
 .privateNote {
   color: #363f4d !important;
+}
+
+.fadecolor {
+  color: #7a8a99;
+}
+
+.fadecolorsvg {
+  filter: invert(60%) sepia(8%) saturate(778%) hue-rotate(168deg)
+    brightness(88%) contrast(85%);
 }
 /* end message list */
 
@@ -203,9 +226,14 @@ button.btn.all-approve {
   width: 40px;
   height: 40px;
 }
-
+.tick-icon {
+  width: 14px;
+  height: 14px;
+  margin-top: 10px;
+}
 .profile-pic img,
-.msg-img img {
+.msg-img img,
+.tick-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -299,3 +327,22 @@ button.btn.btn-approve {
 }
 
 /* end message detail */
+
+/* start empty */
+.empty-wrapper {
+  background: #f7f9fa;
+  padding-top: 128px;
+}
+
+p.empty-header {
+  color: #363f4d;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+p.empty-body {
+  color: #5c6773;
+  font-size: 17px;
+  width: 360px;
+  height: 140px;
+}
