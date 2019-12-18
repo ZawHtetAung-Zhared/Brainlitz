@@ -15,7 +15,9 @@ button.btn.btn-reject,
 button.btn.btn-approve {
   font-family: 'Inter-UI-Bold', Arial, sans-serif !important;
 }
-
+.back {
+  cursor: pointer;
+}
 /*Extra large devices (large desktops, 2000px and up)*/
 
 /* start sticky header */

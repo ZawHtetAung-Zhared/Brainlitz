@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-review',
@@ -114,7 +115,7 @@ export class ReviewComponent implements OnInit {
 
   @Output() backto = new EventEmitter();
 
-  constructor() {}
+  constructor(private _location: Location) {}
 
   ngOnInit() {
     if (this.reviewList.length > 0) {
@@ -148,6 +149,9 @@ export class ReviewComponent implements OnInit {
 
     this.activeObj = obj;
     this.activeIndex = index;
+  }
+  backClicked() {
+    this._location.back();
   }
 
   goToPrev() {

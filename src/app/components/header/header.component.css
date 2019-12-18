@@ -59,6 +59,10 @@
   transform: translateY(0);
   margin-top: 0;*/
 }
+.nooutline:focus {
+  border: none;
+  outline: none;
+}
 #inputState {
   border: none;
   /*font-weight: bold;*/

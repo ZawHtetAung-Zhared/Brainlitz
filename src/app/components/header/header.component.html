@@ -58,7 +58,8 @@
           class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
         > -->
         <div
-          class="cursor-on d-flex flex-column pr justify-content-center dropdown-wrap"
+          routerLink="/review"
+          class="cursor-on d-flex flex-column pr justify-content-center dropdown-wrap nooutline"
         >
           <div *ngIf="count > 0" class="oval">
             <label>
@@ -215,7 +216,11 @@
         <label *ngIf="stuNames.length == 1">
           You need to review {{ count }} messages from {{ stuNames[0] }}
         </label>
-        <label (click)="count = 0" style="color: #0054C9;cursor:pointer">
+        <label
+          class="nooutline cursor-on"
+          routerLink="/review"
+          style="color: #0054C9;"
+        >
           Review
         </label>
       </div>
@@ -316,7 +321,11 @@
         <label *ngIf="stuNames.length == 1">
           You need to review {{ count }} messages from {{ stuNames[0] }}
         </label>
-        <label (click)="count = 0" style="color: #0054C9;cursor:pointer">
+        <label
+          class="nooutline cursor-on"
+          routerLink="/review"
+          style="color: #0054C9;"
+        >
           Review
         </label>
       </div>
