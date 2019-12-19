@@ -13,42 +13,42 @@
     <div id="navbar">
       <a
         class="nav-link"
-        [ngClass]="{ active: activeType == 'New' }"
-        (click)="clickMsgType((activeType = 'New'))"
+        [ngClass]="{ active: activeType == 'NEW' }"
+        (click)="clickMsgType((activeType = 'NEW'))"
       >
-        New{{ reviewList.length == 0 ? '' : '(' + reviewList.length + ')' }}
+        New{{ newLength == 0 ? '' : '(' + newLength + ')' }}
         <div
           class="border-design"
-          [ngClass]="{ active: activeType == 'New' }"
+          [ngClass]="{ active: activeType == 'NEW' }"
         ></div>
       </a>
       <a
         class="nav-link"
-        [ngClass]="{ active: activeType == 'Approved' }"
-        (click)="clickMsgType((activeType = 'Approved'))"
+        [ngClass]="{ active: activeType == 'APPROVED' }"
+        (click)="clickMsgType((activeType = 'APPROVED'))"
       >
         Approved
         <div
           class="border-design"
-          [ngClass]="{ active: activeType == 'Approved' }"
+          [ngClass]="{ active: activeType == 'APPROVED' }"
         ></div>
       </a>
       <a
         class="nav-link"
-        [ngClass]="{ active: activeType == 'Rejected' }"
-        (click)="clickMsgType((activeType = 'Rejected'))"
+        [ngClass]="{ active: activeType == 'REJECT' }"
+        (click)="clickMsgType((activeType = 'REJECT'))"
       >
         Rejected
         <div
           class="border-design"
-          [ngClass]="{ active: activeType == 'Rejected' }"
+          [ngClass]="{ active: activeType == 'REJECT' }"
         ></div>
       </a>
     </div>
     <div class="d-flex content-wrapper" *ngIf="reviewList.length > 0">
       <div class="message-list" id="message-list">
         <div
-          class="d-flex message-preview"
+          class="d-flex justify-content-between message-preview"
           *ngFor="let list of reviewList; let i = index"
           [ngClass]="{ active: activeIndex == i }"
           (click)="showMessageDetail(list, i)"
@@ -117,6 +117,7 @@
               <p class="txt-for">For: {{ list.student.preferredName }}</p>
             </div>
           </div>
+          <div class="showTime">{{ list.postAgo }}</div>
         </div>
       </div>
       <div class="message-detail">
@@ -275,7 +276,9 @@
             *ngIf="!activeObj.isApproved && !activeObj.isReject"
           >
             <button class="btn btn-reject">Reject</button>
-            <button class="btn btn-approve">Approve</button>
+            <button class="btn btn-approve" (click)="singleApprove()">
+              Approve
+            </button>
           </div>
           <div
             class="comfirm-wrapper"
