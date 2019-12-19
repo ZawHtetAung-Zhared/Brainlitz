@@ -636,8 +636,8 @@ export class HeaderComponent implements OnInit, OnChanges {
     console.log('HERE HERE');
     this._service.getNotiList(this.regionID, this.status).subscribe(
       (res: any) => {
-        console.log('noti reciever', res.journlaList);
-        this.notis = res.journlaList;
+        console.log('noti reciever', res.journalList);
+        this.notis = res.journalList;
         this.count = this.notis.length;
         this.notiFrom();
       },
