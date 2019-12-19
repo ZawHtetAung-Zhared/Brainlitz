@@ -607,6 +607,13 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.dropMenuShow = state == 'profile' ? !this.dropMenuShow : false;
     this.locationDpShow = state == 'loc' ? !this.locationDpShow : false;
   }
+  removeBar() {
+    console.log('clicked clicked');
+    var sc = document.getElementById('sc');
+    var noti = document.getElementById('noti');
+    sc.classList.add('remove');
+    noti.classList.add('remove');
+  }
 
   onClickHeaderTab(type) {
     // let str = '/'+type

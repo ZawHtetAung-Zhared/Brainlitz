@@ -200,6 +200,8 @@
       </div>
     </div>
     <div
+      id="noti"
+      (click)="removeBar()"
       *ngIf="count > 0"
       class="d-flex align-items-center justify-content-center notibg"
     >
@@ -303,7 +305,7 @@
       </ul>
     </div>
   </div>
-  <div id="sc">
+  <div id="sc" (click)="removeBar()">
     <div
       *ngIf="count > 0"
       class="d-flex align-items-center justify-content-center notibg"
