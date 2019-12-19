@@ -210,12 +210,15 @@
               >
                 <div class="tick-circle mr-1 ">
                   <i
-                    class="fa fa-check approve"
-                    [ngClass]="{ reject: !activeObj.isApproved }"
+                    class="fa fa-check approveIcon"
+                    [ngClass]="{ rejectIcon: !activeObj.isApproved }"
                   ></i>
                 </div>
-                {{ activeObj.isApproved ? 'Approve' : 'Rejected' }}
-                <div class="dot"></div>
+                {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
+                <div
+                  class="dot approvedot"
+                  [ngClass]="{ rejectdot: !activeObj.isApproved }"
+                ></div>
                 <div class="timeTxt">1 m ago</div>
               </div>
             </div>
@@ -260,9 +263,28 @@
               <img src="../../../assets/img/arrow_right.svg" />
             </div>
           </div>
-          <div class="comfirm-wrapper">
+          <div
+            class="comfirm-wrapper"
+            *ngIf="!activeObj.isApproved && !activeObj.isReject"
+          >
             <button class="btn btn-reject">Reject</button>
             <button class="btn btn-approve">Approve</button>
+          </div>
+          <div
+            class="comfirm-wrapper"
+            *ngIf="activeObj.isApproved || activeObj.isReject"
+          >
+            <button class="btn btn-undo">Undo</button>
+            <button
+              class="btn btn-approve-status approve"
+              [ngClass]="{ reject: !activeObj.isApproved }"
+            >
+              <i
+                class="fa fa-check approveIcon"
+                [ngClass]="{ rejectIcon: !activeObj.isApproved }"
+              ></i>
+              {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
+            </button>
           </div>
         </div>
       </div>

@@ -5,7 +5,10 @@ p.txt-for,
 .nameWrapper,
 p.msg-body,
 p.empty-body,
-span.timeTxt {
+span.timeTxt,
+.status,
+.btn-approve-status,
+button.btn.btn-undo {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
@@ -350,7 +353,7 @@ p.empty-body {
   height: 140px;
 }
 
-div.tick-circle .fa-check {
+.approveIcon {
   border-radius: 50%;
   font-size: 10px;
   padding: 4px;
@@ -378,11 +381,37 @@ div.tick-circle .fa-check {
 }
 
 .dot {
-  background: #52cc85;
   width: 4px;
   height: 4px;
   border-radius: 50%;
   margin-top: 10px;
   margin-left: 8px;
   margin-right: 8px;
+}
+.approvedot {
+  background: #52cc85;
+}
+
+.rejectdot {
+  background: #bf2926 !important;
+}
+
+.approveIcon {
+  background: #00a653;
+  color: #bfffda;
+}
+
+.rejectIcon {
+  background: #bf2926;
+  color: #ffe7e6;
+}
+
+button.btn.btn-approve-status {
+  border-radius: 20px;
+}
+
+button.btn.btn-undo {
+  color: #5c6773;
+  font-weight: 500;
+  font-size: 17px;
 }
