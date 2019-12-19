@@ -414,7 +414,9 @@
       <div class="">
         <!--    [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }" -->
         <div class="row section-wrap">
-          <div class="d-flex flex-column profile-left col-md-4">
+          <div
+            class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3"
+          >
             <div class="infoGp-wrap">
               <!-- <p>{{custDetail.user.profilePic}}</p> -->
               <h5 class="cust-name">{{ custDetail.user.preferredName }}</h5>
@@ -473,8 +475,10 @@
               </div>
             </div>
           </div>
-          <div class="col-md-8 d-flex flex-column profile-right">
-            <div class="d-flex tab-section justify-content-between">
+          <div
+            class="col-md-8 col-xl-9 col-lg-9 d-flex flex-column profile-right"
+          >
+            <div class="d-flex tab-section">
               <button
                 [ngClass]="{ active: activeTab == 'class' }"
                 class="btn tab-btn"
@@ -711,7 +715,7 @@
                 </div>
               </div> -->
               <!-- Attending lessons -->
-              <div>
+              <div class="col-md-12 col-lg-12 col-xl-9">
                 <div class="no-item" *ngIf="custDetail.courses?.length <= 0">
                   There is no course from this customer!
                 </div>
@@ -914,7 +918,9 @@
                             <label class="switch-label mt-0" for="online"
                               >Auto enroll for next term</label
                             >
-                            <div class="toggle-wrap d-flex align-items-center">
+                            <div
+                              class="toggle-wrap toggle-ipad d-flex align-items-center"
+                            >
                               <label
                                 class="switch"
                                 *ngIf="
@@ -1124,7 +1130,7 @@
                 </ul>
               </div>
               <div *ngIf="makeupLists" class="row makeup-wrap">
-                <div class="col-md-4" *ngFor="let list of makeupLists">
+                <div class="col-md-6 col-lg-4" *ngFor="let list of makeupLists">
                   <div class="single-makeup">
                     <div *ngIf="activePass == 'available'" class="makeup-head">
                       <p>
@@ -1676,7 +1682,7 @@
             <div class="d-flex pb-20" *ngIf="activeTab == 'activity'">
               <div class="firstCol">
                 <div>
-                  <h6 class="title-space">Ratings and reviews</h6>
+                  <h6 class="title-space tab-title">Ratings and reviews</h6>
                   <div>
                     <div
                       class="no-item"
