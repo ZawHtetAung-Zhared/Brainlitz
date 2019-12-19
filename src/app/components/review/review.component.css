@@ -8,7 +8,8 @@ p.empty-body,
 span.timeTxt,
 .status,
 .btn-approve-status,
-button.btn.btn-undo {
+button.btn.btn-undo,
+.showTime {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
@@ -117,9 +118,10 @@ a.nav-link.active {
   width: 320px;
   position: fixed;
   z-index: 1;
-  overflow: hidden;
   top: 184px;
   transition: 0.5s all ease-out;
+  overflow: overlay;
+  padding-bottom: 60px;
 }
 
 .content-wrapper {
@@ -208,7 +210,7 @@ p.txt-for {
 }
 
 .addtop {
-  top: 57px !important;
+  top: 53px !important;
 }
 
 button.btn.all-reject {
@@ -423,4 +425,10 @@ button.btn.btn-undo {
   color: #5c6773;
   font-weight: 500;
   font-size: 17px;
+}
+
+.showTime {
+  color: #5c6773;
+  font-weight: 500;
+  font-size: 13px;
 }

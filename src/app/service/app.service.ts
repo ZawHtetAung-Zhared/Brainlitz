@@ -4004,6 +4004,33 @@ export class appService {
       return res;
     });
   }
+
+  singleApprove(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/approve-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
   getNotificationHistory(regionId, userId) {
     let url =
       this.baseUrl +

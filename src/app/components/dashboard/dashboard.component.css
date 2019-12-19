@@ -1193,3 +1193,14 @@ input[type='range' i] {
 .schedule-img {
   margin-top: 10px;
 }
+.qr-input-wrap {
+  padding-bottom: 40px;
+}
+.qr-input-group {
+  position: relative;
+  width: 100%;
+}
+.qr-preview {
+  width: 200px;
+  height: 200px;
+}
