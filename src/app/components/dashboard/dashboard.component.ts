@@ -286,6 +286,7 @@ export class DashboardComponent implements OnInit {
     'zar',
     'zmw'
   ];
+  public isAcceptPaynow = false;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -648,6 +649,38 @@ export class DashboardComponent implements OnInit {
       };
     }
   }
+
+  qrURL: any;
+  handleQRInput(files: FileList, $event) {
+    console.log('handleFileInput~~~');
+    console.log(files);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
+    this.logo = files.item(0);
+    // this.item.logo = this.logo;
+    const reader = new FileReader();
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    if (this.logo.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      this.imagePath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.qrURL = reader.result;
+      };
+    }
+  }
+
   editRegion() {
     console.log(this.item);
     this.isLogoChanged = false;
@@ -1137,6 +1170,7 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';
     }
   }
+
   onlinePayment() {
     this.isOnline = !this.isOnline;
     if (this.isOnline == true) {
@@ -1166,6 +1200,10 @@ export class DashboardComponent implements OnInit {
     } else {
       this.payment = {};
     }
+  }
+
+  acceptPaynow() {
+    this.isAcceptPaynow = true;
   }
 
   SendCreEmail() {
