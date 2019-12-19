@@ -124,6 +124,9 @@ export class ReviewComponent implements OnInit {
     if (this.reviewList.length > 0) {
       this.activeIndex = 0;
       this.activeObj = this.reviewList[0];
+      setTimeout(() => {
+        this.checkImgSize(this.activeObj.photo);
+      }, 100);
     }
   }
 
@@ -283,6 +286,7 @@ export class ReviewComponent implements OnInit {
       ];
       this.activeObj = this.reviewList[0];
       this.activeIndex = 0;
+      this.checkImgSize(this.activeObj.photo);
     } else if (this.activeType == 'New') {
       this.reviewList = [
         {
@@ -385,6 +389,7 @@ export class ReviewComponent implements OnInit {
       ];
       this.activeObj = this.reviewList[0];
       this.activeIndex = 0;
+      this.checkImgSize(this.activeObj.photo);
     } else {
       this.reviewList = [
         {
@@ -487,6 +492,26 @@ export class ReviewComponent implements OnInit {
       ];
       this.activeObj = this.reviewList[0];
       this.activeIndex = 0;
+      this.checkImgSize(this.activeObj.photo);
     }
+  }
+
+  public smallImg: boolean = false;
+  public autoSize: any = {};
+  checkImgSize(url) {
+    let img = new Image();
+    img.src = url;
+    console.log(img, 'img');
+    console.log(img.width, 'width');
+    console.log(img.height, 'height');
+    if (img.width < 640) {
+      this.smallImg = true;
+      this.autoSize = {
+        width: img.width + 'px',
+        height: img.height + 'px',
+        'border-radius': '4px'
+      };
+    }
+    console.log(this.autoSize);
   }
 }

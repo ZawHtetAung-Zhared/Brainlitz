@@ -238,13 +238,18 @@ button.btn.all-approve {
   margin-top: 10px;
 }
 .profile-pic img,
-.msg-img img,
 .tick-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border-radius: 8px;
 }
 
+/* .autoImg img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+} */
 .box-wrapper {
   background: #ffffff;
   border-radius: 8px;
@@ -277,10 +282,14 @@ p.msg-body {
 .msg-img {
   width: 640px;
   height: 360px;
-  background: #c8e2f4;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
+  border-radius: 4px;
+  background: #f2f3f5;
+}
+
+.msg-img img {
+  max-width: 640px;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .review-footer {

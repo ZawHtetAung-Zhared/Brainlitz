@@ -135,10 +135,7 @@
           class="d-flex flex-column justify-content-center align-items-center"
         >
           <div class="detail-wrapper">
-            <div
-              class="d-flex justify-content-between msg-title"
-              *ngIf="activeObj.isApproved || activeObj.isReject"
-            >
+            <div class="d-flex justify-content-between msg-title">
               <div class="d-flex">
                 <div
                   class="msg-con"
@@ -207,6 +204,7 @@
               <div
                 class="d-flex status approve"
                 [ngClass]="{ reject: !activeObj.isApproved }"
+                *ngIf="activeObj.isApproved || activeObj.isReject"
               >
                 <div class="tick-circle mr-1 ">
                   <i
@@ -248,10 +246,19 @@
             <p class="msg-body">
               {{ activeObj.message }}
             </p>
-            <div class="msg-img" *ngIf="activeObj.photo">
-              <img src="{{ activeObj.photo }}" />
+            <div
+              class="d-flex justify-content-center align-items-center msg-img"
+              *ngIf="!smallImg"
+            >
+              <img src="{{ activeObj.photo }}" id="msg-img" />
             </div>
-            <div></div>
+            <div
+              class="d-flex justify-content-center msg-img"
+              *ngIf="smallImg"
+              style="background: unset !important;"
+            >
+              <img src="{{ activeObj.photo }}" [ngStyle]="autoSize" />
+            </div>
           </div>
         </div>
         <div class="d-flex justify-content-between review-footer">
@@ -295,9 +302,8 @@
     >
       <p class="empty-header">No new message yet.</p>
       <p class="empty-body">
-        Laborum labore eiusmod nostrud dolor nisi ad pariatur proident laborum
-        excepteur. Id qui aliquip amet commodo voluptate exercitation cillum. Et
-        consequat sint non deserunt.
+        Once a staff posted a message or photo for a customer's progress book,
+        it will be appeared here for reviewing.
       </p>
     </div>
   </div>
