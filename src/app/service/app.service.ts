@@ -846,6 +846,20 @@ export class appService {
       return result;
     });
   }
+  getNotiList(id: string, status: string) {
+    let apiUrl = this.baseUrl + '/regions/' + id + '/journals?status=' + status;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('res', res);
+      return result;
+    });
+  }
 
   createLocation(
     id: string,
