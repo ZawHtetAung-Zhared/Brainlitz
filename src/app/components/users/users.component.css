@@ -3727,9 +3727,10 @@ span.grade-date {
 }
 .half-profile-wrap {
   position: relative;
-  top: 40px;
+  top: 18px;
   left: 15px;
   z-index: 2;
+  height: 114px;
 }
 .big-circular-image {
   width: 128px;

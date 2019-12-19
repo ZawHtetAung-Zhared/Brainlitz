@@ -1794,14 +1794,48 @@ export class UsersComponent implements OnInit {
       this.callAchievements(3);
       this.callAchievements(6);
     } else if (val == 'notifications') {
-      this.notifications = sampleData;
-      this.notifications = this.notifications.sort(
-        (a, b) =>
-          moment(b.date.utcDate).format('YYYYMMDD') -
-          moment(a.date.utcDate).format('YYYYMMDD')
-      );
-      console.log(this.notifications);
+      this.getNotiList();
     }
+  }
+
+  getNotiList() {
+    // this.notifications = sampleData;
+    this._service
+      .getNotificationHistory(this.regionID, this.custDetail.user.userId)
+      .subscribe(
+        (res: any) => {
+          this.notifications = res;
+          if (this.notifications.length > 1) {
+            this.notifications = this.notifications.sort(
+              (a, b) =>
+                moment(b.date.utcDate).format('YYYYMMDD') -
+                moment(a.date.utcDate).format('YYYYMMDD')
+            );
+          }
+          for (var i = 0; i < this.notifications.length; i++) {
+            for (var j = 0; j < this.notifications[i].noti.length; j++) {
+              var data = this.notifications[i].noti[j];
+              data.createdTime = this.formatAMPM(data.createdDate);
+            }
+          }
+          console.log(this.notifications);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  formatAMPM(date) {
+    var new_date = new Date(date);
+    var hours = new_date.getUTCHours();
+    var minutes = new_date.getUTCMinutes().toString();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = parseInt(minutes) < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 
   callMakeupLists() {

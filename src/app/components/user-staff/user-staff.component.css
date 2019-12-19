@@ -763,6 +763,7 @@ input[type='radio']:checked ~ label {
   font-size: 20px;
   color: #2e3e4d;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  word-break: break-all;
   /*padding: 5px; */
 }
 .gurdian-wrap {
@@ -1028,8 +1029,9 @@ ngb-datepicker {
 }
 .half-profile-wrap {
   position: relative;
-  top: 40px;
+  top: 18px;
   left: 15px;
+  height: 114px;
 }
 .section-wrap {
   margin-bottom: 0px !important;
