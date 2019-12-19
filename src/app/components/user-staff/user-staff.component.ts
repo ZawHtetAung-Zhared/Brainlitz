@@ -737,6 +737,7 @@ export class UserStaffComponent implements OnInit {
     $('.frame-upload').css('display', 'none');
   }
 
+  age: any;
   showDetails(data, ID) {
     this.showloading = false;
     this.userArchive = data.isArchive;
@@ -746,6 +747,7 @@ export class UserStaffComponent implements OnInit {
     this.staffLists = [];
     this.editId = ID;
     this.staffObj = data;
+    this.age = 0;
     console.log('show Staff details', this.staffObj);
     console.log(ID);
     // //this.blockUI.start('Loading...');
@@ -758,8 +760,13 @@ export class UserStaffComponent implements OnInit {
           res.user.details.map(info => {
             if (info.controlType === 'Datepicker') {
               info.value = moment(info.value).format('YYYY-MM-DD');
+              this.age = info.value;
             }
           });
+          if (this.age != 0) {
+            const birthday = new Date(this.age);
+            this.age = moment().diff(birthday, 'years');
+          }
           console.log('StaffDetail', res);
           // setTimeout(() => {
           //   //this.blockUI.stop();

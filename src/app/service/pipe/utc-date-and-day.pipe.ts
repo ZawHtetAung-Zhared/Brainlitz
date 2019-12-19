@@ -48,15 +48,32 @@ export class UtcDateAndDayPipe implements PipeTransform {
     var monthName = monthNames[new Date(getDate).getUTCMonth()];
     var yearName = new Date(getDate).getUTCFullYear();
     var year = yearName.toString();
-    monthName;
-    var utcDateAndDay =
-      fullDay +
-      ', ' +
-      new Date(getDate).getUTCDate() +
-      ' ' +
-      monthName +
-      ' ' +
-      year;
+    var todayMonth = monthNames[new Date().getUTCMonth()];
+    var todayYear = new Date().getUTCFullYear();
+    var todayDate = new Date().getUTCDate();
+    var utcDateAndDay;
+    if (
+      todayDate == new Date(getDate).getUTCDate() &&
+      monthName == todayMonth &&
+      yearName == todayYear
+    ) {
+      utcDateAndDay =
+        'Today, ' +
+        new Date(getDate).getUTCDate() +
+        ' ' +
+        monthName +
+        ' ' +
+        year;
+    } else {
+      utcDateAndDay =
+        fullDay +
+        ', ' +
+        new Date(getDate).getUTCDate() +
+        ' ' +
+        monthName +
+        ' ' +
+        year;
+    }
     return utcDateAndDay;
   }
 }

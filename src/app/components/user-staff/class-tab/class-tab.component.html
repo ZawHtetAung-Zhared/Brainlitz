@@ -56,7 +56,7 @@
 </div> -->
 <div class="row" *ngIf="courses?.length > 0">
   <div
-    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
     *ngFor="let course of courses"
   >
     <div class="course-block">
@@ -82,7 +82,7 @@
       </div>
 
       <div class="overview-shedule d-flex">
-        <div class="col-md-5 p-0" *ngIf="course.type != 'ONLINE'">
+        <div class="col-md-4 p-0" *ngIf="course.type != 'ONLINE'">
           <span class="d-flex shedule-text pb-2">
             <label
               class="class-label-14 mb-0"
