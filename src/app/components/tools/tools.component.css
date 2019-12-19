@@ -291,10 +291,10 @@ img.setting-icon {
   top: 65px;
 }
 .side-bar-wrap.mid-top {
-  top: 72px;
+  top: 114px;
 }
 .side-bar-wrap {
-  top: 147px;
+  /* top: 147px; */
 }
 .noti-sidebar {
   /*padding-top: 149px;*/
