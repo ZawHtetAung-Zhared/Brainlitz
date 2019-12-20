@@ -406,6 +406,21 @@ export class appService {
       });
   }
 
+  updatePayNowPayment(regionId: string, body: object) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/payNow-invoice';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .put(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
   createTemplate(id, body) {
     this.getLocalstorage();
     let url = this.baseUrl + '/' + id + '/access-point-template';

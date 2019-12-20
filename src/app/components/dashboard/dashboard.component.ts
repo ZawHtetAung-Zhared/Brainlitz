@@ -287,6 +287,8 @@ export class DashboardComponent implements OnInit {
     'zmw'
   ];
   public isAcceptPaynow = false;
+  public isQRChanged = false;
+
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -646,17 +648,20 @@ export class DashboardComponent implements OnInit {
       reader.readAsDataURL(files[0]);
       reader.onload = _event => {
         this.imgURL = reader.result;
+        console.log(this.imgURL);
       };
     }
   }
 
   qrURL: any;
   handleQRInput(files: FileList, $event) {
-    console.log('handleFileInput~~~');
+    this.isQRChanged = true;
+    console.log('handleqrInput~~~');
+    var qrPath;
     console.log(files);
     this.elementView.nativeElement.innerText = files[0].name;
     this.message = '';
-    this.logo = files.item(0);
+    var qr = files.item(0);
     // this.item.logo = this.logo;
     const reader = new FileReader();
 
@@ -670,10 +675,10 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    if (this.logo.size >= 1048576) {
+    if (qr.size >= 1048576) {
       this.message = 'Upload image file size should not be exceed 1MB.';
     } else {
-      this.imagePath = files;
+      qrPath = files;
       reader.readAsDataURL(files[0]);
       reader.onload = _event => {
         this.qrURL = reader.result;
@@ -773,8 +778,8 @@ export class DashboardComponent implements OnInit {
     return starTTemp;
   }
 
-  getLogo() {
-    let logo = document.getElementById('imgURL').getAttribute('src');
+  getLogo(url) {
+    let logo = document.getElementById(url).getAttribute('src');
 
     return this.dataURItoBlob(logo);
   }
@@ -818,7 +823,9 @@ export class DashboardComponent implements OnInit {
       regionalSettingFormData.append('url', data.url);
       if (this.isLogoChanged == true) {
         console.log('isLogoChanged~~~~', this.isLogoChanged);
-        regionalSettingFormData.append('logo', this.getLogo());
+        var test = this.getLogo('imgURL');
+        console.log(test);
+        regionalSettingFormData.append('logo', this.getLogo('imgURL'));
       }
 
       console.log('isLogoChanged~~~~', data.operatingHour);
@@ -897,6 +904,8 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
 
     this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
+    this.isAcceptPaynow = this.paymentData.acceptPayNow;
+    this.qrURL = this.paymentData.payNowQr;
     // if(this.isOnline == true){
     //   this.selectedProvider = this.paymentData.paymentProviders.name;
     // }
@@ -1124,10 +1133,24 @@ export class DashboardComponent implements OnInit {
         invoiceSettings: this.invoiceData,
         paymentSettings: data
       };
+
+      var qrFormData = new FormData();
+      qrFormData.append('qrcode', this.getLogo('qrURL'));
+      qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
     }
 
     console.log(body);
     //this.blockUI.start('Loading...');
+    // this._service.updatePayNowPayment(this.regionId, paynowData).subscribe((res:any)=>{
+    //   console.log(res)
+    // });
+
+    this._service
+      .updatePayNowPayment(this.regionId, qrFormData)
+      .subscribe((res: any) => {
+        console.log('*******', res);
+      });
+
     this._service.updateInvoiceSetting(this.regionId, body).subscribe(
       (res: any) => {
         //this.blockUI.stop();
@@ -1148,6 +1171,29 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+  // saveQR(){
+  //   let qrFormData = new FormData();
+  //   if (this.isQRChanged == true) {
+  //     var paynowData;
+  //     console.log('isQRChanged~~~~', this.isLogoChanged);
+  //     // var payNowQr = this.getLogo('qrURL')
+
+  //     paynowData = {
+  //       "acceptPayNow": this.isAcceptPaynow,
+  //       "payNowQr": this.getLogo('qrURL')
+  //     }
+  //     qrFormData.append('qrcode', this.getLogo('qrURL'));
+  //     qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow))
+  //     // console.log("paynowData",paynowData)
+  //   }
+  //   setTimeout(()=>{
+  //     this._service.updatePayNowPayment(this.regionId, qrFormData).subscribe((res:any)=>{
+  //       console.log("*******",res)
+  //     });
+  //   },200)
+
+  // }
 
   cancel() {
     this.option = '';
@@ -1203,7 +1249,7 @@ export class DashboardComponent implements OnInit {
   }
 
   acceptPaynow() {
-    this.isAcceptPaynow = true;
+    this.isAcceptPaynow = !this.isAcceptPaynow;
   }
 
   SendCreEmail() {
