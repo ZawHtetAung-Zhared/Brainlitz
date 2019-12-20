@@ -1805,13 +1805,13 @@ export class UsersComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.notifications = res;
-          if (this.notifications.length > 1) {
-            this.notifications = this.notifications.sort(
-              (a, b) =>
-                moment(b.date.utcDate).format('YYYYMMDD') -
-                moment(a.date.utcDate).format('YYYYMMDD')
-            );
-          }
+          // if (this.notifications.length > 1) {
+          //   this.notifications = this.notifications.sort(
+          //     (a, b) =>
+          //       moment(b.date.utcDate).format('YYYYMMDD') -
+          //       moment(a.date.utcDate).format('YYYYMMDD')
+          //   );
+          // }
           for (var i = 0; i < this.notifications.length; i++) {
             for (var j = 0; j < this.notifications[i].noti.length; j++) {
               var data = this.notifications[i].noti[j];
