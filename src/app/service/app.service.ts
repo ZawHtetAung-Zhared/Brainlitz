@@ -4030,4 +4030,66 @@ export class appService {
         return result;
       });
   }
+  singleReject(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/reject-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  rejectAllMessage(regionId) {
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/reject-all-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, null, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  aproveAllMessage(regionId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/approve-all-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, null, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
 }

@@ -9,7 +9,8 @@ span.timeTxt,
 .status,
 .btn-approve-status,
 button.btn.btn-undo,
-.showTime {
+.showTime,
+.time-detail {
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
 .header-txt,
@@ -118,8 +119,8 @@ a.nav-link.active {
   width: 320px;
   position: fixed;
   z-index: 1;
-  top: 184px;
-  transition: 0.5s all ease-out;
+  /* top: 184px; */
+  /* transition: 0.5s all ease-out; */
   overflow: overlay;
   padding-bottom: 60px;
 }
@@ -431,4 +432,20 @@ button.btn.btn-undo {
   color: #5c6773;
   font-weight: 500;
   font-size: 13px;
+}
+
+.time-detail {
+  color: #7a8a99;
+  font-size: 15px;
+  padding-top: 6px;
+}
+
+.timeDote {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-top: 15px;
+  margin-left: 8px;
+  margin-right: 8px;
+  background: #c3d4e6;
 }
