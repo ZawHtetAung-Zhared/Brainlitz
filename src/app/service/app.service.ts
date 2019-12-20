@@ -4057,7 +4057,7 @@ export class appService {
       });
   }
 
-  rejectAllMessage(regionId) {
+  rejectAllMessage(regionId, body) {
     let apiUrl = this.baseUrl + '/regions/' + regionId + '/reject-all-journals';
 
     const httpOptions = {
@@ -4068,14 +4068,14 @@ export class appService {
     };
 
     return this.httpClient
-      .post(apiUrl, null, httpOptions)
+      .post(apiUrl, body, httpOptions)
       .map((res: Response) => {
         let result = res;
         return result;
       });
   }
 
-  aproveAllMessage(regionId) {
+  aproveAllMessage(regionId, body) {
     let apiUrl =
       this.baseUrl + '/regions/' + regionId + '/approve-all-pending-journals';
 
@@ -4087,7 +4087,7 @@ export class appService {
     };
 
     return this.httpClient
-      .post(apiUrl, null, httpOptions)
+      .post(apiUrl, body, httpOptions)
       .map((res: Response) => {
         let result = res;
         return result;
