@@ -201,9 +201,9 @@
     </div>
     <div
       id="noti"
-      (click)="removeBar()"
+      routerLink="/review"
       *ngIf="count > 0"
-      class="d-flex align-items-center justify-content-center notibg"
+      class="d-flex align-items-center justify-content-center notibg nooutline"
     >
       <div id="notibar" class="d-flex justify-content-between .inner-wrapper">
         <label *ngIf="stuNames.length > 2">
@@ -305,7 +305,7 @@
       </ul>
     </div>
   </div>
-  <div id="sc" (click)="removeBar()">
+  <div id="sc" class="nooutline" routerLink="/review">
     <div
       *ngIf="count > 0"
       class="d-flex align-items-center justify-content-center notibg"

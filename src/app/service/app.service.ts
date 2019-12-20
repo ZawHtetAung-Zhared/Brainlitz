@@ -4030,6 +4030,7 @@ export class appService {
         return result;
       });
   }
+  HEAD;
   singleReject(regionId, cId, jId, body) {
     let apiUrl =
       this.baseUrl +
@@ -4091,5 +4092,24 @@ export class appService {
         let result = res;
         return result;
       });
+  }
+
+  getNotificationHistory(regionId, userId) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/notification-history';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
   }
 }
