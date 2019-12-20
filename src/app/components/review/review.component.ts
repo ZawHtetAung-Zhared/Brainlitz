@@ -155,11 +155,12 @@ export class ReviewComponent implements OnInit {
       );
     });
   }
-
+  public isDisable: boolean = false;
   singleApprove() {
     console.log(this.activeObj, 'active Obj');
     this.activeObj.isApproved = true;
     this.activeObj.approvedAgo = '1m ago';
+    this.isDisable = true;
     this._service
       .singleApprove(
         this.regionId,
@@ -171,6 +172,7 @@ export class ReviewComponent implements OnInit {
         console.log(res);
         setTimeout(() => {
           this.getReviewList(this.activeType);
+          this.isDisable = false;
         }, 1000);
       }),
       err => {
@@ -180,6 +182,7 @@ export class ReviewComponent implements OnInit {
 
   undoReview() {
     console.log(this.activeType, 'active Obj');
+    this.isDisable = true;
     if (this.activeType == 'APPROVED') {
       this.activeObj.isApproved = false;
       this._service
@@ -194,6 +197,7 @@ export class ReviewComponent implements OnInit {
           setTimeout(async () => {
             await this.getReviewList(this.activeType);
             await this.getReviewList('NEW');
+            this.isDisable = false;
           }, 1000);
         }),
         err => {
@@ -213,6 +217,7 @@ export class ReviewComponent implements OnInit {
           setTimeout(() => {
             this.getReviewList(this.activeType);
             this.getReviewList('NEW');
+            this.isDisable = false;
           }, 1000);
         }),
         err => {
@@ -224,6 +229,7 @@ export class ReviewComponent implements OnInit {
   singleReject() {
     this.activeObj.isReject = true;
     this.activeObj.rejectedAgo = '1m ago';
+    this.isDisable = true;
     this._service
       .singleReject(
         this.regionId,
@@ -235,6 +241,7 @@ export class ReviewComponent implements OnInit {
         console.log(res);
         setTimeout(() => {
           this.getReviewList(this.activeType);
+          this.isDisable = false;
         }, 1000);
       }),
       err => {

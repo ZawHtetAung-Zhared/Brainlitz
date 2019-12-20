@@ -257,7 +257,7 @@
             </p>
             <div
               class="d-flex justify-content-center align-items-center msg-img"
-              *ngIf="!smallImg"
+              *ngIf="!smallImg && activeObj.photo == ''"
             >
               <img src="{{ activeObj.photo }}" id="msg-img" />
             </div>
@@ -283,10 +283,18 @@
             class="comfirm-wrapper"
             *ngIf="!activeObj.isApproved && !activeObj.isReject"
           >
-            <button class="btn btn-reject" (click)="singleReject()">
+            <button
+              class="btn btn-reject"
+              (click)="singleReject()"
+              [disabled]="isDisable"
+            >
               Reject
             </button>
-            <button class="btn btn-approve" (click)="singleApprove()">
+            <button
+              class="btn btn-approve"
+              (click)="singleApprove()"
+              [disabled]="isDisable"
+            >
               Approve
             </button>
           </div>
@@ -294,7 +302,13 @@
             class="comfirm-wrapper"
             *ngIf="activeObj.isApproved || activeObj.isReject"
           >
-            <button class="btn btn-undo" (click)="undoReview()">Undo</button>
+            <button
+              class="btn btn-undo"
+              (click)="undoReview()"
+              [disabled]="isDisable"
+            >
+              Undo
+            </button>
             <button
               class="btn btn-approve-status approve"
               [ngClass]="{ reject: !activeObj.isApproved }"
