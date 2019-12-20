@@ -855,6 +855,21 @@
                   <div class="provider-list">none</div>
                 </div>
               </div>
+              <div class="sectionWrap">
+                <label class="sectionTitle">Pay Now Payment</label>
+                <div *ngIf="paymentData.acceptPayNow">
+                  <div class="qr-preview">
+                    <img
+                      class="img-fluid inner-img"
+                      *ngIf="paymentData.payNowQr"
+                      [src]="paymentData.payNowQr"
+                    />
+                  </div>
+                </div>
+                <div *ngIf="!paymentData.acceptPayNow">
+                  <div class="provider-list">none</div>
+                </div>
+              </div>
             </div>
             <div>
               <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
@@ -1503,6 +1518,70 @@
                         </div>
                         <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
                       </div> -->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div>
+                    <div class="d-flex">
+                      <div class="toggle-wrap">
+                        <label class="switch">
+                          <input
+                            type="checkbox"
+                            (change)="acceptPaynow()"
+                            [checked]="isAcceptPaynow"
+                          />
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <label class="switch-label" for="online"
+                        >Accept paynow payment</label
+                      >
+                    </div>
+                    <div
+                      *ngIf="isAcceptPaynow"
+                      class="form-group qr-input-wrap"
+                    >
+                      <div class="qr-input-group">
+                        <div class="d-flex">
+                          <div class="input-group-prepend">
+                            <span
+                              class="input-group-text upload-text"
+                              id="inputGroupFileAddon01"
+                              >Upload</span
+                            >
+                          </div>
+                          <div class="custom-file">
+                            <input
+                              #qrcode
+                              type="file"
+                              class="custom-file-input"
+                              id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01"
+                              accept="image/*"
+                              (change)="
+                                handleQRInput(qrcode.files, $event.target)
+                              "
+                            />
+                            <label
+                              #fileLabel
+                              class="custom-file-label"
+                              for="inputGroupFile01"
+                              >Choose file</label
+                            >
+                          </div>
+                        </div>
+                        <span class="error-message" *ngIf="message">{{
+                          message
+                        }}</span>
+                        <div class="qr-preview pt-3" *ngIf="qrURL">
+                          <img
+                            class="img-fluid inner-img"
+                            id="qrURL"
+                            [src]="qrURL"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

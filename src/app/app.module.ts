@@ -130,6 +130,8 @@ import { RescheduleLessonComponent } from './components/reschedule-lesson/resche
 import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
 import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pipe';
 import { from } from 'rxjs/observable/from';
+import { ReviewComponent } from './components/review/review.component';
+import { LivechatComponent } from './components/livechat/livechat.component';
 
 @NgModule({
   declarations: [
@@ -221,7 +223,9 @@ import { from } from 'rxjs/observable/from';
     TodayDatePipe,
     RescheduleLessonComponent,
     LessonDurationPipe,
-    RemainingLessonDatePipe
+    RemainingLessonDatePipe,
+    ReviewComponent,
+    LivechatComponent
   ],
   imports: [
     ContentLoaderModule,

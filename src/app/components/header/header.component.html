@@ -57,7 +57,19 @@
         <!-- <div
           class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
         > -->
-
+        <div
+          routerLink="/review"
+          class="cursor-on d-flex flex-column pr justify-content-center dropdown-wrap nooutline"
+        >
+          <div *ngIf="count > 0" class="oval">
+            <label>
+              {{ count }}
+            </label>
+          </div>
+          <div class="circle">
+            <img src="./assets/icons/journal.svg" />
+          </div>
+        </div>
         <div
           class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
         >
@@ -187,7 +199,36 @@
         </ul>
       </div>
     </div>
+    <div
+      id="noti"
+      routerLink="/review"
+      *ngIf="count > 0"
+      class="d-flex align-items-center justify-content-center notibg nooutline"
+    >
+      <div id="notibar" class="d-flex justify-content-between .inner-wrapper">
+        <label *ngIf="stuNames.length > 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }},
+          {{ stuNames[1] }} and {{ stuNames.length - 2 }}
+          others.
+        </label>
+        <label *ngIf="stuNames.length == 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }} and
+          {{ stuNames[1] }}.
+        </label>
+        <label *ngIf="stuNames.length == 1">
+          You need to review {{ count }} messages from {{ stuNames[0] }}
+        </label>
+        <label
+          class="nooutline cursor-on"
+          routerLink="/review"
+          style="color: #0054C9;"
+        >
+          Review
+        </label>
+      </div>
+    </div>
   </header>
+
   <!-- <hr class="w-100" style="position:absolute;z-index:1203;top: 120px;margin-top:24px;box-shadow: 0 1px 8px 0px rgba(187, 186, 186, 0.4);"> -->
 </div>
 <header id="header2">
@@ -262,6 +303,34 @@
           >
         </li>
       </ul>
+    </div>
+  </div>
+  <div id="sc" class="nooutline" routerLink="/review">
+    <div
+      *ngIf="count > 0"
+      class="d-flex align-items-center justify-content-center notibg"
+    >
+      <div id="notibar2" class="d-flex justify-content-between .inner-wrapper">
+        <label *ngIf="stuNames.length > 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }},
+          {{ stuNames[1] }} and {{ stuNames.length - 2 }}
+          others.
+        </label>
+        <label *ngIf="stuNames.length == 2">
+          You need to review {{ count }} messages from {{ stuNames[0] }} and
+          {{ stuNames[1] }}.
+        </label>
+        <label *ngIf="stuNames.length == 1">
+          You need to review {{ count }} messages from {{ stuNames[0] }}
+        </label>
+        <label
+          class="nooutline cursor-on"
+          routerLink="/review"
+          style="color: #0054C9;"
+        >
+          Review
+        </label>
+      </div>
     </div>
   </div>
 </header>

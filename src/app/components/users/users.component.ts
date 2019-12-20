@@ -36,6 +36,7 @@ import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import sampleData from './notiSample';
 declare var $: any;
 
 @Component({
@@ -69,6 +70,7 @@ export class UsersComponent implements OnInit {
   public className: any;
   public showflexyCourse: boolean = false;
   public isGlobal: boolean = false;
+  public notifications: any;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -1007,11 +1009,12 @@ export class UsersComponent implements OnInit {
     this.imgDemoSlider = false;
     $('.frame-upload').css('display', 'none');
   }
-
+  age: any;
   showDetails(ID) {
     this.activeTab = 'class';
     this.hideMenu = false;
     this.customerLists = [];
+    this.age = 0;
     console.log(ID);
     this.editId = ID;
     console.log('show details');
@@ -1038,9 +1041,15 @@ export class UsersComponent implements OnInit {
         this.custDetail = res;
         this.userArchive = res.user.isArchive;
         res.user.details.map(info => {
-          if (info.controlType === 'Datepicker')
+          if (info.controlType === 'Datepicker') {
             info.value = moment(info.value).format('YYYY-MM-DD');
+            this.age = info.value;
+          }
         });
+        if (this.age != 0) {
+          const birthday = new Date(this.age);
+          this.age = moment().diff(birthday, 'years');
+        }
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
@@ -1784,7 +1793,49 @@ export class UsersComponent implements OnInit {
       this.callAchievements(1);
       this.callAchievements(3);
       this.callAchievements(6);
+    } else if (val == 'notifications') {
+      this.getNotiList();
     }
+  }
+
+  getNotiList() {
+    // this.notifications = sampleData;
+    this._service
+      .getNotificationHistory(this.regionID, this.custDetail.user.userId)
+      .subscribe(
+        (res: any) => {
+          this.notifications = res;
+          // if (this.notifications.length > 1) {
+          //   this.notifications = this.notifications.sort(
+          //     (a, b) =>
+          //       moment(b.date.utcDate).format('YYYYMMDD') -
+          //       moment(a.date.utcDate).format('YYYYMMDD')
+          //   );
+          // }
+          for (var i = 0; i < this.notifications.length; i++) {
+            for (var j = 0; j < this.notifications[i].noti.length; j++) {
+              var data = this.notifications[i].noti[j];
+              data.createdTime = this.formatAMPM(data.createdDate);
+            }
+          }
+          console.log(this.notifications);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  formatAMPM(date) {
+    var new_date = new Date(date);
+    var hours = new_date.getUTCHours();
+    var minutes = new_date.getUTCMinutes().toString();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = parseInt(minutes) < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 
   callMakeupLists() {

@@ -406,6 +406,21 @@ export class appService {
       });
   }
 
+  updatePayNowPayment(regionId: string, body: object) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/payNow-invoice';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .put(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
   createTemplate(id, body) {
     this.getLocalstorage();
     let url = this.baseUrl + '/' + id + '/access-point-template';
@@ -843,6 +858,20 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+  getNotiList(id: string, status: string) {
+    let apiUrl = this.baseUrl + '/regions/' + id + '/journals?status=' + status;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('res', res);
       return result;
     });
   }
@@ -3987,6 +4016,114 @@ export class appService {
       })
     };
     return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  singleApprove(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/approve-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+  HEAD;
+  singleReject(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/reject-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  rejectAllMessage(regionId, body) {
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/reject-all-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  aproveAllMessage(regionId, body) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/approve-all-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  getNotificationHistory(regionId, userId) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/notification-history';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
       return res;
     });
   }

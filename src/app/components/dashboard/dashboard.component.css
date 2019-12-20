@@ -377,7 +377,7 @@ input:checked + .slider:before {
   top: 95px;
 }
 .side-bar-wrap.p-top {
-  top: 65px;
+  top: 114px;
 }
 .side-bar-wrap.mid-top {
   top: 80px;
@@ -537,6 +537,7 @@ input:checked + .slider:before {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   font-size: 15px;
   padding-top: 6px;
+  width: 70%;
 }
 .labelName,
 .sectionTitle {
@@ -1191,4 +1192,15 @@ input[type='range' i] {
 }
 .schedule-img {
   margin-top: 10px;
+}
+.qr-input-wrap {
+  padding-bottom: 40px;
+}
+.qr-input-group {
+  position: relative;
+  width: 100%;
+}
+.qr-preview {
+  width: 200px;
+  height: 200px;
 }
