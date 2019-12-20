@@ -364,12 +364,12 @@ export class HeaderComponent implements OnInit, OnChanges {
     let temp = [];
     let temp2 = [];
     for (var i = 0; i < this.notis.length; i++) {
-      temp.push(this.notis[i].student.preferredName);
+      temp.push(this.notis[i].sender.preferredName);
     }
     // console.log("name test",temp.includes(this.notis[1].student.preferredName));
     for (var j = 0; j < this.notis.length; j++) {
-      if (!temp2.includes(this.notis[j].student.preferredName)) {
-        temp2.push(this.notis[j].student.preferredName);
+      if (!temp2.includes(this.notis[j].sender.preferredName)) {
+        temp2.push(this.notis[j].sender.preferredName);
       }
     }
     this.stuNames = temp2;
