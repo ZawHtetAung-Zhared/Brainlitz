@@ -27,19 +27,21 @@ export class ReviewComponent implements OnInit {
     this.getReviewList(this.activeType);
   }
 
+  public dyanmicTop: any = {};
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     var navbar = document.getElementById('navbar');
-    var list = document.getElementById('message-list');
-    var allfix = document.getElementById('all-fix');
-    var sticky = navbar.offsetTop;
-    if (navbar || list || allfix) {
-      if (window.pageYOffset > 40) {
+    // console.log('page offset',window.pageYOffset)
+    this.dyanmicTop = {
+      top: 184 - window.pageYOffset + 'px'
+    };
+    if (navbar) {
+      if (window.pageYOffset > 120) {
         navbar.classList.add('sticky');
-        list.classList.add('addtop');
-        allfix.classList.add('addtop');
+        // list.classList.add('addtop');
+        // allfix.classList.add('addtop');
       } else {
-        allfix.classList.remove('addtop');
-        list.classList.remove('addtop');
+        // allfix.classList.remove('addtop');
+        // list.classList.remove('addtop');
         navbar.classList.remove('sticky');
       }
     }
@@ -50,10 +52,12 @@ export class ReviewComponent implements OnInit {
   }
 
   showMessageDetail(obj, index) {
+    this.onScroll(undefined);
     console.log('exit');
 
     this.activeObj = obj;
     this.activeIndex = index;
+    console.log(this.activeObj);
   }
   backClicked() {
     this._location.back();
@@ -94,6 +98,7 @@ export class ReviewComponent implements OnInit {
   public smallImg: boolean = false;
   public autoSize: any = {};
   checkImgSize(url) {
+    console.log(url, 'img url');
     let img = new Image();
     img.src = url;
     console.log(img, 'img');
@@ -112,25 +117,36 @@ export class ReviewComponent implements OnInit {
 
   getReviewList(status) {
     console.log(status, 'status');
-    this._service.getNotiList(this.regionId, status).subscribe(
-      (res: any) => {
-        console.log(res.journlaList);
-        this.reviewList = res.journalList;
-        if (status == 'NEW') this.newLength = this.reviewList.length;
+    console.log(this.activeType);
+    new Promise((resolve, reject) => {
+      this._service.getNotiList(this.regionId, status).subscribe(
+        (res: any) => {
+          console.log(res.journlaList);
 
-        console.log(status == 'NEW');
-        if (this.reviewList.length > 0) {
-          this.activeIndex = 0;
-          this.activeObj = this.reviewList[0];
-          setTimeout(() => {
-            this.checkImgSize(this.activeObj.photo);
-          }, 100);
+          if (this.activeType == 'APPROVED' || this.activeType == 'REJECT') {
+            if (status == 'NEW') this.newLength = res.journalList.length;
+            else this.reviewList = res.journalList;
+          } else {
+            this.reviewList = res.journalList;
+            this.newLength = this.reviewList.length;
+          }
+
+          console.log(status == 'NEW');
+          if (this.reviewList.length > 0) {
+            this.activeIndex = 0;
+            this.activeObj = this.reviewList[0];
+            setTimeout(() => {
+              this.checkImgSize(this.activeObj.photo);
+            }, 100);
+          }
+          resolve(true);
+        },
+        err => {
+          console.log(err);
+          reject(err);
         }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      );
+    });
   }
 
   singleApprove() {
@@ -149,6 +165,93 @@ export class ReviewComponent implements OnInit {
           this.getReviewList(this.activeType);
         }, 1000);
       }),
+      err => {
+        console.log(err);
+      };
+  }
+
+  undoReview() {
+    console.log(this.activeType, 'active Obj');
+    if (this.activeType == 'APPROVED') {
+      this.activeObj.isApproved = false;
+      this._service
+        .singleApprove(
+          this.regionId,
+          this.activeObj.course.courseId,
+          this.activeObj._id,
+          this.activeObj
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          setTimeout(async () => {
+            await this.getReviewList(this.activeType);
+            await this.getReviewList('NEW');
+          }, 1000);
+        }),
+        err => {
+          console.log(err);
+        };
+    } else {
+      this.activeObj.isReject = false;
+      this._service
+        .singleReject(
+          this.regionId,
+          this.activeObj.course.courseId,
+          this.activeObj._id,
+          this.activeObj
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          setTimeout(() => {
+            this.getReviewList(this.activeType);
+            this.getReviewList('NEW');
+          }, 1000);
+        }),
+        err => {
+          console.log(err);
+        };
+    }
+  }
+
+  singleReject() {
+    this.activeObj.isReject = true;
+    this._service
+      .singleReject(
+        this.regionId,
+        this.activeObj.course.courseId,
+        this.activeObj._id,
+        this.activeObj
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.getReviewList(this.activeType);
+        }, 1000);
+      }),
+      err => {
+        console.log(err);
+      };
+  }
+
+  rejectAll() {
+    this._service.rejectAllMessage(this.regionId).subscribe((res: any) => {
+      console.log(res);
+      setTimeout(() => {
+        this.getReviewList(this.activeType);
+      }, 1000);
+    }),
+      err => {
+        console.log(err);
+      };
+  }
+
+  approveAll() {
+    this._service.aproveAllMessage(this.regionId).subscribe((res: any) => {
+      console.log(res);
+      setTimeout(() => {
+        this.getReviewList(this.activeType);
+      }, 1000);
+    }),
       err => {
         console.log(err);
       };

@@ -855,6 +855,21 @@
                   <div class="provider-list">none</div>
                 </div>
               </div>
+              <div class="sectionWrap">
+                <label class="sectionTitle">Pay Now Payment</label>
+                <div *ngIf="paymentData.acceptPayNow">
+                  <div class="qr-preview">
+                    <img
+                      class="img-fluid inner-img"
+                      *ngIf="paymentData.payNowQr"
+                      [src]="paymentData.payNowQr"
+                    />
+                  </div>
+                </div>
+                <div *ngIf="!paymentData.acceptPayNow">
+                  <div class="provider-list">none</div>
+                </div>
+              </div>
             </div>
             <div>
               <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
@@ -1558,7 +1573,7 @@
                         <span class="error-message" *ngIf="message">{{
                           message
                         }}</span>
-                        <div class="qr-preview" *ngIf="qrURL">
+                        <div class="qr-preview pt-3" *ngIf="qrURL">
                           <img
                             class="img-fluid inner-img"
                             id="qrURL"
