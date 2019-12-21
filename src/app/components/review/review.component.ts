@@ -28,21 +28,28 @@ export class ReviewComponent implements OnInit {
   }
 
   public dyanmicTop: any = {};
+  public dyanmicTop2: any = {};
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     var navbar = document.getElementById('navbar');
-    // console.log('page offset',window.pageYOffset)
+    console.log('page offset', window.pageYOffset);
     this.dyanmicTop = {
       top: 184 - window.pageYOffset + 'px'
     };
+
     if (navbar) {
       if (window.pageYOffset > 120) {
         navbar.classList.add('sticky');
         // list.classList.add('addtop');
         // allfix.classList.add('addtop');
+        this.dyanmicTop2 = {
+          top: 224 - window.pageYOffset + 'px'
+        };
       } else {
         // allfix.classList.remove('addtop');
         // list.classList.remove('addtop');
         navbar.classList.remove('sticky');
+        this.dyanmicTop2 = {};
       }
     }
   }
@@ -148,10 +155,12 @@ export class ReviewComponent implements OnInit {
       );
     });
   }
-
+  public isDisable: boolean = false;
   singleApprove() {
     console.log(this.activeObj, 'active Obj');
     this.activeObj.isApproved = true;
+    this.activeObj.approvedAgo = '1m ago';
+    this.isDisable = true;
     this._service
       .singleApprove(
         this.regionId,
@@ -163,6 +172,7 @@ export class ReviewComponent implements OnInit {
         console.log(res);
         setTimeout(() => {
           this.getReviewList(this.activeType);
+          this.isDisable = false;
         }, 1000);
       }),
       err => {
@@ -172,6 +182,7 @@ export class ReviewComponent implements OnInit {
 
   undoReview() {
     console.log(this.activeType, 'active Obj');
+    this.isDisable = true;
     if (this.activeType == 'APPROVED') {
       this.activeObj.isApproved = false;
       this._service
@@ -186,6 +197,7 @@ export class ReviewComponent implements OnInit {
           setTimeout(async () => {
             await this.getReviewList(this.activeType);
             await this.getReviewList('NEW');
+            this.isDisable = false;
           }, 1000);
         }),
         err => {
@@ -205,6 +217,7 @@ export class ReviewComponent implements OnInit {
           setTimeout(() => {
             this.getReviewList(this.activeType);
             this.getReviewList('NEW');
+            this.isDisable = false;
           }, 1000);
         }),
         err => {
@@ -215,6 +228,8 @@ export class ReviewComponent implements OnInit {
 
   singleReject() {
     this.activeObj.isReject = true;
+    this.activeObj.rejectedAgo = '1m ago';
+    this.isDisable = true;
     this._service
       .singleReject(
         this.regionId,
@@ -226,6 +241,7 @@ export class ReviewComponent implements OnInit {
         console.log(res);
         setTimeout(() => {
           this.getReviewList(this.activeType);
+          this.isDisable = false;
         }, 1000);
       }),
       err => {
@@ -234,24 +250,30 @@ export class ReviewComponent implements OnInit {
   }
 
   rejectAll() {
-    this._service.rejectAllMessage(this.regionId).subscribe((res: any) => {
-      console.log(res);
-      setTimeout(() => {
-        this.getReviewList(this.activeType);
-      }, 1000);
-    }),
+    let temp = { isReject: true };
+    this._service
+      .rejectAllMessage(this.regionId, temp)
+      .subscribe((res: any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.getReviewList(this.activeType);
+        }, 1000);
+      }),
       err => {
         console.log(err);
       };
   }
 
   approveAll() {
-    this._service.aproveAllMessage(this.regionId).subscribe((res: any) => {
-      console.log(res);
-      setTimeout(() => {
-        this.getReviewList(this.activeType);
-      }, 1000);
-    }),
+    let temp = { isApproved: true };
+    this._service
+      .aproveAllMessage(this.regionId, temp)
+      .subscribe((res: any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.getReviewList(this.activeType);
+        }, 1000);
+      }),
       err => {
         console.log(err);
       };
