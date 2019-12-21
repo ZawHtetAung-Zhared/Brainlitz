@@ -1577,16 +1577,18 @@
                     <div class="d-flex justify-content-between title-space">
                       <div class="d-flex align-items-center">
                         <div id="parent">
-                          <img
+                          <!-- <img
                             *ngIf="noti.type == 1"
                             [ngClass]="{
                               'img-read': noti.isRead == true,
                               'img-unread': noti.isRead == false
                             }"
                             src="./assets/images/Attendance.png"
-                          />
+                          /> -->
                           <img
-                            *ngIf="noti.type == 2"
+                            *ngIf="
+                              noti.type == 1 || noti.type == 2 || noti.type == 3
+                            "
                             [ngClass]="{
                               'img-read': noti.isRead == true,
                               'img-unread': noti.isRead == false
@@ -1594,7 +1596,7 @@
                             style="filter: brightness(50%);"
                             src="./assets/images/courseIconFrame.png"
                           />
-                          <img
+                          <!-- <img
                             *ngIf="noti.type == 3"
                             [ngClass]="{
                               'img-read': noti.isRead == true,
@@ -1609,7 +1611,7 @@
                               'img-unread': noti.isRead == false
                             }"
                             src="./assets/images/lessonAbsentFrame.png"
-                          />
+                          /> -->
                         </div>
                         <div
                           class="status-p noti-title"
