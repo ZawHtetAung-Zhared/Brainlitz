@@ -1827,13 +1827,19 @@ export class UsersComponent implements OnInit {
   }
 
   formatAMPM(date) {
-    var new_date = new Date(date);
-    var hours = new_date.getUTCHours();
-    var minutes = new_date.getUTCMinutes().toString();
+    const zone = localStorage.getItem('timezone');
+    var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    var hours = parseInt(
+      moment(date, format)
+        .tz(zone)
+        .format('HH')
+    );
+    var minutes = moment(date, format)
+      .tz(zone)
+      .format('mm');
     var ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = parseInt(minutes) < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
   }

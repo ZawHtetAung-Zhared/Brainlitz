@@ -220,6 +220,7 @@
             >
           </div>
         </div>
+        <!-- comment -->
         <!-- <div class="user-info-wrap d-flex -justify-content-between">
           <div class="d-flex col-left">
             <div class="img-wrap">
@@ -339,7 +340,8 @@
               </div>
             </div>
           </div> 
-        </div>-->
+        </div>  -->
+        <!-- comment -->
         <div class="d-flex align-items-center justify-content-between">
           <div class="half-profile-wrap">
             <div class="circular-image big-circular-image">
@@ -452,25 +454,27 @@
                   -
                 </p>
               </div>
-              <div
-                *ngFor="let detail of custDetail.user.details"
-                class="infoGp-wrap"
-              >
-                <label class="info-mail" *ngIf="detail.value.length != 0">{{
-                  detail.name
-                }}</label>
-                <div *ngIf="detail.dataType == 'Date'">
-                  <span class="mb-0 info-p" *ngIf="detail.value.length != 0">
-                    {{ detail.value | todayDate2 }}
-                  </span>
-                  <span class="info-mail" *ngIf="detail.value.length != 0">
-                    (Age {{ age }})
-                  </span>
-                </div>
-                <div *ngIf="detail.dataType != 'Date'">
-                  <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
-                    {{ detail.value }}
-                  </p>
+              <div class="left-scroll-wrap">
+                <div
+                  *ngFor="let detail of custDetail.user.details"
+                  class="infoGp-wrap"
+                >
+                  <label class="info-mail" *ngIf="detail.value.length != 0">{{
+                    detail.name
+                  }}</label>
+                  <div *ngIf="detail.dataType == 'Date'">
+                    <span class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                      {{ detail.value | todayDate2 }}
+                    </span>
+                    <span class="info-mail" *ngIf="detail.value.length != 0">
+                      (Age {{ age }})
+                    </span>
+                  </div>
+                  <div *ngIf="detail.dataType != 'Date'">
+                    <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                      {{ detail.value }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1554,129 +1558,128 @@
                 </div>
               </div>
             </div>
-
-            <div
-              class="d-flex flex-column pb-20 right-scroll-wrap"
-              *ngIf="activeTab == 'notifications'"
-            >
-              <h4 class="mb-0 tab-title title-space">Notifications</h4>
-              <!-- ngfor outer start -->
-              <div
-                *ngFor="let notification of notifications; let i = index"
-                class="d-flex flex-column"
-              >
-                <div class="title-space noti-date">
-                  {{ notification.date.utcDate | todayDate2 }}
-                </div>
-                <!-- ngfor inner start -->
+            <div *ngIf="activeTab == 'notifications'" class="right-scroll-wrap">
+              <div class="d-flex flex-column pb-20">
+                <h4 class="mb-0 tab-title title-space">Notifications</h4>
+                <!-- ngfor outer start -->
                 <div
-                  *ngFor="let noti of notification.noti; let j = index"
+                  *ngFor="let notification of notifications; let i = index"
                   class="d-flex flex-column"
                 >
-                  <div class="d-flex justify-content-between title-space">
-                    <div class="d-flex align-items-center">
-                      <div id="parent">
-                        <img
-                          *ngIf="noti.type == 1"
+                  <div class="title-space noti-date">
+                    {{ notification.date.utcDate | todayDate2 }}
+                  </div>
+                  <!-- ngfor inner start -->
+                  <div
+                    *ngFor="let noti of notification.noti; let j = index"
+                    class="d-flex flex-column"
+                  >
+                    <div class="d-flex justify-content-between title-space">
+                      <div class="d-flex align-items-center">
+                        <div id="parent">
+                          <img
+                            *ngIf="noti.type == 1"
+                            [ngClass]="{
+                              'img-read': noti.isRead == true,
+                              'img-unread': noti.isRead == false
+                            }"
+                            src="./assets/images/Attendance.png"
+                          />
+                          <img
+                            *ngIf="noti.type == 2"
+                            [ngClass]="{
+                              'img-read': noti.isRead == true,
+                              'img-unread': noti.isRead == false
+                            }"
+                            style="filter: brightness(50%);"
+                            src="./assets/images/courseIconFrame.png"
+                          />
+                          <img
+                            *ngIf="noti.type == 3"
+                            [ngClass]="{
+                              'img-read': noti.isRead == true,
+                              'img-unread': noti.isRead == false
+                            }"
+                            src="./assets/images/attendanceChange.png"
+                          />
+                          <img
+                            *ngIf="noti.type == 4"
+                            [ngClass]="{
+                              'img-read': noti.isRead == true,
+                              'img-unread': noti.isRead == false
+                            }"
+                            src="./assets/images/lessonAbsentFrame.png"
+                          />
+                        </div>
+                        <div
+                          class="status-p noti-title"
                           [ngClass]="{
-                            'img-read': noti.isRead == true,
-                            'img-unread': noti.isRead == false
+                            'status-read': noti.isRead == true,
+                            'status-unread': noti.isRead == false
                           }"
-                          src="./assets/images/Attendance.png"
-                        />
-                        <img
-                          *ngIf="noti.type == 2"
-                          [ngClass]="{
-                            'img-read': noti.isRead == true,
-                            'img-unread': noti.isRead == false
-                          }"
-                          style="filter: brightness(50%);"
-                          src="./assets/images/courseIconFrame.png"
-                        />
-                        <img
-                          *ngIf="noti.type == 3"
-                          [ngClass]="{
-                            'img-read': noti.isRead == true,
-                            'img-unread': noti.isRead == false
-                          }"
-                          src="./assets/images/attendanceChange.png"
-                        />
-                        <img
-                          *ngIf="noti.type == 4"
-                          [ngClass]="{
-                            'img-read': noti.isRead == true,
-                            'img-unread': noti.isRead == false
-                          }"
-                          src="./assets/images/lessonAbsentFrame.png"
-                        />
+                        >
+                          {{ noti.title }}
+                        </div>
                       </div>
-                      <div
-                        class="status-p noti-title"
-                        [ngClass]="{
-                          'status-read': noti.isRead == true,
-                          'status-unread': noti.isRead == false
-                        }"
-                      >
-                        {{ noti.title }}
+                      <div class="d-flex align-items-center">
+                        <div
+                          class="status-p"
+                          [ngClass]="{
+                            'status-read': noti.isRead == true,
+                            'status-unread': noti.isRead == false
+                          }"
+                        >
+                          {{ noti.isRead == true ? 'Read' : 'Unread' }}
+                        </div>
+                        <div class="noti-dot"></div>
+                        <div
+                          class="status-p"
+                          [ngClass]="{
+                            'status-read': noti.isRead == true,
+                            'status-unread': noti.isRead == false
+                          }"
+                        >
+                          {{ noti.createdTime }}
+                          <!-- {{ noti.createdDate | timezoneDate }} -->
+                        </div>
                       </div>
                     </div>
-                    <div class="d-flex align-items-center">
-                      <div
-                        class="status-p"
-                        [ngClass]="{
-                          'status-read': noti.isRead == true,
-                          'status-unread': noti.isRead == false
-                        }"
-                      >
-                        {{ noti.isRead == true ? 'Read' : 'Unread' }}
-                      </div>
-                      <div class="noti-dot"></div>
-                      <div
-                        class="status-p"
-                        [ngClass]="{
-                          'status-read': noti.isRead == true,
-                          'status-unread': noti.isRead == false
-                        }"
-                      >
-                        {{ noti.createdTime }}
-                      </div>
+                    <!-- <div
+                      *ngIf="noti.regard.regard != null"
+                      class="noti-body"
+                      [ngClass]="{
+                        'body-read': noti.isRead == true,
+                        'body-unread': noti.isRead == false
+                      }"
+                    >
+                      <span class="body-read"> Regarding: </span>
+                      {{ noti.regard.regard }}
+                    </div> -->
+                    <div
+                      class="noti-body"
+                      [ngClass]="{
+                        'body-read': noti.isRead == true,
+                        'body-unread': noti.isRead == false
+                      }"
+                    >
+                      {{ noti.message }}
                     </div>
+                    <div
+                      *ngIf="notification.noti.length - 1 > j"
+                      class="inner-line"
+                    ></div>
                   </div>
+                  <!-- ngfor inner end -->
                   <div
-                    *ngIf="noti.regard.regard != null"
-                    class="noti-body"
                     [ngClass]="{
-                      'body-read': noti.isRead == true,
-                      'body-unread': noti.isRead == false
+                      'outer-line': notifications.length - 1 > i,
+                      'inner-line': notifications.length - 1 == i
                     }"
-                  >
-                    <span class="body-read"> Regarding: </span>
-                    {{ noti.regard.regard }}
-                  </div>
-                  <div
-                    class="noti-body"
-                    [ngClass]="{
-                      'body-read': noti.isRead == true,
-                      'body-unread': noti.isRead == false
-                    }"
-                  >
-                    {{ noti.message }}
-                  </div>
-                  <div
-                    *ngIf="notification.noti.length - 1 > j"
-                    class="inner-line"
                   ></div>
                 </div>
-                <!-- ngfor inner end -->
-                <div
-                  [ngClass]="{
-                    'outer-line': notifications.length - 1 > i,
-                    'inner-line': notifications.length - 1 == i
-                  }"
-                ></div>
-              </div>
 
-              <!-- ngfor outer end -->
+                <!-- ngfor outer end -->
+              </div>
             </div>
 
             <div class="d-flex pb-20" *ngIf="activeTab == 'activity'">
