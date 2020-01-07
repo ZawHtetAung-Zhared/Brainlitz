@@ -20,7 +20,7 @@ export class LivechatComponent implements OnInit {
   }
 
   ngOnChanges() {
-    // this.liveChat()
+    this.liveChat();
   }
 
   liveChat() {
@@ -46,37 +46,28 @@ export class LivechatComponent implements OnInit {
 
   liveChatAgent(appname, userData, region, location) {
     //for live chat button
-    console.log('livechat~~~~', document.getElementById('livechat'));
-    setTimeout(() => {
-      const head = document.getElementsByTagName('head')[0];
-      const livechatBtn = document.getElementById('livechat');
-      let scriptUrl = 'https://pagewerkz.ladesk.com/scripts/track.js';
-      let node = document.createElement('script');
-      node.src = scriptUrl;
-      node.id = 'la_x2s6df8d';
-      node.type = 'text/javascript';
-      node.async = true;
-      node.charset = 'utf-8';
-      node.onload = function() {
-        console.log(
-          'on load works',
-          appname,
-          userData.name,
-          userData.email,
-          region,
-          location
-        );
-        LiveAgent.createButton(
-          '02y1jb4z',
-          livechatBtn,
-          appname,
-          userData.name,
-          userData.email,
-          region,
-          location
-        );
-      };
-      head.appendChild(node);
-    }, 1000);
+    const head = document.getElementsByTagName('head')[0];
+    const livechatBtn = document.getElementById('livechat');
+    let scriptUrl = 'https://pagewerkz.ladesk.com/scripts/track.js';
+    let node = document.createElement('script');
+    node.src = scriptUrl;
+    node.id = 'la_x2s6df8d';
+    node.type = 'text/javascript';
+    node.async = true;
+    node.charset = 'utf-8';
+    node.onload = function(e) {
+      console.log(appname, userData, region, location);
+      livechatBtn.innerHTML += '<div id="chatButton"></div>';
+      LiveAgent.createButton(
+        '02y1jb4z',
+        document.getElementById('chatButton'),
+        appname,
+        userData.name,
+        userData.email,
+        region,
+        location
+      );
+    };
+    head.appendChild(node);
   }
 }
