@@ -255,9 +255,10 @@
             <p class="msg-body">
               {{ activeObj.message }}
             </p>
+
             <div
               class="d-flex justify-content-center align-items-center msg-img"
-              *ngIf="!smallImg && activeObj.photo == ''"
+              *ngIf="!smallImg && activeObj.photo != ''"
             >
               <img src="{{ activeObj.photo }}" id="msg-img" />
             </div>
