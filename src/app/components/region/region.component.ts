@@ -15,6 +15,8 @@ export class RegionComponent implements OnInit {
   public accessToken: any;
   public tokenType: any;
   public navIsFixed: boolean = false;
+  public appName = localStorage.getItem('appname');
+  public userData: any;
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(private _service: appService, private router: Router) {}
@@ -65,6 +67,11 @@ export class RegionComponent implements OnInit {
       (res: any) => {
         console.log(res);
         localStorage.setItem('userName', res.email);
+        this.userData = {
+          name: res.preferredName,
+          email: res.email
+        };
+        localStorage.setItem('userData', JSON.stringify(this.userData));
       },
       err => {
         console.log(err);
@@ -86,6 +93,7 @@ export class RegionComponent implements OnInit {
         } else {
           console.log('only 1');
           localStorage.setItem('regionId', res[0]._id);
+          localStorage.setItem('regionName', res[0].name);
           this.router.navigate(['/customer']);
           console.log(res[0].invoiceSetings);
           this.setCurrencySign(res[0]);
@@ -102,6 +110,7 @@ export class RegionComponent implements OnInit {
   }
 
   setRegionID(data) {
+    console.log(data);
     let id = data._id;
     console.log(id);
     if (localStorage.getItem('regionId') == id) {
@@ -112,6 +121,7 @@ export class RegionComponent implements OnInit {
     }
     localStorage.setItem('regionId', id);
     localStorage.setItem('timezone', data.timezone);
+    localStorage.setItem('regionName', data.name);
     this.setCurrencySign(data);
   }
 

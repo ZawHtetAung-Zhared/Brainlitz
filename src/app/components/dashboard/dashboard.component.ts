@@ -1135,8 +1135,10 @@ export class DashboardComponent implements OnInit {
       };
 
       var qrFormData = new FormData();
-      qrFormData.append('qrcode', this.getLogo('qrURL'));
       qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
+      if (this.isAcceptPaynow == true) {
+        qrFormData.append('qrcode', this.getLogo('qrURL'));
+      }
     }
 
     console.log(body);
