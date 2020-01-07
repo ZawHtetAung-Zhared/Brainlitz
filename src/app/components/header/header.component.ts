@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Rx';
 import { LocationComponent } from '../location/location.component';
 
 declare var $: any;
+declare var LiveAgent: any;
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   public userName: any;
   public status: string = 'NEW';
   public regionID = localStorage.getItem('regionId');
+  public regionName = localStorage.getItem('regionName');
   public token = localStorage.getItem('token');
   public type = localStorage.getItem('tokenType');
   public OrgLogo = '';
@@ -44,6 +46,9 @@ export class HeaderComponent implements OnInit, OnChanges {
   public selectedLocation: any = {};
   public stuNames: Array<any>;
   public notis: Array<any>;
+  public locationName: string;
+  public userData = JSON.parse(localStorage.getItem('userData'));
+  public appName = localStorage.getItem('appname');
   // public notis: Array<any> = [
   //   {
   //     _id: '5df1ef3d31ce9f0014a15563',
@@ -360,6 +365,7 @@ export class HeaderComponent implements OnInit, OnChanges {
       console.log(this._router.url);
     }
   }
+
   notiFrom() {
     let temp = [];
     let temp2 = [];
@@ -446,6 +452,7 @@ export class HeaderComponent implements OnInit, OnChanges {
                 this.selectedLocation['name'] = this.headerlocationLists[
                   i
                 ].name;
+                this.locationName = this.headerlocationLists[i].name;
               }
             }
             this.setPermission(this.currentLocationID);
@@ -477,6 +484,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
       this.selectedLocation['id'] = this.headerlocationLists[0]._id;
       this.selectedLocation['name'] = this.headerlocationLists[0].name;
+      this.locationName = this.headerlocationLists[0].name;
     } else if (localStorage.getItem('locationId') == null) {
       console.log('no location has counter');
     } else {
@@ -503,6 +511,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     let LocationId = data._id;
     this.selectedLocation['id'] = data._id;
     this.selectedLocation['name'] = data.name;
+    this.locationName = data.name;
 
     for (var i in this.headerlocationLists) {
       if (this.headerlocationLists[i]._id == LocationId) {
