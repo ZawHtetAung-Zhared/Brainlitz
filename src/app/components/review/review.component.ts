@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { appService } from '../../service/app.service';
+declare var $: any;
+
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -64,6 +66,8 @@ export class ReviewComponent implements OnInit {
 
     this.activeObj = obj;
     this.activeIndex = index;
+
+    if (this.activeObj.photo) this.checkImgSize(obj.photo);
     console.log(this.activeObj);
   }
   backClicked() {
@@ -109,16 +113,17 @@ export class ReviewComponent implements OnInit {
     let img = new Image();
     img.src = url;
     console.log(img, 'img');
-    console.log(img.width, 'width');
-    console.log(img.height, 'height');
-    if (img.width < 640) {
-      this.smallImg = true;
-      this.autoSize = {
-        width: img.width + 'px',
-        height: img.height + 'px',
-        'border-radius': '4px'
-      };
-    }
+
+    $(img).one('load', function() {
+      if (img.width < 640) {
+        this.smallImg = true;
+        this.autoSize = {
+          width: img.width + 'px',
+          height: img.height + 'px',
+          'border-radius': '4px'
+        };
+      }
+    });
     console.log(this.autoSize);
   }
 
@@ -143,7 +148,7 @@ export class ReviewComponent implements OnInit {
             this.activeIndex = 0;
             this.activeObj = this.reviewList[0];
             setTimeout(() => {
-              this.checkImgSize(this.activeObj.photo);
+              if (this.activeObj.photo) this.checkImgSize(this.activeObj.photo);
             }, 100);
           }
           resolve(true);
