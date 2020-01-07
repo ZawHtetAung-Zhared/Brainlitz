@@ -109,6 +109,7 @@ export class UsersComponent implements OnInit {
   ];
 
   public showLoading: boolean = false;
+
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -1009,12 +1010,11 @@ export class UsersComponent implements OnInit {
     this.imgDemoSlider = false;
     $('.frame-upload').css('display', 'none');
   }
-  age: any;
+
   showDetails(ID) {
     this.activeTab = 'class';
     this.hideMenu = false;
     this.customerLists = [];
-    this.age = 0;
     console.log(ID);
     this.editId = ID;
     console.log('show details');
@@ -1043,13 +1043,12 @@ export class UsersComponent implements OnInit {
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker') {
             info.value = moment(info.value).format('YYYY-MM-DD');
-            this.age = info.value;
+            const birthday = new Date(info.value);
+            info.year = moment().diff(birthday, 'years');
+            info.day = moment().diff(birthday, 'days') % 365;
           }
         });
-        if (this.age != 0) {
-          const birthday = new Date(this.age);
-          this.age = moment().diff(birthday, 'years');
-        }
+
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
