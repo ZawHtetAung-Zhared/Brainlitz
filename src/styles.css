@@ -1361,6 +1361,14 @@ input::-webkit-inner-spin-button {
   width: 360px !important;
 }
 
+#livechat > div:nth-child(1) > div {
+  bottom: 120px !important;
+}
+
+#livechat > div:nth-child(2) > div {
+  bottom: 120px !important;
+}
+
 #livechat > div:nth-child(3) > div {
   bottom: 120px !important;
 }
