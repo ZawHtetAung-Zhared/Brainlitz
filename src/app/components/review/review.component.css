@@ -344,6 +344,19 @@ button.btn.btn-approve {
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .message-detail {
+    margin-left: 280px !important;
+  }
+
+  .message-list {
+    width: 280px !important;
+  }
+  .btn-gp {
+    margin-right: 280px !important;
+  }
+}
+
 /* end message detail */
 
 /* start empty */

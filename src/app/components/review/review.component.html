@@ -136,8 +136,8 @@
           class="d-flex flex-column justify-content-center align-items-center"
         >
           <div class="detail-wrapper" [ngStyle]="dyanmicTop2">
-            <div class="d-flex justify-content-between msg-title">
-              <div class="d-flex">
+            <div class="row msg-title">
+              <div class="d-flex col-lg-6 col-md-12 pb-2">
                 <div
                   class="msg-con"
                   *ngIf="
@@ -205,32 +205,36 @@
                 <div class="time-detail">{{ activeObj.postAgo }}</div>
               </div>
               <div
-                class="d-flex status approve"
-                [ngClass]="{ reject: !activeObj.isApproved }"
+                class="d-flex col-lg-6 col-md-12"
                 *ngIf="activeObj.isApproved || activeObj.isReject"
               >
-                <div class="tick-circle mr-1 ">
-                  <i
-                    class="fa fa-check approveIcon"
-                    [ngClass]="{ rejectIcon: !activeObj.isApproved }"
-                  ></i>
-                </div>
-                {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
                 <div
-                  class="dot approvedot"
-                  [ngClass]="{ rejectdot: !activeObj.isApproved }"
-                ></div>
-                <div class="timeTxt">
-                  {{
-                    activeObj.approvedAgo != ''
-                      ? activeObj.approvedAgo
-                      : activeObj.rejectedAgo
-                  }}
+                  [ngClass]="{ reject: !activeObj.isApproved }"
+                  class="d-flex status approve"
+                >
+                  <div class="tick-circle mr-1 ">
+                    <i
+                      class="fa fa-check approveIcon"
+                      [ngClass]="{ rejectIcon: !activeObj.isApproved }"
+                    ></i>
+                  </div>
+                  {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
+                  <div
+                    class="dot approvedot"
+                    [ngClass]="{ rejectdot: !activeObj.isApproved }"
+                  ></div>
+                  <div class="timeTxt">
+                    {{
+                      activeObj.approvedAgo != ''
+                        ? activeObj.approvedAgo
+                        : activeObj.rejectedAgo
+                    }}
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="d-flex box-wrapper">
-              <div class="d-flex col-md-6">
+            <div class="row box-wrapper">
+              <div class="d-flex col-md-12 col-lg-6 pb-2">
                 <div class="profile-pic">
                   <img src="{{ activeObj.sender.profilePic }}" />
                 </div>
@@ -239,7 +243,7 @@
                   <p class="txt-name">{{ activeObj.sender.preferredName }}</p>
                 </div>
               </div>
-              <div class="d-flex col-md-6">
+              <div class="d-flex col-md-12 col-lg-6">
                 <div class="profile-pic">
                   <img src="{{ activeObj.student.profilePic }}" />
                 </div>
@@ -255,9 +259,10 @@
             <p class="msg-body">
               {{ activeObj.message }}
             </p>
+
             <div
               class="d-flex justify-content-center align-items-center msg-img"
-              *ngIf="!smallImg && activeObj.photo == ''"
+              *ngIf="!smallImg && activeObj.photo != ''"
             >
               <img src="{{ activeObj.photo }}" id="msg-img" />
             </div>

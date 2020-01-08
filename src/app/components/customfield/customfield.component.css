@@ -61,6 +61,11 @@ p.switchTxt {
   column-count: 2;
 }
 
+.dataList {
+  overflow: overlay;
+  height: 300px;
+}
+
 .card {
   border: none;
   margin-bottom: 0;
