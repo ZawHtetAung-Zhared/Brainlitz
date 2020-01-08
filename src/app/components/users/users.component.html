@@ -467,7 +467,17 @@
                       {{ detail.value | todayDate2 }}
                     </span>
                     <span class="info-mail" *ngIf="detail.value.length != 0">
-                      (Age {{ age }})
+                      ({{
+                        detail.year > 1
+                          ? detail.year + ' years, '
+                          : detail.year > 0
+                          ? detail.year + ' year, '
+                          : ''
+                      }}{{
+                        detail.day > 1
+                          ? detail.day + ' days'
+                          : detail.day + ' day'
+                      }})
                     </span>
                   </div>
                   <div *ngIf="detail.dataType != 'Date'">
