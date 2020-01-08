@@ -900,9 +900,9 @@ export class UserStaffComponent implements OnInit {
     let customerId = this.staffDetail.user.userId;
     let regionId = this.regionID;
     const tempData = {
-      customerId,
-      app,
-      regionId
+      staffId: customerId,
+      journalApprove: app,
+      regionId: regionId
     };
     this._service.journalApprove(tempData).subscribe(res => {
       console.log('jourtest', res);
