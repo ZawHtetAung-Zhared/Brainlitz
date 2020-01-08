@@ -828,7 +828,7 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      console.log(result);
+      console.log('staff journal app', result);
       return result;
     });
   }
@@ -4016,6 +4016,25 @@ export class appService {
       })
     };
     return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  journalApprove(data) {
+    console.log('reached service jourapp');
+    let url =
+      this.baseUrl +
+      '/users/' +
+      `${localStorage.getItem('userId')}` +
+      '/journal-approve';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      console.log('test100', res);
       return res;
     });
   }

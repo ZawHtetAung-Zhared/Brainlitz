@@ -355,6 +355,19 @@ button.btn.btn-approve {
   .btn-gp {
     margin-right: 280px !important;
   }
+  .comfirm-wrapper {
+    margin-right: 280px !important;
+  }
+  .msg-img {
+    width: 420px;
+    height: 240px;
+  }
+
+  .msg-img img {
+    max-width: 420px;
+    max-height: 240px;
+    object-fit: contain;
+  }
 }
 
 /* end message detail */

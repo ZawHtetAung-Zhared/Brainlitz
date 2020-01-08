@@ -22,6 +22,13 @@
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
 
 .slider:before {
   position: absolute;
