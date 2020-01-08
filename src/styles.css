@@ -1360,3 +1360,7 @@ input::-webkit-inner-spin-button {
   max-width: 360px !important;
   width: 360px !important;
 }
+
+#livechat > div:nth-child(3) > div {
+  bottom: 120px !important;
+}
