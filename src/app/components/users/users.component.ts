@@ -1043,9 +1043,22 @@ export class UsersComponent implements OnInit {
         res.user.details.map(info => {
           if (info.controlType === 'Datepicker') {
             info.value = moment(info.value).format('YYYY-MM-DD');
-            const birthday = new Date(info.value);
+
+            const birthday = moment(info.value);
             info.year = moment().diff(birthday, 'years');
-            info.day = moment().diff(birthday, 'days') % 365;
+            var month = moment().diff(birthday, 'months') - info.year * 12;
+            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+            birthday.add(info.year, 'years'); // for years and days calculation
+            info.day = moment().diff(birthday, 'days');
+            console.log(
+              info.value +
+                '-->years: ' +
+                info.year +
+                ' -->months: ' +
+                month +
+                ' -->days: ' +
+                info.day
+            );
           }
         });
 
