@@ -73,7 +73,8 @@ export class DashboardComponent implements OnInit {
     url: '',
     logo: '',
     operatingHour: {},
-    notificationSettings: {}
+    notificationSettings: {},
+    journalApprove: ''
   };
 
   // public menuType:any = "location";
@@ -95,6 +96,7 @@ export class DashboardComponent implements OnInit {
 
   public isOnline: boolean = false;
   public CreEmail: any;
+  public JourApp: any;
   public showDropdown: boolean = false;
   public showProvider: boolean = false;
   public online: any = {};
@@ -322,7 +324,8 @@ export class DashboardComponent implements OnInit {
       notificationSettings: {
         sendEmailNoti: null,
         sendAppNoti: null
-      }
+      },
+      journalApprove: ''
     };
     // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem;
 
@@ -470,6 +473,9 @@ export class DashboardComponent implements OnInit {
               : true;
           console.log('zhazha', this.item.notificationSettings.sendEmailNoti);
           this.CreEmail = res.notificationSettings.sendEmailNoti;
+          console.log('journal approve get test', res.journalApprove);
+          this.item.journalApprove = res.journalApprove;
+          this.JourApp = res.journalApprove;
           this.enroll = res.autoEnrolDay;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
@@ -843,6 +849,8 @@ export class DashboardComponent implements OnInit {
         'zhadata',
         JSON.parse(JSON.stringify(data.notificationSettings))
       );
+
+      regionalSettingFormData.append('journalApprove', data.journalApprove);
     }
 
     setTimeout(() => {
@@ -883,6 +891,7 @@ export class DashboardComponent implements OnInit {
     this.isEdit = false;
     this.item.timezone = this.temp;
     this.item.notificationSettings.sendEmailNoti = this.CreEmail;
+    this.item.journalApprove = this.JourApp;
   }
   closeEdit() {
     this.isUrlEdit = false;
@@ -1259,6 +1268,11 @@ export class DashboardComponent implements OnInit {
       .notificationSettings.sendEmailNoti;
     // this.item.notificationSettings = !this.item.notificationSettings;
     console.log('zhatest', this.item.notificationSettings);
+  }
+
+  JourApprov() {
+    this.item.journalApprove = !this.item.journalApprove;
+    console.log('auto approve test', this.item.journalApprove);
   }
 
   getTwentyFourHourStartTime(obj) {
