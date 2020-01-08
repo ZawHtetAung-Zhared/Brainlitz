@@ -109,9 +109,9 @@ export class CustomfieldComponent implements OnInit {
     this.wordLength = 0;
   }
 
-  // changeMethod(val: string) {
-  //   this.wordLength = val.length;
-  // }
+  changeMethod(val: string) {
+    this.wordLength = val.length;
+  }
 
   getAllCustomfields() {
     this.checkFieldArr = [];
