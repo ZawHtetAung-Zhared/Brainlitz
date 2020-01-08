@@ -27,6 +27,9 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit() {
     this.getReviewList(this.activeType);
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+    console.log(this.screenHeight, 'screen height');
   }
 
   public dyanmicTop: any = {};
@@ -282,5 +285,14 @@ export class ReviewComponent implements OnInit {
       err => {
         console.log(err);
       };
+  }
+
+  public screenHeight: any;
+  public screenWidth: any;
+  @HostListener('window:resize', ['$event'])
+  onScreenSize() {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+    console.log(this.screenHeight, 'screen height');
   }
 }
