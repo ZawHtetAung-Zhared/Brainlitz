@@ -136,6 +136,22 @@
             ><span>Staff</span>
           </div>
           <div class="ml-auto d-flex align-items-center">
+            <div class="d-flex g-inner-wrap">
+              <div>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (change)="JourApprov()"
+                    [checked]="staffDetail.user.journalApprove"
+                  />
+                  <span class="slider round nocur"></span>
+                </label>
+              </div>
+              <label class="switch-label cre-email" for="online"
+                >Auto Journal Approval</label
+              >
+            </div>
+
             <div
               class="d-flex auto-enroll align-items-center justify-content-between"
               [ngClass]="{ autoEnrollTrue: userArchive }"
