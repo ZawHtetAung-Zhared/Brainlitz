@@ -91,18 +91,20 @@ export class CustomfieldComponent implements OnInit {
       $('.limit-wordcount1').show('slow');
     } else {
       this.wordLength = word.length;
-      $('.limit-wordcount2').show('slow');
+      // $('.limit-wordcount2').show('slow');
+      $('.' + status).show('slow');
     }
   }
 
   blurMethod(e, status) {
-    console.log('blur', e);
+    console.log('blur', status);
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
     } else if (status == 'sub') {
       $('.limit-wordcount1').hide('slow');
     } else {
-      $('.limit-wordcount2').hide('slow');
+      // $('.limit-wordcount2').hide('slow');
+      $('.' + status).hide('slow');
     }
     this.wordLength = 0;
   }
