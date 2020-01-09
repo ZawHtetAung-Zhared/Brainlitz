@@ -121,7 +121,8 @@ export class UserStaffComponent implements OnInit {
   ngAfterViewInit() {
     this.staffDetail = {
       user: {
-        about: ''
+        about: '',
+        journalApprove: ''
       }
     };
   }
@@ -769,6 +770,7 @@ export class UserStaffComponent implements OnInit {
           });
 
           console.log('StaffDetail', res);
+          console.log('Staff App test', this.staffDetail.user.journalApprove);
           // setTimeout(() => {
           //   //this.blockUI.stop();
           // }, 100);
@@ -890,5 +892,21 @@ export class UserStaffComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+  JourApprov() {
+    this.staffDetail.user.journalApprove = !this.staffDetail.user
+      .journalApprove;
+    let app = this.staffDetail.user.journalApprove;
+    let customerId = this.staffDetail.user.userId;
+    let regionId = this.regionID;
+    const tempData = {
+      staffId: customerId,
+      journalApprove: app,
+      regionId: regionId
+    };
+    this._service.journalApprove(tempData).subscribe(res => {
+      console.log('jourtest', res);
+    });
+    console.log('Staff Jour App Test', this.staffDetail.user);
   }
 }
