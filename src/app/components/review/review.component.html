@@ -1,0 +1,344 @@
+<div class="h-100">
+  <div class="w-100 h-100">
+    <div class="header">
+      <div class="back-wrapper">
+        <div class="d-flex back" (click)="backToCourses(); backClicked()">
+          <i class="fa fa-angle-left left-arrow"></i>
+          <p class="mb-0 back-txt">Back</p>
+        </div>
+      </div>
+      <p class="header-txt">Reviews</p>
+    </div>
+
+    <div id="navbar">
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'NEW' }"
+        (click)="clickMsgType((activeType = 'NEW'))"
+      >
+        New{{ newLength == 0 ? '' : '(' + newLength + ')' }}
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'NEW' }"
+        ></div>
+      </a>
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'APPROVED' }"
+        (click)="clickMsgType((activeType = 'APPROVED'))"
+      >
+        Approved
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'APPROVED' }"
+        ></div>
+      </a>
+      <a
+        class="nav-link"
+        [ngClass]="{ active: activeType == 'REJECT' }"
+        (click)="clickMsgType((activeType = 'REJECT'))"
+      >
+        Rejected
+        <div
+          class="border-design"
+          [ngClass]="{ active: activeType == 'REJECT' }"
+        ></div>
+      </a>
+    </div>
+    <div class="d-flex content-wrapper" *ngIf="reviewList.length > 0">
+      <div class="message-list" id="message-list" [ngStyle]="dyanmicTop">
+        <div
+          class="d-flex justify-content-between message-preview"
+          *ngFor="let list of reviewList; let i = index"
+          [ngClass]="{ active: activeIndex == i }"
+          (click)="showMessageDetail(list, i)"
+        >
+          <div class="d-flex message-content">
+            <div class="d-flex flex-column">
+              <div
+                class="msg-con"
+                *ngIf="!list.teacherOnly && !list.isApproved && !list.isReject"
+              >
+                <img src="../../../assets/img/Union.svg" />
+              </div>
+              <div
+                class="msg-con"
+                *ngIf="!list.teacherOnly && (list.isApproved || list.isReject)"
+              >
+                <img src="../../../assets/img/msgFade.svg" />
+              </div>
+
+              <div class="msg-con" *ngIf="list.teacherOnly">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  [ngClass]="{ fadecolorsvg: list.isApproved || list.isReject }"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5 11V17H15V11H5ZM17 11V17C17 18.1046 16.1046 19 15 19H5C3.89543 19 3 18.1046 3 17V11C3 9.89543 3.89543 9 5 9V6C5 3.23858 7.23858 1 10 1C12.7614 1 15 3.23858 15 6V9C16.1046 9 17 9.89543 17 11ZM13 9V5.25C13 4.44615 12.4282 3.70337 11.5 3.30144C10.5718 2.89952 9.4282 2.89952 8.5 3.30144C7.5718 3.70337 7 4.44615 7 5.25V9H13ZM10 16C8.89543 16 8 15.1046 8 14C8 12.8954 8.89543 12 10 12C11.1046 12 12 12.8954 12 14C12 15.1046 11.1046 16 10 16Z"
+                    fill="#475466"
+                  />
+                </svg>
+              </div>
+              <div class="tick-icon" *ngIf="list.isApproved">
+                <img src="../../../assets/img/tick.svg" />
+              </div>
+              <div class="cross-icon" *ngIf="list.isReject">
+                <img src="../../../assets/img/small.svg" />
+              </div>
+            </div>
+
+            <div class="">
+              <p
+                class="txt-msg"
+                *ngIf="!list.teacherOnly && !list.isApproved && !list.isReject"
+              >
+                MESSAGE
+              </p>
+              <p
+                class="txt-msg approvemsg"
+                *ngIf="!list.teacherOnly && (list.isApproved || list.isReject)"
+              >
+                MESSAGE
+              </p>
+              <p
+                class="txt-msg privateNote"
+                *ngIf="list.teacherOnly"
+                [ngClass]="{ fadecolor: list.isApproved || list.isReject }"
+              >
+                PRIVATE NOTES
+              </p>
+              <p class="txt-name">{{ list.sender.preferredName }}</p>
+              <p class="txt-for">For: {{ list.student.preferredName }}</p>
+            </div>
+          </div>
+          <div class="showTime">{{ list.postAgo }}</div>
+        </div>
+      </div>
+      <div class="message-detail">
+        <div class="d-flex all-fix" id="all-fix" [ngStyle]="dyanmicTop">
+          <div class="d-flex justify-content-end btn-gp">
+            <button class="btn all-reject" (click)="rejectAll()">
+              Reject all({{ newLength }})
+            </button>
+            <button class="btn all-approve" (click)="approveAll()">
+              Approve all({{ newLength }})
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="d-flex flex-column justify-content-center align-items-center"
+        >
+          <div class="detail-wrapper" [ngStyle]="dyanmicTop2">
+            <div class="row msg-title">
+              <div class="d-flex col-lg-6 col-md-12 pb-2">
+                <div
+                  class="msg-con"
+                  *ngIf="
+                    !activeObj.teacherOnly &&
+                    !activeObj.isApproved &&
+                    !activeObj.isReject
+                  "
+                >
+                  <img src="../../../assets/img/Union.svg" />
+                </div>
+                <div class="msg-con" *ngIf="activeObj.teacherOnly">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    [ngClass]="{
+                      fadecolorsvg: activeObj.isApproved || activeObj.isReject
+                    }"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M5 11V17H15V11H5ZM17 11V17C17 18.1046 16.1046 19 15 19H5C3.89543 19 3 18.1046 3 17V11C3 9.89543 3.89543 9 5 9V6C5 3.23858 7.23858 1 10 1C12.7614 1 15 3.23858 15 6V9C16.1046 9 17 9.89543 17 11ZM13 9V5.25C13 4.44615 12.4282 3.70337 11.5 3.30144C10.5718 2.89952 9.4282 2.89952 8.5 3.30144C7.5718 3.70337 7 4.44615 7 5.25V9H13ZM10 16C8.89543 16 8 15.1046 8 14C8 12.8954 8.89543 12 10 12C11.1046 12 12 12.8954 12 14C12 15.1046 11.1046 16 10 16Z"
+                      fill="#475466"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="msg-con"
+                  *ngIf="
+                    !activeObj.teacherOnly &&
+                    (activeObj.isApproved || activeObj.isReject)
+                  "
+                >
+                  <img src="../../../assets/img/msgFade.svg" />
+                </div>
+                <div
+                  class="msg-title "
+                  *ngIf="
+                    !activeObj.teacherOnly &&
+                    !activeObj.isApproved &&
+                    !activeObj.isReject
+                  "
+                >
+                  Message
+                </div>
+                <div
+                  class="msg-title approvemsg"
+                  *ngIf="
+                    !activeObj.teacherOnly &&
+                    (activeObj.isApproved || activeObj.isReject)
+                  "
+                >
+                  Message
+                </div>
+                <div
+                  class="msg-title privateNote"
+                  *ngIf="activeObj.teacherOnly"
+                >
+                  Private Note
+                </div>
+                <div class="timeDote"></div>
+                <div class="time-detail">{{ activeObj.postAgo }}</div>
+              </div>
+              <div
+                class="d-flex col-lg-6 col-md-12"
+                *ngIf="activeObj.isApproved || activeObj.isReject"
+              >
+                <div
+                  [ngClass]="{ reject: !activeObj.isApproved }"
+                  class="d-flex status approve"
+                >
+                  <div class="tick-circle mr-1 ">
+                    <i
+                      class="fa fa-check approveIcon"
+                      [ngClass]="{ rejectIcon: !activeObj.isApproved }"
+                    ></i>
+                  </div>
+                  {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
+                  <div
+                    class="dot approvedot"
+                    [ngClass]="{ rejectdot: !activeObj.isApproved }"
+                  ></div>
+                  <div class="timeTxt">
+                    {{
+                      activeObj.approvedAgo != ''
+                        ? activeObj.approvedAgo
+                        : activeObj.rejectedAgo
+                    }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row box-wrapper">
+              <div class="d-flex col-md-12 col-lg-6 pb-2">
+                <div class="profile-pic">
+                  <img src="{{ activeObj.sender.profilePic }}" />
+                </div>
+                <div class="d-flex flex-column nameWrapper">
+                  <p class="lbl-text">From</p>
+                  <p class="txt-name">{{ activeObj.sender.preferredName }}</p>
+                </div>
+              </div>
+              <div class="d-flex col-md-12 col-lg-6">
+                <div class="profile-pic">
+                  <img src="{{ activeObj.student.profilePic }}" />
+                </div>
+                <div class="d-flex flex-column nameWrapper">
+                  <p class="lbl-text" *ngIf="!activeObj.teacherOnly">To</p>
+                  <p class="lbl-text" *ngIf="activeObj.teacherOnly">For</p>
+
+                  <p class="txt-name">{{ activeObj.student.preferredName }}</p>
+                </div>
+              </div>
+            </div>
+            <p class="msg-subject">Course: {{ activeObj.title }}</p>
+            <p class="msg-body">
+              {{ activeObj.message }}
+            </p>
+
+            <div
+              class="d-flex justify-content-center align-items-center msg-img"
+              *ngIf="!smallImg && activeObj.photo != ''"
+            >
+              <img src="{{ activeObj.photo }}" id="msg-img" />
+            </div>
+            <div
+              class="d-flex justify-content-center msg-img"
+              *ngIf="smallImg"
+              style="background: unset !important;"
+            >
+              <img src="{{ activeObj.photo }}" [ngStyle]="autoSize" />
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between review-footer">
+          <div class="d-flex direction-wrapper">
+            <div class="arr-left mr-4" (click)="goToPrev()">
+              <img src="../../../assets/img/arrow_left.svg" />
+            </div>
+            <div class="arr-right" (click)="goToNex()">
+              <img src="../../../assets/img/arrow_right.svg" />
+            </div>
+          </div>
+          <div
+            class="comfirm-wrapper"
+            *ngIf="!activeObj.isApproved && !activeObj.isReject"
+          >
+            <button
+              class="btn btn-reject"
+              (click)="singleReject()"
+              [disabled]="isDisable"
+            >
+              Reject
+            </button>
+            <button
+              class="btn btn-approve"
+              (click)="singleApprove()"
+              [disabled]="isDisable"
+            >
+              Approve
+            </button>
+          </div>
+          <div
+            class="comfirm-wrapper"
+            *ngIf="activeObj.isApproved || activeObj.isReject"
+          >
+            <button
+              class="btn btn-undo"
+              (click)="undoReview()"
+              [disabled]="isDisable"
+            >
+              Undo
+            </button>
+            <button
+              class="btn btn-approve-status approve"
+              [ngClass]="{ reject: !activeObj.isApproved }"
+            >
+              <i
+                class="fa fa-check approveIcon"
+                [ngClass]="{ rejectIcon: !activeObj.isApproved }"
+              ></i>
+              {{ activeObj.isApproved ? 'Approved' : 'Rejected' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex flex-column  align-items-center h-100 empty-wrapper"
+      *ngIf="reviewList.length == 0"
+    >
+      <p class="empty-header">No new message yet.</p>
+      <p class="empty-body">
+        Once a staff posted a message or photo for a customer's progress book,
+        it will be appeared here for reviewing.
+      </p>
+    </div>
+  </div>
+</div>
+
+<block-ui message="Deafult Message"></block-ui>

@@ -121,7 +121,8 @@ export class UserStaffComponent implements OnInit {
   ngAfterViewInit() {
     this.staffDetail = {
       user: {
-        about: ''
+        about: '',
+        journalApprove: ''
       }
     };
   }
@@ -758,9 +759,18 @@ export class UserStaffComponent implements OnInit {
           res.user.details.map(info => {
             if (info.controlType === 'Datepicker') {
               info.value = moment(info.value).format('YYYY-MM-DD');
+
+              const birthday = moment(info.value);
+              info.year = moment().diff(birthday, 'years');
+              // var month = moment().diff(birthday, 'months') - info.year * 12;
+              // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+              birthday.add(info.year, 'years'); // for years and days calculation
+              info.day = moment().diff(birthday, 'days');
             }
           });
+
           console.log('StaffDetail', res);
+          console.log('Staff App test', this.staffDetail.user.journalApprove);
           // setTimeout(() => {
           //   //this.blockUI.stop();
           // }, 100);
@@ -774,6 +784,9 @@ export class UserStaffComponent implements OnInit {
   }
 
   backToStaff() {
+    this.staffDetail = {
+      user: {}
+    };
     this.hideMenu = false;
     // this.formFieldc = new customer();
     this.showStaffDetail = false;
@@ -882,5 +895,21 @@ export class UserStaffComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+  JourApprov() {
+    this.staffDetail.user.journalApprove = !this.staffDetail.user
+      .journalApprove;
+    let app = this.staffDetail.user.journalApprove;
+    let customerId = this.staffDetail.user.userId;
+    let regionId = this.regionID;
+    const tempData = {
+      staffId: customerId,
+      journalApprove: app,
+      regionId: regionId
+    };
+    this._service.journalApprove(tempData).subscribe(res => {
+      console.log('jourtest', res);
+    });
+    console.log('Staff Jour App Test', this.staffDetail.user);
   }
 }

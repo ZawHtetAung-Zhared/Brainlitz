@@ -55,6 +55,7 @@ export class LocationComponent implements OnInit {
   public locationDemo: any = [];
   public setTrue: any = null;
   public isShowPicker: boolean = false;
+
   public selectedLocationColor = {
     text: '#544600',
     background: '#FFE04D'
@@ -487,6 +488,12 @@ export class LocationComponent implements OnInit {
         ) {
           this.selectedLocationColor.background = res.backgroundColorHex;
           this.selectedLocationColor.text = res.textColorHex;
+          $('#feedback').remove();
+          $('#placeholder_color').append(
+            "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
+              this.selectedLocationColor.text +
+              ' !important;}</style>'
+          );
         } else {
           this.selectedLocationColor = {
             text: '#544600',
@@ -559,6 +566,7 @@ export class LocationComponent implements OnInit {
     this.selectedLocationColor.background = item.color.background;
     this.selectedLocationColor.text = item.color.text;
     $('#feedback').remove();
+
     $('#placeholder_color').append(
       "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
         this.selectedLocationColor.text +

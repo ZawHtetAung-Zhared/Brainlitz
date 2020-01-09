@@ -1,6 +1,6 @@
 .content-wrapper {
   position: relative;
-  height: 600px;
+  min-height: 600px;
 }
 
 .header-wrap {
@@ -61,9 +61,15 @@ p.switchTxt {
   column-count: 2;
 }
 
+.dataList {
+  overflow: overlay;
+  height: 300px;
+}
+
 .card {
   border: none;
   margin-bottom: 0;
+  position: inherit;
 }
 .single-field {
   margin-bottom: 20px;

@@ -180,20 +180,25 @@
         </div>
       </div>
       <div
-        class="container"
+        class="container dataList"
         dragula="HANDLES"
         [(dragulaModel)]="checkFieldArr"
         style="margin-bottom:5rem"
       >
-        <div class="col-md-8 d-flex justify-content-end">
+        <!-- <div class="col-md-8 d-flex justify-content-end">
           <div class="limit-wordcount2">
             <span>{{ wordLength }}/60characters</span>
           </div>
-        </div>
+        </div> -->
         <div
           *ngFor="let cobj of checkFieldArr; let idx = index"
           class="col-md-8  p-0 m-0"
         >
+          <!-- <div class="d-flex justify-content-end pr-3">
+            <div class="limit-wordcount2" [ngClass]="'wordcount' + idx">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div> -->
           <div class="d-flex">
             <span class="handle">
               <img
@@ -207,9 +212,10 @@
               class="input-field choice"
               placeholder="Type field name"
               maxlength="60"
-              (focus)="focusMethod($event, 'name1', $event.target.value)"
-              (blur)="blurMethod($event, 'name1')"
-              (input)="changeMethod($event.target.value)"
+              (focus)="
+                focusMethod($event, 'wordcount' + idx, $event.target.value)
+              "
+              (blur)="blurMethod($event, 'wordcount' + idx)"
               (input)="this.checkFieldArr[idx].name = $event.target.value"
               (keypress)="addcheckboxField($event, idx)"
               [value]="cobj.name"

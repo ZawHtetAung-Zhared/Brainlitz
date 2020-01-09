@@ -769,6 +769,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.isshare = true;
       this.shareAPG = false;
       this.iscreate = false;
+      this.userGradingAp = false;
     }
     this.templateAccessPointGroup = [];
   }

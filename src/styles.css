@@ -263,7 +263,9 @@ app-pagenotfound {
 app-login,
 app-dashboard,
 app-tools,
-app-report {
+app-report,
+app-review,
+app-course {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -333,8 +335,13 @@ svg.star-filled.default-star-filled-icon {
 #onscroll {
   display: none;
 }
-
+#sc {
+  display: none;
+}
 .stick #onscroll {
+  display: block;
+}
+.stick #sc {
   display: block;
 }
 
@@ -361,7 +368,7 @@ svg.star-filled.default-star-filled-icon {
   border-right: 1px solid #dedede;
   /*transition: height 300ms linear, transform 300ms linear;*/
   transition: 0.5s all ease-out;
-  top: 147px;
+  /* top: 147px; */
 }
 
 .drag-wrapper .drag-scroll-content {
@@ -1352,4 +1359,16 @@ input::-webkit-inner-spin-button {
 .autoEnrollModal .modal-dialog {
   max-width: 360px !important;
   width: 360px !important;
+}
+
+#livechat > div:nth-child(1) > div {
+  bottom: 120px !important;
+}
+
+#livechat > div:nth-child(2) > div {
+  bottom: 120px !important;
+}
+
+#livechat > div:nth-child(3) > div {
+  bottom: 120px !important;
 }

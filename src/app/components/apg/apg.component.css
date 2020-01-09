@@ -96,10 +96,10 @@
   background: #fff;
 }
 
-.shareApgLoadMore {
-  /* padding-top: 6%;
+/* .shareApgLoadMore { */
+/* padding-top: 6%;
   padding-bottom: 6%; */
-}
+/* } */
 /* .loadMore1{
     /* height: 199px; */
 /* position: fixed; */
@@ -203,6 +203,7 @@
   margin-left: -0.75rem;
   width: 103%;
   margin-top: 4px;
+  height: 46px;
 }
 
 /* .status-wrapper:hover{
@@ -426,9 +427,9 @@ div.ap-wrapper:last-child {
   padding: 0px 20px;
 }
 
-.info-section {
-  /*padding: 20px 20px 0;*/
-}
+/* .info-section {
+  padding: 20px 20px 0;
+} */
 
 .btn-section {
   border-top: 1px solid #edeff0;
@@ -576,7 +577,7 @@ div.ap-wrapper:last-child {
 .module-input label.selected,
 .share-input label.selected {
   background: #1683fb;
-  color: #fff;
+  color: #fff !important;
   box-shadow: 0 1px 5px 1px rgb(22, 131, 251);
 }
 .share-input label.selected .b-white {
@@ -586,6 +587,10 @@ div.ap-wrapper:last-child {
 .share-input label.selected .label-checked {
   border: 2px solid #fff;
   box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+}
+
+.grade-selected {
+  color: #ffffff !important;
 }
 
 .btn-submit,
@@ -713,9 +718,9 @@ div.ap-wrapper:last-child {
   color: red;
 }
 
-.load-more1 {
-  /* padding-left: 25%; */
-}
+/* .load-more1 {
+  padding-left: 25%;
+} */
 
 .load-more {
   position: fixed;
@@ -1884,10 +1889,6 @@ span.textapgType {
   color: #64707d;
 }
 
-span.textapgType.selected {
-  color: #fff;
-}
-
 span.textTempName {
   font-size: 18px;
   font-weight: 600;
@@ -1897,7 +1898,9 @@ span.textTempName {
 
 span.textTempName.selected,
 span.textUnitName.selected,
-span.textUnit.selected {
+span.textUnit.selected,
+.mb-0.list-dot-wrap.detail-line.apg-desc.w-100.optionlist.selected,
+span.textapgType.selected {
   color: #fff;
 }
 
@@ -2151,9 +2154,9 @@ li.optionlist {
   color: #007fff !important;
   border-bottom: 2px solid #007fff !important;
 }
-
-.card.card-wrap.share-input {
+.share-input {
   border: none;
+  background-clip: padding-box;
 }
 .card-columns {
   -webkit-column-count: 2;
@@ -2407,6 +2410,7 @@ span.point {
   right: 14px;
   top: 90px;
   z-index: 1;
+  top: 89px;
 }
 
 .carret-box,
@@ -2435,7 +2439,7 @@ span.point {
 }
 .arr-box {
   position: fixed;
-  top: 327px !important;
+  top: 374px !important;
   /* right: 85%!important; */
 }
 
@@ -2458,4 +2462,14 @@ p.color-title {
   padding-left: 20px;
   margin-top: 4px;
 }
+
+.addBorder {
+  border: 2px solid #007fff;
+}
 /* end pop up */
+
+.card {
+  border: none;
+  margin-bottom: 0;
+  position: inherit;
+}

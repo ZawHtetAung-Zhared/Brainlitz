@@ -1,4 +1,4 @@
-<div class="h-100" id="courseWrapper">
+<div class="h-100" id="courseWrapper" *ngIf="!isReview">
   <div
     [ngClass]="{ overlay: iscourseSearch == true || isAdvancedSearch == true }"
     (click)="clickoutSide()"
@@ -6,6 +6,7 @@
   <app-header
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isTodayLesson"
     [ngClass]="{ stick: isSticky == true }"
+    (newItemEvent)="reviewToggle($event)"
   ></app-header>
   <div class="d-flex flex-column justify-content-center align-items-center">
     <div
@@ -38,6 +39,7 @@
             Today’s lessons
           </button>
         </div>
+
         <div class="d-flex flex-column course-search-wrap">
           <div *ngIf="!isAdvancedSearch">
             <div class="simple-search input-group col-md-12 pd-zero">
@@ -932,6 +934,7 @@
         !isCourseDetail &&
         !isCourseCreate &&
         !isTodayLesson &&
+        !isReview &&
         result.length != 0 &&
         !isCoursePlanDetail &&
         searchMore
@@ -951,6 +954,7 @@
         !isCategory &&
         !isPlan &&
         !isTodayLesson &&
+        !isReview &&
         !isCourseDetail &&
         !isCourseCreate &&
         result.length != 0 &&
@@ -3818,3 +3822,5 @@
   </ng-template>
   <block-ui message="Deafult Message"></block-ui>
 </div>
+
+<app-review *ngIf="isReview"></app-review>

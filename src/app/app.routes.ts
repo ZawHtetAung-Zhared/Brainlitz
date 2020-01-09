@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
+import { ReviewComponent } from './components/review/review.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -67,6 +68,11 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'review',
+    component: ReviewComponent,
     canActivate: [LoggedInGuard]
   },
   {

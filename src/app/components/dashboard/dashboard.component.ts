@@ -73,7 +73,8 @@ export class DashboardComponent implements OnInit {
     url: '',
     logo: '',
     operatingHour: {},
-    notificationSettings: {}
+    notificationSettings: {},
+    journalApprove: ''
   };
 
   // public menuType:any = "location";
@@ -95,6 +96,7 @@ export class DashboardComponent implements OnInit {
 
   public isOnline: boolean = false;
   public CreEmail: any;
+  public JourApp: any;
   public showDropdown: boolean = false;
   public showProvider: boolean = false;
   public online: any = {};
@@ -286,6 +288,9 @@ export class DashboardComponent implements OnInit {
     'zar',
     'zmw'
   ];
+  public isAcceptPaynow = false;
+  public isQRChanged = false;
+
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
@@ -319,7 +324,8 @@ export class DashboardComponent implements OnInit {
       notificationSettings: {
         sendEmailNoti: null,
         sendAppNoti: null
-      }
+      },
+      journalApprove: ''
     };
     // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem;
 
@@ -467,6 +473,9 @@ export class DashboardComponent implements OnInit {
               : true;
           console.log('zhazha', this.item.notificationSettings.sendEmailNoti);
           this.CreEmail = res.notificationSettings.sendEmailNoti;
+          console.log('journal approve get test', res.journalApprove);
+          this.item.journalApprove = res.journalApprove;
+          this.JourApp = res.journalApprove;
           this.enroll = res.autoEnrolDay;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
@@ -645,9 +654,44 @@ export class DashboardComponent implements OnInit {
       reader.readAsDataURL(files[0]);
       reader.onload = _event => {
         this.imgURL = reader.result;
+        console.log(this.imgURL);
       };
     }
   }
+
+  qrURL: any;
+  handleQRInput(files: FileList, $event) {
+    this.isQRChanged = true;
+    console.log('handleqrInput~~~');
+    var qrPath;
+    console.log(files);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
+    var qr = files.item(0);
+    // this.item.logo = this.logo;
+    const reader = new FileReader();
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    if (qr.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      qrPath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.qrURL = reader.result;
+      };
+    }
+  }
+
   editRegion() {
     console.log(this.item);
     this.isLogoChanged = false;
@@ -740,8 +784,8 @@ export class DashboardComponent implements OnInit {
     return starTTemp;
   }
 
-  getLogo() {
-    let logo = document.getElementById('imgURL').getAttribute('src');
+  getLogo(url) {
+    let logo = document.getElementById(url).getAttribute('src');
 
     return this.dataURItoBlob(logo);
   }
@@ -785,7 +829,9 @@ export class DashboardComponent implements OnInit {
       regionalSettingFormData.append('url', data.url);
       if (this.isLogoChanged == true) {
         console.log('isLogoChanged~~~~', this.isLogoChanged);
-        regionalSettingFormData.append('logo', this.getLogo());
+        var test = this.getLogo('imgURL');
+        console.log(test);
+        regionalSettingFormData.append('logo', this.getLogo('imgURL'));
       }
 
       console.log('isLogoChanged~~~~', data.operatingHour);
@@ -803,6 +849,8 @@ export class DashboardComponent implements OnInit {
         'zhadata',
         JSON.parse(JSON.stringify(data.notificationSettings))
       );
+
+      regionalSettingFormData.append('journalApprove', data.journalApprove);
     }
 
     setTimeout(() => {
@@ -843,6 +891,7 @@ export class DashboardComponent implements OnInit {
     this.isEdit = false;
     this.item.timezone = this.temp;
     this.item.notificationSettings.sendEmailNoti = this.CreEmail;
+    this.item.journalApprove = this.JourApp;
   }
   closeEdit() {
     this.isUrlEdit = false;
@@ -864,6 +913,8 @@ export class DashboardComponent implements OnInit {
     this.selectedFlag = this.invoiceData.currencyCode;
 
     this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
+    this.isAcceptPaynow = this.paymentData.acceptPayNow;
+    this.qrURL = this.paymentData.payNowQr;
     // if(this.isOnline == true){
     //   this.selectedProvider = this.paymentData.paymentProviders.name;
     // }
@@ -1091,10 +1142,26 @@ export class DashboardComponent implements OnInit {
         invoiceSettings: this.invoiceData,
         paymentSettings: data
       };
+
+      var qrFormData = new FormData();
+      qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
+      if (this.isAcceptPaynow == true) {
+        qrFormData.append('qrcode', this.getLogo('qrURL'));
+      }
     }
 
     console.log(body);
     //this.blockUI.start('Loading...');
+    // this._service.updatePayNowPayment(this.regionId, paynowData).subscribe((res:any)=>{
+    //   console.log(res)
+    // });
+
+    this._service
+      .updatePayNowPayment(this.regionId, qrFormData)
+      .subscribe((res: any) => {
+        console.log('*******', res);
+      });
+
     this._service.updateInvoiceSetting(this.regionId, body).subscribe(
       (res: any) => {
         //this.blockUI.stop();
@@ -1115,6 +1182,29 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
+  // saveQR(){
+  //   let qrFormData = new FormData();
+  //   if (this.isQRChanged == true) {
+  //     var paynowData;
+  //     console.log('isQRChanged~~~~', this.isLogoChanged);
+  //     // var payNowQr = this.getLogo('qrURL')
+
+  //     paynowData = {
+  //       "acceptPayNow": this.isAcceptPaynow,
+  //       "payNowQr": this.getLogo('qrURL')
+  //     }
+  //     qrFormData.append('qrcode', this.getLogo('qrURL'));
+  //     qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow))
+  //     // console.log("paynowData",paynowData)
+  //   }
+  //   setTimeout(()=>{
+  //     this._service.updatePayNowPayment(this.regionId, qrFormData).subscribe((res:any)=>{
+  //       console.log("*******",res)
+  //     });
+  //   },200)
+
+  // }
 
   cancel() {
     this.option = '';
@@ -1137,6 +1227,7 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';
     }
   }
+
   onlinePayment() {
     this.isOnline = !this.isOnline;
     if (this.isOnline == true) {
@@ -1168,11 +1259,20 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  acceptPaynow() {
+    this.isAcceptPaynow = !this.isAcceptPaynow;
+  }
+
   SendCreEmail() {
     this.item.notificationSettings.sendEmailNoti = !this.item
       .notificationSettings.sendEmailNoti;
     // this.item.notificationSettings = !this.item.notificationSettings;
     console.log('zhatest', this.item.notificationSettings);
+  }
+
+  JourApprov() {
+    this.item.journalApprove = !this.item.journalApprove;
+    console.log('auto approve test', this.item.journalApprove);
   }
 
   getTwentyFourHourStartTime(obj) {

@@ -36,6 +36,7 @@ import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import sampleData from './notiSample';
 declare var $: any;
 
 @Component({
@@ -69,6 +70,7 @@ export class UsersComponent implements OnInit {
   public className: any;
   public showflexyCourse: boolean = false;
   public isGlobal: boolean = false;
+  public notifications: any;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -107,6 +109,7 @@ export class UsersComponent implements OnInit {
   ];
 
   public showLoading: boolean = false;
+
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -1009,6 +1012,7 @@ export class UsersComponent implements OnInit {
   }
 
   showDetails(ID) {
+    console.log(this.custDetail);
     this.activeTab = 'class';
     this.hideMenu = false;
     this.customerLists = [];
@@ -1038,9 +1042,18 @@ export class UsersComponent implements OnInit {
         this.custDetail = res;
         this.userArchive = res.user.isArchive;
         res.user.details.map(info => {
-          if (info.controlType === 'Datepicker')
+          if (info.controlType === 'Datepicker') {
             info.value = moment(info.value).format('YYYY-MM-DD');
+
+            const birthday = moment(info.value);
+            info.year = moment().diff(birthday, 'years');
+            // var month = moment().diff(birthday, 'months') - info.year * 12;
+            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+            birthday.add(info.year, 'years'); // for years and days calculation
+            info.day = moment().diff(birthday, 'days');
+          }
         });
+
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
@@ -1062,8 +1075,11 @@ export class UsersComponent implements OnInit {
   }
 
   backToCustomer() {
-    this.hideMenu = false;
     console.log('back');
+    this.custDetail = {
+      user: {}
+    };
+    this.hideMenu = false;
     this.formFieldc = new customer();
     this.showCustDetail = false;
     this.isupdate = false;
@@ -1784,7 +1800,55 @@ export class UsersComponent implements OnInit {
       this.callAchievements(1);
       this.callAchievements(3);
       this.callAchievements(6);
+    } else if (val == 'notifications') {
+      this.getNotiList();
     }
+  }
+
+  getNotiList() {
+    // this.notifications = sampleData;
+    this._service
+      .getNotificationHistory(this.regionID, this.custDetail.user.userId)
+      .subscribe(
+        (res: any) => {
+          this.notifications = res;
+          // if (this.notifications.length > 1) {
+          //   this.notifications = this.notifications.sort(
+          //     (a, b) =>
+          //       moment(b.date.utcDate).format('YYYYMMDD') -
+          //       moment(a.date.utcDate).format('YYYYMMDD')
+          //   );
+          // }
+          for (var i = 0; i < this.notifications.length; i++) {
+            for (var j = 0; j < this.notifications[i].noti.length; j++) {
+              var data = this.notifications[i].noti[j];
+              data.createdTime = this.formatAMPM(data.createdDate);
+            }
+          }
+          console.log(this.notifications);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  formatAMPM(date) {
+    const zone = localStorage.getItem('timezone');
+    var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    var hours = parseInt(
+      moment(date, format)
+        .tz(zone)
+        .format('HH')
+    );
+    var minutes = moment(date, format)
+      .tz(zone)
+      .format('mm');
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 
   callMakeupLists() {

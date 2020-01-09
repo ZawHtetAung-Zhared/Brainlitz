@@ -252,7 +252,7 @@ export class CourseComponent implements OnInit {
   public gbgColor: any;
   //reschedule
   public isRescheduleLesson: boolean;
-
+  public isReview: boolean = false;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -4173,5 +4173,10 @@ export class CourseComponent implements OnInit {
     console.log('id', e);
     this.isTodayLesson = false;
     this.showCourseDetail(e);
+  }
+
+  gotoReview() {
+    this.isReview = true;
+    console.log(this.isReview, 'reivew');
   }
 }
