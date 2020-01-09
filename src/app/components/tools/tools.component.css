@@ -82,6 +82,9 @@ ul.noti-dropdown li.activetab {
 img.setting-icon {
   width: 25px;
 }
+.setting-label {
+  white-space: pre-line;
+}
 .btnSpan {
   float: left;
   /*margin-left: 10px;*/

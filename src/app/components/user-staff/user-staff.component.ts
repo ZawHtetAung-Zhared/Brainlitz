@@ -784,6 +784,9 @@ export class UserStaffComponent implements OnInit {
   }
 
   backToStaff() {
+    this.staffDetail = {
+      user: {}
+    };
     this.hideMenu = false;
     // this.formFieldc = new customer();
     this.showStaffDetail = false;

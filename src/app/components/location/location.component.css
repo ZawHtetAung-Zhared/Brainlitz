@@ -181,6 +181,7 @@
 }
 .form-wrap input {
   width: 102%;
+  height: 45px;
 }
 .form-wrap input,
 .form-wrap textarea {
@@ -339,6 +340,16 @@ input:valid + span:after {
   top: 250px;
 }
 
+@media only screen and (max-width: 1365px) {
+  #colorPletteBox {
+    top: 270px;
+  }
+
+  .arr-box {
+    top: 433px !important;
+  }
+}
+
 .carret-box,
 .arr-box {
   width: 20px;
@@ -348,7 +359,7 @@ input:valid + span:after {
   filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
   position: fixed;
   /* right: 50%; */
-  top: -19px;
+  /* top: -19px; */
   z-index: 15;
   margin: auto;
 }
@@ -365,7 +376,7 @@ input:valid + span:after {
 }
 .arr-box {
   position: fixed;
-  top: 364px !important;
+  top: 412px;
   /* right: 85%!important; */
 }
 
