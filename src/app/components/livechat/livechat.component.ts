@@ -20,7 +20,7 @@ export class LivechatComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.liveChat();
+    // this.liveChat();
   }
 
   liveChat() {

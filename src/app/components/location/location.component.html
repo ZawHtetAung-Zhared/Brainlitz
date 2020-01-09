@@ -142,10 +142,11 @@
                 *ngFor="let item of sepalColor; let i = index"
                 [style.background]="item.color.background"
                 (click)="selectColor(i, item)"
+                [ngClass]="{
+                  addBorder:
+                    item.color.background == selectedLocationColor.background
+                }"
               ></div>
-              <!-- [ngClass]="{
-                addBorder: item.color.background == selectedLocationColor.background
-              }" -->
             </div>
           </div>
           <div
