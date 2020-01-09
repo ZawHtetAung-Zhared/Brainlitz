@@ -55,6 +55,7 @@ export class LocationComponent implements OnInit {
   public locationDemo: any = [];
   public setTrue: any = null;
   public isShowPicker: boolean = false;
+
   public selectedLocationColor = {
     text: '#544600',
     background: '#FFE04D'

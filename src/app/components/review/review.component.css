@@ -318,6 +318,9 @@ p.msg-body {
 .comfirm-wrapper {
   margin-right: 320px;
 }
+button.btn {
+  background: unset;
+}
 
 button.btn.btn-reject {
   color: #bf2926;
