@@ -153,7 +153,7 @@
                   ? 63 + 'px'
                   : apg.module.name == 'Data'
                   ? 185 + 'px'
-                  : 200 + 'px'
+                  : 220 + 'px'
             }"
           >
             <!-- progess or bage -->
@@ -1534,141 +1534,289 @@
             </button>
           </span>
         </div>
-
-        <div class="card-columns" *ngIf="apgType == 'Data'">
-          <div
-            *ngFor="let temp of templateList; let i = index"
-            class="card card-wrap share-input"
-          >
-            <label
-              class="form-check-label"
-              [ngClass]="{ selected: sharechecked == temp._id }"
+        <!-- Here data -->
+        <div class="apg-share-content" *ngIf="apgType == 'Data'">
+          <div class="col1">
+            <div
+              *ngFor="let temp of templateList | slice: 0:half; let i = index"
+              class="assement-shared-apg share-input share-input"
             >
-              <div class="d-flex justify-content-between apgBoxHead">
-                <span
-                  class="textapgType"
-                  [ngClass]="{ selected: sharechecked == temp._id }"
-                  >{{ apgType }}</span
-                >
-                <div class="label-checked"></div>
-              </div>
-
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="temp._id"
-                value="{{ temp.name }}"
-                (click)="chooseShareAPG(temp._id, temp.name)"
-              />
-              <span
-                class="textTempName"
+              <label
+                class="form-check-label"
                 [ngClass]="{ selected: sharechecked == temp._id }"
-                >{{ temp.name }}</span
               >
-              <div class="apgBoxFooter" *ngFor="let tobj of temp.accessPoints">
-                <!-- {{tobj.data.inputType}} -->
-                <div
-                  class="d-flex justify-content-between numberType"
-                  *ngIf="tobj.data.inputType == 'NUMBER'"
-                >
-                  <div>
-                    <span
-                      class="textUnitName"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                      >Unit:</span
-                    ><span
-                      class="textUnit"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      {{ tobj.data.unit }}</span
-                    >
-                  </div>
-                  <div
-                    class="showType"
-                    *ngIf="
-                      tobj.data.inputTypeProperties.min == null &&
-                      tobj.data.inputTypeProperties.max == null
-                    "
-                  >
-                    <img
-                      src="../../../assets/img/input-icon.png"
-                      class="inputIcon"
-                    />
-                    <span
-                      class="inputText"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      Input box
-                    </span>
-                  </div>
-                </div>
-
-                <div
-                  class="d-flex justify-content-between rangeType"
-                  *ngIf="tobj.data.inputType == 'RANGE'"
-                >
-                  <div>
-                    <span
-                      class="textUnitName"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                      >Unit:</span
-                    ><span
-                      class="textUnit"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      {{ tobj.data.unit }}</span
-                    >
-                  </div>
-
-                  <div
-                    class="showType"
-                    *ngIf="
-                      tobj.data.inputTypeProperties.min != null &&
-                      tobj.data.inputTypeProperties.max != null
-                    "
-                  >
-                    <img
-                      src="../../../assets/img/slider-icon.png"
-                      class="inputIcon"
-                    />
-                    <span
-                      class="inputText"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      Slider
-                    </span>
-                  </div>
-                </div>
-
-                <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
-                  <div
-                    class="d-flex flex-row listGroup"
-                    *ngFor="
-                      let option of tobj.data.inputTypeProperties.options;
-                      let j = index
-                    "
+                <div class="d-flex justify-content-between apgBoxHead">
+                  <span
+                    class="textapgType"
                     [ngClass]="{ selected: sharechecked == temp._id }"
+                    >{{ apgType }}</span
                   >
-                    <span class="detail-dot"></span>
+                  <div class="label-checked"></div>
+                </div>
+
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ temp.name }}"
+                  (click)="chooseShareAPG(temp._id, temp.name)"
+                />
+                <span
+                  class="textTempName"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ temp.name }}</span
+                >
+                <div
+                  class="apgBoxFooter"
+                  *ngFor="let tobj of temp.accessPoints"
+                >
+                  <!-- {{tobj.data.inputType}} -->
+                  <div
+                    class="d-flex justify-content-between numberType"
+                    *ngIf="tobj.data.inputType == 'NUMBER'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
                     <div
-                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
-                      [ngClass]="{
-                        'hide-border':
-                          tobj.data.inputTypeProperties.options.length == j + 1
-                      }"
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min == null &&
+                        tobj.data.inputTypeProperties.max == null
+                      "
                     >
-                      {{ option }}
+                      <img
+                        src="../../../assets/img/input-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Input box
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex justify-content-between rangeType"
+                    *ngIf="tobj.data.inputType == 'RANGE'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
                     </div>
 
-                    <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
-                        {{option}}
-                      </div> -->
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min != null &&
+                        tobj.data.inputTypeProperties.max != null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/slider-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Slider
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                    <div
+                      class="d-flex flex-row listGroup"
+                      *ngFor="
+                        let option of tobj.data.inputTypeProperties.options;
+                        let j = index
+                      "
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        [ngClass]="{
+                          'hide-border':
+                            tobj.data.inputTypeProperties.options.length ==
+                            j + 1,
+                          selected: sharechecked == temp._id
+                        }"
+                      >
+                        {{ option }}
+                      </div>
+
+                      <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
+                          {{option}}
+                        </div> -->
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- </div> -->
-            </label>
+                <!-- </div> -->
+              </label>
+            </div>
+          </div>
+          <div class="col2">
+            <div
+              *ngFor="let temp of templateList | slice: half; let i2 = index"
+              class="assement-shared-apg share-input share-input"
+            >
+              <label
+                class="form-check-label"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+              >
+                <div class="d-flex justify-content-between apgBoxHead">
+                  <span
+                    class="textapgType"
+                    [ngClass]="{ selected: sharechecked == temp._id }"
+                    >{{ apgType }}</span
+                  >
+                  <div class="label-checked"></div>
+                </div>
+
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ temp.name }}"
+                  (click)="chooseShareAPG(temp._id, temp.name)"
+                />
+                <span
+                  class="textTempName"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ temp.name }}</span
+                >
+                <div
+                  class="apgBoxFooter"
+                  *ngFor="let tobj of temp.accessPoints"
+                >
+                  <!-- {{tobj.data.inputType}} -->
+                  <div
+                    class="d-flex justify-content-between numberType"
+                    *ngIf="tobj.data.inputType == 'NUMBER'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min == null &&
+                        tobj.data.inputTypeProperties.max == null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/input-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Input box
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex justify-content-between rangeType"
+                    *ngIf="tobj.data.inputType == 'RANGE'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
+
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min != null &&
+                        tobj.data.inputTypeProperties.max != null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/slider-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Slider
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                    <div
+                      class="d-flex flex-row listGroup"
+                      *ngFor="
+                        let option of tobj.data.inputTypeProperties.options;
+                        let j = index
+                      "
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        [ngClass]="{
+                          'hide-border':
+                            tobj.data.inputTypeProperties.options.length ==
+                            j + 1,
+                          selected: sharechecked == temp._id
+                        }"
+                      >
+                        {{ option }}
+                      </div>
+
+                      <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
+                          {{option}}
+                        </div> -->
+                    </div>
+                  </div>
+                </div>
+                <!-- </div> -->
+              </label>
+            </div>
           </div>
 
           <!-- </label> -->

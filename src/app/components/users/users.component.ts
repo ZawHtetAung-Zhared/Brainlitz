@@ -1012,6 +1012,7 @@ export class UsersComponent implements OnInit {
   }
 
   showDetails(ID) {
+    console.log(this.custDetail);
     this.activeTab = 'class';
     this.hideMenu = false;
     this.customerLists = [];
@@ -1074,8 +1075,11 @@ export class UsersComponent implements OnInit {
   }
 
   backToCustomer() {
-    this.hideMenu = false;
     console.log('back');
+    this.custDetail = {
+      user: {}
+    };
+    this.hideMenu = false;
     this.formFieldc = new customer();
     this.showCustDetail = false;
     this.isupdate = false;

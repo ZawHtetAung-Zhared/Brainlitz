@@ -1884,10 +1884,6 @@ span.textapgType {
   color: #64707d;
 }
 
-span.textapgType.selected {
-  color: #fff;
-}
-
 span.textTempName {
   font-size: 18px;
   font-weight: 600;
@@ -1897,7 +1893,9 @@ span.textTempName {
 
 span.textTempName.selected,
 span.textUnitName.selected,
-span.textUnit.selected {
+span.textUnit.selected,
+.mb-0.list-dot-wrap.detail-line.apg-desc.w-100.optionlist.selected,
+span.textapgType.selected {
   color: #fff;
 }
 
@@ -2151,9 +2149,9 @@ li.optionlist {
   color: #007fff !important;
   border-bottom: 2px solid #007fff !important;
 }
-
-.card.card-wrap.share-input {
+.share-input {
   border: none;
+  background-clip: padding-box;
 }
 .card-columns {
   -webkit-column-count: 2;
