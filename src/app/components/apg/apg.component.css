@@ -411,6 +411,7 @@ div.ap-wrapper:last-child {
 .detail-line {
   /*line-height: 0.7;*/
   border-bottom: 1px solid #edeff0;
+  color: #fff;
 }
 
 .bg-apg-header {
