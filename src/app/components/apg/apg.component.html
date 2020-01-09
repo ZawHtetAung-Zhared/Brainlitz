@@ -1884,7 +1884,14 @@
                         }"
                         style="margin-bottom: 16px"
                       >
-                        <p class="gradename">{{ grade.name }}</p>
+                        <p
+                          class="gradename"
+                          [ngClass]="{
+                            'grade-selected': sharechecked == temp._id
+                          }"
+                        >
+                          {{ grade.name }}
+                        </p>
                       </div>
                     </div>
                   </div>
