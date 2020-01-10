@@ -1641,7 +1641,16 @@
                             'status-unread': noti.isRead == false
                           }"
                         >
-                          {{ noti.isRead == true ? 'Read' : 'Unread' }}
+                          <!-- {{ noti.isRead == true ? 'Read' : 'Unread' }} -->
+
+                          <img
+                            *ngIf="noti.isRead"
+                            src="../../../assets/icons/Read.png"
+                          />
+                          <img
+                            *ngIf="!noti.isRead"
+                            src="../../../assets/icons/Unread.png"
+                          />
                         </div>
                         <div class="noti-dot"></div>
                         <div
