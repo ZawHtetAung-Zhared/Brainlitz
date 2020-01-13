@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastsManager } from 'ng5-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { appService } from '../../service/app.service';
 import { DragulaService, DragulaModule } from 'ng2-dragula';

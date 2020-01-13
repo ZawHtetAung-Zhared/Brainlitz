@@ -1610,7 +1610,6 @@
                   }"
                 >
                   <!-- <pre>{{timeline | json}}</pre> -->
-
                   <div
                     *ngIf="timeline.startDate < todayDate"
                     (click)="
@@ -2264,7 +2263,7 @@
                   detailLists.endDate | utcDate
                 }}</b>
                 <div *ngIf="detailLists.endDate == null">
-                  <b>{{ detailLists.lessonCount }} Lessons</b>
+                  <b>{{ detailLists.actualLessonCount }} Lessons</b>
                 </div>
               </div>
             </div>
@@ -3604,7 +3603,7 @@
       </div>
     </div>
     <textarea
-      *ngIf="textAreaOption"
+      *ngIf="textAreaOption && isGlobal"
       name=""
       id=""
       class="text-reason"
