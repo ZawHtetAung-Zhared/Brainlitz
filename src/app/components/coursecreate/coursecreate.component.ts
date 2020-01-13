@@ -1682,6 +1682,7 @@ export class CoursecreateComponent implements OnInit {
       console.log('Not First Time');
       console.log('Course Type', this.model.type);
       console.log(this.model.end, this.model.lessonCount, this.flexiOn);
+      this.defineType();
       if (this.timeOptChecked == 'showTimeSlot') {
         // flexy and regular
         if (this.model.end && this.endOptChecked == 'end') {
@@ -1901,9 +1902,10 @@ export class CoursecreateComponent implements OnInit {
       flexy = true;
     }
 
+    console.log(this.courseObj['type']);
     console.log('Course', this.courseObj);
     console.log('course model', this.model);
-    //this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     this._service
       .createCourse(
         this.regionID,
