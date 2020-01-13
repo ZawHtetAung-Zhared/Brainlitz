@@ -241,11 +241,14 @@
       </div>
       <div class="makeup-style">
         <div class="d-flex">
-          <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+          <div
+            class="toggle-wrap"
+            (click)="this.isGlobal = !isGlobal; makeupForm = {}"
+          >
             <label class="switch">
               <input
                 type="checkbox"
-                (click)="isGlobal = !this.isGlobal"
+                (click)="isGlobal = !this.isGlobal; makeupForm = {}"
                 [checked]="isGlobal"
               />
               <span class="slider round"></span>
