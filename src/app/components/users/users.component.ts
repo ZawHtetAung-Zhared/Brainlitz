@@ -718,6 +718,7 @@ export class UsersComponent implements OnInit {
             // this.toastr.error('Update Fail');
             //this.blockUI.stop();
             console.log(err);
+            this.getCustomFields('edit');
             if (err.status == 400) {
               this.toastr.error('Email already exist');
             } else {
