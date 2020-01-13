@@ -2350,7 +2350,11 @@
             (click)="createUser(formFieldc, 'create')"
             class="btn create-button"
             [disabled]="
-              !customerForm.valid || emailAlert || guardianAlert || sameMail
+              !customerForm.valid ||
+              emailAlert ||
+              guardianAlert ||
+              sameMail ||
+              imgDemoSlider
             "
           >
             Create
@@ -2362,7 +2366,11 @@
             (click)="createUser(formFieldc, 'edit')"
             class="btn create-button"
             [disabled]="
-              !customerForm.valid || emailAlert || guardianAlert || sameMail
+              !customerForm.valid ||
+              emailAlert ||
+              guardianAlert ||
+              sameMail ||
+              imgDemoSlider
             "
           >
             Update
