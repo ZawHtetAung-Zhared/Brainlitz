@@ -639,7 +639,10 @@ export class UsersComponent implements OnInit {
           // }
           console.log(err);
           for (var i = 0; i < this.customFields.length; i++) {
-            if (this.customFields[i].controlType === 'Datepicker') {
+            if (
+              this.customFields[i].controlType === 'Datepicker' &&
+              this.customFields[i].value
+            ) {
               var dateTime = this.customFields[i].value;
               var ok = dateTime.substring(0, dateTime.search('T'));
               var testSplit = ok.split('-');
@@ -718,6 +721,7 @@ export class UsersComponent implements OnInit {
             // this.toastr.error('Update Fail');
             //this.blockUI.stop();
             console.log(err);
+            this.getCustomFields('edit');
             if (err.status == 400) {
               this.toastr.error('Email already exist');
             } else {
