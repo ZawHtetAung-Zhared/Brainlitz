@@ -99,6 +99,7 @@ export class CourseComponent implements OnInit {
   public end24HourFormat: any;
   public repeatedDaysTemp: Array<any> = [];
   public daysLoop: any;
+  public temp: any;
   public studentArray = [];
   public days = [
     { day: 'Sun', val: 0, checked: true },
@@ -1685,6 +1686,7 @@ export class CourseComponent implements OnInit {
       console.log(lessonCount);
       console.log(lessonCount.length);
       console.log(this.selectedLesson);
+
       let finishedDate = [];
       let unfinishedDate = [];
       let xx = false;
@@ -1758,6 +1760,11 @@ export class CourseComponent implements OnInit {
             lessonCount[lastActiveDate].cancel == true ? true : false;
           console.log('~~ dateID ~~', this.currentDateObj);
         }
+        console.warn(this.LASD, 'last');
+        console.warn(this.lastSelectedObj, 'last selected date');
+        console.warn(this.selectedLesson);
+        this.lastSelectedObj = this.selectedLesson;
+        console.warn(this.lastSelectedObj, 'last selected dat');
       } else {
         console.log('hello in else', lessonCount[0].startDate);
         lastActiveDate = 0;
@@ -1768,10 +1775,15 @@ export class CourseComponent implements OnInit {
         this.cancelUi = lessonCount[0].cancel == true ? false : true;
         this.disableCancel = lessonCount[0].cancel == true ? true : false;
         console.log('~~ dateID ~~', this.currentDateObj);
+        console.warn(this.LASD, 'last');
+        console.warn(this.lastSelectedObj, 'last selected date');
+        console.warn(this.selectedLesson);
+        this.lastSelectedObj = this.selectedLesson;
+        console.warn(this.lastSelectedObj, 'last selected date');
       }
 
       console.log(this.LASD);
-      this.lastSelectedObj = null;
+      // this.lastSelectedObj = null;
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate();
@@ -1923,7 +1935,7 @@ export class CourseComponent implements OnInit {
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     this.lastSelectedObj = classInfo;
     console.log('hi', targetDate);
-
+    console.warn(classInfo, 'classinfocheckForRelief');
     console.log('....', classInfo);
     // $('.timeline div.single-date').on('click', function() {
     //   $(this)

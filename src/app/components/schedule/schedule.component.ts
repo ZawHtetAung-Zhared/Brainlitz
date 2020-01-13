@@ -1320,6 +1320,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     val.preventDefault();
     val.stopPropagation();
     this.isFousCategory = true;
+    this.overlap = false;
   }
   //  Hide Search
   hideSearch() {
@@ -2540,6 +2541,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   testTop;
   testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
+    this.isFousCategory = false;
     const ele = document.getElementById('overlap-wrapper');
     if (e.target.parentElement.className === 'slot-wrap border-0') {
       this.testTop = e.clientY;

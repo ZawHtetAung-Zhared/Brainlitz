@@ -77,6 +77,10 @@ a.nav-link.active {
   color: #0080ff !important;
 }
 
+.nav-link {
+  cursor: pointer;
+}
+
 .border-design.active {
   border-top: 4px solid #007fff;
   border-radius: 4px 4px 0px 0px;
@@ -216,9 +220,11 @@ p.txt-for {
 
 button.btn.all-reject {
   color: #bf2926;
+  background: #ffffff;
 }
 button.btn.all-approve {
   color: #0065f2;
+  background: #ffffff;
 }
 
 .msg-title {
@@ -326,6 +332,7 @@ button.btn.btn-reject {
   color: #bf2926;
   font-weight: 500;
   font-size: 17px;
+  background: #ffffff;
 }
 button.btn.btn-approve {
   background-color: #1682fb;
@@ -457,6 +464,7 @@ button.btn.btn-undo {
   color: #5c6773;
   font-weight: 500;
   font-size: 17px;
+  background: #ffffff;
 }
 
 .showTime {
