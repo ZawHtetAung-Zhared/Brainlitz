@@ -1536,7 +1536,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               // setTimeout(() => {
               this.cancelapg();
               // }, 200);
-              this.setSelectedTab(this.pickedMType);
+              // this.setSelectedTab(this.pickedMType);
             },
             err => {
               this.toastr.error('Created APG Fail');
@@ -1669,11 +1669,12 @@ export class ApgComponent implements OnInit, OnDestroy {
           .subscribe(
             (res: any) => {
               console.log(res);
-              this.toastr.success('APG successfully Created.');
               // setTimeout(() => {
               this.cancelapg();
               // }, 200);
-              this.setSelectedTab(this.pickedMType);
+              this.toastr.success('APG successfully Created.');
+              console.warn(this.selectedAPGTab);
+              // this.setSelectedTab(this.pickedMType);
               // this.optionsArray = [];
             },
             err => {
@@ -1749,12 +1750,13 @@ export class ApgComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               (res: any) => {
-                this.toastr.success('APG successfully Created.');
-                console.log(res);
                 setTimeout(() => {
                   this.cancelapg();
                 }, 200);
-                this.setSelectedTab(this.pickedMType);
+                this.toastr.success('APG successfully Created.');
+                console.log(res);
+                console.warn(this.pickedMType, 'pick m type');
+                // this.setSelectedTab(this.pickedMType);
                 // this.cancelapg();
               },
               err => {
@@ -2274,7 +2276,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   getAllModule() {
     this._service.getAllModule(this.regionID).subscribe(
       (res: any) => {
-        console.log('moduleLists', res);
+        console.warn('moduleLists', res);
         for (var i in res) {
           if (res[i]._id != null) {
             this.moduleList.push(res[i]);
@@ -2452,7 +2454,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   getAllAPG(limit, skip) {
     //this.blockUI.start('Loading...');
-    console.log(this.selectedAPGTab);
+    console.warn(this.selectedAPGTab);
     this._service
       .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
       .subscribe(
@@ -2495,7 +2497,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               }
             }
           }
-          console.log('APG lists', this.apgList);
+          console.warn('APG lists', this.apgList);
 
           // this.apgList = res;
           // this.result = res;
