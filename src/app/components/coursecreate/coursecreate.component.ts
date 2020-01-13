@@ -26,7 +26,7 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastsManager } from 'ng5-toastr';
 import * as moment from 'moment';
 
 declare var $: any;
