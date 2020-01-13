@@ -207,6 +207,7 @@ export class TodayLessonsComponent implements OnInit {
     this.attan_type = '';
     this.studentDetail = {};
     this.courseId = '';
+    this.makeupForm = {};
   }
 
   issuePass(obj, userId) {
