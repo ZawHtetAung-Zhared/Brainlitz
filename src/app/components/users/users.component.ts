@@ -252,7 +252,7 @@ export class UsersComponent implements OnInit {
       this.dataService.currentCustomer.subscribe(uId => (userId = uId));
       if (userId != '') {
         console.log('!!!!!!UID');
-        this.showDetails(userId);
+        this.showDetails(userId, 'class');
       }
     }, 300);
     this.blankCrop = false;
@@ -639,7 +639,10 @@ export class UsersComponent implements OnInit {
           // }
           console.log(err);
           for (var i = 0; i < this.customFields.length; i++) {
-            if (this.customFields[i].controlType === 'Datepicker') {
+            if (
+              this.customFields[i].controlType === 'Datepicker' &&
+              this.customFields[i].value
+            ) {
               var dateTime = this.customFields[i].value;
               if (dateTime != undefined || dateTime != null) {
                 var ok = dateTime.substring(0, dateTime.search('T'));
@@ -720,6 +723,7 @@ export class UsersComponent implements OnInit {
             // this.toastr.error('Update Fail');
             //this.blockUI.stop();
             console.log(err);
+            this.getCustomFields('edit');
             if (err.status == 400) {
               this.toastr.error('Email already exist');
             } else {
@@ -900,7 +904,7 @@ export class UsersComponent implements OnInit {
     this.imgDemoSlider = false;
     $('.frame-upload').css('display', 'none');
     this.customerLists = [];
-    this.showDetails(this.custDetail.user.userId);
+    this.showDetails(this.custDetail.user.userId, 'class');
   }
 
   uploadCropImg($event: any) {
@@ -1013,9 +1017,9 @@ export class UsersComponent implements OnInit {
     $('.frame-upload').css('display', 'none');
   }
 
-  showDetails(ID) {
+  showDetails(ID, val) {
     console.log(this.custDetail);
-    this.activeTab = 'class';
+    this.activeTab = val;
     this.hideMenu = false;
     this.customerLists = [];
     console.log(ID);
@@ -1618,7 +1622,7 @@ export class UsersComponent implements OnInit {
     this.showflexyCourse = false;
 
     if (type == 'closeInv') {
-      this.showDetails(this.custDetail.user.userId);
+      this.showDetails(this.custDetail.user.userId, 'class');
     }
     this.showflexyCourse = false;
   }
@@ -1704,7 +1708,7 @@ export class UsersComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId);
+        this.showDetails(this.custDetail.user.userId, 'class');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
       },
@@ -1793,8 +1797,8 @@ export class UsersComponent implements OnInit {
     this.activePass = 'available';
     if (val == 'makeup') {
       this.callMakeupLists();
-    } else if (val == 'class') {
-      this.showDetails(this.custDetail.user.userId);
+    } else if (val == 'class' || val == 'activity') {
+      this.showDetails(this.custDetail.user.userId, val);
     } else if (val == 'achievements') {
       console.log('cos', this.carousel);
       // this.carousel.pause();
@@ -1827,7 +1831,7 @@ export class UsersComponent implements OnInit {
               data.createdTime = this.formatAMPM(data.createdDate);
             }
           }
-          console.log(this.notifications);
+          console.log('notilist is', this.notifications);
         },
         err => {
           console.log(err);
@@ -1881,17 +1885,16 @@ export class UsersComponent implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
-          console.log('get achievements', res);
           if (type == 1) {
             this.achievementProgess = res;
+            console.log('Progress', this.achievementProgess);
           } else if (type == 3) {
             this.achievementEvaluation = res;
+            console.log('Evaluation', this.achievementEvaluation);
           } else if (type == 6) {
             this.achievementGrade = res;
+            console.log('Grade', this.achievementGrade);
           }
-          console.log('Progress', this.achievementProgess);
-          console.log('Evaluation', this.achievementEvaluation);
-          console.log('Grade', this.achievementGrade);
         },
         err => {
           console.log(err);
@@ -2445,7 +2448,7 @@ export class UsersComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId);
+        this.showDetails(this.custDetail.user.userId, 'class');
       },
       err => {
         console.error(err);

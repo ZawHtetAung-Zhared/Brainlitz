@@ -809,7 +809,10 @@
           (click)="createUser(formFields, 'create')"
           class="btn create-button"
           [disabled]="
-            !createForm.form.valid || permissionCount == false || emailAlert
+            !createForm.form.valid ||
+            permissionCount == false ||
+            emailAlert ||
+            imgDemoSlider
           "
         >
           Create
@@ -819,7 +822,7 @@
           type="submit"
           (click)="createUser(formFields, 'edit')"
           class="btn create-button"
-          [disabled]="!createForm.form.valid || emailAlert"
+          [disabled]="!createForm.form.valid || emailAlert || imgDemoSlider"
         >
           Update
         </button>
