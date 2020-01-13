@@ -77,6 +77,12 @@ export class TodayLessonsComponent implements OnInit {
     this.lessonObj = student.todayLesson;
 
     if (type == 'absent') {
+      this.getMakeupLists(
+        this.studentDetail._id,
+        'course',
+        this.regionId,
+        this.courseId
+      );
       this.modalReference = this.modalService.open(modal, {
         backdrop: 'static',
         windowClass:
@@ -135,7 +141,7 @@ export class TodayLessonsComponent implements OnInit {
     this._service.getMakeupLists(userId, type, regionId, courseId).subscribe(
       (res: any) => {
         //this.blockUI.stop();
-        console.log(res);
+        console.warn(res);
         this.makeupLists = res;
       },
       err => {
@@ -148,6 +154,7 @@ export class TodayLessonsComponent implements OnInit {
     let prsentCount = 0;
     let absentCount = 0;
     //this.blockUI.start('Loading');
+    console.warn(index, 'index');
     this._service
       .getAssignUser(
         this.regionId,
@@ -221,12 +228,14 @@ export class TodayLessonsComponent implements OnInit {
         }
         console.log(d, '/', m, '/', y);
         console.log('tempObj~~~', tempObj);
-        this.getMakeupLists(
-          this.studentDetail._id,
-          'course',
-          this.regionId,
-          this.courseId
-        );
+        // this.getMakeupLists(
+        //   this.studentDetail._id,
+        //   'course',
+        //   this.regionId,
+        //   this.courseId
+        // );
+        console.warn(this.index, 'befor');
+
         this._service
           .markAttendance(
             this.todayCourse.courses[this.index]._id,
@@ -237,12 +246,12 @@ export class TodayLessonsComponent implements OnInit {
           )
           .subscribe(
             (res: any) => {
+              this.getAssignUsers(d, m, y, this.index);
               setTimeout(() => {
                 this.toastr.success(res.message);
               }, 100);
               console.log('res', res);
-
-              this.getAssignUsers(d, m, y, this.index);
+              console.warn(this.index, 'in res');
             },
             err => {
               console.log(err);
@@ -311,12 +320,12 @@ export class TodayLessonsComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
+            // this.getAssignUsers(d, m, y, this.index);
             setTimeout(() => {
               this.toastr.success(res.message);
             }, 100);
             console.log('res', res);
 
-            this.getAssignUsers(d, m, y, this.index);
             this.closemakeupmodal();
           },
           err => {
