@@ -1825,7 +1825,7 @@ export class UsersComponent implements OnInit {
               data.createdTime = this.formatAMPM(data.createdDate);
             }
           }
-          console.log(this.notifications);
+          console.log('notilist is', this.notifications);
         },
         err => {
           console.log(err);
