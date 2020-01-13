@@ -1879,17 +1879,16 @@ export class UsersComponent implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
-          console.log('get achievements', res);
           if (type == 1) {
             this.achievementProgess = res;
+            console.log('Progress', this.achievementProgess);
           } else if (type == 3) {
             this.achievementEvaluation = res;
+            console.log('Evaluation', this.achievementEvaluation);
           } else if (type == 6) {
             this.achievementGrade = res;
+            console.log('Grade', this.achievementGrade);
           }
-          console.log('Progress', this.achievementProgess);
-          console.log('Evaluation', this.achievementEvaluation);
-          console.log('Grade', this.achievementGrade);
         },
         err => {
           console.log(err);
