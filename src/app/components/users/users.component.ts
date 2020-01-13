@@ -639,7 +639,10 @@ export class UsersComponent implements OnInit {
           // }
           console.log(err);
           for (var i = 0; i < this.customFields.length; i++) {
-            if (this.customFields[i].controlType === 'Datepicker') {
+            if (
+              this.customFields[i].controlType === 'Datepicker' &&
+              this.customFields[i].value
+            ) {
               var dateTime = this.customFields[i].value;
               var ok = dateTime.substring(0, dateTime.search('T'));
               var testSplit = ok.split('-');
