@@ -84,7 +84,7 @@
       >
         <div
           class="box-design d-flex flex-row align-items-center"
-          (click)="showDetails(customer.userId)"
+          (click)="showDetails(customer.userId, 'class')"
         >
           <div class="profileimg-wrap">
             <div class="circular-image">
@@ -398,7 +398,10 @@
                   />
                 </div>
 
-                <div class="guar-name" (click)="showDetails(guardian.userId)">
+                <div
+                  class="guar-name"
+                  (click)="showDetails(guardian.userId, 'class')"
+                >
                   {{
                     guardian.fullName == '' || guardian.fullName == null
                       ? guardian.email
@@ -1368,6 +1371,7 @@
               class="pb-20"
               style="overflow:hiiden"
             >
+              zzkz
               <div
                 class="achievements-main"
                 *ngIf="achievementProgess.length != 0"
