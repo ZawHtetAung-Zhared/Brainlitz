@@ -235,7 +235,6 @@ export class TodayLessonsComponent implements OnInit {
         //   this.courseId
         // );
         console.warn(this.index, 'befor');
-
         this._service
           .markAttendance(
             this.todayCourse.courses[this.index]._id,
@@ -246,12 +245,12 @@ export class TodayLessonsComponent implements OnInit {
           )
           .subscribe(
             (res: any) => {
-              this.getAssignUsers(d, m, y, this.index);
+              console.warn(this.index, 'in res');
+              // this.getAssignUsers(d, m, y, this.index);
               setTimeout(() => {
                 this.toastr.success(res.message);
               }, 100);
               console.log('res', res);
-              console.warn(this.index, 'in res');
             },
             err => {
               console.log(err);
@@ -320,7 +319,7 @@ export class TodayLessonsComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            // this.getAssignUsers(d, m, y, this.index);
+            this.getAssignUsers(d, m, y, this.index);
             setTimeout(() => {
               this.toastr.success(res.message);
             }, 100);
