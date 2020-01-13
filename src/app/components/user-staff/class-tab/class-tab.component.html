@@ -105,11 +105,44 @@
               course?.startDate | utcDate
             }}</span>
           </div>
-          <div class="col-md-6" *ngIf="course.endDate">
+          <div
+            class="col-md-6"
+            *ngIf="course.endDate && course.type == 'REGULAR'"
+          >
             <span class="d-flex shedule-text pb-2">To</span>
             <span class="d-flex shedule-text ">{{
               course?.endDate | utcDate
             }}</span>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="!course.endDate && course.type == 'REGULAR'"
+          >
+            <span class="d-flex shedule-text pb-2">To</span>
+            <span class="d-flex shedule-text "
+              >{{ course?.lessons.length }} Lessons</span
+            >
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="course.endDate && course.type == 'ONLINE'"
+          >
+            <span class="d-flex shedule-text pb-2">To</span>
+            <span class="d-flex shedule-text ">{{
+              course?.endDate | utcDate
+            }}</span>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="!course.endDate && course.type == 'ONLINE'"
+          >
+            <span class="d-flex shedule-text pb-2">To</span>
+            <span class="d-flex shedule-text "
+              >{{
+                course.lessonCount ? course.lessonCount : course?.lessons.length
+              }}
+              Lessons</span
+            >
           </div>
           <div
             class="col-md-6"
@@ -124,14 +157,14 @@
               (course?.lessons)[course.lessons.length - 1].endDate | utcDate
             }}</span>
           </div>
-          <div class="col-md-6" *ngIf="course.lessonCount">
+          <!-- <div class="col-md-6" *ngIf="course.lessonCount">
             <span class="d-flex shedule-text pb-2" style="opacity:0"
               >Lesson</span
             >
             <span class="d-flex shedule-text lessons"
-              >{{ course?.lessonCount }} Lessons</span
+              >{{ course?.lessons.length }} Lessons</span
             >
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
