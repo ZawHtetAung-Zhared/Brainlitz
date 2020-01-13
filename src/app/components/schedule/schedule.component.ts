@@ -2541,7 +2541,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   testTop;
   testLeft;
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
-    this.hideSearch();
+    this.isFousCategory = false;
     const ele = document.getElementById('overlap-wrapper');
     if (e.target.parentElement.className === 'slot-wrap border-0') {
       this.testTop = e.clientY;
