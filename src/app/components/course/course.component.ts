@@ -3518,7 +3518,9 @@ export class CourseComponent implements OnInit {
   invoicesOfCourse: any = [];
   isFlexyInvoice: boolean = false;
   showTabsModal(modal, type, data) {
+    this.isFlexyInvoice = false;
     console.log('show Tabs Modal', data);
+    console.warn(type, 'type');
 
     this.showStudentOption = '';
     this.xxxhello = '';
@@ -3550,6 +3552,7 @@ export class CourseComponent implements OnInit {
       this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
     console.log('show Tabs Modal', this.activeUserTab);
+    console.warn(this.isFlexyInvoice, 'flexy invoice');
   }
 
   getAllAC(limit, skip, userId) {
@@ -4087,7 +4090,7 @@ export class CourseComponent implements OnInit {
   reliefTeacher: any = null;
   checkForRelief(classInfo) {
     this.selectedLesson = classInfo;
-    console.log('checkForRelief', this.selectedLesson);
+    console.warn('checkForRelief', this.selectedLesson);
     if (
       this.selectedLesson.makeup != undefined &&
       this.selectedLesson.makeup == true
@@ -4095,7 +4098,7 @@ export class CourseComponent implements OnInit {
       this._service
         .editProfile(this.regionId, this.selectedLesson.teacherId)
         .subscribe((res: any) => {
-          console.log(res);
+          console.warn(res);
           this.reliefTeacher = res;
         });
     } else {

@@ -846,8 +846,8 @@ input[type='radio']:checked ~ label {
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   /*border-radius: 50%;*/
   cursor: pointer;
   border: 2px solid #007fff;
@@ -869,12 +869,12 @@ input[type='radio']:checked ~ label {
 }
 .radio-checked {
   border-radius: 50%;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   position: absolute;
   background: #007fff;
-  left: 1.5px;
-  top: 1.5px;
+  left: 2px;
+  top: 2px;
 }
 
 .tab-border {
