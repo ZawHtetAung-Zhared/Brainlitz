@@ -3111,7 +3111,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     this.arrClasses = {
-      'arr-box': true,
+      // 'arr-box': true,
       'arr-down': false,
       'arr-up': true
     };

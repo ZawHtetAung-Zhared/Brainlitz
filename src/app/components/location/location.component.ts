@@ -187,6 +187,7 @@ export class LocationComponent implements OnInit {
   checkPermission() {
     this.locationLists = [];
     console.log(this.permissionType, 'permission');
+    console.log(this.locPermission);
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
       value => -1 !== this.permissionType.indexOf(value)
@@ -610,10 +611,10 @@ export class LocationComponent implements OnInit {
     }
 
     this.arrClasses = {
-      'arr-box': true,
       'arr-down': false,
       'arr-up': true
     };
+    //      'arr-box': true,
   }
   @HostListener('document:click', ['$event']) clickout($event) {}
   public scrollHeight = 0;
