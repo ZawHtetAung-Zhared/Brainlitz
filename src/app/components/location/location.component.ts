@@ -38,13 +38,11 @@ export class LocationComponent implements OnInit {
   public isrequired: boolean = true;
   public isvalid: boolean = false;
   public isnumber: boolean = false;
-  public duplicateLocation: boolean = false;
   public isequal: boolean = true;
   public iscreate: boolean = false;
   public navIsFixed: boolean = false;
   public currentID: any;
   public locationName: any;
-  public existingLocations: Array<any> = [];
   public countrycode: any;
   public countryname: any;
   // model: Location = new Location();
@@ -369,14 +367,8 @@ export class LocationComponent implements OnInit {
               console.log('same');
               this.locationLists[i].selected = true;
             }
-            if (!this.existingLocations.includes(this.locationLists[i].name)) {
-              this.existingLocations = this.existingLocations.concat(
-                this.locationLists[i].name
-              );
-            }
           }
         }
-        console.log('existing locations', this.existingLocations);
       },
       err => {
         console.log(err);
