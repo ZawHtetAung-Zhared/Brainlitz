@@ -3006,13 +3006,13 @@ button:focus {
   width: 15px;
   /*background-color: #eee;*/
   background-color: #fff;
-  border: 1.5px solid #00b34a;
+  border: 2px solid #00b34a;
   border-radius: 50%;
   top: 8px;
 }
 
 .radio-absent .checkmark {
-  border: 1.5px solid #ff3d33;
+  border: 2px solid #ff3d33;
 }
 
 .present-wrap {
@@ -3033,12 +3033,12 @@ button:focus {
 /* When the radio button is checked, add a blue background */
 .radio-present input:checked ~ .checkmark {
   background-color: #fff;
-  border: 1.5px solid #00662b;
+  border: 2px solid #00662b;
 }
 
 .radio-absent input:checked ~ .checkmark {
   background-color: #fff;
-  border: 1.5px solid #801f19;
+  border: 2px solid #801f19;
 }
 
 /*.radio-present input:checked ~ .radio-present{
@@ -3061,8 +3061,8 @@ button:focus {
 /* Style the indicator (dot/circle) */
 .radio-present .checkmark:after,
 .radio-absent .checkmark:after {
-  right: 3px;
-  bottom: 3px;
+  right: 2px;
+  bottom: 2px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
