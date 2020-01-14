@@ -83,6 +83,9 @@ ul.calendar-year li {
   display: table;
   cursor: pointer;
 }
+.cursor {
+  cursor: pointer;
+}
 .single-calendar {
   cursor: pointer;
   -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
@@ -258,7 +261,6 @@ ul.calendar-year li:first-child {
 .edit-calnedar-btn {
   color: #2e3d4d;
   font-size: 16px;
-  cursor: pointer;
 }
 .closemark {
   display: inline-block;

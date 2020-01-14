@@ -38,11 +38,13 @@ export class LocationComponent implements OnInit {
   public isrequired: boolean = true;
   public isvalid: boolean = false;
   public isnumber: boolean = false;
+  public duplicateLocation: boolean = false;
   public isequal: boolean = true;
   public iscreate: boolean = false;
   public navIsFixed: boolean = false;
   public currentID: any;
   public locationName: any;
+  public existingLocations: Array<any> = [];
   public countrycode: any;
   public countryname: any;
   // model: Location = new Location();
@@ -325,7 +327,7 @@ export class LocationComponent implements OnInit {
     console.log(this.headerlocationLists);
     for (var i in this.headerlocationLists) {
       if (this.headerlocationLists[i]._id == id) {
-        console.log('same');
+        console.log('same', this.headerlocationLists[i]._id, id);
         this.headerlocationLists[i].name = data.name;
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
@@ -367,8 +369,14 @@ export class LocationComponent implements OnInit {
               console.log('same');
               this.locationLists[i].selected = true;
             }
+            if (!this.existingLocations.includes(this.locationLists[i].name)) {
+              this.existingLocations = this.existingLocations.concat(
+                this.locationLists[i].name
+              );
+            }
           }
         }
+        console.log('existing locations', this.existingLocations);
       },
       err => {
         console.log(err);
@@ -401,6 +409,7 @@ export class LocationComponent implements OnInit {
     console.log('location Data', data);
     if (update == true) {
       console.log(update);
+
       //this.blockUI.start('Loading...');
       this._service.updateLocation(locationID, data, this.locationID).subscribe(
         (res: any) => {
@@ -412,8 +421,12 @@ export class LocationComponent implements OnInit {
           this.back1();
         },
         err => {
-          this.toastr.error('Update fail');
-          console.log(err);
+          if (err.error == 'Location name already exists.') {
+            this.toastr.error(err.error);
+          } else {
+            this.toastr.error('Update fail');
+            console.log(err);
+          }
         }
       );
     } else {
