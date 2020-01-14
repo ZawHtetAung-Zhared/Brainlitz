@@ -583,6 +583,7 @@ div#divToHide {
 
 .claimed-height {
   max-height: 90vh !important;
+  z-index: 0;
 }
 
 .makeup-pass-title {
