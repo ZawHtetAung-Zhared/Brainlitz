@@ -325,7 +325,7 @@ export class LocationComponent implements OnInit {
     console.log(this.headerlocationLists);
     for (var i in this.headerlocationLists) {
       if (this.headerlocationLists[i]._id == id) {
-        console.log('same');
+        console.log('same', this.headerlocationLists[i]._id, id);
         this.headerlocationLists[i].name = data.name;
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
@@ -401,6 +401,7 @@ export class LocationComponent implements OnInit {
     console.log('location Data', data);
     if (update == true) {
       console.log(update);
+
       //this.blockUI.start('Loading...');
       this._service.updateLocation(locationID, data, this.locationID).subscribe(
         (res: any) => {
@@ -412,8 +413,12 @@ export class LocationComponent implements OnInit {
           this.back1();
         },
         err => {
-          this.toastr.error('Update fail');
-          console.log(err);
+          if (err.error == 'Location name already exists.') {
+            this.toastr.error(err.error);
+          } else {
+            this.toastr.error('Update fail');
+            console.log(err);
+          }
         }
       );
     } else {

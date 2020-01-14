@@ -612,16 +612,16 @@ export class UserStaffComponent implements OnInit {
     console.log(e.target.checked);
     this.permissionCount = e.target.checked;
     console.log(this.permissionCount);
-    $('label').on('click', function() {
-      if (
-        $(this)
-          .find('input[type="radio"]')
-          .is(':checked')
-      ) {
-        $('label').removeClass('radio-bg-active');
-        $(this).addClass('radio-bg-active');
-      }
-    });
+    // $('label').on('click', function() {
+    //   if (
+    //     $(this)
+    //       .find('input[type="radio"]')
+    //       .is(':checked')
+    //   ) {
+    //     $('label').removeClass('radio-bg-active');
+    //     $(this).addClass('radio-bg-active');
+    //   }
+    // });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
