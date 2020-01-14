@@ -309,16 +309,16 @@ export class LocationComponent implements OnInit {
     this.getAllLocation(20, 0);
   }
 
-  back1() {
-    this.selectedLocationColor = {
-      text: '#544600',
-      background: '#FFE04D'
-    };
-    this.locationLists = [];
-    this.iscreate = false;
-    this.isUpdate = false;
-    // this.getAllLocation(20, 0);
-  }
+  // back1() {
+  //   this.selectedLocationColor = {
+  //     text: '#544600',
+  //     background: '#FFE04D'
+  //   };
+  //   this.locationLists = [];
+  //   this.iscreate = false;
+  //   this.isUpdate = false;
+  //   this.getAllLocation(20, 0);
+  // }
 
   updateHeaderLocation(id, data) {
     console.log(id, data);
@@ -409,8 +409,10 @@ export class LocationComponent implements OnInit {
           this.model = {};
           this.toastr.success('Successfully Updated.');
           //this.blockUI.stop();
-          this.updateHeaderLocation(locationID, data);
-          this.back1();
+          // this.updateHeaderLocation(locationID, data);
+          this.setTrue = 'true';
+          localStorage.setItem('locationUpdate', this.setTrue);
+          this.back();
         },
         err => {
           if (err.error == 'Location name already exists.') {
@@ -433,8 +435,10 @@ export class LocationComponent implements OnInit {
             this.model = {};
             this.toastr.success('Successfully Created.');
             //this.blockUI.stop();
-            this.updateHeaderLocation(locationID, data);
-            this.back1();
+            // this.updateHeaderLocation(locationID, data);
+            this.setTrue = 'true';
+            localStorage.setItem('locationUpdate', this.setTrue);
+            this.back();
           },
           err => {
             console.log(err);
