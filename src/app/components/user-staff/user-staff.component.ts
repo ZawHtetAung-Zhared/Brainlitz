@@ -692,7 +692,7 @@ export class UserStaffComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+    }, 700);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
     this.uploadCrop
