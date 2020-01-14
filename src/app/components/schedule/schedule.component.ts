@@ -2865,6 +2865,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onClickCourse(course, lesson, e, date, list, type) {
+    this.isFousCategory = false;
     this.overlap = false;
     console.log(type);
     if (type == 'cancel') {

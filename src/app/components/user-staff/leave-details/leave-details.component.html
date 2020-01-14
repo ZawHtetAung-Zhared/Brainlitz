@@ -384,7 +384,7 @@
             >
               <div class="leave-day-date">
                 <!-- {{ sday.date | utcDateAndDay }} -->
-                {{ sday.date | todayDate2 }}
+                {{ sday.date | date: 'EEEE, dd MMM yyyy' }}
               </div>
               <div class="leave-day-Choosetype">
                 <div class="input-group leave-input-gp">
@@ -929,6 +929,7 @@
     <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
       Cancel
     </button>
+
     <button
       [disabled]="
         !assignedReliefAll &&

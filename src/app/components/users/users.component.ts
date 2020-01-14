@@ -604,6 +604,7 @@ export class UsersComponent implements OnInit {
 
     if (apiState == 'create') {
       let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -621,6 +622,7 @@ export class UsersComponent implements OnInit {
       objData.append('location', JSON.stringify([]));
 
       console.log('Data', objData);
+      console.log('this.ulFile>>', this.ulFile);
       //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
@@ -965,7 +967,9 @@ export class UsersComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+      let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
+    }, 700);
     console.log(this.uploadCrop);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
