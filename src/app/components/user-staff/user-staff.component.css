@@ -873,8 +873,8 @@ input[type='radio']:checked ~ label {
   height: 8px;
   position: absolute;
   background: #007fff;
-  left: 1.5px;
-  top: 1.5px;
+  left: 2px;
+  top: 2px;
 }
 
 .tab-border {
