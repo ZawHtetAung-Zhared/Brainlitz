@@ -99,6 +99,7 @@ export class CourseComponent implements OnInit {
   public end24HourFormat: any;
   public repeatedDaysTemp: Array<any> = [];
   public daysLoop: any;
+  public temp: any;
   public studentArray = [];
   public days = [
     { day: 'Sun', val: 0, checked: true },
