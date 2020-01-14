@@ -2033,3 +2033,9 @@ a.adisabled:focus {
 a.adisabled:active {
   text-decoration: none;
 }
+
+.error-text {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+  color: #ff3d33;
+}

@@ -516,6 +516,7 @@
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
+                        (input)="checkFeeOption(idx)"
                       />
                       <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap">
                         <div class="currencySign">
@@ -569,6 +570,9 @@
                     </div>
                   </div>
                 </div>
+                <div *ngIf="isSameOpt" class="col-md-12 error-text">
+                  Option name should not be the same.
+                </div>
                 <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
                 <button class="addOpt-btn" (click)="addFeeOption()">
@@ -580,7 +584,7 @@
               <button
                 type="button"
                 class="btn sticky-create"
-                [disabled]="!childForm3.valid"
+                [disabled]="!childForm3.valid || isSameOpt"
                 (click)="continueStep('step3', childForm3.value)"
               >
                 Continue

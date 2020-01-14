@@ -187,6 +187,7 @@ export class LocationComponent implements OnInit {
   checkPermission() {
     this.locationLists = [];
     console.log(this.permissionType, 'permission');
+    console.log(this.locPermission);
     this.locPermission = ['ADDNEWLOCATION', 'EDITLOCATION', 'DELETELOCATION'];
     this.locPermission = this.locPermission.filter(
       value => -1 !== this.permissionType.indexOf(value)
@@ -309,23 +310,23 @@ export class LocationComponent implements OnInit {
     this.getAllLocation(20, 0);
   }
 
-  back1() {
-    this.selectedLocationColor = {
-      text: '#544600',
-      background: '#FFE04D'
-    };
-    this.locationLists = [];
-    this.iscreate = false;
-    this.isUpdate = false;
-    // this.getAllLocation(20, 0);
-  }
+  // back1() {
+  //   this.selectedLocationColor = {
+  //     text: '#544600',
+  //     background: '#FFE04D'
+  //   };
+  //   this.locationLists = [];
+  //   this.iscreate = false;
+  //   this.isUpdate = false;
+  //   this.getAllLocation(20, 0);
+  // }
 
   updateHeaderLocation(id, data) {
     console.log(id, data);
     console.log(this.headerlocationLists);
     for (var i in this.headerlocationLists) {
       if (this.headerlocationLists[i]._id == id) {
-        console.log('same');
+        console.log('same', this.headerlocationLists[i]._id, id);
         this.headerlocationLists[i].name = data.name;
         this.setTrue = 'true';
         localStorage.setItem('locationUpdate', this.setTrue);
@@ -401,6 +402,7 @@ export class LocationComponent implements OnInit {
     console.log('location Data', data);
     if (update == true) {
       console.log(update);
+
       //this.blockUI.start('Loading...');
       this._service.updateLocation(locationID, data, this.locationID).subscribe(
         (res: any) => {
@@ -408,12 +410,18 @@ export class LocationComponent implements OnInit {
           this.model = {};
           this.toastr.success('Successfully Updated.');
           //this.blockUI.stop();
-          this.updateHeaderLocation(locationID, data);
-          this.back1();
+          // this.updateHeaderLocation(locationID, data);
+          this.setTrue = 'true';
+          localStorage.setItem('locationUpdate', this.setTrue);
+          this.back();
         },
         err => {
-          this.toastr.error('Update fail');
-          console.log(err);
+          if (err.error == 'Location name already exists.') {
+            this.toastr.error(err.error);
+          } else {
+            this.toastr.error('Update fail');
+            console.log(err);
+          }
         }
       );
     } else {
@@ -428,8 +436,10 @@ export class LocationComponent implements OnInit {
             this.model = {};
             this.toastr.success('Successfully Created.');
             //this.blockUI.stop();
-            this.updateHeaderLocation(locationID, data);
-            this.back1();
+            // this.updateHeaderLocation(locationID, data);
+            this.setTrue = 'true';
+            localStorage.setItem('locationUpdate', this.setTrue);
+            this.back();
           },
           err => {
             console.log(err);
@@ -601,10 +611,10 @@ export class LocationComponent implements OnInit {
     }
 
     this.arrClasses = {
-      'arr-box': true,
       'arr-down': false,
       'arr-up': true
     };
+    //      'arr-box': true,
   }
   @HostListener('document:click', ['$event']) clickout($event) {}
   public scrollHeight = 0;

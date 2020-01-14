@@ -922,6 +922,21 @@ export class CoursecreateComponent implements OnInit {
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
     this.numberOnly(e);
+    this.twoDigitOnly(e);
+  }
+
+  public numberLength = 0;
+  twoDigitOnly(event) {
+    this.numberOnly(event);
+    this.numberLength = event.target.value.length;
+    if (event.target.value.length > 2) {
+      event.target.value = event.target.value.slice(0, 2);
+      this.numberLength = event.target.value.length;
+      console.log('~~~~~~~~~~~', event.target.value);
+      // this.showMsgForLesssonCount = true
+    } else {
+      // this.showMsgForLesssonCount = false
+    }
   }
 
   chooseOpt(optType, itemType) {

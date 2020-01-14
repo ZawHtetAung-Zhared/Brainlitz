@@ -529,7 +529,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       );
       this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
       skipCourse.courses.map(course => {
-        if (course.lessons[0].cancel == true) {
+        if (
+          course.lessons[0].cancel == true ||
+          course.lessons[0].makeup == true
+        ) {
           tempLCount = tempLCount + course.lessons.length;
         } else {
           this.actualSkipLessons = this.skipLessonsCount;
