@@ -1799,14 +1799,12 @@
                       >Delete lesson
                     </button>
                   </div>
+                  <!--   disableCancel == false && -->
+                  <!--        showCancelButton == true -->
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"
                     class="d-flex align-items-center"
-                    *ngIf="
-                      disableCancel == false &&
-                      reliefTeacher != null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="reliefTeacher != null"
                   >
                     <div class="relief-name">
                       <label class="mb-0">Relief Teacher</label>

@@ -1917,7 +1917,7 @@ export class CourseComponent implements OnInit {
       this.showCancelButton = false;
     }
 
-    console.log(this.showCancelButton);
+    console.error(this.showCancelButton);
 
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')
