@@ -3289,6 +3289,7 @@ p.assessment-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   width: 274px;
+  word-break: break-word;
 }
 .assessment-list {
   padding: 10px 10px 10px 20px;
@@ -3643,6 +3644,12 @@ span.grade-date {
 .grade-body {
   overflow: overlay;
   padding: 12px;
+}
+
+@-moz-document url-prefix() {
+  .grade-body {
+    overflow: auto;
+  }
 }
 
 .addBorder {

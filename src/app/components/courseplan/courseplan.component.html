@@ -677,6 +677,14 @@
                     </label>
                   </div>
                 </drag-scroll>
+                <div *ngIf="searchMore" class="d-flex justify-content-center ">
+                  <button
+                    class="btn load-more"
+                    (click)="showMoreResources(pdfList.length)"
+                  >
+                    load more
+                  </button>
+                </div>
               </div>
             </div>
             <div class="button-wrapper">

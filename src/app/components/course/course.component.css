@@ -1919,9 +1919,16 @@ button:disabled {
   height: 75px;
   width: 90% !important;
 }
+
+@-moz-document url-prefix() {
+  .timeline {
+    overflow-x: auto;
+  }
+}
+
 .single-date {
   display: inline-block;
-  width: 60px;
+  /* width: 70px; */
   position: absolute;
   cursor: pointer;
   padding-left: 2px;
@@ -3337,6 +3344,7 @@ p.textCount {
 }
 .claimed-height {
   max-height: 90vh !important;
+  z-index: 0;
 }
 .makeup-course-name {
   word-break: break-all;

@@ -49,6 +49,10 @@ export class HeaderComponent implements OnInit, OnChanges {
   public locationName: string;
   public userData = JSON.parse(localStorage.getItem('userData'));
   public appName = localStorage.getItem('appname');
+  public regionInfo = {
+    id: localStorage.getItem('regionId'),
+    name: localStorage.getItem('regionName')
+  };
   // public notis: Array<any> = [
   //   {
   //     _id: '5df1ef3d31ce9f0014a15563',

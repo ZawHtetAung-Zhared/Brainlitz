@@ -7,6 +7,7 @@ import {
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { appService } from '../../service/app.service';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
@@ -38,11 +39,12 @@ export class CustomfieldComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    private toastr: ToastrService,
     public vcr: ViewContainerRef,
     private dragulaService: DragulaService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     dragulaService.createGroup('HANDLES', {
       moves: (el, container, handle) => {
