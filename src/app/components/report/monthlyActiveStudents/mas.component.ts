@@ -121,10 +121,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     console.log(endMonth, endYear);
     $('#monthRangePicker')
       .rangePicker({
-        setDate: [
-          [2, 2015],
-          [endMonth, endYear]
-        ],
+        setDate: [[2, 2015], [endMonth, endYear]],
         minDate: [2, 2015],
         maxDate: [endMonth, endYear],
         closeOnSelect: true,
@@ -180,6 +177,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let users = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -229,11 +227,17 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
               courses.forEach(function(course) {
                 _self.courseNameList.push(course.courseName);
-                obj.students += course.students;
+                // obj.students += course.students;
+                let user = course.users || [];
+                user.forEach(function(count) {
+                  users.push(count);
+                });
               });
             });
           });
         });
+        users = Array.from(new Set(users));
+        obj.students = users.length;
         res.push(obj);
       });
     });
