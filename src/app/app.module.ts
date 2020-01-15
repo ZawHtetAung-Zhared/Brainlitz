@@ -41,6 +41,7 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrModule } from 'ngx-toastr';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -249,7 +250,8 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     Daterangepicker,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot(),
+    ToastModule.forRoot(), //ng5-toastr
+    ToastrModule.forRoot(), // ngx-toastr ToastrModule added
     ClickOutsideModule,
     TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({

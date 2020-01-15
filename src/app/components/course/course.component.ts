@@ -20,7 +20,8 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 import { DatePipe } from '@angular/common';
@@ -260,14 +261,15 @@ export class CourseComponent implements OnInit {
     private _service: appService,
     public dataservice: DataService,
     private modalService: NgbModal,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     config: NgbDatepickerConfig,
     calendar: NgbCalendar,
     private TodayDatePipe: TodayDatePipe
   ) {
     console.error('reach');
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
       console.log('go to cc');
@@ -1917,7 +1919,7 @@ export class CourseComponent implements OnInit {
       this.showCancelButton = false;
     }
 
-    console.log(this.showCancelButton);
+    console.error(this.showCancelButton);
 
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')

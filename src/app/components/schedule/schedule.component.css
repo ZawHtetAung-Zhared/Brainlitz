@@ -61,7 +61,7 @@
   color: #64707d;
 }
 .single-user-wrap {
-  max-height: 200px;
+  max-height: 240px;
   overflow-y: overlay;
 }
 /*for modal box empty ui*/
@@ -80,6 +80,10 @@
 .arrow-pos {
   float: right;
   width: 46%;
+}
+
+.mb {
+  margin-bottom: 20px;
 }
 
 .arrow-pos img {

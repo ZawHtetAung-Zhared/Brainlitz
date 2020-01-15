@@ -2039,3 +2039,14 @@ a.adisabled:active {
   font-size: 16px;
   color: #ff3d33;
 }
+
+.load-more {
+  background: #fff;
+  padding: 10px;
+  color: #0080ff;
+  font-size: 14px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
