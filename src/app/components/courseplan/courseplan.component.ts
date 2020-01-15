@@ -1119,11 +1119,25 @@ export class CourseplanComponent implements OnInit {
     );
   }
 
+  searchMore: boolean = false;
   getAllPdf() {
     this._service.getAllPdf(this.regionID, this.locationID, 20, 0).subscribe(
       (res: any) => {
         console.log('pdflists', res);
         this.pdfList = res;
+        this.searchMore = res.length >= 20 ? true : false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  showMoreResources(skip) {
+    this._service.getAllPdf(this.regionID, this.locationID, 20, skip).subscribe(
+      (res: any) => {
+        this.pdfList = this.pdfList.concat(res);
+        this.searchMore = res.length < 20 ? false : true;
       },
       err => {
         console.log(err);
