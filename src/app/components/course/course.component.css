@@ -1921,7 +1921,7 @@ button:disabled {
 }
 .single-date {
   display: inline-block;
-  width: 60px;
+  /* width: 70px; */
   position: absolute;
   cursor: pointer;
   padding-left: 2px;

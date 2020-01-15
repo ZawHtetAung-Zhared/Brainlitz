@@ -1816,13 +1816,12 @@
                       <img src="{{ reliefTeacher.profilePic }}" />
                     </div>
                   </div>
+
+                  <!-- &&
+                      showCancelButton == true -->
                   <div
                     class="d-flex"
-                    *ngIf="
-                      disableCancel == true &&
-                      reliefTeacher == null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="disableCancel == true && reliefTeacher == null"
                   >
                     <div class="d-flex align-items-center relief-name">
                       <h5 class="mb-0">Cancelled Class</h5>
