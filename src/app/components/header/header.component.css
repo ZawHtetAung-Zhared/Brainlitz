@@ -195,6 +195,11 @@ select {
   max-height: 250px;
   overflow: overlay;
 }
+@-moz-document url-prefix() {
+  .location-dp {
+    overflow: auto;
+  }
+}
 .location-dp:after {
   content: '';
   width: 0;
