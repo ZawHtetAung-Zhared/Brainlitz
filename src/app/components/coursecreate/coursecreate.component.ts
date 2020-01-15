@@ -26,7 +26,8 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
 declare var $: any;
@@ -146,12 +147,13 @@ export class CoursecreateComponent implements OnInit {
     private _service: appService,
     private router: Router,
     private config: NgbDatepickerConfig,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private _eref: ElementRef,
     private dataService: DataService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
   }
   test;
   ngOnInit() {
