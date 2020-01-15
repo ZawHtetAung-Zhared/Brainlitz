@@ -1799,14 +1799,12 @@
                       >Delete lesson
                     </button>
                   </div>
+                  <!--   disableCancel == false && -->
+                  <!--        showCancelButton == true -->
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"
                     class="d-flex align-items-center"
-                    *ngIf="
-                      disableCancel == false &&
-                      reliefTeacher != null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="reliefTeacher != null"
                   >
                     <div class="relief-name">
                       <label class="mb-0">Relief Teacher</label>
@@ -1818,13 +1816,12 @@
                       <img src="{{ reliefTeacher.profilePic }}" />
                     </div>
                   </div>
+
+                  <!-- &&
+                      showCancelButton == true -->
                   <div
                     class="d-flex"
-                    *ngIf="
-                      disableCancel == true &&
-                      reliefTeacher == null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="disableCancel == true && reliefTeacher == null"
                   >
                     <div class="d-flex align-items-center relief-name">
                       <h5 class="mb-0">Cancelled Class</h5>
@@ -2550,7 +2547,7 @@
                     detailLists.endDate | utcDate
                   }}</b>
                   <div *ngIf="detailLists.endDate == null">
-                    <b>{{ detailLists.lessonCount }} Lessons</b>
+                    <b>{{ detailLists.actualLessonCount }} Lessons</b>
                   </div>
                 </div>
               </div>
