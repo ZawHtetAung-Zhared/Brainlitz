@@ -360,7 +360,10 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+      taxOption: [
+        { id: 1, name: 'inclusive' },
+        { id: 2, name: 'exclusive' }
+      ]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -391,13 +394,16 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+        taxOption: [
+          { id: 1, name: 'inclusive' },
+          { id: 2, name: 'exclusive' }
+        ]
       };
       if (
         taxobj == undefined ||
         taxobj == null ||
         taxobj == '' ||
-        (taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == '')
+        taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == ''
       ) {
         data.selectedTax = { id: 1, name: 'inclusive' };
       } else {
@@ -1119,11 +1125,25 @@ export class CourseplanComponent implements OnInit {
     );
   }
 
+  searchMore: boolean = false;
   getAllPdf() {
     this._service.getAllPdf(this.regionID, this.locationID, 20, 0).subscribe(
       (res: any) => {
         console.log('pdflists', res);
         this.pdfList = res;
+        this.searchMore = res.length >= 20 ? true : false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  showMoreResources(skip) {
+    this._service.getAllPdf(this.regionID, this.locationID, 20, skip).subscribe(
+      (res: any) => {
+        this.pdfList = this.pdfList.concat(res);
+        this.searchMore = res.length < 20 ? false : true;
       },
       err => {
         console.log(err);

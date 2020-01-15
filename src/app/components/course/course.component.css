@@ -1919,6 +1919,13 @@ button:disabled {
   height: 75px;
   width: 90% !important;
 }
+
+@-moz-document url-prefix() {
+  .timeline {
+    overflow-x: auto;
+  }
+}
+
 .single-date {
   display: inline-block;
   /* width: 70px; */
