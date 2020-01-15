@@ -1091,6 +1091,12 @@ export class CourseplanComponent implements OnInit {
       (res: any) => {
         console.log('apgLists', res);
         this.apgList = res;
+        for (var i = 0; i < this.selectedAPGidArray.length; i++) {
+          this.apgList = this.apgList.filter(
+            v => v._id != this.selectedAPGidArray[i]
+          );
+        }
+
         setTimeout(() => {
           //this.blockUI.stop(); // Stop blocking
         }, 300);
