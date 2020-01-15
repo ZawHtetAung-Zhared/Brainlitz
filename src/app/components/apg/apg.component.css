@@ -877,6 +877,14 @@ div.ap-wrapper:last-child {
   resize: none;
 }
 
+.requirement-inner-box {
+  overflow: auto;
+}
+
+*:required {
+  box-shadow: none;
+}
+
 .requirement-wrapper {
   min-height: 100px;
   overflow: auto;
