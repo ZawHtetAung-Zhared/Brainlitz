@@ -1004,7 +1004,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.setSelectedTab(this.pickedMType);
         },
         err => {
-          this.toastr.success(status + ' Fail.');
+          this.toastr.error(status + ' Fail.');
           //this.blockUI.stop();
           console.log(err);
         }
@@ -1709,11 +1709,13 @@ export class ApgComponent implements OnInit, OnDestroy {
         this._service
           .updateAPG(this.regionID, apgId, this.model, null)
           .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
             console.log(res);
             this.cancelapg();
           }),
           err => {
             console.log(err);
+            this.toastr.success('APG update fail');
           };
       })
       .catch(err => {
