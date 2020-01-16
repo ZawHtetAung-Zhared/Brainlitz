@@ -1074,12 +1074,6 @@ p.left-txt {
   overflow: overlay;
 }
 
-@-moz-document url-prefix() {
-  .assign-modal-body {
-    overflow: auto;
-  }
-}
-
 .assign-modal-header,
 .assign-modal-body {
   padding: 16px 32px 6px 32px !important;
@@ -1175,12 +1169,6 @@ p.left-txt {
   background: white;
   position: relative;
   z-index: 5;
-}
-
-@-moz-document url-prefix() {
-  .result-wrapper {
-    overflow: auto;
-  }
 }
 
 .result-name {
@@ -1298,18 +1286,12 @@ p.left-txt {
 }
 
 @-moz-document url-prefix() {
-  .scroll-main-wrapper {
-    overflow: auto;
-  }
-}
-
-@-moz-document url-prefix() {
-  .leave-day-list {
-    overflow: auto;
-  }
-}
-@-moz-document url-prefix() {
-  .skip-lessons-part {
+  .leave-day-list,
+  .scroll-main-wrapper,
+  .assign-modal-body,
+  .leave-type-listing,
+  .result-wrapper,
+  .skip-lessons-exit {
     overflow: auto;
   }
 }
@@ -1371,7 +1353,7 @@ p.left-txt {
 @media screen and (max-height: 768px) {
   .main-openleave {
     max-height: 500px;
-    overflow: overlay;
+    overflow: auto;
   }
 }
 
