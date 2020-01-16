@@ -593,6 +593,12 @@ div#divToHide {
   color: #2e3d4d;
 }
 
+@-moz-document url-prefix() {
+  *:required {
+    box-shadow: none;
+  }
+}
+
 .closemark {
   display: inline-block;
   width: 30px;

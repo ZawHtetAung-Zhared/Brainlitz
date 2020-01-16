@@ -397,8 +397,7 @@ input:-webkit-input-placeholder {
 @-moz-document url-prefix() {
   .search-result-box,
   .holiday-dropdown,
-  .taxOpt-dropdown,
-  .overlay-wrapper {
+  .taxOpt-dropdown {
     overflow: auto;
   }
   .wrap-height {
@@ -1994,6 +1993,11 @@ ul.search-apg {
     border-top: none;
     padding: unset;
     padding-top: 20px;
+  }
+  @-moz-document url-prefix() {
+    .overlay-wrapper {
+      overflow: auto;
+    }
   }
 
   .overlay-wrapper {

@@ -786,7 +786,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
@@ -3144,7 +3148,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 }

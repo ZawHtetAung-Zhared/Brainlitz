@@ -1085,3 +1085,10 @@ ngb-datepicker {
   line-height: 24px;
   color: #5c6773;
 }
+
+@-moz-document url-prefix() {
+  .details-list-wrap,
+  .guardian-main-wrap {
+    overflow: auto;
+  }
+}
