@@ -1074,6 +1074,12 @@ p.left-txt {
   overflow: overlay;
 }
 
+@-moz-document url-prefix() {
+  .assign-modal-body {
+    overflow: auto;
+  }
+}
+
 .assign-modal-header,
 .assign-modal-body {
   padding: 16px 32px 6px 32px !important;
@@ -1083,6 +1089,7 @@ p.left-txt {
   position: fixed;
   bottom: 0;
   width: 100%;
+  z-index: 4;
 }
 
 .modal-footer {
@@ -1093,7 +1100,10 @@ p.left-txt {
   font-size: 28px;
   color: #2e3d4d;
 }
-
+.data-scroll {
+  overflow: auto;
+  height: 66px;
+}
 .date-wrap {
   background: #cce5ff;
   border-radius: 50px;
@@ -1162,6 +1172,15 @@ p.left-txt {
   padding: 0px 15px;
   border-radius: 4px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  background: white;
+  position: relative;
+  z-index: 5;
+}
+
+@-moz-document url-prefix() {
+  .result-wrapper {
+    overflow: auto;
+  }
 }
 
 .result-name {
@@ -1277,6 +1296,24 @@ p.left-txt {
   /* width: 50%; */
   flex-grow: 0.1;
 }
+
+@-moz-document url-prefix() {
+  .scroll-main-wrapper {
+    overflow: auto;
+  }
+}
+
+@-moz-document url-prefix() {
+  .leave-day-list {
+    overflow: auto;
+  }
+}
+@-moz-document url-prefix() {
+  .skip-lessons-part {
+    overflow: auto;
+  }
+}
+
 .skip-lessons-part {
   /* width: 50%; */
   /* display: flex; */
