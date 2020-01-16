@@ -14,7 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
 import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -36,13 +36,12 @@ export class CourseplanComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
     private _router: Router
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   public tempDuration: any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
@@ -403,7 +402,9 @@ export class CourseplanComponent implements OnInit {
         taxobj == undefined ||
         taxobj == null ||
         taxobj == '' ||
-        taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == ''
+        taxobj[key] == undefined ||
+        taxobj[key] == null ||
+        taxobj[key] == ''
       ) {
         data.selectedTax = { id: 1, name: 'inclusive' };
       } else {

@@ -18,7 +18,7 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { calendarField } from './calendar';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 declare var $: any;
@@ -83,13 +83,13 @@ export class CalendarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     config: NgbDatepickerConfig,
     calendar: NgbCalendar,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
         this._service.permissionList.subscribe(data => {
