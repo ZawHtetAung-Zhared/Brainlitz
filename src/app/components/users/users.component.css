@@ -926,6 +926,7 @@ h5 {
 .addEmail-text,
 .sent-randon-psw {
   color: #007fff;
+  background: #fff;
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
@@ -3646,12 +3647,6 @@ span.grade-date {
   padding: 12px;
 }
 
-@-moz-document url-prefix() {
-  .grade-body {
-    overflow: auto;
-  }
-}
-
 .addBorder {
   border-top: solid 4px;
 }
@@ -3916,4 +3911,30 @@ span.grade-date {
 .left-scroll-wrap {
   max-height: 50vh;
   overflow: auto;
+}
+
+@-moz-document url-prefix() {
+  .grade-body,
+  .details-list-wrap,
+  .guardian-main-wrap,
+  .makeup-desc,
+  .makeup-wrap,
+  .scrollable-list,
+  .lesson_block_wrapper,
+  .grade-body,
+  .row.progress-list,
+  .scrollbar,
+  .bull-shit-gp,
+  .container-height,
+  .class-group {
+    overflow: auto;
+  }
+  .right-scroll-wrap,
+  .scrollable-card,
+  .scrollable {
+    overflow-y: auto;
+  }
+  .timeline {
+    overflow-x: auto;
+  }
 }

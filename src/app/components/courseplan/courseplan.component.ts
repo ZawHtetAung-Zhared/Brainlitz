@@ -359,10 +359,7 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [
-        { id: 1, name: 'inclusive' },
-        { id: 2, name: 'exclusive' }
-      ]
+      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -374,6 +371,8 @@ export class CourseplanComponent implements OnInit {
 
   removeFeeOption(idx) {
     this.optArray.splice(idx, 1);
+    if (this.optArray.length > 1) this.checkFeeOption(1);
+    else this.isSameOpt = false;
     console.log('optArray for removeFee~~~', this.optArray);
   }
 
@@ -393,10 +392,7 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [
-          { id: 1, name: 'inclusive' },
-          { id: 2, name: 'exclusive' }
-        ]
+        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
       };
       if (
         taxobj == undefined ||

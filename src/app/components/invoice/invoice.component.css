@@ -654,3 +654,10 @@ span.removeDis {
 .newdiscount-btn {
   background: #fff;
 }
+
+@-moz-document url-prefix() {
+  .container-height,
+  ul.taxOpt-dropdown {
+    overflow: auto;
+  }
+}
