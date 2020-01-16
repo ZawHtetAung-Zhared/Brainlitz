@@ -1127,6 +1127,7 @@ li button {
 .course-label {
   color: #2e3e4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  word-break: break-all;
 }
 .btn-card {
   border: 0;
@@ -1360,6 +1361,7 @@ li button {
   color: #2e3e4d;
   font-size: 24px;
   margin-bottom: 16px;
+  word-break: break-all;
 }
 .detail-info span {
   color: #0080ff;
