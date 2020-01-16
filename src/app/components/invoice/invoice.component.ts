@@ -107,7 +107,7 @@ export class InvoiceComponent implements OnInit {
     this.singleInv = [];
     this.getSingleinvoice();
     this.getRegionInfo();
-
+    console.warn(this.custDetail, 'cust detail');
     // if (Array.isArray(this.course.invoice)) {
     //   if (this.course.invoice[0].status == 'PAID') {
     //     this.showPaidInvoice = true;

@@ -41,6 +41,8 @@
                 >Bill to:
                 <span class="p2 price-info">{{
                   custDetail.user.preferredName
+                    ? custDetail.user.preferredName
+                    : custDetail.user.email
                 }}</span></label
               >
               <p class="invoice-info label-height mb-0">
