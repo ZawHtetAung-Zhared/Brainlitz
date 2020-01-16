@@ -10,7 +10,7 @@ import {
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { FormStyle } from '@angular/common';
 import { isBoolean } from 'util';
 import { tryParse } from 'selenium-webdriver/http';
@@ -88,7 +88,7 @@ export class InvoiceComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     private router: Router,
     private dataService: DataService
   ) {}

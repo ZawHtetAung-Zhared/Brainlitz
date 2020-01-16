@@ -15,7 +15,7 @@ import {
   Timezone
 } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -295,11 +295,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0, 0);
   }
 

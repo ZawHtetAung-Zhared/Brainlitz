@@ -28,7 +28,6 @@ import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
@@ -227,13 +226,11 @@ export class UsersComponent implements OnInit {
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
     private _service: appService,
-    // public toastr: ToastsManager,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService
   ) {
-    // this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
     // this._service.goUserCourseDetail.subscribe(() => {

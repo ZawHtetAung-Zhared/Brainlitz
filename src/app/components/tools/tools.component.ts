@@ -28,7 +28,7 @@ import {
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -101,13 +101,12 @@ export class ToolsComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private elementRef: ElementRef,
     private datePipe: DatePipe,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
         console.log('~~~~', this.router.url);

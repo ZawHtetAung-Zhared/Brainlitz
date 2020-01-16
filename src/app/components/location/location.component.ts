@@ -14,7 +14,7 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
 
@@ -158,11 +158,10 @@ export class LocationComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     this._service.getLocations(this.regionID, 20, 0, false);
     if (this.router.url === '/dashboard') {
       console.log('in the dashboard');
