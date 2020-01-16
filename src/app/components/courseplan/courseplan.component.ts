@@ -14,7 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
 import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -36,13 +36,12 @@ export class CourseplanComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
     private _router: Router
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   public tempDuration: any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
@@ -360,10 +359,7 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [
-        { id: 1, name: 'inclusive' },
-        { id: 2, name: 'exclusive' }
-      ]
+      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -375,6 +371,8 @@ export class CourseplanComponent implements OnInit {
 
   removeFeeOption(idx) {
     this.optArray.splice(idx, 1);
+    if (this.optArray.length > 1) this.checkFeeOption(1);
+    else this.isSameOpt = false;
     console.log('optArray for removeFee~~~', this.optArray);
   }
 
@@ -394,16 +392,15 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [
-          { id: 1, name: 'inclusive' },
-          { id: 2, name: 'exclusive' }
-        ]
+        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
       };
       if (
         taxobj == undefined ||
         taxobj == null ||
         taxobj == '' ||
-        taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == ''
+        taxobj[key] == undefined ||
+        taxobj[key] == null ||
+        taxobj[key] == ''
       ) {
         data.selectedTax = { id: 1, name: 'inclusive' };
       } else {
@@ -1940,12 +1937,30 @@ export class CourseplanComponent implements OnInit {
 
   isSameOpt: boolean = false;
   checkFeeOption(idx) {
-    let search = this.optArray[idx].name;
-    for (var i = 0; i < this.optArray.length; i++) {
-      if (i != idx && this.optArray[i].name === search) {
-        this.isSameOpt = true;
-        break;
-      } else this.isSameOpt = false;
+    // let search = this.optArray[idx].name;
+    // for (var i = 0; i < this.optArray.length; i++) {
+    //   if (i != idx && search != '' && this.optArray[i].name === search) {
+    //     this.isSameOpt = true;
+    //     break;
+    //   } else this.isSameOpt = false;
+    // }
+
+    let data = this.optArray;
+    let same = false;
+    for (var i = 0; i < data.length; i++) {
+      if (same) break;
+      for (var j = i + 1; j < this.optArray.length; j++) {
+        if (
+          data[i].name != '' &&
+          this.optArray[j].name != '' &&
+          data[i].name === this.optArray[j].name
+        ) {
+          same = true;
+          break;
+        }
+      }
     }
+    this.isSameOpt = same;
+    console.log(this.isSameOpt);
   }
 }

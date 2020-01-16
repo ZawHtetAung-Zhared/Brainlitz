@@ -74,3 +74,10 @@
 .inner-w {
   width: 400px;
 }
+
+@-moz-document url-prefix() {
+  .itemlist-wrap,
+  .min-scroll {
+    overflow: auto;
+  }
+}

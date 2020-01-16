@@ -26,7 +26,6 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-// import { ToastsManager } from 'ng5-toastr';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
@@ -152,9 +151,8 @@ export class CoursecreateComponent implements OnInit {
     vcr: ViewContainerRef,
     private _eref: ElementRef,
     private dataService: DataService
-  ) {
-    // this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   test;
   ngOnInit() {
     console.log('CPLan', this.coursePlan);

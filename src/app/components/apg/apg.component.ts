@@ -15,7 +15,8 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { convertField } from './apg';
 import { appService } from '../../service/app.service';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
@@ -255,7 +256,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService
@@ -292,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         $(target).append($('.add-new-skill'));
       });
 
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
@@ -785,7 +786,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
@@ -1003,7 +1008,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.setSelectedTab(this.pickedMType);
         },
         err => {
-          this.toastr.success(status + ' Fail.');
+          this.toastr.error(status + ' Fail.');
           //this.blockUI.stop();
           console.log(err);
         }
@@ -1708,11 +1713,13 @@ export class ApgComponent implements OnInit, OnDestroy {
         this._service
           .updateAPG(this.regionID, apgId, this.model, null)
           .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
             console.log(res);
             this.cancelapg();
           }),
           err => {
             console.log(err);
+            this.toastr.success('APG update fail');
           };
       })
       .catch(err => {
@@ -3141,7 +3148,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 }

@@ -8,7 +8,7 @@ import {
 import { NgModel, FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 // import { Template } from './template';
 
 @Component({
@@ -51,11 +51,9 @@ export class TemplateComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
 
   ngOnInit() {
     this.getAllTemplate();

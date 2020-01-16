@@ -44,8 +44,6 @@ export class CustomfieldComponent implements OnInit {
     public vcr: ViewContainerRef,
     private dragulaService: DragulaService
   ) {
-    // this.toastr.setRootViewContainerRef(vcr);
-
     dragulaService.createGroup('HANDLES', {
       moves: (el, container, handle) => {
         return handle.className === 'handle';

@@ -15,7 +15,6 @@ import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { quizWerkzForm } from './quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
@@ -53,12 +52,10 @@ export class QuizwerkzComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    // public toastr: ToastsManager,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router
   ) {
-    // this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
         this._service.permissionList.subscribe(data => {
@@ -254,7 +251,7 @@ export class QuizwerkzComponent implements OnInit {
     this._service.deleteQuizwerkz(qwId, this.locationID).subscribe(
       (res: any) => {
         this.modalReference.close();
-        this.toastr.error('Successfully deleted');
+        this.toastr.success('Successfully deleted');
         console.log('Res', res);
         this.pdfList = [];
         this.getAllPdf(20, 0);
