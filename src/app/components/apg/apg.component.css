@@ -962,7 +962,7 @@ div.ap-wrapper:last-child {
   height: 16px;
   background: #d4d5d6;
   border-radius: 50%;
-  z-index: 99;
+  /* z-index: 99; */
   -ms-transition: 0.3s all ease;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
