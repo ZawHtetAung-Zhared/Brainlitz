@@ -21,7 +21,7 @@
       "
       [ngClass]="{ active: isSticky == true }"
     >
-      <block-ui message="Deafult Message"></block-ui>
+      <!-- <block-ui message="Deafult Message"></block-ui> -->
       <div *ngIf="coursePermission.length > 0" class="card-container">
         <div class="d-flex justify-content-between title">
           <div>
@@ -432,7 +432,7 @@
                                     id="hrDuration"
                                     name="pointsEndHr"
                                     min="0"
-                                    max="11"
+                                    max="12"
                                     (input)="
                                       ChangedTimeValue(
                                         $event.target.value,

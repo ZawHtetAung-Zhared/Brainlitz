@@ -22,7 +22,6 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
-// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
@@ -92,13 +91,11 @@ export class UserStaffComponent implements OnInit {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    // public toastr: ToastsManager,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private config: NgbDatepickerConfig
   ) {
-    // this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
   }

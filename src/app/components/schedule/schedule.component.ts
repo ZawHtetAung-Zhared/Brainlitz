@@ -22,7 +22,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { InvoiceComponent } from '../invoice/invoice.component';
@@ -726,13 +726,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     private _service: appService,
     private dataservice: DataService,
     private modalService: NgbModal,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService,
     private http: HttpClient
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     this._service.goback.subscribe(() => {
       console.log('goooo');
       this.isCategory = false;

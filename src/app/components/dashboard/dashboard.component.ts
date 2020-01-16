@@ -15,7 +15,7 @@ import {
   Timezone
 } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -295,11 +295,10 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0, 0);
   }
 
@@ -614,6 +613,7 @@ export class DashboardComponent implements OnInit {
   // }
 
   dataURItoBlob(dataURI: String) {
+    console.warn(dataURI, 'data uri');
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI
       .split(',')[0]
@@ -785,9 +785,15 @@ export class DashboardComponent implements OnInit {
   }
 
   getLogo(url) {
-    let logo = document.getElementById(url).getAttribute('src');
+    console.log(url, 'url');
+    console.log('is qr change', this.isQRChanged);
+    if (this.isQRChanged) {
+      let logo = document.getElementById(url).getAttribute('src');
 
-    return this.dataURItoBlob(logo);
+      return this.dataURItoBlob(logo);
+    } else {
+      return null;
+    }
   }
   public singleLoading = false;
   updateRegionalInfo(data, type) {
@@ -907,6 +913,7 @@ export class DashboardComponent implements OnInit {
 
   editSetting(type) {
     console.log('hi');
+    this.isQRChanged = false;
     this.option = type;
     this.getCurrency();
     this.selectedCurrency = this.invoiceData.currencySign;

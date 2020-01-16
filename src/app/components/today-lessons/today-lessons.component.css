@@ -593,6 +593,12 @@ div#divToHide {
   color: #2e3d4d;
 }
 
+@-moz-document url-prefix() {
+  *:required {
+    box-shadow: none;
+  }
+}
+
 .closemark {
   display: inline-block;
   width: 30px;
@@ -775,4 +781,11 @@ input:checked + .slider:before {
 
 .margin-top20 {
   margin-top: 20px;
+}
+
+@-moz-document url-prefix() {
+  .d-flex.teacher-box.mb-4,
+  .users-wrap-box {
+    overflow: auto;
+  }
 }

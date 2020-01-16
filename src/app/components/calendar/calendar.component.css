@@ -261,6 +261,8 @@ ul.calendar-year li:first-child {
 .edit-calnedar-btn {
   color: #2e3d4d;
   font-size: 16px;
+  -ms-word-break: break-all;
+  word-break: break-all;
 }
 .closemark {
   display: inline-block;

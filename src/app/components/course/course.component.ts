@@ -1663,7 +1663,7 @@ export class CourseComponent implements OnInit {
     this.isNewLesson = false;
     // this.isRescheduleLesson= JSON.parse(localStorage.getItem('isRescheduleLesson'));
     // console.log("is reschedule lesson",this.isRescheduleLesson);
-    console.log(type, state);
+    console.warn(type, state);
     this.isFlexyInvoice = false;
     this.currentDateObj = '';
     if (state == 'course') {
@@ -1847,8 +1847,8 @@ export class CourseComponent implements OnInit {
     } else if (type == 'transfer') {
       this.getAllAC(20, 0, this.singleUserData.userId);
     } else if (type == 'invoice') {
-      console.log('tab inv user id', this.singleUserData);
-      console.log(this.courseType);
+      console.warn('tab inv user id', this.singleUserData);
+      console.warn(this.courseType);
       if (this.courseType == 'FLEXY') {
         this.isFlexyInvoice = true;
       } else {
@@ -2068,6 +2068,7 @@ export class CourseComponent implements OnInit {
   viewInvoice(data) {
     this.isvalidID = 'inside';
     this.singleInv = [];
+    this.invoiceID2 = this.singleUserData.invoice._id;
     console.log('user data in view inv', data);
     if (data.invoice != null) {
       this.invStatus = data.invoice.status;
@@ -3537,8 +3538,9 @@ export class CourseComponent implements OnInit {
     if (type == 'transfer') {
       this.getAllAC(20, 0, data.userId);
     } else if (type == 'invoice') {
+      console.warn('just show invoice', data);
       if (data.invoice != null) {
-        console.log('exit');
+        console.warn('exit', data);
         if (this.courseType == 'FLEXY') {
           this.invoicesOfCourse = data.invoicesOfCourse;
           this.isFlexyInvoice = true;

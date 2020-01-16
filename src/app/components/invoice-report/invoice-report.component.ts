@@ -3,7 +3,7 @@ import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-invoice-report',
   templateUrl: './invoice-report.component.html',
@@ -16,7 +16,7 @@ export class InvoiceReportComponent implements OnInit {
     private _service: appService,
     private router: Router,
     public modalService: NgbModal,
-    public toastr: ToastsManager
+    public toastr: ToastrService
   ) {}
   public custDetail: any = {};
   public selectedCourse: any = {};
