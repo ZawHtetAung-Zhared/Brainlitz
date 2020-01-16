@@ -576,7 +576,7 @@
                 <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
                 <button
-                  [disabled]="isSameOpt"
+                  [disabled]="isSameOpt || !addAnother"
                   class="addOpt-btn"
                   (click)="addFeeOption()"
                 >

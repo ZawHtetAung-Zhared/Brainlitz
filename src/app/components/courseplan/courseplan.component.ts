@@ -348,6 +348,7 @@ export class CourseplanComponent implements OnInit {
     // ... do other stuff here ...
   }
 
+  addAnother: boolean = true;
   addFeeOption() {
     var name = () => {
       if (this.optArray.length >= 1) {
@@ -362,6 +363,8 @@ export class CourseplanComponent implements OnInit {
       taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
     };
     this.optArray.push(obj);
+    if (this.optArray.length > 1) this.addAnother = false;
+    else this.addAnother = true;
     console.log('optArray in addFeeOption', this.optArray);
   }
 
@@ -1937,12 +1940,27 @@ export class CourseplanComponent implements OnInit {
 
   isSameOpt: boolean = false;
   checkFeeOption(idx) {
-    let search = this.optArray[idx].name;
-    for (var i = 0; i < this.optArray.length; i++) {
-      if (i != idx && search != '' && this.optArray[i].name === search) {
-        this.isSameOpt = true;
-        break;
-      } else this.isSameOpt = false;
+    this.addAnother = true;
+    // let search = this.optArray[idx].name;
+    // for (var i = 0; i < this.optArray.length; i++) {
+    //   if (i != idx && search != '' && this.optArray[i].name === search) {
+    //     this.isSameOpt = true;
+    //     break;
+    //   } else this.isSameOpt = false;
+    // }
+
+    let data = this.optArray;
+    let same = false;
+    for (var i = 0; i < data.length; i++) {
+      if (same) break;
+      for (var j = i + 1; j < this.optArray.length; j++) {
+        if (data[i].name === this.optArray[j].name) {
+          same = true;
+          break;
+        } else this.isSameOpt = false;
+      }
     }
+    this.isSameOpt = same;
+    console.log(this.isSameOpt);
   }
 }
