@@ -1277,6 +1277,24 @@ p.left-txt {
   /* width: 50%; */
   flex-grow: 0.1;
 }
+
+@-moz-document url-prefix() {
+  .scroll-main-wrapper {
+    overflow: auto;
+  }
+}
+
+@-moz-document url-prefix() {
+  .leave-day-list {
+    overflow: auto;
+  }
+}
+@-moz-document url-prefix() {
+  .skip-lessons-part {
+    overflow: auto;
+  }
+}
+
 .skip-lessons-part {
   /* width: 50%; */
   /* display: flex; */
