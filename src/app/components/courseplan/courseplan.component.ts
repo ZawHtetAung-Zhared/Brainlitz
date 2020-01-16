@@ -1957,7 +1957,7 @@ export class CourseplanComponent implements OnInit {
         if (data[i].name === this.optArray[j].name) {
           same = true;
           break;
-        } else this.isSameOpt = false;
+        }
       }
     }
     this.isSameOpt = same;
