@@ -6,7 +6,7 @@ import { TargetLocator, promise } from 'selenium-webdriver';
 import { pd } from './apg';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { type } from 'os';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -170,7 +170,7 @@ export class TestwerkzComponent implements OnInit {
     private modalService: NgbModal,
     private modalService1: NgbModal,
     private dragulaService: DragulaService,
-    public toastr: ToastsManager
+    public toastr: ToastrService
   ) {}
 
   // waiyan's code start

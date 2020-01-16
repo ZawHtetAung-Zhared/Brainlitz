@@ -20,7 +20,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { lastDayOfISOWeek } from 'date-fns';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { UtcDateAndDayPipe } from '../../service/pipe/utc-date-and-day.pipe';
@@ -73,7 +73,7 @@ export class RescheduleLessonComponent implements OnInit {
     public dataservice: DataService,
     config: NgbDatepickerConfig,
     private datePipe: DatePipe,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     private modalService: NgbModal,
     private utcDateAndDayPipe: UtcDateAndDayPipe
   ) {}

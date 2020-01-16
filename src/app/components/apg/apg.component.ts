@@ -15,7 +15,8 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { convertField } from './apg';
 import { appService } from '../../service/app.service';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
@@ -255,7 +256,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService
@@ -292,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         $(target).append($('.add-new-skill'));
       });
 
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
