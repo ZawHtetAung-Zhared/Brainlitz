@@ -776,3 +776,10 @@ input:checked + .slider:before {
 .margin-top20 {
   margin-top: 20px;
 }
+
+@-moz-document url-prefix() {
+  .d-flex.teacher-box.mb-4,
+  .users-wrap-box {
+    overflow: auto;
+  }
+}
