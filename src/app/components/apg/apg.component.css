@@ -220,24 +220,24 @@
 }
 .apg-status {
   display: inline !important;
-  position: absolute !important;
-  left: 0px !important;
+  /* position: absolute !important; */
+  /* left: 0px !important; */
   animation-name: example;
   animation-duration: 1.5s;
   /* transition: all 5s ease-in-out; */
 }
 .status-wrapper-share {
   display: inline;
-  position: absolute;
-  left: -100px;
+  /* position: absolute;
+  left: -100px; */
 }
 .status-wrapper {
   display: inline;
-  position: absolute;
-  left: 0px;
+  /* position: absolute; */
+  /* left: 0px; */
 }
 .apg-share-padding {
-  margin-left: 14px;
+  margin-left: 8px;
   padding-left: 11px;
 }
 
@@ -1421,7 +1421,7 @@ input:checked + .slider:before {
 }
 .bullet-list-style {
   display: inline;
-  margin-left: 16px;
+  margin-left: 6px;
   list-style: none;
   padding: 0px;
   position: absolute;
