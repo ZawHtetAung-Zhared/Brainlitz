@@ -575,7 +575,11 @@
                 </div>
                 <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
-                <button class="addOpt-btn" (click)="addFeeOption()">
+                <button
+                  [disabled]="isSameOpt"
+                  class="addOpt-btn"
+                  (click)="addFeeOption()"
+                >
                   Add another option
                 </button>
               </div>

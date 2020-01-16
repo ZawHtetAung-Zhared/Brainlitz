@@ -1939,7 +1939,7 @@ export class CourseplanComponent implements OnInit {
   checkFeeOption(idx) {
     let search = this.optArray[idx].name;
     for (var i = 0; i < this.optArray.length; i++) {
-      if (i != idx && this.optArray[i].name === search) {
+      if (i != idx && search != '' && this.optArray[i].name === search) {
         this.isSameOpt = true;
         break;
       } else this.isSameOpt = false;
