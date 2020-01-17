@@ -948,6 +948,15 @@ export class CourseComponent implements OnInit {
   }
 
   showAdvancedSearch() {
+    this.days = [
+      { day: 'Sun', val: 0, checked: true },
+      { day: 'Mon', val: 1, checked: true },
+      { day: 'Tue', val: 2, checked: true },
+      { day: 'Wed', val: 3, checked: true },
+      { day: 'Thu', val: 4, checked: true },
+      { day: 'Fri ', val: 5, checked: true },
+      { day: 'Sat', val: 6, checked: true }
+    ];
     this.searchVal = '';
     this.simple = false;
     this.searching = false;
