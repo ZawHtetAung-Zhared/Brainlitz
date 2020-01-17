@@ -65,6 +65,11 @@ p.switchTxt {
   overflow: overlay;
   height: 300px;
 }
+@-moz-document url-prefix() {
+  .dataList {
+    overflow: auto;
+  }
+}
 
 .card {
   border: none;

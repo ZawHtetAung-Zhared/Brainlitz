@@ -3332,6 +3332,12 @@ p.textCount {
   height: 50px; /*h*/
 }
 
+@-moz-document url-prefix() {
+  *:required {
+    box-shadow: none;
+  }
+}
+
 .claimed-header {
   background: #c2f2d6;
 }

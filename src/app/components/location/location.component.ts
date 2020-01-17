@@ -294,7 +294,11 @@ export class LocationComponent implements OnInit {
     $('#placeholder_color').append(
       "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
         this.selectedLocationColor.text +
-        ' !important;}</style>'
+        ' !important;} input[type="text"]::-moz-placeholder{color: ' +
+        this.selectedLocationColor.text +
+        ' !important; opacity:1;} input[type="text"]:-moz-placeholder{color: ' +
+        this.selectedLocationColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
@@ -501,7 +505,11 @@ export class LocationComponent implements OnInit {
           $('#placeholder_color').append(
             "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
               this.selectedLocationColor.text +
-              ' !important;}</style>'
+              ' !important;} input[type="text"]::-moz-placeholder{color: ' +
+              this.selectedLocationColor.text +
+              ' !important; opacity:1;} input[type="text"]:-moz-placeholder{color: ' +
+              this.selectedLocationColor.text +
+              ' !important; opacity:1;}</style>'
           );
         } else {
           this.selectedLocationColor = {
@@ -579,7 +587,11 @@ export class LocationComponent implements OnInit {
     $('#placeholder_color').append(
       "<style id='feedback'>input[type='text']::-webkit-input-placeholder{color:" +
         this.selectedLocationColor.text +
-        ' !important;}</style>'
+        ' !important;} input[type="text"]::-moz-placeholder{color: ' +
+        this.selectedLocationColor.text +
+        ' !important; opacity:1;} input[type="text"]:-moz-placeholder{color: ' +
+        this.selectedLocationColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
