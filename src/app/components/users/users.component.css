@@ -636,7 +636,7 @@ ul.pass-list li {
 }
 
 .pl-zero {
-  padding-left: 0;
+  /* padding-left: 0; */
 }
 
 .load-more {
@@ -1718,7 +1718,12 @@ h5 {
   font-size: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-
+.class-info-head {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  width: 75%;
+  padding-right: 5px;
+}
 .class-body-one sup {
   color: #2e3d4d;
 }

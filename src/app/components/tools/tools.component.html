@@ -647,7 +647,12 @@
               </div>
               <div class="user-info">
                 <span class="group-type">{{ noti.group.name }}</span>
-                <span class="count-wrap">{{ noti.count }} users</span>
+                <span *ngIf="noti.count > 1" class="count-wrap"
+                  >{{ noti.count }} users</span
+                >
+                <span *ngIf="noti.count == 1" class="count-wrap"
+                  >{{ noti.count }} user</span
+                >
                 <span class="social-links">
                   <a
                     ><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i
