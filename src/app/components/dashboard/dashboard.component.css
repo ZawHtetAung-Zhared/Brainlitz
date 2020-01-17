@@ -143,6 +143,13 @@
   background: #fff;
   overflow: overlay;
 }
+
+@-moz-document url-prefix() {
+  .currency-dropdown {
+    overflow: auto;
+  }
+}
+
 .currency-list .flag-wrap,
 .provider-listing div {
   margin-bottom: 10px;

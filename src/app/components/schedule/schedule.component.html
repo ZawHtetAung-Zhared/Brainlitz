@@ -2867,7 +2867,7 @@
         </div>
       </div>
       <textarea
-        *ngIf="textAreaOption"
+        *ngIf="textAreaOption && isGlobal"
         name=""
         id=""
         class="text-reason"
@@ -2878,7 +2878,7 @@
       <div class="modal-footer">
         <div
           class="mr-auto add-reason"
-          *ngIf="!textAreaOption"
+          *ngIf="!textAreaOption && isGlobal"
           (click)="showTextarea()"
         >
           Add makeup pass reason
