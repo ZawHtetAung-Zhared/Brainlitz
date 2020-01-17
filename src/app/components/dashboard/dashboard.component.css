@@ -384,6 +384,7 @@ input:checked + .slider:before {
   top: 95px;
 }
 .side-bar-wrap.p-top {
+  /* top: 114px; */
   top: 114px;
 }
 .side-bar-wrap.mid-top {
@@ -429,6 +430,7 @@ input:checked + .slider:before {
   transition: 300ms linear;
   width: 25%;
   background: #f2f4f5;
+  z-index: 1;
 }
 .large-col {
   width: 75%;
@@ -1306,4 +1308,10 @@ input[type='range' i] {
 .qr-preview {
   width: 200px;
   height: 200px;
+}
+
+@media (min-width: 1000px) and (max-width: 1079px) {
+  .fix-text {
+    width: 40px;
+  }
 }

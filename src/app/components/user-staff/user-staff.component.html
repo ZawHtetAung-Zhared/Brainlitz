@@ -456,6 +456,7 @@
               class="form-control"
               placeholder="Type email address here"
               (keyup)="validateEmail(formFields.email)"
+              (input)="validateEmail(formFields.email)"
               name="email"
               [(ngModel)]="formFields.email"
               #email="ngModel"

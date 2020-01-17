@@ -2028,6 +2028,7 @@
                 class="form-control"
                 placeholder="Type email address here"
                 (keyup)="validateEmail(formFieldc.email)"
+                (input)="validateEmail(formFieldc.email)"
                 name="email"
                 [(ngModel)]="formFieldc.email"
                 #email="ngModel"
@@ -2078,6 +2079,7 @@
                 name="guardianEmail"
                 [(ngModel)]="formFieldc.guardianEmail"
                 (keyup)="validateGuarmail(formFieldc.guardianEmail)"
+                (input)="validateGuarmail(formFieldc.guardianEmail)"
                 #guardianEmail="ngModel"
               />
               <div *ngIf="guardianAlert" class="alert alert-danger">
