@@ -251,7 +251,7 @@ export class QuizwerkzComponent implements OnInit {
     this._service.deleteQuizwerkz(qwId, this.locationID).subscribe(
       (res: any) => {
         this.modalReference.close();
-        this.toastr.error('Successfully deleted');
+        this.toastr.success('Successfully deleted');
         console.log('Res', res);
         this.pdfList = [];
         this.getAllPdf(20, 0);

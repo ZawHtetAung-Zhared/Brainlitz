@@ -166,6 +166,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isProrated: boolean = false;
   // public toggleBool:boolean = true;
   // clickInit:boolean = false;
+  public tempTeacher: any = {};
 
   model: any = {};
   rolloverCourse: any;
@@ -1878,8 +1879,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.detailLists = res;
         this.courseDetail = res;
+        console.error(this.tempTeacher, 'temp selected teacher');
         if (this.isTeacherAll) {
-          this.selectedTeacher_modal = res.teacher;
+          this.selectedTeacher_modal = this.tempTeacher;
           console.log(this.selectedTeacher_modal);
         }
 
@@ -1898,9 +1900,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   cancelReliefModal() {
-    console.log('cancel relirf~~~');
+    console.error('cancel relirf~~~');
     this.modalReference.close();
     return new Promise((resolve, reject) => {
+      this.getStaffTimetable(
+        this.selectedTeacher.userId,
+        this.selectedDay.toString()
+      );
       this.getCourseDetail(this.detailLists._id, null);
       resolve();
     }).then(() => {
@@ -2864,8 +2870,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   onClickCourse(course, lesson, e, date, list, type) {
+    console.error('here onclickcourse');
     this.isFousCategory = false;
     this.overlap = false;
+    this.tempTeacher = course.teacher[0];
+    console.error('temp teacher', this.tempTeacher);
     console.log(type);
     if (type == 'cancel') {
       var day = [];
