@@ -1609,51 +1609,57 @@
                   >
                     <div class="d-flex justify-content-between title-space">
                       <div class="d-flex align-items-center">
-                        <div id="parent">
-                          <!-- <img
-                            *ngIf="noti.type == 1"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/Attendance.png"
-                          /> -->
-                          <img
-                            *ngIf="
-                              noti.type == 1 || noti.type == 2 || noti.type == 3
-                            "
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            style="filter: brightness(50%);"
-                            src="./assets/images/courseIconFrame.png"
-                          />
-                          <!-- <img
-                            *ngIf="noti.type == 3"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/attendanceChange.png"
-                          />
-                          <img
-                            *ngIf="noti.type == 4"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/lessonAbsentFrame.png"
-                          /> -->
+                        <div>
+                          <div id="parent">
+                            <!-- <img
+                              *ngIf="noti.type == 1"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/Attendance.png"
+                            /> -->
+                            <img
+                              *ngIf="
+                                noti.type == 1 ||
+                                noti.type == 2 ||
+                                noti.type == 3
+                              "
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              style="filter: brightness(50%);"
+                              src="./assets/images/courseIconFrame.png"
+                            />
+                            <!-- <img
+                              *ngIf="noti.type == 3"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/attendanceChange.png"
+                            />
+                            <img
+                              *ngIf="noti.type == 4"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/lessonAbsentFrame.png"
+                            /> -->
+                          </div>
                         </div>
-                        <div
-                          class="status-p noti-title"
-                          [ngClass]="{
-                            'status-read': noti.isRead == true,
-                            'status-unread': noti.isRead == false
-                          }"
-                        >
-                          {{ noti.title }}
+                        <div class="col-md-12" style="padding-left: 0px;">
+                          <div
+                            class="status-p noti-title"
+                            [ngClass]="{
+                              'status-read': noti.isRead == true,
+                              'status-unread': noti.isRead == false
+                            }"
+                          >
+                            {{ noti.title }}
+                          </div>
                         </div>
                       </div>
                       <div class="d-flex align-items-center">

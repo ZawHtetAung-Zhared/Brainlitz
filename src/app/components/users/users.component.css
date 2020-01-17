@@ -3837,6 +3837,7 @@ span.grade-date {
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   color: #363f4d;
+  text-align: left;
 }
 
 .set-width {
@@ -3887,7 +3888,7 @@ span.grade-date {
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   padding-bottom: 10px;
-  margin-left: 58px;
+  margin-left: 60px;
   margin-right: 30px;
 }
 .body-unread {
