@@ -363,10 +363,10 @@ input:valid + span:after {
 .arr-box {
   width: 20px;
   height: 20px;
-  position: fixed;
+  /* position: fixed; */
   -webkit-filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
   filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
-  position: fixed;
+  position: absolute;
   /* right: 50%; */
   /* top: -19px; */
   z-index: 15;
