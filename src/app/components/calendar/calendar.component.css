@@ -264,6 +264,12 @@ ul.calendar-year li:first-child {
   -ms-word-break: break-all;
   word-break: break-all;
 }
+
+.calendar-lbr {
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+
 .closemark {
   display: inline-block;
   width: 11px;
