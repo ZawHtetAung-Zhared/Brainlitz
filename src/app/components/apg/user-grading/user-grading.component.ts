@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 @Component({
   selector: 'app-user-grading',
@@ -126,7 +127,7 @@ export class UserGradingComponent implements OnInit {
     }
   ];
 
-  constructor(private _service: appService) {}
+  constructor(private _service: appService, public toastr: ToastrService) {}
 
   ngOnInit() {
     this.userGradeData = {
@@ -273,10 +274,12 @@ export class UserGradingComponent implements OnInit {
       )
       .subscribe(
         res => {
+          // this.toastr.success("Successfully Create")
           this.cancelGrade.emit(true);
           this.createGrade.emit(true);
         },
         err => {
+          this.toastr.error('Create Fail');
           console.error(err);
         }
       );
@@ -379,9 +382,11 @@ export class UserGradingComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
+          this.toastr.success('Successfully updated');
           console.log(res);
         },
         err => {
+          this.toastr.error(' Update Fail');
           console.log(err);
         }
       );
