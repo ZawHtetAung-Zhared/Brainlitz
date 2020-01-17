@@ -1874,29 +1874,29 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   getCourseDetail(id, modal) {
     console.log(this.isTeacherAll);
+    this.selectedTeacher_modal = this.tempTeacher;
+    // this._service.getSingleCourse(id, this.locationID).subscribe(
+    //   (res: any) => {
+    //     this.detailLists = res;
+    //     this.courseDetail = res;
+    //     console.error(this.tempTeacher, 'temp selected teacher');
+    //     if (this.isTeacherAll) {
+    //       this.selectedTeacher_modal = this.tempTeacher;
+    //       console.log(this.selectedTeacher_modal);
+    //     }
 
-    this._service.getSingleCourse(id, this.locationID).subscribe(
-      (res: any) => {
-        this.detailLists = res;
-        this.courseDetail = res;
-        console.error(this.tempTeacher, 'temp selected teacher');
-        if (this.isTeacherAll) {
-          this.selectedTeacher_modal = this.tempTeacher;
-          console.log(this.selectedTeacher_modal);
-        }
-
-        console.log(res);
-        // if(modal !=  null){
-        //   this.modalReference = this.modalService.open(modal, {
-        //     backdrop: 'static',
-        //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
-        //   });
-        // }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    //     console.log(res);
+    //     // if(modal !=  null){
+    //     //   this.modalReference = this.modalService.open(modal, {
+    //     //     backdrop: 'static',
+    //     //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    //     //   });
+    //     // }
+    //   },
+    //   err => {
+    //     console.log(err);
+    //   }
+    // );
   }
 
   cancelReliefModal() {
@@ -1935,7 +1935,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       }).then(() => {
         setTimeout(() => {
           console.log(this.detailLists);
-          if (this.detailLists.type == 'REGULAR') {
+          if (this.detailLists && this.detailLists.type == 'REGULAR') {
             this.studentLists.map(customer => {
               this.stdArr.push(customer.userId);
             });
@@ -1946,7 +1946,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.activeTab = type;
       this.getUserInCourse();
     } else if (type == 'relief') {
-      this.activeTab = true;
+      this.activeTab = type;
+      console.log(type, this.courseDetail, this.selectedLesson);
       setTimeout(() => {
         this.searchSelectedLesson(type);
       }, 500);
@@ -2078,7 +2079,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       this.showList = false;
-      if (this.detailLists.type == 'FLEXY') {
+      if (this.detailLists && this.detailLists.type == 'FLEXY') {
         if (this.detailLists.seat_left === 0) {
           // console.log(this.pplLists)
           var includedUserId = this.studentLists.findIndex(
