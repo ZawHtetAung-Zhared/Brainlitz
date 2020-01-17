@@ -308,13 +308,18 @@ svg.star-filled.default-star-filled-icon {
 
 .intl-tel-input .selected-flag {
   position: absolute;
-  width: 90px !important;
+  width: 100px !important;
   z-index: 0;
 }
 
 .intl-tel-input .country-list {
   top: 35px;
   width: 250px;
+}
+
+.intl-tel-input .country-list.dropup {
+  bottom: unset;
+  margin-bottom: 25px;
 }
 
 .intl-tel-input .selected-flag .iti-flag {
