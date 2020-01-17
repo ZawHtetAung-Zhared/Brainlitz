@@ -1866,37 +1866,42 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.selectedSeat = seat;
     console.log(this.selectedSeat);
 
-    this.getCourseDetail(this.courseId, modal);
+    this.getCourseDetail(this.courseId, modal, type);
     // if (seat.left != null && seat.taken >= seat.total)
-    this.onClickModalTab(type);
+    // this.onClickModalTab(type);
     //   else this.onClickModalTab(type);
   }
 
-  getCourseDetail(id, modal) {
+  getCourseDetail(id, modal, type) {
     console.log(this.isTeacherAll);
     this.selectedTeacher_modal = this.tempTeacher;
-    // this._service.getSingleCourse(id, this.locationID).subscribe(
-    //   (res: any) => {
-    //     this.detailLists = res;
-    //     this.courseDetail = res;
-    //     console.error(this.tempTeacher, 'temp selected teacher');
-    //     if (this.isTeacherAll) {
-    //       this.selectedTeacher_modal = this.tempTeacher;
-    //       console.log(this.selectedTeacher_modal);
-    //     }
+    this._service.getSingleCourse(id, this.locationID).subscribe(
+      (res: any) => {
+        this.detailLists = res;
+        this.courseDetail = res;
+        if (type != '') this.onClickModalTab(type);
+        console.log(
+          '>>>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>',
+          this.courseDetail
+        );
+        console.error(this.tempTeacher, 'temp selected teacher');
+        if (this.isTeacherAll) {
+          this.selectedTeacher_modal = this.tempTeacher;
+          console.log(this.selectedTeacher_modal);
+        }
 
-    //     console.log(res);
-    //     // if(modal !=  null){
-    //     //   this.modalReference = this.modalService.open(modal, {
-    //     //     backdrop: 'static',
-    //     //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
-    //     //   });
-    //     // }
-    //   },
-    //   err => {
-    //     console.log(err);
-    //   }
-    // );
+        console.log(res);
+        // if(modal !=  null){
+        //   this.modalReference = this.modalService.open(modal, {
+        //     backdrop: 'static',
+        //     windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+        //   });
+        // }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   cancelReliefModal() {
@@ -1907,7 +1912,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.selectedTeacher.userId,
         this.selectedDay.toString()
       );
-      this.getCourseDetail(this.detailLists._id, null);
+      this.getCourseDetail(this.detailLists._id, null, '');
       resolve();
     }).then(() => {
       setTimeout(() => {
@@ -1925,6 +1930,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   onClickModalTab(type, full?) {
     console.log(full);
     console.log(type);
+    console.log(this.courseDetail);
+    console.log(this.selectedLesson);
 
     // this.activeTab = type;
     if (type == 'enroll') {
@@ -1946,10 +1953,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.activeTab = type;
       this.getUserInCourse();
     } else if (type == 'relief') {
-      this.activeTab = type;
       console.log(type, this.courseDetail, this.selectedLesson);
       setTimeout(() => {
         this.searchSelectedLesson(type);
+        this.activeTab = type;
       }, 500);
     } else if ((type = 'cancel')) {
       this.activeTab = 'cancel';
