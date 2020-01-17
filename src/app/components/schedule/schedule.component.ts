@@ -2804,7 +2804,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     if (
       this.reasonValue == null ||
       this.reasonValue.length == 0 ||
-      this.reasonValue == undefined
+      this.reasonValue == undefined ||
+      this.isGlobal == false
     ) {
       var noReason = {
         lessonId: lessonId,
