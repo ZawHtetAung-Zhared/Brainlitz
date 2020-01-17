@@ -1163,25 +1163,24 @@ export class DashboardComponent implements OnInit {
     //   console.log(res)
     // });
 
-    this._service
-      .updatePayNowPayment(this.regionId, qrFormData)
-      .subscribe((res: any) => {
-        console.log('*******', res);
-      });
-
     this._service.updateInvoiceSetting(this.regionId, body).subscribe(
-      (res: any) => {
+      (res1: any) => {
         //this.blockUI.stop();
-        console.log(res);
-        this.invoiceData = res.invoiceSettings;
-        this.paymentData = res.paymentSettings;
-        let currency = {
-          invCurrencyCode: res.invoiceSettings.currencyCode,
-          invCurrencySign: res.invoiceSettings.currencySign
-        };
-        console.log(currency);
-        localStorage.setItem('currency', JSON.stringify(currency));
-        this.cancel();
+        console.error(res1);
+        this._service
+          .updatePayNowPayment(this.regionId, qrFormData)
+          .subscribe((res2: any) => {
+            console.log('*******', res2);
+            this.invoiceData = res1.invoiceSettings;
+            this.paymentData = res1.paymentSettings;
+            let currency = {
+              invCurrencyCode: res1.invoiceSettings.currencyCode,
+              invCurrencySign: res1.invoiceSettings.currencySign
+            };
+            console.log(currency);
+            localStorage.setItem('currency', JSON.stringify(currency));
+            this.cancel();
+          });
       },
       err => {
         //this.blockUI.stop();
