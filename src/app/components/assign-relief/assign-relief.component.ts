@@ -49,7 +49,14 @@ export class AssignReliefComponent implements OnInit {
       this.searchTeacherLists = [];
     } else {
       this._service
-        .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+        .getSearchUser(
+          this.regionID,
+          keyword,
+          usertype,
+          20,
+          0,
+          this.courseInfo._id
+        )
         .subscribe((res: any) => {
           console.log(res);
           this.searchTeacherLists = res;
