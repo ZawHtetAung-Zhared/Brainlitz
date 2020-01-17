@@ -23,6 +23,10 @@ ul.pass-list li,
   padding-left: 16px;
 }
 
+.margin-right {
+  margin-right: 10px;
+}
+
 .bg-makeup {
   background: #f2f4f5;
 }
@@ -3834,6 +3838,11 @@ span.grade-date {
     'ss03' on, 'case' on;
   color: #363f4d;
 }
+
+.set-width {
+  width: 62px;
+}
+
 .status-unread {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-weight: bold;
