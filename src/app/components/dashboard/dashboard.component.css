@@ -385,7 +385,8 @@ input:checked + .slider:before {
 }
 .side-bar-wrap.p-top {
   /* top: 114px; */
-  top: 114px;
+  top: 70px;
+  padding-top: 45px;
 }
 .side-bar-wrap.mid-top {
   top: 80px;
