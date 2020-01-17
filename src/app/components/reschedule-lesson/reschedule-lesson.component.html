@@ -88,7 +88,7 @@
                     [ngClass]="{ selected: isSelected == 'AM' }"
                     class="mb-0"
                     ><input
-                      style="min-height: 0px;"
+                      style="min-height: 0px; display: none;"
                       type="radio"
                       name="prop"
                       (click)="chooseTimeOpt('AM')"
@@ -100,7 +100,7 @@
                     class="mb-0"
                   >
                     <input
-                      style="min-height: 0px;"
+                      style="min-height: 0px; display:none"
                       type="radio"
                       [(ngModel)]="model.prop"
                       name="prop"
