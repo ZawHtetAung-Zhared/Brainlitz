@@ -1570,3 +1570,7 @@ button.toast-close-button {
     width: 25em;
   }
 }
+/* ngbdatepicker outline none css */
+.dropdown-menu.show {
+  outline: none;
+}
