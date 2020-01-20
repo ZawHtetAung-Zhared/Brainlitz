@@ -197,6 +197,10 @@ export class ToolsComponent implements OnInit {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
       this.isMidStick = false;
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.mid-top').css({ 'padding-top': '0px' });
+      }
     } else if (window.pageYOffset < 0) {
       this.isFixed = false;
     } else {
