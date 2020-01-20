@@ -388,9 +388,14 @@ export class DashboardComponent implements OnInit {
     }
     this.showProvider = false;
   }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
       this.navIsFixed = true;
       this.isMidStick = false;
     } else {
@@ -963,15 +968,19 @@ export class DashboardComponent implements OnInit {
   }
   getCurrency() {
     this.objectKeys = Object.keys;
-
+    console.warn(Object.keys);
     this.currency_symbol = currency;
     var key,
       keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
     var n = keys.length;
+    var i = 0;
     var newobj = {};
-    while (n--) {
-      key = keys[n];
+
+    while (i <= n - 1) {
+      key = keys[i];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
     }
   }
 
