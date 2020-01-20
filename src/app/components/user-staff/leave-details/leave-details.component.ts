@@ -759,7 +759,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         conTainer1.style.overflow = 'hidden';
         mainWrapper.style.overflow = 'hidden';
       }
-    }, 30);
+    }, 20);
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
