@@ -388,9 +388,14 @@ export class DashboardComponent implements OnInit {
     }
     this.showProvider = false;
   }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
       this.navIsFixed = true;
       this.isMidStick = false;
     } else {
