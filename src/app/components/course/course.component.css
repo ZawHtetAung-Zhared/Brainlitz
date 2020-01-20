@@ -1258,7 +1258,8 @@ li button {
 .back-inv,
 .c-label,
 .paid-amount,
-.relief-name label {
+.relief-name label,
+.modal-p {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .single-progress h4,
