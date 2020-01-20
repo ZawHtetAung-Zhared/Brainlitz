@@ -3871,6 +3871,13 @@ span.grade-date {
   border-radius: 50%;
   margin-right: 15px;
 }
+
+@-moz-document url-prefix() {
+  #parent {
+    line-height: 39px !important;
+  }
+}
+
 #parent img {
   vertical-align: -webkit-baseline-middle;
 }
