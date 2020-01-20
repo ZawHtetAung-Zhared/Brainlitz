@@ -1858,11 +1858,16 @@ export class CourseComponent implements OnInit {
     } else if (type == 'invoice') {
       console.warn('tab inv user id', this.singleUserData);
       console.warn(this.courseType);
-      if (this.courseType == 'FLEXY') {
-        this.isFlexyInvoice = true;
-      } else {
-        this.isFlexyInvoice = false;
+      console.warn(this.singleUserData);
+      if (this.singleUserData.invoicesOfCourse) {
+        if (this.courseType == 'FLEXY') {
+          this.invoicesOfCourse = this.singleUserData.invoicesOfCourse;
+          this.isFlexyInvoice = true;
+        } else {
+          this.isFlexyInvoice = false;
+        }
       }
+
       this.viewInvoice(this.singleUserData);
     }
   }
@@ -3554,7 +3559,7 @@ export class CourseComponent implements OnInit {
         if (this.courseType == 'FLEXY') {
           this.invoicesOfCourse = data.invoicesOfCourse;
           this.isFlexyInvoice = true;
-          console.log('invoicesOfCourse', this.invoicesOfCourse);
+          console.warn('invoicesOfCourse', this.invoicesOfCourse);
         }
         this.invoiceID2 = data.invoice._id;
 
