@@ -968,15 +968,19 @@ export class DashboardComponent implements OnInit {
   }
   getCurrency() {
     this.objectKeys = Object.keys;
-
+    console.warn(Object.keys);
     this.currency_symbol = currency;
     var key,
       keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
     var n = keys.length;
+    var i = 0;
     var newobj = {};
-    while (n--) {
-      key = keys[n];
+
+    while (i <= n - 1) {
+      key = keys[i];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
     }
   }
 
