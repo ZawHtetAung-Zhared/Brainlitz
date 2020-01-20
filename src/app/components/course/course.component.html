@@ -2640,17 +2640,19 @@
                     *ngIf="selectedCustomer.fullName == ''"
                   ></div>
                 </div>
-                <div class="row single-user-wrap pad-15">
+                <!-- <div class="row single-user-wrap pad-15">
                   <div
                     *ngFor="let detail of selectedCustomer.details"
                     class="col-sm-6 col-md-6 modal-userInfo"
                   >
-                    <label class="mb-0">{{ detail.name }}</label>
-                    <p class="modal-p">
-                      {{ detail.value }}
-                    </p>
+                    <div *ngIf="detail.value.length != 0">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div
