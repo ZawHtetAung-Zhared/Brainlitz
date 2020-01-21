@@ -1357,6 +1357,8 @@ li button {
 }
 .detail-info label {
   margin-bottom: 0;
+  -ms-word-break: break-all;
+  word-break: break-all;
 }
 .detail-info h4 {
   color: #2e3e4d;
