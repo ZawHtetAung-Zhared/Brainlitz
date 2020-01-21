@@ -1997,8 +1997,17 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   getUserInCourse() {
     //temp api for testing UI
     // //this.blockUI.start('Loading...');
+    console.log('lessonD~~~~~~~', this.lessonD);
+    // console.log("selectedCourse ~~~~~~~~~~~~~",this.selectedCourse)
+    const lessonDateObj = this.lessonD;
     this._service
-      .getAssignUser(this.regionId, this.courseId, null, null, null)
+      .getAssignUser(
+        this.regionId,
+        this.courseId,
+        lessonDateObj.day,
+        lessonDateObj.month,
+        lessonDateObj.year
+      )
       .subscribe(
         (res: any) => {
           // //this.blockUI.stop();
