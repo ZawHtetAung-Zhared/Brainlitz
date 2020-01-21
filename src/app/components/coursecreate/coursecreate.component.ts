@@ -2016,16 +2016,17 @@ export class CoursecreateComponent implements OnInit {
               );
               // this.toastr.error("Please choose the end date again that should be later than the first one");
               this.toastr.error('please choose end date or lesson count');
-            } else if (
-              err.error.message ==
-              'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED'
-            ) {
-              console.log('...');
-              // this.toastr.error("Please choose the end date again that should be later than the first one");
-              this.toastr.error(err.error.message);
-            } else {
-              this.toastr.error('Create Fail');
-            }
+            } else this.toastr.error(err.error.message);
+            // else if (
+            //   err.error.message ==
+            //   'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE REQUIRED'
+            // ) {
+            //   console.log('...');
+            //   // this.toastr.error("Please choose the end date again that should be later than the first one");
+            //   this.toastr.error(err.error.message);
+            // } else {
+            //   this.toastr.error('Create Fail');
+            // }
           }
         }
       );
