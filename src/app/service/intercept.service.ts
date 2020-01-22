@@ -15,6 +15,7 @@ import { catchError, retry, retryWhen, shareReplay } from 'rxjs/operators';
 @Injectable()
 export class InterceptService implements HttpInterceptor {
   @BlockUI() blockUI: NgBlockUI;
+  private err_status;
   private isOnline;
   constructor(private router: Router) {}
   intercept(
@@ -50,16 +51,31 @@ export class InterceptService implements HttpInterceptor {
       )
       .pipe(
         retryWhen(errors => {
-          // this.isOnline.subscribe(data => {
-          //   console.log("Network:::::::\n::::::::\n:::::::::\n:::::::::",data);
-          //   if(data==true){
-          //     return errors;
-          //   }
-          // });
-          // return this.isOnline;
+          this.blockUI.stop();
+          errors.subscribe(data => {
+            this.err_status = data.status;
+          });
+          // redirect to log in page
+          if (this.err_status === 401) {
+            localStorage.clear();
+            localStorage.setItem('redirect', 'true');
+            this.router.navigateByUrl('/login', {});
+          } else if (this.err_status != 0) {
+            return errors.switchMap((x: any) => {
+              return Observable.throw(x);
+            });
+          } else {
+            this.isOnline.subscribe(data => {
+              if (data == true) {
+                return errors.switchMap((x: any) => {
+                  return Observable.of(x);
+                });
+              }
+            });
+            return this.isOnline;
+          }
 
-          return this.refresh(errors);
-          // return errors.switchMap((x: any) => { return Observable.throw(x)});
+          // return this.refresh(errors);
         })
       );
   }
