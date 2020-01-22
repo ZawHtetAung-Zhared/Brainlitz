@@ -331,6 +331,12 @@ div#divToHide {
   font-size: 18px;
 }
 
+.libr {
+  margin-bottom: 0;
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+
 .single-user-info p,
 .btn-submit {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
