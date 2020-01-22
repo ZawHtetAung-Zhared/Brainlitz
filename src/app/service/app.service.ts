@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';

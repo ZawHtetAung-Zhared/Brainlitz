@@ -38,6 +38,8 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/Rx';
 declare var $: any;
 
 @Component({
