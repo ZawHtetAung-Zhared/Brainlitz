@@ -77,7 +77,7 @@ export class StudentEnrollmentReport implements OnInit {
       alwaysShowCalendars: true,
       ranges: {
         Today: [moment()],
-        Yesteday: [moment().subtract(1, 'days'), moment()],
+        Yesterday: [moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
         'Last 3 Months': [moment().subtract(4, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
