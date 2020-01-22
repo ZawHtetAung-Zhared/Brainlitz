@@ -38,6 +38,7 @@ export class InterceptService implements HttpInterceptor {
           }
         },
         (err: any) => {
+          this.err_status = err.status;
           if (err instanceof HttpErrorResponse) {
             this.blockUI.stop();
             // redirect to log in page
@@ -51,16 +52,7 @@ export class InterceptService implements HttpInterceptor {
       )
       .pipe(
         retryWhen(errors => {
-          this.blockUI.stop();
-          errors.subscribe(data => {
-            this.err_status = data.status;
-          });
-          // redirect to log in page
-          if (this.err_status === 401) {
-            localStorage.clear();
-            localStorage.setItem('redirect', 'true');
-            this.router.navigateByUrl('/login', {});
-          } else if (this.err_status != 0) {
+          if (this.err_status != 0) {
             return errors.switchMap((x: any) => {
               return Observable.throw(x);
             });
