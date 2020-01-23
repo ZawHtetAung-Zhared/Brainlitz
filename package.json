@@ -58,6 +58,7 @@
     "ng-block-ui": "^1.0.4",
     "ng-circle-progress": "^1.0.0",
     "ng-click-outside": "^4.0.0",
+    "ng-connection-service": "^1.0.4",
     "ng-drag-drop": "^5.0.0",
     "ng2-cookies": "^1.0.12",
     "ng2-daterangepicker": "git+https://github.com/ahtisham848/ng2-daterangepicker.git",
