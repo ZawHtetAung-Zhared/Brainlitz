@@ -569,7 +569,7 @@
             *ngIf="repeatedDaysTemp.length > 0"
             class="d-flex flex-row as-result"
           > -->
-          <div *ngIf="daysLoop.length > 0" class="d-flex flex-row as-result">
+          <div *ngIf="!isRemoveDay" class="d-flex flex-row as-result">
             <span>Repeated days is </span>
             <ul class="as-loop">
               <li *ngFor="let day of daysLoop">
