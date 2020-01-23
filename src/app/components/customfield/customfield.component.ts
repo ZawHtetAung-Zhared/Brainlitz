@@ -379,6 +379,12 @@ export class CustomfieldComponent implements OnInit {
     console.log(this.checkFieldArr);
   }
 
+  addNewItem() {
+    const obj = {
+      name: ''
+    };
+    this.checkFieldArr.push(obj);
+  }
   removeFeeOption(id) {
     this.checkFieldArr.splice(id, 1);
   }

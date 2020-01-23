@@ -184,6 +184,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   getUserLeaves(userId) {
+    console.warn(userId, 'id');
+    console.warn(this.leaveLogsLoading);
     this.totalLeaveDay = 0;
     // this.showLoading.emit(false);
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
@@ -265,6 +267,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    console.warn('cancel lesson', skipCourses);
+    console.warn(this.skipCourseArr, 'skip course');
     this.cancelReason = '';
     this.giveMakeUp = false;
     this.cancelClassArray = [];
@@ -290,7 +294,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         });
       });
     }
-
+    console.warn(totalCount, 'total ');
     this.studentCount = totalCount;
     this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
       backdrop: 'static',
@@ -782,6 +786,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
+    this.modalReference.close();
+    this.leaveLogsLoading = true;
     let regionId = localStorage.getItem('regionId');
     let leaveObj = {};
     leaveObj = {
