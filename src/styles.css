@@ -768,6 +768,11 @@ span.scrollup.show:hover:before {
 }
 .modal-open {
   overflow: hidden !important;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
 }
 .img-wrapper {
   align-items: baseline;

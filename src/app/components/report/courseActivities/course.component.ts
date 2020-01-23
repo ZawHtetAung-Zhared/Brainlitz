@@ -73,7 +73,7 @@ export class CourseActivitiesReport implements OnInit {
         Today: [moment()],
         Yesterday: [moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
-        'Last 3 Months': [moment().subtract(4, 'month'), moment()],
+        'Last 3 Months': [moment().subtract(3, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
         'Last 12 Months': [moment().subtract(12, 'month'), moment()],
         'Last 18 Months': [moment().subtract(18, 'month'), moment()]
