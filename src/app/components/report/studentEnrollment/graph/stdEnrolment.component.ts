@@ -67,6 +67,9 @@ export class StdEnrolmentReportGraph implements OnInit {
       ]
     };
     this.reportItems.forEach(function(item, i) {
+      if (item.groupTypeValue.length > 25) {
+        item.groupTypeValue = item.groupTypeValue.substring(0, 24) + '...';
+      }
       if (_self.barColor[i]) {
         _self.plotOption.series[0].data.push({
           value: item.students,
