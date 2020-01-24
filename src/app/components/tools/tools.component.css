@@ -24,6 +24,11 @@
   background: #fff;
   z-index: 9;
 }
+@-moz-document url-prefix() {
+  .search-result-box {
+    overflow: auto;
+  }
+}
 .single-result {
   cursor: pointer;
   padding: 7px 0;
@@ -318,7 +323,7 @@ img.setting-icon {
   margin-left: 8px;
   margin-right: 8px;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 /*.active .noti-tab::after,
 .active .noti-tab::before {   
@@ -375,9 +380,9 @@ img.setting-icon {
 .switch-col:first-child {
   padding-left: 0;
 }
-.switch-col:last-child {
+/*.switch-col:last-child {
   border-left: 2px solid #e3e4e6;
-}
+}*/
 .switch-col label {
   margin-bottom: 0;
   font-size: 16px;

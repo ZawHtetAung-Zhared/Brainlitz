@@ -11,7 +11,7 @@
   class="d-flex flex-row h-100 w-100 content-wrapper"
   [ngClass]="{ 'p-top': navIsFixed == true }"
 >
-  <div class="noti-sidebar h-100">
+  <div class="noti-sidebar">
     <div
       class="side-bar-wrap"
       [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
@@ -341,7 +341,7 @@
                         class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
                         (document:click)="documentclick($event)"
                       >
-                        <label class="labelTitle">End Time</label>
+                        <label class="labelTitle fix-text">End Time</label>
                         <input
                           type="text"
                           placeholder="End time"
@@ -513,7 +513,7 @@
                         </label>
                       </div>
                       <label class="switch-label cre-email" for="online"
-                        >Auto Journal Approval</label
+                        >Require journal approval</label
                       >
                     </div>
 

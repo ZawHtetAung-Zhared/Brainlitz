@@ -65,9 +65,11 @@ export class RegionComponent implements OnInit {
     console.log('~~~~');
     this._service.userInfo(this.tokenType, this.accessToken).subscribe(
       (res: any) => {
-        console.log(res);
+        console.log('UserInfo', res);
         localStorage.setItem('userName', res.email);
         this.userData = {
+          userId: res.userId,
+          role: res.role,
           name: res.preferredName,
           email: res.email
         };

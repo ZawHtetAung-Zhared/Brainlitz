@@ -125,30 +125,31 @@
               ></div>
               <!--      [ngStyle]="colorArrClasses" -->
             </div>
-          </div>
-          <div
-            id="colorPletteBox"
-            *ngIf="isShowPicker"
-            (clickOutside)="closePopUp($event)"
-          >
-            <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+            <div
+              id="colorPletteBox"
+              *ngIf="isShowPicker"
+              (clickOutside)="closePopUp($event)"
+            >
+              <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
 
-            <!--  [ngClass]="arrClasses"
+              <!--  [ngClass]="arrClasses"
             [ngStyle]="colorArrClasses" -->
-            <p class="color-title mb-0 pb-0">Color</p>
-            <div class="color-section d-flex flex-wrap">
-              <div
-                class="color-circle"
-                *ngFor="let item of sepalColor; let i = index"
-                [style.background]="item.color.background"
-                (click)="selectColor(i, item)"
-                [ngClass]="{
-                  addBorder:
-                    item.color.background == selectedLocationColor.background
-                }"
-              ></div>
+              <p class="color-title mb-0 pb-0">Color</p>
+              <div class="color-section d-flex flex-wrap">
+                <div
+                  class="color-circle"
+                  *ngFor="let item of sepalColor; let i = index"
+                  [style.background]="item.color.background"
+                  (click)="selectColor(i, item)"
+                  [ngClass]="{
+                    addBorder:
+                      item.color.background == selectedLocationColor.background
+                  }"
+                ></div>
+              </div>
             </div>
           </div>
+
           <div
             *ngIf="name.errors && (name.dirty || name.touched)"
             class="alert alert-danger z-index"
@@ -309,3 +310,4 @@
   </div>
 </ng-template>
 <div id="placeholder_color"></div>
+<block-ui message="Deafult Message"></block-ui>

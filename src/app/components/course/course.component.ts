@@ -20,7 +20,8 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/platform-browser';
 import * as moment from 'moment-timezone';
 import { DatePipe } from '@angular/common';
@@ -99,6 +100,7 @@ export class CourseComponent implements OnInit {
   public end24HourFormat: any;
   public repeatedDaysTemp: Array<any> = [];
   public daysLoop: any;
+  public temp: any;
   public studentArray = [];
   public days = [
     { day: 'Sun', val: 0, checked: true },
@@ -259,14 +261,15 @@ export class CourseComponent implements OnInit {
     private _service: appService,
     public dataservice: DataService,
     private modalService: NgbModal,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     config: NgbDatepickerConfig,
     calendar: NgbCalendar,
     private TodayDatePipe: TodayDatePipe
   ) {
     console.error('reach');
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
       console.log('go to cc');
@@ -945,6 +948,15 @@ export class CourseComponent implements OnInit {
   }
 
   showAdvancedSearch() {
+    this.days = [
+      { day: 'Sun', val: 0, checked: true },
+      { day: 'Mon', val: 1, checked: true },
+      { day: 'Tue', val: 2, checked: true },
+      { day: 'Wed', val: 3, checked: true },
+      { day: 'Thu', val: 4, checked: true },
+      { day: 'Fri ', val: 5, checked: true },
+      { day: 'Sat', val: 6, checked: true }
+    ];
     this.searchVal = '';
     this.simple = false;
     this.searching = false;
@@ -1660,7 +1672,7 @@ export class CourseComponent implements OnInit {
     this.isNewLesson = false;
     // this.isRescheduleLesson= JSON.parse(localStorage.getItem('isRescheduleLesson'));
     // console.log("is reschedule lesson",this.isRescheduleLesson);
-    console.log(type, state);
+    console.warn(type, state);
     this.isFlexyInvoice = false;
     this.currentDateObj = '';
     if (state == 'course') {
@@ -1685,6 +1697,7 @@ export class CourseComponent implements OnInit {
       console.log(lessonCount);
       console.log(lessonCount.length);
       console.log(this.selectedLesson);
+
       let finishedDate = [];
       let unfinishedDate = [];
       let xx = false;
@@ -1758,6 +1771,11 @@ export class CourseComponent implements OnInit {
             lessonCount[lastActiveDate].cancel == true ? true : false;
           console.log('~~ dateID ~~', this.currentDateObj);
         }
+        console.warn(this.LASD, 'last');
+        console.warn(this.lastSelectedObj, 'last selected date');
+        console.warn(this.selectedLesson);
+        this.lastSelectedObj = this.selectedLesson;
+        console.warn(this.lastSelectedObj, 'last selected dat');
       } else {
         console.log('hello in else', lessonCount[0].startDate);
         lastActiveDate = 0;
@@ -1768,10 +1786,15 @@ export class CourseComponent implements OnInit {
         this.cancelUi = lessonCount[0].cancel == true ? false : true;
         this.disableCancel = lessonCount[0].cancel == true ? true : false;
         console.log('~~ dateID ~~', this.currentDateObj);
+        console.warn(this.LASD, 'last');
+        console.warn(this.lastSelectedObj, 'last selected date');
+        console.warn(this.selectedLesson);
+        this.lastSelectedObj = this.selectedLesson;
+        console.warn(this.lastSelectedObj, 'last selected date');
       }
 
       console.log(this.LASD);
-      this.lastSelectedObj = null;
+      // this.lastSelectedObj = null;
 
       // ACD = activeCourseDate/Month/Year
       let ACD = new Date(this.LASD).getUTCDate();
@@ -1833,13 +1856,18 @@ export class CourseComponent implements OnInit {
     } else if (type == 'transfer') {
       this.getAllAC(20, 0, this.singleUserData.userId);
     } else if (type == 'invoice') {
-      console.log('tab inv user id', this.singleUserData);
-      console.log(this.courseType);
-      if (this.courseType == 'FLEXY') {
-        this.isFlexyInvoice = true;
-      } else {
-        this.isFlexyInvoice = false;
+      console.warn('tab inv user id', this.singleUserData);
+      console.warn(this.courseType);
+      console.warn(this.singleUserData);
+      if (this.singleUserData.invoicesOfCourse) {
+        if (this.courseType == 'FLEXY') {
+          this.invoicesOfCourse = this.singleUserData.invoicesOfCourse;
+          this.isFlexyInvoice = true;
+        } else {
+          this.isFlexyInvoice = false;
+        }
       }
+
       this.viewInvoice(this.singleUserData);
     }
   }
@@ -1905,7 +1933,7 @@ export class CourseComponent implements OnInit {
       this.showCancelButton = false;
     }
 
-    console.log(this.showCancelButton);
+    console.error(this.showCancelButton);
 
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')
@@ -1923,7 +1951,7 @@ export class CourseComponent implements OnInit {
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     this.lastSelectedObj = classInfo;
     console.log('hi', targetDate);
-
+    console.warn(classInfo, 'classinfocheckForRelief');
     console.log('....', classInfo);
     // $('.timeline div.single-date').on('click', function() {
     //   $(this)
@@ -2054,6 +2082,7 @@ export class CourseComponent implements OnInit {
   viewInvoice(data) {
     this.isvalidID = 'inside';
     this.singleInv = [];
+    this.invoiceID2 = this.singleUserData.invoice._id;
     console.log('user data in view inv', data);
     if (data.invoice != null) {
       this.invStatus = data.invoice.status;
@@ -2327,7 +2356,8 @@ export class CourseComponent implements OnInit {
     if (
       this.reasonValue == null ||
       this.reasonValue.length == 0 ||
-      this.reasonValue == undefined
+      this.reasonValue == undefined ||
+      this.isGlobal == false
     ) {
       var noReason = {
         lessonId: lessonId,
@@ -3506,7 +3536,9 @@ export class CourseComponent implements OnInit {
   invoicesOfCourse: any = [];
   isFlexyInvoice: boolean = false;
   showTabsModal(modal, type, data) {
+    this.isFlexyInvoice = false;
     console.log('show Tabs Modal', data);
+    console.warn(type, 'type');
 
     this.showStudentOption = '';
     this.xxxhello = '';
@@ -3521,12 +3553,13 @@ export class CourseComponent implements OnInit {
     if (type == 'transfer') {
       this.getAllAC(20, 0, data.userId);
     } else if (type == 'invoice') {
+      console.warn('just show invoice', data);
       if (data.invoice != null) {
-        console.log('exit');
+        console.warn('exit', data);
         if (this.courseType == 'FLEXY') {
           this.invoicesOfCourse = data.invoicesOfCourse;
           this.isFlexyInvoice = true;
-          console.log('invoicesOfCourse', this.invoicesOfCourse);
+          console.warn('invoicesOfCourse', this.invoicesOfCourse);
         }
         this.invoiceID2 = data.invoice._id;
 
@@ -3538,6 +3571,7 @@ export class CourseComponent implements OnInit {
       this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
     }
     console.log('show Tabs Modal', this.activeUserTab);
+    console.warn(this.isFlexyInvoice, 'flexy invoice');
   }
 
   getAllAC(limit, skip, userId) {
@@ -4075,7 +4109,7 @@ export class CourseComponent implements OnInit {
   reliefTeacher: any = null;
   checkForRelief(classInfo) {
     this.selectedLesson = classInfo;
-    console.log('checkForRelief', this.selectedLesson);
+    console.warn('checkForRelief', this.selectedLesson);
     if (
       this.selectedLesson.makeup != undefined &&
       this.selectedLesson.makeup == true
@@ -4083,7 +4117,7 @@ export class CourseComponent implements OnInit {
       this._service
         .editProfile(this.regionId, this.selectedLesson.teacherId)
         .subscribe((res: any) => {
-          console.log(res);
+          console.warn(res);
           this.reliefTeacher = res;
         });
     } else {

@@ -15,7 +15,8 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { convertField } from './apg';
 import { appService } from '../../service/app.service';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
@@ -255,7 +256,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService
@@ -292,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         $(target).append($('.add-new-skill'));
       });
 
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
@@ -785,7 +786,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
@@ -1003,7 +1008,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.setSelectedTab(this.pickedMType);
         },
         err => {
-          this.toastr.success(status + ' Fail.');
+          this.toastr.error(status + ' Fail.');
           //this.blockUI.stop();
           console.log(err);
         }
@@ -1536,7 +1541,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               // setTimeout(() => {
               this.cancelapg();
               // }, 200);
-              this.setSelectedTab(this.pickedMType);
+              // this.setSelectedTab(this.pickedMType);
             },
             err => {
               this.toastr.error('Created APG Fail');
@@ -1669,11 +1674,12 @@ export class ApgComponent implements OnInit, OnDestroy {
           .subscribe(
             (res: any) => {
               console.log(res);
-              this.toastr.success('APG successfully Created.');
               // setTimeout(() => {
               this.cancelapg();
               // }, 200);
-              this.setSelectedTab(this.pickedMType);
+              this.toastr.success('APG successfully Created.');
+              console.warn(this.selectedAPGTab);
+              // this.setSelectedTab(this.pickedMType);
               // this.optionsArray = [];
             },
             err => {
@@ -1707,11 +1713,13 @@ export class ApgComponent implements OnInit, OnDestroy {
         this._service
           .updateAPG(this.regionID, apgId, this.model, null)
           .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
             console.log(res);
             this.cancelapg();
           }),
           err => {
             console.log(err);
+            this.toastr.success('APG update fail');
           };
       })
       .catch(err => {
@@ -1749,12 +1757,13 @@ export class ApgComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               (res: any) => {
-                this.toastr.success('APG successfully Created.');
-                console.log(res);
                 setTimeout(() => {
                   this.cancelapg();
                 }, 200);
-                this.setSelectedTab(this.pickedMType);
+                this.toastr.success('APG successfully Created.');
+                console.log(res);
+                console.warn(this.pickedMType, 'pick m type');
+                // this.setSelectedTab(this.pickedMType);
                 // this.cancelapg();
               },
               err => {
@@ -2274,7 +2283,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   getAllModule() {
     this._service.getAllModule(this.regionID).subscribe(
       (res: any) => {
-        console.log('moduleLists', res);
+        console.warn('moduleLists', res);
         for (var i in res) {
           if (res[i]._id != null) {
             this.moduleList.push(res[i]);
@@ -2452,7 +2461,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   getAllAPG(limit, skip) {
     //this.blockUI.start('Loading...');
-    console.log(this.selectedAPGTab);
+    console.warn(this.selectedAPGTab);
     this._service
       .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
       .subscribe(
@@ -2495,7 +2504,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               }
             }
           }
-          console.log('APG lists', this.apgList);
+          console.warn('APG lists', this.apgList);
 
           // this.apgList = res;
           // this.result = res;
@@ -3109,7 +3118,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     this.arrClasses = {
-      'arr-box': true,
+      // 'arr-box': true,
       'arr-down': false,
       'arr-up': true
     };
@@ -3139,7 +3148,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 }

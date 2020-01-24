@@ -26,7 +26,7 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
 declare var $: any;
@@ -146,13 +146,13 @@ export class CoursecreateComponent implements OnInit {
     private _service: appService,
     private router: Router,
     private config: NgbDatepickerConfig,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private _eref: ElementRef,
     private dataService: DataService
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   test;
   ngOnInit() {
     console.log('CPLan', this.coursePlan);
@@ -922,6 +922,21 @@ export class CoursecreateComponent implements OnInit {
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
     this.numberOnly(e);
+    this.twoDigitOnly(e);
+  }
+
+  public numberLength = 0;
+  twoDigitOnly(event) {
+    this.numberOnly(event);
+    this.numberLength = event.target.value.length;
+    if (event.target.value.length > 2) {
+      event.target.value = event.target.value.slice(0, 2);
+      this.numberLength = event.target.value.length;
+      console.log('~~~~~~~~~~~', event.target.value);
+      // this.showMsgForLesssonCount = true
+    } else {
+      // this.showMsgForLesssonCount = false
+    }
   }
 
   chooseOpt(optType, itemType) {
@@ -1682,6 +1697,7 @@ export class CoursecreateComponent implements OnInit {
       console.log('Not First Time');
       console.log('Course Type', this.model.type);
       console.log(this.model.end, this.model.lessonCount, this.flexiOn);
+      this.defineType();
       if (this.timeOptChecked == 'showTimeSlot') {
         // flexy and regular
         if (this.model.end && this.endOptChecked == 'end') {
@@ -1901,9 +1917,10 @@ export class CoursecreateComponent implements OnInit {
       flexy = true;
     }
 
+    console.log(this.courseObj['type']);
     console.log('Course', this.courseObj);
     console.log('course model', this.model);
-    //this.blockUI.start('Loading...');
+    this.blockUI.start('Loading...');
     this._service
       .createCourse(
         this.regionID,

@@ -23,6 +23,10 @@ ul.pass-list li,
   padding-left: 16px;
 }
 
+.margin-right {
+  margin-right: 10px;
+}
+
 .bg-makeup {
   background: #f2f4f5;
 }
@@ -632,7 +636,7 @@ ul.pass-list li {
 }
 
 .pl-zero {
-  padding-left: 0;
+  /* padding-left: 0; */
 }
 
 .load-more {
@@ -926,6 +930,7 @@ h5 {
 .addEmail-text,
 .sent-randon-psw {
   color: #007fff;
+  background: #fff;
   font-size: 16px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
 }
@@ -1713,7 +1718,12 @@ h5 {
   font-size: 18px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-
+.class-info-head {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  width: 75%;
+  padding-right: 5px;
+}
 .class-body-one sup {
   color: #2e3d4d;
 }
@@ -2754,8 +2764,8 @@ p.textCount {
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   /*border-radius: 50%;*/
   cursor: pointer;
   border: 2px solid #007fff;
@@ -2777,12 +2787,12 @@ p.textCount {
 }
 .radio-checked {
   border-radius: 50%;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   position: absolute;
   background: #007fff;
-  left: 1.5px;
-  top: 1.5px;
+  left: 2px;
+  top: 2px;
 }
 .rounded-checked {
   display: inline-block;
@@ -3289,6 +3299,7 @@ p.assessment-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
   width: 274px;
+  word-break: break-word;
 }
 .assessment-list {
   padding: 10px 10px 10px 20px;
@@ -3831,7 +3842,13 @@ span.grade-date {
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   color: #363f4d;
+  text-align: left;
 }
+
+.set-width {
+  width: 62px;
+}
+
 .status-unread {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-weight: bold;
@@ -3876,7 +3893,7 @@ span.grade-date {
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   padding-bottom: 10px;
-  margin-left: 58px;
+  margin-left: 60px;
   margin-right: 30px;
 }
 .body-unread {
@@ -3909,4 +3926,30 @@ span.grade-date {
 .left-scroll-wrap {
   max-height: 50vh;
   overflow: auto;
+}
+
+@-moz-document url-prefix() {
+  .grade-body,
+  .details-list-wrap,
+  .guardian-main-wrap,
+  .makeup-desc,
+  .makeup-wrap,
+  .scrollable-list,
+  .lesson_block_wrapper,
+  .grade-body,
+  .row.progress-list,
+  .scrollbar,
+  .bull-shit-gp,
+  .container-height,
+  .class-group {
+    overflow: auto;
+  }
+  .right-scroll-wrap,
+  .scrollable-card,
+  .scrollable {
+    overflow-y: auto;
+  }
+  .timeline {
+    overflow-x: auto;
+  }
 }

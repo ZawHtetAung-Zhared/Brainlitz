@@ -157,8 +157,8 @@ div#divToHide {
 /* Style the indicator (dot/circle) */
 .radio-present .checkmark:after,
 .radio-absent .checkmark:after {
-  right: 3px;
-  bottom: 3px;
+  right: 2px;
+  bottom: 2px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -167,11 +167,11 @@ div#divToHide {
 
 .radio-absent .checkmark:after {
   background: #801f19;
-  right: 3px !important;
+  /* right: 3px !important; */
 }
 
 .radio-absent .checkmark {
-  border: 1.5px solid #ff3d33 !important;
+  border: 2px solid #ff3d33 !important;
 }
 
 .card-columns {
@@ -232,7 +232,7 @@ div#divToHide {
   height: 15px;
   width: 15px;
   background-color: #fff;
-  border: 1.5px solid #00b34a;
+  border: 2px solid #00b34a;
   border-radius: 50%;
   top: 7px;
 }
@@ -258,12 +258,12 @@ div#divToHide {
 
 .radio-present input:checked ~ .checkmark {
   background-color: #fff;
-  border: 1.5px solid #00662b;
+  border: 2px solid #00662b;
 }
 
 .radio-absent input:checked ~ .checkmark {
   background-color: #fff;
-  border: 1.5px solid #801f19 !important;
+  border: 2px solid #801f19 !important;
 }
 
 .d-flex.teacher-box.mb-4 {
@@ -583,6 +583,7 @@ div#divToHide {
 
 .claimed-height {
   max-height: 90vh !important;
+  z-index: 0;
 }
 
 .makeup-pass-title {
@@ -590,6 +591,12 @@ div#divToHide {
   font-size: 28px;
   font-weight: 600;
   color: #2e3d4d;
+}
+
+@-moz-document url-prefix() {
+  *:required {
+    box-shadow: none;
+  }
 }
 
 .closemark {
@@ -774,4 +781,11 @@ input:checked + .slider:before {
 
 .margin-top20 {
   margin-top: 20px;
+}
+
+@-moz-document url-prefix() {
+  .d-flex.teacher-box.mb-4,
+  .users-wrap-box {
+    overflow: auto;
+  }
 }

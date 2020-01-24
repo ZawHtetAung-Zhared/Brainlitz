@@ -21,7 +21,7 @@
       "
       [ngClass]="{ active: isSticky == true }"
     >
-      <block-ui message="Deafult Message"></block-ui>
+      <!-- <block-ui message="Deafult Message"></block-ui> -->
       <div *ngIf="coursePermission.length > 0" class="card-container">
         <div class="d-flex justify-content-between title">
           <div>
@@ -432,7 +432,7 @@
                                     id="hrDuration"
                                     name="pointsEndHr"
                                     min="0"
-                                    max="11"
+                                    max="12"
                                     (input)="
                                       ChangedTimeValue(
                                         $event.target.value,
@@ -478,26 +478,27 @@
                     >
                     <div class="col-md-10 pr-zero pl-zero">
                       <div class="d-flex flex-wrap">
-                        <div
-                          [ngClass]="{ selected: day.checked == true }"
-                          class="single-day"
-                          *ngFor="let day of days"
-                        >
-                          <label
-                            class="form-check-label cat-label d-flex flex-column justify-content-center"
+                        <div *ngFor="let day of days">
+                          <div
+                            class="single-day"
+                            [ngClass]="{ selected: day.checked == true }"
                           >
-                            <div>
-                              <div class="label-checked"></div>
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="inlineRadioOptions"
-                                (click)="removeTempData(day.val)"
-                                value="{{ day.val }}"
-                              />
-                              {{ day.day }}
-                            </div>
-                          </label>
+                            <label
+                              class="form-check-label cat-label d-flex flex-column justify-content-center"
+                            >
+                              <div>
+                                <div class="label-checked"></div>
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  (click)="removeTempData(day.val)"
+                                  value="{{ day.val }}"
+                                />
+                                {{ day.day }}
+                              </div>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1610,7 +1611,6 @@
                   }"
                 >
                   <!-- <pre>{{timeline | json}}</pre> -->
-
                   <div
                     *ngIf="timeline.startDate < todayDate"
                     (click)="
@@ -1711,6 +1711,7 @@
               </div>
               <!-- [ngClass]="{ 'disable-cursor': isRescheduleLesson }" -->
               <button
+                *ngIf="detailLists.type == 'FLEXY'"
                 class="btn btn-newLesson"
                 (click)="addNewLesson()"
                 [disabled]="isRescheduleLesson"
@@ -1800,14 +1801,12 @@
                       >Delete lesson
                     </button>
                   </div>
+                  <!--   disableCancel == false && -->
+                  <!--        showCancelButton == true -->
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"
                     class="d-flex align-items-center"
-                    *ngIf="
-                      disableCancel == false &&
-                      reliefTeacher != null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="reliefTeacher != null"
                   >
                     <div class="relief-name">
                       <label class="mb-0">Relief Teacher</label>
@@ -1819,13 +1818,12 @@
                       <img src="{{ reliefTeacher.profilePic }}" />
                     </div>
                   </div>
+
+                  <!-- &&
+                      showCancelButton == true -->
                   <div
                     class="d-flex"
-                    *ngIf="
-                      disableCancel == true &&
-                      reliefTeacher == null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="disableCancel == true && reliefTeacher == null"
                   >
                     <div class="d-flex align-items-center relief-name">
                       <h5 class="mb-0">Cancelled Class</h5>
@@ -2264,7 +2262,7 @@
                   detailLists.endDate | utcDate
                 }}</b>
                 <div *ngIf="detailLists.endDate == null">
-                  <b>{{ detailLists.lessonCount }} Lessons</b>
+                  <b>{{ detailLists.actualLessonCount }} Lessons</b>
                 </div>
               </div>
             </div>
@@ -2551,7 +2549,7 @@
                     detailLists.endDate | utcDate
                   }}</b>
                   <div *ngIf="detailLists.endDate == null">
-                    <b>{{ detailLists.lessonCount }} Lessons</b>
+                    <b>{{ detailLists.actualLessonCount }} Lessons</b>
                   </div>
                 </div>
               </div>
@@ -3604,7 +3602,7 @@
       </div>
     </div>
     <textarea
-      *ngIf="textAreaOption"
+      *ngIf="textAreaOption && isGlobal"
       name=""
       id=""
       class="text-reason"

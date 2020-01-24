@@ -22,7 +22,7 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
 import * as moment from 'moment-timezone';
@@ -91,12 +91,11 @@ export class UserStaffComponent implements OnInit {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private config: NgbDatepickerConfig
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
   }
@@ -612,16 +611,16 @@ export class UserStaffComponent implements OnInit {
     console.log(e.target.checked);
     this.permissionCount = e.target.checked;
     console.log(this.permissionCount);
-    $('label').on('click', function() {
-      if (
-        $(this)
-          .find('input[type="radio"]')
-          .is(':checked')
-      ) {
-        $('label').removeClass('radio-bg-active');
-        $(this).addClass('radio-bg-active');
-      }
-    });
+    // $('label').on('click', function() {
+    //   if (
+    //     $(this)
+    //       .find('input[type="radio"]')
+    //       .is(':checked')
+    //   ) {
+    //     $('label').removeClass('radio-bg-active');
+    //     $(this).addClass('radio-bg-active');
+    //   }
+    // });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -692,7 +691,7 @@ export class UserStaffComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+    }, 700);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
     this.uploadCrop

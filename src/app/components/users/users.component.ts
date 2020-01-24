@@ -28,7 +28,7 @@ import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
@@ -226,12 +226,11 @@ export class UsersComponent implements OnInit {
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
     // this._service.goUserCourseDetail.subscribe(() => {
@@ -252,7 +251,7 @@ export class UsersComponent implements OnInit {
       this.dataService.currentCustomer.subscribe(uId => (userId = uId));
       if (userId != '') {
         console.log('!!!!!!UID');
-        this.showDetails(userId);
+        this.showDetails(userId, 'class');
       }
     }, 300);
     this.blankCrop = false;
@@ -604,6 +603,7 @@ export class UsersComponent implements OnInit {
 
     if (apiState == 'create') {
       let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -621,6 +621,7 @@ export class UsersComponent implements OnInit {
       objData.append('location', JSON.stringify([]));
 
       console.log('Data', objData);
+      console.log('this.ulFile>>', this.ulFile);
       //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
@@ -639,16 +640,21 @@ export class UsersComponent implements OnInit {
           // }
           console.log(err);
           for (var i = 0; i < this.customFields.length; i++) {
-            if (this.customFields[i].controlType === 'Datepicker') {
+            if (
+              this.customFields[i].controlType === 'Datepicker' &&
+              this.customFields[i].value
+            ) {
               var dateTime = this.customFields[i].value;
-              var ok = dateTime.substring(0, dateTime.search('T'));
-              var testSplit = ok.split('-');
-              var format = {
-                year: Number(testSplit[0]),
-                month: Number(testSplit[1]),
-                day: Number(testSplit[2])
-              };
-              this.customFields[i]['value'] = format;
+              if (dateTime != undefined || dateTime != null) {
+                var ok = dateTime.substring(0, dateTime.search('T'));
+                var testSplit = ok.split('-');
+                var format = {
+                  year: Number(testSplit[0]),
+                  month: Number(testSplit[1]),
+                  day: Number(testSplit[2])
+                };
+                this.customFields[i]['value'] = format;
+              }
             }
           }
           console.log(this.customFields);
@@ -718,6 +724,7 @@ export class UsersComponent implements OnInit {
             // this.toastr.error('Update Fail');
             //this.blockUI.stop();
             console.log(err);
+            this.getCustomFields('edit');
             if (err.status == 400) {
               this.toastr.error('Email already exist');
             } else {
@@ -898,7 +905,7 @@ export class UsersComponent implements OnInit {
     this.imgDemoSlider = false;
     $('.frame-upload').css('display', 'none');
     this.customerLists = [];
-    this.showDetails(this.custDetail.user.userId);
+    this.showDetails(this.custDetail.user.userId, 'class');
   }
 
   uploadCropImg($event: any) {
@@ -959,7 +966,9 @@ export class UsersComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+      let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
+    }, 700);
     console.log(this.uploadCrop);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
@@ -1011,9 +1020,9 @@ export class UsersComponent implements OnInit {
     $('.frame-upload').css('display', 'none');
   }
 
-  showDetails(ID) {
+  showDetails(ID, val) {
     console.log(this.custDetail);
-    this.activeTab = 'class';
+    this.activeTab = val;
     this.hideMenu = false;
     this.customerLists = [];
     console.log(ID);
@@ -1616,7 +1625,7 @@ export class UsersComponent implements OnInit {
     this.showflexyCourse = false;
 
     if (type == 'closeInv') {
-      this.showDetails(this.custDetail.user.userId);
+      this.showDetails(this.custDetail.user.userId, 'class');
     }
     this.showflexyCourse = false;
   }
@@ -1702,7 +1711,7 @@ export class UsersComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId);
+        this.showDetails(this.custDetail.user.userId, 'class');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
       },
@@ -1791,8 +1800,8 @@ export class UsersComponent implements OnInit {
     this.activePass = 'available';
     if (val == 'makeup') {
       this.callMakeupLists();
-    } else if (val == 'class') {
-      this.showDetails(this.custDetail.user.userId);
+    } else if (val == 'class' || val == 'activity') {
+      this.showDetails(this.custDetail.user.userId, val);
     } else if (val == 'achievements') {
       console.log('cos', this.carousel);
       // this.carousel.pause();
@@ -1825,7 +1834,7 @@ export class UsersComponent implements OnInit {
               data.createdTime = this.formatAMPM(data.createdDate);
             }
           }
-          console.log(this.notifications);
+          console.log('notilist is', this.notifications);
         },
         err => {
           console.log(err);
@@ -1879,17 +1888,16 @@ export class UsersComponent implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
-          console.log('get achievements', res);
           if (type == 1) {
             this.achievementProgess = res;
+            console.log('Progress', this.achievementProgess);
           } else if (type == 3) {
             this.achievementEvaluation = res;
+            console.log('Evaluation', this.achievementEvaluation);
           } else if (type == 6) {
             this.achievementGrade = res;
+            console.log('Grade', this.achievementGrade);
           }
-          console.log('Progress', this.achievementProgess);
-          console.log('Evaluation', this.achievementEvaluation);
-          console.log('Grade', this.achievementGrade);
         },
         err => {
           console.log(err);
@@ -2443,7 +2451,7 @@ export class UsersComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId);
+        this.showDetails(this.custDetail.user.userId, 'class');
       },
       err => {
         console.error(err);

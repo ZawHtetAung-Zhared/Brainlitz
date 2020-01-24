@@ -84,7 +84,7 @@
       >
         <div
           class="box-design d-flex flex-row align-items-center"
-          (click)="showDetails(customer.userId)"
+          (click)="showDetails(customer.userId, 'class')"
         >
           <div class="profileimg-wrap">
             <div class="circular-image">
@@ -398,7 +398,10 @@
                   />
                 </div>
 
-                <div class="guar-name" (click)="showDetails(guardian.userId)">
+                <div
+                  class="guar-name"
+                  (click)="showDetails(guardian.userId, 'class')"
+                >
                   {{
                     guardian.fullName == '' || guardian.fullName == null
                       ? guardian.email
@@ -1366,8 +1369,19 @@
             <div
               *ngIf="activeTab == 'achievements'"
               class="pb-20"
-              style="overflow:hiiden"
+              style="overflow:hidden"
             >
+              <!-- <h6 class="title-space tab-title">Ratings and reviews</h6> -->
+              <div
+                class="title-space no-item"
+                *ngIf="
+                  achievementProgess.length <= 0 &&
+                  achievementEvaluation.length <= 0 &&
+                  achievementGrade.length <= 0
+                "
+              >
+                There is no achievements for this customer!
+              </div>
               <div
                 class="achievements-main"
                 *ngIf="achievementProgess.length != 0"
@@ -1415,6 +1429,7 @@
                 </div>
                 <div class="card-columns grade-list">
                   <div *ngFor="let grade of achievementGrade">
+                    <!-- <div *ngIf="grade.assessment.logs.length != 0"> -->
                     <div class="card">
                       <div class="grade-main">
                         <div class="grade-header">
@@ -1424,35 +1439,44 @@
                           </p>
                         </div>
                         <div class="d-flex grade-body">
-                          <div
-                            *ngFor="
-                              let log of grade.assessment.logs;
-                              let i = index
-                            "
+                          <span
+                            class="evaluation-status noData"
+                            *ngIf="grade.assessment.logs.length <= 0"
+                            >No Data</span
                           >
+                          <div *ngIf="grade.assessment.logs.length != 0">
                             <div
-                              class="d-flex flex-column grade-box"
-                              [ngStyle]="{
-                                background:
-                                  grade.assessment.sepalColor.background,
-                                color: grade.assessment.sepalColor.text
-                              }"
-                              [ngClass]="{
-                                addBorder: i == grade.assessment.logs.length - 1
-                              }"
+                              *ngFor="
+                                let log of grade.assessment.logs;
+                                let i = index
+                              "
                             >
-                              <span class="grade-name">{{
-                                log.grade.name
-                              }}</span>
-                              <span class="grade-by">by {{ log.by }}</span>
-                              <span class="grade-date">
-                                {{ log.createdDate | dateFormat }}</span
+                              <div
+                                class="d-flex flex-column grade-box"
+                                [ngStyle]="{
+                                  background:
+                                    grade.assessment.sepalColor.background,
+                                  color: grade.assessment.sepalColor.text
+                                }"
+                                [ngClass]="{
+                                  addBorder:
+                                    i == grade.assessment.logs.length - 1
+                                }"
                               >
+                                <span class="grade-name">{{
+                                  log.grade.name
+                                }}</span>
+                                <span class="grade-by">by {{ log.by }}</span>
+                                <span class="grade-date">
+                                  {{ log.createdDate | dateFormat }}</span
+                                >
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -1465,103 +1489,102 @@
                 </div>
 
                 <div class="card-columns evaluation-list">
-                  <div
-                    class="card"
-                    *ngFor="let evaluation of achievementEvaluation"
-                  >
-                    <div class="evaluation-main">
-                      <div class="evaluation-header">
-                        <p class="apg-name">
-                          {{ evaluation.apg.name }}
-                        </p>
-                      </div>
-                      <div class="evaluation-body">
-                        {{ evaluation.assessments.isLoadmore }}
-                        <carousel>
-                          <ng-container
-                            *ngFor="let ass of evaluation.assessments"
-                          >
-                            <ng-container *carouselItem>
-                              <div
-                                class="createdDate"
-                                *ngIf="ass.createdDate != null"
-                              >
-                                {{ ass.createdDate | utcDate }}
-                              </div>
-
-                              <div
-                                class="createdDate-boder"
-                                *ngIf="ass.createdDate == null"
-                              ></div>
-
-                              <div class="assessment-list-gp">
+                  <div *ngFor="let evaluation of achievementEvaluation">
+                    <div class="card">
+                      <div class="evaluation-main">
+                        <div class="evaluation-header">
+                          <p class="apg-name">
+                            {{ evaluation.apg.name }}
+                          </p>
+                        </div>
+                        <div class="evaluation-body">
+                          {{ evaluation.assessments.isLoadmore }}
+                          <carousel>
+                            <ng-container
+                              *ngFor="let ass of evaluation.assessments"
+                            >
+                              <ng-container *carouselItem>
                                 <div
-                                  class="assessment-list"
-                                  *ngFor="let evaluate of ass.evaluations"
+                                  class="createdDate"
+                                  *ngIf="ass.createdDate != null"
                                 >
-                                  <div class="d-flex">
-                                    <p class="assessment-name">
-                                      {{ evaluate.apName }}
-                                    </p>
-                                    <!-- <p
-                                      class="assessment-by"
-                                      *ngIf="ass.createdDate != null"
-                                    >
-                                      by {{ evaluate.by }}
-                                    </p> -->
-                                  </div>
+                                  {{ ass.createdDate | utcDate }}
+                                </div>
 
-                                  <span
-                                    class="evaluation-status noData"
-                                    *ngIf="evaluate.status == 'NEUTRAL'"
-                                    >No Data</span
-                                  >
-                                  <span
-                                    class="evaluation-status in-Progess"
-                                    *ngIf="evaluate.status == 'IN-PROGRESS'"
-                                    >In Progess</span
-                                  >
-                                  <span
-                                    class="evaluation-status achieved"
-                                    *ngIf="evaluate.status == 'PASS'"
-                                    >Achieved</span
-                                  >
+                                <div
+                                  class="createdDate-boder"
+                                  *ngIf="ass.createdDate == null"
+                                ></div>
+
+                                <div class="assessment-list-gp">
                                   <div
-                                    class="d-flex flex-wrap evaluate-details"
+                                    class="assessment-list"
+                                    *ngFor="let evaluate of ass.evaluations"
                                   >
+                                    <div class="d-flex">
+                                      <p class="assessment-name">
+                                        {{ evaluate.apName }}
+                                      </p>
+                                      <!-- <p
+                                        class="assessment-by"
+                                        *ngIf="ass.createdDate != null"
+                                      >
+                                        by {{ evaluate.by }}
+                                      </p> -->
+                                    </div>
+
                                     <span
-                                      class="list-dot-wrap"
-                                      *ngFor="
-                                        let detail of evaluate.details;
-                                        let i = index
-                                      "
+                                      class="evaluation-status noData"
+                                      *ngIf="evaluate.status == 'NEUTRAL'"
+                                      >No Data</span
+                                    >
+                                    <span
+                                      class="evaluation-status in-Progess"
+                                      *ngIf="evaluate.status == 'IN-PROGRESS'"
+                                      >In Progess</span
+                                    >
+                                    <span
+                                      class="evaluation-status achieved"
+                                      *ngIf="evaluate.status == 'PASS'"
+                                      >Achieved</span
+                                    >
+                                    <div
+                                      class="d-flex flex-wrap evaluate-details"
                                     >
                                       <span
-                                        class="noData-dot"
-                                        *ngIf="detail.selectedIndex == 'null'"
-                                      ></span>
-                                      <span
-                                        class="exitData-dot zero"
-                                        *ngIf="detail.selectedIndex == '0'"
-                                        >{{ detail.selectedIndex }}</span
+                                        class="list-dot-wrap"
+                                        *ngFor="
+                                          let detail of evaluate.details;
+                                          let i = index
+                                        "
                                       >
-                                      <span
-                                        class="exitData-dot one"
-                                        *ngIf="detail.selectedIndex == '1'"
-                                        >{{ detail.selectedIndex }}</span
-                                      >
-                                      <span
-                                        class="exitData-dot two"
-                                        *ngIf="detail.selectedIndex == '2'"
-                                        >{{ detail.selectedIndex }}</span
-                                      >
-                                    </span>
+                                        <span
+                                          class="noData-dot"
+                                          *ngIf="detail.selectedIndex == 'null'"
+                                        ></span>
+                                        <span
+                                          class="exitData-dot zero"
+                                          *ngIf="detail.selectedIndex == '0'"
+                                          >{{ detail.selectedIndex }}</span
+                                        >
+                                        <span
+                                          class="exitData-dot one"
+                                          *ngIf="detail.selectedIndex == '1'"
+                                          >{{ detail.selectedIndex }}</span
+                                        >
+                                        <span
+                                          class="exitData-dot two"
+                                          *ngIf="detail.selectedIndex == '2'"
+                                          >{{ detail.selectedIndex }}</span
+                                        >
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
+                              </ng-container>
                             </ng-container>
-                          </ng-container>
-                        </carousel>
+                          </carousel>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1586,51 +1609,57 @@
                   >
                     <div class="d-flex justify-content-between title-space">
                       <div class="d-flex align-items-center">
-                        <div id="parent">
-                          <!-- <img
-                            *ngIf="noti.type == 1"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/Attendance.png"
-                          /> -->
-                          <img
-                            *ngIf="
-                              noti.type == 1 || noti.type == 2 || noti.type == 3
-                            "
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            style="filter: brightness(50%);"
-                            src="./assets/images/courseIconFrame.png"
-                          />
-                          <!-- <img
-                            *ngIf="noti.type == 3"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/attendanceChange.png"
-                          />
-                          <img
-                            *ngIf="noti.type == 4"
-                            [ngClass]="{
-                              'img-read': noti.isRead == true,
-                              'img-unread': noti.isRead == false
-                            }"
-                            src="./assets/images/lessonAbsentFrame.png"
-                          /> -->
+                        <div>
+                          <div id="parent">
+                            <!-- <img
+                              *ngIf="noti.type == 1"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/Attendance.png"
+                            /> -->
+                            <img
+                              *ngIf="
+                                noti.type == 1 ||
+                                noti.type == 2 ||
+                                noti.type == 3
+                              "
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              style="filter: brightness(50%);"
+                              src="./assets/images/courseIconFrame.png"
+                            />
+                            <!-- <img
+                              *ngIf="noti.type == 3"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/attendanceChange.png"
+                            />
+                            <img
+                              *ngIf="noti.type == 4"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              src="./assets/images/lessonAbsentFrame.png"
+                            /> -->
+                          </div>
                         </div>
-                        <div
-                          class="status-p noti-title"
-                          [ngClass]="{
-                            'status-read': noti.isRead == true,
-                            'status-unread': noti.isRead == false
-                          }"
-                        >
-                          {{ noti.title }}
+                        <div class="col-md-12" style="padding-left: 0px;">
+                          <div
+                            class="status-p noti-title"
+                            [ngClass]="{
+                              'status-read': noti.isRead == true,
+                              'status-unread': noti.isRead == false
+                            }"
+                          >
+                            {{ noti.title }}
+                          </div>
                         </div>
                       </div>
                       <div class="d-flex align-items-center">
@@ -1641,11 +1670,20 @@
                             'status-unread': noti.isRead == false
                           }"
                         >
-                          {{ noti.isRead == true ? 'Read' : 'Unread' }}
+                          <!-- {{ noti.isRead == true ? 'Read' : 'Unread' }} -->
+
+                          <img
+                            *ngIf="noti.isRead"
+                            src="../../../assets/icons/Read.png"
+                          />
+                          <img
+                            *ngIf="!noti.isRead"
+                            src="../../../assets/icons/Unread.png"
+                          />
                         </div>
                         <div class="noti-dot"></div>
                         <div
-                          class="status-p"
+                          class="status-p set-width"
                           [ngClass]="{
                             'status-read': noti.isRead == true,
                             'status-unread': noti.isRead == false
@@ -1990,6 +2028,7 @@
                 class="form-control"
                 placeholder="Type email address here"
                 (keyup)="validateEmail(formFieldc.email)"
+                (input)="validateEmail(formFieldc.email)"
                 name="email"
                 [(ngModel)]="formFieldc.email"
                 #email="ngModel"
@@ -2040,6 +2079,7 @@
                 name="guardianEmail"
                 [(ngModel)]="formFieldc.guardianEmail"
                 (keyup)="validateGuarmail(formFieldc.guardianEmail)"
+                (input)="validateGuarmail(formFieldc.guardianEmail)"
                 #guardianEmail="ngModel"
               />
               <div *ngIf="guardianAlert" class="alert alert-danger">
@@ -2318,7 +2358,11 @@
             (click)="createUser(formFieldc, 'create')"
             class="btn create-button"
             [disabled]="
-              !customerForm.valid || emailAlert || guardianAlert || sameMail
+              !customerForm.valid ||
+              emailAlert ||
+              guardianAlert ||
+              sameMail ||
+              imgDemoSlider
             "
           >
             Create
@@ -2330,7 +2374,11 @@
             (click)="createUser(formFieldc, 'edit')"
             class="btn create-button"
             [disabled]="
-              !customerForm.valid || emailAlert || guardianAlert || sameMail
+              !customerForm.valid ||
+              emailAlert ||
+              guardianAlert ||
+              sameMail ||
+              imgDemoSlider
             "
           >
             Update

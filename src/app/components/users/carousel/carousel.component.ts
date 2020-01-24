@@ -94,7 +94,7 @@ export class CarouselComponent implements AfterViewInit {
     setTimeout(() => {
       this.itemWidth = this.itemsElements.first.nativeElement.getBoundingClientRect().width;
       this.carouselWrapperStyle = {
-        width: `${this.itemWidth}px`
+        // width: `${this.itemWidth}px`
       };
     });
   }

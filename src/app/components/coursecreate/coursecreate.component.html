@@ -613,7 +613,7 @@
               >Duration</label
             >
             <div
-              class="cursor-on d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput"
+              class="d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput"
             >
               {{ model.duration }} min
               <!-- <span
@@ -1010,8 +1010,8 @@
             <span class="round-icon">!</span>
             <div class="pad-left-10 warning-msg">
               The schedule you are trying to create overlaps with the existing
-              lessons. If Jen (teachername) can take both lessons at the same
-              time, click "Accept" otherwise click "Reject".
+              lessons. If {{ conflit.preferredName }} can take both lessons at
+              the same time, click "Accept" otherwise click "Reject".
             </div>
           </div>
         </div>
