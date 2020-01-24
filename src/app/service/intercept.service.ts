@@ -75,11 +75,7 @@ export class InterceptService implements HttpInterceptor {
                 });
               }
             });
-            return Observable.merge(
-              Observable.of(navigator.onLine),
-              Observable.fromEvent(window, 'online').map(() => true),
-              Observable.fromEvent(window, 'offline').map(() => false)
-            );
+            return this.isOnline;
           }
 
           // return this.refresh(errors);
