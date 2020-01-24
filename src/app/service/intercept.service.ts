@@ -10,14 +10,24 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { catchError, retry, retryWhen, shareReplay } from 'rxjs/operators';
+import { retryWhen } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class InterceptService implements HttpInterceptor {
   @BlockUI() blockUI: NgBlockUI;
   private err_status;
   private isOnline;
-  constructor(private router: Router) {}
+  constructor(private router: Router, public toastr: ToastrService) {
+    this.isOnline = Observable.merge(
+      Observable.of(navigator.onLine),
+      Observable.fromEvent(window, 'online').map(() => true),
+      Observable.fromEvent(window, 'offline').map(() => false)
+    );
+    this.isOnline.subscribe(data => {
+      if (data == false) this.toastr.error('No internet connection.');
+    });
+  }
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -27,6 +37,7 @@ export class InterceptService implements HttpInterceptor {
       Observable.fromEvent(window, 'online').map(() => true),
       Observable.fromEvent(window, 'offline').map(() => false)
     );
+    console.log('::::::::::::\n::::::::::::;\n::::::::::::::\ncalling api');
     this.blockUI.start('Loading...');
     return next
       .handle(request)
@@ -59,12 +70,17 @@ export class InterceptService implements HttpInterceptor {
           } else {
             this.isOnline.subscribe(data => {
               if (data == true) {
+                this.blockUI.start('Loading...');
                 return errors.switchMap((x: any) => {
                   return Observable.of(x);
                 });
               }
             });
-            return this.isOnline;
+            return Observable.merge(
+              Observable.of(navigator.onLine),
+              Observable.fromEvent(window, 'online').map(() => true),
+              Observable.fromEvent(window, 'offline').map(() => false)
+            );
           }
 
           // return this.refresh(errors);
