@@ -25,7 +25,7 @@ export class InterceptService implements HttpInterceptor {
       Observable.fromEvent(window, 'offline').map(() => false)
     );
     this.isOnline.subscribe(data => {
-      if (data == false) this.toastr.error('No internet connection.');
+      if (data == false) this.toastr.error('Network Error');
     });
   }
   intercept(
@@ -37,7 +37,6 @@ export class InterceptService implements HttpInterceptor {
       Observable.fromEvent(window, 'online').map(() => true),
       Observable.fromEvent(window, 'offline').map(() => false)
     );
-    console.log('::::::::::::\n::::::::::::;\n::::::::::::::\ncalling api');
     this.blockUI.start('Loading...');
     return next
       .handle(request)
