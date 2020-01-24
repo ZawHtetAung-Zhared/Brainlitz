@@ -192,22 +192,27 @@ export class ToolsComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
-    this.windowH = window.innerHeight;
-    this.isFixed = true;
-    if (window.pageYOffset > 81) {
-      this.isSticky = true;
-      this.isMidStick = false;
-      var element = document.getElementById('notibar2');
-      if (typeof element == 'undefined' || element == null) {
-        $('.mid-top').css({ 'padding-top': '0px' });
-      }
-    } else if (window.pageYOffset < 0) {
-      this.isFixed = false;
-    } else {
+    if ($('.modal-open')[0]) {
       this.isSticky = false;
-    }
+      this.isMidStick = false;
+    } else {
+      this.windowH = window.innerHeight;
+      this.isFixed = true;
+      if (window.pageYOffset > 81) {
+        this.isSticky = true;
+        this.isMidStick = false;
+        var element = document.getElementById('notibar2');
+        if (typeof element == 'undefined' || element == null) {
+          $('.mid-top').css({ 'padding-top': '0px' });
+        }
+      } else if (window.pageYOffset < 0) {
+        this.isFixed = false;
+      } else {
+        this.isSticky = false;
+      }
 
-    this.isMidStick = window.pageYOffset > 45 ? true : false;
+      this.isMidStick = window.pageYOffset > 45 ? true : false;
+    }
   }
 
   clickTab(type) {
