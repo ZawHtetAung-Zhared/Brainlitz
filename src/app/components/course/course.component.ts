@@ -809,17 +809,16 @@ export class CourseComponent implements OnInit {
       for (let x in this.days) {
         if (this.days[x].checked) count++;
         if (this.days[x].val == id) {
+          this.isRemoveDay = false;
           if (this.days[x].checked) tempIndex = x;
           else {
             this.days[x].checked = !this.days[x].checked;
-            this.isRemoveDay = false;
           }
         }
       }
       console.error(count, 'count', tempIndex);
       if (count != 1 && tempIndex) {
         this.days[tempIndex].checked = !this.days[tempIndex].checked;
-        this.isRemoveDay = false;
       }
 
       // this.days.splice(dataIndex,1);
@@ -963,7 +962,7 @@ export class CourseComponent implements OnInit {
   }
 
   showAdvancedSearch() {
-    console.error('show box');
+    console.error('show box', this.days);
     console.error(this.tempCategory, 'temp category');
     console.error(this.tempPlan, 'temp plan');
     this.searchVal = '';
@@ -984,7 +983,8 @@ export class CourseComponent implements OnInit {
     this.selectedEndMinRange = '0';
     this.getAllCategories(20, 0);
     this.getCPlanList(0, 20);
-    if (this.tempCategory.length == 0 && this.tempPlan.length == 0) {
+    console.error(this.isRemoveDay, 'dd  ');
+    if (this.isRemoveDay) {
       this.days = [
         { day: 'Sun', val: 0, checked: true },
         { day: 'Mon', val: 1, checked: true },
@@ -996,8 +996,8 @@ export class CourseComponent implements OnInit {
       ];
       this.repeatedDaysTemp = this.days;
       this.isRemoveDay = false;
+      console.error('exit mee meee ');
     }
-    console.log('exit mee meee ');
   }
 
   ChangedTimeValue(obj, val, state) {
