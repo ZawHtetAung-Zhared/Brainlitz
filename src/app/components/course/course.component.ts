@@ -803,12 +803,25 @@ export class CourseComponent implements OnInit {
 
       console.log(this.planIDArray);
     } else {
+      let tempIndex: any;
+      let count: any = 0;
+
       for (let x in this.days) {
+        if (this.days[x].checked) count++;
         if (this.days[x].val == id) {
-          this.days[x].checked = !this.days[x].checked;
-          this.isRemoveDay = false;
+          if (this.days[x].checked) tempIndex = x;
+          else {
+            this.days[x].checked = !this.days[x].checked;
+            this.isRemoveDay = false;
+          }
         }
       }
+      console.error(count, 'count', tempIndex);
+      if (count != 1 && tempIndex) {
+        this.days[tempIndex].checked = !this.days[tempIndex].checked;
+        this.isRemoveDay = false;
+      }
+
       // this.days.splice(dataIndex,1);
       console.error(this.days);
     }
