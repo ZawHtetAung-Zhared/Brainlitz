@@ -4,8 +4,14 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --prod --aot=false",
+    "start": "ng serve --env=local",
+    "start:master": "ng serve --env=master",
+    "start:staging": "ng serve --env=staging",
+    "start:dev": "ng serve --env=dev",
+    "build": "ng build --prod --env=local --aot=false",
+    "build:master": "ng build --prod --env=master --aot=false",
+    "build:staging": "ng build --prod --env=staging --aot=false",
+    "build:dev": "ng build --prod --env=dev --aot=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

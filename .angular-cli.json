@@ -33,8 +33,11 @@
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "local": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts",
+        "dev": "environments/environment.dev.ts",
+        "staging": "environments/environment.staging.ts",
+        "master": "environments/environment.master.ts"
       }
     }
   ],
