@@ -4,8 +4,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- live
-- staging
+- none
+# - live
+# - staging
 
 pool:
   vmImage: 'ubuntu-latest'
