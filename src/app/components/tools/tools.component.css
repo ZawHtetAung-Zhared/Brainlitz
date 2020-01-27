@@ -381,9 +381,9 @@ img.setting-icon {
 .switch-col:first-child {
   padding-left: 0;
 }
-.switch-col:last-child {
+/*.switch-col:last-child {
   border-left: 2px solid #e3e4e6;
-}
+}*/
 .switch-col label {
   margin-bottom: 0;
   font-size: 16px;

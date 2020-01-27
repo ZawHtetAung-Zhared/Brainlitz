@@ -1712,6 +1712,7 @@
               </div>
               <!-- [ngClass]="{ 'disable-cursor': isRescheduleLesson }" -->
               <button
+                *ngIf="detailLists.type == 'FLEXY'"
                 class="btn btn-newLesson"
                 (click)="addNewLesson()"
                 [disabled]="isRescheduleLesson"

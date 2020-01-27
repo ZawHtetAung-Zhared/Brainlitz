@@ -74,7 +74,7 @@ export class ToolsComponent implements OnInit {
   public isFousCategory: boolean = false;
   public wordLength: number = 0;
   public notiTypes: any = [
-    { name: 'Email', type: 'email', checked: false },
+    // { name: 'Email', type: 'email', checked: false },
     { name: 'App notification', type: 'noti', checked: false }
   ];
   public checkedType: any = [];
@@ -851,7 +851,7 @@ export class ToolsComponent implements OnInit {
         this.item.sendType = 'app';
         this.checkedType = [];
         this.notiTypes = [
-          { name: 'Email', type: 'email', checked: false },
+          // { name: 'Email', type: 'email', checked: false },
           { name: 'App notification', type: 'noti', checked: false }
         ];
         if (

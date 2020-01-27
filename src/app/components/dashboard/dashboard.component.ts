@@ -792,6 +792,12 @@ export class DashboardComponent implements OnInit {
 
   getLogo(url) {
     console.log(url, 'url');
+    let logo = document.getElementById(url).getAttribute('src');
+    return this.dataURItoBlob(logo);
+  }
+
+  getQR(url) {
+    console.log(url, 'url');
     console.log('is qr change', this.isQRChanged);
     if (this.isQRChanged) {
       let logo = document.getElementById(url).getAttribute('src');
@@ -1163,7 +1169,7 @@ export class DashboardComponent implements OnInit {
       var qrFormData = new FormData();
       qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
       if (this.isAcceptPaynow == true) {
-        qrFormData.append('qrcode', this.getLogo('qrURL'));
+        qrFormData.append('qrcode', this.getQR('qrURL'));
       }
     }
 
