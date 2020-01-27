@@ -148,11 +148,20 @@ export class AppComponent implements OnInit {
   }
 
   private scrollPosition: any;
+  private isOpenModal: boolean = false;
   @HostListener('document:click', ['$event']) documentClick($event): void {
-    console.log('DOCUMENT CLICK::::' + this.scrollPosition);
+    console.log(
+      'DOCUMENT CLICK::::' +
+        this.scrollPosition +
+        'isOpenModal::::' +
+        this.isOpenModal
+    );
     if (!$('.modal-backdrop')[0]) {
-      $('html, body').animate({ scrollTop: this.scrollPosition });
-    }
+      if (this.isOpenModal) {
+        $('html, body').animate({ scrollTop: this.scrollPosition });
+      }
+      this.isOpenModal = false;
+    } else this.isOpenModal = true;
   }
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if ($('html, body').scrollTop() != 0)
