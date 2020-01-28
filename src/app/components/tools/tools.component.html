@@ -519,9 +519,9 @@
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="address" class="lable-title">Message</label>
-                <div class="limit-word1">
+                <!-- <div class="limit-word1">
                   <span>{{ wordLength }}/280characters</span>
-                </div>
+                </div> -->
               </div>
               <textarea
                 class="form-control input-create"
@@ -532,7 +532,6 @@
                 #message="ngModel"
                 (focus)="focusMethod($event, 'msg', $event.target.value)"
                 (blur)="blurMethod($event, 'msg')"
-                maxlength="280"
                 (input)="changeMethod($event.target.value)"
                 required
               ></textarea>

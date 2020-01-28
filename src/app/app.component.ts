@@ -166,5 +166,6 @@ export class AppComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if ($('html, body').scrollTop() != 0)
       this.scrollPosition = $('html, body').scrollTop();
+    // if(this.isOpenModal) $('html, body').css('overflow', 'hidden');
   }
 }
