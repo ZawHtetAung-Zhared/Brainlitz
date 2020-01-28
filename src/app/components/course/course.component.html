@@ -651,7 +651,11 @@
                   </div>
                   <div
                     class="course-type"
-                    *ngIf="course.draft == false && course.type != undefined"
+                    *ngIf="
+                      course.draft == false &&
+                      course.type != undefined &&
+                      !courseTypeDisabled
+                    "
                   >
                     {{ course.type | lowercase }}
                   </div>
