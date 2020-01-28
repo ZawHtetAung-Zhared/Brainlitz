@@ -3207,7 +3207,6 @@ p.course-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   margin-bottom: 10px;
-  overflow: auto;
 }
 span.score {
   color: #9da8b3;
