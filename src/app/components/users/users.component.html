@@ -37,8 +37,9 @@
               background: gbgColor
             }"
           >
-            {{ locationName }}</span
-          >
+            {{ locationName | slice: 0:45
+            }}{{ locationName.length > 45 ? '...' : '' }}
+          </span>
         </div>
       </div>
       <div class="col-md-7 pad-0">
@@ -1395,7 +1396,7 @@
                     class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4"
                     *ngFor="let progress of achievementProgess"
                   >
-                    <div class="progress-box">
+                    <div class="progress-box libr">
                       <p class="course-name">{{ progress.course.name }}</p>
 
                       <span class="score"
@@ -1467,9 +1468,22 @@
                                   log.grade.name
                                 }}</span>
                                 <span class="grade-by">by {{ log.by }}</span>
-                                <span class="grade-date">
-                                  {{ log.createdDate | dateFormat }}</span
+                                <div
+                                  class="d-flex justify-content-between align-items-center"
                                 >
+                                  <span class="grade-date">
+                                    {{ log.createdDate | dateFormat }}</span
+                                  >
+                                  <span
+                                    class="journal_delete grade_delete"
+                                    (click)="
+                                      gradeDeleteModal(
+                                        log.gradeId,
+                                        journal_delete
+                                      )
+                                    "
+                                  ></span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -3698,10 +3712,20 @@
         Cancel
       </button>
       <button
+        *ngIf="deleteGradeId == null"
         style="background: #FF3D33!important;"
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmJournalDelete()"
+      >
+        Yes
+      </button>
+      <button
+        *ngIf="deleteGradeId != null"
+        style="background: #FF3D33!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="deleteGrade()"
       >
         Yes
       </button>

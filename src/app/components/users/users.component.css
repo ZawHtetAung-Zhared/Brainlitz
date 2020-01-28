@@ -861,6 +861,9 @@ h5 {
   /* padding: 0 15px; */
   padding-left: 15px;
 }
+.libr {
+  word-break: break-all;
+}
 
 .right-arrow {
   display: flex;
@@ -3204,6 +3207,7 @@ p.course-name {
   color: #2e3d4d;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   margin-bottom: 10px;
+  overflow: auto;
 }
 span.score {
   color: #9da8b3;
@@ -3959,4 +3963,8 @@ span.grade-date {
   .timeline {
     overflow-x: auto;
   }
+}
+.grade_delete {
+  width: 18px !important;
+  height: 18px !important;
 }
