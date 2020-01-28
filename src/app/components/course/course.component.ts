@@ -35,6 +35,7 @@ import { start } from 'repl';
 import { isThisISOWeek, isThisSecond } from 'date-fns';
 import { TodayDatePipe } from '../../service/pipe/today-date.pipe';
 import { stat } from 'fs';
+import { environment } from '../../../environments/environment';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -53,6 +54,7 @@ export class CourseComponent implements OnInit {
 
   courseList: Array<any> = [];
   code: any;
+  public courseTypeDisabled = environment.courseTypeDisabled;
   public makeupLists = [];
   public reasonValue: any;
   public textAreaOption = false;
