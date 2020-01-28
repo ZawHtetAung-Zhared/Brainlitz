@@ -3220,8 +3220,11 @@ span.score {
   font-size: 14px;
   color: #64707d;
   font-family: 'Inter-UI-Mediumn', Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
 }
 span.by-name {
+  text-align: right;
   float: right;
 }
 

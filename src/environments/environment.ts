@@ -13,5 +13,6 @@ export const environment = {
   apiurl: 'http://dev-app.brainlitz.com',
   // apiurl: ' https://dev-brainlitz.pagewerkz.com',
   // apiurl: 'https://staging-brainlitz.pagewerkz.com',
-  courseTypeDisabled: false
+  courseTypeDisabled: false,
+  livechatDisabled: false
 };
