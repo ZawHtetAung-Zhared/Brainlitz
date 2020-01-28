@@ -6,5 +6,6 @@ export const environment = {
   orgID: '5b063e2636f2e0f83cdbac88',
   // apiurl: 'http://192.168.1.106:8484'
   apiurl: ' https://dev-brainlitz.pagewerkz.com',
-  courseTypeDisabled: false
+  courseTypeDisabled: false,
+  livechatDisabled: true
 };

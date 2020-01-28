@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { environment } from '../../../environments/environment';
 declare var LiveAgent: any;
 
 @Component({
@@ -12,11 +13,15 @@ export class LivechatComponent implements OnInit {
   @Input() appname: string;
   @Input() userData: object;
 
+  public livechatDisabled = environment.livechatDisabled;
+
   constructor() {}
 
   ngOnInit() {
     // this.liveChatAgent();
-    this.liveChat();
+    if (this.livechatDisabled == false) {
+      this.liveChat();
+    }
   }
 
   ngOnChanges() {
