@@ -4151,4 +4151,23 @@ export class appService {
       return res;
     });
   }
+
+  deleteGrade(userId, gradeId) {
+    let url =
+      this.baseUrl +
+      '/users/' +
+      userId +
+      '/grades/' +
+      gradeId +
+      '/delete-grade';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }

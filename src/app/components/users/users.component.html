@@ -1467,9 +1467,22 @@
                                   log.grade.name
                                 }}</span>
                                 <span class="grade-by">by {{ log.by }}</span>
-                                <span class="grade-date">
-                                  {{ log.createdDate | dateFormat }}</span
+                                <div
+                                  class="d-flex justify-content-between align-items-center"
                                 >
+                                  <span class="grade-date">
+                                    {{ log.createdDate | dateFormat }}</span
+                                  >
+                                  <span
+                                    class="journal_delete grade_delete"
+                                    (click)="
+                                      gradeDeleteModal(
+                                        log.gradeId,
+                                        journal_delete
+                                      )
+                                    "
+                                  ></span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -3698,10 +3711,20 @@
         Cancel
       </button>
       <button
+        *ngIf="deleteGradeId == null"
         style="background: #FF3D33!important;"
         type="submit"
         class="btn modal-delete-btn"
         (click)="confirmJournalDelete()"
+      >
+        Yes
+      </button>
+      <button
+        *ngIf="deleteGradeId != null"
+        style="background: #FF3D33!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="deleteGrade()"
       >
         Yes
       </button>

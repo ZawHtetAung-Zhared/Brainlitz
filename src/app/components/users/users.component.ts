@@ -2559,4 +2559,34 @@ export class UsersComponent implements OnInit {
       }
     );
   }
+
+  deleteGradeId: any = null;
+  confirmDeleteGrade(gradeId) {
+    // this.deleteGradeId = true;
+  }
+  gradeDeleteModal(gradeId, modal) {
+    this.deleteGradeId = gradeId;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  deleteGrade() {
+    this._service
+      .deleteGrade(this.custDetail.user.userId, this.deleteGradeId)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.deleteGradeId = null;
+          this.callAchievements(6); //calling grade achievements data
+          this.toastr.success('Successfully Deleted.');
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    this.autoEnrollModal.close();
+  }
 }
