@@ -37,8 +37,9 @@
               background: gbgColor
             }"
           >
-            {{ locationName }}</span
-          >
+            {{ locationName | slice: 0:45
+            }}{{ locationName.length > 45 ? '...' : '' }}
+          </span>
         </div>
       </div>
       <div class="col-md-7 pad-0">
@@ -1395,7 +1396,7 @@
                     class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4"
                     *ngFor="let progress of achievementProgess"
                   >
-                    <div class="progress-box">
+                    <div class="progress-box libr">
                       <p class="course-name">{{ progress.course.name }}</p>
 
                       <span class="score"
