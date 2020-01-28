@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
@@ -13,6 +13,7 @@ import { appService } from './service/app.service';
 import { DOCUMENT } from '@angular/platform-browser';
 
 declare var LiveAgent: any;
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -144,5 +145,26 @@ export class AppComponent implements OnInit {
   public setTitle(newTitle: string) {
     console.log('object');
     this.titleService.setTitle(newTitle);
+  }
+
+  private scrollPosition: any;
+  private isOpenModal: boolean = false;
+  @HostListener('document:click', ['$event']) documentClick($event): void {
+    console.log(
+      'DOCUMENT CLICK::::' +
+        this.scrollPosition +
+        'isOpenModal::::' +
+        this.isOpenModal
+    );
+    if (!$('.modal-backdrop')[0]) {
+      if (this.isOpenModal) {
+        $('html, body').animate({ scrollTop: this.scrollPosition });
+      }
+      this.isOpenModal = false;
+    } else this.isOpenModal = true;
+  }
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if ($('html, body').scrollTop() != 0)
+      this.scrollPosition = $('html, body').scrollTop();
   }
 }
