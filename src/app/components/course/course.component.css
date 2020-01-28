@@ -1409,6 +1409,11 @@ li button {
   color: #2e3d4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
+.libr {
+  word-break: break-all;
+  width: 85%;
+}
+
 .detail-fees h5 {
   color: #64707d;
   font-size: 16px;

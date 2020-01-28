@@ -767,21 +767,17 @@ span.scrollup.show:hover:before {
   background: #f2f4f5;
 }
 
-@supports (-webkit-overflow-scrolling: touch) {
-  /* CSS specific to iOS devices */
+.modal-open {
+  overflow: hidden !important;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1366px) {
   .modal-open {
     bottom: 0;
     left: 0;
     position: fixed;
     right: 0;
     top: 0;
-  }
-}
-
-@supports not (-webkit-overflow-scrolling: touch) {
-  /* CSS for other than iOS devices */
-  .modal-open {
-    overflow: hidden !important;
   }
 }
 
