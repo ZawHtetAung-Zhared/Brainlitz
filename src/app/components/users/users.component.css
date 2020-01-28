@@ -861,6 +861,9 @@ h5 {
   /* padding: 0 15px; */
   padding-left: 15px;
 }
+.libr {
+  word-break: break-all;
+}
 
 .right-arrow {
   display: flex;
