@@ -164,7 +164,7 @@
         </div>
       </div>
       <div
-        class="d-flex justify-content-between"
+        class="d-flex justify-content-between col-md-8 p-0"
         *ngIf="isChecked == 'Selection'"
       >
         <p class="switchTxt">Allow multiple selection</p>
@@ -229,6 +229,13 @@
             ></div>
           </div>
         </div>
+        <p
+          class="col-md-4 add-selection"
+          *ngIf="isChecked == 'Selection'"
+          (click)="addNewItem()"
+        >
+          Add New Selection
+        </p>
       </div>
       <div class="d-flex justify-content-end form-footer mt-5">
         <button type="button" class="btn-cancel cursor-on" (click)="cancel()">

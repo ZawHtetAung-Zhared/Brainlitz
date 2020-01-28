@@ -22,7 +22,7 @@ export class CourseActivitiesReportGraph implements OnInit {
     this.plotOption = {
       tooltip: {},
       grid: {
-        left: 120
+        left: 150
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",

@@ -565,10 +565,11 @@
               class="remove-data d-flex justify-content-end"
             ></div>
           </div>
-          <div
+          <!-- <div
             *ngIf="repeatedDaysTemp.length > 0"
             class="d-flex flex-row as-result"
-          >
+          > -->
+          <div *ngIf="!isRemoveDay" class="d-flex flex-row as-result">
             <span>Repeated days is </span>
             <ul class="as-loop">
               <li *ngFor="let day of daysLoop">
@@ -650,7 +651,11 @@
                   </div>
                   <div
                     class="course-type"
-                    *ngIf="course.draft == false && course.type != undefined"
+                    *ngIf="
+                      course.draft == false &&
+                      course.type != undefined &&
+                      !courseTypeDisabled
+                    "
                   >
                     {{ course.type | lowercase }}
                   </div>
@@ -700,7 +705,7 @@
                     </div>
                     <div class="course-info">
                       <div class="course-detail">
-                        <div>
+                        <div class="libr">
                           <label
                             class="category item-width semibold mb-2"
                             [ngStyle]="{
@@ -2225,14 +2230,14 @@
       </button>
     </div>
     <form novalidate #cfees="ngForm">
-      <div class="modal-body confirm-text customer-modal-body">
+      <div class="modal-body confirm-text customer-modal-body libr">
         <div class="d-flex">
           <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
             <h5 class="mt-03 lname">
               <i class="fa fa-map-marker" style="font-size:15px"></i>
               {{ detailLists.location.name }}
             </h5>
-            <b>{{ detailLists.name }}</b>
+            <p class="course-name">{{ detailLists.name }}</p>
           </div>
           <div
             class="col-md-4 col-lg-4 modal-ctime pr-zero"
@@ -2507,14 +2512,14 @@
         </button>
       </div>
       <form nonvalidate #custForm="ngForm">
-        <div class="modal-body confirm-text customer-modal-body">
+        <div class="modal-body confirm-text customer-modal-body libr">
           <div class="d-flex">
             <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
               <h5 class="mt-03">
                 <i class="fa fa-map-marker" style="font-size:15px"></i>
                 {{ detailLists.location.name }}
               </h5>
-              <b>{{ detailLists.name }}</b>
+              <p class="course-name">{{ detailLists.name }}</p>
             </div>
             <div
               *ngIf="detailLists.type != 'ONLINE'"
@@ -2641,17 +2646,19 @@
                     *ngIf="selectedCustomer.fullName == ''"
                   ></div>
                 </div>
-                <div class="row single-user-wrap pad-15">
+                <!-- <div class="row single-user-wrap pad-15">
                   <div
                     *ngFor="let detail of selectedCustomer.details"
                     class="col-sm-6 col-md-6 modal-userInfo"
                   >
-                    <label class="mb-0">{{ detail.name }}</label>
-                    <p class="modal-p">
-                      {{ detail.value }}
-                    </p>
+                    <div *ngIf="detail.value.length != 0">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div

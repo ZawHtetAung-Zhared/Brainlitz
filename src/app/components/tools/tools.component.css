@@ -299,7 +299,8 @@ img.setting-icon {
   top: 65px;
 }
 .side-bar-wrap.mid-top {
-  top: 114px;
+  top: 70px;
+  padding-top: 45px;
 }
 .side-bar-wrap {
   /* top: 147px; */

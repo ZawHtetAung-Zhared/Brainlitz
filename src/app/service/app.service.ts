@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
@@ -1801,9 +1802,13 @@ export class appService {
     console.log(categoryIDArray);
     let url =
       this.baseUrl + '/' + regionID + '/course?locationId=' + locationID;
-
+    console.error(repeatedDays, 'repeated days');
+    console.error(repeatedDays != '' || repeatedDays != undefined);
     url = keyword != undefined ? url + '&keyword=' + keyword : url;
-    url = repeatedDays != '' ? url + '&repeatedDays=' + repeatedDays : url;
+    url =
+      repeatedDays != '' && repeatedDays != undefined
+        ? url + '&repeatedDays=' + repeatedDays
+        : url;
     url = eventStart != null ? url + '&startDate=' + eventStart : url;
     url = eventEnd != null ? url + '&endDate=' + eventEnd : url;
     url =

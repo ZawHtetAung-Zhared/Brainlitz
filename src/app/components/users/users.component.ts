@@ -19,6 +19,7 @@ import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
@@ -37,6 +38,8 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/Rx';
 declare var $: any;
 
 @Component({
@@ -667,7 +670,9 @@ export class UsersComponent implements OnInit {
                 err.error.message != null ||
                 err.error.message != '')
             ) {
-              this.toastr.error(err.error.message);
+              if (err.error.message) {
+                this.toastr.error(err.error.message);
+              } else this.toastr.error('Network Error');
             } else {
               this.toastr.error('Create Fail');
             }

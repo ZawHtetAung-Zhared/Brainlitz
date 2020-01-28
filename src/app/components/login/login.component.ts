@@ -123,7 +123,10 @@ export class LoginComponent implements OnInit {
       console.warn(localStorage.getItem('redirectURL'));
       // localStorage.removeItem('OrgId')
       console.log(str_res);
-      str_res = str_res == 'staging-brainlitz-web' ? 'stgbl-cw1' : str_res;
+      str_res =
+        str_res == 'staging-brainlitz-web' || 'dev-brainlitz-web'
+          ? 'stgbl-cw1'
+          : str_res;
       this.getOrgKey(str_res);
     }
   }

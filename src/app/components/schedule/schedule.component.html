@@ -15,172 +15,157 @@
   class="category-content"
   *ngIf="isCourseCreate == true"
 ></app-coursecreate>
-
-<block-ui>
+<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui> -->
+<div
+  class="d-flex justify-content-center"
+  *ngIf="
+    scheduleList &&
+    isCategory == false &&
+    isPlan == false &&
+    isCourseCreate == false
+  "
+>
+  <div class="d-flex flex-column align-items-start  mt-5">
+    <form
+      class="form-wrap d-flex flex-column align-items-start"
+      novalidate
+      #customerForm="ngForm"
+    >
+      <h3 class="schedule-title ">Schedule</h3>
+      <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>
+      <div class="checkboxes-wrapper">
+        <span *ngFor="let d of days">
+          <label
+            class="cursor-on day"
+            [ngClass]="{
+              'active-label': selectedDay.indexOf(d.val) != -1,
+              noCursor: isEdit == true
+            }"
+          >
+            <div
+              *ngIf="selectedDay.indexOf(d.val) == -1"
+              class="rounded-box"
+            ></div>
+            <div
+              *ngIf="selectedDay.indexOf(d.val) != -1"
+              class="rounded-checked"
+            >
+              <i class="fa fa-check"></i>
+            </div>
+            <input
+              type="checkbox"
+              required
+              class="regular-checkbox"
+              (change)="selectDay(d.val, $event, d.day, 'chooseday')"
+              name="{{ d.day }}"
+              value="{{ d.val }}"
+              [disabled]="isEdit == true"
+              [checked]="selectedDay.indexOf(d.val) !== -1"
+            />
+            <div class="box-label">{{ d.day | uppercase }}</div>
+          </label>
+        </span>
+      </div>
+      <div class="d-flex">
+        <h3 class="category-title">Pick category</h3>
+      </div>
+      <div class="input-group mt-3 gg">
+        <input
+          class="form-control py-2 input-search-bg"
+          type="search"
+          autocomplete="off"
+          placeholder="Search category"
+          name="itemID"
+          [(ngModel)]="item.itemID"
+          #itemID="ngModel"
+          required
+          id="example-search-input"
+          (focus)="focusSearch($event, 'category')"
+          (focusout)="hideSearch($event)"
+          (input)="searchCategoryList($event.target.value, 'category')"
+        />
+        <span class="input-group-append">
+          <button
+            class="btn fa fa-search search-size btn-design btn-outline-secondary"
+            type="button"
+          ></button>
+        </span>
+        <ul class="data-listing" *ngIf="isFousCategory == true">
+          <li
+            *ngFor="let category of categoryList"
+            (click)="selectData(category)"
+            [ngClass]="{
+              'all-category': category._id == 'all',
+              'mb-1': category._id == 'all'
+            }"
+          >
+            {{ category.name }}
+          </li>
+        </ul>
+      </div>
+      <button
+        type="button"
+        id="categoryList"
+        class="align-self-end btn btn-primary mt-4"
+        (click)="getschedulestaff('button', undefined, undefined, '20')"
+        [disabled]="
+          selectedDay.length == 0 ||
+          item.itemID == '' ||
+          item.itemID == undefined
+        "
+      >
+        Show
+      </button>
+    </form>
+  </div>
+</div>
+<!-- Schedule List (when click show button) -->
+<div
+  *ngIf="
+    !scheduleList &&
+    isCategory == false &&
+    isPlan == false &&
+    isCourseCreate == false
+  "
+  class="disabledScroll"
+>
   <div
-    class="d-flex justify-content-center"
+    [ngClass]="{ backdrop: testshowboxs == true || showDp == true }"
+    class="txt"
+  ></div>
+  <div
     *ngIf="
-      scheduleList &&
+      courseCreate == false &&
       isCategory == false &&
       isPlan == false &&
       isCourseCreate == false
     "
+    class="p-2 pl-4 pb-0 w-100"
   >
-    <div class="d-flex flex-column align-items-start  mt-5">
-      <form
-        class="form-wrap d-flex flex-column align-items-start"
-        novalidate
-        #customerForm="ngForm"
-      >
-        <h3 class="schedule-title ">Schedule</h3>
-        <p class="pick-day-of-the-week mt-0 ">Pick day of the week</p>
-        <div class="checkboxes-wrapper">
-          <span *ngFor="let d of days">
-            <label
-              class="cursor-on day"
-              [ngClass]="{
-                'active-label': selectedDay.indexOf(d.val) != -1,
-                noCursor: isEdit == true
-              }"
-            >
-              <div
-                *ngIf="selectedDay.indexOf(d.val) == -1"
-                class="rounded-box"
-              ></div>
-              <div
-                *ngIf="selectedDay.indexOf(d.val) != -1"
-                class="rounded-checked"
-              >
-                <i class="fa fa-check"></i>
-              </div>
-              <input
-                type="checkbox"
-                required
-                class="regular-checkbox"
-                (change)="selectDay(d.val, $event, d.day, 'chooseday')"
-                name="{{ d.day }}"
-                value="{{ d.val }}"
-                [disabled]="isEdit == true"
-                [checked]="selectedDay.indexOf(d.val) !== -1"
-              />
-              <div class="box-label">{{ d.day | uppercase }}</div>
-            </label>
-          </span>
-        </div>
-        <div class="d-flex">
-          <h3 class="category-title">Pick category</h3>
-        </div>
-        <div class="input-group mt-3 gg">
-          <input
-            class="form-control py-2 input-search-bg"
-            type="search"
-            autocomplete="off"
-            placeholder="Search category"
-            name="itemID"
-            [(ngModel)]="item.itemID"
-            #itemID="ngModel"
-            required
-            id="example-search-input"
-            (focus)="focusSearch($event, 'category')"
-            (focusout)="hideSearch($event)"
-            (input)="searchCategoryList($event.target.value, 'category')"
-          />
-          <span class="input-group-append">
-            <button
-              class="btn fa fa-search search-size btn-design btn-outline-secondary"
-              type="button"
-            ></button>
-          </span>
-          <ul class="data-listing" *ngIf="isFousCategory == true">
-            <li
-              *ngFor="let category of categoryList"
-              (click)="selectData(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
-            >
-              {{ category.name }}
-            </li>
-          </ul>
-        </div>
-        <button
-          type="button"
-          id="categoryList"
-          class="align-self-end btn btn-primary mt-4"
-          (click)="getschedulestaff('button', undefined, undefined, '20')"
-          [disabled]="
-            selectedDay.length == 0 ||
-            item.itemID == '' ||
-            item.itemID == undefined
-          "
-        >
-          Show
-        </button>
-      </form>
+    <div class="back-to" (click)="backtoSchedule()">
+      <i class="fa fa-angle-left"></i>
+      <p class="mb-0">Schedule</p>
     </div>
   </div>
-  <!-- Schedule List (when click show button) -->
-  <div
-    *ngIf="
-      !scheduleList &&
-      isCategory == false &&
-      isPlan == false &&
-      isCourseCreate == false
-    "
-    class="disabledScroll"
-  >
-    <div
-      [ngClass]="{ backdrop: testshowboxs == true || showDp == true }"
-      class="txt"
-    ></div>
-    <div
-      *ngIf="
-        courseCreate == false &&
-        isCategory == false &&
-        isPlan == false &&
-        isCourseCreate == false
-      "
-      class="p-2 pl-4 pb-0 w-100"
-    >
-      <div class="back-to" (click)="backtoSchedule()">
-        <i class="fa fa-angle-left"></i>
-        <p class="mb-0">Schedule</p>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="d-flex w-100  justify-content-between responsive-width">
-        <div
-          *ngIf="
-            courseCreate == true &&
-            isCategory == false &&
-            isPlan == false &&
-            isCourseCreate == false
-          "
-          class="p-2 pl-4 pb-0 "
-        >
-          <div class="back-to" (click)="backtoTimetable()">
-            <i class="fa fa-angle-left"></i>
-            <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
-          </div>
-        </div>
-        <div
-          class="pr-4 pt-2"
-          *ngIf="
-            courseCreate == true &&
-            isCategory == false &&
-            isPlan == false &&
-            isCourseCreate == false
-          "
-        >
-          <p class="cancel-txt cursor-on" (click)="backtoTimetable()">Cancel</p>
-        </div>
-      </div>
-    </div>
-    <!-- Pick Course Plan -->
-    <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    <div class="d-flex w-100  justify-content-between responsive-width">
       <div
-        class="d-flex w-100 flex-column pl-4 responsive-width"
+        *ngIf="
+          courseCreate == true &&
+          isCategory == false &&
+          isPlan == false &&
+          isCourseCreate == false
+        "
+        class="p-2 pl-4 pb-0 "
+      >
+        <div class="back-to" (click)="backtoTimetable()">
+          <i class="fa fa-angle-left"></i>
+          <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
+        </div>
+      </div>
+      <div
+        class="pr-4 pt-2"
         *ngIf="
           courseCreate == true &&
           isCategory == false &&
@@ -188,122 +173,137 @@
           isCourseCreate == false
         "
       >
-        <div class="d-flex flex-column">
-          <p class="category-title">#{{ item.itemID }}</p>
-          <!-- <p class="category-title">#Piano</p> -->
-          <p class="pickCourseplan">Pick course plan</p>
-        </div>
-        <div class="input-group mt-3 pr-4">
-          <span class="input-group-append">
-            <button
-              class="btn courseplanSearch-btn btn-outline-secondary"
-              type="button"
-            >
-              <i class="fa fa-search search-size"></i>
-            </button>
-          </span>
-          <input
-            *ngIf="courseplanLists"
-            class="form-control search-courseplan"
-            autocomplete="off"
-            type="search"
-            placeholder="Search course plan"
-            (input)="getSearchCoursePlan($event.target.value, '', '')"
-          />
-        </div>
-        <div class="d-flex flex-wrap  mt-3">
-          <div
-            class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list"
-          >
-            <div class="createcouresplan">
-              <p class="createCourseText" (click)="createPlan()">
-                <i class="fa plus-sign fa-plus mr-2"></i>Create new course plan
-              </p>
-            </div>
-          </div>
-          <div
-            class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list"
-            *ngFor="let item of courseplanLists"
-          >
-            <div
-              class="d-flex couresplanList justify-content-between"
-              (click)="selectPlan(item)"
-            >
-              <div class=" d-flex flex-column">
-                <span
-                  class="courseplanName mb-1"
-                  [ngClass]="{ 'hilight-plan': highlightPlan == item._id }"
-                  >{{ item.name }}</span
-                >
-                <div class="d-flex">
-                  <span class="createCourseTextSeat"
-                    >{{
-                      item.seats == null ? 'unlimited' : item.seats
-                    }}
-                    students</span
-                  >
-                  <ul class="lessonDuration">
-                    <li class="createCourseTextSeat">
-                      {{ item.lesson.duration | minuteSeconds }} duration
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="align-slef-center pt-3">
-                <i
-                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                  [ngClass]="{ 'hilight-arrow': highlightPlan == item._id }"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="btn w-100 remove-outline"
-          style="position:sticky; color: #0080ff; font-size: 14px; font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-          *ngIf="courseplanLists && courseplanLists.length >= 20"
-          (click)="showMore(courseplanLists.length)"
-        >
-          load more
-        </div>
+        <p class="cancel-txt cursor-on" (click)="backtoTimetable()">Cancel</p>
       </div>
     </div>
+  </div>
+  <!-- Pick Course Plan -->
+  <div class="d-flex justify-content-center">
     <div
-      id="schedule-timetable-wrap"
+      class="d-flex w-100 flex-column pl-4 responsive-width"
       *ngIf="
-        courseCreate == false &&
+        courseCreate == true &&
         isCategory == false &&
         isPlan == false &&
         isCourseCreate == false
       "
     >
-      <div class="w-100 schedule-checkboxes-wrapper d-flex flex-wrap">
-        <div>
-          <span *ngFor="let d of days">
-            <label
-              class="cursor-on day-checkbox"
-              [ngClass]="{
-                'active-label': selectedDay.indexOf(d.val) != -1,
-                noCursor: isEdit == true
-              }"
-            >
-              <input
-                type="checkbox"
-                class="regular-checkbox"
-                name="{{ d.day }}"
-                value="{{ d.val }}"
-                (change)="selectDay(d.val, $event, d.day, 'callTimetable')"
-                [checked]="selectedDay.indexOf(d.val) != -1"
-                [disabled]="isEdit == true"
-              />
-              <div class="schedule-box-label">{{ d.day | uppercase }}</div>
-            </label>
-          </span>
+      <div class="d-flex flex-column">
+        <p class="category-title">#{{ item.itemID }}</p>
+        <!-- <p class="category-title">#Piano</p> -->
+        <p class="pickCourseplan">Pick course plan</p>
+      </div>
+      <div class="input-group mt-3 pr-4">
+        <span class="input-group-append">
+          <button
+            class="btn courseplanSearch-btn btn-outline-secondary"
+            type="button"
+          >
+            <i class="fa fa-search search-size"></i>
+          </button>
+        </span>
+        <input
+          *ngIf="courseplanLists"
+          class="form-control search-courseplan"
+          autocomplete="off"
+          type="search"
+          placeholder="Search course plan"
+          (input)="getSearchCoursePlan($event.target.value, '', '')"
+        />
+      </div>
+      <div class="d-flex flex-wrap  mt-3">
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list"
+        >
+          <div class="createcouresplan">
+            <p class="createCourseText" (click)="createPlan()">
+              <i class="fa plus-sign fa-plus mr-2"></i>Create new course plan
+            </p>
+          </div>
         </div>
-        <div class=" mt-3 ml-5 scheduleList-dropdown">
-          <div class="input-group ">
-            <!-- remove click event to stop repeat api call -->
-            <!-- <input
+        <div
+          class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list"
+          *ngFor="let item of courseplanLists"
+        >
+          <div
+            class="d-flex couresplanList justify-content-between"
+            (click)="selectPlan(item)"
+          >
+            <div class=" d-flex flex-column">
+              <span
+                class="courseplanName mb-1"
+                [ngClass]="{ 'hilight-plan': highlightPlan == item._id }"
+                >{{ item.name }}</span
+              >
+              <div class="d-flex">
+                <span class="createCourseTextSeat"
+                  >{{
+                    item.seats == null ? 'unlimited' : item.seats
+                  }}
+                  students</span
+                >
+                <ul class="lessonDuration">
+                  <li class="createCourseTextSeat">
+                    {{ item.lesson.duration | minuteSeconds }} duration
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="align-slef-center pt-3">
+              <i
+                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                [ngClass]="{ 'hilight-arrow': highlightPlan == item._id }"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="btn w-100 remove-outline"
+        style="position:sticky; color: #0080ff; font-size: 14px; font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+        *ngIf="courseplanLists && courseplanLists.length >= 20"
+        (click)="showMore(courseplanLists.length)"
+      >
+        load more
+      </div>
+    </div>
+  </div>
+  <div
+    id="schedule-timetable-wrap"
+    *ngIf="
+      courseCreate == false &&
+      isCategory == false &&
+      isPlan == false &&
+      isCourseCreate == false
+    "
+  >
+    <div class="w-100 schedule-checkboxes-wrapper d-flex flex-wrap">
+      <div>
+        <span *ngFor="let d of days">
+          <label
+            class="cursor-on day-checkbox"
+            [ngClass]="{
+              'active-label': selectedDay.indexOf(d.val) != -1,
+              noCursor: isEdit == true
+            }"
+          >
+            <input
+              type="checkbox"
+              class="regular-checkbox"
+              name="{{ d.day }}"
+              value="{{ d.val }}"
+              (change)="selectDay(d.val, $event, d.day, 'callTimetable')"
+              [checked]="selectedDay.indexOf(d.val) != -1"
+              [disabled]="isEdit == true"
+            />
+            <div class="schedule-box-label">{{ d.day | uppercase }}</div>
+          </label>
+        </span>
+      </div>
+      <div class=" mt-3 ml-5 scheduleList-dropdown">
+        <div class="input-group ">
+          <!-- remove click event to stop repeat api call -->
+          <!-- <input
               class="form-control py-2 input-search-dropdown-bg"
               type="search"
               autocomplete="off"
@@ -317,96 +317,96 @@
               (input)="searchCategoryList($event.target.value, 'category')"
               readonly
             /> -->
-            <input
-              class="form-control py-2 input-search-dropdown-bg"
-              type="search"
-              autocomplete="off"
-              value="{{ item.itemID }}"
-              name="itemID"
-              [(ngModel)]="item.itemID"
-              #itemID="ngModel"
-              id="example-search-input"
-              (clickOutside)="hideSearch($event)"
-              (click)="focusSearch2($event, 'category')"
-              (input)="searchCategoryList($event.target.value, 'category')"
-              readonly
-            />
-            <!-- <button
+          <input
+            class="form-control py-2 input-search-dropdown-bg"
+            type="search"
+            autocomplete="off"
+            value="{{ item.itemID }}"
+            name="itemID"
+            [(ngModel)]="item.itemID"
+            #itemID="ngModel"
+            id="example-search-input"
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event, 'category')"
+            (input)="searchCategoryList($event.target.value, 'category')"
+            readonly
+          />
+          <!-- <button
               class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
               (focus)="focusSearch($event, 'category')"
               (clickOutside)="hideSearch($event)"
               (click)="focusSearch($event, 'category')"
             ></button> -->
-            <!-- remove click event to stop repeat api call -->
-            <button
-              class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
-              (clickOutside)="hideSearch($event)"
-              (click)="focusSearch2($event, 'category')"
-            ></button>
-          </div>
-
-          <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
-            <li
-              *ngFor="let category of categoryList"
-              (click)="selectDataApiCall(category)"
-              [ngClass]="{
-                'all-category': category._id == 'all',
-                'mb-1': category._id == 'all'
-              }"
-            >
-              {{ category.name }}
-            </li>
-          </ul>
+          <!-- remove click event to stop repeat api call -->
+          <button
+            class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event, 'category')"
+          ></button>
         </div>
-        <!-- <div class="mt-3 ml-5">
+
+        <ul class="scedule-data-listing" *ngIf="isFousCategory == true">
+          <li
+            *ngFor="let category of categoryList"
+            (click)="selectDataApiCall(category)"
+            [ngClass]="{
+              'all-category': category._id == 'all',
+              'mb-1': category._id == 'all'
+            }"
+          >
+            {{ category.name }}
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="mt-3 ml-5">
           <button (click)="printSchedule()">
             Print Schedule
           </button>
         </div> -->
+    </div>
+    <div
+      *ngIf="staffList.staff?.length > 0"
+      class="d-flex flex-wrap w-100 align-items-center pl-3"
+    >
+      <div
+        class=" mb-3 ml-2 text-primary teacher-more-view"
+        [class.selectedteacher]="isTeacherAll == true"
+        (click)="getschedulestaff('button', undefined, undefined, '20')"
+      >
+        All teachers
       </div>
       <div
-        *ngIf="staffList.staff?.length > 0"
-        class="d-flex flex-wrap w-100 align-items-center pl-3"
+        class="d-flex  teacher-list-wrapper "
+        id="customscroll"
+        [class.teacher-wrapper]="staffList.staff.length >= 6"
       >
         <div
-          class=" mb-3 ml-2 text-primary teacher-more-view"
-          [class.selectedteacher]="isTeacherAll == true"
-          (click)="getschedulestaff('button', undefined, undefined, '20')"
-        >
-          All teachers
-        </div>
-        <div
-          class="d-flex  teacher-list-wrapper "
-          id="customscroll"
-          [class.teacher-wrapper]="staffList.staff.length >= 6"
+          *ngFor="let teacher of staffList.staff; let i = index"
+          class="mr-2"
         >
           <div
-            *ngFor="let teacher of staffList.staff; let i = index"
-            class="mr-2"
+            class="d-flex teacher-list"
+            [class.selectedteacher]="teacher.userId == selectedTeacher.userId"
+            (click)="activeTeachers(teacher, i)"
+            id="{{ 'overFlowWidth' + i }}"
           >
-            <div
-              class="d-flex teacher-list"
-              [class.selectedteacher]="teacher.userId == selectedTeacher.userId"
-              (click)="activeTeachers(teacher, i)"
-              id="{{ 'overFlowWidth' + i }}"
-            >
-              <div>
-                <div class=" tchr-img-wraper">
-                  <img
-                    src="{{ teacher.profilePic }}"
-                    alt=""
-                    class="teacher-pic"
-                  />
-                </div>
-              </div>
-              <div class="">
-                <p class=" mb-0 text-teacher-name pt-1 text-padding">
-                  {{ teacher.preferredName }}
-                </p>
+            <div>
+              <div class=" tchr-img-wraper">
+                <img
+                  src="{{ teacher.profilePic }}"
+                  alt=""
+                  class="teacher-pic"
+                />
               </div>
             </div>
+            <div class="">
+              <p class=" mb-0 text-teacher-name pt-1 text-padding">
+                {{ teacher.preferredName }}
+              </p>
+            </div>
           </div>
-          <!-- <div class="d-flex  teacher-list-wrapper " id="customscroll">
+        </div>
+        <!-- <div class="d-flex  teacher-list-wrapper " id="customscroll">
           <div *ngFor="let teacher of staffList.staff" class="d-flex align-items-center mr-2 ">
             <div class="d-flex d-flex align-items-center teacher-list-padding teacher-list" [class.selectedteacher]="teacher.userId==selectedTeacher.userId" (click)="activeTeachers(teacher)">
               <div>
@@ -419,341 +419,262 @@
               </div>
             </div>
           </div>       -->
-        </div>
-        <div
-          *ngIf="staffList.staff && staffList.staff.length >= 6"
-          class=" mb-3 ml-2 text-primary teacher-more-view"
-          (click)="openmodal(content)"
-        >
-          View more
-        </div>
-        <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
       </div>
-
-      <div *ngIf="staffList.staff?.length <= 0" class="no-teacher">
-        There is no teacher for this category.
-      </div>
-
       <div
-        *ngIf="staffList.staff?.length > 0"
-        class="v-wrapper1 pb-2"
-        id="testScroll"
-        (scroll)="updateScrollbar('v-wrapper')"
+        *ngIf="staffList.staff && staffList.staff.length >= 6"
+        class=" mb-3 ml-2 text-primary teacher-more-view"
+        (click)="openmodal(content)"
       >
-        <div class="timeline-table1">
-          <div class="time-range">
-            <div class="single-range"></div>
-            <div class="single-range" *ngFor="let time of operationTime">
-              {{ time.start.hr }}:{{
-                time.start.min < 10 ? '0' + time.start.min : time.start.min
-              }}
-              {{ time.start.meridiem }}
-            </div>
-            <!-- <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : <span *ngIf="time.start.min < 10" >0</span>{{time.start.min}} {{time.start.meridiem}}</div>         -->
+        View more
+      </div>
+      <!-- <div  *ngIf="staffList.staff && staffList.staff.length > 5" class=" mb-2 ml-2 text-primary teacher-more-view" (click)=openTeacherList(content)>View more</div> -->
+    </div>
+
+    <div *ngIf="staffList.staff?.length <= 0" class="no-teacher">
+      There is no teacher for this category.
+    </div>
+
+    <div
+      *ngIf="staffList.staff?.length > 0"
+      class="v-wrapper1 pb-2"
+      id="testScroll"
+      (scroll)="updateScrollbar('v-wrapper')"
+    >
+      <div class="timeline-table1">
+        <div class="time-range">
+          <div class="single-range"></div>
+          <div class="single-range" *ngFor="let time of operationTime">
+            {{ time.start.hr }}:{{
+              time.start.min < 10 ? '0' + time.start.min : time.start.min
+            }}
+            {{ time.start.meridiem }}
           </div>
-          <div class="lessons-range">
+          <!-- <div class="single-range" *ngFor="let time of operationTime">{{time.start.hr}} : <span *ngIf="time.start.min < 10" >0</span>{{time.start.min}} {{time.start.meridiem}}</div>         -->
+        </div>
+        <div class="lessons-range">
+          <div
+            class="single-row"
+            [ngClass]="{
+              top20:
+                i != 0 &&
+                finalLists[i - 1].date.month != finalLists[i].date.month,
+              'test-bg': list && list.isOverlap == true
+            }"
+            *ngFor="let list of finalLists; let i = index"
+          >
             <div
-              class="single-row"
+              class="single-slot"
               [ngClass]="{
-                top20:
-                  i != 0 &&
-                  finalLists[i - 1].date.month != finalLists[i].date.month,
                 'test-bg': list && list.isOverlap == true
               }"
-              *ngFor="let list of finalLists; let i = index"
+            >
+              <div class="month-wrapper" *ngIf="i == 0">
+                <div class="monthly-wrap">
+                  <div class="monthly">
+                    <span
+                      >{{ list.date.month - 1 | TTmonth }}
+                      {{ list.date.year }}</span
+                    >
+                    <div class="left-arrow"></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="month-wrapper1"
+                *ngIf="
+                  i != 0 &&
+                  finalLists[i - 1].date.month != finalLists[i].date.month
+                "
+              >
+                <div class="monthly-wrap">
+                  <div class="monthly">
+                    <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
+                    <span
+                      *ngIf="
+                        finalLists[i - 1].date.month != finalLists[i].date.month
+                      "
+                      >{{ list.date.month - 1 | TTmonth }}
+                      {{ list.date.year }}</span
+                    >
+                    <div class="left-arrow"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center flex-column h-100">
+                <p *ngIf="!list.isOverlap">
+                  {{ list.date.day }} {{ list.date.month - 1 | TTmonth }}
+                </p>
+                <span *ngIf="!list.isOverlap">{{ list.date.dayOfWeek }}</span>
+              </div>
+            </div>
+            <div
+              class="single-range"
+              *ngFor="let time of operationTime; let j = index"
             >
               <div
-                class="single-slot"
-                [ngClass]="{
-                  'test-bg': list && list.isOverlap == true
-                }"
+                class="slot-wrap"
+                *ngIf="j % 2 == 0"
+                [ngClass]="{ 'border-0': list.isOverlap }"
               >
-                <div class="month-wrapper" *ngIf="i == 0">
-                  <div class="monthly-wrap">
-                    <div class="monthly">
-                      <span
-                        >{{ list.date.month - 1 | TTmonth }}
-                        {{ list.date.year }}</span
-                      >
-                      <div class="left-arrow"></div>
-                    </div>
-                  </div>
-                </div>
                 <div
-                  class="month-wrapper1"
-                  *ngIf="
-                    i != 0 &&
-                    finalLists[i - 1].date.month != finalLists[i].date.month
+                  (click)="
+                    getSlotNumber(
+                      time.start.hr,
+                      slot,
+                      time.start.meridiem,
+                      $event,
+                      i,
+                      j,
+                      list.date,
+                      list.date.dayOfWeek
+                    )
                   "
-                >
-                  <div class="monthly-wrap">
-                    <div class="monthly">
-                      <!-- <span *ngIf="finalLists[i-1].date.month == finalLists[i].date.month">***</span> -->
-                      <span
-                        *ngIf="
-                          finalLists[i - 1].date.month !=
-                          finalLists[i].date.month
-                        "
-                        >{{ list.date.month - 1 | TTmonth }}
-                        {{ list.date.year }}</span
-                      >
-                      <div class="left-arrow"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-center flex-column h-100">
-                  <p *ngIf="!list.isOverlap">
-                    {{ list.date.day }} {{ list.date.month - 1 | TTmonth }}
-                  </p>
-                  <span *ngIf="!list.isOverlap">{{ list.date.dayOfWeek }}</span>
-                </div>
+                  class="one-slot"
+                  *ngFor="let slot of minArr"
+                  [ngClass]="{
+                    selectSlot:
+                      slotM == slot &&
+                      slotIdx == i &&
+                      slotJidx == j &&
+                      showDp == true
+                  }"
+                ></div>
               </div>
               <div
-                class="single-range"
-                *ngFor="let time of operationTime; let j = index"
+                class="slot-wrap"
+                *ngIf="j % 2 != 0"
+                [ngClass]="{ 'border-0': list.isOverlap }"
               >
                 <div
-                  class="slot-wrap"
-                  *ngIf="j % 2 == 0"
-                  [ngClass]="{ 'border-0': list.isOverlap }"
-                >
-                  <div
-                    (click)="
-                      getSlotNumber(
-                        time.start.hr,
-                        slot,
-                        time.start.meridiem,
-                        $event,
-                        i,
-                        j,
-                        list.date,
-                        list.date.dayOfWeek
-                      )
-                    "
-                    class="one-slot"
-                    *ngFor="let slot of minArr"
-                    [ngClass]="{
-                      selectSlot:
-                        slotM == slot &&
-                        slotIdx == i &&
-                        slotJidx == j &&
-                        showDp == true
-                    }"
-                  ></div>
-                </div>
+                  (click)="
+                    getSlotNumber(
+                      time.start.hr,
+                      slot,
+                      time.start.meridiem,
+                      $event,
+                      i,
+                      j,
+                      list.date,
+                      list.date.dayOfWeek
+                    )
+                  "
+                  class="one-slot"
+                  *ngFor="let slot of minNextArr"
+                  [ngClass]="{
+                    selectSlot:
+                      slotM == slot &&
+                      slotIdx == i &&
+                      slotJidx == j &&
+                      showDp == true
+                  }"
+                ></div>
+              </div>
+              <ul
+                class="create-box"
+                [ngStyle]="styleArr"
+                *ngIf="slotIdx == i && slotJidx == j && showDp == true"
+              >
                 <div
-                  class="slot-wrap"
-                  *ngIf="j % 2 != 0"
-                  [ngClass]="{ 'border-0': list.isOverlap }"
-                >
-                  <div
-                    (click)="
-                      getSlotNumber(
-                        time.start.hr,
-                        slot,
-                        time.start.meridiem,
-                        $event,
-                        i,
-                        j,
-                        list.date,
-                        list.date.dayOfWeek
-                      )
-                    "
-                    class="one-slot"
-                    *ngFor="let slot of minNextArr"
-                    [ngClass]="{
-                      selectSlot:
-                        slotM == slot &&
-                        slotIdx == i &&
-                        slotJidx == j &&
-                        showDp == true
-                    }"
-                  ></div>
-                </div>
-                <ul
-                  class="create-box"
-                  [ngStyle]="styleArr"
-                  *ngIf="slotIdx == i && slotJidx == j && showDp == true"
-                >
-                  <div
-                    [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
-                    class="arr-box"
-                    [ngClass]="arrClasses"
-                  ></div>
-                  <div class="w-100 popUpbox">
-                    <div class="d-flex teacher-info">
-                      <div class="profile-wrap">
-                        <img src="{{ selectedTeacher.profilePic }}" />
-                      </div>
-                      <div class="pl-2">
-                        <p class="teacher-name">
-                          {{ selectedTeacher.preferredName }}
-                        </p>
-                        <div class="d-flex">
-                          <label class="lessoncount-EndDate"
-                            >{{ list.date.day }}
-                            {{ list.date.month - 1 | TTmonth }}
-                            {{ list.date.year }}</label
-                          >
-                          <ul class="endate lessoncount-EndDate">
-                            <li>
-                              <p>{{ slotHr }}</p>
-                            </li>
-                          </ul>
-                        </div>
+                  [ngStyle]="{ top: arrTop + 'px', left: arrLeft + 'px' }"
+                  class="arr-box"
+                  [ngClass]="arrClasses"
+                ></div>
+                <div class="w-100 popUpbox">
+                  <div class="d-flex teacher-info">
+                    <div class="profile-wrap">
+                      <img src="{{ selectedTeacher.profilePic }}" />
+                    </div>
+                    <div class="pl-2">
+                      <p class="teacher-name">
+                        {{ selectedTeacher.preferredName }}
+                      </p>
+                      <div class="d-flex">
+                        <label class="lessoncount-EndDate"
+                          >{{ list.date.day }}
+                          {{ list.date.month - 1 | TTmonth }}
+                          {{ list.date.year }}</label
+                        >
+                        <ul class="endate lessoncount-EndDate">
+                          <li>
+                            <p>{{ slotHr }}</p>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
-                  <div class="pl-3 pr-3">
-                    <li
-                      class="d-flex justify-content-between lesson-slot-li"
-                      *ngIf="courseplanLists"
-                      (click)="onClickCreate()"
-                    >
-                      <span>Create new course </span
-                      ><span
-                        ><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i
-                      ></span>
-                    </li>
-                  </div>
-                </ul>
-              </div>
-              <div
-                *ngFor="let timetable of list.timetable; let b = index"
-                class="cursor"
-              >
-                <div *ngIf="i == 0">
-                  <!--lesson box equal zero-->
-                  <!-- is not cancel -->
-                  <div
-                    class="lesson-slot"
-                    id="lessons-slot-id"
-                    [ngClass]="{
-                      selectedCourse:
-                        testshowbox == timetable.course.courseId &&
-                        list.date.year == lessonD.year &&
-                        list.date.month == lessonD.month &&
-                        list.date.day == lessonD.day
-                    }"
-                    (click)="
-                      onClickCourse(
-                        timetable,
-                        timetable.lesson,
-                        $event,
-                        list.date,
-                        list,
-                        null
-                      )
-                    "
-                    [ngStyle]="{
-                      top: i * 52 + 2 + 'px',
-                      left:
-                        ((timetable.start | calculatePM) -
-                          (startTime | calculatePM)) *
-                          181 +
-                        181 +
-                        'px',
-                      width:
-                        ((timetable.end | hourToMin) -
-                          (timetable.start | hourToMin)) *
-                          3.01 +
-                        'px'
-                    }"
-                    *ngIf="timetable.course != null && !timetable.lesson.cancel"
+                </div>
+                <div class="pl-3 pr-3">
+                  <li
+                    class="d-flex justify-content-between lesson-slot-li"
+                    *ngIf="courseplanLists"
+                    (click)="onClickCreate()"
                   >
-                    <div *ngIf="!timetable.lesson.cancel">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <h6
-                            [ngClass]="{
-                              selectedCourse:
-                                testshowbox == timetable.course.courseId &&
-                                list.date.year == lessonD.year &&
-                                list.date.month == lessonD.month &&
-                                list.date.day == lessonD.day
-                            }"
-                          >
-                            {{ timetable.course.courseCode }}
-                          </h6>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min > 40"
-                          >
-                            <p
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken > 1
-                                "
-                                >seats</span
-                              >
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken <= 1
-                                "
-                                >seat</span
-                              >
-                            </p>
-                            <span
-                              class="dot"
-                              [ngClass]="{
-                                bg_white:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            ></span>
-
-                            <p
-                              class="time"
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{ timetable.duration.min | hrMin }}
-                              <!-- {{ timetable.duration.min + 'min' }} -->
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min <= 40"
-                          >
-                            <p
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              sea...
-                            </p>
-                          </div>
+                    <span>Create new course </span
+                    ><span
+                      ><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i
+                    ></span>
+                  </li>
+                </div>
+              </ul>
+            </div>
+            <div
+              *ngFor="let timetable of list.timetable; let b = index"
+              class="cursor"
+            >
+              <div *ngIf="i == 0">
+                <!--lesson box equal zero-->
+                <!-- is not cancel -->
+                <div
+                  class="lesson-slot"
+                  id="lessons-slot-id"
+                  [ngClass]="{
+                    selectedCourse:
+                      testshowbox == timetable.course.courseId &&
+                      list.date.year == lessonD.year &&
+                      list.date.month == lessonD.month &&
+                      list.date.day == lessonD.day
+                  }"
+                  (click)="
+                    onClickCourse(
+                      timetable,
+                      timetable.lesson,
+                      $event,
+                      list.date,
+                      list,
+                      null
+                    )
+                  "
+                  [ngStyle]="{
+                    top: i * 52 + 2 + 'px',
+                    left:
+                      ((timetable.start | calculatePM) -
+                        (startTime | calculatePM)) *
+                        181 +
+                      181 +
+                      'px',
+                    width:
+                      ((timetable.end | hourToMin) -
+                        (timetable.start | hourToMin)) *
+                        3.01 +
+                      'px'
+                  }"
+                  *ngIf="timetable.course != null && !timetable.lesson.cancel"
+                >
+                  <div *ngIf="!timetable.lesson.cancel">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        >
+                          {{ timetable.course.courseCode }}
+                        </h6>
+                        <div class="d-flex" *ngIf="timetable.duration.min > 40">
                           <p
                             [ngClass]="{
                               selectedCourse:
@@ -762,150 +683,225 @@
                                 list.date.month == lessonD.month &&
                                 list.date.day == lessonD.day
                             }"
-                            *ngIf="timetable.seat == null"
-                          ></p>
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken > 1
+                              "
+                              >seats</span
+                            >
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken <= 1
+                              "
+                              >seat</span
+                            >
+                          </p>
+                          <span
+                            class="dot"
+                            [ngClass]="{
+                              bg_white:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          ></span>
+
+                          <p
+                            class="time"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{ timetable.duration.min | hrMin }}
+                            <!-- {{ timetable.duration.min + 'min' }} -->
+                          </p>
                         </div>
                         <div
-                          class="image"
-                          *ngIf="
-                            timetable.duration.min >= 40 && isTeacherAll == true
-                          "
+                          class="d-flex"
+                          *ngIf="timetable.duration.min <= 40"
                         >
-                          <div class=" tchr-img-wraper">
-                            <img
-                              src="{{ timetable.teacher[0].profilePic }}"
-                              alt=""
-                              class="teacher-pic"
-                            />
-                          </div>
+                          <p
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            sea...
+                          </p>
+                        </div>
+                        <p
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                          *ngIf="timetable.seat == null"
+                        ></p>
+                      </div>
+                      <div
+                        class="image"
+                        *ngIf="
+                          timetable.duration.min >= 40 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.teacher[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
                         </div>
                       </div>
-
-                      <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                     </div>
-                    <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
-                      <ul
-                        class="options-box"
-                        *ngIf="
-                          testshowbox == timetable.course.courseId &&
-                          list.date.year == lessonD.year &&
-                          list.date.month == lessonD.month &&
-                          list.date.day == lessonD.day
-                        "
-                        [ngStyle]="styleArr"
-                      >
-                        <div
-                          class="carret-box"
-                          [ngStyle]="{
-                            top: arrTop + 'px',
-                            left: arrLeft + 'px'
-                          }"
-                          [ngClass]="arrClasses"
-                        ></div>
-                        <div class="w-100 popUpbox">
-                          <div class="d-flex pt-3 justify-content-between">
-                            <p class="pl-3 course-code">
-                              {{ timetable.course.courseCode }}
-                            </p>
-                            <div
-                              *ngIf="(timetable.seat | json) != '{}'"
-                              style="width:120px;height:30px;background:white;"
-                            >
-                              <div class="carret-box1"></div>
-                              <div class="seatLeft text-center ">
-                                <div *ngIf="timetable.seat.left == null">
-                                  unlimited seats
-                                </div>
-                                <div *ngIf="timetable.seat.left != null">
-                                  {{ timetable.seat.taken }}/{{
-                                    timetable.seat.total
-                                  }}
-                                  seats taken
-                                </div>
+
+                    <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
+                  </div>
+                  <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
+                    <ul
+                      class="options-box"
+                      *ngIf="
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                      "
+                      [ngStyle]="styleArr"
+                    >
+                      <div
+                        class="carret-box"
+                        [ngStyle]="{
+                          top: arrTop + 'px',
+                          left: arrLeft + 'px'
+                        }"
+                        [ngClass]="arrClasses"
+                      ></div>
+                      <div class="w-100 popUpbox">
+                        <div class="d-flex pt-3 justify-content-between">
+                          <p class="pl-3 course-code">
+                            {{ timetable.course.courseCode }}
+                          </p>
+                          <div
+                            *ngIf="(timetable.seat | json) != '{}'"
+                            style="width:120px;height:30px;background:white;"
+                          >
+                            <div class="carret-box1"></div>
+                            <div class="seatLeft text-center ">
+                              <div *ngIf="timetable.seat.left == null">
+                                unlimited seats
+                              </div>
+                              <div *ngIf="timetable.seat.left != null">
+                                {{ timetable.seat.taken }}/{{
+                                  timetable.seat.total
+                                }}
+                                seats taken
                               </div>
                             </div>
                           </div>
-                          <div class="d-flex flex-column pl-3 pb-3">
-                            <div
-                              class="pb-2 course-name"
-                              (click)="goToCourse(timetable.course)"
-                            >
-                              {{ timetable.course.name }}
-                            </div>
-                            <p class="teacher_name">
-                              {{ timetable.teacher[0].preferredName }}
-                            </p>
-                            <div class="d-flex">
-                              <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }}
-                                <span *ngIf="timetable.lesson.count > 1"
-                                  >lessons</span
-                                >
-                                <span *ngIf="timetable.lesson.count <= 1"
-                                  >lesson</span
-                                >
-                              </label>
-                              <ul class="endate lessoncount-EndDate">
-                                <li>
-                                  End at {{ timetable.lesson.endDate.day }}
-                                  {{
-                                    timetable.lesson.endDate.month - 1 | TTmonth
-                                  }}
-                                  {{ timetable.lesson.endDate.year }}
-                                </li>
-                              </ul>
-                            </div>
-                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
-                          </div>
                         </div>
-                        <div class="">
+                        <div class="d-flex flex-column pl-3 pb-3">
                           <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                            class="pb-2 course-name"
+                            (click)="goToCourse(timetable.course)"
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              [disabled]="enrollBtnDisabled"
-                              [ngClass]="{ disabled: enrollBtnDisabled }"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'enroll',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Enroll new customer </span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
+                            {{ timetable.course.name }}
                           </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                          <p class="teacher_name">
+                            {{ timetable.teacher[0].preferredName }}
+                          </p>
+                          <div class="d-flex">
+                            <label class="lessoncount-EndDate"
+                              >{{ timetable.lesson.count }}
+                              <span *ngIf="timetable.lesson.count > 1"
+                                >lessons</span
+                              >
+                              <span *ngIf="timetable.lesson.count <= 1"
+                                >lesson</span
+                              >
+                            </label>
+                            <ul class="endate lessoncount-EndDate">
+                              <li>
+                                End at {{ timetable.lesson.endDate.day }}
+                                {{
+                                  timetable.lesson.endDate.month - 1 | TTmonth
+                                }}
+                                {{ timetable.lesson.endDate.year }}
+                              </li>
+                            </ul>
+                          </div>
+                          <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
+                        </div>
+                      </div>
+                      <div class="">
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            [disabled]="enrollBtnDisabled"
+                            [ngClass]="{ disabled: enrollBtnDisabled }"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'enroll',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'view',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>View students</span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <!-- <li
+                            <span>Enroll new customer </span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'view',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>View students</span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <!-- <li
                             class="d-flex justify-content-between lesson-slot-li"
                             (click)="
                               addEnrollModal(
@@ -923,196 +919,117 @@
                               ></i
                             ></span>
                           </li> -->
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between  relief-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'relief',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Relief teacher</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between cancel-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'cancel',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Cancel class</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-
-                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                        </div>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- is cancel -->
-                  <div
-                    class="lesson-slot"
-                    id="lessons-slot-id"
-                    [ngClass]="{
-                      cancelledClass: timetable.lesson.cancel,
-                      selectedCourse:
-                        testshowbox == timetable.course.courseId &&
-                        list.date.year == lessonD.year &&
-                        list.date.month == lessonD.month &&
-                        list.date.day == lessonD.day
-                    }"
-                    (click)="
-                      onClickCourse(
-                        timetable,
-                        timetable.lesson,
-                        $event,
-                        list.date,
-                        list,
-                        'cancel'
-                      )
-                    "
-                    [ngStyle]="{
-                      top: i * 52 + 2 + 'px',
-                      left:
-                        ((timetable.start | calculatePM) -
-                          (startTime | calculatePM)) *
-                          181 +
-                        181 +
-                        'px',
-                      width:
-                        ((timetable.end | hourToMin) -
-                          (timetable.start | hourToMin)) *
-                          3.01 +
-                        'px'
-                    }"
-                    *ngIf="timetable.course != null && timetable.lesson.cancel"
-                  >
-                    <div *ngIf="!timetable.lesson.cancel">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <h6
-                            [ngClass]="{
-                              selectedCourse:
-                                testshowbox == timetable.course.courseId &&
-                                list.date.year == lessonD.year &&
-                                list.date.month == lessonD.month &&
-                                list.date.day == lessonD.day
-                            }"
-                          >
-                            {{ timetable.course.courseCode }}
-                          </h6>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 >
-                              80
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between  relief-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'relief',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
                             "
                           >
-                            <p
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken > 1
-                                "
-                                >seats</span
-                              >
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken <= 1
-                                "
-                                >seat</span
-                              >
-                            </p>
-                            <span
-                              class="dot"
-                              [ngClass]="{
-                                bg_white:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
+                            <span>Relief teacher</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
                             ></span>
-                            <p
-                              class="time"
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{ timetable.duration.min | hrMin }}
-                              <!-- {{ timetable.duration.min + 'min' }} -->
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              ((timetable.end | hourToMin) -
-                                (timetable.start | hourToMin)) *
-                                2.0 <=
-                              80
+                          </button>
+                        </div>
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between cancel-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'cancel',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
                             "
                           >
-                            <p
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              sea...
-                            </p>
-                          </div>
+                            <span>Cancel class</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+
+                        <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+                <!-- is cancel -->
+                <div
+                  class="lesson-slot"
+                  id="lessons-slot-id"
+                  [ngClass]="{
+                    cancelledClass: timetable.lesson.cancel,
+                    selectedCourse:
+                      testshowbox == timetable.course.courseId &&
+                      list.date.year == lessonD.year &&
+                      list.date.month == lessonD.month &&
+                      list.date.day == lessonD.day
+                  }"
+                  (click)="
+                    onClickCourse(
+                      timetable,
+                      timetable.lesson,
+                      $event,
+                      list.date,
+                      list,
+                      'cancel'
+                    )
+                  "
+                  [ngStyle]="{
+                    top: i * 52 + 2 + 'px',
+                    left:
+                      ((timetable.start | calculatePM) -
+                        (startTime | calculatePM)) *
+                        181 +
+                      181 +
+                      'px',
+                    width:
+                      ((timetable.end | hourToMin) -
+                        (timetable.start | hourToMin)) *
+                        3.01 +
+                      'px'
+                  }"
+                  *ngIf="timetable.course != null && timetable.lesson.cancel"
+                >
+                  <div *ngIf="!timetable.lesson.cancel">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        >
+                          {{ timetable.course.courseCode }}
+                        </h6>
+                        <div
+                          class="d-flex"
+                          *ngIf="
+                            ((timetable.end | hourToMin) -
+                              (timetable.start | hourToMin)) *
+                              2.0 >
+                            80
+                          "
+                        >
                           <p
                             [ngClass]="{
                               selectedCourse:
@@ -1121,153 +1038,232 @@
                                 list.date.month == lessonD.month &&
                                 list.date.day == lessonD.day
                             }"
-                            *ngIf="timetable.seat == null"
-                          ></p>
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken > 1
+                              "
+                              >seats</span
+                            >
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken <= 1
+                              "
+                              >seat</span
+                            >
+                          </p>
+                          <span
+                            class="dot"
+                            [ngClass]="{
+                              bg_white:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          ></span>
+                          <p
+                            class="time"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{ timetable.duration.min | hrMin }}
+                            <!-- {{ timetable.duration.min + 'min' }} -->
+                          </p>
                         </div>
                         <div
-                          class="image"
+                          class="d-flex"
                           *ngIf="
                             ((timetable.end | hourToMin) -
                               (timetable.start | hourToMin)) *
-                              2.0 >
-                              80 && isTeacherAll == true
+                              2.0 <=
+                            80
                           "
                         >
-                          <div class=" tchr-img-wraper">
-                            <img
-                              src="{{ timetable.teacher[0].profilePic }}"
-                              alt=""
-                              class="teacher-pic"
-                            />
-                          </div>
+                          <p
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            sea...
+                          </p>
+                        </div>
+                        <p
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                          *ngIf="timetable.seat == null"
+                        ></p>
+                      </div>
+                      <div
+                        class="image"
+                        *ngIf="
+                          ((timetable.end | hourToMin) -
+                            (timetable.start | hourToMin)) *
+                            2.0 >
+                            80 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.teacher[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
                         </div>
                       </div>
-
-                      <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
                     </div>
-                    <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
-                      <ul
-                        class="options-box"
-                        *ngIf="
-                          testshowbox == timetable.course.courseId &&
-                          list.date.year == lessonD.year &&
-                          list.date.month == lessonD.month &&
-                          list.date.day == lessonD.day
-                        "
-                        [ngStyle]="styleArr"
-                      >
-                        <div
-                          class="carret-box"
-                          [ngStyle]="{
-                            top: arrTop + 'px',
-                            left: arrLeft + 'px'
-                          }"
-                          [ngClass]="arrClasses"
-                        ></div>
-                        <div class="w-100 popUpbox">
-                          <div class="d-flex pt-3 justify-content-between">
-                            <p class="pl-3 course-code">
-                              {{ timetable.course.courseCode }}
-                            </p>
-                            <div
-                              *ngIf="(timetable.seat | json) != '{}'"
-                              style="width:120px;height:30px;background:white;"
-                            >
-                              <div class="carret-box1"></div>
-                              <div class="seatLeft text-center ">
-                                <div *ngIf="timetable.seat.left == null">
-                                  unlimited seats
-                                </div>
-                                <div *ngIf="timetable.seat.left != null">
-                                  {{ timetable.seat.taken }}/{{
-                                    timetable.seat.total
-                                  }}
-                                  seats taken
-                                </div>
+
+                    <!-- <p>^^^{{(timetable.end.hr+timetable.end.min/)-(timetable.start.hr*60+timetable.start.min)}}</p> -->
+                  </div>
+                  <div *ngIf="!timetable.lesson.cancel" id="options-box-id">
+                    <ul
+                      class="options-box"
+                      *ngIf="
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                      "
+                      [ngStyle]="styleArr"
+                    >
+                      <div
+                        class="carret-box"
+                        [ngStyle]="{
+                          top: arrTop + 'px',
+                          left: arrLeft + 'px'
+                        }"
+                        [ngClass]="arrClasses"
+                      ></div>
+                      <div class="w-100 popUpbox">
+                        <div class="d-flex pt-3 justify-content-between">
+                          <p class="pl-3 course-code">
+                            {{ timetable.course.courseCode }}
+                          </p>
+                          <div
+                            *ngIf="(timetable.seat | json) != '{}'"
+                            style="width:120px;height:30px;background:white;"
+                          >
+                            <div class="carret-box1"></div>
+                            <div class="seatLeft text-center ">
+                              <div *ngIf="timetable.seat.left == null">
+                                unlimited seats
+                              </div>
+                              <div *ngIf="timetable.seat.left != null">
+                                {{ timetable.seat.taken }}/{{
+                                  timetable.seat.total
+                                }}
+                                seats taken
                               </div>
                             </div>
                           </div>
-                          <div class="d-flex flex-column pl-3 pb-3">
-                            <div
-                              class="pb-2 course-name"
-                              (click)="goToCourse(timetable.course)"
-                            >
-                              {{ timetable.course.name }}
-                            </div>
-                            <p class="teacher_name">
-                              {{ timetable.teacher[0].preferredName }}
-                            </p>
-                            <div class="d-flex">
-                              <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }}
-                                <span *ngIf="timetable.lesson.count > 1"
-                                  >lessons</span
-                                >
-                                <span *ngIf="timetable.lesson.count <= 1"
-                                  >lesson</span
-                                >
-                              </label>
-                              <ul class="endate lessoncount-EndDate">
-                                <li>
-                                  End at {{ timetable.lesson.endDate.day }}
-                                  {{
-                                    timetable.lesson.endDate.month - 1 | TTmonth
-                                  }}
-                                  {{ timetable.lesson.endDate.year }}
-                                </li>
-                              </ul>
-                            </div>
-                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
-                          </div>
                         </div>
-                        <div class="">
+                        <div class="d-flex flex-column pl-3 pb-3">
                           <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                            class="pb-2 course-name"
+                            (click)="goToCourse(timetable.course)"
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              [disabled]="enrollBtnDisabled"
-                              [ngClass]="{ disabled: enrollBtnDisabled }"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'enroll',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Enroll new customer </span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
+                            {{ timetable.course.name }}
                           </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                          <p class="teacher_name">
+                            {{ timetable.teacher[0].preferredName }}
+                          </p>
+                          <div class="d-flex">
+                            <label class="lessoncount-EndDate"
+                              >{{ timetable.lesson.count }}
+                              <span *ngIf="timetable.lesson.count > 1"
+                                >lessons</span
+                              >
+                              <span *ngIf="timetable.lesson.count <= 1"
+                                >lesson</span
+                              >
+                            </label>
+                            <ul class="endate lessoncount-EndDate">
+                              <li>
+                                End at {{ timetable.lesson.endDate.day }}
+                                {{
+                                  timetable.lesson.endDate.month - 1 | TTmonth
+                                }}
+                                {{ timetable.lesson.endDate.year }}
+                              </li>
+                            </ul>
+                          </div>
+                          <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
+                        </div>
+                      </div>
+                      <div class="">
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            [disabled]="enrollBtnDisabled"
+                            [ngClass]="{ disabled: enrollBtnDisabled }"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'enroll',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'view',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>View students</span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <!-- <li
+                            <span>Enroll new customer </span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'view',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>View students</span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <!-- <li
                           class="d-flex justify-content-between lesson-slot-li"
                           (click)="
                             addEnrollModal(
@@ -1285,470 +1281,463 @@
                             ></i
                           ></span>
                         </li> -->
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between  relief-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'relief',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Relief teacher</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between cancel-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'cancel',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Cancel class</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-
-                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                        </div>
-                      </ul>
-                    </div>
-                    <div *ngIf="timetable.lesson.cancel" id="create-box-id">
-                      <ul
-                        class="create-box"
-                        [ngStyle]="styleArr"
-                        *ngIf="
-                          testshowbox == timetable.course.courseId &&
-                          list.date.year == lessonD.year &&
-                          list.date.month == lessonD.month &&
-                          list.date.day == lessonD.day
-                        "
-                      >
                         <div
-                          [ngStyle]="{
-                            top: arrTop + 'px',
-                            left: arrLeft + 'px'
-                          }"
-                          class="arr-box"
-                          [ngClass]="arrClasses"
-                        ></div>
-                        <div class="w-100 popUpbox">
-                          <div class="d-flex teacher-info">
-                            <div class="profile-wrap">
-                              <img src="{{ selectedTeacher.profilePic }}" />
-                            </div>
-                            <div class="pl-2">
-                              <p class="teacher-name">
-                                {{ selectedTeacher.preferredName }}
-                              </p>
-                              <div class="d-flex">
-                                <label class="lessoncount-EndDate"
-                                  >{{ list.date.day }}
-                                  {{ list.date.month - 1 | TTmonth }}
-                                  {{ list.date.year }}</label
-                                >
-                                <ul class="endate lessoncount-EndDate">
-                                  <li>
-                                    <p>{{ slotHr }}</p>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="pl-3 pr-3">
-                          <li
-                            class="d-flex justify-content-between lesson-slot-li"
-                            *ngIf="courseplanLists"
-                            (click)="onClickCreate()"
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between  relief-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'relief',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
                           >
-                            <span>Create New Course </span
+                            <span>Relief teacher</span
                             ><span
                               ><i
                                 class="fa lesson-slot-box fa-2x  fa-angle-right"
                               ></i
                             ></span>
-                          </li>
-                        </div>
-                      </ul>
-                    </div>
-
-                    <div *ngIf="timetable.lesson.cancel">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <div class="d-flex align-items-center mb-0">
-                            <div
-                              class="cancel-icon d-flex justify-content-center align-items-center"
-                            >
-                              <span class="dash-icon align-self-center">
-                                -
-                              </span>
-                            </div>
-                            <div class="d-flex">
-                              <p class="ml-1 cancelled-course-Code">
-                                {{ timetable.course.courseCode }}
-                              </p>
-                            </div>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min > 40"
-                          >
-                            <div class="mt-0  cancel-text">
-                              Cancelled
-                            </div>
-
-                            <span class="dot-cancel"></span>
-                            <p class="cancel">
-                              {{ timetable.duration.min + 'min' }}
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              timetable.duration.min <= 40 &&
-                              timetable.duration.min > 20
-                            "
-                          >
-                            <div class="mt-0  cancel-text">
-                              Cancelled...
-                            </div>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min <= 30"
-                          ></div>
+                          </button>
                         </div>
                         <div
-                          class="image"
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between cancel-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'cancel',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>Cancel class</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+
+                        <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                      </div>
+                    </ul>
+                  </div>
+                  <div *ngIf="timetable.lesson.cancel" id="create-box-id">
+                    <ul
+                      class="create-box"
+                      [ngStyle]="styleArr"
+                      *ngIf="
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                      "
+                    >
+                      <div
+                        [ngStyle]="{
+                          top: arrTop + 'px',
+                          left: arrLeft + 'px'
+                        }"
+                        class="arr-box"
+                        [ngClass]="arrClasses"
+                      ></div>
+                      <div class="w-100 popUpbox">
+                        <div class="d-flex teacher-info">
+                          <div class="profile-wrap">
+                            <img src="{{ selectedTeacher.profilePic }}" />
+                          </div>
+                          <div class="pl-2">
+                            <p class="teacher-name">
+                              {{ selectedTeacher.preferredName }}
+                            </p>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate"
+                                >{{ list.date.day }}
+                                {{ list.date.month - 1 | TTmonth }}
+                                {{ list.date.year }}</label
+                              >
+                              <ul class="endate lessoncount-EndDate">
+                                <li>
+                                  <p>{{ slotHr }}</p>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pl-3 pr-3">
+                        <li
+                          class="d-flex justify-content-between lesson-slot-li"
+                          *ngIf="courseplanLists"
+                          (click)="onClickCreate()"
+                        >
+                          <span>Create New Course </span
+                          ><span
+                            ><i
+                              class="fa lesson-slot-box fa-2x  fa-angle-right"
+                            ></i
+                          ></span>
+                        </li>
+                      </div>
+                    </ul>
+                  </div>
+
+                  <div *ngIf="timetable.lesson.cancel">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="d-flex align-items-center mb-0">
+                          <div
+                            class="cancel-icon d-flex justify-content-center align-items-center"
+                          >
+                            <span class="dash-icon align-self-center">
+                              -
+                            </span>
+                          </div>
+                          <div class="d-flex">
+                            <p class="ml-1 cancelled-course-Code">
+                              {{ timetable.course.courseCode }}
+                            </p>
+                          </div>
+                        </div>
+                        <div class="d-flex" *ngIf="timetable.duration.min > 40">
+                          <div class="mt-0  cancel-text">
+                            Cancelled
+                          </div>
+
+                          <span class="dot-cancel"></span>
+                          <p class="cancel">
+                            {{ timetable.duration.min + 'min' }}
+                          </p>
+                        </div>
+                        <div
+                          class="d-flex"
                           *ngIf="
-                            timetable.duration.min >= 40 && isTeacherAll == true
+                            timetable.duration.min <= 40 &&
+                            timetable.duration.min > 20
                           "
                         >
-                          <div class=" tchr-img-wraper">
-                            <img
-                              src="{{ timetable.teacher[0].profilePic }}"
-                              alt=""
-                              class="teacher-pic"
-                            />
+                          <div class="mt-0  cancel-text">
+                            Cancelled...
                           </div>
+                        </div>
+                        <div
+                          class="d-flex"
+                          *ngIf="timetable.duration.min <= 30"
+                        ></div>
+                      </div>
+                      <div
+                        class="image"
+                        *ngIf="
+                          timetable.duration.min >= 40 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.teacher[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- cc -->
-                <div *ngIf="i != 0">
-                  <!--lesson box start one-->
-                  <!-- is not cancel -->
-                  <div
-                    class="lesson-slot"
-                    [ngClass]="{
-                      cancelledClass: timetable.lesson.cancel,
-                      'my-class':
-                        finalLists[i - 1].date.month !=
-                        finalLists[i].date.month,
-                      selectedCourse:
+              </div>
+              <!-- cc -->
+              <div *ngIf="i != 0">
+                <!--lesson box start one-->
+                <!-- is not cancel -->
+                <div
+                  class="lesson-slot"
+                  [ngClass]="{
+                    cancelledClass: timetable.lesson.cancel,
+                    'my-class':
+                      finalLists[i - 1].date.month != finalLists[i].date.month,
+                    selectedCourse:
+                      testshowbox == timetable.course.courseId &&
+                      list.date.year == lessonD.year &&
+                      list.date.month == lessonD.month &&
+                      list.date.day == lessonD.day
+                  }"
+                  [ngStyle]="{
+                    'margin-top': finalLists[i].multiply * 42 + 'px',
+                    top: i * 52 + 2 + 'px',
+                    left:
+                      ((timetable.start | calculatePM) -
+                        (startTime | calculatePM)) *
+                        181 +
+                      181 +
+                      'px',
+                    width:
+                      ((timetable.end | hourToMin) -
+                        (timetable.start | hourToMin)) *
+                        3.01 +
+                      'px'
+                  }"
+                  *ngIf="timetable.course != null && !timetable.lesson.cancel"
+                  (click)="
+                    onClickCourse(
+                      timetable,
+                      timetable.lesson,
+                      $event,
+                      list.date,
+                      list,
+                      null
+                    )
+                  "
+                >
+                  <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
+                  <div *ngIf="!timetable.lesson.cancel">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        >
+                          {{ timetable.course.courseCode }}
+                        </h6>
+                        <div class="d-flex" *ngIf="timetable.duration.min > 40">
+                          <p
+                            *ngIf="timetable.seat != null"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken > 1
+                              "
+                              >seats</span
+                            >
+                            <span
+                              *ngIf="
+                                timetable.seat != null &&
+                                timetable.seat.taken <= 1
+                              "
+                              >seat</span
+                            >
+                          </p>
+
+                          <span
+                            class="dot"
+                            [ngClass]="{
+                              bg_white:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          ></span>
+                          <p
+                            class="time"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{ timetable.duration.min | hrMin }}
+                            <!-- {{ timetable.duration.min + 'min' }} -->
+                          </p>
+                        </div>
+                        <div
+                          class="d-flex"
+                          *ngIf="timetable.duration.min <= 40"
+                        >
+                          <p
+                            *ngIf="timetable.seat != null"
+                            [ngClass]="{
+                              selectedCourse:
+                                testshowbox == timetable.course.courseId &&
+                                list.date.year == lessonD.year &&
+                                list.date.month == lessonD.month &&
+                                list.date.day == lessonD.day
+                            }"
+                          >
+                            {{
+                              (timetable.seat | json) != '{}'
+                                ? timetable.seat.taken
+                                : '-'
+                            }}
+                            sea...
+                          </p>
+                        </div>
+                        <p
+                          *ngIf="timetable.seat == null"
+                          [ngClass]="{
+                            selectedCourse:
+                              testshowbox == timetable.course.courseId &&
+                              list.date.year == lessonD.year &&
+                              list.date.month == lessonD.month &&
+                              list.date.day == lessonD.day
+                          }"
+                        ></p>
+                      </div>
+
+                      <div
+                        class="image"
+                        *ngIf="
+                          timetable.duration.min >= 40 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.teacher[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="!timetable.lesson.cancel">
+                    <ul
+                      class="options-box"
+                      *ngIf="
                         testshowbox == timetable.course.courseId &&
                         list.date.year == lessonD.year &&
                         list.date.month == lessonD.month &&
                         list.date.day == lessonD.day
-                    }"
-                    [ngStyle]="{
-                      'margin-top': finalLists[i].multiply * 42 + 'px',
-                      top: i * 52 + 2 + 'px',
-                      left:
-                        ((timetable.start | calculatePM) -
-                          (startTime | calculatePM)) *
-                          181 +
-                        181 +
-                        'px',
-                      width:
-                        ((timetable.end | hourToMin) -
-                          (timetable.start | hourToMin)) *
-                          3.01 +
-                        'px'
-                    }"
-                    *ngIf="timetable.course != null && !timetable.lesson.cancel"
-                    (click)="
-                      onClickCourse(
-                        timetable,
-                        timetable.lesson,
-                        $event,
-                        list.date,
-                        list,
-                        null
-                      )
-                    "
-                  >
-                    <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
-                    <div *ngIf="!timetable.lesson.cancel">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <h6
-                            [ngClass]="{
-                              selectedCourse:
-                                testshowbox == timetable.course.courseId &&
-                                list.date.year == lessonD.year &&
-                                list.date.month == lessonD.month &&
-                                list.date.day == lessonD.day
-                            }"
-                          >
+                      "
+                      [ngStyle]="styleArr"
+                    >
+                      <div
+                        class="carret-box"
+                        [ngStyle]="{
+                          top: arrTop + 'px',
+                          left: arrLeft + 'px'
+                        }"
+                        [ngClass]="arrClasses"
+                      ></div>
+                      <div class="w-100 popUpbox">
+                        <div class="d-flex pt-3 justify-content-between">
+                          <p class="pl-3 course-code">
                             {{ timetable.course.courseCode }}
-                          </h6>
+                          </p>
                           <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min > 40"
+                            *ngIf="(timetable.seat | json) != '{}'"
+                            style="width:120px;height:30px;background:white;"
                           >
-                            <p
-                              *ngIf="timetable.seat != null"
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken > 1
-                                "
-                                >seats</span
-                              >
-                              <span
-                                *ngIf="
-                                  timetable.seat != null &&
-                                  timetable.seat.taken <= 1
-                                "
-                                >seat</span
-                              >
-                            </p>
-
-                            <span
-                              class="dot"
-                              [ngClass]="{
-                                bg_white:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            ></span>
-                            <p
-                              class="time"
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{ timetable.duration.min | hrMin }}
-                              <!-- {{ timetable.duration.min + 'min' }} -->
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min <= 40"
-                          >
-                            <p
-                              *ngIf="timetable.seat != null"
-                              [ngClass]="{
-                                selectedCourse:
-                                  testshowbox == timetable.course.courseId &&
-                                  list.date.year == lessonD.year &&
-                                  list.date.month == lessonD.month &&
-                                  list.date.day == lessonD.day
-                              }"
-                            >
-                              {{
-                                (timetable.seat | json) != '{}'
-                                  ? timetable.seat.taken
-                                  : '-'
-                              }}
-                              sea...
-                            </p>
-                          </div>
-                          <p
-                            *ngIf="timetable.seat == null"
-                            [ngClass]="{
-                              selectedCourse:
-                                testshowbox == timetable.course.courseId &&
-                                list.date.year == lessonD.year &&
-                                list.date.month == lessonD.month &&
-                                list.date.day == lessonD.day
-                            }"
-                          ></p>
-                        </div>
-
-                        <div
-                          class="image"
-                          *ngIf="
-                            timetable.duration.min >= 40 && isTeacherAll == true
-                          "
-                        >
-                          <div class=" tchr-img-wraper">
-                            <img
-                              src="{{ timetable.teacher[0].profilePic }}"
-                              alt=""
-                              class="teacher-pic"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div *ngIf="!timetable.lesson.cancel">
-                      <ul
-                        class="options-box"
-                        *ngIf="
-                          testshowbox == timetable.course.courseId &&
-                          list.date.year == lessonD.year &&
-                          list.date.month == lessonD.month &&
-                          list.date.day == lessonD.day
-                        "
-                        [ngStyle]="styleArr"
-                      >
-                        <div
-                          class="carret-box"
-                          [ngStyle]="{
-                            top: arrTop + 'px',
-                            left: arrLeft + 'px'
-                          }"
-                          [ngClass]="arrClasses"
-                        ></div>
-                        <div class="w-100 popUpbox">
-                          <div class="d-flex pt-3 justify-content-between">
-                            <p class="pl-3 course-code">
-                              {{ timetable.course.courseCode }}
-                            </p>
-                            <div
-                              *ngIf="(timetable.seat | json) != '{}'"
-                              style="width:120px;height:30px;background:white;"
-                            >
-                              <div class="carret-box1"></div>
-                              <div class="seatLeft text-center ">
-                                <div *ngIf="timetable.seat.left == null">
-                                  unlimited seats
-                                </div>
-                                <div *ngIf="timetable.seat.left != null">
-                                  {{ timetable.seat.taken }}/{{
-                                    timetable.seat.total
-                                  }}
-                                  seats taken
-                                </div>
+                            <div class="carret-box1"></div>
+                            <div class="seatLeft text-center ">
+                              <div *ngIf="timetable.seat.left == null">
+                                unlimited seats
+                              </div>
+                              <div *ngIf="timetable.seat.left != null">
+                                {{ timetable.seat.taken }}/{{
+                                  timetable.seat.total
+                                }}
+                                seats taken
                               </div>
                             </div>
                           </div>
-                          <div class="d-flex flex-column pl-3 pb-3">
-                            <div
-                              class="pb-2 course-name"
-                              (click)="goToCourse(timetable.course)"
-                            >
-                              {{ timetable.course.name }}
-                            </div>
-                            <p class="teacher_name">
-                              {{ timetable.teacher[0].preferredName }}
-                            </p>
-                            <div class="d-flex">
-                              <label class="lessoncount-EndDate"
-                                >{{ timetable.lesson.count }}
-                                <span *ngIf="timetable.lesson.count > 1"
-                                  >lessons</span
-                                >
-                                <span *ngIf="timetable.lesson.count <= 1"
-                                  >lesson</span
-                                >
-                              </label>
-                              <ul class="endate lessoncount-EndDate">
-                                <li>
-                                  End at {{ timetable.lesson.endDate.day }}
-                                  {{
-                                    timetable.lesson.endDate.month - 1 | TTmonth
-                                  }}
-                                  {{ timetable.lesson.endDate.year }}
-                                </li>
-                              </ul>
-                            </div>
-                            <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
-                          </div>
                         </div>
-                        <div class="">
+                        <div class="d-flex flex-column pl-3 pb-3">
                           <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                            class="pb-2 course-name"
+                            (click)="goToCourse(timetable.course)"
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              [disabled]="enrollBtnDisabled"
-                              [ngClass]="{ disabled: enrollBtnDisabled }"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'enroll',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Enroll new customer </span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
+                            {{ timetable.course.name }}
                           </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
+                          <p class="teacher_name">
+                            {{ timetable.teacher[0].preferredName }}
+                          </p>
+                          <div class="d-flex">
+                            <label class="lessoncount-EndDate"
+                              >{{ timetable.lesson.count }}
+                              <span *ngIf="timetable.lesson.count > 1"
+                                >lessons</span
+                              >
+                              <span *ngIf="timetable.lesson.count <= 1"
+                                >lesson</span
+                              >
+                            </label>
+                            <ul class="endate lessoncount-EndDate">
+                              <li>
+                                End at {{ timetable.lesson.endDate.day }}
+                                {{
+                                  timetable.lesson.endDate.month - 1 | TTmonth
+                                }}
+                                {{ timetable.lesson.endDate.year }}
+                              </li>
+                            </ul>
+                          </div>
+                          <!-- <p> {{timetable.course.teachers[0].preferredName}}</p> -->
+                        </div>
+                      </div>
+                      <div class="">
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            [disabled]="enrollBtnDisabled"
+                            [ngClass]="{ disabled: enrollBtnDisabled }"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'enroll',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
                           >
-                            <button
-                              class="d-flex justify-content-between enroll-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'view',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>View students</span>
-                              <span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <!-- <li
+                            <span>Enroll new customer </span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between enroll-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'view',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
+                          >
+                            <span>View students</span>
+                            <span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
+                        </div>
+                        <!-- <li
                                   class="d-flex justify-content-between lesson-slot-li"
                                   (click)="
                                     addEnrollModal(
@@ -1766,217 +1755,212 @@
                                     ></i
                                   ></span>
                                 </li> -->
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between  relief-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'relief',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Relief teacher</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-                          <div
-                            class="d-flex justify-content-between lesson-slot-div"
-                          >
-                            <button
-                              class="d-flex justify-content-between cancel-btn p-0 m-0"
-                              (click)="
-                                addEnrollModal(
-                                  enrollModal,
-                                  'cancel',
-                                  timetable.course.courseId,
-                                  timetable.seat
-                                )
-                              "
-                            >
-                              <span>Cancel class</span
-                              ><span
-                                ><i
-                                  class="fa lesson-slot-box fa-2x  fa-angle-right"
-                                ></i
-                              ></span>
-                            </button>
-                          </div>
-
-                          <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
-                        </div>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- is cancel -->
-                  <div
-                    class="lesson-slot"
-                    [ngClass]="{
-                      cancelledClass: timetable.lesson.cancel,
-                      'my-class':
-                        finalLists[i - 1].date.month !=
-                        finalLists[i].date.month,
-                      selectedCourse:
-                        testshowbox == timetable.course.courseId &&
-                        list.date.year == lessonD.year &&
-                        list.date.month == lessonD.month &&
-                        list.date.day == lessonD.day
-                    }"
-                    [ngStyle]="{
-                      'margin-top': finalLists[i].multiply * 42 + 'px',
-                      top: i * 52 + 2 + 'px',
-                      left:
-                        ((timetable.start | calculatePM) -
-                          (startTime | calculatePM)) *
-                          181 +
-                        181 +
-                        'px',
-                      width:
-                        ((timetable.end | hourToMin) -
-                          (timetable.start | hourToMin)) *
-                          3.01 +
-                        'px'
-                    }"
-                    *ngIf="timetable.course != null && timetable.lesson.cancel"
-                    (click)="
-                      onClickCourse(
-                        timetable,
-                        timetable.lesson,
-                        $event,
-                        list.date,
-                        list,
-                        'cancel'
-                      )
-                    "
-                  >
-                    <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
-
-                    <div *ngIf="timetable.lesson.cancel">
-                      <ul
-                        class="create-box"
-                        [ngStyle]="styleArr"
-                        *ngIf="
-                          testshowbox == timetable.course.courseId &&
-                          list.date.year == lessonD.year &&
-                          list.date.month == lessonD.month &&
-                          list.date.day == lessonD.day
-                        "
-                      >
                         <div
-                          [ngClass]="arrClasses"
-                          class="arr-box arrClasses"
-                          [ngStyle]="{
-                            top: arrTop + 'px',
-                            left: arrLeft + 'px'
-                          }"
-                        ></div>
-                        <div class="w-100 popUpbox">
-                          <div class="d-flex teacher-info">
-                            <div class="profile-wrap">
-                              <img src="{{ selectedTeacher.profilePic }}" />
-                            </div>
-                            <div class="pl-2">
-                              <p class="teacher-name">
-                                {{ selectedTeacher.preferredName }}
-                              </p>
-                              <div class="d-flex">
-                                <label class="lessoncount-EndDate"
-                                  >{{ list.date.day }}
-                                  {{ list.date.month - 1 | TTmonth }}
-                                  {{ list.date.year }}</label
-                                >
-                                <ul class="endate lessoncount-EndDate">
-                                  <li>
-                                    <p>{{ slotHr }}</p>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="pl-3 pr-3">
-                          <li
-                            class="d-flex justify-content-between lesson-slot-li"
-                            *ngIf="courseplanLists"
-                            (click)="onClickCreate()"
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between  relief-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'relief',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
+                            "
                           >
-                            <span>Create New Course </span
+                            <span>Relief teacher</span
                             ><span
                               ><i
                                 class="fa lesson-slot-box fa-2x  fa-angle-right"
                               ></i
                             ></span>
-                          </li>
+                          </button>
                         </div>
-                      </ul>
-                    </div>
-                    <div *ngIf="timetable.lesson.cancel">
-                      <div class="d-flex justify-content-between">
-                        <div>
-                          <div class="d-flex align-items-center mb-0">
-                            <div
-                              class="cancel-icon d-flex justify-content-center align-items-center"
-                            >
-                              <span class="dash-icon align-self-center">
-                                -
-                              </span>
-                            </div>
-
-                            <p class="ml-1 cancelled-course-Code">
-                              {{ timetable.course.courseCode }}
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min > 40"
-                          >
-                            <div class="mt-0 cancel-text">
-                              Cancelled
-                            </div>
-
-                            <span class="dot-cancel"></span>
-                            <p class="cancel">
-                              {{ timetable.duration.min + 'min' }}
-                            </p>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="
-                              timetable.duration.min <= 40 &&
-                              timetable.duration.min > 20
+                        <div
+                          class="d-flex justify-content-between lesson-slot-div"
+                        >
+                          <button
+                            class="d-flex justify-content-between cancel-btn p-0 m-0"
+                            (click)="
+                              addEnrollModal(
+                                enrollModal,
+                                'cancel',
+                                timetable.course.courseId,
+                                timetable.seat
+                              )
                             "
                           >
-                            <div class="mt-0 cancel-text">
-                              Cancelled...
-                            </div>
-                          </div>
-                          <div
-                            class="d-flex"
-                            *ngIf="timetable.duration.min <= 30"
-                          ></div>
+                            <span>Cancel class</span
+                            ><span
+                              ><i
+                                class="fa lesson-slot-box fa-2x  fa-angle-right"
+                              ></i
+                            ></span>
+                          </button>
                         </div>
 
+                        <!-- <li class="d-flex justify-content-between lesson-slot-li" (click)="addEnrollModal(enrollModal,'cancelClass')"> <span >Cancel Class</span><span><i class="fa lesson-slot-box fa-2x  fa-angle-right"></i></span></li> -->
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+                <!-- is cancel -->
+                <div
+                  class="lesson-slot"
+                  [ngClass]="{
+                    cancelledClass: timetable.lesson.cancel,
+                    'my-class':
+                      finalLists[i - 1].date.month != finalLists[i].date.month,
+                    selectedCourse:
+                      testshowbox == timetable.course.courseId &&
+                      list.date.year == lessonD.year &&
+                      list.date.month == lessonD.month &&
+                      list.date.day == lessonD.day
+                  }"
+                  [ngStyle]="{
+                    'margin-top': finalLists[i].multiply * 42 + 'px',
+                    top: i * 52 + 2 + 'px',
+                    left:
+                      ((timetable.start | calculatePM) -
+                        (startTime | calculatePM)) *
+                        181 +
+                      181 +
+                      'px',
+                    width:
+                      ((timetable.end | hourToMin) -
+                        (timetable.start | hourToMin)) *
+                        3.01 +
+                      'px'
+                  }"
+                  *ngIf="timetable.course != null && timetable.lesson.cancel"
+                  (click)="
+                    onClickCourse(
+                      timetable,
+                      timetable.lesson,
+                      $event,
+                      list.date,
+                      list,
+                      'cancel'
+                    )
+                  "
+                >
+                  <!-- <div [ngClass]="{'my-class': finalLists[i-1].date.month != finalLists[i].date.month}" class="lesson-slot" [ngClass]="{'selectedCourse' :testshowbox==timetable.course.courseId  && list.date.year == lessonD.year && list.date.month == lessonD.month && list.date.day == lessonD.day}" [ngStyle]="{'margin-top': (finalLists[i].multiply*42) + 'px', 'top': (i*42) + 'px', 'left': ((((timetable.start|calculatePM) - (startTime|calculatePM))*242)+121)  + 'px','width': (((timetable.end|hourToMin)-(timetable.start|hourToMin))*4) + 'px'}" *ngIf="timetable.course != null" (click)="onClickCourse(timetable.course,timetable.lesson,$event,list.date)"> -->
+
+                  <div *ngIf="timetable.lesson.cancel">
+                    <ul
+                      class="create-box"
+                      [ngStyle]="styleArr"
+                      *ngIf="
+                        testshowbox == timetable.course.courseId &&
+                        list.date.year == lessonD.year &&
+                        list.date.month == lessonD.month &&
+                        list.date.day == lessonD.day
+                      "
+                    >
+                      <div
+                        [ngClass]="arrClasses"
+                        class="arr-box arrClasses"
+                        [ngStyle]="{
+                          top: arrTop + 'px',
+                          left: arrLeft + 'px'
+                        }"
+                      ></div>
+                      <div class="w-100 popUpbox">
+                        <div class="d-flex teacher-info">
+                          <div class="profile-wrap">
+                            <img src="{{ selectedTeacher.profilePic }}" />
+                          </div>
+                          <div class="pl-2">
+                            <p class="teacher-name">
+                              {{ selectedTeacher.preferredName }}
+                            </p>
+                            <div class="d-flex">
+                              <label class="lessoncount-EndDate"
+                                >{{ list.date.day }}
+                                {{ list.date.month - 1 | TTmonth }}
+                                {{ list.date.year }}</label
+                              >
+                              <ul class="endate lessoncount-EndDate">
+                                <li>
+                                  <p>{{ slotHr }}</p>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pl-3 pr-3">
+                        <li
+                          class="d-flex justify-content-between lesson-slot-li"
+                          *ngIf="courseplanLists"
+                          (click)="onClickCreate()"
+                        >
+                          <span>Create New Course </span
+                          ><span
+                            ><i
+                              class="fa lesson-slot-box fa-2x  fa-angle-right"
+                            ></i
+                          ></span>
+                        </li>
+                      </div>
+                    </ul>
+                  </div>
+                  <div *ngIf="timetable.lesson.cancel">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="d-flex align-items-center mb-0">
+                          <div
+                            class="cancel-icon d-flex justify-content-center align-items-center"
+                          >
+                            <span class="dash-icon align-self-center">
+                              -
+                            </span>
+                          </div>
+
+                          <p class="ml-1 cancelled-course-Code">
+                            {{ timetable.course.courseCode }}
+                          </p>
+                        </div>
+                        <div class="d-flex" *ngIf="timetable.duration.min > 40">
+                          <div class="mt-0 cancel-text">
+                            Cancelled
+                          </div>
+
+                          <span class="dot-cancel"></span>
+                          <p class="cancel">
+                            {{ timetable.duration.min + 'min' }}
+                          </p>
+                        </div>
                         <div
-                          class="image"
+                          class="d-flex"
                           *ngIf="
-                            timetable.duration.min >= 40 && isTeacherAll == true
+                            timetable.duration.min <= 40 &&
+                            timetable.duration.min > 20
                           "
                         >
-                          <div class=" tchr-img-wraper">
-                            <img
-                              src="{{ timetable.teacher[0].profilePic }}"
-                              alt=""
-                              class="teacher-pic"
-                            />
+                          <div class="mt-0 cancel-text">
+                            Cancelled...
                           </div>
+                        </div>
+                        <div
+                          class="d-flex"
+                          *ngIf="timetable.duration.min <= 30"
+                        ></div>
+                      </div>
+
+                      <div
+                        class="image"
+                        *ngIf="
+                          timetable.duration.min >= 40 && isTeacherAll == true
+                        "
+                      >
+                        <div class=" tchr-img-wraper">
+                          <img
+                            src="{{ timetable.teacher[0].profilePic }}"
+                            alt=""
+                            class="teacher-pic"
+                          />
                         </div>
                       </div>
                     </div>
@@ -1987,18 +1971,19 @@
           </div>
         </div>
       </div>
-      <div
-        *ngIf="staffList.staff?.length > 0"
-        id="fixed-bottom-test"
-        class="fixed-bottom"
-        (scroll)="updateScrollbar('custom')"
-      >
-        <div id="innerScrollbar"><!--dummy text--></div>
-      </div>
-      <!-- <div id="scrollbar" onscroll="updateScrollbar(document.getElementById('content'), document.getElementById('scrollbar'))"><div id="innerScrollbar">dummy text</div></div> -->
     </div>
+    <div
+      *ngIf="staffList.staff?.length > 0"
+      id="fixed-bottom-test"
+      class="fixed-bottom"
+      (scroll)="updateScrollbar('custom')"
+    >
+      <div id="innerScrollbar"><!--dummy text--></div>
+    </div>
+    <!-- <div id="scrollbar" onscroll="updateScrollbar(document.getElementById('content'), document.getElementById('scrollbar'))"><div id="innerScrollbar">dummy text</div></div> -->
   </div>
-</block-ui>
+</div>
+<!-- </block-ui> -->
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -2323,7 +2308,7 @@
                       *ngIf="selectedCustomer.fullName == ''"
                     ></div>
                   </div>
-                  <div class="row single-user-wrap pad-15 m-0 p-0">
+                  <!-- <div class="row single-user-wrap pad-15 m-0 p-0">
                     <div
                       *ngFor="let detail of selectedCustomer.details"
                       class="col-sm-6 col-md-6 modal-userInfo mb"
@@ -2333,7 +2318,7 @@
                         {{ detail.value }}
                       </p>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div
