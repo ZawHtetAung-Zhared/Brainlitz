@@ -2287,6 +2287,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
+              (blur)="blurcall($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
@@ -2865,7 +2866,13 @@
       class="d-flex w-100"
       style="  min-height: 70vh; height: 70vh;"
     >
-      <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
+      <form
+        class="form-wrap"
+        novalidate
+        #makeupF="ngForm"
+        style="width:80%"
+        (click)="(hideFocus)"
+      >
         <div class="modal-body">
           <div class="col-md-12 input-wrap">
             <div class="form-group">
