@@ -2051,7 +2051,8 @@ export class CourseComponent implements OnInit {
   openRemoveModal(id, deleteModal, n) {
     // this.getSingleUser(id, 'withdraw')
     console.log('__', n);
-    this.showStudentOption = '';
+    //this.showStudentOption = '';
+    this.showStudentOption = !this.showStudentOption;
     this.xxxhello = '';
     this.deleteId = id;
     this.removeUser = n;
@@ -2195,15 +2196,20 @@ export class CourseComponent implements OnInit {
     }
   }
 
+  showOptionsBoxId: string = '';
+
   showOptionsBox(stdID, e) {
+    if (stdID !== this.showOptionsBoxId) {
+      this.yPosition = e.layerY + 40;
+    } //apo function to protect moving option box when clicked continuously
+    this.showOptionsBoxId = stdID;
     e.preventDefault();
     e.stopPropagation();
-    this.yPosition = e.layerY + 40;
     // this.yPosition = e.offsetY - 30;
     this.showStudentOption = stdID;
     this.optionBox = true;
     this.xxxhello = stdID;
-    console.log(this.showStudentOption);
+    //console.log(this.showStudentOption);
     // this.router.navigate(['/customer']);
   }
 
@@ -2252,8 +2258,8 @@ export class CourseComponent implements OnInit {
     this.selectedTeacherLists = [];
     this.showInvoice = false;
     this.textAreaOption = false;
-    // this.currentDateObj = '';
-    this.showStudentOption = '';
+    this.currentDateObj = '';
+    //this.showStudentOption = ''; apo
     this.xxxhello = '';
     this.stdLists = [];
     this.trArrayLists = [];

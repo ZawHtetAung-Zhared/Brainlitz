@@ -1435,7 +1435,6 @@
                     class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
                   >
                     <div
-                      (click)="showOptionsBox(user.userId, $event)"
                       class="d-flex flex-row  single-user justify-content-center align-items-center"
                     >
                       <div *ngIf="user.invoice != null">
@@ -1546,10 +1545,12 @@
                       <div class="ml-auto remover-wrap">
                         <span
                           class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
+                          (click)="showOptionsBox(user.userId, $event)"
                         ></span>
                         <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                       </div>
                       <!-- <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="xxxhello == user.userId" class="options-box"> -->
+
                       <ul
                         id="user.userId"
                         [ngStyle]="{ top: yPosition + 'px' }"
