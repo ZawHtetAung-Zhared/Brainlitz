@@ -2572,6 +2572,7 @@ export class CourseComponent implements OnInit {
   }
 
   hideFocus(e) {
+    console.log('hide focus');
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;
