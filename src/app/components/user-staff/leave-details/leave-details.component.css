@@ -623,6 +623,7 @@ min-width: 40px;
   background: #ffffff;
   border-left: none;
   cursor: pointer;
+  padding: 0;
 }
 .leave-list-name {
   color: #2e3d4d;

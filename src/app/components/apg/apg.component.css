@@ -1444,7 +1444,7 @@ input:checked + .slider:before {
 
 .requirements-wrapper {
   max-width: 800px;
-  max-height: 480px;
+  max-height: 555px;
   overflow: overlay;
   margin-bottom: 70px;
 }
