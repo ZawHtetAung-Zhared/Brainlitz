@@ -2571,13 +2571,18 @@ export class CourseComponent implements OnInit {
     // this.getAllUsers(userType);
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('window:scroll', ['$event'])
   public documentClick(event): void {
     console.log('document click');
   }
 
+  blurcall(e) {
+    console.log('call blur');
+  }
   hideFocus(e) {
-    console.log('hide focus');
+    console.log('hide focus', this.isFous);
+    console.log('show list', this.showList);
+
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;

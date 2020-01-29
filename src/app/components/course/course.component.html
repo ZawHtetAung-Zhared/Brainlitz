@@ -2287,6 +2287,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
+              (blur)="blurcall($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
