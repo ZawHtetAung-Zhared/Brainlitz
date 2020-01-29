@@ -105,6 +105,10 @@ main {
   color: #435569 !important;
   background: #f2f4f5 !important;
 }
+
+.modal-secondary-backdrop {
+  z-index: 1050 !important;
+}
 /*.overflow{*/
 /*overflow-y: auto; */
 /*min-height: 0px;*/
