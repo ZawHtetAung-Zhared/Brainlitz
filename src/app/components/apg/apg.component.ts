@@ -339,6 +339,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         document.addEventListener('mousemove', function(event) {
           // console.log(_this.stillDrag)
         });
+        document.addEventListener('touchmove', event => event.preventDefault());
       }
       // this.msg = `Dragging the ${value[1].innerText}!`;
     });
