@@ -7,14 +7,15 @@
   font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
-  padding: 9px;
   margin-bottom: 0;
   border-radius: 25px;
   /* display: table; */
   word-break: break-all;
   max-width: 290px;
   padding: 3px 9px;
+  height: 40px;
 }
+
 .search-result-box {
   height: 300px;
   overflow: overlay;
