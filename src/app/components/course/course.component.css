@@ -2502,6 +2502,12 @@ input[type='number']::-webkit-outer-spin-button {
   }
 }
 
+@media (max-width: 768px) {
+  .item-width {
+    max-width: 350px;
+  }
+}
+
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) {
   .card-columns {
