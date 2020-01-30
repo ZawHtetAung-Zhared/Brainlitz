@@ -1214,6 +1214,7 @@ input:checked + .slider:before {
   width: 32px;
   position: relative;
   /* width: 48px; */
+  bottom: 5px;
 }
 
 .move-sign {
@@ -1251,6 +1252,9 @@ input:checked + .slider:before {
 
 .selection-wrapper.gu-transit {
   display: none;
+}
+.selection-wrapper {
+  width: 400px;
 }
 
 .requirement.gu-transit {
@@ -1373,7 +1377,7 @@ input:checked + .slider:before {
   margin-top: 32px;
 }
 .input-wrapper {
-  width: 70%;
+  width: 100%;
 }
 .data-value:focus {
   box-shadow: none;
@@ -1406,6 +1410,7 @@ input:checked + .slider:before {
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
   cursor: pointer;
+  top: 27px;
 }
 
 .data-close:before,
@@ -2776,5 +2781,6 @@ p.color-title {
 }
 .data-wrapper {
   max-height: 300px;
+  max-width: 800px;
   overflow: overlay;
 }

@@ -376,7 +376,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           .children('.selection-wrapper')
           .children('.img-wrapper');
         $(clone).height(70);
-        $(clone).width(500);
+        $(clone).width(400);
         $(clone)
           .children('.selection-wrapper')
           .children('.data-close')
@@ -542,10 +542,10 @@ export class ApgComponent implements OnInit, OnDestroy {
                 var dragHeight = y + $('.gu-mirror').height();
                 var dropHeight =
                   $(container).position().top + $(container).height();
-                if (y - $(container).position().top < 300) {
-                  container.scrollTop -= 10;
-                } else if (dropHeight - dragHeight < 40) {
-                  container.scrollTop += 10;
+                if (y - $(container).position().top < 320) {
+                  container.scrollTop -= 5;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 5;
                 }
               }
             }
@@ -2786,7 +2786,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.valueArray = [{ name: '' }];
       console.log(this.valueArray);
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else if (type == 'NUMBER') {
       // console.log(this.optionsArray)
@@ -2794,7 +2794,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
       // this.optionsArray = ['']
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else {
       // this.optionsArray = ['']
