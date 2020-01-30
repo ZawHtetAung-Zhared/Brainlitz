@@ -545,6 +545,7 @@ span.capitalize {
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
+  margin-bottom: 50px;
 }
 
 .inner-wrapper-detail {
