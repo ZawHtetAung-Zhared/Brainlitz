@@ -1416,6 +1416,10 @@ li button {
   width: 85%;
 }
 
+.libr2 {
+  word-break: break-all;
+}
+
 .detail-fees h5 {
   color: #64707d;
   font-size: 16px;
