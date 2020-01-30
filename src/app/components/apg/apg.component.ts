@@ -504,38 +504,48 @@ export class ApgComponent implements OnInit, OnDestroy {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
               var container = $(el).parents('.data-wrapper')[0];
-              var windowHeight = $(window).height();
+              // var windowHeight = $(window).height();
               if ($('.gu-mirror').position() && container) {
+                // var y = $('.gu-mirror').position().top;
+                // if (y > 900) {
+                //   var x = 5;
+                //   window.scrollBy(0, x);
+                // } else if (y < 900) {
+                //   console.log('s');
+                //   var z = -3;
+                //   window.scrollBy(0, z);
+                // }
+
                 var y = $('.gu-mirror').position().top;
-                if (y > 900) {
-                  var x = 5;
-                  window.scrollBy(0, x);
-                } else if (y < 900) {
-                  console.log('s');
-                  var z = -3;
-                  window.scrollBy(0, z);
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 200) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 10;
                 }
               }
             }
           }),
           false
         );
+
         document.addEventListener(
           'touchmove',
           (this.testFunct = () => {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
               var container = $(el).parents('.data-wrapper')[0];
-              var windowHeight = $(window).height();
               if ($('.gu-mirror').position() && container) {
                 var y = $('.gu-mirror').position().top;
-                if (y > 900) {
-                  var x = 5;
-                  window.scrollBy(0, x);
-                } else if (y < 900) {
-                  console.log('s');
-                  var z = -3;
-                  window.scrollBy(0, z);
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 300) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 40) {
+                  container.scrollTop += 10;
                 }
               }
             }
