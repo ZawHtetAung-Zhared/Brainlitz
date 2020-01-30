@@ -399,6 +399,10 @@ export class CourseComponent implements OnInit {
     this.selectedPayment = 'Cash';
 
     this.getRegionInfo();
+
+    document.addEventListener('focusout', function(e) {
+      console.log('focus out');
+    });
   }
 
   openDatePicker(datePicker) {

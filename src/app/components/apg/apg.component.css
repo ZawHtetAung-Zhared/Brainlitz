@@ -1253,7 +1253,7 @@ input:checked + .slider:before {
 .selection-wrapper.gu-transit {
   display: none;
 }
-.selection-wrapper {
+.one-selection-wrapper {
   width: 400px;
 }
 
@@ -2780,7 +2780,8 @@ p.color-title {
   margin: 10px 0px 10px 10px;
 }
 .data-wrapper {
-  max-height: 300px;
+  max-height: 500px;
   max-width: 800px;
   overflow: overlay;
+  width: 500px;
 }
