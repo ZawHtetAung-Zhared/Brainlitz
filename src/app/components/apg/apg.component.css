@@ -16,7 +16,8 @@
 }
 
 @-moz-document url-prefix() {
-  .search-result-box {
+  .search-result-box,
+  .data-wrapper {
     overflow: auto;
   }
 }
@@ -1515,6 +1516,7 @@ input.min_input {
   border-radius: 16px;
   background: #ffff;
   text-align: center;
+  appearance: none;
 }
 
 .max-range-box:hover,
@@ -2771,4 +2773,8 @@ p.color-title {
   height: 5px;
   border-radius: 50%;
   margin: 10px 0px 10px 10px;
+}
+.data-wrapper {
+  max-height: 300px;
+  overflow: overlay;
 }
