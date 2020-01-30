@@ -571,17 +571,20 @@ ul.pass-list li {
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
-  line-height: 0.5;
+  /* line-height: 0.5; */
   position: relative;
   margin-top: 7px;
   font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
-  padding: 9px;
+  /* padding: 9px; */
   margin-bottom: 0;
   border-radius: 25px;
-  display: table;
-  white-space: nowrap;
+  /* display: table;
+  white-space: nowrap; */
+  word-break: break-all;
+  max-width: 320px;
+  padding: 3px 9px;
 }
 
 .hide {
@@ -2436,6 +2439,10 @@ input[type='number']::-webkit-outer-spin-button {
   }
   .toggle-ipad {
     padding-left: 0px !important;
+  }
+  .class-label-12 {
+    max-width: 240px;
+    word-break: break-all;
   }
 }
 
