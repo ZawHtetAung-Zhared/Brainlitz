@@ -13,6 +13,7 @@
   /* display: table; */
   word-break: break-all;
   max-width: 290px;
+  padding: 3px 9px;
 }
 .search-result-box {
   height: 300px;
