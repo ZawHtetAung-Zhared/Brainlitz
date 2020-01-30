@@ -2472,6 +2472,8 @@ export class CourseComponent implements OnInit {
   }
 
   selectCustomer(state, id, type) {
+    console.log('select customer', id);
+    console.log('user list ', this.userLists.length);
     this.getSingleCustomer(id);
     this.formData = {};
   }
