@@ -2985,6 +2985,7 @@ input:checked + .slider:before {
   padding-right: 20px;
   width: 390px !important;
   margin-top: 16px;
+  /* margin-left: -10px; */
   margin-left: -8px;
 }
 .invoice-label {
