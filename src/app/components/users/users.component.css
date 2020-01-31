@@ -575,7 +575,7 @@ ul.pass-list li {
   color: #0080ff;
   /* line-height: 0.5; */
   position: relative;
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
@@ -586,7 +586,9 @@ ul.pass-list li {
   white-space: nowrap; */
   word-break: break-all;
   max-width: 320px;
-  padding: 3px 9px;
+  max-height: 45px;
+  overflow: overlay;
+  padding: 3px 8px;
 }
 
 .hide {

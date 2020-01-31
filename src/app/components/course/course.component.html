@@ -26,14 +26,17 @@
         <div class="d-flex justify-content-between title">
           <div class="d-flex">
             <h3 class="header-font">Courses</h3>
-            <span
-              class="location-name"
-              [ngStyle]="{
-                color: gtxtColor,
-                background: gbgColor
-              }"
-              >{{ locationName }}</span
-            >
+            <div class="location-wrapper mt-2">
+              <div
+                class="location-name"
+                [ngStyle]="{
+                  color: gtxtColor,
+                  background: gbgColor
+                }"
+              >
+                {{ locationName }}
+              </div>
+            </div>
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
