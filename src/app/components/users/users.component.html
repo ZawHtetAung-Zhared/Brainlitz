@@ -30,17 +30,19 @@
       <div class="col-md-10 pad-0">
         <div class="d-flex flex-row">
           <h3>Customers</h3>
-          <span
-            class="location-name"
-            [ngStyle]="{
-              color: gtxtColor,
-              background: gbgColor
-            }"
-          >
-            <!-- {{ locationName | slice: 0:45
+          <div class="mt-2">
+            <div
+              class="location-name"
+              [ngStyle]="{
+                color: gtxtColor,
+                background: gbgColor
+              }"
+            >
+              <!-- {{ locationName | slice: 0:45
             }}{{ locationName.length > 45 ? '...' : '' }} -->
-            {{ locationName }}
-          </span>
+              {{ locationName }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-2 pad-0">
