@@ -48,6 +48,7 @@ export class InterceptService implements HttpInterceptor {
           }
         },
         (err: any) => {
+          console.log(err, err.error.message);
           this.err_status = err.status;
           if (err instanceof HttpErrorResponse) {
             this.blockUI.stop();
@@ -55,6 +56,12 @@ export class InterceptService implements HttpInterceptor {
             if (err.status === 401) {
               localStorage.clear();
               localStorage.setItem('redirect', 'true');
+              this.router.navigateByUrl('/login', {});
+            } else if (
+              err.status === 404 &&
+              err.error.message === 'No Region found.'
+            ) {
+              localStorage.clear();
               this.router.navigateByUrl('/login', {});
             }
           }
