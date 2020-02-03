@@ -26,14 +26,17 @@
         <div class="d-flex justify-content-between title">
           <div class="d-flex">
             <h3 class="header-font">Courses</h3>
-            <span
-              class="location-name"
-              [ngStyle]="{
-                color: gtxtColor,
-                background: gbgColor
-              }"
-              >{{ locationName }}</span
-            >
+            <div class="location-wrapper mt-2">
+              <div
+                class="location-name"
+                [ngStyle]="{
+                  color: gtxtColor,
+                  background: gbgColor
+                }"
+              >
+                {{ locationName }}
+              </div>
+            </div>
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -2231,9 +2234,9 @@
       </button>
     </div>
     <form novalidate #cfees="ngForm">
-      <div class="modal-body confirm-text customer-modal-body libr">
+      <div class="modal-body confirm-text customer-modal-body">
         <div class="d-flex">
-          <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+          <div class="col-md-4 col-lg-4 modal-cfees pl-zero libr2">
             <h5 class="mt-03 lname">
               <i class="fa fa-map-marker" style="font-size:15px"></i>
               {{ detailLists.location.name }}
@@ -2287,7 +2290,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
-              (blur)="blurcall($event)"
+              (blur)="hideFocus($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
@@ -2302,6 +2305,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
+              (blur)="hideFocus($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
@@ -2514,9 +2518,9 @@
         </button>
       </div>
       <form nonvalidate #custForm="ngForm">
-        <div class="modal-body confirm-text customer-modal-body libr">
+        <div class="modal-body confirm-text customer-modal-body">
           <div class="d-flex">
-            <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+            <div class="col-md-4 col-lg-4 modal-cfees pl-zero libr2">
               <h5 class="mt-03">
                 <i class="fa fa-map-marker" style="font-size:15px"></i>
                 {{ detailLists.location.name }}
@@ -2574,6 +2578,7 @@
                 [(ngModel)]="formData.searchText"
                 (focus)="focusMethod($event, 'customer')"
                 (focusout)="hideFocus($event)"
+                (blur)="hideFocus($event)"
                 (input)="changeMethod($event.target.value, 'customer')"
                 autocomplete="off"
               />

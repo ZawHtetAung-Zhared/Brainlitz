@@ -1,17 +1,24 @@
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
-  line-height: 0.5;
+  /* line-height: 0.5; */
   position: relative;
-  margin-top: 28px;
+  /* margin-top: 28px; */
   font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
-  padding: 9px;
   margin-bottom: 0;
   border-radius: 25px;
-  display: table;
+  /* display: table; */
+  word-break: break-all;
+  max-width: 290px;
+  padding: 3px 8px;
+  /* height: 40px; */
+  /* margin-top: 7px; */
+  max-height: 45px;
+  overflow: overlay;
 }
+
 .search-result-box {
   height: 300px;
   overflow: overlay;
@@ -919,6 +926,7 @@ hr {
     top: 250px !important;
   }
 }
+
 @media (min-width: 700px) and (max-width: 714px) {
   .search-result-box {
     top: 248px !important;

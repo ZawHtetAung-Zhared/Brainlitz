@@ -776,21 +776,24 @@ ul.options-box li button:hover {
   border-radius: 4px;
   margin-bottom: 20px;
 }
+
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
+
   /* line-height: 0.5; */
   position: relative;
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-size: 12px;
-  background: #cce6ff;
+  /* background: #cce6ff; */
   margin-left: 5px;
   margin-bottom: 0;
   border-radius: 25px;
   /* display: table; */
   word-break: break-all;
   max-width: 320px;
-  padding: 3px 9px;
+  padding: 3px 8px;
+  max-height: 45px;
+  overflow: overlay;
 }
 /*.timeline::-webkit-scrollbar-track
 {
@@ -1414,6 +1417,10 @@ li button {
 .libr {
   word-break: break-all;
   width: 85%;
+}
+
+.libr2 {
+  word-break: break-all;
 }
 
 .detail-fees h5 {

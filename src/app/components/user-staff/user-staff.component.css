@@ -84,18 +84,21 @@ input:checked + .slider:before {
 }
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
-  line-height: 0.5;
+
+  /* line-height: 0.5; */
   position: relative;
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-size: 12px;
-  background: #cce6ff;
+  /* background: #cce6ff; */
   margin-left: 5px;
-  padding: 9px;
   margin-bottom: 0;
   border-radius: 25px;
-  display: table;
-  white-space: nowrap;
+  /* display: table; */
+  word-break: break-all;
+  max-width: 320px;
+  padding: 3px 8px;
+  max-height: 45px;
+  overflow: overlay;
 }
 .hide {
   display: none;
@@ -542,6 +545,7 @@ span.capitalize {
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
+  margin-bottom: 50px;
 }
 
 .inner-wrapper-detail {
