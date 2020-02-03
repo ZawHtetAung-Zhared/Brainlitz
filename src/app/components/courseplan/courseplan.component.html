@@ -768,9 +768,11 @@
                       *ngFor="let apg of apgList"
                     >
                       <div class="d-flex">
-                        <div class="circle1 plus"></div>
                         <div>
-                          <div>{{ apg.name }}</div>
+                          <div class="circle1 plus"></div>
+                        </div>
+                        <div>
+                          <div class="wordBreak">{{ apg.name }}</div>
                           <div class="step-font font-12" *ngIf="apg.module">
                             {{ apg.module.name }}
                           </div>
@@ -830,7 +832,9 @@
                         (click)="removeSelectedAPG(cAPG)"
                       >
                         <div class="circle2 minus"></div>
-                        <div class="all-title-font">{{ cAPG.name }}</div>
+                        <div class="all-title-font wordBreak">
+                          {{ cAPG.name }}
+                        </div>
                         <div
                           style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;"
                         >
