@@ -132,6 +132,7 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
 import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
+import { CourseListComponent } from './components/course-list/course-list.component';
 
 import {
   CourseComponent,
@@ -238,6 +239,7 @@ import {
     RemainingLessonDatePipe,
     ReviewComponent,
     LivechatComponent,
+    CourseListComponent,
     AssignTaskComponent,
     CoursedetailComponent,
     OverviewComponent,
