@@ -203,7 +203,7 @@ input:checked + .slider:before {
 .course-search-input {
   border: 1px solid #eee;
   border-right: none;
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat #fff;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #fff;
   background-size: 16px;
   background-position-y: center;
   background-position-x: 16px;
@@ -272,7 +272,7 @@ ul.recent-lists li {
   color: #2e3d4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 14px;
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat;
   background-size: 16px;
   background-position-y: center;
   padding-left: 24px;
@@ -387,7 +387,7 @@ ul.data-listing li.disabled {
 }
 .data-dropbox input,
 .hide-dropbox input {
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat #fff;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #fff;
   background-size: 16px;
   background-position-y: center;
   background-position-x: 10px;
@@ -1468,16 +1468,16 @@ li button {
 }
 
 .course-bg:nth-child(1) .cdetail {
-  background-image: url('../../../assets/img/wave-1@3x.png');
+  background-image: url('../../../../assets/img/wave-1@3x.png');
 }
 .course-bg:nth-child(2) .cdetail {
-  background-image: url('../../../assets/img/wave-2@3x.png');
+  background-image: url('../../../../assets/img/wave-2@3x.png');
 }
 .course-bg:nth-child(3) .cdetail {
-  background-image: url('../../../assets/img/wave-3@3x.png');
+  background-image: url('../../../../assets/img/wave-3@3x.png');
 }
 .course-bg:nth-child(4) .cdetail {
-  background-image: url('../../../assets/img/wave-4@3x.png');
+  background-image: url('../../../../assets/img/wave-4@3x.png');
 }
 .cdetail h5 {
   color: #2e3d4d !important;
@@ -3395,7 +3395,7 @@ p.textCount {
   right: -45px;
   top: 10px;
   opacity: 0.7;
-  background-image: url('../../../assets/icons/icon-delete.svg');
+  background-image: url('../../../../assets/icons/icon-delete.svg');
   background-repeat: no-repeat;
   background-size: 28px 40px;
   background-position: 10px 1px;
