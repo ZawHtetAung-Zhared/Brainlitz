@@ -19,9 +19,15 @@ import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
 
 import {
-  AssignTaskComponent,
   CourseComponent,
-  CoursedetailComponent
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent
 } from './components/course/index';
 
 export const routes: Routes = [
@@ -68,7 +74,38 @@ export const routes: Routes = [
   {
     path: 'coursedetail',
     component: CoursedetailComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      {
+        path: 'assignTask',
+        component: AssignTaskComponent
+      },
+      {
+        path: 'overview',
+        component: OverviewComponent
+      },
+      {
+        path: 'customers',
+        component: CustomerComponent
+      },
+      {
+        path: 'tasks',
+        component: TasksComponent
+      },
+      {
+        path: 'attendance',
+        component: AttendanceComponent
+      },
+      {
+        path: 'leaderboard',
+        component: LeaderboardComponent
+      },
+      {
+        path: 'masteries-report',
+        component: MasteriesreportComponent
+      }
+    ]
   },
   {
     path: 'tools',
@@ -83,11 +120,6 @@ export const routes: Routes = [
   {
     path: 'review',
     component: ReviewComponent,
-    canActivate: [LoggedInGuard]
-  },
-  {
-    path: 'assignTask',
-    component: AssignTaskComponent,
     canActivate: [LoggedInGuard]
   },
   {

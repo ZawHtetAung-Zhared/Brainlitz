@@ -136,7 +136,13 @@ import { LivechatComponent } from './components/livechat/livechat.component';
 import {
   CourseComponent,
   AssignTaskComponent,
-  CoursedetailComponent
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent
 } from './components/course/index';
 
 @NgModule({
@@ -233,7 +239,13 @@ import {
     ReviewComponent,
     LivechatComponent,
     AssignTaskComponent,
-    CoursedetailComponent
+    CoursedetailComponent,
+    OverviewComponent,
+    CustomerComponent,
+    AttendanceComponent,
+    TasksComponent,
+    LeaderboardComponent,
+    MasteriesreportComponent
   ],
   imports: [
     ContentLoaderModule,

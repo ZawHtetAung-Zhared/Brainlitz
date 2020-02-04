@@ -71,10 +71,10 @@
               <h5>12 Jul' 18</h5>
             </div>
             <div class="col-md-6 pd-zero">
-              <p *ngIf="detailLists.endDate">To</p>
+              <!-- <p *ngIf="detailLists.endDate">To</p>
               <h5 *ngIf="detailLists.endDate">
                 22 Sep' 18
-              </h5>
+              </h5> -->
             </div>
           </div>
         </div>
@@ -82,22 +82,46 @@
 
       <div class="d-flex flex-column mt-32">
         <div class="d-flex c-border">
-          <button class="btn course-tab active">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="overview"
+          >
             Overview
           </button>
-          <button class="btn course-tab">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="customers"
+          >
             Customers
           </button>
-          <button class="btn course-tab">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="attendance"
+          >
             Attendance
           </button>
-          <button class="btn course-tab">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="tasks"
+          >
             Tasks
           </button>
-          <button class="btn course-tab">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="leaderboard"
+          >
             Leaderboard
           </button>
-          <button class="btn course-tab">
+          <button
+            class="btn course-tab"
+            routerLinkActive="active"
+            routerLink="masteries-report"
+          >
             Masteries reports
           </button>
           <!-- <button
@@ -110,6 +134,7 @@
           </button> -->
         </div>
       </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
