@@ -18,6 +18,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
+import { CourseListComponent } from './components/course-list/course-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -57,7 +58,8 @@ export const routes: Routes = [
   },
   {
     path: 'course',
-    component: CourseComponent,
+    // component: CourseComponent,
+    component: CourseListComponent,
     canActivate: [LoggedInGuard]
   },
   {

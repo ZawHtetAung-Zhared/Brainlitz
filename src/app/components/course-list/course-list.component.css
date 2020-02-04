@@ -1,0 +1,226 @@
+#courseWrapper {
+  height: 100vh;
+}
+
+.content-wrapper {
+  background: #f7f9fa;
+  width: 100vw;
+}
+
+.header-font {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #2e3e4d;
+}
+
+.location-name {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  position: relative;
+  font-size: 12px;
+  margin-left: 5px;
+  margin-bottom: 0;
+  border-radius: 25px;
+  word-break: break-all;
+  max-width: 125px;
+  min-width: 80px;
+  padding: 3px 8px;
+  max-height: 45px;
+  overflow: overlay;
+}
+
+.location-wrapper {
+  margin-left: 10px;
+}
+
+.sidebar {
+  width: 320px;
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidebar {
+    width: 33%;
+  }
+}
+
+.cplan-wrapper {
+  box-shadow: 1px 0px 0px #e3e4e5;
+  overflow: overlay;
+  height: 80vh;
+}
+.cplan-item {
+  width: 100%;
+  padding: 16px 24px;
+}
+.cplan-item-selected {
+  background: #0065f2;
+  color: #fff;
+}
+.cplan-small-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+}
+.cplan-title {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 28px;
+  width: 220px;
+  height: 32px;
+  overflow: overlay;
+}
+.cplan-duration {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+}
+.cplan-edit {
+  font-weight: normal;
+}
+.cplan-title1 {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  color: #363f4d;
+  width: 300px;
+  height: 32px;
+  overflow: overlay;
+}
+@media (max-width: 768px) {
+  .cplan-title1 {
+    width: 300px;
+  }
+}
+@media (min-width: 1024px) {
+  .cplan-title1 {
+    width: 490px;
+  }
+  .class-label-12 {
+    max-width: 90% !important;
+  }
+}
+.light-color {
+  color: #5c6773;
+}
+.addCourse-btn {
+  background: #0065f2;
+  border-radius: 8px;
+  padding: 8px 16px;
+  text-align: center;
+  color: #ffffff;
+}
+.plan-title {
+  padding: 0px 24px;
+  box-shadow: 0px 1px 0px #e3e4e5;
+  background: #fff;
+}
+
+@-moz-document url-prefix() {
+  *:required {
+    box-shadow: none;
+  }
+  .cplan-title1,
+  .cplan-title,
+  .cplan-wrapper,
+  .location-name,
+  .course-container {
+    overflow: auto;
+  }
+}
+
+.course-wrap {
+  background: #ffffff;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+.cinfo-firstwrap {
+  /* height: 188px; */
+}
+.cinfo-wrap {
+  width: 70%;
+  border-right: 1px dotted;
+}
+.ctime-wrap {
+  width: 30%;
+}
+.time-box {
+  padding-bottom: 32px;
+}
+.cinfo-secwrap {
+  background: #f7f9fa;
+  border-radius: 0px 0px 8px 8px;
+  height: 80px;
+}
+.enroll-btn {
+  background: #ffffff;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+.font-15 {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 24px;
+}
+.class-label-12 {
+  border-radius: 2px;
+  word-break: break-all;
+  font-size: 15px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #64707d;
+  max-width: 280px;
+}
+.no-cust {
+  color: #7a8a99;
+}
+
+.student-profile-wrapper {
+  width: 50px;
+  /* margin-right: 15px; */
+  height: 50px;
+  background: #c8e2f4;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.student_profilePic {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.user-grade {
+  margin-top: 30px;
+  margin-left: -15px;
+  position: relative;
+}
+.test-circle {
+  border-radius: 50%;
+  font-size: 12px;
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  align-items: center;
+}
+.circle {
+  display: flex;
+  align-items: center;
+  height: 20px !important;
+  /* border: 1.5px solid #ffffff; */
+  border-radius: 12px;
+  padding-top: 20px;
+  text-align: center !important;
+  font-family: 'IBM-Plex-Bold', Arial, sans-serif;
+  font-size: 12px;
+  padding: 0px 15px;
+  width: 28px !important;
+  justify-content: center;
+}
