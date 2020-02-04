@@ -17,6 +17,8 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
+import { CourseListComponent } from './components/course-list/course-list.component';
+import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 
 import {
   CourseComponent,
@@ -69,6 +71,12 @@ export const routes: Routes = [
   {
     path: 'course',
     component: CourseComponent,
+    // component: CourseListComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'coursecreate',
+    component: CoursecreateComponent,
     canActivate: [LoggedInGuard]
   },
   {
