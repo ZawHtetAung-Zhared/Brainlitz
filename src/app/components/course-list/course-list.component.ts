@@ -25,12 +25,77 @@ export class CourseListComponent implements OnInit {
   public recentLists: Array<any> = [];
   public selectedCourseList: any;
   public selectedPlan: any;
+  public isCategory: boolean = false;
+  public goBackCat: boolean = false;
+  public isPlan: boolean = false;
 
   constructor(
     private _service: appService,
     public dataservice: DataService,
     private router: Router
-  ) {}
+  ) {
+    this._service.goCourseCreate.subscribe(() => {
+      this.courseList = [];
+      console.log('go to cc');
+      this.courseList = [];
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      // this.isCourseCreate = true;
+      window.scroll(0, 0);
+    });
+
+    this._service.goplan.subscribe(() => {
+      this.courseList = [];
+      console.log('muuuu');
+      this.courseList = [];
+      this.isCategory = false;
+      this.isPlan = true;
+      this.goBackCat = true;
+    });
+
+    this._service.goCat.subscribe(() => {
+      this.courseList = [];
+      console.log('goback22', this.goBackCat);
+      this.goBackCat = false;
+      this.isCategory = true;
+      this.isPlan = false;
+      this.courseList = [];
+    });
+
+    this._service.goCourse.subscribe(() => {
+      console.log('goback33 in course');
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      // this.isCourseCreate = false;
+      // this.isTodayLesson = false;
+      this.courseList = [];
+      console.log(this.courseList.length);
+    });
+
+    this._service.goCourseDetail.subscribe(() => {
+      // console.log('go back CDetail', this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      // this.isCourseCreate = false;
+      // this.isCourseDetail = true;
+      // this.showCourseDetail(this.courseId);
+      this.courseList = [];
+    });
+
+    this._service.goPlanDetail.subscribe(() => {
+      // console.log('go back PlanDetail', this.courseId);
+      this.isCategory = false;
+      this.isPlan = false;
+      this.goBackCat = false;
+      // this.isCourseCreate = false;
+      // this.isCoursePlanDetail = false;
+      // this.getCoursePlanDetail(this.editplanId, 'goback');
+      this.courseList = [];
+    });
+  }
 
   ngOnInit() {
     // this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
@@ -222,5 +287,11 @@ export class CourseListComponent implements OnInit {
     this.selectedPlan = this.courseList[index].coursePlan.coursePlanId;
     this.selectedCourseList = this.courseList[index];
     console.log(this.selectedCourseList);
+  }
+  changeRoute() {
+    this.goBackCat = false;
+    this.isCategory = true;
+    localStorage.removeItem('cpCategory');
+    localStorage.removeItem('editCPId');
   }
 }

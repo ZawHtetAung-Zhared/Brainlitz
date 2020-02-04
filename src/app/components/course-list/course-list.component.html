@@ -4,7 +4,7 @@
     [ngClass]="{ stick: isSticky == true }"
     (newItemEvent)="reviewToggle($event)"
   ></app-header>
-  <div class="d-flex">
+  <div *ngIf="!isCategory && !isPlan" class="d-flex">
     <div class="sidebar pt-4">
       <div class="d-flex align-items-center pl-4 pr-4">
         <h3 class="header-font">Courses</h3>
@@ -19,6 +19,15 @@
             {{ locationName }}
           </div>
         </div>
+      </div>
+      <div class="pl-4 pr-4 pt-4 mt-3">
+        <button
+          *ngIf="courseDemo.createCP != ''"
+          class="btn btn-cplan"
+          (click)="changeRoute()"
+        >
+          Add new course plan
+        </button>
       </div>
       <div class="cplan-wrapper" *ngIf="courseList.length > 0">
         <div *ngFor="let courseGroup of courseList; let i = index">
@@ -36,9 +45,7 @@
             <span class="cplan-title"> {{ courseGroup.coursePlan.name }} </span>
             <div class="d-flex justify-content-between pt-2">
               <span class="cplan-duration">
-                {{
-                  courseGroup.coursePlan.lesson.duration | minuteSeconds
-                }}
+                {{ courseGroup.coursePlan.lesson.duration | minuteSeconds }}
                 duration
               </span>
               <span class="cplan-duration cplan-edit"> Edit plan</span>
@@ -47,8 +54,18 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedCourseList" class="content-wrapper pt-4">
-      <div class="d-flex justify-content-between plan-title pb-3">
+    <div *ngIf="selectedCourseList" class="content-wrapper">
+      <div class="csearch-wrap pt-4">
+        <input
+          class="form-control input-csearch course-search-input"
+          type="search"
+          placeholder="Search courses..."
+          id="course-search"
+        />
+      </div>
+      <div
+        class="d-flex justify-content-between align-items-center plan-title pb-3"
+      >
         <div class="d-flex flex-column">
           <span class="cplan-small-txt light-color">
             #{{ selectedCourseList.coursePlan.category.name }}
@@ -67,7 +84,9 @@
         <span class="p-4 cplan-title">There is no courses.</span>
       </div>
       <div *ngFor="let course of selectedCourseList.courses">
-        <div class="card d-flex flex-column ml-3 mr-3 mt-3 course-wrap">
+        <div
+          class="card col-xl-8 d-flex flex-column ml-3 mr-3 mt-3 course-wrap"
+        >
           <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
             <div class="cinfo-wrap m-3 d-flex flex-column">
               <div>
@@ -97,7 +116,7 @@
                 >-
               </span>
               <div
-                class="d-flex align-items-center"
+                class="d-flex align-items-center student-wrap"
                 *ngIf="course.students.earlyAttendees?.length > 0"
               >
                 <div
@@ -171,33 +190,72 @@
                 class="font-15 no-cust"
                 *ngIf="course.students.earlyAttendees?.length == 0"
               >
-                There is no student enroll
+                No customers added yet.
               </div>
-              <span class="font-15 no-cust"> no customer added yet </span>
             </div>
             <div class="ctime-wrap m-3">
               <div class="d-flex time-box">
-                <div class="d-flex flex-column pr-4">
-                  <span> From </span>
-                  <span> date </span>
+                <div
+                  *ngIf="course.startDate != null"
+                  class="d-flex flex-column pr-4"
+                >
+                  <span class="font-15 light-color"> From </span>
+                  <span class="font-15 dark-color">
+                    {{ course.startDate | utcDate }}
+                  </span>
                 </div>
-                <div class="d-flex flex-column">
-                  <span> To </span>
-                  <span> date </span>
+                <div *ngIf="course.endDate" class="d-flex flex-column">
+                  <span class="font-15 light-color"> To </span>
+                  <span class="font-15 dark-color">
+                    {{ course.endDate | utcDate }}
+                  </span>
                 </div>
               </div>
-              <div class="d-flex flex-column">
-                <span> sun to sat </span>
-                <span> 10AM - 12PM </span>
+              <div
+                *ngIf="
+                  course.type == null ||
+                  course.type == 'REGULAR' ||
+                  course.type == 'FLEXY'
+                "
+              >
+                <span
+                  class="font-15 dark-color"
+                  *ngFor="let day of course.repeatDays | weekDays"
+                >
+                  {{ day }}
+                </span>
+                <div *ngIf="course.duration">
+                  <div
+                    *ngIf="
+                      course.duration.startDate != null &&
+                      course.duration.endDate != null
+                    "
+                    class="font-15 dark-color"
+                  >
+                    {{ course.duration.startDate | utcTime }} -
+                    {{ course.duration.endDate | utcTime }}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="cinfo-secwrap p-3">
             <div class="d-flex justify-content-between">
               <div class="d-flex">
-                <div class="d-flex flex-column pr-5">
-                  <span> 20 </span>
-                  <span class="font-15 light-color"> lessons </span>
+                <div
+                  *ngIf="course.lessonCount"
+                  class="d-flex flex-column pr-5 font-15 light-color"
+                  style="min-width: 110px;"
+                >
+                  {{ course.lessonCount }}
+                  <span> lessons </span>
+                </div>
+                <div
+                  *ngIf="!course.lessonCount"
+                  class="d-flex flex-column pr-5 font-15 light-color"
+                  style="min-width: 110px;"
+                >
+                  -
                 </div>
                 <div class="d-flex flex-column">
                   <span> 0 </span>
@@ -205,9 +263,28 @@
                 </div>
               </div>
               <div class="d-flex">
-                <div class="d-flex flex-column pr-4">
-                  <span> 30/30 </span>
-                  <span class="font-15 light-color"> seats left </span>
+                <div
+                  [hidden]="course.draft == true"
+                  *ngIf="course.seat_left > 0"
+                  class="d-flex flex-column pr-4 font-15 light-color"
+                >
+                  {{ course.seat_left }}/
+                  {{ course.seat_taken + course.seat_left }}
+                  <span *ngIf="course.seat_left > 1"> seats left </span>
+                  <span *ngIf="course.seat_left == 1"> seat left </span>
+                </div>
+                <div
+                  [hidden]="course.draft == true"
+                  *ngIf="course.seat_left == null"
+                  class="d-flex flex-column pr-4 font-15 light-color"
+                >
+                  unlimited seats
+                </div>
+                <div
+                  *ngIf="course.seat_left == 0 || course.seat_left == -1"
+                  class="d-flex flex-column pr-4 font-15 light-color"
+                >
+                  All seats taken
                 </div>
                 <button class="btn enroll-btn">Enroll customer</button>
               </div>
@@ -218,4 +295,9 @@
       <!-- end card -->
     </div>
   </div>
+  <app-category
+    class="category-content"
+    *ngIf="isCategory == true"
+  ></app-category>
 </div>
+<block-ui message="Deafult Message"></block-ui>
