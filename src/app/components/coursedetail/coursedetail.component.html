@@ -1,0 +1,115 @@
+<app-header
+  [ngClass]="{ stick: isSticky == true }"
+  (newItemEvent)="reviewToggle($event)"
+></app-header>
+<div class="d-flex lfex-column justify-content-center align-items-center">
+  <div class="inner-wrapper w-100">
+    <div class="back-wrap d-flex justify-content-between">
+      <div class="back-to " routerLink="/course">
+        <i class="fa fa-angle-left"></i>
+        <p>Courses</p>
+      </div>
+      <button class="btn edit-course-btn">
+        Edit course
+      </button>
+    </div>
+    <div>
+      <div class="d-flex flex-row row">
+        <div class="col-md-5 detail-info">
+          <label>Course Plan Name</label>
+          <h4>Detail list name <span>Course code</span></h4>
+          <p>Description</p>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row mt-37">
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <p>Location</p>
+            <p class="locationTxt">
+              Pedok Point
+            </p>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <h5>
+              Sun - Mon
+            </h5>
+            <p>
+              11:00 AM - 12:00 PM
+            </p>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <p>Lesson count</p>
+            <h5>
+              20
+              <span> Lessons </span>
+              <!-- <span *ngIf="detailLists.actualLessonCount <= 1"> Lesson </span> -->
+              <!-- {{
+                detailLists.type == 'FLEXY'
+                  ? detailLists.defaultlessonCount
+                  : detailLists.actualLessonCount
+              }} -->
+            </h5>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pd-zero course-bg"
+        >
+          <div class="d-flex cdetail">
+            <div class="col-md-6 pd-zero">
+              <p>From</p>
+              <h5>12 Jul' 18</h5>
+            </div>
+            <div class="col-md-6 pd-zero">
+              <p *ngIf="detailLists.endDate">To</p>
+              <h5 *ngIf="detailLists.endDate">
+                22 Sep' 18
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column mt-32">
+        <div class="d-flex c-border">
+          <button class="btn course-tab active">
+            Overview
+          </button>
+          <button class="btn course-tab">
+            Customers
+          </button>
+          <button class="btn course-tab">
+            Attendance
+          </button>
+          <button class="btn course-tab">
+            Tasks
+          </button>
+          <button class="btn course-tab">
+            Leaderboard
+          </button>
+          <button class="btn course-tab">
+            Masteries reports
+          </button>
+          <!-- <button
+            [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
+            class="btn course-tab"
+            (click)="clickTab('APG', 'course')"
+            [disabled]="disabledTab"
+          >
+            Tracking Module
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
