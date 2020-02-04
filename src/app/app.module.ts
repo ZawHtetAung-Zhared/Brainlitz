@@ -27,10 +27,6 @@ import { appService } from './service/app.service';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import {
-  CourseComponent,
-  AssignTaskComponent
-} from './components/course/index';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
@@ -137,6 +133,12 @@ import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
 
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent
+} from './components/course/index';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -230,7 +232,8 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     RemainingLessonDatePipe,
     ReviewComponent,
     LivechatComponent,
-    AssignTaskComponent
+    AssignTaskComponent,
+    CoursedetailComponent
   ],
   imports: [
     ContentLoaderModule,
