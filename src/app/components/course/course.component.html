@@ -1,4 +1,5 @@
 <div class="h-100" id="courseWrapper" *ngIf="!isReview">
+  <button routerLink="/assignTask">assign task</button>
   <div
     [ngClass]="{ overlay: iscourseSearch == true || isAdvancedSearch == true }"
     (click)="clickoutSide()"

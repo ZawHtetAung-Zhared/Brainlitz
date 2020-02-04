@@ -27,7 +27,10 @@ import { appService } from './service/app.service';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { CourseComponent } from './components/course/course.component';
+import {
+  CourseComponent,
+  AssignTaskComponent
+} from './components/course/index';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
@@ -226,7 +229,8 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     LessonDurationPipe,
     RemainingLessonDatePipe,
     ReviewComponent,
-    LivechatComponent
+    LivechatComponent,
+    AssignTaskComponent
   ],
   imports: [
     ContentLoaderModule,
