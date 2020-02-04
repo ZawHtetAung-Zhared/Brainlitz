@@ -28,6 +28,11 @@ export class CourseListComponent implements OnInit {
   public isCategory: boolean = false;
   public goBackCat: boolean = false;
   public isPlan: boolean = false;
+  public isCourseCreate: boolean = false;
+  public editplanId: any;
+  public isCoursePlanDetail: boolean = false;
+  public singlePlanData: any = {};
+  public planCategory: any;
 
   constructor(
     private _service: appService,
@@ -41,7 +46,7 @@ export class CourseListComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
-      // this.isCourseCreate = true;
+      this.isCourseCreate = true;
       window.scroll(0, 0);
     });
 
@@ -68,7 +73,7 @@ export class CourseListComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
-      // this.isCourseCreate = false;
+      this.isCourseCreate = false;
       // this.isTodayLesson = false;
       this.courseList = [];
       console.log(this.courseList.length);
@@ -79,7 +84,7 @@ export class CourseListComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
-      // this.isCourseCreate = false;
+      this.isCourseCreate = false;
       // this.isCourseDetail = true;
       // this.showCourseDetail(this.courseId);
       this.courseList = [];
@@ -90,9 +95,9 @@ export class CourseListComponent implements OnInit {
       this.isCategory = false;
       this.isPlan = false;
       this.goBackCat = false;
-      // this.isCourseCreate = false;
-      // this.isCoursePlanDetail = false;
-      // this.getCoursePlanDetail(this.editplanId, 'goback');
+      this.isCourseCreate = false;
+      this.isCoursePlanDetail = false;
+      this.getCoursePlanDetail(this.editplanId, 'goback');
       this.courseList = [];
     });
   }
@@ -293,5 +298,54 @@ export class CourseListComponent implements OnInit {
     this.isCategory = true;
     localStorage.removeItem('cpCategory');
     localStorage.removeItem('editCPId');
+  }
+  addNewCourse(plan) {
+    localStorage.removeItem('courseID');
+    localStorage.removeItem('tempObj');
+    this.goBackCat = false;
+    this.isCourseCreate = true;
+    let planObj = {
+      name: plan.name,
+      id: plan.coursePlanId,
+      duration: plan.lesson.duration,
+      paymentPolicy: plan.paymentPolicy,
+      from: 'courses',
+      description: plan.description
+    };
+
+    localStorage.setItem('cPlan', JSON.stringify(planObj));
+    localStorage.removeItem('courseID');
+    // this.router.navigate(['/coursecreate']);
+  }
+  showCPDetail(planID) {
+    console.log('cp');
+    this.editplanId = planID;
+    console.log('hi', planID);
+    this.isCoursePlanDetail = false;
+    this.getCoursePlanDetail(planID, 'edit');
+  }
+
+  getCoursePlanDetail(planID, type) {
+    //this.blockUI.start('Loading...');
+    this._service.getSinglePlan(planID, this.locationID).subscribe(
+      (res: any) => {
+        //this.blockUI.stop();
+        this.singlePlanData = res;
+        this.planCategory = res.category;
+        if (type == 'edit') {
+          this.goToCoursePlan(planID);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  goToCoursePlan(planId) {
+    localStorage.setItem('editCPId', planId);
+    localStorage.setItem('cpCategory', JSON.stringify(this.planCategory));
+    this.isCoursePlanDetail = false;
+    this.isCategory = true;
+    this.goBackCat = false;
   }
 }

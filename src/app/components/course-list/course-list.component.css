@@ -82,6 +82,7 @@
 }
 .cplan-edit {
   font-weight: normal;
+  cursor: pointer;
 }
 .cplan-title1 {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;

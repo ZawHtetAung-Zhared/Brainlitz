@@ -4,7 +4,10 @@
     [ngClass]="{ stick: isSticky == true }"
     (newItemEvent)="reviewToggle($event)"
   ></app-header>
-  <div *ngIf="!isCategory && !isPlan" class="d-flex">
+  <div
+    *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
+    class="d-flex"
+  >
     <div class="sidebar pt-4">
       <div class="d-flex align-items-center pl-4 pr-4">
         <h3 class="header-font">Courses</h3>
@@ -48,7 +51,12 @@
                 {{ courseGroup.coursePlan.lesson.duration | minuteSeconds }}
                 duration
               </span>
-              <span class="cplan-duration cplan-edit"> Edit plan</span>
+              <span
+                class="cplan-duration cplan-edit"
+                (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)"
+              >
+                Edit plan</span
+              >
             </div>
           </div>
         </div>
@@ -74,7 +82,12 @@
             {{ selectedCourseList.coursePlan.name }}
           </span>
         </div>
-        <button class="addCourse-btn">Add new course</button>
+        <button
+          class="addCourse-btn"
+          (click)="addNewCourse(selectedCourseList.coursePlan)"
+        >
+          Add new course
+        </button>
       </div>
       <!-- start card -->
       <div
@@ -299,5 +312,13 @@
     class="category-content"
     *ngIf="isCategory == true"
   ></app-category>
+  <app-courseplan
+    class="category-content"
+    *ngIf="isPlan == true"
+  ></app-courseplan>
+  <app-coursecreate
+    class="category-content"
+    *ngIf="isCourseCreate == true"
+  ></app-coursecreate>
 </div>
 <block-ui message="Deafult Message"></block-ui>
