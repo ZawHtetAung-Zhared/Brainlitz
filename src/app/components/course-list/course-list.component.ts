@@ -315,6 +315,7 @@ export class CourseListComponent implements OnInit {
 
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
+    //add this line to change route for course create and need to change in coursecreate.ts for redirect to course when click back button
     // this.router.navigate(['/coursecreate']);
   }
   showCPDetail(planID) {
