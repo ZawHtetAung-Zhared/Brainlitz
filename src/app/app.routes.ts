@@ -78,10 +78,6 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       {
-        path: 'assignTask',
-        component: AssignTaskComponent
-      },
-      {
         path: 'overview',
         component: OverviewComponent
       },
@@ -120,6 +116,11 @@ export const routes: Routes = [
   {
     path: 'review',
     component: ReviewComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'assignTask',
+    component: AssignTaskComponent,
     canActivate: [LoggedInGuard]
   },
   {
