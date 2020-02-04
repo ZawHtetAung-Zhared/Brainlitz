@@ -14,15 +14,29 @@
       </button>
     </div>
     <div>
-      <div class="d-flex flex-row row">
-        <div class="col-md-5 detail-info">
+      <div class="display-flex">
+        <div class="col-md-8 detail-info">
           <label>Course Plan Name</label>
           <h4>Detail list name <span>Course code</span></h4>
           <p>Description</p>
         </div>
+        <div class="col-md-4 pad-0 d-flex row-reverse">
+          <div class="d-flex">
+            <div class="circleimg">
+              <img
+                class="img-size"
+                src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157967925507520718338_original.jpg"
+              />
+            </div>
+            <div class="flex-column">
+              <p class="cap1">Teacher</p>
+              <p class="cap2">Aaron Wamsley</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="d-flex flex-row mt-37">
+      <div class="d-flex flex-row ">
         <div
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
@@ -109,6 +123,7 @@
             routerLink="tasks"
           >
             Tasks
+            <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
             class="btn course-tab"
@@ -116,6 +131,7 @@
             routerLink="leaderboard"
           >
             Leaderboard
+            <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
             class="btn course-tab"
@@ -123,6 +139,7 @@
             routerLink="masteries-report"
           >
             Masteries reports
+            <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <!-- <button
             [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"
