@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AssignTaskComponent implements OnInit {
   public standActiveId: any;
   public classActiveId: any;
+  public isStart: boolean = false;
+
   public standardList: any = [
     {
       _id: '1',
@@ -41,5 +43,9 @@ export class AssignTaskComponent implements OnInit {
 
   choiceClass(id) {
     this.classActiveId = id;
+  }
+
+  goToStart() {
+    this.isStart = true;
   }
 }

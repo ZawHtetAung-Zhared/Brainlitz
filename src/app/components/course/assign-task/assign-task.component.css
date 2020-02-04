@@ -13,6 +13,7 @@
   padding-top: 0;
   -webkit-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
+  padding-top: 10px;
 }
 .d-wrapper {
   top: 0px;
@@ -133,6 +134,36 @@ button.btn.btn-comfirm {
 }
 /* end fix footer */
 
+/* start question*/
+.start-que {
+  color: #363f4d;
+  font-size: 28px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+.choice-block {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #fff !important;
+  padding: 20px;
+  cursor: pointer;
+}
+.start-wrapper {
+  height: 100%;
+  background: #f7f9fa;
+}
+.choice-title {
+  color: #363f4d;
+  font-size: 20px;
+}
+.choice-description {
+  color: #5c6773;
+  font-size: 15px;
+}
+.choice-block:hover {
+  background: #edeef0 !important;
+}
+/* end */
 @media only screen and (min-width: 1366px) {
   .inner-wrapper {
     width: 1080px !important;

@@ -269,7 +269,8 @@ app-dashboard,
 app-tools,
 app-report,
 app-review,
-app-course {
+app-course,
+app-assign-task {
   display: flex;
   flex-direction: column;
   height: 100%;
