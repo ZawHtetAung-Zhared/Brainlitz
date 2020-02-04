@@ -1,3 +1,68 @@
-<p>
-  assign-task works!
-</p>
+<div class="d-flex justify-content-center p-2">
+  <div class="inner-wrapper">
+    <header>
+      <div
+        class="d-flex d-wrapper medium"
+        [ngClass]="{ stickywrap: navIsFixed == true }"
+      >
+        <div class="mr-auto p-2 pl-0 pb-0">
+          <div class="back-modal" (click)="back()">
+            <i class="fa fa-angle-left"></i>
+            <p>Course Name</p>
+          </div>
+        </div>
+        <div class="ml-auto">
+          <button type="button" class="btn sticky-cancel" (click)="cancel()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+</div>
+<div class="d-flex-jusitfy-content-center menuborder">
+  <div class="inner-wrapper">
+    <p class="name-header bold">
+      Standard and class level
+    </p>
+  </div>
+</div>
+<div class="d-flex-jusitfy-content-center">
+  <div class="inner-wrapper">
+    <p class="title bold">Standard</p>
+    <div class="d-flex standard-wrapper">
+      <div
+        class="standard-block medium"
+        *ngFor="let standard of standardList"
+        (click)="checkStandard(standard._id)"
+        [ngClass]="{ active: standActiveId == standard._id }"
+      >
+        {{ standard.name }}
+      </div>
+    </div>
+    <div class="d-flex class-wrapper">
+      <div
+        class="col-md-4"
+        *ngFor="let class of classList"
+        (click)="choiceClass(class._id)"
+      >
+        <div
+          class="d-flex class-block"
+          [ngClass]="{ active: classActiveId == class._id }"
+        >
+          <div class="check-circle"></div>
+          <p class="class-name">{{ class.name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="d-flex justify-content-between inner-wrapper">
+      <div class="back-modal medium">
+        <i class="fa fa-angle-left"></i>
+        <p>Back</p>
+      </div>
+      <button class="btn btn-comfirm medium">Continue</button>
+    </div>
+  </div>
+</div>
