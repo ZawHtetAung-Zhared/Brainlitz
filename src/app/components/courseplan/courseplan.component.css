@@ -1930,6 +1930,10 @@ ul.search-apg {
   line-height: 2.2;
 }
 
+.wordBreak {
+  word-break: break-word;
+}
+
 @media only screen and (max-width: 768px) {
   .down-arrow1 {
     bottom: 45px;

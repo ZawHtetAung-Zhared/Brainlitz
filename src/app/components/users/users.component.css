@@ -2422,6 +2422,7 @@ input[type='number']::-webkit-outer-spin-button {
   margin-bottom: 12px;
   font-size: 16px;
   color: #64707d;
+  word-break: break-all;
 }
 
 .learn-journal {
@@ -3537,6 +3538,7 @@ p.assessment-by {
   font-size: 16px;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   margin-bottom: 36px !important;
+  word-break: break-all;
 }
 .lesson_block {
   min-width: 162px;

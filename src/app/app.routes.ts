@@ -8,7 +8,6 @@ import { RegionComponent } from './components/region/region.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
-import { CourseComponent } from './components/course/course.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
@@ -19,6 +18,18 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
 import { CourseListComponent } from './components/course-list/course-list.component';
+
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent
+} from './components/course/index';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -63,6 +74,38 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
+    path: 'coursedetail',
+    component: CoursedetailComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      {
+        path: 'overview',
+        component: OverviewComponent
+      },
+      {
+        path: 'customers',
+        component: CustomerComponent
+      },
+      {
+        path: 'tasks',
+        component: TasksComponent
+      },
+      {
+        path: 'attendance',
+        component: AttendanceComponent
+      },
+      {
+        path: 'leaderboard',
+        component: LeaderboardComponent
+      },
+      {
+        path: 'masteries-report',
+        component: MasteriesreportComponent
+      }
+    ]
+  },
+  {
     path: 'tools',
     component: ToolsComponent,
     canActivate: [LoggedInGuard]
@@ -75,6 +118,11 @@ export const routes: Routes = [
   {
     path: 'review',
     component: ReviewComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'assignTask',
+    component: AssignTaskComponent,
     canActivate: [LoggedInGuard]
   },
   {

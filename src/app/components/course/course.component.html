@@ -595,6 +595,13 @@
               <!-- <p class="addCourseBtn">+</p> -->
               <p class="btn-largeLabel">Add new course plan</p>
             </button>
+            <button
+              class="btn btn-large d-flex align-items-center justify-content-center"
+              routerLinkActive="active"
+              routerLink="/coursedetail"
+            >
+              Course Detail
+            </button>
           </div>
           <div *ngFor="let courseGroup of courseList">
             <div class="card card-wrap">
@@ -608,7 +615,7 @@
                       #{{ courseGroup.coursePlan.category.name }}
                     </label>
                   </div>
-                  <h5 class="medium-font cursor-on">
+                  <h5 class="medium-font cursor-on wordBreak">
                     {{ courseGroup.coursePlan.name }}
                   </h5>
                   <div class="d-flex header-info light-font">

@@ -17,7 +17,7 @@
 .hide-user {
   display: none !important;
   /*pointer-events: none;
-  opacity: 0.5;*/
+    opacity: 0.5;*/
 }
 /*==== toggle button ====*/
 .switch {
@@ -126,8 +126,8 @@ input:checked + .slider:before {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 /* .form-group {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-} */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  } */
 .border-style {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -203,7 +203,7 @@ input:checked + .slider:before {
 .course-search-input {
   border: 1px solid #eee;
   border-right: none;
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat #fff;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #fff;
   background-size: 16px;
   background-position-y: center;
   background-position-x: 16px;
@@ -272,7 +272,7 @@ ul.recent-lists li {
   color: #2e3d4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 14px;
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat;
   background-size: 16px;
   background-position-y: center;
   padding-left: 24px;
@@ -387,7 +387,7 @@ ul.data-listing li.disabled {
 }
 .data-dropbox input,
 .hide-dropbox input {
-  background: url(../../../assets/img/search-ico@2x.png) no-repeat #fff;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #fff;
   background-size: 16px;
   background-position-y: center;
   background-position-x: 10px;
@@ -796,21 +796,21 @@ ul.options-box li button:hover {
   overflow: overlay;
 }
 /*.timeline::-webkit-scrollbar-track
-{
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  background-color: #F5F5F5;
-}
-
-.timeline::-webkit-scrollbar
-{
-  width: 6px;
-  background-color: #F5F5F5;
-}
-
-.timeline::-webkit-scrollbar-thumb
-{
-  background-color: #0080ff;
-}*/
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+  
+  .timeline::-webkit-scrollbar
+  {
+    width: 6px;
+    background-color: #F5F5F5;
+  }
+  
+  .timeline::-webkit-scrollbar-thumb
+  {
+    background-color: #0080ff;
+  }*/
 .timeline::-webkit-scrollbar-track {
   /*-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.1);*/
   /*border-radius: 10px;*/
@@ -922,8 +922,8 @@ ul.options-box li button:hover {
   border: none;
 }
 /* .inner-wrapper.active{
-  padding-top: 90px;
-} */
+    padding-top: 90px;
+  } */
 .inner-wrapper {
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
@@ -942,8 +942,8 @@ ul.options-box li button:hover {
 }
 
 /*body {
-    position: relative;
-}*/
+      position: relative;
+  }*/
 li button {
   margin-left: 20px !important;
 }
@@ -1468,16 +1468,16 @@ li button {
 }
 
 .course-bg:nth-child(1) .cdetail {
-  background-image: url('../../../assets/img/wave-1@3x.png');
+  background-image: url('../../../../assets/img/wave-1@3x.png');
 }
 .course-bg:nth-child(2) .cdetail {
-  background-image: url('../../../assets/img/wave-2@3x.png');
+  background-image: url('../../../../assets/img/wave-2@3x.png');
 }
 .course-bg:nth-child(3) .cdetail {
-  background-image: url('../../../assets/img/wave-3@3x.png');
+  background-image: url('../../../../assets/img/wave-3@3x.png');
 }
 .course-bg:nth-child(4) .cdetail {
-  background-image: url('../../../assets/img/wave-4@3x.png');
+  background-image: url('../../../../assets/img/wave-4@3x.png');
 }
 .cdetail h5 {
   color: #2e3d4d !important;
@@ -1920,8 +1920,8 @@ label.room-name::before {
 }
 .customer-row {
   /*max-height: 320px;
-  height: 320px;
-  overflow: scroll;*/
+    height: 320px;
+    overflow: scroll;*/
   position: static;
 }
 
@@ -1964,7 +1964,7 @@ button:disabled {
   border-radius: 28px;
   background-color: #f2f4f5;
   /* padding: 6px;
-  padding-top: 12px; */
+    padding-top: 12px; */
   margin-bottom: 24px;
   height: 56px;
 }
@@ -1977,12 +1977,12 @@ button:disabled {
   height: 48px;
 }
 /* .single-student p{
-  margin-bottom: 0;
-  font-size: 16px;
-  font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
-  color: #2e3d4d;
-  padding-left: 12px;
-} */
+    margin-bottom: 0;
+    font-size: 16px;
+    font-family: 'Inter-UI-SemiBold',Arial,sans-serif;
+    color: #2e3d4d;
+    padding-left: 12px;
+  } */
 .btn-class-cancel {
   background: #007fff;
   color: #ffffff;
@@ -1990,8 +1990,8 @@ button:disabled {
 
 .btn-assignRelief {
   /* background: #fff;
-  border: solid 2px #007fff;
-  color: #0080ff; */
+    border: solid 2px #007fff;
+    color: #0080ff; */
   font-family: Inter;
   font-style: normal;
   font-weight: bold;
@@ -2049,8 +2049,8 @@ button:disabled {
   color: #801f19 !important;
 }
 /* .single-student.no-data-alert{
-
-} */
+  
+  } */
 .single-student.present-alert {
   background: #c2f2d6;
 }
@@ -2246,12 +2246,12 @@ button:disabled {
   left: 240px;
   top: 60px;
   /*-webkit-transform: translate(30px, 20px) rotate(180deg);
-  transform: translate(30px, 20px) rotate(180deg);
-  top: -40px;
-  left: 130px;
-  top: 50px solid transparent;
-  left: 100px solid red;
-  bottom: 50px solid transparent;*/
+    transform: translate(30px, 20px) rotate(180deg);
+    top: -40px;
+    left: 130px;
+    top: 50px solid transparent;
+    left: 100px solid red;
+    bottom: 50px solid transparent;*/
 }
 
 .btns-wrap {
@@ -2260,7 +2260,7 @@ button:disabled {
   top: 90px;
   /*top: 58px;*/
   /*top: 83%;
-  right: 25%;*/
+    right: 25%;*/
 }
 
 .btns-wrap .btn:first-child {
@@ -2375,7 +2375,7 @@ button:disabled {
 
 .payment-item {
   /*width: 117px;
-  height: 98px;*/
+    height: 98px;*/
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   margin-right: 32px;
@@ -2573,8 +2573,8 @@ input[type='number']::-webkit-outer-spin-button {
   color: #2e3d4d;
 }
 /* .btn-cancel-crt,.btn-done-crt{
-  box-shadow: none!important;
-} */
+    box-shadow: none!important;
+  } */
 .btn-done-crt {
   width: 96px;
   height: 44px;
@@ -2653,9 +2653,9 @@ input[type='number']::-webkit-outer-spin-button {
 
 /* .close{ */
 /* width: 48px;
-  height: 48px;
-  padding: none!important;
-} */
+    height: 48px;
+    padding: none!important;
+  } */
 .modal-header .close {
   padding: 0rem !important;
   margin: -1rem -1rem -1rem auto;
@@ -2957,37 +2957,37 @@ button:focus {
   }
 }
 /* @media only screen and  (max-width:879px){
-  .inner-wrapper{
-    min-width: 100%!important;
-    max-width: 900px!important;
+    .inner-wrapper{
+      min-width: 100%!important;
+      max-width: 900px!important;
+    }
+  
   }
-
-}
-
-@media only screen and  (max-width:1024px){
-  .inner-wrapper{
-    min-width: 900px;
+  
+  @media only screen and  (max-width:1024px){
+    .inner-wrapper{
+      min-width: 900px;
+    }
+  
   }
-
-}
-@media only screen and  (min-width:1024px){
-  .inner-wrapper{
-    min-width: 900px;
-
+  @media only screen and  (min-width:1024px){
+    .inner-wrapper{
+      min-width: 900px;
+  
+    }
   }
-}
-@media only screen and  (min-width:1540px){
-  .inner-wrapper{
-    min-width: 1360px;
-
+  @media only screen and  (min-width:1540px){
+    .inner-wrapper{
+      min-width: 1360px;
+  
+    }
   }
-}
-@media only screen and  (min-width:2060px){
-  .inner-wrapper{
-    min-width: 1920px;
-
-  }
-} */
+  @media only screen and  (min-width:2060px){
+    .inner-wrapper{
+      min-width: 1920px;
+  
+    }
+  } */
 
 .input-lesson [type='number']::-webkit-inner-spin-button,
 .input-lesson [type='number']::-webkit-outer-spin-button {
@@ -3012,8 +3012,8 @@ button:focus {
   /*border: 1px solid #00b34a;*/
 }
 /*.radio-absent{
-  border: 1px solid #ff3d33;
-}*/
+    border: 1px solid #ff3d33;
+  }*/
 
 /* Hide the browser's default radio button */
 .radio-present input,
@@ -3066,8 +3066,8 @@ button:focus {
 
 /* On mouse-over, add a grey background color */
 /*.container:hover input ~ .checkmark {
-  background-color: #ccc;
-}*/
+    background-color: #ccc;
+  }*/
 
 /* When the radio button is checked, add a blue background */
 .radio-present input:checked ~ .checkmark {
@@ -3081,8 +3081,8 @@ button:focus {
 }
 
 /*.radio-present input:checked ~ .radio-present{
-  background: #c2f2d6;
-}*/
+    background: #c2f2d6;
+  }*/
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
@@ -3395,7 +3395,7 @@ p.textCount {
   right: -45px;
   top: 10px;
   opacity: 0.7;
-  background-image: url('../../../assets/icons/icon-delete.svg');
+  background-image: url('../../../../assets/icons/icon-delete.svg');
   background-repeat: no-repeat;
   background-size: 28px 40px;
   background-position: 10px 1px;
@@ -3463,9 +3463,9 @@ p.reschedule-title {
 .scrollbar {
   /* overflow-y: scroll; */
   /* min-height: 220px;
-  max-height: 220px; */
+    max-height: 220px; */
   /* overflow: overlay;
-  overflow-x: overlay; */
+    overflow-x: overlay; */
   position: relative;
   margin-right: -10px;
 }
