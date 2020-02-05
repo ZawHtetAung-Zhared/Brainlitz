@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-assign-task',
@@ -10,7 +11,8 @@ export class AssignTaskComponent implements OnInit {
   public classActiveId: any;
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
-
+  public clickableSteps: Array<any> = ['step1'];
+  public activeStep: any;
   public standardList: any = [
     {
       _id: '1',
@@ -51,6 +53,42 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToScheduleTask() {
+    setTimeout(function() {
+      $('#step1').addClass('active');
+    }, 200);
+    this.activeStep = '1';
     this.isScheduleTask = true;
+  }
+
+  stepClick(event, step) {
+    if (this.clickableSteps.includes(step)) {
+      $('#' + step).addClass('active');
+      this.activeStep = step;
+      this.addOrRemoveClassOfStep($(event.target));
+    }
+    console.log('active step', this.activeStep);
+  }
+
+  addOrRemoveClassOfStep(ele) {
+    var max = this.clickableSteps[this.clickableSteps.length - 1];
+    ele.parents('li').removeClass('done');
+    ele
+      .parents('li')
+      .prevAll('li')
+      .addClass('done');
+    ele
+      .parents('li')
+      .prevAll('li')
+      .removeClass('active');
+    ele
+      .parents('li')
+      .nextAll('li')
+      .removeClass('active');
+    for (var i = 0; i < this.clickableSteps.length; i++) {
+      $('#' + this.clickableSteps[i])
+        .children('a')
+        .css('background-color', '#0080ff');
+    }
+    if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
   }
 }

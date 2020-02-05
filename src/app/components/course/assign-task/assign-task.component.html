@@ -109,7 +109,7 @@
 <!-- start schedule task -->
 <div class="h-100" *ngIf="isScheduleTask">
   <div class="d-flex justify-content-center p-2 addBg">
-    <div class="inner-wrapper pt-0">
+    <div class="inner-wrapper1 pt-0">
       <header>
         <div
           class="d-flex d-wrapper medium"
@@ -131,13 +131,52 @@
     </div>
   </div>
   <div class="d-flex-jusitfy-content-center menuborder">
-    <div class="inner-wrapper">
-      <p class="name-header bold" *ngIf="!isStart">
-        Standard and class level
-      </p>
-      <p class="name-header bold" *ngIf="isStart">
-        Assigning tasks - getting started
-      </p>
+    <div class="progress-box-wrap">
+      <ol class="progress" data-steps="4">
+        <li id="step1">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step1')"
+            (click)="stepClick($event, '1')"
+          >
+            <span>1</span>
+          </a>
+        </li>
+        <li id="step2">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step2')"
+            (click)="stepClick($event, '2')"
+          >
+            <span>2</span>
+          </a>
+        </li>
+        <li id="step3">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step3')"
+            (click)="stepClick($event, '3')"
+          >
+            <span>3</span>
+          </a>
+        </li>
+        <li id="step4">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step4')"
+            (click)="stepClick($event, '4')"
+          >
+            <span>4</span>
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div *ngIf="activeStep == '1'" class="div_step">
+      <div class="inner-wrapper1">
+        <p class="step-title bold">
+          Choose a template to assign scheduled tasks.
+        </p>
+      </div>
     </div>
   </div>
 </div>
