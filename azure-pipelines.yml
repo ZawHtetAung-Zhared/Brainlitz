@@ -5,7 +5,8 @@
 
 trigger:
 - live
-- staging
+# - none
+# - staging
 
 pool:
   vmImage: 'ubuntu-latest'

@@ -321,6 +321,9 @@ export class CourseComponent implements OnInit {
       this.isCourseCreate = false;
       this.isCourseDetail = true;
       this.showCourseDetail(this.courseId);
+      //localStorage.removeItem('COURSEID')
+      console.log('I set item');
+      localStorage.setItem('COURSEID', this.courseId);
       this.courseList = [];
     });
 
@@ -1682,6 +1685,7 @@ export class CourseComponent implements OnInit {
   getUsersInCourse(courseId) {
     this.reScheduleCId = '';
     console.log('hi call course', courseId);
+    localStorage.setItem('COURSEID', courseId);
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
     this.reScheduleCId = courseId;
