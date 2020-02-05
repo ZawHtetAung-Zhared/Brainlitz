@@ -17,7 +17,6 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
-import { CourseListComponent } from './components/course-list/course-list.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 
 import {
@@ -29,7 +28,8 @@ import {
   AttendanceComponent,
   TasksComponent,
   LeaderboardComponent,
-  MasteriesreportComponent
+  MasteriesreportComponent,
+  CourseListComponent
 } from './components/course/index';
 
 export const routes: Routes = [
@@ -70,8 +70,8 @@ export const routes: Routes = [
   },
   {
     path: 'course',
-    component: CourseComponent,
-    // component: CourseListComponent,
+    // component: CourseComponent,
+    component: CourseListComponent,
     canActivate: [LoggedInGuard]
   },
   {
@@ -80,7 +80,7 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
-    path: 'coursedetail',
+    path: 'coursedetail/:id',
     component: CoursedetailComponent,
     canActivate: [LoggedInGuard],
     children: [
