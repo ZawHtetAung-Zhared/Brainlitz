@@ -647,6 +647,7 @@ export class CourseComponent implements OnInit {
   clickoutSide() {
     this.isoutSideClick = true;
     this.iscourseSearch = false;
+    console.log('click out side >>>>>>>>>>\n:::::::::::::\n::::::::::::::');
   }
 
   hideCourseSearch() {

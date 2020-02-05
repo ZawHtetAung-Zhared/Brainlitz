@@ -1,3 +1,182 @@
-<p>
-  assign-task works!
-</p>
+<div class="h-100" *ngIf="!isScheduleTask">
+  <div class="d-flex justify-content-center p-2 addBg">
+    <div class="inner-wrapper pt-0">
+      <header>
+        <div
+          class="d-flex d-wrapper medium"
+          [ngClass]="{ stickywrap: navIsFixed == true }"
+        >
+          <div class="mr-auto p-2 pl-0 pb-0">
+            <div class="back-modal" (click)="back()">
+              <i class="fa fa-angle-left"></i>
+              <p>Course Name</p>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <button type="button" class="btn sticky-cancel" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div class="d-flex-jusitfy-content-center menuborder">
+    <div class="inner-wrapper">
+      <p class="name-header bold" *ngIf="!isStart">
+        Standard and class level
+      </p>
+      <p class="name-header bold" *ngIf="isStart">
+        Assigning tasks - getting started
+      </p>
+    </div>
+  </div>
+  <div class="d-flex jusitfy-content-center main-wrapper" *ngIf="!isStart">
+    <div class="inner-wrapper pt-3">
+      <p class="title bold">Standard</p>
+      <div class="d-flex standard-wrapper">
+        <div
+          class="standard-block medium"
+          *ngFor="let standard of standardList"
+          (click)="checkStandard(standard._id)"
+          [ngClass]="{ active: standActiveId == standard._id }"
+        >
+          {{ standard.name }}
+        </div>
+      </div>
+      <p class="title bold mb-0">Class level</p>
+      <div class="d-flex class-wrapper">
+        <div
+          class="col-md-4 ml-0 pl-0 mt-0 pt-0"
+          *ngFor="let class of classList"
+          (click)="choiceClass(class._id)"
+        >
+          <div
+            class="d-flex class-block"
+            [ngClass]="{ active: classActiveId == class._id }"
+          >
+            <div class="check-circle"></div>
+            <p class="class-name">{{ class.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="d-flex justify-content-between inner-wrapper footer-wrapper">
+        <div class="back-modal medium">
+          <i class="fa fa-angle-left"></i>
+          <p>Back</p>
+        </div>
+        <button
+          class="btn btn-comfirm medium"
+          (click)="goToStart()"
+          [disabled]="!classActiveId"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex jusitfy-content-center start-wrapper" *ngIf="isStart">
+    <div class="inner-wrapper">
+      <p class="start-que bold">What would you like to proceed?</p>
+      <div class="d-flex">
+        <div class="col-md-6 pl-0" (click)="goToScheduleTask()">
+          <div class="choice-block">
+            <p class="choice-title bold">Scheduled task</p>
+            <p class="choice-description medium">
+              Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+              ex culpa incididunt quis nostrud sunt incididunt veniam tempor
+              enim elit cillum dolore.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-6 pl-0">
+          <div class="choice-block">
+            <p class="choice-title bold">Custom task</p>
+            <p class="choice-description medium">
+              Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+              ex culpa incididunt quis nostrud sunt incididunt veniam tempor
+              enim elit cillum dolore.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- start schedule task -->
+<div class="h-100" *ngIf="isScheduleTask">
+  <div class="d-flex justify-content-center p-2 addBg">
+    <div class="inner-wrapper1 pt-0">
+      <header>
+        <div
+          class="d-flex d-wrapper medium"
+          [ngClass]="{ stickywrap: navIsFixed == true }"
+        >
+          <div class="mr-auto p-2 pl-0 pb-0">
+            <div class="back-modal" (click)="back()">
+              <i class="fa fa-angle-left"></i>
+              <p>Course Name</p>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <button type="button" class="btn sticky-cancel" (click)="cancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div class="d-flex-jusitfy-content-center menuborder">
+    <div class="progress-box-wrap">
+      <ol class="progress" data-steps="4">
+        <li id="step1">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step1')"
+            (click)="stepClick($event, '1')"
+          >
+            <span>1</span>
+          </a>
+        </li>
+        <li id="step2">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step2')"
+            (click)="stepClick($event, '2')"
+          >
+            <span>2</span>
+          </a>
+        </li>
+        <li id="step3">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step3')"
+            (click)="stepClick($event, '3')"
+          >
+            <span>3</span>
+          </a>
+        </li>
+        <li id="step4">
+          <a
+            class="step"
+            [class.adisabled]="!clickableSteps.includes('step4')"
+            (click)="stepClick($event, '4')"
+          >
+            <span>4</span>
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div *ngIf="activeStep == '1'" class="div_step">
+      <div class="inner-wrapper1">
+        <p class="step-title bold">
+          Choose a template to assign scheduled tasks.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,3 +7,4 @@ export * from './tasks/tasks.component';
 export * from './leaderboard/leaderboard.component';
 export * from './attendance/attendance.component';
 export * from './masteriesreport/masteriesreport.component';
+export * from './course-list/course-list.component';

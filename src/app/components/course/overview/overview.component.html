@@ -1,3 +1,101 @@
-<p>
-  overview works!
-</p>
+<div class="card-column">
+  <div class="customer-view">
+    <div class="cardhead">
+      <h3>Customers</h3>
+      <p>30/30 seat lefts</p>
+    </div>
+    <div class="cardbody d-flex">
+      <div class="d-flex customer-div">
+        <h6 style="color: #007D49;">Paid</h6>
+        <p class="big-no">0</p>
+        Customers
+      </div>
+      <div class="d-flex customer-div">
+        <h6 style="color: #805500">Partial Paid</h6>
+        <p class="big-no">0</p>
+        Customers
+      </div>
+      <div class="d-flex customer-div">
+        <h6 style="color: #8C1E1C">Unpaid</h6>
+        <p class="big-no">0</p>
+        Customers
+      </div>
+    </div>
+    <div class="cardfoot">
+      <div class="d-flex justify-content-between pt-3">
+        Must enroll students to this course
+        <button class="detail-btn">
+          Enroll customer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="attendance-view">
+    <div class="cardhead">
+      <h3>Attendance</h3>
+    </div>
+    <div class="cardbody d-flex" style="flex-direction: column;">
+      <div class="d-flex justify-content-between">
+        <span><img src="../../../../assets/img/chevron-right-s.png"/></span>
+        <span>12 Jan 2020</span>
+        <span><img src="../../../../assets/img/chevron-left-s.png"/></span>
+      </div>
+      <div class="d-flex justify-content-center">
+        2
+      </div>
+    </div>
+    <div class="cardfoot">
+      foot
+    </div>
+  </div>
+
+  <div class="tasks-view">
+    <div class="cardhead">
+      <h3>Tasks</h3>
+      <span class="spaninline">
+        <p class="m-0">SW</p>
+      </span>
+    </div>
+    <div class="cardbody">
+      <div class="d-flex">
+        <div class="d-flex task-div">
+          <div class="d-flex task-status">
+            <p class="big-no">0</p>
+            <span class="task-label"> SCHEDULED</span>
+          </div>
+          <h6>task assigned</h6>
+        </div>
+        <div class="d-flex task-div">
+          <div class="d-flex task-status">
+            <p class="big-no">0</p>
+            <span class="task-label"> CUSTOM</span>
+          </div>
+          <h6>tasks assigned</h6>
+        </div>
+      </div>
+    </div>
+    <div class="cardfoot">
+      <div style="float: right">
+        <button class="detail-btn" routerLink="../../../assignTask">
+          Assign task
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="leaderboard-view">
+    <div class="cardhead">
+      <h3>Leaderboard</h3>
+      <span class="spaninline">
+        <p class="m-0">SW</p>
+      </span>
+    </div>
+    <div class="cardbody">
+      body
+    </div>
+    <div class="cardfoot">
+      foot
+    </div>
+  </div>
+</div>
