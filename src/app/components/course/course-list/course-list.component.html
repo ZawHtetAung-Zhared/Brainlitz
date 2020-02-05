@@ -117,7 +117,9 @@
                   {{ course.location == null ? '-' : course.location?.name }}
                 </label>
               </div>
-              <span class="cplan-title1"> {{ course.name }} </span>
+              <span class="cplan-title1" (click)="showCourseDetail(course._id)">
+                {{ course.name }}
+              </span>
               <span
                 *ngIf="course.teacher != undefined"
                 class="font-15 light-color"

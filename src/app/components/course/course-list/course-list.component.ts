@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { appService } from '../../service/app.service';
-import { DataService } from '../../service/data.service';
+import { appService } from '../../../service/app.service';
+import { DataService } from '../../../service/data.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -348,5 +348,9 @@ export class CourseListComponent implements OnInit {
     this.isCoursePlanDetail = false;
     this.isCategory = true;
     this.goBackCat = false;
+  }
+
+  showCourseDetail(courseId) {
+    this.router.navigate(['/coursedetail', courseId]);
   }
 }
