@@ -27,7 +27,6 @@ import { appService } from './service/app.service';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
@@ -41,6 +40,7 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbModalStackModule } from 'ng-bootstrap-modal-stack';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -132,6 +132,20 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
 import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
+// import { CourseListComponent } from './components/course-list/course-list.component';
+
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent,
+  CourseListComponent
+} from './components/course/index';
 
 @NgModule({
   declarations: [
@@ -225,12 +239,22 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     LessonDurationPipe,
     RemainingLessonDatePipe,
     ReviewComponent,
-    LivechatComponent
+    LivechatComponent,
+    CourseListComponent,
+    AssignTaskComponent,
+    CoursedetailComponent,
+    OverviewComponent,
+    CustomerComponent,
+    AttendanceComponent,
+    TasksComponent,
+    LeaderboardComponent,
+    MasteriesreportComponent
   ],
   imports: [
     ContentLoaderModule,
     BrowserModule,
     RouterTestingModule,
+    NgbModalStackModule.forRoot(),
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

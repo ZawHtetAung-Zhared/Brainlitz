@@ -445,7 +445,9 @@ h3.head-rating-count {
   top: 80px;
 }
 .side-bar-wrap.p-top {
-  top: 114px;
+  /* top: 114px; */
+  top: 70px;
+  padding-top: 45px;
 }
 .noti-sidebar {
   /*padding-top: 150px;*/

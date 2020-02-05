@@ -101,6 +101,10 @@ export class ReportComponent implements OnInit {
       console.log('true');
       this.navIsFixed = true;
       this.isMidStick = false;
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
     } else {
       console.log('false');
       this.navIsFixed = false;

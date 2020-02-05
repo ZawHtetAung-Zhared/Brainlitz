@@ -172,21 +172,21 @@
 								<span class="location-name">{{locationName}}</span>
 							</div>
 							</div> -->
-      <div>
-        <h2
-          style="margin-right: 5px;"
-          class="title-heading margin-heading pull-left"
-        >
+      <div class="d-flex mt-3">
+        <h2 style="margin-right: 5px;" class="title-heading  pull-left">
           Send notification
         </h2>
-        <span
-          class="location-name"
-          [ngStyle]="{
-            color: gtxtColor,
-            background: gbgColor
-          }"
-          >{{ locationName }}</span
-        >
+        <div class="mt-2">
+          <label
+            class="location-name"
+            [ngStyle]="{
+              color: gtxtColor,
+              background: gbgColor
+            }"
+            >{{ locationName }}</label
+          >
+        </div>
+
         <!-- [ngStyle]="{
             color: gtxtColor,
             background: gbgColor
@@ -519,9 +519,9 @@
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="address" class="lable-title">Message</label>
-                <div class="limit-word1">
+                <!-- <div class="limit-word1">
                   <span>{{ wordLength }}/280characters</span>
-                </div>
+                </div> -->
               </div>
               <textarea
                 class="form-control input-create"
@@ -532,7 +532,6 @@
                 #message="ngModel"
                 (focus)="focusMethod($event, 'msg', $event.target.value)"
                 (blur)="blurMethod($event, 'msg')"
-                maxlength="280"
                 (input)="changeMethod($event.target.value)"
                 required
               ></textarea>
@@ -694,7 +693,7 @@
       </div>
     </div>
     <div
-      class="d-flex flex-column main-wrapper w-100 h-100 app-xxx align-items-center"
+      class="d-flex flex-column main-wrapper w-100 h-100"
       *ngIf="notiType == 'apg'"
     >
       <app-apg class="w-100 control-apg"></app-apg>

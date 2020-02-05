@@ -776,19 +776,24 @@ ul.options-box li button:hover {
   border-radius: 4px;
   margin-bottom: 20px;
 }
+
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
-  line-height: 0.5;
+
+  /* line-height: 0.5; */
   position: relative;
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-size: 12px;
-  background: #cce6ff;
+  /* background: #cce6ff; */
   margin-left: 5px;
-  padding: 9px;
   margin-bottom: 0;
   border-radius: 25px;
-  display: table;
+  /* display: table; */
+  word-break: break-all;
+  max-width: 320px;
+  padding: 3px 8px;
+  max-height: 45px;
+  overflow: overlay;
 }
 /*.timeline::-webkit-scrollbar-track
 {
@@ -1258,7 +1263,8 @@ li button {
 .back-inv,
 .c-label,
 .paid-amount,
-.relief-name label {
+.relief-name label,
+.modal-p {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .single-progress h4,
@@ -1356,6 +1362,8 @@ li button {
 }
 .detail-info label {
   margin-bottom: 0;
+  -ms-word-break: break-all;
+  word-break: break-all;
 }
 .detail-info h4 {
   color: #2e3e4d;
@@ -1392,11 +1400,29 @@ li button {
   color: #2e3e4d;
   font-size: 18px;
 }
+
+.modal-cfees .course-name {
+  color: #2e3e4d;
+  font-size: 18px;
+  word-break: break-all;
+  max-height: 50px;
+  overflow: overlay;
+  margin-bottom: 0;
+}
 .detail-fees sup {
   font-size: 12px;
   color: #2e3d4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
+.libr {
+  word-break: break-all;
+  width: 85%;
+}
+
+.libr2 {
+  word-break: break-all;
+}
+
 .detail-fees h5 {
   color: #64707d;
   font-size: 16px;
@@ -2485,6 +2511,12 @@ input[type='number']::-webkit-outer-spin-button {
   }
 }
 
+@media (max-width: 768px) {
+  .item-width {
+    max-width: 350px;
+  }
+}
+
 /*Large devices (1025px t0 1999px)*/
 @media (min-width: 1025px) and (max-width: 1999px) {
   .card-columns {
@@ -2912,6 +2944,10 @@ button:focus {
 
 .m-bottom {
   margin-bottom: 200px;
+}
+
+.wordBreak {
+  word-break: break-word;
 }
 
 @media only screen and (min-width: 1366px) {
