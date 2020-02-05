@@ -170,10 +170,12 @@ button.btn.btn-comfirm {
 .choice-description {
   color: #5c6773;
   font-size: 15px;
+  word-break: break-all;
 }
 .choice-block:hover {
   background: #edeef0 !important;
 }
+
 /* end */
 /* start progress bar */
 .progress-box-wrap {
@@ -382,6 +384,29 @@ p.template-description {
 
 .template-description.active {
   color: #fff !important;
+}
+/* end */
+/* step 2 */
+.template-info-wrapper {
+  margin-top: 40px;
+}
+.template-description2 {
+  color: #5c6773;
+  font-size: 17px;
+  word-break: break-all;
+  margin-right: 70px;
+  padding-right: 10px;
+}
+p.startDate-title {
+  margin-bottom: 0;
+  color: #5c6773;
+  padding: 0 !important;
+  font-size: 17px;
+}
+p.date-description {
+  color: #5c6773;
+  font-size: 15px;
+  word-break: break-all;
 }
 /* end step */
 
