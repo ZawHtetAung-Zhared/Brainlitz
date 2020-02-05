@@ -9,14 +9,10 @@ export const environment = {
   response_type: 'code',
   grant_type: 'authorization_code',
   orgID: '5b063e2636f2e0f83cdbac88',
-<<<<<<< HEAD
   // apiurl: 'http://192.168.1.106:8484'
-  apiurl: 'http://dev-app.brainlitz.com',
+  apiurl: '',
   // apiurl: ' https://dev-brainlitz.pagewerkz.com',
   // apiurl: 'https://staging-brainlitz.pagewerkz.com',
   courseTypeDisabled: false,
   livechatDisabled: false
-=======
-  apiurl: ''
->>>>>>> master
 };
