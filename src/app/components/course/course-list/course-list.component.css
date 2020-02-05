@@ -4,9 +4,9 @@
 
 .content-wrapper {
   background: #f7f9fa;
-  width: 100vw;
+  /* width: 100vw;
   height: 100vh;
-  overflow: overlay;
+  overflow: overlay; */
 }
 
 .header-font {
@@ -109,6 +109,7 @@
     max-width: 90% !important;
   }
 }
+
 .light-color {
   color: #5c6773;
 }

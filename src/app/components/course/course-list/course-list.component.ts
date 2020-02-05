@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
@@ -10,29 +10,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
-  public regionId = localStorage.getItem('regionId');
-  public locationID = localStorage.getItem('locationId');
-  public courseList: Array<any> = [];
-  public emptyCourse: boolean;
-  public gtxtColor: any;
-  public gbgColor: any;
-  public locationName: any;
-  public permissionType: any;
-  public coursePermission: any = [];
-  public courseDemo: any = [];
-  public token: any;
-  public type: any;
-  public recentLists: Array<any> = [];
-  public selectedCourseList: any;
-  public selectedPlan: any;
-  public isCategory: boolean = false;
-  public goBackCat: boolean = false;
-  public isPlan: boolean = false;
-  public isCourseCreate: boolean = false;
-  public editplanId: any;
-  public isCoursePlanDetail: boolean = false;
-  public singlePlanData: any = {};
-  public planCategory: any;
+  private regionId = localStorage.getItem('regionId');
+  private locationID = localStorage.getItem('locationId');
+  private courseList: Array<any> = [];
+  private emptyCourse: boolean;
+  private gtxtColor: any;
+  private gbgColor: any;
+  private locationName: any;
+  private permissionType: any;
+  private coursePermission: any = [];
+  private courseDemo: any = [];
+  private token: any;
+  private type: any;
+  private recentLists: Array<any> = [];
+  private selectedCourseList: any;
+  private selectedPlan: any;
+  private isCategory: boolean = false;
+  private goBackCat: boolean = false;
+  private isPlan: boolean = false;
+  private isCourseCreate: boolean = false;
+  private editplanId: any;
+  private isCoursePlanDetail: boolean = false;
+  private singlePlanData: any = {};
+  private planCategory: any;
+  private isSticky = false;
+  private scrollDirection = '';
 
   constructor(
     private _service: appService,
@@ -100,6 +102,20 @@ export class CourseListComponent implements OnInit {
       this.getCoursePlanDetail(this.editplanId, 'goback');
       this.courseList = [];
     });
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      this.isSticky = true;
+    } else {
+      this.isSticky = false;
+    }
+
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      console.log('On Scroll Down');
+      //Write logic here for loading new content.
+      this.scrollDirection = 'down';
+    }
   }
 
   ngOnInit() {
