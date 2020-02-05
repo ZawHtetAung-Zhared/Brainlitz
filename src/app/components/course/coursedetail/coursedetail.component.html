@@ -16,21 +16,23 @@
     <div>
       <div class="display-flex">
         <div class="col-md-8 detail-info">
-          <label>Course Plan Name</label>
-          <h4>Detail list name <span>Course code</span></h4>
-          <p>Description</p>
+          <label>{{ detailLists.coursePlan.name }}</label>
+          <h4>
+            {{ detailLists.name }}<span>{{ detailLists.courseCode }}</span>
+          </h4>
+          <p>{{ detailLists.description }}</p>
         </div>
         <div class="col-md-4 pad-0 d-flex row-reverse">
           <div class="d-flex">
             <div class="circleimg">
               <img
                 class="img-size"
-                src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157967925507520718338_original.jpg"
+                src="{{ detailLists.teacher.profilePic }}"
               />
             </div>
             <div class="flex-column">
               <p class="cap1">Teacher</p>
-              <p class="cap2">Aaron Wamsley</p>
+              <p class="cap2">{{ detailLists.teacher.preferredName }}</p>
             </div>
           </div>
         </div>
@@ -43,7 +45,7 @@
           <div class="cdetail">
             <p>Location</p>
             <p class="locationTxt">
-              Pedok Point
+              {{ detailLists.location.name }}
             </p>
           </div>
         </div>
@@ -51,11 +53,12 @@
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
           <div class="cdetail">
-            <h5>
-              Sun - Mon
+            <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+              {{ day }}
             </h5>
             <p>
-              11:00 AM - 12:00 PM
+              {{ detailLists.duration.startDate | utcTime }} -
+              {{ detailLists.duration.endDate | utcTime }}
             </p>
           </div>
         </div>
@@ -64,15 +67,36 @@
         >
           <div class="cdetail">
             <p>Lesson count</p>
-            <h5>
-              20
-              <span> Lessons </span>
-              <!-- <span *ngIf="detailLists.actualLessonCount <= 1"> Lesson </span> -->
+            <h5
+              *ngIf="
+                detailLists.type !== 'FLEXY' && detailLists.lessonCount == null
+              "
+            >
+              {{ detailLists.actualLessonCount }}
+              <span *ngIf="detailLists.actualLessonCount > 1"> Lessons </span>
+              <span *ngIf="detailLists.actualLessonCount <= 1"> Lesson </span>
               <!-- {{
-                detailLists.type == 'FLEXY'
-                  ? detailLists.defaultlessonCount
-                  : detailLists.actualLessonCount
-              }} -->
+              detailLists.type == 'FLEXY'
+                ? detailLists.defaultlessonCount
+                : detailLists.actualLessonCount
+            }} -->
+            </h5>
+            <h5
+              *ngIf="
+                detailLists.type !== 'FLEXY' && detailLists.lessonCount != null
+              "
+            >
+              <!-- {{
+              detailLists.type == 'FLEXY'
+                ? detailLists.defaultlessonCount
+                : detailLists.lessonCount
+            }} -->
+              {{ detailLists.lessonCount }}
+              Lessons
+            </h5>
+            <h5 *ngIf="detailLists.type === 'FLEXY'">
+              {{ detailLists.actualLessonCount }}
+              Lessons
             </h5>
           </div>
         </div>
@@ -82,13 +106,13 @@
           <div class="d-flex cdetail">
             <div class="col-md-6 pd-zero">
               <p>From</p>
-              <h5>12 Jul' 18</h5>
+              <h5>{{ detailLists.startDate | utcDate }}</h5>
             </div>
             <div class="col-md-6 pd-zero">
-              <!-- <p *ngIf="detailLists.endDate">To</p>
+              <p *ngIf="detailLists.endDate">To</p>
               <h5 *ngIf="detailLists.endDate">
-                22 Sep' 18
-              </h5> -->
+                {{ detailLists.endDate | utcDate }}
+              </h5>
             </div>
           </div>
         </div>
