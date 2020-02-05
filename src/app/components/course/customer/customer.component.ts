@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { Component, OnInit, HostListener } from "@angular/core";
-import { appService } from "../../../service/app.service";
+import { Component, OnInit, HostListener } from '@angular/core';
+import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
 import {
   NgbModal,
@@ -21,10 +21,9 @@ import { DataService } from '../../../service/data.service';
 })
 export class CustomerComponent implements OnInit {
   ngOnInit(): void {
-    this.courseId = "5e2fa55b28084f0013bac758"
-    this.getUsersInCourse(this.courseId)
-    this.getCourseDetail(this.courseId)
-
+    this.courseId = '5e2fa55b28084f0013bac758';
+    this.getUsersInCourse(this.courseId);
+    this.getCourseDetail(this.courseId);
 
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/course') {
@@ -32,7 +31,7 @@ export class CustomerComponent implements OnInit {
         this.checkPermission();
       }
     });
-    console.log(this.courseDemo.assignStudent + " assign student")
+    console.log(this.courseDemo.assignStudent + ' assign student');
   }
 
   constructor(
@@ -40,10 +39,8 @@ export class CustomerComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     public toastr: ToastrService,
-    public dataservice: DataService,
-  ) {
-
-  }
+    public dataservice: DataService
+  ) {}
 
   @HostListener('document:click', ['$event'])
   public test(event): void {
@@ -52,7 +49,7 @@ export class CustomerComponent implements OnInit {
       $('.options-box').css({ display: 'none' });
     } else {
       $('.options-box').css({ display: 'block' });
-      $('.options-box').click(function (event) {
+      $('.options-box').click(function(event) {
         event.stopPropagation();
       });
       this.optionBox = false;
@@ -323,7 +320,7 @@ export class CustomerComponent implements OnInit {
   getUsersInCourse(courseId) {
     this.reScheduleCId = '';
     //console.log('hi call course', courseId);
-    localStorage.setItem('COURSEID', courseId)
+    localStorage.setItem('COURSEID', courseId);
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
     this.reScheduleCId = courseId;
@@ -470,16 +467,14 @@ export class CustomerComponent implements OnInit {
     }
   }
 
-
   public optionsBoxStdID = '';
 
   showOptionsBox(stdID, e) {
     e.preventDefault();
     e.stopPropagation();
 
-
     if (this.optionsBoxStdID !== stdID) {
-      this.optionsBoxStdID = stdID
+      this.optionsBoxStdID = stdID;
       this.yPosition = e.layerY + 40;
     }
     //this.yPosition = e.layerY + 40;
@@ -510,9 +505,9 @@ export class CustomerComponent implements OnInit {
       console.log('custDetail --->', this.custDetail);
       this.selectedCustomer = res;
       //apo
-      this.selectedUserLists.push(res)
+      this.selectedUserLists.push(res);
       //apoend
-      this.stdLists = this.selectedCustomer.userId
+      this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       if (this.detailLists.type == 'FLEXY') {
         if (this.detailLists.seat_left === 0) {
@@ -1137,16 +1132,16 @@ export class CustomerComponent implements OnInit {
           (res: any) => {
             //apo
             var result: any = [];
-            result.push(res)
-            console.log('this.selectedUserLists')
-            console.log(this.selectedUserLists)
-            console.log('~~~~~~~~~~~~~~~~~~')
+            result.push(res);
+            console.log('this.selectedUserLists');
+            console.log(this.selectedUserLists);
+            console.log('~~~~~~~~~~~~~~~~~~');
 
-            var finalresult = result.filter(item =>
-              this.selectedUserLists.indexOf(item) > 0
-            )
-            console.log('length not equal 0 ~~~~~')
-            console.log(finalresult)
+            var finalresult = result.filter(
+              item => this.selectedUserLists.indexOf(item) > 0
+            );
+            console.log('length not equal 0 ~~~~~');
+            console.log(finalresult);
             this.userLists = res;
             //apo end
             //this.userLists = res;
@@ -1155,7 +1150,6 @@ export class CustomerComponent implements OnInit {
             console.log(err);
           }
         );
-
     } else if (searchWord.length == 0) {
       this.userLists = [];
       this.showList = false;
@@ -1218,10 +1212,14 @@ export class CustomerComponent implements OnInit {
   }
 
   comparer(otherArray) {
-    return function (current) {
-      return otherArray.filter(function (other) {
-        return other.value == current.value && other.display == current.display
-      }).length == 0;
-    }
+    return function(current) {
+      return (
+        otherArray.filter(function(other) {
+          return (
+            other.value == current.value && other.display == current.display
+          );
+        }).length == 0
+      );
+    };
   }
 }
