@@ -91,6 +91,13 @@
 .cardbody {
   height: 50%;
   padding: 25px 15px 25px 15px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
 }
 .cardfoot {
   height: 30%;
@@ -187,4 +194,54 @@
 .task-status {
   position: relative;
   left: 45px;
+}
+.present,
+.absent,
+.nodata {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 5px 0 5px;
+}
+.present {
+  background: #91f2ba;
+}
+.absent {
+  background: #ffcfcc;
+}
+.nodata {
+  background: #e3e4e6;
+}
+.data {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  flex-direction: column;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 130%;
+  text-align: center;
+  color: #004d20;
+}
+.attendance-no {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: #004d20;
+}
+.white {
+  background: #ffffff !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #363f4d;
 }
