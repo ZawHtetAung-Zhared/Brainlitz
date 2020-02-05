@@ -4,6 +4,13 @@
 .bold {
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
+.main-wrapper {
+  background: #f7f9fa;
+  margin-top: 4px;
+}
+.addBg {
+  background: #ffffff !important;
+}
 .menuborder {
   background: #ffffff;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
@@ -57,6 +64,9 @@ p.title {
 }
 
 /* start standard block */
+.standard-wrapper {
+  margin-bottom: 24px;
+}
 .standard-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
@@ -76,7 +86,7 @@ p.title {
   flex-wrap: wrap;
   padding-bottom: 100px;
   overflow: overlay;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .class-block {
@@ -116,7 +126,10 @@ p.title {
   width: 100%;
   bottom: 0;
   background: #f7f9fa;
-  padding: 22px 0;
+}
+.footer-wrapper {
+  border-top: solid 1px #e8e9eb;
+  padding: 22px 30px;
 }
 button.btn.btn-back {
   background: #f7f9fa;
@@ -148,10 +161,7 @@ button.btn.btn-comfirm {
   padding: 20px;
   cursor: pointer;
 }
-.start-wrapper {
-  height: 100%;
-  background: #f7f9fa;
-}
+
 .choice-title {
   color: #363f4d;
   font-size: 20px;

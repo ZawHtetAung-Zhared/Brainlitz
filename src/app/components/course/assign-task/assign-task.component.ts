@@ -9,6 +9,7 @@ export class AssignTaskComponent implements OnInit {
   public standActiveId: any;
   public classActiveId: any;
   public isStart: boolean = false;
+  public isScheduleTask: boolean = false;
 
   public standardList: any = [
     {
@@ -28,7 +29,7 @@ export class AssignTaskComponent implements OnInit {
 
   constructor() {}
   ngOnInit() {
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 50; i++) {
       let temp: any = {};
       temp._id = i;
       temp.name = 'Primary ' + i;
@@ -47,5 +48,9 @@ export class AssignTaskComponent implements OnInit {
 
   goToStart() {
     this.isStart = true;
+  }
+
+  goToScheduleTask() {
+    this.isScheduleTask = true;
   }
 }
