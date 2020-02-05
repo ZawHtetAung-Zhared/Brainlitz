@@ -8,6 +8,8 @@
   width: 100%;
   margin-bottom: 25px;
   border: solid 1px rgba(0, 0, 0, 0.05);
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
 }
 .customer-view h3 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
@@ -125,6 +127,7 @@
   flex-direction: column;
 }
 .task-div {
+  position: relative;
   width: 45%;
   margin-right: 20px;
   font-style: normal;
@@ -137,31 +140,22 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 20px;
-  /* identical to box height, or 154% */
-
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-
-  /* Carbon / C100 */
-
   color: #5c6773;
 }
 .task-div h6 {
-  font-family: Inter;
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
   line-height: 24px;
-  /* identical to box height, or 160% */
-
   text-align: center;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-
-  /* Carbon / C300 */
-
   color: #363f4d;
+  position: relative;
+  right: 10px;
 }
 
 .big-no {
@@ -183,4 +177,14 @@
   text-align: center;
   color: #ffffff;
   height: 40px;
+  cursor: pointer;
+}
+.task-label {
+  position: absolute;
+  left: 22px;
+  top: 5px;
+}
+.task-status {
+  position: relative;
+  left: 45px;
 }
