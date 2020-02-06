@@ -382,7 +382,7 @@
                   Dolor veniam magna do fugiat fugiat eiusmod incididunt tempor
                   sit nostrud commodo dolor sit.
                 </p>
-                <div class="d-flex">
+                <div class="d-flex mb-5">
                   <button
                     class="btn btn-control bold"
                     (click)="extraDecrease()"
@@ -397,6 +397,27 @@
                     +
                   </button>
                 </div>
+                <p class="title bold">
+                  Task break
+                </p>
+                <p class="template-description2 medium">
+                  Ut sit quis proident Lorem dolore est sint ea adipisicing
+                  amet.
+                </p>
+                <div class="task-break-wrapper">
+                  <label
+                    class="btn btn-able"
+                    [ngClass]="{ enable: isTaskBreakEnAble == 'Enable' }"
+                    (click)="isTaskBreakEnAble = 'Enable'"
+                    >Enable</label
+                  >
+                  <label
+                    class="btn btn-able"
+                    [ngClass]="{ enable: isTaskBreakEnAble == 'Disable' }"
+                    (click)="isTaskBreakEnAble = 'Disable'"
+                    >Disable</label
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -408,13 +429,53 @@
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
-              <button
-                class="btn btn-comfirm medium"
-                [disabled]="!templateActiveObj._id"
-                (click)="goToStep2($event, '2')"
-              >
-                Continue
-              </button>
+              <div class="d-flex">
+                <button
+                  class="btn btn-edit bold"
+                  (click)="goToStep2($event, '3')"
+                >
+                  Edit More
+                </button>
+                <button
+                  class="btn btn-comfirm medium"
+                  (click)="goToStep3($event, '3')"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeStep == '3'" class="div_step">
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Manage tasks
+          </p>
+          <p class="template-description2 medium">
+            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
+            elit cillum dolore.
+          </p>
+          <p class="title bold">All tasks - {{ taskLists.length }} Tasks</p>
+          <div class="task-wrapper">
+            <div class="col-md-6 pl-1" *ngFor="let task of taskLists">
+              <div class="task-block">
+                <div class="d-flex justify-content-between">
+                  <span class="task-title bold">{{ task.name }}</span>
+                </div>
+                <p class="task-description medium">{{ task.description }}</p>
+                <div class="d-flex justify-content-between">
+                  <span class="masteries-box regular"
+                    >{{ task.masteries }} masteries</span
+                  >
+                  <span class="task-duration regular"
+                    >{{ task.startDate }} - {{ task.endDate }}</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -30,10 +30,11 @@ export class AssignTaskComponent implements OnInit {
   public txtextra: any = 1;
   public clickableSteps: Array<any> = ['1'];
   public scheduletemplateList: any = [];
-
+  public isTaskBreakEnAble: any;
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
 
+  public taskLists: any = [];
   public standardList: any = [
     {
       _id: '1',
@@ -76,6 +77,17 @@ export class AssignTaskComponent implements OnInit {
       temp._id = i;
       temp.name = 'Primary ' + i;
       this.classList.push(temp);
+    }
+    for (let i = 1; i < 50; i++) {
+      let temp: any = {};
+      temp._id = i;
+      temp.name = 'Light energy 0' + i;
+      temp.masteries = '8';
+      temp.startDate = '13 Jan 2019';
+      temp.endDate = '20 Feb 2019';
+      temp.description =
+        ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
+      this.taskLists.push(temp);
     }
 
     this.standActiveId = this.standardList[0]._id;
@@ -141,9 +153,16 @@ export class AssignTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
+    this.isTaskBreakEnAble = 'Enable';
     this.clickableSteps.push(step);
     this.viewDate = new Date();
     this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+    this.stepClick(event, step);
+  }
+
+  goToStep3(event, step) {
+    console.log('step', step);
+    this.clickableSteps.push(step);
     this.stepClick(event, step);
   }
 

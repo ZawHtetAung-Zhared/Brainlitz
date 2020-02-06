@@ -4,8 +4,12 @@
 .bold {
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
+
+.regular {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
 .main-wrapper {
-  background: #f7f9fa;
+  background: #ffffff;
   margin-top: 4px;
 }
 .addBg {
@@ -36,6 +40,7 @@
   color: #2e3d4d !important;
   padding-left: 0 !important;
   cursor: pointer;
+  padding-top: 10px;
 }
 
 .back-modal i {
@@ -127,11 +132,10 @@ p.title {
   width: 100%;
   bottom: 0;
   background: #f7f9fa;
-}
-.footer-wrapper {
+  padding-bottom: 20px;
   border-top: solid 1px #e8e9eb;
-  padding: 22px 30px;
 }
+
 button.btn.btn-back {
   background: #f7f9fa;
   color: #2e3d4d;
@@ -146,6 +150,7 @@ button.btn.btn-comfirm {
   font-size: 16px;
   padding: 8px 10px;
 }
+
 /* end fix footer */
 
 /* start question*/
@@ -325,19 +330,28 @@ a.adisabled:active {
   padding: 50px 60px;
   min-height: 600px;
   margin-bottom: 60px;
+  background: #f7f9fa;
 }
 
 /* footer button */
 .button-wrapper {
-  padding: 10px 30px;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   /*text-align: center;*/
-  padding: 20px 30px;
+  padding: 20px 0px;
   background: #ffffff;
-  border-top: 1px solid #edeff0;
+  /* border-top: 1px solid #edeff0; */
+}
+.btn-edit {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  background: #ffffff;
+  font-size: 14px;
+  padding: 8px 10px;
+  margin-right: 20px;
+  color: #363f4d;
 }
 /* end */
 /* end progress bar */
@@ -377,9 +391,10 @@ a.adisabled:active {
 
 /* step 1 */
 .template-wrapper {
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 }
-.template-name {
+.template-name,
+.task-title {
   font-size: 20px;
   color: #363f4d;
 }
@@ -403,7 +418,8 @@ path.template-icon.active {
   margin-bottom: 24px;
   margin-left: 3px;
 }
-p.template-description {
+p.template-description,
+p.task-description {
   color: #5c6773;
   font-size: 15px;
   word-break: break-all;
@@ -461,6 +477,26 @@ span.txt-extra {
   padding: 10px 0px;
   color: #475466;
   width: 60px;
+}
+
+.task-break-wrapper {
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  padding: 4px;
+  border-radius: 25px;
+  width: 44%;
+}
+
+.enable {
+  background: #0065f2;
+  border: 1px solid #0080ff;
+  color: #fff;
+}
+
+label.btn.btn-able {
+  border-radius: 26px;
+  cursor: pointer;
+  padding: 7px 16px;
+  margin-bottom: 0;
 }
 /* end step */
 
@@ -605,6 +641,32 @@ min-width: 40px;
 }
 /* end angular calendar */
 /* end */
+
+/* step 3 */
+.task-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.task-block {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+span.masteries-box {
+  background: #edeef0;
+  border-radius: 20px;
+  padding: 6px 8px;
+  color: #5c6773;
+  font-size: 17px;
+}
+span.task-duration {
+  color: #5c6773;
+  font-size: 13px;
+  padding: 6px 8px;
+}
+/* end step 3 */
 @media only screen and (min-width: 1366px) {
   .inner-wrapper {
     width: 1080px !important;
@@ -640,6 +702,11 @@ min-width: 40px;
     overflow: overlay;
     height: 470px;
   }
+
+  .task-wrapper {
+    height: 430px;
+    overflow: overlay;
+  }
 }
 
 /*Extra large devices (large desktops, 2000px and up)*/
@@ -666,5 +733,18 @@ min-width: 40px;
 
   .inside-data-wrapper {
     width: 100%;
+    padding: 50px 20px;
+  }
+
+  .footer-wrapper {
+    border-top: solid 1px #e8e9eb;
+    padding: 20px 30px 0px 30px;
+  }
+
+  .task-break-wrapper {
+    width: 64% !important;
+  }
+  .button-wrapper {
+    background: #f7f9fa;
   }
 }
