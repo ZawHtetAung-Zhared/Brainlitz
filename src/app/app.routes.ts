@@ -31,6 +31,7 @@ import {
   MasteriesreportComponent,
   CourseListComponent
 } from './components/course/index';
+import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -72,6 +73,11 @@ export const routes: Routes = [
     path: 'course',
     // component: CourseComponent,
     component: CourseListComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'coursedetail/:id/enroll',
+    component: EnrollUserComponent,
     canActivate: [LoggedInGuard]
   },
   {

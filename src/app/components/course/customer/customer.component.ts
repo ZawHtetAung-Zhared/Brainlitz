@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
@@ -14,6 +14,7 @@ import { environment } from '../../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../service/data.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-customer',
@@ -22,7 +23,13 @@ import { DataService } from '../../../service/data.service';
 })
 export class CustomerComponent implements OnInit {
   ngOnInit(): void {
+    // this.route.paramMap.subscribe(params => {
+    //   //this.courseId = params['id']; //undefined
+    //  // this.courseId=params.get('id'); // null
+    // });
+    //this.courseId = this.route.snapshot.params.id;
     this.courseId = '5e2fa55b28084f0013bac758';
+    console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
 
@@ -40,7 +47,8 @@ export class CustomerComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     public toastr: ToastrService,
-    public dataservice: DataService
+    public dataservice: DataService,
+    public route: ActivatedRoute
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -1044,51 +1052,51 @@ export class CustomerComponent implements OnInit {
   }
 
   addUserModal(type, userModal, state, id, courseType) {
-    this.selectedCustomer = {};
-    this.selectedTeacherLists = [];
-    this.isvalidID = state;
-    //this.selectedUserLists = []; apo
-    this.selectedUserId = [];
-    this.modalReference = this.modalService.open(userModal, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
-    this.userType = type;
-    return new Promise((resolve, reject) => {
-      if (state != 'inside') {
-        console.log('first');
-        this.isSeatAvailable = true;
-        this.getCourseDetail(id);
-        this.getUsersInCourse(id);
-      } else if (this.detailLists.seat_left == null) {
-        console.log('second');
-        this.isSeatAvailable = true;
-        // this.getCourseDetail(id);
-      } else {
-        console.log('third');
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
 
-        if (
-          this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats
-        ) {
-          this.isSeatAvailable = false;
-        } else {
-          this.isSeatAvailable = true;
-        }
-      }
-      resolve();
-    }).then(() => {
-      setTimeout(() => {
-        console.log('detail lists', this.detailLists);
-        if (courseType == 'REGULAR' && type == 'customer') {
-          for (var i in this.pplLists.CUSTOMER) {
-            console.log(this.pplLists.CUSTOMER[i]);
-            this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
-          }
-        }
-        console.log(this.stdLists);
-      }, 500);
-    });
+    // this.selectedCustomer = {};
+    // this.selectedTeacherLists = [];
+    // this.isvalidID = state;
+    // this.selectedUserId = [];
+    // this.modalReference = this.modalService.open(userModal, {
+    //   backdrop: 'static',
+    //   windowClass:
+    //     'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    // });
+    // this.userType = type;
+    // return new Promise((resolve, reject) => {
+    //   if (state != 'inside') {
+    //     console.log('first');
+    //     this.isSeatAvailable = true;
+    //     this.getCourseDetail(id);
+    //     this.getUsersInCourse(id);
+    //   } else if (this.detailLists.seat_left == null) {
+    //     console.log('second');
+    //     this.isSeatAvailable = true;
+    //   } else {
+    //     console.log('third');
+
+    //     if (
+    //       this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats
+    //     ) {
+    //       this.isSeatAvailable = false;
+    //     } else {
+    //       this.isSeatAvailable = true;
+    //     }
+    //   }
+    //   resolve();
+    // }).then(() => {
+    //   setTimeout(() => {
+    //     console.log('detail lists', this.detailLists);
+    //     if (courseType == 'REGULAR' && type == 'customer') {
+    //       for (var i in this.pplLists.CUSTOMER) {
+    //         console.log(this.pplLists.CUSTOMER[i]);
+    //         this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
+    //       }
+    //     }
+    //     console.log(this.stdLists);
+    //   }, 500);
+    // });
   }
 
   focusMethod(e, userType) {
