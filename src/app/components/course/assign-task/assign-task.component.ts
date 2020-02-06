@@ -9,10 +9,15 @@ declare var $: any;
 export class AssignTaskComponent implements OnInit {
   public standActiveId: any;
   public classActiveId: any;
+  public templateActiveObj: any = {};
+  public activeStep: any;
+
+  public clickableSteps: Array<any> = ['1'];
+  public scheduletemplateList: any = [];
+
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
-  public clickableSteps: Array<any> = ['step1'];
-  public activeStep: any;
+
   public standardList: any = [
     {
       _id: '1',
@@ -31,12 +36,21 @@ export class AssignTaskComponent implements OnInit {
 
   constructor() {}
   ngOnInit() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 1; i < 50; i++) {
+      let temp: any = {};
+      temp._id = i;
+      temp.name = 'Template sample ' + i;
+      temp.description =
+        ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
+      this.scheduletemplateList.push(temp);
+    }
+    for (let i = 1; i < 50; i++) {
       let temp: any = {};
       temp._id = i;
       temp.name = 'Primary ' + i;
       this.classList.push(temp);
     }
+
     this.standActiveId = this.standardList[0]._id;
   }
 
@@ -53,6 +67,12 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToScheduleTask() {
+    $('#placeholder_color').append(
+      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+        '#788796' +
+        ' !important;} .data-name::-moz-placeholder{color: #788796!important; opacity:1;} .data-name:-moz-placeholder{color: #788796 !important; opacity:1;}</style>'
+    );
+
     setTimeout(function() {
       $('#step1').addClass('active');
     }, 200);
@@ -62,7 +82,7 @@ export class AssignTaskComponent implements OnInit {
 
   stepClick(event, step) {
     if (this.clickableSteps.includes(step)) {
-      $('#' + step).addClass('active');
+      $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
       this.addOrRemoveClassOfStep($(event.target));
     }
@@ -90,5 +110,15 @@ export class AssignTaskComponent implements OnInit {
         .css('background-color', '#0080ff');
     }
     if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
+  }
+
+  goToStep2(event, step) {
+    console.log(step, 'step');
+    this.clickableSteps.push(step);
+    this.stepClick(event, step);
+  }
+
+  checkTemplate(obj) {
+    this.templateActiveObj = obj;
   }
 }

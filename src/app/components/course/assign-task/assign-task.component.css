@@ -170,10 +170,12 @@ button.btn.btn-comfirm {
 .choice-description {
   color: #5c6773;
   font-size: 15px;
+  word-break: break-all;
 }
 .choice-block:hover {
   background: #edeef0 !important;
 }
+
 /* end */
 /* start progress bar */
 .progress-box-wrap {
@@ -308,11 +310,11 @@ a.adisabled:active {
 }
 .div_step {
   height: 86vh;
-  background: rgb(242, 244, 245);
+  background: #f7f9fa;
 }
 
 .inner-wrapper1 {
-  padding: 15px 30px;
+  padding: 20px;
   width: 100%;
 }
 /* end progress bar */
@@ -321,6 +323,90 @@ a.adisabled:active {
 .step-title {
   color: #363f4d;
   font-size: 28px;
+}
+.task-search-input:focus {
+  box-shadow: none;
+}
+.task-search-input {
+  border: 1px solid #eee;
+  border-right: none;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5;
+  background-size: 16px;
+  background-position-y: center;
+  background-position-x: 99%;
+  padding: 12px 18px !important;
+  line-height: 20px;
+  border-radius: 4px;
+  color: #788796;
+  font-size: 17px;
+}
+
+.simple-search {
+  margin-bottom: 22px;
+}
+
+/* step 1 */
+.template-wrapper {
+  margin-bottom: 60px;
+}
+.template-name {
+  font-size: 20px;
+  color: #363f4d;
+}
+span.template-icon {
+  width: 24px;
+  height: 24px;
+}
+.template-name.active {
+  color: #fff;
+}
+
+path.template-icon.active {
+  fill: #fff;
+}
+
+.template-block {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+p.template-description {
+  color: #5c6773;
+  font-size: 15px;
+  word-break: break-all;
+}
+
+.template-block.active {
+  background: #0065f2 !important;
+}
+
+.template-description.active {
+  color: #fff !important;
+}
+/* end */
+/* step 2 */
+.template-info-wrapper {
+  margin-top: 40px;
+}
+.template-description2 {
+  color: #5c6773;
+  font-size: 17px;
+  word-break: break-all;
+  margin-right: 70px;
+  padding-right: 10px;
+}
+p.startDate-title {
+  margin-bottom: 0;
+  color: #5c6773;
+  padding: 0 !important;
+  font-size: 17px;
+}
+p.date-description {
+  color: #5c6773;
+  font-size: 15px;
+  word-break: break-all;
 }
 /* end step */
 
@@ -350,6 +436,6 @@ a.adisabled:active {
     width: 100%;
   }
   .progress-box-wrap {
-    padding: 20px;
+    padding: 10px 20px;
   }
 }
