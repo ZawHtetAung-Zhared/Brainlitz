@@ -103,7 +103,7 @@ export class CourseListComponent implements OnInit {
       this.courseList = [];
     });
   }
-
+  private oldValue = 0;
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
@@ -111,11 +111,27 @@ export class CourseListComponent implements OnInit {
       this.isSticky = false;
     }
 
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      console.log('On Scroll Down');
-      //Write logic here for loading new content.
-      this.scrollDirection = 'down';
+    // console.log()
+    // if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    //   console.log('On Scroll Down');
+    //   //Write logic here for loading new content.
+    //   this.scrollDirection = 'down';
+    // }
+
+    // Get the new Value
+    let newValue = window.pageYOffset;
+    // console.log("newValue==>window.pageYOffset",newValue)
+
+    //Subtract the two and conclude
+    if (this.oldValue - newValue < 0) {
+      console.log('Up');
+    } else if (this.oldValue - newValue > 0) {
+      console.log('Down');
     }
+
+    // Update the old value
+    this.oldValue = newValue;
+    // console.log("updated old value",this.oldValue)
   }
 
   ngOnInit() {

@@ -9,7 +9,7 @@
     class="d-flex"
   >
     <div class="sidebar pt-4">
-      <div class="d-flex align-items-center pl-4 pr-4">
+      <div class="d-flex align-items-center pl-4 pr-4 courses-title-wrap">
         <h3 class="header-font">Courses</h3>
         <div class="location-wrapper">
           <div
@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="pl-4 pr-4 pt-4 mt-3">
+      <div class="p-2 mt-3 mb-3">
         <button
           *ngIf="courseDemo.createCP != ''"
           class="btn btn-cplan"
@@ -35,7 +35,7 @@
       <div class="cplan-wrapper" *ngIf="courseList.length > 0">
         <div *ngFor="let courseGroup of courseList; let i = index">
           <div
-            class="cplan-item mt-3 d-flex flex-column"
+            class="cplan-item d-flex flex-column cursor-on"
             [ngClass]="{
               'cplan-item-selected':
                 selectedPlan == courseGroup.coursePlan.coursePlanId
@@ -71,9 +71,7 @@
           id="course-search"
         />
       </div>
-      <div
-        class="d-flex justify-content-between align-items-center plan-title pb-3"
-      >
+      <div class="d-flex justify-content-between align-items-center plan-title">
         <div class="d-flex flex-column">
           <span class="cplan-small-txt light-color">
             #{{ selectedCourseList.coursePlan.category.name }}
@@ -90,7 +88,7 @@
         </button>
       </div>
       <!-- start card -->
-      <div>
+      <div class="course-list-wrapper">
         <div
           *ngIf="selectedCourseList.courses.length <= 0"
           class="d-flex justify-content-center"
@@ -98,9 +96,7 @@
           <span class="p-4 cplan-title">There is no courses.</span>
         </div>
         <div *ngFor="let course of selectedCourseList.courses">
-          <div
-            class="card col-xl-8 d-flex flex-column ml-3 mr-3 mt-3 course-wrap"
-          >
+          <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
             <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
               <div class="cinfo-wrap m-3 d-flex flex-column">
                 <div>
@@ -119,7 +115,7 @@
                   </label>
                 </div>
                 <span
-                  class="cplan-title1"
+                  class="cplan-title1 cursor-on"
                   (click)="showCourseDetail(course._id)"
                 >
                   {{ course.name }}
