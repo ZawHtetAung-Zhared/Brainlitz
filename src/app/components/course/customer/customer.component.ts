@@ -13,6 +13,7 @@ import { environment } from '../../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../service/data.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-customer',
