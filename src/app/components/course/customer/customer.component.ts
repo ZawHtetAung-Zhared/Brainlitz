@@ -2,7 +2,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
-import * as $ from 'jquery';
 import {
   NgbModal,
   ModalDismissReasons,
