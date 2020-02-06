@@ -109,6 +109,8 @@
   line-height: 24px;
   align-items: center;
   color: #5c6773;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 .spaninline p {
   font-style: normal;
@@ -179,12 +181,13 @@
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
-  line-height: 24px;
   align-items: center;
   text-align: center;
   color: #ffffff;
   height: 40px;
   cursor: pointer;
+  outline: none;
+  line-height: 18px !important;
 }
 .task-label {
   position: absolute;
@@ -276,4 +279,34 @@
   color: #363f4d;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   display: inline-block;
+}
+.propic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 3px 0 4px;
+  text-align: -webkit-center;
+  line-height: 40px;
+  background-color: #edeef0;
+}
+.propic > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.enroll {
+  position: relative;
+  top: 8px;
+  left: 40px;
+}
+@media (max-width: 1000px) {
+  .enroll {
+    left: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .enroll {
+    top: 0px;
+    left: 0px;
+  }
 }
