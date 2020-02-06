@@ -2568,6 +2568,9 @@ input[type='number']::-webkit-outer-spin-button {
   .options-box {
     margin-left: 20px !important;
   }
+  .course-tab > span {
+    display: block;
+  }
 }
 
 @media (max-width: 768px) {

@@ -4,6 +4,13 @@
 .bold {
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
+.main-wrapper {
+  background: #f7f9fa;
+  margin-top: 4px;
+}
+.addBg {
+  background: #ffffff !important;
+}
 .menuborder {
   background: #ffffff;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
@@ -14,6 +21,7 @@
   -webkit-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
   padding-top: 10px;
+  width: 100%;
 }
 .d-wrapper {
   top: 0px;
@@ -57,6 +65,9 @@ p.title {
 }
 
 /* start standard block */
+.standard-wrapper {
+  margin-bottom: 24px;
+}
 .standard-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
@@ -76,7 +87,7 @@ p.title {
   flex-wrap: wrap;
   padding-bottom: 100px;
   overflow: overlay;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .class-block {
@@ -116,7 +127,10 @@ p.title {
   width: 100%;
   bottom: 0;
   background: #f7f9fa;
-  padding: 22px 0;
+}
+.footer-wrapper {
+  border-top: solid 1px #e8e9eb;
+  padding: 22px 30px;
 }
 button.btn.btn-back {
   background: #f7f9fa;
@@ -148,10 +162,7 @@ button.btn.btn-comfirm {
   padding: 20px;
   cursor: pointer;
 }
-.start-wrapper {
-  height: 100%;
-  background: #f7f9fa;
-}
+
 .choice-title {
   color: #363f4d;
   font-size: 20px;
@@ -159,15 +170,448 @@ button.btn.btn-comfirm {
 .choice-description {
   color: #5c6773;
   font-size: 15px;
+  word-break: break-all;
 }
 .choice-block:hover {
   background: #edeef0 !important;
 }
+
+/* end */
+/* start progress bar */
+.progress-box-wrap {
+  /* -moz-box-shadow: 0 6px 15px -9px rgba(184, 184, 184, 1);
+  -webkit-box-shadow: 0 6px 15px -9px rgba(184, 184, 184, 1);
+  box-shadow: 0 6px 15px -9px rgba(184, 184, 184, 1);
+  border-top: 1px solid #edeff0;
+  padding: 10px 60px 10px 30px; */
+  /*for 7steps*/
+  height: 4.6em; /*for 7steps*/
+}
+.progress {
+  width: 100%;
+  list-style: none;
+  list-style-image: none;
+  margin: 25px 0 25px 0;
+  padding: 0;
+  /*background: none;*/
+  overflow: unset !important;
+  font-size: 18px;
+  height: 0.2em;
+}
+
+.progress li {
+  float: left;
+  /*text-align: center;*/
+  position: relative;
+  margin-top: -17px;
+  width: 1000px;
+}
+
+.progress li:last-child {
+  width: auto;
+}
+
+.progress li.active {
+  /*margin-top: -22px;*/
+  margin-top: -17px;
+}
+.progress .step {
+  color: #fff;
+  /*border: 3px solid #e3e4e6;*/
+  background-color: #e3e4e6;
+  border-radius: 50%;
+  line-height: 2;
+  width: 2em;
+  height: 2em;
+  display: inline-block;
+  z-index: 0;
+  text-align: center;
+}
+.progress .active .name,
+.progress .active .step span {
+  opacity: 1;
+}
+
+.progress .step:before {
+  content: '';
+  display: block;
+  background-color: #e3e4e6;
+  /*height: 0.2em;*/
+  width: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.progress .step:after {
+  content: '';
+  display: block;
+  /*background-color: #e3e4e6;*/
+  /*height: 0.2em;*/
+  width: 50%;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+  right: 0;
+}
+
+.progress li:first-of-type .step:before {
+  display: none;
+}
+
+.progress li:last-of-type .step:after {
+  display: none;
+}
+
+.progress .done .step,
+.progress .done .step:before,
+.progress .done .step:after,
+.progress .active .step,
+.progress .active .step:before {
+  background-color: #0080ff;
+}
+
+.progress .active .step {
+  -moz-box-shadow: 0 0 0 6px #cce6ff;
+  -webkit-box-shadow: 0 0 0 6px #cce6ff;
+  box-shadow: 0 0 0 6px #cce6ff;
+  /*border: 6px solid #cce6ff;
+  width: 2.6em;
+  height: 2.6em;
+  line-height: 2em;*/
+}
+
+.progress li.done {
+  background: #007fff;
+  margin-top: 1px;
+}
+
+.progress li.done .step {
+  position: absolute;
+  bottom: -15px;
+}
+
+/* Step of progress disabled properties */
+a.adisabled {
+  cursor: not-allowed;
+}
+a {
+  cursor: pointer;
+}
+a.adisabled:hover {
+  text-decoration: none;
+}
+a.adisabled:focus {
+  text-decoration: none;
+}
+a.adisabled:active {
+  text-decoration: none;
+}
+.div_step {
+  height: 86vh;
+  background: #f7f9fa;
+}
+
+.inner-wrapper1 {
+  padding-top: 0;
+  -webkit-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.inside-data-wrapper {
+  padding: 50px 60px;
+  min-height: 600px;
+  margin-bottom: 60px;
+}
+
+/* footer button */
+.button-wrapper {
+  padding: 10px 30px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /*text-align: center;*/
+  padding: 20px 30px;
+  background: #ffffff;
+  border-top: 1px solid #edeff0;
+}
+/* end */
+/* end progress bar */
+
+/* start step */
+.step-title {
+  color: #363f4d;
+  font-size: 28px;
+}
+.task-search-input:focus {
+  box-shadow: none;
+}
+.task-search-input {
+  border: 1px solid #eee;
+  border-right: none;
+  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5;
+  background-size: 16px;
+  background-position-y: center;
+  background-position-x: 99%;
+  padding: 12px 18px !important;
+  line-height: 20px;
+  border-radius: 4px;
+  color: #788796;
+  font-size: 17px;
+}
+
+.simple-search {
+  margin-bottom: 22px;
+}
+
+.div_step {
+  /*height: 77em;*/
+  height: 86vh;
+  background: rgb(242, 244, 245);
+  padding-top: 72px;
+}
+
+/* step 1 */
+.template-wrapper {
+  margin-bottom: 60px;
+}
+.template-name {
+  font-size: 20px;
+  color: #363f4d;
+}
+span.template-icon {
+  width: 24px;
+  height: 24px;
+}
+.template-name.active {
+  color: #fff;
+}
+
+path.template-icon.active {
+  fill: #fff;
+}
+
+.template-block {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 24px;
+  margin-bottom: 24px;
+  margin-left: 3px;
+}
+p.template-description {
+  color: #5c6773;
+  font-size: 15px;
+  word-break: break-all;
+}
+
+.template-block.active {
+  background: #0065f2 !important;
+}
+
+.template-description.active {
+  color: #fff !important;
+}
+/* end */
+/* step 2 */
+.template-info-wrapper {
+  margin-top: 40px;
+}
+.template-description2 {
+  color: #5c6773;
+  font-size: 17px;
+  word-break: break-all;
+  margin-right: 70px;
+  padding-right: 10px;
+}
+p.startDate-title {
+  margin-bottom: 0;
+  color: #5c6773;
+  padding: 0 !important;
+  font-size: 17px;
+}
+p.date-description {
+  color: #5c6773;
+  font-size: 15px;
+  word-break: break-all;
+}
+/* end step */
+
+/* calendar pard */
+.calendar-part {
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 4px;
+  background: #fff;
+}
+
+.calendar-part .calendarbtn {
+  background: none;
+}
+
+/* for angular calendar css */
+
+.cal-month-view .cal-header .cal-cell {
+  /* color: #788796; */
+  font: size 15px;
+}
+
+.cal-month-view .cal-header {
+  font-weight: normal;
+}
+.cal-cell.cal-today {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+}
+
+.cal-month-view .cal-day-number {
+  color: #2e3d4d;
+  opacity: initial;
+  margin-top: 0px !important;
+  margin-right: 0px !important;
+  float: none !important;
+  margin-bottom: 0px !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+}
+
+.addfontColor {
+  color: #f23a30 !important;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.2em;
+  color: #0080ff;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #2e3d4d;
+}
+
+.cal-month-view .cal-day-cell.cal-past .cal-day-number {
+  color: #b0b1b3 !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .cal-month-view .cal-header .cal-cell {
+    min-width: 40px;
+  }
+  .cal-cell.cal-past.cal-weeken {
+    font-size: 15px;
+  }
+  .cal-cell.cal-today {
+    font-size: 15px;
+  }
+  .cal-cell.cal-future {
+    font-size: 15px;
+  }
+  .cal-month-view .cal-day-number {
+    font-size: 15px;
+  }
+
+  .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    font-size: 1em;
+  }
+  .cal-month-view .cal-event {
+    width: 6px;
+    height: 6px;
+  }
+  .cal-month-view .cal-cell-top {
+    min-height: 70%;
+  }
+}
+
+/* .cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+}
+*/
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+  background: white;
+}
+
+/*.cal-month-view .cal-day-cell:not(:last-child) {
+  border-right: none;
+}*/
+
+.cal-day-number-selected {
+  color: white !important;
+}
+.cal-day-borderNone {
+  border: 1px thin white;
+}
+
+/*   
+.cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+
+} */
+
+.cal-month-view .cal-cell-top {
+  min-height: 27px !important;
+  /* flex: 1; */
+  padding-top: 10px !important;
+  text-align: center !important;
+}
+/* end angular calendar */
 /* end */
 @media only screen and (min-width: 1366px) {
   .inner-wrapper {
     width: 1080px !important;
     margin: 0 auto;
+  }
+  .progress-box-wrap {
+    padding: 10px 143px;
+    height: 4.4em;
+  }
+  .inside-data-wrapper {
+    border-radius: 8px;
+    /* -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 672px;
+    width: 1004px;
+  }
+  .button-wrapper {
+    position: unset;
+    left: unset;
+    bottom: 0;
+    border-top: none;
+    padding: unset;
+    padding-top: 20px;
+  }
+
+  .scrollable-wrapper {
+    overflow: overlay;
+    height: 360px;
   }
 }
 
@@ -179,7 +623,21 @@ button.btn.btn-comfirm {
   }
 }
 @media screen and (max-width: 1365px) {
-  .inner-wrapper {
-    width: 100% !important;
+  .inner-wrapper1 {
+    width: 100%;
+  }
+  .progress-box-wrap {
+    padding: 10px 20px;
+  }
+
+  .div_step {
+    /*height: 77em;*/
+    height: 86vh;
+    background: rgb(242, 244, 245);
+    padding-top: 0;
+  }
+
+  .inside-data-wrapper {
+    width: 100%;
   }
 }

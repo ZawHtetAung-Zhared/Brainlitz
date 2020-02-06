@@ -35,11 +35,39 @@
     <div class="cardhead">
       <h3>Attendance</h3>
     </div>
-    <div class="cardbody">
-      body
+    <div class="cardbody d-flex" style="flex-direction: column;">
+      <div class="d-flex justify-content-between">
+        <span><img src="../../../../assets/img/chevron-right-s.png"/></span>
+        <span>12 Jan 2020</span>
+        <span><img src="../../../../assets/img/chevron-left-s.png"/></span>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="d-flex present">
+          <div class="d-flex data">
+            <span class="attendance-no">20</span>
+            <span>Present</span>
+          </div>
+        </div>
+        <div class="d-flex absent">
+          <div class="d-flex data">
+            <span class="attendance-no">0</span>
+            <span>Absent</span>
+          </div>
+        </div>
+        <div class="d-flex nodata">
+          <div class="d-flex data">
+            <span class="attendance-no">0</span>
+            <span>No data</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="cardfoot">
-      foot
+      <div style="float: right">
+        <button class="detail-btn white">
+          Set attendance
+        </button>
+      </div>
     </div>
   </div>
 
@@ -53,31 +81,32 @@
     <div class="cardbody">
       <div class="d-flex">
         <div class="d-flex task-div">
-          <div class="d-flex">
+          <div class="d-flex task-status">
             <p class="big-no">0</p>
-            SCHEDULED
+            <span class="task-label"> SCHEDULED</span>
           </div>
           <h6>task assigned</h6>
         </div>
         <div class="d-flex task-div">
-          <div class="d-flex">
+          <div class="d-flex task-status">
             <p class="big-no">0</p>
-            CUSTOM
+            <span class="task-label"> CUSTOM</span>
           </div>
-          <h6>task assigned</h6>
+          <h6>tasks assigned</h6>
         </div>
       </div>
     </div>
     <div class="cardfoot">
       <div style="float: right">
-        <button class="detail-btn" routerLink="../../assignTask">
+        <button class="detail-btn" routerLink="../../../assignTask">
           Assign task
         </button>
       </div>
     </div>
   </div>
+  <!-- ****For later sprint ****-->
 
-  <div class="leaderboard-view">
+  <!-- <div class="leaderboard-view">
     <div class="cardhead">
       <h3>Leaderboard</h3>
       <span class="spaninline">
@@ -90,5 +119,22 @@
     <div class="cardfoot">
       foot
     </div>
-  </div>
+  </div> -->
 </div>
+
+<!--**** For later sprint ****-->
+
+<!-- <div class="mastery-view">
+  <h3>Masteries reports</h3>
+  <span class="spaninline">
+    <p class="m-0">SW</p>
+  </span>
+  <div class="d-flex">
+    <div class="mastery-type">
+      1
+    </div>
+    <div class="mastery-type">
+      2
+    </div>
+  </div>
+</div> -->
