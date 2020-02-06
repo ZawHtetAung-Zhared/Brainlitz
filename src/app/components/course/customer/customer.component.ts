@@ -2,7 +2,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
-declare var $: any;
 import {
   NgbModal,
   ModalDismissReasons,
@@ -23,11 +22,11 @@ import { DataService } from '../../../service/data.service';
 export class CustomerComponent implements OnInit {
   ngOnInit(): void {
     // this.route.paramMap.subscribe(params => {
-    //   //this.courseId = params['id']; //undefined
+    //   this.courseId = params['id']; //undefined
     //  // this.courseId=params.get('id'); // null
     // });
-    //this.courseId = this.route.snapshot.params.id;
-    this.courseId = '5e2fa55b28084f0013bac758';
+    //this.courseId=this.route.snapshot.params.id;
+    this.courseId = '5e3915d9a890f60ae76b8025';
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);

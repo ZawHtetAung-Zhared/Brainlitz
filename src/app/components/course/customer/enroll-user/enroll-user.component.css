@@ -947,13 +947,13 @@ ul.options-box li button:hover {
 }
 
 .single-user-wrap {
-  max-height: 200px;
+  max-height: 400px;
   overflow-y: overlay;
 }
 
 .user-row-wrap {
   min-height: 305px;
-  height: 305px;
+  height: 400px;
   margin-bottom: 20px;
   overflow-y: overlay;
   overflow-x: hidden;
@@ -4347,4 +4347,32 @@ button.today-button {
       239px 0 0 -6px #e3e4e6, 240px 0 0 -6px #e3e4e6;
     margin-top: -6px;
   }
+}
+
+.exactCenter {
+  margin: 30px;
+  position: fixed;
+  background: #1682fb;
+  border-radius: 4px;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+  z-index: 500;
+}
+
+.customer-nav {
+  background: #fff;
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 16px;
+  margin-left: 0;
+  margin-right: 0;
+  -ms-transition: 0.3s all ease;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
 }
