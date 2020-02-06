@@ -188,8 +188,8 @@ export class AssignTaskComponent implements OnInit {
             'cal-month-view' + element.date
           );
           let tDay = document.getElementById('cal-day-number' + element.date);
-          todayCell.classList.add('cal-today-selected');
-          tDay.classList.add('cal-today-number-selected');
+          todayCell.classList.add('cal-day-selected');
+          tDay.classList.add('cal-day-number-selected');
           console.log(todayCell);
         }
         // if (!this.selectedDays) {

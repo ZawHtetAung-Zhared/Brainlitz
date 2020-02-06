@@ -325,8 +325,21 @@ a.adisabled:active {
   padding: 50px 60px;
   min-height: 600px;
   margin-bottom: 60px;
-  overflow: overlay;
 }
+
+/* footer button */
+.button-wrapper {
+  padding: 10px 30px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /*text-align: center;*/
+  padding: 20px 30px;
+  background: #ffffff;
+  border-top: 1px solid #edeff0;
+}
+/* end */
 /* end progress bar */
 
 /* start step */
@@ -388,6 +401,7 @@ path.template-icon.active {
   background: #ffffff;
   padding: 24px;
   margin-bottom: 24px;
+  margin-left: 3px;
 }
 p.template-description {
   color: #5c6773;
@@ -583,8 +597,21 @@ min-width: 40px;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     padding: 45px 45px 0px 45px;
-    height: 640px;
+    height: 672px;
     width: 1004px;
+  }
+  .button-wrapper {
+    position: unset;
+    left: unset;
+    bottom: 0;
+    border-top: none;
+    padding: unset;
+    padding-top: 20px;
+  }
+
+  .scrollable-wrapper {
+    overflow: overlay;
+    height: 360px;
   }
 }
 
@@ -608,5 +635,9 @@ min-width: 40px;
     height: 86vh;
     background: rgb(242, 244, 245);
     padding-top: 0;
+  }
+
+  .inside-data-wrapper {
+    width: 100%;
   }
 }

@@ -187,66 +187,72 @@
             />
           </div>
           <p class="title bold">All templates</p>
-          <div class="d-flex flex-wrap template-wrapper">
-            <div
-              class="col-md-6 pl-0"
-              *ngFor="let template of scheduletemplateList"
-              (click)="checkTemplate(template)"
-              [ngClass]="{ active: templateActiveObj._id == template._id }"
-            >
+          <div class="scrollable-wrapper">
+            <div class="d-flex flex-wrap template-wrapper">
               <div
-                class="template-block"
+                class="col-md-6 pl-0"
+                *ngFor="let template of scheduletemplateList"
+                (click)="checkTemplate(template)"
                 [ngClass]="{ active: templateActiveObj._id == template._id }"
               >
                 <div
-                  class="d-flex template-name bold"
+                  class="template-block"
                   [ngClass]="{ active: templateActiveObj._id == template._id }"
                 >
-                  <span class="pr-2">
-                    <svg
-                      width="18"
-                      height="19"
-                      viewBox="0 0 18 19"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        class="template-icon"
-                        [ngClass]="{
-                          active: templateActiveObj._id == template._id
-                        }"
-                        d="M18 17.7327C18 17.9979 17.8946 18.2523 17.7071 18.4398C17.5196 18.6273 17.2652 18.7327 17 18.7327H1C0.734784 18.7327 0.48043 18.6273 0.292893 18.4398C0.105357 18.2523 2.4071e-07 17.9979 2.4071e-07 17.7327V7.22269C-0.000105484 7.07031 0.0346172 6.91991 0.101516 6.78299C0.168415 6.64608 0.26572 6.52626 0.386 6.43269L8.386 0.210694C8.56154 0.0741392 8.7776 0 9 0C9.2224 0 9.43846 0.0741392 9.614 0.210694L17.614 6.43269C17.7343 6.52626 17.8316 6.64608 17.8985 6.78299C17.9654 6.91991 18.0001 7.07031 18 7.22269V17.7327ZM4 12.7327V14.7327H14V12.7327H4Z"
-                        fill="#363F4D"
-                      />
-                    </svg>
-                  </span>
-                  <span>{{ template.name }}</span>
+                  <div
+                    class="d-flex template-name bold"
+                    [ngClass]="{
+                      active: templateActiveObj._id == template._id
+                    }"
+                  >
+                    <span class="pr-2">
+                      <svg
+                        width="18"
+                        height="19"
+                        viewBox="0 0 18 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          class="template-icon"
+                          [ngClass]="{
+                            active: templateActiveObj._id == template._id
+                          }"
+                          d="M18 17.7327C18 17.9979 17.8946 18.2523 17.7071 18.4398C17.5196 18.6273 17.2652 18.7327 17 18.7327H1C0.734784 18.7327 0.48043 18.6273 0.292893 18.4398C0.105357 18.2523 2.4071e-07 17.9979 2.4071e-07 17.7327V7.22269C-0.000105484 7.07031 0.0346172 6.91991 0.101516 6.78299C0.168415 6.64608 0.26572 6.52626 0.386 6.43269L8.386 0.210694C8.56154 0.0741392 8.7776 0 9 0C9.2224 0 9.43846 0.0741392 9.614 0.210694L17.614 6.43269C17.7343 6.52626 17.8316 6.64608 17.8985 6.78299C17.9654 6.91991 18.0001 7.07031 18 7.22269V17.7327ZM4 12.7327V14.7327H14V12.7327H4Z"
+                          fill="#363F4D"
+                        />
+                      </svg>
+                    </span>
+                    <span>{{ template.name }}</span>
+                  </div>
+                  <p
+                    class="template-description medium"
+                    [ngClass]="{
+                      active: templateActiveObj._id == template._id
+                    }"
+                  >
+                    {{ template.description }}
+                  </p>
                 </div>
-                <p
-                  class="template-description medium"
-                  [ngClass]="{ active: templateActiveObj._id == template._id }"
-                >
-                  {{ template.description }}
-                </p>
               </div>
             </div>
           </div>
-        </div>
-        <div class="footer">
-          <div
-            class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
-          >
-            <div class="back-modal medium">
-              <i class="fa fa-angle-left"></i>
-              <p>Back</p>
-            </div>
-            <button
-              class="btn btn-comfirm medium"
-              [disabled]="!templateActiveObj._id"
-              (click)="goToStep2($event, '2')"
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              Continue
-            </button>
+              <div class="back-modal medium">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                [disabled]="!templateActiveObj._id"
+                (click)="goToStep2($event, '2')"
+              >
+                Continue
+              </button>
+            </div>
           </div>
         </div>
       </div>
