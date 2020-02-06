@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { appService } from '../../../service/app.service';
@@ -16,6 +16,8 @@ export class CoursedetailComponent implements OnInit {
   public draft: boolean;
   public courseType: any;
   public disabledTab: boolean = true;
+  isSticky: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -52,6 +54,16 @@ export class CoursedetailComponent implements OnInit {
       console.log('CourseID', this.courseId);
     });
     this.getCourseDetail(this.courseId);
+  }
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      this.isSticky = true;
+
+      // this.showBtn = true;
+    } else {
+      this.isSticky = false;
+      // this.showBtn = false;
+    }
   }
 
   getCourseDetail(id) {
