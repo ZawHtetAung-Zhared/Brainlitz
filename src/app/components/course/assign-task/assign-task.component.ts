@@ -27,7 +27,7 @@ export class AssignTaskComponent implements OnInit {
   public classActiveId: any;
   public templateActiveObj: any = {};
   public activeStep: any;
-
+  public txtextra: any = 1;
   public clickableSteps: Array<any> = ['1'];
   public scheduletemplateList: any = [];
 
@@ -216,5 +216,13 @@ export class AssignTaskComponent implements OnInit {
       });
     }, 100);
     console.log(this.selectedDays);
+  }
+
+  extraDecrease() {
+    this.txtextra = this.txtextra == 1 ? this.txtextra : this.txtextra - 1;
+  }
+
+  extraIncrease() {
+    this.txtextra = this.txtextra + 1;
   }
 }

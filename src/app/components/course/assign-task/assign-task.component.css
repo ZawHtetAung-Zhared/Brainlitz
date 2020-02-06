@@ -418,8 +418,10 @@ p.template-description {
 }
 /* end */
 /* step 2 */
+
 .template-info-wrapper {
   margin-top: 40px;
+  margin-bottom: 20px;
 }
 .template-description2 {
   color: #5c6773;
@@ -439,6 +441,27 @@ p.date-description {
   font-size: 15px;
   word-break: break-all;
 }
+
+button.btn.btn-control {
+  background: #ffffff;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 44px;
+  height: 44px;
+  font-size: 27px;
+  color: #475466;
+  font-family: Times New Roman;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+}
+
+span.txt-extra {
+  text-align: center;
+  padding: 10px 0px;
+  color: #475466;
+  width: 60px;
+}
 /* end step */
 
 /* calendar pard */
@@ -446,8 +469,8 @@ p.date-description {
   padding: 20px 20px 20px 20px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  margin: 4px;
   background: #fff;
+  margin-bottom: 48px;
 }
 
 .calendar-part .calendarbtn {
@@ -612,6 +635,10 @@ min-width: 40px;
   .scrollable-wrapper {
     overflow: overlay;
     height: 360px;
+  }
+  .scrollable-wrapper2 {
+    overflow: overlay;
+    height: 470px;
   }
 }
 
