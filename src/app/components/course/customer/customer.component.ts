@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
+declare var $: any;
 import {
   NgbModal,
   ModalDismissReasons,

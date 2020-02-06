@@ -314,8 +314,18 @@ a.adisabled:active {
 }
 
 .inner-wrapper1 {
-  padding: 20px;
+  padding-top: 0;
+  -webkit-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+  padding-top: 10px;
   width: 100%;
+}
+
+.inside-data-wrapper {
+  padding: 50px 60px;
+  min-height: 600px;
+  margin-bottom: 60px;
+  overflow: overlay;
 }
 /* end progress bar */
 
@@ -343,6 +353,13 @@ a.adisabled:active {
 
 .simple-search {
   margin-bottom: 22px;
+}
+
+.div_step {
+  /*height: 77em;*/
+  height: 86vh;
+  background: rgb(242, 244, 245);
+  padding-top: 72px;
 }
 
 /* step 1 */
@@ -410,6 +427,147 @@ p.date-description {
 }
 /* end step */
 
+/* calendar pard */
+.calendar-part {
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 4px;
+  background: #fff;
+}
+
+.calendar-part .calendarbtn {
+  background: none;
+}
+
+/* for angular calendar css */
+
+.cal-month-view .cal-header .cal-cell {
+  /* color: #788796; */
+  font: size 15px;
+}
+
+.cal-month-view .cal-header {
+  font-weight: normal;
+}
+.cal-cell.cal-today {
+  color: #2e3d4d;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+}
+
+.cal-month-view .cal-day-number {
+  color: #2e3d4d;
+  opacity: initial;
+  margin-top: 0px !important;
+  margin-right: 0px !important;
+  float: none !important;
+  margin-bottom: 0px !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+}
+
+.addfontColor {
+  color: #f23a30 !important;
+}
+
+.cal-month-view .cal-day-cell.cal-today .cal-day-number {
+  font-size: 1.2em;
+  color: #0080ff;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: #2e3d4d;
+}
+
+.cal-month-view .cal-day-cell.cal-past .cal-day-number {
+  color: #b0b1b3 !important;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .cal-month-view .cal-header .cal-cell {
+    min-width: 40px;
+  }
+  .cal-cell.cal-past.cal-weeken {
+    font-size: 15px;
+  }
+  .cal-cell.cal-today {
+    font-size: 15px;
+  }
+  .cal-cell.cal-future {
+    font-size: 15px;
+  }
+  .cal-month-view .cal-day-number {
+    font-size: 15px;
+  }
+
+  .cal-month-view .cal-day-cell.cal-today .cal-day-number {
+    font-size: 1em;
+  }
+  .cal-month-view .cal-event {
+    width: 6px;
+    height: 6px;
+  }
+  .cal-month-view .cal-cell-top {
+    min-height: 70%;
+  }
+}
+
+/* .cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+}
+*/
+.cal-month-view .cal-days {
+  border: none;
+}
+
+.cal-month-view .cal-days .cal-cell-row {
+  border: none;
+  background: white;
+}
+
+/*.cal-month-view .cal-day-cell:not(:last-child) {
+  border-right: none;
+}*/
+
+.cal-day-number-selected {
+  color: white !important;
+}
+.cal-day-borderNone {
+  border: 1px thin white;
+}
+
+/*   
+.cal-month-view .cal-day-cell {
+min-height: 40px;
+min-width: 40px;
+
+} */
+
+.cal-month-view .cal-cell-top {
+  min-height: 27px !important;
+  /* flex: 1; */
+  padding-top: 10px !important;
+  text-align: center !important;
+}
+/* end angular calendar */
+/* end */
 @media only screen and (min-width: 1366px) {
   .inner-wrapper {
     width: 1080px !important;
@@ -419,8 +577,14 @@ p.date-description {
     padding: 10px 143px;
     height: 4.4em;
   }
-  .inner-wrapper1 {
-    padding: 15px 143px;
+  .inside-data-wrapper {
+    border-radius: 8px;
+    /* -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 640px;
+    width: 1004px;
   }
 }
 
@@ -437,5 +601,12 @@ p.date-description {
   }
   .progress-box-wrap {
     padding: 10px 20px;
+  }
+
+  .div_step {
+    /*height: 77em;*/
+    height: 86vh;
+    background: rgb(242, 244, 245);
+    padding-top: 0;
   }
 }
