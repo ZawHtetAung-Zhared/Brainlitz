@@ -33,7 +33,7 @@ export class AssignTaskComponent implements OnInit {
   public isTaskBreakEnAble: any;
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
-
+  public selectedTaskArr: any = [];
   public taskLists: any = [
     {
       _id: '5df764b23f0167abfa36772e',
@@ -134,17 +134,6 @@ export class AssignTaskComponent implements OnInit {
       temp.name = 'Primary ' + i;
       this.classList.push(temp);
     }
-    // for (let i = 1; i < 50; i++) {
-    //   let temp: any = {};
-    //   temp._id = i;
-    //   temp.name = 'Light energy 0' + i;
-    //   temp.masteries =  ["mastery1", "mastery2","mastery3"];
-    //   temp.taskStartDate = '13 Jan 2019';
-    //   temp.taskEndDate = '20 Feb 2019';
-    //   temp.description =
-    //     ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
-    //   this.taskLists.push(temp);
-    // }
 
     this.standActiveId = this.standardList[0]._id;
   }
@@ -219,6 +208,7 @@ export class AssignTaskComponent implements OnInit {
   goToStep3(event, step) {
     console.log('step', step);
     this.clickableSteps.push(step);
+
     this.stepClick(event, step);
   }
 
@@ -227,27 +217,28 @@ export class AssignTaskComponent implements OnInit {
   }
 
   dayClicked(day: CalendarMonthViewDay, e): void {
-    console.log(day.date, 'day click');
+    console.log(day, 'day click');
     console.log(this.clickDay, 'click day');
 
     this.selectedMonthViewDay = day;
     let dateType = { id: 0, name: 'Full Day', date: day.date, value: 1 };
 
-    if (this.clickDay) {
+    if (this.clickDay && day.inMonth) {
       let calCell = document.getElementById('cal-month-view' + this.clickDay);
       let calDay = document.getElementById('cal-day-number' + this.clickDay);
       calCell.classList.remove('cal-day-selected');
       calDay.classList.remove('cal-day-number-selected');
     }
-
-    this.clickDay = day.date;
-    let calCell = document.getElementById('cal-month-view' + day.date);
-    let calDay = document.getElementById('cal-day-number' + day.date);
-    console.log(calCell, 'cal cell');
-    console.log(calDay, 'cal day');
-    calCell.classList.add('cal-day-selected');
-    calDay.classList.add('cal-day-number-selected');
-    this.selectedDays = dateType;
+    if (day.inMonth) {
+      this.clickDay = day.date;
+      let calCell = document.getElementById('cal-month-view' + day.date);
+      let calDay = document.getElementById('cal-day-number' + day.date);
+      console.log(calCell, 'cal cell');
+      console.log(calDay, 'cal day');
+      calCell.classList.add('cal-day-selected');
+      calDay.classList.add('cal-day-number-selected');
+      this.selectedDays = dateType;
+    }
   }
   //beforeViewRender method to call after months change
   checkSelectedDate(e) {
@@ -265,6 +256,7 @@ export class AssignTaskComponent implements OnInit {
           let tDay = document.getElementById('cal-day-number' + element.date);
           todayCell.classList.add('cal-day-selected');
           tDay.classList.add('cal-day-number-selected');
+          this.clickDay = element.date;
           console.log(todayCell);
         }
         // if (!this.selectedDays) {
@@ -299,5 +291,14 @@ export class AssignTaskComponent implements OnInit {
 
   extraIncrease() {
     this.txtextra = this.txtextra + 1;
+  }
+
+  selectedTask(obj) {
+    if (this.selectedTaskArr.includes(obj)) {
+      this.selectedTaskArr.splice(this.selectedTaskArr.indexOf(obj), 1);
+    } else {
+      this.selectedTaskArr.push(obj);
+    }
+    console.log(this.selectedTaskArr, 'selected tast arr');
   }
 }

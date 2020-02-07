@@ -650,9 +650,14 @@ min-width: 40px;
 .task-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  background: #ffffff;
+  background: #f2f3f5;
   padding: 20px 28px;
   margin-bottom: 20px;
+  margin-left: 2px;
+}
+
+.task-block.checked-block {
+  background: #ffffff !important;
 }
 span.masteries-box {
   background: #edeef0;
@@ -666,6 +671,117 @@ span.task-duration {
   font-size: 13px;
   padding: 6px 8px;
 }
+
+/* slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+  margin-top: 8px;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.slider:before {
+  position: absolute;
+  content: '\2012';
+  color: #d8dbde;
+  height: 14px;
+  width: 14px;
+  left: 1px;
+  top: 1px;
+  background-color: #64707d;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  text-align: center;
+  vertical-align: middle;
+  background-position: center;
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+input:checked + .slider {
+  border: 2px solid #0080ff;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3 !important;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+.switch input {
+  display: none;
+}
+
+.slider.round {
+  border-radius: 34px;
+  border: 2px solid #64707d;
+  /* margin-right: 10px;
+  margin-left: -10px; */
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+.switch-label {
+  margin-left: 16px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+  color: #64707d;
+  margin-bottom: 0;
+  margin-top: 7px;
+  margin-right: 10px;
+}
+
+.checked-slider {
+  background: #cce5ff;
+  border: 2px solid #0080ff !important;
+}
+
+.checked-slider::before {
+  transform: translateX(13px);
+  background: #0080ff;
+  content: '';
+  background-image: url(/assets/img/tick.png);
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center;
+}
+/* end slider */
 /* end step 3 */
 @media only screen and (min-width: 1366px) {
   .inner-wrapper {
@@ -704,7 +820,7 @@ span.task-duration {
   }
 
   .task-wrapper {
-    height: 430px;
+    height: 370px;
     overflow: overlay;
   }
 }
