@@ -1,15 +1,12 @@
-<div class="exactCenter" *ngIf="isHideSelected">
-  Some User is selected
-</div>
-<div
-  class="d-flex justify-content-between mt-3 customer-nav align-items-center "
->
-  <div class="back-to" routerLink="/coursedetail/customer/customers">
-    <i class="fa fa-angle-left"></i>
-    <p>Back to {{ detailLists.coursePlan.name }}</p>
-  </div>
-  <div class="back-to" (click)="backClicked()">
-    <p>Cancel</p>
+<div class="customer-nav">
+  <div class="d-flex inner-wrapper align-items-center justify-content-between">
+    <div class="back-to" [routerLink]="backToCourse">
+      <i class="fa fa-angle-left"></i>
+      <p>Back to {{ detailLists.name }}</p>
+    </div>
+    <div class="back-to" [routerLink]="clickCancel">
+      <p>Cancel</p>
+    </div>
   </div>
 </div>
 <div class="d-flex lfex-column justify-content-center align-items-center">
@@ -66,6 +63,7 @@
             >
               <div
                 class="d-flex flex-row single-user justify-content-center align-items-center"
+                (click)="chooseUser(user)"
               >
                 <div class="img-wrap">
                   <img src="{{ user.profilePic }}" />
@@ -79,7 +77,6 @@
                   <div
                     class="add-user d-flex justify-content-end"
                     [ngClass]="user.addOrRemove"
-                    (click)="chooseUser(user)"
                   ></div>
                 </div>
               </div>
@@ -87,12 +84,15 @@
           </div>
         </div>
         <div *ngIf="userType == 'teacher'">
-          <div class="row single-user-wrap" *ngIf="selectedTeacherLists != ''">
+          <div class="row single-user-wrap" *ngIf="userLists != ''">
             <div
-              *ngFor="let teacher of selectedTeacherLists"
+              *ngFor="let teacher of userLists"
               class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
             >
-              <div class="d-flex flex-row single-user">
+              <div
+                class="d-flex flex-row single-user justify-content-center align-items-center"
+                (click)="chooseUser(teacher)"
+              >
                 <div class="img-wrap">
                   <img src="{{ teacher.profilePic }}" />
                 </div>
@@ -100,6 +100,12 @@
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
                   <h4>{{ teacher.preferredName }}</h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div
+                    class="add-user d-flex justify-content-end"
+                    [ngClass]="teacher.addOrRemove"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -133,12 +139,10 @@
           *ngIf="userType == 'teacher'"
           type="submit"
           class="btn btn-submit"
-          [disabled]="selectedTeacherLists.length == 0"
-          (click)="
-            swapTeacherToCourse(detailLists._id, selectedTeacherLists[0].userId)
-          "
+          [disabled]="enrollUserList.length == 0"
+          (click)="showSelectedUserViewFunc()"
         >
-          Confirm
+          Next
         </button>
       </div>
     </form>
@@ -162,7 +166,7 @@
         <span *ngIf="userLists.length <= 1"
           >{{ enrollUserList.length }} customer
         </span>
-        <span *ngIf="userLists.length >= 1"
+        <span *ngIf="userLists.length > 1"
           >{{ enrollUserList.length }} customers
         </span>
         <span>selected</span>
@@ -173,7 +177,7 @@
       </h3>
     </div>
     <form novalidate #cfees="ngForm">
-      <div class="d-flex flex-column mt-37" style="position: relative;">
+      <!-- <div class="d-flex flex-column mt-37" style="position: relative;">
         <div class="d-flex">
           <input
             *ngIf="userType == 'customer'"
@@ -211,7 +215,7 @@
             </button>
           </span>
         </div>
-      </div>
+      </div> -->
       <div class="mt-20 user-row-wrap">
         <div *ngIf="userType != 'teacher'">
           <div class="row single-user-wrap" *ngIf="enrollUserList.length > 0">
@@ -221,6 +225,7 @@
             >
               <div
                 class="d-flex flex-row single-user justify-content-center align-items-center"
+                (click)="chooseUser(user)"
               >
                 <div class="img-wrap">
                   <img src="{{ user.profilePic }}" />
@@ -276,22 +281,21 @@
 
       <div class="d-flex justify-content-end">
         <button
-          *ngIf="userType != 'teacher' && userLists.length !== 0"
-          type="submit"
-          class="btn btn-submit"
-          [disabled]="enrollUserList.length == 0 || noSetting == true"
-          (click)="enrollUserToCourse(courseId, userType)"
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
         >
-          Enroll
+          Cancel
         </button>
         <button
-          *ngIf="userType == 'teacher'"
           type="submit"
           class="btn btn-submit"
-          [disabled]="selectedTeacherLists.length == 0"
-          (click)="
-            swapTeacherToCourse(detailLists._id, selectedTeacherLists[0].userId)
+          [disabled]="
+            (enrollUserList | json) == '{}' ||
+            isDisabledBtn ||
+            noSetting == true
           "
+          (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
         >
           Confirm
         </button>
@@ -302,4 +306,139 @@
       enroll UI
      -->
   </div>
+  <!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
+  <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+  <div
+    class="flexiModal"
+    *ngIf="showInvoice == false && showflexyCourse == true"
+  >
+    <div class="innerFlexiModal">
+      <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+        <div class="d-flex back" (click)="backtoCustomer()">
+          <i class="fa fa-angle-left flexiBackicon"></i>
+          <p class="mb-0 font-medium ">Add customer</p>
+        </div>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+          <!-- <span aria-hidden="true" >×</span> -->
+        </button>
+      </div>
+      <app-flexi
+        [flexyarr]="flexyarr"
+        [selectedCustomer]="selectedCustomer"
+        [course]="detailLists"
+        [showcb]="showcb"
+        (passDataconflictBoxShow)="conflictBoxShow($event)"
+        (checkObjArr)="lessionObjArr($event)"
+      ></app-flexi>
+      <div class="invoice-wrap" *ngIf="showInvoice == true">
+        <app-invoice
+          [custDetail]="custDetail"
+          [course]="detailLists"
+          [invoiceId]="invoiceID2"
+          (closed)="cancelInvoiceModal()"
+        ></app-invoice>
+      </div>
+    </div>
+    <div
+      class="modal-footer d-flex justify-content-between"
+      style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+    >
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isProrated = !this.isProrated"
+                [checked]="isProrated"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <label class="switch-label" for="online">Prorated</label>
+        </div>
+        <div>
+          <p class="defaultLessonCount">
+            Default lessons count: {{ detailLists.defaultlessonCount }}
+          </p>
+          <p class="textCount">Number of lessons required:</p>
+          <div class="selectedCountBox">
+            <p class="selectedTest">
+              Selected lessons: {{ checkobjArr.length }}
+            </p>
+          </div>
+        </div>
+        <!-- <div class="defaultDiv">
+
+        </div> -->
+      </div>
+
+      <div class="">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-submit"
+          *ngIf="checkobjArr.length != 0"
+          (click)="flexicomfirm(invoiceAlert)"
+        >
+          Confirm
+        </button>
+        <button
+          type="submit"
+          *ngIf="checkobjArr.length == 0"
+          class="btn btn-submit"
+          disabled
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-template #invoiceAlert>
+    <div class="modal-header">
+      <h3 class="modal-title">Generate invoice</h3>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body apg-confirm">
+      <p>
+        Do you want to generate invoice for this enrollment?
+        <span class="target"></span>
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer" style="background: none!important;">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelInvoiceAlert()"
+      >
+        No
+      </button>
+      <button
+        style="background: #1682fb!important;"
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmInvoiceAlert()"
+      >
+        Yes
+      </button>
+    </div>
+  </ng-template>
 </div>

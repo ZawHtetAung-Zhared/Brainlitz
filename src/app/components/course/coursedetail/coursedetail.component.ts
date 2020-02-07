@@ -56,6 +56,7 @@ export class CoursedetailComponent implements OnInit {
       this.courseId = params.id;
       localStorage.setItem('COURSEID', this.courseId);
       console.log('CourseID', this.courseId);
+      localStorage.setItem('course_id', this.courseId);
     });
     this.getCourseDetail(this.courseId);
     console.log('CDRU', this.router.url.includes('coursedetail'));

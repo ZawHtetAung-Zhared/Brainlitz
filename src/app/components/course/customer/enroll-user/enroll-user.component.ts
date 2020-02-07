@@ -1,3 +1,4 @@
+import { CustomerComponent } from './../customer.component';
 import { UserGradingComponent } from './../../../apg/user-grading/user-grading.component';
 import { FilterPipe } from './../../../../service/pipe/filter.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,15 +20,24 @@ import { Location } from '@angular/common';
   styleUrls: ['./enroll-user.component.css']
 })
 export class EnrollUserComponent implements OnInit {
+  public backToCourse: any;
+  public clickCancel: any;
   ngOnInit(): void {
     // this.route.paramMap.subscribe(params => {
     //   //this.courseId = params['id']; //undefined
     //  // this.courseId=params.get('id'); // null
     // });
     //this.courseId = this.route.snapshot.params.id;
-    this.courseId = localStorage.getItem('COURSEID');
+    this.enrollUserList = [];
+    this.userType = localStorage.getItem('userType');
+    console.log(
+      'User Type from local storage ' + localStorage.getItem('userType')
+    );
+    this.courseId = '5e2fa55b28084f0013bac758';
+    this.backToCourse = `/coursedetail/${this.courseId}/customers`;
+    this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
-    this.getUsersInCourse(this.courseId);
+    //this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
 
     this._service.permissionList.subscribe(data => {
@@ -325,28 +335,6 @@ export class EnrollUserComponent implements OnInit {
     );
   }
 
-  getUsersInCourse(courseId) {
-    this.reScheduleCId = '';
-    //console.log('hi call course', courseId);
-    localStorage.setItem('COURSEID', courseId);
-    // this.getCourseDetail(courseId);
-    this.courseId = courseId;
-    this.reScheduleCId = courseId;
-    //this.blockUI.start('Loading...');
-    this._service
-      .getAssignUser(this.regionId, courseId, null, null, null)
-      .subscribe(
-        (res: any) => {
-          //this.blockUI.stop();
-          //console.log(res);
-          this.pplLists = res;
-        },
-        err => {
-          console.log(err);
-        }
-      );
-  }
-
   getCourseLists(limit, skip) {
     //this.blockUI.start('Loading...');
     this._service
@@ -621,7 +609,8 @@ export class EnrollUserComponent implements OnInit {
       console.log('hi');
       // this.cancel();
       this.getCourseDetail(this.detailLists._id);
-      this.getUsersInCourse(this.detailLists._id);
+      console.log('call getUsersInCourse from swap');
+      //this.getUsersInCourse(this.detailLists._id);
       // this.cancelModal();
     } else {
       console.log('else hi');
@@ -996,28 +985,28 @@ export class EnrollUserComponent implements OnInit {
     });
   }
 
-  withdrawUser(id) {
-    let userobj = {
-      courseId: this.courseId,
-      userId: id
-    };
-    this._service
-      .withdrawAssignUser(this.regionId, userobj, this.locationId)
-      .subscribe(
-        (res: any) => {
-          this.modalReference.close();
-          console.log(res);
-          this.toastr.success('User successfully withdrawled.');
-          this.getCourseDetail(this.courseId);
-          this.getUsersInCourse(this.courseId);
-        },
-        err => {
-          this.toastr.error('Withdrawal user failed.');
-          this.modalReference.close();
-          console.log(err);
-        }
-      );
-  }
+  // withdrawUser(id) {
+  //   let userobj = {
+  //     courseId: this.courseId,
+  //     userId: id
+  //   };
+  //   this._service
+  //     .withdrawAssignUser(this.regionId, userobj, this.locationId)
+  //     .subscribe(
+  //       (res: any) => {
+  //         this.modalReference.close();
+  //         console.log(res);
+  //         this.toastr.success('User successfully withdrawled.');
+  //         this.getCourseDetail(this.courseId);
+  //         //this.getUsersInCourse(this.courseId);
+  //       },
+  //       err => {
+  //         this.toastr.error('Withdrawal user failed.');
+  //         this.modalReference.close();
+  //         console.log(err);
+  //       }
+  //     );
+  // }
 
   cancelModal() {
     console.log('....');
@@ -1053,50 +1042,6 @@ export class EnrollUserComponent implements OnInit {
 
   addUserModal(type, userModal, state, id, courseType) {
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
-
-    // this.selectedCustomer = {};
-    // this.selectedTeacherLists = [];
-    // this.isvalidID = state;
-    // this.selectedUserId = [];
-    // this.modalReference = this.modalService.open(userModal, {
-    //   backdrop: 'static',
-    //   windowClass:
-    //     'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    // });
-    // this.userType = type;
-    // return new Promise((resolve, reject) => {
-    //   if (state != 'inside') {
-    //     console.log('first');
-    //     this.isSeatAvailable = true;
-    //     this.getCourseDetail(id);
-    //     this.getUsersInCourse(id);
-    //   } else if (this.detailLists.seat_left == null) {
-    //     console.log('second');
-    //     this.isSeatAvailable = true;
-    //   } else {
-    //     console.log('third');
-
-    //     if (
-    //       this.pplLists.CUSTOMER.length >= this.detailLists.coursePlan.seats
-    //     ) {
-    //       this.isSeatAvailable = false;
-    //     } else {
-    //       this.isSeatAvailable = true;
-    //     }
-    //   }
-    //   resolve();
-    // }).then(() => {
-    //   setTimeout(() => {
-    //     console.log('detail lists', this.detailLists);
-    //     if (courseType == 'REGULAR' && type == 'customer') {
-    //       for (var i in this.pplLists.CUSTOMER) {
-    //         console.log(this.pplLists.CUSTOMER[i]);
-    //         this.stdLists.push(this.pplLists.CUSTOMER[i].userId);
-    //       }
-    //     }
-    //     console.log(this.stdLists);
-    //   }, 500);
-    // });
   }
   backClicked() {
     this._location.back();
@@ -1124,6 +1069,7 @@ export class EnrollUserComponent implements OnInit {
   searchUserList: any = [];
 
   changeMethod(searchWord, userType) {
+    this.enrollUserList = [];
     console.log(this.detailLists.locationId);
     console.log(searchWord);
     console.log(userType);
@@ -1150,10 +1096,6 @@ export class EnrollUserComponent implements OnInit {
             });
             this.userLists = res;
             console.log(this.userLists);
-            // console.log('Search List')
-            // console.log(res)
-            // console.log('searchUserList~~~~')
-            // console.log(this.searchUserList)
             console.log('length of user list ' + this.userLists.length);
           },
           err => {
@@ -1231,12 +1173,34 @@ export class EnrollUserComponent implements OnInit {
 
   chooseUser(user) {
     if (user.addOrRemove == 'add-user') {
-      this.userLists.filter(item => {
-        if (item.userId == user.userId) {
+      console.log('enroll user list length');
+      console.log(
+        this.enrollUserList.length + ' ' + this.detailLists.seat_left
+      );
+      if (this.enrollUserList.length == this.detailLists.seat_left - 1) {
+        this.toastr.error('You can not select because no more seat.');
+      }
+      this.userLists.map(item => {
+        if (
+          item.userId == user.userId &&
+          (this.courseType == 'FLEXY' || this.userType == 'teacher')
+        ) {
+          this.userLists.map(myitem => {
+            if (myitem.userId != user) {
+              myitem.selected = false;
+              myitem.addOrRemove = 'add-user';
+            }
+          }); // set for all
+          item.selected = true;
+          item.addOrRemove = 'remove-user';
+          console.log('my block work');
+          //multienrolluser block
+          this.enrollUserList.pop();
+          this.enrollUserList.push(user);
+        } else if (item.userId == user.userId && this.courseType !== 'FLEXY') {
           item.selected = true;
           item.addOrRemove = 'remove-user';
           this.enrollUserList.push(user);
-          return console.log(this.userLists);
         }
       });
 
@@ -1263,45 +1227,71 @@ export class EnrollUserComponent implements OnInit {
     console.log(this.enrollUserList);
   }
 
+  swapTeacherToCourse(courseId, teacherId) {
+    let body = {
+      newTeacherId: teacherId
+    };
+    //this.blockUI.start('Loading...');
+    this._service.swapTeacher(courseId, body).subscribe(
+      (res: any) => {
+        //this.blockUI.stop();
+        this.toastr.success('Teacher successfully swaped.');
+        console.log(res);
+        //this.modalReference.close();
+        // this.getCourseDetail(courseId)
+        //this.getUsersInCourse(courseId);
+        this.router.navigateByUrl(`coursedetail/${courseId}/customers`);
+      },
+      err => {
+        //this.modalReference.close();
+        //this.blockUI.stop();
+        this.toastr.error('Swap teacher failed.');
+        console.log(err);
+      }
+    );
+  }
+
   enrollUserToCourse(courseId, userType) {
-    this.router.navigateByUrl('coursedetail/customer/customers');
-    // console.log('call from enrolluser', this.isvalidID);
-    // // let type = userType;
-    // // type = (userType == 'staff') ? 'teacher' : 'customer'
-    // this.getSelectedUserId();
-    // let body = {
-    //   courseId: courseId,
-    //   userId: this.selectedUserId,
-    //   userType: userType
-    // };
-    // console.log('~~~~', body);
-    // //this.blockUI.start('Loading...');
-    // this._service.assignUser(this.regionId, body, this.locationID).subscribe(
-    //   (res: any) => {
-    //     console.log(res);
-    //     //this.blockUI.stop();
-    //     setTimeout(() => {
-    //       this.toastr.success('Assistant successfully assigned.');
-    //     }, 100);
-    //     // this.toastr.success("Assistant successfully assigned.");
-    //     this.modalReference.close();
-    //     if (this.isvalidID == 'inside') {
-    //       console.log('hi');
-    //       // this.getCourseDetail(courseId)
-    //       this.getUsersInCourse(courseId);
-    //     } else {
-    //       console.log('else hi');
-    //       this.cancel();
-    //       // this.getUsersInCourse(courseId);
-    //     }
-    //   },
-    //   err => {
-    //     this.modalReference.close();
-    //     //this.blockUI.stop();
-    //     this.toastr.error('Assign teacher failed.');
-    //     console.log(err);
-    //   }
-    // );
+    console.log(courseId + ' course id ' + userType + ' user type');
+    //this.router.navigateByUrl(`coursedetail/${courseId}/customer/customers`);
+    console.log('call from enrolluser', this.isvalidID);
+    // let type = userType;
+    // type = (userType == 'staff') ? 'teacher' : 'customer'
+    this.getSelectedUserId();
+    let body = {
+      courseId: courseId,
+      userId: '',
+      userType: userType
+    };
+    this.enrollUserList.map(item => (body.userId = item.userId));
+    console.log('~~~~', body);
+    //this.blockUI.start('Loading...');
+    this._service.assignUser(this.regionId, body, this.locationID).subscribe(
+      (res: any) => {
+        console.log(res);
+        //this.blockUI.stop();
+        setTimeout(() => {
+          this.toastr.success('Assistant successfully assigned.');
+        }, 100);
+        // this.toastr.success("Assistant successfully assigned.");
+        //this.modalReference.close();
+        if (this.isvalidID == 'inside') {
+          console.log('hi');
+          // this.getCourseDetail(courseId)
+          //this.getUsersInCourse(courseId);
+        } else {
+          console.log('else hi');
+          this.cancel();
+          // this.getUsersInCourse(courseId);
+        }
+      },
+      err => {
+        //this.modalReference.close();
+        //this.blockUI.stop();
+        this.toastr.error('Assign teacher failed.');
+        console.log(err);
+      }
+    );
   }
 
   getSelectedUserId() {
@@ -1375,5 +1365,223 @@ export class EnrollUserComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  flexicomfirm(invoiceAlert) {
+    //add cutomer
+    this.stdLists = [];
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+
+      return;
+    }
+    console.log('call from addCustomer', this.selectedCustomer);
+    //sorting array as iso date string
+    // var myArray = this.checkobjArr;
+    // myArray.sort((a, b) => a.startDate.localeCompare(b.startDate))
+    // console.log("sort Array",myArray)
+    let lessonBody = {
+      userType: this.tempuserType,
+      disableInvoice: this.disableInvoice,
+      courseId: this.tempCourdeId,
+      userId: this.selectedCustomer.userId,
+      lessons: this.checkobjArr,
+      paymentPolicy: {
+        allowProrated: this.isProrated
+      }
+    };
+    console.log('body', lessonBody);
+    //this.blockUI.start('Loading...');
+    this._service
+      .assignUser(this.regionId, lessonBody, this.locationID)
+      .subscribe((res: any) => {
+        console.log('-------->', res);
+        if (this.disableInvoice) {
+          this.invoiceModalReference.close();
+          // this.modalReference.close();
+          //this.blockUI.stop();
+          this.showflexyCourse = false;
+          this.cancelInvoiceModal();
+          return;
+        }
+        this.courseInfo = this.detailLists;
+        Object.assign(this.courseInfo, res.body);
+        console.log('-------->', this.courseInfo);
+
+        console.log('res Assign customer', res);
+        if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+          console.log('no invoice setting');
+          this.invoiceInfo = {
+            address: '',
+            city: '',
+            companyName: '',
+            email: '',
+            prefix: '',
+            registration: ''
+          };
+        } else {
+          console.log('has invoice setting');
+          this.invoiceInfo = res.invoiceSettings;
+        }
+        //this.blockUI.stop();
+        this.invoice = res.invoice;
+        this.showInvoice = true;
+        this.showflexyCourse = false;
+        this.showPayment = false;
+        this.isProrated = false;
+        // this.invoiceID2 = this.detailLists.invoice[0]._id;
+        // this.showOneInvoice(this.invoice);
+      });
+
+    //add lesson
+    console.log(this.checkobjArr);
+  }
+
+  confirmInvoiceAlert(courseId, userType) {
+    this.disableInvoice = false;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+    this.invoiceModalReference.close();
+    console.log(' Invoice Genereate confirm ');
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+  }
+
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.courseType == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+    }
+    console.log(' Invoice Genereate cancel ');
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+  }
+
+  public invoiceModalReference;
+  public disableInvoice;
+
+  addCustomer(courseId, userType, invoiceAlert) {
+    this.tempCourdeId = courseId;
+    this.tempuserType = userType;
+    this.isDisabledBtn = false;
+    if (this.courseType == 'FLEXY') {
+      let startDate;
+      let endDate;
+      this._service
+        .getFlexi(courseId, this.selectedCustomer.userId, startDate, endDate)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            this.flexyarr = res;
+            this.showInvoice = false;
+            this.showflexyCourse = true;
+            //this.blockUI.stop();
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    } else {
+      if (invoiceAlert && userType == 'customer') {
+        console.log('I am in invoice alert');
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+
+        return;
+      }
+      this.stdLists = [];
+      //console.log('call from addCustomer', this.selectedCustomer);
+      console.log('call from addcustomer ');
+      let iDs: any;
+      this.enrollUserList.map(item => {
+        if (iDs == null || iDs == undefined) {
+          iDs = item.userId;
+        } else {
+          iDs += ',' + item.userId;
+        }
+      });
+      let body = {
+        courseId: courseId,
+        userId: iDs,
+        userType: userType,
+        disableInvoice: this.disableInvoice
+      };
+      console.log('body', body);
+      //this.blockUI.start('Loading...');
+      this._service.assignUser(this.regionId, body, this.locationID).subscribe(
+        (res: any) => {
+          console.log('-------->', res);
+          // console.log(this.detailLists.invoice);
+          if (this.disableInvoice) {
+            this.invoiceModalReference.close();
+            this.cancelInvoiceModal();
+            // this.modalReference.close();
+            //this.blockUI.stop();
+            return;
+          }
+          this.courseInfo = this.detailLists;
+          Object.assign(this.courseInfo, res.body);
+          console.log('-------->', this.courseInfo);
+
+          // console.log('res Assign customer', res);
+          // if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
+          //   console.log('no invoice setting');
+          //   this.invoiceInfo = {
+          //     address: '',
+          //     city: '',
+          //     companyName: '',
+          //     email: '',
+          //     prefix: '',
+          //     registration: ''
+          //   };
+          // } else {
+          //   console.log('has invoice setting');
+          //   this.invoiceInfo = res.invoiceSettings;
+          // }
+
+          this.invoice = res.invoice;
+          this.showInvoice = true;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+  }
+
+  dateFormat(dateStr) {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    var d = new Date(dateStr);
+    var month = monthNames[d.getUTCMonth()];
+    var year = d.getUTCFullYear();
+    var date = d.getUTCDate();
+    console.log(date, month, year);
+    var dFormat = date + ' ' + month + ' ' + year;
+    console.log('DD MM YYYY', dFormat);
+    return dFormat;
   }
 }

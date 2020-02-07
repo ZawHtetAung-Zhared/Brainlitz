@@ -296,12 +296,14 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     appService,
     DataService,
     LoggedInGuard,
+    EnrollUserComponent,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,
       multi: true
-    }
+    },
+    TodayDatePipe
   ],
   bootstrap: [AppComponent]
 })

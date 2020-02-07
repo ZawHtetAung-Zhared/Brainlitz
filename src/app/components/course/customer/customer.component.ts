@@ -1,5 +1,10 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ComponentFactoryResolver
+} from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
 import * as $ from 'jquery';
@@ -21,13 +26,25 @@ import { DataService } from '../../../service/data.service';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
+  constructor(
+    private _service: appService,
+    private router: Router,
+    private modalService: NgbModal,
+    public toastr: ToastrService,
+    public dataservice: DataService,
+    public route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
     // this.route.paramMap.subscribe(params => {
+    //   console.log(params)
     //   this.courseId = params['id']; //undefined
     //  // this.courseId=params.get('id'); // null
     // });
     //this.courseId=this.route.snapshot.params.id;
-    this.courseId = '5e3915d9a890f60ae76b8025';
+
+    //this.courseId = '5e3915d9a890f60ae76b8025';
+    this.courseId = localStorage.getItem('course_id');
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
@@ -40,15 +57,6 @@ export class CustomerComponent implements OnInit {
     });
     console.log(this.courseDemo.assignStudent + ' assign student');
   }
-
-  constructor(
-    private _service: appService,
-    private router: Router,
-    private modalService: NgbModal,
-    public toastr: ToastrService,
-    public dataservice: DataService,
-    public route: ActivatedRoute
-  ) {}
 
   @HostListener('document:click', ['$event'])
   public test(event): void {
@@ -307,7 +315,7 @@ export class CustomerComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log('here details list', res);
+        console.log('APO details list', res);
         this.detailLists = res;
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -340,6 +348,7 @@ export class CustomerComponent implements OnInit {
           //this.blockUI.stop();
           //console.log(res);
           this.pplLists = res;
+          console.log('here pplList ', this.pplLists);
         },
         err => {
           console.log(err);
@@ -1051,6 +1060,9 @@ export class CustomerComponent implements OnInit {
   }
 
   addUserModal(type, userModal, state, id, courseType) {
+    console.log('Type from addUserModal ' + type);
+    localStorage.setItem('userType', type);
+    console.log(localStorage.getItem('userType'));
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
 
     // this.selectedCustomer = {};
