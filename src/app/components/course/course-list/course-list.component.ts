@@ -35,6 +35,13 @@ export class CourseListComponent implements OnInit {
   private planCategory: any;
   private isSticky = false;
   private scrollDirection = '';
+  private coursePlanCollection: Array<any> = [];
+  private courseCollection;
+  private courses = [];
+  private page = 1;
+  private limit = 10;
+  private skip = 0;
+  private loading: boolean;
 
   constructor(
     private _service: appService,
@@ -111,27 +118,45 @@ export class CourseListComponent implements OnInit {
       this.isSticky = false;
     }
 
-    // console.log()
-    // if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-    //   console.log('On Scroll Down');
+    // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //   console.log("On Scroll Down");
     //   //Write logic here for loading new content.
-    //   this.scrollDirection = 'down';
+    //   if(this.courseCollection.totalPages - this.courseCollection.current_page > 0){
+    //     console.log("~~~~~~~~")
+    //     // this.page = this.page + 1;
+    //     // this.skip = this.courseCollection.courses.length;
+    //     // this.getCoursesPerPlan(this.selectedPlan,this.limit,this.skip,this.page)
+    //   }
     // }
 
+    // infinite scroll
     // Get the new Value
     let newValue = window.pageYOffset;
-    // console.log("newValue==>window.pageYOffset",newValue)
 
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
-      console.log('Up');
+      console.log('Direction Down');
+      if (this.courseCollection != null) {
+        if (
+          this.loading == false &&
+          this.courseCollection.courses.length == this.limit
+        ) {
+          console.log('call next page');
+          this.page = this.page + 1;
+          this.skip = this.courseCollection.courses.length;
+          this.getCoursesPerPlan(
+            this.selectedPlan,
+            this.limit,
+            this.skip,
+            this.page
+          );
+        }
+      }
     } else if (this.oldValue - newValue > 0) {
-      console.log('Down');
+      console.log('Direction Up');
     }
-
     // Update the old value
     this.oldValue = newValue;
-    // console.log("updated old value",this.oldValue)
   }
 
   ngOnInit() {
@@ -236,11 +261,14 @@ export class CourseListComponent implements OnInit {
       this.gbgColor = localStorage.getItem('backgroundColor');
 
       console.log('hi permission', this.locationName, this.locationID);
-      this.courseList = [];
-      this.getCourseLists(20, 0);
+      // this.courseList = [];
+      // this.getCourseLists(20, 0);
+      this.coursePlanCollection = [];
+      this.getAllCourseplan();
     } else {
       console.log('permission deny');
-      this.courseList = [];
+      // this.courseList = [];
+      this.coursePlanCollection = [];
     }
   }
 
@@ -286,7 +314,7 @@ export class CourseListComponent implements OnInit {
         console.log(this.courseList);
         console.log(this.courseList.length);
         if (this.courseList.length > 0) {
-          this.getCourseswithPlanId(0);
+          this.getCourseswithPlanId(0, '');
           this.emptyCourse = false;
           for (var i in this.courseList) {
             let duration = this.courseList[i].coursePlan.lesson.duration;
@@ -316,14 +344,59 @@ export class CourseListComponent implements OnInit {
       });
   }
 
+  getAllCourseplan() {
+    this._service
+      .getCourseplanCollection(this.regionId, this.locationID)
+      .subscribe((res: any) => {
+        this.coursePlanCollection = res;
+        let autoSelectedPlanId = this.coursePlanCollection[0]._id;
+        let autoSelectedPlanName = this.coursePlanCollection[0].name;
+        this.getCourseswithPlanId(autoSelectedPlanId, autoSelectedPlanName);
+      });
+  }
+
+  getCoursesPerPlan(courseplanId, limit, skip, page) {
+    this.loading = true;
+    this._service
+      .getCoursesPerPlan(
+        this.regionId,
+        this.locationID,
+        courseplanId,
+        limit,
+        skip,
+        page,
+        'down'
+      )
+      .subscribe(
+        (res: any) => {
+          this.loading = false;
+          if (res != null) {
+            this.courses = this.courses.concat(res.courses);
+            this.courseCollection = res;
+            this.courseCollection.courses = this.courses;
+            console.log('courseCollection', this.courseCollection);
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
   D(data) {
     return (data < 10 ? '0' : '') + data;
   }
 
-  getCourseswithPlanId(index) {
-    this.selectedPlan = this.courseList[index].coursePlan.coursePlanId;
-    this.selectedCourseList = this.courseList[index];
-    console.log(this.selectedCourseList);
+  getCourseswithPlanId(courseplanId, planName) {
+    this.courseCollection = null;
+    this.skip = 0;
+    this.page = 1;
+    this.courses = [];
+    console.log('courseplanId:', courseplanId, '& planName:', planName);
+    this.selectedPlan = courseplanId;
+    this.getCoursesPerPlan(this.selectedPlan, this.limit, this.skip, this.page);
+    // this.selectedCourseList = this.courseList[index];
+    // console.log(this.selectedCourseList);
   }
   changeRoute() {
     this.goBackCat = false;

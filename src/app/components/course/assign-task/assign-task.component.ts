@@ -33,8 +33,64 @@ export class AssignTaskComponent implements OnInit {
   public isTaskBreakEnAble: any;
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
-
-  public taskLists: any = [];
+  public selectedTaskArr: any = [];
+  public taskLists: any = [
+    {
+      _id: '5df764b23f0167abfa36772e',
+      topicBreak: false,
+      name: 'Cyber Attacks',
+      description:
+        'The four major types of cyber attacks are phishing, ransomware, distributed denial-of-service (DDOS), and backdoor.',
+      annoucementDate: '2019-11-24 13:29:42.364Z',
+      taskStartDate: '2019-11-24 13:29:42.364Z',
+      taskEndDate: '2019-11-24 13:29:42.364Z',
+      masteryCount: 1
+    },
+    {
+      _id: '5df764f93f0167abfa36772f',
+      topicBreak: false,
+      name: 'Phishing',
+      description:
+        'Phishing - gaining access to computer systems to obtain personal or Enterprise information through clicking of email attachments or links. ',
+      annoucementDate: '2019-11-24 13:29:42.364Z',
+      taskStartDate: '2019-11-24 13:29:42.364Z',
+      taskEndDate: '2019-11-24 13:29:42.364Z',
+      masteryCount: 5
+    },
+    {
+      _id: '5df765383f0167abfa367730',
+      topicBreak: false,
+      name: 'Ransomware',
+      description:
+        'Ransomware - malicious software designed to gain unauthorized access to users’ files and prevent them from accessing those files. Allows for ransom payments in exchange for file access',
+      annoucementDate: '2019-11-24 13:29:42.364Z',
+      taskStartDate: '2019-11-24 13:29:42.364Z',
+      taskEndDate: '2019-11-24 13:29:42.364Z',
+      masteryCount: 3
+    },
+    {
+      _id: '5df765623f0167abfa367731',
+      topicBreak: false,
+      name: 'DDos',
+      description:
+        'Distributed Denial-of-Service (DDoS) - a deliberate attempt to overwhelm an online system/network (slowing it down significantly or crashing it) with increased traffic from multiple sources',
+      annoucementDate: '2019-11-24 13:29:42.364Z',
+      taskStartDate: '2019-11-24 13:29:42.364Z',
+      taskEndDate: '2019-11-24 13:29:42.364Z',
+      masteryCount: 2
+    },
+    {
+      _id: '5df765983f0167abfa367732',
+      topicBreak: false,
+      name: 'Backdoor',
+      description:
+        'Backdoor - gaining illegal access to a system by downloading software through a hidden network or bypassing security',
+      annoucementDate: '2019-11-24 13:29:42.364Z',
+      taskStartDate: '2019-11-24 13:29:42.364Z',
+      taskEndDate: '2019-11-24 13:29:42.364Z',
+      masteryCount: 2
+    }
+  ];
   public standardList: any = [
     {
       _id: '1',
@@ -77,17 +133,6 @@ export class AssignTaskComponent implements OnInit {
       temp._id = i;
       temp.name = 'Primary ' + i;
       this.classList.push(temp);
-    }
-    for (let i = 1; i < 50; i++) {
-      let temp: any = {};
-      temp._id = i;
-      temp.name = 'Light energy 0' + i;
-      temp.masteries = '8';
-      temp.startDate = '13 Jan 2019';
-      temp.endDate = '20 Feb 2019';
-      temp.description =
-        ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
-      this.taskLists.push(temp);
     }
 
     this.standActiveId = this.standardList[0]._id;
@@ -163,6 +208,7 @@ export class AssignTaskComponent implements OnInit {
   goToStep3(event, step) {
     console.log('step', step);
     this.clickableSteps.push(step);
+
     this.stepClick(event, step);
   }
 
@@ -171,27 +217,28 @@ export class AssignTaskComponent implements OnInit {
   }
 
   dayClicked(day: CalendarMonthViewDay, e): void {
-    console.log(day.date, 'day click');
+    console.log(day, 'day click');
     console.log(this.clickDay, 'click day');
 
     this.selectedMonthViewDay = day;
     let dateType = { id: 0, name: 'Full Day', date: day.date, value: 1 };
 
-    if (this.clickDay) {
+    if (this.clickDay && day.inMonth) {
       let calCell = document.getElementById('cal-month-view' + this.clickDay);
       let calDay = document.getElementById('cal-day-number' + this.clickDay);
       calCell.classList.remove('cal-day-selected');
       calDay.classList.remove('cal-day-number-selected');
     }
-
-    this.clickDay = day.date;
-    let calCell = document.getElementById('cal-month-view' + day.date);
-    let calDay = document.getElementById('cal-day-number' + day.date);
-    console.log(calCell, 'cal cell');
-    console.log(calDay, 'cal day');
-    calCell.classList.add('cal-day-selected');
-    calDay.classList.add('cal-day-number-selected');
-    this.selectedDays = dateType;
+    if (day.inMonth) {
+      this.clickDay = day.date;
+      let calCell = document.getElementById('cal-month-view' + day.date);
+      let calDay = document.getElementById('cal-day-number' + day.date);
+      console.log(calCell, 'cal cell');
+      console.log(calDay, 'cal day');
+      calCell.classList.add('cal-day-selected');
+      calDay.classList.add('cal-day-number-selected');
+      this.selectedDays = dateType;
+    }
   }
   //beforeViewRender method to call after months change
   checkSelectedDate(e) {
@@ -209,6 +256,7 @@ export class AssignTaskComponent implements OnInit {
           let tDay = document.getElementById('cal-day-number' + element.date);
           todayCell.classList.add('cal-day-selected');
           tDay.classList.add('cal-day-number-selected');
+          this.clickDay = element.date;
           console.log(todayCell);
         }
         // if (!this.selectedDays) {
@@ -243,5 +291,14 @@ export class AssignTaskComponent implements OnInit {
 
   extraIncrease() {
     this.txtextra = this.txtextra + 1;
+  }
+
+  selectedTask(obj) {
+    if (this.selectedTaskArr.includes(obj)) {
+      this.selectedTaskArr.splice(this.selectedTaskArr.indexOf(obj), 1);
+    } else {
+      this.selectedTaskArr.push(obj);
+    }
+    console.log(this.selectedTaskArr, 'selected tast arr');
   }
 }

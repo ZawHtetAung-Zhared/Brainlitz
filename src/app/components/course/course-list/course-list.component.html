@@ -32,28 +32,27 @@
           Add new course plan
         </button>
       </div>
-      <div class="cplan-wrapper" *ngIf="courseList.length > 0">
-        <div *ngFor="let courseGroup of courseList; let i = index">
+      <div class="cplan-wrapper" *ngIf="coursePlanCollection.length > 0">
+        <div *ngFor="let coursePlan of coursePlanCollection; let i = index">
           <div
             class="cplan-item d-flex flex-column cursor-on"
             [ngClass]="{
-              'cplan-item-selected':
-                selectedPlan == courseGroup.coursePlan.coursePlanId
+              'cplan-item-selected': selectedPlan == coursePlan._id
             }"
-            (click)="getCourseswithPlanId(i)"
+            (click)="getCourseswithPlanId(coursePlan._id, coursePlan.name)"
           >
             <span class="cplan-small-txt">
-              #{{ courseGroup.coursePlan.category.name }}
+              #{{ coursePlan.category.name }}
             </span>
-            <span class="cplan-title"> {{ courseGroup.coursePlan.name }} </span>
+            <span class="cplan-title"> {{ coursePlan.name }} </span>
             <div class="d-flex justify-content-between pt-2">
               <span class="cplan-duration">
-                {{ courseGroup.coursePlan.lesson.duration | minuteSeconds }}
+                {{ coursePlan.lesson.duration | minuteSeconds }}
                 duration
               </span>
               <span
                 class="cplan-duration cplan-edit"
-                (click)="showCPDetail(courseGroup.coursePlan.coursePlanId)"
+                (click)="showCPDetail(coursePlan._id)"
               >
                 Edit plan</span
               >
@@ -62,7 +61,10 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedCourseList" class="content-wrapper">
+    <div *ngIf="courseCollection == null" class="d-flex justify-content-center">
+      <span class="p-4 cplan-title">There is no courses.</span>
+    </div>
+    <div *ngIf="courseCollection" class="content-wrapper">
       <div class="csearch-wrap pt-4">
         <input
           class="form-control input-csearch course-search-input"
@@ -74,15 +76,15 @@
       <div class="d-flex justify-content-between align-items-center plan-title">
         <div class="d-flex flex-column">
           <span class="cplan-small-txt light-color">
-            #{{ selectedCourseList.coursePlan.category.name }}
+            #{{ courseCollection.coursePlan.category.name }}
           </span>
           <span class="cplan-title1">
-            {{ selectedCourseList.coursePlan.name }}
+            {{ courseCollection.coursePlan.name }}
           </span>
         </div>
         <button
           class="addCourse-btn"
-          (click)="addNewCourse(selectedCourseList.coursePlan)"
+          (click)="addNewCourse(courseCollection.coursePlan)"
         >
           Add new course
         </button>
@@ -90,12 +92,12 @@
       <!-- start card -->
       <div class="course-list-wrapper">
         <div
-          *ngIf="selectedCourseList.courses.length <= 0"
+          *ngIf="courseCollection.courses.length <= 0"
           class="d-flex justify-content-center"
         >
           <span class="p-4 cplan-title">There is no courses.</span>
         </div>
-        <div *ngFor="let course of selectedCourseList.courses">
+        <div *ngFor="let course of courseCollection.courses">
           <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
             <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
               <div class="cinfo-wrap m-3 d-flex flex-column">

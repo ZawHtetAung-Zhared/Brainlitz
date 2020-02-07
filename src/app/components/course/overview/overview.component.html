@@ -8,7 +8,7 @@
       <div class="d-flex customer-div">
         <h6 style="color: #007D49;">Paid</h6>
         <p *ngIf="on" class="big-no">0</p>
-        <p *ngIf="!on" class="big-no">6</p>
+        <p *ngIf="!on" class="big-no">{{ templength }}</p>
         Customers
       </div>
       <div class="d-flex customer-div">
@@ -26,20 +26,32 @@
       <div class="d-flex justify-content-between pt-3">
         <p class="enroll" *ngIf="on">Must enroll students to this course</p>
         <div *ngIf="!on" class="d-flex ml-3">
-          <span *ngFor="let propic of propics" class="propic">
+          <span
+            ngbTooltip="{{ ppl.fullName }}"
+            *ngFor="let ppl of pplLists"
+            class="propic"
+          >
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157925970534929407006_original.jpg"
+              *ngIf="ppl.fullName != ''"
+              ngbTooltip="{{ ppl.fullName }}"
+              src="{{ ppl.profilePic }}"
+            />
+            <img
+              *ngIf="ppl.fullName == ''"
+              ngbTooltip="{{ ppl.email }}"
+              src="{{ ppl.profilePic }}"
             />
           </span>
-          <span class="propic">
+          <span *ngIf="pplLists > 5" class="propic">
             + 1
           </span>
         </div>
         <button
           class="detail-btn"
-          (click)="toggle()"
+          (click)="enrollCustomer(courseId)"
           [ngClass]="{ white: !on }"
         >
+          <!-- (click)="toggle()" -->
           Enroll customer
         </button>
       </div>

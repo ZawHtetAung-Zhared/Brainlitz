@@ -12,6 +12,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 // import moment = require('moment');
 import * as moment from 'moment';
 import * as $ from 'jquery';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-enroll-user',
@@ -54,7 +55,8 @@ export class EnrollUserComponent implements OnInit {
     private modalService: NgbModal,
     public toastr: ToastrService,
     public dataservice: DataService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private _location: Location
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -1040,6 +1042,9 @@ export class EnrollUserComponent implements OnInit {
 
   addUserModal(type, userModal, state, id, courseType) {
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
+  }
+  backClicked() {
+    this._location.back();
   }
 
   focusMethod(e, userType) {
