@@ -1907,6 +1907,7 @@ export class CourseComponent implements OnInit {
       this.viewInvoice(this.singleUserData);
     }
   }
+
   cancelRescheduleLesson(e) {
     console.log(e);
     if (!e) {
@@ -2586,6 +2587,7 @@ export class CourseComponent implements OnInit {
   blurcall(e) {
     console.log('call blur');
   }
+
   hideFocus(e) {
     console.log('hide focus', this.isFous);
     console.log('show list', this.showList);
@@ -2815,6 +2817,7 @@ export class CourseComponent implements OnInit {
     }
     this.invoiceModalReference.close();
   }
+
   cancelInvoiceAlert() {
     this.disableInvoice = true;
     if (this.courseType == 'FLEXY') {
@@ -2823,6 +2826,7 @@ export class CourseComponent implements OnInit {
       this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
     }
   }
+
   public invoiceModalReference;
   public disableInvoice;
   addCustomer(courseId, userType, invoiceAlert) {
