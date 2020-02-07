@@ -11,6 +11,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 // import moment = require('moment');
 import * as moment from 'moment';
 import * as $ from 'jquery';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-enroll-user',
@@ -24,7 +25,7 @@ export class EnrollUserComponent implements OnInit {
     //  // this.courseId=params.get('id'); // null
     // });
     //this.courseId = this.route.snapshot.params.id;
-    this.courseId = '5e2fa55b28084f0013bac758';
+    this.courseId = localStorage.getItem('COURSEID');
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
@@ -44,7 +45,8 @@ export class EnrollUserComponent implements OnInit {
     private modalService: NgbModal,
     public toastr: ToastrService,
     public dataservice: DataService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private _location: Location
   ) {}
 
   @HostListener('document:click', ['$event'])
@@ -1095,6 +1097,9 @@ export class EnrollUserComponent implements OnInit {
     //     console.log(this.stdLists);
     //   }, 500);
     // });
+  }
+  backClicked() {
+    this._location.back();
   }
 
   focusMethod(e, userType) {

@@ -6,9 +6,9 @@
 >
   <div class="back-to" routerLink="/coursedetail/customer/customers">
     <i class="fa fa-angle-left"></i>
-    <p>Back to {{ detailLists.name }}</p>
+    <p>Back to {{ detailLists.coursePlan.name }}</p>
   </div>
-  <div class="back-to" routerLink="/coursedetail/customer/overview">
+  <div class="back-to" (click)="backClicked()">
     <p>Cancel</p>
   </div>
 </div>
