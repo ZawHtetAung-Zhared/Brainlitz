@@ -4,9 +4,9 @@
 <div
   class="d-flex justify-content-between mt-3 customer-nav align-items-center "
 >
-  <div class="back-to" routerLink="/coursedetail/customer/customers">
+  <div class="back-to" (click)="backClicked()">
     <i class="fa fa-angle-left"></i>
-    <p>Back to {{ detailLists.coursePlan.name }}</p>
+    <p>Back to {{ detailLists.name }}</p>
   </div>
   <div class="back-to" (click)="backClicked()">
     <p>Cancel</p>

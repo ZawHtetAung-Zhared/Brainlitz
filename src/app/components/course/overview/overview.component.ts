@@ -22,16 +22,6 @@ export class OverviewComponent implements OnInit {
 
   ngAfterViewInit() {
     console.log('AfterViewInit');
-
-    this.pplLists = {
-      CUSTOMER: [{}],
-      TEACHER: [
-        {
-          preferredName: ''
-        }
-      ],
-      STAFF: [{}]
-    };
   }
 
   public on: boolean = true;
@@ -57,7 +47,7 @@ export class OverviewComponent implements OnInit {
 
           this.pplLists = res.CUSTOMER;
           this.templength = res.CUSTOMER.length;
-          console.log('UO', this.templength);
+          console.log('UO', this.pplLists);
           if (this.pplLists.length > 0) {
             this.on = false;
             console.log('On', this.on);
