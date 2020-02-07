@@ -8,7 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../../service/data.service';
 import { environment } from '../../../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import moment = require('moment');
+// import moment = require('moment');
+import * as moment from 'moment';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-enroll-user',
