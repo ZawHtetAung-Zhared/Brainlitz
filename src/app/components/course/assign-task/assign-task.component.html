@@ -465,6 +465,7 @@
                 [ngClass]="{
                   'checked-block': selectedTaskArr.includes(task) == true
                 }"
+                (click)="showmasteryList(masteriesModal, task)"
               >
                 <div class="d-flex justify-content-between">
                   <p class="task-title bold">{{ task.name }}</p>
@@ -516,3 +517,133 @@
   </div>
 </div>
 <div id="placeholder_color"></div>
+
+<ng-template #masteriesModal let-modal>
+  <div class="mastery-wrapper">
+    <div class="d-flex justify-content-between">
+      <p class="mastery-title bold">
+        {{ singleSelectedTask.name }}
+      </p>
+      <span class="close-icon" (click)="closeModal()"></span>
+    </div>
+    <p class="template-description2 regular">
+      {{ singleSelectedTask.description }}
+    </p>
+    <p class="anno-txt bold">
+      Announcement information
+    </p>
+    <div class="d-flex duration-wrapper">
+      <div class="col-md-6">
+        <label for="course_name" class="input-title medium">Date</label>
+        <div class="input-wrap">
+          <div class="cc-start">
+            <span class="dp-icon">
+              <img src="./assets/img/course-dp.png" />
+            </span>
+            <input
+              type="text"
+              placeholder="{{
+                singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
+              }}"
+              class="input-day dropD startInput"
+              name="annoDate"
+              required
+              (click)="annoDate.toggle()"
+              ngbDatepicker
+              #annoDate="ngbDatepicker"
+              (document:click)="closeDropdown($event, annoDate)"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 pRight-15">
+        <label for="course_name" class="input-title font-medium">Time</label>
+        <div class="input-wrap start-wrap">
+          <span class="dp-icon">
+            <img src="./assets/img/clock.png" />
+          </span>
+          <input
+            type="text"
+            placeholder="{{
+              singleSelectedTask.taskStartDate | date: 'hh: mm a'
+            }}"
+            class="input-day timeInput"
+            name="innoTime"
+            required
+            readonly
+            (click)="durationProgress($event)"
+            style="background: none;"
+          />
+          <div class="bg-box duration-progress">
+            <div id="rectangle"></div>
+            <div class="time-wrapper d-flex justify-content-center">
+              <div
+                class="d-flex flex-column justify-content-center showTime medium"
+              >
+                {{ showFormat }}
+              </div>
+              <div>
+                <div class="time-box">
+                  <label
+                    [ngClass]="{ selected: isSelectedTime == 'AM' }"
+                    class="mb-0 font-semi"
+                    ><input
+                      type="radio"
+                      name="prop"
+                      (click)="chooseTimeOpt('AM')"
+                    />
+                    AM
+                  </label>
+                  <label
+                    [ngClass]="{ selected: isSelectedTime == 'PM' }"
+                    class="mb-0 font-semi"
+                  >
+                    <input
+                      type="radio"
+                      [(ngModel)]="model.prop"
+                      name="prop"
+                      (click)="chooseTimeOpt('PM')"
+                    />
+                    PM
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="gap-box">
+              <label>
+                <div class="col-md-4 max-range">Hour</div>
+                <input
+                  class="max-range-box"
+                  type="range"
+                  id="hrDuration"
+                  name="pointsHr"
+                  min="0"
+                  max="12"
+                  (input)="ChangedRangeValue($event.target.value, 'hr')"
+                  [(ngModel)]="rangeHr"
+                />
+              </label>
+            </div>
+            <div class="gap-range-min">
+              <label>
+                <div class="col-md-4 min-range">Minute</div>
+                <input
+                  class="min-range-box"
+                  type="range"
+                  id="minDuration"
+                  name="pointsMin"
+                  min="0"
+                  max="59"
+                  step="1"
+                  (input)="ChangedRangeValue($event.target.value, 'min')"
+                  [(ngModel)]="rangeMin"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

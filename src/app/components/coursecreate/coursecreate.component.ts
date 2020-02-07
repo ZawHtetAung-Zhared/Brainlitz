@@ -1112,8 +1112,12 @@ export class CoursecreateComponent implements OnInit {
     }
   }
   closeDropdown(event, type, datePicker?) {
-    console.log('exit here close drop down');
-
+    console.log(
+      'exit here close drop down',
+      event.target.className.includes('dropD')
+    );
+    console.log(event.target.className);
+    console.log(datePicker);
     // if(event.path){
     //   if(type == 'feeOpt'){
     //     var parentWrap = event.path.filter(function(res){
@@ -1182,16 +1186,19 @@ export class CoursecreateComponent implements OnInit {
       // if(datePicker)
       //   datePicker.close();
     } else {
-      // console.log("##########",event.target.className)
+      console.log('##########', event.target.className);
       this.searchMenuShow = false;
       // if (type == "start")
       //   datePicker.close();
       // else if (type== 'end')
       //   datePicker.close();
       if (type == 'start' || type == 'end') {
+        console.log('exit');
         if (event.target.offsetParent == null) {
+          console.log('exit if');
           datePicker.close();
         } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          console.log('exit else');
           datePicker.close();
         }
       }

@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDateStruct
+} from '@ng-bootstrap/ng-bootstrap';
 
 import {
   CalendarEvent,
@@ -9,6 +16,7 @@ import {
   CalendarDateFormatter
 } from 'angular-calendar';
 declare var $: any;
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-assign-task',
@@ -33,7 +41,13 @@ export class AssignTaskComponent implements OnInit {
   public isTaskBreakEnAble: any;
   public isStart: boolean = false;
   public isScheduleTask: boolean = false;
+  public progressSlider: boolean = false;
   public selectedTaskArr: any = [];
+  public modalReference: any;
+  public singleSelectedTask: any;
+  public showFormat: any;
+  public isSelectedTime: any;
+  public masteryList: any = [];
   public taskLists: any = [
     {
       _id: '5df764b23f0167abfa36772e',
@@ -116,8 +130,21 @@ export class AssignTaskComponent implements OnInit {
   view: any = 'month';
   clickDay: Date;
   // end calendar
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public startFormat: any;
+  public startTime: any;
+  public classend: any;
+  model: any = {};
+  public rangeMin: any;
+  public rangeHr: any;
 
-  constructor(private datePipe: DatePipe) {}
+  constructor(
+    private datePipe: DatePipe,
+    private modalService: NgbModal,
+    private config: NgbDatepickerConfig
+  ) {}
 
   ngOnInit() {
     for (let i = 1; i < 50; i++) {
@@ -300,5 +327,152 @@ export class AssignTaskComponent implements OnInit {
       this.selectedTaskArr.push(obj);
     }
     console.log(this.selectedTaskArr, 'selected tast arr');
+  }
+
+  showmasteryList(masteriesModal, task) {
+    this.isSelectedTime = 'AM';
+    this.singleSelectedTask = task;
+    for (let i = 1; i < 30; i++) {
+      let temp = {
+        masteryId: 'CST-KPMG-01-01' + i,
+        shortMasteryName: 'Types of Cyber Attacks',
+        masteryIconUrl:
+          'https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/CST-KPMG-01-01/Assets/cst-kpmg-01-01-icon.png'
+      };
+      this.masteryList.push(temp);
+    }
+    this.modalReference = this.modalService.open(masteriesModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  closeDropdown(event, datePicker?) {
+    console.log(datePicker, event.target.className.includes('dropD'));
+    console.log(event.target.className);
+    console.log(datePicker);
+    if (event.target.className.includes('dropD')) {
+      // datePicker.close()
+    } else {
+      if (event.target.offsetParent == null) {
+        console.log('exit if');
+        datePicker.close();
+      } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+        console.log('exit else');
+        datePicker.close();
+      }
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  public categorySearch(event): void {
+    if (this.progressSlider != true) {
+      $('.bg-box').css({ display: 'none' });
+    } else {
+      $('.bg-box').css({ display: 'block' });
+      $('.bg-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.progressSlider = false;
+    }
+  }
+  closeModal() {
+    this.modalReference.close();
+  }
+
+  durationProgress($event) {
+    this.progressSlider = true;
+  }
+  chooseTimeOpt(type) {
+    console.log(type);
+    this.isSelectedTime = type;
+    this.formatTime();
+  }
+
+  formatTime() {
+    console.log('this.selected', this.selectedHrRange, this.selectedMinRange);
+    if (this.selectedHrRange > 0) {
+      if (this.selectedHrRange < 10) {
+        var hrFormat = 0 + this.selectedHrRange;
+      } else {
+        var hrFormat = this.selectedHrRange;
+      }
+    } else {
+      this.selectedHrRange = '00';
+      var hrFormat = this.selectedHrRange;
+    }
+    if (this.selectedMinRange > 0) {
+      if (this.selectedMinRange < 10) {
+        this.selectedMinRange = parseInt(this.selectedMinRange);
+        this.selectedMinRange = this.selectedMinRange.toString();
+        console.log('if', this.selectedMinRange);
+        // var minFormat = this.selectedMinRange.concat('0',this.selectedMinRange);
+        var minFormat = 0 + this.selectedMinRange;
+        // console.log(this.selectedMinRange.concat('0',this.selectedMinRange));
+        console.log(minFormat);
+      } else {
+        console.log('else', this.selectedMinRange);
+        var minFormat = this.selectedMinRange;
+      }
+    } else {
+      this.selectedMinRange = '00';
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    console.log(this.showFormat);
+    this.startFormat = hrFormat + ':' + minFormat + '' + this.isSelectedTime;
+    console.log('Start Format', this.startFormat);
+    // this.model.starttime = this.startFormat;
+    this.startTime = moment(this.startFormat, 'h:mm A').format('HH:mm');
+    console.log('Output', this.startTime);
+    this.model.startT = this.startFormat;
+    this.model.starttime = this.startTime;
+    this.calculateDuration(this.startTime, this.model.duration);
+  }
+
+  calculateDuration(time, duration) {
+    console.log('Calculate', time, duration);
+
+    let totalduration = duration / 60;
+    let gethour = Math.floor(totalduration);
+    let getmin = duration % 60;
+
+    console.log(gethour);
+    console.log(getmin);
+
+    // this.classend = time +
+    if (time) {
+      let piece = time.split(':');
+      let mins = Number(piece[0]) * 60 + Number(piece[1]) + duration;
+      var endTime =
+        this.D(((mins % (24 * 60)) / 60) | 0) + ':' + this.D(mins % 60);
+      console.log('Classend', endTime);
+      var H = +endTime.substr(0, 2);
+      var h = H % 12 || 12;
+      var ampm = H < 12 ? 'AM' : 'PM';
+      if (h < 10) {
+        this.classend = '0' + h + endTime.substr(2, 3) + ampm;
+        console.log('Class end', this.classend);
+      } else {
+        this.classend = h + endTime.substr(2, 3) + ampm;
+        console.log('Class end', this.classend);
+      }
+    }
+  }
+  D(J) {
+    return (J < 10 ? '0' : '') + J;
+  }
+  ChangedRangeValue(e, type) {
+    // console.log(e)
+    if (type == 'hr') {
+      this.selectedHrRange = e;
+      console.log('this.selectedHrRange', this.selectedHrRange);
+    }
+    if (type == 'min') {
+      this.selectedMinRange = e;
+      console.log('this.selectedMinRange', this.selectedMinRange);
+    }
+    this.formatTime();
   }
 }
