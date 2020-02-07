@@ -54,6 +54,7 @@ export class CoursedetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.courseId = params.id;
+      localStorage.setItem('COURSEID', this.courseId);
       console.log('CourseID', this.courseId);
     });
     this.getCourseDetail(this.courseId);
