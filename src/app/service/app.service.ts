@@ -1454,6 +1454,26 @@ export class appService {
     });
   }
 
+  getCourseplanCollection(regionId, locationId) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/course_plans?locationId=' +
+      locationId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   getSearchCoursePlan(
     id: string,
     location: string,
@@ -1852,6 +1872,45 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
+  getCoursesPerPlan(
+    regionId,
+    locationId,
+    courseplanId,
+    limit,
+    skip,
+    page,
+    direction
+  ): Observable<any> {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/course_plans/' +
+      courseplanId +
+      '/courses?locationId=' +
+      locationId +
+      '&limit=' +
+      limit +
+      '&skip=' +
+      skip +
+      '&page=' +
+      page +
+      '&direction=' +
+      direction;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
       console.log(result);

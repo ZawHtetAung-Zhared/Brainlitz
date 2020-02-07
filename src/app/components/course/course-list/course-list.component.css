@@ -35,7 +35,7 @@
 }
 
 .sidebar {
-  width: 420px;
+  width: 380px;
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .sidebar {
