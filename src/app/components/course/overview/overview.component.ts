@@ -28,6 +28,7 @@ export class OverviewComponent implements OnInit {
   public courseId: any;
   public propics: any = ['1', '2', '3', '4', '5'];
   public pplLists: any;
+  public customerlist: any;
   public regionId = localStorage.getItem('regionId');
   public templength: any;
   // toggle() {
@@ -46,6 +47,7 @@ export class OverviewComponent implements OnInit {
           //this.blockUI.stop();
 
           this.pplLists = res.CUSTOMER;
+          this.customerlist = this.pplLists.slice(0, 8);
           this.templength = res.CUSTOMER.length;
           console.log('UO', this.pplLists);
           if (this.pplLists.length > 0) {
