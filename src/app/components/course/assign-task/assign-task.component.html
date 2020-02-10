@@ -110,13 +110,20 @@
         </header>
       </div>
     </div>
+    <div class="d-flex-jusitfy-content-center menuborder">
+      <div class="inner-wrapper">
+        <p class="name-header bold">
+          Assigning tasks - getting started
+        </p>
+      </div>
+    </div>
     <div class="d-flex jusitfy-content-center start-wrapper">
       <div class="inner-wrapper">
         <p class="start-que bold">What would you like to proceed?</p>
         <div class="d-flex">
           <div
             class="col-md-6 pl-0"
-            (click)="goToScheduleTask()"
+            (click)="goToScheduleTask(assign.id)"
             *ngFor="let assign of assignTaskList"
           >
             <div class="choice-block">
@@ -253,7 +260,7 @@
                         />
                       </svg>
                     </span>
-                    <span>{{ template.name }}</span>
+                    <span>{{ template.templateName }}</span>
                   </div>
                   <p
                     class="template-description medium"
@@ -311,7 +318,7 @@
                     />
                   </svg>
                 </span>
-                <span>{{ templateActiveObj.name }}</span>
+                <span>{{ templateActiveObj.templateName }}</span>
               </div>
               <p class="template-description2 medium">
                 {{ templateActiveObj.description }}

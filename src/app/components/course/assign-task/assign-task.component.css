@@ -318,7 +318,6 @@ a.adisabled:active {
 }
 .div_step {
   height: 86vh;
-  background: #f7f9fa;
 }
 
 .inner-wrapper1 {
@@ -388,7 +387,7 @@ a.adisabled:active {
 .div_step {
   /*height: 77em;*/
   height: 86vh;
-  background: rgb(242, 244, 245);
+  background: #f7f9fa;
   padding-top: 72px;
 }
 
@@ -1157,7 +1156,6 @@ p.anno-txt {
   .div_step {
     /*height: 77em;*/
     height: 86vh;
-    background: rgb(242, 244, 245);
     padding-top: 0;
   }
 

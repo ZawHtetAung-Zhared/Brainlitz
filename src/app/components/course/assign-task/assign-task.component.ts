@@ -145,14 +145,6 @@ export class AssignTaskComponent implements OnInit {
     this.sparkWerkz = this.courseDetail.sparkWerkz;
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
-    for (let i = 1; i < 50; i++) {
-      let temp: any = {};
-      temp._id = i;
-      temp.name = 'Template sample ' + i;
-      temp.description =
-        ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
-      this.scheduletemplateList.push(temp);
-    }
   }
 
   checkStandard(id) {
@@ -171,18 +163,21 @@ export class AssignTaskComponent implements OnInit {
     });
   }
 
-  goToScheduleTask() {
-    $('#placeholder_color').append(
-      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
-        '#788796' +
-        ' !important;} .data-name::-moz-placeholder{color: #788796!important; opacity:1;} .data-name:-moz-placeholder{color: #788796 !important; opacity:1;}</style>'
-    );
+  goToScheduleTask(id) {
+    if (id == 1) {
+      $('#placeholder_color').append(
+        "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+          '#788796' +
+          ' !important;} .data-name::-moz-placeholder{color: #788796!important; opacity:1;} .data-name:-moz-placeholder{color: #788796 !important; opacity:1;}</style>'
+      );
 
-    setTimeout(function() {
-      $('#step1').addClass('active');
-    }, 200);
-    this.activeStep = '1';
-    this.isScheduleTask = true;
+      setTimeout(function() {
+        $('#step1').addClass('active');
+      }, 200);
+      this.activeStep = '1';
+      this.isScheduleTask = true;
+      this.getTemplateLists();
+    }
   }
 
   stepClick(event, step) {
@@ -447,6 +442,14 @@ export class AssignTaskComponent implements OnInit {
     });
   }
 
+  getTemplateLists() {
+    this._service
+      .getTemplateLists(this.standActiveId, this.courseDetail._id)
+      .subscribe((res: any) => {
+        console.log(res, 'template list');
+        this.scheduletemplateList = res;
+      });
+  }
   // start back to
   backCourseDetail() {
     this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
