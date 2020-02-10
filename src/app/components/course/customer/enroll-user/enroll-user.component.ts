@@ -33,7 +33,7 @@ export class EnrollUserComponent implements OnInit {
     console.log(
       'User Type from local storage ' + localStorage.getItem('userType')
     );
-    this.courseId = '5e2fa55b28084f0013bac758';
+    this.courseId = localStorage.getItem('course_id');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
