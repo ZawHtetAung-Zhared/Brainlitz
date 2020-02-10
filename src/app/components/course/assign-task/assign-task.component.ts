@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
@@ -18,6 +19,8 @@ import {
 declare var $: any;
 import * as moment from 'moment';
 
+import { appService } from '../../../service/app.service';
+
 @Component({
   selector: 'app-assign-task',
   templateUrl: './assign-task.component.html',
@@ -31,6 +34,8 @@ import * as moment from 'moment';
   ]
 })
 export class AssignTaskComponent implements OnInit {
+  public courseDetail: any;
+  public sparkWerkz: any;
   public standActiveId: any;
   public classActiveId: any;
   public templateActiveObj: any = {};
@@ -105,22 +110,9 @@ export class AssignTaskComponent implements OnInit {
       masteryCount: 2
     }
   ];
-  public standardList: any = [
-    {
-      _id: '1',
-      name: 'NGSS'
-    },
-    {
-      _id: '2',
-      name: 'SingaporeMOE'
-    },
-    {
-      _id: '3',
-      name: 'Curiculum Standard I'
-    }
-  ];
+  public standardList: any = [];
   public classList: any = [];
-
+  public assignTaskList: any = [];
   // calendar
   selectedMonthViewDay: CalendarMonthViewDay;
   events: CalendarEvent[] = [];
@@ -143,26 +135,16 @@ export class AssignTaskComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
-    private config: NgbDatepickerConfig
+    private config: NgbDatepickerConfig,
+    private _service: appService,
+    private _route: Router
   ) {}
 
   ngOnInit() {
-    for (let i = 1; i < 50; i++) {
-      let temp: any = {};
-      temp._id = i;
-      temp.name = 'Template sample ' + i;
-      temp.description =
-        ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
-      this.scheduletemplateList.push(temp);
-    }
-    for (let i = 1; i < 50; i++) {
-      let temp: any = {};
-      temp._id = i;
-      temp.name = 'Primary ' + i;
-      this.classList.push(temp);
-    }
-
-    this.standActiveId = this.standardList[0]._id;
+    this.courseDetail = JSON.parse(localStorage.getItem('courseDetail'));
+    this.sparkWerkz = this.courseDetail.sparkWerkz;
+    this.getStandardClass();
+    console.log(this.sparkWerkz, 'sparkWerkz');
   }
 
   checkStandard(id) {
@@ -174,21 +156,28 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToStart() {
-    this.isStart = true;
+    this._service.getassignTasks().subscribe((res: any) => {
+      this.isStart = true;
+      this.assignTaskList = res;
+      console.log(res, 'assign task');
+    });
   }
 
-  goToScheduleTask() {
-    $('#placeholder_color').append(
-      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
-        '#788796' +
-        ' !important;} .data-name::-moz-placeholder{color: #788796!important; opacity:1;} .data-name:-moz-placeholder{color: #788796 !important; opacity:1;}</style>'
-    );
+  goToScheduleTask(id) {
+    if (id == 1) {
+      $('#placeholder_color').append(
+        "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+          '#788796' +
+          ' !important;} .data-name::-moz-placeholder{color: #788796!important; opacity:1;} .data-name:-moz-placeholder{color: #788796 !important; opacity:1;}</style>'
+      );
 
-    setTimeout(function() {
-      $('#step1').addClass('active');
-    }, 200);
-    this.activeStep = '1';
-    this.isScheduleTask = true;
+      setTimeout(function() {
+        $('#step1').addClass('active');
+      }, 200);
+      this.activeStep = '1';
+      this.isScheduleTask = true;
+      this.getTemplateLists();
+    }
   }
 
   stepClick(event, step) {
@@ -421,45 +410,8 @@ export class AssignTaskComponent implements OnInit {
     }
     this.showFormat = hrFormat + ':' + minFormat;
     console.log(this.showFormat);
-    this.startFormat = hrFormat + ':' + minFormat + '' + this.isSelectedTime;
-    console.log('Start Format', this.startFormat);
-    // this.model.starttime = this.startFormat;
-    this.startTime = moment(this.startFormat, 'h:mm A').format('HH:mm');
-    console.log('Output', this.startTime);
-    this.model.startT = this.startFormat;
-    this.model.starttime = this.startTime;
-    this.calculateDuration(this.startTime, this.model.duration);
   }
 
-  calculateDuration(time, duration) {
-    console.log('Calculate', time, duration);
-
-    let totalduration = duration / 60;
-    let gethour = Math.floor(totalduration);
-    let getmin = duration % 60;
-
-    console.log(gethour);
-    console.log(getmin);
-
-    // this.classend = time +
-    if (time) {
-      let piece = time.split(':');
-      let mins = Number(piece[0]) * 60 + Number(piece[1]) + duration;
-      var endTime =
-        this.D(((mins % (24 * 60)) / 60) | 0) + ':' + this.D(mins % 60);
-      console.log('Classend', endTime);
-      var H = +endTime.substr(0, 2);
-      var h = H % 12 || 12;
-      var ampm = H < 12 ? 'AM' : 'PM';
-      if (h < 10) {
-        this.classend = '0' + h + endTime.substr(2, 3) + ampm;
-        console.log('Class end', this.classend);
-      } else {
-        this.classend = h + endTime.substr(2, 3) + ampm;
-        console.log('Class end', this.classend);
-      }
-    }
-  }
   D(J) {
     return (J < 10 ? '0' : '') + J;
   }
@@ -475,4 +427,37 @@ export class AssignTaskComponent implements OnInit {
     }
     this.formatTime();
   }
+
+  getStandardClass() {
+    this._service.getStandardClass().subscribe((res: any) => {
+      console.log(res.data, 'standard class');
+      this.standardList = res.data;
+      this.standActiveId = res.data[0]._id;
+
+      this.classList = res.data[0].classLevelId;
+
+      console.log(this.classList, 'class list');
+      console.log(this.standActiveId, 'standard Active id');
+      console.log(this.standardList, 'standard list');
+    });
+  }
+
+  getTemplateLists() {
+    this._service
+      .getTemplateLists(this.standActiveId, this.courseDetail._id)
+      .subscribe((res: any) => {
+        console.log(res, 'template list');
+        this.scheduletemplateList = res;
+      });
+  }
+  // start back to
+  backCourseDetail() {
+    this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+  }
+
+  backtoassignTask() {
+    this.isScheduleTask = false;
+    this.isStart = true;
+  }
+  // end back to
 }

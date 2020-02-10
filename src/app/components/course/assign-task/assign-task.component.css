@@ -318,7 +318,6 @@ a.adisabled:active {
 }
 .div_step {
   height: 86vh;
-  background: #f7f9fa;
 }
 
 .inner-wrapper1 {
@@ -388,7 +387,7 @@ a.adisabled:active {
 .div_step {
   /*height: 77em;*/
   height: 86vh;
-  background: rgb(242, 244, 245);
+  background: #f7f9fa;
   padding-top: 72px;
 }
 
@@ -788,9 +787,9 @@ input:checked + .slider:before {
 
 /* mastery modal */
 .input-title {
-  font-size: 18px;
-  color: #64707d;
+  color: #363f4d;
   margin-bottom: 0;
+  font-size: 17px;
 }
 .input-wrap {
   margin: 13px 0px;
@@ -810,6 +809,7 @@ input:checked + .slider:before {
 }
 .mastery-wrapper {
   padding: 32px;
+  background: #f7f9fa;
 }
 
 .close-icon {
@@ -844,6 +844,7 @@ p.anno-txt {
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
   background: #ffffff;
   width: 100%;
+  color: #788796;
 }
 
 .duration-progress input {
@@ -1085,7 +1086,14 @@ p.anno-txt {
   color: #0080ff;
   font-size: 20px;
 }
-/* end time progree */
+/* end time progress */
+.duration-wrapper {
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  border-radius: 4px;
+  padding: 10px 0;
+}
+
 /* end matery modal */
 /* end step 3 */
 @media only screen and (min-width: 1366px) {
@@ -1148,7 +1156,6 @@ p.anno-txt {
   .div_step {
     /*height: 77em;*/
     height: 86vh;
-    background: rgb(242, 244, 245);
     padding-top: 0;
   }
 

@@ -33,7 +33,7 @@ export class EnrollUserComponent implements OnInit {
     console.log(
       'User Type from local storage ' + localStorage.getItem('userType')
     );
-    this.courseId = '5e2fa55b28084f0013bac758';
+    this.courseId = localStorage.getItem('course_id');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
@@ -319,6 +319,9 @@ export class EnrollUserComponent implements OnInit {
       (res: any) => {
         console.log('here details list', res);
         this.detailLists = res;
+        if (this.detailLists.seat_left == null) {
+          this.detailLists.seat_left = 0;
+        }
         this.courseId = res._id;
         this.locationId = res.locationId;
         this.draft = res.draft;
@@ -1171,6 +1174,51 @@ export class EnrollUserComponent implements OnInit {
     this.enrollUserList = this.enrollUserList.filter(item => item != user);
   }
 
+  // chooseUser(user) {
+  //   if (user.addOrRemove == 'add-user') {
+
+  //     if (this.enrollUserList.length == this.detailLists.seat_left - 1) {
+  //       this.toastr.error('You can not select because no more seat.');
+  //     }
+
+  //     if (this.courseType == 'FLEXY' && this.userType == 'teacher') {
+  //       console.log('Teacher and one')
+  //       this.userLists.map(item => {
+  //         item.selected = false;
+  //         item.addOrRemove = 'add-user';
+  //         if (item.userId == user.userId) {
+  //           item.selected = true;
+  //           item.addOrRemove = 'remove-user';
+  //           this.enrollUserList.pop();
+  //           this.enrollUserList.push(user);
+  //         }
+  //       })
+  //       this.toastr.success(user.preferredName + 'has selected.');
+  //     } else if (this.courseType == 'FLEXY' && this.userType != 'teacher') {
+  //       console.log('Not teacher and list')
+  //       this.userLists.map(item => {
+  //         if (item.userId == user.userId) {
+  //           item.selected = true;
+  //           item.addOrRemove = 'remove-user';
+  //           this.enrollUserList.push(user);
+  //         }
+  //       })
+  //     }
+  //   } else if (user.addOrRemove == 'remove-user') {
+  //     this.userLists.filter(item => {
+  //       if (item.userId == user.userId) {
+  //         item.selected = false;
+  //         item.addOrRemove = 'add-user';
+  //         this.enrollUserList = this.enrollUserList.filter(
+  //           item => item != user
+  //         );
+  //         return console.log(this.userLists);
+  //       }
+  //     });
+  //     this.toastr.success(user.preferredName + 'has unselected.');
+  //   }
+  // }
+
   chooseUser(user) {
     if (user.addOrRemove == 'add-user') {
       console.log('enroll user list length');
@@ -1468,26 +1516,38 @@ export class EnrollUserComponent implements OnInit {
   public disableInvoice;
 
   addCustomer(courseId, userType, invoiceAlert) {
+    //console.log("ADD CUSTOMER")
     this.tempCourdeId = courseId;
     this.tempuserType = userType;
     this.isDisabledBtn = false;
     if (this.courseType == 'FLEXY') {
+      console.log('It is flexy');
+      let iDs: string = '';
+      if (this.enrollUserList.length > 1) {
+        this.enrollUserList.map(item => {
+          if (iDs != '') {
+            iDs += ',' + item.userId;
+          } else {
+            iDs = item.userId;
+          }
+        });
+      } else if (this.enrollUserList.length == 1) {
+        iDs = this.enrollUserList[0].userId;
+      }
       let startDate;
       let endDate;
-      this._service
-        .getFlexi(courseId, this.selectedCustomer.userId, startDate, endDate)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            this.flexyarr = res;
-            this.showInvoice = false;
-            this.showflexyCourse = true;
-            //this.blockUI.stop();
-          },
-          err => {
-            console.log(err);
-          }
-        );
+      this._service.getFlexi(courseId, iDs, startDate, endDate).subscribe(
+        (res: any) => {
+          console.log('This is add customer result ' + res);
+          this.flexyarr = res;
+          this.showInvoice = false;
+          this.showflexyCourse = true;
+          //this.blockUI.stop();
+        },
+        err => {
+          console.log(err);
+        }
+      );
     } else {
       if (invoiceAlert && userType == 'customer') {
         console.log('I am in invoice alert');

@@ -44,18 +44,24 @@ export class CustomerComponent implements OnInit {
     //this.courseId=this.route.snapshot.params.id;
 
     //this.courseId = '5e3915d9a890f60ae76b8025';
+    this.pplLists = {
+      CUSTOMER: [{}],
+      TEACHER: [
+        {
+          preferredName: ''
+        }
+      ],
+      STAFF: [{}]
+    };
     this.courseId = localStorage.getItem('course_id');
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
-
+    console.log(this.router.url);
     this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
-      }
+      this.permissionType = data;
+      this.checkPermission();
     });
-    console.log(this.courseDemo.assignStudent + ' assign student');
   }
 
   @HostListener('document:click', ['$event'])
@@ -317,6 +323,9 @@ export class CustomerComponent implements OnInit {
       (res: any) => {
         console.log('APO details list', res);
         this.detailLists = res;
+        if (this.detailLists.seat_left == null) {
+          this.detailLists.seat_left = 0;
+        }
         this.courseId = res._id;
         this.locationId = res.locationId;
         this.draft = res.draft;
@@ -429,22 +438,22 @@ export class CustomerComponent implements OnInit {
     );
     //console.log(this.coursePermission.includes('VIEWCOURSE'));
 
-    this.courseDemo['addCourse'] = this.coursePermission.includes(
-      'CREATECOURSE'
-    )
-      ? 'CREATECOURSE'
-      : '';
-    this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
-      ? 'VIEWCOURSE'
-      : '';
-    this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
-      ? 'EDITCOURSE'
-      : '';
-    this.courseDemo['deleteCourse'] = this.coursePermission.includes(
-      'DELETECOURSE'
-    )
-      ? 'DELETECOURSE'
-      : '';
+    // this.courseDemo['addCourse'] = this.coursePermission.includes(
+    //   'CREATECOURSE'
+    // )
+    //   ? 'CREATECOURSE'
+    //   : '';
+    // this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
+    //   ? 'VIEWCOURSE'
+    //   : '';
+    // this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
+    //   ? 'EDITCOURSE'
+    //   : '';
+    // this.courseDemo['deleteCourse'] = this.coursePermission.includes(
+    //   'DELETECOURSE'
+    // )
+    //   ? 'DELETECOURSE'
+    //   : '';
     this.courseDemo['assignTeacher'] = this.coursePermission.includes(
       'ASSIGNTEACHER'
     )
@@ -455,18 +464,20 @@ export class CustomerComponent implements OnInit {
     )
       ? 'ASSIGNSTUDENTS'
       : '';
-    this.courseDemo['createCP'] = this.coursePermission.includes(
-      'CREATECOURSEPLAN'
-    )
-      ? 'CREATECOURSEPLAN'
-      : '';
-    this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
-      ? 'VIEWCOURSEPLAN'
-      : '';
-    this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
-      ? 'EDITCOURSEPLAN'
-      : '';
+    console.log(this.coursePermission.includes('ASSIGNSTUDENTS'));
+    console.log(this.courseDemo.assignStudent + ' assign student');
 
+    // this.courseDemo['createCP'] = this.coursePermission.includes(
+    //   'CREATECOURSEPLAN'
+    // )
+    //   ? 'CREATECOURSEPLAN'
+    //   : '';
+    // this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
+    //   ? 'VIEWCOURSEPLAN'
+    //   : '';
+    // this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
+    //   ? 'EDITCOURSEPLAN'
+    //   : '';
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
