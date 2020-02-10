@@ -18,7 +18,6 @@ import {
 } from 'angular-calendar';
 declare var $: any;
 import * as moment from 'moment';
-
 import { appService } from '../../../service/app.service';
 
 @Component({
@@ -38,7 +37,8 @@ export class AssignTaskComponent implements OnInit {
   public sparkWerkz: any;
   public standActiveId: any;
   public classActiveId: any;
-  public templateActiveObj: any = {};
+  public templateActiveId: any;
+  public singleTemplate: any;
   public activeStep: any;
   public txtextra: any = 1;
   public clickableSteps: Array<any> = ['1'];
@@ -53,63 +53,7 @@ export class AssignTaskComponent implements OnInit {
   public showFormat: any;
   public isSelectedTime: any;
   public masteryList: any = [];
-  public taskLists: any = [
-    {
-      _id: '5df764b23f0167abfa36772e',
-      topicBreak: false,
-      name: 'Cyber Attacks',
-      description:
-        'The four major types of cyber attacks are phishing, ransomware, distributed denial-of-service (DDOS), and backdoor.',
-      annoucementDate: '2019-11-24 13:29:42.364Z',
-      taskStartDate: '2019-11-24 13:29:42.364Z',
-      taskEndDate: '2019-11-24 13:29:42.364Z',
-      masteryCount: 1
-    },
-    {
-      _id: '5df764f93f0167abfa36772f',
-      topicBreak: false,
-      name: 'Phishing',
-      description:
-        'Phishing - gaining access to computer systems to obtain personal or Enterprise information through clicking of email attachments or links. ',
-      annoucementDate: '2019-11-24 13:29:42.364Z',
-      taskStartDate: '2019-11-24 13:29:42.364Z',
-      taskEndDate: '2019-11-24 13:29:42.364Z',
-      masteryCount: 5
-    },
-    {
-      _id: '5df765383f0167abfa367730',
-      topicBreak: false,
-      name: 'Ransomware',
-      description:
-        'Ransomware - malicious software designed to gain unauthorized access to users’ files and prevent them from accessing those files. Allows for ransom payments in exchange for file access',
-      annoucementDate: '2019-11-24 13:29:42.364Z',
-      taskStartDate: '2019-11-24 13:29:42.364Z',
-      taskEndDate: '2019-11-24 13:29:42.364Z',
-      masteryCount: 3
-    },
-    {
-      _id: '5df765623f0167abfa367731',
-      topicBreak: false,
-      name: 'DDos',
-      description:
-        'Distributed Denial-of-Service (DDoS) - a deliberate attempt to overwhelm an online system/network (slowing it down significantly or crashing it) with increased traffic from multiple sources',
-      annoucementDate: '2019-11-24 13:29:42.364Z',
-      taskStartDate: '2019-11-24 13:29:42.364Z',
-      taskEndDate: '2019-11-24 13:29:42.364Z',
-      masteryCount: 2
-    },
-    {
-      _id: '5df765983f0167abfa367732',
-      topicBreak: false,
-      name: 'Backdoor',
-      description:
-        'Backdoor - gaining illegal access to a system by downloading software through a hidden network or bypassing security',
-      annoucementDate: '2019-11-24 13:29:42.364Z',
-      taskStartDate: '2019-11-24 13:29:42.364Z',
-      taskEndDate: '2019-11-24 13:29:42.364Z',
-      masteryCount: 2
-    }
-  ];
+  public taskLists: any = [];
   public standardList: any = [];
   public classList: any = [];
   public assignTaskList: any = [];
@@ -214,6 +158,14 @@ export class AssignTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
+    console.log(this.templateActiveId, 'temp active');
+    this._service
+      .getsingleTemplate(this.templateActiveId)
+      .subscribe((res: any) => {
+        console.log(res, 'single template');
+        this.singleTemplate = res;
+        // this.calculatedatefromweeknumber('1','MONDAY')
+      });
     this.isTaskBreakEnAble = 'Enable';
     this.clickableSteps.push(step);
     this.viewDate = new Date();
@@ -222,14 +174,22 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
-    console.log('step', step);
+    console.log('step', step, this.clickDay, this.templateActiveId);
+    this._service
+      .getTaskBytemplate(
+        this.templateActiveId,
+        new Date(this.clickDay).toISOString()
+      )
+      .subscribe((res: any) => {
+        console.log(res, 'task list');
+        this.taskLists = res;
+      });
     this.clickableSteps.push(step);
-
     this.stepClick(event, step);
   }
 
-  checkTemplate(obj) {
-    this.templateActiveObj = obj;
+  checkTemplate(id) {
+    this.templateActiveId = id;
   }
 
   dayClicked(day: CalendarMonthViewDay, e): void {
@@ -460,4 +420,38 @@ export class AssignTaskComponent implements OnInit {
     this.isStart = true;
   }
   // end back to
+
+  calculatedatefromweeknumber(week, day) {
+    const date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    let dayCount: any;
+    if (week > 1) {
+    } else {
+      console.log(this.getDayOfWeek(day));
+      console.log(
+        new Date(firstDay.setDate(firstDay.getDate() + this.getDayOfWeek(day)))
+      );
+    }
+    const res = this.addDays(firstDay, dayCount);
+
+    console.log(firstDay, 'first day');
+    console.log(res);
+  }
+
+  addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  getDayOfWeek(day) {
+    if (day == 'SUNDAY') day = 0;
+    else if (day == 'MONDAY') day = 1;
+    else if (day == 'TUESDAY') day = 2;
+    else if (day == 'WEDNESDAY') day = 3;
+    else if (day == 'THURDAY') day = 4;
+    else if (day == 'FRIDAY') day = 5;
+    else if (day == 'SATURDAY') day = 6;
+    return day;
+  }
 }
