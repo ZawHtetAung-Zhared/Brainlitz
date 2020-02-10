@@ -689,57 +689,93 @@
       Task information
     </p>
     <div class="mastery-list-wrapper">
-      <div class="d-flex duration-wrapper">
-        <div class="col-md-6">
-          <label for="course_name" class="input-title medium">Start Date</label>
-          <div class="input-wrap">
-            <div class="cc-start">
-              <span class="dp-icon">
-                <img src="./assets/img/course-dp.png" />
-              </span>
-              <input
-                type="text"
-                placeholder="{{
-                  singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
-                }}"
-                class="input-day dropD startInput"
-                name="startDate"
-                required
-                (click)="startDate.toggle()"
-                ngbDatepicker
-                #startDate="ngbDatepicker"
-                (document:click)="closeDropdown($event, startDate)"
-                readonly
-              />
+      <div class="d-flex flex-column duration-wrapper mb-4">
+        <div class="d-flex flex-wrap">
+          <div class="col-md-6">
+            <label for="course_name" class="input-title medium"
+              >Start Date</label
+            >
+            <div class="input-wrap">
+              <div class="cc-start">
+                <span class="dp-icon">
+                  <img src="./assets/img/course-dp.png" />
+                </span>
+                <input
+                  type="text"
+                  placeholder="{{
+                    singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
+                  }}"
+                  class="input-day dropD startInput"
+                  name="startDate"
+                  required
+                  (click)="startDate.toggle()"
+                  ngbDatepicker
+                  #startDate="ngbDatepicker"
+                  (document:click)="closeDropdown($event, startDate)"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="course_name" class="input-title medium">End Date</label>
+            <div class="input-wrap">
+              <div class="cc-start">
+                <span class="dp-icon">
+                  <img src="./assets/img/course-dp.png" />
+                </span>
+                <input
+                  type="text"
+                  placeholder="{{
+                    singleSelectedTask.taskEndDate | date: 'dd MMM yyyy'
+                  }}"
+                  class="input-day dropD startInput"
+                  name="endDate"
+                  required
+                  (click)="endDate.toggle()"
+                  ngbDatepicker
+                  #endDate="ngbDatepicker"
+                  (document:click)="closeDropdown($event, endDate)"
+                  readonly
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <label for="course_name" class="input-title medium">End Date</label>
-          <div class="input-wrap">
-            <div class="cc-start">
-              <span class="dp-icon">
-                <img src="./assets/img/course-dp.png" />
-              </span>
-              <input
-                type="text"
-                placeholder="{{
-                  singleSelectedTask.taskEndDate | date: 'dd MMM yyyy'
-                }}"
-                class="input-day dropD startInput"
-                name="endDate"
-                required
-                (click)="endDate.toggle()"
-                ngbDatepicker
-                #endDate="ngbDatepicker"
-                (document:click)="closeDropdown($event, endDate)"
-                readonly
-              />
+        <p class="masteries-box regular">{{ masteryList.length }} Masteries</p>
+        <div class="d-flex flex-wrap mb-3">
+          <div
+            class="col-md-4"
+            *ngFor="let mastery of masteryList; let i = index"
+            (click)="checkedMastery(mastery, i)"
+          >
+            <div
+              class="mastery-content"
+              [ngClass]="{
+                checkMastery:
+                  activeMasteryList.includes(mastery.masteryId) == true
+              }"
+            >
+              <div
+                class="checkBox"
+                [ngClass]="{
+                  checkboxChecked:
+                    activeMasteryList.includes(mastery.masteryId) == true
+                }"
+              >
+                <i
+                  class="fa fa-check checkIcon"
+                  [ngClass]="{
+                    showCheckbox:
+                      activeMasteryList.includes(mastery.masteryId) == true
+                  }"
+                ></i>
+              </div>
+              <p class="mastery-name medium">{{ mastery.shortMasteryName }}</p>
             </div>
           </div>
         </div>
       </div>
-      <p class="masteries-box regular">{{ masteryList.length }} Masteries</p>
     </div>
   </div>
 </ng-template>
