@@ -272,6 +272,7 @@
 .csearch-wrap {
   background: #ffffff;
   padding: 10px 25px;
+  position: relative;
 }
 .course-search-input:focus {
   box-shadow: none;
@@ -296,4 +297,43 @@
 
 .courses-title-wrap {
   height: 45px;
+}
+
+.close-search {
+  position: absolute;
+  left: 56%;
+  top: 42px;
+  width: 16px;
+  height: 16px;
+  background: #8fa1b3;
+  border-radius: 50%;
+  z-index: 99;
+  -ms-transition: 0.3s all ease;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  cursor: pointer;
+}
+
+.close-search:hover,
+.close-search:focus {
+  box-shadow: 0 0 0 11px #f2f4f5 !important;
+}
+
+.close-search:before,
+.close-search:after {
+  position: absolute;
+  left: 7px;
+  content: ' ';
+  height: 9px;
+  width: 2px;
+  background-color: #fff;
+  top: 3px;
+}
+
+.close-search:before {
+  transform: rotate(45deg);
+}
+
+.close-search:after {
+  transform: rotate(-45deg);
 }
