@@ -5,6 +5,10 @@
     (newItemEvent)="reviewToggle($event)"
   ></app-header>
   <div
+    [ngClass]="{ overlay: iscourseSearch == true }"
+    (click)="clickoutSide()"
+  ></div>
+  <div
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
     class="d-flex"
   >
@@ -63,23 +67,43 @@
     </div>
     <div class="content-wrapper">
       <div class="csearch-wrap pt-4">
-        <input
-          class="form-control input-csearch course-search-input"
-          type="search"
-          placeholder="Search courses..."
-          id="course-search"
-          (focus)="focusCourseSearch($event)"
-          autocomplete="off"
-          name="keyword"
-          (input)="searchCourse($event.target.value)"
-          (keyup)="searchStart($event, 10, 0)"
-          [(ngModel)]="searchVal"
-        />
-        <div
-          *ngIf="iscourseSearch"
-          class="close-search"
-          (click)="clearSearch()"
-        ></div>
+        <div class="col-md-8 course-search-gp">
+          <div class="simple-search input-group pd-zero">
+            <input
+              class="form-control input-csearch course-search-input"
+              type="search"
+              placeholder="Search courses..."
+              id="course-search"
+              (focus)="focusCourseSearch($event)"
+              autocomplete="off"
+              name="keyword"
+              (input)="searchCourse($event.target.value)"
+              (keyup)="searchStart($event, 10, 0)"
+              [(ngModel)]="searchVal"
+            />
+            <div
+              *ngIf="
+                !isoutSideClick && iscourseSearch && recentLists.length > 0
+              "
+              class="course-search-view"
+            >
+              <p class="recent-search-title">Recently search</p>
+              <ul class="recent-lists">
+                <li
+                  *ngFor="let recent of recentLists"
+                  (click)="recentSearch(recent, 10, 0)"
+                >
+                  {{ recent }}
+                </li>
+              </ul>
+            </div>
+            <div
+              *ngIf="iswordcount"
+              class="close-search"
+              (click)="clearSearch()"
+            ></div>
+          </div>
+        </div>
       </div>
       <div
         *ngIf="courseCollection == null"

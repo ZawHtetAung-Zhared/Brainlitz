@@ -44,6 +44,8 @@ export class CourseListComponent implements OnInit {
   private loading: boolean;
   private iscourseSearch: boolean = false;
   private searchVal = '';
+  public isoutSideClick: boolean = false;
+  public iswordcount: boolean = false;
 
   constructor(
     private _service: appService,
@@ -358,6 +360,7 @@ export class CourseListComponent implements OnInit {
   }
 
   getCoursesPerPlan(courseplanId, limit, skip, page) {
+    console.log(limit, skip, page);
     this.loading = true;
     this._service
       .getCoursesPerPlan(
@@ -371,6 +374,7 @@ export class CourseListComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
+          console.log(res);
           this.loading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
@@ -464,45 +468,91 @@ export class CourseListComponent implements OnInit {
   focusCourseSearch() {
     // console.log('focusing ...');
     this.iscourseSearch = true;
+    this.isoutSideClick = false;
+    console.log(this.recentLists);
+  }
+
+  clickoutSide() {
+    this.isoutSideClick = true;
+    this.iscourseSearch = false;
+    console.log('click out side >>>>>>>>>>\n:::::::::::::\n::::::::::::::');
   }
 
   searchStart(e, limit, skip) {
-    // if (e.keyCode == 13) {
-    //   this.courseList = [];
-    //   this.recentLists.unshift(e.target.value);
-    //   //this.blockUI.start('Loading...');
-    //   this._service
-    //     .simpleCourseSearch(
-    //       this.regionId,
-    //       e.target.value,
-    //       this.locationID,
-    //       limit,
-    //       skip
-    //     )
-    //     .subscribe(
-    //       (res: any) => {
-    //         console.log("course search",res);
-    //         this.selectedPlan = res.coursePlan._id;
-    //         this.getCoursesPerPlan(this.selectedPlan,this.limit,this.skip,this.page)
-    //       },
-    //       err => {
-    //         console.log(err);
-    //       }
-    //     );
-    // }
+    if (e.keyCode == 13) {
+      this.courseList = [];
+      this.recentLists.unshift(e.target.value);
+      //this.blockUI.start('Loading...');
+      this._service
+        .simpleCourseSearch(
+          this.regionId,
+          e.target.value,
+          this.locationID,
+          limit,
+          skip
+        )
+        .subscribe(
+          (res: any) => {
+            console.log('course search', res);
+            if (res.length != 0) {
+              this.courses = [];
+              this.selectedPlan = res[0].coursePlan.coursePlanId;
+              this.getCoursesPerPlan(
+                this.selectedPlan,
+                this.limit,
+                this.skip,
+                this.page
+              );
+            }
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      if (this.recentLists.length > 3) {
+        console.log(this.recentLists);
+        this.recentLists = this.recentLists.slice(0, 3);
+      }
+      localStorage.setItem(
+        'recentSearchLists',
+        JSON.stringify(this.recentLists)
+      );
+    }
   }
 
   clearSearch() {
+    this.iswordcount = false;
     this.iscourseSearch = false;
     this.searchVal = '';
+    this.getAllCourseplan();
   }
 
   searchCourse(val) {
     if (val.length > 0) {
       console.log('search');
+      this.iswordcount = true;
+      this.iscourseSearch = true;
     } else {
       console.log('clear search');
+      this.iswordcount = false;
       this.iscourseSearch = false;
     }
+  }
+
+  recentSearch(val, limit, skip) {
+    this.courseList = [];
+    this.searchVal = val;
+    this._service
+      .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.iswordcount = false;
+          this.iscourseSearch = false;
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 }

@@ -2829,6 +2829,7 @@ export class CourseComponent implements OnInit {
 
   public invoiceModalReference;
   public disableInvoice;
+
   addCustomer(courseId, userType, invoiceAlert) {
     this.tempCourdeId = courseId;
     this.tempuserType = userType;
