@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
@@ -18,6 +19,8 @@ import {
 declare var $: any;
 import * as moment from 'moment';
 
+import { appService } from '../../../service/app.service';
+
 @Component({
   selector: 'app-assign-task',
   templateUrl: './assign-task.component.html',
@@ -31,6 +34,8 @@ import * as moment from 'moment';
   ]
 })
 export class AssignTaskComponent implements OnInit {
+  public courseDetail: any;
+  public sparkWerkz: any;
   public standActiveId: any;
   public classActiveId: any;
   public templateActiveObj: any = {};
@@ -105,22 +110,9 @@ export class AssignTaskComponent implements OnInit {
       masteryCount: 2
     }
   ];
-  public standardList: any = [
-    {
-      _id: '1',
-      name: 'NGSS'
-    },
-    {
-      _id: '2',
-      name: 'SingaporeMOE'
-    },
-    {
-      _id: '3',
-      name: 'Curiculum Standard I'
-    }
-  ];
+  public standardList: any = [];
   public classList: any = [];
-
+  public assignTaskList: any = [];
   // calendar
   selectedMonthViewDay: CalendarMonthViewDay;
   events: CalendarEvent[] = [];
@@ -143,10 +135,16 @@ export class AssignTaskComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
-    private config: NgbDatepickerConfig
+    private config: NgbDatepickerConfig,
+    private _service: appService,
+    private _route: Router
   ) {}
 
   ngOnInit() {
+    this.courseDetail = JSON.parse(localStorage.getItem('courseDetail'));
+    this.sparkWerkz = this.courseDetail.sparkWerkz;
+    this.getStandardClass();
+    console.log(this.sparkWerkz, 'sparkWerkz');
     for (let i = 1; i < 50; i++) {
       let temp: any = {};
       temp._id = i;
@@ -155,14 +153,6 @@ export class AssignTaskComponent implements OnInit {
         ' Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim elit cillum dolore.';
       this.scheduletemplateList.push(temp);
     }
-    for (let i = 1; i < 50; i++) {
-      let temp: any = {};
-      temp._id = i;
-      temp.name = 'Primary ' + i;
-      this.classList.push(temp);
-    }
-
-    this.standActiveId = this.standardList[0]._id;
   }
 
   checkStandard(id) {
@@ -174,7 +164,11 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToStart() {
-    this.isStart = true;
+    this._service.getassignTasks().subscribe((res: any) => {
+      this.isStart = true;
+      this.assignTaskList = res;
+      console.log(res, 'assign task');
+    });
   }
 
   goToScheduleTask() {
@@ -438,4 +432,29 @@ export class AssignTaskComponent implements OnInit {
     }
     this.formatTime();
   }
+
+  getStandardClass() {
+    this._service.getStandardClass().subscribe((res: any) => {
+      console.log(res.data, 'standard class');
+      this.standardList = res.data;
+      this.standActiveId = res.data[0]._id;
+
+      this.classList = res.data[0].classLevelId;
+
+      console.log(this.classList, 'class list');
+      console.log(this.standActiveId, 'standard Active id');
+      console.log(this.standardList, 'standard list');
+    });
+  }
+
+  // start back to
+  backCourseDetail() {
+    this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+  }
+
+  backtoassignTask() {
+    this.isScheduleTask = false;
+    this.isStart = true;
+  }
+  // end back to
 }

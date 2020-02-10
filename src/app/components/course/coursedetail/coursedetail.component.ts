@@ -150,6 +150,9 @@ export class CoursedetailComponent implements OnInit {
         } else {
           this.disabledTab = true;
         }
+        console.log('res.sparkWerkz', res.sparkWerkz);
+
+        localStorage.setItem('courseDetail', JSON.stringify(res));
       },
       err => {
         console.log(err);
