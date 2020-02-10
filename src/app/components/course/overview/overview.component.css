@@ -75,7 +75,7 @@
 .card-column {
   -webkit-column-count: 2;
   column-count: 2;
-  padding: 20px 15px 15px 15px;
+  padding: 20px 0px 15px 0px;
 }
 .cardhead p {
   font-style: normal;
@@ -127,7 +127,7 @@
 }
 .customer-div {
   width: 33%;
-  margin-right: 20px;
+  margin: 20px 20px 0px 20px;
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
@@ -135,6 +135,11 @@
   color: #363f4d;
   flex-direction: column;
 }
+
+.customer-div > h6 {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
+
 .task-div {
   position: relative;
   width: 45%;
@@ -173,6 +178,8 @@
   font-size: 24px;
   line-height: 32px;
   color: #363f4d;
+  display: contents;
+  font-family: 'Inter-UI-bold', Arial, sans-serif;
 }
 .detail-btn {
   background: #0065f2;
@@ -188,11 +195,13 @@
   cursor: pointer;
   outline: none;
   line-height: 18px !important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .task-label {
   position: absolute;
   left: 22px;
   top: 5px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .task-status {
   position: relative;
@@ -206,6 +215,8 @@
   border-radius: 50%;
   position: relative;
   margin: 0 5px 0 5px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on;
 }
 .present {
   background: #91f2ba;
@@ -308,5 +319,11 @@
   .enroll {
     top: 0px;
     left: 0px;
+  }
+  .task-status {
+    left: 10px;
+  }
+  .P-paid {
+    margin-top: -20px;
   }
 }
