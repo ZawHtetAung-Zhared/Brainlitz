@@ -57,14 +57,11 @@ export class CustomerComponent implements OnInit {
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
-
+    console.log(this.router.url);
     this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/coursedetail/:id/customers') {
-        this.permissionType = data;
-        this.checkPermission();
-      }
+      this.permissionType = data;
+      this.checkPermission();
     });
-    console.log(this.courseDemo.assignStudent + ' assign student');
   }
 
   @HostListener('document:click', ['$event'])
@@ -326,6 +323,9 @@ export class CustomerComponent implements OnInit {
       (res: any) => {
         console.log('APO details list', res);
         this.detailLists = res;
+        if (this.detailLists.seat_left == null) {
+          this.detailLists.seat_left = 0;
+        }
         this.courseId = res._id;
         this.locationId = res.locationId;
         this.draft = res.draft;
@@ -464,6 +464,9 @@ export class CustomerComponent implements OnInit {
     )
       ? 'ASSIGNSTUDENTS'
       : '';
+    console.log(this.coursePermission.includes('ASSIGNSTUDENTS'));
+    console.log(this.courseDemo.assignStudent + ' assign student');
+
     // this.courseDemo['createCP'] = this.coursePermission.includes(
     //   'CREATECOURSEPLAN'
     // )
@@ -475,7 +478,6 @@ export class CustomerComponent implements OnInit {
     // this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
     //   ? 'EDITCOURSEPLAN'
     //   : '';
-    console.log(this.courseDemo);
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');

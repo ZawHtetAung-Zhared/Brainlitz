@@ -108,15 +108,6 @@
             <span *ngIf="pplLists?.CUSTOMER?.length > 1">customers</span>
           </p>
         </div>
-        <div
-          class="d-flex align-items-center"
-          *ngIf="pplLists?.CUSTOMER?.length <= 0"
-        >
-          <p>
-            There is no customer in this course. Must enroll customers to this
-            course.
-          </p>
-        </div>
       </div>
       <button
         *ngIf="courseDemo.assignStudent != '' && detailLists.seat_left !== null"
@@ -267,6 +258,15 @@
           </ul>
         </div>
       </div>
+    </div>
+    <div
+      class="d-flex justify-content-center mb-7 mt-7"
+      *ngIf="pplLists?.CUSTOMER?.length <= 0"
+    >
+      <span class="">
+        There is no customer in this course. Must enroll customers to this
+        course.
+      </span>
     </div>
   </div>
   <ng-template #tabsModal let-c="close" let-d="dismiss">
