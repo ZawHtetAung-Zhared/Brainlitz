@@ -9,8 +9,11 @@
     </div>
   </div>
 </div>
-<div class="d-flex lfex-column justify-content-center align-items-center">
-  <div class="inner-wrapper w-100" *ngIf="!showSelectedUserView">
+<div class="d-flex dflex-column justify-content-center align-items-center">
+  <div
+    class="inner-wrapper w-100"
+    *ngIf="!showSelectedUserView && !showFlexyBox"
+  >
     <!-- 
       enroll UI
      -->
@@ -281,108 +284,7 @@
      -->
   </div>
   <!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
-  <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
-  <div
-    class="flexiModal"
-    *ngIf="showInvoice == false && showflexyCourse == true"
-  >
-    <div class="innerFlexiModal">
-      <div class="d-flex" style="margin: 20px 20px 0px 32px;">
-        <div class="d-flex back" (click)="backtoCustomer()">
-          <i class="fa fa-angle-left flexiBackicon"></i>
-          <p class="mb-0 font-medium ">Add customer</p>
-        </div>
-        <button
-          (click)="cancelModal()"
-          aria-label="Close"
-          class="modal-close ml-auto"
-          type="button"
-        >
-          <span class="closemark">
-            <div class="closemark_stem"></div>
-            <div class="closemark_kick"></div>
-          </span>
-          <!-- <span aria-hidden="true" >×</span> -->
-        </button>
-      </div>
-      <app-flexi
-        [flexyarr]="flexyarr"
-        [selectedCustomer]="selectedCustomer"
-        [course]="detailLists"
-        [showcb]="showcb"
-        (passDataconflictBoxShow)="conflictBoxShow($event)"
-        (checkObjArr)="lessionObjArr($event)"
-      ></app-flexi>
-      <div class="invoice-wrap" *ngIf="showInvoice == true">
-        <app-invoice
-          [custDetail]="custDetail"
-          [course]="detailLists"
-          [invoiceId]="invoiceID2"
-          (closed)="cancelInvoiceModal()"
-        ></app-invoice>
-      </div>
-    </div>
-    <div
-      class="modal-footer d-flex justify-content-between"
-      style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
-    >
-      <div class="d-flex flex-column">
-        <div class="d-flex">
-          <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
-            <label class="switch">
-              <input
-                type="checkbox"
-                (click)="isProrated = !this.isProrated"
-                [checked]="isProrated"
-              />
-              <span class="slider round"></span>
-            </label>
-          </div>
-          <label class="switch-label" for="online">Prorated</label>
-        </div>
-        <div>
-          <p class="defaultLessonCount">
-            Default lessons count: {{ detailLists.defaultlessonCount }}
-          </p>
-          <p class="textCount">Number of lessons required:</p>
-          <div class="selectedCountBox">
-            <p class="selectedTest">
-              Selected lessons: {{ checkobjArr.length }}
-            </p>
-          </div>
-        </div>
-        <!-- <div class="defaultDiv">
 
-        </div> -->
-      </div>
-
-      <div class="">
-        <button
-          type="button"
-          class="btn modal-cancel-btn"
-          (click)="cancelModal()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="btn btn-submit"
-          *ngIf="checkobjArr.length != 0"
-          (click)="flexicomfirm(invoiceAlert)"
-        >
-          Enroll
-        </button>
-        <button
-          type="submit"
-          *ngIf="checkobjArr.length == 0"
-          class="btn btn-submit"
-          disabled
-        >
-          Confirm
-        </button>
-      </div>
-    </div>
-  </div>
   <ng-template #invoiceAlert>
     <div class="modal-header">
       <h3 class="modal-title">Generate invoice</h3>
@@ -415,4 +317,113 @@
       </button>
     </div>
   </ng-template>
+</div>
+
+<div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+
+<div class="d-flex justify-content-center" *ngIf="showFlexyBox">
+  <div class="inner-wrapper w-100">
+    <div
+      class="flexiModal"
+      *ngIf="showInvoice == false && showflexyCourse == true"
+    >
+      <div class="innerFlexiModal">
+        <!-- <div class="d-flex" >
+        
+        <div class="d-flex back" (click)="backtoCustomer()">
+          <i class="fa fa-angle-left flexiBackicon"></i>
+          <p class="mb-0 font-medium ">Add customer</p>
+        </div>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+         
+        </button>
+      </div> -->
+        <app-flexi
+          [flexyarr]="flexyarr"
+          [selectedCustomer]="enrollUserList[0]"
+          [course]="detailLists"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
+        ></app-flexi>
+        <div class="invoice-wrap" *ngIf="showInvoice == true">
+          <app-invoice
+            [custDetail]="custDetail"
+            [course]="detailLists"
+            [invoiceId]="invoiceID2"
+            (closed)="cancelInvoiceModal()"
+          ></app-invoice>
+        </div>
+      </div>
+      <div
+        class="modal-footer d-flex justify-content-between"
+        style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+      >
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (click)="isProrated = !this.isProrated"
+                  [checked]="isProrated"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Prorated</label>
+          </div>
+          <div>
+            <p class="defaultLessonCount">
+              Default lessons count: {{ detailLists.defaultlessonCount }}
+            </p>
+            <p class="textCount">Number of lessons required:</p>
+            <div class="selectedCountBox">
+              <p class="selectedTest">
+                Selected lessons: {{ checkobjArr.length }}
+              </p>
+            </div>
+          </div>
+          <!-- <div class="defaultDiv">
+
+        </div> -->
+        </div>
+
+        <div class="">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            *ngIf="checkobjArr.length != 0"
+            (click)="flexicomfirm(invoiceAlert)"
+          >
+            Enroll
+          </button>
+          <button
+            type="submit"
+            *ngIf="checkobjArr.length == 0"
+            class="btn btn-submit"
+            disabled
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

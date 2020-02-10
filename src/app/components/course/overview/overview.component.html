@@ -2,33 +2,28 @@
   <div class="customer-view">
     <div class="cardhead">
       <h3>Customers</h3>
-      <p>30 / 30 seats left</p>
+      <!-- <p>30 / 30 seats left</p> -->
     </div>
-    <div class="cardbody d-flex">
-      <div class="d-flex customer-div">
-        <h6 style="color: #007D49;">PAID</h6>
-        <h2 *ngIf="on" class="big-no">0</h2>
-        <h2 *ngIf="!on" class="big-no">{{ templength }}</h2>
-        customers
+    <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
+      <div class="d-flex justify-content-between mb-4">
+        <div class="c-enroll ml-4">
+          <h3>15</h3>
+          <span>customers currently enrolled</span>
+        </div>
+        <div class="d-flex flex-column c-unpaid mr-4">
+          <span>
+            <h3 class="c-h3">0</h3>
+            invoice
+          </span>
+          <span>Unpaid</span>
+        </div>
       </div>
-      <div class="d-flex customer-div ml-0 mr-0">
-        <h6 class="P-paid" style="color: #805500">PARTIAL PAID</h6>
-        <h2 class="big-no">0</h2>
-        customers
-      </div>
-      <div class="d-flex customer-div">
-        <h6 style="color: #8C1E1C">UNPAID</h6>
-        <h2 class="big-no">0</h2>
-        customers
-      </div>
-    </div>
-    <div class="cardfoot">
-      <div class="d-flex justify-content-between pt-3">
+      <div>
         <p class="enroll" *ngIf="on">Must enroll students to this course</p>
         <div *ngIf="!on" class="d-flex ml-3">
           <span
             ngbTooltip="{{ ppl.fullName }}"
-            *ngFor="let ppl of pplLists"
+            *ngFor="let ppl of customerlist"
             class="propic"
           >
             <img
@@ -42,10 +37,14 @@
               src="{{ ppl.profilePic }}"
             />
           </span>
-          <span *ngIf="pplLists > 5" class="propic">
+          <span *ngIf="pplLists.length > 8" class="propic">
             + 1
           </span>
         </div>
+      </div>
+    </div>
+    <div class="cardfoot" style="height: 20%;">
+      <div style="float: right">
         <button
           class="detail-btn"
           (click)="enrollCustomer(courseId)"
@@ -62,7 +61,7 @@
     <div class="cardhead">
       <h3>Attendance</h3>
     </div>
-    <div class="cardbody d-flex" style="flex-direction: column;">
+    <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
       <div class="d-flex justify-content-between">
         <span><img src="../../../../assets/img/chevron-right-s.png"/></span>
         <span>12 Jan 2020</span>
@@ -89,7 +88,7 @@
         </div>
       </div>
     </div>
-    <div class="cardfoot">
+    <div class="cardfoot" style="height: 25%;">
       <div style="float: right">
         <button class="detail-btn white">
           Set attendance
@@ -133,25 +132,90 @@
   </div>
   <!-- ****For later sprint ****-->
 
-  <!-- <div class="leaderboard-view">
-    <div class="cardhead">
-      <h3>Leaderboard</h3>
-      <span class="spaninline">
-        <p class="m-0">SW</p>
-      </span>
+  <div class="leaderboard-view">
+    <div class="cardhead d-flex justify-content-between">
+      <div>
+        <h3>Leaderboard</h3>
+        <span class="spaninline">
+          <p class="m-0">SW</p>
+        </span>
+      </div>
+      <div class="lb-date">
+        1 Sep 2019 - 7 Sep 2019
+      </div>
     </div>
-    <div class="cardbody">
-      body
+    <div class="cardbody p-0 d-flex" style="height: 60%;">
+      <div class="lb-div1">
+        <div class="lb-small d-flex">
+          <div class="lb-sp mt-5-3 mb-2">
+            <img
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+            />
+            <div class="lb-pos">2</div>
+          </div>
+          <div class="lb-label">
+            <span>
+              <h6 class="mb-0">Aubrey Simmmons</h6>
+            </span>
+            <span>
+              <h5>1127 SP</h5>
+            </span>
+          </div>
+        </div>
+        <div class="rank1"></div>
+      </div>
+      <div class="lb-div2">
+        <div class="lb-small d-flex">
+          <div class="lb-lp mt-0 mb-2">
+            <img
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+            />
+            <div class="lb-pos">1</div>
+          </div>
+          <div class="lb-label">
+            <span>
+              <h6 class="mb-0">Gladys Conold</h6>
+            </span>
+            <span>
+              <h5>1427 SP</h5>
+            </span>
+          </div>
+        </div>
+        <div class="rank2"></div>
+      </div>
+      <div class="lb-div3">
+        <div class="lb-small d-flex">
+          <div class="lb-sp mt-8 mb-2">
+            <img
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+            />
+            <div class="lb-pos">3</div>
+          </div>
+          <div class="lb-label">
+            <span>
+              <h6 class="mb-0">Claire Murphy</h6>
+            </span>
+            <span>
+              <h5>1027 SP</h5>
+            </span>
+          </div>
+        </div>
+        <div class="rank3"></div>
+      </div>
     </div>
-    <div class="cardfoot">
-      foot
+    <div class="cardfoot" style="height: 20%;">
+      <div style="float: right">
+        <button class="detail-btn white">
+          See more
+        </button>
+      </div>
     </div>
-  </div> -->
+  </div>
 </div>
 
 <!--**** For later sprint ****-->
 
-<!-- <div class="mastery-view">
+<div class="mastery-view">
   <h3>Masteries reports</h3>
   <span class="spaninline">
     <p class="m-0">SW</p>
@@ -164,4 +228,4 @@
       2
     </div>
   </div>
-</div> -->
+</div>
