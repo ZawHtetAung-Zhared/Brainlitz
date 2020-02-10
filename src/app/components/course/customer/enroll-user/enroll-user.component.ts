@@ -22,6 +22,7 @@ import { Location } from '@angular/common';
 export class EnrollUserComponent implements OnInit {
   public backToCourse: any;
   public clickCancel: any;
+  public seatLeft = 0;
   ngOnInit(): void {
     // this.route.paramMap.subscribe(params => {
     //   //this.courseId = params['id']; //undefined
@@ -39,7 +40,6 @@ export class EnrollUserComponent implements OnInit {
     console.log(' I got Id : ' + this.courseId);
     //this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
-
     this._service.permissionList.subscribe(data => {
       if (this.router.url === '/course') {
         this.permissionType = data;
@@ -319,6 +319,11 @@ export class EnrollUserComponent implements OnInit {
       (res: any) => {
         console.log('here details list', res);
         this.detailLists = res;
+        console.log(
+          this.detailLists.seat_left +
+            ' this.deatailLists.seat_left from get course detail'
+        );
+        this.seatLeft = this.detailLists.seat_left;
         if (this.detailLists.seat_left == null) {
           this.detailLists.seat_left = 0;
         }
@@ -1013,7 +1018,7 @@ export class EnrollUserComponent implements OnInit {
 
   cancelModal() {
     console.log('....');
-    this.modalReference.close();
+    //this.modalReference.close();
     console.log(this.selectCustomer);
     console.log(this.selectedTeacherLists);
     // this.isSeatAvailable = true;
@@ -1034,6 +1039,7 @@ export class EnrollUserComponent implements OnInit {
     this.tempuserType = '';
     this.isProrated = false;
     this.isDisabledBtn = false;
+    this._location.back();
   }
 
   selectCustomer(state, id, type) {
@@ -1168,43 +1174,126 @@ export class EnrollUserComponent implements OnInit {
 
   //my func
   enrollUserList: any = [];
+  enrollAssistantTeacherList: any = [];
   isHideSelected: boolean = false;
 
   removeEnrolledUser(user) {
     this.enrollUserList = this.enrollUserList.filter(item => item != user);
   }
 
+  chooseUser(user) {
+    console.log(
+      'this.seatLeft ' +
+        this.seatLeft +
+        ' detailLists.seat_left ' +
+        this.detailLists.seat_left
+    );
+    if (user.addOrRemove == 'add-user') {
+      if (this.seatLeft <= 0) {
+        this.toastr.error('You can not select because no more seat.');
+      } else if (this.userType == 'teacher') {
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+            this.enrollUserList.pop();
+            this.enrollUserList.push(item);
+          }
+        });
+        console.log('Teacher and add');
+      } else if (this.userType != 'teacher' && this.courseType != 'FLEXY') {
+        if (this.userType == 'customer') {
+          this.seatLeft--;
+        }
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+            this.enrollUserList.push(item);
+          }
+        });
+        console.log('Staff or Customer and add');
+      } else {
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+            this.enrollUserList.pop();
+            this.enrollUserList.push(item);
+          }
+        });
+        console.log('Customer and add and non flexy');
+      }
+      console.log(this.enrollUserList);
+    } else {
+      if (this.userType != 'customer') {
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            //item.selected = false;
+            item.addOrRemove = 'add-user';
+          }
+        });
+        this.enrollUserList = {};
+        console.log('Non customer and unselected');
+      } else {
+        if (this.userType == 'customer') {
+          this.seatLeft++;
+        }
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            //item.selected = false;
+            item.addOrRemove = 'add-user';
+          }
+        });
+        console.log('customer and unselected');
+        this.enrollUserList = this.enrollUserList.filter(item => item != user);
+        this.toastr.success(user.preferredName + 'has unselected.');
+      }
+    }
+  }
+
   // chooseUser(user) {
+  //   console.log('this.seatLeft ' + this.seatLeft + ' detailLists.seat_left ' + this.detailLists.seat_left)
   //   if (user.addOrRemove == 'add-user') {
-
-  //     if (this.enrollUserList.length == this.detailLists.seat_left - 1) {
+  //     if (this.seatLeft <= 0) {
   //       this.toastr.error('You can not select because no more seat.');
-  //     }
-
-  //     if (this.courseType == 'FLEXY' && this.userType == 'teacher') {
-  //       console.log('Teacher and one')
+  //     } else {
   //       this.userLists.map(item => {
-  //         item.selected = false;
-  //         item.addOrRemove = 'add-user';
-  //         if (item.userId == user.userId) {
+  //         if (
+  //           item.userId == user.userId &&
+  //           (this.courseType == 'FLEXY' || this.userType == 'teacher')
+  //         ) {
+  //           this.userLists.map(myitem => {
+  //             if (myitem.userId != user) {
+  //               myitem.selected = false;
+  //               myitem.addOrRemove = 'add-user';
+  //             }
+  //           }); // set for all
   //           item.selected = true;
   //           item.addOrRemove = 'remove-user';
+  //           console.log('my block work');
+  //           //multienrolluser block
   //           this.enrollUserList.pop();
   //           this.enrollUserList.push(user);
-  //         }
-  //       })
-  //       this.toastr.success(user.preferredName + 'has selected.');
-  //     } else if (this.courseType == 'FLEXY' && this.userType != 'teacher') {
-  //       console.log('Not teacher and list')
-  //       this.userLists.map(item => {
-  //         if (item.userId == user.userId) {
+  //         }else if(this.courseType == 'FLEXY' || this.userType == 'staff'){
+  //           this.userLists.map(myitem => {
+  //             if (myitem.userId == user) {
+  //               item.selected = true;
+  //               item.addOrRemove = 'remove-user';
+  //               this.enrollAssistantTeacherList.push(user);
+  //               this.formData={}
+  //             }
+  //           });
+
+  //         }else if (item.userId == user.userId && this.courseType !== 'FLEXY') {
+  //           this.seatLeft--;
   //           item.selected = true;
   //           item.addOrRemove = 'remove-user';
   //           this.enrollUserList.push(user);
   //         }
-  //       })
+  //       });
+  //       this.toastr.success(user.preferredName + 'has selected.');
   //     }
+
   //   } else if (user.addOrRemove == 'remove-user') {
+  //     this.seatLeft++
   //     this.userLists.filter(item => {
   //       if (item.userId == user.userId) {
   //         item.selected = false;
@@ -1212,61 +1301,16 @@ export class EnrollUserComponent implements OnInit {
   //         this.enrollUserList = this.enrollUserList.filter(
   //           item => item != user
   //         );
-  //         return console.log(this.userLists);
+  //         this.enrollAssistantTeacherList=this.enrollAssistantTeacherList.filter(
+  //           item=> item !=user
+  //         )
+  //         return console.log(this.userLists,this.enrollAssistantTeacherList);
   //       }
   //     });
   //     this.toastr.success(user.preferredName + 'has unselected.');
   //   }
+  //   console.log('this.seatLeft ' + this.seatLeft + ' detailLists.seat_left ' + this.detailLists.seat_left)
   // }
-
-  chooseUser(user) {
-    if (user.addOrRemove == 'add-user') {
-      console.log('enroll user list length');
-      console.log(
-        this.enrollUserList.length + ' ' + this.detailLists.seat_left
-      );
-      if (this.enrollUserList.length == this.detailLists.seat_left - 1) {
-        this.toastr.error('You can not select because no more seat.');
-      }
-      this.userLists.map(item => {
-        if (
-          item.userId == user.userId &&
-          (this.courseType == 'FLEXY' || this.userType == 'teacher')
-        ) {
-          this.userLists.map(myitem => {
-            if (myitem.userId != user) {
-              myitem.selected = false;
-              myitem.addOrRemove = 'add-user';
-            }
-          }); // set for all
-          item.selected = true;
-          item.addOrRemove = 'remove-user';
-          console.log('my block work');
-          //multienrolluser block
-          this.enrollUserList.pop();
-          this.enrollUserList.push(user);
-        } else if (item.userId == user.userId && this.courseType !== 'FLEXY') {
-          item.selected = true;
-          item.addOrRemove = 'remove-user';
-          this.enrollUserList.push(user);
-        }
-      });
-
-      this.toastr.success(user.preferredName + 'has selected.');
-    } else if (user.addOrRemove == 'remove-user') {
-      this.userLists.filter(item => {
-        if (item.userId == user.userId) {
-          item.selected = false;
-          item.addOrRemove = 'add-user';
-          this.enrollUserList = this.enrollUserList.filter(
-            item => item != user
-          );
-          return console.log(this.userLists);
-        }
-      });
-      this.toastr.success(user.preferredName + 'has unselected.');
-    }
-  }
 
   showSelectedUserView = false;
   showSelectedUserViewFunc() {
@@ -1311,7 +1355,13 @@ export class EnrollUserComponent implements OnInit {
       userId: '',
       userType: userType
     };
-    this.enrollUserList.map(item => (body.userId = item.userId));
+    this.enrollUserList.map(item => {
+      if (body.userId == '') {
+        body.userId = item.userId;
+      } else {
+        body.userId += ',' + item.userId;
+      }
+    });
     console.log('~~~~', body);
     //this.blockUI.start('Loading...');
     this._service.assignUser(this.regionId, body, this.locationID).subscribe(
@@ -1340,6 +1390,7 @@ export class EnrollUserComponent implements OnInit {
         console.log(err);
       }
     );
+    this._location.back();
   }
 
   getSelectedUserId() {
@@ -1522,33 +1573,39 @@ export class EnrollUserComponent implements OnInit {
     this.isDisabledBtn = false;
     if (this.courseType == 'FLEXY') {
       console.log('It is flexy');
-      let iDs: string = '';
-      if (this.enrollUserList.length > 1) {
-        this.enrollUserList.map(item => {
-          if (iDs != '') {
-            iDs += ',' + item.userId;
-          } else {
-            iDs = item.userId;
-          }
-        });
-      } else if (this.enrollUserList.length == 1) {
-        iDs = this.enrollUserList[0].userId;
-      }
+      // let iDs: string = '';
+      // if (this.enrollUserList.length > 1) {
+      //   this.enrollUserList.map(item => {
+      //     if (iDs != '') {
+      //       iDs += ',' + item.userId;
+      //     } else {
+      //       iDs = item.userId;
+      //     }
+      //   });
+      // } else if (this.enrollUserList.length == 1) {
+      //   iDs = this.enrollUserList[0].userId;
+      // }
+      console.log(this.enrollUserList[0].userId);
       let startDate;
       let endDate;
-      this._service.getFlexi(courseId, iDs, startDate, endDate).subscribe(
-        (res: any) => {
-          console.log('This is add customer result ' + res);
-          this.flexyarr = res;
-          this.showInvoice = false;
-          this.showflexyCourse = true;
-          //this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-        }
-      );
+      this._service
+        .getFlexi(courseId, this.enrollUserList[0].userId, startDate, endDate)
+        .subscribe(
+          (res: any) => {
+            console.log('This is add customer result ');
+            console.log(res);
+            this.flexyarr = res;
+            this.showInvoice = false;
+            this.showflexyCourse = true;
+            //this.blockUI.stop();
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      //this.showSelectedUserView=false
     } else {
+      console.log(invoiceAlert);
       if (invoiceAlert && userType == 'customer') {
         console.log('I am in invoice alert');
         this.invoiceModalReference = this.modalService.open(invoiceAlert, {
@@ -1563,13 +1620,16 @@ export class EnrollUserComponent implements OnInit {
       //console.log('call from addCustomer', this.selectedCustomer);
       console.log('call from addcustomer ');
       let iDs: any;
-      this.enrollUserList.map(item => {
-        if (iDs == null || iDs == undefined) {
-          iDs = item.userId;
-        } else {
-          iDs += ',' + item.userId;
-        }
-      });
+      if (this.enrollUserList.length > 1) {
+        this.enrollUserList.map(item => {
+          if (iDs == null || iDs == undefined) {
+            iDs = item.userId;
+          } else {
+            iDs += ',' + item.userId;
+          }
+        });
+      }
+      iDs = this.enrollUserList[0].userId;
       let body = {
         courseId: courseId,
         userId: iDs,
@@ -1616,8 +1676,8 @@ export class EnrollUserComponent implements OnInit {
           console.log(err);
         }
       );
+      this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
     }
-    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
   }
 
   dateFormat(dateStr) {

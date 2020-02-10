@@ -126,17 +126,15 @@
       </div>
 
       <div class="d-flex justify-content-end">
-        <button
-          *ngIf="userType != 'teacher' && userLists.length !== 0"
-          type="submit"
-          class="btn btn-submit"
-          [disabled]="enrollUserList.length == 0 || noSetting == true"
-          (click)="showSelectedUserViewFunc()"
-        >
+        <!-- <button *ngIf="userType != 'teacher' && userLists.length !== 0" type="submit" class="btn btn-submit"
+          [disabled]="enrollUserList.length == 0 || noSetting == true" (click)="showSelectedUserViewFunc()">
           Next
-        </button>
+        </button> -->
+        <!-- <button *ngIf="userType == 'teacher'" type="submit" class="btn btn-submit"
+          [disabled]="enrollUserList.length == 0" (click)="showSelectedUserViewFunc()">
+          Next
+        </button> -->
         <button
-          *ngIf="userType == 'teacher'"
           type="submit"
           class="btn btn-submit"
           [disabled]="enrollUserList.length == 0"
@@ -157,7 +155,9 @@
      -->
     <div class="d-flex mt-3">
       <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">
-        Confirm teacher
+        Confirm assistant
+        <span *ngIf="userLists.length <= 1"> teacher </span>
+        <span *ngIf="userLists.length > 1"> teachers </span>
       </h3>
       <div *ngIf="userType == 'customer'">
         <h3 class="modal-title d-flex mr-auto">
@@ -176,131 +176,105 @@
         Confirm teacher
       </h3>
     </div>
-    <form novalidate #cfees="ngForm">
-      <!-- <div class="d-flex flex-column mt-37" style="position: relative;">
-        <div class="d-flex">
-          <input
-            *ngIf="userType == 'customer'"
-            class="form-control py-2 input-search-bg"
-            type="search"
-            placeholder="Search customer here"
-            id="example-search-input"
-            name="search"
-            #search="ngModel"
-            [(ngModel)]="formData.searchText"
-            (focus)="focusMethod($event, userType)"
-            (focusout)="hideFocus($event)"
-            (blur)="hideFocus($event)"
-            (input)="changeMethod($event.target.value, userType)"
-            autocomplete="off"
-          />
-          <input
-            *ngIf="userType == 'staff' || userType == 'teacher'"
-            class="form-control py-2 input-search-bg"
-            type="search"
-            placeholder="Search teachers"
-            id="example-search-input"
-            name="search"
-            #search="ngModel"
-            [(ngModel)]="formData.searchText"
-            (focus)="focusMethod($event, userType)"
-            (focusout)="hideFocus($event)"
-            (blur)="hideFocus($event)"
-            (input)="changeMethod($event.target.value, userType)"
-            autocomplete="off"
-          />
-          <span class="input-group-append">
-            <button class="bt btn-design btn-outline-secondary" type="button">
-              <i class="fa fa-search search-size"></i>
-            </button>
-          </span>
-        </div>
-      </div> -->
-      <div class="mt-20 user-row-wrap">
-        <div *ngIf="userType != 'teacher'">
-          <div class="row single-user-wrap" *ngIf="enrollUserList.length > 0">
+    <div class="mt-20 user-row-wrap">
+      <div *ngIf="userType != 'teacher'">
+        <div class="row single-user-wrap" *ngIf="enrollUserList.length > 0">
+          <div
+            *ngFor="let user of enrollUserList"
+            class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+          >
             <div
-              *ngFor="let user of enrollUserList"
-              class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+              class="d-flex flex-row single-user justify-content-center align-items-center"
+              (click)="chooseUser(user)"
             >
+              <div class="img-wrap">
+                <img src="{{ user.profilePic }}" />
+              </div>
               <div
-                class="d-flex flex-row single-user justify-content-center align-items-center"
-                (click)="chooseUser(user)"
+                class="single-user-info d-flex flex-column justify-content-center"
               >
-                <div class="img-wrap">
-                  <img src="{{ user.profilePic }}" />
-                </div>
+                <h4>{{ user.preferredName }}</h4>
+              </div>
+              <div class="ml-auto remover-wrap">
                 <div
-                  class="single-user-info d-flex flex-column justify-content-center"
-                >
-                  <h4>{{ user.preferredName }}</h4>
-                </div>
-                <div class="ml-auto remover-wrap">
-                  <div
-                    class="add-user d-flex justify-content-end"
-                    [ngClass]="user.addOrRemove"
-                    (click)="chooseUser(user)"
-                  ></div>
-                </div>
+                  class="add-user d-flex justify-content-end"
+                  [ngClass]="user.addOrRemove"
+                  (click)="chooseUser(user)"
+                ></div>
               </div>
             </div>
           </div>
         </div>
-        <div *ngIf="userType == 'teacher'">
-          <div class="row single-user-wrap" *ngIf="selectedTeacherLists != ''">
-            <div
-              *ngFor="let teacher of selectedTeacherLists"
-              class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
-            >
-              <div class="d-flex flex-row single-user">
-                <div class="img-wrap">
-                  <img src="{{ teacher.profilePic }}" />
-                </div>
-                <div
-                  class="single-user-info d-flex flex-column justify-content-center"
-                >
-                  <h4>{{ teacher.preferredName }}</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        *ngIf="isSeatAvailable == false && userType == 'customer'"
-        class="seat-taken"
-      >
-        All seat taken. Can't add user anymore.
-      </div>
-      <div
-        *ngIf="noSetting == true && userType != 'teacher'"
-        class="seat-taken"
-      >
-        You should set invoice setting and payment setting first.
       </div>
 
-      <div class="d-flex justify-content-end">
-        <button
-          type="button"
-          class="btn modal-cancel-btn"
-          (click)="cancelModal()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="btn btn-submit"
-          [disabled]="
-            (enrollUserList | json) == '{}' ||
-            isDisabledBtn ||
-            noSetting == true
-          "
-          (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
-        >
-          Enroll
-        </button>
+      <div *ngIf="userType == 'teacher'">
+        <div class="row single-user-wrap" *ngIf="(enrollUserList | json) != {}">
+          <div
+            *ngFor="let teacher of enrollUserList"
+            class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+          >
+            <div class="d-flex flex-row single-user">
+              <div class="img-wrap">
+                <img src="{{ teacher.profilePic }}" />
+              </div>
+              <div
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4>{{ teacher.preferredName }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
+    <div
+      *ngIf="isSeatAvailable == false && userType == 'customer'"
+      class="seat-taken"
+    >
+      All seat taken. Can't add user anymore.
+    </div>
+    <div *ngIf="noSetting == true && userType != 'teacher'" class="seat-taken">
+      You should set invoice setting and payment setting first.
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelModal()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        *ngIf="userType == 'customer'"
+        class="btn btn-submit"
+        [disabled]="
+          (enrollUserList | json) == '{}' || isDisabledBtn || noSetting == true
+        "
+        (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
+      >
+        Enroll
+      </button>
+      <button
+        *ngIf="userType == 'staff'"
+        type="submit"
+        class="btn btn-submit"
+        [disabled]="enrollUserList.length == 0 || noSetting == true"
+        (click)="enrollUserToCourse(detailLists._id, userType)"
+      >
+        Enroll
+      </button>
+      <button
+        *ngIf="userType == 'teacher'"
+        type="submit"
+        class="btn btn-submit"
+        [disabled]="enrollUserList.length == 0"
+        (click)="swapTeacherToCourse(detailLists._id, en[0].userId)"
+      >
+        Enroll
+      </button>
+    </div>
 
     <!-- 
       enroll UI
