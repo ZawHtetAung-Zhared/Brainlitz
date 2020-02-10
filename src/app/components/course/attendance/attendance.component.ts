@@ -20,7 +20,7 @@ import {
   NgbCalendar
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import moment = require('moment');
+import * as moment from 'moment';
 import * as $ from 'jquery';
 import { TodayDatePipe } from '../../../service/pipe/today-date.pipe';
 
