@@ -42,6 +42,8 @@ export class CourseListComponent implements OnInit {
   private limit = 10;
   private skip = 0;
   private loading: boolean;
+  private iscourseSearch: boolean = false;
+  private searchVal = '';
 
   constructor(
     private _service: appService,
@@ -457,5 +459,50 @@ export class CourseListComponent implements OnInit {
 
   showCourseDetail(courseId) {
     this.router.navigate(['/coursedetail', courseId]);
+  }
+
+  focusCourseSearch() {
+    // console.log('focusing ...');
+    this.iscourseSearch = true;
+  }
+
+  searchStart(e, limit, skip) {
+    // if (e.keyCode == 13) {
+    //   this.courseList = [];
+    //   this.recentLists.unshift(e.target.value);
+    //   //this.blockUI.start('Loading...');
+    //   this._service
+    //     .simpleCourseSearch(
+    //       this.regionId,
+    //       e.target.value,
+    //       this.locationID,
+    //       limit,
+    //       skip
+    //     )
+    //     .subscribe(
+    //       (res: any) => {
+    //         console.log("course search",res);
+    //         this.selectedPlan = res.coursePlan._id;
+    //         this.getCoursesPerPlan(this.selectedPlan,this.limit,this.skip,this.page)
+    //       },
+    //       err => {
+    //         console.log(err);
+    //       }
+    //     );
+    // }
+  }
+
+  clearSearch() {
+    this.iscourseSearch = false;
+    this.searchVal = '';
+  }
+
+  searchCourse(val) {
+    if (val.length > 0) {
+      console.log('search');
+    } else {
+      console.log('clear search');
+      this.iscourseSearch = false;
+    }
   }
 }
