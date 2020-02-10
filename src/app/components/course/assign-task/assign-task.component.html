@@ -529,7 +529,7 @@
     <p class="template-description2 regular">
       {{ singleSelectedTask.description }}
     </p>
-    <p class="anno-txt bold">
+    <p class="anno-txt font-semi">
       Announcement information
     </p>
     <div class="d-flex duration-wrapper">
@@ -566,7 +566,7 @@
           <input
             type="text"
             placeholder="{{
-              singleSelectedTask.taskStartDate | date: 'hh: mm a'
+              singleSelectedTask.annoucementDate | date: 'hh: mm a'
             }}"
             class="input-day timeInput"
             name="innoTime"
@@ -574,6 +574,7 @@
             readonly
             (click)="durationProgress($event)"
             style="background: none;"
+            [(ngModel)]="showFormat"
           />
           <div class="bg-box duration-progress">
             <div id="rectangle"></div>
@@ -644,6 +645,62 @@
           </div>
         </div>
       </div>
+    </div>
+    <p class="anno-txt font-semi">
+      Task information
+    </p>
+    <div class="mastery-list-wrapper">
+      <div class="d-flex duration-wrapper">
+        <div class="col-md-6">
+          <label for="course_name" class="input-title medium">Start Date</label>
+          <div class="input-wrap">
+            <div class="cc-start">
+              <span class="dp-icon">
+                <img src="./assets/img/course-dp.png" />
+              </span>
+              <input
+                type="text"
+                placeholder="{{
+                  singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
+                }}"
+                class="input-day dropD startInput"
+                name="startDate"
+                required
+                (click)="startDate.toggle()"
+                ngbDatepicker
+                #startDate="ngbDatepicker"
+                (document:click)="closeDropdown($event, startDate)"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="course_name" class="input-title medium">End Date</label>
+          <div class="input-wrap">
+            <div class="cc-start">
+              <span class="dp-icon">
+                <img src="./assets/img/course-dp.png" />
+              </span>
+              <input
+                type="text"
+                placeholder="{{
+                  singleSelectedTask.taskEndDate | date: 'dd MMM yyyy'
+                }}"
+                class="input-day dropD startInput"
+                name="endDate"
+                required
+                (click)="endDate.toggle()"
+                ngbDatepicker
+                #endDate="ngbDatepicker"
+                (document:click)="closeDropdown($event, endDate)"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="masteries-box regular">{{ masteryList.length }} Masteries</p>
     </div>
   </div>
 </ng-template>

@@ -421,45 +421,8 @@ export class AssignTaskComponent implements OnInit {
     }
     this.showFormat = hrFormat + ':' + minFormat;
     console.log(this.showFormat);
-    this.startFormat = hrFormat + ':' + minFormat + '' + this.isSelectedTime;
-    console.log('Start Format', this.startFormat);
-    // this.model.starttime = this.startFormat;
-    this.startTime = moment(this.startFormat, 'h:mm A').format('HH:mm');
-    console.log('Output', this.startTime);
-    this.model.startT = this.startFormat;
-    this.model.starttime = this.startTime;
-    this.calculateDuration(this.startTime, this.model.duration);
   }
 
-  calculateDuration(time, duration) {
-    console.log('Calculate', time, duration);
-
-    let totalduration = duration / 60;
-    let gethour = Math.floor(totalduration);
-    let getmin = duration % 60;
-
-    console.log(gethour);
-    console.log(getmin);
-
-    // this.classend = time +
-    if (time) {
-      let piece = time.split(':');
-      let mins = Number(piece[0]) * 60 + Number(piece[1]) + duration;
-      var endTime =
-        this.D(((mins % (24 * 60)) / 60) | 0) + ':' + this.D(mins % 60);
-      console.log('Classend', endTime);
-      var H = +endTime.substr(0, 2);
-      var h = H % 12 || 12;
-      var ampm = H < 12 ? 'AM' : 'PM';
-      if (h < 10) {
-        this.classend = '0' + h + endTime.substr(2, 3) + ampm;
-        console.log('Class end', this.classend);
-      } else {
-        this.classend = h + endTime.substr(2, 3) + ampm;
-        console.log('Class end', this.classend);
-      }
-    }
-  }
   D(J) {
     return (J < 10 ? '0' : '') + J;
   }
