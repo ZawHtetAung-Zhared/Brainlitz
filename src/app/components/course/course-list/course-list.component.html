@@ -61,19 +61,36 @@
         </div>
       </div>
     </div>
-    <div *ngIf="courseCollection == null" class="d-flex justify-content-center">
-      <span class="p-4 cplan-title">There is no courses.</span>
-    </div>
-    <div *ngIf="courseCollection" class="content-wrapper">
+    <div class="content-wrapper">
       <div class="csearch-wrap pt-4">
         <input
           class="form-control input-csearch course-search-input"
           type="search"
           placeholder="Search courses..."
           id="course-search"
+          (focus)="focusCourseSearch($event)"
+          autocomplete="off"
+          name="keyword"
+          (input)="searchCourse($event.target.value)"
+          (keyup)="searchStart($event, 10, 0)"
+          [(ngModel)]="searchVal"
         />
+        <div
+          *ngIf="iscourseSearch"
+          class="close-search"
+          (click)="clearSearch()"
+        ></div>
       </div>
-      <div class="d-flex justify-content-between align-items-center plan-title">
+      <div
+        *ngIf="courseCollection == null"
+        class="d-flex justify-content-center"
+      >
+        <span class="p-4 cplan-title">There is no courses.</span>
+      </div>
+      <div
+        *ngIf="courseCollection != null"
+        class="d-flex justify-content-between align-items-center plan-title"
+      >
         <div class="d-flex flex-column">
           <span class="cplan-small-txt light-color">
             #{{ courseCollection.coursePlan.category.name }}
@@ -90,7 +107,7 @@
         </button>
       </div>
       <!-- start card -->
-      <div class="course-list-wrapper">
+      <div *ngIf="courseCollection != null" class="course-list-wrapper">
         <div
           *ngIf="courseCollection.courses.length <= 0"
           class="d-flex justify-content-center"
