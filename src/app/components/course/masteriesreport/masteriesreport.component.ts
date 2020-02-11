@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import sampleData from './sampleData';
 
 @Component({
@@ -11,17 +11,22 @@ export class MasteriesreportComponent implements OnInit {
   echarts: any;
   barColor: any;
   reportItems: any = sampleData;
+  masteriesReports: any = [
+    { id: 1, name: 'Light Energy', data: sampleData },
+    { id: 2, name: 'Heat Energy', data: sampleData }
+  ];
+  @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {}
 
   ngOnChanges() {
-    this.setupOption();
+    this.setupOption(1);
   }
 
-  setupOption() {
+  setupOption(idx) {
     var yMax = 40;
     var dataShadow = [];
-    for (var i = 0; i < sampleData.length; i++) {
+    for (var i = 0; i < this.reportItems.length; i++) {
       dataShadow.push(yMax);
     }
     this.echarts = require('echarts');
@@ -53,13 +58,12 @@ export class MasteriesreportComponent implements OnInit {
         axisLabel: {
           show: true,
           formatter: function(value) {
-            return value;
+            return value + '   ';
           },
           textStyle: {
             fontSize: 12,
             lineHeight: 16,
-            color: '#64707d',
-            padding: 10
+            color: '#64707d'
           }
         },
         splitLine: { show: false }
@@ -101,7 +105,6 @@ export class MasteriesreportComponent implements OnInit {
       },
       series: [
         {
-          // For shadow
           type: 'bar',
           itemStyle: {
             color: 'rgba(0,0,0,0.05)'
@@ -156,19 +159,26 @@ export class MasteriesreportComponent implements OnInit {
     this.plotOption.series[1].data = presentData.reverse();
     this.plotOption.series[2].data = absentData.reverse();
     this.plotOption.series[3].data = notTakenData.reverse();
-    this.plotGraph();
+    this.plotGraph(idx);
   }
 
-  plotGraph() {
-    var elem = document.getElementById('masteryHeatGrap');
+  plotGraph(index) {
+    var elem = document.getElementById(this.masteriesReports[index].id);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    elem.style.height = this.reportItems.length * 40 + 'px';
+    if (this.reportItems.length > 10)
+      elem.style.height = this.reportItems.length * 40 + 'px';
+    else elem.style.height = this.reportItems.length * 50 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
   }
 
-  ngOnInit() {
-    this.setupOption();
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    for (var i = 0; i < this.masteriesReports.length; i++) {
+      this.reportItems = this.masteriesReports[i].data;
+      this.setupOption(i);
+    }
   }
 }
