@@ -10,9 +10,12 @@
   ></div>
   <div
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
-    class="d-flex"
+    class="content-wrapper"
   >
-    <div class="sidebar pt-4">
+    <div
+      class="sidenav pt-4"
+      [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
+    >
       <div class="d-flex align-items-center pl-4 pr-4 courses-title-wrap">
         <h3 class="header-font">Courses</h3>
         <div class="location-wrapper">
@@ -36,8 +39,11 @@
           Add new course plan
         </button>
       </div>
-      <div class="cplan-wrapper" *ngIf="coursePlanCollection.length > 0">
-        <div *ngFor="let coursePlan of coursePlanCollection; let i = index">
+      <div class="sidenav-scroll" *ngIf="coursePlanCollection.length > 0">
+        <div
+          class="cplan"
+          *ngFor="let coursePlan of coursePlanCollection; let i = index"
+        >
           <div
             class="cplan-item d-flex flex-column cursor-on"
             [ngClass]="{
@@ -65,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="content-wrapper">
+    <div class="main-content">
       <div class="csearch-wrap pt-4">
         <div class="col-md-8 course-search-gp">
           <div class="simple-search input-group pd-zero">
