@@ -609,9 +609,6 @@ export class CourseListComponent implements OnInit {
     } else {
       console.log('clear search');
       this.clearSearch();
-      // this.iswordcount = false;
-      // this.iscourseSearch = false;
-      // this.searchKeyword = null;
     }
   }
 
@@ -621,17 +618,5 @@ export class CourseListComponent implements OnInit {
     this.searchKeyword = val;
     this.iswordcount = true;
     this.simpleCoursePlanSearch(this.searchVal);
-    // this._service
-    //   .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
-    //   .subscribe(
-    //     (res: any) => {
-    //       console.log(res);
-    //       this.iswordcount = false;
-    //       this.iscourseSearch = false;
-    //     },
-    //     err => {
-    //       console.log(err);
-    //     }
-    //   );
   }
 }
