@@ -49,7 +49,13 @@
             [ngClass]="{
               'cplan-item-selected': selectedPlan == coursePlan._id
             }"
-            (click)="getCourseswithPlanId(coursePlan._id, coursePlan.name)"
+            (click)="
+              getCourseswithPlanId(
+                coursePlan._id,
+                coursePlan.name,
+                this.searchKeyword
+              )
+            "
           >
             <span class="cplan-small-txt">
               #{{ coursePlan.category.name }}

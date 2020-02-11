@@ -1454,13 +1454,25 @@ export class appService {
     });
   }
 
-  getCourseplanCollection(regionId, locationId) {
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/course_plans?locationId=' +
-      locationId;
+  getCourseplanCollection(regionId, locationId, keyword) {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId +
+        '&keyword=' +
+        keyword;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1886,24 +1898,47 @@ export class appService {
     limit,
     skip,
     page,
-    direction
+    direction,
+    keyword
   ): Observable<any> {
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/course_plans/' +
-      courseplanId +
-      '/courses?locationId=' +
-      locationId +
-      '&limit=' +
-      limit +
-      '&skip=' +
-      skip +
-      '&page=' +
-      page +
-      '&direction=' +
-      direction;
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction +
+        '&keyword=' +
+        keyword;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -2017,6 +2052,21 @@ export class appService {
     };
     console.log(httpOptions);
     return this.httpClient.post(apiUrl, body, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  getAttendance(courseid) {
+    let url;
+    url = this.baseUrl + '/courses/' + courseid + '/attendances';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log('getAttendance works');
+    return this.httpClient.get(url, httpOptions).map(res => {
       console.log(res);
       return res;
     });
