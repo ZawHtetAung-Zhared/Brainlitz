@@ -123,9 +123,9 @@ export class CourseListComponent implements OnInit {
       this.isMidStick = false;
       this.navIsFixed = true;
       var element = document.getElementById('notibar2');
-      // if (typeof element == 'undefined' || element == null) {
-      //   $('.p-top').css({ 'padding-top': '0px' });
-      // }
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
     } else {
       this.isSticky = false;
       this.navIsFixed = false;
@@ -133,7 +133,7 @@ export class CourseListComponent implements OnInit {
 
     this.isMidStick =
       window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
-    console.log('~~~~~~~~~~isMidStick', this.isMidStick);
+    // console.log('~~~~~~~~~~isMidStick', this.isMidStick);
 
     // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
     //   console.log("On Scroll Down");
@@ -153,11 +153,11 @@ export class CourseListComponent implements OnInit {
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
       console.log('Direction Down');
-      if (typeof element == 'undefined' || element == null) {
-        $('.p-top').css({ top: '71px' });
-      } else {
-        $('.p-top').css({ top: '128px' });
-      }
+      // if (typeof element == 'undefined' || element == null) {
+      //   $('.p-top').css({ top: '71px' });
+      // } else {
+      //   $('.p-top').css({ top: '128px' });
+      // }
       if (this.courseCollection != null) {
         if (
           this.loading == false &&
@@ -175,7 +175,7 @@ export class CourseListComponent implements OnInit {
         }
       }
     } else if (this.oldValue - newValue > 0) {
-      $('.p-top').css({ top: '' });
+      // $('.p-top').css({ top: '' });
 
       console.log('Direction Up');
     }

@@ -131,7 +131,8 @@
   height: 40px; */
 }
 .plan-title {
-  padding: 0px 24px 17px 24px;
+  /* padding: 0px 24px 17px 24px; */
+  padding: 0px 24px 7px 24px;
   box-shadow: 0px 1px 0px #e3e4e5;
   background: #fff;
 }
