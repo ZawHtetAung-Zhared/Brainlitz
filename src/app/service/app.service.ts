@@ -2022,6 +2022,21 @@ export class appService {
     });
   }
 
+  getAttendance(courseid) {
+    let url;
+    url = this.baseUrl + '/courses/' + courseid + '/attendances';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log('getAttendance works');
+    return this.httpClient.get(url, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
+
   getAssignUser(regionid, courseid, date, month, year) {
     let url;
     if (date == null && month == null && year == null) {

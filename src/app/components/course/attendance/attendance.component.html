@@ -4,7 +4,7 @@
       <div
         [ngStyle]="{ left: i * 80 + 'px' }"
         class="single-date"
-        *ngFor="let timeline of detailLists.lessons; let i = index"
+        *ngFor="let timeline of attendanceList.lessons; let i = index"
         [ngClass]="{
           today:
             (timeline.startDate | timelineDate) == (todayDate | timelineDate),
@@ -89,14 +89,6 @@
     >
       Add new lesson
     </button>
-    <ng-template #reliefModal let-c="close" let-d="dismiss">
-      <app-assign-relief
-        [courseInfo]="detailLists"
-        [lessonInfo]="selectedLesson"
-        (closed)="cancelReliefModal()"
-        [scheduleRelief]="false"
-      ></app-assign-relief>
-    </ng-template>
   </div>
 
   <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
@@ -106,8 +98,8 @@
 
         <div class="d-flex lesson-time" style="margin-bottom:15px">
           <span>
-            {{ selectedLesson.startDate | utcTime }} -
-            {{ selectedLesson.endDate | utcTime }}
+            {{ selectedLesson?.startDate | utcTime }} -
+            {{ selectedLesson?.endDate | utcTime }}
           </span>
         </div>
         <!--  *ngIf="showCancelButton == true" -->
@@ -357,6 +349,101 @@
     </div>
   </div>
 
+  <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+  <div
+    class="flexiModal"
+    *ngIf="showInvoice == false && showflexyCourse == true"
+  >
+    <div class="innerFlexiModal">
+      <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+        <div class="d-flex back" (click)="backtoCustomer()">
+          <i class="fa fa-angle-left flexiBackicon"></i>
+          <p class="mb-0 font-medium ">Add customer</p>
+        </div>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+          <!-- <span aria-hidden="true" >×</span> -->
+        </button>
+      </div>
+      <app-flexi
+        [flexyarr]="flexyarr"
+        [selectedCustomer]="selectedCustomer"
+        [course]="detailLists"
+        [showcb]="showcb"
+        (passDataconflictBoxShow)="conflictBoxShow($event)"
+        (checkObjArr)="lessionObjArr($event)"
+      ></app-flexi>
+    </div>
+    <div
+      class="modal-footer d-flex justify-content-between"
+      style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+    >
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isProrated = !this.isProrated"
+                [checked]="isProrated"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <label class="switch-label" for="online">Prorated</label>
+        </div>
+        <div>
+          <p class="defaultLessonCount">
+            Default lessons count: {{ detailLists.defaultlessonCount }}
+          </p>
+          <p class="textCount">Number of lessons required:</p>
+          <div class="selectedCountBox">
+            <p class="selectedTest">
+              Selected lessons: {{ checkobjArr.length }}
+            </p>
+          </div>
+        </div>
+        <!-- <div class="defaultDiv">
+
+          </div> -->
+      </div>
+
+      <div class="">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-submit"
+          *ngIf="checkobjArr.length != 0"
+          (click)="flexicomfirm(invoiceAlert)"
+        >
+          Confirm
+        </button>
+        <button
+          type="submit"
+          *ngIf="checkobjArr.length == 0"
+          class="btn btn-submit"
+          disabled
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div *ngIf="isRescheduleLesson" class="mt-20">
     <app-reschedule-lesson
       (cancelReschedule)="cancelRescheduleLesson($event)"
@@ -367,6 +454,7 @@
       [defineType]="defineType"
     ></app-reschedule-lesson>
   </div>
+
   <div *ngIf="isNewLesson" class="mt-20">
     <app-reschedule-lesson
       (cancelReschedule)="cancelRescheduleLesson($event)"
@@ -704,6 +792,47 @@
         [disabled]="makeupForm.reason == null || makeupForm.name == null"
       >
         Confirm
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #reliefModal let-c="close" let-d="dismiss">
+    <app-assign-relief
+      [courseInfo]="detailLists"
+      [lessonInfo]="selectedLesson"
+      (closed)="cancelReliefModal()"
+      [scheduleRelief]="false"
+    ></app-assign-relief>
+  </ng-template>
+
+  <ng-template #lessonDelete>
+    <div class="modal-header">
+      <h3 class="modal-title">Delete lesson</h3>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body apg-confirm">
+      <p>
+        Are you sure want to delete lesson for {{ LASD | utcDate }}?
+        <span class="target"></span>
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelLessonDelete()"
+      >
+        No
+      </button>
+      <button
+        type="submit"
+        class="btn modal-delete-btn"
+        (click)="confirmLessonDelete()"
+      >
+        Yes
       </button>
     </div>
   </ng-template>

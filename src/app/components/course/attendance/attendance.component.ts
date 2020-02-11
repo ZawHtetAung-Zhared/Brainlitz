@@ -254,7 +254,7 @@ export class AttendanceComponent implements OnInit {
     calendar: NgbCalendar,
     private TodayDatePipe: TodayDatePipe
   ) {
-    console.error('reach');
+    //console.error('reach');
     // this.toastr.setRootViewContainerRef(vcr);
     this._service.goCourseCreate.subscribe(() => {
       this.courseList = [];
@@ -337,56 +337,60 @@ export class AttendanceComponent implements OnInit {
   cID: string;
 
   ngOnInit() {
-    console.log('exit');
     // var requiredResult = this.TodayDatePipe.transform(this.LASD);
     // console.log('today-date-pipe:  ', requiredResult);
-    // this.courseId = localStorage.getItem("userCourse");
-    this.courseId = '5e2fa55b28084f0013bac758';
-    this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
-    this.clickTab('People', 'course');
-    if (this.cID != '') {
-      setTimeout(() => {
-        this.showCourseDetail(this.cID);
-      }, 300);
-    }
+    this.courseId = localStorage.getItem('course_id');
+    this.currentCourse = this.courseId;
+    this.getCourseDetail(this.courseId);
+    console.log('Detail List Type ' + this.detailLists.type);
+    this.getAttendance();
 
-    this.dataservice.cId.subscribe(cid => (this.courseId = cid));
-    if (this.courseId != '') {
-      setTimeout(() => {
-        this.showCourseDetail(this.courseId);
-      }, 300);
-    }
+    // this.courseId = '5e2fa55b28084f0013bac758';
+    //this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
+    //this.clickTab('People', 'course');
+    // if (this.cID != '') {
+    //   setTimeout(() => {
+    //     this.showCourseDetail(this.cID);
+    //   }, 300);
+    // }
 
-    console.log(this.courseId);
-    console.log(this.cID);
-    let recentTemp = localStorage.getItem('recentSearchLists');
+    // this.dataservice.cId.subscribe(cid => (this.courseId = cid));
+    // if (this.courseId != '') {
+    //   setTimeout(() => {
+    //     this.showCourseDetail(this.courseId);
+    //   }, 300);
+    // }
+
+    // console.log(this.courseId);
+    // console.log(this.cID);
+    // let recentTemp = localStorage.getItem('recentSearchLists');
     // this.recentLists = localStorage.getItem('recentSearchLists')
     // console.log(this.recentLists)
-    this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
-    console.log('recent lists', this.recentLists);
-    console.log('0', this.recentLists[0]);
-    localStorage.removeItem('categoryID');
-    localStorage.removeItem('categoryName');
-    setTimeout(() => {
-      console.log('~~~', this.locationName);
-      this.locationName = localStorage.getItem('locationName');
-      this.locationID = localStorage.getItem('locationId');
-      this.gtxtColor = localStorage.getItem('txtColor');
-      this.gbgColor = localStorage.getItem('backgroundColor');
-    }, 300);
-    this.activeTab = 'People';
+    // this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
+    // console.log('recent lists', this.recentLists);
+    // console.log('0', this.recentLists[0]);
+    // localStorage.removeItem('categoryID');
+    // localStorage.removeItem('categoryName');
+    // setTimeout(() => {
+    //   console.log('~~~', this.locationName);
+    //   this.locationName = localStorage.getItem('locationName');
+    //   this.locationID = localStorage.getItem('locationId');
+    //   this.gtxtColor = localStorage.getItem('txtColor');
+    //   this.gbgColor = localStorage.getItem('backgroundColor');
+    // }, 300);
+    // this.activeTab = 'People';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
-      }
-    });
+    // this._service.permissionList.subscribe(data => {
+    //   if (this.router.url === '/course') {
+    //     this.permissionType = data;
+    //     this.checkPermission();
+    //   }
+    // });
 
-    this.discount = 0;
-    this.selectedPayment = 'Cash';
+    // this.discount = 0;
+    // this.selectedPayment = 'Cash';
 
-    this.getRegionInfo();
+    // this.getRegionInfo();
   }
 
   openDatePicker(datePicker) {
@@ -1672,8 +1676,9 @@ export class AttendanceComponent implements OnInit {
     console.log('hi call course', courseId);
     localStorage.setItem('COURSEID', courseId);
     // this.getCourseDetail(courseId);
-    this.courseId = courseId;
+    //this.courseId = courseId;
     this.reScheduleCId = courseId;
+    console.log(this.reScheduleCId);
     //this.blockUI.start('Loading...');
     this._service
       .getAssignUser(this.regionId, courseId, null, null, null)
@@ -1714,7 +1719,9 @@ export class AttendanceComponent implements OnInit {
       var to_day = new Date(today).getUTCDate();
       var currentMonth = new Date(today).getUTCMonth() + 1;
       var currentYear = new Date(today).getUTCFullYear();
-      let lessonCount = this.detailLists.lessons;
+      // console.log(this.attendanceList)
+      console.log(this.detailLists);
+      let lessonCount = this.attendanceList.lessons;
       console.log(lessonCount);
       console.log(lessonCount.length);
       console.log(this.selectedLesson);
@@ -1824,6 +1831,12 @@ export class AttendanceComponent implements OnInit {
       console.log('ACD', ACD);
       console.log('ACM', ACM);
       console.log('ACY', ACY);
+      console.log(
+        'this.regionId ' +
+          this.regionId +
+          ' this.currentCourse ' +
+          this.currentCourse
+      );
       this._service
         .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
         .subscribe(
@@ -4035,7 +4048,7 @@ export class AttendanceComponent implements OnInit {
     });
     this._service
       .getRescheduleList(
-        this.reScheduleCId,
+        this.courseId,
         this.reScheduleUId,
         undefined,
         undefined
@@ -4191,12 +4204,14 @@ export class AttendanceComponent implements OnInit {
   }
 
   deleteLesson(deleteLesson) {
+    console.log('deletelesson modal work');
     this.modalReference = this.modalService.open(deleteLesson, {
       backdrop: 'static',
       windowClass:
         'deleteModal d-flex justify-content-center align-items-center'
     });
   }
+
   cancelLessonDelete() {
     this.modalReference.close();
   }
@@ -4234,6 +4249,7 @@ export class AttendanceComponent implements OnInit {
     console.log('today lesson');
     this.isTodayLesson = true;
   }
+
   rescheduleLesson() {
     this.defineType = 'Reschedule';
     this.isRescheduleLesson = true;
@@ -4248,5 +4264,26 @@ export class AttendanceComponent implements OnInit {
   gotoReview() {
     this.isReview = true;
     console.log(this.isReview, 'reivew');
+  }
+
+  public attendanceList = {
+    _id: '',
+    lessons: []
+  };
+
+  getAttendance() {
+    // this._service.getAttendance(this.courseId)
+    console.log('data from getAttendance Function');
+    console.log(this._service.getAttendance(this.courseId));
+    this._service.getAttendance(this.courseId).subscribe(
+      (res: any) => {
+        this.attendanceList = res;
+        console.log(this.attendanceList);
+        this.clickTab('Class', 'course');
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }
