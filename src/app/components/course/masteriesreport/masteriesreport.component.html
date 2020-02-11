@@ -1,3 +1,30 @@
-<p>
-  masteriesreport works!
-</p>
+<div class="d-flex flex-column">
+  <div class="d-flex align-items-center mt-4">
+    <span class="mastery-title">Mastery reports</span>
+    <span class="sw-wrap"> SW </span>
+  </div>
+  <div *ngFor="let report of masteriesReports; let i = index">
+    <div class="d-flex">
+      <div class="mt-4 mb-4" style="width: 30%">
+        <div class="d-flex flex-column">
+          <span class="mastery-title"> {{ report.name }} </span>
+          <span class="light-txt"> {{ report.data.length }} masteries </span>
+        </div>
+      </div>
+      <div
+        id="{{ report.id }}"
+        class="mt-4 mb-4 ml-2"
+        style="width:70%; min-height: 200px;"
+      ></div>
+    </div>
+    <div *ngIf="i < masteriesReports.length - 1" class="split-line"></div>
+  </div>
+</div>
+
+<!-- <div *ngFor="let report of masteriesReports">
+  <div
+    *ngIf="report"
+    id= "{{report.id}}"
+    style="width:70%; min-height: 200px;"
+  ></div>
+</div> -->

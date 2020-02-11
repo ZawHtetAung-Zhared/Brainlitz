@@ -48,6 +48,7 @@ export class CourseListComponent implements OnInit {
   public iswordcount: boolean = false;
   private isMidStick: boolean = false;
   private navIsFixed: boolean = false;
+  private searchKeyword: any = null;
 
   constructor(
     private _service: appService,
@@ -133,7 +134,6 @@ export class CourseListComponent implements OnInit {
 
     this.isMidStick =
       window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
-    // console.log('~~~~~~~~~~isMidStick', this.isMidStick);
 
     // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
     //   console.log("On Scroll Down");
@@ -153,11 +153,6 @@ export class CourseListComponent implements OnInit {
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
       console.log('Direction Down');
-      // if (typeof element == 'undefined' || element == null) {
-      //   $('.p-top').css({ top: '71px' });
-      // } else {
-      //   $('.p-top').css({ top: '128px' });
-      // }
       if (this.courseCollection != null) {
         if (
           this.loading == false &&
@@ -166,17 +161,30 @@ export class CourseListComponent implements OnInit {
           console.log('call next page');
           this.page = this.page + 1;
           this.skip = this.courseCollection.courses.length;
-          this.getCoursesPerPlan(
-            this.selectedPlan,
-            this.limit,
-            this.skip,
-            this.page
-          );
+          if (this.searchKeyword == null || this.searchKeyword == undefined) {
+            this.getCoursesPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page
+            );
+          } else {
+            this.simpleCourseSearchPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page,
+              this.searchKeyword
+            );
+          }
+        } else if (
+          this.loading == false &&
+          this.courseCollection.courses.length < this.limit
+        ) {
+          // console.log("call next Id>>>>",'courseLength',this.courseCollection.courses.length,'&&&',this.limit)
         }
       }
     } else if (this.oldValue - newValue > 0) {
-      // $('.p-top').css({ top: '' });
-
       console.log('Direction Up');
     }
     // Update the old value
@@ -338,7 +346,7 @@ export class CourseListComponent implements OnInit {
         console.log(this.courseList);
         console.log(this.courseList.length);
         if (this.courseList.length > 0) {
-          this.getCourseswithPlanId(0, '');
+          // this.getCourseswithPlanId(0, '');
           this.emptyCourse = false;
           for (var i in this.courseList) {
             let duration = this.courseList[i].coursePlan.lesson.duration;
@@ -370,12 +378,16 @@ export class CourseListComponent implements OnInit {
 
   getAllCourseplan() {
     this._service
-      .getCourseplanCollection(this.regionId, this.locationID)
+      .getCourseplanCollection(this.regionId, this.locationID, null)
       .subscribe((res: any) => {
         this.coursePlanCollection = res;
         let autoSelectedPlanId = this.coursePlanCollection[0]._id;
         let autoSelectedPlanName = this.coursePlanCollection[0].name;
-        this.getCourseswithPlanId(autoSelectedPlanId, autoSelectedPlanName);
+        this.getCourseswithPlanId(
+          autoSelectedPlanId,
+          autoSelectedPlanName,
+          null
+        );
       });
   }
 
@@ -390,7 +402,8 @@ export class CourseListComponent implements OnInit {
         limit,
         skip,
         page,
-        'down'
+        'down',
+        null
       )
       .subscribe(
         (res: any) => {
@@ -413,14 +426,29 @@ export class CourseListComponent implements OnInit {
     return (data < 10 ? '0' : '') + data;
   }
 
-  getCourseswithPlanId(courseplanId, planName) {
+  getCourseswithPlanId(courseplanId, planName, keyword) {
     this.courseCollection = null;
     this.skip = 0;
     this.page = 1;
     this.courses = [];
     console.log('courseplanId:', courseplanId, '& planName:', planName);
     this.selectedPlan = courseplanId;
-    this.getCoursesPerPlan(this.selectedPlan, this.limit, this.skip, this.page);
+    if (keyword == null || keyword == undefined) {
+      this.getCoursesPerPlan(
+        this.selectedPlan,
+        this.limit,
+        this.skip,
+        this.page
+      );
+    } else {
+      this.simpleCourseSearchPerPlan(
+        this.selectedPlan,
+        this.limit,
+        this.skip,
+        this.page,
+        keyword
+      );
+    }
     // this.selectedCourseList = this.courseList[index];
     // console.log(this.selectedCourseList);
   }
@@ -502,33 +530,8 @@ export class CourseListComponent implements OnInit {
     if (e.keyCode == 13) {
       this.courseList = [];
       this.recentLists.unshift(e.target.value);
-      //this.blockUI.start('Loading...');
-      this._service
-        .simpleCourseSearch(
-          this.regionId,
-          e.target.value,
-          this.locationID,
-          limit,
-          skip
-        )
-        .subscribe(
-          (res: any) => {
-            console.log('course search', res);
-            if (res.length != 0) {
-              this.courses = [];
-              this.selectedPlan = res[0].coursePlan.coursePlanId;
-              this.getCoursesPerPlan(
-                this.selectedPlan,
-                this.limit,
-                this.skip,
-                this.page
-              );
-            }
-          },
-          err => {
-            console.log(err);
-          }
-        );
+      this.searchKeyword = e.target.value;
+      this.simpleCoursePlanSearch(e.target.value);
       if (this.recentLists.length > 3) {
         console.log(this.recentLists);
         this.recentLists = this.recentLists.slice(0, 3);
@@ -540,10 +543,63 @@ export class CourseListComponent implements OnInit {
     }
   }
 
+  simpleCoursePlanSearch(keyword) {
+    console.log('keyword', keyword);
+    this._service
+      .getCourseplanCollection(this.regionId, this.locationID, keyword)
+      .subscribe((res: any) => {
+        this.iscourseSearch = false;
+        this.coursePlanCollection = res;
+        if (this.coursePlanCollection.length > 0) {
+          let autoSelectedPlanId = this.coursePlanCollection[0]._id;
+          let autoSelectedPlanName = this.coursePlanCollection[0].name;
+          this.getCourseswithPlanId(
+            autoSelectedPlanId,
+            autoSelectedPlanName,
+            keyword
+          );
+        } else {
+          //for no course plan
+          this.courseCollection = null;
+        }
+      });
+  }
+
+  simpleCourseSearchPerPlan(courseplanId, limit, skip, page, keyword) {
+    this.loading = true;
+    this._service
+      .getCoursesPerPlan(
+        this.regionId,
+        this.locationID,
+        courseplanId,
+        limit,
+        skip,
+        page,
+        'down',
+        keyword
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.loading = false;
+          if (res != null) {
+            this.courses = this.courses.concat(res.courses);
+            this.courseCollection = res;
+            this.courseCollection.courses = this.courses;
+            console.log('courseCollection', this.courseCollection);
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
   clearSearch() {
     this.iswordcount = false;
     this.iscourseSearch = false;
     this.searchVal = '';
+    this.searchKeyword = null;
     this.getAllCourseplan();
   }
 
@@ -554,25 +610,15 @@ export class CourseListComponent implements OnInit {
       this.iscourseSearch = true;
     } else {
       console.log('clear search');
-      this.iswordcount = false;
-      this.iscourseSearch = false;
+      this.clearSearch();
     }
   }
 
   recentSearch(val, limit, skip) {
     this.courseList = [];
     this.searchVal = val;
-    this._service
-      .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.iswordcount = false;
-          this.iscourseSearch = false;
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    this.searchKeyword = val;
+    this.iswordcount = true;
+    this.simpleCoursePlanSearch(this.searchVal);
   }
 }
