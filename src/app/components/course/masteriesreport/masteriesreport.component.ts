@@ -37,7 +37,7 @@ export class MasteriesreportComponent implements OnInit {
       },
       title: {
         text: 'Mastery status progress (percentage of students)',
-        left: 'center'
+        left: 45
       },
       yAxis: {
         data: [],
