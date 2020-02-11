@@ -121,17 +121,17 @@
         *ngIf="coursePlanCollection?.length == 0"
         class="d-flex justify-content-center"
       >
-        <span class="p-4 no-course" *ngIf="searchKeyword.length > 0"
+        <span class="p-4 no-course" *ngIf="searchKeyword?.length > 0"
           >There is no course for {{ searchKeyword }}</span
         >
         <span
           class="p-4 no-course"
-          *ngIf="searchKeyword.length == 0 && this.courseCollection == null"
+          *ngIf="searchKeyword?.length == 0 && this.courseCollection == null"
           >There is no course</span
         >
       </div>
       <div
-        *ngIf="coursePlanCollection?.length > 0"
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
         class="d-flex justify-content-between align-items-center plan-title"
       >
         <div class="d-flex flex-column">
@@ -150,9 +150,12 @@
         </button>
       </div>
       <!-- start card -->
-      <div *ngIf="coursePlanCollection?.length > 0" class="course-list-wrapper">
+      <div
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
+        class="course-list-wrapper"
+      >
         <div
-          *ngIf="courseCollection.courses.length <= 0"
+          *ngIf="courseCollection?.courses.length <= 0"
           class="d-flex justify-content-center"
         >
           <span class="p-4 no-course">There is no courses.</span>
