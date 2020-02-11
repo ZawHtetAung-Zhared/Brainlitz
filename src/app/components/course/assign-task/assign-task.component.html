@@ -502,7 +502,7 @@
                 [ngClass]="{
                   'checked-block': selectedTaskArr.includes(task) == true
                 }"
-                (click)="showmasteryList(masteriesModal, task)"
+                (click)="showmasteryList(masteriesModal, task, $event)"
               >
                 <div class="d-flex justify-content-between">
                   <p class="task-title bold">{{ task.name }}</p>
@@ -582,7 +582,7 @@
             <input
               type="text"
               placeholder="{{
-                singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
+                singleSelectedTask.announcementDate | date: 'dd MMM yyyy'
               }}"
               class="input-day dropD startInput"
               name="annoDate"
@@ -605,7 +605,7 @@
           <input
             type="text"
             placeholder="{{
-              singleSelectedTask.annoucementDate | date: 'hh: mm a'
+              singleSelectedTask.announcementDate | date: 'hh: mm a'
             }}"
             class="input-day timeInput"
             name="innoTime"
@@ -703,7 +703,7 @@
                 <input
                   type="text"
                   placeholder="{{
-                    singleSelectedTask.taskStartDate | date: 'dd MMM yyyy'
+                    singleSelectedTask.startDate | date: 'dd MMM yyyy'
                   }}"
                   class="input-day dropD startInput"
                   name="startDate"
@@ -727,7 +727,7 @@
                 <input
                   type="text"
                   placeholder="{{
-                    singleSelectedTask.taskEndDate | date: 'dd MMM yyyy'
+                    singleSelectedTask.endDate | date: 'dd MMM yyyy'
                   }}"
                   class="input-day dropD startInput"
                   name="endDate"
@@ -742,7 +742,13 @@
             </div>
           </div>
         </div>
-        <p class="masteries-box regular">{{ masteryList.length }} Masteries</p>
+        <p class="masteries-box regular">
+          {{
+            masteryList.length > 1
+              ? masteryList.length + ' Masteries'
+              : masteryList.length + ' Mastery'
+          }}
+        </p>
         <div class="d-flex flex-wrap mb-3">
           <div
             class="col-md-4"
@@ -777,5 +783,22 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn medium"
+      (click)="closeModal()"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn btn-comfirm medium modal-btn-comfirm"
+      [disabled]="activeMasteryList.length == 0"
+      (click)="withdrawUser(deleteId)"
+    >
+      Done
+    </button>
   </div>
 </ng-template>

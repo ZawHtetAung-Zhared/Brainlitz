@@ -279,38 +279,41 @@ export class AssignTaskComponent implements OnInit {
     console.log(this.selectedTaskArr, 'selected tast arr');
   }
 
-  showmasteryList(masteriesModal, task) {
-    this.isSelectedTime = 'AM';
-    this.singleSelectedTask = task;
-    this._service
-      .getsingletaskBytemplate(this.templateActiveId, task._id)
-      .subscribe((res: any) => {
-        console.log('single task', res);
-        this.masteryList = res.masteries;
-        for (let obj of res.masteries)
-          this.activeMasteryList.push(obj.masteryId);
+  showmasteryList(masteriesModal, task, e) {
+    console.log(e);
+    console.log(e.target.classList);
+    console.log(masteriesModal, task);
+    console.log(e.target.classList.length, e.target.classList[0]);
+    if (e.target.classList.length != 0 && e.target.classList[0] != 'slider') {
+      console.log('is reach');
+      this.isSelectedTime = 'AM';
+      this.singleSelectedTask = task;
+      console.log(this.singleSelectedTask, 'selected task');
+      this._service
+        .getsingletaskBytemplate(this.templateActiveId, task._id)
+        .subscribe((res: any) => {
+          console.log('single task', res);
+          this.masteryList = res.masteries;
+          for (let obj of res.masteries)
+            this.activeMasteryList.push(obj.masteryId);
 
-        console.log(this.activeMasteryList, 'activeMasteryList');
+          console.log(this.activeMasteryList, 'activeMasteryList');
+        });
+      this.modalReference = this.modalService.open(masteriesModal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
-    this.modalReference = this.modalService.open(masteriesModal, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
+    }
   }
 
   closeDropdown(event, datePicker?) {
-    console.log(datePicker, event.target.className.includes('dropD'));
-    console.log(event.target.className);
-    console.log(datePicker);
     if (event.target.className.includes('dropD')) {
       // datePicker.close()
     } else {
       if (event.target.offsetParent == null) {
-        console.log('exit if');
         datePicker.close();
       } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-        console.log('exit else');
         datePicker.close();
       }
     }
@@ -329,6 +332,7 @@ export class AssignTaskComponent implements OnInit {
     }
   }
   closeModal() {
+    console.log('close');
     this.modalReference.close();
   }
 
