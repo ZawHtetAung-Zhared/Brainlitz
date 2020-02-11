@@ -184,6 +184,9 @@ button.btn.btn-comfirm {
   background: #edeef0 !important;
 }
 
+.activeMode {
+  background: #edeef0 !important;
+}
 /* end */
 /* start progress bar */
 .progress-box-wrap {
@@ -1093,7 +1096,57 @@ p.anno-txt {
   border-radius: 4px;
   padding: 10px 0;
 }
+.checkBox {
+  background: #ffffff;
+  border-radius: 2px;
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 12px;
+  border: 2px solid #3d5266;
+  padding: 2px;
+}
+.checkboxChecked {
+  border: unset;
+}
+i.fa.fa-check.checkIcon {
+  color: #007fff;
+  font-size: 11px;
+  display: none;
+}
 
+.showCheckbox {
+  display: block !important;
+}
+
+.mastery-content {
+  border-radius: 4px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 12px 12px 23px 12px;
+}
+p.masteries-box {
+  color: #5c6773;
+  font-size: 17px;
+  padding-left: 16px;
+  margin-bottom: 6px;
+}
+
+.checkMastery {
+  background: #0065f2 !important;
+  color: #ffffff;
+}
+p.mastery-name.medium {
+  margin-bottom: 0;
+}
+.modal-btn-comfirm {
+  padding: 12px 31px !important;
+}
+button.btn.modal-cancel-btn {
+  color: #2e3d4d;
+  font-size: 16px;
+}
 /* end matery modal */
 /* end step 3 */
 @media only screen and (min-width: 1366px) {

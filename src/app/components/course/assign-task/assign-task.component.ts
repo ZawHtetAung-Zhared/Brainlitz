@@ -54,9 +54,12 @@ export class AssignTaskComponent implements OnInit {
   public isSelectedTime: any;
   public masteryList: any = [];
   public taskLists: any = [];
+  public activeMasteryList: any = [];
   public standardList: any = [];
   public classList: any = [];
   public assignTaskList: any = [];
+  public assignModeList: any = [];
+  public activeModeObj: any = {};
   // calendar
   selectedMonthViewDay: CalendarMonthViewDay;
   events: CalendarEvent[] = [];
@@ -188,6 +191,14 @@ export class AssignTaskComponent implements OnInit {
     this.stepClick(event, step);
   }
 
+  goToStep4(event, step) {
+    this._service.getassignMode().subscribe((res: any) => {
+      console.log(res, 'assign mode');
+      this.assignModeList = res;
+    });
+    this.clickableSteps.push(step);
+    this.stepClick(event, step);
+  }
   checkTemplate(id) {
     this.templateActiveId = id;
   }
@@ -278,37 +289,41 @@ export class AssignTaskComponent implements OnInit {
     console.log(this.selectedTaskArr, 'selected tast arr');
   }
 
-  showmasteryList(masteriesModal, task) {
-    this.isSelectedTime = 'AM';
-    this.singleSelectedTask = task;
-    for (let i = 1; i < 30; i++) {
-      let temp = {
-        masteryId: 'CST-KPMG-01-01' + i,
-        shortMasteryName: 'Types of Cyber Attacks',
-        masteryIconUrl:
-          'https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/CST-KPMG-01-01/Assets/cst-kpmg-01-01-icon.png'
-      };
-      this.masteryList.push(temp);
+  showmasteryList(masteriesModal, task, e) {
+    console.log(e);
+    console.log(e.target.classList);
+    console.log(masteriesModal, task);
+    console.log(e.target.classList.length, e.target.classList[0]);
+    if (e.target.classList.length != 0 && e.target.classList[0] != 'slider') {
+      console.log('is reach');
+      this.isSelectedTime = 'AM';
+      this.singleSelectedTask = task;
+      console.log(this.singleSelectedTask, 'selected task');
+      this._service
+        .getsingletaskBytemplate(this.templateActiveId, task._id)
+        .subscribe((res: any) => {
+          console.log('single task', res);
+          this.masteryList = res.masteries;
+          for (let obj of res.masteries)
+            this.activeMasteryList.push(obj.masteryId);
+
+          console.log(this.activeMasteryList, 'activeMasteryList');
+        });
+      this.modalReference = this.modalService.open(masteriesModal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      });
     }
-    this.modalReference = this.modalService.open(masteriesModal, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
   }
 
   closeDropdown(event, datePicker?) {
-    console.log(datePicker, event.target.className.includes('dropD'));
-    console.log(event.target.className);
-    console.log(datePicker);
     if (event.target.className.includes('dropD')) {
       // datePicker.close()
     } else {
       if (event.target.offsetParent == null) {
-        console.log('exit if');
         datePicker.close();
       } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-        console.log('exit else');
         datePicker.close();
       }
     }
@@ -327,6 +342,7 @@ export class AssignTaskComponent implements OnInit {
     }
   }
   closeModal() {
+    console.log('close');
     this.modalReference.close();
   }
 
@@ -390,11 +406,11 @@ export class AssignTaskComponent implements OnInit {
 
   getStandardClass() {
     this._service.getStandardClass().subscribe((res: any) => {
-      console.log(res.data, 'standard class');
-      this.standardList = res.data;
-      this.standActiveId = res.data[0]._id;
+      console.log(res, 'standard class');
+      this.standardList = res;
+      this.standActiveId = res[0]._id;
 
-      this.classList = res.data[0].classLevelId;
+      this.classList = res[0].classLevelId;
 
       console.log(this.classList, 'class list');
       console.log(this.standActiveId, 'standard Active id');
@@ -453,5 +469,21 @@ export class AssignTaskComponent implements OnInit {
     else if (day == 'FRIDAY') day = 5;
     else if (day == 'SATURDAY') day = 6;
     return day;
+  }
+
+  checkedMastery(obj, id) {
+    console.log(this.activeMasteryList);
+    if (this.activeMasteryList.includes(obj.masteryId))
+      this.activeMasteryList.splice(
+        this.activeMasteryList.indexOf(obj.masteryId),
+        1
+      );
+    else this.activeMasteryList.push(obj.masteryId);
+
+    console.log(this.activeMasteryList);
+  }
+
+  choicemode(obj) {
+    this.activeModeObj = obj;
   }
 }
