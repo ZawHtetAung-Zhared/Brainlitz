@@ -543,8 +543,55 @@
               </div>
               <button
                 class="btn btn-comfirm medium"
-                [disabled]="!templateActiveId"
-                (click)="goToStep2($event, '2')"
+                (click)="goToStep4($event, '4')"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeStep == '4'" class="div_step">
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Choose assigning mode
+          </p>
+          <p class="template-description2 medium">
+            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
+            elit cillum dolore.
+          </p>
+          <div class="d-flex flex-wrap mode-wrapper">
+            <div
+              class="col-md-12 mb-5"
+              *ngFor="let mode of assignModeList"
+              (click)="choicemode(mode)"
+            >
+              <div
+                class="choice-block"
+                [ngClass]="{ activeMode: mode.id == activeModeObj.id }"
+              >
+                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-description medium">
+                  {{ mode.description }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                (click)="goToStep4($event, '4')"
               >
                 Continue
               </button>

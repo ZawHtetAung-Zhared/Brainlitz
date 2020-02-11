@@ -4348,4 +4348,20 @@ export class appService {
       return result;
     });
   }
+
+  getassignMode() {
+    let apiUrl =
+      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-modes';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
 }

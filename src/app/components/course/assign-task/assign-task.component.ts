@@ -58,6 +58,8 @@ export class AssignTaskComponent implements OnInit {
   public standardList: any = [];
   public classList: any = [];
   public assignTaskList: any = [];
+  public assignModeList: any = [];
+  public activeModeObj: any = {};
   // calendar
   selectedMonthViewDay: CalendarMonthViewDay;
   events: CalendarEvent[] = [];
@@ -189,6 +191,14 @@ export class AssignTaskComponent implements OnInit {
     this.stepClick(event, step);
   }
 
+  goToStep4(event, step) {
+    this._service.getassignMode().subscribe((res: any) => {
+      console.log(res, 'assign mode');
+      this.assignModeList = res;
+    });
+    this.clickableSteps.push(step);
+    this.stepClick(event, step);
+  }
   checkTemplate(id) {
     this.templateActiveId = id;
   }
@@ -396,11 +406,11 @@ export class AssignTaskComponent implements OnInit {
 
   getStandardClass() {
     this._service.getStandardClass().subscribe((res: any) => {
-      console.log(res.data, 'standard class');
-      this.standardList = res.data;
-      this.standActiveId = res.data[0]._id;
+      console.log(res, 'standard class');
+      this.standardList = res;
+      this.standActiveId = res[0]._id;
 
-      this.classList = res.data[0].classLevelId;
+      this.classList = res[0].classLevelId;
 
       console.log(this.classList, 'class list');
       console.log(this.standActiveId, 'standard Active id');
@@ -471,5 +481,9 @@ export class AssignTaskComponent implements OnInit {
     else this.activeMasteryList.push(obj.masteryId);
 
     console.log(this.activeMasteryList);
+  }
+
+  choicemode(obj) {
+    this.activeModeObj = obj;
   }
 }

@@ -184,6 +184,9 @@ button.btn.btn-comfirm {
   background: #edeef0 !important;
 }
 
+.activeMode {
+  background: #edeef0 !important;
+}
 /* end */
 /* start progress bar */
 .progress-box-wrap {
