@@ -4284,4 +4284,84 @@ export class appService {
       return result;
     });
   }
+
+  getsingleTemplate(templateId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/' +
+      templateId +
+      '/template';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTaskBytemplate(templateId, startDate) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks?startDate=' +
+      startDate;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getsingletaskBytemplate(templateId, taskId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks/' +
+      taskId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignMode() {
+    let apiUrl =
+      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-modes';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
 }
