@@ -4326,4 +4326,28 @@ export class appService {
       return result;
     });
   }
+
+  // 'https://dev-brainlitz.pagewerkz.com/api/v1/regions/5de8714d0e47e8259865e8b0/courses/5df8813bd0f06a163d832f1c/overview'
+
+  getOverviewList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview data');
+      return result;
+    });
+  }
 }

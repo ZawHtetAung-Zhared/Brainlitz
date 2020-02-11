@@ -17,7 +17,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
-    this.getUsersInCourse(this.courseId);
+    this.getOverviewList(this.courseId);
   }
 
   ngAfterViewInit() {
@@ -26,11 +26,22 @@ export class OverviewComponent implements OnInit {
 
   public on: boolean = true;
   public courseId: any;
-  public propics: any = ['1', '2', '3', '4', '5'];
   public pplLists: any;
   public customerlist: any;
   public regionId = localStorage.getItem('regionId');
-  public templength: any;
+  public templength: any = 0;
+  public invoices: any;
+  public unpaid: any = 0;
+  public scheduled: any = 0;
+  public custom: any = 0;
+  public lessonList: any;
+  public tempDate: Array<any> = [];
+  public index: any;
+  public indexDay: any;
+  public attendance: any;
+  public present: any = 0;
+  public absent: any = 0;
+
   // toggle() {
   //   this.on = !this.on;
   // }
@@ -39,25 +50,84 @@ export class OverviewComponent implements OnInit {
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
 
-  getUsersInCourse(courseId) {
-    this._service
-      .getAssignUser(this.regionId, courseId, null, null, null)
-      .subscribe(
-        (res: any) => {
-          //this.blockUI.stop();
+  getOverviewList(courseId) {
+    this._service.getOverviewList().subscribe(
+      (res: any) => {
+        console.log('OOL', res);
+        this.pplLists = res.courseInfo.students;
+        this.invoices = res.courseInfo.invoices;
+        this.unpaid = this.invoices[1].count;
+        this.scheduled = res.tasks[0].count;
+        this.customerlist = res.tasks[1].count;
+        this.lessonList = res.courseInfo.lessons;
+        this.lessonList.sort(function(a, b) {
+          return (
+            new Date(a.lessonDate).getTime() - new Date(b.lessonDate).getTime()
+          );
+        });
+        console.log(this.lessonList, ' gggg n');
 
-          this.pplLists = res.CUSTOMER;
-          this.customerlist = this.pplLists.slice(0, 8);
-          this.templength = res.CUSTOMER.length;
-          console.log('UO', this.pplLists);
-          if (this.pplLists.length > 0) {
-            this.on = false;
-            console.log('On', this.on);
-          }
-        },
-        err => {
-          console.log(err);
+        this.addlesson(this.lessonList);
+
+        console.log('Invoice', this.invoices);
+        this.customerlist = this.pplLists.slice(0, 8);
+        this.templength = this.pplLists.length;
+        console.log('UO', this.pplLists);
+        if (this.pplLists.length > 0) {
+          this.on = false;
+          console.log('On', this.on);
         }
-      );
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  public addlesson(lessonlist) {
+    for (var i = 0; i < lessonlist.length; i++) {
+      // console.log("LList", lessonlist[i].lessonDate);
+      this.tempDate.push(lessonlist[i].lessonDate.slice(0, 10));
+    }
+    this.tempDate.sort();
+    var Today = new Date().toISOString();
+    // console.log("LLsort", this.tempDate);
+    console.log('TD', Today.slice(0, 10));
+    if (this.tempDate.includes(Today)) {
+      console.log('Has Today');
+      this.index = this.tempDate.indexOf(Today.slice(0, 10));
+    } else {
+      console.log("Hasn't Today");
+      this.tempDate.push(Today.slice(0, 10));
+      this.tempDate.sort();
+      // console.log("Today added",this.tempDate);
+      this.index = this.tempDate.indexOf(Today.slice(0, 10)) - 1;
+      console.log('Today index', this.index);
+      this.tempDate.splice(this.index + 1, 1);
+      console.log('Today removed', this.tempDate);
+      this.indexDay = this.lessonList[this.index];
+      console.log(this.indexDay, 'IDex');
+      this.attendance = this.indexDay.attendance;
+      this.absent = this.attendance[0].count;
+      this.present = this.attendance[1].count;
+    }
+  }
+
+  nextDate() {
+    this.index++;
+    this.indexDay = this.lessonList[this.index];
+    console.log('nextDate', this.indexDay);
+    this.attendance = this.indexDay.attendance;
+    this.absent = this.attendance[0].count;
+    this.present = this.attendance[1].count;
+  }
+
+  previousDate() {
+    this.index--;
+    this.indexDay = this.lessonList[this.index];
+    console.log('previousDate', this.indexDay);
+    this.attendance = this.indexDay.attendance;
+    this.absent = this.attendance[0].count;
+    this.present = this.attendance[1].count;
   }
 }

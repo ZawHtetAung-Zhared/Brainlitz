@@ -7,12 +7,15 @@
     <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
       <div class="d-flex justify-content-between mb-4">
         <div class="c-enroll ml-4">
-          <h3>15</h3>
+          <h3>{{ templength }}</h3>
           <span>customers currently enrolled</span>
         </div>
-        <div class="d-flex flex-column c-unpaid mr-4">
+        <div
+          class="d-flex flex-column c-unpaid mr-4"
+          [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
+        >
           <span>
-            <h3 class="c-h3">0</h3>
+            <h3 class="c-h3">{{ unpaid }}</h3>
             invoice
           </span>
           <span>Unpaid</span>
@@ -62,21 +65,29 @@
       <h3>Attendance</h3>
     </div>
     <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
-      <div class="d-flex justify-content-between">
-        <span><img src="../../../../assets/img/chevron-right-s.png"/></span>
-        <span>12 Jan 2020</span>
-        <span><img src="../../../../assets/img/chevron-left-s.png"/></span>
+      <div class="d-flex justify-content-between mb-3">
+        <span
+          ><img
+            src="../../../../assets/img/chevron-right-s.png"
+            (click)="previousDate()"
+        /></span>
+        <span>{{ indexDay.lessonDate | timezoneDate }}</span>
+        <span
+          ><img
+            src="../../../../assets/img/chevron-left-s.png"
+            (click)="nextDate()"
+        /></span>
       </div>
       <div class="d-flex justify-content-center">
         <div class="d-flex present">
           <div class="d-flex data">
-            <span class="attendance-no">20</span>
+            <span class="attendance-no">{{ present }}</span>
             <span>Present</span>
           </div>
         </div>
         <div class="d-flex absent">
           <div class="d-flex data">
-            <span class="attendance-no">0</span>
+            <span class="attendance-no">{{ absent }}</span>
             <span>Absent</span>
           </div>
         </div>
@@ -108,14 +119,14 @@
       <div class="d-flex">
         <div class="d-flex task-div">
           <div class="d-flex task-status">
-            <h2 class="big-no">0</h2>
+            <h2 class="big-no">{{ scheduled }}</h2>
             <span class="task-label"> SCHEDULED</span>
           </div>
           <h6>task assigned</h6>
         </div>
         <div class="d-flex task-div">
           <div class="d-flex task-status">
-            <h2 class="big-no">0</h2>
+            <h2 class="big-no">{{ custom }}</h2>
             <span class="task-label"> CUSTOM</span>
           </div>
           <h6>tasks assigned</h6>
