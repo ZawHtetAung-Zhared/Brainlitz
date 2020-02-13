@@ -90,8 +90,21 @@
   <div class="student-section ">
     <div class="d-flex justify-content-between user-header">
       <div class="d-flex flex-column">
-        <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length < 1">
+        <div
+          class="d-flex"
+          *ngIf="
+            pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left !== null
+          "
+        >
           <p>0/{{ detailLists.coursePlan.seats }} Customer</p>
+        </div>
+        <div
+          class="d-flex"
+          *ngIf="
+            pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left == null
+          "
+        >
+          <p>0/unlimited Customer</p>
         </div>
         <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length > 0">
           <p class="seat-text-wrapper">
@@ -101,8 +114,8 @@
                 detailLists.coursePlan.seats
               }}
             </span>
-            <span *ngIf="detailLists.seat_left === null">
-              {{ pplLists?.CUSTOMER?.length }}
+            <span *ngIf="detailLists.seat_left == null">
+              {{ pplLists?.CUSTOMER?.length }}/unlimited
             </span>
             <span *ngIf="pplLists?.CUSTOMER?.length <= 1">customer</span>
             <span *ngIf="pplLists?.CUSTOMER?.length > 1">customers</span>
@@ -110,7 +123,7 @@
         </div>
       </div>
       <button
-        *ngIf="courseDemo.assignStudent != '' && detailLists.seat_left !== null"
+        *ngIf="courseDemo.assignStudent != ''"
         type="button"
         class="btn"
         [ngClass]="pplLists?.CUSTOMER?.length < 1 ? 'btn-create' : 'btn-normal'"
