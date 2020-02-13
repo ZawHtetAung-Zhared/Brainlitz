@@ -118,13 +118,20 @@
         </div>
       </div>
       <div
-        *ngIf="courseCollection == null"
+        *ngIf="coursePlanCollection?.length == 0"
         class="d-flex justify-content-center"
       >
-        <span class="p-4 cplan-title">There is no courses.</span>
+        <span class="p-4 no-course" *ngIf="searchKeyword?.length > 0"
+          >There is no course for {{ searchKeyword }}</span
+        >
+        <span
+          class="p-4 no-course"
+          *ngIf="searchKeyword?.length == 0 && this.courseCollection == null"
+          >There is no course</span
+        >
       </div>
       <div
-        *ngIf="courseCollection != null"
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
         class="d-flex justify-content-between align-items-center plan-title"
       >
         <div class="d-flex flex-column">
@@ -143,16 +150,32 @@
         </button>
       </div>
       <!-- start card -->
-      <div *ngIf="courseCollection != null" class="course-list-wrapper">
+      <div
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
+        class="course-list-wrapper"
+      >
         <div
-          *ngIf="courseCollection.courses.length <= 0"
+          *ngIf="courseCollection?.courses.length <= 0"
           class="d-flex justify-content-center"
         >
-          <span class="p-4 cplan-title">There is no courses.</span>
+          <span class="p-4 no-course">There is no courses.</span>
         </div>
         <div *ngFor="let course of courseCollection.courses">
           <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
             <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
+              <div class="draft-sign" *ngIf="course.draft == true">
+                Draft
+              </div>
+              <div
+                class="course-type"
+                *ngIf="
+                  course.draft == false &&
+                  course.type != undefined &&
+                  !courseTypeDisabled
+                "
+              >
+                {{ course.type | lowercase }}
+              </div>
               <div class="cinfo-wrap m-3 d-flex flex-column">
                 <div>
                   <label

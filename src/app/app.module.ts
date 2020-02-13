@@ -147,6 +147,7 @@ import {
   CourseListComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { ReportDetailComponent } from './components/course/masteriesreport/report-detail/report-detail.component';
 
 @NgModule({
   declarations: [
@@ -250,7 +251,8 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     TasksComponent,
     LeaderboardComponent,
     MasteriesreportComponent,
-    EnrollUserComponent
+    EnrollUserComponent,
+    ReportDetailComponent
   ],
   imports: [
     ContentLoaderModule,

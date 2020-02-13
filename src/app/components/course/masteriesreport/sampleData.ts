@@ -4,8 +4,8 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 0,
-      notTaken: 40,
-      count: 40
+      ease: 20,
+      notTaken: 20
     }
   },
   {
@@ -13,8 +13,8 @@ let sampleData = [
     lessons: {
       present: 5,
       absent: 8,
-      notTaken: 3,
-      count: 16
+      ease: 7,
+      notTaken: 20
     }
   },
   {
@@ -22,8 +22,8 @@ let sampleData = [
     lessons: {
       present: 1,
       absent: 2,
-      notTaken: 0,
-      count: 3
+      ease: 10,
+      notTaken: 27
     }
   },
   {
@@ -31,8 +31,8 @@ let sampleData = [
     lessons: {
       present: 5,
       absent: 5,
-      notTaken: 5,
-      count: 15
+      ease: 15,
+      notTaken: 15
     }
   },
   {
@@ -40,8 +40,8 @@ let sampleData = [
     lessons: {
       present: 3,
       absent: 3,
-      notTaken: 3,
-      count: 9
+      ease: 11,
+      notTaken: 23
     }
   },
   {
@@ -49,8 +49,8 @@ let sampleData = [
     lessons: {
       present: 2,
       absent: 5,
-      notTaken: 8,
-      count: 15
+      ease: 20,
+      notTaken: 13
     }
   },
   {
@@ -58,8 +58,8 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 0,
-      notTaken: 3,
-      count: 10
+      ease: 20,
+      notTaken: 20
     }
   },
   {
@@ -67,8 +67,8 @@ let sampleData = [
     lessons: {
       present: 4,
       absent: 7,
-      notTaken: 3,
-      count: 23
+      ease: 0,
+      notTaken: 29
     }
   },
   {
@@ -76,8 +76,8 @@ let sampleData = [
     lessons: {
       present: 5,
       absent: 4,
-      notTaken: 3,
-      count: 20
+      ease: 5,
+      notTaken: 26
     }
   },
   {
@@ -85,8 +85,8 @@ let sampleData = [
     lessons: {
       present: 10,
       absent: 0,
-      notTaken: 3,
-      count: 13
+      ease: 6,
+      notTaken: 24
     }
   },
   {
@@ -94,8 +94,8 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 10,
-      notTaken: 3,
-      count: 13
+      ease: 2,
+      notTaken: 28
     }
   },
   {
@@ -103,8 +103,8 @@ let sampleData = [
     lessons: {
       present: 6,
       absent: 6,
-      notTaken: 3,
-      count: 21
+      ease: 0,
+      notTaken: 28
     }
   },
   {
@@ -112,8 +112,8 @@ let sampleData = [
     lessons: {
       present: 8,
       absent: 0,
-      notTaken: 3,
-      count: 17
+      ease: 20,
+      notTaken: 12
     }
   },
   {
@@ -121,8 +121,8 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 6,
-      notTaken: 3,
-      count: 15
+      ease: 4,
+      notTaken: 30
     }
   },
   {
@@ -130,17 +130,17 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 3,
-      notTaken: 0,
-      count: 3
+      ease: 7,
+      notTaken: 30
     }
   },
   {
     groupTypeValue: 'Loc 10',
     lessons: {
       present: 3,
-      absent: 0,
-      notTaken: 0,
-      count: 3
+      absent: 2,
+      ease: 20,
+      notTaken: 15
     }
   },
   {
@@ -148,8 +148,8 @@ let sampleData = [
     lessons: {
       present: 1,
       absent: 5,
-      notTaken: 3,
-      count: 18
+      ease: 0,
+      notTaken: 34
     }
   },
   {
@@ -157,8 +157,8 @@ let sampleData = [
     lessons: {
       present: 3,
       absent: 3,
-      notTaken: 20,
-      count: 30
+      ease: 3,
+      notTaken: 31
     }
   },
   {
@@ -166,8 +166,8 @@ let sampleData = [
     lessons: {
       present: 0,
       absent: 0,
-      notTaken: 3,
-      count: 20
+      ease: 7,
+      notTaken: 33
     }
   },
   {
@@ -175,8 +175,8 @@ let sampleData = [
     lessons: {
       present: 2,
       absent: 7,
-      notTaken: 3,
-      count: 12
+      ease: 1,
+      notTaken: 30
     }
   },
   {
@@ -184,8 +184,8 @@ let sampleData = [
     lessons: {
       present: 9,
       absent: 4,
-      notTaken: 1,
-      count: 14
+      ease: 0,
+      notTaken: 27
     }
   }
 ];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import sampleData from './sampleData';
 
 @Component({
@@ -11,19 +11,25 @@ export class MasteriesreportComponent implements OnInit {
   echarts: any;
   barColor: any;
   reportItems: any = sampleData;
+  masteriesReports: any = [
+    { id: 1, name: 'Light Energy', data: sampleData },
+    { id: 2, name: 'Heat Energy', data: sampleData }
+  ];
+  public isExpand: boolean = false;
+  // public
 
   constructor() {}
 
   ngOnChanges() {
-    this.setupOption();
+    this.setupOption(1);
   }
 
-  setupOption() {
-    var yMax = 40;
-    var dataShadow = [];
-    for (var i = 0; i < sampleData.length; i++) {
-      dataShadow.push(yMax);
-    }
+  setupOption(idx) {
+    // var yMax = 40;
+    // var dataShadow = [];
+    // for (var i = 0; i < this.reportItems.length; i++) {
+    //   dataShadow.push(yMax);
+    // }
     this.echarts = require('echarts');
     this.plotOption = {
       tooltip: {},
@@ -53,13 +59,12 @@ export class MasteriesreportComponent implements OnInit {
         axisLabel: {
           show: true,
           formatter: function(value) {
-            return value;
+            return value + '   ';
           },
           textStyle: {
             fontSize: 12,
             lineHeight: 16,
-            color: '#64707d',
-            padding: 10
+            color: '#64707d'
           }
         },
         splitLine: { show: false }
@@ -80,7 +85,7 @@ export class MasteriesreportComponent implements OnInit {
       },
       barWidth: 20,
       legend: {
-        show: true,
+        show: false,
         bottom: 0,
         itemWidth: 16,
         itemHeight: 16,
@@ -88,7 +93,10 @@ export class MasteriesreportComponent implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'In progress',
-          'Mastered w/ ease'
+          'Need revision',
+          'Mastered w/ difficulties',
+          'Mastered w/ ease',
+          'Not started'
         ],
         formatter: function(value) {
           return value;
@@ -100,17 +108,16 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       series: [
-        {
-          // For shadow
-          type: 'bar',
-          itemStyle: {
-            color: 'rgba(0,0,0,0.05)'
-          },
-          barGap: '-100%',
-          barCategoryGap: '40%',
-          data: dataShadow,
-          animation: false
-        },
+        // {
+        //   type: 'bar',
+        //   itemStyle: {
+        //     color: 'rgba(0,0,0,0.05)'
+        //   },
+        //   barGap: '-100%',
+        //   barCategoryGap: '40%',
+        //   data: dataShadow,
+        //   animation: false
+        // },
         {
           name: 'Struggling',
           type: 'bar',
@@ -131,6 +138,24 @@ export class MasteriesreportComponent implements OnInit {
           data: []
         },
         {
+          name: 'Need revision',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#8ACDCE' }
+          },
+          data: []
+        },
+        {
+          name: 'Mastered w/ difficulties',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#B7DFCB' }
+          },
+          data: []
+        },
+        {
           name: 'Mastered w/ ease',
           type: 'bar',
           stack: 'energy',
@@ -138,37 +163,67 @@ export class MasteriesreportComponent implements OnInit {
             normal: { color: '#DCECC9' }
           },
           data: []
+        },
+        {
+          name: 'Not started',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#E3E4E5' }
+          },
+          data: []
         }
       ]
     };
     let yAxisData = [];
-    let presentData = [];
-    let absentData = [];
+    let strugglingData = [];
+    let inprogressData = [];
     let notTakenData = [];
+    let easeData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
       yAxisData.push(++index);
-      presentData.push(item.lessons.present);
-      absentData.push(item.lessons.absent);
+      strugglingData.push(item.lessons.present);
+      easeData.push(item.lessons.ease);
+      inprogressData.push(item.lessons.absent);
       notTakenData.push(item.lessons.notTaken);
     });
     this.plotOption.yAxis.data = yAxisData.reverse();
-    this.plotOption.series[1].data = presentData.reverse();
-    this.plotOption.series[2].data = absentData.reverse();
-    this.plotOption.series[3].data = notTakenData.reverse();
-    this.plotGraph();
+    this.plotOption.series[0].data = strugglingData.reverse();
+    this.plotOption.series[1].data = inprogressData.reverse();
+    this.plotOption.series[4].data = easeData.reverse();
+    this.plotOption.series[5].data = notTakenData.reverse();
+    this.plotGraph(idx);
   }
 
-  plotGraph() {
-    var elem = document.getElementById('masteryHeatGrap');
+  plotGraph(index) {
+    var elem = document.getElementById(this.masteriesReports[index].id);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    elem.style.height = this.reportItems.length * 40 + 'px';
+    if (this.reportItems.length > 10)
+      elem.style.height = this.reportItems.length * 40 + 'px';
+    else elem.style.height = this.reportItems.length * 50 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
   }
 
   ngOnInit() {
-    this.setupOption();
+    this.getAllGraph();
+  }
+
+  ngAfterViewInit() {}
+
+  expandGraph(id) {
+    this.isExpand = true;
+  }
+
+  getAllGraph() {
+    this.isExpand = false;
+    setTimeout(() => {
+      for (var i = 0; i < this.masteriesReports.length; i++) {
+        this.reportItems = this.masteriesReports[i].data;
+        this.setupOption(i);
+      }
+    }, 300);
   }
 }

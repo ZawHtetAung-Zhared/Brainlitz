@@ -20,6 +20,7 @@ export class CoursedetailComponent implements OnInit {
   public coursedetailDemo: any = [];
   public coursePermission: any = [];
   isSticky: boolean = false;
+  public active = 'courses';
 
   constructor(
     private route: ActivatedRoute,
