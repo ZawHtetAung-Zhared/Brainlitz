@@ -102,7 +102,7 @@ export class EnrollUserComponent implements OnInit {
       name: '',
       seats: ''
     },
-    seat_left: 0,
+    seat_left: null,
     type: '',
     _id: '',
     lessons: [],
@@ -333,9 +333,8 @@ export class EnrollUserComponent implements OnInit {
           this.detailLists.seat_left +
             ' this.deatailLists.seat_left from get course detail'
         );
-        this.seatLeft = this.detailLists.seat_left;
-        if (this.detailLists.seat_left == null) {
-          this.detailLists.seat_left = 0;
+        if (this.detailLists.seat_left !== null) {
+          this.seatLeft = this.detailLists.seat_left;
         }
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -1199,7 +1198,7 @@ export class EnrollUserComponent implements OnInit {
         this.detailLists.seat_left
     );
     if (user.addOrRemove == 'add-user') {
-      if (this.seatLeft <= 0) {
+      if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
         this.toastr.error('You can not select because no more seat.');
       } else if (this.userType == 'teacher') {
         this.userLists.map(item => {
@@ -1212,7 +1211,10 @@ export class EnrollUserComponent implements OnInit {
         });
         console.log('Teacher and add');
       } else if (this.userType != 'teacher' && this.courseType != 'FLEXY') {
-        if (this.userType == 'customer') {
+        if (
+          this.userType == 'customer' &&
+          this.detailLists.seat_left !== null
+        ) {
           this.seatLeft--;
         }
         this.userLists.map(item => {
@@ -1245,7 +1247,10 @@ export class EnrollUserComponent implements OnInit {
         this.enrollUserList = {};
         console.log('Non customer and unselected');
       } else {
-        if (this.userType == 'customer') {
+        if (
+          this.userType == 'customer' &&
+          this.detailLists.seat_left !== null
+        ) {
           this.seatLeft++;
         }
         this.userLists.map(item => {
@@ -1656,7 +1661,7 @@ export class EnrollUserComponent implements OnInit {
           }
         });
       }
-      iDs = this.enrollUserList[0].userId;
+      //iDs = this.enrollUserList[0].userId;
       let body = {
         courseId: courseId,
         userId: iDs,

@@ -97,7 +97,7 @@ export class CustomerComponent implements OnInit {
       name: '',
       seats: ''
     },
-    seat_left: 0,
+    seat_left: null,
     type: '',
     _id: '',
     lessons: [],
@@ -323,9 +323,9 @@ export class CustomerComponent implements OnInit {
       (res: any) => {
         console.log('APO details list', res);
         this.detailLists = res;
-        if (this.detailLists.seat_left == null) {
-          this.detailLists.seat_left = 0;
-        }
+        // if (this.detailLists.seat_left === null || this.detailLists.seat_left === undefined) {
+        //   this.detailLists.seat_left = 1000;
+        // }
         this.courseId = res._id;
         this.locationId = res.locationId;
         this.draft = res.draft;
