@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../service/app.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-overview',
@@ -8,6 +9,7 @@ import { appService } from '../../../service/app.service';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
+  public chart: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -15,6 +17,84 @@ export class OverviewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.chart = new Chart('canvas', {
+      type: 'doughnut',
+      data: {
+        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+        datasets: [
+          {
+            data: [25, 50, 20, 5],
+            backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        tooltips: {
+          enabled: false
+        },
+        cutoutPercentage: 75,
+        title: {
+          display: false,
+          position: 'top',
+          fontStyle: 'bold',
+          fontSize: 0,
+          fullWidth: false,
+          padding: 0
+        },
+        legend: {
+          display: false,
+          position: 'top',
+          fullWidth: false,
+          labels: {
+            display: false,
+            usePointStyle: true,
+            fontSize: 15,
+            fontStyle: 'bold'
+          }
+        }
+      }
+    });
+
+    this.chart = new Chart('canvas2', {
+      type: 'doughnut',
+      data: {
+        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+        datasets: [
+          {
+            data: [55, 45, 60, 90],
+            backgroundColor: ['#f7f9fa', '#DCECC9', '#2D5E9E', '#46AACE']
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        tooltips: {
+          enabled: false
+        },
+        cutoutPercentage: 75,
+        title: {
+          display: false,
+          position: 'top',
+          fontStyle: 'bold',
+          fontSize: 0,
+          fullWidth: false,
+          padding: 0
+        },
+        legend: {
+          display: false,
+          position: 'top',
+          fullWidth: false,
+          labels: {
+            display: false,
+            usePointStyle: true,
+            fontSize: 15,
+            fontStyle: 'bold'
+          }
+        }
+      }
+    });
+
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
@@ -37,7 +117,10 @@ export class OverviewComponent implements OnInit {
   public lessonList: any;
   public tempDate: Array<any> = [];
   public index: any;
-  public indexDay: any;
+  public indexDay: any = {
+    attendance: '',
+    lessonDate: ''
+  };
   public attendance: any;
   public present: any = 0;
   public absent: any = 0;
@@ -109,25 +192,48 @@ export class OverviewComponent implements OnInit {
       console.log(this.indexDay, 'IDex');
       this.attendance = this.indexDay.attendance;
       this.absent = this.attendance[0].count;
-      this.present = this.attendance[1].count;
+      // this.present = this.attendance[1].count?this.attendance[1].count:0;
+      if (this.attendance.length > 1) {
+        this.present = this.attendance[1].count;
+      } else {
+        this.present = 0;
+      }
     }
   }
 
   nextDate() {
     this.index++;
-    this.indexDay = this.lessonList[this.index];
-    console.log('nextDate', this.indexDay);
-    this.attendance = this.indexDay.attendance;
-    this.absent = this.attendance[0].count;
-    this.present = this.attendance[1].count;
+    if (this.index > this.indexDay.length) {
+      console.log('Over');
+    } else {
+      this.indexDay = this.lessonList[this.index];
+      console.log('nextDate', this.indexDay);
+      this.attendance = this.indexDay.attendance;
+      this.absent = this.attendance[0].count;
+      // this.present = this.attendance[1].count?this.attendance[1].count:0;
+      if (this.attendance.length > 1) {
+        this.present = this.attendance[1].count;
+      } else {
+        this.present = 0;
+      }
+    }
   }
 
   previousDate() {
     this.index--;
-    this.indexDay = this.lessonList[this.index];
-    console.log('previousDate', this.indexDay);
-    this.attendance = this.indexDay.attendance;
-    this.absent = this.attendance[0].count;
-    this.present = this.attendance[1].count;
+    if (this.index < 0) {
+      console.log('Under');
+    } else {
+      this.indexDay = this.lessonList[this.index];
+      console.log('previousDate', this.indexDay);
+      this.attendance = this.indexDay.attendance;
+      this.absent = this.attendance[0].count;
+      // this.present = this.attendance[1].count?this.attendance[1].count:0;
+      if (this.attendance.length > 1) {
+        this.present = this.attendance[1].count;
+      } else {
+        this.present = 0;
+      }
+    }
   }
 }

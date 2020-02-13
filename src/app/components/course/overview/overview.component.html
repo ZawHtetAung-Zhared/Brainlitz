@@ -94,7 +94,7 @@
         <div class="d-flex nodata">
           <div class="d-flex data">
             <span class="attendance-no">0</span>
-            <span>No data</span>
+            <span>Total</span>
           </div>
         </div>
       </div>
@@ -135,7 +135,11 @@
     </div>
     <div class="cardfoot">
       <div style="float: right">
-        <button class="detail-btn" routerLink="../../../assignTask">
+        <button
+          class="detail-btn"
+          routerLink="../../../assignTask"
+          [ngClass]="{ white: scheduled != 0 || custom != 0 }"
+        >
           Assign task
         </button>
       </div>
@@ -231,12 +235,95 @@
   <span class="spaninline">
     <p class="m-0">SW</p>
   </span>
-  <div class="d-flex">
+  <!-- <div class="d-flex">
     <div class="mastery-type">
       1
     </div>
     <div class="mastery-type">
       2
+    </div>
+  </div> -->
+  <div class="owl-carousel owl-theme test d-flex">
+    <div class="mastery-type pb-3">
+      <div class="mastery-head p-3">
+        <h3>Light Energy</h3>
+      </div>
+      <div class="mastery-body d-flex p-3">
+        <div class="d-flex flex-column" style="width: 55%;padding: 15px;">
+          <div class="percentage d-flex justify-content-between">
+            <span class="struggle">
+              <h4>25%</h4>
+              <p>struggling</p>
+            </span>
+            <span class="fine">
+              <h4>50%</h4>
+              <p>doing fine</p>
+            </span>
+          </div>
+          <div class="percentage d-flex justify-content-between">
+            <span class="mastered">
+              <h4>20%</h4>
+              <p>mastered</p> </span
+            ><span class="notstarted">
+              <h4>5%</h4>
+              <p>not started</p>
+            </span>
+          </div>
+        </div>
+        <div style="width: 45%; position: relative">
+          <h6 class="stu-no">100</h6>
+          <p class="stu">student</p>
+          <h6 class="mast-no">25</h6>
+          <p class="mast">masteries</p>
+          <canvas
+            width="100%"
+            height="100%"
+            id="canvas"
+            style="width: 100%; height: 100%;margin-top: -25px;"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="mastery-type pb-3">
+      <div class="mastery-head p-3">
+        <h3>Heat Energy</h3>
+      </div>
+      <div class="mastery-body d-flex p-3">
+        <div class="d-flex flex-column" style="width: 55%;padding: 15px;">
+          <div class="percentage d-flex justify-content-between">
+            <span class="struggle">
+              <h4>25%</h4>
+              <p>struggling</p>
+            </span>
+            <span class="fine">
+              <h4>50%</h4>
+              <p>doing fine</p>
+            </span>
+          </div>
+          <div class="percentage d-flex justify-content-between">
+            <span class="mastered">
+              <h4>20%</h4>
+              <p>mastered</p> </span
+            ><span class="notstarted">
+              <h4>5%</h4>
+              <p>not started</p>
+            </span>
+          </div>
+        </div>
+        <div style="width: 45%; position: relative;">
+          <h6 class="stu-no">100</h6>
+          <p class="stu">student</p>
+          <h6 class="mast-no">25</h6>
+          <p class="mast">masteries</p>
+          <canvas
+            width="100%"
+            height="100%"
+            id="canvas2"
+            style="width: 100%; height: 100%;margin-top: -25px;"
+          ></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>

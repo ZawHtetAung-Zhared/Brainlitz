@@ -225,6 +225,10 @@
 .nodata {
   background: #e3e4e6;
 }
+.nodata .data {
+  left: 25px !important;
+}
+
 .data {
   position: absolute;
   left: 20px;
@@ -457,4 +461,61 @@
 }
 .nodisplay {
   display: none !important;
+}
+
+.mastery-head {
+  height: 22%;
+  padding-left: 30px !important;
+}
+.mastery-head > h3 {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #475466;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.mastery-body {
+  height: 78%;
+  font-size: 15px;
+}
+.percentage {
+  width: 100%;
+  height: 50%;
+}
+.percentage h4 {
+  font-size: 17px;
+}
+.struggle {
+  color: #2d5e9e;
+}
+.fine {
+  color: #46aace;
+}
+.mastered {
+  color: #dcecc9;
+}
+.notstarted {
+  color: #b1b1b3;
+}
+.stu-no,
+.stu,
+.mast-no,
+.mast {
+  position: absolute;
+}
+.stu-no {
+  left: 43%;
+  top: 10%;
+}
+.stu {
+  left: 38%;
+  top: 20%;
+}
+.mast-no {
+  left: 45%;
+  top: 45%;
+}
+.mast {
+  left: 33%;
+  top: 55%;
 }
