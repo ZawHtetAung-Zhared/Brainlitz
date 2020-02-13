@@ -4400,9 +4400,13 @@ export class appService {
     });
   }
 
-  getassignMode() {
+  getassignMode(id) {
     let apiUrl =
-      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-modes';
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/assign-modes/' +
+      id;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4412,6 +4416,21 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+
+  createAssigntask(courseId, data): Observable<any> {
+    let url = this.baseUrl + '/courses/' + courseId + '/assign-course-task';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
       return result;
     });
   }

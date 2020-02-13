@@ -1125,6 +1125,8 @@ i.fa.fa-check.checkIcon {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 12px 12px 23px 12px;
+  height: 88px;
+  overflow: overlay;
 }
 p.masteries-box {
   color: #5c6773;
