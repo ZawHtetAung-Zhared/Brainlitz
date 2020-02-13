@@ -43,11 +43,16 @@ export class MasteriesreportComponent implements OnInit {
       },
       title: {
         text: 'Mastery status progress (percentage of students)',
-        left: 45
+        left: 45,
+        textStyle: {
+          fontSize: 17,
+          color: '#363F4D'
+        }
       },
       yAxis: {
         data: [],
         type: 'category',
+        inverse: true,
         color: '#64707d',
         axisTick: { show: false },
         axisLine: {
@@ -93,9 +98,7 @@ export class MasteriesreportComponent implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'In progress',
-          'Need revision',
-          'Mastered w/ difficulties',
-          'Mastered w/ ease',
+          'Mastered',
           'Not started'
         ],
         formatter: function(value) {
@@ -138,25 +141,7 @@ export class MasteriesreportComponent implements OnInit {
           data: []
         },
         {
-          name: 'Need revision',
-          type: 'bar',
-          stack: 'energy',
-          itemStyle: {
-            normal: { color: '#8ACDCE' }
-          },
-          data: []
-        },
-        {
-          name: 'Mastered w/ difficulties',
-          type: 'bar',
-          stack: 'energy',
-          itemStyle: {
-            normal: { color: '#B7DFCB' }
-          },
-          data: []
-        },
-        {
-          name: 'Mastered w/ ease',
+          name: 'Mastered',
           type: 'bar',
           stack: 'energy',
           itemStyle: {
@@ -188,11 +173,11 @@ export class MasteriesreportComponent implements OnInit {
       inprogressData.push(item.lessons.absent);
       notTakenData.push(item.lessons.notTaken);
     });
-    this.plotOption.yAxis.data = yAxisData.reverse();
-    this.plotOption.series[0].data = strugglingData.reverse();
-    this.plotOption.series[1].data = inprogressData.reverse();
-    this.plotOption.series[4].data = easeData.reverse();
-    this.plotOption.series[5].data = notTakenData.reverse();
+    this.plotOption.yAxis.data = yAxisData;
+    this.plotOption.series[0].data = strugglingData;
+    this.plotOption.series[1].data = inprogressData;
+    this.plotOption.series[2].data = easeData;
+    this.plotOption.series[3].data = notTakenData;
     this.plotGraph(idx);
   }
 
@@ -215,6 +200,7 @@ export class MasteriesreportComponent implements OnInit {
 
   expandGraph(id) {
     this.isExpand = true;
+    localStorage.setItem('mastery_reportId', id);
   }
 
   getAllGraph() {
