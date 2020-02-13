@@ -1,0 +1,10 @@
+.back-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  color: #363f4d;
+  cursor: pointer;
+  padding: 0px 5px;
+}
