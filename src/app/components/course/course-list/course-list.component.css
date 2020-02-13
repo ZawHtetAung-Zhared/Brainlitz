@@ -70,6 +70,15 @@
   overflow: overlay;
   word-break: break-all;
 }
+
+.no-course {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  word-break: break-all;
+}
+
 .cplan-duration {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
@@ -93,6 +102,7 @@
   overflow: overlay;
   word-break: break-all;
 }
+
 @media (max-width: 768px) {
   .cplan-title1 {
     width: 300px;
@@ -391,7 +401,7 @@ ul.recent-lists li:last-child {
   padding: 0;
   z-index: 110;
 }
-/*test*/
+/*course UI with search bar*/
 .content-wrapper {
   display: flex;
   position: relative;
@@ -431,4 +441,20 @@ ul.recent-lists li:last-child {
   background: #f2f4f5;
   overflow-y: scroll;
   margin-left: 320px;
+}
+
+.draft-sign,
+.course-type {
+  position: absolute;
+  right: 0;
+  padding: 3px 10px;
+  font-size: 10px;
+  background: #fff0e6;
+  color: #e66000;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.course-type {
+  background: #cce6ff;
+  color: #0080ff;
 }

@@ -134,7 +134,6 @@ export class CourseListComponent implements OnInit {
 
     this.isMidStick =
       window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
-    // console.log('~~~~~~~~~~isMidStick', this.isMidStick);
 
     // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
     //   console.log("On Scroll Down");
@@ -154,11 +153,6 @@ export class CourseListComponent implements OnInit {
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
       console.log('Direction Down');
-      // if (typeof element == 'undefined' || element == null) {
-      //   $('.p-top').css({ top: '71px' });
-      // } else {
-      //   $('.p-top').css({ top: '128px' });
-      // }
       if (this.courseCollection != null) {
         if (
           this.loading == false &&
@@ -183,11 +177,20 @@ export class CourseListComponent implements OnInit {
               this.searchKeyword
             );
           }
+        } else if (
+          this.loading == false &&
+          this.courseCollection.courses.length < this.limit
+        ) {
+          console.log(
+            'call next Id>>>>',
+            'courseLength',
+            this.courseCollection.courses.length,
+            '&&&',
+            this.limit
+          );
         }
       }
     } else if (this.oldValue - newValue > 0) {
-      // $('.p-top').css({ top: '' });
-
       console.log('Direction Up');
     }
     // Update the old value
@@ -553,13 +556,18 @@ export class CourseListComponent implements OnInit {
       .subscribe((res: any) => {
         this.iscourseSearch = false;
         this.coursePlanCollection = res;
-        let autoSelectedPlanId = this.coursePlanCollection[0]._id;
-        let autoSelectedPlanName = this.coursePlanCollection[0].name;
-        this.getCourseswithPlanId(
-          autoSelectedPlanId,
-          autoSelectedPlanName,
-          keyword
-        );
+        if (this.coursePlanCollection.length > 0) {
+          let autoSelectedPlanId = this.coursePlanCollection[0]._id;
+          let autoSelectedPlanName = this.coursePlanCollection[0].name;
+          this.getCourseswithPlanId(
+            autoSelectedPlanId,
+            autoSelectedPlanName,
+            keyword
+          );
+        } else {
+          //for no course plan
+          this.courseCollection = null;
+        }
       });
   }
 
