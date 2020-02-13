@@ -8,7 +8,11 @@
     <span class="task">3 Tasks</span>
   </div>
   <div>
-    <button [ngClass]="true ? 'btn-create' : 'btn-normal'" class="btn">
+    <button
+      [ngClass]="true ? 'btn-create' : 'btn-normal'"
+      class="btn"
+      (click)="goToAssignTask()"
+    >
       Assign task
     </button>
   </div>
