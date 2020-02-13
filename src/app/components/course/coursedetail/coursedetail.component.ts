@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { appService } from '../../../service/app.service';
+import { DataService } from '../../../service/data.service';
 
 @Component({
   selector: 'app-coursedetail',
@@ -19,12 +20,14 @@ export class CoursedetailComponent implements OnInit {
   public permissionType: any;
   public coursedetailDemo: any = [];
   public coursePermission: any = [];
+  private courseplanId: any;
   isSticky: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _service: appService
+    private _service: appService,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -142,6 +145,7 @@ export class CoursedetailComponent implements OnInit {
         this.detailLists = res;
         console.log('here details list', this.detailLists);
         this.courseId = res._id;
+        this.courseplanId = res.coursePlan.coursePlanId;
         this.locationID = res.locationId;
         this.draft = res.draft;
         this.courseType = res.type;
@@ -158,5 +162,11 @@ export class CoursedetailComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  backToCourses() {
+    // this.router.navigate(['/course'])
+    this.router.navigate(['/course']);
+    this.dataService.navagateActivePlan(this.courseplanId);
   }
 }
