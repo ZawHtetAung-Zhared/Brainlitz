@@ -35,6 +35,7 @@ export class AttendanceComponent implements OnInit {
   >;
   // @ViewChild('childComponent') FlexiComponent;
 
+  //
   courseList: Array<any> = [];
   code: any;
   public courseTypeDisabled = environment.courseTypeDisabled;
@@ -219,7 +220,11 @@ export class AttendanceComponent implements OnInit {
   public isoutSideClick: boolean = false;
   public courseType: any;
   //start fley
-  public flexyarr = [];
+  public flexyarr = {
+    lessons: [],
+    teacherDetails: []
+  }; //apo change
+
   idarr: any = [];
   conflictObj: any = [];
   tempObj: any = [];
@@ -340,6 +345,7 @@ export class AttendanceComponent implements OnInit {
     // var requiredResult = this.TodayDatePipe.transform(this.LASD);
     // console.log('today-date-pipe:  ', requiredResult);
     this.courseId = localStorage.getItem('course_id');
+    this.reScheduleCId = this.courseId;
     this.currentCourse = this.courseId;
     this.getCourseDetail(this.courseId);
     console.log('Detail List Type ' + this.detailLists.type);
@@ -1924,6 +1930,7 @@ export class AttendanceComponent implements OnInit {
       false,
       this.currentLessonIdx
     );
+    this.ngOnInit();
   }
   cancelButtonShowHide() {
     // this.cancelUi=true;
@@ -2029,6 +2036,7 @@ export class AttendanceComponent implements OnInit {
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
           });
+          console.log(this.studentArray);
           // this.studentArray = res.CUSTOMER;
           this.activeCourseInfo = res;
           console.log(this.noStudent);
@@ -2262,7 +2270,10 @@ export class AttendanceComponent implements OnInit {
     this.xxxhello = '';
     this.stdLists = [];
     this.trArrayLists = [];
-    this.flexyarr = [];
+    this.flexyarr = {
+      lessons: [],
+      teacherDetails: []
+    }; //apo change
     this.showflexyCourse = false;
     this.tempCourdeId = '';
     this.tempuserType = '';
@@ -2440,6 +2451,7 @@ export class AttendanceComponent implements OnInit {
         }
       );
     this.cancelUItext = false;
+    this.ngOnInit();
   }
 
   modalClose() {
@@ -3950,10 +3962,11 @@ export class AttendanceComponent implements OnInit {
     });
   }
 
-  backtoCustomer() {
+  backtoAttendance() {
     this.showflexyCourse = false;
     this.showInvoice = false;
     this.showPayment = false;
+    this.modalReference.close();
   }
 
   lessionObjArr(e) {
@@ -4039,13 +4052,33 @@ export class AttendanceComponent implements OnInit {
   isReschedule: boolean = false;
   getReschedule(reschedule, user) {
     //this.blockUI.start('Loading...');
+    let startDate;
+    let endDate;
+    this.selectedCustomer = user;
+
     this.isReschedule = false;
     this.resechduleList = [];
-    this.modalReference = this.modalService.open(reschedule, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
+    this._service
+      .getFlexi(this.courseId, this.selectedCustomer.userId, startDate, endDate)
+      .subscribe(
+        (res: any) => {
+          let flexyArray = {
+            lessons: [],
+            teacherDetails: []
+          };
+          flexyArray = res;
+          this.flexyarr = flexyArray;
+          this.showInvoice = false;
+          console.log(this.flexyarr);
+          this.showflexyCourse = true;
+          console.log(this.showflexyCourse);
+          //this.blockUI.stop();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+
     this._service
       .getRescheduleList(
         this.courseId,
@@ -4061,6 +4094,14 @@ export class AttendanceComponent implements OnInit {
         this.isReschedule = true;
         //this.blockUI.stop();
       });
+
+    this.modalReference = this.modalService.open(reschedule, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    // console.log(this.flexyarr,this.selectedCustomer,this.detailLists,this.showcb)
+    // console.log(this.showInvoice,this.showflexyCourse)
   }
 
   dcount: any;
@@ -4116,8 +4157,10 @@ export class AttendanceComponent implements OnInit {
       this.checkArr.length == 0 ||
       this.unavaiablelessons.length == this.checkArr.length
     ) {
+      console.log('if loop');
       this.showRescheduleConfirmModal(confirmReschedule);
     } else {
+      console.log('else loop');
       this.createReschedule(
         this.reScheduleUId,
         this.reScheduleCId,
@@ -4285,5 +4328,9 @@ export class AttendanceComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  checkLessonCount(data) {
+    this.checkobjArr = data;
   }
 }

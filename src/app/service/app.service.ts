@@ -3761,7 +3761,8 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      return result;
+      console.log(res);
+      return res;
     });
   }
   getEvaluationExport(apg: any, regionId: string) {

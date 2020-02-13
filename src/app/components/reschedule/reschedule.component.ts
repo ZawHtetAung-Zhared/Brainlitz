@@ -48,7 +48,7 @@ export class RescheduleComponent implements OnInit {
     this.reScheduleLists = [];
     this.teacherDetail = {};
     this.lessonObjArr = [];
-    this.teacherDetail = this.reScheduleData.teacherDetails[0];
+    this.teacherDetail = this.course.teacher;
     this.reScheduleLists = this.reScheduleData.lessons;
     console.log(this.reScheduleLists);
 
@@ -111,11 +111,12 @@ export class RescheduleComponent implements OnInit {
   }
 
   lessonCheck(id, obj) {
-    console.log(id);
-    console.log(obj);
-    console.log(this.lessonsObj);
-    console.log(this.lessonObjArr);
-    console.error(this.avaiableLessonsCount);
+    console.log(obj.isCheck);
+    // console.log(id);
+    // console.log(obj);
+    // console.log(this.lessonsObj);
+    // console.log(this.lessonObjArr);
+    // console.error(this.avaiableLessonsCount);
 
     if (this.lessonObjArr.includes(obj)) {
       // this.lessionIdArr.splice(this.lessionIdArr.indexOf(id), 1);

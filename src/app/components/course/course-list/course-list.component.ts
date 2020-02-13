@@ -181,7 +181,13 @@ export class CourseListComponent implements OnInit {
           this.loading == false &&
           this.courseCollection.courses.length < this.limit
         ) {
-          // console.log("call next Id>>>>",'courseLength',this.courseCollection.courses.length,'&&&',this.limit)
+          console.log(
+            'call next Id>>>>',
+            'courseLength',
+            this.courseCollection.courses.length,
+            '&&&',
+            this.limit
+          );
         }
       }
     } else if (this.oldValue - newValue > 0) {

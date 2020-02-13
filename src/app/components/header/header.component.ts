@@ -24,6 +24,7 @@ declare var LiveAgent: any;
 export class HeaderComponent implements OnInit, OnChanges {
   @ViewChild(LocationComponent) lnameChanges: LocationComponent;
   @Input() orgLogo: string;
+  @Input() activeTab: string;
   public userName: any;
   public status: string = 'NEW';
   public regionID = localStorage.getItem('regionId');
@@ -347,6 +348,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    console.log('::::::\n:::::\n:::::::n:::::::\n:::::::::\n' + this.activeTab);
     console.log('headerLocation work');
     console.log('Org Log', this.orgLogo);
     this.getAdministrator();

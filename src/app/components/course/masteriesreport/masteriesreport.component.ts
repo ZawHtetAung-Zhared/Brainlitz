@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import sampleData from './sampleData';
 
 @Component({
@@ -15,7 +15,8 @@ export class MasteriesreportComponent implements OnInit {
     { id: 1, name: 'Light Energy', data: sampleData },
     { id: 2, name: 'Heat Energy', data: sampleData }
   ];
-  @Output() onCreate: EventEmitter<any> = new EventEmitter<any>();
+  public isExpand: boolean = false;
+  // public
 
   constructor() {}
 
@@ -24,11 +25,11 @@ export class MasteriesreportComponent implements OnInit {
   }
 
   setupOption(idx) {
-    var yMax = 40;
-    var dataShadow = [];
-    for (var i = 0; i < this.reportItems.length; i++) {
-      dataShadow.push(yMax);
-    }
+    // var yMax = 40;
+    // var dataShadow = [];
+    // for (var i = 0; i < this.reportItems.length; i++) {
+    //   dataShadow.push(yMax);
+    // }
     this.echarts = require('echarts');
     this.plotOption = {
       tooltip: {},
@@ -84,7 +85,7 @@ export class MasteriesreportComponent implements OnInit {
       },
       barWidth: 20,
       legend: {
-        show: true,
+        show: false,
         bottom: 0,
         itemWidth: 16,
         itemHeight: 16,
@@ -92,7 +93,10 @@ export class MasteriesreportComponent implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'In progress',
-          'Mastered w/ ease'
+          'Need revision',
+          'Mastered w/ difficulties',
+          'Mastered w/ ease',
+          'Not started'
         ],
         formatter: function(value) {
           return value;
@@ -104,16 +108,16 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       series: [
-        {
-          type: 'bar',
-          itemStyle: {
-            color: 'rgba(0,0,0,0.05)'
-          },
-          barGap: '-100%',
-          barCategoryGap: '40%',
-          data: dataShadow,
-          animation: false
-        },
+        // {
+        //   type: 'bar',
+        //   itemStyle: {
+        //     color: 'rgba(0,0,0,0.05)'
+        //   },
+        //   barGap: '-100%',
+        //   barCategoryGap: '40%',
+        //   data: dataShadow,
+        //   animation: false
+        // },
         {
           name: 'Struggling',
           type: 'bar',
@@ -134,6 +138,24 @@ export class MasteriesreportComponent implements OnInit {
           data: []
         },
         {
+          name: 'Need revision',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#8ACDCE' }
+          },
+          data: []
+        },
+        {
+          name: 'Mastered w/ difficulties',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#B7DFCB' }
+          },
+          data: []
+        },
+        {
           name: 'Mastered w/ ease',
           type: 'bar',
           stack: 'energy',
@@ -141,24 +163,36 @@ export class MasteriesreportComponent implements OnInit {
             normal: { color: '#DCECC9' }
           },
           data: []
+        },
+        {
+          name: 'Not started',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#E3E4E5' }
+          },
+          data: []
         }
       ]
     };
     let yAxisData = [];
-    let presentData = [];
-    let absentData = [];
+    let strugglingData = [];
+    let inprogressData = [];
     let notTakenData = [];
+    let easeData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
       yAxisData.push(++index);
-      presentData.push(item.lessons.present);
-      absentData.push(item.lessons.absent);
+      strugglingData.push(item.lessons.present);
+      easeData.push(item.lessons.ease);
+      inprogressData.push(item.lessons.absent);
       notTakenData.push(item.lessons.notTaken);
     });
     this.plotOption.yAxis.data = yAxisData.reverse();
-    this.plotOption.series[1].data = presentData.reverse();
-    this.plotOption.series[2].data = absentData.reverse();
-    this.plotOption.series[3].data = notTakenData.reverse();
+    this.plotOption.series[0].data = strugglingData.reverse();
+    this.plotOption.series[1].data = inprogressData.reverse();
+    this.plotOption.series[4].data = easeData.reverse();
+    this.plotOption.series[5].data = notTakenData.reverse();
     this.plotGraph(idx);
   }
 
@@ -173,12 +207,23 @@ export class MasteriesreportComponent implements OnInit {
     graph.setOption(this.plotOption);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllGraph();
+  }
 
-  ngAfterViewInit() {
-    for (var i = 0; i < this.masteriesReports.length; i++) {
-      this.reportItems = this.masteriesReports[i].data;
-      this.setupOption(i);
-    }
+  ngAfterViewInit() {}
+
+  expandGraph(id) {
+    this.isExpand = true;
+  }
+
+  getAllGraph() {
+    this.isExpand = false;
+    setTimeout(() => {
+      for (var i = 0; i < this.masteriesReports.length; i++) {
+        this.reportItems = this.masteriesReports[i].data;
+        this.setupOption(i);
+      }
+    }, 300);
   }
 }

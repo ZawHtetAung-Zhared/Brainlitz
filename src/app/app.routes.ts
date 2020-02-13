@@ -32,6 +32,7 @@ import {
   CourseListComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { ReportDetailComponent } from './components/course/masteriesreport/report-detail/report-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -116,6 +117,10 @@ export const routes: Routes = [
         component: MasteriesreportComponent
       }
     ]
+  },
+  {
+    path: 'masteries-detail/:id',
+    component: ReportDetailComponent
   },
   {
     path: 'tools',
