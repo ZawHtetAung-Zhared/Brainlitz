@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 export class ReportDetailComponent implements OnInit {
   isSticky: boolean = false;
   previousUrl: string;
+  public active = 'courses';
 
   constructor(private _location: Location, private router: Router) {}
 
