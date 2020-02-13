@@ -4418,4 +4418,19 @@ export class appService {
       return result;
     });
   }
+
+  createAssigntask(courseId, data): Observable<any> {
+    let url = this.baseUrl + '/courses/' + courseId + '/assign-course-task';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 }

@@ -560,7 +560,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   choicemode(obj) {
-    this.createassignTask.distributionMode = obj;
+    this.createassignTask.template.distributionMode = obj;
     console.log(this.createassignTask);
   }
 
@@ -572,11 +572,11 @@ export class AssignTaskComponent implements OnInit {
     this.createassignTask.template.tasks[this.gIndex].taskStartDate = this
       .taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
-      : this.createassignTask.template.tasks[this.gIndex].startDate;
+      : this.createassignTask.template.tasks[this.gIndex].taskStartDate;
     this.createassignTask.template.tasks[this.gIndex].taskEndDate = this
       .taskEndDate
       ? this.changeObjDateFormat(this.taskEndDate)
-      : this.createassignTask.template.tasks[this.gIndex].endDate;
+      : this.createassignTask.template.tasks[this.gIndex].taskEndDate;
     let annDate = this.changeDateTimeFormat(
       this.annoTaskDate
         ? this.annoTaskDate
@@ -633,5 +633,13 @@ export class AssignTaskComponent implements OnInit {
 
   createAssign() {
     console.log('final obj', this.createassignTask);
+    this.createassignTask.template.startDate = new Date(
+      this.createassignTask.template.startDate
+    ).toISOString();
+    this._service
+      .createAssigntask(this.courseDetail._id, this.createassignTask)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 }
