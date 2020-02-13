@@ -4399,9 +4399,13 @@ export class appService {
     });
   }
 
-  getassignMode() {
+  getassignMode(id) {
     let apiUrl =
-      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-modes';
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/assign-modes/' +
+      id;
 
     const httpOptions = {
       headers: new HttpHeaders({

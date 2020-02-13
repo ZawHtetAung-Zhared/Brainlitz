@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
-  ModalDismissReasons,
   NgbDatepickerConfig,
   NgbCalendar,
   NgbDateStruct
@@ -37,13 +36,10 @@ export class AssignTaskComponent implements OnInit {
   public sparkWerkz: any;
 
   // active  && selected
-
   public activeStep: any;
-  public activeMasteryList: any = [];
+
   public isSelectedTime: any;
-  public activeModeObj: any = {};
   public clickableSteps: Array<any> = ['1'];
-  public selectedTaskArr: any = [];
   public singleSelectedTask: any;
 
   // list
@@ -58,7 +54,9 @@ export class AssignTaskComponent implements OnInit {
   // other
   public modalReference: any;
   public createassignTask: any = {};
-
+  public annoTaskDate: any;
+  public taskStartDate: any;
+  public taskEndDate: any;
   // boolean
   public isScheduleTask: boolean = false;
   public progressSlider: boolean = false;
@@ -199,7 +197,7 @@ export class AssignTaskComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res, 'task list');
         this.taskLists = res;
-        this.createassignTask.template.tasks = res;
+        this.createassignTask.template.tasks = res.slice();
         this.clickableSteps.push(step);
         this.stepClick(event, step);
       });
@@ -207,10 +205,12 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToStep4(event, step) {
-    this._service.getassignMode().subscribe((res: any) => {
-      console.log(res, 'assign mode');
-      this.assignModeList = res;
-    });
+    this._service
+      .getassignMode(this.createassignTask.taskType.id)
+      .subscribe((res: any) => {
+        console.log(res, 'assign mode');
+        this.assignModeList = res;
+      });
     this.clickableSteps.push(step);
     this.stepClick(event, step);
   }
@@ -339,19 +339,22 @@ export class AssignTaskComponent implements OnInit {
   }
 
   selectedTask(obj) {
-    if (this.selectedTaskArr.includes(obj)) {
-      this.selectedTaskArr.splice(this.selectedTaskArr.indexOf(obj), 1);
+    if (this.createassignTask.template.tasks.includes(obj)) {
+      this.createassignTask.template.tasks.splice(
+        this.createassignTask.template.tasks.indexOf(obj),
+        1
+      );
     } else {
-      this.selectedTaskArr.push(obj);
+      this.createassignTask.template.tasks.push(obj);
     }
-    console.log(this.selectedTaskArr, 'selected tast arr');
+    console.log(this.createassignTask.template.tasks, 'selected tast arr');
   }
 
-  showmasteryList(masteriesModal, task, e) {
-    console.log(e);
-    console.log(e.target.classList);
-    console.log(masteriesModal, task);
-    console.log(e.target.classList.length, e.target.classList[0]);
+  public gIndex: any;
+  showmasteryList(masteriesModal, task, e, index) {
+    this.gIndex = index;
+    console.log(this.gIndex, 'index');
+
     if (e.target.classList.length != 0 && e.target.classList[0] != 'slider') {
       console.log('is reach');
       this.isSelectedTime = 'AM';
@@ -365,10 +368,12 @@ export class AssignTaskComponent implements OnInit {
         .subscribe((res: any) => {
           console.log('single task', res);
           this.masteryList = res.masteries;
-          for (let obj of res.masteries)
-            this.activeMasteryList.push(obj.masteryId);
+          console.log(this.createassignTask.template.tasks[this.gIndex]);
+          this.createassignTask.template.tasks[
+            this.gIndex
+          ].masteries = res.masteries.slice();
 
-          console.log(this.activeMasteryList, 'activeMasteryList');
+          console.log(this.createassignTask);
         });
       this.modalReference = this.modalService.open(masteriesModal, {
         backdrop: 'static',
@@ -539,18 +544,94 @@ export class AssignTaskComponent implements OnInit {
   }
 
   checkedMastery(obj, id) {
-    console.log(this.activeMasteryList);
-    if (this.activeMasteryList.includes(obj.masteryId))
-      this.activeMasteryList.splice(
-        this.activeMasteryList.indexOf(obj.masteryId),
+    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
+    if (
+      this.createassignTask.template.tasks[this.gIndex].masteries.includes(obj)
+    )
+      this.createassignTask.template.tasks[this.gIndex].masteries.splice(
+        this.createassignTask.template.tasks[this.gIndex].masteries.indexOf(
+          obj
+        ),
         1
       );
-    else this.activeMasteryList.push(obj.masteryId);
+    else this.createassignTask.template.tasks[this.gIndex].masteries.push(obj);
 
-    console.log(this.activeMasteryList);
+    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
   }
 
   choicemode(obj) {
-    this.activeModeObj = obj;
+    this.createassignTask.distributionMode = obj;
+    console.log(this.createassignTask);
+  }
+
+  comfirmMastery() {
+    console.log(this.annoTaskDate);
+    console.log(
+      this.createassignTask.template.tasks[this.gIndex].announcementDate
+    );
+    this.createassignTask.template.tasks[this.gIndex].taskStartDate = this
+      .taskStartDate
+      ? this.changeObjDateFormat(this.taskStartDate)
+      : this.createassignTask.template.tasks[this.gIndex].startDate;
+    this.createassignTask.template.tasks[this.gIndex].taskEndDate = this
+      .taskEndDate
+      ? this.changeObjDateFormat(this.taskEndDate)
+      : this.createassignTask.template.tasks[this.gIndex].endDate;
+    let annDate = this.changeDateTimeFormat(
+      this.annoTaskDate
+        ? this.annoTaskDate
+        : this.createassignTask.template.tasks[this.gIndex].announcementDate,
+      this.showFormat
+        ? this.showFormat
+        : this.createassignTask.template.tasks[this.gIndex].announcementTime
+    );
+    this.createassignTask.template.tasks[this.gIndex].annoucementDate = annDate;
+    this.modalReference.close();
+
+    console.log(annDate, 'date');
+    console.log(this.singleSelectedTask);
+    console.log(this.annoTaskDate, 'anno Date');
+    console.log(this.taskEndDate);
+    console.log(this.taskStartDate);
+    console.log(this.showFormat);
+    console.log(this.createassignTask);
+  }
+
+  changeDateTimeFormat(date, time) {
+    if (date.year == null) {
+      console.log('null', date);
+      return date;
+    } else {
+      console.log('utc date', date);
+      console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      console.log(sdate);
+      let dateParts = sdate.split('-');
+      console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        console.log('ISO', fullDate);
+        return fullDate;
+      }
+    }
+  }
+
+  changeObjDateFormat(date) {
+    let sdate = date.year + '-' + date.month + '-' + date.day;
+    return new Date(sdate).toISOString();
+  }
+
+  createAssign() {
+    console.log('final obj', this.createassignTask);
   }
 }
