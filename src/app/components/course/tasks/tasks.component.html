@@ -5,7 +5,7 @@
       <p class="m-0">SW</p>
     </span>
     <br />
-    <span class="task">3 Tasks</span>
+    <span class="task">{{ tasks.length }} Tasks</span>
   </div>
   <div>
     <button
@@ -18,55 +18,31 @@
   </div>
 </div>
 <div class="card-column">
-  <div class="task-holder ">
+  <div class="task-holder" *ngFor="let task of tasks">
     <div class="cardhead mb-3">
-      <span class="custom-or-schedule">Accelerated learning - custom task</span
-      ><br />
-      <span class="title-text">Light energy mastery task</span>
+      <span class="custom-or-schedule">{{ task.distributionMode }} -</span>
+      <span class="custom-or-schedule" *ngIf="task.taskType == 'SCHEDULED'"
+        >scheduled</span
+      >
+      <span class="custom-or-schedule" *ngIf="task.taskType == 'CUSTOM'"
+        >custom</span
+      >
+      <br />
+      <span class="title-text">{{ task.name }}</span>
     </div>
     <div class="cardbody d-flex justify-content-between">
       <div class="masteries-count">
-        <span class="count-text">10 masteries</span>
+        <span class="count-text">{{ task.overview.count }}</span>
+        <span *ngIf="task.taskType == 'SCHEDULED'">
+          <span *ngIf="task.overview.count <= 1">task</span>
+          <span *ngIf="task.overview.count > 1">tasks</span>
+          enable</span
+        >
+        <span *ngIf="task.taskType == 'CUSTOM'">masteries</span>
       </div>
       <div class="">
         <span class="count-text">
-          13 Jan 2019 - 13 Dec 2019
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="task-holder ">
-    <div class="cardhead mb-3">
-      <span class="custom-or-schedule">Accelerated learning - custom task</span
-      ><br />
-      <span class="title-text">Light energy mastery task</span>
-    </div>
-    <div class="cardbody d-flex justify-content-between">
-      <div class="masteries-count">
-        <span class="count-text">10 masteries</span>
-      </div>
-      <div class="">
-        <span class="count-text">
-          13 Jan 2019 - 13 Dec 2019
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="task-holder ">
-    <div class="cardhead mb-3">
-      <span class="custom-or-schedule">Accelerated learning - custom task</span
-      ><br />
-      <span class="title-text">Light energy mastery task</span>
-    </div>
-    <div class="cardbody d-flex justify-content-between">
-      <div class="masteries-count">
-        <span class="count-text">10 masteries</span>
-      </div>
-      <div class="">
-        <span class="count-text">
-          13 Jan 2019 - 13 Dec 2019
+          {{ task.taskStartDate | utcDate }} - {{ task.taskEndDate | utcDate }}
         </span>
       </div>
     </div>
