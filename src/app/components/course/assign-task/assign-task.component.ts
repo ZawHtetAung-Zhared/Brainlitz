@@ -197,11 +197,14 @@ export class AssignTaskComponent implements OnInit {
         // this.createassignTask.template.taskBreak=res.taskBreak;
         this.isTaskBreakEnAble = res.taskBreak ? 'Enable' : 'Disable';
         this.addActiveBar(1, 2);
-        // this.calculatedatefromweeknumber('1','MONDAY')
+        this.viewDate = new Date(
+          this.dayandWeektoDate(res.defaultStartWeek, res.defaultStartDay)
+        );
+        this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+        console.log(this.viewDate);
       });
     this.clickableSteps.push(step);
-    this.viewDate = new Date();
-    this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+
     this.stepClick(event, step);
   }
 
@@ -307,17 +310,20 @@ export class AssignTaskComponent implements OnInit {
   }
   //beforeViewRender method to call after months change
   checkSelectedDate(e) {
-    console.log('ok');
     // if users change the perivious to next months to check this  months current leave days selected or not
     //if users selected day exit autoselected
     setTimeout(() => {
       e.body.forEach(element => {
+        // console.log(element)
         if (!this.createassignTask.template.startDate) {
+          // console.log(this.datePipe.transform(element.date, 'dd-MMMM-yyyy'));
+          // console.log(this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') )
           if (
-            element.isToday &&
-            this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
+            this.datePipe.transform(element.date, 'dd-MMMM-yyyy') ==
+              this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') &&
+            this.currentMonth == this.datePipe.transform(element.date, 'MMMM')
           ) {
-            console.log('is reach');
+            console.log('is reach', element.date);
             let todayCell = document.getElementById(
               'cal-month-view' + element.date
             );
@@ -545,21 +551,11 @@ export class AssignTaskComponent implements OnInit {
   }
   // end back to
 
-  calculatedatefromweeknumber(week, day) {
-    const date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    let dayCount: any;
-    if (week > 1) {
-    } else {
-      console.log(this.getDayOfWeek(day));
-      console.log(
-        new Date(firstDay.setDate(firstDay.getDate() + this.getDayOfWeek(day)))
-      );
-    }
-    const res = this.addDays(firstDay, dayCount);
-
-    console.log(firstDay, 'first day');
-    console.log(res);
+  dayandWeektoDate(week, day) {
+    return moment()
+      .day(day)
+      .week(week)
+      .toISOString();
   }
 
   addDays(date, days) {
