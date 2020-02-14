@@ -74,6 +74,8 @@
   -webkit-column-count: 2;
   column-count: 2;
   padding: 20px 0px 15px 0px;
+  orphans: 1;
+  widows: 1;
 }
 .cardhead p {
   font-style: normal;
@@ -518,4 +520,10 @@
 .mast {
   left: 33%;
   top: 55%;
+}
+.disabled {
+  pointer-events: none;
+}
+.hide {
+  display: none !important;
 }

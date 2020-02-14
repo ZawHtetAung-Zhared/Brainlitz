@@ -5,44 +5,48 @@
       <!-- <p>30 / 30 seats left</p> -->
     </div>
     <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
-      <div class="d-flex justify-content-between mb-4">
-        <div class="c-enroll ml-4">
-          <h3>{{ templength }}</h3>
-          <span>customers currently enrolled</span>
-        </div>
-        <div
-          class="d-flex flex-column c-unpaid mr-4"
-          [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
-        >
-          <span>
-            <h3 class="c-h3">{{ unpaid }}</h3>
-            invoice
-          </span>
-          <span>Unpaid</span>
-        </div>
+      <div *ngIf="pplLists?.length == 0">
+        <p class="enroll">No student in this course yet</p>
       </div>
-      <div>
-        <p class="enroll" *ngIf="on">Must enroll students to this course</p>
-        <div *ngIf="!on" class="d-flex ml-3">
-          <span
-            ngbTooltip="{{ ppl.fullName }}"
-            *ngFor="let ppl of customerlist"
-            class="propic"
+      <div *ngIf="pplLists?.length > 0">
+        <div class="d-flex justify-content-between mb-4">
+          <div class="c-enroll ml-4">
+            <h3>{{ enrolledcount }}</h3>
+            <span>customers currently enrolled</span>
+          </div>
+          <div
+            class="d-flex flex-column c-unpaid mr-4"
+            [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
           >
-            <img
-              *ngIf="ppl.fullName != ''"
+            <span>
+              <h3 class="c-h3">{{ unpaid }}</h3>
+              invoice
+            </span>
+            <span>Unpaid</span>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="!on" class="d-flex ml-3">
+            <span
               ngbTooltip="{{ ppl.fullName }}"
-              src="{{ ppl.profilePic }}"
-            />
-            <img
-              *ngIf="ppl.fullName == ''"
-              ngbTooltip="{{ ppl.email }}"
-              src="{{ ppl.profilePic }}"
-            />
-          </span>
-          <span *ngIf="pplLists.length > 8" class="propic">
-            + 1
-          </span>
+              *ngFor="let ppl of customerlist"
+              class="propic"
+            >
+              <img
+                *ngIf="ppl.fullName != ''"
+                ngbTooltip="{{ ppl.fullName }}"
+                src="{{ ppl.profilePic }}"
+              />
+              <img
+                *ngIf="ppl.fullName == ''"
+                ngbTooltip="{{ ppl.email }}"
+                src="{{ ppl.profilePic }}"
+              />
+            </span>
+            <span *ngIf="pplLists.length > 8" class="propic">
+              + 1
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -65,17 +69,18 @@
       <h3>Attendance</h3>
     </div>
     <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
+      <div *ngIf="lessonList.attendance == ''">
+        <p class="enroll">No lesson in this course yet</p>
+      </div>
       <div class="d-flex justify-content-between mb-3">
-        <span
-          ><img
-            src="../../../../assets/img/chevron-right-s.png"
-            (click)="previousDate()"
+        <span (click)="previousDate()" [ngClass]="{ disabled: !prevflag }"
+          ><img src="../../../../assets/img/chevron-right-s.png"
         /></span>
-        <span>{{ indexDay.lessonDate | timezoneDate }}</span>
-        <span
-          ><img
-            src="../../../../assets/img/chevron-left-s.png"
-            (click)="nextDate()"
+        <span *ngIf="lessonList.length != 0">{{
+          indexDay.lessonStartDate | timezoneDate
+        }}</span>
+        <span (click)="nextDate()" [ngClass]="{ disabled: !nextflag }"
+          ><img src="../../../../assets/img/chevron-left-s.png"
         /></span>
       </div>
       <div class="d-flex justify-content-center">
@@ -93,7 +98,7 @@
         </div>
         <div class="d-flex nodata">
           <div class="d-flex data">
-            <span class="attendance-no">0</span>
+            <span class="attendance-no">{{ total }}</span>
             <span>Total</span>
           </div>
         </div>
@@ -108,7 +113,7 @@
     </div>
   </div>
 
-  <div class="tasks-view">
+  <div class="tasks-view" [ngClass]="{ hide: !sparkwerkz }">
     <div class="cardhead">
       <h3>Tasks</h3>
       <span class="spaninline">
@@ -147,7 +152,7 @@
   </div>
   <!-- ****For later sprint ****-->
 
-  <div class="leaderboard-view">
+  <div class="leaderboard-view" [ngClass]="{ hide: !sparkwerkz }">
     <div class="cardhead d-flex justify-content-between">
       <div>
         <h3>Leaderboard</h3>
@@ -164,7 +169,7 @@
         <div class="lb-small d-flex">
           <div class="lb-sp mt-5-3 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157292910591462220624_original.jpg"
             />
             <div class="lb-pos">2</div>
           </div>
@@ -183,7 +188,7 @@
         <div class="lb-small d-flex">
           <div class="lb-lp mt-0 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157982363101344860215_original.jpg"
             />
             <div class="lb-pos">1</div>
           </div>
@@ -202,7 +207,7 @@
         <div class="lb-small d-flex">
           <div class="lb-sp mt-8 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157890494085346223685_original.jpg"
             />
             <div class="lb-pos">3</div>
           </div>
@@ -230,7 +235,7 @@
 
 <!--**** For later sprint ****-->
 
-<div class="mastery-view">
+<div class="mastery-view" [ngClass]="{ hide: !sparkwerkz }">
   <h3>Masteries reports</h3>
   <span class="spaninline">
     <p class="m-0">SW</p>

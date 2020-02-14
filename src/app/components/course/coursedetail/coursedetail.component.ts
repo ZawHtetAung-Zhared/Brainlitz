@@ -10,8 +10,8 @@ import { appService } from '../../../service/app.service';
 })
 export class CoursedetailComponent implements OnInit {
   private courseId: any;
-  public locationID: any;
-  public locationName: any;
+  public locationID: any = localStorage.getItem('locationId');
+  public locationName: any = localStorage.getItem('locationName');
   public detailLists: any = {};
   public draft: boolean;
   public courseType: any;
@@ -28,6 +28,7 @@ export class CoursedetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('tttttt', this.locationID, this.locationName);
     this.detailLists = {
       paymentPolicy: {
         courseFee: '',
@@ -110,15 +111,7 @@ export class CoursedetailComponent implements OnInit {
       : '';
 
     if (this.coursePermission.includes('VIEWCOURSEPLAN') != false) {
-      this.locationName = localStorage.getItem('locationName');
-      this.locationID = localStorage.getItem('locationId');
       console.log('Coursedetail Permission granted');
-      // this.gtxtColor = localStorage.getItem('txtColor');
-      // this.gbgColor = localStorage.getItem('backgroundColor');
-
-      // console.log('hi permission', this.locationName, this.locationID);
-      // this.courseList = [];
-      // this.getCourseLists(20, 0);
     } else {
       console.log('permission deny');
       // this.courseList = [];
@@ -151,6 +144,9 @@ export class CoursedetailComponent implements OnInit {
           this.disabledTab = true;
         }
         console.log('res.sparkWerkz', res.sparkWerkz);
+
+        localStorage.setItem('SPC', res.sparkWerkz.sparkWerkzCourse);
+        console.log('SPC set', res.sparkWerkz.sparkWerkzCourse);
 
         localStorage.setItem('courseDetail', JSON.stringify(res));
       },

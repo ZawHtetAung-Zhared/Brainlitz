@@ -103,28 +103,36 @@ export class OverviewComponent implements OnInit {
   ngAfterViewInit() {
     console.log('AfterViewInit');
   }
-
   public on: boolean = true;
   public courseId: any;
   public pplLists: any;
   public customerlist: any;
   public regionId = localStorage.getItem('regionId');
-  public templength: any = 0;
+  public enrolledcount: any = 0;
   public invoices: any;
   public unpaid: any = 0;
   public scheduled: any = 0;
   public custom: any = 0;
-  public lessonList: any;
+
+  public lessonList: any = {
+    attendance: '',
+    lessonStartDate: ''
+  };
   public tempDate: Array<any> = [];
   public index: any;
   public indexDay: any = {
     attendance: '',
-    lessonDate: ''
+    lessonStartDate: ''
   };
-  public attendance: any;
+  public attendance: any = {
+    attendance: ''
+  };
   public present: any = 0;
   public absent: any = 0;
-
+  public total: any = 0;
+  public prevflag: boolean = true;
+  public nextflag: boolean = true;
+  public sparkwerkz: boolean = false;
   // toggle() {
   //   this.on = !this.on;
   // }
@@ -139,26 +147,42 @@ export class OverviewComponent implements OnInit {
         console.log('OOL', res);
         this.pplLists = res.courseInfo.students;
         this.invoices = res.courseInfo.invoices;
-        this.unpaid = this.invoices[1].count;
-        this.scheduled = res.tasks[0].count;
-        this.customerlist = res.tasks[1].count;
-        this.lessonList = res.courseInfo.lessons;
-        this.lessonList.sort(function(a, b) {
-          return (
-            new Date(a.lessonDate).getTime() - new Date(b.lessonDate).getTime()
-          );
-        });
-        console.log(this.lessonList, ' gggg n');
+        if (this.invoices.length > 0) {
+          for (var k = 0; k < this.invoices.length; k++) {
+            if (this.invoices[k]._id == 'UNPAID') {
+              this.unpaid = this.invoices[k].count;
+            }
+          }
+        }
+        this.enrolledcount = res.courseInfo.enrolledStudentCount;
+        if (localStorage.getItem('SPC') == 'true') {
+          console.log('Sparkwerkz Course', localStorage.getItem('SPC'));
+          this.scheduled = res.tasks[0] ? res.tasks[0].count : 0;
+          this.custom = res.tasks[1] ? res.tasks[1].count : 0;
+          this.sparkwerkz = true;
+        } else {
+          console.log('Not a Sparkwerkz Course', localStorage.getItem('SPC'));
+          this.sparkwerkz = false;
+        }
+        if (res.courseInfo.lessons.length > 0) {
+          this.lessonList = res.courseInfo.lessons;
+          this.lessonList.sort(function(a, b) {
+            return (
+              new Date(a.lessonStartDate).getTime() -
+              new Date(b.lessonStartDate).getTime()
+            );
+          });
+          console.log(this.lessonList, ' sorted lessonlist');
 
-        this.addlesson(this.lessonList);
+          this.addlesson(this.lessonList);
 
-        console.log('Invoice', this.invoices);
-        this.customerlist = this.pplLists.slice(0, 8);
-        this.templength = this.pplLists.length;
-        console.log('UO', this.pplLists);
-        if (this.pplLists.length > 0) {
-          this.on = false;
-          console.log('On', this.on);
+          console.log('Invoice', this.invoices);
+          this.customerlist = this.pplLists.slice(0, 8);
+          console.log('UO', this.pplLists);
+          if (this.pplLists.length > 0) {
+            this.on = false;
+            console.log('On', this.on);
+          }
         }
       },
       err => {
@@ -169,70 +193,133 @@ export class OverviewComponent implements OnInit {
 
   public addlesson(lessonlist) {
     for (var i = 0; i < lessonlist.length; i++) {
-      // console.log("LList", lessonlist[i].lessonDate);
-      this.tempDate.push(lessonlist[i].lessonDate.slice(0, 10));
+      // console.log("LList", lessonlist[i].lessonStartDate);
+      this.tempDate.push(lessonlist[i].lessonStartDate.slice(0, 10));
     }
     this.tempDate.sort();
-    var Today = new Date().toISOString();
+    var Today = new Date().toISOString().slice(0, 10);
     // console.log("LLsort", this.tempDate);
-    console.log('TD', Today.slice(0, 10));
+    console.log(this.tempDate.indexOf(Today), 'TD', Today);
     if (this.tempDate.includes(Today)) {
-      console.log('Has Today');
+      console.log('Has Today', this.tempDate);
       this.index = this.tempDate.indexOf(Today.slice(0, 10));
+      this.indexDay = this.lessonList[this.index];
+      console.log(this.indexDay, 'IDex');
+      this.attendance = this.indexDay.attendance;
+      this.total = this.lessonList[this.index].total;
+      console.log('total', this.total);
+
+      for (var j = 0; j < this.attendance.length; j++) {
+        if (this.attendance[j].attendance == null) {
+          this.present = 0;
+          this.absent = 0;
+          console.log('null attendance');
+        }
+        if (this.attendance[j].attendance == 'absent') {
+          this.absent = this.attendance[j].count;
+          console.log('absent', this.absent);
+        }
+        if (this.attendance[j].attendance == 'present') {
+          this.present = this.attendance[j].count;
+          console.log('present', this.present);
+        }
+      }
     } else {
       console.log("Hasn't Today");
       this.tempDate.push(Today.slice(0, 10));
       this.tempDate.sort();
       // console.log("Today added",this.tempDate);
       this.index = this.tempDate.indexOf(Today.slice(0, 10)) - 1;
-      console.log('Today index', this.index);
+
+      console.log('Today index', this.tempDate.indexOf(Today.slice(0, 10)));
       this.tempDate.splice(this.index + 1, 1);
       console.log('Today removed', this.tempDate);
       this.indexDay = this.lessonList[this.index];
       console.log(this.indexDay, 'IDex');
       this.attendance = this.indexDay.attendance;
-      this.absent = this.attendance[0].count;
-      // this.present = this.attendance[1].count?this.attendance[1].count:0;
-      if (this.attendance.length > 1) {
-        this.present = this.attendance[1].count;
-      } else {
-        this.present = 0;
+      this.total = this.lessonList[this.index].total;
+      console.log('total', this.total);
+
+      for (var j = 0; j < this.attendance.length; j++) {
+        if (this.attendance[j].attendance == null) {
+          this.present = 0;
+          this.absent = 0;
+          console.log('null attendance');
+        }
+        if (this.attendance[j].attendance == 'absent') {
+          this.absent = this.attendance[j].count;
+          console.log('absent', this.absent);
+        }
+        if (this.attendance[j].attendance == 'present') {
+          this.present = this.attendance[j].count;
+          console.log('present', this.present);
+        }
       }
     }
   }
 
   nextDate() {
+    this.absent = 0;
+    this.present = 0;
     this.index++;
-    if (this.index > this.indexDay.length) {
-      console.log('Over');
-    } else {
-      this.indexDay = this.lessonList[this.index];
-      console.log('nextDate', this.indexDay);
-      this.attendance = this.indexDay.attendance;
-      this.absent = this.attendance[0].count;
-      // this.present = this.attendance[1].count?this.attendance[1].count:0;
-      if (this.attendance.length > 1) {
-        this.present = this.attendance[1].count;
-      } else {
+    this.prevflag = true;
+    if (this.index == this.lessonList.length - 1) {
+      console.log('Over', this.index);
+      this.nextflag = false;
+    }
+    this.indexDay = this.lessonList[this.index];
+    console.log('nextDate', this.indexDay);
+    this.attendance = this.indexDay.attendance;
+    this.total = this.lessonList[this.index].total;
+    console.log('total', this.total);
+
+    for (var j = 0; j < this.attendance.length; j++) {
+      if (this.attendance[j].attendance == null) {
         this.present = 0;
+        this.absent = 0;
+        console.log('null attendance');
+      }
+      if (this.attendance[j].attendance == 'absent') {
+        this.absent = this.attendance[j].count;
+        console.log('absent', this.absent);
+      }
+      if (this.attendance[j].attendance == 'present') {
+        this.present = this.attendance[j].count;
+        console.log('present', this.present);
       }
     }
   }
 
   previousDate() {
+    this.absent = 0;
+    this.present = 0;
     this.index--;
-    if (this.index < 0) {
-      console.log('Under');
-    } else {
-      this.indexDay = this.lessonList[this.index];
-      console.log('previousDate', this.indexDay);
-      this.attendance = this.indexDay.attendance;
-      this.absent = this.attendance[0].count;
-      // this.present = this.attendance[1].count?this.attendance[1].count:0;
-      if (this.attendance.length > 1) {
-        this.present = this.attendance[1].count;
-      } else {
+    this.nextflag = true;
+    if (this.index == 0) {
+      console.log('Under', this.index);
+      this.prevflag = false;
+    }
+    this.indexDay = this.lessonList[this.index];
+    console.log('previousDate', this.indexDay);
+    this.attendance = this.indexDay.attendance;
+    this.absent = this.attendance[0].count;
+
+    this.total = this.lessonList[this.index].total;
+    console.log('total', this.total);
+
+    for (var j = 0; j < this.attendance.length; j++) {
+      if (this.attendance[j].attendance == null) {
         this.present = 0;
+        this.absent = 0;
+        console.log('null attendance');
+      }
+      if (this.attendance[j].attendance == 'absent') {
+        this.absent = this.attendance[j].count;
+        console.log('absent', this.absent);
+      }
+      if (this.attendance[j].attendance == 'present') {
+        this.present = this.attendance[j].count;
+        console.log('present', this.present);
       }
     }
   }
