@@ -382,7 +382,13 @@
                   >
                     All seats taken
                   </div>
-                  <button class="btn enroll-btn">Enroll customer</button>
+                  <button
+                    class="btn enroll-btn"
+                    [disabled]="course.draft == true"
+                    (click)="enrollCustomer(course._id)"
+                  >
+                    Enroll customer
+                  </button>
                 </div>
               </div>
             </div>

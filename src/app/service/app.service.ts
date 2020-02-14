@@ -3811,6 +3811,25 @@ export class appService {
     });
   }
 
+  getAllTasksInfo(regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/courses/' + courseId + '/tasks';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Here All Tasks');
+      console.log(result);
+      return result;
+    });
+  }
+
   getClassCheckAvailable(regionId: string, userId: string, leaveDay, meridian) {
     let apiUrl =
       this.baseUrl +

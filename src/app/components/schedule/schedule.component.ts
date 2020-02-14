@@ -3242,7 +3242,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   updateScrollbar(type) {
-    console.error('update scroll bar');
+    // console.error('update scroll bar');
     var scrollbar = document.getElementById('fixed-bottom-test');
     var content = document.getElementById('testScroll');
     var inner = document.getElementById('innerScrollbar');

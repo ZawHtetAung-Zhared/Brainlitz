@@ -136,3 +136,7 @@ body {
   padding: 8px 10px 8px 10px;
   text-align: center;
 }
+
+.flex-column {
+  flex-direction: column;
+}
