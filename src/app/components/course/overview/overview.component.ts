@@ -39,6 +39,10 @@ export class OverviewComponent implements OnInit {
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
 
+  goToAttendance() {
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/attendance`);
+  }
+
   getUsersInCourse(courseId) {
     this._service
       .getAssignUser(this.regionId, courseId, null, null, null)

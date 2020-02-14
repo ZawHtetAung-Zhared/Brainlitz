@@ -3261,8 +3261,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   goToCourse(course) {
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course.courseId);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course.courseId);
+    this.router.navigate(['/coursedetail', course.courseId]);
   }
 
   //startFlexi

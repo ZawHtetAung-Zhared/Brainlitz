@@ -54,7 +54,7 @@ let sampleData = [
     }
   },
   {
-    groupTypeValue: 'Loc 1',
+    groupTypeValue: 'Lorem ipsum dolor sit amet, consectet test',
     lessons: {
       present: 0,
       absent: 0,
