@@ -164,6 +164,22 @@ export class CoursedetailComponent implements OnInit {
     );
   }
 
+  editCourse(courseId) {
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      courseId: courseId,
+      type: 'edit'
+    };
+    localStorage.setItem('courseID', JSON.stringify(obj));
+    localStorage.removeItem('cPlan');
+    localStorage.removeItem('tempObj');
+    this.router.navigate(['/coursecreate']);
+    // this.goBackCat = false;
+    // this.isCourseDetail = false;
+    // this.isCourseCreate = true;
+    // this.router.navigate(['/courseCreate'])
+  }
+
   backToCourses() {
     // this.router.navigate(['/course'])
     this.router.navigate(['/course']);

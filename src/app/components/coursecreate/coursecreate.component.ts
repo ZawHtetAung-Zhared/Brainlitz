@@ -838,11 +838,13 @@ export class CoursecreateComponent implements OnInit {
   backToCourses(ToCourses, cId) {
     // console.log('backtocourse')
     console.log('cID');
+    console.log('cPlanId', this.planId);
     console.log('backToCourses works');
     if (this.isEdit == true) {
       console.log('this.isEdit', this.isEdit);
       console.log('backtocourseDetail');
-      this._service.backCourseDetail();
+      this.router.navigate(['/coursedetail', cId]);
+      // this._service.backCourseDetail();
     } else {
       console.log('this.isEdit===', this.isEdit);
       if (this.coursePlan != null) {
@@ -852,25 +854,32 @@ export class CoursecreateComponent implements OnInit {
           this.router.navigate(['course/']);
           console.log(cId);
           this.dataService.nevigateCDetail(cId);
+          // this.dataService.navagateActivePlan(this.planId)
         } else if (
           (this.coursePlan.from == 'courses' && ToCourses == '') ||
           (this.coursePlan.from = 'schedule' && ToCourses == 'back') ||
           (this.coursePlan.from = 'courses' && ToCourses == 'back')
         ) {
-          console.log('backtocourse');
-          this._service.backCourse();
+          console.log('backtocourse && courseplan', this.coursePlan);
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       } else {
-        console.log('this.coursePlan == null');
+        console.log('this.coursePlan == null', this.coursePlan);
         console.log('backtocourse');
         if (this.course.type == 'rollover') {
           // this.enrollUser(this.course.courseId,this.course.userId);
           // this.router.navigate(['/customer']);
           // this.dataService.nevigateCustomer(this.course.userId);
           // this._service.backCourse();
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         } else {
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       }
     }

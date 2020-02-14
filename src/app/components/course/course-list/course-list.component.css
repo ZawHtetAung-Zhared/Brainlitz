@@ -297,6 +297,10 @@
   cursor: pointer;
 }
 
+.cursor-off {
+  cursor: not-allowed !important;
+}
+
 .courses-title-wrap {
   height: 45px;
 }
