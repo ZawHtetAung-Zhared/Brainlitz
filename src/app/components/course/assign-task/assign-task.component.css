@@ -197,6 +197,8 @@ button.btn.btn-comfirm {
   padding: 10px 60px 10px 30px; */
   /*for 7steps*/
   height: 4.6em; /*for 7steps*/
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e3e4e6;
 }
 .progress {
   width: 100%;
@@ -320,7 +322,9 @@ a.adisabled:active {
   text-decoration: none;
 }
 .div_step {
-  height: 86vh;
+  height: 100% !important;
+  background: #f7f9fa;
+  padding-top: 72px;
 }
 
 .inner-wrapper1 {
@@ -359,6 +363,9 @@ a.adisabled:active {
   color: #363f4d;
 }
 /* end */
+button.btn.sticky-cancel {
+  background: #ffffff;
+}
 /* end progress bar */
 
 /* start step */
@@ -385,13 +392,6 @@ a.adisabled:active {
 
 .simple-search {
   margin-bottom: 22px;
-}
-
-.div_step {
-  /*height: 77em;*/
-  height: 86vh;
-  background: #f7f9fa;
-  padding-top: 72px;
 }
 
 /* step 1 */
@@ -1210,7 +1210,6 @@ button.btn.modal-cancel-btn {
 
   .div_step {
     /*height: 77em;*/
-    height: 86vh;
     padding-top: 0;
   }
 
@@ -1225,9 +1224,20 @@ button.btn.modal-cancel-btn {
   }
 
   .task-break-wrapper {
-    width: 37% !important;
+    width: 190px !important;
   }
   .button-wrapper {
     background: #f7f9fa;
+  }
+
+  .scrollable-wrapper {
+    padding-bottom: 240px !important;
+  }
+
+  .scrollable-wrapper2,
+  .scrollable-wrapper {
+    overflow: overlay;
+    height: 79vh;
+    padding-bottom: 120px;
   }
 }
