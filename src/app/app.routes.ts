@@ -151,7 +151,7 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
-    path: 'assignTask',
+    path: 'assignTask/:id',
     component: AssignTaskComponent,
     canActivate: [LoggedInGuard]
   },

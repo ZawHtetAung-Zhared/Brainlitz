@@ -6,11 +6,11 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100">
     <div class="back-wrap d-flex justify-content-between">
-      <div class="back-to " routerLink="/course">
+      <div class="back-to " (click)="backToCourses()">
         <i class="fa fa-angle-left"></i>
         <p>Courses</p>
       </div>
-      <button class="btn edit-course-btn">
+      <button class="btn edit-course-btn" (click)="editCourse(courseId)">
         Edit course
       </button>
     </div>
@@ -143,6 +143,7 @@
             Attendance
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="tasks"
@@ -151,6 +152,7 @@
             <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="leaderboard"
@@ -159,6 +161,7 @@
             <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="masteries-report"

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
@@ -34,6 +34,7 @@ import { appService } from '../../../service/app.service';
 export class AssignTaskComponent implements OnInit {
   public courseDetail: any;
   public sparkWerkz: any;
+  public locationID = localStorage.getItem('locationId');
 
   // active  && selected
   public activeStep: any;
@@ -89,14 +90,27 @@ export class AssignTaskComponent implements OnInit {
     private modalService: NgbModal,
     private config: NgbDatepickerConfig,
     private _service: appService,
-    private _route: Router
+    private _route: Router,
+    private _activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.courseDetail = JSON.parse(localStorage.getItem('courseDetail'));
-    this.sparkWerkz = this.courseDetail.sparkWerkz;
+    this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
+  }
+
+  getCourseDetail(id) {
+    this._service.getSingleCourse(id, this.locationID).subscribe(
+      (res: any) => {
+        this.courseDetail = res;
+        console.log('here details list', this.courseDetail);
+        this.sparkWerkz = this.courseDetail.sparkWerkz;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   checkStandard(id) {
@@ -137,6 +151,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   stepClick(event, step) {
+    console.log(this.clickableSteps);
     if (this.clickableSteps.includes(step)) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
@@ -146,6 +161,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   addOrRemoveClassOfStep(ele) {
+    console.log(ele);
     var max = this.clickableSteps[this.clickableSteps.length - 1];
     ele.parents('li').removeClass('done');
     ele
@@ -161,7 +177,7 @@ export class AssignTaskComponent implements OnInit {
       .nextAll('li')
       .removeClass('active');
     for (var i = 0; i < this.clickableSteps.length; i++) {
-      $('#' + this.clickableSteps[i])
+      $('#step' + this.clickableSteps[i])
         .children('a')
         .css('background-color', '#0080ff');
     }
@@ -180,11 +196,15 @@ export class AssignTaskComponent implements OnInit {
         // this.createassignTask.template.extraTasksAllowed=res.extraTasksAllowed;
         // this.createassignTask.template.taskBreak=res.taskBreak;
         this.isTaskBreakEnAble = res.taskBreak ? 'Enable' : 'Disable';
-        // this.calculatedatefromweeknumber('1','MONDAY')
+        this.addActiveBar(1, 2);
+        this.viewDate = new Date(
+          this.dayandWeektoDate(res.defaultStartWeek, res.defaultStartDay)
+        );
+        this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+        console.log(this.viewDate);
       });
     this.clickableSteps.push(step);
-    this.viewDate = new Date();
-    this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+
     this.stepClick(event, step);
   }
 
@@ -199,6 +219,7 @@ export class AssignTaskComponent implements OnInit {
         this.taskLists = res;
         this.createassignTask.template.tasks = res.slice();
         this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
         this.stepClick(event, step);
       });
     console.log(this.createassignTask);
@@ -209,11 +230,28 @@ export class AssignTaskComponent implements OnInit {
       .getassignMode(this.createassignTask.taskType.id)
       .subscribe((res: any) => {
         console.log(res, 'assign mode');
+        this.addActiveBar(3, 4);
         this.assignModeList = res;
       });
     this.clickableSteps.push(step);
     this.stepClick(event, step);
   }
+
+  addActiveBar(prev, next) {
+    console.log(prev, next);
+    $('#step' + prev).removeClass('active');
+    $('#step' + prev).addClass('done');
+    $('#step' + next).addClass('active');
+  }
+
+  backToPrevStep(prev, next) {
+    this.activeStep = prev;
+    $('#step' + prev).addClass('active');
+
+    $('#astep' + next).addClass('finishdone');
+    $('#step' + next).removeClass('active');
+  }
+
   checkTemplate(obj) {
     console.log(obj);
     let tempObj: any = {};
@@ -272,17 +310,20 @@ export class AssignTaskComponent implements OnInit {
   }
   //beforeViewRender method to call after months change
   checkSelectedDate(e) {
-    console.log('ok');
     // if users change the perivious to next months to check this  months current leave days selected or not
     //if users selected day exit autoselected
     setTimeout(() => {
       e.body.forEach(element => {
+        // console.log(element)
         if (!this.createassignTask.template.startDate) {
+          // console.log(this.datePipe.transform(element.date, 'dd-MMMM-yyyy'));
+          // console.log(this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') )
           if (
-            element.isToday &&
-            this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
+            this.datePipe.transform(element.date, 'dd-MMMM-yyyy') ==
+              this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') &&
+            this.currentMonth == this.datePipe.transform(element.date, 'MMMM')
           ) {
-            console.log('is reach');
+            console.log('is reach', element.date);
             let todayCell = document.getElementById(
               'cal-month-view' + element.date
             );
@@ -506,24 +547,15 @@ export class AssignTaskComponent implements OnInit {
   backtoassignTask() {
     this.isScheduleTask = false;
     this.isStart = true;
+    this.createassignTask.template = {};
   }
   // end back to
 
-  calculatedatefromweeknumber(week, day) {
-    const date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    let dayCount: any;
-    if (week > 1) {
-    } else {
-      console.log(this.getDayOfWeek(day));
-      console.log(
-        new Date(firstDay.setDate(firstDay.getDate() + this.getDayOfWeek(day)))
-      );
-    }
-    const res = this.addDays(firstDay, dayCount);
-
-    console.log(firstDay, 'first day');
-    console.log(res);
+  dayandWeektoDate(week, day) {
+    return moment()
+      .day(day)
+      .week(week)
+      .toISOString();
   }
 
   addDays(date, days) {

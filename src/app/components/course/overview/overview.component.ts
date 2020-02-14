@@ -36,6 +36,7 @@ export class OverviewComponent implements OnInit {
   // }
 
   enrollCustomer(CID) {
+    localStorage.setItem('userType', 'customer');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
 
@@ -63,5 +64,9 @@ export class OverviewComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  goToAssignTask() {
+    this.router.navigateByUrl('assignTask/' + this.courseId);
   }
 }
