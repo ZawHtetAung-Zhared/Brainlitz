@@ -284,7 +284,9 @@ button.btn.btn-comfirm {
 .progress .active .step:before {
   background-color: #0080ff;
 }
-
+.finishdone {
+  background-color: #0080ff !important;
+}
 .progress .active .step {
   -moz-box-shadow: 0 0 0 6px #cce6ff;
   -webkit-box-shadow: 0 0 0 6px #cce6ff;

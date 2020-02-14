@@ -177,6 +177,7 @@
         <li id="step1">
           <a
             class="step"
+            id="astep1"
             [class.adisabled]="!clickableSteps.includes('1')"
             (click)="stepClick($event, '1')"
           >
@@ -186,6 +187,7 @@
         <li id="step2">
           <a
             class="step"
+            id="astep2"
             [class.adisabled]="!clickableSteps.includes('2')"
             (click)="stepClick($event, '2')"
           >
@@ -195,6 +197,7 @@
         <li id="step3">
           <a
             class="step"
+            id="astep3"
             [class.adisabled]="!clickableSteps.includes('3')"
             (click)="stepClick($event, '3')"
           >
@@ -204,6 +207,7 @@
         <li id="step4">
           <a
             class="step"
+            id="astep4"
             [class.adisabled]="!clickableSteps.includes('4')"
             (click)="stepClick($event, '4')"
           >
@@ -480,7 +484,7 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium">
+              <div class="back-modal medium" (click)="backToPrevStep(1, 2)">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
@@ -562,7 +566,7 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium">
+              <div class="back-modal medium" (click)="backToPrevStep(2, 3)">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
@@ -597,7 +601,8 @@
               <div
                 class="choice-block"
                 [ngClass]="{
-                  activeMode: mode.id == createassignTask?.distributionMode?.id
+                  activeMode:
+                    mode.id == createassignTask?.template?.distributionMode?.id
                 }"
               >
                 <p class="choice-title bold">{{ mode.title }}</p>
@@ -612,11 +617,15 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium">
+              <div class="back-modal medium" (click)="backToPrevStep(3, 4)">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
-              <button class="btn btn-comfirm medium" (click)="createAssign()">
+              <button
+                class="btn btn-comfirm medium"
+                (click)="createAssign()"
+                [disabled]="!createassignTask?.template?.distributionMode?.id"
+              >
                 Assign
               </button>
             </div>
@@ -642,7 +651,7 @@
     <p class="anno-txt font-semi">
       Announcement information
     </p>
-    <div class="d-flex duration-wrapper">
+    <div class="d-flex duration-wrapper mb-3">
       <div class="col-md-6">
         <label for="course_name" class="input-title medium">Date</label>
         <div class="input-wrap">
@@ -762,7 +771,7 @@
     </p>
     <div class="mastery-list-wrapper">
       <div class="d-flex flex-column duration-wrapper mb-4">
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap mb-3">
           <div class="col-md-6">
             <label for="course_name" class="input-title medium"
               >Start Date</label

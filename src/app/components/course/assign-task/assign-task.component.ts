@@ -203,10 +203,6 @@ export class AssignTaskComponent implements OnInit {
     this.stepClick(event, step);
   }
 
-  addActiveBar(prev, next) {
-    $('#step' + prev).addClass('done');
-    $('#step' + next).addClass('active');
-  }
   goToStep3(event, step) {
     this._service
       .getTaskBytemplate(
@@ -235,6 +231,22 @@ export class AssignTaskComponent implements OnInit {
     this.clickableSteps.push(step);
     this.stepClick(event, step);
   }
+
+  addActiveBar(prev, next) {
+    console.log(prev, next);
+    $('#step' + prev).removeClass('active');
+    $('#step' + prev).addClass('done');
+    $('#step' + next).addClass('active');
+  }
+
+  backToPrevStep(prev, next) {
+    this.activeStep = prev;
+    $('#step' + prev).addClass('active');
+
+    $('#astep' + next).addClass('finishdone');
+    $('#step' + next).removeClass('active');
+  }
+
   checkTemplate(obj) {
     console.log(obj);
     let tempObj: any = {};
@@ -527,6 +539,7 @@ export class AssignTaskComponent implements OnInit {
   backtoassignTask() {
     this.isScheduleTask = false;
     this.isStart = true;
+    this.createassignTask.template = {};
   }
   // end back to
 
