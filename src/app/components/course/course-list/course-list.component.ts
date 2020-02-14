@@ -49,6 +49,7 @@ export class CourseListComponent implements OnInit {
   private isMidStick: boolean = false;
   private navIsFixed: boolean = false;
   private searchKeyword: any = null;
+  private activePlanId: any = '';
 
   constructor(
     private _service: appService,
@@ -152,8 +153,8 @@ export class CourseListComponent implements OnInit {
 
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
-      console.log('Direction Down');
-      if (this.courseCollection != null) {
+      console.log('Direction Down', window.pageYOffset);
+      if (this.courseCollection != null && window.pageYOffset > 900) {
         if (
           this.loading == false &&
           this.courseCollection.courses.length == this.limit
@@ -181,13 +182,13 @@ export class CourseListComponent implements OnInit {
           this.loading == false &&
           this.courseCollection.courses.length < this.limit
         ) {
-          console.log(
-            'call next Id>>>>',
-            'courseLength',
-            this.courseCollection.courses.length,
-            '&&&',
-            this.limit
-          );
+          // console.log(
+          //   'call next Id>>>>',
+          //   'courseLength',
+          //   this.courseCollection.courses.length,
+          //   '&&&',
+          //   this.limit
+          // );
         }
       }
     } else if (this.oldValue - newValue > 0) {
@@ -211,7 +212,9 @@ export class CourseListComponent implements OnInit {
     //     this.showCourseDetail(this.courseId);
     //   }, 300);
     // }
-
+    this.dataservice.currentActivePlan.subscribe(
+      planID => (this.activePlanId = planID)
+    );
     let recentTemp = localStorage.getItem('recentSearchLists');
     this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
     console.log('recent lists', this.recentLists);
@@ -387,8 +390,15 @@ export class CourseListComponent implements OnInit {
       .getCourseplanCollection(this.regionId, this.locationID, null)
       .subscribe((res: any) => {
         this.coursePlanCollection = res;
-        let autoSelectedPlanId = this.coursePlanCollection[0]._id;
-        let autoSelectedPlanName = this.coursePlanCollection[0].name;
+        let autoSelectedPlanId;
+        let autoSelectedPlanName;
+        if (this.activePlanId == '' || this.activePlanId == null) {
+          autoSelectedPlanId = this.coursePlanCollection[0]._id;
+          autoSelectedPlanName = this.coursePlanCollection[0].name;
+        } else {
+          autoSelectedPlanId = this.activePlanId;
+          autoSelectedPlanName = '';
+        }
         this.getCourseswithPlanId(
           autoSelectedPlanId,
           autoSelectedPlanName,
@@ -467,8 +477,6 @@ export class CourseListComponent implements OnInit {
   addNewCourse(plan) {
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
-    this.goBackCat = false;
-    this.isCourseCreate = true;
     let planObj = {
       name: plan.name,
       id: plan.coursePlanId,
@@ -480,9 +488,13 @@ export class CourseListComponent implements OnInit {
 
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
+    // goBackCat & isCourseCreate are using for service which is no need to use if u redirect to course create
+    // this.goBackCat = false;
+    // this.isCourseCreate = true;
     //add this line to change route for course create and need to change in coursecreate.ts for redirect to course when click back button
-    // this.router.navigate(['/coursecreate']);
+    this.router.navigate(['/coursecreate']);
   }
+
   showCPDetail(planID) {
     console.log('cp');
     this.editplanId = planID;
@@ -515,8 +527,24 @@ export class CourseListComponent implements OnInit {
     this.goBackCat = false;
   }
 
-  showCourseDetail(courseId) {
-    this.router.navigate(['/coursedetail', courseId]);
+  showCourseDetail(course) {
+    if (course.draft == true) {
+      this.goToCourseEditForm(course._id);
+    } else {
+      this.router.navigate(['/coursedetail', course._id]);
+    }
+  }
+
+  goToCourseEditForm(courseId) {
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      courseId: courseId,
+      type: 'edit'
+    };
+    localStorage.setItem('courseID', JSON.stringify(obj));
+    localStorage.removeItem('cPlan');
+    localStorage.removeItem('tempObj');
+    this.router.navigate(['/coursecreate']);
   }
 
   focusCourseSearch() {
@@ -606,6 +634,7 @@ export class CourseListComponent implements OnInit {
     this.iscourseSearch = false;
     this.searchVal = '';
     this.searchKeyword = null;
+    this.activePlanId = null;
     this.getAllCourseplan();
   }
 

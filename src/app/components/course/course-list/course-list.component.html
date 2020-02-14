@@ -194,7 +194,8 @@
                 </div>
                 <span
                   class="cplan-title1 cursor-on"
-                  (click)="showCourseDetail(course._id)"
+                  [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
+                  (click)="showCourseDetail(course)"
                 >
                   {{ course.name }}
                 </span>
@@ -399,9 +400,9 @@
     class="category-content"
     *ngIf="isPlan == true"
   ></app-courseplan>
-  <app-coursecreate
+  <!-- <app-coursecreate
     class="category-content"
     *ngIf="isCourseCreate == true"
-  ></app-coursecreate>
+  ></app-coursecreate> -->
 </div>
 <block-ui message="Deafult Message"></block-ui>
