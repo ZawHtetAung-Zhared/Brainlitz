@@ -5,7 +5,8 @@ let sampleData = [
       present: 0,
       absent: 0,
       ease: 20,
-      notTaken: 20
+      diff: 15,
+      notTaken: 5
     }
   },
   {
@@ -14,6 +15,7 @@ let sampleData = [
       present: 5,
       absent: 8,
       ease: 7,
+      diff: 0,
       notTaken: 20
     }
   },
@@ -23,6 +25,7 @@ let sampleData = [
       present: 1,
       absent: 2,
       ease: 10,
+      diff: 0,
       notTaken: 27
     }
   },
@@ -32,6 +35,7 @@ let sampleData = [
       present: 5,
       absent: 5,
       ease: 15,
+      diff: 0,
       notTaken: 15
     }
   },
@@ -41,6 +45,7 @@ let sampleData = [
       present: 3,
       absent: 3,
       ease: 11,
+      diff: 0,
       notTaken: 23
     }
   },
@@ -50,6 +55,7 @@ let sampleData = [
       present: 2,
       absent: 5,
       ease: 20,
+      diff: 0,
       notTaken: 13
     }
   },
@@ -59,6 +65,7 @@ let sampleData = [
       present: 0,
       absent: 0,
       ease: 20,
+      diff: 0,
       notTaken: 20
     }
   },
@@ -68,6 +75,7 @@ let sampleData = [
       present: 4,
       absent: 7,
       ease: 0,
+      diff: 0,
       notTaken: 29
     }
   },
@@ -77,6 +85,7 @@ let sampleData = [
       present: 5,
       absent: 4,
       ease: 5,
+      diff: 0,
       notTaken: 26
     }
   },
@@ -86,6 +95,7 @@ let sampleData = [
       present: 10,
       absent: 0,
       ease: 6,
+      diff: 0,
       notTaken: 24
     }
   },
@@ -95,6 +105,7 @@ let sampleData = [
       present: 0,
       absent: 10,
       ease: 2,
+      diff: 0,
       notTaken: 28
     }
   },
@@ -104,6 +115,7 @@ let sampleData = [
       present: 6,
       absent: 6,
       ease: 0,
+      diff: 0,
       notTaken: 28
     }
   },
@@ -113,6 +125,7 @@ let sampleData = [
       present: 8,
       absent: 0,
       ease: 20,
+      diff: 0,
       notTaken: 12
     }
   },
@@ -122,6 +135,7 @@ let sampleData = [
       present: 0,
       absent: 6,
       ease: 4,
+      diff: 0,
       notTaken: 30
     }
   },
@@ -131,6 +145,7 @@ let sampleData = [
       present: 0,
       absent: 3,
       ease: 7,
+      diff: 0,
       notTaken: 30
     }
   },
@@ -140,6 +155,7 @@ let sampleData = [
       present: 3,
       absent: 2,
       ease: 20,
+      diff: 0,
       notTaken: 15
     }
   },
@@ -149,6 +165,7 @@ let sampleData = [
       present: 1,
       absent: 5,
       ease: 0,
+      diff: 0,
       notTaken: 34
     }
   },
@@ -158,6 +175,7 @@ let sampleData = [
       present: 3,
       absent: 3,
       ease: 3,
+      diff: 0,
       notTaken: 31
     }
   },
@@ -167,6 +185,7 @@ let sampleData = [
       present: 0,
       absent: 0,
       ease: 7,
+      diff: 0,
       notTaken: 33
     }
   },
@@ -176,6 +195,7 @@ let sampleData = [
       present: 2,
       absent: 7,
       ease: 1,
+      diff: 0,
       notTaken: 30
     }
   },
@@ -185,6 +205,7 @@ let sampleData = [
       present: 9,
       absent: 4,
       ease: 0,
+      diff: 0,
       notTaken: 27
     }
   }
