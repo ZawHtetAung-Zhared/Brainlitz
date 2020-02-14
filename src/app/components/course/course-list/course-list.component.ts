@@ -56,16 +56,16 @@ export class CourseListComponent implements OnInit {
     public dataservice: DataService,
     private router: Router
   ) {
-    this._service.goCourseCreate.subscribe(() => {
-      this.courseList = [];
-      console.log('go to cc');
-      this.courseList = [];
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = true;
-      window.scroll(0, 0);
-    });
+    // this._service.goCourseCreate.subscribe(() => {
+    //   this.courseList = [];
+    //   console.log('go to cc');
+    //   this.courseList = [];
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = true;
+    //   window.scroll(0, 0);
+    // });
 
     this._service.goplan.subscribe(() => {
       this.courseList = [];
@@ -96,16 +96,16 @@ export class CourseListComponent implements OnInit {
       console.log(this.courseList.length);
     });
 
-    this._service.goCourseDetail.subscribe(() => {
-      // console.log('go back CDetail', this.courseId);
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = false;
-      // this.isCourseDetail = true;
-      // this.showCourseDetail(this.courseId);
-      this.courseList = [];
-    });
+    // this._service.goCourseDetail.subscribe(() => {
+    //   // console.log('go back CDetail', this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   // this.isCourseDetail = true;
+    //   // this.showCourseDetail(this.courseId);
+    //   this.courseList = [];
+    // });
 
     this._service.goPlanDetail.subscribe(() => {
       // console.log('go back PlanDetail', this.courseId);
