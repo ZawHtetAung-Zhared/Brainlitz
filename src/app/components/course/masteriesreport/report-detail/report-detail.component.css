@@ -30,9 +30,9 @@
 .title-wrap {
   background: #edeef0;
   height: 80px;
-  padding: 0px 30px;
   width: 100vw;
   /* margin-left: -30px !important; */
+  display: inline-grid;
 }
 
 .mastery-title {
@@ -95,7 +95,7 @@
   position: fixed;
   top: 70px;
   z-index: 1;
-  padding: 0px 45px;
+  padding: 0px 15px;
 }
 
 .advance {

@@ -1,5 +1,6 @@
 let sampleData = [
   {
+    id: 1,
     groupTypeValue: 'Yangon Tester Loc',
     lessons: {
       present: 0,
@@ -10,6 +11,7 @@ let sampleData = [
     }
   },
   {
+    id: 2,
     groupTypeValue: 'Mandalay',
     lessons: {
       present: 5,
@@ -20,6 +22,7 @@ let sampleData = [
     }
   },
   {
+    id: 3,
     groupTypeValue: 'Pyin Oo Lwin',
     lessons: {
       present: 1,
@@ -30,6 +33,7 @@ let sampleData = [
     }
   },
   {
+    id: 4,
     groupTypeValue: 'Bagan',
     lessons: {
       present: 5,
@@ -40,6 +44,7 @@ let sampleData = [
     }
   },
   {
+    id: 5,
     groupTypeValue: 'Kalaw',
     lessons: {
       present: 3,
@@ -50,6 +55,7 @@ let sampleData = [
     }
   },
   {
+    id: 6,
     groupTypeValue: 'Testing Loc',
     lessons: {
       present: 2,
@@ -60,6 +66,7 @@ let sampleData = [
     }
   },
   {
+    id: 7,
     groupTypeValue: 'Lorem ipsum dolor sit amet, consectet test',
     lessons: {
       present: 0,
@@ -70,6 +77,7 @@ let sampleData = [
     }
   },
   {
+    id: 8,
     groupTypeValue: 'Loc 2',
     lessons: {
       present: 4,
@@ -80,6 +88,7 @@ let sampleData = [
     }
   },
   {
+    id: 9,
     groupTypeValue: 'Loc 3',
     lessons: {
       present: 5,
@@ -90,6 +99,7 @@ let sampleData = [
     }
   },
   {
+    id: 10,
     groupTypeValue: 'Loc 4',
     lessons: {
       present: 10,
@@ -100,6 +110,7 @@ let sampleData = [
     }
   },
   {
+    id: 11,
     groupTypeValue: 'Loc 5',
     lessons: {
       present: 0,
@@ -110,6 +121,7 @@ let sampleData = [
     }
   },
   {
+    id: 12,
     groupTypeValue: 'Loc 6',
     lessons: {
       present: 6,
@@ -120,6 +132,7 @@ let sampleData = [
     }
   },
   {
+    id: 13,
     groupTypeValue: 'Loc 7',
     lessons: {
       present: 8,
@@ -130,6 +143,7 @@ let sampleData = [
     }
   },
   {
+    id: 14,
     groupTypeValue: 'Loc 8',
     lessons: {
       present: 0,
@@ -140,6 +154,7 @@ let sampleData = [
     }
   },
   {
+    id: 15,
     groupTypeValue: 'Loc 9',
     lessons: {
       present: 0,
@@ -150,6 +165,7 @@ let sampleData = [
     }
   },
   {
+    id: 16,
     groupTypeValue: 'Loc 10',
     lessons: {
       present: 3,
@@ -160,6 +176,7 @@ let sampleData = [
     }
   },
   {
+    id: 17,
     groupTypeValue: 'Yangon Tester Loc 11',
     lessons: {
       present: 1,
@@ -170,6 +187,7 @@ let sampleData = [
     }
   },
   {
+    id: 18,
     groupTypeValue: 'Yangon Tester Loc 12',
     lessons: {
       present: 3,
@@ -180,6 +198,7 @@ let sampleData = [
     }
   },
   {
+    id: 19,
     groupTypeValue: 'Yangon Tester Loc 13',
     lessons: {
       present: 0,
@@ -190,6 +209,7 @@ let sampleData = [
     }
   },
   {
+    id: 20,
     groupTypeValue: 'Yangon Tester Loc 14',
     lessons: {
       present: 2,
@@ -200,6 +220,7 @@ let sampleData = [
     }
   },
   {
+    id: 21,
     groupTypeValue: 'Yangon Tester Loc 15',
     lessons: {
       present: 9,

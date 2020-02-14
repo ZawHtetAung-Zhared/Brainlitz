@@ -1,31 +1,34 @@
-<app-header [ngClass]="{ stick: isSticky == true }" [activeTab]="active">
-</app-header>
-<div class="d-flex align-items-center m-4 pl-2" (click)="backTo()">
-  <i class="fa fa-angle-left"></i>
-  <span class="back-txt">
-    Mastery reports
+<div class="d-flex align-items-center mt-4 mb-4">
+  <span (click)="backTo()" class="inner-wrapper">
+    <i class="fa fa-angle-left"></i>
+    <span class="back-txt">
+      Mastery reports
+    </span>
   </span>
 </div>
+
 <div
-  class="d-flex justify-content-between align-items-center title-wrap"
+  class="title-wrap"
   [ngClass]="{ stickHeader: isStickyInnerHeader == true }"
 >
-  <div class="d-flex flex-column">
-    <span class="mastery-title"> {{ masteriesReports[0].name }} </span>
-    <span class="light-txt">
-      {{ masteriesReports[0].data.length }} masteries
-    </span>
-  </div>
-  <div class="d-flex align-items-center">
-    <button class="history-btn btn">Activity history</button>
-    <span (click)="changeGraph('expand')">
-      <i *ngIf="isExpand" class="fa fa-angle-up" style="font-size: 20px;"></i>
-      <i
-        *ngIf="!isExpand"
-        class="fa fa-angle-down"
-        style="font-size: 20px;"
-      ></i>
-    </span>
+  <div class="d-flex justify-content-between align-items-center inner-wrapper">
+    <div class="d-flex flex-column">
+      <span class="mastery-title"> {{ masteriesReports[0].name }} </span>
+      <span class="light-txt">
+        {{ masteriesReports[0].data.length }} masteries
+      </span>
+    </div>
+    <div class="d-flex align-items-center">
+      <button class="history-btn btn">Activity history</button>
+      <span (click)="changeGraph('expand')">
+        <i *ngIf="isExpand" class="fa fa-angle-up" style="font-size: 20px;"></i>
+        <i
+          *ngIf="!isExpand"
+          class="fa fa-angle-down"
+          style="font-size: 20px;"
+        ></i>
+      </span>
+    </div>
   </div>
 </div>
 
@@ -54,19 +57,19 @@
     <div class="color-box" style="background: #46AACE;"></div>
     <span class="color-txt"> In progress </span>
   </div>
-  <div *ngIf="isExpand" class="d-flex color-wrap">
+  <div *ngIf="isAdvance" class="d-flex color-wrap">
     <div class="color-box" style="background: #8ACDCE;"></div>
     <span class="color-txt"> Need revision </span>
   </div>
-  <div *ngIf="isExpand" class="d-flex color-wrap">
+  <div *ngIf="isAdvance" class="d-flex color-wrap">
     <div class="color-box" style="background: #B7DFCB;"></div>
     <span class="color-txt"> Mastered w/ difficulties </span>
   </div>
-  <div *ngIf="isExpand" class="d-flex color-wrap">
+  <div *ngIf="isAdvance" class="d-flex color-wrap">
     <div class="color-box" style="background: #DCECC9;"></div>
     <span class="color-txt"> Mastered w/ ease </span>
   </div>
-  <div *ngIf="!isExpand" class="d-flex color-wrap">
+  <div *ngIf="!isAdvance" class="d-flex color-wrap">
     <div class="color-box" style="background: #DCECC9;"></div>
     <span class="color-txt"> Mastered </span>
   </div>

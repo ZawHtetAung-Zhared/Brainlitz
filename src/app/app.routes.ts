@@ -29,10 +29,12 @@ import {
   TasksComponent,
   LeaderboardComponent,
   MasteriesreportComponent,
-  CourseListComponent
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
-import { ReportDetailComponent } from './components/course/masteriesreport/report-detail/report-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -119,8 +121,19 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'masteries-detail/:id',
-    component: ReportDetailComponent
+    path: 'masteriesdetail/:id',
+    component: MasteryReportComponent,
+    children: [
+      { path: '', redirectTo: 'reportdetail', pathMatch: 'full' },
+      {
+        path: 'reportdetail',
+        component: ReportDetailComponent
+      },
+      {
+        path: 'studentlist',
+        component: StudentListComponent
+      }
+    ]
   },
   {
     path: 'tools',

@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-report-detail',
@@ -12,7 +12,6 @@ import sampleData from './../sampleData';
 export class ReportDetailComponent implements OnInit {
   isSticky: boolean = false;
   isStickyInnerHeader: boolean = false;
-  previousUrl: string;
   public active = 'courses';
   plotOption: any;
   echarts: any;
@@ -121,7 +120,11 @@ export class ReportDetailComponent implements OnInit {
     }
   ];
 
-  constructor(private _location: Location, private router: Router) {}
+  constructor(
+    private _location: Location,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.masteriesReports = this.masteriesReports.filter(function(res) {
@@ -281,6 +284,7 @@ export class ReportDetailComponent implements OnInit {
   }
 
   plotGraph(expandOn) {
+    var _self = this;
     var elem = document.getElementById('mastery_detail');
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
@@ -295,6 +299,13 @@ export class ReportDetailComponent implements OnInit {
     }
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    graph.on('click', function(params) {
+      _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+      localStorage.setItem(
+        'mastery_itemId',
+        _self.masteriesReports[0].data[params.dataIndex].id
+      );
+    });
   }
 
   changeGraph(value) {
