@@ -35,7 +35,7 @@ export class TasksComponent implements OnInit {
   public tasks = [];
 
   ngOnInit() {
-    this.courseId = '5df8813bd0f06a163d832f1c';
+    //this.courseId = '5df8813bd0f06a163d832f1c';//for testing
     this.getAllTasksInfo();
     this.tasks = this.allTasks.tasks;
     console.log(this.tasks.length);
