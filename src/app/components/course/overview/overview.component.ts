@@ -65,4 +65,8 @@ export class OverviewComponent implements OnInit {
         }
       );
   }
+
+  goToAssignTask() {
+    this.router.navigateByUrl('assignTask/' + this.courseId);
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
@@ -34,6 +34,7 @@ import { appService } from '../../../service/app.service';
 export class AssignTaskComponent implements OnInit {
   public courseDetail: any;
   public sparkWerkz: any;
+  public locationID = localStorage.getItem('locationId');
 
   // active  && selected
   public activeStep: any;
@@ -89,14 +90,27 @@ export class AssignTaskComponent implements OnInit {
     private modalService: NgbModal,
     private config: NgbDatepickerConfig,
     private _service: appService,
-    private _route: Router
+    private _route: Router,
+    private _activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.courseDetail = JSON.parse(localStorage.getItem('courseDetail'));
-    this.sparkWerkz = this.courseDetail.sparkWerkz;
+    this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
+  }
+
+  getCourseDetail(id) {
+    this._service.getSingleCourse(id, this.locationID).subscribe(
+      (res: any) => {
+        this.courseDetail = res;
+        console.log('here details list', this.courseDetail);
+        this.sparkWerkz = this.courseDetail.sparkWerkz;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   checkStandard(id) {
@@ -180,6 +194,7 @@ export class AssignTaskComponent implements OnInit {
         // this.createassignTask.template.extraTasksAllowed=res.extraTasksAllowed;
         // this.createassignTask.template.taskBreak=res.taskBreak;
         this.isTaskBreakEnAble = res.taskBreak ? 'Enable' : 'Disable';
+        this.addActiveBar(1, 2);
         // this.calculatedatefromweeknumber('1','MONDAY')
       });
     this.clickableSteps.push(step);
@@ -188,6 +203,10 @@ export class AssignTaskComponent implements OnInit {
     this.stepClick(event, step);
   }
 
+  addActiveBar(prev, next) {
+    $('#step' + prev).addClass('done');
+    $('#step' + next).addClass('active');
+  }
   goToStep3(event, step) {
     this._service
       .getTaskBytemplate(
@@ -199,6 +218,7 @@ export class AssignTaskComponent implements OnInit {
         this.taskLists = res;
         this.createassignTask.template.tasks = res.slice();
         this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
         this.stepClick(event, step);
       });
     console.log(this.createassignTask);
@@ -209,6 +229,7 @@ export class AssignTaskComponent implements OnInit {
       .getassignMode(this.createassignTask.taskType.id)
       .subscribe((res: any) => {
         console.log(res, 'assign mode');
+        this.addActiveBar(3, 4);
         this.assignModeList = res;
       });
     this.clickableSteps.push(step);

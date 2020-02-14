@@ -1,4 +1,4 @@
-<div class="h-100" *ngIf="!isScheduleTask">
+<div class="h-100" *ngIf="!isScheduleTask" style="overflow: hidden;">
   <div *ngIf="!isStart">
     <div class="d-flex justify-content-center p-2 addBg">
       <div class="inner-wrapper pt-0">
@@ -10,7 +10,7 @@
             <div class="mr-auto p-2 pl-0 pb-0">
               <div class="back-modal" (click)="backCourseDetail()">
                 <i class="fa fa-angle-left"></i>
-                <p>{{ courseDetail.name }}</p>
+                <p>{{ courseDetail?.name }}</p>
               </div>
             </div>
             <div class="ml-auto">
@@ -98,7 +98,7 @@
             <div class="mr-auto p-2 pl-0 pb-0">
               <div class="back-modal" (click)="backCourseDetail()">
                 <i class="fa fa-angle-left"></i>
-                <p>{{ courseDetail.name }}</p>
+                <p>{{ courseDetail?.name }}</p>
               </div>
             </div>
             <div class="ml-auto">
@@ -144,7 +144,7 @@
 </div>
 
 <!-- start schedule task -->
-<div class="h-100" *ngIf="isScheduleTask">
+<div class="h-100" *ngIf="isScheduleTask" style="overflow: hidden;">
   <div class="d-flex justify-content-center p-2 addBg">
     <div class="inner-wrapper1 pt-0">
       <header>
@@ -155,7 +155,7 @@
           <div class="mr-auto p-2 pl-0 pb-0">
             <div class="back-modal" (click)="backCourseDetail()">
               <i class="fa fa-angle-left"></i>
-              <p>{{ courseDetail.name }}</p>
+              <p>{{ courseDetail?.name }}</p>
             </div>
           </div>
           <div class="ml-auto">
@@ -171,7 +171,7 @@
       </header>
     </div>
   </div>
-  <div class="d-flex-jusitfy-content-center menuborder">
+  <div class="d-flex-jusitfy-content-center h-100">
     <div class="progress-box-wrap">
       <ol class="progress" data-steps="4">
         <li id="step1">
@@ -213,7 +213,7 @@
       </ol>
     </div>
     <div *ngIf="activeStep == '1'" class="div_step">
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center ">
         <div class="inside-data-wrapper">
           <p class="step-title bold">
             Choose a template to assign scheduled tasks.

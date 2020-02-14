@@ -1,5 +1,5 @@
 #courseWrapper {
-  height: 100vh;
+  height: 100%;
 }
 
 .header-font {
@@ -297,6 +297,10 @@
   cursor: pointer;
 }
 
+.cursor-off {
+  cursor: not-allowed !important;
+}
+
 .courses-title-wrap {
   height: 45px;
 }
@@ -439,7 +443,6 @@ ul.recent-lists li:last-child {
 .main-content {
   flex: 1;
   background: #f2f4f5;
-  overflow-y: scroll;
   margin-left: 320px;
 }
 
