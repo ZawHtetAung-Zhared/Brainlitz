@@ -151,6 +151,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   stepClick(event, step) {
+    console.log(this.clickableSteps);
     if (this.clickableSteps.includes(step)) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
@@ -160,6 +161,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   addOrRemoveClassOfStep(ele) {
+    console.log(ele);
     var max = this.clickableSteps[this.clickableSteps.length - 1];
     ele.parents('li').removeClass('done');
     ele
@@ -175,7 +177,7 @@ export class AssignTaskComponent implements OnInit {
       .nextAll('li')
       .removeClass('active');
     for (var i = 0; i < this.clickableSteps.length; i++) {
-      $('#' + this.clickableSteps[i])
+      $('#step' + this.clickableSteps[i])
         .children('a')
         .css('background-color', '#0080ff');
     }
