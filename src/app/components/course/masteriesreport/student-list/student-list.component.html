@@ -8,38 +8,74 @@
         </span>
       </span>
     </div>
-    <div class="d-flex justify-content-between mt-4 mb-4">
+    <div class="d-flex justify-content-between mt-4">
       <div class="d-flex align-items-center">
         <span class="header-title">
-          {{ selectedMastery.data[0].groupTypeValue }}
+          {{ selectedMastery.selectData[0].groupTypeValue }}
         </span>
-        <span class="ml-4 dropdown-toggle" style="font-size: 24px;"></span>
+        <span
+          class="ml-4 dropdown-toggle cust-dropbtn"
+          (click)="dropDown($event, 'item', 'id')"
+        ></span>
       </div>
       <button class="btn btn-history">Activity history</button>
     </div>
-    <div class="mb-4">
+    <div *ngIf="isItemSelect" class="item-dp">
+      <div
+        *ngFor="let item of selectedMastery.data"
+        class="item-list"
+        (click)="selectItem(item.id)"
+      >
+        {{ item.groupTypeValue }}
+      </div>
+    </div>
+    <div class="mt-4 mb-4">
       <span class="light-txt"
         >Proident elit labore proident aute cupidatat nulla proident est. Sit
         reprehenderit exercitation sunt quis incididunt mollit ea reprehenderit
         nisi incididunt. Amet aliquip Lorem cillum .</span
       >
     </div>
-    <div class="card cust-card">
-      <div class="cust-1">
-        <div class="d-flex align-items-center p-3">
-          <span class="option-title"> Mastered </span>
+    <!-- start for -->
+
+    <div
+      *ngFor="let report of selectedMastery.selectData[0].reportList"
+      class="mb-4 card cust-card"
+    >
+      <div class="cust-1 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <span class="option-title"> {{ report.type }} </span>
           <span class="dotted ml-3 mr-3"></span>
-          <span class="student-info"> 4 students </span>
+          <span class="student-info">
+            {{
+              report.total_student > 1
+                ? report.total_student + ' students'
+                : report.total_student + ' student'
+            }}
+          </span>
+        </div>
+        <div
+          [ngClass]="{
+            dropup: report.showList
+          }"
+          (click)="dropDown($event, 'student', report.id)"
+        >
+          <span class="dropdown-toggle cust-dropbtn"></span>
         </div>
       </div>
-      <div class="cust-2 d-flex p-3">
-        <div class="d-flex align-items-center mr-5 mb-3">
+      <div *ngIf="report.showList" class="cust-2 row m-0">
+        <div
+          *ngFor="let std of report.student_list"
+          class="col-md-4 d-flex align-items-center mt-3 mb-3"
+        >
           <div class="d-flex justify-content-center std-img">
             <img _ngcontent-c2="" src="./assets/icons/journal.svg" />
           </div>
-          <span class="std-name"> Student name </span>
+          <span class="std-name"> {{ std.name }} </span>
         </div>
       </div>
     </div>
+
+    <!-- end for -->
   </div>
 </div>

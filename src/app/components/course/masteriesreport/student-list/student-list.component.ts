@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
+import student_Data from './studentData';
 
 @Component({
   selector: 'app-student-list',
@@ -14,6 +15,9 @@ export class StudentListComponent implements OnInit {
   ];
   public selectedMastery: any; //= this.masteriesReports[localStorage.getItem('mastery_reportId')];
   public itemId = localStorage.getItem('mastery_itemId');
+  public studentlist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  public isItemSelect: boolean = false;
+  public showStdList: boolean = true;
 
   constructor(private _location: Location) {}
 
@@ -22,16 +26,47 @@ export class StudentListComponent implements OnInit {
       return res.id == localStorage.getItem('mastery_reportId');
     });
     this.selectedMastery = this.masteriesReports[0];
-    this.selectedMastery.data = this.masteriesReports[0].data.filter(function(
+    this.selectedMastery.selectData = this.selectedMastery.data.filter(function(
       res
     ) {
       return res.id == localStorage.getItem('mastery_itemId');
     });
-    console.log(this.selectedMastery, this.itemId);
+    this.selectedMastery.selectData[0].reportList = student_Data;
+    this.selectedMastery.selectData[0].reportList.forEach(element => {
+      element.showList = true;
+    });
+    console.log(this.selectedMastery, this.itemId, this.masteriesReports);
+  }
+
+  @HostListener('document:click', ['$event']) clickedOutside($event) {
+    this.isItemSelect = false;
   }
 
   backTo() {
     this._location.back();
     localStorage.removeItem('mastery_itemId');
+  }
+
+  selectItem(ItemId) {
+    this.selectedMastery.selectData = this.selectedMastery.data.filter(function(
+      res
+    ) {
+      return res.id == ItemId;
+    });
+    this.selectedMastery.selectData[0].reportList = student_Data;
+    this.itemId = ItemId;
+    console.log(this.selectedMastery);
+  }
+
+  dropDown($event: Event, state, id) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    if (state == 'student') {
+      this.showStdList = !this.showStdList;
+      this.selectedMastery.selectData[0].reportList.forEach(element => {
+        if (element.id == id) element.showList = !element.showList;
+      });
+    }
+    this.isItemSelect = state == 'item' ? !this.isItemSelect : false;
   }
 }
