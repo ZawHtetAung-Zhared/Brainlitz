@@ -333,6 +333,31 @@
   .P-paid {
     margin-top: -20px;
   }
+  .masteries-stats {
+    padding: 0px !important;
+  }
+  .canvas-size {
+    margin-top: 0px !important;
+  }
+  .mastery-head {
+    padding-left: 0px !important;
+  }
+  .stu-no {
+    left: 40% !important;
+    top: 12% !important;
+  }
+  .stu {
+    left: 32% !important;
+    top: 19% !important;
+  }
+  .mast-no {
+    left: 43% !important;
+    top: 32% !important;
+  }
+  .mast {
+    left: 24% !important;
+    top: 40% !important;
+  }
 }
 .lb-date {
   width: 210px;
@@ -510,19 +535,19 @@
 }
 .stu-no {
   left: 43%;
-  top: 10%;
+  top: 0%;
 }
 .stu {
   left: 38%;
-  top: 20%;
+  top: 10%;
 }
 .mast-no {
   left: 45%;
-  top: 45%;
+  top: 30%;
 }
 .mast {
   left: 33%;
-  top: 55%;
+  top: 40%;
 }
 .disabled {
   pointer-events: none;
@@ -536,4 +561,13 @@
 .overflow {
   overflow-x: auto;
   overflow-y: hidden;
+}
+.masteries-stats {
+  width: 55%;
+  padding: 15px;
+}
+.canvas-size {
+  width: 100%;
+  height: 100%;
+  margin-top: -50px;
 }
