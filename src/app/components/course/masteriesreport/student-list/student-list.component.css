@@ -1,6 +1,7 @@
 .content-wrapper {
   background: #f2f4f5;
   padding-top: 30px;
+  min-height: 100vh;
 }
 .inner-wrapper {
   padding-top: 0;
@@ -64,10 +65,12 @@
 }
 .cust-card {
   border-radius: 4px;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
 }
 .cust-1 {
   background: #edeef0;
   border-radius: 4px 4px 0px 0px;
+  padding: 16px;
 }
 .option-title {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
@@ -109,4 +112,26 @@
   font-size: 17px;
   line-height: 28px;
   color: #363f4d;
+}
+
+.cust-dropbtn {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.item-dp {
+  width: 500px;
+  max-height: 300px;
+  position: absolute;
+  z-index: 99;
+  background: #fff;
+  overflow: scroll;
+  box-shadow: 0px 10px 30px 1px rgba(1, 0, 0, 0.2);
+  border: none;
+}
+
+.item-list {
+  border-bottom: 1px solid lightgray;
+  padding: 16px;
+  word-break: break-all;
 }

@@ -16,6 +16,13 @@
   }
 }
 
+.cust-bg {
+  background: #f2f4f5;
+}
+.white-bg {
+  background: #ffffff;
+}
+
 .back-txt {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;

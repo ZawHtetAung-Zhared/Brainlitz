@@ -1,7 +1,7 @@
 import { type } from 'os';
 import { CourseComponent } from './../course.component';
 import { appService } from './../../../service/app.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
-  constructor(private router: Router, private _service: appService) {}
+  constructor(
+    private router: Router,
+    private _service: appService,
+    private route: ActivatedRoute
+  ) {}
 
   public allTasks = {
     tasks: [
@@ -36,6 +40,15 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     //this.courseId = '5df8813bd0f06a163d832f1c';//for testing
+    // this.route.params.subscribe(params => {
+    //   this.courseId = params.id;
+    //   localStorage.setItem('COURSEID', this.courseId);
+    //   console.log('CourseID', this.courseId);
+    //   localStorage.setItem('course_id', this.courseId);
+    // });
+    this.courseId = localStorage.getItem('course_id');
+    console.log('this.courseId');
+    console.log(this.courseId);
     this.getAllTasksInfo();
     this.tasks = this.allTasks.tasks;
     console.log(this.tasks.length);

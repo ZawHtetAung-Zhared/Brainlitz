@@ -167,7 +167,8 @@ export class CourseListComponent implements OnInit {
               this.selectedPlan,
               this.limit,
               this.skip,
-              this.page
+              this.page,
+              'onScroll'
             );
           } else {
             this.simpleCourseSearchPerPlan(
@@ -212,6 +213,7 @@ export class CourseListComponent implements OnInit {
     //     this.showCourseDetail(this.courseId);
     //   }, 300);
     // }
+    console.log('Init~~~~~~~~');
     this.dataservice.currentActivePlan.subscribe(
       planID => (this.activePlanId = planID)
     );
@@ -407,7 +409,8 @@ export class CourseListComponent implements OnInit {
       });
   }
 
-  getCoursesPerPlan(courseplanId, limit, skip, page) {
+  getCoursesPerPlan(courseplanId, limit, skip, page, from) {
+    console.log('call getCoursesPerPlan from', from);
     console.log(limit, skip, page);
     this.loading = true;
     this._service
@@ -454,7 +457,8 @@ export class CourseListComponent implements OnInit {
         this.selectedPlan,
         this.limit,
         this.skip,
-        this.page
+        this.page,
+        'autoCall'
       );
     } else {
       this.simpleCourseSearchPerPlan(
@@ -549,6 +553,8 @@ export class CourseListComponent implements OnInit {
 
   enrollCustomer(courseId) {
     localStorage.setItem('userType', 'customer');
+    localStorage.setItem('COURSEID', courseId);
+    localStorage.setItem('course_id', courseId);
     this.router.navigateByUrl(`/coursedetail/${courseId}/enroll`);
   }
 

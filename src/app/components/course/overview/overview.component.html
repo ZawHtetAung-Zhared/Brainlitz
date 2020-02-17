@@ -5,41 +5,48 @@
       <!-- <p>30 / 30 seats left</p> -->
     </div>
     <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
-      <div class="d-flex justify-content-between mb-4">
-        <div class="c-enroll ml-4">
-          <h3>15</h3>
-          <span>customers currently enrolled</span>
-        </div>
-        <div class="d-flex flex-column c-unpaid mr-4">
-          <span>
-            <h3 class="c-h3">0</h3>
-            invoice
-          </span>
-          <span>Unpaid</span>
-        </div>
+      <div *ngIf="pplLists?.length == 0">
+        <p class="enroll">No student in this course yet</p>
       </div>
-      <div>
-        <p class="enroll" *ngIf="on">Must enroll students to this course</p>
-        <div *ngIf="!on" class="d-flex ml-3">
-          <span
-            ngbTooltip="{{ ppl.fullName }}"
-            *ngFor="let ppl of customerlist"
-            class="propic"
+      <div *ngIf="pplLists?.length > 0">
+        <div class="d-flex justify-content-between mb-4">
+          <div class="c-enroll ml-4">
+            <h3>{{ enrolledcount }}</h3>
+            <span>customers currently enrolled</span>
+          </div>
+          <div
+            class="d-flex flex-column c-unpaid mr-4"
+            [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
           >
-            <img
-              *ngIf="ppl.fullName != ''"
+            <span>
+              <h3 class="c-h3">{{ unpaid }}</h3>
+              invoice
+            </span>
+            <span>Unpaid</span>
+          </div>
+        </div>
+        <div>
+          <div *ngIf="!on" class="d-flex ml-3 overflow">
+            <span
               ngbTooltip="{{ ppl.fullName }}"
-              src="{{ ppl.profilePic }}"
-            />
-            <img
-              *ngIf="ppl.fullName == ''"
-              ngbTooltip="{{ ppl.email }}"
-              src="{{ ppl.profilePic }}"
-            />
-          </span>
-          <span *ngIf="pplLists.length > 8" class="propic">
-            + 1
-          </span>
+              *ngFor="let ppl of customerlist"
+              class="propic"
+            >
+              <img
+                *ngIf="ppl.fullName != ''"
+                ngbTooltip="{{ ppl.fullName }}"
+                src="{{ ppl.profilePic }}"
+              />
+              <img
+                *ngIf="ppl.fullName == ''"
+                ngbTooltip="{{ ppl.email }}"
+                src="{{ ppl.profilePic }}"
+              />
+            </span>
+            <span *ngIf="pplLists.length > 8" class="propic">
+              + {{ seat_taken - 8 }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -48,7 +55,8 @@
         <button
           class="detail-btn"
           (click)="enrollCustomer(courseId)"
-          [ngClass]="{ white: !on }"
+          [ngClass]="{ white: !on, notallowed: seat_left == 0 }"
+          [disabled]="seat_left == 0"
         >
           <!-- (click)="toggle()" -->
           Enroll customer
@@ -62,42 +70,61 @@
       <h3>Attendance</h3>
     </div>
     <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
-      <div class="d-flex justify-content-between">
-        <span><img src="../../../../assets/img/chevron-right-s.png"/></span>
-        <span>12 Jan 2020</span>
-        <span><img src="../../../../assets/img/chevron-left-s.png"/></span>
+      <div *ngIf="lessonList.attendance == ''">
+        <p class="enroll">No lesson in this course yet</p>
       </div>
-      <div class="d-flex justify-content-center">
+      <div
+        *ngIf="lessonList.attendance != ''"
+        class="d-flex justify-content-between mb-3"
+      >
+        <span (click)="previousDate()" [ngClass]="{ disabled: !prevflag }"
+          ><img src="../../../../assets/img/chevron-right-s.png"
+        /></span>
+        <span *ngIf="lessonList.length != 0">{{
+          indexDay.lessonStartDate | utcDateoverview
+        }}</span>
+        <span (click)="nextDate()" [ngClass]="{ disabled: !nextflag }"
+          ><img src="../../../../assets/img/chevron-left-s.png"
+        /></span>
+      </div>
+      <div
+        *ngIf="lessonList.attendance != ''"
+        class="d-flex justify-content-center"
+      >
         <div class="d-flex present">
           <div class="d-flex data">
-            <span class="attendance-no">20</span>
+            <span class="attendance-no">{{ present }}</span>
             <span>Present</span>
           </div>
         </div>
         <div class="d-flex absent">
           <div class="d-flex data">
-            <span class="attendance-no">0</span>
+            <span class="attendance-no">{{ absent }}</span>
             <span>Absent</span>
           </div>
         </div>
         <div class="d-flex nodata">
           <div class="d-flex data">
-            <span class="attendance-no">0</span>
-            <span>No data</span>
+            <span class="attendance-no">{{ total }}</span>
+            <span>Total</span>
           </div>
         </div>
       </div>
     </div>
     <div class="cardfoot" style="height: 25%;">
       <div style="float: right">
-        <button class="detail-btn white" (click)="goToAttendance()">
+        <button
+          class="detail-btn"
+          [ngClass]="{ white: lessonList.attendance != '' }"
+          (click)="goToAttendance()"
+        >
           Set attendance
         </button>
       </div>
     </div>
   </div>
 
-  <div class="tasks-view">
+  <div class="tasks-view" [ngClass]="{ hide: !sparkwerkz }">
     <div class="cardhead">
       <h3>Tasks</h3>
       <span class="spaninline">
@@ -108,14 +135,14 @@
       <div class="d-flex">
         <div class="d-flex task-div">
           <div class="d-flex task-status">
-            <h2 class="big-no">0</h2>
+            <h2 class="big-no">{{ scheduled }}</h2>
             <span class="task-label"> SCHEDULED</span>
           </div>
           <h6>task assigned</h6>
         </div>
         <div class="d-flex task-div">
           <div class="d-flex task-status">
-            <h2 class="big-no">0</h2>
+            <h2 class="big-no">{{ custom }}</h2>
             <span class="task-label"> CUSTOM</span>
           </div>
           <h6>tasks assigned</h6>
@@ -124,7 +151,12 @@
     </div>
     <div class="cardfoot">
       <div style="float: right">
-        <button class="detail-btn" (click)="goToAssignTask()">
+        <button
+          class="detail-btn"
+          routerLink="../../../assignTask"
+          [ngClass]="{ white: scheduled != 0 || custom != 0 }"
+          (click)="goToAssignTask()"
+        >
           Assign task
         </button>
       </div>
@@ -132,7 +164,7 @@
   </div>
   <!-- ****For later sprint ****-->
 
-  <div class="leaderboard-view">
+  <div class="leaderboard-view" [ngClass]="{ hide: !sparkwerkz }">
     <div class="cardhead d-flex justify-content-between">
       <div>
         <h3>Leaderboard</h3>
@@ -149,7 +181,7 @@
         <div class="lb-small d-flex">
           <div class="lb-sp mt-5-3 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157292910591462220624_original.jpg"
             />
             <div class="lb-pos">2</div>
           </div>
@@ -168,7 +200,7 @@
         <div class="lb-small d-flex">
           <div class="lb-lp mt-0 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157982363101344860215_original.jpg"
             />
             <div class="lb-pos">1</div>
           </div>
@@ -187,7 +219,7 @@
         <div class="lb-small d-flex">
           <div class="lb-sp mt-8 mb-2">
             <img
-              src="https://brainlitz-dev.s3.amazonaws.com/staging/undefined/other/157709762360778788414blob"
+              src="https://brainlitz-dev.s3.amazonaws.com/staging/stgbl-cw1/profile/157890494085346223685_original.jpg"
             />
             <div class="lb-pos">3</div>
           </div>
@@ -215,17 +247,233 @@
 
 <!--**** For later sprint ****-->
 
-<div class="mastery-view">
-  <h3>Masteries reports</h3>
-  <span class="spaninline">
-    <p class="m-0">SW</p>
-  </span>
-  <div class="d-flex">
+<div class="mastery-view" [ngClass]="{ hide: !sparkwerkz }">
+  <div class="mastery-view-head">
+    <h3>Masteries reports</h3>
+    <span class="spaninline">
+      <p class="m-0">SW</p>
+    </span>
+    <!-- <div class="d-flex">
     <div class="mastery-type">
       1
     </div>
     <div class="mastery-type">
       2
+    </div>
+  </div> -->
+    <div class="bd-example">
+      <div
+        id="carouselExampleCaptions"
+        class="carousel slide"
+        data-ride="carousel"
+        data-interval="false"
+      >
+        <ol class="carousel-indicators">
+          <li
+            data-target="#carouselExampleCaptions"
+            data-slide-to="0"
+            class="active"
+          ></li>
+          <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="d-flex">
+              <div class="mastery-type pb-3">
+                <div class="mastery-head p-3">
+                  <h3>Light Energy</h3>
+                </div>
+                <div class="mastery-body d-flex p-3">
+                  <div class="d-flex flex-column" class="masteries-stats">
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="struggle">
+                        <h4>25%</h4>
+                        <p>struggling</p>
+                      </span>
+                      <span class="fine">
+                        <h4>50%</h4>
+                        <p>doing fine</p>
+                      </span>
+                    </div>
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="mastered">
+                        <h4>20%</h4>
+                        <p>mastered</p> </span
+                      ><span class="notstarted">
+                        <h4>5%</h4>
+                        <p>not started</p>
+                      </span>
+                    </div>
+                  </div>
+                  <div style="width: 45%; position: relative">
+                    <h6 class="stu-no">100</h6>
+                    <p class="stu">student</p>
+                    <h6 class="mast-no">25</h6>
+                    <p class="mast">masteries</p>
+                    <canvas
+                      width="100%"
+                      height="100%"
+                      id="canvas"
+                      class="canvas-size"
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mastery-type pb-3">
+                <div class="mastery-head p-3">
+                  <h3>Heat Energy</h3>
+                </div>
+                <div class="mastery-body d-flex p-3">
+                  <div class="d-flex flex-column" class="masteries-stats">
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="struggle">
+                        <h4>25%</h4>
+                        <p>struggling</p>
+                      </span>
+                      <span class="fine">
+                        <h4>50%</h4>
+                        <p>doing fine</p>
+                      </span>
+                    </div>
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="mastered">
+                        <h4>20%</h4>
+                        <p>mastered</p> </span
+                      ><span class="notstarted">
+                        <h4>5%</h4>
+                        <p>not started</p>
+                      </span>
+                    </div>
+                  </div>
+                  <div style="width: 45%; position: relative;">
+                    <h6 class="stu-no">100</h6>
+                    <p class="stu">student</p>
+                    <h6 class="mast-no">25</h6>
+                    <p class="mast">masteries</p>
+                    <canvas
+                      width="100%"
+                      height="100%"
+                      id="canvas2"
+                      class="canvas-size"
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="d-flex">
+              <div class="mastery-type pb-3">
+                <div class="mastery-head p-3">
+                  <h3>Water Energy</h3>
+                </div>
+                <div class="mastery-body d-flex p-3">
+                  <div class="d-flex flex-column" class="masteries-stats">
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="struggle">
+                        <h4>25%</h4>
+                        <p>struggling</p>
+                      </span>
+                      <span class="fine">
+                        <h4>50%</h4>
+                        <p>doing fine</p>
+                      </span>
+                    </div>
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="mastered">
+                        <h4>20%</h4>
+                        <p>mastered</p> </span
+                      ><span class="notstarted">
+                        <h4>5%</h4>
+                        <p>not started</p>
+                      </span>
+                    </div>
+                  </div>
+                  <div style="width: 45%; position: relative">
+                    <h6 class="stu-no">100</h6>
+                    <p class="stu">student</p>
+                    <h6 class="mast-no">25</h6>
+                    <p class="mast">masteries</p>
+                    <canvas
+                      width="100%"
+                      height="100%"
+                      id="canvas3"
+                      class="canvas-size"
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mastery-type pb-3">
+                <div class="mastery-head p-3">
+                  <h3>Lightning Energy</h3>
+                </div>
+                <div class="mastery-body d-flex p-3">
+                  <div class="d-flex flex-column" class="masteries-stats">
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="struggle">
+                        <h4>25%</h4>
+                        <p>struggling</p>
+                      </span>
+                      <span class="fine">
+                        <h4>50%</h4>
+                        <p>doing fine</p>
+                      </span>
+                    </div>
+                    <div class="percentage d-flex justify-content-between">
+                      <span class="mastered">
+                        <h4>20%</h4>
+                        <p>mastered</p> </span
+                      ><span class="notstarted">
+                        <h4>5%</h4>
+                        <p>not started</p>
+                      </span>
+                    </div>
+                  </div>
+                  <div style="width: 45%; position: relative;">
+                    <h6 class="stu-no">100</h6>
+                    <p class="stu">student</p>
+                    <h6 class="mast-no">25</h6>
+                    <p class="mast">masteries</p>
+                    <canvas
+                      width="100%"
+                      height="100%"
+                      id="canvas4"
+                      class="canvas-size"
+                    ></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselExampleCaptions"
+          role="button"
+          data-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselExampleCaptions"
+          role="button"
+          data-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="mastery-view-footer">
+    <div style="float: right">
+      <button class="detail-btn white">
+        More detail
+      </button>
     </div>
   </div>
 </div>

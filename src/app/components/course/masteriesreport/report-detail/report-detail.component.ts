@@ -159,7 +159,7 @@ export class ReportDetailComponent implements OnInit {
     this.plotOption = {
       tooltip: {},
       grid: {
-        left: 250
+        left: 255
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -184,16 +184,17 @@ export class ReportDetailComponent implements OnInit {
           show: false,
           lineStyle: {
             color: '#edeff0'
-          }
+          },
+          align: 'center'
         },
         axisLabel: {
           show: true,
           textStyle: {
             fontSize: 12,
             lineHeight: 16,
-            color: '#64707d',
-            align: 'right'
+            color: '#64707d'
           },
+          margin: 20,
           formatter: function(value) {
             // value=value+'';
             if (value.length > 40) {
@@ -279,6 +280,9 @@ export class ReportDetailComponent implements OnInit {
     if (!expandOn) {
       this.plotOption.xAxis.axisLabel.show = false;
       this.plotOption.xAxis.splitLine.show = false;
+    } else {
+      this.plotOption.yAxis.axisLabel.margin = 255;
+      this.plotOption.yAxis.axisLabel.align = 'left';
     }
     this.plotGraph(expandOn);
   }

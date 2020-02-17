@@ -4453,4 +4453,26 @@ export class appService {
       return result;
     });
   }
+
+  getOverviewList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview data');
+      return result;
+    });
+  }
 }

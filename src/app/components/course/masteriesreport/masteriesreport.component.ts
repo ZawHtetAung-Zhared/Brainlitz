@@ -63,9 +63,7 @@ export class MasteriesreportComponent implements OnInit {
         },
         axisLabel: {
           show: true,
-          formatter: function(value) {
-            return value + '   ';
-          },
+          margin: 20,
           textStyle: {
             fontSize: 12,
             lineHeight: 16,

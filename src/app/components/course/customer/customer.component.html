@@ -96,12 +96,12 @@
             pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left !== null
           "
         >
-          <p>0/{{ detailLists.coursePlan.seats }} Customer</p>
+          <p>0/{{ detailLists?.coursePlan?.seats }} Customer</p>
         </div>
         <div
           class="d-flex"
           *ngIf="
-            pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left == null
+            pplLists?.CUSTOMER?.length < 1 && detailLists?.seat_left == null
           "
         >
           <p>0/unlimited Customer</p>
@@ -109,9 +109,9 @@
         <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length > 0">
           <p class="seat-text-wrapper">
             Total:
-            <span *ngIf="detailLists.seat_left !== null">
+            <span *ngIf="detailLists?.seat_left !== null">
               {{ pplLists?.CUSTOMER?.length }}/{{
-                detailLists.coursePlan.seats
+                detailLists?.coursePlan?.seats
               }}
             </span>
             <span *ngIf="detailLists.seat_left == null">
@@ -137,7 +137,7 @@
           )
         "
         style="height:40px;"
-        [disabled]="detailLists.seat_left == 0"
+        [disabled]="detailLists.seat_left == 0 && this.courseType !== 'FLEXY'"
       >
         Enroll class
       </button>
