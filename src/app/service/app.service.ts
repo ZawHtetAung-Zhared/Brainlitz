@@ -1454,13 +1454,25 @@ export class appService {
     });
   }
 
-  getCourseplanCollection(regionId, locationId) {
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/course_plans?locationId=' +
-      locationId;
+  getCourseplanCollection(regionId, locationId, keyword) {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId +
+        '&keyword=' +
+        keyword;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1886,24 +1898,47 @@ export class appService {
     limit,
     skip,
     page,
-    direction
+    direction,
+    keyword
   ): Observable<any> {
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/course_plans/' +
-      courseplanId +
-      '/courses?locationId=' +
-      locationId +
-      '&limit=' +
-      limit +
-      '&skip=' +
-      skip +
-      '&page=' +
-      page +
-      '&direction=' +
-      direction;
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction +
+        '&keyword=' +
+        keyword;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -2017,6 +2052,21 @@ export class appService {
     };
     console.log(httpOptions);
     return this.httpClient.post(apiUrl, body, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  getAttendance(courseid) {
+    let url;
+    url = this.baseUrl + '/courses/' + courseid + '/attendances';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log('getAttendance works');
+    return this.httpClient.get(url, httpOptions).map(res => {
       console.log(res);
       return res;
     });
@@ -3711,7 +3761,8 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      return result;
+      console.log(res);
+      return res;
     });
   }
   getEvaluationExport(apg: any, regionId: string) {
@@ -3756,6 +3807,25 @@ export class appService {
 
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+
+  getAllTasksInfo(regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/courses/' + courseId + '/tasks';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Here All Tasks');
+      console.log(result);
       return result;
     });
   }
@@ -4327,7 +4397,62 @@ export class appService {
     });
   }
 
-  // 'https://dev-brainlitz.pagewerkz.com/api/v1/regions/5de8714d0e47e8259865e8b0/courses/5df8813bd0f06a163d832f1c/overview'
+  getsingletaskBytemplate(templateId, taskId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks/' +
+      taskId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignMode(id) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/assign-modes/' +
+      id;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  createAssigntask(courseId, data): Observable<any> {
+    let url = this.baseUrl + '/courses/' + courseId + '/assign-course-task';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 
   getOverviewList() {
     let apiUrl =

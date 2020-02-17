@@ -116,6 +116,7 @@
         <button
           class="detail-btn"
           [ngClass]="{ white: lessonList.attendance != '' }"
+          (click)="goToAttendance()"
         >
           Set attendance
         </button>
@@ -154,6 +155,7 @@
           class="detail-btn"
           routerLink="../../../assignTask"
           [ngClass]="{ white: scheduled != 0 || custom != 0 }"
+          (click)="goToAssignTask()"
         >
           Assign task
         </button>

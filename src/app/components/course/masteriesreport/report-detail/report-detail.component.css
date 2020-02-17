@@ -1,0 +1,116 @@
+.inner-wrapper {
+  padding-top: 0;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
+@media (min-width: 2000px) {
+  .inner-wrapper {
+    width: 1900px;
+    margin: 0 auto;
+  }
+}
+@media only screen and (min-width: 1366px) {
+  .inner-wrapper {
+    width: 1080px !important;
+    margin: 0 auto;
+  }
+}
+
+.back-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  color: #363f4d;
+  cursor: pointer;
+  padding: 0px 5px;
+}
+
+.title-wrap {
+  background: #edeef0;
+  height: 80px;
+  width: 100vw;
+  /* margin-left: -30px !important; */
+  display: inline-grid;
+}
+
+.mastery-title {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #363f4d;
+}
+
+.light-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 24px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+  padding-top: 8px;
+}
+
+.history-btn {
+  background: #ffffff;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  height: 40px;
+  margin-right: 64px;
+}
+
+.footer {
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
+  width: 100vw;
+  height: 63px;
+  /* margin-left: -30px !important; */
+  padding: 0px 20px;
+}
+.color-wrap {
+  margin-right: 16px;
+}
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+.color-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 20px;
+  color: #363f4d;
+  word-break: break-all;
+}
+
+.stickHeader {
+  position: fixed;
+  top: 70px;
+  z-index: 1;
+  padding: 0px 15px;
+}
+
+.advance {
+  background: #fff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  left: -97px;
+  bottom: 124px;
+  cursor: pointer;
+}
+
+.advance-img {
+  width: 20px;
+  height: 20px;
+}

@@ -1,10 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
   NgbModal,
-  ModalDismissReasons,
   NgbDatepickerConfig,
   NgbCalendar,
   NgbDateStruct
@@ -35,28 +34,36 @@ import { appService } from '../../../service/app.service';
 export class AssignTaskComponent implements OnInit {
   public courseDetail: any;
   public sparkWerkz: any;
-  public standActiveId: any;
-  public classActiveId: any;
-  public templateActiveId: any;
-  public singleTemplate: any;
+  public locationID = localStorage.getItem('locationId');
+
+  // active  && selected
   public activeStep: any;
-  public txtextra: any = 1;
-  public clickableSteps: Array<any> = ['1'];
-  public scheduletemplateList: any = [];
-  public isTaskBreakEnAble: any;
-  public isStart: boolean = false;
-  public isScheduleTask: boolean = false;
-  public progressSlider: boolean = false;
-  public selectedTaskArr: any = [];
-  public modalReference: any;
-  public singleSelectedTask: any;
-  public showFormat: any;
+
   public isSelectedTime: any;
-  public masteryList: any = [];
-  public taskLists: any = [];
+  public clickableSteps: Array<any> = ['1'];
+  public singleSelectedTask: any;
+
+  // list
   public standardList: any = [];
   public classList: any = [];
   public assignTaskList: any = [];
+  public assignModeList: any = [];
+  public masteryList: any = [];
+  public taskLists: any = [];
+  public scheduletemplateList: any = [];
+
+  // other
+  public modalReference: any;
+  public createassignTask: any = {};
+  public annoTaskDate: any;
+  public taskStartDate: any;
+  public taskEndDate: any;
+  // boolean
+  public isScheduleTask: boolean = false;
+  public progressSlider: boolean = false;
+  public isStart: boolean = false;
+  public isTaskBreakEnAble: any;
+
   // calendar
   selectedMonthViewDay: CalendarMonthViewDay;
   events: CalendarEvent[] = [];
@@ -64,39 +71,55 @@ export class AssignTaskComponent implements OnInit {
   currentMonth: any;
   selectedDays: any;
   view: any = 'month';
-  clickDay: Date;
+  // clickDay: Date;
   // end calendar
+
+  // hour and date picker
   public selectedHrRange: any;
   public selectedMinRange: any;
   public overDurationHr: boolean = false;
   public startFormat: any;
   public startTime: any;
-  public classend: any;
   model: any = {};
   public rangeMin: any;
   public rangeHr: any;
+  public showFormat: any;
 
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
     private config: NgbDatepickerConfig,
     private _service: appService,
-    private _route: Router
+    private _route: Router,
+    private _activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.courseDetail = JSON.parse(localStorage.getItem('courseDetail'));
-    this.sparkWerkz = this.courseDetail.sparkWerkz;
+    this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
   }
 
+  getCourseDetail(id) {
+    this._service.getSingleCourse(id, this.locationID).subscribe(
+      (res: any) => {
+        this.courseDetail = res;
+        console.log('here details list', this.courseDetail);
+        this.sparkWerkz = this.courseDetail.sparkWerkz;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   checkStandard(id) {
-    this.standActiveId = id;
+    this.createassignTask.standard.standardId = id;
   }
 
   choiceClass(id) {
-    this.classActiveId = id;
+    this.createassignTask.standard.classLevelId = id;
+    console.log(this.createassignTask, 'assign task');
   }
 
   goToStart() {
@@ -107,8 +130,9 @@ export class AssignTaskComponent implements OnInit {
     });
   }
 
-  goToScheduleTask(id) {
-    if (id == 1) {
+  goToScheduleTask(obj) {
+    this.createassignTask.taskType = obj;
+    if (obj.id == 1) {
       $('#placeholder_color').append(
         "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
           '#788796' +
@@ -120,11 +144,14 @@ export class AssignTaskComponent implements OnInit {
       }, 200);
       this.activeStep = '1';
       this.isScheduleTask = true;
+
       this.getTemplateLists();
     }
+    console.log(this.createassignTask);
   }
 
   stepClick(event, step) {
+    console.log(this.clickableSteps);
     if (this.clickableSteps.includes(step)) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
@@ -134,6 +161,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   addOrRemoveClassOfStep(ele) {
+    console.log(ele);
     var max = this.clickableSteps[this.clickableSteps.length - 1];
     ele.parents('li').removeClass('done');
     ele
@@ -149,7 +177,7 @@ export class AssignTaskComponent implements OnInit {
       .nextAll('li')
       .removeClass('active');
     for (var i = 0; i < this.clickableSteps.length; i++) {
-      $('#' + this.clickableSteps[i])
+      $('#step' + this.clickableSteps[i])
         .children('a')
         .css('background-color', '#0080ff');
     }
@@ -158,62 +186,126 @@ export class AssignTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
-    console.log(this.templateActiveId, 'temp active');
+    console.log(this.createassignTask.template.taskTemplateId, 'temp active');
     this._service
-      .getsingleTemplate(this.templateActiveId)
+      .getsingleTemplate(this.createassignTask.template.taskTemplateId)
       .subscribe((res: any) => {
         console.log(res, 'single template');
-        this.singleTemplate = res;
-        // this.calculatedatefromweeknumber('1','MONDAY')
+        // this.createassignTask.template.name=res.templateName;
+        // this.createassignTask.template.description=res.description;
+        // this.createassignTask.template.extraTasksAllowed=res.extraTasksAllowed;
+        // this.createassignTask.template.taskBreak=res.taskBreak;
+        this.isTaskBreakEnAble = res.taskBreak ? 'Enable' : 'Disable';
+        this.addActiveBar(1, 2);
+        this.viewDate = new Date(
+          this.dayandWeektoDate(res.defaultStartWeek, res.defaultStartDay)
+        );
+        this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+        console.log(this.viewDate);
       });
-    this.isTaskBreakEnAble = 'Enable';
     this.clickableSteps.push(step);
-    this.viewDate = new Date();
-    this.currentMonth = this.datePipe.transform(this.viewDate, 'MMMM');
+
     this.stepClick(event, step);
   }
 
   goToStep3(event, step) {
-    console.log('step', step, this.clickDay, this.templateActiveId);
     this._service
       .getTaskBytemplate(
-        this.templateActiveId,
-        new Date(this.clickDay).toISOString()
+        this.createassignTask.template.taskTemplateId,
+        new Date(this.createassignTask.template.startDate).toISOString()
       )
       .subscribe((res: any) => {
         console.log(res, 'task list');
         this.taskLists = res;
+        this.createassignTask.template.tasks = res.slice();
+        this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
+        this.stepClick(event, step);
+      });
+    console.log(this.createassignTask);
+  }
+
+  goToStep4(event, step) {
+    this._service
+      .getassignMode(this.createassignTask.taskType.id)
+      .subscribe((res: any) => {
+        console.log(res, 'assign mode');
+        this.addActiveBar(3, 4);
+        this.assignModeList = res;
       });
     this.clickableSteps.push(step);
     this.stepClick(event, step);
   }
 
-  checkTemplate(id) {
-    this.templateActiveId = id;
+  addActiveBar(prev, next) {
+    console.log(prev, next);
+    $('#step' + prev).removeClass('active');
+    $('#step' + prev).addClass('done');
+    $('#step' + next).addClass('active');
+  }
+
+  backToPrevStep(prev, next) {
+    this.activeStep = prev;
+    $('#step' + prev).addClass('active');
+
+    $('#astep' + next).addClass('finishdone');
+    $('#step' + next).removeClass('active');
+  }
+
+  checkTemplate(obj) {
+    console.log(obj);
+    let tempObj: any = {};
+    tempObj.taskTemplateId = obj._id;
+    tempObj.name = obj.templateName;
+    tempObj.description = obj.description;
+    tempObj.extraTasksAllowed = obj.extraTasksAllowed;
+    tempObj.taskBreak = obj.taskBreak;
+
+    this.createassignTask.template = tempObj;
+    console.log(this.createassignTask);
+  }
+
+  showExistData(e) {
+    console.log(e);
+    this.currentMonth = this.datePipe.transform(e, 'MMMM');
+    console.log(this.currentMonth);
   }
 
   dayClicked(day: CalendarMonthViewDay, e): void {
     console.log(day, 'day click');
-    console.log(this.clickDay, 'click day');
+    console.log(this.createassignTask.template.startDate, 'click day');
 
     this.selectedMonthViewDay = day;
-    let dateType = { id: 0, name: 'Full Day', date: day.date, value: 1 };
+    //to check future selected exit or not
+    const currentMonth = this.datePipe.transform(
+      this.selectedMonthViewDay.date,
+      'MMMM'
+    );
+    const selectedMonth = this.datePipe.transform(
+      this.createassignTask.template.startDate,
+      'MMMM'
+    );
+    console.log('month', currentMonth, selectedMonth);
 
-    if (this.clickDay && day.inMonth) {
-      let calCell = document.getElementById('cal-month-view' + this.clickDay);
-      let calDay = document.getElementById('cal-day-number' + this.clickDay);
+    if (currentMonth.toUpperCase() == selectedMonth.toUpperCase()) {
+      let calCell = document.getElementById(
+        'cal-month-view' + this.createassignTask.template.startDate
+      );
+      let calDay = document.getElementById(
+        'cal-day-number' + this.createassignTask.template.startDate
+      );
       calCell.classList.remove('cal-day-selected');
       calDay.classList.remove('cal-day-number-selected');
     }
     if (day.inMonth) {
-      this.clickDay = day.date;
       let calCell = document.getElementById('cal-month-view' + day.date);
       let calDay = document.getElementById('cal-day-number' + day.date);
       console.log(calCell, 'cal cell');
       console.log(calDay, 'cal day');
       calCell.classList.add('cal-day-selected');
       calDay.classList.add('cal-day-number-selected');
-      this.selectedDays = dateType;
+      this.viewDate = new Date(day.date);
+      this.createassignTask.template.startDate = day.date;
     }
   }
   //beforeViewRender method to call after months change
@@ -222,93 +314,123 @@ export class AssignTaskComponent implements OnInit {
     //if users selected day exit autoselected
     setTimeout(() => {
       e.body.forEach(element => {
-        if (
-          element.isToday &&
-          this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
-        ) {
-          let todayCell = document.getElementById(
-            'cal-month-view' + element.date
-          );
-          let tDay = document.getElementById('cal-day-number' + element.date);
-          todayCell.classList.add('cal-day-selected');
-          tDay.classList.add('cal-day-number-selected');
-          this.clickDay = element.date;
-          console.log(todayCell);
+        // console.log(element)
+        if (!this.createassignTask.template.startDate) {
+          // console.log(this.datePipe.transform(element.date, 'dd-MMMM-yyyy'));
+          // console.log(this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') )
+          if (
+            this.datePipe.transform(element.date, 'dd-MMMM-yyyy') ==
+              this.datePipe.transform(this.viewDate, 'dd-MMMM-yyyy') &&
+            this.currentMonth == this.datePipe.transform(element.date, 'MMMM')
+          ) {
+            console.log('is reach', element.date);
+            let todayCell = document.getElementById(
+              'cal-month-view' + element.date
+            );
+            let tDay = document.getElementById('cal-day-number' + element.date);
+            todayCell.classList.add('cal-day-selected');
+            tDay.classList.add('cal-day-number-selected');
+            this.createassignTask.template.startDate = element.date;
+            console.log(todayCell);
+          }
+        } else {
+          if (
+            this.datePipe.transform(element.date, 'dd-MM-yyyy') ==
+              this.datePipe.transform(
+                this.createassignTask.template.startDate,
+                'dd-MM-yyyy'
+              ) &&
+            this.currentMonth == this.datePipe.transform(element.date, 'MMMM')
+          ) {
+            console.log('ok smae');
+            let calCell = document.getElementById(
+              'cal-month-view' + element.date
+            );
+            let calDay = document.getElementById(
+              'cal-day-number' + element.date
+            );
+
+            calCell.classList.add('cal-day-selected');
+            calDay.classList.add('cal-day-number-selected');
+          }
+          // if (this.currentMonth == this.datePipe.transform(element.date, 'MMMM')) {
+          //   let calCell = document.getElementById('cal-month-view' + this.createassignTask.template.startDate);
+          //   let calDay = document.getElementById('cal-day-number' + this.createassignTask.template.startDate);
+          //   console.log(calCell, 'cal cell');
+          //   console.log(calDay, 'cal day');
+          //   calCell.classList.add('cal-day-selected');
+          //   calDay.classList.add('cal-day-number-selected');
+          //   this.viewDate = new Date(this.createassignTask.template.startDate);
+          // }
         }
-        // if (!this.selectedDays) {
-        //   if (
-        //     this.datePipe.transform(element.date, 'MMMM') == this.currentMonth
-        //   ) {
-        //     const selectedDateTime = element.date.getTime();
-        //     const dateIndex = this.selectedDays.findIndex(
-        //       selectedDay => selectedDay.date.getTime() === selectedDateTime
-        //     );
-        //     let calCell = document.getElementById(
-        //       'cal-month-view' + element.date
-        //     );
-        //     let calDay = document.getElementById(
-        //       'cal-day-number' + element.date
-        //     );
-        //     if (dateIndex > -1) {
-        //       calCell.classList.add('cal-day-selected');
-        //       calDay.classList.add('cal-day-number-selected');
-        //       this.selectedMonthViewDay = element.date;
-        //     }
-        //   }
-        // }
       });
     }, 100);
-    console.log(this.selectedDays);
   }
 
   extraDecrease() {
-    this.txtextra = this.txtextra == 1 ? this.txtextra : this.txtextra - 1;
+    this.createassignTask.template.extraTasksAllowed =
+      this.createassignTask.template.extraTasksAllowed == 1
+        ? this.createassignTask.template.extraTasksAllowed
+        : this.createassignTask.template.extraTasksAllowed - 1;
   }
 
   extraIncrease() {
-    this.txtextra = this.txtextra + 1;
+    this.createassignTask.template.extraTasksAllowed =
+      this.createassignTask.template.extraTasksAllowed + 1;
   }
 
   selectedTask(obj) {
-    if (this.selectedTaskArr.includes(obj)) {
-      this.selectedTaskArr.splice(this.selectedTaskArr.indexOf(obj), 1);
+    if (this.createassignTask.template.tasks.includes(obj)) {
+      this.createassignTask.template.tasks.splice(
+        this.createassignTask.template.tasks.indexOf(obj),
+        1
+      );
     } else {
-      this.selectedTaskArr.push(obj);
+      this.createassignTask.template.tasks.push(obj);
     }
-    console.log(this.selectedTaskArr, 'selected tast arr');
+    console.log(this.createassignTask.template.tasks, 'selected tast arr');
   }
 
-  showmasteryList(masteriesModal, task) {
-    this.isSelectedTime = 'AM';
-    this.singleSelectedTask = task;
-    for (let i = 1; i < 30; i++) {
-      let temp = {
-        masteryId: 'CST-KPMG-01-01' + i,
-        shortMasteryName: 'Types of Cyber Attacks',
-        masteryIconUrl:
-          'https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/CST-KPMG-01-01/Assets/cst-kpmg-01-01-icon.png'
-      };
-      this.masteryList.push(temp);
+  public gIndex: any;
+  showmasteryList(masteriesModal, task, e, index) {
+    this.gIndex = index;
+    console.log(this.gIndex, 'index');
+
+    if (e.target.classList.length != 0 && e.target.classList[0] != 'slider') {
+      console.log('is reach');
+      this.isSelectedTime = 'AM';
+      this.singleSelectedTask = task;
+      console.log(this.singleSelectedTask, 'selected task');
+      this._service
+        .getsingletaskBytemplate(
+          this.createassignTask.template.taskTemplateId,
+          task._id
+        )
+        .subscribe((res: any) => {
+          console.log('single task', res);
+          this.masteryList = res.masteries;
+          console.log(this.createassignTask.template.tasks[this.gIndex]);
+          this.createassignTask.template.tasks[
+            this.gIndex
+          ].masteries = res.masteries.slice();
+
+          console.log(this.createassignTask);
+        });
+      this.modalReference = this.modalService.open(masteriesModal, {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      });
     }
-    this.modalReference = this.modalService.open(masteriesModal, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
   }
 
   closeDropdown(event, datePicker?) {
-    console.log(datePicker, event.target.className.includes('dropD'));
-    console.log(event.target.className);
-    console.log(datePicker);
     if (event.target.className.includes('dropD')) {
       // datePicker.close()
     } else {
       if (event.target.offsetParent == null) {
-        console.log('exit if');
         datePicker.close();
       } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-        console.log('exit else');
         datePicker.close();
       }
     }
@@ -327,6 +449,7 @@ export class AssignTaskComponent implements OnInit {
     }
   }
   closeModal() {
+    console.log('close');
     this.modalReference.close();
   }
 
@@ -390,21 +513,27 @@ export class AssignTaskComponent implements OnInit {
 
   getStandardClass() {
     this._service.getStandardClass().subscribe((res: any) => {
-      console.log(res.data, 'standard class');
-      this.standardList = res.data;
-      this.standActiveId = res.data[0]._id;
+      console.log(res, 'standard class');
+      this.standardList = res;
+      let temp = {
+        standardId: res[0]._id
+      };
+      this.createassignTask.standard = temp;
 
-      this.classList = res.data[0].classLevelId;
+      this.classList = res[0].classLevelId;
 
+      console.log(this.createassignTask);
       console.log(this.classList, 'class list');
-      console.log(this.standActiveId, 'standard Active id');
       console.log(this.standardList, 'standard list');
     });
   }
 
   getTemplateLists() {
     this._service
-      .getTemplateLists(this.standActiveId, this.courseDetail._id)
+      .getTemplateLists(
+        this.createassignTask.standard.standardId,
+        this.courseDetail._id
+      )
       .subscribe((res: any) => {
         console.log(res, 'template list');
         this.scheduletemplateList = res;
@@ -418,24 +547,15 @@ export class AssignTaskComponent implements OnInit {
   backtoassignTask() {
     this.isScheduleTask = false;
     this.isStart = true;
+    this.createassignTask.template = {};
   }
   // end back to
 
-  calculatedatefromweeknumber(week, day) {
-    const date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    let dayCount: any;
-    if (week > 1) {
-    } else {
-      console.log(this.getDayOfWeek(day));
-      console.log(
-        new Date(firstDay.setDate(firstDay.getDate() + this.getDayOfWeek(day)))
-      );
-    }
-    const res = this.addDays(firstDay, dayCount);
-
-    console.log(firstDay, 'first day');
-    console.log(res);
+  dayandWeektoDate(week, day) {
+    return moment()
+      .day(day)
+      .week(week)
+      .toISOString();
   }
 
   addDays(date, days) {
@@ -453,5 +573,105 @@ export class AssignTaskComponent implements OnInit {
     else if (day == 'FRIDAY') day = 5;
     else if (day == 'SATURDAY') day = 6;
     return day;
+  }
+
+  checkedMastery(obj, id) {
+    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
+    if (
+      this.createassignTask.template.tasks[this.gIndex].masteries.includes(obj)
+    )
+      this.createassignTask.template.tasks[this.gIndex].masteries.splice(
+        this.createassignTask.template.tasks[this.gIndex].masteries.indexOf(
+          obj
+        ),
+        1
+      );
+    else this.createassignTask.template.tasks[this.gIndex].masteries.push(obj);
+
+    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
+  }
+
+  choicemode(obj) {
+    this.createassignTask.template.distributionMode = obj;
+    console.log(this.createassignTask);
+  }
+
+  comfirmMastery() {
+    console.log(this.annoTaskDate);
+    console.log(
+      this.createassignTask.template.tasks[this.gIndex].announcementDate
+    );
+    this.createassignTask.template.tasks[this.gIndex].taskStartDate = this
+      .taskStartDate
+      ? this.changeObjDateFormat(this.taskStartDate)
+      : this.createassignTask.template.tasks[this.gIndex].taskStartDate;
+    this.createassignTask.template.tasks[this.gIndex].taskEndDate = this
+      .taskEndDate
+      ? this.changeObjDateFormat(this.taskEndDate)
+      : this.createassignTask.template.tasks[this.gIndex].taskEndDate;
+    let annDate = this.changeDateTimeFormat(
+      this.annoTaskDate
+        ? this.annoTaskDate
+        : this.createassignTask.template.tasks[this.gIndex].announcementDate,
+      this.showFormat
+        ? this.showFormat
+        : this.createassignTask.template.tasks[this.gIndex].announcementTime
+    );
+    this.createassignTask.template.tasks[this.gIndex].annoucementDate = annDate;
+    this.modalReference.close();
+
+    console.log(annDate, 'date');
+    console.log(this.singleSelectedTask);
+    console.log(this.annoTaskDate, 'anno Date');
+    console.log(this.taskEndDate);
+    console.log(this.taskStartDate);
+    console.log(this.showFormat);
+    console.log(this.createassignTask);
+  }
+
+  changeDateTimeFormat(date, time) {
+    if (date.year == null) {
+      console.log('null', date);
+      return date;
+    } else {
+      console.log('utc date', date);
+      console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      console.log(sdate);
+      let dateParts = sdate.split('-');
+      console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        console.log('ISO', fullDate);
+        return fullDate;
+      }
+    }
+  }
+
+  changeObjDateFormat(date) {
+    let sdate = date.year + '-' + date.month + '-' + date.day;
+    return new Date(sdate).toISOString();
+  }
+
+  createAssign() {
+    console.log('final obj', this.createassignTask);
+    this.createassignTask.template.startDate = new Date(
+      this.createassignTask.template.startDate
+    ).toISOString();
+    this._service
+      .createAssigntask(this.courseDetail._id, this.createassignTask)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 }

@@ -102,7 +102,7 @@ export class EnrollUserComponent implements OnInit {
       name: '',
       seats: ''
     },
-    seat_left: 0,
+    seat_left: null,
     type: '',
     _id: '',
     lessons: [],
@@ -333,9 +333,8 @@ export class EnrollUserComponent implements OnInit {
           this.detailLists.seat_left +
             ' this.deatailLists.seat_left from get course detail'
         );
-        this.seatLeft = this.detailLists.seat_left;
-        if (this.detailLists.seat_left == null) {
-          this.detailLists.seat_left = 0;
+        if (this.detailLists.seat_left !== null) {
+          this.seatLeft = this.detailLists.seat_left;
         }
         this.courseId = res._id;
         this.locationId = res.locationId;
@@ -1191,72 +1190,87 @@ export class EnrollUserComponent implements OnInit {
     this.enrollUserList = this.enrollUserList.filter(item => item != user);
   }
 
-  chooseUser(user) {
-    console.log(
-      'this.seatLeft ' +
-        this.seatLeft +
-        ' detailLists.seat_left ' +
-        this.detailLists.seat_left
-    );
-    if (user.addOrRemove == 'add-user') {
-      if (this.seatLeft <= 0) {
-        this.toastr.error('You can not select because no more seat.');
-      } else if (this.userType == 'teacher') {
-        this.userLists.map(item => {
-          item.addOrRemove = 'add-user';
-          if (item.userId == user.userId) {
-            item.addOrRemove = 'remove-user';
-            this.enrollUserList.pop();
-            this.enrollUserList.push(item);
-          }
-        });
-        console.log('Teacher and add');
-      } else if (this.userType != 'teacher' && this.courseType != 'FLEXY') {
-        if (this.userType == 'customer') {
-          this.seatLeft--;
+  chooseCustomer(user) {
+    if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
+      this.toastr.error('You can not select because no more seat.');
+    } else if (this.courseType == 'FLEXY') {
+      this.userLists.map(item => {
+        item.addOrRemove = 'add-user';
+        if (item.userId == user.userId) {
+          item.addOrRemove = 'remove-user';
         }
-        this.userLists.map(item => {
-          if (item.userId == user.userId) {
-            item.addOrRemove = 'remove-user';
-            this.enrollUserList.push(item);
-          }
-        });
-        console.log('Staff or Customer and add');
-      } else if (this.userType != 'teacher' && this.courseType == 'FLEXY') {
-        this.userLists.map(item => {
-          item.addOrRemove = 'add-user';
-          if (item.userId == user.userId) {
-            item.addOrRemove = 'remove-user';
-            this.enrollUserList.pop();
-            this.enrollUserList.push(item);
-          }
-        });
-        console.log('Customer and add and flexy');
-      }
-      console.log(this.enrollUserList);
+      });
+      //multienrolluser block
+      this.enrollUserList.pop();
+      this.enrollUserList.push(user);
+      this.seatLeft--;
     } else {
-      if (this.userType != 'customer') {
+      this.userLists.map(item => {
+        if (item.userId == user.userId) {
+          item.addOrRemove = 'remove-user';
+          this.enrollUserList.push(user);
+        }
+      });
+      this.seatLeft--;
+    }
+  }
+
+  chooseStaff(user) {
+    this.userLists.map(item => {
+      if (item.userId == user.userId) {
+        item.addOrRemove = 'remove-user';
+        this.enrollUserList.push(user);
+        this.formData = {};
+      }
+    });
+  }
+
+  chooseTeacher(user) {
+    this.userLists.map(item => {
+      item.addOrRemove = 'add-user';
+      if (item.userId == user.userId) {
+        item.addOrRemove = 'remove-user';
+      }
+    });
+    console.log('my block work');
+    //multienrolluser block
+    this.enrollUserList.pop();
+    this.enrollUserList.push(user);
+  }
+
+  chooseUser(user) {
+    if (user.addOrRemove == 'add-user') {
+      if (this.userType == 'teacher') {
+        this.chooseTeacher(user);
+        console.log('Teacher');
+      } else if (this.userType == 'staff') {
+        this.chooseStaff(user);
+        console.log('Staff');
+      } else {
+        this.chooseCustomer(user);
+        console.log('Customer');
+      }
+    } else {
+      if (this.userType == 'teacher') {
+        this.enrollUserList = [];
         this.userLists.map(item => {
           if (item.userId == user.userId) {
-            //item.selected = false;
             item.addOrRemove = 'add-user';
           }
         });
-        this.enrollUserList = {};
-        console.log('Non customer and unselected');
-      } else {
+      } else if (this.userType !== 'teacher') {
+        this.enrollUserList = this.enrollUserList.filter(
+          removeuser => removeuser !== user
+        );
+        console.log(this.enrollUserList);
+        this.userLists.map(item => {
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'add-user';
+          }
+        });
         if (this.userType == 'customer') {
           this.seatLeft++;
         }
-        this.userLists.map(item => {
-          if (item.userId == user.userId) {
-            //item.selected = false;
-            item.addOrRemove = 'add-user';
-          }
-        });
-        console.log('customer and unselected');
-        this.enrollUserList = this.enrollUserList.filter(item => item != user);
-        this.toastr.success(user.preferredName + 'has unselected.');
       }
     }
   }
@@ -1284,17 +1298,17 @@ export class EnrollUserComponent implements OnInit {
   //           //multienrolluser block
   //           this.enrollUserList.pop();
   //           this.enrollUserList.push(user);
-  //         }else if(this.courseType == 'FLEXY' || this.userType == 'staff'){
+  //         } else if (this.courseType == 'FLEXY' || this.userType == 'staff') {
   //           this.userLists.map(myitem => {
   //             if (myitem.userId == user) {
   //               item.selected = true;
   //               item.addOrRemove = 'remove-user';
   //               this.enrollAssistantTeacherList.push(user);
-  //               this.formData={}
+  //               this.formData = {}
   //             }
   //           });
 
-  //         }else if (item.userId == user.userId && this.courseType !== 'FLEXY') {
+  //         } else if (item.userId == user.userId && this.courseType !== 'FLEXY') {
   //           this.seatLeft--;
   //           item.selected = true;
   //           item.addOrRemove = 'remove-user';
@@ -1313,10 +1327,10 @@ export class EnrollUserComponent implements OnInit {
   //         this.enrollUserList = this.enrollUserList.filter(
   //           item => item != user
   //         );
-  //         this.enrollAssistantTeacherList=this.enrollAssistantTeacherList.filter(
-  //           item=> item !=user
+  //         this.enrollAssistantTeacherList = this.enrollAssistantTeacherList.filter(
+  //           item => item != user
   //         )
-  //         return console.log(this.userLists,this.enrollAssistantTeacherList);
+  //         return console.log(this.userLists, this.enrollAssistantTeacherList);
   //       }
   //     });
   //     this.toastr.success(user.preferredName + 'has unselected.');
@@ -1656,7 +1670,7 @@ export class EnrollUserComponent implements OnInit {
           }
         });
       }
-      iDs = this.enrollUserList[0].userId;
+      //iDs = this.enrollUserList[0].userId;
       let body = {
         courseId: courseId,
         userId: iDs,

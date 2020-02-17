@@ -29,7 +29,10 @@ import {
   TasksComponent,
   LeaderboardComponent,
   MasteriesreportComponent,
-  CourseListComponent
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 
@@ -118,6 +121,21 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'masteriesdetail/:id',
+    component: MasteryReportComponent,
+    children: [
+      { path: '', redirectTo: 'reportdetail', pathMatch: 'full' },
+      {
+        path: 'reportdetail',
+        component: ReportDetailComponent
+      },
+      {
+        path: 'studentlist',
+        component: StudentListComponent
+      }
+    ]
+  },
+  {
     path: 'tools',
     component: ToolsComponent,
     canActivate: [LoggedInGuard]
@@ -133,7 +151,7 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
-    path: 'assignTask',
+    path: 'assignTask/:id',
     component: AssignTaskComponent,
     canActivate: [LoggedInGuard]
   },

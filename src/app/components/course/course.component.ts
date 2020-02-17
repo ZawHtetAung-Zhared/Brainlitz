@@ -2279,6 +2279,7 @@ export class CourseComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
   }
+
   showTextarea() {
     this.textAreaOption = true;
   }

@@ -10,10 +10,13 @@
   ></div>
   <div
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
-    class="d-flex"
+    class="content-wrapper"
   >
-    <div class="sidebar pt-4">
-      <div class="d-flex align-items-center pl-4 pr-4 courses-title-wrap">
+    <div
+      class="sidenav"
+      [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
+    >
+      <div class="d-flex align-items-center pl-4 pr-4 mt-4 courses-title-wrap">
         <h3 class="header-font">Courses</h3>
         <div class="location-wrapper">
           <div
@@ -36,14 +39,23 @@
           Add new course plan
         </button>
       </div>
-      <div class="cplan-wrapper" *ngIf="coursePlanCollection.length > 0">
-        <div *ngFor="let coursePlan of coursePlanCollection; let i = index">
+      <div class="sidenav-scroll" *ngIf="coursePlanCollection.length > 0">
+        <div
+          class="cplan"
+          *ngFor="let coursePlan of coursePlanCollection; let i = index"
+        >
           <div
             class="cplan-item d-flex flex-column cursor-on"
             [ngClass]="{
               'cplan-item-selected': selectedPlan == coursePlan._id
             }"
-            (click)="getCourseswithPlanId(coursePlan._id, coursePlan.name)"
+            (click)="
+              getCourseswithPlanId(
+                coursePlan._id,
+                coursePlan.name,
+                this.searchKeyword
+              )
+            "
           >
             <span class="cplan-small-txt">
               #{{ coursePlan.category.name }}
@@ -65,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="content-wrapper">
+    <div class="main-content">
       <div class="csearch-wrap pt-4">
         <div class="col-md-8 course-search-gp">
           <div class="simple-search input-group pd-zero">
@@ -106,13 +118,20 @@
         </div>
       </div>
       <div
-        *ngIf="courseCollection == null"
+        *ngIf="coursePlanCollection?.length == 0"
         class="d-flex justify-content-center"
       >
-        <span class="p-4 cplan-title">There is no courses.</span>
+        <span class="p-4 no-course" *ngIf="searchKeyword?.length > 0"
+          >There is no course for {{ searchKeyword }}</span
+        >
+        <span
+          class="p-4 no-course"
+          *ngIf="searchKeyword?.length == 0 && this.courseCollection == null"
+          >There is no course</span
+        >
       </div>
       <div
-        *ngIf="courseCollection != null"
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
         class="d-flex justify-content-between align-items-center plan-title"
       >
         <div class="d-flex flex-column">
@@ -131,16 +150,32 @@
         </button>
       </div>
       <!-- start card -->
-      <div *ngIf="courseCollection != null" class="course-list-wrapper">
+      <div
+        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
+        class="course-list-wrapper"
+      >
         <div
-          *ngIf="courseCollection.courses.length <= 0"
+          *ngIf="courseCollection?.courses.length <= 0"
           class="d-flex justify-content-center"
         >
-          <span class="p-4 cplan-title">There is no courses.</span>
+          <span class="p-4 no-course">There is no courses.</span>
         </div>
         <div *ngFor="let course of courseCollection.courses">
           <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
             <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
+              <div class="draft-sign" *ngIf="course.draft == true">
+                Draft
+              </div>
+              <div
+                class="course-type"
+                *ngIf="
+                  course.draft == false &&
+                  course.type != undefined &&
+                  !courseTypeDisabled
+                "
+              >
+                {{ course.type | lowercase }}
+              </div>
               <div class="cinfo-wrap m-3 d-flex flex-column">
                 <div>
                   <label
@@ -159,7 +194,8 @@
                 </div>
                 <span
                   class="cplan-title1 cursor-on"
-                  (click)="showCourseDetail(course._id)"
+                  [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
+                  (click)="showCourseDetail(course)"
                 >
                   {{ course.name }}
                 </span>
@@ -346,7 +382,13 @@
                   >
                     All seats taken
                   </div>
-                  <button class="btn enroll-btn">Enroll customer</button>
+                  <button
+                    class="btn enroll-btn"
+                    [disabled]="course.draft == true"
+                    (click)="enrollCustomer(course._id)"
+                  >
+                    Enroll customer
+                  </button>
                 </div>
               </div>
             </div>
@@ -364,9 +406,9 @@
     class="category-content"
     *ngIf="isPlan == true"
   ></app-courseplan>
-  <app-coursecreate
+  <!-- <app-coursecreate
     class="category-content"
     *ngIf="isCourseCreate == true"
-  ></app-coursecreate>
+  ></app-coursecreate> -->
 </div>
 <block-ui message="Deafult Message"></block-ui>

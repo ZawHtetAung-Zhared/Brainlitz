@@ -2229,8 +2229,9 @@ export class UsersComponent implements OnInit {
     // this.isCourse = true;
     console.log('clicking course', course);
     // localStorage.setItem('userCourse',course._id);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course._id);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course._id);
+    this.router.navigate(['/coursedetail', course._id]);
   }
 
   rolloverCourse(id, course) {

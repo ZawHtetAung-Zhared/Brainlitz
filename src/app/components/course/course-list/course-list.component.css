@@ -1,13 +1,6 @@
 #courseWrapper {
-  height: 100vh;
-}
-
-.content-wrapper {
-  background: #f7f9fa;
-  width: 100%;
-  /* width: 100vw;
-  height: 100vh;
-  overflow: overlay; */
+  height: 100%;
+  /* height: 100vh; */
 }
 
 .header-font {
@@ -34,10 +27,10 @@
   margin-left: 10px;
 }
 
-.sidebar {
+/*.sidebar {
   width: 380px;
-}
-@media (min-width: 768px) and (max-width: 1024px) {
+}*/
+/*@media (min-width: 768px) and (max-width: 1024px) {
   .sidebar {
     width: 32%;
   }
@@ -46,7 +39,7 @@
     width: 68%;
   }
 }
-
+*/
 .cplan-wrapper {
   box-shadow: 1px 0px 0px #e3e4e5;
   overflow: overlay;
@@ -78,6 +71,15 @@
   overflow: overlay;
   word-break: break-all;
 }
+
+.no-course {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  word-break: break-all;
+}
+
 .cplan-duration {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
@@ -101,6 +103,7 @@
   overflow: overlay;
   word-break: break-all;
 }
+
 @media (max-width: 768px) {
   .cplan-title1 {
     width: 300px;
@@ -139,7 +142,8 @@
   height: 40px; */
 }
 .plan-title {
-  padding: 0px 24px 17px 24px;
+  /* padding: 0px 24px 17px 24px; */
+  padding: 0px 24px 7px 24px;
   box-shadow: 0px 1px 0px #e3e4e5;
   background: #fff;
 }
@@ -153,7 +157,6 @@
   .cplan-wrapper,
   .location-name,
   .course-container,
-  .content-wrapper,
   .student-wrap {
     overflow: auto;
   }
@@ -295,6 +298,10 @@
   cursor: pointer;
 }
 
+.cursor-off {
+  cursor: not-allowed !important;
+}
+
 .courses-title-wrap {
   height: 45px;
 }
@@ -398,4 +405,61 @@ ul.recent-lists li:last-child {
 .course-search-gp {
   padding: 0;
   z-index: 110;
+}
+/*course UI with search bar*/
+.content-wrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
+
+.sidenav.p-top {
+  top: 70px;
+  padding-top: 45px;
+}
+.sidenav.mid-top {
+  top: 80px;
+}
+
+.sidenav {
+  position: fixed;
+  width: 320px;
+  height: 100%;
+}
+
+.sidenav-scroll {
+  overflow-y: scroll;
+  height: 100%;
+  box-shadow: 1px 0px 0px #e3e4e5;
+}
+
+.cplan:last-child {
+  margin-bottom: 300px;
+}
+
+.main-content {
+  flex: 1;
+  background: #f2f4f5;
+  margin-left: 320px;
+  height: 100%;
+}
+
+.draft-sign,
+.course-type {
+  position: absolute;
+  right: 0;
+  padding: 3px 10px;
+  font-size: 10px;
+  background: #fff0e6;
+  color: #e66000;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+}
+
+.course-type {
+  background: #cce6ff;
+  color: #0080ff;
 }

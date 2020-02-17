@@ -46,22 +46,26 @@ export class CourseListComponent implements OnInit {
   private searchVal = '';
   public isoutSideClick: boolean = false;
   public iswordcount: boolean = false;
+  private isMidStick: boolean = false;
+  private navIsFixed: boolean = false;
+  private searchKeyword: any = null;
+  private activePlanId: any = '';
 
   constructor(
     private _service: appService,
     public dataservice: DataService,
     private router: Router
   ) {
-    this._service.goCourseCreate.subscribe(() => {
-      this.courseList = [];
-      console.log('go to cc');
-      this.courseList = [];
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = true;
-      window.scroll(0, 0);
-    });
+    // this._service.goCourseCreate.subscribe(() => {
+    //   this.courseList = [];
+    //   console.log('go to cc');
+    //   this.courseList = [];
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = true;
+    //   window.scroll(0, 0);
+    // });
 
     this._service.goplan.subscribe(() => {
       this.courseList = [];
@@ -92,16 +96,16 @@ export class CourseListComponent implements OnInit {
       console.log(this.courseList.length);
     });
 
-    this._service.goCourseDetail.subscribe(() => {
-      // console.log('go back CDetail', this.courseId);
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = false;
-      // this.isCourseDetail = true;
-      // this.showCourseDetail(this.courseId);
-      this.courseList = [];
-    });
+    // this._service.goCourseDetail.subscribe(() => {
+    //   // console.log('go back CDetail', this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   // this.isCourseDetail = true;
+    //   // this.showCourseDetail(this.courseId);
+    //   this.courseList = [];
+    // });
 
     this._service.goPlanDetail.subscribe(() => {
       // console.log('go back PlanDetail', this.courseId);
@@ -118,9 +122,19 @@ export class CourseListComponent implements OnInit {
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
+      this.isMidStick = false;
+      this.navIsFixed = true;
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
     } else {
       this.isSticky = false;
+      this.navIsFixed = false;
     }
+
+    this.isMidStick =
+      window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
 
     // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
     //   console.log("On Scroll Down");
@@ -139,8 +153,8 @@ export class CourseListComponent implements OnInit {
 
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
-      console.log('Direction Down');
-      if (this.courseCollection != null) {
+      console.log('Direction Down', window.pageYOffset);
+      if (this.courseCollection != null && window.pageYOffset > 900) {
         if (
           this.loading == false &&
           this.courseCollection.courses.length == this.limit
@@ -148,12 +162,34 @@ export class CourseListComponent implements OnInit {
           console.log('call next page');
           this.page = this.page + 1;
           this.skip = this.courseCollection.courses.length;
-          this.getCoursesPerPlan(
-            this.selectedPlan,
-            this.limit,
-            this.skip,
-            this.page
-          );
+          if (this.searchKeyword == null || this.searchKeyword == undefined) {
+            this.getCoursesPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page,
+              'onScroll'
+            );
+          } else {
+            this.simpleCourseSearchPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page,
+              this.searchKeyword
+            );
+          }
+        } else if (
+          this.loading == false &&
+          this.courseCollection.courses.length < this.limit
+        ) {
+          // console.log(
+          //   'call next Id>>>>',
+          //   'courseLength',
+          //   this.courseCollection.courses.length,
+          //   '&&&',
+          //   this.limit
+          // );
         }
       }
     } else if (this.oldValue - newValue > 0) {
@@ -177,7 +213,10 @@ export class CourseListComponent implements OnInit {
     //     this.showCourseDetail(this.courseId);
     //   }, 300);
     // }
-
+    console.log('Init~~~~~~~~');
+    this.dataservice.currentActivePlan.subscribe(
+      planID => (this.activePlanId = planID)
+    );
     let recentTemp = localStorage.getItem('recentSearchLists');
     this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
     console.log('recent lists', this.recentLists);
@@ -318,7 +357,7 @@ export class CourseListComponent implements OnInit {
         console.log(this.courseList);
         console.log(this.courseList.length);
         if (this.courseList.length > 0) {
-          this.getCourseswithPlanId(0, '');
+          // this.getCourseswithPlanId(0, '');
           this.emptyCourse = false;
           for (var i in this.courseList) {
             let duration = this.courseList[i].coursePlan.lesson.duration;
@@ -350,16 +389,28 @@ export class CourseListComponent implements OnInit {
 
   getAllCourseplan() {
     this._service
-      .getCourseplanCollection(this.regionId, this.locationID)
+      .getCourseplanCollection(this.regionId, this.locationID, null)
       .subscribe((res: any) => {
         this.coursePlanCollection = res;
-        let autoSelectedPlanId = this.coursePlanCollection[0]._id;
-        let autoSelectedPlanName = this.coursePlanCollection[0].name;
-        this.getCourseswithPlanId(autoSelectedPlanId, autoSelectedPlanName);
+        let autoSelectedPlanId;
+        let autoSelectedPlanName;
+        if (this.activePlanId == '' || this.activePlanId == null) {
+          autoSelectedPlanId = this.coursePlanCollection[0]._id;
+          autoSelectedPlanName = this.coursePlanCollection[0].name;
+        } else {
+          autoSelectedPlanId = this.activePlanId;
+          autoSelectedPlanName = '';
+        }
+        this.getCourseswithPlanId(
+          autoSelectedPlanId,
+          autoSelectedPlanName,
+          null
+        );
       });
   }
 
-  getCoursesPerPlan(courseplanId, limit, skip, page) {
+  getCoursesPerPlan(courseplanId, limit, skip, page, from) {
+    console.log('call getCoursesPerPlan from', from);
     console.log(limit, skip, page);
     this.loading = true;
     this._service
@@ -370,7 +421,8 @@ export class CourseListComponent implements OnInit {
         limit,
         skip,
         page,
-        'down'
+        'down',
+        null
       )
       .subscribe(
         (res: any) => {
@@ -393,14 +445,30 @@ export class CourseListComponent implements OnInit {
     return (data < 10 ? '0' : '') + data;
   }
 
-  getCourseswithPlanId(courseplanId, planName) {
+  getCourseswithPlanId(courseplanId, planName, keyword) {
     this.courseCollection = null;
     this.skip = 0;
     this.page = 1;
     this.courses = [];
     console.log('courseplanId:', courseplanId, '& planName:', planName);
     this.selectedPlan = courseplanId;
-    this.getCoursesPerPlan(this.selectedPlan, this.limit, this.skip, this.page);
+    if (keyword == null || keyword == undefined) {
+      this.getCoursesPerPlan(
+        this.selectedPlan,
+        this.limit,
+        this.skip,
+        this.page,
+        'autoCall'
+      );
+    } else {
+      this.simpleCourseSearchPerPlan(
+        this.selectedPlan,
+        this.limit,
+        this.skip,
+        this.page,
+        keyword
+      );
+    }
     // this.selectedCourseList = this.courseList[index];
     // console.log(this.selectedCourseList);
   }
@@ -413,8 +481,6 @@ export class CourseListComponent implements OnInit {
   addNewCourse(plan) {
     localStorage.removeItem('courseID');
     localStorage.removeItem('tempObj');
-    this.goBackCat = false;
-    this.isCourseCreate = true;
     let planObj = {
       name: plan.name,
       id: plan.coursePlanId,
@@ -426,9 +492,13 @@ export class CourseListComponent implements OnInit {
 
     localStorage.setItem('cPlan', JSON.stringify(planObj));
     localStorage.removeItem('courseID');
+    // goBackCat & isCourseCreate are using for service which is no need to use if u redirect to course create
+    // this.goBackCat = false;
+    // this.isCourseCreate = true;
     //add this line to change route for course create and need to change in coursecreate.ts for redirect to course when click back button
-    // this.router.navigate(['/coursecreate']);
+    this.router.navigate(['/coursecreate']);
   }
+
   showCPDetail(planID) {
     console.log('cp');
     this.editplanId = planID;
@@ -461,8 +531,29 @@ export class CourseListComponent implements OnInit {
     this.goBackCat = false;
   }
 
-  showCourseDetail(courseId) {
-    this.router.navigate(['/coursedetail', courseId]);
+  showCourseDetail(course) {
+    if (course.draft == true) {
+      this.goToCourseEditForm(course._id);
+    } else {
+      this.router.navigate(['/coursedetail', course._id]);
+    }
+  }
+
+  goToCourseEditForm(courseId) {
+    //both conflit and edit use this type 'edit' and localStorage.setItem("courseID") is also used in schedule
+    let obj = {
+      courseId: courseId,
+      type: 'edit'
+    };
+    localStorage.setItem('courseID', JSON.stringify(obj));
+    localStorage.removeItem('cPlan');
+    localStorage.removeItem('tempObj');
+    this.router.navigate(['/coursecreate']);
+  }
+
+  enrollCustomer(courseId) {
+    localStorage.setItem('userType', 'customer');
+    this.router.navigateByUrl(`/coursedetail/${courseId}/enroll`);
   }
 
   focusCourseSearch() {
@@ -482,33 +573,8 @@ export class CourseListComponent implements OnInit {
     if (e.keyCode == 13) {
       this.courseList = [];
       this.recentLists.unshift(e.target.value);
-      //this.blockUI.start('Loading...');
-      this._service
-        .simpleCourseSearch(
-          this.regionId,
-          e.target.value,
-          this.locationID,
-          limit,
-          skip
-        )
-        .subscribe(
-          (res: any) => {
-            console.log('course search', res);
-            if (res.length != 0) {
-              this.courses = [];
-              this.selectedPlan = res[0].coursePlan.coursePlanId;
-              this.getCoursesPerPlan(
-                this.selectedPlan,
-                this.limit,
-                this.skip,
-                this.page
-              );
-            }
-          },
-          err => {
-            console.log(err);
-          }
-        );
+      this.searchKeyword = e.target.value;
+      this.simpleCoursePlanSearch(e.target.value);
       if (this.recentLists.length > 3) {
         console.log(this.recentLists);
         this.recentLists = this.recentLists.slice(0, 3);
@@ -520,10 +586,64 @@ export class CourseListComponent implements OnInit {
     }
   }
 
+  simpleCoursePlanSearch(keyword) {
+    console.log('keyword', keyword);
+    this._service
+      .getCourseplanCollection(this.regionId, this.locationID, keyword)
+      .subscribe((res: any) => {
+        this.iscourseSearch = false;
+        this.coursePlanCollection = res;
+        if (this.coursePlanCollection.length > 0) {
+          let autoSelectedPlanId = this.coursePlanCollection[0]._id;
+          let autoSelectedPlanName = this.coursePlanCollection[0].name;
+          this.getCourseswithPlanId(
+            autoSelectedPlanId,
+            autoSelectedPlanName,
+            keyword
+          );
+        } else {
+          //for no course plan
+          this.courseCollection = null;
+        }
+      });
+  }
+
+  simpleCourseSearchPerPlan(courseplanId, limit, skip, page, keyword) {
+    this.loading = true;
+    this._service
+      .getCoursesPerPlan(
+        this.regionId,
+        this.locationID,
+        courseplanId,
+        limit,
+        skip,
+        page,
+        'down',
+        keyword
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.loading = false;
+          if (res != null) {
+            this.courses = this.courses.concat(res.courses);
+            this.courseCollection = res;
+            this.courseCollection.courses = this.courses;
+            console.log('courseCollection', this.courseCollection);
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
   clearSearch() {
     this.iswordcount = false;
     this.iscourseSearch = false;
     this.searchVal = '';
+    this.searchKeyword = null;
+    this.activePlanId = null;
     this.getAllCourseplan();
   }
 
@@ -534,25 +654,15 @@ export class CourseListComponent implements OnInit {
       this.iscourseSearch = true;
     } else {
       console.log('clear search');
-      this.iswordcount = false;
-      this.iscourseSearch = false;
+      this.clearSearch();
     }
   }
 
   recentSearch(val, limit, skip) {
     this.courseList = [];
     this.searchVal = val;
-    this._service
-      .simpleCourseSearch(this.regionId, val, this.locationID, limit, skip)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.iswordcount = false;
-          this.iscourseSearch = false;
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    this.searchKeyword = val;
+    this.iswordcount = true;
+    this.simpleCoursePlanSearch(this.searchVal);
   }
 }

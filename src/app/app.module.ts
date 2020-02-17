@@ -144,7 +144,10 @@ import {
   TasksComponent,
   LeaderboardComponent,
   MasteriesreportComponent,
-  CourseListComponent
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 
@@ -250,7 +253,10 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     TasksComponent,
     LeaderboardComponent,
     MasteriesreportComponent,
-    EnrollUserComponent
+    EnrollUserComponent,
+    ReportDetailComponent,
+    StudentListComponent,
+    MasteryReportComponent
   ],
   imports: [
     ContentLoaderModule,

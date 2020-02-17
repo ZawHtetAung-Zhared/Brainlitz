@@ -1,3 +1,58 @@
-<p>
-  tasks works!
-</p>
+<div class="d-flex justify-content-between mt-3">
+  <div class="task-header">
+    <span class="title-task">Tasks</span>
+    <span class="spaninline">
+      <p class="m-0">SW</p>
+    </span>
+    <br />
+    <span class="task">{{ tasks.length }} Tasks</span>
+  </div>
+  <div>
+    <button
+      [ngClass]="true ? 'btn-create' : 'btn-normal'"
+      class="btn"
+      (click)="goToAssignTask()"
+    >
+      Assign task
+    </button>
+  </div>
+</div>
+<div class="card-column">
+  <div class="task-holder" *ngFor="let task of tasks">
+    <div class="cardhead mb-3">
+      <span class="custom-or-schedule">{{ task.distributionMode }} -</span>
+      <span class="custom-or-schedule" *ngIf="task.taskType == 'SCHEDULED'"
+        >scheduled</span
+      >
+      <span class="custom-or-schedule" *ngIf="task.taskType == 'CUSTOM'"
+        >custom</span
+      >
+      <br />
+      <span class="title-text">{{ task.name }}</span>
+    </div>
+    <div class="cardbody d-flex justify-content-between">
+      <div class="masteries-count d-flex flex-column">
+        <span
+          class="count-text"
+          *ngIf="task.taskType == 'SCHEDULED' && task.overview.count <= 1"
+        >
+          {{ task.overview.count }} task enable</span
+        >
+        <span
+          class="count-text"
+          *ngIf="task.taskType == 'SCHEDULED' && task.overview.count > 1"
+        >
+          {{ task.overview.count }} tasks enable</span
+        >
+        <span class="count-text" *ngIf="task.taskType == 'CUSTOM'"
+          >{{ task.overview.count }} masteries</span
+        >
+      </div>
+      <div class="">
+        <span class="count-text">
+          {{ task.taskStartDate | utcDate }} - {{ task.taskEndDate | utcDate }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

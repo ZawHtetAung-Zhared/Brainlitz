@@ -140,6 +140,7 @@ export class OverviewComponent implements OnInit {
   // }
 
   enrollCustomer(CID) {
+    localStorage.setItem('userType', 'customer');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
 
@@ -195,6 +196,9 @@ export class OverviewComponent implements OnInit {
     );
   }
 
+  goToAttendance() {
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/attendance`);
+  }
   public addlesson(lessonlist) {
     for (var i = 0; i < lessonlist.length; i++) {
       // console.log("LList", lessonlist[i].lessonStartDate);
@@ -330,5 +334,9 @@ export class OverviewComponent implements OnInit {
         console.log('present', this.present);
       }
     }
+  }
+
+  goToAssignTask() {
+    this.router.navigateByUrl('assignTask/' + this.courseId);
   }
 }
