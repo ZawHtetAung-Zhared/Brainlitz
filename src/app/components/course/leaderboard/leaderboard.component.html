@@ -54,11 +54,11 @@
       </div>
     </div>
     <div class="weekly-calendar">
-      <div class="arrow-box">
+      <div class="arrow-box" (click)="goPrevious()">
         <i class="fa fa-angle-left"></i>
       </div>
       <div class="date-box">{{ startDate }} - {{ endDate }}</div>
-      <div class="arrow-box">
+      <div class="arrow-box" (click)="goNext()">
         <i class="fa fa-angle-right"></i>
       </div>
     </div>

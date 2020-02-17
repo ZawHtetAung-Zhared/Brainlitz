@@ -2180,6 +2180,7 @@ label.room-name::before {
   height: 320px;
   overflow: scroll;*/
   position: static;
+  padding-bottom: 200px;
 }
 
 button:disabled {

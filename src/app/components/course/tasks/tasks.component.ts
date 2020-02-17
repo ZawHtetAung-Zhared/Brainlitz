@@ -40,12 +40,13 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     //this.courseId = '5df8813bd0f06a163d832f1c';//for testing
-    this.route.params.subscribe(params => {
-      this.courseId = params.id;
-      localStorage.setItem('COURSEID', this.courseId);
-      console.log('CourseID', this.courseId);
-      localStorage.setItem('course_id', this.courseId);
-    });
+    // this.route.params.subscribe(params => {
+    //   this.courseId = params.id;
+    //   localStorage.setItem('COURSEID', this.courseId);
+    //   console.log('CourseID', this.courseId);
+    //   localStorage.setItem('course_id', this.courseId);
+    // });
+    this.courseId = localStorage.getItem('course_id');
     console.log('this.courseId');
     console.log(this.courseId);
     this.getAllTasksInfo();

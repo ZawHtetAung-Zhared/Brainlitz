@@ -1110,7 +1110,6 @@ export class EnrollUserComponent implements OnInit {
   }
 
   changeMethod(searchWord, userType) {
-    this.enrollUserList = [];
     console.log(this.detailLists.locationId);
     console.log(searchWord);
     console.log(userType);
@@ -1119,6 +1118,8 @@ export class EnrollUserComponent implements OnInit {
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
+      this.enrollUserList = [];
+      this.seatLeft = this.detailLists.seat_left;
       setTimeout(() => {
         this.getUsersInCourse(this.courseId); // Stop blocking
       }, 1000);
