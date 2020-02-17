@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { CustomerComponent } from './../customer.component';
 import { UserGradingComponent } from './../../../apg/user-grading/user-grading.component';
 import { FilterPipe } from './../../../../service/pipe/filter.pipe';
@@ -1086,6 +1087,28 @@ export class EnrollUserComponent implements OnInit {
 
   searchUserList: any = [];
 
+  getUsersInCourse(courseId) {
+    this.reScheduleCId = '';
+    console.log('hi call course', courseId);
+    localStorage.setItem('COURSEID', courseId);
+    // this.getCourseDetail(courseId);
+    this.courseId = courseId;
+    this.reScheduleCId = courseId;
+    //this.blockUI.start('Loading...');
+    this._service
+      .getAssignUser(this.regionId, courseId, null, null, null)
+      .subscribe(
+        (res: any) => {
+          //this.blockUI.stop();
+          console.log(res);
+          this.pplLists = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
   changeMethod(searchWord, userType) {
     this.enrollUserList = [];
     console.log(this.detailLists.locationId);
@@ -1096,6 +1119,9 @@ export class EnrollUserComponent implements OnInit {
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
+      setTimeout(() => {
+        this.getUsersInCourse(this.courseId); // Stop blocking
+      }, 1000);
       this.showList = true;
       this._service
         .getSearchUser(
@@ -1109,12 +1135,22 @@ export class EnrollUserComponent implements OnInit {
         .subscribe(
           (res: any) => {
             res.map(item => {
-              item.selected = false;
               item.addOrRemove = 'add-user';
             });
-            this.userLists = res;
-            console.log(this.userLists);
-            console.log('length of user list ' + this.userLists.length);
+            if (this.courseType == 'FLEXY') {
+              this.userLists = res;
+            } else {
+              this.userLists = res;
+              this.enrolledCustomer = this.pplLists.CUSTOMER;
+              console.log(this.enrolledCustomer[0].userId);
+              for (var i = 0; i < this.enrolledCustomer.length; i++) {
+                this.removeEnrolledUser(this.enrolledCustomer[i]);
+              }
+              // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
+            }
+
+            // console.log(this.userLists);
+            // console.log('length of user list ' + this.userLists.length);
           },
           err => {
             console.log(err);
@@ -1186,14 +1222,23 @@ export class EnrollUserComponent implements OnInit {
   enrollAssistantTeacherList: any = [];
   isHideSelected: boolean = false;
 
+  enrolledCustomer: any = [];
+
   removeEnrolledUser(user) {
-    this.enrollUserList = this.enrollUserList.filter(item => item != user);
+    this.userLists = this.userLists.filter(item => item.userId != user.userId);
   }
 
   chooseCustomer(user) {
-    if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
+    if (
+      this.seatLeft <= 0 &&
+      this.detailLists.seat_left !== null &&
+      this.courseType !== 'FLEXY'
+    ) {
       this.toastr.error('You can not select because no more seat.');
     } else if (this.courseType == 'FLEXY') {
+      if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
+        console.log(user.userId);
+      }
       this.userLists.map(item => {
         item.addOrRemove = 'add-user';
         if (item.userId == user.userId) {
@@ -1669,8 +1714,10 @@ export class EnrollUserComponent implements OnInit {
             iDs += ',' + item.userId;
           }
         });
+      } else {
+        iDs = this.enrollUserList[0].userId;
       }
-      //iDs = this.enrollUserList[0].userId;
+      //
       let body = {
         courseId: courseId,
         userId: iDs,
