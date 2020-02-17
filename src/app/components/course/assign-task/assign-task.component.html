@@ -365,7 +365,7 @@
                     is simpl.Lorem Ipsum is simpl.
                   </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-5">
                   <p class="startDate-title bold">
                     Start Date
                   </p>
@@ -538,8 +538,7 @@
                 <div
                   class="task-block"
                   [ngClass]="{
-                    'checked-block':
-                      createassignTask.template.tasks.includes(task) == true
+                    'checked-block': selectedTaskLists.includes(task) == true
                   }"
                   (click)="showmasteryList(masteriesModal, task, $event, i)"
                 >
@@ -552,8 +551,7 @@
                         class="slider round"
                         [ngClass]="{
                           'checked-slider':
-                            createassignTask.template.tasks.includes(task) ==
-                            true
+                            selectedTaskLists.includes(task) == true
                         }"
                       ></span>
                     </label>
@@ -858,28 +856,19 @@
             <div
               class="mastery-content mb-4"
               [ngClass]="{
-                checkMastery:
-                  createassignTask.template?.tasks[gIndex]?.masteries?.includes(
-                    mastery
-                  ) == true
+                checkMastery: checkMasteryExit(mastery) != -1
               }"
             >
               <div
                 class="checkBox"
                 [ngClass]="{
-                  checkboxChecked:
-                    createassignTask.template?.tasks[
-                      gIndex
-                    ]?.masteries?.includes(mastery) == true
+                  checkboxChecked: checkMasteryExit(mastery) != -1
                 }"
               >
                 <i
                   class="fa fa-check checkIcon"
                   [ngClass]="{
-                    showCheckbox:
-                      createassignTask.template?.tasks[
-                        gIndex
-                      ]?.masteries?.includes(mastery) == true
+                    showCheckbox: checkMasteryExit(mastery) != -1
                   }"
                 ></i>
               </div>
@@ -900,9 +889,7 @@
     </button>
     <button
       type="submit"
-      [disabled]="
-        (createassignTask.template?.tasks)[gIndex]?.masteries?.length == 0
-      "
+      [disabled]="selectedTaskLists[gIndex]?.masteries?.length == 0"
       class="btn btn-comfirm medium modal-btn-comfirm"
       (click)="comfirmMastery()"
     >
