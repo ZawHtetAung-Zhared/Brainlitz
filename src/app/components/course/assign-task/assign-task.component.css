@@ -432,6 +432,11 @@ p.task-description {
   word-break: break-all;
 }
 
+p.task-description {
+  max-height: 70px;
+  overflow: overlay;
+}
+
 .template-block.active {
   background: #0065f2 !important;
 }
@@ -672,6 +677,8 @@ span.masteries-box {
   padding: 6px 8px;
   color: #5c6773;
   font-size: 17px;
+  text-align: center;
+  height: 40px;
 }
 span.task-duration {
   color: #5c6773;
@@ -1241,5 +1248,18 @@ button.btn.modal-cancel-btn {
     overflow: overlay;
     height: 79vh;
     padding-bottom: 120px;
+  }
+
+  .task-wrapper {
+    height: 640px;
+    overflow: overlay;
+    padding-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .task-duration {
+    display: flex;
+    flex-direction: column;
   }
 }

@@ -72,6 +72,7 @@ import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetUtcDateoverviewPipe } from './service/pipe/utcDateoverview.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
@@ -195,6 +196,7 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     GetUtcTimePipe,
     GetFormatData,
     GetUtcDatePipe,
+    GetUtcDateoverviewPipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
