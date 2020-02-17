@@ -137,7 +137,7 @@
           )
         "
         style="height:40px;"
-        [disabled]="detailLists.seat_left == 0"
+        [disabled]="detailLists.seat_left == 0 && this.courseType !== 'FLEXY'"
       >
         Enroll class
       </button>

@@ -553,6 +553,8 @@ export class CourseListComponent implements OnInit {
 
   enrollCustomer(courseId) {
     localStorage.setItem('userType', 'customer');
+    localStorage.setItem('COURSEID', courseId);
+    localStorage.setItem('course_id', courseId);
     this.router.navigateByUrl(`/coursedetail/${courseId}/enroll`);
   }
 
