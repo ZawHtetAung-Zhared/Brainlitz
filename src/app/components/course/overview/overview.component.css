@@ -571,3 +571,25 @@
   height: 100%;
   margin-top: -50px;
 }
+.mastery-view-head > h3 {
+  margin: 15px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  -webkit-font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on,
+    'ss01' on, 'ss02' on, 'ss03' on;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on, 'ss01' on,
+    'ss02' on, 'ss03' on;
+  color: #363f4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  display: inline-block;
+}
+.mastery-view-head {
+  height: 85%;
+}
+.mastery-view-footer {
+  height: 15%;
+  background: #f7f9fa;
+  padding: 15px;
+}

@@ -2554,7 +2554,7 @@ export class CourseComponent implements OnInit {
       console.log(this.stdLists);
       if (this.detailLists.type == 'FLEXY') {
         if (this.detailLists.seat_left === 0) {
-          // console.log(this.pplLists)
+          console.log(this.pplLists);
           var includedUserId = this.pplLists.CUSTOMER.findIndex(
             x => x.userId === this.selectedCustomer.userId
           );
