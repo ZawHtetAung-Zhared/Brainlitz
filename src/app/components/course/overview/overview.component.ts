@@ -133,6 +133,8 @@ export class OverviewComponent implements OnInit {
   public prevflag: boolean = true;
   public nextflag: boolean = true;
   public sparkwerkz: boolean = false;
+  public seat_left: any;
+  public seat_taken: any;
   // toggle() {
   //   this.on = !this.on;
   // }
@@ -155,6 +157,8 @@ export class OverviewComponent implements OnInit {
           }
         }
         this.enrolledcount = res.courseInfo.enrolledStudentCount;
+        this.seat_left = res.courseInfo.seat_left;
+        this.seat_taken = res.courseInfo.seat_taken;
         if (localStorage.getItem('SPC') == 'true') {
           console.log('Sparkwerkz Course', localStorage.getItem('SPC'));
           this.scheduled = res.tasks[0] ? res.tasks[0].count : 0;
@@ -228,12 +232,16 @@ export class OverviewComponent implements OnInit {
       console.log("Hasn't Today");
       this.tempDate.push(Today.slice(0, 10));
       this.tempDate.sort();
-      // console.log("Today added",this.tempDate);
-      this.index = this.tempDate.indexOf(Today.slice(0, 10)) - 1;
-
+      console.log('Today added', this.tempDate); //Today date added to the lesson list
+      this.index = this.tempDate.indexOf(Today.slice(0, 10)) - 1; //index is set to today date in lesson list
+      console.log('index', this.index);
       console.log('Today index', this.tempDate.indexOf(Today.slice(0, 10)));
-      this.tempDate.splice(this.index + 1, 1);
+      this.tempDate.splice(this.index + 1, 1); //added today date is removed from lesson list
       console.log('Today removed', this.tempDate);
+      if (this.index < 0) {
+        this.index = 0;
+        this.prevflag = false;
+      }
       this.indexDay = this.lessonList[this.index];
       console.log(this.indexDay, 'IDex');
       this.attendance = this.indexDay.attendance;

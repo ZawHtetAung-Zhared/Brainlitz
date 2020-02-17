@@ -324,6 +324,9 @@
     top: 0px;
     left: 0px;
   }
+  .propic {
+    min-width: 40px !important;
+  }
   .task-status {
     left: 10px;
   }
@@ -526,4 +529,11 @@
 }
 .hide {
   display: none !important;
+}
+.notallowed {
+  cursor: not-allowed !important;
+}
+.overflow {
+  overflow-x: auto;
+  overflow-y: hidden;
 }

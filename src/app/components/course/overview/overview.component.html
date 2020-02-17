@@ -26,7 +26,7 @@
           </div>
         </div>
         <div>
-          <div *ngIf="!on" class="d-flex ml-3">
+          <div *ngIf="!on" class="d-flex ml-3 overflow">
             <span
               ngbTooltip="{{ ppl.fullName }}"
               *ngFor="let ppl of customerlist"
@@ -44,7 +44,7 @@
               />
             </span>
             <span *ngIf="pplLists.length > 8" class="propic">
-              + 1
+              + {{ seat_taken - 8 }}
             </span>
           </div>
         </div>
@@ -55,7 +55,8 @@
         <button
           class="detail-btn"
           (click)="enrollCustomer(courseId)"
-          [ngClass]="{ white: !on }"
+          [ngClass]="{ white: !on, notallowed: seat_left == 0 }"
+          [disabled]="seat_left == 0"
         >
           <!-- (click)="toggle()" -->
           Enroll customer
@@ -72,7 +73,10 @@
       <div *ngIf="lessonList.attendance == ''">
         <p class="enroll">No lesson in this course yet</p>
       </div>
-      <div class="d-flex justify-content-between mb-3">
+      <div
+        *ngIf="lessonList.attendance != ''"
+        class="d-flex justify-content-between mb-3"
+      >
         <span (click)="previousDate()" [ngClass]="{ disabled: !prevflag }"
           ><img src="../../../../assets/img/chevron-right-s.png"
         /></span>
@@ -83,7 +87,10 @@
           ><img src="../../../../assets/img/chevron-left-s.png"
         /></span>
       </div>
-      <div class="d-flex justify-content-center">
+      <div
+        *ngIf="lessonList.attendance != ''"
+        class="d-flex justify-content-center"
+      >
         <div class="d-flex present">
           <div class="d-flex data">
             <span class="attendance-no">{{ present }}</span>
@@ -106,7 +113,10 @@
     </div>
     <div class="cardfoot" style="height: 25%;">
       <div style="float: right">
-        <button class="detail-btn white">
+        <button
+          class="detail-btn"
+          [ngClass]="{ white: lessonList.attendance != '' }"
+        >
           Set attendance
         </button>
       </div>
@@ -284,7 +294,7 @@
             width="100%"
             height="100%"
             id="canvas"
-            style="width: 100%; height: 100%;margin-top: -25px;"
+            style="width: 100%; height: 100%;margin-top: -50px;"
           ></canvas>
         </div>
       </div>
@@ -325,7 +335,7 @@
             width="100%"
             height="100%"
             id="canvas2"
-            style="width: 100%; height: 100%;margin-top: -25px;"
+            style="width: 100%; height: 100%;margin-top: -50px;"
           ></canvas>
         </div>
       </div>
