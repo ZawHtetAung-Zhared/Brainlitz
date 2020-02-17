@@ -149,7 +149,16 @@ export class OverviewComponent implements OnInit {
       (res: any) => {
         console.log('OOL', res);
         this.pplLists = res.courseInfo.students;
+        this.customerlist = this.pplLists.slice(0, 8);
         this.invoices = res.courseInfo.invoices;
+
+        console.log('Invoice', this.invoices);
+        console.log('UO', this.pplLists, 'CL', this.customerlist);
+        if (this.pplLists.length > 0) {
+          this.on = false;
+          console.log('On', this.on);
+        }
+
         if (this.invoices.length > 0) {
           for (var k = 0; k < this.invoices.length; k++) {
             if (this.invoices[k]._id == 'UNPAID') {
@@ -180,14 +189,6 @@ export class OverviewComponent implements OnInit {
           console.log(this.lessonList, ' sorted lessonlist');
 
           this.addlesson(this.lessonList);
-
-          console.log('Invoice', this.invoices);
-          this.customerlist = this.pplLists.slice(0, 8);
-          console.log('UO', this.pplLists);
-          if (this.pplLists.length > 0) {
-            this.on = false;
-            console.log('On', this.on);
-          }
         }
       },
       err => {
@@ -208,6 +209,8 @@ export class OverviewComponent implements OnInit {
     var Today = new Date().toISOString().slice(0, 10);
     // console.log("LLsort", this.tempDate);
     console.log(this.tempDate.indexOf(Today), 'TD', Today);
+
+    // Has Today Case
     if (this.tempDate.includes(Today)) {
       console.log('Has Today', this.tempDate);
       this.index = this.tempDate.indexOf(Today.slice(0, 10));
@@ -232,7 +235,9 @@ export class OverviewComponent implements OnInit {
           console.log('present', this.present);
         }
       }
-    } else {
+    }
+    //Has not Today Case
+    else {
       console.log("Hasn't Today");
       this.tempDate.push(Today.slice(0, 10));
       this.tempDate.sort();

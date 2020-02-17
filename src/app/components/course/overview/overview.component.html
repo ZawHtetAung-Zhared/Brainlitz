@@ -81,7 +81,7 @@
           ><img src="../../../../assets/img/chevron-right-s.png"
         /></span>
         <span *ngIf="lessonList.length != 0">{{
-          indexDay.lessonStartDate | timezoneDate
+          indexDay.lessonStartDate | utcDateoverview
         }}</span>
         <span (click)="nextDate()" [ngClass]="{ disabled: !nextflag }"
           ><img src="../../../../assets/img/chevron-left-s.png"
