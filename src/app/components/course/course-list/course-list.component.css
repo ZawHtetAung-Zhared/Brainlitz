@@ -1,5 +1,6 @@
 #courseWrapper {
   height: 100%;
+  /* height: 100vh; */
 }
 
 .header-font {
@@ -444,6 +445,7 @@ ul.recent-lists li:last-child {
   flex: 1;
   background: #f2f4f5;
   margin-left: 320px;
+  height: 100%;
 }
 
 .draft-sign,

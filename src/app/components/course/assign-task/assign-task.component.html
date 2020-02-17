@@ -1,4 +1,4 @@
-<div *ngIf="!sparkWerkz?.scheduledTask">
+<div *ngIf="!sparkWerkz?.scheduledTask" class="h-100">
   <div
     class="h-100"
     *ngIf="!isScheduleTask && !sparkWerkz?.standardSelected"
@@ -565,10 +565,12 @@
                         ? task.masteryCount + ' mastery'
                         : task.masteryCount + ' masteries'
                     }}</span>
-                    <span class="task-duration regular"
-                      >{{ task.taskStartDate | date: 'dd MMM yyyy' }} -
-                      {{ task.taskEndDate | date: 'dd MMM yyyy' }}</span
-                    >
+                    <div class="task-duration regular">
+                      <span>
+                        {{ task.taskStartDate | date: 'dd MMM yyyy' }}-
+                      </span>
+                      <span> {{ task.taskEndDate | date: 'dd MMM yyyy' }}</span>
+                    </div>
                   </div>
                 </div>
               </div>

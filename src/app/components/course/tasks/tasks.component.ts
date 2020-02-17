@@ -42,7 +42,7 @@ export class TasksComponent implements OnInit {
   }
 
   goToAssignTask() {
-    this.router.navigateByUrl('assignTask');
+    this.router.navigateByUrl('assignTask/' + this.courseId);
   }
 
   getAllTasksInfo() {

@@ -143,6 +143,7 @@
             Attendance
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="tasks"
@@ -151,6 +152,7 @@
             <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="leaderboard"
@@ -159,6 +161,7 @@
             <span class="spaninline"><p class="m-0">SW</p></span>
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="masteries-report"

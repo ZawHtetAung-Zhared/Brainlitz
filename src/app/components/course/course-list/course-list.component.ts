@@ -56,16 +56,16 @@ export class CourseListComponent implements OnInit {
     public dataservice: DataService,
     private router: Router
   ) {
-    this._service.goCourseCreate.subscribe(() => {
-      this.courseList = [];
-      console.log('go to cc');
-      this.courseList = [];
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = true;
-      window.scroll(0, 0);
-    });
+    // this._service.goCourseCreate.subscribe(() => {
+    //   this.courseList = [];
+    //   console.log('go to cc');
+    //   this.courseList = [];
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = true;
+    //   window.scroll(0, 0);
+    // });
 
     this._service.goplan.subscribe(() => {
       this.courseList = [];
@@ -96,16 +96,16 @@ export class CourseListComponent implements OnInit {
       console.log(this.courseList.length);
     });
 
-    this._service.goCourseDetail.subscribe(() => {
-      // console.log('go back CDetail', this.courseId);
-      this.isCategory = false;
-      this.isPlan = false;
-      this.goBackCat = false;
-      this.isCourseCreate = false;
-      // this.isCourseDetail = true;
-      // this.showCourseDetail(this.courseId);
-      this.courseList = [];
-    });
+    // this._service.goCourseDetail.subscribe(() => {
+    //   // console.log('go back CDetail', this.courseId);
+    //   this.isCategory = false;
+    //   this.isPlan = false;
+    //   this.goBackCat = false;
+    //   this.isCourseCreate = false;
+    //   // this.isCourseDetail = true;
+    //   // this.showCourseDetail(this.courseId);
+    //   this.courseList = [];
+    // });
 
     this._service.goPlanDetail.subscribe(() => {
       // console.log('go back PlanDetail', this.courseId);
@@ -167,7 +167,8 @@ export class CourseListComponent implements OnInit {
               this.selectedPlan,
               this.limit,
               this.skip,
-              this.page
+              this.page,
+              'onScroll'
             );
           } else {
             this.simpleCourseSearchPerPlan(
@@ -212,6 +213,7 @@ export class CourseListComponent implements OnInit {
     //     this.showCourseDetail(this.courseId);
     //   }, 300);
     // }
+    console.log('Init~~~~~~~~');
     this.dataservice.currentActivePlan.subscribe(
       planID => (this.activePlanId = planID)
     );
@@ -407,7 +409,8 @@ export class CourseListComponent implements OnInit {
       });
   }
 
-  getCoursesPerPlan(courseplanId, limit, skip, page) {
+  getCoursesPerPlan(courseplanId, limit, skip, page, from) {
+    console.log('call getCoursesPerPlan from', from);
     console.log(limit, skip, page);
     this.loading = true;
     this._service
@@ -454,7 +457,8 @@ export class CourseListComponent implements OnInit {
         this.selectedPlan,
         this.limit,
         this.skip,
-        this.page
+        this.page,
+        'autoCall'
       );
     } else {
       this.simpleCourseSearchPerPlan(

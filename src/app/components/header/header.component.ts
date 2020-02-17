@@ -341,8 +341,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(value: SimpleChanges) {
-    console.log(value.orgLogo.currentValue);
-    if (value.orgLogo.currentValue !== undefined) {
+    if (value.orgLogo && value.orgLogo.currentValue !== undefined) {
       this.OrgLogo = value.orgLogo.currentValue;
     }
   }
