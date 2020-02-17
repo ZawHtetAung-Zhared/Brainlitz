@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { Router, RoutesRecognized } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-report-detail',
@@ -12,7 +12,6 @@ import sampleData from './../sampleData';
 export class ReportDetailComponent implements OnInit {
   isSticky: boolean = false;
   isStickyInnerHeader: boolean = false;
-  previousUrl: string;
   public active = 'courses';
   plotOption: any;
   echarts: any;
@@ -22,6 +21,7 @@ export class ReportDetailComponent implements OnInit {
     { id: 2, name: 'Heat Energy', data: sampleData }
   ];
   public isExpand: boolean = true;
+  public isAdvance: boolean = false;
   public seriesData: any;
   advanceSeries: any = [
     {
@@ -120,16 +120,20 @@ export class ReportDetailComponent implements OnInit {
     }
   ];
 
-  constructor(private _location: Location, private router: Router) {}
+  constructor(
+    private _location: Location,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.masteriesReports = this.masteriesReports.filter(function(res) {
       return res.id == localStorage.getItem('mastery_reportId');
     });
     this.reportItems = this.masteriesReports[0].data;
-    if (this.isExpand) this.seriesData = this.advanceSeries;
+    if (this.isAdvance) this.seriesData = this.advanceSeries;
     else this.seriesData = this.normalSeries;
-    this.setupOption(this.isExpand);
+    this.setupOption(this.isExpand, this.isAdvance);
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -150,7 +154,7 @@ export class ReportDetailComponent implements OnInit {
     localStorage.removeItem('mastery_reportId');
   }
 
-  setupOption(advanceOn) {
+  setupOption(expandOn, advanceOn) {
     this.echarts = require('echarts');
     this.plotOption = {
       tooltip: {},
@@ -248,12 +252,13 @@ export class ReportDetailComponent implements OnInit {
     let inprogressData = [];
     let notTakenData = [];
     let easeData = [];
+    let diffData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
-      if (advanceOn == true)
-        yAxisData.push(++index + ' ' + item.groupTypeValue);
+      if (expandOn == true) yAxisData.push(++index + ' ' + item.groupTypeValue);
       else yAxisData.push(++index);
       strugglingData.push(item.lessons.present);
+      diffData.push(item.lessons.diff);
       easeData.push(item.lessons.ease);
       inprogressData.push(item.lessons.absent);
       notTakenData.push(item.lessons.notTaken);
@@ -262,6 +267,7 @@ export class ReportDetailComponent implements OnInit {
     if (advanceOn) {
       this.plotOption.series[0].data = strugglingData;
       this.plotOption.series[1].data = inprogressData;
+      this.plotOption.series[3].data = diffData;
       this.plotOption.series[4].data = easeData;
       this.plotOption.series[5].data = notTakenData;
     } else {
@@ -269,17 +275,20 @@ export class ReportDetailComponent implements OnInit {
       this.plotOption.series[1].data = inprogressData;
       this.plotOption.series[2].data = easeData;
       this.plotOption.series[3].data = notTakenData;
+    }
+    if (!expandOn) {
       this.plotOption.xAxis.axisLabel.show = false;
       this.plotOption.xAxis.splitLine.show = false;
     }
-    this.plotGraph(advanceOn);
+    this.plotGraph(expandOn);
   }
 
-  plotGraph(advanceOn) {
+  plotGraph(expandOn) {
+    var _self = this;
     var elem = document.getElementById('mastery_detail');
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    if (advanceOn) {
+    if (expandOn) {
       if (this.reportItems.length > 10)
         elem.style.height = this.reportItems.length * 70 + 'px';
       else elem.style.height = this.reportItems.length * 80 + 'px';
@@ -290,15 +299,23 @@ export class ReportDetailComponent implements OnInit {
     }
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    graph.on('click', function(params) {
+      _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+      localStorage.setItem(
+        'mastery_itemId',
+        _self.masteriesReports[0].data[params.dataIndex].id
+      );
+    });
   }
 
-  changeGraph() {
-    this.isExpand = !this.isExpand;
-    if (!this.isExpand) {
+  changeGraph(value) {
+    if (value == 'expand') this.isExpand = !this.isExpand;
+    else if (value == 'advance') this.isAdvance = !this.isAdvance;
+    if (this.isAdvance) {
       this.seriesData = this.advanceSeries;
     } else {
-      this.seriesData = this.advanceSeries;
+      this.seriesData = this.normalSeries;
     }
-    this.setupOption(this.isExpand);
+    this.setupOption(this.isExpand, this.isAdvance);
   }
 }

@@ -135,6 +135,7 @@ export class CoursecreateComponent implements OnInit {
   public rolloverCId: any;
   public modalReference: any;
   public courseType: any;
+  public sparkWerkzCourse: boolean = false;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -401,6 +402,7 @@ export class CoursecreateComponent implements OnInit {
           }
           this.timeOptChecked = 'hideTimeSlot';
         }
+        this.sparkWerkzCourse = this.model.sparkWerkz.sparkWerkzCourse;
         this.model.location = this.model.location.name;
         this.locationId = this.model.locationId;
         console.log('this location', this.locationId);
@@ -837,13 +839,18 @@ export class CoursecreateComponent implements OnInit {
 
   backToCourses(ToCourses, cId) {
     // console.log('backtocourse')
-    console.log('cID');
+    console.log('cID', cId);
+    console.log('conflitCourseId~~~', this.conflitCourseId);
     console.log('cPlanId', this.planId);
     console.log('backToCourses works');
     if (this.isEdit == true) {
       console.log('this.isEdit', this.isEdit);
       console.log('backtocourseDetail');
-      this.router.navigate(['/coursedetail', cId]);
+      if (cId == '') {
+        this.router.navigate(['/coursedetail', this.conflitCourseId]);
+      } else {
+        this.router.navigate(['/coursedetail', cId]);
+      }
       // this._service.backCourseDetail();
     } else {
       console.log('this.isEdit===', this.isEdit);
@@ -1602,7 +1609,8 @@ export class CoursecreateComponent implements OnInit {
       quizwerkz: [],
       description: this.model.description,
       skipLessons: JSON.stringify(this.skipArr),
-      ignoreLessons: JSON.stringify(this.ignoreArr)
+      ignoreLessons: JSON.stringify(this.ignoreArr),
+      sparkWerkzCourse: this.sparkWerkzCourse
     };
 
     if (this.chooseFee != '') {
@@ -2374,6 +2382,11 @@ export class CoursecreateComponent implements OnInit {
     } else {
       this.flexiOn = false;
     }
+  }
+
+  isSparkWerkzCourse(sparkWerkzCourse) {
+    this.sparkWerkzCourse = !sparkWerkzCourse;
+    console.log('sparkWerkzCourse~~~', this.sparkWerkzCourse);
   }
 
   //for rollover

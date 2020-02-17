@@ -144,10 +144,12 @@ import {
   TasksComponent,
   LeaderboardComponent,
   MasteriesreportComponent,
-  CourseListComponent
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
-import { ReportDetailComponent } from './components/course/masteriesreport/report-detail/report-detail.component';
 
 @NgModule({
   declarations: [
@@ -252,7 +254,9 @@ import { ReportDetailComponent } from './components/course/masteriesreport/repor
     LeaderboardComponent,
     MasteriesreportComponent,
     EnrollUserComponent,
-    ReportDetailComponent
+    ReportDetailComponent,
+    StudentListComponent,
+    MasteryReportComponent
   ],
   imports: [
     ContentLoaderModule,

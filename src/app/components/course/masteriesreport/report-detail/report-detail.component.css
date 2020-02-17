@@ -30,9 +30,9 @@
 .title-wrap {
   background: #edeef0;
   height: 80px;
-  padding: 0px 30px;
   width: 100vw;
-  margin-left: -30px !important;
+  /* margin-left: -30px !important; */
+  display: inline-grid;
 }
 
 .mastery-title {
@@ -70,7 +70,7 @@
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
   width: 100vw;
   height: 63px;
-  margin-left: -30px !important;
+  /* margin-left: -30px !important; */
   padding: 0px 20px;
 }
 .color-wrap {
@@ -95,4 +95,22 @@
   position: fixed;
   top: 70px;
   z-index: 1;
+  padding: 0px 15px;
+}
+
+.advance {
+  background: #fff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  left: -97px;
+  bottom: 124px;
+  cursor: pointer;
+}
+
+.advance-img {
+  width: 20px;
+  height: 20px;
 }
