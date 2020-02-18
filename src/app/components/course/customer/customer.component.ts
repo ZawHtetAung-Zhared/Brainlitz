@@ -53,7 +53,7 @@ export class CustomerComponent implements OnInit {
       ],
       STAFF: [{}]
     };
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);

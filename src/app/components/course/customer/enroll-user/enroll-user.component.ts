@@ -46,7 +46,7 @@ export class EnrollUserComponent implements OnInit {
     console.log(
       'User Type from local storage ' + localStorage.getItem('userType')
     );
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);

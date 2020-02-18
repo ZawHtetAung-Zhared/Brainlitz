@@ -281,6 +281,9 @@ export class OverviewComponent implements OnInit {
   goToAttendance() {
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/attendance`);
   }
+  goToLeaderBoard() {
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/leaderboard`);
+  }
   public addlesson(lessonlist) {
     for (var i = 0; i < lessonlist.length; i++) {
       // console.log("LList", lessonlist[i].lessonStartDate);
