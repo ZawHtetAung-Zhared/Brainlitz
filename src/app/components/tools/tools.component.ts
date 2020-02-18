@@ -29,6 +29,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -45,6 +46,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('mainScreen') elementView: ElementRef;
   @ViewChild('notiForm') notiform;
 
+  private permissionSubscription: ISubscription;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public checkActive = true;
@@ -127,14 +129,20 @@ export class ToolsComponent implements OnInit {
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/tools') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/tools') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
