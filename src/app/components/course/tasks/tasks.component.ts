@@ -16,25 +16,40 @@ export class TasksComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  // tasks: [
+  //   {
+  //     templateId: '5e3e67d81742aa002c196b1a',
+  //     taskType: 'SCHEDULED',
+  //     name: 'template 1',
+  //     distributionMode: 'MICROLEARNING',
+  //     overview: {
+  //       type: 'tasks',
+  //       count: 1
+  //     },
+  //     taskStartDate: '2020-02-07T00:00:00.000Z',
+  //     taskEndDate: '2020-02-14T00:00:00.000Z'
+  //   }
+  // ]
+
   public allTasks = {
     tasks: [
-      {
-        templateId: '5e3e67d81742aa002c196b1a',
-        taskType: 'SCHEDULED',
-        name: 'template 1',
-        distributionMode: 'MICROLEARNING',
-        overview: {
-          type: 'tasks',
-          count: 1
-        },
-        taskStartDate: '2020-02-07T00:00:00.000Z',
-        taskEndDate: '2020-02-14T00:00:00.000Z'
-      }
+      // {
+      //   templateId: '',
+      //   taskType: '',
+      //   name: '',
+      //   distributionMode: '',
+      //   overview: {
+      //     type: '',
+      //     count: 0
+      //   },
+      //   taskStartDate: '',
+      //   taskEndDate: ''
+      // }
     ]
   };
 
   public regionId = localStorage.getItem('regionId');
-  public courseId = localStorage.getItem('course_id');
+  public courseId = '';
   public count: number;
   public tasks = [];
 
@@ -46,7 +61,7 @@ export class TasksComponent implements OnInit {
     //   console.log('CourseID', this.courseId);
     //   localStorage.setItem('course_id', this.courseId);
     // });
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     console.log('this.courseId');
     console.log(this.courseId);
     this.getAllTasksInfo();

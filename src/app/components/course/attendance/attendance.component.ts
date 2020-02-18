@@ -344,7 +344,7 @@ export class AttendanceComponent implements OnInit {
   ngOnInit() {
     // var requiredResult = this.TodayDatePipe.transform(this.LASD);
     // console.log('today-date-pipe:  ', requiredResult);
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     this.reScheduleCId = this.courseId;
     this.currentCourse = this.courseId;
     this.getCourseDetail(this.courseId);

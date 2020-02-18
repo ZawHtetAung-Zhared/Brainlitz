@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CustomerComponent } from './../customer.component';
 import { UserGradingComponent } from './../../../apg/user-grading/user-grading.component';
@@ -21,6 +22,7 @@ import * as moment from 'moment';
 import * as $ from 'jquery';
 import { Location } from '@angular/common';
 import { FlexiComponent } from '../../../flexi/flexi.component';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-enroll-user',
@@ -45,19 +47,25 @@ export class EnrollUserComponent implements OnInit {
     console.log(
       'User Type from local storage ' + localStorage.getItem('userType')
     );
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
     //this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
       }
-    });
-    console.log(this.courseDemo.assignStudent + ' assign student');
+    );
+    //console.log(this.courseDemo.assignStudent + ' assign student');
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   constructor(
@@ -69,6 +77,8 @@ export class EnrollUserComponent implements OnInit {
     public route: ActivatedRoute,
     private _location: Location
   ) {}
+
+  private permissionSubscription: ISubscription;
 
   @HostListener('document:click', ['$event'])
   public test(event): void {
@@ -1229,6 +1239,8 @@ export class EnrollUserComponent implements OnInit {
     this.userLists = this.userLists.filter(item => item.userId != user.userId);
   }
 
+  public found = null;
+
   chooseCustomer(user) {
     if (
       this.seatLeft <= 0 &&
@@ -1237,19 +1249,41 @@ export class EnrollUserComponent implements OnInit {
     ) {
       this.toastr.error('You can not select because no more seat.');
     } else if (this.courseType == 'FLEXY') {
+      setTimeout(() => {
+        this.getUsersInCourse(this.courseId);
+      }, 1000);
       if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
         console.log(user.userId);
+        //flexy reEnroll
+        this.enrolledCustomer = this.pplLists.CUSTOMER;
+        var earlierCount = this.enrolledCustomer.length;
+        this.enrolledCustomer = this.enrolledCustomer.filter(
+          item => item.userId != user.userId
+        );
+        var currentCount = this.enrolledCustomer.length;
+        this.found = earlierCount - currentCount;
+        this.userLists.map(item => {
+          item.addOrRemove = 'add-user';
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+          }
+        });
+        //multienrolluser block
+        this.enrollUserList.pop();
+        this.enrollUserList.push(user);
+        this.seatLeft--;
+      } else {
+        this.userLists.map(item => {
+          item.addOrRemove = 'add-user';
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+          }
+        });
+        //multienrolluser block
+        this.enrollUserList.pop();
+        this.enrollUserList.push(user);
+        this.seatLeft--;
       }
-      this.userLists.map(item => {
-        item.addOrRemove = 'add-user';
-        if (item.userId == user.userId) {
-          item.addOrRemove = 'remove-user';
-        }
-      });
-      //multienrolluser block
-      this.enrollUserList.pop();
-      this.enrollUserList.push(user);
-      this.seatLeft--;
     } else {
       this.userLists.map(item => {
         if (item.userId == user.userId) {

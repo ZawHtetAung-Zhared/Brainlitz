@@ -2899,6 +2899,14 @@ input[type='number']::-webkit-outer-spin-button {
   background: #007fff;
 }
 
+.no-customer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
 .checkmark {
   display: inline-block;
   /* margin-right: 8px; */

@@ -25,6 +25,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-user-staff',
@@ -32,6 +33,7 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+  private permissionSubscription: ISubscription;
   public returnProfile = false;
   public isCrop = false;
   public locationName: any;
@@ -108,13 +110,19 @@ export class UserStaffComponent implements OnInit {
       this.gtxtColor = localStorage.getItem('txtColor');
       this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/staff') {
-        this.permissionType = data;
-        this.staffLists = [];
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/staff') {
+          this.permissionType = data;
+          this.staffLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

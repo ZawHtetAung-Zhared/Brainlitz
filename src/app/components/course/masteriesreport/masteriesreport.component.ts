@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import sampleData from './sampleData';
+import { appService } from '../../../service/app.service';
 
 @Component({
   selector: 'app-masteriesreport',
@@ -18,7 +19,7 @@ export class MasteriesreportComponent implements OnInit {
   public isExpand: boolean = false;
   // public
 
-  constructor() {}
+  constructor(private _service: appService) {}
 
   ngOnChanges() {
     this.setupOption(1);
@@ -166,10 +167,16 @@ export class MasteriesreportComponent implements OnInit {
     let index = 0;
     this.reportItems.forEach(function(item) {
       yAxisData.push(++index);
-      strugglingData.push(item.lessons.present);
-      easeData.push(item.lessons.ease);
-      inprogressData.push(item.lessons.absent);
-      notTakenData.push(item.lessons.notTaken);
+
+      // strugglingData.push(item.lessons.present);
+      // easeData.push(item.lessons.ease);
+      // inprogressData.push(item.lessons.absent);
+      // notTakenData.push(item.lessons.notTaken);
+
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage + 1);
+      easeData.push(item.userMasteries.MASTERED.percentage + 1);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage + 1);
+      notTakenData.push(item.userMasteries.NEW.percentage + 1);
     });
     this.plotOption.yAxis.data = yAxisData;
     this.plotOption.series[0].data = strugglingData;
@@ -185,7 +192,9 @@ export class MasteriesreportComponent implements OnInit {
     elem.innerHTML = '';
     if (this.reportItems.length > 10)
       elem.style.height = this.reportItems.length * 40 + 'px';
-    else elem.style.height = this.reportItems.length * 50 + 'px';
+    else if (this.reportItems.length > 5)
+      elem.style.height = this.reportItems.length * 50 + 'px';
+    else elem.style.height = this.reportItems.length * 70 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
   }
@@ -203,11 +212,27 @@ export class MasteriesreportComponent implements OnInit {
 
   getAllGraph() {
     this.isExpand = false;
-    setTimeout(() => {
-      for (var i = 0; i < this.masteriesReports.length; i++) {
-        this.reportItems = this.masteriesReports[i].data;
-        this.setupOption(i);
+    // setTimeout(() => {
+    //   for (var i = 0; i < this.masteriesReports.length; i++) {
+    //     this.reportItems = this.masteriesReports[i].data;
+    //     this.setupOption(i);
+    //   }
+    // }, 200);
+
+    this._service.getMasteryReports().subscribe(
+      (res: any) => {
+        console.log(res);
+        this.masteriesReports = res.data;
+        setTimeout(() => {
+          for (var i = 0; i < this.masteriesReports.length; i++) {
+            this.reportItems = this.masteriesReports[i].masteries;
+            this.setupOption(i);
+          }
+        }, 200);
+      },
+      err => {
+        console.log(err);
       }
-    }, 300);
+    );
   }
 }

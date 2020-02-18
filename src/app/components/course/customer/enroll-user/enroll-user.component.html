@@ -141,7 +141,7 @@
         <button
           type="submit"
           class="btn btn-submit"
-          [disabled]="enrollUserList.length == 0"
+          [disabled]="enrollUserList.length == 0 || found == 0"
           (click)="showSelectedUserViewFunc()"
         >
           Next

@@ -4475,4 +4475,25 @@ export class appService {
       return result;
     });
   }
+
+  getMasteryReports() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      '5dc292803161140e23b4de2d' +
+      // localStorage.getItem('COURSEID') +
+      '/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
