@@ -38,9 +38,10 @@
   line-height: 32px;
   color: #363f4d;
   max-width: 500px;
-  overflow: scroll;
-  word-break: break-all;
-  max-height: 37px;
+  /* max-height: 37px;
+  overflow: scroll; */
+  word-break: break-word;
+  cursor: pointer;
 }
 .btn-history {
   background: #ffffff;
@@ -134,4 +135,5 @@
   border-bottom: 1px solid lightgray;
   padding: 16px;
   word-break: break-all;
+  cursor: pointer;
 }

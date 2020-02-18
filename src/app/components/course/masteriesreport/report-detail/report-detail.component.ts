@@ -3,6 +3,7 @@ import { filter, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { appService } from '../../../../service/app.service';
 
 @Component({
   selector: 'app-report-detail',
@@ -123,17 +124,35 @@ export class ReportDetailComponent implements OnInit {
   constructor(
     private _location: Location,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _service: appService
   ) {}
 
   ngOnInit() {
-    this.masteriesReports = this.masteriesReports.filter(function(res) {
-      return res.id == localStorage.getItem('mastery_reportId');
-    });
-    this.reportItems = this.masteriesReports[0].data;
-    if (this.isAdvance) this.seriesData = this.advanceSeries;
-    else this.seriesData = this.normalSeries;
-    this.setupOption(this.isExpand, this.isAdvance);
+    this._service.getMasteryReports().subscribe(
+      (res: any) => {
+        this.masteriesReports = res.data;
+        this.masteriesReports = this.masteriesReports.filter(function(res) {
+          return res.id == localStorage.getItem('mastery_reportId');
+        });
+        this.reportItems = this.masteriesReports[0].masteries;
+        if (this.isAdvance) this.seriesData = this.advanceSeries;
+        else this.seriesData = this.normalSeries;
+        this.setupOption(this.isExpand, this.isAdvance);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
+    // for sample data
+    // this.masteriesReports = this.masteriesReports.filter(function(res) {
+    //   return res.id == '1'//localStorage.getItem('mastery_reportId');
+    // });
+    // this.reportItems = this.masteriesReports[0].data;
+    // if (this.isAdvance) this.seriesData = this.advanceSeries;
+    // else this.seriesData = this.normalSeries;
+    // this.setupOption(this.isExpand, this.isAdvance);
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -178,6 +197,7 @@ export class ReportDetailComponent implements OnInit {
         data: [],
         type: 'category',
         inverse: true,
+        silent: false,
         color: '#64707d',
         axisTick: { show: false },
         axisLine: {
@@ -256,13 +276,22 @@ export class ReportDetailComponent implements OnInit {
     let diffData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
-      if (expandOn == true) yAxisData.push(++index + ' ' + item.groupTypeValue);
+      // if (expandOn == true) yAxisData.push(++index + ' ' + item.groupTypeValue);
+      // else yAxisData.push(++index);
+      // strugglingData.push(item.lessons.present);
+      // diffData.push(item.lessons.diff);
+      // easeData.push(item.lessons.ease);
+      // inprogressData.push(item.lessons.absent);
+      // notTakenData.push(item.lessons.notTaken);
+
+      if (expandOn == true)
+        yAxisData.push(++index + ' ' + item.shortMasteryName);
       else yAxisData.push(++index);
-      strugglingData.push(item.lessons.present);
-      diffData.push(item.lessons.diff);
-      easeData.push(item.lessons.ease);
-      inprogressData.push(item.lessons.absent);
-      notTakenData.push(item.lessons.notTaken);
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage + 1);
+      diffData.push(item.userMasteries.MASTERED.percentage + 1);
+      easeData.push(item.userMasteries.MASTERED.percentage + 1);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage + 1);
+      notTakenData.push(item.userMasteries.NEW.percentage + 1);
     });
     this.plotOption.yAxis.data = yAxisData;
     if (advanceOn) {
@@ -295,11 +324,15 @@ export class ReportDetailComponent implements OnInit {
     if (expandOn) {
       if (this.reportItems.length > 10)
         elem.style.height = this.reportItems.length * 70 + 'px';
-      else elem.style.height = this.reportItems.length * 80 + 'px';
+      else if (this.reportItems.length > 5)
+        elem.style.height = this.reportItems.length * 80 + 'px';
+      else elem.style.height = this.reportItems.length * 90 + 'px';
     } else {
       if (this.reportItems.length > 10)
         elem.style.height = this.reportItems.length * 40 + 'px';
-      else elem.style.height = this.reportItems.length * 50 + 'px';
+      else if (this.reportItems.length > 5)
+        elem.style.height = this.reportItems.length * 60 + 'px';
+      else elem.style.height = this.reportItems.length * 80 + 'px';
     }
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
@@ -307,7 +340,8 @@ export class ReportDetailComponent implements OnInit {
       _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
       localStorage.setItem(
         'mastery_itemId',
-        _self.masteriesReports[0].data[params.dataIndex].id
+        _self.masteriesReports[0].masteries[params.dataIndex].masteryId
+        // _self.masteriesReports[0].data[params.dataIndex].id
       );
     });
   }
