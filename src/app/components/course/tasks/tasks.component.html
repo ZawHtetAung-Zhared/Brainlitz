@@ -5,7 +5,8 @@
       <p class="m-0">SW</p>
     </span>
     <br />
-    <span class="task">{{ tasks.length }} Tasks</span>
+    <span class="task" *ngIf="tasks.length > 1">{{ tasks.length }} Tasks</span>
+    <span class="task" *ngIf="tasks.length <= 1">{{ tasks.length }} Task</span>
   </div>
   <div>
     <button
@@ -18,7 +19,12 @@
     </button>
   </div>
 </div>
-<div class="card-column">
+<div *ngIf="tasks.length == 0" class="no-task">
+  <p>
+    There is no task in this course. Assign tasks to this course.
+  </p>
+</div>
+<div class="card-column" *ngIf="tasks.length > 0">
   <div class="task-holder" *ngFor="let task of tasks">
     <div class="cardhead mb-3">
       <span class="custom-or-schedule">{{ task.distributionMode }} -</span>
