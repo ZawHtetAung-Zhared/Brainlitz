@@ -11,7 +11,7 @@ import { ISubscription } from 'rxjs/Subscription';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
-  private subscription: ISubscription;
+  private permissionSubscription: ISubscription;
   private regionId = localStorage.getItem('regionId');
   private locationID = localStorage.getItem('locationId');
   private courseList: Array<any> = [];
@@ -198,16 +198,18 @@ export class CourseListComponent implements OnInit {
       this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
 
-    this.subscription = this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
       }
-    });
+    );
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
