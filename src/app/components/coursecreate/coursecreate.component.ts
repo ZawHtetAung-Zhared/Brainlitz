@@ -38,7 +38,10 @@ declare var $: any;
 })
 export class CoursecreateComponent implements OnInit {
   @ViewChild('content') modalContent: TemplateRef<any>;
+  public accessToken = localStorage.getItem('token');
+  public tokenType = localStorage.getItem('tokenType');
   public regionID = localStorage.getItem('regionId');
+  public sparkWerkzRegion: boolean = false;
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
@@ -159,6 +162,7 @@ export class CoursecreateComponent implements OnInit {
     console.log('CPLan', this.coursePlan);
     console.log('CourseID', this.course);
     console.log('Currency', this.currency);
+    this.getRegionInfo();
     // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
@@ -252,6 +256,17 @@ export class CoursecreateComponent implements OnInit {
       }
     }
   }
+
+  getRegionInfo() {
+    //get region info for SparkWerkz flag true/false
+    this._service
+      .getRegionalAdministrator(this.regionID, this.accessToken, this.tokenType)
+      .subscribe((res: any) => {
+        this.sparkWerkzRegion = res.sparkWerkz;
+        console.log('sparkWerkzRegion', this.sparkWerkzRegion);
+      });
+  }
+
   //check tax for course create
   checkTaxForCreate() {
     if (this.feesOptions != undefined && this.taxOptions == undefined) {
