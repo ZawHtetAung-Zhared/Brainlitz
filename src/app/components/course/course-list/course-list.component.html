@@ -11,6 +11,9 @@
   <div
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
     class="content-wrapper"
+    [ngClass]="{
+      'h-100': removeHeight == false || coursePlanCollection.length == 0
+    }"
   >
     <div
       class="sidenav"
@@ -57,11 +60,28 @@
               )
             "
           >
-            <span class="cplan-small-txt">
+            <span
+              class="cplan-small-txt light-color"
+              [ngClass]="{
+                'cplan-selected-color': selectedPlan == coursePlan._id
+              }"
+            >
               #{{ coursePlan.category.name }}
             </span>
-            <span class="cplan-title"> {{ coursePlan.name }} </span>
-            <div class="d-flex justify-content-between pt-2">
+            <span
+              class="cplan-title"
+              [ngClass]="{
+                'cplan-selected-color': selectedPlan == coursePlan._id
+              }"
+            >
+              {{ coursePlan.name }}
+            </span>
+            <div
+              class="d-flex justify-content-between pt-2 light-color"
+              [ngClass]="{
+                'cplan-selected-color': selectedPlan == coursePlan._id
+              }"
+            >
               <span class="cplan-duration">
                 {{ coursePlan.lesson.duration | minuteSeconds }}
                 duration
@@ -176,7 +196,7 @@
               >
                 {{ course.type | lowercase }}
               </div>
-              <div class="cinfo-wrap m-3 d-flex flex-column">
+              <div class="cinfo-wrap m-4 d-flex flex-column">
                 <div>
                   <label
                     class="class-label-12"
@@ -289,25 +309,26 @@
                   No customers added yet.
                 </div>
               </div>
-              <div class="ctime-wrap m-3">
+              <div class="ctime-wrap mt-4 mr-4 mb-4">
                 <div class="d-flex time-box">
                   <div
                     *ngIf="course.startDate != null"
                     class="d-flex flex-column pr-4"
                   >
                     <span class="font-15 light-color"> From </span>
-                    <span class="font-15 dark-color">
+                    <span class="font-15 dark-color pt-1">
                       {{ course.startDate | utcDate }}
                     </span>
                   </div>
                   <div *ngIf="course.endDate" class="d-flex flex-column">
                     <span class="font-15 light-color"> To </span>
-                    <span class="font-15 dark-color">
+                    <span class="font-15 dark-color pt-1">
                       {{ course.endDate | utcDate }}
                     </span>
                   </div>
                 </div>
                 <div
+                  class="pt-3"
                   *ngIf="
                     course.type == null ||
                     course.type == 'REGULAR' ||
@@ -326,7 +347,7 @@
                         course.duration.startDate != null &&
                         course.duration.endDate != null
                       "
-                      class="font-15 dark-color"
+                      class="font-15 dark-color pt-1"
                     >
                       {{ course.duration.startDate | utcTime }} -
                       {{ course.duration.endDate | utcTime }}
@@ -338,24 +359,24 @@
             <div class="cinfo-secwrap p-3">
               <div class="d-flex justify-content-between">
                 <div class="d-flex">
-                  <div
+                  <!-- <div
                     *ngIf="course.lessonCount"
                     class="d-flex flex-column pr-5 font-15 light-color"
                     style="min-width: 110px;"
                   >
                     {{ course.lessonCount }}
                     <span> lessons </span>
-                  </div>
-                  <div
+                  </div> -->
+                  <!-- <div
                     *ngIf="!course.lessonCount"
                     class="d-flex flex-column pr-5 font-15 light-color"
                     style="min-width: 110px;"
                   >
                     -
-                  </div>
-                  <div class="d-flex flex-column">
-                    <span> 0 </span>
-                    <span class="font-15 light-color"> task assigned </span>
+                  </div> -->
+                  <div class="d-flex flex-column light-color">
+                    <span class="font-16-b"> 0 </span>
+                    <span class="font-15"> task assigned </span>
                   </div>
                 </div>
                 <div class="d-flex">
@@ -364,27 +385,32 @@
                     *ngIf="course.seat_left > 0"
                     class="d-flex flex-column pr-4 font-15 light-color"
                   >
-                    {{ course.seat_left }}/
-                    {{ course.seat_taken + course.seat_left }}
+                    <span class="font-16-b">
+                      {{ course.seat_left }}/
+                      {{ course.seat_taken + course.seat_left }}
+                    </span>
                     <span *ngIf="course.seat_left > 1"> seats left </span>
                     <span *ngIf="course.seat_left == 1"> seat left </span>
                   </div>
                   <div
                     [hidden]="course.draft == true"
                     *ngIf="course.seat_left == null"
-                    class="d-flex flex-column pr-4 font-15 light-color"
+                    class="d-flex flex-column pr-4 font-15 light-color seats-info"
                   >
                     unlimited seats
                   </div>
                   <div
                     *ngIf="course.seat_left == 0 || course.seat_left == -1"
-                    class="d-flex flex-column pr-4 font-15 light-color"
+                    class="d-flex flex-column pr-4 font-15 light-color seats-info"
                   >
                     All seats taken
                   </div>
                   <button
                     class="btn enroll-btn"
-                    [disabled]="course.draft == true"
+                    [disabled]="
+                      course.draft == true ||
+                      (course.type == 'REGULAR' && course.seat_left == 0)
+                    "
                     (click)="enrollCustomer(course._id)"
                   >
                     Enroll customer

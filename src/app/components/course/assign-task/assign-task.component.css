@@ -666,6 +666,7 @@ min-width: 40px;
   padding: 20px 28px;
   margin-bottom: 20px;
   margin-left: 2px;
+  cursor: pointer;
 }
 
 .task-block.checked-block {
@@ -1253,7 +1254,7 @@ button.btn.modal-cancel-btn {
   .task-wrapper {
     height: 640px;
     overflow: overlay;
-    padding-bottom: 60px;
+    padding-bottom: 120px;
   }
 }
 

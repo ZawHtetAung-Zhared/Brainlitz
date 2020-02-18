@@ -56,6 +56,8 @@ export class OverviewComponent implements OnInit {
       }
     });
 
+    //delete later
+
     this.chart = new Chart('canvas2', {
       type: 'doughnut',
       data: {
@@ -94,6 +96,85 @@ export class OverviewComponent implements OnInit {
         }
       }
     });
+
+    this.chart = new Chart('canvas3', {
+      type: 'doughnut',
+      data: {
+        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+        datasets: [
+          {
+            data: [12, 45, 23, 50],
+            backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        tooltips: {
+          enabled: false
+        },
+        cutoutPercentage: 75,
+        title: {
+          display: false,
+          position: 'top',
+          fontStyle: 'bold',
+          fontSize: 0,
+          fullWidth: false,
+          padding: 0
+        },
+        legend: {
+          display: false,
+          position: 'top',
+          fullWidth: false,
+          labels: {
+            display: false,
+            usePointStyle: true,
+            fontSize: 15,
+            fontStyle: 'bold'
+          }
+        }
+      }
+    });
+
+    this.chart = new Chart('canvas4', {
+      type: 'doughnut',
+      data: {
+        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+        datasets: [
+          {
+            data: [32, 56, 12, 4],
+            backgroundColor: ['#f7f9fa', '#DCECC9', '#2D5E9E', '#46AACE']
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        tooltips: {
+          enabled: false
+        },
+        cutoutPercentage: 75,
+        title: {
+          display: false,
+          position: 'top',
+          fontStyle: 'bold',
+          fontSize: 0,
+          fullWidth: false,
+          padding: 0
+        },
+        legend: {
+          display: false,
+          position: 'top',
+          fullWidth: false,
+          labels: {
+            display: false,
+            usePointStyle: true,
+            fontSize: 15,
+            fontStyle: 'bold'
+          }
+        }
+      }
+    });
+    //deletelater
 
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
