@@ -435,7 +435,6 @@ ul.recent-lists li:last-child {
   display: flex;
   position: relative;
   width: 100%;
-  /* height: 100%; */
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;

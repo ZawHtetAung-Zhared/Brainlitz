@@ -11,6 +11,9 @@
   <div
     *ngIf="!isCategory && !isPlan && !isCourseCreate && !isCoursePlanDetail"
     class="content-wrapper"
+    [ngClass]="{
+      'h-100': removeHeight == false || coursePlanCollection.length == 0
+    }"
   >
     <div
       class="sidenav"
