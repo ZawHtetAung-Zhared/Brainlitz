@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../service/data.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-customer',
@@ -58,10 +59,18 @@ export class CustomerComponent implements OnInit {
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
     console.log(this.router.url);
-    this._service.permissionList.subscribe(data => {
-      this.permissionType = data;
-      this.checkPermission();
-    });
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   @HostListener('document:click', ['$event'])
@@ -77,6 +86,8 @@ export class CustomerComponent implements OnInit {
       this.optionBox = false;
     }
   }
+
+  private permissionSubscription: ISubscription;
 
   public detailLists = {
     paymentPolicy: {
