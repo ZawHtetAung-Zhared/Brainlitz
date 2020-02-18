@@ -12,6 +12,7 @@
       [ngClass]="true ? 'btn-create' : 'btn-normal'"
       class="btn"
       (click)="goToAssignTask()"
+      [disabled]="tasks.length > 0"
     >
       Assign task
     </button>
