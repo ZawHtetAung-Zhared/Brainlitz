@@ -50,6 +50,7 @@ export class CourseListComponent implements OnInit {
   private navIsFixed: boolean = false;
   private searchKeyword: any = null;
   private activePlanId: any = '';
+  private removeHeight: boolean = false;
 
   constructor(
     private _service: appService,
@@ -433,12 +434,22 @@ export class CourseListComponent implements OnInit {
             this.courseCollection = res;
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
+            this.checkCoursesLength();
           }
         },
         err => {
           console.log(err);
         }
       );
+  }
+
+  checkCoursesLength() {
+    //check courses length for content-wrapper height for background color
+    if (this.courseCollection.courses.length > 2) {
+      this.removeHeight = true;
+    } else {
+      this.removeHeight = false;
+    }
   }
 
   D(data) {
