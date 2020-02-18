@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-coursedetail',
@@ -10,6 +11,7 @@ import { DataService } from '../../../service/data.service';
   styleUrls: ['./coursedetail.component.css']
 })
 export class CoursedetailComponent implements OnInit {
+  private permissionSubscription: ISubscription;
   private courseId: any;
   public locationID: any = localStorage.getItem('locationId');
   public locationName: any = localStorage.getItem('locationName');
@@ -65,13 +67,19 @@ export class CoursedetailComponent implements OnInit {
     });
     this.getCourseDetail(this.courseId);
     console.log('CDRU', this.router.url.includes('coursedetail'));
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url.includes('coursedetail')) {
-        this.permissionType = data;
-        this.checkPermission();
-        console.log('CourseDetail Permission check');
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url.includes('coursedetail')) {
+          this.permissionType = data;
+          this.checkPermission();
+          console.log('CourseDetail Permission check');
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {

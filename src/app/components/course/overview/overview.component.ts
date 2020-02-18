@@ -15,174 +15,59 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private _service: appService
   ) {}
+  testing: any = [1, 2];
+  testingli: any = [1, 2];
 
   ngOnInit() {
-    this.chart = new Chart('canvas', {
-      type: 'doughnut',
-      data: {
-        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-        datasets: [
-          {
-            data: [25, 50, 20, 5],
-            backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: false
-        },
-        cutoutPercentage: 75,
-        title: {
-          display: false,
-          position: 'top',
-          fontStyle: 'bold',
-          fontSize: 0,
-          fullWidth: false,
-          padding: 0
-        },
-        legend: {
-          display: false,
-          position: 'top',
-          fullWidth: false,
-          labels: {
-            display: false,
-            usePointStyle: true,
-            fontSize: 15,
-            fontStyle: 'bold'
-          }
-        }
-      }
-    });
-
-    //delete later
-
-    this.chart = new Chart('canvas2', {
-      type: 'doughnut',
-      data: {
-        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-        datasets: [
-          {
-            data: [55, 45, 60, 90],
-            backgroundColor: ['#f7f9fa', '#DCECC9', '#2D5E9E', '#46AACE']
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: false
-        },
-        cutoutPercentage: 75,
-        title: {
-          display: false,
-          position: 'top',
-          fontStyle: 'bold',
-          fontSize: 0,
-          fullWidth: false,
-          padding: 0
-        },
-        legend: {
-          display: false,
-          position: 'top',
-          fullWidth: false,
-          labels: {
-            display: false,
-            usePointStyle: true,
-            fontSize: 15,
-            fontStyle: 'bold'
-          }
-        }
-      }
-    });
-
-    this.chart = new Chart('canvas3', {
-      type: 'doughnut',
-      data: {
-        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-        datasets: [
-          {
-            data: [12, 45, 23, 50],
-            backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: false
-        },
-        cutoutPercentage: 75,
-        title: {
-          display: false,
-          position: 'top',
-          fontStyle: 'bold',
-          fontSize: 0,
-          fullWidth: false,
-          padding: 0
-        },
-        legend: {
-          display: false,
-          position: 'top',
-          fullWidth: false,
-          labels: {
-            display: false,
-            usePointStyle: true,
-            fontSize: 15,
-            fontStyle: 'bold'
-          }
-        }
-      }
-    });
-
-    this.chart = new Chart('canvas4', {
-      type: 'doughnut',
-      data: {
-        labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-        datasets: [
-          {
-            data: [32, 56, 12, 4],
-            backgroundColor: ['#f7f9fa', '#DCECC9', '#2D5E9E', '#46AACE']
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        tooltips: {
-          enabled: false
-        },
-        cutoutPercentage: 75,
-        title: {
-          display: false,
-          position: 'top',
-          fontStyle: 'bold',
-          fontSize: 0,
-          fullWidth: false,
-          padding: 0
-        },
-        legend: {
-          display: false,
-          position: 'top',
-          fullWidth: false,
-          labels: {
-            display: false,
-            usePointStyle: true,
-            fontSize: 15,
-            fontStyle: 'bold'
-          }
-        }
-      }
-    });
-    //deletelater
-
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
   }
-
+  public cc = 1;
   ngAfterViewInit() {
-    console.log('AfterViewInit');
+    console.log('AfterViewInit', this.cc);
+    for (var i in this.testing) {
+      console.log('cc', this.cc);
+      this.chart = new Chart('canvas' + this.cc, {
+        type: 'doughnut',
+        data: {
+          labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+          datasets: [
+            {
+              data: [25, 50, 20, 5],
+              backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          tooltips: {
+            enabled: false
+          },
+          cutoutPercentage: 75,
+          title: {
+            display: false,
+            position: 'top',
+            fontStyle: 'bold',
+            fontSize: 0,
+            fullWidth: false,
+            padding: 0
+          },
+          legend: {
+            display: false,
+            position: 'top',
+            fullWidth: false,
+            labels: {
+              display: false,
+              usePointStyle: true,
+              fontSize: 15,
+              fontStyle: 'bold'
+            }
+          }
+        }
+      });
+      this.cc++;
+    }
   }
   public on: boolean = true;
   public courseId: any;
