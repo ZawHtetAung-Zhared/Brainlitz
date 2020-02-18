@@ -290,6 +290,7 @@
 }
 
 .date-box {
+  width: 240px;
   padding: 5px 8px 5px 8px;
   background-color: #0065f2;
   border-radius: 20px;
@@ -303,10 +304,14 @@
 
 .fa-angle-left {
   padding-right: 30px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .fa-angle-right {
   padding-left: 30px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .h4-strong {

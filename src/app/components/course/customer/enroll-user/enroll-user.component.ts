@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CustomerComponent } from './../customer.component';
 import { UserGradingComponent } from './../../../apg/user-grading/user-grading.component';
@@ -1110,7 +1111,6 @@ export class EnrollUserComponent implements OnInit {
   }
 
   changeMethod(searchWord, userType) {
-    this.enrollUserList = [];
     console.log(this.detailLists.locationId);
     console.log(searchWord);
     console.log(userType);
@@ -1119,6 +1119,8 @@ export class EnrollUserComponent implements OnInit {
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
+      this.enrollUserList = [];
+      this.seatLeft = this.detailLists.seat_left;
       setTimeout(() => {
         this.getUsersInCourse(this.courseId); // Stop blocking
       }, 1000);
@@ -1228,6 +1230,8 @@ export class EnrollUserComponent implements OnInit {
     this.userLists = this.userLists.filter(item => item.userId != user.userId);
   }
 
+  public found = null;
+
   chooseCustomer(user) {
     if (
       this.seatLeft <= 0 &&
@@ -1236,19 +1240,41 @@ export class EnrollUserComponent implements OnInit {
     ) {
       this.toastr.error('You can not select because no more seat.');
     } else if (this.courseType == 'FLEXY') {
+      setTimeout(() => {
+        this.getUsersInCourse(this.courseId);
+      }, 1000);
       if (this.seatLeft <= 0 && this.detailLists.seat_left !== null) {
         console.log(user.userId);
+        //flexy reEnroll
+        this.enrolledCustomer = this.pplLists.CUSTOMER;
+        var earlierCount = this.enrolledCustomer.length;
+        this.enrolledCustomer = this.enrolledCustomer.filter(
+          item => item.userId != user.userId
+        );
+        var currentCount = this.enrolledCustomer.length;
+        this.found = earlierCount - currentCount;
+        this.userLists.map(item => {
+          item.addOrRemove = 'add-user';
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+          }
+        });
+        //multienrolluser block
+        this.enrollUserList.pop();
+        this.enrollUserList.push(user);
+        this.seatLeft--;
+      } else {
+        this.userLists.map(item => {
+          item.addOrRemove = 'add-user';
+          if (item.userId == user.userId) {
+            item.addOrRemove = 'remove-user';
+          }
+        });
+        //multienrolluser block
+        this.enrollUserList.pop();
+        this.enrollUserList.push(user);
+        this.seatLeft--;
       }
-      this.userLists.map(item => {
-        item.addOrRemove = 'add-user';
-        if (item.userId == user.userId) {
-          item.addOrRemove = 'remove-user';
-        }
-      });
-      //multienrolluser block
-      this.enrollUserList.pop();
-      this.enrollUserList.push(user);
-      this.seatLeft--;
     } else {
       this.userLists.map(item => {
         if (item.userId == user.userId) {

@@ -86,6 +86,25 @@ body {
   font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 }
 
+/* html,body{
+  font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
+}
+
+html {
+  overflow-y: scroll;
+  height: 100%;
+  margin: 0px auto;
+  padding: 0;
+} */
+
+/* body {
+  height: 100%;
+  margin: 0px auto;
+  max-width: 100%;
+  min-width: 100%;
+  padding: 0;
+} */
+
 .inner-wrapper {
   padding: 30px 30px 0px 30px;
   /* overflow-y: scroll; */

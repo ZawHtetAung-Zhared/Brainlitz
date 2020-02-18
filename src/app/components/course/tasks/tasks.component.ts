@@ -16,20 +16,35 @@ export class TasksComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  // tasks: [
+  //   {
+  //     templateId: '5e3e67d81742aa002c196b1a',
+  //     taskType: 'SCHEDULED',
+  //     name: 'template 1',
+  //     distributionMode: 'MICROLEARNING',
+  //     overview: {
+  //       type: 'tasks',
+  //       count: 1
+  //     },
+  //     taskStartDate: '2020-02-07T00:00:00.000Z',
+  //     taskEndDate: '2020-02-14T00:00:00.000Z'
+  //   }
+  // ]
+
   public allTasks = {
     tasks: [
-      {
-        templateId: '5e3e67d81742aa002c196b1a',
-        taskType: 'SCHEDULED',
-        name: 'template 1',
-        distributionMode: 'MICROLEARNING',
-        overview: {
-          type: 'tasks',
-          count: 1
-        },
-        taskStartDate: '2020-02-07T00:00:00.000Z',
-        taskEndDate: '2020-02-14T00:00:00.000Z'
-      }
+      // {
+      //   templateId: '',
+      //   taskType: '',
+      //   name: '',
+      //   distributionMode: '',
+      //   overview: {
+      //     type: '',
+      //     count: 0
+      //   },
+      //   taskStartDate: '',
+      //   taskEndDate: ''
+      // }
     ]
   };
 
@@ -40,12 +55,13 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     //this.courseId = '5df8813bd0f06a163d832f1c';//for testing
-    this.route.params.subscribe(params => {
-      this.courseId = params.id;
-      localStorage.setItem('COURSEID', this.courseId);
-      console.log('CourseID', this.courseId);
-      localStorage.setItem('course_id', this.courseId);
-    });
+    // this.route.params.subscribe(params => {
+    //   this.courseId = params.id;
+    //   localStorage.setItem('COURSEID', this.courseId);
+    //   console.log('CourseID', this.courseId);
+    //   localStorage.setItem('course_id', this.courseId);
+    // });
+    this.courseId = localStorage.getItem('course_id');
     console.log('this.courseId');
     console.log(this.courseId);
     this.getAllTasksInfo();

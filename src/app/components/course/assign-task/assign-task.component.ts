@@ -50,6 +50,7 @@ export class AssignTaskComponent implements OnInit {
   public assignModeList: any = [];
   public masteryList: any = [];
   public taskLists: any = [];
+  public selectedTaskLists: any = [];
   public scheduletemplateList: any = [];
 
   // other
@@ -217,7 +218,8 @@ export class AssignTaskComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res, 'task list');
         this.taskLists = res;
-        this.createassignTask.template.tasks = res.slice();
+        this.selectedTaskLists = res.slice();
+        // this.selectedTaskLists = res.slice();
         this.clickableSteps.push(step);
         this.addActiveBar(2, 3);
         this.stepClick(event, step);
@@ -226,6 +228,9 @@ export class AssignTaskComponent implements OnInit {
   }
 
   goToStep4(event, step) {
+    console.log(this.selectedTaskLists, 'selected task list');
+    this.createassignTask.template.tasks = this.selectedTaskLists;
+    console.log(this.createassignTask, 'create assign task');
     this._service
       .getassignMode(this.createassignTask.taskType.id)
       .subscribe((res: any) => {
@@ -380,27 +385,22 @@ export class AssignTaskComponent implements OnInit {
   }
 
   selectedTask(obj) {
-    if (this.createassignTask.template.tasks.includes(obj)) {
-      this.createassignTask.template.tasks.splice(
-        this.createassignTask.template.tasks.indexOf(obj),
-        1
-      );
+    console.log(obj, 'this single obj');
+    if (this.selectedTaskLists.includes(obj)) {
+      this.selectedTaskLists.splice(this.selectedTaskLists.indexOf(obj), 1);
     } else {
-      this.createassignTask.template.tasks.push(obj);
+      this.selectedTaskLists.push(obj);
     }
-    console.log(this.createassignTask.template.tasks, 'selected tast arr');
+    console.log(this.selectedTaskLists, 'selected tast arr');
   }
 
   public gIndex: any;
   showmasteryList(masteriesModal, task, e, index) {
     this.gIndex = index;
-    console.log(this.gIndex, 'index');
-
     if (e.target.classList.length != 0 && e.target.classList[0] != 'slider') {
-      console.log('is reach');
       this.isSelectedTime = 'AM';
       this.singleSelectedTask = task;
-      console.log(this.singleSelectedTask, 'selected task');
+      console.log(this.singleSelectedTask.masteries, 'selected task');
       this._service
         .getsingletaskBytemplate(
           this.createassignTask.template.taskTemplateId,
@@ -409,18 +409,19 @@ export class AssignTaskComponent implements OnInit {
         .subscribe((res: any) => {
           console.log('single task', res);
           this.masteryList = res.masteries;
-          console.log(this.createassignTask.template.tasks[this.gIndex]);
-          this.createassignTask.template.tasks[
-            this.gIndex
-          ].masteries = res.masteries.slice();
+          console.log(this.singleSelectedTask);
 
-          console.log(this.createassignTask);
+          if (this.singleSelectedTask.masteries == undefined) {
+            console.log('ok undefined');
+            this.singleSelectedTask.masteries = res.masteries.slice();
+          }
+          this.modalReference = this.modalService.open(masteriesModal, {
+            backdrop: 'static',
+            windowClass:
+              'modal-xl modal-inv d-flex justify-content-center align-items-center'
+          });
+          console.log(this.singleSelectedTask);
         });
-      this.modalReference = this.modalService.open(masteriesModal, {
-        backdrop: 'static',
-        windowClass:
-          'modal-xl modal-inv d-flex justify-content-center align-items-center'
-      });
     }
   }
 
@@ -576,19 +577,23 @@ export class AssignTaskComponent implements OnInit {
   }
 
   checkedMastery(obj, id) {
-    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
-    if (
-      this.createassignTask.template.tasks[this.gIndex].masteries.includes(obj)
-    )
-      this.createassignTask.template.tasks[this.gIndex].masteries.splice(
-        this.createassignTask.template.tasks[this.gIndex].masteries.indexOf(
-          obj
-        ),
-        1
-      );
-    else this.createassignTask.template.tasks[this.gIndex].masteries.push(obj);
-
-    console.log(this.createassignTask.template.tasks[this.gIndex].masteries);
+    console.log(this.singleSelectedTask.masteries);
+    console.log(this.singleSelectedTask.masteries.includes(obj));
+    console.log(obj);
+    console.log(
+      this.singleSelectedTask.masteries.findIndex(
+        data => data.masteryId === obj.masteryId
+      )
+    );
+    if (this.checkMasteryExit(obj) != -1) {
+      this.singleSelectedTask.masteries.splice(this.checkMasteryExit(obj), 1);
+      this.singleSelectedTask.masteryCount = this.singleSelectedTask.masteries.length;
+      console.log('if');
+    } else {
+      this.singleSelectedTask.masteries.push(obj);
+      this.singleSelectedTask.masteryCount = this.singleSelectedTask.masteries.length;
+      console.log(this.singleSelectedTask.masteries);
+    }
   }
 
   choicemode(obj) {
@@ -598,26 +603,48 @@ export class AssignTaskComponent implements OnInit {
 
   comfirmMastery() {
     console.log(this.annoTaskDate);
+    console.log(this.taskLists[this.gIndex].announcementDate);
     console.log(
-      this.createassignTask.template.tasks[this.gIndex].announcementDate
+      this.changeDatetoTime(this.taskLists[this.gIndex].announcementDate)
     );
-    this.createassignTask.template.tasks[this.gIndex].taskStartDate = this
-      .taskStartDate
+    console.log(
+      this.taskLists.findIndex(data => data._id === this.singleSelectedTask._id)
+    );
+
+    let annDate;
+    let index = this.selectedTaskLists.findIndex(
+      data => data._id === this.singleSelectedTask._id
+    );
+
+    this.singleSelectedTask.taskStartDate = this.taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
-      : this.createassignTask.template.tasks[this.gIndex].taskStartDate;
-    this.createassignTask.template.tasks[this.gIndex].taskEndDate = this
-      .taskEndDate
+      : this.taskLists[this.gIndex].taskStartDate;
+
+    this.singleSelectedTask.taskEndDate = this.taskEndDate
       ? this.changeObjDateFormat(this.taskEndDate)
-      : this.createassignTask.template.tasks[this.gIndex].taskEndDate;
-    let annDate = this.changeDateTimeFormat(
+      : this.taskLists[this.gIndex].taskEndDate;
+    console.log(!this.showFormat);
+    annDate = this.changeDateTimeFormat(
       this.annoTaskDate
         ? this.annoTaskDate
-        : this.createassignTask.template.tasks[this.gIndex].announcementDate,
-      this.showFormat
-        ? this.showFormat
-        : this.createassignTask.template.tasks[this.gIndex].announcementTime
+        : this.taskLists[this.gIndex].announcementDate,
+      !this.showFormat == true
+        ? this.changeDatetoTime(this.taskLists[this.gIndex].announcementDate)
+        : this.showFormat
     );
-    this.createassignTask.template.tasks[this.gIndex].annoucementDate = annDate;
+    this.singleSelectedTask.annoucementDate = annDate;
+
+    if (index != -1) {
+      this.taskLists[this.gIndex] = this.singleSelectedTask;
+      this.selectedTaskLists[index] = this.singleSelectedTask;
+    } else {
+      this.taskLists[this.gIndex] = this.singleSelectedTask;
+    }
+
+    this.taskStartDate = undefined;
+    this.taskEndDate = undefined;
+    this.annoTaskDate = undefined;
+
     this.modalReference.close();
 
     console.log(annDate, 'date');
@@ -626,10 +653,14 @@ export class AssignTaskComponent implements OnInit {
     console.log(this.taskEndDate);
     console.log(this.taskStartDate);
     console.log(this.showFormat);
-    console.log(this.createassignTask);
+    console.log(this.selectedTaskLists, 'selected task list');
   }
-
+  changeDatetoTime(date) {
+    console.log(date);
+    return this.datePipe.transform(date, 'HH:mm');
+  }
   changeDateTimeFormat(date, time) {
+    console.log(date, time);
     if (date.year == null) {
       console.log('null', date);
       return date;
@@ -659,6 +690,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   changeObjDateFormat(date) {
+    console.log(date);
     let sdate = date.year + '-' + date.month + '-' + date.day;
     return new Date(sdate).toISOString();
   }
@@ -673,5 +705,11 @@ export class AssignTaskComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res);
       });
+  }
+
+  checkMasteryExit(obj) {
+    return this.singleSelectedTask.masteries.findIndex(
+      data => data.masteryId === obj.masteryId
+    );
   }
 }
