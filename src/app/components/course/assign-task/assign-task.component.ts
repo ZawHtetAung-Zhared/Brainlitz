@@ -385,6 +385,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   selectedTask(obj) {
+    console.log(obj, 'this single obj');
     if (this.selectedTaskLists.includes(obj)) {
       this.selectedTaskLists.splice(this.selectedTaskLists.indexOf(obj), 1);
     } else {
@@ -409,19 +410,18 @@ export class AssignTaskComponent implements OnInit {
           console.log('single task', res);
           this.masteryList = res.masteries;
           console.log(this.singleSelectedTask);
+
           if (this.singleSelectedTask.masteries == undefined) {
             console.log('ok undefined');
             this.singleSelectedTask.masteries = res.masteries.slice();
           }
-
+          this.modalReference = this.modalService.open(masteriesModal, {
+            backdrop: 'static',
+            windowClass:
+              'modal-xl modal-inv d-flex justify-content-center align-items-center'
+          });
           console.log(this.singleSelectedTask);
         });
-
-      this.modalReference = this.modalService.open(masteriesModal, {
-        backdrop: 'static',
-        windowClass:
-          'modal-xl modal-inv d-flex justify-content-center align-items-center'
-      });
     }
   }
 
@@ -586,10 +586,7 @@ export class AssignTaskComponent implements OnInit {
       )
     );
     if (this.checkMasteryExit(obj) != -1) {
-      this.singleSelectedTask.masteries.splice(
-        this.singleSelectedTask.masteries.indexOf(obj),
-        1
-      );
+      this.singleSelectedTask.masteries.splice(this.checkMasteryExit(obj), 1);
       this.singleSelectedTask.masteryCount = this.singleSelectedTask.masteries.length;
       console.log('if');
     } else {
@@ -606,24 +603,48 @@ export class AssignTaskComponent implements OnInit {
 
   comfirmMastery() {
     console.log(this.annoTaskDate);
-    console.log(this.selectedTaskLists[this.gIndex].announcementDate);
-    this.selectedTaskLists[this.gIndex].taskStartDate = this.taskStartDate
+    console.log(this.taskLists[this.gIndex].announcementDate);
+    console.log(
+      this.changeDatetoTime(this.taskLists[this.gIndex].announcementDate)
+    );
+    console.log(
+      this.taskLists.findIndex(data => data._id === this.singleSelectedTask._id)
+    );
+
+    let annDate;
+    let index = this.selectedTaskLists.findIndex(
+      data => data._id === this.singleSelectedTask._id
+    );
+
+    this.singleSelectedTask.taskStartDate = this.taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
-      : this.selectedTaskLists[this.gIndex].taskStartDate;
-    this.selectedTaskLists[this.gIndex].taskEndDate = this.taskEndDate
+      : this.taskLists[this.gIndex].taskStartDate;
+
+    this.singleSelectedTask.taskEndDate = this.taskEndDate
       ? this.changeObjDateFormat(this.taskEndDate)
-      : this.selectedTaskLists[this.gIndex].taskEndDate;
-    let annDate = this.changeDateTimeFormat(
+      : this.taskLists[this.gIndex].taskEndDate;
+    console.log(!this.showFormat);
+    annDate = this.changeDateTimeFormat(
       this.annoTaskDate
         ? this.annoTaskDate
-        : this.selectedTaskLists[this.gIndex].announcementDate,
-      this.showFormat
-        ? this.showFormat
-        : this.selectedTaskLists[this.gIndex].announcementTime
+        : this.taskLists[this.gIndex].announcementDate,
+      !this.showFormat == true
+        ? this.changeDatetoTime(this.taskLists[this.gIndex].announcementDate)
+        : this.showFormat
     );
-    this.selectedTaskLists[this.gIndex].annoucementDate = annDate;
-    this.taskLists[this.gIndex] = this.singleSelectedTask;
-    this.selectedTaskLists[this.gIndex] = this.singleSelectedTask;
+    this.singleSelectedTask.annoucementDate = annDate;
+
+    if (index != -1) {
+      this.taskLists[this.gIndex] = this.singleSelectedTask;
+      this.selectedTaskLists[index] = this.singleSelectedTask;
+    } else {
+      this.taskLists[this.gIndex] = this.singleSelectedTask;
+    }
+
+    this.taskStartDate = undefined;
+    this.taskEndDate = undefined;
+    this.annoTaskDate = undefined;
+
     this.modalReference.close();
 
     console.log(annDate, 'date');
@@ -634,8 +655,12 @@ export class AssignTaskComponent implements OnInit {
     console.log(this.showFormat);
     console.log(this.selectedTaskLists, 'selected task list');
   }
-
+  changeDatetoTime(date) {
+    console.log(date);
+    return this.datePipe.transform(date, 'HH:mm');
+  }
   changeDateTimeFormat(date, time) {
+    console.log(date, time);
     if (date.year == null) {
       console.log('null', date);
       return date;
@@ -665,6 +690,7 @@ export class AssignTaskComponent implements OnInit {
   }
 
   changeObjDateFormat(date) {
+    console.log(date);
     let sdate = date.year + '-' + date.month + '-' + date.day;
     return new Date(sdate).toISOString();
   }

@@ -502,15 +502,15 @@
                 <div class="d-flex">
                   <button
                     class="btn btn-edit bold"
-                    (click)="goToStep2($event, '3')"
+                    (click)="goToStep3($event, '3')"
                   >
                     Edit More
                   </button>
                   <button
                     class="btn btn-comfirm medium"
-                    (click)="goToStep3($event, '3')"
+                    (click)="createAssign()"
                   >
-                    Continue
+                    Assign
                   </button>
                 </div>
               </div>
@@ -584,6 +584,7 @@
                 </div>
                 <button
                   class="btn btn-comfirm medium"
+                  [disabled]="selectedTaskLists.length == 0"
                   (click)="goToStep4($event, '4')"
                 >
                   Continue
