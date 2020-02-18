@@ -3,6 +3,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
 import { Router } from '@angular/router';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-course-list',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./course-list.component.css']
 })
 export class CourseListComponent implements OnInit {
+  private subscription: ISubscription;
   private regionId = localStorage.getItem('regionId');
   private locationID = localStorage.getItem('locationId');
   private courseList: Array<any> = [];
@@ -57,17 +59,6 @@ export class CourseListComponent implements OnInit {
     public dataservice: DataService,
     private router: Router
   ) {
-    // this._service.goCourseCreate.subscribe(() => {
-    //   this.courseList = [];
-    //   console.log('go to cc');
-    //   this.courseList = [];
-    //   this.isCategory = false;
-    //   this.isPlan = false;
-    //   this.goBackCat = false;
-    //   this.isCourseCreate = true;
-    //   window.scroll(0, 0);
-    // });
-
     this._service.goplan.subscribe(() => {
       this.courseList = [];
       console.log('muuuu');
@@ -96,17 +87,6 @@ export class CourseListComponent implements OnInit {
       this.courseList = [];
       console.log(this.courseList.length);
     });
-
-    // this._service.goCourseDetail.subscribe(() => {
-    //   // console.log('go back CDetail', this.courseId);
-    //   this.isCategory = false;
-    //   this.isPlan = false;
-    //   this.goBackCat = false;
-    //   this.isCourseCreate = false;
-    //   // this.isCourseDetail = true;
-    //   // this.showCourseDetail(this.courseId);
-    //   this.courseList = [];
-    // });
 
     this._service.goPlanDetail.subscribe(() => {
       // console.log('go back PlanDetail', this.courseId);
@@ -201,20 +181,6 @@ export class CourseListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
-    // if (this.cID != '') {
-    //   setTimeout(() => {
-    //     this.showCourseDetail(this.cID);
-    //   }, 300);
-    // }
-
-    // this.dataservice.cId.subscribe(cid => (this.courseId = cid));
-    // if (this.courseId != '') {
-    //   setTimeout(() => {
-    //     this.showCourseDetail(this.courseId);
-    //   }, 300);
-    // }
-    console.log('Init~~~~~~~~');
     this.dataservice.currentActivePlan.subscribe(
       planID => (this.activePlanId = planID)
     );
@@ -232,14 +198,16 @@ export class CourseListComponent implements OnInit {
       this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
 
-    this._service.permissionList.subscribe(data => {
+    this.subscription = this._service.permissionList.subscribe(data => {
       if (this.router.url === '/course') {
         this.permissionType = data;
         this.checkPermission();
       }
     });
+  }
 
-    this.getRegionInfo();
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   checkPermission() {
@@ -314,39 +282,6 @@ export class CourseListComponent implements OnInit {
       // this.courseList = [];
       this.coursePlanCollection = [];
     }
-  }
-
-  getRegionInfo() {
-    this.token = localStorage.getItem('token');
-    this.type = localStorage.getItem('tokenType');
-    this._service
-      .getRegionalAdministrator(this.regionId, this.token, this.type)
-      .subscribe((res: any) => {
-        console.log('regional info', res);
-        // if (
-        //   res.invoiceSettings == {} ||
-        //   res.invoiceSettings == undefined ||
-        //   res.paymentSettings == {} ||
-        //   res.paymentSettings == undefined
-        // ) {
-        //   console.log('no invoice setting', res.invoiceSettings);
-        //   console.log('no invoice setting', res.paymentSettings);
-        //   this.invoiceInfo = {
-        //     address: '',
-        //     city: '',
-        //     companyName: '',
-        //     email: '',
-        //     prefix: '',
-        //     registration: ''
-        //   };
-        //   this.noSetting = true;
-        // } else {
-        //   console.log('has invoice setting');
-        //   this.invoiceInfo = res.invoiceSettings;
-        //   this.noSetting = false;
-        // }
-        // console.log(this.invoiceInfo);
-      });
   }
 
   getCourseLists(limit, skip) {
