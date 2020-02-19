@@ -17,6 +17,25 @@ export class OverviewComponent implements OnInit {
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
+  testObjArr = [
+    [
+      {
+        Name: 'M1'
+      },
+      {
+        Name: 'M2'
+      }
+    ],
+    [
+      {
+        Name: 'M3'
+      },
+      {
+        Name: 'M4'
+      }
+    ]
+  ];
+  myArray = [0, 1, 2, 3, 4, 5, 6, 7];
 
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
