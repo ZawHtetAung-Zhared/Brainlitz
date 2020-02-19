@@ -115,18 +115,19 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
-.spaninline p {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
+.spaninline {
   line-height: 20px;
-  color: #ffffff;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   display: inline-block;
   background: #ffbf00;
-  border-radius: 25px;
+  border-radius: 8px;
   width: 30px;
   text-align: center;
+  position: relative;
+  top: -2px;
+}
+.spaninline img {
+  width: 21px;
+  height: 16.8px;
 }
 .customer-div {
   width: 33%;
