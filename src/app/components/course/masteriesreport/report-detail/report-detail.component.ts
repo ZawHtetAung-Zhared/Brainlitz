@@ -29,6 +29,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Struggling',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#2D5E9E' }
       },
@@ -39,6 +40,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'In progress',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#46AACE' }
       },
@@ -48,6 +50,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Need revision',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#8ACDCE' }
       },
@@ -57,6 +60,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Mastered w/ difficulties',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#B7DFCB' }
       },
@@ -66,6 +70,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Mastered w/ ease',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#DCECC9' }
       },
@@ -75,6 +80,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Not started',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#E3E4E5' }
       },
@@ -86,6 +92,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Struggling',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#2D5E9E' }
       },
@@ -96,6 +103,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'In progress',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#46AACE' }
       },
@@ -105,6 +113,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Mastered',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#DCECC9' }
       },
@@ -114,6 +123,7 @@ export class ReportDetailComponent implements OnInit {
       name: 'Not started',
       type: 'bar',
       stack: 'energy',
+      barWidth: '50%',
       itemStyle: {
         normal: { color: '#E3E4E5' }
       },
@@ -178,7 +188,7 @@ export class ReportDetailComponent implements OnInit {
     this.plotOption = {
       tooltip: {},
       grid: {
-        left: 255
+        left: 300
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -198,6 +208,7 @@ export class ReportDetailComponent implements OnInit {
         type: 'category',
         inverse: true,
         silent: false,
+        triggerEvent: true,
         color: '#64707d',
         axisTick: { show: false },
         axisLine: {
@@ -214,13 +225,28 @@ export class ReportDetailComponent implements OnInit {
             lineHeight: 16,
             color: '#64707d'
           },
-          margin: 20,
+          margin: 10,
           formatter: function(value) {
-            // value=value+'';
-            if (value.length > 40) {
-              return value.substring(0, 40) + '...';
-            } else {
-              return value;
+            var count = 40;
+            return (
+              '{f1|' +
+              value.slice(0, count) +
+              (value.length > count ? '...' : '') +
+              '}\t{f2|}'
+            );
+          },
+          rich: {
+            f1: {
+              color: '#363F4D',
+              fontWeight: 600,
+              align: 'left',
+              width: 260
+            },
+            f2: {
+              height: 20,
+              backgroundColor: {
+                image: './assets/icons/mastery-question.svg'
+              }
             }
           }
         },
@@ -228,6 +254,7 @@ export class ReportDetailComponent implements OnInit {
         left: 'left'
       },
       xAxis: {
+        silent: false,
         position: 'top',
         axisLabel: {
           show: true,
@@ -310,8 +337,8 @@ export class ReportDetailComponent implements OnInit {
       this.plotOption.xAxis.axisLabel.show = false;
       this.plotOption.xAxis.splitLine.show = false;
     } else {
-      this.plotOption.yAxis.axisLabel.margin = 255;
-      this.plotOption.yAxis.axisLabel.align = 'left';
+      // this.plotOption.yAxis.axisLabel.margin = 255;
+      // this.plotOption.yAxis.axisLabel.align = 'left';
     }
     this.plotGraph(expandOn);
   }
@@ -337,12 +364,24 @@ export class ReportDetailComponent implements OnInit {
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
     graph.on('click', function(params) {
-      _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
-      localStorage.setItem(
-        'mastery_itemId',
-        _self.masteriesReports[0].masteries[params.dataIndex].masteryId
-        // _self.masteriesReports[0].data[params.dataIndex].id
-      );
+      console.log(params);
+      if (params.componentType === 'yAxis') {
+        console.log(_self.plotOption.yAxis.data.indexOf(params.value));
+        // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+        // localStorage.setItem(
+        //   'mastery_itemId',
+        //   _self.masteriesReports[0].masteries[_self.plotOption.yAxis.data.indexOf(params.value)].masteryId
+        //   // _self.masteriesReports[0].data[params.dataIndex].id
+        // );
+      } else if (params.componentType === 'series') {
+        console.log(params.dataIndex);
+        // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+        // localStorage.setItem(
+        //   'mastery_itemId',
+        //   _self.masteriesReports[0].masteries[params.dataIndex].masteryId
+        //   // _self.masteriesReports[0].data[params.dataIndex].id
+        // );
+      }
     });
   }
 
