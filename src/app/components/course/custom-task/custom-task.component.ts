@@ -17,7 +17,7 @@ export class CustomTaskComponent implements OnInit {
   // progress
   public isSelectedTime: any;
   public clickableSteps: Array<any> = ['1'];
-  public singleSelectedTask: any;
+  public singleSelectedTask: any = {};
 
   // get data from parent component
   @Input() courseDetail;
@@ -26,6 +26,7 @@ export class CustomTaskComponent implements OnInit {
   public customObj: any = {};
   public scheduletemplateList: any = [];
   public createCustom: any = {};
+  public taskLists: any = [];
 
   constructor(private _route: Router, private _service: appService) {}
 
@@ -99,6 +100,22 @@ export class CustomTaskComponent implements OnInit {
     this.addActiveBar(1, 2);
   }
 
+  goToStep3(event, step) {
+    for (let i = 0; i < 30; i++) {
+      let obj: any = {};
+      obj._id = i;
+      obj.name = 'Needs for Survival' + i;
+      obj.masteryCount = 20;
+      obj.img =
+        'https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/quizwerkz/contents/image/157553244156011223790cute-unicorn-vector-object-background-png_225166.jpg';
+      this.taskLists.push(obj);
+    }
+    console.log(this.taskLists);
+    this.clickableSteps.push(step);
+    this.addActiveBar(2, 3);
+    this.stepClick(event, step);
+  }
+
   addActiveBar(current, next) {
     console.log(current, next);
     $('#step' + current).removeClass('active');
@@ -135,5 +152,9 @@ export class CustomTaskComponent implements OnInit {
 
     this.createCustom.template = tempObj;
     console.log(this.createCustom);
+  }
+
+  checkTask(obj) {
+    this.singleSelectedTask = obj;
   }
 }
