@@ -96,18 +96,11 @@ export class MasteriesreportComponent implements OnInit {
         itemGap: 20,
         data: [
           { name: 'Struggling', textStyle: {} },
-          'In progress',
-          'Mastered',
-          'Not started'
-        ],
-        formatter: function(value) {
-          return value;
-        },
-        rich: {
-          fregment2: {
-            borderRadius: 16
-          }
-        }
+          'Not started',
+          'In conslusive',
+          'Mastered w/ difficulties',
+          'Mastered w/ ease'
+        ]
       },
       series: [
         // {
@@ -125,27 +118,9 @@ export class MasteriesreportComponent implements OnInit {
           type: 'bar',
           stack: 'energy',
           itemStyle: {
-            normal: { color: '#2D5E9E' }
+            normal: { color: '#BF2926' }
           },
           symbolSize: 3,
-          data: []
-        },
-        {
-          name: 'In progress',
-          type: 'bar',
-          stack: 'energy',
-          itemStyle: {
-            normal: { color: '#46AACE' }
-          },
-          data: []
-        },
-        {
-          name: 'Mastered',
-          type: 'bar',
-          stack: 'energy',
-          itemStyle: {
-            normal: { color: '#DCECC9' }
-          },
           data: []
         },
         {
@@ -153,7 +128,34 @@ export class MasteriesreportComponent implements OnInit {
           type: 'bar',
           stack: 'energy',
           itemStyle: {
-            normal: { color: '#E3E4E5' }
+            normal: { color: '#EDEEF0' }
+          },
+          data: []
+        },
+        {
+          name: 'In conslusive',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#D4D5D6' }
+          },
+          data: []
+        },
+        {
+          name: 'Mastered w/ difficulties',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#6DC000' }
+          },
+          data: []
+        },
+        {
+          name: 'Mastered w/ ease',
+          type: 'bar',
+          stack: 'energy',
+          itemStyle: {
+            normal: { color: '#4FDD00' }
           },
           data: []
         }
@@ -180,9 +182,10 @@ export class MasteriesreportComponent implements OnInit {
     });
     this.plotOption.yAxis.data = yAxisData;
     this.plotOption.series[0].data = strugglingData;
-    this.plotOption.series[1].data = inprogressData;
-    this.plotOption.series[2].data = easeData;
-    this.plotOption.series[3].data = notTakenData;
+    this.plotOption.series[1].data = notTakenData;
+    this.plotOption.series[2].data = inprogressData;
+    this.plotOption.series[3].data = easeData;
+    this.plotOption.series[4].data = easeData;
     this.plotGraph(idx);
   }
 

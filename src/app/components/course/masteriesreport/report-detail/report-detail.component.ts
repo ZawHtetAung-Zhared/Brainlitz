@@ -240,12 +240,12 @@ export class ReportDetailComponent implements OnInit {
               color: '#363F4D',
               fontWeight: 600,
               align: 'left',
-              width: 260
+              width: 10
             },
             f2: {
               height: 20,
               backgroundColor: {
-                image: './assets/icons/mastery-question.svg'
+                image: ''
               }
             }
           }
@@ -339,6 +339,9 @@ export class ReportDetailComponent implements OnInit {
     } else {
       // this.plotOption.yAxis.axisLabel.margin = 255;
       // this.plotOption.yAxis.axisLabel.align = 'left';
+      this.plotOption.yAxis.axisLabel.rich.f1.width = 260;
+      this.plotOption.yAxis.axisLabel.rich.f2.backgroundColor.image =
+        './assets/icons/mastery-question.svg';
     }
     this.plotGraph(expandOn);
   }
