@@ -34,6 +34,7 @@
     "@ngx-utils/cookies": "^3.0.1",
     "angular-calendar": "^0.24.1",
     "angular-confirmation-popover": "^4.1.0",
+    "angular-highcharts": "^9.0.2",
     "angular-oauth2-oidc": "^3.1.4",
     "angular-sortablejs": "^2.6.0",
     "angular-star-rating": "^2.0.0-rc.5",

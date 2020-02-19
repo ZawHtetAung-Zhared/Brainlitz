@@ -17,76 +17,39 @@ export class OverviewComponent implements OnInit {
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
-  testObjArr = [
-    [
-      {
-        Name: 'M1'
-      },
-      {
-        Name: 'M2'
-      }
-    ],
-    [
-      {
-        Name: 'M3'
-      },
-      {
-        Name: 'M4'
-      }
-    ]
-  ];
-  myArray = [0, 1, 2, 3, 4, 5, 6, 7];
+  // testObjArr = [
+  //   [
+  //     {
+  //       Name: 'M1'
+  //     },
+  //     {
+  //       Name: 'M2'
+  //     }
+  //   ],
+  //   [
+  //     {
+  //       Name: 'M3'
+  //     },
+  //     {
+  //       Name: 'M4'
+  //     }
+  //   ]
+  // ];
 
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
+    console.log(this.mastery);
+    console.log('2D', this.TwoDimensional(this.mastery, 2));
+    this.outerArray = this.TwoDimensional(this.mastery, 2);
   }
   public cc = 1;
   ngAfterViewInit() {
-    console.log('AfterViewInit', this.cc);
-    for (var i in this.testing) {
-      console.log('cc', this.cc);
-      this.chart = new Chart('canvas' + this.cc, {
-        type: 'doughnut',
-        data: {
-          labels: ['Data1', 'Data2', 'Data3', 'Data4'],
-          datasets: [
-            {
-              data: [25, 50, 20, 5],
-              backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          tooltips: {
-            enabled: false
-          },
-          cutoutPercentage: 75,
-          title: {
-            display: false,
-            position: 'top',
-            fontStyle: 'bold',
-            fontSize: 0,
-            fullWidth: false,
-            padding: 0
-          },
-          legend: {
-            display: false,
-            position: 'top',
-            fullWidth: false,
-            labels: {
-              display: false,
-              usePointStyle: true,
-              fontSize: 15,
-              fontStyle: 'bold'
-            }
-          }
-        }
-      });
-      this.cc++;
-    }
+    console.log('AfterViewInit');
+    setTimeout(() => {
+      this.drawChart(this.outerArray);
+    }, 1000);
   }
   public on: boolean = true;
   public courseId: any;
@@ -98,6 +61,7 @@ export class OverviewComponent implements OnInit {
   public unpaid: any = 0;
   public scheduled: any = 0;
   public custom: any = 0;
+  public outerArray: any;
 
   public lessonList: any = {
     attendance: '',
@@ -123,7 +87,543 @@ export class OverviewComponent implements OnInit {
   // toggle() {
   //   this.on = !this.on;
   // }
-
+  mastery: any = [
+    {
+      id: '5dda85cfb1c96001c43267bc',
+      name: 'Light Energy',
+      masteries: [
+        {
+          masteryId: 'ley-01-01',
+          shortMasteryName: 'Natural sources of light 1',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-02',
+          shortMasteryName: 'Natural sources of light 2',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-03',
+          shortMasteryName: 'Natural sources of light 3',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        }
+      ],
+      totalMasteryCount: 3,
+      totalUserMasteryCount: 15,
+      masteryCountInNumber: {
+        NEW: 0,
+        INPROGRESS: 0,
+        STRUGGLE: 0,
+        MASTERED: 0
+      },
+      masteryCountInPercentage: {
+        NEW: '5',
+        INPROGRESS: '10',
+        STRUGGLE: '25',
+        MASTERED: '50'
+      }
+    },
+    {
+      id: '6dda85cfb1c96001c43267bc',
+      name: 'Heat Energy',
+      masteries: [
+        {
+          masteryId: 'ley-01-01',
+          shortMasteryName: 'Natural sources of light 1',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-02',
+          shortMasteryName: 'Natural sources of light 2',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-03',
+          shortMasteryName: 'Natural sources of light 3',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        }
+      ],
+      totalMasteryCount: 11,
+      totalUserMasteryCount: 87,
+      masteryCountInNumber: {
+        NEW: 0,
+        INPROGRESS: 0,
+        STRUGGLE: 0,
+        MASTERED: 0
+      },
+      masteryCountInPercentage: {
+        NEW: '15',
+        INPROGRESS: '35',
+        STRUGGLE: '5',
+        MASTERED: '40'
+      }
+    },
+    {
+      id: '5dda85cfb1c96001c43267bc',
+      name: 'Lightning Energy',
+      masteries: [
+        {
+          masteryId: 'ley-01-01',
+          shortMasteryName: 'Natural sources of light 1',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-02',
+          shortMasteryName: 'Natural sources of light 2',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-03',
+          shortMasteryName: 'Natural sources of light 3',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        }
+      ],
+      totalMasteryCount: 7,
+      totalUserMasteryCount: 67,
+      masteryCountInNumber: {
+        NEW: 0,
+        INPROGRESS: 0,
+        STRUGGLE: 0,
+        MASTERED: 0
+      },
+      masteryCountInPercentage: {
+        NEW: '20',
+        INPROGRESS: '10',
+        STRUGGLE: '60',
+        MASTERED: '45'
+      }
+    },
+    {
+      id: '5dda85cfb1c96001c43267bc',
+      name: 'Water Energy',
+      masteries: [
+        {
+          masteryId: 'ley-01-01',
+          shortMasteryName: 'Natural sources of light 1',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-02',
+          shortMasteryName: 'Natural sources of light 2',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-03',
+          shortMasteryName: 'Natural sources of light 3',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        }
+      ],
+      totalMasteryCount: 6,
+      totalUserMasteryCount: 34,
+      masteryCountInNumber: {
+        NEW: 0,
+        INPROGRESS: 0,
+        STRUGGLE: 0,
+        MASTERED: 0
+      },
+      masteryCountInPercentage: {
+        NEW: '5',
+        INPROGRESS: '55',
+        STRUGGLE: '30',
+        MASTERED: '24'
+      }
+    },
+    {
+      id: '5dda85cfb1c96001c43267bc',
+      name: 'Grass Energy',
+      masteries: [
+        {
+          masteryId: 'ley-01-01',
+          shortMasteryName: 'Natural sources of light 1',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-02',
+          shortMasteryName: 'Natural sources of light 2',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        },
+        {
+          masteryId: 'ley-01-03',
+          shortMasteryName: 'Natural sources of light 3',
+          question:
+            "<text index=0 value='Which of the following gives off its own light?' ></text>",
+          userMasteries: {
+            NEW: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            INPROGRESS: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            STRUGGLE: {
+              users: [],
+              count: 0,
+              percentage: 0
+            },
+            MASTERED: {
+              users: [],
+              count: 0,
+              percentage: 0
+            }
+          },
+          totalUserCount: 0
+        }
+      ],
+      totalMasteryCount: 13,
+      totalUserMasteryCount: 20,
+      masteryCountInNumber: {
+        NEW: 0,
+        INPROGRESS: 0,
+        STRUGGLE: 0,
+        MASTERED: 0
+      },
+      masteryCountInPercentage: {
+        NEW: '16',
+        INPROGRESS: '45',
+        STRUGGLE: '67',
+        MASTERED: '34'
+      }
+    }
+  ];
   enrollCustomer(CID) {
     localStorage.setItem('userType', 'customer');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
@@ -331,5 +831,62 @@ export class OverviewComponent implements OnInit {
 
   goToAssignTask() {
     this.router.navigateByUrl('assignTask/' + this.courseId);
+  }
+
+  TwoDimensional(arr, size) {
+    var res = [];
+    for (var i = 0; i < arr.length; i = i + size)
+      res.push(arr.slice(i, i + size));
+    return res;
+  }
+
+  drawChart(arr) {
+    for (var i = 0; i < arr.length; i++) {
+      for (var j = 0; j < arr[i].length; j++) {
+        this.chart = new Chart('canvas' + i + j, {
+          type: 'doughnut',
+          data: {
+            labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+            datasets: [
+              {
+                data: [
+                  arr[i][j].masteryCountInPercentage.STRUGGLE,
+                  arr[i][j].masteryCountInPercentage.INPROGRESS,
+                  arr[i][j].masteryCountInPercentage.MASTERED,
+                  arr[i][j].masteryCountInPercentage.NEW
+                ],
+                backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            tooltips: {
+              enabled: false
+            },
+            cutoutPercentage: 75,
+            title: {
+              display: false,
+              position: 'top',
+              fontStyle: 'bold',
+              fontSize: 0,
+              fullWidth: false,
+              padding: 0
+            },
+            legend: {
+              display: false,
+              position: 'top',
+              fullWidth: false,
+              labels: {
+                display: false,
+                usePointStyle: true,
+                fontSize: 15,
+                fontStyle: 'bold'
+              }
+            }
+          }
+        });
+      }
+    }
   }
 }

@@ -2,7 +2,8 @@
   <div class="mastery-view-head">
     <h3>Masteries reports</h3>
     <span class="spaninline">
-      <p class="m-0">SW</p>
+      <!-- <p class="m-0">SW</p> -->
+      <img src="../../../../assets/img/tiny-brainlitz.svg" />
     </span>
     <!-- <div class="d-flex">
     <div class="mastery-type">
@@ -21,52 +22,52 @@
       >
         <ol class="carousel-indicators">
           <li
-            *ngFor="let li1 of testingli; let i = index"
+            *ngFor="let li of outerArray; let i = index"
             data-target="#carouselExampleCaptions"
-            data-slide-to="li"
+            attr.data-slide-to="{{ i }}"
             [ngClass]="{ active: i == 0 }"
           ></li>
         </ol>
         <div class="carousel-inner">
           <div
-            *ngFor="let li1 of testingli; let j = index"
+            *ngFor="let li1 of outerArray; let j = index"
             class="carousel-item"
             [ngClass]="{ active: j == 0 }"
           >
             <div class="d-flex">
               <div
-                *ngFor="let li2 of testing; let k = index"
+                *ngFor="let li2 of li1; let k = index"
                 class="mastery-type pb-3"
               >
                 <div class="mastery-head p-3">
-                  <h3>Light Energy</h3>
+                  <h3>{{ li2.name }}</h3>
                 </div>
                 <div class="mastery-body d-flex p-3">
                   <div class="d-flex flex-column" class="masteries-stats">
                     <div class="percentage d-flex justify-content-between">
                       <span class="struggle">
-                        <h4>25%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.STRUGGLE }}%</h4>
                         <p>struggling</p>
                       </span>
                       <span class="fine">
-                        <h4>50%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.INPROGRESS }}%</h4>
                         <p>doing fine</p>
                       </span>
                     </div>
                     <div class="percentage d-flex justify-content-between">
                       <span class="mastered">
-                        <h4>20%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.MASTERED }}%</h4>
                         <p>mastered</p> </span
                       ><span class="notstarted">
-                        <h4>5%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.NEW }}%</h4>
                         <p>not started</p>
                       </span>
                     </div>
                   </div>
                   <div style="width: 45%; position: relative">
-                    <h6 class="stu-no">100</h6>
+                    <h6 class="stu-no">{{ li2.totalUserMasteryCount }}</h6>
                     <p class="stu">student</p>
-                    <h6 class="mast-no">25</h6>
+                    <h6 class="mast-no">{{ li2.totalMasteryCount }}</h6>
                     <p class="mast">masteries</p>
                     <canvas
                       width="100%"
@@ -249,7 +250,8 @@
     <div class="cardhead">
       <h3>Tasks</h3>
       <span class="spaninline">
-        <p class="m-0">SW</p>
+        <!-- <p class="m-0">SW</p> -->
+        <img src="../../../../assets/img/tiny-brainlitz.svg" />
       </span>
     </div>
     <div class="cardbody">
