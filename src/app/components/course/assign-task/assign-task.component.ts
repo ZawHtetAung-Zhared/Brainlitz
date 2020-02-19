@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CustomDateFormatter } from '../../../service/pipe/custom-date-formatter.provider';
 import {
@@ -85,6 +85,9 @@ export class AssignTaskComponent implements OnInit {
   public rangeMin: any;
   public rangeHr: any;
   public showFormat: any;
+
+  // custom task
+  public isCustom: boolean = false;
 
   constructor(
     private datePipe: DatePipe,
@@ -227,25 +230,28 @@ export class AssignTaskComponent implements OnInit {
     console.log(this.createassignTask);
   }
 
-  goToStep4(event, step) {
+  goToStep4(event, current, next) {
     console.log(this.selectedTaskLists, 'selected task list');
-    this.createassignTask.template.tasks = this.selectedTaskLists;
+    if (current == 3) {
+      this.createassignTask.template.tasks = this.selectedTaskLists;
+    }
     console.log(this.createassignTask, 'create assign task');
     this._service
       .getassignMode(this.createassignTask.taskType.id)
       .subscribe((res: any) => {
         console.log(res, 'assign mode');
-        this.addActiveBar(3, 4);
+        this.addActiveBar(current, next);
         this.assignModeList = res;
       });
-    this.clickableSteps.push(step);
-    this.stepClick(event, step);
+    this.clickableSteps.push(next);
+    this.stepClick(event, next);
   }
 
-  addActiveBar(prev, next) {
-    console.log(prev, next);
-    $('#step' + prev).removeClass('active');
-    $('#step' + prev).addClass('done');
+  addActiveBar(current, next) {
+    console.log(current, next);
+    $('#step' + current).removeClass('active');
+    for (let i = 1; i < next; i++) $('#step' + i).addClass('done');
+
     $('#step' + next).addClass('active');
   }
 
@@ -711,5 +717,10 @@ export class AssignTaskComponent implements OnInit {
     return this.singleSelectedTask.masteries.findIndex(
       data => data.masteryId === obj.masteryId
     );
+  }
+
+  // start Custom
+  goToCustom() {
+    this.isCustom = true;
   }
 }

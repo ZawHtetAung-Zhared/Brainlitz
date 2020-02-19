@@ -27,6 +27,7 @@ import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import * as currency from 'currency-symbol-map/map';
 import { Observable } from 'rxjs/Observable';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 // import currencyToSymbolMap from 'currency-symbol-map/map'
 declare var $: any;
 
@@ -40,6 +41,7 @@ export class DashboardComponent implements OnInit {
   @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
   @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
   @BlockUI('auto-enrol-setting') blockUIAutoEnrol: NgBlockUI;
+  private permissionSubscription: ISubscription;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -356,19 +358,25 @@ export class DashboardComponent implements OnInit {
       this.checkPermission();
       localStorage.setItem('permission', JSON.stringify([]));
     }
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/dashboard') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/dashboard') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
 
     this.getInvoiceSetting('invoiceSettings');
     console.log('invoice return');
     this.getPaymentSetting('paymentSettings');
     this.orgLogo = localStorage.getItem('OrgLogo');
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   // valueChanged() {

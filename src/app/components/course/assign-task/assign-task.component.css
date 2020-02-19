@@ -11,6 +11,10 @@
 .font-semi {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
+
+.addborderTop {
+  border-top: 1px solid #edeff0 !important;
+}
 .main-wrapper {
   background: #ffffff;
   margin-top: 4px;

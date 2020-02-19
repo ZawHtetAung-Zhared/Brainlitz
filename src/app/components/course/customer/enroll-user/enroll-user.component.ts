@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import * as $ from 'jquery';
 import { Location } from '@angular/common';
 import { FlexiComponent } from '../../../flexi/flexi.component';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-enroll-user',
@@ -46,19 +47,25 @@ export class EnrollUserComponent implements OnInit {
     console.log(
       'User Type from local storage ' + localStorage.getItem('userType')
     );
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
     //this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
       }
-    });
-    console.log(this.courseDemo.assignStudent + ' assign student');
+    );
+    //console.log(this.courseDemo.assignStudent + ' assign student');
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   constructor(
@@ -70,6 +77,8 @@ export class EnrollUserComponent implements OnInit {
     public route: ActivatedRoute,
     private _location: Location
   ) {}
+
+  private permissionSubscription: ISubscription;
 
   @HostListener('document:click', ['$event'])
   public test(event): void {

@@ -49,7 +49,7 @@ export class TasksComponent implements OnInit {
   };
 
   public regionId = localStorage.getItem('regionId');
-  public courseId = localStorage.getItem('course_id');
+  public courseId = '';
   public count: number;
   public tasks = [];
 
@@ -61,7 +61,7 @@ export class TasksComponent implements OnInit {
     //   console.log('CourseID', this.courseId);
     //   localStorage.setItem('course_id', this.courseId);
     // });
-    this.courseId = localStorage.getItem('course_id');
+    this.courseId = localStorage.getItem('COURSEID');
     console.log('this.courseId');
     console.log(this.courseId);
     this.getAllTasksInfo();

@@ -74,8 +74,11 @@
   -webkit-column-count: 2;
   column-count: 2;
   padding: 20px 0px 15px 0px;
-  orphans: 1;
+  orphans: 0;
   widows: 1;
+}
+.orphan {
+  orphans: 1 !important;
 }
 .cardhead p {
   font-style: normal;
@@ -265,7 +268,7 @@
 }
 .mastery-type {
   margin: 5px 15px 5px 15px;
-  width: 452px;
+  max-width: 48%;
   height: 284px;
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
