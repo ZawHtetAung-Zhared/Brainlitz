@@ -651,7 +651,11 @@
   </div>
 
   <!-- start custom task -->
-  <custom-task *ngIf="isCustom" [(courseDetail)]="courseDetail"></custom-task>
+  <custom-task
+    *ngIf="isCustom"
+    [(courseDetail)]="courseDetail"
+    [(selectStandard)]="createassignTask.standard"
+  ></custom-task>
 
   <div id="placeholder_color"></div>
 </div>
