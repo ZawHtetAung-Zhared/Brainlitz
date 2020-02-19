@@ -1,6 +1,0 @@
-diff a/src/app/components/course/assign-task/assign-task.component.ts b/src/app/components/course/assign-task/assign-task.component.ts	(rejected hunks)
-@@ -592,3 +590 @@ export class AssignTaskComponent implements OnInit {
--        this.singleSelectedTask.masteries.indexOf(
--          obj
--        ),
-+        this.singleSelectedTask.masteries.indexOf(obj),

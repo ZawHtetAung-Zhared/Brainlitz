@@ -1,7 +1,7 @@
 <div *ngIf="!sparkWerkz?.scheduledTask" class="h-100">
   <div
     class="h-100"
-    *ngIf="!isScheduleTask && !sparkWerkz?.standardSelected"
+    *ngIf="!isScheduleTask && !sparkWerkz?.standardSelected && !isCustom"
     style="overflow: hidden;"
   >
     <div *ngIf="!isStart">
@@ -82,7 +82,7 @@
             </div>
             <button
               class="btn btn-comfirm medium"
-              (click)="goToStart()"
+              (click)="goToCustom()"
               [disabled]="!createassignTask?.standard?.classLevelId"
             >
               Continue
@@ -151,7 +151,7 @@
   <!-- start schedule task -->
   <div
     class="h-100"
-    *ngIf="isScheduleTask && !sparkWerkz?.standardSelected"
+    *ngIf="isScheduleTask && !sparkWerkz?.standardSelected && !isCustom"
     style="overflow: hidden;"
   >
     <div class="d-flex justify-content-center p-2 addBg">
@@ -649,6 +649,10 @@
       </div>
     </div>
   </div>
+
+  <!-- start custom task -->
+  <custom-task *ngIf="isCustom" [(courseDetail)]="courseDetail"></custom-task>
+
   <div id="placeholder_color"></div>
 </div>
 

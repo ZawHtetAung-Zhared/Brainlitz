@@ -151,6 +151,7 @@ import {
   MasteryReportComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
 
 @NgModule({
   declarations: [
@@ -258,7 +259,8 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     EnrollUserComponent,
     ReportDetailComponent,
     StudentListComponent,
-    MasteryReportComponent
+    MasteryReportComponent,
+    CustomTaskComponent
   ],
   imports: [
     ContentLoaderModule,

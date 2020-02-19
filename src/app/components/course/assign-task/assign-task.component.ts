@@ -86,6 +86,9 @@ export class AssignTaskComponent implements OnInit {
   public rangeHr: any;
   public showFormat: any;
 
+  // custom task
+  public isCustom: boolean = false;
+
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
@@ -714,5 +717,10 @@ export class AssignTaskComponent implements OnInit {
     return this.singleSelectedTask.masteries.findIndex(
       data => data.masteryId === obj.masteryId
     );
+  }
+
+  // start Custom
+  goToCustom() {
+    this.isCustom = true;
   }
 }
