@@ -29,6 +29,7 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { isConstructorDeclaration } from 'typescript';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FlexiComponent } from '../flexi/flexi.component';
+import { ISubscription } from 'rxjs/Subscription';
 declare var $: any;
 @Component({
   selector: 'app-schedule',
@@ -37,6 +38,7 @@ declare var $: any;
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
   @BlockUI() blockUI: NgBlockUI;
+  private regioInfoSubscription: ISubscription;
   // public isSearch:boolean = false;
   public totalWidth = 0;
   public scrollLeftPosition = 0;
@@ -942,7 +944,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     let token = localStorage.getItem('token');
     let tokenType = localStorage.getItem('tokenType');
     //this.blockUI.start('Loading...');
-    this._service
+    this.regioInfoSubscription = this._service
       .getRegionalAdministrator(this.regionId, token, tokenType)
       .subscribe(
         (res: any) => {
@@ -3372,6 +3374,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     //Add 'implements OnDestroy' to the class.
     $('body').css('overflow', 'auto');
     localStorage.removeItem('scheduleObj');
+    this.regioInfoSubscription.unsubscribe();
   }
 
   printSchedule() {
