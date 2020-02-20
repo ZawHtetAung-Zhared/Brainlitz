@@ -191,7 +191,7 @@
               <button
                 class="btn btn-comfirm medium"
                 [disabled]="!createCustom?.template?.taskTemplateId"
-                (click)="goToStep2($event, '2')"
+                (click)="goToStep3($event, '3')"
               >
                 Continue
               </button>
@@ -201,7 +201,64 @@
       </div>
     </div>
     <div *ngIf="activeStep == '3'" class="div_step">
-      step3
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Manage tasks
+          </p>
+          <p class="template-description2 medium">
+            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
+            elit cillum dolore.
+          </p>
+          <p class="title bold">All tasks - ßTasks</p>
+          <div class="task-wrapper">
+            <div
+              class="col-md-3 pl-1"
+              *ngFor="let task of taskLists; let i = index"
+              (click)="checkTask(task)"
+            >
+              <div
+                class="task-block p-0"
+                [ngClass]="{
+                  selectedBorder: task._id == singleSelectedTask._id
+                }"
+              >
+                <div
+                  class="d-flex justify-content-center align-items-center img-block"
+                >
+                  <img src="{{ task.img }}" />
+                </div>
+                <span class="mastery-count font-semi">{{
+                  task.masteryCount == 1
+                    ? task.masteryCount + ' Mastery'
+                    : task.masteryCount + ' Masteries'
+                }}</span>
+
+                <p class="task-name medium">{{ task.name }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backToPrevStep(2, 3)">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                [disabled]="!singleSelectedTask._id"
+                (click)="goToStep4($event, '4')"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="activeStep == '4'" class="div_step">
       step4

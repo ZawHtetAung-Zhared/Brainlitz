@@ -181,7 +181,7 @@ export class OverviewComponent implements OnInit {
         }
       ],
       totalMasteryCount: 3,
-      totalUserMasteryCount: 0,
+      totalUserMasteryCount: 15,
       masteryCountInNumber: {
         NEW: 0,
         INPROGRESS: 0,
@@ -189,10 +189,10 @@ export class OverviewComponent implements OnInit {
         MASTERED: 0
       },
       masteryCountInPercentage: {
-        NEW: 'NaN',
-        INPROGRESS: 'NaN',
-        STRUGGLE: 'NaN',
-        MASTERED: 'NaN'
+        NEW: '5',
+        INPROGRESS: '10',
+        STRUGGLE: '25',
+        MASTERED: '50'
       }
     },
     {
@@ -287,8 +287,8 @@ export class OverviewComponent implements OnInit {
           totalUserCount: 0
         }
       ],
-      totalMasteryCount: 3,
-      totalUserMasteryCount: 0,
+      totalMasteryCount: 11,
+      totalUserMasteryCount: 87,
       masteryCountInNumber: {
         NEW: 0,
         INPROGRESS: 0,
@@ -296,10 +296,10 @@ export class OverviewComponent implements OnInit {
         MASTERED: 0
       },
       masteryCountInPercentage: {
-        NEW: 'NaN',
-        INPROGRESS: 'NaN',
-        STRUGGLE: 'NaN',
-        MASTERED: 'NaN'
+        NEW: '15',
+        INPROGRESS: '35',
+        STRUGGLE: '5',
+        MASTERED: '40'
       }
     },
     {
@@ -394,8 +394,8 @@ export class OverviewComponent implements OnInit {
           totalUserCount: 0
         }
       ],
-      totalMasteryCount: 3,
-      totalUserMasteryCount: 0,
+      totalMasteryCount: 7,
+      totalUserMasteryCount: 67,
       masteryCountInNumber: {
         NEW: 0,
         INPROGRESS: 0,
@@ -403,10 +403,10 @@ export class OverviewComponent implements OnInit {
         MASTERED: 0
       },
       masteryCountInPercentage: {
-        NEW: 'NaN',
-        INPROGRESS: 'NaN',
-        STRUGGLE: 'NaN',
-        MASTERED: 'NaN'
+        NEW: '20',
+        INPROGRESS: '10',
+        STRUGGLE: '60',
+        MASTERED: '45'
       }
     },
     {
@@ -501,8 +501,8 @@ export class OverviewComponent implements OnInit {
           totalUserCount: 0
         }
       ],
-      totalMasteryCount: 3,
-      totalUserMasteryCount: 0,
+      totalMasteryCount: 6,
+      totalUserMasteryCount: 34,
       masteryCountInNumber: {
         NEW: 0,
         INPROGRESS: 0,
@@ -510,10 +510,10 @@ export class OverviewComponent implements OnInit {
         MASTERED: 0
       },
       masteryCountInPercentage: {
-        NEW: 'NaN',
-        INPROGRESS: 'NaN',
-        STRUGGLE: 'NaN',
-        MASTERED: 'NaN'
+        NEW: '5',
+        INPROGRESS: '55',
+        STRUGGLE: '30',
+        MASTERED: '24'
       }
     },
     {
@@ -608,8 +608,8 @@ export class OverviewComponent implements OnInit {
           totalUserCount: 0
         }
       ],
-      totalMasteryCount: 3,
-      totalUserMasteryCount: 0,
+      totalMasteryCount: 13,
+      totalUserMasteryCount: 20,
       masteryCountInNumber: {
         NEW: 0,
         INPROGRESS: 0,
@@ -617,10 +617,10 @@ export class OverviewComponent implements OnInit {
         MASTERED: 0
       },
       masteryCountInPercentage: {
-        NEW: 'NaN',
-        INPROGRESS: 'NaN',
-        STRUGGLE: 'NaN',
-        MASTERED: 'NaN'
+        NEW: '16',
+        INPROGRESS: '45',
+        STRUGGLE: '67',
+        MASTERED: '34'
       }
     }
   ];
@@ -849,7 +849,12 @@ export class OverviewComponent implements OnInit {
             labels: ['Data1', 'Data2', 'Data3', 'Data4'],
             datasets: [
               {
-                data: [25, 50, 20, 5],
+                data: [
+                  arr[i][j].masteryCountInPercentage.STRUGGLE,
+                  arr[i][j].masteryCountInPercentage.INPROGRESS,
+                  arr[i][j].masteryCountInPercentage.MASTERED,
+                  arr[i][j].masteryCountInPercentage.NEW
+                ],
                 backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
               }
             ]
@@ -857,7 +862,7 @@ export class OverviewComponent implements OnInit {
           options: {
             responsive: true,
             tooltips: {
-              enabled: false
+              enabled: true
             },
             cutoutPercentage: 75,
             title: {

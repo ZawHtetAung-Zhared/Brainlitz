@@ -46,28 +46,28 @@
                   <div class="d-flex flex-column" class="masteries-stats">
                     <div class="percentage d-flex justify-content-between">
                       <span class="struggle">
-                        <h4>25%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.STRUGGLE }}%</h4>
                         <p>struggling</p>
                       </span>
                       <span class="fine">
-                        <h4>50%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.INPROGRESS }}%</h4>
                         <p>doing fine</p>
                       </span>
                     </div>
                     <div class="percentage d-flex justify-content-between">
                       <span class="mastered">
-                        <h4>20%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.MASTERED }}%</h4>
                         <p>mastered</p> </span
                       ><span class="notstarted">
-                        <h4>5%</h4>
+                        <h4>{{ li2.masteryCountInPercentage.NEW }}%</h4>
                         <p>not started</p>
                       </span>
                     </div>
                   </div>
                   <div style="width: 45%; position: relative">
-                    <h6 class="stu-no">100</h6>
+                    <h6 class="stu-no">{{ li2.totalUserMasteryCount }}</h6>
                     <p class="stu">student</p>
-                    <h6 class="mast-no">25</h6>
+                    <h6 class="mast-no">{{ li2.totalMasteryCount }}</h6>
                     <p class="mast">masteries</p>
                     <canvas
                       width="100%"

@@ -347,20 +347,26 @@
     padding-left: 0px !important;
   }
   .stu-no {
-    left: 40% !important;
-    top: 12% !important;
+    left: 43% !important;
+    top: 17% !important;
+    font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+    font-size: 0.9em;
   }
   .stu {
     left: 32% !important;
-    top: 19% !important;
+    top: 23% !important;
+    font-size: 0.9em;
   }
   .mast-no {
     left: 43% !important;
-    top: 32% !important;
+    top: 38% !important;
+    font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+    font-size: 0.9em;
   }
   .mast {
-    left: 24% !important;
-    top: 40% !important;
+    left: 26% !important;
+    top: 45% !important;
+    font-size: 0.9em;
   }
 }
 .lb-date {
@@ -538,8 +544,9 @@
   position: absolute;
 }
 .stu-no {
-  left: 43%;
+  left: 45%;
   top: 0%;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .stu {
   left: 38%;
@@ -548,6 +555,7 @@
 .mast-no {
   left: 45%;
   top: 30%;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .mast {
   left: 33%;
@@ -612,4 +620,19 @@
 .carousel-control-next,
 .carousel-control-prev {
   width: auto;
+}
+.carousel-control-prev:hover {
+  background: #b1b1b3;
+  height: 93%;
+  opacity: 0.2;
+}
+.carousel-control-next:hover {
+  background: #b1b1b3;
+  height: 93%;
+  opacity: 0.2;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  height: 93%;
 }
