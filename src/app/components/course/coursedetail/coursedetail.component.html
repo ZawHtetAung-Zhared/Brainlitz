@@ -3,7 +3,9 @@
   (newItemEvent)="reviewToggle($event)"
   [activeTab]="active"
 ></app-header>
-<div class="d-flex flex-column justify-content-center align-items-center">
+<div
+  class="d-flex flex-column justify-content-center align-items-center cust-bg"
+>
   <div class="inner-wrapper w-100">
     <div class="back-wrap d-flex justify-content-between">
       <div class="back-to " (click)="backToCourses()">
@@ -149,7 +151,9 @@
             routerLink="tasks"
           >
             Tasks
-            <span class="spaninline"><p class="m-0">SW</p></span>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
           </button>
           <button
             *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
@@ -158,7 +162,9 @@
             routerLink="leaderboard"
           >
             Leaderboard
-            <span class="spaninline"><p class="m-0">SW</p></span>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
           </button>
           <button
             *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
@@ -167,7 +173,9 @@
             routerLink="masteries-report"
           >
             Masteries reports
-            <span class="spaninline"><p class="m-0">SW</p></span>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
           </button>
           <!-- <button
             [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"

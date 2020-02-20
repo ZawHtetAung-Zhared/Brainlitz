@@ -12,6 +12,14 @@
             <!-- {{ report.data.length }} masteries  -->
             {{ report.totalMasteryCount }} masteries
           </span>
+          <button
+            class="btn-detail btn mt-4"
+            (click)="expandGraph(report.id)"
+            routerLinkActive="active"
+            routerLink="/masteriesdetail/{{ report.id }}"
+          >
+            View detail
+          </button>
         </div>
       </div>
       <div
@@ -27,20 +35,24 @@
   </div>
   <div class="footer d-flex justify-content-center align-items-center">
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #2D5E9E;"></div>
+      <div class="color-box" style="background: #BF2926;"></div>
       <span class="color-txt"> Struggling </span>
     </div>
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #46AACE;"></div>
-      <span class="color-txt"> In progress </span>
-    </div>
-    <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #DCECC9;"></div>
-      <span class="color-txt"> Mastered </span>
-    </div>
-    <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #E3E4E5;"></div>
+      <div class="color-box" style="background: #EDEEF0;"></div>
       <span class="color-txt"> Not started </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #D4D5D6;"></div>
+      <span class="color-txt"> In conslusive </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #6DC000;"></div>
+      <span class="color-txt"> Mastered w/ difficulties </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #4FDD00;"></div>
+      <span class="color-txt"> Mastered w/ ease </span>
     </div>
   </div>
 </div>

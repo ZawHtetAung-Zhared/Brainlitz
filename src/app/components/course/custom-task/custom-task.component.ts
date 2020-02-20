@@ -17,13 +17,16 @@ export class CustomTaskComponent implements OnInit {
   // progress
   public isSelectedTime: any;
   public clickableSteps: Array<any> = ['1'];
-  public singleSelectedTask: any;
+  public singleSelectedTask: any = {};
 
   // get data from parent component
   @Input() courseDetail;
-
+  @Input() selectStandard;
   // lists
   public customObj: any = {};
+  public scheduletemplateList: any = [];
+  public createCustom: any = {};
+  public taskLists: any = [];
 
   constructor(private _route: Router, private _service: appService) {}
 
@@ -91,9 +94,67 @@ export class CustomTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
-
+    this.getTemplateLists();
     this.clickableSteps.push(step);
-
     this.stepClick(event, step);
+    this.addActiveBar(1, 2);
+  }
+
+  goToStep3(event, step) {
+    for (let i = 0; i < 30; i++) {
+      let obj: any = {};
+      obj._id = i;
+      obj.name = 'Needs for Survival' + i;
+      obj.masteryCount = 20;
+      obj.img =
+        'https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/quizwerkz/contents/image/157553244156011223790cute-unicorn-vector-object-background-png_225166.jpg';
+      this.taskLists.push(obj);
+    }
+    console.log(this.taskLists);
+    this.clickableSteps.push(step);
+    this.addActiveBar(2, 3);
+    this.stepClick(event, step);
+  }
+
+  addActiveBar(current, next) {
+    console.log(current, next);
+    $('#step' + current).removeClass('active');
+    for (let i = 1; i < next; i++) $('#step' + i).addClass('done');
+
+    $('#step' + next).addClass('active');
+  }
+
+  backToPrevStep(prev, next) {
+    this.activeStep = prev;
+    $('#step' + prev).addClass('active');
+
+    $('#astep' + next).addClass('finishdone');
+    $('#step' + next).removeClass('active');
+  }
+
+  getTemplateLists() {
+    this._service
+      .getTemplateLists(this.selectStandard.standardId, this.courseDetail._id)
+      .subscribe((res: any) => {
+        console.log(res, 'template list');
+        this.scheduletemplateList = res;
+      });
+  }
+
+  checkTemplate(obj) {
+    console.log(obj);
+    let tempObj: any = {};
+    tempObj.taskTemplateId = obj._id;
+    tempObj.name = obj.templateName;
+    tempObj.description = obj.description;
+    tempObj.extraTasksAllowed = obj.extraTasksAllowed;
+    tempObj.taskBreak = obj.taskBreak;
+
+    this.createCustom.template = tempObj;
+    console.log(this.createCustom);
+  }
+
+  checkTask(obj) {
+    this.singleSelectedTask = obj;
   }
 }

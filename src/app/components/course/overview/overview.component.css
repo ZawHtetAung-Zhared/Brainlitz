@@ -74,8 +74,11 @@
   -webkit-column-count: 2;
   column-count: 2;
   padding: 20px 0px 15px 0px;
-  orphans: 1;
+  orphans: 0;
   widows: 1;
+}
+.orphan {
+  orphans: 1 !important;
 }
 .cardhead p {
   font-style: normal;
@@ -112,18 +115,19 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
-.spaninline p {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
+.spaninline {
   line-height: 20px;
-  color: #ffffff;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   display: inline-block;
   background: #ffbf00;
-  border-radius: 25px;
+  border-radius: 8px;
   width: 30px;
   text-align: center;
+  position: relative;
+  top: -2px;
+}
+.spaninline img {
+  width: 21px;
+  height: 16.8px;
 }
 .customer-div {
   width: 33%;
@@ -265,7 +269,7 @@
 }
 .mastery-type {
   margin: 5px 15px 5px 15px;
-  width: 452px;
+  max-width: 48%;
   height: 284px;
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
@@ -343,20 +347,26 @@
     padding-left: 0px !important;
   }
   .stu-no {
-    left: 40% !important;
-    top: 12% !important;
+    left: 43% !important;
+    top: 17% !important;
+    font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+    font-size: 0.9em;
   }
   .stu {
     left: 32% !important;
-    top: 19% !important;
+    top: 23% !important;
+    font-size: 0.9em;
   }
   .mast-no {
     left: 43% !important;
-    top: 32% !important;
+    top: 38% !important;
+    font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+    font-size: 0.9em;
   }
   .mast {
-    left: 24% !important;
-    top: 40% !important;
+    left: 26% !important;
+    top: 45% !important;
+    font-size: 0.9em;
   }
 }
 .lb-date {
@@ -534,8 +544,9 @@
   position: absolute;
 }
 .stu-no {
-  left: 43%;
+  left: 45%;
   top: 0%;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .stu {
   left: 38%;
@@ -544,6 +555,7 @@
 .mast-no {
   left: 45%;
   top: 30%;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .mast {
   left: 33%;
@@ -608,4 +620,19 @@
 .carousel-control-next,
 .carousel-control-prev {
   width: auto;
+}
+.carousel-control-prev:hover {
+  background: #b1b1b3;
+  height: 93%;
+  opacity: 0.2;
+}
+.carousel-control-next:hover {
+  background: #b1b1b3;
+  height: 93%;
+  opacity: 0.2;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  height: 93%;
 }
