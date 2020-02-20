@@ -38,3 +38,14 @@ p.task-name {
 .selectedBorder {
   border: solid 2px rgb(0, 128, 255);
 }
+
+.btn-close {
+  background: #e3e4e6;
+  color: #363f4d !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  opacity: unset;
+  line-height: 0;
+  padding-bottom: 2px;
+}

@@ -13,7 +13,6 @@ import { appService } from '../../../service/app.service';
 export class CustomTaskComponent implements OnInit {
   // active  && selected
   public activeStep: any;
-
   // progress
   public isSelectedTime: any;
   public clickableSteps: Array<any> = ['1'];
@@ -27,6 +26,26 @@ export class CustomTaskComponent implements OnInit {
   public scheduletemplateList: any = [];
   public createCustom: any = {};
   public taskLists: any = [];
+  public masteryList: any = [];
+  // boolean
+  public isShowAnnoBlock: boolean = false;
+  public progressSlider: boolean = false;
+
+  // other
+  public annoTaskDate: any;
+  public taskStartDate: any;
+  public taskEndDate: any;
+
+  // hour and date picker
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public startFormat: any;
+  public startTime: any;
+  model: any = {};
+  public rangeMin: any;
+  public rangeHr: any;
+  public showFormat: any;
 
   constructor(private _route: Router, private _service: appService) {}
 
@@ -49,7 +68,7 @@ export class CustomTaskComponent implements OnInit {
 
   getAssignTask() {
     this._service.getassignTasks().subscribe((res: any) => {
-      this.customObj = res[1];
+      this.customObj = res[0];
       console.log(res, 'assign task');
     });
   }
@@ -116,6 +135,22 @@ export class CustomTaskComponent implements OnInit {
     this.stepClick(event, step);
   }
 
+  goToStep4($event, step) {
+    this._service
+      .getsingletaskBytemplate(
+        '5dda85c6b1c96001c43267ba',
+        '5e452659df851f002c2f06a0'
+      )
+      .subscribe((res: any) => {
+        this.masteryList = res.masteries;
+        console.log(res);
+        this.clickableSteps.push(step);
+        this.activeStep = 1;
+        this.addActiveBar(3, 4);
+        this.stepClick($event, step);
+      });
+  }
+
   addActiveBar(current, next) {
     console.log(current, next);
     $('#step' + current).removeClass('active');
@@ -156,5 +191,84 @@ export class CustomTaskComponent implements OnInit {
 
   checkTask(obj) {
     this.singleSelectedTask = obj;
+  }
+
+  durationProgress($event) {
+    this.progressSlider = true;
+  }
+
+  closeDropdown(event, datePicker?) {
+    if (event.target.className.includes('dropD')) {
+      // datePicker.close()
+    } else {
+      if (event.target.offsetParent == null) {
+        datePicker.close();
+      } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+        datePicker.close();
+      }
+    }
+  }
+
+  chooseTimeOpt(type) {
+    console.log(type);
+    this.isSelectedTime = type;
+    this.formatTime();
+  }
+
+  formatTime() {
+    console.log('this.selected', this.selectedHrRange, this.selectedMinRange);
+    if (this.selectedHrRange > 0) {
+      if (this.selectedHrRange < 10) {
+        var hrFormat = 0 + this.selectedHrRange;
+      } else {
+        var hrFormat = this.selectedHrRange;
+      }
+    } else {
+      this.selectedHrRange = '00';
+      var hrFormat = this.selectedHrRange;
+    }
+    if (this.selectedMinRange > 0) {
+      if (this.selectedMinRange < 10) {
+        this.selectedMinRange = parseInt(this.selectedMinRange);
+        this.selectedMinRange = this.selectedMinRange.toString();
+        console.log('if', this.selectedMinRange);
+        // var minFormat = this.selectedMinRange.concat('0',this.selectedMinRange);
+        var minFormat = 0 + this.selectedMinRange;
+        // console.log(this.selectedMinRange.concat('0',this.selectedMinRange));
+        console.log(minFormat);
+      } else {
+        console.log('else', this.selectedMinRange);
+        var minFormat = this.selectedMinRange;
+      }
+    } else {
+      this.selectedMinRange = '00';
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    console.log(this.showFormat);
+  }
+
+  D(J) {
+    return (J < 10 ? '0' : '') + J;
+  }
+
+  ChangedRangeValue(e, type) {
+    // console.log(e)
+    if (type == 'hr') {
+      this.selectedHrRange = e;
+      console.log('this.selectedHrRange', this.selectedHrRange);
+    }
+    if (type == 'min') {
+      this.selectedMinRange = e;
+      console.log('this.selectedMinRange', this.selectedMinRange);
+    }
+    this.formatTime();
+  }
+
+  checkMasteryExit(obj) {
+    console.log(obj);
+    // return this.singleSelectedTask.masteries.findIndex(
+    //   data => data.masteryId === obj.masteryId
+    // );
   }
 }
