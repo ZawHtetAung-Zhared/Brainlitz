@@ -42,9 +42,14 @@
           Add new course plan
         </button>
       </div>
-      <div class="sidenav-scroll" *ngIf="coursePlanCollection.length > 0">
+      <div
+        class="sidenav-scroll"
+        id="sidenav-wrap"
+        *ngIf="coursePlanCollection.length > 0"
+      >
         <div
           class="cplan"
+          id="{{ coursePlan._id }}"
           *ngFor="let coursePlan of coursePlanCollection; let i = index"
         >
           <div

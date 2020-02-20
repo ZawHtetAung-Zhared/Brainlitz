@@ -456,6 +456,7 @@ ul.recent-lists li:last-child {
 
 .sidenav-scroll {
   overflow-y: scroll;
+  scroll-behavior: smooth; /* <-- for smooth scroll */
   height: 100%;
   box-shadow: 1px 0px 0px #e3e4e5;
 }
