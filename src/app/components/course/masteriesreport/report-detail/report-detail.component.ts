@@ -14,6 +14,8 @@ export class ReportDetailComponent implements OnInit {
   isSticky: boolean = false;
   isStickyInnerHeader: boolean = false;
   public active = 'courses';
+  public dType: any;
+  public isdType: boolean = false;
   plotOption: any;
   echarts: any;
   reportItems: any;
@@ -22,7 +24,7 @@ export class ReportDetailComponent implements OnInit {
     { id: 2, name: 'Heat Energy', data: sampleData }
   ];
   public isExpand: boolean = true;
-  public isAdvance: boolean = false;
+  public isAdvance: boolean = true;
   public seriesData: any;
   advanceSeries: any = [
     {
@@ -31,28 +33,28 @@ export class ReportDetailComponent implements OnInit {
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#2D5E9E' }
+        normal: { color: '#BF2926' }
       },
       symbolSize: 3,
       data: []
     },
     {
-      name: 'In progress',
+      name: 'Not started',
       type: 'bar',
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#46AACE' }
+        normal: { color: '#EDEEF0' }
       },
       data: []
     },
     {
-      name: 'Need revision',
+      name: 'In conslusive',
       type: 'bar',
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#8ACDCE' }
+        normal: { color: '#D4D5D6' }
       },
       data: []
     },
@@ -62,7 +64,7 @@ export class ReportDetailComponent implements OnInit {
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#B7DFCB' }
+        normal: { color: '#6DC000' }
       },
       data: []
     },
@@ -72,17 +74,7 @@ export class ReportDetailComponent implements OnInit {
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#DCECC9' }
-      },
-      data: []
-    },
-    {
-      name: 'Not started',
-      type: 'bar',
-      stack: 'energy',
-      barWidth: '50%',
-      itemStyle: {
-        normal: { color: '#E3E4E5' }
+        normal: { color: '#4FDD00' }
       },
       data: []
     }
@@ -94,29 +86,9 @@ export class ReportDetailComponent implements OnInit {
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#2D5E9E' }
+        normal: { color: '#BF2926' }
       },
       symbolSize: 3,
-      data: []
-    },
-    {
-      name: 'In progress',
-      type: 'bar',
-      stack: 'energy',
-      barWidth: '50%',
-      itemStyle: {
-        normal: { color: '#46AACE' }
-      },
-      data: []
-    },
-    {
-      name: 'Mastered',
-      type: 'bar',
-      stack: 'energy',
-      barWidth: '50%',
-      itemStyle: {
-        normal: { color: '#DCECC9' }
-      },
       data: []
     },
     {
@@ -125,7 +97,27 @@ export class ReportDetailComponent implements OnInit {
       stack: 'energy',
       barWidth: '50%',
       itemStyle: {
-        normal: { color: '#E3E4E5' }
+        normal: { color: '#EDEEF0' }
+      },
+      data: []
+    },
+    {
+      name: 'In conslusive',
+      type: 'bar',
+      stack: 'energy',
+      barWidth: '50%',
+      itemStyle: {
+        normal: { color: '#D4D5D6' }
+      },
+      data: []
+    },
+    {
+      name: 'Mastered w/ ease',
+      type: 'bar',
+      stack: 'energy',
+      barWidth: '50%',
+      itemStyle: {
+        normal: { color: '#4FDD00' }
       },
       data: []
     }
@@ -139,6 +131,7 @@ export class ReportDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.dType = 'XLS';
     this._service.getMasteryReports().subscribe(
       (res: any) => {
         this.masteriesReports = res.data;
@@ -171,7 +164,7 @@ export class ReportDetailComponent implements OnInit {
     } else {
       this.isSticky = false;
     }
-    if (window.pageYOffset > 138) {
+    if (window.pageYOffset > 720) {
       this.isStickyInnerHeader = true;
     } else {
       this.isStickyInnerHeader = false;
@@ -188,7 +181,8 @@ export class ReportDetailComponent implements OnInit {
     this.plotOption = {
       tooltip: {},
       grid: {
-        left: 300
+        left: 300,
+        right: 1
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -258,9 +252,16 @@ export class ReportDetailComponent implements OnInit {
         position: 'top',
         axisLabel: {
           show: true,
-          formatter: '{value} %'
+          formatter: '{value} % ',
+          align: 'right'
         },
-        axisTick: { show: false },
+        axisTick: {
+          show: true,
+          length: 30,
+          lineStyle: {
+            color: '#E8E9EB'
+          }
+        },
         axisLine: {
           show: false,
           lineStyle: {
@@ -278,20 +279,11 @@ export class ReportDetailComponent implements OnInit {
         itemGap: 20,
         data: [
           { name: 'Struggling', textStyle: {} },
-          'In progress',
-          'Need revision',
+          'Not started',
+          'In conslusive',
           'Mastered w/ difficulties',
-          'Mastered w/ ease',
-          'Not started'
-        ],
-        formatter: function(value) {
-          return value;
-        },
-        rich: {
-          fregment2: {
-            borderRadius: 16
-          }
-        }
+          'Mastered w/ ease'
+        ]
       },
       series: this.seriesData
     };
@@ -323,19 +315,21 @@ export class ReportDetailComponent implements OnInit {
     this.plotOption.yAxis.data = yAxisData;
     if (advanceOn) {
       this.plotOption.series[0].data = strugglingData;
-      this.plotOption.series[1].data = inprogressData;
+      this.plotOption.series[1].data = notTakenData;
+      this.plotOption.series[2].data = inprogressData;
       this.plotOption.series[3].data = diffData;
       this.plotOption.series[4].data = easeData;
-      this.plotOption.series[5].data = notTakenData;
     } else {
+      // not use in this version
       this.plotOption.series[0].data = strugglingData;
-      this.plotOption.series[1].data = inprogressData;
-      this.plotOption.series[2].data = easeData;
-      this.plotOption.series[3].data = notTakenData;
+      this.plotOption.series[1].data = notTakenData;
+      this.plotOption.series[2].data = inprogressData;
+      this.plotOption.series[3].data = easeData;
     }
     if (!expandOn) {
       this.plotOption.xAxis.axisLabel.show = false;
       this.plotOption.xAxis.splitLine.show = false;
+      this.plotOption.xAxis.axisTick.show = false;
     } else {
       // this.plotOption.yAxis.axisLabel.margin = 255;
       // this.plotOption.yAxis.axisLabel.align = 'left';
@@ -397,5 +391,14 @@ export class ReportDetailComponent implements OnInit {
       this.seriesData = this.normalSeries;
     }
     this.setupOption(this.isExpand, this.isAdvance);
+  }
+
+  downloadType(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.isdType = !this.isdType;
+  }
+  @HostListener('document:click', ['$event']) clickedOutside($event) {
+    this.isdType = false;
   }
 }
