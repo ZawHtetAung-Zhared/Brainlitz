@@ -3811,9 +3811,9 @@ export class appService {
     });
   }
 
-  updateGrading(userId, data, regionId) {
+  updateGrading(userId, data, regionId, courseId) {
     let apiUrl =
-      this.baseUrl + '/regions/' + regionId + '/users/' + userId + '/grading';
+      this.baseUrl + '/users/' + userId + '/grading?courseId=' + courseId;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

@@ -2623,6 +2623,7 @@ export class UsersComponent implements OnInit {
   public bgcolor = '';
   public grade = [];
   public apId = '';
+  public apCourseId = '';
 
   pickGrade(pickGradeModal, clickedGrade, e) {
     e.preventDefault();
@@ -2641,6 +2642,7 @@ export class UsersComponent implements OnInit {
     //  this.toastr.info(grade)
     console.log(clickedGrade);
     this.apId = clickedGrade.assessment.apId;
+    this.apCourseId = clickedGrade.course.id;
     this.apgName = clickedGrade.assessment.apgName;
     this.gradeOptions = clickedGrade.assessment.gradeOptions;
     this.color = clickedGrade.assessment.sepalColor.text;
@@ -2681,8 +2683,22 @@ export class UsersComponent implements OnInit {
     };
     console.log(body, this.custDetail.user.userId);
     this._service
-      .updateGrading(this.custDetail.user.userId, body, this.regionID)
-      .subscribe(res => console.log(res));
-    this.toastr.success('APG update successfully' + this.selectedOption);
+      .updateGrading(
+        this.custDetail.user.userId,
+        body,
+        this.regionID,
+        this.apCourseId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.callAchievements(6);
+          this.toastr.success('APG update successfully');
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('APG can not update successfully');
+        }
+      );
   }
 }
