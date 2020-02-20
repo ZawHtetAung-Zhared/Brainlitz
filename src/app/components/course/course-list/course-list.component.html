@@ -42,9 +42,14 @@
           Add new course plan
         </button>
       </div>
-      <div class="sidenav-scroll" *ngIf="coursePlanCollection.length > 0">
+      <div
+        class="sidenav-scroll"
+        id="sidenav-wrap"
+        *ngIf="coursePlanCollection.length > 0"
+      >
         <div
           class="cplan"
+          id="{{ coursePlan._id }}"
           *ngFor="let coursePlan of coursePlanCollection; let i = index"
         >
           <div
@@ -170,8 +175,38 @@
         </button>
       </div>
       <!-- start card -->
+      <!-- loading start -->
+      <div *ngIf="loading == true">
+        <div class="course-list-wrapper">
+          <div class="class-block">
+            <div class="course-title">
+              <content-loader>
+                <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+                <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+                <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
+                <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
+              </content-loader>
+            </div>
+          </div>
+          <div class="class-block">
+            <div class="course-title">
+              <content-loader>
+                <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+                <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+                <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
+                <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
+              </content-loader>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- loading end-->
       <div
-        *ngIf="coursePlanCollection?.length > 0 && courseCollection != null"
+        *ngIf="
+          coursePlanCollection?.length > 0 &&
+          courseCollection != null &&
+          loading == false
+        "
         class="course-list-wrapper"
       >
         <div
@@ -437,4 +472,4 @@
     *ngIf="isCourseCreate == true"
   ></app-coursecreate> -->
 </div>
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message"></block-ui> -->

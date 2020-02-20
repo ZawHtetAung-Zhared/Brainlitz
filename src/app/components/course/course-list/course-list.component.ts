@@ -25,7 +25,6 @@ export class CourseListComponent implements OnInit {
   private token: any;
   private type: any;
   private recentLists: Array<any> = [];
-  private selectedCourseList: any;
   private selectedPlan: any;
   private isCategory: boolean = false;
   private goBackCat: boolean = false;
@@ -53,6 +52,7 @@ export class CourseListComponent implements OnInit {
   private searchKeyword: any = null;
   private activePlanId: any = '';
   private removeHeight: boolean = false;
+  private coursesResLength;
 
   constructor(
     private _service: appService,
@@ -100,6 +100,7 @@ export class CourseListComponent implements OnInit {
     });
   }
   private oldValue = 0;
+  private scrollDistance = 0;
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
@@ -117,60 +118,83 @@ export class CourseListComponent implements OnInit {
     this.isMidStick =
       window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
 
-    // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    //   console.log("On Scroll Down");
-    //   //Write logic here for loading new content.
-    //   if(this.courseCollection.totalPages - this.courseCollection.current_page > 0){
-    //     console.log("~~~~~~~~")
-    //     // this.page = this.page + 1;
-    //     // this.skip = this.courseCollection.courses.length;
-    //     // this.getCoursesPerPlan(this.selectedPlan,this.limit,this.skip,this.page)
-    //   }
-    // }
+    this.continuousScroll();
+  }
 
+  scrollToActiveElement(activePlan) {
+    console.log('scrollToActiveElement', activePlan);
+    setTimeout(() => {
+      var topPos = document.getElementById(activePlan).offsetTop;
+      console.log(topPos);
+      document.getElementById('sidenav-wrap').scrollTop = topPos - 155;
+      console.log(
+        '~~~~~~',
+        (document.getElementById('sidenav-wrap').scrollTop = topPos - 155)
+      );
+    }, 200);
+  }
+
+  continuousScroll() {
     // infinite scroll
     // Get the new Value
     let newValue = window.pageYOffset;
 
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
-      console.log('Direction Down', window.pageYOffset);
+      // console.log('Direction Down', window.pageYOffset);
+      // this.scrollDistance = 262 + (287 * this.coursesResLength)
+      // console.log("window.scrollY",window.scrollY)
       if (this.courseCollection != null && window.pageYOffset > 900) {
         if (
           this.loading == false &&
-          this.courseCollection.courses.length == this.limit
+          (this.courseCollection.totalPages ==
+            this.courseCollection.current_page ||
+            this.courseCollection.totalPages <
+              this.courseCollection.current_page)
         ) {
-          console.log('call next page');
-          this.page = this.page + 1;
-          this.skip = this.courseCollection.courses.length;
-          if (this.searchKeyword == null || this.searchKeyword == undefined) {
-            this.getCoursesPerPlan(
-              this.selectedPlan,
-              this.limit,
-              this.skip,
-              this.page,
-              'onScroll'
-            );
-          } else {
-            this.simpleCourseSearchPerPlan(
-              this.selectedPlan,
-              this.limit,
-              this.skip,
-              this.page,
-              this.searchKeyword
-            );
+          //for changing plan ID
+          // console.log("next plan~~~")
+          // this.coursePlanCollection.map((item,index)=> {
+          //   if(item._id == this.selectedPlan && index+1 < this.coursePlanCollection.length && this.loading == false){
+          //     console.log("next index",index+1)
+          //     let nextPlanId = this.coursePlanCollection[index+1]._id;
+          //     let nextPlanName = this.coursePlanCollection[index+1].name;
+          //     console.log(nextPlanId,nextPlanName)
+          //     this.getCourseswithPlanId(
+          //       nextPlanId,
+          //       nextPlanName,
+          //       null
+          //     );
+          //   }
+          // })
+        } else {
+          //for current plan ID
+          if (
+            this.loading == false &&
+            this.courseCollection.courses.length == this.limit
+          ) {
+            //for next page
+            // console.log('call next page');
+            this.page = this.page + 1;
+            this.skip = this.courseCollection.courses.length;
+            if (this.searchKeyword == null || this.searchKeyword == undefined) {
+              this.getCoursesPerPlan(
+                this.selectedPlan,
+                this.limit,
+                this.skip,
+                this.page,
+                'onScroll'
+              );
+            } else {
+              this.simpleCourseSearchPerPlan(
+                this.selectedPlan,
+                this.limit,
+                this.skip,
+                this.page,
+                this.searchKeyword
+              );
+            }
           }
-        } else if (
-          this.loading == false &&
-          this.courseCollection.courses.length < this.limit
-        ) {
-          // console.log(
-          //   'call next Id>>>>',
-          //   'courseLength',
-          //   this.courseCollection.courses.length,
-          //   '&&&',
-          //   this.limit
-          // );
         }
       }
     } else if (this.oldValue - newValue > 0) {
@@ -344,6 +368,7 @@ export class CourseListComponent implements OnInit {
           autoSelectedPlanName,
           null
         );
+        this.scrollToActiveElement(autoSelectedPlanId);
       });
   }
 
@@ -368,6 +393,7 @@ export class CourseListComponent implements OnInit {
           this.loading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
+            this.coursesResLength = res.courses.length;
             this.courseCollection = res;
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
@@ -417,8 +443,6 @@ export class CourseListComponent implements OnInit {
         keyword
       );
     }
-    // this.selectedCourseList = this.courseList[index];
-    // console.log(this.selectedCourseList);
   }
   changeRoute() {
     this.goBackCat = false;
