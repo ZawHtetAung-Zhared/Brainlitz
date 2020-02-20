@@ -34,7 +34,7 @@ export class EnrollUserComponent implements OnInit {
     FlexiComponent
   >;
   public backToCourse: any;
-  public clickCancel: any;
+  //public clickCancel: any;
   public seatLeft = 0;
   ngOnInit(): void {
     // this.route.paramMap.subscribe(params => {
@@ -49,23 +49,30 @@ export class EnrollUserComponent implements OnInit {
     );
     this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
-    this.clickCancel = `/coursedetail/${this.courseId}/customers`;
+    //this.clickCancel = `/coursedetail/${this.courseId}/customers`;
+    //this.clickCancel=this._location.back();
     console.log(' I got Id : ' + this.courseId);
     //this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
-        if (this.router.url === '/course') {
-          this.permissionType = data;
-          this.checkPermission();
-        }
+        this.permissionType = data;
+        this.checkPermission();
       }
     );
     //console.log(this.courseDemo.assignStudent + ' assign student');
+
+    //mytest
+
+    //mytest
   }
 
   ngOnDestroy() {
     this.permissionSubscription.unsubscribe();
+  }
+
+  clickCancel() {
+    this._location.back();
   }
 
   constructor(
@@ -304,7 +311,7 @@ export class EnrollUserComponent implements OnInit {
   public noSetting: boolean = false;
   public isoutSideClick: boolean = false;
   public courseType: any;
-  //start fley
+  //start flexy
   public flexyarr = [];
   idarr: any = [];
   conflictObj: any = [];
@@ -338,12 +345,12 @@ export class EnrollUserComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log('here details list', res);
+        // console.log('here details list', res);
         this.detailLists = res;
-        console.log(
-          this.detailLists.seat_left +
-            ' this.deatailLists.seat_left from get course detail'
-        );
+        // console.log(
+        //   this.detailLists.seat_left +
+        //     ' this.deatailLists.seat_left from get course detail'
+        // );
         if (this.detailLists.seat_left !== null) {
           this.seatLeft = this.detailLists.seat_left;
         }
@@ -368,14 +375,14 @@ export class EnrollUserComponent implements OnInit {
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
       .subscribe((res: any) => {
-        console.log('Course List', res);
+        // console.log('Course List', res);
         this.result = res;
-        console.log(this.result);
-        console.log(this.result.length);
-        console.log(this.courseList);
+        // console.log(this.result);
+        // console.log(this.result.length);
+        // console.log(this.courseList);
         this.courseList = this.courseList.concat(res);
-        console.log(this.courseList);
-        console.log(this.courseList.length);
+        // console.log(this.courseList);
+        // console.log(this.courseList.length);
         if (this.courseList.length > 0) {
           this.emptyCourse = false;
           for (var i in this.courseList) {
@@ -436,22 +443,22 @@ export class EnrollUserComponent implements OnInit {
     );
     //console.log(this.coursePermission.includes('VIEWCOURSE'));
 
-    this.courseDemo['addCourse'] = this.coursePermission.includes(
-      'CREATECOURSE'
-    )
-      ? 'CREATECOURSE'
-      : '';
-    this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
-      ? 'VIEWCOURSE'
-      : '';
-    this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
-      ? 'EDITCOURSE'
-      : '';
-    this.courseDemo['deleteCourse'] = this.coursePermission.includes(
-      'DELETECOURSE'
-    )
-      ? 'DELETECOURSE'
-      : '';
+    // this.courseDemo['addCourse'] = this.coursePermission.includes(
+    //   'CREATECOURSE'
+    // )
+    //   ? 'CREATECOURSE'
+    //   : '';
+    // this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
+    //   ? 'VIEWCOURSE'
+    //   : '';
+    // this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
+    //   ? 'EDITCOURSE'
+    //   : '';
+    // this.courseDemo['deleteCourse'] = this.coursePermission.includes(
+    //   'DELETECOURSE'
+    // )
+    //   ? 'DELETECOURSE'
+    //   : '';
     this.courseDemo['assignTeacher'] = this.coursePermission.includes(
       'ASSIGNTEACHER'
     )
@@ -462,17 +469,17 @@ export class EnrollUserComponent implements OnInit {
     )
       ? 'ASSIGNSTUDENTS'
       : '';
-    this.courseDemo['createCP'] = this.coursePermission.includes(
-      'CREATECOURSEPLAN'
-    )
-      ? 'CREATECOURSEPLAN'
-      : '';
-    this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
-      ? 'VIEWCOURSEPLAN'
-      : '';
-    this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
-      ? 'EDITCOURSEPLAN'
-      : '';
+    // this.courseDemo['createCP'] = this.coursePermission.includes(
+    //   'CREATECOURSEPLAN'
+    // )
+    //   ? 'CREATECOURSEPLAN'
+    //   : '';
+    // this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
+    //   ? 'VIEWCOURSEPLAN'
+    //   : '';
+    // this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
+    //   ? 'EDITCOURSEPLAN'
+    //   : '';
 
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
@@ -1262,6 +1269,7 @@ export class EnrollUserComponent implements OnInit {
         );
         var currentCount = this.enrolledCustomer.length;
         this.found = earlierCount - currentCount;
+        alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
         this.userLists.map(item => {
           item.addOrRemove = 'add-user';
           if (item.userId == user.userId) {
@@ -1318,42 +1326,111 @@ export class EnrollUserComponent implements OnInit {
     this.enrollUserList.push(user);
   }
 
+  unchooseCustomer(user) {
+    this.enrollUserList = this.enrollUserList.filter(
+      removeuser => removeuser !== user
+    );
+    console.log(this.enrollUserList);
+    this.userLists.map(item => {
+      if (item.userId == user.userId) {
+        item.addOrRemove = 'add-user';
+      }
+    });
+    this.seatLeft++;
+  }
+
+  unchooseTeacher(user) {
+    this.enrollUserList = [];
+    this.userLists.map(item => {
+      if (item.userId == user.userId) {
+        item.addOrRemove = 'add-user';
+      }
+    });
+  }
+
+  unchooseStaff(user) {
+    this.enrollUserList = this.enrollUserList.filter(
+      removeuser => removeuser !== user
+    );
+    console.log(this.enrollUserList);
+    this.userLists.map(item => {
+      if (item.userId == user.userId) {
+        item.addOrRemove = 'add-user';
+      }
+    });
+  }
+
   chooseUser(user) {
-    if (user.addOrRemove == 'add-user') {
-      if (this.userType == 'teacher') {
-        this.chooseTeacher(user);
-        console.log('Teacher');
-      } else if (this.userType == 'staff') {
-        this.chooseStaff(user);
-        console.log('Staff');
-      } else {
-        this.chooseCustomer(user);
-        console.log('Customer');
-      }
-    } else {
-      if (this.userType == 'teacher') {
-        this.enrollUserList = [];
-        this.userLists.map(item => {
-          if (item.userId == user.userId) {
-            item.addOrRemove = 'add-user';
-          }
-        });
-      } else if (this.userType !== 'teacher') {
-        this.enrollUserList = this.enrollUserList.filter(
-          removeuser => removeuser !== user
-        );
-        console.log(this.enrollUserList);
-        this.userLists.map(item => {
-          if (item.userId == user.userId) {
-            item.addOrRemove = 'add-user';
-          }
-        });
-        if (this.userType == 'customer') {
-          this.seatLeft++;
+    switch (user.addOrRemove) {
+      case 'add-user':
+        switch (this.userType) {
+          case 'teacher':
+            this.chooseTeacher(user);
+            break;
+          case 'staff':
+            this.chooseStaff(user);
+            break;
+          case 'customer':
+            this.chooseCustomer(user);
+            break;
+          default:
+            console.error('user type is not undefined in add-user');
         }
-      }
+        break;
+      case 'remove-user':
+        switch (this.userType) {
+          case 'teacher':
+            this.unchooseTeacher(user);
+            break;
+          case 'staff':
+            this.unchooseStaff(user);
+            break;
+          case 'customer':
+            this.unchooseCustomer(user);
+            break;
+          default:
+            console.error('user type is not undefined in remove-user');
+            break;
+        }
     }
   }
+
+  // chooseUser(user) {
+  //   if (user.addOrRemove == 'add-user') {
+  //     if (this.userType == 'teacher') {
+  //       this.chooseTeacher(user);
+  //       console.log('Teacher');
+  //     } else if (this.userType == 'staff') {
+  //       this.chooseStaff(user);
+  //       console.log('Staff');
+  //     } else {
+  //       this.chooseCustomer(user);
+  //       console.log('Customer');
+  //     }
+  //   } else {
+  //     if (this.userType == 'teacher') {
+  //       this.enrollUserList = [];
+  //       this.userLists.map(item => {
+  //         if (item.userId == user.userId) {
+  //           item.addOrRemove = 'add-user';
+  //         }
+  //       });
+  //     } else if (this.userType !== 'teacher') {
+  //       this.enrollUserList = this.enrollUserList.filter(
+  //         removeuser => removeuser !== user
+  //       );
+  //       console.log(this.enrollUserList);
+  //       this.userLists.map(item => {
+  //         if (item.userId == user.userId) {
+  //           item.addOrRemove = 'add-user';
+  //         }
+  //       });
+  //       if (this.userType == 'customer') {
+  //         this.seatLeft++;
+  //       }
+  //     }
+  //   }
+  // }
 
   // chooseUser(user) {
   //   console.log('this.seatLeft ' + this.seatLeft + ' detailLists.seat_left ' + this.detailLists.seat_left)
@@ -1420,11 +1497,11 @@ export class EnrollUserComponent implements OnInit {
 
   showSelectedUserView = false;
   showFlexyBox = false;
-  showSelectedUserViewFunc() {
-    this.showSelectedUserView = true;
-    console.log('this.enrollUserList');
-    console.log(this.enrollUserList);
-  }
+  // showSelectedUserViewFunc() {
+  //   this.showSelectedUserView = true;
+  //   console.log('this.enrollUserList');
+  //   console.log(this.enrollUserList);
+  // }
 
   swapTeacherToCourse(courseId, teacherId) {
     let body = {
@@ -1439,7 +1516,8 @@ export class EnrollUserComponent implements OnInit {
         //this.modalReference.close();
         // this.getCourseDetail(courseId)
         //this.getUsersInCourse(courseId);
-        this.router.navigateByUrl(`coursedetail/${courseId}/customers`);
+        this._location.back();
+        //this.router.navigateByUrl(`coursedetail/${courseId}/customers`);
       },
       err => {
         //this.modalReference.close();
@@ -1775,23 +1853,6 @@ export class EnrollUserComponent implements OnInit {
           this.courseInfo = this.detailLists;
           Object.assign(this.courseInfo, res.body);
           console.log('-------->', this.courseInfo);
-
-          // console.log('res Assign customer', res);
-          // if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
-          //   console.log('no invoice setting');
-          //   this.invoiceInfo = {
-          //     address: '',
-          //     city: '',
-          //     companyName: '',
-          //     email: '',
-          //     prefix: '',
-          //     registration: ''
-          //   };
-          // } else {
-          //   console.log('has invoice setting');
-          //   this.invoiceInfo = res.invoiceSettings;
-          // }
-
           this.invoice = res.invoice;
           this.showInvoice = true;
         },
