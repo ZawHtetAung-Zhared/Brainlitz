@@ -347,7 +347,7 @@
     padding-left: 0px !important;
   }
   .stu-no {
-    left: 40% !important;
+    left: 43% !important;
     top: 17% !important;
     font-family: 'Inter-UI-Semibold', Arial, sans-serif;
     font-size: 0.9em;
@@ -544,7 +544,7 @@
   position: absolute;
 }
 .stu-no {
-  left: 43%;
+  left: 45%;
   top: 0%;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
@@ -622,10 +622,17 @@
   width: auto;
 }
 .carousel-control-prev:hover {
-  background: lightgray;
+  background: #b1b1b3;
   height: 93%;
+  opacity: 0.2;
 }
 .carousel-control-next:hover {
-  background: lightgray;
+  background: #b1b1b3;
+  height: 93%;
+  opacity: 0.2;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
   height: 93%;
 }

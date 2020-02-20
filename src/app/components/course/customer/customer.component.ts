@@ -332,7 +332,7 @@ export class CustomerComponent implements OnInit {
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log('APO details list', res);
+        // console.log('APO details list', res);
         this.detailLists = res;
         // if (this.detailLists.seat_left === null || this.detailLists.seat_left === undefined) {
         //   this.detailLists.seat_left = 1000;
@@ -368,7 +368,7 @@ export class CustomerComponent implements OnInit {
           //this.blockUI.stop();
           //console.log(res);
           this.pplLists = res;
-          console.log('here pplList ', this.pplLists);
+          // console.log('here pplList ', this.pplLists);
         },
         err => {
           console.log(err);
@@ -381,14 +381,14 @@ export class CustomerComponent implements OnInit {
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
       .subscribe((res: any) => {
-        console.log('Course List', res);
+        // console.log('Course List', res);
         this.result = res;
-        console.log(this.result);
-        console.log(this.result.length);
-        console.log(this.courseList);
+        // console.log(this.result);
+        // console.log(this.result.length);
+        // console.log(this.courseList);
         this.courseList = this.courseList.concat(res);
-        console.log(this.courseList);
-        console.log(this.courseList.length);
+        // console.log(this.courseList);
+        // console.log(this.courseList.length);
         if (this.courseList.length > 0) {
           this.emptyCourse = false;
           for (var i in this.courseList) {
@@ -475,8 +475,8 @@ export class CustomerComponent implements OnInit {
     )
       ? 'ASSIGNSTUDENTS'
       : '';
-    console.log(this.coursePermission.includes('ASSIGNSTUDENTS'));
-    console.log(this.courseDemo.assignStudent + ' assign student');
+    // console.log(this.coursePermission.includes('ASSIGNSTUDENTS'));
+    // console.log(this.courseDemo.assignStudent + ' assign student');
 
     // this.courseDemo['createCP'] = this.coursePermission.includes(
     //   'CREATECOURSEPLAN'
@@ -496,7 +496,7 @@ export class CustomerComponent implements OnInit {
       this.gbgColor = localStorage.getItem('backgroundColor');
       // console.error(this.gbgColor, 'backgroundColor', this.gtxtColor);
 
-      console.log('hi permission', this.locationName, this.locationID);
+      // console.log('hi permission', this.locationName, this.locationID);
       // this.getCPlanList(0,20);
       this.courseList = [];
       this.getCourseLists(20, 0);
@@ -528,7 +528,7 @@ export class CustomerComponent implements OnInit {
   getSingleCustomer(ID, type?) {
     //this.blockUI.start('Loading...');
     // console.log(this.detailLists);
-    console.log('this.selectedCustomer', this.selectedCustomer);
+    //console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       //this.blockUI.stop();
       console.log('selected Customer', res);

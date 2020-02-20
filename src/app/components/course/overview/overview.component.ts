@@ -862,7 +862,7 @@ export class OverviewComponent implements OnInit {
           options: {
             responsive: true,
             tooltips: {
-              enabled: false
+              enabled: true
             },
             cutoutPercentage: 75,
             title: {

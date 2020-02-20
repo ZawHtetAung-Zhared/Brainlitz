@@ -40,6 +40,7 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
 import { Subscription, ISubscription } from 'rxjs/Subscription';
 import 'rxjs/Rx';
+import { c } from '@angular/core/src/render3';
 declare var $: any;
 
 @Component({
@@ -243,6 +244,20 @@ export class UsersComponent implements OnInit {
     //      this.showCustDetail = false;
     //      this.showFormCreate = false;
     //    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // For student option box
+    if (this.showPickGradeBox != true) {
+      $('.options-box').css({ display: 'none' });
+    } else {
+      $('.options-box').css({ display: 'block' });
+      $('.options-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.showPickGradeBox = false;
+    }
   }
 
   ngOnInit() {
@@ -2596,5 +2611,94 @@ export class UsersComponent implements OnInit {
         }
       );
     this.autoEnrollModal.close();
+  }
+
+  public showPickGradeBox = false;
+  public yPosition: any;
+  public optionsBoxStdID = '';
+
+  public apgName = '';
+  public gradeOptions = [];
+  public color = '';
+  public bgcolor = '';
+  public grade = [];
+  public apId = '';
+  public apCourseId = '';
+
+  pickGrade(pickGradeModal, clickedGrade, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //this.showPickGradeBox=true
+    this.modalReference = this.modalService.open(pickGradeModal, {
+      backdrop: 'static',
+      windowClass: 'd-flex justify-content-center align-items-center'
+    });
+    //if (this.optionsBoxStdID !== id) {
+    // this.optionsBoxStdID = id;
+    // this.yPosition = e.layerY+20;
+    //}
+    //this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    //  this.toastr.info(grade)
+    console.log(clickedGrade);
+    this.apId = clickedGrade.assessment.apId;
+    this.apCourseId = clickedGrade.course.id;
+    this.apgName = clickedGrade.assessment.apgName;
+    this.gradeOptions = clickedGrade.assessment.gradeOptions;
+    this.color = clickedGrade.assessment.sepalColor.text;
+    this.bgcolor = clickedGrade.assessment.sepalColor.background;
+  }
+
+  cancelGradePickUp() {
+    this.modalReference.close();
+  }
+
+  public selectedOption = {
+    _id: '',
+    name: '',
+    point: '',
+    isSelected: false
+  };
+
+  selectAPG(option) {
+    this.gradeOptions.filter(item => {
+      item.isSelected = false;
+      if (item._id === option._id) {
+        item.isSelected = true;
+        this.selectedOption = item;
+      }
+    });
+  }
+
+  updateAPG() {
+    this.modalReference.close();
+    var body = {
+      id: this.apId,
+      data: {
+        grade: {
+          name: this.selectedOption.name,
+          point: this.selectedOption.point
+        }
+      }
+    };
+    console.log(body, this.custDetail.user.userId);
+    this._service
+      .updateGrading(
+        this.custDetail.user.userId,
+        body,
+        this.regionID,
+        this.apCourseId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.callAchievements(6);
+          this.toastr.success('APG update successfully');
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('APG can not update successfully');
+        }
+      );
   }
 }

@@ -3811,6 +3811,21 @@ export class appService {
     });
   }
 
+  updateGrading(userId, data, regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/users/' + userId + '/grading?courseId=' + courseId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(apiUrl, data, httpOptions).map((res: any) => {
+      console.log(res);
+      return res;
+    });
+  }
+
   getAllTasksInfo(regionId, courseId) {
     let apiUrl =
       this.baseUrl + '/regions/' + regionId + '/courses/' + courseId + '/tasks';
