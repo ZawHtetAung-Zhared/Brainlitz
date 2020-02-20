@@ -42,7 +42,8 @@ export class CourseListComponent implements OnInit {
   private page = 1;
   private limit = 10;
   private skip = 0;
-  private loading: boolean;
+  private courseLoading: boolean;
+  private coursePlanLoading: boolean = false;
   private iscourseSearch: boolean = false;
   private searchVal = '';
   public isoutSideClick: boolean = false;
@@ -146,7 +147,7 @@ export class CourseListComponent implements OnInit {
       // console.log("window.scrollY",window.scrollY)
       if (this.courseCollection != null && window.pageYOffset > 900) {
         if (
-          this.loading == false &&
+          this.courseLoading == false &&
           (this.courseCollection.totalPages ==
             this.courseCollection.current_page ||
             this.courseCollection.totalPages <
@@ -155,7 +156,7 @@ export class CourseListComponent implements OnInit {
           //for changing plan ID
           // console.log("next plan~~~")
           // this.coursePlanCollection.map((item,index)=> {
-          //   if(item._id == this.selectedPlan && index+1 < this.coursePlanCollection.length && this.loading == false){
+          //   if(item._id == this.selectedPlan && index+1 < this.coursePlanCollection.length && this.courseLoading == false){
           //     console.log("next index",index+1)
           //     let nextPlanId = this.coursePlanCollection[index+1]._id;
           //     let nextPlanName = this.coursePlanCollection[index+1].name;
@@ -170,7 +171,7 @@ export class CourseListComponent implements OnInit {
         } else {
           //for current plan ID
           if (
-            this.loading == false &&
+            this.courseLoading == false &&
             this.courseCollection.courses.length == this.limit
           ) {
             //for next page
@@ -350,9 +351,11 @@ export class CourseListComponent implements OnInit {
   }
 
   getAllCourseplan() {
+    this.coursePlanLoading = true;
     this._service
       .getCourseplanCollection(this.regionId, this.locationID, null)
       .subscribe((res: any) => {
+        this.coursePlanLoading = false;
         this.coursePlanCollection = res;
         let autoSelectedPlanId;
         let autoSelectedPlanName;
@@ -375,7 +378,7 @@ export class CourseListComponent implements OnInit {
   getCoursesPerPlan(courseplanId, limit, skip, page, from) {
     console.log('call getCoursesPerPlan from', from);
     console.log(limit, skip, page);
-    this.loading = true;
+    this.courseLoading = true;
     this._service
       .getCoursesPerPlan(
         this.regionId,
@@ -390,7 +393,7 @@ export class CourseListComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.loading = false;
+          this.courseLoading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
             this.coursesResLength = res.courses.length;
@@ -583,7 +586,7 @@ export class CourseListComponent implements OnInit {
   }
 
   simpleCourseSearchPerPlan(courseplanId, limit, skip, page, keyword) {
-    this.loading = true;
+    this.courseLoading = true;
     this._service
       .getCoursesPerPlan(
         this.regionId,
@@ -598,7 +601,7 @@ export class CourseListComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.loading = false;
+          this.courseLoading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
             this.courseCollection = res;

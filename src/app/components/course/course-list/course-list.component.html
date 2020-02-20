@@ -33,7 +33,31 @@
           </div>
         </div>
       </div>
-      <div class="p-2 mt-3 mb-3">
+      <!-- loading start for sidenav -->
+      <div *ngIf="coursePlanLoading == true">
+        <div class="plan-block">
+          <div class="course-title">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+              <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+              <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
+              <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
+            </content-loader>
+          </div>
+        </div>
+        <div class="plan-block">
+          <div class="course-title">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="3" ry="3" width="100" height="5" />
+              <svg:rect x="0" y="10" rx="3" ry="3" width="350" height="30" />
+              <svg:rect x="0" y="50" rx="3" ry="3" width="250" height="10" />
+              <svg:rect x="0" y="70" rx="3" ry="3" width="330" height="10" />
+            </content-loader>
+          </div>
+        </div>
+      </div>
+      <!-- loading end for sidenav -->
+      <div class="p-2 mt-3 mb-3" *ngIf="coursePlanLoading == false">
         <button
           *ngIf="courseDemo.createCP != ''"
           class="btn btn-cplan"
@@ -45,7 +69,7 @@
       <div
         class="sidenav-scroll"
         id="sidenav-wrap"
-        *ngIf="coursePlanCollection.length > 0"
+        *ngIf="coursePlanCollection.length > 0 && coursePlanLoading == false"
       >
         <div
           class="cplan"
@@ -103,8 +127,8 @@
       </div>
     </div>
     <div class="main-content">
-      <!-- loading start -->
-      <div *ngIf="loading == true">
+      <!-- course loading start -->
+      <div *ngIf="courseLoading == true || coursePlanLoading == true">
         <div class="header-loading">
           <div class="loading-wrapper">
             <content-loader>
@@ -148,8 +172,8 @@
           </div>
         </div>
       </div>
-      <!-- loading end-->
-      <div *ngIf="loading == false">
+      <!-- course loading end-->
+      <div *ngIf="courseLoading == false">
         <div class="csearch-wrap pt-4">
           <div class="col-md-8 course-search-gp">
             <div class="simple-search input-group pd-zero">
