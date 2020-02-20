@@ -512,3 +512,21 @@ ul.recent-lists li:last-child {
   -ms-word-break: break-all;
   word-break: break-all;
 }
+
+.main-loading-wrapper {
+  border-bottom: 1px solid #edeff0;
+  padding: 9px 0px 9px 0px;
+}
+
+.loading-wrapper {
+  height: 40px;
+  min-width: 400px;
+  max-width: 400px;
+  /* margin-top: 18px; */
+}
+
+.header-loading {
+  background: #ffffff;
+  padding: 24px 0px 0px 24px;
+  height: 155px;
+}
