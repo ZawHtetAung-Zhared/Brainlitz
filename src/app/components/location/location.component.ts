@@ -17,6 +17,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-location',
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./location.component.css']
 })
 export class LocationComponent implements OnInit {
+  private permissionSubscription: ISubscription;
   public limitno: Location;
   public PHpattern: any;
   public result: any;
@@ -165,13 +167,15 @@ export class LocationComponent implements OnInit {
     this._service.getLocations(this.regionID, 20, 0, false);
     if (this.router.url === '/dashboard') {
       console.log('in the dashboard');
-      this._service.permissionList.subscribe(data => {
-        if (this.router.url === '/dashboard') {
-          console.log('-----');
-          this.permissionType = data;
-          this.checkPermission();
+      this.permissionSubscription = this._service.permissionList.subscribe(
+        data => {
+          if (this.router.url === '/dashboard') {
+            console.log('-----');
+            this.permissionType = data;
+            this.checkPermission();
+          }
         }
-      });
+      );
     }
   }
 
@@ -181,6 +185,10 @@ export class LocationComponent implements OnInit {
       this.checkPermission();
     }
     localStorage.removeItem('locationUpdate');
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {

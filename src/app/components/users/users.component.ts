@@ -37,6 +37,7 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
+import { ISubscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -46,6 +47,7 @@ declare var $: any;
 })
 export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
+  private permissionSubscription: ISubscription;
   userid: any;
   acResult: any;
   public isGuardian = false;
@@ -255,14 +257,20 @@ export class UsersComponent implements OnInit {
       }
     }, 300);
     this.blankCrop = false;
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/customer') {
-        this.permissionType = data;
-        this.customerLists = [];
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/customer') {
+          this.permissionType = data;
+          this.customerLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
     // this.selectedPayment = 'Cash';
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

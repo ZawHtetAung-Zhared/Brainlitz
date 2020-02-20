@@ -34,6 +34,7 @@ import { FlexiComponent } from '../flexi/flexi.component';
 import { start } from 'repl';
 import { isThisISOWeek, isThisSecond } from 'date-fns';
 import { TodayDatePipe } from '../../service/pipe/today-date.pipe';
+import { ISubscription } from 'rxjs/Subscription';
 
 // import { start } from 'repl';
 declare var $: any;
@@ -50,6 +51,7 @@ export class CourseComponent implements OnInit {
   >;
   // @ViewChild('childComponent') FlexiComponent;
 
+  private permissionSubscription: ISubscription;
   courseList: Array<any> = [];
   code: any;
   public makeupLists = [];
@@ -385,17 +387,23 @@ export class CourseComponent implements OnInit {
     }, 300);
     this.activeTab = 'People';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
       }
-    });
+    );
 
     this.discount = 0;
     this.selectedPayment = 'Cash';
 
     this.getRegionInfo();
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   openDatePicker(datePicker) {
