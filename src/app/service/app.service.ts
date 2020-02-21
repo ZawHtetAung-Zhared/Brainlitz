@@ -777,6 +777,7 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
@@ -4497,8 +4498,8 @@ export class appService {
       '/regions/' +
       localStorage.getItem('regionId') +
       '/courses/' +
-      '5dc292803161140e23b4de2d' +
-      // localStorage.getItem('COURSEID') +
+      // '5dc292803161140e23b4de2d' +
+      localStorage.getItem('COURSEID') +
       '/mastery-reports';
 
     const httpOptions = {

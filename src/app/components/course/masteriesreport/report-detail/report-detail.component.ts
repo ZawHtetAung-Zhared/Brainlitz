@@ -1,9 +1,10 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { filter, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-report-detail',
@@ -16,6 +17,11 @@ export class ReportDetailComponent implements OnInit {
   public active = 'courses';
   public dType: any;
   public isdType: boolean = false;
+  public modalReference: any;
+  public samplexml: any;
+  public qtextList: any;
+  public qhtml: any = [];
+  public qimgList: any;
   plotOption: any;
   echarts: any;
   reportItems: any;
@@ -127,7 +133,8 @@ export class ReportDetailComponent implements OnInit {
     private _location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    private _service: appService
+    private _service: appService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -306,11 +313,11 @@ export class ReportDetailComponent implements OnInit {
       if (expandOn == true)
         yAxisData.push(++index + ' ' + item.shortMasteryName);
       else yAxisData.push(++index);
-      strugglingData.push(item.userMasteries.STRUGGLE.percentage + 1);
-      diffData.push(item.userMasteries.MASTERED.percentage + 1);
-      easeData.push(item.userMasteries.MASTERED.percentage + 1);
-      inprogressData.push(item.userMasteries.INPROGRESS.percentage + 1);
-      notTakenData.push(item.userMasteries.NEW.percentage + 1);
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage);
+      diffData.push(item.userMasteries.MASTERED.percentage);
+      easeData.push(item.userMasteries.MASTERED.percentage);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage);
+      notTakenData.push(item.userMasteries.NEW.percentage);
     });
     this.plotOption.yAxis.data = yAxisData;
     if (advanceOn) {
@@ -361,9 +368,15 @@ export class ReportDetailComponent implements OnInit {
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
     graph.on('click', function(params) {
-      console.log(params);
+      // console.log(params);
       if (params.componentType === 'yAxis') {
-        console.log(_self.plotOption.yAxis.data.indexOf(params.value));
+        // console.log(_self.plotOption.yAxis.data.indexOf(params.value));
+        _self.samplexml =
+          _self.masteriesReports[0].masteries[
+            _self.plotOption.yAxis.data.indexOf(params.value)
+          ].question;
+        _self.openModal(_self.questionModal);
+
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',
@@ -372,6 +385,9 @@ export class ReportDetailComponent implements OnInit {
         // );
       } else if (params.componentType === 'series') {
         console.log(params.dataIndex);
+        console.log(
+          _self.masteriesReports[0].masteries[params.dataIndex].question
+        );
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',
@@ -400,5 +416,60 @@ export class ReportDetailComponent implements OnInit {
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.isdType = false;
+  }
+
+  cancelModal() {
+    console.log('....');
+    this.modalReference.close();
+  }
+
+  @ViewChild('questionModal') questionModal: any;
+  openModal(modal) {
+    var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
+    this.samplexml = '';
+    new_str_arr.forEach(element => {
+      this.samplexml += element;
+    });
+    this.qtextList = this.samplexml.match(/<text.*?>.*?<\/text>/g);
+    this.qimgList = this.samplexml.match(/<image.*?>/g);
+    console.log(this.samplexml);
+    console.log(this.qimgList, this.qtextList);
+
+    this.setupQuestion();
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  setupQuestion() {
+    this.qhtml = [];
+    if (this.qtextList) {
+      for (var i = 0; i < this.qtextList.length; i++) {
+        var index = this.qtextList[i].match(/index=\d*/g);
+        index = index[0].substring(6, index[0].length);
+        console.log(parseInt(index));
+        console.log(this.qtextList[i].match(/value='.*?'/g));
+        var text = this.qtextList[i].match(/value='.*?'/g)[0];
+
+        this.qhtml.splice(
+          index,
+          0,
+          '<span>' + text.substring(7, text.length - 1) + '</span>'
+        );
+      }
+    }
+
+    if (this.qimgList) {
+      for (var i = 0; i < this.qimgList.length; i++) {
+        var index = this.qimgList[i].match(/index=\d*/g);
+        index = index[0].substring(6, index[0].length);
+        console.log(parseInt(index));
+        this.qhtml.splice(index, 0, this.qimgList[i]);
+      }
+    }
+
+    console.log(this.qhtml);
   }
 }

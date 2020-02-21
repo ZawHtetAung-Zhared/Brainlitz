@@ -20,18 +20,15 @@
     </button>
   </div>
 </div>
-<div *ngIf="tasks.length == 0" class="no-task">
+<!-- <div *ngIf="tasks.length == 0" class="no-task">
   <p>
     There is no task in this course. Assign tasks to this course.
   </p>
-</div>
-<div class="card-column" *ngIf="tasks.length > 0">
+</div> -->
+<!-- <div class="card-column" *ngIf="tasks.length > 0">
   <div class="task-holder" *ngFor="let task of tasks">
     <div class="cardhead mb-3">
       <span class="custom-or-schedule">{{ task.distributionMode }} -</span>
-      <span class="custom-or-schedule" *ngIf="task.taskType == 'SCHEDULED'"
-        >scheduled</span
-      >
       <span class="custom-or-schedule" *ngIf="task.taskType == 'CUSTOM'"
         >custom</span
       >
@@ -40,18 +37,6 @@
     </div>
     <div class="cardbody d-flex justify-content-between">
       <div class="masteries-count d-flex flex-column">
-        <span
-          class="count-text"
-          *ngIf="task.taskType == 'SCHEDULED' && task.overview.count <= 1"
-        >
-          {{ task.overview.count }} task enable</span
-        >
-        <span
-          class="count-text"
-          *ngIf="task.taskType == 'SCHEDULED' && task.overview.count > 1"
-        >
-          {{ task.overview.count }} tasks enable</span
-        >
         <span class="count-text" *ngIf="task.taskType == 'CUSTOM'"
           >{{ task.overview.count }} masteries</span
         >
@@ -60,6 +45,128 @@
         <span class="count-text">
           {{ task.taskStartDate | utcDate }} - {{ task.taskEndDate | utcDate }}
         </span>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-md-6">
+    <div class="task-holder ">
+      <div
+        class="image"
+        style="background-image: url('https://i.pinimg.com/736x/f9/e2/e9/f9e2e9031f8d8aa69d57239ec39f4025.jpg');width: 100%;border-radius: 8px 8px 0px 0px;"
+      >
+        <div class="cardhead mb-3">
+          <span class="custom-or-schedule">Dignosis - custom task</span>
+        </div>
+        <div class="cardbody">
+          <h3 class="title-text">Living and Non-Living Things</h3>
+          <p class="body-text">
+            Living things and Non-livings things may share similar
+            characteristics however those characteristics may not only determine
+            whether it is a living thing or non-living thing...
+          </p>
+        </div>
+      </div>
+      <div class="cardfooter d-flex justify-content-between">
+        <div class="masteries-count d-flex flex-column">
+          <span class="count-text">5 masteries</span>
+        </div>
+        <div class="">
+          <span class="count-text">
+            1 Nov 2018 - 30 Dec 2018
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="task-holder ">
+      <div
+        class="image"
+        style="background-image: url('https://image.shutterstock.com/image-photo/maine-coon-kitten-toy-black-260nw-201766829.jpg');width: 100%;border-radius: 8px 8px 0px 0px;"
+      >
+        <div class="cardhead mb-3">
+          <span class="custom-or-schedule">Dignosis - custom task</span>
+        </div>
+        <div class="cardbody">
+          <h3 class="title-text">Living and Non-Living Things</h3>
+          <p class="body-text">
+            Living things and Non-livings things may share similar
+            characteristics however those characteristics may not only determine
+            whether it is a living thing or non-living thing...
+          </p>
+        </div>
+      </div>
+      <div class="cardfooter d-flex justify-content-between">
+        <div class="masteries-count d-flex flex-column">
+          <span class="count-text">5 masteries</span>
+        </div>
+        <div class="">
+          <span class="count-text">
+            1 Nov 2018 - 30 Dec 2018
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="task-holder ">
+      <div
+        class="image"
+        style="background-image: url('https://image.shutterstock.com/image-photo/high-angle-view-small-cat-260nw-176044520.jpg');width: 100%;border-radius: 8px 8px 0px 0px;"
+      >
+        <div class="cardhead mb-3">
+          <span class="custom-or-schedule">Dignosis - custom task</span>
+        </div>
+        <div class="cardbody">
+          <h3 class="title-text">Living and Non-Living Things</h3>
+          <p class="body-text">
+            Living things and Non-livings things may share similar
+            characteristics however those characteristics may not only determine
+            whether it is a living thing or non-living thing...
+          </p>
+        </div>
+      </div>
+      <div class="cardfooter d-flex justify-content-between">
+        <div class="masteries-count d-flex flex-column">
+          <span class="count-text">5 masteries</span>
+        </div>
+        <div class="">
+          <span class="count-text">
+            1 Nov 2018 - 30 Dec 2018
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="task-holder ">
+      <div
+        class="image"
+        style="background-image: url('https://image.shutterstock.com/image-photo/norwegian-forest-cat-kitten-wearing-260nw-426890062.jpg');width: 100%;border-radius: 8px 8px 0px 0px;"
+      >
+        <div class="cardhead mb-3">
+          <span class="custom-or-schedule">Dignosis - custom task</span>
+        </div>
+        <div class="cardbody">
+          <h3 class="title-text">Living and Non-Living Things</h3>
+          <p class="body-text">
+            Living things and Non-livings things may share similar
+            characteristics however those characteristics may not only determine
+            whether it is a living thing or non-living thing ...
+          </p>
+        </div>
+      </div>
+      <div class="cardfooter d-flex justify-content-between">
+        <div class="masteries-count d-flex flex-column">
+          <span class="count-text">5 masteries</span>
+        </div>
+        <div class="">
+          <span class="count-text">
+            1 Nov 2018 - 30 Dec 2018
+          </span>
+        </div>
       </div>
     </div>
   </div>

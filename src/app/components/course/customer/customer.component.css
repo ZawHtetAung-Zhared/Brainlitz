@@ -1785,7 +1785,8 @@ label.room-name::before {
 }
 
 .teacher-section {
-  border-bottom: 1px solid #edeff0;
+  border-bottom: 1px solid #d3d3d3;
+  /* apoupdate */
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
@@ -3269,10 +3270,18 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .clickable-user {
-  color: #0080ff !important;
+  /* color: #0080ff !important; */
   cursor: pointer;
 }
 
+.has-grade {
+  margin-left: 35px;
+  margin-top: -20px;
+  position: relative;
+}
+.pd-left {
+  padding-left: 30px;
+}
 /* Remove Button Outline */
 
 button:focus {
@@ -4366,7 +4375,50 @@ button.today-button {
   padding: 8px 20px;
   border-radius: 3px;
   min-width: 137px;
-  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: 0px 0;
+  }
+  100% {
+    background-position: 100em 0;
+  }
+}
+
+.shine {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
+
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderShimmer;
+  -webkit-animation-timing-function: linear;
+}
+
+.loading-wrapper {
+  height: 40px;
+  min-width: 400px;
+  max-width: 400px;
+  /* margin-top: 18px; */
 }

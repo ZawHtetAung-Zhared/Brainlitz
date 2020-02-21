@@ -13,26 +13,35 @@
         Change teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+          <!-- <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" /> -->
+        </content-loader>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="loading == false">
       <div
-        *ngFor="let user of pplLists?.TEACHER"
+        *ngFor="let user of pplLists.TEACHER"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3"
       >
         <div class="d-flex flex-row single-user align-items-center">
           <div class="d-flex align-self-center">
             <div class="img-wrap align-self-center">
-              <img src="{{ user?.profilePic }}" />
+              <img src="{{ user.profilePic }}" />
             </div>
           </div>
           <div
             class="single-user-info d-flex flex-wrap flex-column justify-content-center"
           >
-            <p>{{ user?.userType }}</p>
+            <p>{{ user.userType }}</p>
             <h4>
               {{
-                user?.preferredName.length > 20
-                  ? (user?.preferredName | slice: 0:20) + '...'
-                  : user?.preferredName
+                user.preferredName.length > 20
+                  ? (user.preferredName | slice: 0:20) + '...'
+                  : user.preferredName
               }}
             </h4>
           </div>
@@ -54,24 +63,41 @@
         Add teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+    </div>
+    <div class="row" *ngIf="loading == false">
       <div
-        *ngFor="let user of pplLists?.STAFF"
+        *ngFor="let user of pplLists.STAFF"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
       >
         <div class="d-flex flex-row  single-user align-items-center">
           <div class="img-wrap">
-            <img src="{{ user?.profilePic }}" />
+            <img src="{{ user.profilePic }}" />
           </div>
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <p>{{ user?.userType }}</p>
+            <p>{{ user.userType }}</p>
             <h4 *ngIf="user.preferredName">
               {{
-                user?.preferredName.length > 20
-                  ? (user?.preferredName | slice: 0:20) + '...'
-                  : user?.preferredName
+                user.preferredName.length > 20
+                  ? (user.preferredName | slice: 0:20) + '...'
+                  : user.preferredName
               }}
             </h4>
           </div>
@@ -126,7 +152,7 @@
         *ngIf="courseDemo.assignStudent != ''"
         type="button"
         class="btn"
-        [ngClass]="pplLists?.CUSTOMER?.length < 1 ? 'btn-create' : 'btn-normal'"
+        [ngClass]="pplLists.CUSTOMER.length < 1 ? 'btn-create' : 'btn-normal'"
         (click)="
           addUserModal(
             'customer',
@@ -142,9 +168,29 @@
         Enroll class
       </button>
     </div>
-    <div class="row customer-row" *ngIf="pplLists?.CUSTOMER?.length > 0">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
+      </div>
+    </div>
+    <div
+      class="row customer-row"
+      *ngIf="pplLists.CUSTOMER.length > 0 && loading == false"
+    >
       <div
-        *ngFor="let user of pplLists?.CUSTOMER; let i = index"
+        *ngFor="let user of pplLists.CUSTOMER; let i = index"
         class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
       >
         <div
@@ -273,7 +319,10 @@
         </div>
       </div>
     </div>
-    <div class="no-customer" *ngIf="pplLists?.CUSTOMER?.length <= 0">
+    <div
+      class="no-customer"
+      *ngIf="pplLists?.CUSTOMER?.length <= 0 && loading == false"
+    >
       <span class="">
         There is no customer in this course. Must enroll customers to this
         course.
@@ -1069,4 +1118,12 @@
       </div>
     </form>
   </ng-template>
+</div>
+
+<!-- aa -->
+<div class="loading-wrapper">
+  <content-loader>
+    <svg:rect x="0" y="0.5" rx="30" ry="30" width="10" height="10" />
+    <svg:rect x="20" y="0" rx="3" ry="3" width="200" height="10" />
+  </content-loader>
 </div>
