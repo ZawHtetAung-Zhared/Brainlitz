@@ -523,7 +523,9 @@
                               }"
                             ></i>
                           </div>
-                          <div>
+                          <div
+                            (click)="showMasteryDetail(mastery, masteryDetail)"
+                          >
                             <svg
                               width="20"
                               height="20"
@@ -563,3 +565,33 @@
     </div>
   </div>
 </div>
+
+<ng-template #masteryDetail let-modal>
+  <div class="modal-body">
+    <div class="mastery-header">
+      <div class="d-flex justify-content-between">
+        <p class="bold small-title">Sample Question</p>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p class="step-title bold mb-0">Drawn conclusion - Lines of sight</p>
+    </div>
+    <div class="mastery-body">
+      <p class="txt-ques bold mb-5">
+        Grace entered a dark room and turned on a lamp, as seen in diagram 1.
+        She found the lamp to be too bright and placed a lampshade on it, as
+        seen in diagram 2.
+      </p>
+      <p class="txt-ques bold">
+        Which statement explains how the lampshade makes the lamp less bright?
+      </p>
+    </div>
+    <div [innerHTML]="test"></div>
+  </div>
+</ng-template>

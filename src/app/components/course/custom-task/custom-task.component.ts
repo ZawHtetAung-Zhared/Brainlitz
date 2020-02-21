@@ -1,6 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { appService } from '../../../service/app.service';
+import {
+  NgbModal,
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDateStruct
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'custom-task',
@@ -35,6 +41,7 @@ export class CustomTaskComponent implements OnInit {
   public annoTaskDate: any;
   public taskStartDate: any;
   public taskEndDate: any;
+  public modalReference: any;
 
   // hour and date picker
   public selectedHrRange: any;
@@ -47,7 +54,13 @@ export class CustomTaskComponent implements OnInit {
   public rangeHr: any;
   public showFormat: any;
 
-  constructor(private _route: Router, private _service: appService) {}
+  public test =
+    "<text index=0 value='\"The diagram below shows a paper cup filled with ice cubes. The paper cup was then left in the classroom.\n' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg' ><text index=2 value='\nWhat can be done to make the ice melt faster?\nBlowing into the cup.\nReplacing the paper cup with a metal cup.\nWrapping his hands around the paper cup. \nPlacing a lid to cover the opening of the paper cup.' ></text>";
+  constructor(
+    private _route: Router,
+    private _service: appService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     console.log(this.courseDetail);
@@ -198,13 +211,17 @@ export class CustomTaskComponent implements OnInit {
   }
 
   closeDropdown(event, datePicker?) {
-    if (event.target.className.includes('dropD')) {
-      // datePicker.close()
-    } else {
-      if (event.target.offsetParent == null) {
-        datePicker.close();
-      } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-        datePicker.close();
+    console.log(event);
+
+    if (typeof event.target.className === 'string') {
+      if (event.target.className.includes('dropD')) {
+        // datePicker.close()
+      } else {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+        }
       }
     }
   }
@@ -266,9 +283,26 @@ export class CustomTaskComponent implements OnInit {
   }
 
   checkMasteryExit(obj) {
-    console.log(obj);
+    // console.log(obj);
     // return this.singleSelectedTask.masteries.findIndex(
     //   data => data.masteryId === obj.masteryId
     // );
+  }
+
+  checkedMastery() {
+    console.log('hello');
+  }
+
+  showMasteryDetail(obj, masteryModal) {
+    console.log(obj);
+    this.modalReference = this.modalService.open(masteryModal, {
+      backdrop: 'static',
+      windowClass:
+        'jouranlModal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  modalClose() {
+    this.modalReference.close();
   }
 }
