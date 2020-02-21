@@ -175,10 +175,10 @@ export class MasteriesreportComponent implements OnInit {
       // inprogressData.push(item.lessons.absent);
       // notTakenData.push(item.lessons.notTaken);
 
-      strugglingData.push(item.userMasteries.STRUGGLE.percentage + 1);
-      easeData.push(item.userMasteries.MASTERED.percentage + 1);
-      inprogressData.push(item.userMasteries.INPROGRESS.percentage + 1);
-      notTakenData.push(item.userMasteries.NEW.percentage + 1);
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage);
+      easeData.push(item.userMasteries.MASTERED.percentage);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage);
+      notTakenData.push(item.userMasteries.NEW.percentage);
     });
     this.plotOption.yAxis.data = yAxisData;
     this.plotOption.series[0].data = strugglingData;
