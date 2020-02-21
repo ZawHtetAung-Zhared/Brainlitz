@@ -4130,6 +4130,15 @@ button.today-button {
 .assign_relief_button,
 .reschedule_button,
 .cancel_class_button {
+  /* background: #f2f4f5;
+  border-radius: 4px;
+  padding: 7px 12px 7px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #f2f4f5;
+  margin-right: 12px;
+  cursor: pointer;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   background: #f2f4f5;
   border-radius: 4px;
   padding: 7px 12px 7px 12px;
@@ -4375,4 +4384,25 @@ button.today-button {
   -ms-transition: 0.3s all ease;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
+}
+
+.shine {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderShimmer;
+  -webkit-animation-timing-function: linear;
 }

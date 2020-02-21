@@ -216,7 +216,7 @@
         </div>
       </div>
     </div>
-    <div class="student-lists row ">
+    <div class="student-lists row " *ngIf="loading == false">
       <div
         *ngFor="let user of activeCourseInfo.CUSTOMER"
         class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
@@ -347,500 +347,551 @@
         </div>
       </div>
     </div>
-  </div>
+    <div *ngIf="loading == true" class="student-lists row ">
+      <div
+        class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex align-items-center"
+        style="border: 0.5px solid #f2f4f5; border-radius: 40px; padding:10px 10px 10px 5px;margin:10px;
+      background: #ffffff;"
+      >
+        <div class="d-flex align-items-center">
+          <div class="align-self-center justify-content-center pl-2">
+            <div class="std-img-wrap">
+              <p class="shine" style="width: 48px; height: 48px;"></p>
+            </div>
+          </div>
+          <div class="single-user-info d-flex">
+            <p
+              class="shine"
+              style="width: 200px; height: 20px;background: #f2f4f5;"
+            ></p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex align-items-center"
+        style="border: 0.5px solid #f2f4f5; border-radius: 40px; padding:10px 10px 10px 5px;margin:10px;
+      background: #ffffff;"
+      >
+        <div class="d-flex align-items-center">
+          <div class="align-self-center justify-content-center pl-2">
+            <div class="std-img-wrap">
+              <p class="shine" style="width: 48px; height: 48px;"></p>
+            </div>
+          </div>
+          <div class="single-user-info d-flex">
+            <p
+              class="shine"
+              style="width: 200px; height: 20px;background: #f2f4f5;"
+            ></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
-  <ng-template #reschedule let-modal>
     <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
-    <div class="flexiModal">
-      <div class="innerFlexiModal" *ngIf="isReschedule">
-        <div class="d-flex" style="margin: 20px 20px 0px 32px;">
-          <!-- <div class="d-flex back" (click)="backtoCustomer()">
+    <ng-template #reschedule let-modal>
+      <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+      <div class="flexiModal">
+        <div class="innerFlexiModal" *ngIf="isReschedule">
+          <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+            <!-- <div class="d-flex back" (click)="backtoCustomer()">
             <i class="fa fa-angle-left flexiBackicon"></i>
             <p class="mb-0 font-medium ">Add customer</p>
           </div> -->
-          <p class="reschedule-title">Enroll lesson</p>
-          <button
-            (click)="cancelModal()"
-            aria-label="Close"
-            class="modal-close ml-auto"
-            type="button"
-          >
-            <span class="closemark">
-              <div class="closemark_stem"></div>
-              <div class="closemark_kick"></div>
-            </span>
-            <!-- <span aria-hidden="true" >×</span> -->
-          </button>
-        </div>
-        <app-reschedule
-          [reScheduleData]="resechduleList"
-          [selectedCustomer]="selectedCustomer"
-          (defaultCount)="defaultCount($event)"
-          (checkObjArr)="checkObj($event)"
-          [course]="detailLists"
-          (unavaiableLen)="getlen($event)"
-          [showcb]="showcb"
-          (passDataconflictBoxShow)="conflictBoxShow($event)"
-        ></app-reschedule>
-      </div>
-      <div
-        class="modal-footer d-flex justify-content-between"
-        style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
-      >
-        <div class="d-flex flex-column">
-          <div>
-            <p class="defaultLessonCount">
-              Default lessons count: {{ dcount }}
-            </p>
-            <p class="textCount">Number of lessons required:</p>
-            <div class="selectedCountBox">
-              <p class="selectedTest">
-                Selected lessons:
-                {{ checkArr.length - unavaiablelessons.length }}
-              </p>
-            </div>
+            <p class="reschedule-title">Enroll lesson</p>
+            <button
+              (click)="cancelModal()"
+              aria-label="Close"
+              class="modal-close ml-auto"
+              type="button"
+            >
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+              <!-- <span aria-hidden="true" >×</span> -->
+            </button>
           </div>
-          <!-- <div class="defaultDiv">
-
-        </div> -->
-        </div>
-
-        <div class="">
-          <button
-            type="button"
-            class="btn modal-cancel-btn"
-            (click)="cancelModal()"
+          <app-reschedule
+            [reScheduleData]="resechduleList"
+            [selectedCustomer]="selectedCustomer"
+            (defaultCount)="defaultCount($event)"
+            (checkObjArr)="checkObj($event)"
+            [course]="detailLists"
+            (unavaiableLen)="getlen($event)"
+            [showcb]="showcb"
+            (passDataconflictBoxShow)="conflictBoxShow($event)"
           >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="btn btn-submit"
-            (click)="confirmReschedule(confirm_Reschedule)"
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
-  <div *ngIf="isRescheduleLesson" class="mt-20">
-    <app-reschedule-lesson
-      (cancelReschedule)="cancelRescheduleLesson($event)"
-      (updatedlessonObj)="updatedLessonObj($event)"
-      [courseDetail]="detailLists"
-      [LASD]="LASD"
-      [lessonId]="currentDateObj"
-      [defineType]="defineType"
-    ></app-reschedule-lesson>
-  </div>
-
-  <div *ngIf="isNewLesson" class="mt-20">
-    <app-reschedule-lesson
-      (cancelReschedule)="cancelRescheduleLesson($event)"
-      (updatedlessonObj)="updatedLessonObj($event)"
-      [courseDetail]="detailLists"
-      [LASD]="LASD"
-      [defineType]="defineType"
-    ></app-reschedule-lesson>
-  </div>
-
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <div class="d-flex flex-column ">
-        <h3 class="makeup-pass-title" *ngIf="this.modalType != 'absent'">
-          Cancel lesson
-        </h3>
-        <h3 class="makeup-pass-title" *ngIf="this.modalType == 'absent'">
-          Absent
-        </h3>
-        <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
-        <p
-          *ngIf="pplLists.CUSTOMER.length == 0"
-          class="makeup-pass-text warning-text"
-        >
-          Please register students into the class to issue makeup pass
-        </p>
-      </div>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="cancelModal()"
-      >
-        <span class="closemark">
-          <div class="closemark_stem"></div>
-          <div class="closemark_kick"></div>
-        </span>
-      </button>
-    </div>
-    <div class="makeup-style">
-      <div class="d-flex">
-        <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
-          <label class="switch">
-            <input
-              type="checkbox"
-              (click)="isGlobal = !this.isGlobal"
-              [checked]="isGlobal"
-            />
-            <span class="slider round"></span>
-          </label>
-        </div>
-        <label class="switch-label" for="online">Issue makeup pass</label>
-      </div>
-      <div class="w-100 d-flex">
-        <div class="input-wrap p-0" style="width:80%;margin-right:20px">
-          <div
-            *ngIf="isGlobal && this.modalType == 'absent'"
-            class="mb-0 mt-2 form-group"
-          >
-            <label for="name" class="input-label">Name</label>
-            <input
-              type="text"
-              class="form-control create-input"
-              placeholder="Type makeup pass name here"
-              name="name"
-              [(ngModel)]="makeupForm.name"
-              required
-              #name="ngModel"
-            />
-          </div>
-          <div
-            *ngIf="isGlobal && this.modalType == 'absent'"
-            class="mb-0 mt-2 form-group"
-          >
-            <label for="name" class="input-label">Reason</label>
-            <textarea
-              class="form-control create-input"
-              rows="4"
-              placeholder="Got any reasons?"
-              name="reason"
-              [(ngModel)]="makeupForm.reason"
-              #reason="ngModel"
-              required
-            ></textarea>
-          </div>
+          </app-reschedule>
         </div>
         <div
-          *ngIf="
-            makeupLists.length > 0 && this.modalType == 'absent' && isGlobal
-          "
-          class="d-flex flex-column makeup-side"
-          style="width:50%;"
+          class="modal-footer d-flex justify-content-between"
+          style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
         >
-          <h1 class="release-text container">Released makeup passes</h1>
-          <div class="" *ngFor="let makeup of makeupLists">
-            <!--for valid start-->
-            <div class="col-md-12 av-block claimed-height">
-              <!-- [ngClass]="{'claimed-height': makeup.passType === 'claimed'}" -->
-              <div class="single-makeup claimed-height">
-                <div
-                  class="makeup-head"
-                  [ngClass]="{
-                    'claimed-header': makeup.passType === 'claimed',
-                    'expired-header': makeup.passType === 'expired'
-                  }"
-                >
-                  <p>
-                    <span *ngIf="makeup.passType === 'available'">
-                      Valid until
-                      <span class="valid-date"
-                        >{{ makeup.expirationDate.day }}
-                        {{ makeup.expirationDate.month - 1 | TTmonth }}
-                        {{ makeup.expirationDate.year }}</span
-                      >
-                    </span>
-                    <span *ngIf="makeup.passType === 'claimed'">
-                      <span>
-                        <img
-                          src="../../../assets/icons/badge_tick.svg"
-                          alt=""
-                        />
-                      </span>
-                      Claimed pass
-                    </span>
-                    <span *ngIf="makeup.passType === 'expired'">
-                      <span>
-                        <img
-                          src="../../../assets/icons/badge_minus.svg"
-                          alt=""
-                        />
-                      </span>
-                      Expired pass
-                    </span>
-                  </p>
-                </div>
-                <div class="makeup-body">
-                  <h5 class="makeup-title">{{ makeup.name }}</h5>
-                  <p class="makeup-des">{{ makeup.reason }}</p>
-                  <div class="makeup-box">
+          <div class="d-flex flex-column">
+            <div>
+              <p class="defaultLessonCount">
+                Default lessons count: {{ dcount }}
+              </p>
+              <p class="textCount">Number of lessons required:</p>
+              <div class="selectedCountBox">
+                <p class="selectedTest">
+                  Selected lessons:
+                  {{ checkArr.length - unavaiablelessons.length }}
+                </p>
+              </div>
+            </div>
+            <!-- <div class="defaultDiv">
+
+        </div> -->
+          </div>
+
+          <div class="">
+            <button
+              type="button"
+              class="btn modal-cancel-btn"
+              (click)="cancelModal()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-submit"
+              (click)="confirmReschedule(confirm_Reschedule)"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="isRescheduleLesson" class="mt-20">
+      <app-reschedule-lesson
+        (cancelReschedule)="cancelRescheduleLesson($event)"
+        (updatedlessonObj)="updatedLessonObj($event)"
+        [courseDetail]="detailLists"
+        [LASD]="LASD"
+        [lessonId]="currentDateObj"
+        [defineType]="defineType"
+      ></app-reschedule-lesson>
+    </div>
+
+    <div *ngIf="isNewLesson" class="mt-20">
+      <app-reschedule-lesson
+        (cancelReschedule)="cancelRescheduleLesson($event)"
+        (updatedlessonObj)="updatedLessonObj($event)"
+        [courseDetail]="detailLists"
+        [LASD]="LASD"
+        [defineType]="defineType"
+      ></app-reschedule-lesson>
+    </div>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <div class="d-flex flex-column ">
+          <h3 class="makeup-pass-title" *ngIf="this.modalType != 'absent'">
+            Cancel lesson
+          </h3>
+          <h3 class="makeup-pass-title" *ngIf="this.modalType == 'absent'">
+            Absent
+          </h3>
+          <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
+          <p
+            *ngIf="pplLists.CUSTOMER.length == 0"
+            class="makeup-pass-text warning-text"
+          >
+            Please register students into the class to issue makeup pass
+          </p>
+        </div>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="cancelModal()"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+        </button>
+      </div>
+      <div class="makeup-style">
+        <div class="d-flex">
+          <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isGlobal = !this.isGlobal"
+                [checked]="isGlobal"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <label class="switch-label" for="online">Issue makeup pass</label>
+        </div>
+        <div class="w-100 d-flex">
+          <div class="input-wrap p-0" style="width:80%;margin-right:20px">
+            <div
+              *ngIf="isGlobal && this.modalType == 'absent'"
+              class="mb-0 mt-2 form-group"
+            >
+              <label for="name" class="input-label">Name</label>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="Type makeup pass name here"
+                name="name"
+                [(ngModel)]="makeupForm.name"
+                required
+                #name="ngModel"
+              />
+            </div>
+            <div
+              *ngIf="isGlobal && this.modalType == 'absent'"
+              class="mb-0 mt-2 form-group"
+            >
+              <label for="name" class="input-label">Reason</label>
+              <textarea
+                class="form-control create-input"
+                rows="4"
+                placeholder="Got any reasons?"
+                name="reason"
+                [(ngModel)]="makeupForm.reason"
+                #reason="ngModel"
+                required
+              ></textarea>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              makeupLists.length > 0 && this.modalType == 'absent' && isGlobal
+            "
+            class="d-flex flex-column makeup-side"
+            style="width:50%;"
+          >
+            <h1 class="release-text container">Released makeup passes</h1>
+            <div class="" *ngFor="let makeup of makeupLists">
+              <!--for valid start-->
+              <div class="col-md-12 av-block claimed-height">
+                <!-- [ngClass]="{'claimed-height': makeup.passType === 'claimed'}" -->
+                <div class="single-makeup claimed-height">
+                  <div
+                    class="makeup-head"
+                    [ngClass]="{
+                      'claimed-header': makeup.passType === 'claimed',
+                      'expired-header': makeup.passType === 'expired'
+                    }"
+                  >
                     <p>
-                      Issued on {{ makeup.issueDate.day }}
-                      {{ makeup.issueDate.month - 1 | TTmonth }}
-                      {{ makeup.issueDate.year }}
-                    </p>
-                    <div class="issue-box d-flex flex-column">
-                      <strong class="makeup-course-name"
-                        >{{ makeup.course.name }}
-                      </strong>
-                      <label *ngIf="makeup.course.type !== 'ONLINE'">
-                        <span
-                          >{{ makeup.course.startTime.hr | timeFormat }} :
-                          {{ makeup.course.startTime.min | timeFormat }}
-                          {{ makeup.course.startTime.meridiem }}</span
+                      <span *ngIf="makeup.passType === 'available'">
+                        Valid until
+                        <span class="valid-date"
+                          >{{ makeup.expirationDate.day }}
+                          {{ makeup.expirationDate.month - 1 | TTmonth }}
+                          {{ makeup.expirationDate.year }}</span
                         >
-                        -
-                        <span
-                          >{{ makeup.course.endTime.hr | timeFormat }} :
-                          {{ makeup.course.endTime.min | timeFormat }}
-                          {{ makeup.course.endTime.meridiem }}</span
-                        ></label
-                      >
-                    </div>
-                    <div *ngIf="makeup.passType === 'claimed'">
+                      </span>
+                      <span *ngIf="makeup.passType === 'claimed'">
+                        <span>
+                          <img
+                            src="../../../assets/icons/badge_tick.svg"
+                            alt=""
+                          />
+                        </span>
+                        Claimed pass
+                      </span>
+                      <span *ngIf="makeup.passType === 'expired'">
+                        <span>
+                          <img
+                            src="../../../assets/icons/badge_minus.svg"
+                            alt=""
+                          />
+                        </span>
+                        Expired pass
+                      </span>
+                    </p>
+                  </div>
+                  <div class="makeup-body">
+                    <h5 class="makeup-title">{{ makeup.name }}</h5>
+                    <p class="makeup-des">{{ makeup.reason }}</p>
+                    <div class="makeup-box">
                       <p>
-                        Issued on {{ makeup.claimedDateFor.day }}
-                        {{ makeup.claimedDateFor.month - 1 | TTmonth }}
-                        {{ makeup.claimedDateFor.year }}
+                        Issued on {{ makeup.issueDate.day }}
+                        {{ makeup.issueDate.month - 1 | TTmonth }}
+                        {{ makeup.issueDate.year }}
                       </p>
                       <div class="issue-box d-flex flex-column">
-                        <strong class="makeup-course-name">{{
-                          makeup.makeupCourse.name
-                        }}</strong>
+                        <strong class="makeup-course-name"
+                          >{{ makeup.course.name }}
+                        </strong>
                         <label *ngIf="makeup.course.type !== 'ONLINE'">
                           <span
-                            >{{ makeup.makeupCourse.startTime.hr | timeFormat }}
-                            :
-                            {{ makeup.makeupCourse.startTime.min | timeFormat }}
-                            {{ makeup.makeupCourse.startTime.meridiem }}</span
+                            >{{ makeup.course.startTime.hr | timeFormat }} :
+                            {{ makeup.course.startTime.min | timeFormat }}
+                            {{ makeup.course.startTime.meridiem }}</span
                           >
                           -
                           <span
-                            >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
-                            {{ makeup.makeupCourse.endTime.min | timeFormat }}
-                            {{ makeup.makeupCourse.endTime.meridiem }}</span
+                            >{{ makeup.course.endTime.hr | timeFormat }} :
+                            {{ makeup.course.endTime.min | timeFormat }}
+                            {{ makeup.course.endTime.meridiem }}</span
                           ></label
                         >
                       </div>
+                      <div *ngIf="makeup.passType === 'claimed'">
+                        <p>
+                          Issued on {{ makeup.claimedDateFor.day }}
+                          {{ makeup.claimedDateFor.month - 1 | TTmonth }}
+                          {{ makeup.claimedDateFor.year }}
+                        </p>
+                        <div class="issue-box d-flex flex-column">
+                          <strong class="makeup-course-name">{{
+                            makeup.makeupCourse.name
+                          }}</strong>
+                          <label *ngIf="makeup.course.type !== 'ONLINE'">
+                            <span
+                              >{{
+                                makeup.makeupCourse.startTime.hr | timeFormat
+                              }}
+                              :
+                              {{
+                                makeup.makeupCourse.startTime.min | timeFormat
+                              }}
+                              {{ makeup.makeupCourse.startTime.meridiem }}</span
+                            >
+                            -
+                            <span
+                              >{{
+                                makeup.makeupCourse.endTime.hr | timeFormat
+                              }}
+                              :
+                              {{ makeup.makeupCourse.endTime.min | timeFormat }}
+                              {{ makeup.makeupCourse.endTime.meridiem }}</span
+                            ></label
+                          >
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <div class="left-scoope"></div>
+                  <div class="right-scoope"></div>
                 </div>
-                <div class="left-scoope"></div>
-                <div class="right-scoope"></div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="d-flex flex-wrap mt-3">
-        <div
-          class="row w-100 users-wrap-box"
-          *ngIf="this.modalType != 'absent'"
-        >
+        <div class="d-flex flex-wrap mt-3">
           <div
-            *ngFor="let user of activeCourseInfo.CUSTOMER"
-            class="col-xs-6 col-sm-3 col-md-3 col-lg-3"
+            class="row w-100 users-wrap-box"
+            *ngIf="this.modalType != 'absent'"
           >
             <div
-              class="d-flex flex-row justify-content-center align-items-center bg-primary single-student-modal "
+              *ngFor="let user of activeCourseInfo.CUSTOMER"
+              class="col-xs-6 col-sm-3 col-md-3 col-lg-3"
             >
-              <div class="d-flex pl-2 mr-2">
-                <span class="checkmark">
-                  <div class="checkmark_stem"></div>
-                  <div class="checkmark_kick"></div>
-                </span>
+              <div
+                class="d-flex flex-row justify-content-center align-items-center bg-primary single-student-modal "
+              >
+                <div class="d-flex pl-2 mr-2">
+                  <span class="checkmark">
+                    <div class="checkmark_stem"></div>
+                    <div class="checkmark_kick"></div>
+                  </span>
+                </div>
+                <div class="d-flex mr-auto  justify-content-center ">
+                  <h4
+                    *ngIf="user.preferredName != ''"
+                    class="text-white align-self-center mb-0"
+                    style="font-size:14px!important; word-break: break-all; "
+                  >
+                    {{
+                      user.preferredName.length > 20
+                        ? (user.preferredName | slice: 0:20) + '...'
+                        : user.preferredName
+                    }}
+                  </h4>
+                  <h4
+                    *ngIf="user.preferredName == ''"
+                    class="text-white align-self-center mb-0"
+                    style="font-size:14px!important; word-break: break-all; "
+                  >
+                    {{
+                      user.email.length > 20
+                        ? (user.email | slice: 0:20) + '...'
+                        : user.email
+                    }}
+                  </h4>
+                </div>
+                <div class="pr-2">
+                  <div class="std-img-wrap1 justify-content-end">
+                    <img src="{{ user.profilePic }}" class="user-pic" />
+                  </div>
+                </div>
               </div>
-              <div class="d-flex mr-auto  justify-content-center ">
-                <h4
-                  *ngIf="user.preferredName != ''"
-                  class="text-white align-self-center mb-0"
-                  style="font-size:14px!important; word-break: break-all; "
-                >
-                  {{
-                    user.preferredName.length > 20
-                      ? (user.preferredName | slice: 0:20) + '...'
-                      : user.preferredName
-                  }}
-                </h4>
-                <h4
-                  *ngIf="user.preferredName == ''"
-                  class="text-white align-self-center mb-0"
-                  style="font-size:14px!important; word-break: break-all; "
-                >
-                  {{
-                    user.email.length > 20
-                      ? (user.email | slice: 0:20) + '...'
-                      : user.email
-                  }}
-                </h4>
-              </div>
-              <div class="pr-2">
-                <div class="std-img-wrap1 justify-content-end">
-                  <img src="{{ user.profilePic }}" class="user-pic" />
+            </div>
+          </div>
+          <div
+            class="row w-100 users-wrap-box"
+            *ngIf="this.modalType == 'absent'"
+          >
+            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+              <div
+                class="d-flex flex-row justify-content-center align-items-center bg-primary single-student-modal "
+              >
+                <div class="d-flex pl-2 mr-2">
+                  <span class="checkmark">
+                    <div class="checkmark_stem"></div>
+                    <div class="checkmark_kick"></div>
+                  </span>
+                </div>
+                <div class="d-flex mr-auto  justify-content-center ">
+                  <h4
+                    *ngIf="absentInfo.preferredName != ''"
+                    class="text-white align-self-center mb-0"
+                    style="font-size:14px!important; word-break: break-all; "
+                  >
+                    {{
+                      absentInfo.preferredName.length > 20
+                        ? (absentInfo.preferredName | slice: 0:20) + '...'
+                        : absentInfo.preferredName
+                    }}
+                  </h4>
+                  <h4
+                    *ngIf="absentInfo.preferredName == ''"
+                    class="text-white align-self-center mb-0"
+                    style="font-size:14px!important; word-break: break-all; "
+                  >
+                    {{
+                      absentInfo.email.length > 20
+                        ? (absentInfo.email | slice: 0:20) + '...'
+                        : absentInfo.email
+                    }}
+                  </h4>
+                </div>
+                <div class="pr-2">
+                  <div class="std-img-wrap1 justify-content-end">
+                    <img src="{{ absentInfo.profilePic }}" class="user-pic" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <textarea
+        *ngIf="textAreaOption && isGlobal"
+        name=""
+        id=""
+        class="text-reason"
+        placeholder="Type reason... "
+        rows="4"
+        [(ngModel)]="reasonValue"
+      ></textarea>
+      <div class="modal-footer">
         <div
-          class="row w-100 users-wrap-box"
-          *ngIf="this.modalType == 'absent'"
+          class="mr-auto add-reason"
+          *ngIf="!textAreaOption && this.modalType != 'absent' && isGlobal"
+          (click)="showTextarea()"
         >
-          <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <div
-              class="d-flex flex-row justify-content-center align-items-center bg-primary single-student-modal "
-            >
-              <div class="d-flex pl-2 mr-2">
-                <span class="checkmark">
-                  <div class="checkmark_stem"></div>
-                  <div class="checkmark_kick"></div>
-                </span>
-              </div>
-              <div class="d-flex mr-auto  justify-content-center ">
-                <h4
-                  *ngIf="absentInfo.preferredName != ''"
-                  class="text-white align-self-center mb-0"
-                  style="font-size:14px!important; word-break: break-all; "
-                >
-                  {{
-                    absentInfo.preferredName.length > 20
-                      ? (absentInfo.preferredName | slice: 0:20) + '...'
-                      : absentInfo.preferredName
-                  }}
-                </h4>
-                <h4
-                  *ngIf="absentInfo.preferredName == ''"
-                  class="text-white align-self-center mb-0"
-                  style="font-size:14px!important; word-break: break-all; "
-                >
-                  {{
-                    absentInfo.email.length > 20
-                      ? (absentInfo.email | slice: 0:20) + '...'
-                      : absentInfo.email
-                  }}
-                </h4>
-              </div>
-              <div class="pr-2">
-                <div class="std-img-wrap1 justify-content-end">
-                  <img src="{{ absentInfo.profilePic }}" class="user-pic" />
-                </div>
-              </div>
-            </div>
-          </div>
+          Add makeup pass reason
         </div>
+        <button class="btn btn-cancel-crt" (click)="modalClose()">
+          Cancel
+        </button>
+        <button
+          *ngIf="this.modalType != 'absent'"
+          class="btn btn-done-crt"
+          (click)="cancelClassFun(currentDateObj)"
+          [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
+        >
+          Confirm
+        </button>
+        <button
+          *ngIf="this.modalType == 'absent' && !isGlobal"
+          class="btn btn-done-crt"
+          (click)="absentClass()"
+          [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
+        >
+          Confirm
+        </button>
+
+        <button
+          *ngIf="this.modalType == 'absent' && isGlobal"
+          class="btn btn-done-crt"
+          (click)="absentClass(makeupForm, absentInfo.userId)"
+          [disabled]="makeupForm.reason == null || makeupForm.name == null"
+        >
+          Confirm
+        </button>
       </div>
-    </div>
-    <textarea
-      *ngIf="textAreaOption && isGlobal"
-      name=""
-      id=""
-      class="text-reason"
-      placeholder="Type reason... "
-      rows="4"
-      [(ngModel)]="reasonValue"
-    ></textarea>
-    <div class="modal-footer">
-      <div
-        class="mr-auto add-reason"
-        *ngIf="!textAreaOption && this.modalType != 'absent' && isGlobal"
-        (click)="showTextarea()"
-      >
-        Add makeup pass reason
-      </div>
-      <button class="btn btn-cancel-crt" (click)="modalClose()">Cancel</button>
-      <button
-        *ngIf="this.modalType != 'absent'"
-        class="btn btn-done-crt"
-        (click)="cancelClassFun(currentDateObj)"
-        [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
-      >
-        Confirm
-      </button>
-      <button
-        *ngIf="this.modalType == 'absent' && !isGlobal"
-        class="btn btn-done-crt"
-        (click)="absentClass()"
-        [disabled]="activeCourseInfo.CUSTOMER?.length == 0"
-      >
-        Confirm
-      </button>
+    </ng-template>
 
-      <button
-        *ngIf="this.modalType == 'absent' && isGlobal"
-        class="btn btn-done-crt"
-        (click)="absentClass(makeupForm, absentInfo.userId)"
-        [disabled]="makeupForm.reason == null || makeupForm.name == null"
-      >
-        Confirm
-      </button>
-    </div>
-  </ng-template>
+    <ng-template #reliefModal let-c="close" let-d="dismiss">
+      <app-assign-relief
+        [courseInfo]="detailLists"
+        [lessonInfo]="selectedLesson"
+        (closed)="cancelReliefModal()"
+        [scheduleRelief]="false"
+      ></app-assign-relief>
+    </ng-template>
 
-  <ng-template #reliefModal let-c="close" let-d="dismiss">
-    <app-assign-relief
-      [courseInfo]="detailLists"
-      [lessonInfo]="selectedLesson"
-      (closed)="cancelReliefModal()"
-      [scheduleRelief]="false"
-    ></app-assign-relief>
-  </ng-template>
-
-  <ng-template #lessonDelete>
-    <div class="modal-header">
-      <h3 class="modal-title">Delete lesson</h3>
-      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <ng-template #lessonDelete>
+      <div class="modal-header">
+        <h3 class="modal-title">Delete lesson</h3>
+        <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
-    </div>
-    <div class="modal-body apg-confirm">
-      <p>
-        Are you sure want to delete lesson for {{ LASD | utcDate }}?
-        <span class="target"></span>
-        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
-      </p>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn modal-cancel-btn"
-        (click)="cancelLessonDelete()"
-      >
-        No
-      </button>
-      <button
-        type="submit"
-        class="btn modal-delete-btn"
-        (click)="confirmLessonDelete()"
-      >
-        Yes
-      </button>
-    </div>
-  </ng-template>
+      </div>
+      <div class="modal-body apg-confirm">
+        <p>
+          Are you sure want to delete lesson for {{ LASD | utcDate }}?
+          <span class="target"></span>
+          <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelLessonDelete()"
+        >
+          No
+        </button>
+        <button
+          type="submit"
+          class="btn modal-delete-btn"
+          (click)="confirmLessonDelete()"
+        >
+          Yes
+        </button>
+      </div>
+    </ng-template>
 
-  <ng-template #confirm_Reschedule>
-    <div class="modal-header">
-      <h3 class="modal-title">Confirm reschedule?</h3>
-    </div>
-    <div class="modal-body apg-confirm">
-      All the remaining lessons for the student will be discarded. Are you sure?
-    </div>
-    <div class="modal-footer pt-2 pb-2">
-      <button
-        type="button"
-        class="btn modal-cancel-btn"
-        (click)="cancelConfirm()"
-      >
-        No
-      </button>
-      <button
-        type="submit"
-        class="btn modal-delete-btn"
-        (click)="rescheduleConfirm()"
-      >
-        Yes
-      </button>
-    </div>
-  </ng-template>
+    <ng-template #confirm_Reschedule>
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm reschedule?</h3>
+      </div>
+      <div class="modal-body apg-confirm">
+        All the remaining lessons for the student will be discarded. Are you
+        sure?
+      </div>
+      <div class="modal-footer pt-2 pb-2">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelConfirm()"
+        >
+          No
+        </button>
+        <button
+          type="submit"
+          class="btn modal-delete-btn"
+          (click)="rescheduleConfirm()"
+        >
+          Yes
+        </button>
+      </div>
+    </ng-template>
+  </div>
 </div>

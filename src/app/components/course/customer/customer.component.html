@@ -13,7 +13,26 @@
         Change teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="loading == false">
       <div
         *ngFor="let user of pplLists?.TEACHER"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3"
@@ -54,7 +73,57 @@
         Add teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="loading == false">
       <div
         *ngFor="let user of pplLists?.STAFF"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -142,7 +211,60 @@
         Enroll class
       </button>
     </div>
-    <div class="row customer-row" *ngIf="pplLists?.CUSTOMER?.length > 0">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="d-flex flex-row single-user align-items-center ">
+          <div class="d-flex align-self-center ">
+            <div class="img-wrap align-self-center ">
+              <p class="shine" style="width: 48px;height :48px;"></p>
+            </div>
+          </div>
+          <div
+            class="single-user-info d-flex flex-wrap flex-column justify-content-center "
+          >
+            <p class="shine" style="width: 200px;height :21px;"></p>
+            <br />
+            <h4 class="shine" style="width: 200px;height :21px;"></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row customer-row"
+      *ngIf="pplLists?.CUSTOMER?.length > 0 && loading == false"
+    >
       <div
         *ngFor="let user of pplLists?.CUSTOMER; let i = index"
         class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -273,7 +395,10 @@
         </div>
       </div>
     </div>
-    <div class="no-customer" *ngIf="pplLists?.CUSTOMER?.length <= 0">
+    <div
+      class="no-customer"
+      *ngIf="pplLists?.CUSTOMER?.length <= 0 && loading == false"
+    >
       <span class="">
         There is no customer in this course. Must enroll customers to this
         course.

@@ -1,11 +1,12 @@
 body {
   font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 }
+
 .task-holder {
+  margin-bottom: 1.8em;
   width: 476px;
   /* height: 180px; */
   background: #ffffff;
-  margin-bottom: 1em;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   display: inline-block;
@@ -23,10 +24,17 @@ body {
 }
 
 .cardhead {
-  height: 20%;
+  min-height: 120px;
   padding: 24px;
 }
+
 .cardbody {
+  padding: 10px 10px 10px 10px;
+  min-height: 120px;
+  background: rgba(247, 243, 243, 0.91);
+}
+
+.cardfooter {
   padding: 24px 24px 24px 24px;
   font-style: normal;
   font-weight: 500;
@@ -36,6 +44,7 @@ body {
     'ss03' on, 'case' on;
   color: #5c6773;
 }
+
 .task-header {
   /* font-family: Inter; */
   font-style: normal;
@@ -103,7 +112,10 @@ body {
   line-height: 24px;
   font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-  color: #5c6773;
+  color: #fff;
+  background: rgba(124, 131, 139, 0.8);
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .title-text {
@@ -112,8 +124,10 @@ body {
   font-weight: bold;
   font-size: 20px;
   line-height: 28px;
-  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
+  /* identical to box height, or 140% */
+  font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on, 'ss01' on,
+    'ss02' on, 'ss03' on;
+  /* Carbon / C300 */
   color: #363f4d;
 }
 
