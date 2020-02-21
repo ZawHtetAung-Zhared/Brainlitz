@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../service/app.service';
+import { DataService } from '../../../service/data.service';
 import { Chart } from 'chart.js';
 
 @Component({
@@ -13,7 +14,8 @@ export class OverviewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private _service: appService
+    private _service: appService,
+    private _data: DataService
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
@@ -22,9 +24,7 @@ export class OverviewComponent implements OnInit {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
-    console.log(this.mastery);
-    console.log('2D', this.TwoDimensional(this.mastery, 2));
-    this.outerArray = this.TwoDimensional(this.mastery, 2);
+    this.getMastery();
   }
   public cc = 1;
   ngAfterViewInit() {
@@ -830,13 +830,14 @@ export class OverviewComponent implements OnInit {
         this.chart = new Chart('canvas' + i + j, {
           type: 'doughnut',
           data: {
-            labels: ['Data1', 'Data2', 'Data3', 'Data4'],
+            labels: ['Struggling', 'In conslusive', 'Mastered', 'Not started'],
             datasets: [
               {
                 data: [
                   arr[i][j].masteryCountInPercentage.STRUGGLE,
                   arr[i][j].masteryCountInPercentage.INPROGRESS,
-                  arr[i][j].masteryCountInPercentage.MASTERED,
+                  arr[i][j].masteryCountInPercentage.MASTERED +
+                    arr[i][j].masteryCountInPercentage.MASTERED,
                   arr[i][j].masteryCountInPercentage.NEW
                 ],
                 backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
@@ -872,5 +873,20 @@ export class OverviewComponent implements OnInit {
         });
       }
     }
+  }
+
+  getMastery() {
+    this._service.getMasteryReports().subscribe(
+      (res: any) => {
+        this._data.setMasteryData(res);
+        this.mastery = res.data.masteryReport;
+        console.log(this.mastery);
+        console.log('2D', this.TwoDimensional(this.mastery, 2));
+        this.outerArray = this.TwoDimensional(this.mastery, 2);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 }
