@@ -177,8 +177,11 @@
         <button
           class="detail-btn"
           (click)="enrollCustomer(courseId)"
-          [ngClass]="{ white: !on, notallowed: seat_left == 0 }"
-          [disabled]="seat_left == 0"
+          [ngClass]="{
+            white: !on,
+            notallowed: seat_left == 0 && coursetype == 'REGULAR'
+          }"
+          [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
         >
           <!-- (click)="toggle()" -->
           Enroll customer
