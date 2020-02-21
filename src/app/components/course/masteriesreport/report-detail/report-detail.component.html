@@ -21,8 +21,8 @@
       </div>
       <div class="d-flex justify-content-end pt-1">
         <div *ngIf="isdType" class="doption-box">
-          <div class="option-item" (click)="dType = 'XLS'">XLS</div>
-          <div class="option-item" (click)="dType = 'PDF'">PDF</div>
+          <div class="option-item" (click)="downloadReport('XLS')">XLS</div>
+          <div class="option-item" (click)="downloadReport('PDF')">PDF</div>
         </div>
       </div>
     </div>

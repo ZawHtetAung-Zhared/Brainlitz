@@ -4,6 +4,11 @@ import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-report-detail',
@@ -400,5 +405,74 @@ export class ReportDetailComponent implements OnInit {
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.isdType = false;
+  }
+  downloadReport(type) {
+    this.dType = type;
+    var data: any = [
+      {
+        eid: 'e101',
+        ename: 'ravi',
+        esal: 1000
+      },
+      {
+        eid: 'e102',
+        ename: 'ram',
+        esal: 2000
+      },
+      {
+        eid: 'e103',
+        ename: 'rajesh',
+        esal: 3000
+      }
+    ];
+    var secondData: any = [
+      {
+        tid: 't101',
+        tname: 'ravi',
+        tsal: 1000
+      },
+      {
+        tid: 't102',
+        tname: 'ram',
+        tsal: 2000
+      },
+      {
+        tid: 't103',
+        tname: 'rajesh',
+        tsal: 3000
+      }
+    ];
+    if (type == 'XLS') {
+      console.log('masteriesReports~~~', this.masteriesReports);
+      this.downloadAsExcelFile(data, secondData, 'sampleExcel');
+    }
+  }
+
+  downloadAsExcelFile(json: any[], seconddata: any[], excelFileName: string) {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      seconddata
+    );
+    console.log('worksheet', worksheet);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet, test: secondWorksheet },
+      SheetNames: ['data', 'test']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
   }
 }
