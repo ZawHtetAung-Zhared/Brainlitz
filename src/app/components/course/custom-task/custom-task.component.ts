@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+
 import { appService } from '../../../service/app.service';
 import {
   NgbModal,
@@ -60,7 +62,8 @@ export class CustomTaskComponent implements OnInit {
   constructor(
     private _route: Router,
     private _service: appService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -137,6 +140,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
+    this.isSelectedTime = 'AM';
     this._service
       .getTaskBytemplate(
         this.createCustom.template.taskTemplateId,
@@ -175,6 +179,27 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep5($event, step) {
+    let annDate;
+    this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
+      ? this.changeObjDateFormat(this.taskStartDate)
+      : this.createCustom.template.tasks[0].taskStartDate;
+
+    this.createCustom.template.tasks[0].taskEndDate = this.taskEndDate
+      ? this.changeObjDateFormat(this.taskEndDate)
+      : this.createCustom.template.tasks[0].taskEndDate;
+
+    annDate = this.changeDateTimeFormat(
+      this.annoTaskDate
+        ? this.annoTaskDate
+        : this.createCustom.template.tasks[0].announcementDate,
+      !this.showFormat == true
+        ? this.changeDatetoTime(
+            this.createCustom.template.tasks[0].announcementDate
+          )
+        : this.showFormat
+    );
+    this.createCustom.template.tasks[0].announcementDate = annDate;
+
     this._service
       .getassignMode(this.createCustom.taskType.id)
       .subscribe((res: any) => {
@@ -184,6 +209,7 @@ export class CustomTaskComponent implements OnInit {
         this.clickableSteps.push(step);
         this.stepClick($event, step);
       });
+    console.log(this.createCustom);
   }
 
   addActiveBar(current, next) {
@@ -233,8 +259,6 @@ export class CustomTaskComponent implements OnInit {
   }
 
   closeDropdown(event, datePicker?) {
-    console.log(event);
-
     if (typeof event.target.className === 'string') {
       if (event.target.className.includes('dropD')) {
         // datePicker.close()
@@ -311,9 +335,6 @@ export class CustomTaskComponent implements OnInit {
   }
 
   checkedMastery(obj, e) {
-    console.log('hello');
-    console.log(e);
-    console.log(e.target.tagName);
     if (e.target.tagName != 'svg') {
       if (this.checkMasteryExit(obj) != -1) {
         this.createCustom.template.tasks[0].masteries.splice(
@@ -321,12 +342,12 @@ export class CustomTaskComponent implements OnInit {
           1
         );
         this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
-        console.log('if');
       } else {
         this.createCustom.template.tasks[0].masteries.push(obj);
         this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
-        console.log(this.createCustom.template.tasks[0].masteries);
       }
+
+      console.log(this.createCustom);
     }
   }
 
@@ -351,13 +372,68 @@ export class CustomTaskComponent implements OnInit {
   }
 
   createAssign() {
-    console.log('final obj', this.createCustom);
+    this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
     this.createCustom.template.startDate = this.createCustom.template.startDate;
+    console.log('final obj', this.createCustom);
     this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
       .subscribe((res: any) => {
         console.log(res);
         this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
       });
+  }
+
+  @HostListener('document:click', ['$event'])
+  public categorySearch(event): void {
+    if (this.progressSlider != true) {
+      $('.bg-box').css({ display: 'none' });
+    } else {
+      $('.bg-box').css({ display: 'block' });
+      $('.bg-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.progressSlider = false;
+    }
+  }
+
+  changeObjDateFormat(date) {
+    console.log(date);
+    let sdate = date.year + '-' + date.month + '-' + date.day;
+    return new Date(sdate).toISOString();
+  }
+
+  changeDateTimeFormat(date, time) {
+    console.log(date, time);
+    if (date.year == null) {
+      console.log('null', date);
+      return date;
+    } else {
+      console.log('utc date', date);
+      console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      console.log(sdate);
+      let dateParts = sdate.split('-');
+      console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        console.log('ISO', fullDate);
+        return fullDate;
+      }
+    }
+  }
+
+  changeDatetoTime(date) {
+    console.log(date);
+    return this.datePipe.transform(date, 'HH:mm');
   }
 }
