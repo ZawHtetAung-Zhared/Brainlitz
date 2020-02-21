@@ -33,6 +33,7 @@ export class CustomTaskComponent implements OnInit {
   public createCustom: any = {};
   public taskLists: any = [];
   public masteryList: any = [];
+  public assignModeList: any = [];
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
@@ -163,11 +164,24 @@ export class CustomTaskComponent implements OnInit {
         this.singleSelectedTask._id
       )
       .subscribe((res: any) => {
-        this.masteryList = res.masteries;
+        this.createCustom.template.tasks[0].masteries = res.masteries;
+        this.masteryList = res.masteries.slice();
         console.log(res);
         this.clickableSteps.push(step);
         this.activeStep = 1;
         this.addActiveBar(3, 4);
+        this.stepClick($event, step);
+      });
+  }
+
+  goToStep5($event, step) {
+    this._service
+      .getassignMode(this.createCustom.taskType.id)
+      .subscribe((res: any) => {
+        console.log(res, 'assign mode');
+        this.addActiveBar(4, 5);
+        this.assignModeList = res;
+        this.clickableSteps.push(step);
         this.stepClick($event, step);
       });
   }
@@ -291,18 +305,35 @@ export class CustomTaskComponent implements OnInit {
   }
 
   checkMasteryExit(obj) {
-    // console.log(obj);
-    // return this.singleSelectedTask.masteries.findIndex(
-    //   data => data.masteryId === obj.masteryId
-    // );
+    return this.createCustom.template.tasks[0].masteries.findIndex(
+      data => data.masteryId === obj.masteryId
+    );
   }
 
-  checkedMastery() {
+  checkedMastery(obj, e) {
     console.log('hello');
+    console.log(e);
+    console.log(e.target.tagName);
+    if (e.target.tagName != 'svg') {
+      if (this.checkMasteryExit(obj) != -1) {
+        this.createCustom.template.tasks[0].masteries.splice(
+          this.checkMasteryExit(obj),
+          1
+        );
+        this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
+        console.log('if');
+      } else {
+        this.createCustom.template.tasks[0].masteries.push(obj);
+        this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
+        console.log(this.createCustom.template.tasks[0].masteries);
+      }
+    }
   }
 
-  showMasteryDetail(obj, masteryModal) {
+  showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
+    console.log(e.target.tagName);
+    console.log(e.target);
     this.modalReference = this.modalService.open(masteryModal, {
       backdrop: 'static',
       windowClass:
@@ -312,5 +343,21 @@ export class CustomTaskComponent implements OnInit {
 
   modalClose() {
     this.modalReference.close();
+  }
+
+  choicemode(obj) {
+    this.createCustom.template.distributionMode = obj;
+    console.log(this.createCustom);
+  }
+
+  createAssign() {
+    console.log('final obj', this.createCustom);
+    this.createCustom.template.startDate = this.createCustom.template.startDate;
+    this._service
+      .createAssigntask(this.courseDetail._id, this.createCustom)
+      .subscribe((res: any) => {
+        console.log(res);
+        this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+      });
   }
 }
