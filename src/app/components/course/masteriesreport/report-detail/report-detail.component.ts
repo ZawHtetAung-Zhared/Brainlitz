@@ -188,11 +188,11 @@ export class ReportDetailComponent implements OnInit {
     } else {
       this.isSticky = false;
     }
-    if (window.pageYOffset > 720) {
-      this.isStickyInnerHeader = true;
-    } else {
-      this.isStickyInnerHeader = false;
-    }
+    // if (window.pageYOffset > 720) {
+    //   this.isStickyInnerHeader = true;
+    // } else {
+    //   this.isStickyInnerHeader = false;
+    // }
   }
 
   backTo() {
