@@ -89,7 +89,48 @@
           </div>
         </div>
         <div *ngIf="userType == 'teacher'">
-          <div class="row single-user-wrap" *ngIf="userLists != ''">
+          <div class="row single-user-wrap" *ngIf="loading == true">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="d-flex flex-row single-user align-items-center">
+                <div class="img-wrap">
+                  <p class="shine" style="width: 48px;height: 48px;"></p>
+                </div>
+                <div
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4 class="shine" style="width: 200px;height: 20px;"></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="d-flex flex-row single-user align-items-center">
+                <div class="img-wrap">
+                  <p class="shine" style="width: 48px;height: 48px;"></p>
+                </div>
+                <div
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4 class="shine" style="width: 200px;height: 20px;"></h4>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <div class="d-flex flex-row single-user align-items-center">
+                <div class="img-wrap">
+                  <p class="shine" style="width: 48px;height: 48px;"></p>
+                </div>
+                <div
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4 class="shine" style="width: 200px;height: 20px;"></h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="row single-user-wrap"
+            *ngIf="userLists != '' && loading == false"
+          >
             <div
               *ngFor="let teacher of userLists"
               class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -429,3 +470,11 @@
     </div>
   </div>
 </div>
+
+<!-- <div mdbModal #showSelectedCustomer="mdbModal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content" style="background-color: burlywood;">
+        <span>AA is selected</span>
+      </div>
+  </div>
+</div> -->

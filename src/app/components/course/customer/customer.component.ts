@@ -330,6 +330,7 @@ export class CustomerComponent implements OnInit {
   public reScheduleUId;
 
   getCourseDetail(id) {
+    this.loading = true;
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         // console.log('APO details list', res);
@@ -346,14 +347,21 @@ export class CustomerComponent implements OnInit {
         } else {
           this.disabledTab = true;
         }
+        setTimeout(() => {
+          console.log('comming soon');
+        }, 1000);
+        this.loading = false;
       },
       err => {
         console.log(err);
       }
     );
   }
+  public loading = true;
 
   getUsersInCourse(courseId) {
+    console.log('loading true');
+    this.loading = true;
     this.reScheduleCId = '';
     //console.log('hi call course', courseId);
     localStorage.setItem('COURSEID', courseId);
@@ -368,6 +376,7 @@ export class CustomerComponent implements OnInit {
           //this.blockUI.stop();
           //console.log(res);
           this.pplLists = res;
+          // this.loading=false
           // console.log('here pplList ', this.pplLists);
         },
         err => {

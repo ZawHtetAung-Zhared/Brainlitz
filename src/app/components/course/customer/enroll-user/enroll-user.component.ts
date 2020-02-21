@@ -9,7 +9,8 @@ import {
   OnInit,
   HostListener,
   ViewChildren,
-  QueryList
+  QueryList,
+  ViewChild
 } from '@angular/core';
 import { appService } from '../../../../service/app.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +24,7 @@ import * as $ from 'jquery';
 import { Location } from '@angular/common';
 import { FlexiComponent } from '../../../flexi/flexi.component';
 import { ISubscription } from 'rxjs/Subscription';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-enroll-user',
@@ -341,6 +343,7 @@ export class EnrollUserComponent implements OnInit {
   lastSelectedObj: any = null;
   public reScheduleCId;
   public reScheduleUId;
+  public loading: boolean;
 
   getCourseDetail(id) {
     this._service.getSingleCourse(id, this.locationID).subscribe(
@@ -358,6 +361,7 @@ export class EnrollUserComponent implements OnInit {
         this.locationId = res.locationId;
         this.draft = res.draft;
         this.courseType = res.type;
+        this.loading = false;
         if (res.lessons.length > 0) {
           this.disabledTab = false;
         } else {
@@ -1135,6 +1139,7 @@ export class EnrollUserComponent implements OnInit {
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
+      this.loading = true;
       this.enrollUserList = [];
       this.seatLeft = this.detailLists.seat_left;
       setTimeout(() => {
@@ -1152,21 +1157,34 @@ export class EnrollUserComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            res.map(item => {
-              item.addOrRemove = 'add-user';
-            });
-            if (this.courseType == 'FLEXY') {
-              this.userLists = res;
+            if (res.length == 0) {
+              this.loading = true;
+              setTimeout(() => {
+                console.log('waiting input');
+              }, 1000);
+              //this.toastr.info('Not match')
             } else {
-              this.userLists = res;
-              this.enrolledCustomer = this.pplLists.CUSTOMER;
-              console.log(this.enrolledCustomer[0].userId);
-              for (var i = 0; i < this.enrolledCustomer.length; i++) {
-                this.removeEnrolledUser(this.enrolledCustomer[i]);
+              res.map(item => {
+                item.addOrRemove = 'add-user';
+              });
+              if (this.courseType == 'FLEXY') {
+                this.userLists = res;
+              } else {
+                this.userLists = res;
+                this.enrolledCustomer = this.pplLists.CUSTOMER;
+                console.log(this.enrolledCustomer[0].userId);
+                for (var i = 0; i < this.enrolledCustomer.length; i++) {
+                  this.removeEnrolledUser(this.enrolledCustomer[i]);
+                }
+                // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
               }
-              // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
+              setTimeout(() => {
+                console.log('coming soon');
+              }, 300);
+              this.loading = false;
             }
 
+            //this.loading=false
             // console.log(this.userLists);
             // console.log('length of user list ' + this.userLists.length);
           },
@@ -1301,7 +1319,18 @@ export class EnrollUserComponent implements OnInit {
       });
       this.seatLeft--;
     }
+    //this.showAndHideModal()
   }
+
+  // @ViewChild('showSelectedCustomer') showSelectedCustomer: ModalDirective;
+
+  // showAndHideModal() {
+  //   this.showSelectedCustomer.show();
+
+  //   setTimeout(() => {
+  //     this.showSelectedCustomer.hide();
+  //   }, 1500);
+  // }
 
   chooseStaff(user) {
     this.userLists.map(item => {

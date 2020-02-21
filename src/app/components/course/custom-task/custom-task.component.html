@@ -80,9 +80,9 @@
           class="col-md-6 mx-auto d-flex justify-content-center align-items-center h-50"
         >
           <div class="choice-block">
-            <p class="choice-title bold">{{ customObj.title }}</p>
+            <p class="choice-title bold">{{ customObj?.title }}</p>
             <p class="choice-description medium">
-              {{ customObj.description }}
+              {{ customObj?.description }}
             </p>
           </div>
         </div>
@@ -227,7 +227,9 @@
                 <div
                   class="d-flex justify-content-center align-items-center img-block"
                 >
-                  <img src="{{ task.img }}" />
+                  <img
+                    src="https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg"
+                  />
                 </div>
                 <span class="mastery-count font-semi">{{
                   task.masteryCount == 1
@@ -261,7 +263,336 @@
       </div>
     </div>
     <div *ngIf="activeStep == '4'" class="div_step">
-      step4
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Customize task infromation
+          </p>
+          <div class="d-flex template-name font-semi mb-2">
+            <span class="pr-2">
+              <svg
+                width="18"
+                height="19"
+                viewBox="0 0 18 19"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  class="template-icon"
+                  d="M18 17.7327C18 17.9979 17.8946 18.2523 17.7071 18.4398C17.5196 18.6273 17.2652 18.7327 17 18.7327H1C0.734784 18.7327 0.48043 18.6273 0.292893 18.4398C0.105357 18.2523 2.4071e-07 17.9979 2.4071e-07 17.7327V7.22269C-0.000105484 7.07031 0.0346172 6.91991 0.101516 6.78299C0.168415 6.64608 0.26572 6.52626 0.386 6.43269L8.386 0.210694C8.56154 0.0741392 8.7776 0 9 0C9.2224 0 9.43846 0.0741392 9.614 0.210694L17.614 6.43269C17.7343 6.52626 17.8316 6.64608 17.8985 6.78299C17.9654 6.91991 18.0001 7.07031 18 7.22269V17.7327ZM4 12.7327V14.7327H14V12.7327H4Z"
+                  fill="#363F4D"
+                />
+              </svg>
+            </span>
+            <span>P3 > Needs for Survival</span>
+          </div>
+          <p class="template-description2 regular">Lorem Ipsum is simpl</p>
+          <div class="mastery-block">
+            <div class="anno-block pl-4">
+              <p
+                class="d-none template-description2 regular"
+                [ngClass]="{ 'd-block': isShowAnnoBlock == false }"
+              >
+                Announcement time will be automatically set to 24 hours before
+                the start date.
+                <button
+                  class="btn btn-link pl-0"
+                  (click)="isShowAnnoBlock = true"
+                >
+                  Set custom announcement time.
+                </button>
+              </p>
+              <button
+                type="button"
+                class="close float-right d-none btn-close"
+                aria-label="Close"
+                [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                (click)="isShowAnnoBlock = false"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div
+                [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                class="d-none"
+              >
+                <p class="anno-txt font-semi">
+                  Announcement information
+                </p>
+                <div class="d-flex duration-wrapper mb-3">
+                  <div class="col-md-6">
+                    <label for="course_name" class="input-title medium"
+                      >Date</label
+                    >
+                    <div class="input-wrap">
+                      <div class="cc-start">
+                        <span class="dp-icon">
+                          <img src="./assets/img/course-dp.png" />
+                        </span>
+                        <input
+                          type="text"
+                          class="input-day dropD startInput"
+                          name="annoDate"
+                          required
+                          (click)="annoDate.toggle()"
+                          ngbDatepicker
+                          #annoDate="ngbDatepicker"
+                          (document:click)="closeDropdown($event, annoDate)"
+                          [(ngModel)]="annoTaskDate"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 pRight-15">
+                    <label for="course_name" class="input-title font-medium"
+                      >Time</label
+                    >
+                    <div class="input-wrap start-wrap">
+                      <span class="dp-icon">
+                        <img src="./assets/img/clock.png" />
+                      </span>
+                      <input
+                        type="text"
+                        class="input-day timeInput"
+                        name="innoTime"
+                        required
+                        readonly
+                        (click)="durationProgress($event)"
+                        style="background: none;"
+                        [(ngModel)]="showFormat"
+                      />
+                      <div class="bg-box duration-progress">
+                        <div id="rectangle"></div>
+                        <div class="time-wrapper d-flex justify-content-center">
+                          <div
+                            class="d-flex flex-column justify-content-center showTime medium"
+                          >
+                            {{ showFormat }}
+                          </div>
+                          <div>
+                            <div class="time-box">
+                              <label
+                                [ngClass]="{ selected: isSelectedTime == 'AM' }"
+                                class="mb-0 font-semi"
+                                ><input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('AM')"
+                                />
+                                AM
+                              </label>
+                              <label
+                                [ngClass]="{ selected: isSelectedTime == 'PM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  [(ngModel)]="model.prop"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('PM')"
+                                />
+                                PM
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="gap-box">
+                          <label>
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input
+                              class="max-range-box"
+                              type="range"
+                              id="hrDuration"
+                              name="pointsHr"
+                              min="0"
+                              max="12"
+                              (input)="
+                                ChangedRangeValue($event.target.value, 'hr')
+                              "
+                              [(ngModel)]="rangeHr"
+                            />
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label>
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input
+                              class="min-range-box"
+                              type="range"
+                              id="minDuration"
+                              name="pointsMin"
+                              min="0"
+                              max="59"
+                              step="1"
+                              (input)="
+                                ChangedRangeValue($event.target.value, 'min')
+                              "
+                              [(ngModel)]="rangeMin"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="anno-txt font-semi">
+                Task information
+              </p>
+              <div class="mastery-list-wrapper">
+                <div class="d-flex flex-column duration-wrapper mb-4">
+                  <div class="d-flex flex-wrap mb-3">
+                    <div class="col-md-6">
+                      <label for="course_name" class="input-title medium"
+                        >Start Date</label
+                      >
+                      <div class="input-wrap">
+                        <div class="cc-start">
+                          <span class="dp-icon">
+                            <img src="./assets/img/course-dp.png" />
+                          </span>
+                          <input
+                            type="text"
+                            class="input-day dropD startInput"
+                            name="startDate"
+                            required
+                            (click)="startDate.toggle()"
+                            ngbDatepicker
+                            #startDate="ngbDatepicker"
+                            (document:click)="closeDropdown($event, startDate)"
+                            [(ngModel)]="taskStartDate"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="course_name" class="input-title medium"
+                        >End Date</label
+                      >
+                      <div class="input-wrap">
+                        <div class="cc-start">
+                          <span class="dp-icon">
+                            <img src="./assets/img/course-dp.png" />
+                          </span>
+                          <input
+                            type="text"
+                            class="input-day dropD startInput"
+                            name="endDate"
+                            required
+                            (click)="endDate.toggle()"
+                            ngbDatepicker
+                            #endDate="ngbDatepicker"
+                            (document:click)="closeDropdown($event, endDate)"
+                            [(ngModel)]="taskEndDate"
+                            readonly
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="masteries-box regular">
+                    {{
+                      masteryList.length > 1
+                        ? masteryList.length + ' Masteries'
+                        : masteryList.length + ' Mastery'
+                    }}
+                  </p>
+                  <div class="d-flex flex-wrap mb-3">
+                    <div
+                      class="col-md-4"
+                      *ngFor="let mastery of masteryList; let i = index"
+                      (click)="checkedMastery(mastery, i)"
+                    >
+                      <div
+                        class="mastery-content mb-4"
+                        [ngClass]="{
+                          checkMastery: checkMasteryExit(mastery) != -1
+                        }"
+                      >
+                        <div class="d-flex justify-content-between">
+                          <div
+                            class="checkBox"
+                            [ngClass]="{
+                              checkboxChecked: checkMasteryExit(mastery) != -1
+                            }"
+                          >
+                            <i
+                              class="fa fa-check checkIcon"
+                              [ngClass]="{
+                                showCheckbox: checkMasteryExit(mastery) != -1
+                              }"
+                            ></i>
+                          </div>
+                          <div
+                            (click)="showMasteryDetail(mastery, masteryDetail)"
+                          >
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <rect
+                                x="1"
+                                y="1"
+                                width="18"
+                                height="18"
+                                rx="9"
+                                stroke="white"
+                                stroke-width="2"
+                              />
+                              <path
+                                d="M14.2513 10.2728C14.2513 7.249 12.4416 5.41626 9.9949 5.41626C7.53893 5.41626 5.73389 7.249 5.73389 10.2728C5.73389 13.292 7.53893 15.1293 9.9949 15.1293C10.6043 15.1293 11.1721 15.0185 11.6799 14.8016L12.4878 15.8495H13.9466L12.6725 14.1876C13.6511 13.3612 14.2513 12.0132 14.2513 10.2728ZM9.51478 11.9347L10.8582 13.6982C10.5904 13.7859 10.2996 13.8275 9.9949 13.8275C8.36528 13.8275 7.15115 12.5764 7.15115 10.2728C7.15115 7.96917 8.36528 6.71811 9.9949 6.71811C11.6199 6.71811 12.8386 7.96917 12.8386 10.2728C12.8386 11.5654 12.4555 12.5303 11.8276 13.1212L10.9182 11.9347H9.51478Z"
+                                fill="white"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+
+                        <p class="mastery-name medium">
+                          {{ mastery.shortMasteryName }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #masteryDetail let-modal>
+  <div class="modal-body">
+    <div class="mastery-header">
+      <div class="d-flex justify-content-between">
+        <p class="bold small-title">Sample Question</p>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modalClose()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <p class="step-title bold mb-0">Drawn conclusion - Lines of sight</p>
+    </div>
+    <div class="mastery-body">
+      <p class="txt-ques bold mb-5">
+        Grace entered a dark room and turned on a lamp, as seen in diagram 1.
+        She found the lamp to be too bright and placed a lampshade on it, as
+        seen in diagram 2.
+      </p>
+      <p class="txt-ques bold">
+        Which statement explains how the lampshade makes the lamp less bright?
+      </p>
+    </div>
+  </div>
+</ng-template>

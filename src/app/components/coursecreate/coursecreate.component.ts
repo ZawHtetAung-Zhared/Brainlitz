@@ -417,7 +417,11 @@ export class CoursecreateComponent implements OnInit {
           }
           this.timeOptChecked = 'hideTimeSlot';
         }
-        this.sparkWerkzCourse = this.model.sparkWerkz.sparkWerkzCourse;
+        if (this.sparkWerkzRegion == true) {
+          this.sparkWerkzCourse = this.model.sparkWerkz.sparkWerkzCourse;
+        } else {
+          this.sparkWerkzCourse == false;
+        }
         this.model.location = this.model.location.name;
         this.locationId = this.model.locationId;
         console.log('this location', this.locationId);
