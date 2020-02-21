@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { Chart } from 'chart.js';
@@ -611,7 +611,93 @@ export class OverviewComponent implements OnInit {
     localStorage.setItem('userType', 'customer');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
+  private swipeCoord?: [number, number];
+  private swipeTime?: number;
+  swipe(e: TouchEvent, when: string): void {
+    // console.log("touched");
+    const coord: [number, number] = [
+      e.changedTouches[0].clientX,
+      e.changedTouches[0].clientY
+    ];
+    const time = new Date().getTime();
 
+    if (when === 'start') {
+      this.swipeCoord = coord;
+      this.swipeTime = time;
+    } else if (when === 'end') {
+      const direction = [
+        coord[0] - this.swipeCoord[0],
+        coord[1] - this.swipeCoord[1]
+      ];
+      const duration = time - this.swipeTime;
+
+      if (
+        duration < 1000 && //
+        Math.abs(direction[0]) > 30 && // Long enough
+        Math.abs(direction[0]) > Math.abs(direction[1] * 3)
+      ) {
+        // Horizontal enough
+        // const swipe = direction[0] < 0 ? 'previous' : 'next';
+        const swipe = direction[0];
+        if (swipe < 0) {
+          console.log(
+            'next',
+            document.getElementsByClassName('carousel-control-next')
+          );
+          document.getElementById('next').click();
+        } else {
+          console.log(
+            'previous',
+            document.getElementsByClassName('carousel-control-prev')
+          );
+          document.getElementById('prev').click();
+        }
+      }
+    }
+  }
+  Dx: any;
+  Ux: any;
+  Dt: any;
+  Ut: any;
+  test(e: MouseEvent, w: string) {
+    if (w == 'down') {
+      this.Dx = e.screenX;
+      console.log('Mouse Down', this.Dx);
+      this.Dt = e.timeStamp.toString().slice(0, 3);
+      console.log('DT', this.Dt);
+    } else {
+      this.Ux = e.screenX;
+      console.log('Mouse UP', this.Ux);
+      this.Ut = e.timeStamp.toString().slice(0, 3);
+      console.log('UT', this.Ut);
+    }
+    if (w == 'up') {
+      console.log('UP UP', this.Dx, this.Ux, typeof this.Dx, typeof this.Dx);
+      if (
+        this.Dx > this.Ux &&
+        this.Dx - this.Ux > 30 &&
+        this.Dx != this.Ux &&
+        this.Ut - this.Dt < 1.5
+      ) {
+        console.log(
+          'next',
+          document.getElementsByClassName('carousel-control-next')
+        );
+        document.getElementById('next').click();
+      } else if (
+        this.Dx < this.Ux &&
+        this.Ux - this.Dx > 30 &&
+        this.Dx != this.Ux &&
+        this.Ut - this.Dt < 1.5
+      ) {
+        console.log(
+          'previous',
+          document.getElementsByClassName('carousel-control-prev')
+        );
+        document.getElementById('prev').click();
+      }
+    }
+  }
   getOverviewList(courseId) {
     this._service.getOverviewList().subscribe(
       (res: any) => {
