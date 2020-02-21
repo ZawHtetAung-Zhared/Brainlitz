@@ -64,7 +64,8 @@ export class CustomTaskComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.courseDetail);
-
+    console.log(this.selectStandard);
+    this.createCustom.standard = this.selectStandard;
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         '#788796' +
@@ -82,6 +83,8 @@ export class CustomTaskComponent implements OnInit {
   getAssignTask() {
     this._service.getassignTasks().subscribe((res: any) => {
       this.customObj = res[0];
+      this.createCustom.taskType = res[0];
+      console.log(this.createCustom);
       console.log(res, 'assign task');
     });
   }
@@ -133,26 +136,31 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
-    for (let i = 0; i < 30; i++) {
-      let obj: any = {};
-      obj._id = i;
-      obj.name = 'Needs for Survival' + i;
-      obj.masteryCount = 20;
-      obj.img =
-        'https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/quizwerkz/contents/image/157553244156011223790cute-unicorn-vector-object-background-png_225166.jpg';
-      this.taskLists.push(obj);
-    }
-    console.log(this.taskLists);
-    this.clickableSteps.push(step);
-    this.addActiveBar(2, 3);
-    this.stepClick(event, step);
+    this._service
+      .getTaskBytemplate(
+        this.createCustom.template.taskTemplateId,
+        this.createCustom.template.startDate
+      )
+      .subscribe((res: any) => {
+        console.log(res, 'task list');
+        this.taskLists = res;
+        // this.selectedTaskLists = res.slice();
+        // this.selectedTaskLists = res.slice();
+        this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
+        this.stepClick(event, step);
+      });
   }
 
   goToStep4($event, step) {
+    let temp = [];
+    temp.push(this.singleSelectedTask);
+    this.createCustom.template.tasks = temp;
+    console.log(this.createCustom);
     this._service
       .getsingletaskBytemplate(
-        '5dda85c6b1c96001c43267ba',
-        '5e452659df851f002c2f06a0'
+        this.createCustom.template.taskTemplateId,
+        this.singleSelectedTask._id
       )
       .subscribe((res: any) => {
         this.masteryList = res.masteries;
@@ -197,7 +205,7 @@ export class CustomTaskComponent implements OnInit {
     tempObj.description = obj.description;
     tempObj.extraTasksAllowed = obj.extraTasksAllowed;
     tempObj.taskBreak = obj.taskBreak;
-
+    tempObj.startDate = new Date().toISOString();
     this.createCustom.template = tempObj;
     console.log(this.createCustom);
   }
