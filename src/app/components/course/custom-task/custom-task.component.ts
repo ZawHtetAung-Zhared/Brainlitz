@@ -7,7 +7,7 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
-
+declare var $: any;
 @Component({
   selector: 'custom-task',
   templateUrl: './custom-task.component.html',
