@@ -6,6 +6,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
 import { DataService } from '../../../../service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-report-detail',
@@ -446,6 +451,106 @@ export class ReportDetailComponent implements OnInit {
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.isdType = false;
+  }
+
+  downloadReport(type) {
+    this.dType = type;
+    if (type == 'XLS') {
+      console.log('challengeData', this.challengeData);
+      console.log('masteriesReports~~~', this.masteriesReports);
+      this.downloadAsExcelFile(
+        this.challengeData,
+        this.masteriesReports,
+        this.masteriesReports[0].name
+      );
+    }
+  }
+
+  formatDataToExport(data, type) {
+    console.log('formatDataToExport', data);
+    let table = [];
+    let columnA, columnB, columnC, columnD, columnE, columnF;
+    switch (type) {
+      case 'mastery_report':
+        columnA = 'Mastery Name';
+        columnB = 'Not started';
+        columnC = 'In conslusive';
+        columnD = 'Struggling';
+        columnE = 'Mastered w/ difficulties';
+        columnF = 'Mastered w/ ease';
+        console.log('mastery_report', data);
+        data.forEach((val, key) => {
+          val.masteries.forEach((item, key) => {
+            table.push({
+              [columnA]: item.shortMasteryName,
+              [columnB]: item.userMasteries.NEW.percentage,
+              [columnC]: item.userMasteries.INPROGRESS.percentage,
+              [columnD]: item.userMasteries.STRUGGLE.percentage,
+              [columnE]: item.userMasteries.MASTERED_WITH_DIFFICULT.percentage,
+              [columnF]: item.userMasteries.MASTERED_WITH_EASE.percentage
+            });
+          });
+        });
+        break;
+      case 'challenge_data':
+        console.log('challenge_data', data);
+        columnA = 'Level';
+        columnB = 'PD Description';
+        columnC = 'PD Description For Student';
+        columnD = 'Percentage';
+        data.forEach((val, key) => {
+          table.push({
+            [columnA]: key + 1,
+            [columnB]: val.pdDescription,
+            [columnC]: val.descriptionStudent,
+            [columnD]: val.percentage
+          });
+        });
+        break;
+      default:
+        break;
+    }
+    console.log('Table', table);
+    return table;
+  }
+
+  downloadAsExcelFile(
+    challengeData: any[],
+    masteryReport: any[],
+    excelFileName: string
+  ) {
+    let challengeJson = this.formatDataToExport(
+      challengeData,
+      'challenge_data'
+    );
+    let masteryJson = this.formatDataToExport(masteryReport, 'mastery_report');
+    console.log('challengeJson', challengeJson);
+    console.log('masteryJson', masteryJson);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(challengeJson);
+    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      masteryJson
+    );
+    console.log('worksheet', worksheet);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { challenge_data: worksheet, mastery_report: secondWorksheet },
+      SheetNames: ['challenge_data', 'mastery_report']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
   }
 
   cancelModal() {
