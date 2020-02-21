@@ -18,6 +18,7 @@ export class ReportDetailComponent implements OnInit {
   public active = 'courses';
   public dType: any;
   public isdType: boolean = false;
+  public challengeData: any;
   public modalReference: any;
   public samplexml: any;
   public qtextList: any;
@@ -145,6 +146,7 @@ export class ReportDetailComponent implements OnInit {
       this._service.getMasteryReports().subscribe(
         (res: any) => {
           this._data.setMasteryData(res);
+          this.challengeData = res.data.challengingMasteries;
           this.masteriesReports = res.data.masteryReport;
           this.masteriesReports = this.masteriesReports.filter(function(res) {
             return res.id == localStorage.getItem('mastery_reportId');
@@ -159,6 +161,7 @@ export class ReportDetailComponent implements OnInit {
         }
       );
     } else {
+      this.challengeData = this._data.getMasteryData().data.challengingMasteries;
       this.masteriesReports = this._data.getMasteryData().data.masteryReport;
       this.masteriesReports = this.masteriesReports.filter(function(res) {
         return res.id == localStorage.getItem('mastery_reportId');

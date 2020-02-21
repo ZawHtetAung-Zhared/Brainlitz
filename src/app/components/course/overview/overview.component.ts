@@ -27,12 +27,7 @@ export class OverviewComponent implements OnInit {
     this.getMastery();
   }
   public cc = 1;
-  ngAfterViewInit() {
-    console.log('AfterViewInit');
-    setTimeout(() => {
-      this.drawChart(this.outerArray);
-    }, 1000);
-  }
+  ngAfterViewInit() {}
   public on: boolean = true;
   public courseId: any;
   public pplLists: any;
@@ -911,6 +906,7 @@ export class OverviewComponent implements OnInit {
   }
 
   drawChart(arr) {
+    console.log(arr);
     for (var i = 0; i < arr.length; i++) {
       for (var j = 0; j < arr[i].length; j++) {
         this.chart = new Chart('canvas' + i + j, {
@@ -922,8 +918,8 @@ export class OverviewComponent implements OnInit {
                 data: [
                   arr[i][j].masteryCountInPercentage.STRUGGLE,
                   arr[i][j].masteryCountInPercentage.INPROGRESS,
-                  arr[i][j].masteryCountInPercentage.MASTERED +
-                    arr[i][j].masteryCountInPercentage.MASTERED,
+                  arr[i][j].masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
+                    arr[i][j].masteryCountInPercentage.MASTERED_WITH_EASE,
                   arr[i][j].masteryCountInPercentage.NEW
                 ],
                 backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
@@ -969,6 +965,9 @@ export class OverviewComponent implements OnInit {
         console.log(this.mastery);
         console.log('2D', this.TwoDimensional(this.mastery, 2));
         this.outerArray = this.TwoDimensional(this.mastery, 2);
+        setTimeout(() => {
+          this.drawChart(this.outerArray);
+        }, 200);
       },
       err => {
         console.log(err);

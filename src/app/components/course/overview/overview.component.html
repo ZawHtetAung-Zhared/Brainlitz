@@ -60,7 +60,13 @@
                     </div>
                     <div class="percentage d-flex justify-content-between">
                       <span class="mastered">
-                        <h4>{{ li2.masteryCountInPercentage.MASTERED }}%</h4>
+                        <h4>
+                          {{
+                            li2.masteryCountInPercentage
+                              .MASTERED_WITH_DIFFICULT +
+                              li2.masteryCountInPercentage.MASTERED_WITH_EASE
+                          }}%
+                        </h4>
                         <p>mastered</p> </span
                       ><span class="notstarted">
                         <h4>{{ li2.masteryCountInPercentage.NEW }}%</h4>
