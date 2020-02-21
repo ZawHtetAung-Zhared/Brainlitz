@@ -4016,4 +4016,6 @@ button.today-button {
 
 .cust-bg {
   background: #f2f4f5;
+  min-height: 90vh;
+  display: flex;
 }

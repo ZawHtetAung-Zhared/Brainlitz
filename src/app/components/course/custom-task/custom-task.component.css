@@ -7,6 +7,7 @@ span.mastery-count {
   margin-left: 10px;
   margin-top: 10px;
   font-size: 13px;
+  padding: 0 3px;
 }
 
 .img-block {
@@ -37,4 +38,31 @@ p.task-name {
 
 .selectedBorder {
   border: solid 2px rgb(0, 128, 255);
+}
+
+.btn-close {
+  background: #e3e4e6;
+  color: #363f4d !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  opacity: unset;
+  line-height: 0;
+  padding-bottom: 2px;
+}
+
+/* mastery detail */
+.small-title {
+  color: #5c6773;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.mastery-header {
+  border-bottom: solid 1px #edeef0;
+}
+
+.txt-ques {
+  color: #5c6773;
+  font-size: 17px;
 }

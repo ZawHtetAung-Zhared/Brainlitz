@@ -1,6 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { appService } from '../../../service/app.service';
+import {
+  NgbModal,
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDateStruct
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'custom-task',
@@ -13,7 +19,6 @@ import { appService } from '../../../service/app.service';
 export class CustomTaskComponent implements OnInit {
   // active  && selected
   public activeStep: any;
-
   // progress
   public isSelectedTime: any;
   public clickableSteps: Array<any> = ['1'];
@@ -27,12 +32,40 @@ export class CustomTaskComponent implements OnInit {
   public scheduletemplateList: any = [];
   public createCustom: any = {};
   public taskLists: any = [];
+  public masteryList: any = [];
+  // boolean
+  public isShowAnnoBlock: boolean = false;
+  public progressSlider: boolean = false;
 
-  constructor(private _route: Router, private _service: appService) {}
+  // other
+  public annoTaskDate: any;
+  public taskStartDate: any;
+  public taskEndDate: any;
+  public modalReference: any;
+
+  // hour and date picker
+  public selectedHrRange: any;
+  public selectedMinRange: any;
+  public overDurationHr: boolean = false;
+  public startFormat: any;
+  public startTime: any;
+  model: any = {};
+  public rangeMin: any;
+  public rangeHr: any;
+  public showFormat: any;
+
+  public test =
+    "<text index=0 value='\"The diagram below shows a paper cup filled with ice cubes. The paper cup was then left in the classroom.\n' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg' ><text index=2 value='\nWhat can be done to make the ice melt faster?\nBlowing into the cup.\nReplacing the paper cup with a metal cup.\nWrapping his hands around the paper cup. \nPlacing a lid to cover the opening of the paper cup.' ></text>";
+  constructor(
+    private _route: Router,
+    private _service: appService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     console.log(this.courseDetail);
-
+    console.log(this.selectStandard);
+    this.createCustom.standard = this.selectStandard;
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         '#788796' +
@@ -49,7 +82,9 @@ export class CustomTaskComponent implements OnInit {
 
   getAssignTask() {
     this._service.getassignTasks().subscribe((res: any) => {
-      this.customObj = res[1];
+      this.customObj = res[0];
+      this.createCustom.taskType = res[0];
+      console.log(this.createCustom);
       console.log(res, 'assign task');
     });
   }
@@ -101,19 +136,40 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
-    for (let i = 0; i < 30; i++) {
-      let obj: any = {};
-      obj._id = i;
-      obj.name = 'Needs for Survival' + i;
-      obj.masteryCount = 20;
-      obj.img =
-        'https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/quizwerkz/contents/image/157553244156011223790cute-unicorn-vector-object-background-png_225166.jpg';
-      this.taskLists.push(obj);
-    }
-    console.log(this.taskLists);
-    this.clickableSteps.push(step);
-    this.addActiveBar(2, 3);
-    this.stepClick(event, step);
+    this._service
+      .getTaskBytemplate(
+        this.createCustom.template.taskTemplateId,
+        this.createCustom.template.startDate
+      )
+      .subscribe((res: any) => {
+        console.log(res, 'task list');
+        this.taskLists = res;
+        // this.selectedTaskLists = res.slice();
+        // this.selectedTaskLists = res.slice();
+        this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
+        this.stepClick(event, step);
+      });
+  }
+
+  goToStep4($event, step) {
+    let temp = [];
+    temp.push(this.singleSelectedTask);
+    this.createCustom.template.tasks = temp;
+    console.log(this.createCustom);
+    this._service
+      .getsingletaskBytemplate(
+        this.createCustom.template.taskTemplateId,
+        this.singleSelectedTask._id
+      )
+      .subscribe((res: any) => {
+        this.masteryList = res.masteries;
+        console.log(res);
+        this.clickableSteps.push(step);
+        this.activeStep = 1;
+        this.addActiveBar(3, 4);
+        this.stepClick($event, step);
+      });
   }
 
   addActiveBar(current, next) {
@@ -149,12 +205,112 @@ export class CustomTaskComponent implements OnInit {
     tempObj.description = obj.description;
     tempObj.extraTasksAllowed = obj.extraTasksAllowed;
     tempObj.taskBreak = obj.taskBreak;
-
+    tempObj.startDate = new Date().toISOString();
     this.createCustom.template = tempObj;
     console.log(this.createCustom);
   }
 
   checkTask(obj) {
     this.singleSelectedTask = obj;
+  }
+
+  durationProgress($event) {
+    this.progressSlider = true;
+  }
+
+  closeDropdown(event, datePicker?) {
+    console.log(event);
+
+    if (typeof event.target.className === 'string') {
+      if (event.target.className.includes('dropD')) {
+        // datePicker.close()
+      } else {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+        }
+      }
+    }
+  }
+
+  chooseTimeOpt(type) {
+    console.log(type);
+    this.isSelectedTime = type;
+    this.formatTime();
+  }
+
+  formatTime() {
+    console.log('this.selected', this.selectedHrRange, this.selectedMinRange);
+    if (this.selectedHrRange > 0) {
+      if (this.selectedHrRange < 10) {
+        var hrFormat = 0 + this.selectedHrRange;
+      } else {
+        var hrFormat = this.selectedHrRange;
+      }
+    } else {
+      this.selectedHrRange = '00';
+      var hrFormat = this.selectedHrRange;
+    }
+    if (this.selectedMinRange > 0) {
+      if (this.selectedMinRange < 10) {
+        this.selectedMinRange = parseInt(this.selectedMinRange);
+        this.selectedMinRange = this.selectedMinRange.toString();
+        console.log('if', this.selectedMinRange);
+        // var minFormat = this.selectedMinRange.concat('0',this.selectedMinRange);
+        var minFormat = 0 + this.selectedMinRange;
+        // console.log(this.selectedMinRange.concat('0',this.selectedMinRange));
+        console.log(minFormat);
+      } else {
+        console.log('else', this.selectedMinRange);
+        var minFormat = this.selectedMinRange;
+      }
+    } else {
+      this.selectedMinRange = '00';
+      var minFormat = this.selectedMinRange;
+    }
+    this.showFormat = hrFormat + ':' + minFormat;
+    console.log(this.showFormat);
+  }
+
+  D(J) {
+    return (J < 10 ? '0' : '') + J;
+  }
+
+  ChangedRangeValue(e, type) {
+    // console.log(e)
+    if (type == 'hr') {
+      this.selectedHrRange = e;
+      console.log('this.selectedHrRange', this.selectedHrRange);
+    }
+    if (type == 'min') {
+      this.selectedMinRange = e;
+      console.log('this.selectedMinRange', this.selectedMinRange);
+    }
+    this.formatTime();
+  }
+
+  checkMasteryExit(obj) {
+    // console.log(obj);
+    // return this.singleSelectedTask.masteries.findIndex(
+    //   data => data.masteryId === obj.masteryId
+    // );
+  }
+
+  checkedMastery() {
+    console.log('hello');
+  }
+
+  showMasteryDetail(obj, masteryModal) {
+    console.log(obj);
+    this.modalReference = this.modalService.open(masteryModal, {
+      backdrop: 'static',
+      windowClass:
+        'jouranlModal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  modalClose() {
+    this.modalReference.close();
   }
 }
