@@ -141,7 +141,7 @@
   <div class="d-flex flex-column modal-body">
     <div class="d-flex w-100">
       <h3 class="modal-title d-flex mr-auto">
-        Question Modal
+        {{ samplexml.data.mastery.shortMasteryName }}
       </h3>
       <button
         (click)="cancelModal()"
@@ -154,7 +154,12 @@
         </span>
       </button>
     </div>
+
     <div id="testQuestion"></div>
+    <div id="55555555"></div>
+    <div *ngFor="let ans of samplexml.data.quiz.answers">
+      <div id="{{ ans._id }}"></div>
+    </div>
     <!-- <div class="testing" *ngFor="let item of qhtml">
       <div class="pt-4" [innerHTML]="item"></div>
     </div> -->

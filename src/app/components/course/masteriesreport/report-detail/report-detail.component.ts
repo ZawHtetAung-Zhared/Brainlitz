@@ -387,12 +387,26 @@ export class ReportDetailComponent implements OnInit {
     graph.on('click', function(params) {
       // console.log(params);
       if (params.componentType === 'yAxis') {
-        // console.log(_self.plotOption.yAxis.data.indexOf(params.value));
-        _self.samplexml =
+        var id =
           _self.masteriesReports[0].masteries[
             _self.plotOption.yAxis.data.indexOf(params.value)
-          ].question;
-        _self.openModal(_self.questionModal);
+          ].masteryId;
+        _self._service.getMasteryQuestion(id).subscribe(
+          (res: any) => {
+            console.log(res);
+            _self.samplexml = res;
+            _self.openModal(_self.questionModal);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+        // _self.samplexml =
+        //   _self.masteriesReports[0].masteries[
+        //     _self.plotOption.yAxis.data.indexOf(params.value)
+        //   ].question;
+        // _self.openModal(_self.questionModal);
+
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',
@@ -447,13 +461,17 @@ export class ReportDetailComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this.setupQuiz();
+    setTimeout(() => {
+      this.setupAnswer();
+    }, 200);
     // this.setupQuestion();
   }
 
   setupQuiz() {
+    console.log(this.samplexml);
     var ques =
       "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
-    $('#testQuestion').html(this.samplexml);
+    $('#testQuestion').html(this.samplexml.data.quiz.question);
     var textElems = $('text');
     console.log('textElems', textElems);
     for (var j = 0; j < textElems.length; j++) {
@@ -468,6 +486,28 @@ export class ReportDetailComponent implements OnInit {
       $(imgElems[i]).attr('class', 'pt-4');
       // $(imgElems[i]).html('<div class="pt-4">'+$(imgElems[i]).attr('value')+'</div>');
     }
+  }
+
+  setupAnswer() {
+    var ans = "<text index=0 value='cannot grow without food' ></text>";
+    this.samplexml.data.quiz.answers.forEach(function(element) {
+      $('#' + element._id).html(element.answer);
+      var textElems = $('text');
+      console.log('textElems', textElems);
+      for (var j = 0; j < textElems.length; j++) {
+        console.log(textElems[j]);
+        var currElem = textElems[j];
+        $(textElems[j]).html(
+          '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
+        );
+      }
+
+      var imgElems = $('img');
+      for (var i = 0; i < imgElems.length; i++) {
+        $(imgElems[i]).attr('class', 'pt-4');
+        // $(imgElems[i]).html('<div class="pt-4">'+$(imgElems[i]).attr('value')+'</div>');
+      }
+    });
   }
 
   setupQuestion() {
