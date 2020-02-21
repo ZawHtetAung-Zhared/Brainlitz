@@ -66,3 +66,29 @@ p.task-name {
   color: #5c6773;
   font-size: 17px;
 }
+
+@media only screen and (min-width: 1365px) {
+  .mastery-scroll {
+    overflow: overlay;
+    height: 690px;
+  }
+
+  .mode-wrapper {
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1366px) {
+  .step1-content {
+    height: 460px !important;
+  }
+
+  .mastery-scroll {
+    height: 530px;
+    overflow: overlay;
+  }
+
+  .mode-wrapper {
+    height: 400px;
+  }
+}

@@ -1131,6 +1131,7 @@ export class EnrollUserComponent implements OnInit {
   }
 
   changeMethod(searchWord, userType) {
+    this.loading = true;
     console.log(this.detailLists.locationId);
     console.log(searchWord);
     console.log(userType);
@@ -1139,8 +1140,8 @@ export class EnrollUserComponent implements OnInit {
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
-      this.loading = true;
       this.enrollUserList = [];
+      this.userLists = [];
       this.seatLeft = this.detailLists.seat_left;
       setTimeout(() => {
         this.getUsersInCourse(this.courseId); // Stop blocking
@@ -1157,32 +1158,23 @@ export class EnrollUserComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            if (res.length == 0) {
-              this.loading = true;
-              setTimeout(() => {
-                console.log('waiting input');
-              }, 1000);
-              //this.toastr.info('Not match')
+            res.map(item => {
+              item.addOrRemove = 'add-user';
+            });
+            if (this.courseType == 'FLEXY') {
+              this.userLists = res;
             } else {
-              res.map(item => {
-                item.addOrRemove = 'add-user';
-              });
-              if (this.courseType == 'FLEXY') {
-                this.userLists = res;
-              } else {
-                this.userLists = res;
-                this.enrolledCustomer = this.pplLists.CUSTOMER;
-                console.log(this.enrolledCustomer[0].userId);
-                for (var i = 0; i < this.enrolledCustomer.length; i++) {
-                  this.removeEnrolledUser(this.enrolledCustomer[i]);
-                }
-                // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
+              this.userLists = res;
+              this.enrolledCustomer = this.pplLists.CUSTOMER;
+              console.log(this.enrolledCustomer[0].userId);
+              for (var i = 0; i < this.enrolledCustomer.length; i++) {
+                this.removeEnrolledUser(this.enrolledCustomer[i]);
               }
-              setTimeout(() => {
-                console.log('coming soon');
-              }, 300);
-              this.loading = false;
+              // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
             }
+            setTimeout(() => {
+              this.loading = false;
+            }, 3000);
 
             //this.loading=false
             // console.log(this.userLists);

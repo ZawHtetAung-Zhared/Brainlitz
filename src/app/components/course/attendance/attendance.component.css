@@ -4387,3 +4387,13 @@ button.today-button {
   -webkit-animation-name: placeholderShimmer;
   -webkit-animation-timing-function: linear;
 }
+
+.shine-text-long {
+  width: 200px;
+  height: 20px;
+}
+
+.shine-text-short {
+  width: 80px;
+  height: 20px;
+}

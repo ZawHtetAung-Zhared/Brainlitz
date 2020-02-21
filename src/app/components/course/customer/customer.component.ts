@@ -348,9 +348,9 @@ export class CustomerComponent implements OnInit {
           this.disabledTab = true;
         }
         setTimeout(() => {
-          console.log('comming soon');
+          this.loading = false;
         }, 1000);
-        this.loading = false;
+        //this.loading = false;
       },
       err => {
         console.log(err);
