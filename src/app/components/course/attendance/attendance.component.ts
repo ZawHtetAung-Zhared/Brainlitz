@@ -350,53 +350,6 @@ export class AttendanceComponent implements OnInit {
     this.getCourseDetail(this.courseId);
     console.log('Detail List Type ' + this.detailLists.type);
     this.getAttendance();
-
-    // this.courseId = '5e2fa55b28084f0013bac758';
-    //this.dataservice.currentCourse.subscribe(cID => (this.cID = cID));
-    //this.clickTab('People', 'course');
-    // if (this.cID != '') {
-    //   setTimeout(() => {
-    //     this.showCourseDetail(this.cID);
-    //   }, 300);
-    // }
-
-    // this.dataservice.cId.subscribe(cid => (this.courseId = cid));
-    // if (this.courseId != '') {
-    //   setTimeout(() => {
-    //     this.showCourseDetail(this.courseId);
-    //   }, 300);
-    // }
-
-    // console.log(this.courseId);
-    // console.log(this.cID);
-    // let recentTemp = localStorage.getItem('recentSearchLists');
-    // this.recentLists = localStorage.getItem('recentSearchLists')
-    // console.log(this.recentLists)
-    // this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
-    // console.log('recent lists', this.recentLists);
-    // console.log('0', this.recentLists[0]);
-    // localStorage.removeItem('categoryID');
-    // localStorage.removeItem('categoryName');
-    // setTimeout(() => {
-    //   console.log('~~~', this.locationName);
-    //   this.locationName = localStorage.getItem('locationName');
-    //   this.locationID = localStorage.getItem('locationId');
-    //   this.gtxtColor = localStorage.getItem('txtColor');
-    //   this.gbgColor = localStorage.getItem('backgroundColor');
-    // }, 300);
-    // this.activeTab = 'People';
-
-    // this._service.permissionList.subscribe(data => {
-    //   if (this.router.url === '/course') {
-    //     this.permissionType = data;
-    //     this.checkPermission();
-    //   }
-    // });
-
-    // this.discount = 0;
-    // this.selectedPayment = 'Cash';
-
-    // this.getRegionInfo();
   }
 
   openDatePicker(datePicker) {
@@ -1650,7 +1603,9 @@ export class AttendanceComponent implements OnInit {
     this.isCourseCreate = true;
     // this.router.navigate(['/courseCreate']);
   }
+  public loading = true;
   getCourseDetail(id) {
+    this.loading = true;
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         console.log('here details list', res);
@@ -4315,6 +4270,7 @@ export class AttendanceComponent implements OnInit {
   };
 
   getAttendance() {
+    this.loading = true;
     // this._service.getAttendance(this.courseId)
     console.log('data from getAttendance Function');
     console.log(this._service.getAttendance(this.courseId));
@@ -4323,6 +4279,9 @@ export class AttendanceComponent implements OnInit {
         this.attendanceList = res;
         console.log(this.attendanceList);
         this.clickTab('Class', 'course');
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
       },
       err => {
         console.log(err);

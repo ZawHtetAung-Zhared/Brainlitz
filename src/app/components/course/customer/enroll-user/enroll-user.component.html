@@ -89,7 +89,48 @@
           </div>
         </div>
         <div *ngIf="userType == 'teacher'">
-          <div class="row single-user-wrap" *ngIf="userLists != ''">
+          <div class="row single-user-wrap" *ngIf="loading == true">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+          </div>
+          <div
+            class="row single-user-wrap"
+            *ngIf="userLists != '' && loading == false"
+          >
             <div
               *ngFor="let teacher of userLists"
               class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -429,3 +470,11 @@
     </div>
   </div>
 </div>
+
+<!-- <div mdbModal #showSelectedCustomer="mdbModal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content" style="background-color: burlywood;">
+        <span>AA is selected</span>
+      </div>
+  </div>
+</div> -->

@@ -171,3 +171,27 @@
     </div>
   </div>
 </div>
+
+<ng-template #questionModal let-c="close" let-d="dismiss">
+  <div class="d-flex flex-column modal-body">
+    <div class="d-flex w-100">
+      <h3 class="modal-title d-flex mr-auto">
+        Question Modal
+      </h3>
+      <button
+        (click)="cancelModal()"
+        aria-label="Close"
+        class="modal-close ml-auto btn"
+      >
+        <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+        </span>
+      </button>
+    </div>
+    <div id="testQuestion"></div>
+    <!-- <div class="testing" *ngFor="let item of qhtml">
+      <div class="pt-4" [innerHTML]="item"></div>
+    </div> -->
+  </div>
+</ng-template>

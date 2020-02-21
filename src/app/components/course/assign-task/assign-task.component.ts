@@ -110,6 +110,9 @@ export class AssignTaskComponent implements OnInit {
         this.courseDetail = res;
         console.log('here details list', this.courseDetail);
         this.sparkWerkz = this.courseDetail.sparkWerkz;
+        this.isCustom = this.courseDetail.sparkWerkz.standardSelected
+          ? true
+          : false;
       },
       err => {
         console.log(err);
@@ -242,9 +245,9 @@ export class AssignTaskComponent implements OnInit {
         console.log(res, 'assign mode');
         this.addActiveBar(current, next);
         this.assignModeList = res;
+        this.clickableSteps.push(next);
+        this.stepClick(event, next);
       });
-    this.clickableSteps.push(next);
-    this.stepClick(event, next);
   }
 
   addActiveBar(current, next) {

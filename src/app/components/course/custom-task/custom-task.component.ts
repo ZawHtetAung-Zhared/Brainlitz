@@ -1,7 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { appService } from '../../../service/app.service';
+import { DatePipe } from '@angular/common';
 
+import { appService } from '../../../service/app.service';
+import {
+  NgbModal,
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDateStruct
+} from '@ng-bootstrap/ng-bootstrap';
+declare var $: any;
 @Component({
   selector: 'custom-task',
   templateUrl: './custom-task.component.html',
@@ -27,6 +35,7 @@ export class CustomTaskComponent implements OnInit {
   public createCustom: any = {};
   public taskLists: any = [];
   public masteryList: any = [];
+  public assignModeList: any = [];
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
@@ -35,6 +44,7 @@ export class CustomTaskComponent implements OnInit {
   public annoTaskDate: any;
   public taskStartDate: any;
   public taskEndDate: any;
+  public modalReference: any;
 
   // hour and date picker
   public selectedHrRange: any;
@@ -47,11 +57,19 @@ export class CustomTaskComponent implements OnInit {
   public rangeHr: any;
   public showFormat: any;
 
-  constructor(private _route: Router, private _service: appService) {}
+  public test =
+    "<text index=0 value='\"The diagram below shows a paper cup filled with ice cubes. The paper cup was then left in the classroom.\n' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg' ><text index=2 value='\nWhat can be done to make the ice melt faster?\nBlowing into the cup.\nReplacing the paper cup with a metal cup.\nWrapping his hands around the paper cup. \nPlacing a lid to cover the opening of the paper cup.' ></text>";
+  constructor(
+    private _route: Router,
+    private _service: appService,
+    private modalService: NgbModal,
+    private datePipe: DatePipe
+  ) {}
 
   ngOnInit() {
     console.log(this.courseDetail);
-
+    console.log(this.selectStandard);
+    this.createCustom.standard = this.selectStandard;
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         '#788796' +
@@ -69,6 +87,8 @@ export class CustomTaskComponent implements OnInit {
   getAssignTask() {
     this._service.getassignTasks().subscribe((res: any) => {
       this.customObj = res[0];
+      this.createCustom.taskType = res[0];
+      console.log(this.createCustom);
       console.log(res, 'assign task');
     });
   }
@@ -120,35 +140,76 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
-    for (let i = 0; i < 30; i++) {
-      let obj: any = {};
-      obj._id = i;
-      obj.name = 'Needs for Survival' + i;
-      obj.masteryCount = 20;
-      obj.img =
-        'https://brainlitz-dev.s3.ap-southeast-1.amazonaws.com/development/stgbl-cw1/quizwerkz/contents/image/157553244156011223790cute-unicorn-vector-object-background-png_225166.jpg';
-      this.taskLists.push(obj);
-    }
-    console.log(this.taskLists);
-    this.clickableSteps.push(step);
-    this.addActiveBar(2, 3);
-    this.stepClick(event, step);
+    this.isSelectedTime = 'AM';
+    this._service
+      .getTaskBytemplate(
+        this.createCustom.template.taskTemplateId,
+        this.createCustom.template.startDate
+      )
+      .subscribe((res: any) => {
+        console.log(res, 'task list');
+        this.taskLists = res;
+        // this.selectedTaskLists = res.slice();
+        // this.selectedTaskLists = res.slice();
+        this.clickableSteps.push(step);
+        this.addActiveBar(2, 3);
+        this.stepClick(event, step);
+      });
   }
 
   goToStep4($event, step) {
+    let temp = [];
+    temp.push(this.singleSelectedTask);
+    this.createCustom.template.tasks = temp;
+    console.log(this.createCustom);
     this._service
       .getsingletaskBytemplate(
-        '5dda85c6b1c96001c43267ba',
-        '5e452659df851f002c2f06a0'
+        this.createCustom.template.taskTemplateId,
+        this.singleSelectedTask._id
       )
       .subscribe((res: any) => {
-        this.masteryList = res.masteries;
+        this.createCustom.template.tasks[0].masteries = res.masteries;
+        this.masteryList = res.masteries.slice();
         console.log(res);
         this.clickableSteps.push(step);
         this.activeStep = 1;
         this.addActiveBar(3, 4);
         this.stepClick($event, step);
       });
+  }
+
+  goToStep5($event, step) {
+    let annDate;
+    this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
+      ? this.changeObjDateFormat(this.taskStartDate)
+      : this.createCustom.template.tasks[0].taskStartDate;
+
+    this.createCustom.template.tasks[0].taskEndDate = this.taskEndDate
+      ? this.changeObjDateFormat(this.taskEndDate)
+      : this.createCustom.template.tasks[0].taskEndDate;
+
+    annDate = this.changeDateTimeFormat(
+      this.annoTaskDate
+        ? this.annoTaskDate
+        : this.createCustom.template.tasks[0].announcementDate,
+      !this.showFormat == true
+        ? this.changeDatetoTime(
+            this.createCustom.template.tasks[0].announcementDate
+          )
+        : this.showFormat
+    );
+    this.createCustom.template.tasks[0].announcementDate = annDate;
+
+    this._service
+      .getassignMode(this.createCustom.taskType.id)
+      .subscribe((res: any) => {
+        console.log(res, 'assign mode');
+        this.addActiveBar(4, 5);
+        this.assignModeList = res;
+        this.clickableSteps.push(step);
+        this.stepClick($event, step);
+      });
+    console.log(this.createCustom);
   }
 
   addActiveBar(current, next) {
@@ -184,7 +245,7 @@ export class CustomTaskComponent implements OnInit {
     tempObj.description = obj.description;
     tempObj.extraTasksAllowed = obj.extraTasksAllowed;
     tempObj.taskBreak = obj.taskBreak;
-
+    tempObj.startDate = new Date().toISOString();
     this.createCustom.template = tempObj;
     console.log(this.createCustom);
   }
@@ -198,13 +259,15 @@ export class CustomTaskComponent implements OnInit {
   }
 
   closeDropdown(event, datePicker?) {
-    if (event.target.className.includes('dropD')) {
-      // datePicker.close()
-    } else {
-      if (event.target.offsetParent == null) {
-        datePicker.close();
-      } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-        datePicker.close();
+    if (typeof event.target.className === 'string') {
+      if (event.target.className.includes('dropD')) {
+        // datePicker.close()
+      } else {
+        if (event.target.offsetParent == null) {
+          datePicker.close();
+        } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          datePicker.close();
+        }
       }
     }
   }
@@ -266,9 +329,111 @@ export class CustomTaskComponent implements OnInit {
   }
 
   checkMasteryExit(obj) {
+    return this.createCustom.template.tasks[0].masteries.findIndex(
+      data => data.masteryId === obj.masteryId
+    );
+  }
+
+  checkedMastery(obj, e) {
+    if (e.target.tagName != 'svg') {
+      if (this.checkMasteryExit(obj) != -1) {
+        this.createCustom.template.tasks[0].masteries.splice(
+          this.checkMasteryExit(obj),
+          1
+        );
+        this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
+      } else {
+        this.createCustom.template.tasks[0].masteries.push(obj);
+        this.createCustom.template.tasks[0].masteryCount = this.createCustom.template.tasks[0].masteries.length;
+      }
+
+      console.log(this.createCustom);
+    }
+  }
+
+  showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
-    // return this.singleSelectedTask.masteries.findIndex(
-    //   data => data.masteryId === obj.masteryId
-    // );
+    console.log(e.target.tagName);
+    console.log(e.target);
+    this.modalReference = this.modalService.open(masteryModal, {
+      backdrop: 'static',
+      windowClass:
+        'jouranlModal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  modalClose() {
+    this.modalReference.close();
+  }
+
+  choicemode(obj) {
+    this.createCustom.template.distributionMode = obj;
+    console.log(this.createCustom);
+  }
+
+  createAssign() {
+    this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
+    this.createCustom.template.startDate = this.createCustom.template.startDate;
+    console.log('final obj', this.createCustom);
+    this._service
+      .createAssigntask(this.courseDetail._id, this.createCustom)
+      .subscribe((res: any) => {
+        console.log(res);
+        this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+      });
+  }
+
+  @HostListener('document:click', ['$event'])
+  public categorySearch(event): void {
+    if (this.progressSlider != true) {
+      $('.bg-box').css({ display: 'none' });
+    } else {
+      $('.bg-box').css({ display: 'block' });
+      $('.bg-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.progressSlider = false;
+    }
+  }
+
+  changeObjDateFormat(date) {
+    console.log(date);
+    let sdate = date.year + '-' + date.month + '-' + date.day;
+    return new Date(sdate).toISOString();
+  }
+
+  changeDateTimeFormat(date, time) {
+    console.log(date, time);
+    if (date.year == null) {
+      console.log('null', date);
+      return date;
+    } else {
+      console.log('utc date', date);
+      console.log('Time', time);
+      let sdate = date.year + '-' + date.month + '-' + date.day;
+      console.log(sdate);
+      let dateParts = sdate.split('-');
+      console.log('dateParts', dateParts);
+      if (dateParts[1]) {
+        console.log(Number(dateParts[1]) - 1);
+        let newParts = Number(dateParts[1]) - 1;
+        dateParts[1] = newParts.toString();
+      }
+      let timeParts = time.split(':');
+      if (dateParts && timeParts) {
+        // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+        // console.log("UTC",testDate)
+        let fullDate = new Date(
+          Date.UTC.apply(undefined, dateParts.concat(timeParts))
+        ).toISOString();
+        console.log('ISO', fullDate);
+        return fullDate;
+      }
+    }
+  }
+
+  changeDatetoTime(date) {
+    console.log(date);
+    return this.datePipe.transform(date, 'HH:mm');
   }
 }

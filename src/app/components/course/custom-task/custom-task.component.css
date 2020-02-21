@@ -7,6 +7,7 @@ span.mastery-count {
   margin-left: 10px;
   margin-top: 10px;
   font-size: 13px;
+  padding: 0 3px;
 }
 
 .img-block {
@@ -48,4 +49,46 @@ p.task-name {
   opacity: unset;
   line-height: 0;
   padding-bottom: 2px;
+}
+
+/* mastery detail */
+.small-title {
+  color: #5c6773;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.mastery-header {
+  border-bottom: solid 1px #edeef0;
+}
+
+.txt-ques {
+  color: #5c6773;
+  font-size: 17px;
+}
+
+@media only screen and (min-width: 1365px) {
+  .mastery-scroll {
+    overflow: overlay;
+    height: 690px;
+  }
+
+  .mode-wrapper {
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1366px) {
+  .step1-content {
+    height: 460px !important;
+  }
+
+  .mastery-scroll {
+    height: 530px;
+    overflow: overlay;
+  }
+
+  .mode-wrapper {
+    height: 400px;
+  }
 }

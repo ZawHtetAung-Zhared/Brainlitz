@@ -33,8 +33,12 @@
             *ngFor="let li1 of outerArray; let j = index"
             class="carousel-item"
             [ngClass]="{ active: j == 0 }"
+            (touchstart)="swipe($event, 'start')"
+            (touchend)="swipe($event, 'end')"
+            (mousedown)="test($event, 'down')"
+            (mouseup)="test($event, 'up')"
           >
-            <div class="d-flex">
+            <div class="d-flex swiper">
               <div
                 *ngFor="let li2 of li1; let k = index"
                 class="mastery-type pb-3"
@@ -85,6 +89,7 @@
           class="carousel-control-prev"
           href="#carouselExampleCaptions"
           role="button"
+          id="prev"
           data-slide="prev"
         >
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -94,6 +99,7 @@
           class="carousel-control-next"
           href="#carouselExampleCaptions"
           role="button"
+          id="next"
           data-slide="next"
         >
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -177,8 +183,11 @@
         <button
           class="detail-btn"
           (click)="enrollCustomer(courseId)"
-          [ngClass]="{ white: !on, notallowed: seat_left == 0 }"
-          [disabled]="seat_left == 0"
+          [ngClass]="{
+            white: !on,
+            notallowed: seat_left == 0 && coursetype == 'REGULAR'
+          }"
+          [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
         >
           <!-- (click)="toggle()" -->
           Enroll customer

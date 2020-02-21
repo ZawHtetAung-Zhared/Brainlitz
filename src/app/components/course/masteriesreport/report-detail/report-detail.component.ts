@@ -1,9 +1,11 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { filter, pairwise } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
+import { DataService } from '../../../../service/data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 const EXCEL_TYPE =
@@ -21,6 +23,11 @@ export class ReportDetailComponent implements OnInit {
   public active = 'courses';
   public dType: any;
   public isdType: boolean = false;
+  public modalReference: any;
+  public samplexml: any;
+  public qtextList: any;
+  public qhtml: any = [];
+  public qimgList: any;
   plotOption: any;
   echarts: any;
   reportItems: any;
@@ -132,26 +139,40 @@ export class ReportDetailComponent implements OnInit {
     private _location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    private _service: appService
+    private _service: appService,
+    private _data: DataService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.dType = 'XLS';
-    this._service.getMasteryReports().subscribe(
-      (res: any) => {
-        this.masteriesReports = res.data;
-        this.masteriesReports = this.masteriesReports.filter(function(res) {
-          return res.id == localStorage.getItem('mastery_reportId');
-        });
-        this.reportItems = this.masteriesReports[0].masteries;
-        if (this.isAdvance) this.seriesData = this.advanceSeries;
-        else this.seriesData = this.normalSeries;
-        this.setupOption(this.isExpand, this.isAdvance);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this._data.getMasteryData() == undefined) {
+      this._service.getMasteryReports().subscribe(
+        (res: any) => {
+          this._data.setMasteryData(res);
+          this.masteriesReports = res.data.masteryReport;
+          this.masteriesReports = this.masteriesReports.filter(function(res) {
+            return res.id == localStorage.getItem('mastery_reportId');
+          });
+          this.reportItems = this.masteriesReports[0].masteries;
+          if (this.isAdvance) this.seriesData = this.advanceSeries;
+          else this.seriesData = this.normalSeries;
+          this.setupOption(this.isExpand, this.isAdvance);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.masteriesReports = this._data.getMasteryData().data.masteryReport;
+      this.masteriesReports = this.masteriesReports.filter(function(res) {
+        return res.id == localStorage.getItem('mastery_reportId');
+      });
+      this.reportItems = this.masteriesReports[0].masteries;
+      if (this.isAdvance) this.seriesData = this.advanceSeries;
+      else this.seriesData = this.normalSeries;
+      this.setupOption(this.isExpand, this.isAdvance);
+    }
 
     // for sample data
     // this.masteriesReports = this.masteriesReports.filter(function(res) {
@@ -311,11 +332,11 @@ export class ReportDetailComponent implements OnInit {
       if (expandOn == true)
         yAxisData.push(++index + ' ' + item.shortMasteryName);
       else yAxisData.push(++index);
-      strugglingData.push(item.userMasteries.STRUGGLE.percentage + 1);
-      diffData.push(item.userMasteries.MASTERED.percentage + 1);
-      easeData.push(item.userMasteries.MASTERED.percentage + 1);
-      inprogressData.push(item.userMasteries.INPROGRESS.percentage + 1);
-      notTakenData.push(item.userMasteries.NEW.percentage + 1);
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage);
+      diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
+      easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage);
+      notTakenData.push(item.userMasteries.NEW.percentage);
     });
     this.plotOption.yAxis.data = yAxisData;
     if (advanceOn) {
@@ -366,9 +387,14 @@ export class ReportDetailComponent implements OnInit {
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
     graph.on('click', function(params) {
-      console.log(params);
+      // console.log(params);
       if (params.componentType === 'yAxis') {
-        console.log(_self.plotOption.yAxis.data.indexOf(params.value));
+        // console.log(_self.plotOption.yAxis.data.indexOf(params.value));
+        _self.samplexml =
+          _self.masteriesReports[0].masteries[
+            _self.plotOption.yAxis.data.indexOf(params.value)
+          ].question;
+        _self.openModal(_self.questionModal);
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',
@@ -377,6 +403,9 @@ export class ReportDetailComponent implements OnInit {
         // );
       } else if (params.componentType === 'series') {
         console.log(params.dataIndex);
+        console.log(
+          _self.masteriesReports[0].masteries[params.dataIndex].question
+        );
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',
@@ -406,6 +435,7 @@ export class ReportDetailComponent implements OnInit {
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.isdType = false;
   }
+
   downloadReport(type) {
     this.dType = type;
     var data: any = [
@@ -444,15 +474,47 @@ export class ReportDetailComponent implements OnInit {
     ];
     if (type == 'XLS') {
       console.log('masteriesReports~~~', this.masteriesReports);
-      this.downloadAsExcelFile(data, secondData, 'sampleExcel');
+      this.downloadAsExcelFile(data, this.masteriesReports, 'sampleExcel');
     }
   }
 
-  downloadAsExcelFile(json: any[], seconddata: any[], excelFileName: string) {
+  formatDataToExport(data) {
+    console.log('formatDataToExport', data);
+    let table = [];
+    let columnA, columnB, columnC, columnD, columnE, columnF;
+    columnA = 'Mastery Name';
+    columnB = 'Not started';
+    columnC = 'In conslusive';
+    columnD = 'Struggling';
+    columnE = 'Mastered w/ difficulties';
+    columnF = 'Mastered w/ ease';
+
+    data.forEach((val, key) => {
+      console.log(val);
+      val.masteries.forEach((item, key) => {
+        console.log(item);
+        table.push({
+          [columnA]: item.shortMasteryName,
+          [columnB]: item.userMasteries.NEW.percentage,
+          [columnC]: item.userMasteries.INPROGRESS.percentage,
+          [columnD]: item.userMasteries.STRUGGLE.percentage,
+          [columnE]: item.userMasteries.MASTERED_WITH_DIFFICULT.percentage,
+          [columnF]: item.userMasteries.MASTERED_WITH_EASE.percentage
+        });
+      });
+    });
+    console.log('Table', table);
+    return table;
+  }
+
+  downloadAsExcelFile(
+    json: any[],
+    masteryReport: any[],
+    excelFileName: string
+  ) {
+    let jsonData = this.formatDataToExport(masteryReport);
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-      seconddata
-    );
+    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
     console.log('worksheet', worksheet);
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet, test: secondWorksheet },
@@ -474,5 +536,77 @@ export class ReportDetailComponent implements OnInit {
       data,
       fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
+  }
+
+  cancelModal() {
+    console.log('....');
+    this.modalReference.close();
+  }
+
+  @ViewChild('questionModal') questionModal: any;
+  openModal(modal) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.setupQuiz();
+    // this.setupQuestion();
+  }
+
+  setupQuiz() {
+    var ques =
+      "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
+    $('#testQuestion').html(this.samplexml);
+    var textElems = $('text');
+    console.log('textElems', textElems);
+    for (var j = 0; j < textElems.length; j++) {
+      var currElem = textElems[j];
+      $(textElems[j]).html(
+        '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
+      );
+    }
+
+    var imgElems = $('img');
+    for (var i = 0; i < imgElems.length; i++) {
+      $(imgElems[i]).attr('class', 'pt-4');
+      // $(imgElems[i]).html('<div class="pt-4">'+$(imgElems[i]).attr('value')+'</div>');
+    }
+  }
+
+  setupQuestion() {
+    this.samplexml =
+      "<text index=0 value='A student took a slice of bread and cut it into two. He toasted one of the pieces until it was dry. He placed the two pieces of bread on a plate and left it in the kitchen. After a week, the student noticed fungi growing on the piece of bread that was not toasted and no fungi on the toasted bread.' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/LTN-01-01/Assets/questionsAssets/ltn-01-01-01.jpg' ><text index=2 value='From this experiment, the student can conclude that fungus ____________.\nChoose one \nA. test 1\nB. test2\nC. test3' ></text>";
+    var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
+    this.samplexml = '';
+    new_str_arr.forEach(element => {
+      this.samplexml += element;
+    });
+    console.log(this.samplexml);
+    this.qtextList = this.samplexml.match(/<text.[\s\S]*?>.*?<\/text>/g);
+    this.qimgList = this.samplexml.match(/<image.*?>/g);
+    console.log(this.qimgList, this.qtextList);
+    this.qhtml = [];
+    if (this.qtextList) {
+      for (var i = 0; i < this.qtextList.length; i++) {
+        var index = this.qtextList[i].match(/index=\d*/g);
+        index = index[0].substring(6, index[0].length);
+        var text = this.qtextList[i].match(/value='.[\s\S]*?'/g)[0];
+
+        this.qhtml.splice(
+          index,
+          0,
+          '<pre>' + text.substring(7, text.length - 1) + '</pre>'
+        );
+      }
+    }
+
+    if (this.qimgList) {
+      for (var i = 0; i < this.qimgList.length; i++) {
+        var index = this.qimgList[i].match(/index=\d*/g);
+        index = index[0].substring(6, index[0].length);
+        this.qhtml.splice(index, 0, this.qimgList[i]);
+      }
+    }
   }
 }
