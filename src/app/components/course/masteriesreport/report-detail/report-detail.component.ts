@@ -6,6 +6,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
 import { DataService } from '../../../../service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-report-detail',
@@ -432,6 +437,108 @@ export class ReportDetailComponent implements OnInit {
   }
   @HostListener('document:click', ['$event']) clickedOutside($event) {
     this.isdType = false;
+  }
+
+  downloadReport(type) {
+    this.dType = type;
+    var data: any = [
+      {
+        eid: 'e101',
+        ename: 'ravi',
+        esal: 1000
+      },
+      {
+        eid: 'e102',
+        ename: 'ram',
+        esal: 2000
+      },
+      {
+        eid: 'e103',
+        ename: 'rajesh',
+        esal: 3000
+      }
+    ];
+    var secondData: any = [
+      {
+        tid: 't101',
+        tname: 'ravi',
+        tsal: 1000
+      },
+      {
+        tid: 't102',
+        tname: 'ram',
+        tsal: 2000
+      },
+      {
+        tid: 't103',
+        tname: 'rajesh',
+        tsal: 3000
+      }
+    ];
+    if (type == 'XLS') {
+      console.log('masteriesReports~~~', this.masteriesReports);
+      this.downloadAsExcelFile(data, this.masteriesReports, 'sampleExcel');
+    }
+  }
+
+  formatDataToExport(data) {
+    console.log('formatDataToExport', data);
+    let table = [];
+    let columnA, columnB, columnC, columnD, columnE, columnF;
+    columnA = 'Mastery Name';
+    columnB = 'Not started';
+    columnC = 'In conslusive';
+    columnD = 'Struggling';
+    columnE = 'Mastered w/ difficulties';
+    columnF = 'Mastered w/ ease';
+
+    data.forEach((val, key) => {
+      console.log(val);
+      val.masteries.forEach((item, key) => {
+        console.log(item);
+        table.push({
+          [columnA]: item.shortMasteryName,
+          [columnB]: item.userMasteries.NEW.percentage,
+          [columnC]: item.userMasteries.INPROGRESS.percentage,
+          [columnD]: item.userMasteries.STRUGGLE.percentage,
+          [columnE]: item.userMasteries.MASTERED_WITH_DIFFICULT.percentage,
+          [columnF]: item.userMasteries.MASTERED_WITH_EASE.percentage
+        });
+      });
+    });
+    console.log('Table', table);
+    return table;
+  }
+
+  downloadAsExcelFile(
+    json: any[],
+    masteryReport: any[],
+    excelFileName: string
+  ) {
+    let jsonData = this.formatDataToExport(masteryReport);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(jsonData);
+    console.log('worksheet', worksheet);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet, test: secondWorksheet },
+      SheetNames: ['data', 'test']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
   }
 
   cancelModal() {
