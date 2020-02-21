@@ -1,6 +1,6 @@
 <div class="customer-tab pt-3">
   <div class="d-flex flex-row lesson-list">
-    <div *ngIf="LASD != null" class="timeline">
+    <div *ngIf="LASD != null && loading == false" class="timeline">
       <div
         [ngStyle]="{ left: i * 80 + 'px' }"
         class="single-date"
@@ -95,7 +95,6 @@
     <div class="d-flex justify-content-between">
       <div class="d-flex flex-column">
         <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
-
         <div class="d-flex lesson-time" style="margin-bottom:15px">
           <span>
             {{ selectedLesson?.startDate | utcTime }} -
@@ -350,41 +349,17 @@
     <div *ngIf="loading == true" class="student-lists row ">
       <div
         class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex align-items-center"
-        style="border: 0.5px solid #f2f4f5; border-radius: 40px; padding:10px 10px 10px 5px;margin:10px;
-      background: #ffffff;"
       >
-        <div class="d-flex align-items-center">
-          <div class="align-self-center justify-content-center pl-2">
-            <div class="std-img-wrap">
-              <p class="shine" style="width: 48px; height: 48px;"></p>
-            </div>
-          </div>
-          <div class="single-user-info d-flex">
-            <p
-              class="shine"
-              style="width: 200px; height: 20px;background: #f2f4f5;"
-            ></p>
-          </div>
-        </div>
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
       </div>
       <div
         class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex align-items-center"
-        style="border: 0.5px solid #f2f4f5; border-radius: 40px; padding:10px 10px 10px 5px;margin:10px;
-      background: #ffffff;"
       >
-        <div class="d-flex align-items-center">
-          <div class="align-self-center justify-content-center pl-2">
-            <div class="std-img-wrap">
-              <p class="shine" style="width: 48px; height: 48px;"></p>
-            </div>
-          </div>
-          <div class="single-user-info d-flex">
-            <p
-              class="shine"
-              style="width: 200px; height: 20px;background: #f2f4f5;"
-            ></p>
-          </div>
-        </div>
+        <content-loader>
+          <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
+        </content-loader>
       </div>
     </div>
 
@@ -662,9 +637,7 @@
                             >
                             -
                             <span
-                              >{{
-                                makeup.makeupCourse.endTime.hr | timeFormat
-                              }}
+                              >{{ makeup.makeupCourse.endTime.hr | timeFormat }}
                               :
                               {{ makeup.makeupCourse.endTime.min | timeFormat }}
                               {{ makeup.makeupCourse.endTime.meridiem }}</span
