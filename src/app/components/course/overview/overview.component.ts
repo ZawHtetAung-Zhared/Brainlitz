@@ -17,24 +17,6 @@ export class OverviewComponent implements OnInit {
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
-  // testObjArr = [
-  //   [
-  //     {
-  //       Name: 'M1'
-  //     },
-  //     {
-  //       Name: 'M2'
-  //     }
-  //   ],
-  //   [
-  //     {
-  //       Name: 'M3'
-  //     },
-  //     {
-  //       Name: 'M4'
-  //     }
-  //   ]
-  // ];
 
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
@@ -62,6 +44,7 @@ export class OverviewComponent implements OnInit {
   public scheduled: any = 0;
   public custom: any = 0;
   public outerArray: any;
+  public coursetype: any;
 
   public lessonList: any = {
     attendance: '',
@@ -636,6 +619,7 @@ export class OverviewComponent implements OnInit {
         this.pplLists = res.courseInfo.students;
         this.customerlist = this.pplLists.slice(0, 8);
         this.invoices = res.courseInfo.invoices;
+        this.coursetype = res.courseInfo.type;
 
         console.log('Invoice', this.invoices);
         console.log('UO', this.pplLists, 'CL', this.customerlist);
