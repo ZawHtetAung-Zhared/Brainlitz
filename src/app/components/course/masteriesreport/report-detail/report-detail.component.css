@@ -253,3 +253,20 @@
     'ss03' on, 'case' on;
   color: #5c6773;
 }
+
+.ans-box {
+  border: 1px solid #edeef0;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.correct-box {
+  border: 2px solid #00a653;
+}
+
+.modal-hg {
+  max-height: 85vh;
+  overflow: scroll;
+  padding: 32px;
+}

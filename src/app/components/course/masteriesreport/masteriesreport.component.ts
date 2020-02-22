@@ -22,9 +22,7 @@ export class MasteriesreportComponent implements OnInit {
 
   constructor(private _service: appService, private _data: DataService) {}
 
-  ngOnChanges() {
-    this.setupOption(1);
-  }
+  ngOnChanges() {}
 
   setupOption(idx) {
     // var yMax = 40;
@@ -206,6 +204,7 @@ export class MasteriesreportComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.masteriesReports);
     this.getAllGraph();
   }
 

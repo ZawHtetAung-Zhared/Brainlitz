@@ -463,6 +463,9 @@ export class ReportDetailComponent implements OnInit {
         this.masteriesReports,
         this.masteriesReports[0].name
       );
+    } else {
+      console.log(type);
+      window.print();
     }
   }
 
@@ -573,12 +576,10 @@ export class ReportDetailComponent implements OnInit {
   }
 
   setupQuiz() {
-    console.log(this.samplexml);
     var ques =
       "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
     $('#testQuestion').html(this.samplexml.data.quiz.question);
     var textElems = $('text');
-    console.log('textElems', textElems);
     for (var j = 0; j < textElems.length; j++) {
       var currElem = textElems[j];
       $(textElems[j]).html(
@@ -598,19 +599,10 @@ export class ReportDetailComponent implements OnInit {
     this.samplexml.data.quiz.answers.forEach(function(element) {
       $('#' + element._id).html(element.answer);
       var textElems = $('text');
-      console.log('textElems', textElems);
       for (var j = 0; j < textElems.length; j++) {
-        console.log(textElems[j]);
-        var currElem = textElems[j];
         $(textElems[j]).html(
-          '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
+          '<div>' + $(textElems[j]).attr('value') + '</div>'
         );
-      }
-
-      var imgElems = $('img');
-      for (var i = 0; i < imgElems.length; i++) {
-        $(imgElems[i]).attr('class', 'pt-4');
-        // $(imgElems[i]).html('<div class="pt-4">'+$(imgElems[i]).attr('value')+'</div>');
       }
     });
   }
