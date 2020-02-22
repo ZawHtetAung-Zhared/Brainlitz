@@ -845,7 +845,9 @@ span.scrollup.show:hover:before {
   .v-wrapper1,
   .v-wrapper1 *,
   #schedule-timetable-wrap,
-  #schedule-timetable-wrap * {
+  #schedule-timetable-wrap *,
+  .mastery-box,
+  .mastery-box * {
     visibility: visible;
     /* position:absolute; */
     left: 0;
@@ -853,6 +855,12 @@ span.scrollup.show:hover:before {
 
     /* make visible modal body and header */
     /*display: block;*/
+  }
+
+  /* background color for brainlitz image in printing top 5 masteries */
+  .sw-wrap {
+    -webkit-print-color-adjust: exact !important;
+    background: #ffbf00;
   }
 
   .dis-courseFee *,

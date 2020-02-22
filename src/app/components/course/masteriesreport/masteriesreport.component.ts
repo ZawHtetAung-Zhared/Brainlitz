@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import sampleData from './sampleData';
 import { appService } from '../../../service/app.service';
+import { DataService } from '../../../service/data.service';
 
 @Component({
   selector: 'app-masteriesreport',
@@ -19,11 +20,9 @@ export class MasteriesreportComponent implements OnInit {
   public isExpand: boolean = false;
   // public
 
-  constructor(private _service: appService) {}
+  constructor(private _service: appService, private _data: DataService) {}
 
-  ngOnChanges() {
-    this.setupOption(1);
-  }
+  ngOnChanges() {}
 
   setupOption(idx) {
     // var yMax = 40;
@@ -166,6 +165,7 @@ export class MasteriesreportComponent implements OnInit {
     let inprogressData = [];
     let notTakenData = [];
     let easeData = [];
+    let diffData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
       yAxisData.push(++index);
@@ -176,7 +176,8 @@ export class MasteriesreportComponent implements OnInit {
       // notTakenData.push(item.lessons.notTaken);
 
       strugglingData.push(item.userMasteries.STRUGGLE.percentage);
-      easeData.push(item.userMasteries.MASTERED.percentage);
+      easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
+      diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
       inprogressData.push(item.userMasteries.INPROGRESS.percentage);
       notTakenData.push(item.userMasteries.NEW.percentage);
     });
@@ -184,7 +185,7 @@ export class MasteriesreportComponent implements OnInit {
     this.plotOption.series[0].data = strugglingData;
     this.plotOption.series[1].data = notTakenData;
     this.plotOption.series[2].data = inprogressData;
-    this.plotOption.series[3].data = easeData;
+    this.plotOption.series[3].data = diffData;
     this.plotOption.series[4].data = easeData;
     this.plotGraph(idx);
   }
@@ -203,6 +204,7 @@ export class MasteriesreportComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.masteriesReports);
     this.getAllGraph();
   }
 
@@ -222,20 +224,31 @@ export class MasteriesreportComponent implements OnInit {
     //   }
     // }, 200);
 
-    this._service.getMasteryReports().subscribe(
-      (res: any) => {
-        console.log(res);
-        this.masteriesReports = res.data;
-        setTimeout(() => {
-          for (var i = 0; i < this.masteriesReports.length; i++) {
-            this.reportItems = this.masteriesReports[i].masteries;
-            this.setupOption(i);
-          }
-        }, 200);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this._data.getMasteryData() == undefined) {
+      this._service.getMasteryReports().subscribe(
+        (res: any) => {
+          console.log(res);
+          this._data.setMasteryData(res);
+          this.masteriesReports = res.data.masteryReport;
+          setTimeout(() => {
+            for (var i = 0; i < this.masteriesReports.length; i++) {
+              this.reportItems = this.masteriesReports[i].masteries;
+              this.setupOption(i);
+            }
+          }, 200);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.masteriesReports = this._data.getMasteryData().data.masteryReport;
+      setTimeout(() => {
+        for (var i = 0; i < this.masteriesReports.length; i++) {
+          this.reportItems = this.masteriesReports[i].masteries;
+          this.setupOption(i);
+        }
+      }, 200);
+    }
   }
 }

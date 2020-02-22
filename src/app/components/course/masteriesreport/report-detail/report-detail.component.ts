@@ -4,7 +4,13 @@ import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../../service/app.service';
+import { DataService } from '../../../../service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-report-detail',
@@ -17,6 +23,7 @@ export class ReportDetailComponent implements OnInit {
   public active = 'courses';
   public dType: any;
   public isdType: boolean = false;
+  public challengeData: any;
   public modalReference: any;
   public samplexml: any;
   public qtextList: any;
@@ -134,26 +141,41 @@ export class ReportDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _service: appService,
+    private _data: DataService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.dType = 'XLS';
-    this._service.getMasteryReports().subscribe(
-      (res: any) => {
-        this.masteriesReports = res.data;
-        this.masteriesReports = this.masteriesReports.filter(function(res) {
-          return res.id == localStorage.getItem('mastery_reportId');
-        });
-        this.reportItems = this.masteriesReports[0].masteries;
-        if (this.isAdvance) this.seriesData = this.advanceSeries;
-        else this.seriesData = this.normalSeries;
-        this.setupOption(this.isExpand, this.isAdvance);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this._data.getMasteryData() == undefined) {
+      this._service.getMasteryReports().subscribe(
+        (res: any) => {
+          this._data.setMasteryData(res);
+          this.challengeData = res.data.challengingMasteries;
+          this.masteriesReports = res.data.masteryReport;
+          this.masteriesReports = this.masteriesReports.filter(function(res) {
+            return res.id == localStorage.getItem('mastery_reportId');
+          });
+          this.reportItems = this.masteriesReports[0].masteries;
+          if (this.isAdvance) this.seriesData = this.advanceSeries;
+          else this.seriesData = this.normalSeries;
+          this.setupOption(this.isExpand, this.isAdvance);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.challengeData = this._data.getMasteryData().data.challengingMasteries;
+      this.masteriesReports = this._data.getMasteryData().data.masteryReport;
+      this.masteriesReports = this.masteriesReports.filter(function(res) {
+        return res.id == localStorage.getItem('mastery_reportId');
+      });
+      this.reportItems = this.masteriesReports[0].masteries;
+      if (this.isAdvance) this.seriesData = this.advanceSeries;
+      else this.seriesData = this.normalSeries;
+      this.setupOption(this.isExpand, this.isAdvance);
+    }
 
     // for sample data
     // this.masteriesReports = this.masteriesReports.filter(function(res) {
@@ -171,11 +193,11 @@ export class ReportDetailComponent implements OnInit {
     } else {
       this.isSticky = false;
     }
-    if (window.pageYOffset > 720) {
-      this.isStickyInnerHeader = true;
-    } else {
-      this.isStickyInnerHeader = false;
-    }
+    // if (window.pageYOffset > 720) {
+    //   this.isStickyInnerHeader = true;
+    // } else {
+    //   this.isStickyInnerHeader = false;
+    // }
   }
 
   backTo() {
@@ -314,8 +336,8 @@ export class ReportDetailComponent implements OnInit {
         yAxisData.push(++index + ' ' + item.shortMasteryName);
       else yAxisData.push(++index);
       strugglingData.push(item.userMasteries.STRUGGLE.percentage);
-      diffData.push(item.userMasteries.MASTERED.percentage);
-      easeData.push(item.userMasteries.MASTERED.percentage);
+      diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
+      easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
       inprogressData.push(item.userMasteries.INPROGRESS.percentage);
       notTakenData.push(item.userMasteries.NEW.percentage);
     });
@@ -370,12 +392,25 @@ export class ReportDetailComponent implements OnInit {
     graph.on('click', function(params) {
       // console.log(params);
       if (params.componentType === 'yAxis') {
-        // console.log(_self.plotOption.yAxis.data.indexOf(params.value));
-        _self.samplexml =
+        var id =
           _self.masteriesReports[0].masteries[
             _self.plotOption.yAxis.data.indexOf(params.value)
-          ].question;
-        _self.openModal(_self.questionModal);
+          ].masteryId;
+        _self._service.getMasteryQuestion(id).subscribe(
+          (res: any) => {
+            console.log(res);
+            _self.samplexml = res;
+            _self.openModal(_self.questionModal);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+        // _self.samplexml =
+        //   _self.masteriesReports[0].masteries[
+        //     _self.plotOption.yAxis.data.indexOf(params.value)
+        //   ].question;
+        // _self.openModal(_self.questionModal);
 
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
@@ -418,6 +453,109 @@ export class ReportDetailComponent implements OnInit {
     this.isdType = false;
   }
 
+  downloadReport(type) {
+    this.dType = type;
+    if (type == 'XLS') {
+      console.log('challengeData', this.challengeData);
+      console.log('masteriesReports~~~', this.masteriesReports);
+      this.downloadAsExcelFile(
+        this.challengeData,
+        this.masteriesReports,
+        this.masteriesReports[0].name
+      );
+    } else {
+      console.log(type);
+      window.print();
+    }
+  }
+
+  formatDataToExport(data, type) {
+    console.log('formatDataToExport', data);
+    let table = [];
+    let columnA, columnB, columnC, columnD, columnE, columnF;
+    switch (type) {
+      case 'mastery_report':
+        columnA = 'Mastery Name';
+        columnB = 'Not started';
+        columnC = 'In conslusive';
+        columnD = 'Struggling';
+        columnE = 'Mastered w/ difficulties';
+        columnF = 'Mastered w/ ease';
+        console.log('mastery_report', data);
+        data.forEach((val, key) => {
+          val.masteries.forEach((item, key) => {
+            table.push({
+              [columnA]: item.shortMasteryName,
+              [columnB]: item.userMasteries.NEW.percentage,
+              [columnC]: item.userMasteries.INPROGRESS.percentage,
+              [columnD]: item.userMasteries.STRUGGLE.percentage,
+              [columnE]: item.userMasteries.MASTERED_WITH_DIFFICULT.percentage,
+              [columnF]: item.userMasteries.MASTERED_WITH_EASE.percentage
+            });
+          });
+        });
+        break;
+      case 'challenge_data':
+        console.log('challenge_data', data);
+        columnA = 'Level';
+        columnB = 'PD Description';
+        columnC = 'PD Description For Student';
+        columnD = 'Percentage';
+        data.forEach((val, key) => {
+          table.push({
+            [columnA]: key + 1,
+            [columnB]: val.pdDescription,
+            [columnC]: val.descriptionStudent,
+            [columnD]: val.percentage
+          });
+        });
+        break;
+      default:
+        break;
+    }
+    console.log('Table', table);
+    return table;
+  }
+
+  downloadAsExcelFile(
+    challengeData: any[],
+    masteryReport: any[],
+    excelFileName: string
+  ) {
+    let challengeJson = this.formatDataToExport(
+      challengeData,
+      'challenge_data'
+    );
+    let masteryJson = this.formatDataToExport(masteryReport, 'mastery_report');
+    console.log('challengeJson', challengeJson);
+    console.log('masteryJson', masteryJson);
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(challengeJson);
+    const secondWorksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      masteryJson
+    );
+    console.log('worksheet', worksheet);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { challenge_data: worksheet, mastery_report: secondWorksheet },
+      SheetNames: ['challenge_data', 'mastery_report']
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    //const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+  }
+
   cancelModal() {
     console.log('....');
     this.modalReference.close();
@@ -425,38 +563,73 @@ export class ReportDetailComponent implements OnInit {
 
   @ViewChild('questionModal') questionModal: any;
   openModal(modal) {
-    var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
-    this.samplexml = '';
-    new_str_arr.forEach(element => {
-      this.samplexml += element;
-    });
-    this.qtextList = this.samplexml.match(/<text.*?>.*?<\/text>/g);
-    this.qimgList = this.samplexml.match(/<image.*?>/g);
-    console.log(this.samplexml);
-    console.log(this.qimgList, this.qtextList);
-
-    this.setupQuestion();
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+    this.setupQuiz();
+    setTimeout(() => {
+      this.setupAnswer();
+    }, 200);
+    // this.setupQuestion();
+  }
+
+  setupQuiz() {
+    var ques =
+      "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
+    $('#testQuestion').html(this.samplexml.data.quiz.question);
+    var textElems = $('text');
+    for (var j = 0; j < textElems.length; j++) {
+      var currElem = textElems[j];
+      $(textElems[j]).html(
+        '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
+      );
+    }
+
+    var imgElems = $('img');
+    for (var i = 0; i < imgElems.length; i++) {
+      $(imgElems[i]).attr('class', 'pt-4');
+      // $(imgElems[i]).html('<div class="pt-4">'+$(imgElems[i]).attr('value')+'</div>');
+    }
+  }
+
+  setupAnswer() {
+    var ans = "<text index=0 value='cannot grow without food' ></text>";
+    this.samplexml.data.quiz.answers.forEach(function(element) {
+      $('#' + element._id).html(element.answer);
+      var textElems = $('text');
+      for (var j = 0; j < textElems.length; j++) {
+        $(textElems[j]).html(
+          '<div>' + $(textElems[j]).attr('value') + '</div>'
+        );
+      }
+    });
   }
 
   setupQuestion() {
+    this.samplexml =
+      "<text index=0 value='A student took a slice of bread and cut it into two. He toasted one of the pieces until it was dry. He placed the two pieces of bread on a plate and left it in the kitchen. After a week, the student noticed fungi growing on the piece of bread that was not toasted and no fungi on the toasted bread.' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/LTN-01-01/Assets/questionsAssets/ltn-01-01-01.jpg' ><text index=2 value='From this experiment, the student can conclude that fungus ____________.\nChoose one \nA. test 1\nB. test2\nC. test3' ></text>";
+    var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
+    this.samplexml = '';
+    new_str_arr.forEach(element => {
+      this.samplexml += element;
+    });
+    console.log(this.samplexml);
+    this.qtextList = this.samplexml.match(/<text.[\s\S]*?>.*?<\/text>/g);
+    this.qimgList = this.samplexml.match(/<image.*?>/g);
+    console.log(this.qimgList, this.qtextList);
     this.qhtml = [];
     if (this.qtextList) {
       for (var i = 0; i < this.qtextList.length; i++) {
         var index = this.qtextList[i].match(/index=\d*/g);
         index = index[0].substring(6, index[0].length);
-        console.log(parseInt(index));
-        console.log(this.qtextList[i].match(/value='.*?'/g));
-        var text = this.qtextList[i].match(/value='.*?'/g)[0];
+        var text = this.qtextList[i].match(/value='.[\s\S]*?'/g)[0];
 
         this.qhtml.splice(
           index,
           0,
-          '<span>' + text.substring(7, text.length - 1) + '</span>'
+          '<pre>' + text.substring(7, text.length - 1) + '</pre>'
         );
       }
     }
@@ -465,11 +638,8 @@ export class ReportDetailComponent implements OnInit {
       for (var i = 0; i < this.qimgList.length; i++) {
         var index = this.qimgList[i].match(/index=\d*/g);
         index = index[0].substring(6, index[0].length);
-        console.log(parseInt(index));
         this.qhtml.splice(index, 0, this.qimgList[i]);
       }
     }
-
-    console.log(this.qhtml);
   }
 }

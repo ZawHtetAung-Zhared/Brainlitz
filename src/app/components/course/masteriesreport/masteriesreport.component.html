@@ -1,4 +1,4 @@
-<div *ngIf="!isExpand" class="d-flex flex-column">
+<div *ngIf="masteriesReports" class="d-flex flex-column">
   <div class="d-flex align-items-center mt-4">
     <span class="mastery-title">Mastery reports</span>
     <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
@@ -7,10 +7,11 @@
     <div class="d-flex">
       <div class="mt-4 mb-4" style="width: 30%">
         <div class="d-flex flex-column">
-          <span class="mastery-title"> {{ report.name }} </span>
-          <span class="light-txt">
-            <!-- {{ report.data.length }} masteries  -->
-            {{ report.totalMasteryCount }} masteries
+          <span *ngIf="report.name" class="mastery-title">
+            {{ report.name }}
+          </span>
+          <span *ngIf="report.masteries" class="light-txt">
+            {{ report.masteries.length }} masteries
           </span>
           <button
             class="btn-detail btn mt-4"
@@ -57,10 +58,10 @@
   </div>
 </div>
 
-<div *ngIf="isExpand">
-  <!-- <div class="d-flex">
+<!-- <div *ngIf="isExpand">
+  <div class="d-flex">
     <span (click)="getAllGraph()"> Mastery reports </span>
-  </div> -->
-</div>
+  </div>
+</div> -->
 
 <router-outlet></router-outlet>

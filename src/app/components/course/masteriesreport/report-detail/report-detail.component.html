@@ -21,8 +21,8 @@
       </div>
       <div class="d-flex justify-content-end pt-1">
         <div *ngIf="isdType" class="doption-box">
-          <div class="option-item" (click)="dType = 'XLS'">XLS</div>
-          <div class="option-item" (click)="dType = 'PDF'">PDF</div>
+          <div class="option-item" (click)="downloadReport('XLS')">XLS</div>
+          <div class="option-item" (click)="downloadReport('PDF')">PDF</div>
         </div>
       </div>
     </div>
@@ -39,61 +39,26 @@
                 <img src="./assets/img/tiny-brainlitz.svg" />
               </span>
             </div>
-            <div class="light-txt2 light-txt">What are masteries??</div>
+            <div class="light-txt2 light-txt">What are masteries?</div>
           </div>
         </div>
         <!-- loop start -->
-        <div class="mt-4 d-flex flex-column">
-          <div class="no-circle">1</div>
+        <div
+          *ngFor="let challenge of challengeData; let i = index"
+          class="mt-4 d-flex flex-column"
+        >
+          <div class="no-circle">{{ i + 1 }}</div>
           <div class="mastery-body">
-            Objects that give off light can be found in Nature or in things that
-            we make. Others may only reflect light from other places. Learn to
-            distinguish those that give off light from those that do not.
-            <span class="green-txt"
-              >Identify the sources of light and objects that reflect
-              light.</span
-            >
+            {{ challenge.descriptionStudent }}
+            <span class="green-txt">{{ challenge.pdDescription }}</span>
           </div>
           <div class="mastery-body txt-bold">
-            66% of students have yet to meet the expectation of this mastery.
+            {{ challenge.percentage }}% of students have yet to meet the
+            expectation of this mastery.
           </div>
           <div class="split-line"></div>
         </div>
         <!-- loop end -->
-        <!-- test data start -->
-        <div class="mt-4 d-flex flex-column">
-          <div class="no-circle">2</div>
-          <div class="mastery-body">
-            The nature of a material's surface affects how much light it can
-            reflect. We can compare the reflective abilities of different
-            materials by subjecting them to the same light source and observing
-            the results.
-            <span class="green-txt"
-              >Analyse experimental data to identify the reflective ability of
-              different materials when a light source shines on it.
-            </span>
-          </div>
-          <div class="mastery-body txt-bold">
-            50% of students have yet to meet the expectation of this mastery.
-          </div>
-          <div class="split-line"></div>
-        </div>
-        <div class="mt-4 d-flex flex-column">
-          <div class="no-circle">3</div>
-          <div class="mastery-body">
-            The ability of an object to reflect light to our eyes affects how
-            well it can be seen. The more light is reflected from it, the
-            greater is its visibility.
-            <span class="green-txt"
-              >Reflective ability and how it enables objects to be seen in
-              varying degrees.</span
-            >
-          </div>
-          <div class="mastery-body txt-bold">
-            39% of students have yet to meet the expectation of this mastery.
-          </div>
-        </div>
-        <!-- test data end -->
       </div>
     </div>
 
@@ -173,10 +138,10 @@
 </div>
 
 <ng-template #questionModal let-c="close" let-d="dismiss">
-  <div class="d-flex flex-column modal-body">
-    <div class="d-flex w-100">
+  <div class="d-flex flex-column modal-body modal-hg">
+    <div class="d-flex w-100 mb-4">
       <h3 class="modal-title d-flex mr-auto">
-        Question Modal
+        {{ samplexml.data.mastery.shortMasteryName }}
       </h3>
       <button
         (click)="cancelModal()"
@@ -189,9 +154,18 @@
         </span>
       </button>
     </div>
-    <!-- <div [innerHTML]="qhtml"></div> -->
-    <div class="testing" *ngFor="let item of qhtml">
-      <div class="pt-4" [innerHTML]="item"></div>
+
+    <div id="testQuestion"></div>
+    <div *ngFor="let ans of samplexml.data.quiz.answers" class="mt-4">
+      <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+      <div
+        id="{{ ans._id }}"
+        class="ans-box"
+        [ngClass]="{ 'correct-box': ans.correctness == true }"
+      ></div>
     </div>
+    <!-- <div class="testing" *ngFor="let item of qhtml">
+      <div class="pt-4" [innerHTML]="item"></div>
+    </div> -->
   </div>
 </ng-template>
