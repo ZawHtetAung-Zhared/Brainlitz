@@ -17,6 +17,7 @@ export class OverviewComponent implements OnInit {
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
+  public loading = true;
 
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
@@ -659,6 +660,9 @@ export class OverviewComponent implements OnInit {
 
           this.addlesson(this.lessonList);
         }
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
       },
       err => {
         console.log(err);

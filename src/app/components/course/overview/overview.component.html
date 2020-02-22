@@ -1,4 +1,8 @@
-<div class="mastery-view" [ngClass]="{ hide: !sparkwerkz }">
+<div
+  class="mastery-view"
+  [ngClass]="{ hide: !sparkwerkz }"
+  *ngIf="loading == false"
+>
   <div class="mastery-view-head">
     <h3>Masteries reports</h3>
     <span class="spaninline">
@@ -120,7 +124,11 @@
     </div>
   </div>
 </div>
-<div class="card-column" [ngClass]="{ orphan: !sparkwerkz }">
+<div
+  class="card-column"
+  [ngClass]="{ orphan: !sparkwerkz }"
+  *ngIf="loading == false"
+>
   <div class="customer-view">
     <div class="cardhead">
       <h3>Customers</h3>
@@ -366,4 +374,131 @@
       </div>
     </div>
   </div> -->
+</div>
+
+<!-- apo loading -->
+
+<div
+  class="mastery-view"
+  [ngClass]="{ hide: !sparkwerkz }"
+  *ngIf="loading == true"
+>
+  <div class="mastery-view-head">
+    <div class="bd-example">
+      <content-loader>
+        <svg:rect x="20" y="20" rx="0" ry="0" width="80%" height="4px" />
+        <svg:rect x="30" y="30" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="30" y="40" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="30" y="50" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="25" y="60" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="25" y="70" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="25" y="80" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="20" y="90" rx="0" ry="0" width="80%" height="4px" />
+        <svg:rect x="20" y="100" rx="0" ry="0" width="80%" height="4px" />
+      </content-loader>
+    </div>
+  </div>
+  <div class="mastery-view-footer">
+    <div style="float: right">
+      <button class="detail-btn white">
+        More detail
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card-column" [ngClass]="{ orphan: !sparkwerkz }" *ngIf="loading == true">
+  <div class="customer-view">
+    <content-loader>
+      <svg:rect x="20" y="20" rx="0" ry="0" width="100px" height="10px" />
+      <svg:rect x="30" y="70" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="300" y="70" rx="0" ry="0" width="60px" height="10px" />
+      <svg:rect x="300" y="90" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
+    </content-loader>
+  </div>
+
+  <div class="attendance-view">
+    <content-loader>
+      <svg:rect x="20" y="20" rx="0" ry="0" width="100px" height="10px" />
+      <svg:rect x="30" y="70" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="300" y="70" rx="0" ry="0" width="60px" height="10px" />
+      <svg:rect x="300" y="90" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
+    </content-loader>
+  </div>
+
+  <div class="tasks-view" [ngClass]="{ hide: !sparkwerkz }">
+    <content-loader>
+      <svg:rect x="20" y="20" rx="0" ry="0" width="100px" height="10px" />
+      <svg:rect x="30" y="70" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="300" y="70" rx="0" ry="0" width="60px" height="10px" />
+      <svg:rect x="300" y="90" rx="0" ry="0" width="40px" height="10px" />
+      <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
+    </content-loader>
+  </div>
+</div> -->
+
+<div
+  class="card-column"
+  [ngClass]="{ orphan: !sparkwerkz }"
+  *ngIf="loading == true"
+>
+  <div class="customer-view">
+    <div class="cardhead"></div>
+    <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
+      <content-loader>
+        <svg:rect x="20" y="20" rx="0" ry="0" width="100px" height="10px" />
+        <svg:rect x="30" y="70" rx="0" ry="0" width="40px" height="10px" />
+        <svg:rect x="300" y="70" rx="0" ry="0" width="60px" height="10px" />
+        <svg:rect x="300" y="90" rx="0" ry="0" width="40px" height="10px" />
+        <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
+      </content-loader>
+    </div>
+    <div class="cardfoot" style="height: 20%;">
+      <div style="float: right">
+        <button class="detail-btn">
+          <!-- (click)="toggle()" -->
+          Enroll customer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="attendance-view">
+    <div class="cardhead"></div>
+    <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
+      <content-loader>
+        <svg:rect x="20" y="20" rx="0" ry="0" width="100px" height="10px" />
+        <svg:rect x="30" y="70" rx="0" ry="0" width="40px" height="10px" />
+        <svg:rect x="300" y="70" rx="0" ry="0" width="60px" height="10px" />
+        <svg:rect x="300" y="90" rx="0" ry="0" width="40px" height="10px" />
+        <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
+      </content-loader>
+    </div>
+    <div class="cardfoot" style="height: 25%;">
+      <div style="float: right">
+        <button class="detail-btn">
+          Set attendance
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tasks-view" [ngClass]="{ hide: !sparkwerkz }">
+    <div class="cardhead"></div>
+    <div class="cardbody">
+      <content-loader>
+        <svg:rect x="10" y="20" rx="0" ry="0" width="100px" height="10px" />
+        <svg:rect x="20" y="40" rx="0" ry="0" width="40px" height="10px" />
+      </content-loader>
+    </div>
+    <div class="cardfoot">
+      <div style="float: right">
+        <button class="detail-btn">
+          Assign task
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
