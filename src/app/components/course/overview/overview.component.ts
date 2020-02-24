@@ -784,7 +784,14 @@ export class OverviewComponent implements OnInit {
       this.attendance = this.indexDay.attendance;
       this.total = this.lessonList[this.index].total;
       console.log('total', this.total);
-
+      if (this.index == this.lessonList.length - 1) {
+        console.log('Already At the end', this.index);
+        this.nextflag = false;
+      }
+      if (this.index == 0) {
+        console.log('Already At the start', this.index);
+        this.prevflag = false;
+      }
       for (var j = 0; j < this.attendance.length; j++) {
         if (this.attendance[j].attendance == null) {
           this.present = 0;

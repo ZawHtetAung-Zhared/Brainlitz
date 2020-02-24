@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import sampleData from './sampleData';
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-masteriesreport',
@@ -18,7 +19,11 @@ export class MasteriesreportComponent implements OnInit {
   public noData: boolean = true;
   // public
 
-  constructor(private _service: appService, private _data: DataService) {}
+  constructor(
+    private _service: appService,
+    private _data: DataService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnChanges() {}
 
@@ -246,9 +251,13 @@ export class MasteriesreportComponent implements OnInit {
                 this.setupOption(i);
               }
             }, 200);
-          } else this.noData = true;
+          } else {
+            this.noData = true;
+            this.toastr.error('No masteries report for this course.');
+          }
         },
         err => {
+          this.toastr.error(err.message);
           console.log(err);
           this.noData = true;
         }
@@ -265,7 +274,10 @@ export class MasteriesreportComponent implements OnInit {
             this.setupOption(i);
           }
         }, 1200);
-      } else this.noData = true;
+      } else {
+        this.noData = true;
+        this.toastr.error('No masteries report for this course.');
+      }
     }
   }
 }
