@@ -130,7 +130,7 @@
   </div>
   <div class="mastery-view-footer">
     <div style="float: right">
-      <button class="detail-btn white">
+      <button class="detail-btn white" (click)="goToMasteryReport()">
         More detail
       </button>
     </div>
@@ -410,13 +410,13 @@
       </content-loader>
     </div>
   </div>
-  <div class="mastery-view-footer">
+  <!-- <div class="mastery-view-footer">
     <div style="float: right">
       <button class="detail-btn white">
         More detail
       </button>
     </div>
-  </div>
+  </div> -->
 </div>
 
 <!-- <div class="card-column" [ngClass]="{ orphan: !sparkwerkz }" *ngIf="loading == true">

@@ -609,6 +609,11 @@ export class OverviewComponent implements OnInit {
     localStorage.setItem('userType', 'customer');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
+  goToMasteryReport() {
+    this.router.navigateByUrl(
+      `/coursedetail/${this.courseId}/masteries-report`
+    );
+  }
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   swipe(e: TouchEvent, when: string): void {
