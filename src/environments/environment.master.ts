@@ -6,5 +6,6 @@ export const environment = {
   orgID: '5b063e2636f2e0f83cdbac88',
   apiurl: 'https://app.brainlitz.com',
   courseTypeDisabled: true,
-  livechatDisabled: true
+  livechatDisabled: true,
+  environmentName: 'production'
 };
