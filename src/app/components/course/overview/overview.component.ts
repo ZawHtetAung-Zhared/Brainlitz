@@ -20,6 +20,7 @@ export class OverviewComponent implements OnInit {
   testing: any = [1, 2];
   testingli: any = [1, 2];
   public loading = true;
+  public loadingMastery = true;
 
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
@@ -964,6 +965,7 @@ export class OverviewComponent implements OnInit {
   getMastery() {
     this._service.getMasteryReports().subscribe(
       (res: any) => {
+        this.loadingMastery = false;
         this._data.setMasteryData(res);
         this.mastery = res.data.masteryReport;
         console.log(this.mastery);
