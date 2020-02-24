@@ -50,6 +50,7 @@ export class CourseListComponent implements OnInit {
   public iswordcount: boolean = false;
   private isMidStick: boolean = false;
   private navIsFixed: boolean = false;
+  private oldValue = 0;
   private searchKeyword: any = null;
   private activePlanId: any = '';
   private removeHeight: boolean = false;
@@ -100,8 +101,7 @@ export class CourseListComponent implements OnInit {
       this.courseList = [];
     });
   }
-  private oldValue = 0;
-  private scrollDistance = 0;
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
@@ -118,6 +118,11 @@ export class CourseListComponent implements OnInit {
 
     this.isMidStick =
       window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
+
+    // if (window.innerHeight + window.scrollY === document.body.scrollHeight) {
+    //   console.log('bottom');
+    //   this.continuousScroll();
+    // }
 
     this.continuousScroll();
   }
@@ -143,58 +148,35 @@ export class CourseListComponent implements OnInit {
     //Subtract the two and conclude
     if (this.oldValue - newValue < 0) {
       // console.log('Direction Down', window.pageYOffset);
-      // this.scrollDistance = 262 + (287 * this.coursesResLength)
-      // console.log("window.scrollY",window.scrollY)
-      if (this.courseCollection != null && window.pageYOffset > 900) {
+      if (
+        this.courseCollection != null &&
+        window.innerHeight + window.scrollY === document.body.scrollHeight
+      ) {
+        //for current plan ID
         if (
           this.courseLoading == false &&
-          (this.courseCollection.totalPages ==
-            this.courseCollection.current_page ||
-            this.courseCollection.totalPages <
-              this.courseCollection.current_page)
+          this.courseCollection.current_page < this.courseCollection.totalPages
         ) {
-          //for changing plan ID
-          // console.log("next plan~~~")
-          // this.coursePlanCollection.map((item,index)=> {
-          //   if(item._id == this.selectedPlan && index+1 < this.coursePlanCollection.length && this.courseLoading == false){
-          //     console.log("next index",index+1)
-          //     let nextPlanId = this.coursePlanCollection[index+1]._id;
-          //     let nextPlanName = this.coursePlanCollection[index+1].name;
-          //     console.log(nextPlanId,nextPlanName)
-          //     this.getCourseswithPlanId(
-          //       nextPlanId,
-          //       nextPlanName,
-          //       null
-          //     );
-          //   }
-          // })
-        } else {
-          //for current plan ID
-          if (
-            this.courseLoading == false &&
-            this.courseCollection.courses.length == this.limit
-          ) {
-            //for next page
-            // console.log('call next page');
-            this.page = this.page + 1;
-            this.skip = this.courseCollection.courses.length;
-            if (this.searchKeyword == null || this.searchKeyword == undefined) {
-              this.getCoursesPerPlan(
-                this.selectedPlan,
-                this.limit,
-                this.skip,
-                this.page,
-                'onScroll'
-              );
-            } else {
-              this.simpleCourseSearchPerPlan(
-                this.selectedPlan,
-                this.limit,
-                this.skip,
-                this.page,
-                this.searchKeyword
-              );
-            }
+          //for next page
+          console.log('call next page');
+          this.page = this.page + 1;
+          this.skip = this.courseCollection.courses.length;
+          if (this.searchKeyword == null || this.searchKeyword == undefined) {
+            this.getCoursesPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page,
+              'onScroll'
+            );
+          } else {
+            this.simpleCourseSearchPerPlan(
+              this.selectedPlan,
+              this.limit,
+              this.skip,
+              this.page,
+              this.searchKeyword
+            );
           }
         }
       }
