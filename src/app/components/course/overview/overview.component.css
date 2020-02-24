@@ -354,24 +354,24 @@
   }
   .stu-no {
     left: 43% !important;
-    top: 17% !important;
+    top: 30% !important;
     font-family: 'Inter-UI-Semibold', Arial, sans-serif;
     font-size: 0.9em;
   }
   .stu {
     left: 32% !important;
-    top: 23% !important;
+    top: 35% !important;
     font-size: 0.9em;
   }
   .mast-no {
     left: 43% !important;
-    top: 38% !important;
+    top: 50% !important;
     font-family: 'Inter-UI-Semibold', Arial, sans-serif;
     font-size: 0.9em;
   }
   .mast {
     left: 26% !important;
-    top: 45% !important;
+    top: 55% !important;
     font-size: 0.9em;
   }
 }
@@ -559,21 +559,21 @@
 }
 .stu-no {
   left: 45%;
-  top: 0%;
+  top: 25%;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .stu {
-  left: 38%;
-  top: 10%;
+  left: 39%;
+  top: 33%;
 }
 .mast-no {
   left: 45%;
-  top: 30%;
+  top: 52%;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .mast {
-  left: 33%;
-  top: 40%;
+  left: 34%;
+  top: 60%;
 }
 .disabled {
   pointer-events: none;
@@ -595,7 +595,6 @@
 .canvas-size {
   width: 100%;
   height: 100%;
-  margin-top: -50px;
 }
 .mastery-view-head > h3 {
   margin: 15px;

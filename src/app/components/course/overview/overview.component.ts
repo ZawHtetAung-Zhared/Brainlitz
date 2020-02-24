@@ -825,6 +825,10 @@ export class OverviewComponent implements OnInit {
         this.index = 0;
         this.prevflag = false;
       }
+      if (this.index == this.lessonList.length - 1) {
+        console.log('Already At the end', this.index);
+        this.nextflag = false;
+      }
       this.indexDay = this.lessonList[this.index];
       console.log(this.indexDay, 'IDex');
       this.attendance = this.indexDay.attendance;
@@ -952,6 +956,7 @@ export class OverviewComponent implements OnInit {
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             tooltips: {
               enabled: true
             },
