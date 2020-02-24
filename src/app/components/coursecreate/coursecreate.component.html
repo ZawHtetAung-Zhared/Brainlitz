@@ -287,6 +287,24 @@
             </div>
           </div>
         </div>
+        <div *ngIf="sparkWerkzRegion == true">
+          <hr class="limit-hr-length" />
+          <div class="d-flex">
+            <div class="toggle-wrap">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (change)="isSparkWerkzCourse(sparkWerkzCourse)"
+                  [checked]="sparkWerkzCourse"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="switch-label input-title font-medium changeColor">
+              SparkWerkzCourse
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <hr class="hr-line" />

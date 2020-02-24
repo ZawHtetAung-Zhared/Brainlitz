@@ -83,6 +83,7 @@
           id="example-search-input"
           (focus)="focusSearch($event, 'category')"
           (focusout)="hideSearch($event)"
+          (blur)="hideSearch($event)"
           (input)="searchCategoryList($event.target.value, 'category')"
         />
         <span class="input-group-append">
@@ -2233,6 +2234,7 @@
                   [(ngModel)]="formData.searchText"
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
+                  (blur)="hideFocus($event)"
                   (input)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                 />

@@ -1,0 +1,110 @@
+<div class="parent all-time" *ngIf="allTime">
+  <div class="inner-parent">
+    <div class="h2-strong header">
+      <span class="h2-strong title-name"
+        >Leaderboard
+        <span class="spaninline">
+          <!-- <p class="m-0">SW</p> -->
+          <img _ngcontent-c5="" src="./assets/img/tiny-brainlitz.svg" />
+        </span>
+      </span>
+      <div [ngClass]="testing()">
+        <div class="button1" (click)="test(1)">
+          <span class="h4-strong">All Time</span>
+        </div>
+        <div class="button2" (click)="test(2)">
+          <span class="h4-strong">Weekly</span>
+        </div>
+      </div>
+    </div>
+    <div class="body-wrapper">
+      <div class="row row-header leaderboard-nav">
+        <div class="col-md-1 row-header_rank h4-strong">Rank</div>
+        <div class="col-md-9 row-header_name h4-strong">Name</div>
+        <div class="col-md-2 row-header_score h4-strong">Score</div>
+      </div>
+
+      <div class="row row-body" *ngFor="let leader of leaderList; index as i">
+        <div class="col-md-1 row-rank">{{ i + 1 }}</div>
+        <div class="col-md-9 row-name">
+          <div><img src="{{ leader.image }}" alt="" class="img-wrap" /></div>
+          <div class="h4-strong">{{ leader.name }}</div>
+        </div>
+        <div class="col-md-2 row-score">{{ leader.score }} SP</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="parent weekly" *ngIf="!allTime">
+  <div class="inner-parent">
+    <div class="h2-strong header">
+      <span class="h2-strong title-name"
+        >Leaderboard
+        <span class="spaninline">
+          <p class="m-0">SW</p>
+        </span>
+      </span>
+      <div [ngClass]="testing()">
+        <div class="button1" (click)="test(1)">
+          <span class="h4-strong">All Time</span>
+        </div>
+        <div class="button2" (click)="test(2)">
+          <span class="h4-strong">Weekly</span>
+        </div>
+      </div>
+    </div>
+    <div class="weekly-calendar">
+      <div class="arrow-box" (click)="goPrevious(startDate)">
+        <i class="fa fa-angle-left"></i>
+      </div>
+      <div class="date-box d-flex justify-content-center align-items-center">
+        {{ startDate | date: 'dd MMM yyyy' }} -
+        {{ endDate | date: 'dd MMM yyyy' }}
+      </div>
+      <div class="arrow-box" (click)="goNext(startDate)">
+        <i class="fa fa-angle-right"></i>
+      </div>
+    </div>
+    <div class="body-wrapper">
+      <div class="row row-header leaderboard-nav">
+        <div class="col-md-1 row-header_rank h4-strong">Rank</div>
+        <div class="col-md-9 row-header_name h4-strong">Name</div>
+        <div class="col-md-2 row-header_score h4-strong">Score</div>
+      </div>
+
+      <div class="row row-body" *ngFor="let leader of leaderList; index as i">
+        <div class="col-md-1 row-rank">
+          <div class="d-flex">
+            <div>{{ i + 1 }}</div>
+            <div
+              class="d-flex flex-column status-box justify-content-center"
+              *ngIf="leader.upOrDown != 0"
+            >
+              <small
+                [ngClass]="leader.upOrDown > 0 ? 'arrow-up' : 'arrow-down'"
+              ></small>
+              <small
+                [ngClass]="
+                  leader.upOrDown > 0 ? 'arrow-up-color' : 'arrow-down-color'
+                "
+                >{{ leader.upOrDown }}</small
+              >
+            </div>
+            <div
+              class="d-flex flex-column status-box"
+              *ngIf="leader.upOrDown == 0"
+            >
+              <small class="arrow-equal-color">=</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 row-name">
+          <div><img src="{{ leader.image }}" alt="" class="img-wrap" /></div>
+          <div class="h4-strong">{{ leader.name }}</div>
+        </div>
+        <div class="col-md-2 row-score">{{ leader.score }} SP</div>
+      </div>
+    </div>
+  </div>
+</div>

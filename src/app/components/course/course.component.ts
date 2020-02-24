@@ -321,6 +321,9 @@ export class CourseComponent implements OnInit {
       this.isCourseCreate = false;
       this.isCourseDetail = true;
       this.showCourseDetail(this.courseId);
+      //localStorage.removeItem('COURSEID')
+      console.log('I set item');
+      localStorage.setItem('COURSEID', this.courseId);
       this.courseList = [];
     });
 
@@ -644,6 +647,7 @@ export class CourseComponent implements OnInit {
   clickoutSide() {
     this.isoutSideClick = true;
     this.iscourseSearch = false;
+    console.log('click out side >>>>>>>>>>\n:::::::::::::\n::::::::::::::');
   }
 
   hideCourseSearch() {
@@ -1681,6 +1685,7 @@ export class CourseComponent implements OnInit {
   getUsersInCourse(courseId) {
     this.reScheduleCId = '';
     console.log('hi call course', courseId);
+    localStorage.setItem('COURSEID', courseId);
     // this.getCourseDetail(courseId);
     this.courseId = courseId;
     this.reScheduleCId = courseId;
@@ -1902,6 +1907,7 @@ export class CourseComponent implements OnInit {
       this.viewInvoice(this.singleUserData);
     }
   }
+
   cancelRescheduleLesson(e) {
     console.log(e);
     if (!e) {
@@ -2273,6 +2279,7 @@ export class CourseComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
   }
+
   showTextarea() {
     this.textAreaOption = true;
   }
@@ -2472,6 +2479,8 @@ export class CourseComponent implements OnInit {
   }
 
   selectCustomer(state, id, type) {
+    console.log('select customer', id);
+    console.log('user list ', this.userLists.length);
     this.getSingleCustomer(id);
     this.formData = {};
   }
@@ -2545,7 +2554,7 @@ export class CourseComponent implements OnInit {
       console.log(this.stdLists);
       if (this.detailLists.type == 'FLEXY') {
         if (this.detailLists.seat_left === 0) {
-          // console.log(this.pplLists)
+          console.log(this.pplLists);
           var includedUserId = this.pplLists.CUSTOMER.findIndex(
             x => x.userId === this.selectedCustomer.userId
           );
@@ -2571,7 +2580,19 @@ export class CourseComponent implements OnInit {
     // this.getAllUsers(userType);
   }
 
+  @HostListener('window:scroll', ['$event'])
+  public documentClick(event): void {
+    console.log('document click');
+  }
+
+  blurcall(e) {
+    console.log('call blur');
+  }
+
   hideFocus(e) {
+    console.log('hide focus', this.isFous);
+    console.log('show list', this.showList);
+
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;
@@ -2797,6 +2818,7 @@ export class CourseComponent implements OnInit {
     }
     this.invoiceModalReference.close();
   }
+
   cancelInvoiceAlert() {
     this.disableInvoice = true;
     if (this.courseType == 'FLEXY') {
@@ -2805,8 +2827,10 @@ export class CourseComponent implements OnInit {
       this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
     }
   }
+
   public invoiceModalReference;
   public disableInvoice;
+
   addCustomer(courseId, userType, invoiceAlert) {
     this.tempCourdeId = courseId;
     this.tempuserType = userType;

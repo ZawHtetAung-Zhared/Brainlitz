@@ -14,6 +14,7 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalSecondary } from 'ng-bootstrap-modal-stack';
 import {
   startOfDay,
   endOfDay,
@@ -135,6 +136,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
+    private modalSecondaryService: NgbModalSecondary,
     private datePipe: DatePipe,
     private toastr: ToastsManager,
     private leaveService: LeaveService
@@ -296,7 +298,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     }
     console.warn(totalCount, 'total ');
     this.studentCount = totalCount;
-    this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
+    this.cancelModalReference = this.modalSecondaryService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -897,8 +899,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   //end leave modal
 
   //for assign relief and cancel class UI
+
   assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
-    this.reliefModalReference = this.cancelClassModalService.open(modalName, {
+    this.reliefModalReference = this.modalSecondaryService.open(modalName, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'

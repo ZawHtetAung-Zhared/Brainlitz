@@ -53,11 +53,13 @@ export class FlexiComponent implements OnInit {
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
+    console.log('I am in flexi');
     this.lessionIdArr = [];
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
     this.teacherDetail = this.flexyarr.teacherDetails;
     this.flitterFlexyObj(this.flexyarr.lessons);
+    console.log(this.flexyarr);
   }
 
   flitterFlexyObj(obj) {

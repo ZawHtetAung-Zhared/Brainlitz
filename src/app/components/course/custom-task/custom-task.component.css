@@ -1,0 +1,99 @@
+span.mastery-count {
+  top: 0;
+  background: #5c6773;
+  border-radius: 4px;
+  color: #ffffff;
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 13px;
+  padding: 0 3px;
+}
+
+.img-block {
+  height: 132px;
+  width: 100%;
+}
+
+.img-block img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.task-block {
+  background: #ffffff !important;
+  width: 235px;
+  height: 172px;
+  margin-left: 0 !important;
+  border-radius: 4px !important;
+  box-shadow: unset !important;
+}
+
+p.task-name {
+  font-size: 15px;
+  color: #363f4d;
+  padding: 8px;
+}
+
+.selectedBorder {
+  border: solid 2px rgb(0, 128, 255);
+}
+
+.btn-close {
+  background: #e3e4e6;
+  color: #363f4d !important;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  opacity: unset;
+  line-height: 0;
+  padding-bottom: 2px;
+}
+
+/* mastery detail */
+.small-title {
+  color: #5c6773;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.mastery-header {
+  border-bottom: solid 1px #edeef0;
+}
+
+.txt-ques {
+  color: #5c6773;
+  font-size: 17px;
+}
+
+div#question-content {
+  font-size: 17px;
+  color: #5c6773;
+}
+
+@media only screen and (min-width: 1365px) {
+  .mastery-scroll {
+    overflow: overlay;
+    height: 690px;
+  }
+
+  .mode-wrapper {
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 1366px) {
+  .step1-content {
+    height: 460px !important;
+  }
+
+  .mastery-scroll {
+    height: 530px;
+    overflow: overlay;
+  }
+
+  .mode-wrapper {
+    height: 400px;
+  }
+}

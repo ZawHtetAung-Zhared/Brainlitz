@@ -28,6 +28,7 @@
         (input)="searchMethod($event.target.value, 'staff')"
         (focus)="focusSearch($event, 'focusOn')"
         (focusout)="focusSearch($event, 'focusOut')"
+        (blur)="focusSearch($event, 'blur')"
         [(ngModel)]="searchKeyword"
         #tsearch="ngModel"
         autocomplete="off"
