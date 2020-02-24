@@ -927,9 +927,13 @@ export class OverviewComponent implements OnInit {
   }
 
   drawChart(arr) {
-    console.log(arr);
     for (var i = 0; i < arr.length; i++) {
       for (var j = 0; j < arr[i].length; j++) {
+        var mastered =
+          arr[i][j].masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
+          arr[i][j].masteryCountInPercentage.MASTERED_WITH_EASE;
+        arr[i][j].masteryCountInPercentage.MASTERED =
+          Math.round((mastered + Number.EPSILON) * 100) / 100;
         this.chart = new Chart('canvas' + i + j, {
           type: 'doughnut',
           data: {
@@ -939,8 +943,7 @@ export class OverviewComponent implements OnInit {
                 data: [
                   arr[i][j].masteryCountInPercentage.STRUGGLE,
                   arr[i][j].masteryCountInPercentage.INPROGRESS,
-                  arr[i][j].masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
-                    arr[i][j].masteryCountInPercentage.MASTERED_WITH_EASE,
+                  arr[i][j].masteryCountInPercentage.MASTERED,
                   arr[i][j].masteryCountInPercentage.NEW
                 ],
                 backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
