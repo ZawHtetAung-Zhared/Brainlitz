@@ -11,6 +11,7 @@ import { Chart } from 'chart.js';
 })
 export class OverviewComponent implements OnInit {
   public chart: any;
+  public masteryflag: boolean;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -67,6 +68,7 @@ export class OverviewComponent implements OnInit {
   // toggle() {
   //   this.on = !this.on;
   // }
+  private masteryStudentCount: any;
   mastery: any = [
     {
       id: '5dda85cfb1c96001c43267bc',
@@ -777,7 +779,14 @@ export class OverviewComponent implements OnInit {
       this.attendance = this.indexDay.attendance;
       this.total = this.lessonList[this.index].total;
       console.log('total', this.total);
-
+      if (this.index == this.lessonList.length - 1) {
+        console.log('Already At the end', this.index);
+        this.nextflag = false;
+      }
+      if (this.index == 0) {
+        console.log('Already At the start', this.index);
+        this.prevflag = false;
+      }
       for (var j = 0; j < this.attendance.length; j++) {
         if (this.attendance[j].attendance == null) {
           this.present = 0;
@@ -966,14 +975,21 @@ export class OverviewComponent implements OnInit {
     this._service.getMasteryReports().subscribe(
       (res: any) => {
         this.loadingMastery = false;
-        this._data.setMasteryData(res);
-        this.mastery = res.data.masteryReport;
-        console.log(this.mastery);
-        console.log('2D', this.TwoDimensional(this.mastery, 2));
-        this.outerArray = this.TwoDimensional(this.mastery, 2);
-        setTimeout(() => {
-          this.drawChart(this.outerArray);
-        }, 200);
+        if (res == '') {
+          console.log('Null Mastery report');
+          this.masteryflag = false;
+        } else {
+          this._data.setMasteryData(res);
+          this.mastery = res.data.masteryReport;
+          this.masteryStudentCount = res.data.enrolledStudentCount;
+          console.log(this.mastery);
+          console.log('2D', this.TwoDimensional(this.mastery, 2));
+          this.outerArray = this.TwoDimensional(this.mastery, 2);
+          console.log(this.outerArray);
+          setTimeout(() => {
+            this.drawChart(this.outerArray);
+          }, 200);
+        }
       },
       err => {
         console.log(err);
