@@ -256,7 +256,7 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       err => {
-        this.toastr.error(err.message);
+        this.toastr.error(err.error.message);
         console.log(err);
         this.noData = true;
       }

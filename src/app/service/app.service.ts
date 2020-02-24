@@ -245,9 +245,14 @@ export class appService {
     });
   }
 
-  getOrgCredentials(orgCode, hostName) {
+  getOrgCredentials(orgCode, hostName, envName) {
     console.log(hostName);
-    let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+    let url =
+      this.baseUrl1 +
+      '/organization-credentials/' +
+      orgCode +
+      '?env=' +
+      envName;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

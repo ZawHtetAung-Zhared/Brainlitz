@@ -148,7 +148,8 @@ import {
   CourseListComponent,
   ReportDetailComponent,
   StudentListComponent,
-  MasteryReportComponent
+  MasteryReportComponent,
+  ReportDetail2Component
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
@@ -260,7 +261,8 @@ import { CustomTaskComponent } from './components/course/custom-task/custom-task
     ReportDetailComponent,
     StudentListComponent,
     MasteryReportComponent,
-    CustomTaskComponent
+    CustomTaskComponent,
+    ReportDetail2Component
   ],
   imports: [
     ContentLoaderModule,

@@ -145,33 +145,36 @@ export class LoginComponent implements OnInit {
   }
 
   getOrgKey(orgCode) {
+    console.log('environmentName~~~', environment.environmentName);
     console.log(this.host);
-    this._service.getOrgCredentials(orgCode, this.host).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.islogin = true;
-        localStorage.setItem('OrgId', res.orgId);
-        localStorage.setItem('OrgLogo', res.logo);
-        localStorage.setItem('clientId', res.clientId);
-        localStorage.setItem('clientSecret', res.clientSecret);
-        localStorage.setItem('favicon', res.favicon);
-        var id = 'appFavicon';
-        var basepath = localStorage.getItem('redirectURL');
-        this.document
-          .getElementById('appFavicon')
-          .setAttribute('href', res.favicon);
-        console.log(res.logo);
-        this.clientId = res.clientId;
-        this.clientSecret = res.clientSecret;
-        this.loginUrl = this.loginUrl + res.orgId;
-        this.noOrginExit = false;
-      },
-      err => {
-        console.log(err);
-        console.log(err.error.message);
-        this.noOrginExit = true;
-      }
-    );
+    this._service
+      .getOrgCredentials(orgCode, this.host, environment.environmentName)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.islogin = true;
+          localStorage.setItem('OrgId', res.orgId);
+          localStorage.setItem('OrgLogo', res.logo);
+          localStorage.setItem('clientId', res.clientId);
+          localStorage.setItem('clientSecret', res.clientSecret);
+          localStorage.setItem('favicon', res.favicon);
+          var id = 'appFavicon';
+          var basepath = localStorage.getItem('redirectURL');
+          this.document
+            .getElementById('appFavicon')
+            .setAttribute('href', res.favicon);
+          console.log(res.logo);
+          this.clientId = res.clientId;
+          this.clientSecret = res.clientSecret;
+          this.loginUrl = this.loginUrl + res.orgId;
+          this.noOrginExit = false;
+        },
+        err => {
+          console.log(err);
+          console.log(err.error.message);
+          this.noOrginExit = true;
+        }
+      );
   }
 
   generateRandom() {
