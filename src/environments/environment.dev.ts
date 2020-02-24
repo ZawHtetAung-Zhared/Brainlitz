@@ -7,5 +7,6 @@ export const environment = {
   // apiurl: 'http://192.168.1.106:8484'
   apiurl: ' https://dev-brainlitz.pagewerkz.com',
   courseTypeDisabled: false,
-  livechatDisabled: true
+  livechatDisabled: true,
+  environmentName: 'dev'
 };
