@@ -1,6 +1,29 @@
 <div
+  class="mastery-view no-m"
+  [ngClass]="{ hide: !sparkwerkz || masteryflag }"
+  *ngIf="loading == false"
+>
+  <div class="mastery-view-head no-mh">
+    <h3>Masteries reports</h3>
+    <span class="spaninline">
+      <!-- <p class="m-0">SW</p> -->
+      <img src="../../../../assets/img/tiny-brainlitz.svg" />
+    </span>
+    <h6 class="p-3">
+      There is no masteries report for this course yet.
+    </h6>
+  </div>
+  <div class="mastery-view-footer no-mf">
+    <div style="float: right">
+      <button class="detail-btn white">
+        More detail
+      </button>
+    </div>
+  </div>
+</div>
+<div
   class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz }"
+  [ngClass]="{ hide: !sparkwerkz || !masteryflag }"
   *ngIf="loadingMastery == false"
 >
   <div class="mastery-view-head">
