@@ -249,14 +249,20 @@
         *ngIf="lessonList.attendance != ''"
         class="d-flex justify-content-between mb-3"
       >
-        <span (click)="previousDate()" [ngClass]="{ disabled: !prevflag }"
-          ><img src="../../../../assets/img/chevron-right-s.png"
+        <span [ngClass]="{ notallowed: !prevflag }"
+          ><img
+            (click)="previousDate()"
+            src="../../../../assets/img/chevron-right-s.png"
+            [ngClass]="{ disabled: !prevflag }"
         /></span>
         <span *ngIf="lessonList.length != 0">{{
           indexDay.lessonStartDate | utcDateoverview
         }}</span>
-        <span (click)="nextDate()" [ngClass]="{ disabled: !nextflag }"
-          ><img src="../../../../assets/img/chevron-left-s.png"
+        <span [ngClass]="{ notallowed: !nextflag }"
+          ><img
+            (click)="nextDate()"
+            src="../../../../assets/img/chevron-left-s.png"
+            [ngClass]="{ disabled: !nextflag }"
         /></span>
       </div>
       <div
