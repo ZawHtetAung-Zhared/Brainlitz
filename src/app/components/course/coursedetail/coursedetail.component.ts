@@ -11,6 +11,7 @@ import { Subscription, ISubscription } from 'rxjs/Subscription';
   styleUrls: ['./coursedetail.component.css']
 })
 export class CoursedetailComponent implements OnInit {
+  public loading = true;
   private permissionSubscription: ISubscription;
   private courseId: any;
   public locationID: any = localStorage.getItem('locationId');
@@ -162,6 +163,9 @@ export class CoursedetailComponent implements OnInit {
         console.log('SPC set', res.sparkWerkz.sparkWerkzCourse);
 
         localStorage.setItem('courseDetail', JSON.stringify(res));
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
       },
       err => {
         console.log(err);

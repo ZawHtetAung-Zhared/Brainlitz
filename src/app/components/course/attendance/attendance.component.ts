@@ -1603,7 +1603,7 @@ export class AttendanceComponent implements OnInit {
     this.isCourseCreate = true;
     // this.router.navigate(['/courseCreate']);
   }
-  public loading = true;
+  public loading = false;
   getCourseDetail(id) {
     this.loading = true;
     this._service.getSingleCourse(id, this.locationID).subscribe(
@@ -4178,6 +4178,9 @@ export class AttendanceComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.getCourseDetail(this.detailLists._id);
       resolve();
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     }).then(() => {
       setTimeout(() => {
         console.log(this.detailLists.lessons[this.currentLessonIdx]);
