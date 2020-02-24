@@ -1,6 +1,15 @@
 <div class="customer-tab pt-3">
-  <div class="d-flex flex-row lesson-list">
-    <div *ngIf="LASD != null && loading == false" class="timeline">
+  <div
+    class="d-flex flex-row lesson-list"
+    *ngIf="loading == true"
+    style="width: 1200px; height: 75px;"
+  >
+    <content-loader>
+      <svg:rect x="0" y="0" rx="0" ry="0" width="100%" height="100%" />
+    </content-loader>
+  </div>
+  <div class="d-flex flex-row lesson-list" *ngIf="loading == false">
+    <div *ngIf="LASD != null" class="timeline">
       <div
         [ngStyle]="{ left: i * 80 + 'px' }"
         class="single-date"
@@ -80,7 +89,7 @@
         </div>
       </div>
     </div>
-    <!-- [ngClass]="{ 'disable-cursor': isRescheduleLesson }" -->
+
     <button
       *ngIf="detailLists.type == 'FLEXY'"
       class="btn btn-newLesson"
@@ -91,7 +100,12 @@
     </button>
   </div>
 
-  <div *ngIf="!isRescheduleLesson && !isNewLesson" class="mt-20">
+  <!-- end lesson list -->
+
+  <div
+    *ngIf="!isRescheduleLesson && !isNewLesson && loading == false"
+    class="mt-20"
+  >
     <div class="d-flex justify-content-between">
       <div class="d-flex flex-column">
         <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
@@ -866,5 +880,133 @@
         </button>
       </div>
     </ng-template>
+  </div>
+  <!-- loading == true -->
+  <div
+    *ngIf="!isRescheduleLesson && !isNewLesson && loading == true"
+    class="mt-20"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column">
+        <div style="height: 40px;">
+          <content-loader>
+            <svg:rect x="0" y="0.5" rx="0" ry="0" width="150px" height="10px" />
+            <svg:rect
+              x="0"
+              y="15px"
+              rx="0"
+              ry="0"
+              width="150px"
+              height="10px"
+            />
+          </content-loader>
+        </div>
+        <div class="d-flex">
+          <button class="d-flex btn assign_relief_button align-items-center">
+            <span
+              ><img
+                src="../../../assets/icons/assignReliefIcon.svg"
+                alt=""/></span
+            >Assign relief teacher
+          </button>
+          <button class="d-flex btn reschedule_button align-items-center">
+            <span><img src="../../../assets/icons/Calendar.svg" alt=""/></span
+            >Reschedule
+          </button>
+          <button class="d-flex btn cancel_class_button align-items-center">
+            <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
+            >Cancel lesson
+          </button>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div
+          class="present_student d-flex justify-content-center align-items-center"
+        >
+          <div>
+            <p class="present_count"></p>
+            <span class="present_text">Present</span>
+          </div>
+        </div>
+        <div
+          class="absent_student d-flex justify-content-center align-items-center"
+        >
+          <div>
+            <p class="absent_count"></p>
+            <span class="absent_text">Absent</span>
+          </div>
+        </div>
+        <div
+          class="total_student d-flex justify-content-center align-items-center"
+        >
+          <div>
+            <p class="total_count"></p>
+            <span class="total_text">Total</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="student-lists row ">
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

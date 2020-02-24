@@ -4397,3 +4397,20 @@ button.today-button {
   width: 80px;
   height: 20px;
 }
+
+.person-card {
+  background: #fff;
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 28px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 11px;
+  margin-left: 0;
+  margin-right: 0;
+  -ms-transition: 0.3s all ease;
+  -webkit-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  height: 50px;
+}

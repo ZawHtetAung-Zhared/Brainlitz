@@ -155,6 +155,7 @@
   border-radius: 8px;
   padding: 0px 5px;
   margin-left: 8px;
+  height: 24px;
 }
 
 .light-txt2 {
@@ -188,7 +189,7 @@
 }
 
 .green-txt {
-  color: #4fdd00;
+  color: #00a653;
 }
 
 .txt-bold {
@@ -252,4 +253,21 @@
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   color: #5c6773;
+}
+
+.ans-box {
+  border: 1px solid #edeef0;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.correct-box {
+  border: 2px solid #00a653;
+}
+
+.modal-hg {
+  max-height: 85vh;
+  overflow: scroll;
+  padding: 32px;
 }
