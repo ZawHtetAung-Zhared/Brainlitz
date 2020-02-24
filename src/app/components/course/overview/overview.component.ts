@@ -11,7 +11,7 @@ import { Chart } from 'chart.js';
 })
 export class OverviewComponent implements OnInit {
   public chart: any;
-  public masteryflag: boolean;
+  public Nomasteryflag: boolean = true;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -980,11 +980,9 @@ export class OverviewComponent implements OnInit {
     this._service.getMasteryReports().subscribe(
       (res: any) => {
         this.loadingMastery = false;
-        if (res == '') {
-          console.log('Null Mastery report');
-          this.masteryflag = false;
-        } else {
-          this._data.setMasteryData(res);
+        this._data.setMasteryData(res);
+        if (res.data.masteryReport) {
+          this.Nomasteryflag = false;
           this.mastery = res.data.masteryReport;
           this.masteryStudentCount = res.data.enrolledStudentCount;
           console.log(this.mastery);
@@ -994,6 +992,8 @@ export class OverviewComponent implements OnInit {
           setTimeout(() => {
             this.drawChart(this.outerArray);
           }, 200);
+        } else {
+          console.log('Null Mastery report');
         }
       },
       err => {

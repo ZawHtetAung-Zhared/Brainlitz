@@ -1,7 +1,7 @@
 <div
   class="mastery-view no-m"
-  [ngClass]="{ hide: !sparkwerkz || !masteryflag }"
-  *ngIf="loading == false"
+  [ngClass]="{ hide: !sparkwerkz }"
+  *ngIf="Nomasteryflag && !loadingMastery"
 >
   <div class="mastery-view-head no-mh">
     <h3>Masteries reports</h3>
@@ -23,8 +23,8 @@
 </div>
 <div
   class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz || masteryflag }"
-  *ngIf="loadingMastery == false"
+  [ngClass]="{ hide: !sparkwerkz }"
+  *ngIf="loadingMastery == false && !Nomasteryflag"
 >
   <div class="mastery-view-head">
     <h3>Masteries reports</h3>
