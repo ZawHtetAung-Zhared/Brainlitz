@@ -276,7 +276,9 @@ export class MasteriesreportComponent implements OnInit {
         }, 1200);
       } else {
         this.noData = true;
-        this.toastr.error('No masteries report for this course.');
+        setTimeout(() => {
+          this.toastr.error('No masteries report for this course.');
+        }, 100);
       }
     }
   }
