@@ -105,15 +105,17 @@
 .cardfoot {
   height: 30%;
   background: #f7f9fa;
-  padding: 15px;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
   line-height: 24px;
-  align-items: center;
   color: #5c6773;
   overflow-x: auto;
   overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15px;
 }
 .spaninline {
   line-height: 20px;
@@ -606,7 +608,10 @@
 .mastery-view-footer {
   height: 15%;
   background: #f7f9fa;
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15px;
 }
 .carousel-indicators {
   bottom: -25px;

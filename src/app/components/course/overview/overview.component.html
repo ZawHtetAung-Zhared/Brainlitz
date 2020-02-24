@@ -132,11 +132,9 @@
     </div>
   </div>
   <div class="mastery-view-footer" [ngClass]="{ 'no-mf': Nomasteryflag }">
-    <div style="float: right">
-      <button class="detail-btn white" (click)="goToMasteryReport()">
-        More detail
-      </button>
-    </div>
+    <button class="detail-btn white" (click)="goToMasteryReport()">
+      More detail
+    </button>
   </div>
 </div>
 <!-- loading for mastery report -->
@@ -161,11 +159,9 @@
     </div>
   </div>
   <div class="mastery-view-footer">
-    <div style="float: right">
-      <button class="detail-btn white">
-        More detail
-      </button>
-    </div>
+    <button class="btn detail-btn white" [disabled]="loadingMastery == true">
+      More detail
+    </button>
   </div>
 </div>
 <!-- loadign for mastery report -->
@@ -226,20 +222,18 @@
       </div>
     </div>
     <div class="cardfoot" style="height: 20%;">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          (click)="enrollCustomer(courseId)"
-          [ngClass]="{
-            white: !on,
-            notallowed: seat_left == 0 && coursetype == 'REGULAR'
-          }"
-          [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
-        >
-          <!-- (click)="toggle()" -->
-          Enroll customer
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        (click)="enrollCustomer(courseId)"
+        [ngClass]="{
+          white: !on,
+          notallowed: seat_left == 0 && coursetype == 'REGULAR'
+        }"
+        [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
+      >
+        <!-- (click)="toggle()" -->
+        Enroll customer
+      </button>
     </div>
   </div>
 
@@ -290,15 +284,13 @@
       </div>
     </div>
     <div class="cardfoot" style="height: 25%;">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          [ngClass]="{ white: lessonList.attendance != '' }"
-          (click)="goToAttendance()"
-        >
-          Set attendance
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        [ngClass]="{ white: lessonList.attendance != '' }"
+        (click)="goToAttendance()"
+      >
+        Set attendance
+      </button>
     </div>
   </div>
 
@@ -329,16 +321,14 @@
       </div>
     </div>
     <div class="cardfoot">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          routerLink="../../../assignTask"
-          [ngClass]="{ white: scheduled != 0 || custom != 0 }"
-          (click)="goToAssignTask()"
-        >
-          Assign task
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        routerLink="../../../assignTask"
+        [ngClass]="{ white: scheduled != 0 || custom != 0 }"
+        (click)="goToAssignTask()"
+      >
+        Assign task
+      </button>
     </div>
   </div>
   <!-- ****Cancelled ****-->
@@ -472,12 +462,10 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 20%;">
-      <div style="float: right">
-        <button class="detail-btn">
-          <!-- (click)="toggle()" -->
-          Enroll customer
-        </button>
-      </div>
+      <button class="detail-btn">
+        <!-- (click)="toggle()" -->
+        Enroll customer
+      </button>
     </div>
   </div>
 
@@ -493,11 +481,9 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 25%;">
-      <div style="float: right">
-        <button class="detail-btn">
-          Set attendance
-        </button>
-      </div>
+      <button class="detail-btn">
+        Set attendance
+      </button>
     </div>
   </div>
 
@@ -510,11 +496,9 @@
       </content-loader>
     </div>
     <div class="cardfoot">
-      <div style="float: right">
-        <button class="detail-btn">
-          Assign task
-        </button>
-      </div>
+      <button class="detail-btn">
+        Assign task
+      </button>
     </div>
   </div>
 </div>

@@ -534,8 +534,8 @@ export class CourseListComponent implements OnInit {
   }
 
   clickoutSide() {
-    this.isoutSideClick = true;
     this.iscourseSearch = false;
+    this.isoutSideClick = true;
     console.log('click out side >>>>>>>>>>\n:::::::::::::\n::::::::::::::');
   }
 
@@ -623,6 +623,7 @@ export class CourseListComponent implements OnInit {
   clearSearch() {
     this.iswordcount = false;
     this.iscourseSearch = false;
+    this.isoutSideClick = false;
     this.searchVal = '';
     this.searchKeyword = null;
     this.activePlanId = null;
