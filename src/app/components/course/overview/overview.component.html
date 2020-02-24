@@ -1,7 +1,7 @@
 <div
   class="mastery-view"
   [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="loading == false"
+  *ngIf="loadingMastery == false"
 >
   <div class="mastery-view-head">
     <h3>Masteries reports</h3>
@@ -393,7 +393,7 @@
 <div
   class="mastery-view"
   [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="loading == true"
+  *ngIf="loadingMastery == true"
 >
   <div class="mastery-view-head">
     <div class="bd-example">
