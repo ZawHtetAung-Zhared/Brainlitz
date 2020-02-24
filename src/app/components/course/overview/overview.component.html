@@ -1,6 +1,6 @@
 <div
   class="mastery-view no-m"
-  [ngClass]="{ hide: !sparkwerkz || masteryflag }"
+  [ngClass]="{ hide: !sparkwerkz || !masteryflag }"
   *ngIf="loading == false"
 >
   <div class="mastery-view-head no-mh">
@@ -23,7 +23,7 @@
 </div>
 <div
   class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz || !masteryflag }"
+  [ngClass]="{ hide: !sparkwerkz || masteryflag }"
   *ngIf="loadingMastery == false"
 >
   <div class="mastery-view-head">
@@ -153,7 +153,7 @@
   </div>
   <div class="mastery-view-footer">
     <div style="float: right">
-      <button class="detail-btn white">
+      <button class="detail-btn white" (click)="goToMasteryReport()">
         More detail
       </button>
     </div>

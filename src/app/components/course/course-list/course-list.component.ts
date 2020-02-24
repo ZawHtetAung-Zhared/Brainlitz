@@ -4,6 +4,7 @@ import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-course-list',
@@ -59,7 +60,8 @@ export class CourseListComponent implements OnInit {
   constructor(
     private _service: appService,
     public dataservice: DataService,
-    private router: Router
+    private router: Router,
+    public toastr: ToastrService
   ) {
     this._service.goplan.subscribe(() => {
       this.courseList = [];
@@ -336,25 +338,32 @@ export class CourseListComponent implements OnInit {
     this.coursePlanLoading = true;
     this._service
       .getCourseplanCollection(this.regionId, this.locationID, null)
-      .subscribe((res: any) => {
-        this.coursePlanLoading = false;
-        this.coursePlanCollection = res;
-        let autoSelectedPlanId;
-        let autoSelectedPlanName;
-        if (this.activePlanId == '' || this.activePlanId == null) {
-          autoSelectedPlanId = this.coursePlanCollection[0]._id;
-          autoSelectedPlanName = this.coursePlanCollection[0].name;
-        } else {
-          autoSelectedPlanId = this.activePlanId;
-          autoSelectedPlanName = '';
+      .subscribe(
+        (res: any) => {
+          this.coursePlanLoading = false;
+          this.coursePlanCollection = res;
+          let autoSelectedPlanId;
+          let autoSelectedPlanName;
+          if (this.activePlanId == '' || this.activePlanId == null) {
+            autoSelectedPlanId = this.coursePlanCollection[0]._id;
+            autoSelectedPlanName = this.coursePlanCollection[0].name;
+          } else {
+            autoSelectedPlanId = this.activePlanId;
+            autoSelectedPlanName = '';
+          }
+          this.getCourseswithPlanId(
+            autoSelectedPlanId,
+            autoSelectedPlanName,
+            null
+          );
+          this.scrollToActiveElement(autoSelectedPlanId);
+        },
+        err => {
+          console.log(err);
+          this.coursePlanLoading = true;
+          this.toastr.error('Get Course Plan Fail');
         }
-        this.getCourseswithPlanId(
-          autoSelectedPlanId,
-          autoSelectedPlanName,
-          null
-        );
-        this.scrollToActiveElement(autoSelectedPlanId);
-      });
+      );
   }
 
   getCoursesPerPlan(courseplanId, limit, skip, page, from) {
@@ -386,7 +395,9 @@ export class CourseListComponent implements OnInit {
           }
         },
         err => {
+          this.courseLoading = true;
           console.log(err);
+          this.toastr.error('Get Courses Fail');
         }
       );
   }
@@ -547,24 +558,33 @@ export class CourseListComponent implements OnInit {
 
   simpleCoursePlanSearch(keyword) {
     console.log('keyword', keyword);
+    this.coursePlanLoading = true;
     this._service
       .getCourseplanCollection(this.regionId, this.locationID, keyword)
-      .subscribe((res: any) => {
-        this.iscourseSearch = false;
-        this.coursePlanCollection = res;
-        if (this.coursePlanCollection.length > 0) {
-          let autoSelectedPlanId = this.coursePlanCollection[0]._id;
-          let autoSelectedPlanName = this.coursePlanCollection[0].name;
-          this.getCourseswithPlanId(
-            autoSelectedPlanId,
-            autoSelectedPlanName,
-            keyword
-          );
-        } else {
-          //for no course plan
-          this.courseCollection = null;
+      .subscribe(
+        (res: any) => {
+          this.coursePlanLoading = false;
+          this.iscourseSearch = false;
+          this.coursePlanCollection = res;
+          if (this.coursePlanCollection.length > 0) {
+            let autoSelectedPlanId = this.coursePlanCollection[0]._id;
+            let autoSelectedPlanName = this.coursePlanCollection[0].name;
+            this.getCourseswithPlanId(
+              autoSelectedPlanId,
+              autoSelectedPlanName,
+              keyword
+            );
+          } else {
+            //for no course plan
+            this.courseCollection = null;
+          }
+        },
+        err => {
+          this.coursePlanLoading = true;
+          console.log(err);
+          this.toastr.error('Get Course Plan Fail');
         }
-      });
+      );
   }
 
   simpleCourseSearchPerPlan(courseplanId, limit, skip, page, keyword) {
@@ -589,10 +609,13 @@ export class CourseListComponent implements OnInit {
             this.courseCollection = res;
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
+            this.checkCoursesLength();
           }
         },
         err => {
           console.log(err);
+          this.courseLoading = true;
+          this.toastr.error('Get Courses Fail');
         }
       );
   }
