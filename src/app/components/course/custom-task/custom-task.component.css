@@ -67,6 +67,11 @@ p.task-name {
   font-size: 17px;
 }
 
+div#question-content {
+  font-size: 17px;
+  color: #5c6773;
+}
+
 @media only screen and (min-width: 1365px) {
   .mastery-scroll {
     overflow: overlay;

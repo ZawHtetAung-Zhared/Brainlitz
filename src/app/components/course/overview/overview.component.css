@@ -202,10 +202,12 @@
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .task-label {
-  position: absolute;
+  /* position: absolute;
   left: 22px;
-  top: 5px;
+  top: 5px; */
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-left: 10px;
+  padding-top: 5px;
 }
 .task-status {
   position: relative;
@@ -645,4 +647,17 @@
   -ms-user-select: none;
   user-select: none;
   cursor: grab;
+}
+.no-m {
+  height: 200px !important;
+}
+.no-mh {
+  height: 70% !important;
+}
+.no-mf {
+  height: 30% !important;
+}
+.no-mh > h6 {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #363f4d;
 }

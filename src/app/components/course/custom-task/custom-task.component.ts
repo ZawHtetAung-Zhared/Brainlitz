@@ -9,6 +9,7 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
+import { text } from '@angular/core/src/render3/instructions';
 declare var $: any;
 @Component({
   selector: 'custom-task',
@@ -29,13 +30,15 @@ export class CustomTaskComponent implements OnInit {
   // get data from parent component
   @Input() courseDetail;
   @Input() selectStandard;
-  // lists
+
+  // lists && obj
   public customObj: any = {};
   public scheduletemplateList: any = [];
   public createCustom: any = {};
   public taskLists: any = [];
   public masteryList: any = [];
   public assignModeList: any = [];
+  public questionObj: any = {};
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
@@ -335,7 +338,8 @@ export class CustomTaskComponent implements OnInit {
   }
 
   checkedMastery(obj, e) {
-    if (e.target.tagName != 'svg') {
+    console.log(e.target.tagName);
+    if (e.target.tagName != 'svg' && e.target.tagName != 'rect') {
       if (this.checkMasteryExit(obj) != -1) {
         this.createCustom.template.tasks[0].masteries.splice(
           this.checkMasteryExit(obj),
@@ -353,13 +357,17 @@ export class CustomTaskComponent implements OnInit {
 
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
-    console.log(e.target.tagName);
-    console.log(e.target);
-    this.modalReference = this.modalService.open(masteryModal, {
-      backdrop: 'static',
-      windowClass:
-        'jouranlModal d-flex justify-content-center align-items-center'
-    });
+    this._service
+      .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.questionObj = res.data;
+        this.modalReference = this.modalService.open(masteryModal, {
+          backdrop: 'static',
+          windowClass:
+            'jouranlModal d-flex justify-content-center align-items-center'
+        });
+      });
   }
 
   modalClose() {
@@ -373,7 +381,6 @@ export class CustomTaskComponent implements OnInit {
 
   createAssign() {
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
-    this.createCustom.template.startDate = this.createCustom.template.startDate;
     console.log('final obj', this.createCustom);
     this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
@@ -435,5 +442,28 @@ export class CustomTaskComponent implements OnInit {
   changeDatetoTime(date) {
     console.log(date);
     return this.datePipe.transform(date, 'HH:mm');
+  }
+
+  changeHTMLFormat(data) {
+    console.log(data);
+    let ques = data;
+    $('#question-content').html(ques);
+    let imgElement = $('img');
+    for (let i = 0; i < imgElement.length; i++) {
+      console.log($(imgElement[i]));
+      $(imgElement[i]).html(
+        "<div class='d-flex justify-content-center align-items-center ques-img'" +
+          $(imgElement[i]) +
+          '</div>'
+      );
+    }
+    let textElems = $('text');
+    console.log('textElems', textElems.length);
+    for (let j = 0; j < textElems.length; j++) {
+      let currElem = textElems[j];
+      console.log(textElems[j]);
+      console.log($(textElems[j]).attr('value'));
+      $(textElems[j]).html('<div>' + $(textElems[j]).attr('value') + '</div>');
+    }
   }
 }

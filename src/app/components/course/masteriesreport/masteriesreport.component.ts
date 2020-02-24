@@ -13,11 +13,9 @@ export class MasteriesreportComponent implements OnInit {
   echarts: any;
   barColor: any;
   reportItems: any = sampleData;
-  masteriesReports: any = [
-    { id: 1, name: 'Light Energy', data: sampleData },
-    { id: 2, name: 'Heat Energy', data: sampleData }
-  ];
+  masteriesReports: any;
   public isExpand: boolean = false;
+  public noData: boolean = true;
   // public
 
   constructor(private _service: appService, private _data: DataService) {}
@@ -239,26 +237,35 @@ export class MasteriesreportComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this._data.setMasteryData(res);
-          this.masteriesReports = res.data.masteryReport;
-          setTimeout(() => {
-            for (var i = 0; i < this.masteriesReports.length; i++) {
-              this.reportItems = this.masteriesReports[i].masteries;
-              this.setupOption(i);
-            }
-          }, 200);
+          if (res.data.masteryReport) {
+            this.noData = false;
+            this.masteriesReports = res.data.masteryReport;
+            setTimeout(() => {
+              for (var i = 0; i < this.masteriesReports.length; i++) {
+                this.reportItems = this.masteriesReports[i].masteries;
+                this.setupOption(i);
+              }
+            }, 200);
+          } else this.noData = true;
         },
         err => {
           console.log(err);
+          this.noData = true;
         }
       );
     } else {
-      this.masteriesReports = this._data.getMasteryData().data.masteryReport;
-      setTimeout(() => {
-        for (var i = 0; i < this.masteriesReports.length; i++) {
-          this.reportItems = this.masteriesReports[i].masteries;
-          this.setupOption(i);
-        }
-      }, 200);
+      if (this._data.getMasteryData().data.masteryReport) {
+        setTimeout(() => {
+          this.noData = false;
+        }, 1000);
+        this.masteriesReports = this._data.getMasteryData().data.masteryReport;
+        setTimeout(() => {
+          for (var i = 0; i < this.masteriesReports.length; i++) {
+            this.reportItems = this.masteriesReports[i].masteries;
+            this.setupOption(i);
+          }
+        }, 1200);
+      } else this.noData = true;
     }
   }
 }
