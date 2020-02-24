@@ -4349,16 +4349,33 @@ export class appService {
     });
   }
 
-  getTemplateLists(standardId, courseId) {
-    let apiUrl =
-      this.baseUrl +
-      '/regions/' +
-      localStorage.getItem('regionId') +
-      '/' +
-      standardId +
-      '/' +
-      courseId +
-      '/templates';
+  getTemplateLists(standardId, courseId, searchData) {
+    let apiUrl;
+    console.log(searchData);
+    if (searchData) {
+      console.log('here');
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates?search=' +
+        searchData;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates';
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
