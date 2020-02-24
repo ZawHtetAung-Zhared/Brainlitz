@@ -28,6 +28,8 @@ export class OverviewComponent implements OnInit {
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
     this.getMastery();
+    if (localStorage.getItem('SPC') == 'true') this.sparkwerkz = true;
+    else this.sparkwerkz = false;
   }
   public cc = 1;
   ngAfterViewInit() {}

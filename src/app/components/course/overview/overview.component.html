@@ -1,30 +1,9 @@
 <div
-  class="mastery-view no-m"
-  [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="Nomasteryflag && !loadingMastery"
->
-  <div class="mastery-view-head no-mh">
-    <h3>Masteries reports</h3>
-    <span class="spaninline">
-      <!-- <p class="m-0">SW</p> -->
-      <img src="../../../../assets/img/tiny-brainlitz.svg" />
-    </span>
-    <h6 class="p-3">
-      There is no masteries report for this course yet.
-    </h6>
-  </div>
-  <div class="mastery-view-footer no-mf">
-    <button [disabled]="Nomasteryflag" class="btn detail-btn white">
-      More detail
-    </button>
-  </div>
-</div>
-<div
   class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="loadingMastery == false && !Nomasteryflag"
+  [ngClass]="{ hide: !sparkwerkz, 'no-m': Nomasteryflag }"
+  *ngIf="loadingMastery == false"
 >
-  <div class="mastery-view-head">
+  <div class="mastery-view-head" [ngClass]="{ 'no-mh': Nomasteryflag }">
     <h3>Masteries reports</h3>
     <span class="spaninline">
       <!-- <p class="m-0">SW</p> -->
@@ -38,7 +17,10 @@
       2
     </div>
   </div> -->
-    <div class="bd-example">
+    <h6 *ngIf="Nomasteryflag" class="p-3">
+      There is no masteries report for this course yet.
+    </h6>
+    <div *ngIf="!Nomasteryflag" class="bd-example">
       <div
         id="carouselExampleCaptions"
         class="carousel slide"
@@ -149,7 +131,7 @@
       </div>
     </div>
   </div>
-  <div class="mastery-view-footer">
+  <div class="mastery-view-footer" [ngClass]="{ 'no-mf': Nomasteryflag }">
     <button class="detail-btn white" (click)="goToMasteryReport()">
       More detail
     </button>
