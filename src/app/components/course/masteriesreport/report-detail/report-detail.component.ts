@@ -208,7 +208,17 @@ export class ReportDetailComponent implements OnInit {
   setupOption(expandOn, advanceOn) {
     this.echarts = require('echarts');
     this.plotOption = {
-      tooltip: {},
+      tooltip: {
+        formatter: function(params) {
+          let value =
+            '<div style="padding:5px 10px;">' +
+            params.seriesName +
+            ' : ' +
+            params.value +
+            '</div>';
+          return value;
+        }
+      },
       grid: {
         left: 300,
         right: 1
@@ -582,6 +592,7 @@ export class ReportDetailComponent implements OnInit {
     var textElems = $('text');
     for (var j = 0; j < textElems.length; j++) {
       var currElem = textElems[j];
+      console.log(currElem);
       $(textElems[j]).html(
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
@@ -600,6 +611,7 @@ export class ReportDetailComponent implements OnInit {
       $('#' + element._id).html(element.answer);
       var textElems = $('text');
       for (var j = 0; j < textElems.length; j++) {
+        console.log(textElems[j]);
         $(textElems[j]).html(
           '<div>' + $(textElems[j]).attr('value') + '</div>'
         );

@@ -32,7 +32,17 @@ export class MasteriesreportComponent implements OnInit {
     // }
     this.echarts = require('echarts');
     this.plotOption = {
-      tooltip: {},
+      tooltip: {
+        formatter: function(params) {
+          let value =
+            '<div style="padding:5px 10px;">' +
+            params.seriesName +
+            ' : ' +
+            params.value +
+            '</div>';
+          return value;
+        }
+      },
       grid: {
         left: 50
       },
