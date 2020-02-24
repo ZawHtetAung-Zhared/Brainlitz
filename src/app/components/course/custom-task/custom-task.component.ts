@@ -10,7 +10,8 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
-import { text } from '@angular/core/src/render3/instructions';
+import { ToastrService } from 'ngx-toastr';
+
 declare var $: any;
 @Component({
   selector: 'custom-task',
@@ -69,7 +70,8 @@ export class CustomTaskComponent implements OnInit {
     private _route: Router,
     private _service: appService,
     private modalService: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -444,9 +446,11 @@ export class CustomTaskComponent implements OnInit {
           console.log(res);
           this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
           this.loading = false;
+          this.toastr.success('Success Custom Task Create');
         },
         err => {
           this.loading = false;
+          this.toastr.error(err.error.message);
           console.log(err);
         }
       );
