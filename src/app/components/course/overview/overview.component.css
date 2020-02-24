@@ -534,15 +534,23 @@
 }
 .struggle {
   color: #2d5e9e;
+  width: 50%;
+  overflow: auto;
 }
 .fine {
   color: #46aace;
+  width: 50%;
+  overflow: auto;
 }
 .mastered {
   color: #dcecc9;
+  width: 50%;
+  overflow: auto;
 }
 .notstarted {
   color: #b1b1b3;
+  width: 50%;
+  overflow: auto;
 }
 .stu-no,
 .stu,
