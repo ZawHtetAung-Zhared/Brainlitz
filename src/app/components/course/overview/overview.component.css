@@ -199,9 +199,11 @@
   color: #ffffff;
   height: 40px;
   cursor: pointer;
-  outline: none;
   line-height: 18px !important;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  background: none;
+  border: none;
+  outline: none;
 }
 .task-label {
   /* position: absolute;
