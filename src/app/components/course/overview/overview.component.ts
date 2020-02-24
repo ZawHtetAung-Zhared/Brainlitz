@@ -67,6 +67,7 @@ export class OverviewComponent implements OnInit {
   // toggle() {
   //   this.on = !this.on;
   // }
+  private masteryStudentCount: any;
   mastery: any = [
     {
       id: '5dda85cfb1c96001c43267bc',
@@ -968,9 +969,11 @@ export class OverviewComponent implements OnInit {
         this.loadingMastery = false;
         this._data.setMasteryData(res);
         this.mastery = res.data.masteryReport;
+        this.masteryStudentCount = res.data.enrolledStudentCount;
         console.log(this.mastery);
         console.log('2D', this.TwoDimensional(this.mastery, 2));
         this.outerArray = this.TwoDimensional(this.mastery, 2);
+        console.log(this.outerArray);
         setTimeout(() => {
           this.drawChart(this.outerArray);
         }, 200);
