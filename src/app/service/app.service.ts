@@ -4512,13 +4512,32 @@ export class appService {
       return res;
     });
   }
-
   getMasteryQuestion(masteryId) {
     let apiUrl =
       this.baseUrl +
       '/courses/' +
       // '5dc292803161140e23b4de2d' +
       localStorage.getItem('COURSEID') +
+      '/masteries/' +
+      masteryId +
+      '/sample-quiz';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getQuestionbymastery(courseId, masteryId) {
+    let apiUrl =
+      this.baseUrl +
+      '/courses/' +
+      courseId +
       '/masteries/' +
       masteryId +
       '/sample-quiz';
