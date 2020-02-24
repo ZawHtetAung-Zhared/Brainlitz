@@ -136,6 +136,36 @@
     </div>
   </div>
 </div>
+<!-- loading for mastery report -->
+<div
+  class="mastery-view"
+  [ngClass]="{ hide: !sparkwerkz }"
+  *ngIf="loadingMastery == true"
+>
+  <div class="mastery-view-head">
+    <div class="bd-example">
+      <content-loader>
+        <svg:rect x="20" y="20" rx="0" ry="0" width="80%" height="4px" />
+        <svg:rect x="30" y="30" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="30" y="40" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="30" y="50" rx="0" ry="0" width="78%" height="4px" />
+        <svg:rect x="25" y="60" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="25" y="70" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="25" y="80" rx="0" ry="0" width="79%" height="4px" />
+        <svg:rect x="20" y="90" rx="0" ry="0" width="80%" height="4px" />
+        <svg:rect x="20" y="100" rx="0" ry="0" width="80%" height="4px" />
+      </content-loader>
+    </div>
+  </div>
+  <div class="mastery-view-footer">
+    <div style="float: right">
+      <button class="detail-btn white">
+        More detail
+      </button>
+    </div>
+  </div>
+</div>
+<!-- loadign for mastery report -->
 <div
   class="card-column"
   [ngClass]="{ orphan: !sparkwerkz }"
@@ -389,35 +419,6 @@
 </div>
 
 <!-- apo loading -->
-
-<div
-  class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="loadingMastery == true"
->
-  <div class="mastery-view-head">
-    <div class="bd-example">
-      <content-loader>
-        <svg:rect x="20" y="20" rx="0" ry="0" width="80%" height="4px" />
-        <svg:rect x="30" y="30" rx="0" ry="0" width="78%" height="4px" />
-        <svg:rect x="30" y="40" rx="0" ry="0" width="78%" height="4px" />
-        <svg:rect x="30" y="50" rx="0" ry="0" width="78%" height="4px" />
-        <svg:rect x="25" y="60" rx="0" ry="0" width="79%" height="4px" />
-        <svg:rect x="25" y="70" rx="0" ry="0" width="79%" height="4px" />
-        <svg:rect x="25" y="80" rx="0" ry="0" width="79%" height="4px" />
-        <svg:rect x="20" y="90" rx="0" ry="0" width="80%" height="4px" />
-        <svg:rect x="20" y="100" rx="0" ry="0" width="80%" height="4px" />
-      </content-loader>
-    </div>
-  </div>
-  <div class="mastery-view-footer">
-    <div style="float: right">
-      <button class="detail-btn white">
-        More detail
-      </button>
-    </div>
-  </div>
-</div>
 
 <!-- <div class="card-column" [ngClass]="{ orphan: !sparkwerkz }" *ngIf="loading == true">
   <div class="customer-view">
