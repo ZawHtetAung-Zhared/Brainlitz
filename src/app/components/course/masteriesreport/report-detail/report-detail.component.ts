@@ -592,7 +592,6 @@ export class ReportDetailComponent implements OnInit {
     var textElems = $('text');
     for (var j = 0; j < textElems.length; j++) {
       var currElem = textElems[j];
-      console.log(currElem);
       $(textElems[j]).html(
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
@@ -611,7 +610,6 @@ export class ReportDetailComponent implements OnInit {
       $('#' + element._id).html(element.answer);
       var textElems = $('text');
       for (var j = 0; j < textElems.length; j++) {
-        console.log(textElems[j]);
         $(textElems[j]).html(
           '<div>' + $(textElems[j]).attr('value') + '</div>'
         );
@@ -619,39 +617,39 @@ export class ReportDetailComponent implements OnInit {
     });
   }
 
-  setupQuestion() {
-    this.samplexml =
-      "<text index=0 value='A student took a slice of bread and cut it into two. He toasted one of the pieces until it was dry. He placed the two pieces of bread on a plate and left it in the kitchen. After a week, the student noticed fungi growing on the piece of bread that was not toasted and no fungi on the toasted bread.' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/LTN-01-01/Assets/questionsAssets/ltn-01-01-01.jpg' ><text index=2 value='From this experiment, the student can conclude that fungus ____________.\nChoose one \nA. test 1\nB. test2\nC. test3' ></text>";
-    var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
-    this.samplexml = '';
-    new_str_arr.forEach(element => {
-      this.samplexml += element;
-    });
-    console.log(this.samplexml);
-    this.qtextList = this.samplexml.match(/<text.[\s\S]*?>.*?<\/text>/g);
-    this.qimgList = this.samplexml.match(/<image.*?>/g);
-    console.log(this.qimgList, this.qtextList);
-    this.qhtml = [];
-    if (this.qtextList) {
-      for (var i = 0; i < this.qtextList.length; i++) {
-        var index = this.qtextList[i].match(/index=\d*/g);
-        index = index[0].substring(6, index[0].length);
-        var text = this.qtextList[i].match(/value='.[\s\S]*?'/g)[0];
+  // setupQuestion() {
+  //   this.samplexml =
+  //     "<text index=0 value='A student took a slice of bread and cut it into two. He toasted one of the pieces until it was dry. He placed the two pieces of bread on a plate and left it in the kitchen. After a week, the student noticed fungi growing on the piece of bread that was not toasted and no fungi on the toasted bread.' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/LTN-01-01/Assets/questionsAssets/ltn-01-01-01.jpg' ><text index=2 value='From this experiment, the student can conclude that fungus ____________.\nChoose one \nA. test 1\nB. test2\nC. test3' ></text>";
+  //   var new_str_arr = this.samplexml.match(/[^\r\n]+/g);
+  //   this.samplexml = '';
+  //   new_str_arr.forEach(element => {
+  //     this.samplexml += element;
+  //   });
+  //   console.log(this.samplexml);
+  //   this.qtextList = this.samplexml.match(/<text.[\s\S]*?>.*?<\/text>/g);
+  //   this.qimgList = this.samplexml.match(/<image.*?>/g);
+  //   console.log(this.qimgList, this.qtextList);
+  //   this.qhtml = [];
+  //   if (this.qtextList) {
+  //     for (var i = 0; i < this.qtextList.length; i++) {
+  //       var index = this.qtextList[i].match(/index=\d*/g);
+  //       index = index[0].substring(6, index[0].length);
+  //       var text = this.qtextList[i].match(/value='.[\s\S]*?'/g)[0];
 
-        this.qhtml.splice(
-          index,
-          0,
-          '<pre>' + text.substring(7, text.length - 1) + '</pre>'
-        );
-      }
-    }
+  //       this.qhtml.splice(
+  //         index,
+  //         0,
+  //         '<pre>' + text.substring(7, text.length - 1) + '</pre>'
+  //       );
+  //     }
+  //   }
 
-    if (this.qimgList) {
-      for (var i = 0; i < this.qimgList.length; i++) {
-        var index = this.qimgList[i].match(/index=\d*/g);
-        index = index[0].substring(6, index[0].length);
-        this.qhtml.splice(index, 0, this.qimgList[i]);
-      }
-    }
-  }
+  //   if (this.qimgList) {
+  //     for (var i = 0; i < this.qimgList.length; i++) {
+  //       var index = this.qimgList[i].match(/index=\d*/g);
+  //       index = index[0].substring(6, index[0].length);
+  //       this.qhtml.splice(index, 0, this.qimgList[i]);
+  //     }
+  //   }
+  // }
 }
