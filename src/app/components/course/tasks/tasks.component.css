@@ -31,7 +31,7 @@ body {
 .cardbody {
   padding: 10px 10px 10px 10px;
   min-height: 120px;
-  background: rgba(247, 243, 243, 0.91);
+  background: #fffc;
 }
 
 .cardfooter {

@@ -49,7 +49,8 @@
     </div>
   </div>
 </div> -->
-<div class="row">
+
+<!-- <div class="row">
   <div class="col-md-6">
     <div class="task-holder ">
       <div
@@ -168,6 +169,76 @@
           </span>
         </div>
       </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- API Integration -->
+<div class="row" *ngIf="loading == false">
+  <div class="col-md-6" *ngFor="let task of tasks">
+    <div class="task-holder">
+      <div
+        class="image"
+        style="border-radius: 8px 8px 0px 0px;background-size: 100%;"
+        [ngStyle]="{ 'background-image': 'url(' + task.posterImageUrl + ')' }"
+      >
+        <div class="cardhead mb-3">
+          <span class="custom-or-schedule"
+            >{{ task.distributionMode | titlecase }} -
+            {{ task.taskType | titlecase }}</span
+          >
+        </div>
+        <div class="cardbody">
+          <h3 class="title-text">{{ task.name }}</h3>
+          <p class="body-text">
+            {{
+              task.description.length > 110
+                ? (task.description | slice: 0:110) + ' ...'
+                : task.description
+            }}
+          </p>
+        </div>
+      </div>
+      <div class="cardfooter d-flex justify-content-between">
+        <div class="masteries-count d-flex flex-column">
+          <span class="count-text"
+            >{{ task.overview.count }} {{ task.overview.type }}</span
+          >
+        </div>
+        <div class="">
+          <span class="count-text">
+            {{ task.taskStartDate | utcDate }} -
+            {{ task.taskEndDate | utcDate }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="loading == true">
+  <div class="col-md-6">
+    <div class="task-holder">
+      <content-loader>
+        <svg:rect x="10" y="50" rx="0" ry="0" width="90%" height="2px" />
+        <svg:rect x="10" y="55" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="60" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="75" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="80" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="95" rx="0" ry="0" width="50%" height="2px" />
+      </content-loader>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="task-holder">
+      <content-loader>
+        <svg:rect x="10" y="50" rx="0" ry="0" width="90%" height="2px" />
+        <svg:rect x="10" y="55" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="60" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="75" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="80" rx="0" ry="0" width="80%" height="2px" />
+        <svg:rect x="10" y="95" rx="0" ry="0" width="50%" height="2px" />
+      </content-loader>
     </div>
   </div>
 </div>
