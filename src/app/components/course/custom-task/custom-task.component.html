@@ -305,168 +305,176 @@
             </p>
             <div class="mastery-block">
               <div class="anno-block pl-4">
-                <p
-                  class="d-none template-description2 regular"
-                  [ngClass]="{ 'd-block': isShowAnnoBlock == false }"
-                >
-                  Announcement time will be automatically set to 24 hours before
-                  the start date.
-                  <button
-                    class="btn btn-link pl-0"
-                    (click)="isShowAnnoBlock = true"
-                  >
-                    Set custom announcement time.
-                  </button>
-                </p>
-                <button
-                  type="button"
-                  class="close float-right d-none btn-close"
-                  aria-label="Close"
-                  [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
-                  (click)="isShowAnnoBlock = false"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
                 <div
-                  [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
-                  class="d-none"
+                  class="hidden-anno"
+                  [ngClass]="{ 'show-anno': isShowAnnoBlock == true }"
                 >
-                  <p class="anno-txt font-semi">
-                    Announcement information
+                  <p
+                    class="d-none template-description2 regular"
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == false }"
+                  >
+                    Announcement time will be automatically set to 24 hours
+                    before the start date.
+                    <button
+                      class="btn btn-link pl-0"
+                      (click)="isShowAnnoBlock = true"
+                    >
+                      Set custom announcement time.
+                    </button>
                   </p>
-                  <div class="d-flex duration-wrapper mb-3">
-                    <div class="col-md-6">
-                      <label for="course_name" class="input-title medium"
-                        >Date</label
-                      >
-                      <div class="input-wrap">
-                        <div class="cc-start">
+                  <button
+                    type="button"
+                    class="close float-right d-none btn-close"
+                    aria-label="Close"
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                    (click)="isShowAnnoBlock = false"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+
+                  <div
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                    class="d-none"
+                  >
+                    <p class="anno-txt font-semi">
+                      Announcement information
+                    </p>
+                    <div class="d-flex duration-wrapper mb-3">
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >Date</label
+                        >
+                        <div class="input-wrap">
+                          <div class="cc-start">
+                            <span class="dp-icon">
+                              <img src="./assets/img/course-dp.png" />
+                            </span>
+                            <input
+                              type="text"
+                              class="input-day dropD startInput"
+                              name="annoDate"
+                              required
+                              (click)="annoDate.toggle()"
+                              ngbDatepicker
+                              #annoDate="ngbDatepicker"
+                              (document:click)="closeDropdown($event, annoDate)"
+                              [(ngModel)]="annoTaskDate"
+                              placeholder="{{
+                                (createCustom?.template.tasks)[0]
+                                  .announcementDate | date: 'dd MMM yyyy'
+                              }}"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pRight-15">
+                        <label for="course_name" class="input-title font-medium"
+                          >Time</label
+                        >
+                        <div class="input-wrap start-wrap">
                           <span class="dp-icon">
-                            <img src="./assets/img/course-dp.png" />
+                            <img src="./assets/img/clock.png" />
                           </span>
                           <input
                             type="text"
-                            class="input-day dropD startInput"
-                            name="annoDate"
+                            class="input-day timeInput"
+                            name="innoTime"
                             required
-                            (click)="annoDate.toggle()"
-                            ngbDatepicker
-                            #annoDate="ngbDatepicker"
-                            (document:click)="closeDropdown($event, annoDate)"
-                            [(ngModel)]="annoTaskDate"
+                            readonly
+                            (click)="durationProgress($event)"
+                            style="background: none;"
+                            [(ngModel)]="showFormat"
                             placeholder="{{
                               (createCustom?.template.tasks)[0]
-                                .announcementDate | date: 'dd MMM yyyy'
+                                .announcementDate | date: 'h:mm a'
                             }}"
-                            readonly
                           />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 pRight-15">
-                      <label for="course_name" class="input-title font-medium"
-                        >Time</label
-                      >
-                      <div class="input-wrap start-wrap">
-                        <span class="dp-icon">
-                          <img src="./assets/img/clock.png" />
-                        </span>
-                        <input
-                          type="text"
-                          class="input-day timeInput"
-                          name="innoTime"
-                          required
-                          readonly
-                          (click)="durationProgress($event)"
-                          style="background: none;"
-                          [(ngModel)]="showFormat"
-                          placeholder="{{
-                            (createCustom?.template.tasks)[0].announcementDate
-                              | date: 'h:mm a'
-                          }}"
-                        />
-                        <div class="bg-box duration-progress">
-                          <div id="rectangle"></div>
-                          <div
-                            class="time-wrapper d-flex justify-content-center"
-                          >
+                          <div class="bg-box duration-progress">
+                            <div id="rectangle"></div>
                             <div
-                              class="d-flex flex-column justify-content-center showTime medium"
+                              class="time-wrapper d-flex justify-content-center"
                             >
-                              {{ showFormat }}
-                            </div>
-                            <div>
-                              <div class="time-box">
-                                <label
-                                  [ngClass]="{
-                                    selected: isSelectedTime == 'AM'
-                                  }"
-                                  class="mb-0 font-semi"
-                                  ><input
-                                    type="radio"
-                                    name="prop"
-                                    (click)="chooseTimeOpt('AM')"
-                                  />
-                                  AM
-                                </label>
-                                <label
-                                  [ngClass]="{
-                                    selected: isSelectedTime == 'PM'
-                                  }"
-                                  class="mb-0 font-semi"
-                                >
-                                  <input
-                                    type="radio"
-                                    [(ngModel)]="model.prop"
-                                    name="prop"
-                                    (click)="chooseTimeOpt('PM')"
-                                  />
-                                  PM
-                                </label>
+                              <div
+                                class="d-flex flex-column justify-content-center showTime medium"
+                              >
+                                {{ showFormat }}
+                              </div>
+                              <div>
+                                <div class="time-box">
+                                  <label
+                                    [ngClass]="{
+                                      selected: isSelectedTime == 'AM'
+                                    }"
+                                    class="mb-0 font-semi"
+                                    ><input
+                                      type="radio"
+                                      name="prop"
+                                      (click)="chooseTimeOpt('AM')"
+                                    />
+                                    AM
+                                  </label>
+                                  <label
+                                    [ngClass]="{
+                                      selected: isSelectedTime == 'PM'
+                                    }"
+                                    class="mb-0 font-semi"
+                                  >
+                                    <input
+                                      type="radio"
+                                      [(ngModel)]="model.prop"
+                                      name="prop"
+                                      (click)="chooseTimeOpt('PM')"
+                                    />
+                                    PM
+                                  </label>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="gap-box">
-                            <label>
-                              <div class="col-md-4 max-range">Hour</div>
-                              <input
-                                class="max-range-box"
-                                type="range"
-                                id="hrDuration"
-                                name="pointsHr"
-                                min="0"
-                                max="12"
-                                (input)="
-                                  ChangedRangeValue($event.target.value, 'hr')
-                                "
-                                [(ngModel)]="rangeHr"
-                              />
-                            </label>
-                          </div>
-                          <div class="gap-range-min">
-                            <label>
-                              <div class="col-md-4 min-range">Minute</div>
-                              <input
-                                class="min-range-box"
-                                type="range"
-                                id="minDuration"
-                                name="pointsMin"
-                                min="0"
-                                max="59"
-                                step="1"
-                                (input)="
-                                  ChangedRangeValue($event.target.value, 'min')
-                                "
-                                [(ngModel)]="rangeMin"
-                              />
-                            </label>
+                            <div class="gap-box">
+                              <label>
+                                <div class="col-md-4 max-range">Hour</div>
+                                <input
+                                  class="max-range-box"
+                                  type="range"
+                                  id="hrDuration"
+                                  name="pointsHr"
+                                  min="0"
+                                  max="12"
+                                  (input)="
+                                    ChangedRangeValue($event.target.value, 'hr')
+                                  "
+                                  [(ngModel)]="rangeHr"
+                                />
+                              </label>
+                            </div>
+                            <div class="gap-range-min">
+                              <label>
+                                <div class="col-md-4 min-range">Minute</div>
+                                <input
+                                  class="min-range-box"
+                                  type="range"
+                                  id="minDuration"
+                                  name="pointsMin"
+                                  min="0"
+                                  max="59"
+                                  step="1"
+                                  (input)="
+                                    ChangedRangeValue(
+                                      $event.target.value,
+                                      'min'
+                                    )
+                                  "
+                                  [(ngModel)]="rangeMin"
+                                />
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <p class="anno-txt font-semi">
                   Task information
                 </p>

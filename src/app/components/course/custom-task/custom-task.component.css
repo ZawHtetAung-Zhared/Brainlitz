@@ -103,6 +103,15 @@ div#answer-block {
   color: #00a653;
   font-size: 15px;
 }
+
+.hidden-anno {
+  height: 60px;
+  transition: 0.5s all ease-out;
+}
+
+.show-anno {
+  height: 180px !important;
+}
 @media only screen and (min-width: 1365px) {
   .mastery-scroll {
     overflow: overlay;
@@ -111,6 +120,13 @@ div#answer-block {
 
   .mode-wrapper {
     height: auto;
+  }
+}
+@media only screen and (max-width: 1365px) {
+  .mastery-block {
+    overflow: overlay;
+    height: 600px;
+    padding-bottom: 60px;
   }
 }
 

@@ -113,6 +113,8 @@ export class AssignTaskComponent implements OnInit {
         this.isCustom = this.courseDetail.sparkWerkz.standardSelected
           ? true
           : false;
+
+        console.log(this.isCustom);
       },
       err => {
         console.log(err);

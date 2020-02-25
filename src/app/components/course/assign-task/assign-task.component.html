@@ -1,4 +1,4 @@
-<div *ngIf="!sparkWerkz?.scheduledTask" class="h-100">
+<div class="h-100">
   <div
     class="h-100"
     *ngIf="!isScheduleTask && !sparkWerkz?.standardSelected && !isCustom"
@@ -660,7 +660,6 @@
   <div id="placeholder_color"></div>
 </div>
 
-<div *ngIf="sparkWerkz?.scheduledTask">Will show custom task?</div>
 <ng-template #masteriesModal let-modal>
   <div class="mastery-wrapper">
     <div class="d-flex justify-content-between">
