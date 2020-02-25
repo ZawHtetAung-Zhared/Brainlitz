@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
@@ -244,9 +245,14 @@ export class appService {
     });
   }
 
-  getOrgCredentials(orgCode, hostName) {
+  getOrgCredentials(orgCode, hostName, envName) {
     console.log(hostName);
-    let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+    let url =
+      this.baseUrl1 +
+      '/organization-credentials/' +
+      orgCode +
+      '?env=' +
+      envName;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -776,6 +782,7 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
@@ -1453,6 +1460,38 @@ export class appService {
     });
   }
 
+  getCourseplanCollection(regionId, locationId, keyword) {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId +
+        '&keyword=' +
+        keyword;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   getSearchCoursePlan(
     id: string,
     location: string,
@@ -1801,9 +1840,13 @@ export class appService {
     console.log(categoryIDArray);
     let url =
       this.baseUrl + '/' + regionID + '/course?locationId=' + locationID;
-
+    console.error(repeatedDays, 'repeated days');
+    console.error(repeatedDays != '' || repeatedDays != undefined);
     url = keyword != undefined ? url + '&keyword=' + keyword : url;
-    url = repeatedDays != '' ? url + '&repeatedDays=' + repeatedDays : url;
+    url =
+      repeatedDays != '' && repeatedDays != undefined
+        ? url + '&repeatedDays=' + repeatedDays
+        : url;
     url = eventStart != null ? url + '&startDate=' + eventStart : url;
     url = eventEnd != null ? url + '&endDate=' + eventEnd : url;
     url =
@@ -1847,6 +1890,68 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
+  getCoursesPerPlan(
+    regionId,
+    locationId,
+    courseplanId,
+    limit,
+    skip,
+    page,
+    direction,
+    keyword
+  ): Observable<any> {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction +
+        '&keyword=' +
+        keyword;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
       console.log(result);
@@ -1953,6 +2058,21 @@ export class appService {
     };
     console.log(httpOptions);
     return this.httpClient.post(apiUrl, body, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  getAttendance(courseid) {
+    let url;
+    url = this.baseUrl + '/courses/' + courseid + '/attendances';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log('getAttendance works');
+    return this.httpClient.get(url, httpOptions).map(res => {
       console.log(res);
       return res;
     });
@@ -3647,7 +3767,8 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      return result;
+      console.log(res);
+      return res;
     });
   }
   getEvaluationExport(apg: any, regionId: string) {
@@ -3692,6 +3813,40 @@ export class appService {
 
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+
+  updateGrading(userId, data, regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/users/' + userId + '/grading?courseId=' + courseId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(apiUrl, data, httpOptions).map((res: any) => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  getAllTasksInfo(regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/courses/' + courseId + '/tasks';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Here All Tasks');
+      console.log(result);
       return result;
     });
   }
@@ -4143,6 +4298,322 @@ export class appService {
       })
     };
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  deleteGrade(userId, gradeId) {
+    let url =
+      this.baseUrl +
+      '/users/' +
+      userId +
+      '/grades/' +
+      gradeId +
+      '/delete-grade';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getStandardClass() {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/standard-class-level';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignTasks() {
+    let apiUrl =
+      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-tasks';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTemplateLists(standardId, courseId, searchData) {
+    let apiUrl;
+    console.log(searchData);
+    if (searchData) {
+      console.log('here');
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates?search=' +
+        searchData;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates';
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getsingleTemplate(templateId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/' +
+      templateId +
+      '/template';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTaskBytemplate(templateId, startDate) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks?startDate=' +
+      startDate;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getsingletaskBytemplate(templateId, taskId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks/' +
+      taskId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignMode(id) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/assign-modes/' +
+      id;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  createAssigntask(courseId, data): Observable<any> {
+    let url = this.baseUrl + '/courses/' + courseId + '/assign-course-task';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
+  getOverviewList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview data');
+      return result;
+    });
+  }
+
+  getOverviewMasteryList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview Mastery data');
+      return result;
+    });
+  }
+
+  getMasteryReports() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      // '5dc292803161140e23b4de2d' +
+      localStorage.getItem('COURSEID') +
+      '/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  getMasteryQuestion(masteryId) {
+    let apiUrl =
+      this.baseUrl +
+      '/courses/' +
+      // '5dc292803161140e23b4de2d' +
+      localStorage.getItem('COURSEID') +
+      '/masteries/' +
+      masteryId +
+      '/sample-quiz';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getQuestionbymastery(courseId, masteryId) {
+    let apiUrl =
+      this.baseUrl +
+      '/courses/' +
+      courseId +
+      '/masteries/' +
+      masteryId +
+      '/sample-quiz';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getMasteryDetailReport(masteryGroupId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/mastery-reports/mastery-groups/' +
+      masteryGroupId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
   }

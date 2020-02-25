@@ -1,0 +1,164 @@
+body {
+  font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
+}
+
+.task-holder {
+  margin-bottom: 1.8em;
+  width: 476px;
+  /* height: 180px; */
+  background: #ffffff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  display: inline-block;
+  width: 100%;
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  /* font-family: Inter; */
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+}
+
+.card-column {
+  -webkit-column-count: 2;
+  column-count: 2;
+  padding: 20px 0px 15px 0px;
+}
+
+.cardhead {
+  min-height: 120px;
+  padding: 24px;
+}
+
+.cardbody {
+  padding: 10px 10px 10px 10px;
+  min-height: 120px;
+  background: #fffc;
+}
+
+.cardfooter {
+  padding: 24px 24px 24px 24px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
+.task-header {
+  /* font-family: Inter; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 32px;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
+.btn-create {
+  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
+  color: #fff;
+  background-color: #1682fb;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 3px;
+  min-width: 137px;
+}
+
+.btn-normal {
+  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 3px;
+  min-width: 137px;
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.spaninline {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #ffffff;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  display: inline-block;
+  background: #ffbf00;
+  border-radius: 25px;
+  width: 30px;
+  text-align: center;
+}
+
+.task {
+  /* font-family: Inter; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #363f4d;
+}
+
+.custom-or-schedule {
+  /* font-family: Inter; */
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 24px;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #fff;
+  background: rgba(124, 131, 139, 0.8);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.title-text {
+  /* font-family: Inter; */
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  /* identical to box height, or 140% */
+  font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on, 'ss01' on,
+    'ss02' on, 'ss03' on;
+  /* Carbon / C300 */
+  color: #363f4d;
+}
+
+.count-text {
+  /* font-family: Inter; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  display: flex;
+  align-items: center;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
+.masteries-count {
+  background-color: #f2f4f5;
+  border-radius: 25px;
+  padding: 8px 10px 8px 10px;
+  text-align: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.no-task {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

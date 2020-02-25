@@ -5,7 +5,7 @@
       <div class="d-flex">
         <div class="flexi-img-div">
           <div class="flexi-img-wrap">
-            <img src="{{ selectedCustomer.profilePic }}" />
+            <img src="{{ selectedCustomer?.profilePic }}" />
           </div>
         </div>
         <div class="flexi-name-div">
@@ -39,7 +39,7 @@
   <div class="d-flex teacher-gp" *ngIf="ctype != 'schedule'">
     <div class="flexi-img-div teacherImg">
       <div class="flexi-img-wrap teacherImg-wrap">
-        <img src="{{ teacherDetail.profilePic }}" />
+        <img src="{{ teacherDetail?.profilePic }}" />
       </div>
     </div>
     <div class="flexi-teacher-div">
@@ -105,13 +105,13 @@
               class="date"
               [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
             >
-              {{ obj.startDate | utcShortDate }}
+              {{ obj?.startDate | utcShortDate }}
             </p>
             <p
               class="day"
               [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
             >
-              {{ obj.startDate | utcFullDay }}
+              {{ obj?.startDate | utcFullDay }}
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@
           class="statusBox"
           [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
         >
-          <p class="statusText">{{ obj.enrolledStudentCount }} students</p>
+          <p class="statusText">{{ obj?.enrolledStudentCount }} students</p>
         </div>
       </div>
       <div

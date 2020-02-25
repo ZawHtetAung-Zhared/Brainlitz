@@ -516,6 +516,7 @@
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
+                        (input)="checkFeeOption(idx)"
                       />
                       <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap">
                         <div class="currencySign">
@@ -569,6 +570,9 @@
                     </div>
                   </div>
                 </div>
+                <div *ngIf="isSameOpt" class="col-md-12 error-text">
+                  Option name should not be the same.
+                </div>
                 <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
                 <button class="addOpt-btn" (click)="addFeeOption()">
@@ -580,7 +584,7 @@
               <button
                 type="button"
                 class="btn sticky-create"
-                [disabled]="!childForm3.valid"
+                [disabled]="!childForm3.valid || isSameOpt"
                 (click)="continueStep('step3', childForm3.value)"
               >
                 Continue
@@ -673,6 +677,14 @@
                     </label>
                   </div>
                 </drag-scroll>
+                <div *ngIf="searchMore" class="d-flex justify-content-center ">
+                  <button
+                    class="btn load-more"
+                    (click)="showMoreResources(pdfList.length)"
+                  >
+                    load more
+                  </button>
+                </div>
               </div>
             </div>
             <div class="button-wrapper">
@@ -756,9 +768,11 @@
                       *ngFor="let apg of apgList"
                     >
                       <div class="d-flex">
-                        <div class="circle1 plus"></div>
                         <div>
-                          <div>{{ apg.name }}</div>
+                          <div class="circle1 plus"></div>
+                        </div>
+                        <div>
+                          <div class="wordBreak">{{ apg.name }}</div>
                           <div class="step-font font-12" *ngIf="apg.module">
                             {{ apg.module.name }}
                           </div>
@@ -818,7 +832,9 @@
                         (click)="removeSelectedAPG(cAPG)"
                       >
                         <div class="circle2 minus"></div>
-                        <div class="all-title-font">{{ cAPG.name }}</div>
+                        <div class="all-title-font wordBreak">
+                          {{ cAPG.name }}
+                        </div>
                         <div
                           style="padding-left: 35px; padding-bottom: 15px; color: #64707d; font-family: Inter-UI-SemiBold; font-size: 12px;"
                         >

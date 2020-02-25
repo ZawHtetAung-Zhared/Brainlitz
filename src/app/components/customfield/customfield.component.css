@@ -65,6 +65,11 @@ p.switchTxt {
   overflow: overlay;
   height: 300px;
 }
+@-moz-document url-prefix() {
+  .dataList {
+    overflow: auto;
+  }
+}
 
 .card {
   border: none;
@@ -464,7 +469,8 @@ p.switchTxt {
   height: 16px;
   background: #d4d5d6;
   border-radius: 50%;
-  z-index: 99;
+  /* z-index: 99; */
+  z-index: 0;
   -ms-transition: 0.3s all ease;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
@@ -508,7 +514,7 @@ p.switchTxt {
   height: 16px;
   background: #d4d5d6;
   border-radius: 50%;
-  z-index: 99;
+  /* z-index: 99; */
   -ms-transition: 0.3s all ease;
   -webkit-transition: 0.3s all ease;
   transition: 0.3s all ease;
@@ -537,4 +543,15 @@ p.switchTxt {
 
 .close-search:after {
   transform: rotate(-45deg);
+}
+
+.add-selection {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0080ff;
+  padding-left: 20px;
+  cursor: pointer;
+  margin-bottom: 0px;
+  cursor: pointer;
 }

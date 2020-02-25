@@ -21,19 +21,22 @@
       "
       [ngClass]="{ active: isSticky == true }"
     >
-      <block-ui message="Deafult Message"></block-ui>
+      <!-- <block-ui message="Deafult Message"></block-ui> -->
       <div *ngIf="coursePermission.length > 0" class="card-container">
         <div class="d-flex justify-content-between title">
-          <div>
+          <div class="d-flex">
             <h3 class="header-font">Courses</h3>
-            <span
-              class="location-name"
-              [ngStyle]="{
-                color: gtxtColor,
-                background: gbgColor
-              }"
-              >{{ locationName }}</span
-            >
+            <div class="location-wrapper mt-2">
+              <div
+                class="location-name"
+                [ngStyle]="{
+                  color: gtxtColor,
+                  background: gbgColor
+                }"
+              >
+                {{ locationName }}
+              </div>
+            </div>
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -432,7 +435,7 @@
                                     id="hrDuration"
                                     name="pointsEndHr"
                                     min="0"
-                                    max="11"
+                                    max="12"
                                     (input)="
                                       ChangedTimeValue(
                                         $event.target.value,
@@ -478,26 +481,27 @@
                     >
                     <div class="col-md-10 pr-zero pl-zero">
                       <div class="d-flex flex-wrap">
-                        <div
-                          [ngClass]="{ selected: day.checked == true }"
-                          class="single-day"
-                          *ngFor="let day of days"
-                        >
-                          <label
-                            class="form-check-label cat-label d-flex flex-column justify-content-center"
+                        <div *ngFor="let day of days">
+                          <div
+                            class="single-day"
+                            [ngClass]="{ selected: day.checked == true }"
                           >
-                            <div>
-                              <div class="label-checked"></div>
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="inlineRadioOptions"
-                                (click)="removeTempData(day.val)"
-                                value="{{ day.val }}"
-                              />
-                              {{ day.day }}
-                            </div>
-                          </label>
+                            <label
+                              class="form-check-label cat-label d-flex flex-column justify-content-center"
+                            >
+                              <div>
+                                <div class="label-checked"></div>
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  (click)="removeTempData(day.val)"
+                                  value="{{ day.val }}"
+                                />
+                                {{ day.day }}
+                              </div>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -564,10 +568,11 @@
               class="remove-data d-flex justify-content-end"
             ></div>
           </div>
-          <div
+          <!-- <div
             *ngIf="repeatedDaysTemp.length > 0"
             class="d-flex flex-row as-result"
-          >
+          > -->
+          <div *ngIf="!isRemoveDay" class="d-flex flex-row as-result">
             <span>Repeated days is </span>
             <ul class="as-loop">
               <li *ngFor="let day of daysLoop">
@@ -590,6 +595,13 @@
               <!-- <p class="addCourseBtn">+</p> -->
               <p class="btn-largeLabel">Add new course plan</p>
             </button>
+            <button
+              class="btn btn-large d-flex align-items-center justify-content-center"
+              routerLinkActive="active"
+              routerLink="/coursedetail"
+            >
+              Course Detail
+            </button>
           </div>
           <div *ngFor="let courseGroup of courseList">
             <div class="card card-wrap">
@@ -603,7 +615,7 @@
                       #{{ courseGroup.coursePlan.category.name }}
                     </label>
                   </div>
-                  <h5 class="medium-font cursor-on">
+                  <h5 class="medium-font cursor-on wordBreak">
                     {{ courseGroup.coursePlan.name }}
                   </h5>
                   <div class="d-flex header-info light-font">
@@ -649,7 +661,11 @@
                   </div>
                   <div
                     class="course-type"
-                    *ngIf="course.draft == false && course.type != undefined"
+                    *ngIf="
+                      course.draft == false &&
+                      course.type != undefined &&
+                      !courseTypeDisabled
+                    "
                   >
                     {{ course.type | lowercase }}
                   </div>
@@ -699,7 +715,7 @@
                     </div>
                     <div class="course-info">
                       <div class="course-detail">
-                        <div>
+                        <div class="libr">
                           <label
                             class="category item-width semibold mb-2"
                             [ngStyle]="{
@@ -976,10 +992,10 @@
     class="category-content"
     *ngIf="isPlan == true"
   ></app-courseplan>
-  <app-coursecreate
+  <!-- <app-coursecreate
     class="category-content"
     *ngIf="isCourseCreate == true"
-  ></app-coursecreate>
+  ></app-coursecreate> -->
   <div class="w-100">
     <app-today-lessons
       *ngIf="isTodayLesson"
@@ -1429,7 +1445,6 @@
                     class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
                   >
                     <div
-                      (click)="showOptionsBox(user.userId, $event)"
                       class="d-flex flex-row  single-user justify-content-center align-items-center"
                     >
                       <div *ngIf="user.invoice != null">
@@ -1540,10 +1555,12 @@
                       <div class="ml-auto remover-wrap">
                         <span
                           class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
+                          (click)="showOptionsBox(user.userId, $event)"
                         ></span>
                         <!-- <div class="remove-user d-flex justify-content-end" (click)="openRemoveModal(user.userId, deleteModal, user.preferredName)"></div> -->
                       </div>
                       <!-- <ul id="user.userId" [ngStyle]="{'top': yPosition + 'px'}" *ngIf="xxxhello == user.userId" class="options-box"> -->
+
                       <ul
                         id="user.userId"
                         [ngStyle]="{ top: yPosition + 'px' }"
@@ -1710,6 +1727,7 @@
               </div>
               <!-- [ngClass]="{ 'disable-cursor': isRescheduleLesson }" -->
               <button
+                *ngIf="detailLists.type == 'FLEXY'"
                 class="btn btn-newLesson"
                 (click)="addNewLesson()"
                 [disabled]="isRescheduleLesson"
@@ -1799,14 +1817,12 @@
                       >Delete lesson
                     </button>
                   </div>
+                  <!--   disableCancel == false && -->
+                  <!--        showCancelButton == true -->
                   <div
                     (click)="onClickAssignRelief(reliefModal, selectedLesson)"
                     class="d-flex align-items-center"
-                    *ngIf="
-                      disableCancel == false &&
-                      reliefTeacher != null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="reliefTeacher != null"
                   >
                     <div class="relief-name">
                       <label class="mb-0">Relief Teacher</label>
@@ -1818,13 +1834,12 @@
                       <img src="{{ reliefTeacher.profilePic }}" />
                     </div>
                   </div>
+
+                  <!-- &&
+                      showCancelButton == true -->
                   <div
                     class="d-flex"
-                    *ngIf="
-                      disableCancel == true &&
-                      reliefTeacher == null &&
-                      showCancelButton == true
-                    "
+                    *ngIf="disableCancel == true && reliefTeacher == null"
                   >
                     <div class="d-flex align-items-center relief-name">
                       <h5 class="mb-0">Cancelled Class</h5>
@@ -2228,12 +2243,12 @@
     <form novalidate #cfees="ngForm">
       <div class="modal-body confirm-text customer-modal-body">
         <div class="d-flex">
-          <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+          <div class="col-md-4 col-lg-4 modal-cfees pl-zero libr2">
             <h5 class="mt-03 lname">
               <i class="fa fa-map-marker" style="font-size:15px"></i>
               {{ detailLists.location.name }}
             </h5>
-            <b>{{ detailLists.name }}</b>
+            <p class="course-name">{{ detailLists.name }}</p>
           </div>
           <div
             class="col-md-4 col-lg-4 modal-ctime pr-zero"
@@ -2282,6 +2297,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
+              (blur)="hideFocus($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
@@ -2296,6 +2312,7 @@
               [(ngModel)]="formData.searchText"
               (focus)="focusMethod($event, userType)"
               (focusout)="hideFocus($event)"
+              (blur)="hideFocus($event)"
               (input)="changeMethod($event.target.value, userType)"
               autocomplete="off"
             />
@@ -2332,6 +2349,7 @@
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
+                  <div class="remove-user d-flex justify-content-end"></div>
                 </div>
               </div>
             </div>
@@ -2510,12 +2528,12 @@
       <form nonvalidate #custForm="ngForm">
         <div class="modal-body confirm-text customer-modal-body">
           <div class="d-flex">
-            <div class="col-md-4 col-lg-4 modal-cfees pl-zero">
+            <div class="col-md-4 col-lg-4 modal-cfees pl-zero libr2">
               <h5 class="mt-03">
                 <i class="fa fa-map-marker" style="font-size:15px"></i>
                 {{ detailLists.location.name }}
               </h5>
-              <b>{{ detailLists.name }}</b>
+              <p class="course-name">{{ detailLists.name }}</p>
             </div>
             <div
               *ngIf="detailLists.type != 'ONLINE'"
@@ -2550,7 +2568,7 @@
                     detailLists.endDate | utcDate
                   }}</b>
                   <div *ngIf="detailLists.endDate == null">
-                    <b>{{ detailLists.lessonCount }} Lessons</b>
+                    <b>{{ detailLists.actualLessonCount }} Lessons</b>
                   </div>
                 </div>
               </div>
@@ -2568,6 +2586,7 @@
                 [(ngModel)]="formData.searchText"
                 (focus)="focusMethod($event, 'customer')"
                 (focusout)="hideFocus($event)"
+                (blur)="hideFocus($event)"
                 (input)="changeMethod($event.target.value, 'customer')"
                 autocomplete="off"
               />
@@ -2642,17 +2661,19 @@
                     *ngIf="selectedCustomer.fullName == ''"
                   ></div>
                 </div>
-                <div class="row single-user-wrap pad-15">
+                <!-- <div class="row single-user-wrap pad-15">
                   <div
                     *ngFor="let detail of selectedCustomer.details"
                     class="col-sm-6 col-md-6 modal-userInfo"
                   >
-                    <label class="mb-0">{{ detail.name }}</label>
-                    <p class="modal-p">
-                      {{ detail.value }}
-                    </p>
+                    <div *ngIf="detail.value.length != 0">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <div
@@ -2806,6 +2827,7 @@
       ></app-invoice>
     </div>
   </ng-template>
+
   <ng-template #tabsModal let-c="close" let-d="dismiss">
     <div class="d-flex modal-header flex-column header-shadow">
       <div class="d-flex justify-content-between w-100 modal-headone">
@@ -2858,7 +2880,13 @@
       class="d-flex w-100"
       style="  min-height: 70vh; height: 70vh;"
     >
-      <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
+      <form
+        class="form-wrap"
+        novalidate
+        #makeupF="ngForm"
+        style="width:80%"
+        (click)="(hideFocus)"
+      >
         <div class="modal-body">
           <div class="col-md-12 input-wrap">
             <div class="form-group">
@@ -3756,6 +3784,7 @@
       [scheduleRelief]="false"
     ></app-assign-relief>
   </ng-template>
+
   <ng-template #invoiceAlert>
     <div class="modal-header">
       <h3 class="modal-title">Generate invoice</h3>
@@ -3788,6 +3817,7 @@
       </button>
     </div>
   </ng-template>
+
   <ng-template #lessonDelete>
     <div class="modal-header">
       <h3 class="modal-title">Delete lesson</h3>
@@ -3819,6 +3849,7 @@
       </button>
     </div>
   </ng-template>
+
   <block-ui message="Deafult Message"></block-ui>
 </div>
 

@@ -19,6 +19,7 @@ import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
@@ -28,7 +29,7 @@ import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
@@ -37,6 +38,9 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
+import 'rxjs/Rx';
+import { c } from '@angular/core/src/render3';
 declare var $: any;
 
 @Component({
@@ -46,6 +50,7 @@ declare var $: any;
 })
 export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
+  private permissionSubscription: ISubscription;
   userid: any;
   acResult: any;
   public isGuardian = false;
@@ -226,12 +231,11 @@ export class UsersComponent implements OnInit {
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
     // this._service.goUserCourseDetail.subscribe(() => {
@@ -240,6 +244,20 @@ export class UsersComponent implements OnInit {
     //      this.showCustDetail = false;
     //      this.showFormCreate = false;
     //    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // For student option box
+    if (this.showPickGradeBox != true) {
+      $('.options-box').css({ display: 'none' });
+    } else {
+      $('.options-box').css({ display: 'block' });
+      $('.options-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.showPickGradeBox = false;
+    }
   }
 
   ngOnInit() {
@@ -256,14 +274,20 @@ export class UsersComponent implements OnInit {
       }
     }, 300);
     this.blankCrop = false;
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/customer') {
-        this.permissionType = data;
-        this.customerLists = [];
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/customer') {
+          this.permissionType = data;
+          this.customerLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
     // this.selectedPayment = 'Cash';
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -604,6 +628,7 @@ export class UsersComponent implements OnInit {
 
     if (apiState == 'create') {
       let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -621,6 +646,7 @@ export class UsersComponent implements OnInit {
       objData.append('location', JSON.stringify([]));
 
       console.log('Data', objData);
+      console.log('this.ulFile>>', this.ulFile);
       //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
@@ -666,7 +692,9 @@ export class UsersComponent implements OnInit {
                 err.error.message != null ||
                 err.error.message != '')
             ) {
-              this.toastr.error(err.error.message);
+              if (err.error.message) {
+                this.toastr.error(err.error.message);
+              } else this.toastr.error('Network Error');
             } else {
               this.toastr.error('Create Fail');
             }
@@ -965,7 +993,9 @@ export class UsersComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+      let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
+    }, 700);
     console.log(this.uploadCrop);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
@@ -2221,8 +2251,9 @@ export class UsersComponent implements OnInit {
     // this.isCourse = true;
     console.log('clicking course', course);
     // localStorage.setItem('userCourse',course._id);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course._id);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course._id);
+    this.router.navigate(['/coursedetail', course._id]);
   }
 
   rolloverCourse(id, course) {
@@ -2550,5 +2581,124 @@ export class UsersComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+
+  deleteGradeId: any = null;
+  confirmDeleteGrade(gradeId) {
+    // this.deleteGradeId = true;
+  }
+  gradeDeleteModal(gradeId, modal) {
+    this.deleteGradeId = gradeId;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  deleteGrade() {
+    this._service
+      .deleteGrade(this.custDetail.user.userId, this.deleteGradeId)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.deleteGradeId = null;
+          this.callAchievements(6); //calling grade achievements data
+          this.toastr.success('Successfully Deleted.');
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    this.autoEnrollModal.close();
+  }
+
+  public showPickGradeBox = false;
+  public yPosition: any;
+  public optionsBoxStdID = '';
+
+  public apgName = '';
+  public gradeOptions = [];
+  public color = '';
+  public bgcolor = '';
+  public grade = [];
+  public apId = '';
+  public apCourseId = '';
+
+  pickGrade(pickGradeModal, clickedGrade, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //this.showPickGradeBox=true
+    this.modalReference = this.modalService.open(pickGradeModal, {
+      backdrop: 'static',
+      windowClass: 'd-flex justify-content-center align-items-center'
+    });
+    //if (this.optionsBoxStdID !== id) {
+    // this.optionsBoxStdID = id;
+    // this.yPosition = e.layerY+20;
+    //}
+    //this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    //  this.toastr.info(grade)
+    console.log(clickedGrade);
+    this.apId = clickedGrade.assessment.apId;
+    this.apCourseId = clickedGrade.course.id;
+    this.apgName = clickedGrade.assessment.apgName;
+    this.gradeOptions = clickedGrade.assessment.gradeOptions;
+    this.color = clickedGrade.assessment.sepalColor.text;
+    this.bgcolor = clickedGrade.assessment.sepalColor.background;
+  }
+
+  cancelGradePickUp() {
+    this.modalReference.close();
+  }
+
+  public selectedOption = {
+    _id: '',
+    name: '',
+    point: '',
+    isSelected: false
+  };
+
+  selectAPG(option) {
+    this.gradeOptions.filter(item => {
+      item.isSelected = false;
+      if (item._id === option._id) {
+        item.isSelected = true;
+        this.selectedOption = item;
+      }
+    });
+  }
+
+  updateAPG() {
+    this.modalReference.close();
+    var body = {
+      id: this.apId,
+      data: {
+        grade: {
+          name: this.selectedOption.name,
+          point: this.selectedOption.point
+        }
+      }
+    };
+    console.log(body, this.custDetail.user.userId);
+    this._service
+      .updateGrading(
+        this.custDetail.user.userId,
+        body,
+        this.regionID,
+        this.apCourseId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.callAchievements(6);
+          this.toastr.success('APG update successfully');
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('APG can not update successfully');
+        }
+      );
   }
 }

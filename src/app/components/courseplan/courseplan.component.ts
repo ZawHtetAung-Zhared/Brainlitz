@@ -14,7 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
 import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -36,13 +36,12 @@ export class CourseplanComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
     private _router: Router
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   public tempDuration: any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
@@ -360,7 +359,10 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+      taxOption: [
+        { id: 1, name: 'inclusive' },
+        { id: 2, name: 'exclusive' }
+      ]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -372,6 +374,8 @@ export class CourseplanComponent implements OnInit {
 
   removeFeeOption(idx) {
     this.optArray.splice(idx, 1);
+    if (this.optArray.length > 1) this.checkFeeOption(1);
+    else this.isSameOpt = false;
     console.log('optArray for removeFee~~~', this.optArray);
   }
 
@@ -391,13 +395,18 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+        taxOption: [
+          { id: 1, name: 'inclusive' },
+          { id: 2, name: 'exclusive' }
+        ]
       };
       if (
         taxobj == undefined ||
         taxobj == null ||
         taxobj == '' ||
-        (taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == '')
+        taxobj[key] == undefined ||
+        taxobj[key] == null ||
+        taxobj[key] == ''
       ) {
         data.selectedTax = { id: 1, name: 'inclusive' };
       } else {
@@ -1091,6 +1100,12 @@ export class CourseplanComponent implements OnInit {
       (res: any) => {
         console.log('apgLists', res);
         this.apgList = res;
+        for (var i = 0; i < this.selectedAPGidArray.length; i++) {
+          this.apgList = this.apgList.filter(
+            v => v._id != this.selectedAPGidArray[i]
+          );
+        }
+
         setTimeout(() => {
           //this.blockUI.stop(); // Stop blocking
         }, 300);
@@ -1113,11 +1128,25 @@ export class CourseplanComponent implements OnInit {
     );
   }
 
+  searchMore: boolean = false;
   getAllPdf() {
     this._service.getAllPdf(this.regionID, this.locationID, 20, 0).subscribe(
       (res: any) => {
         console.log('pdflists', res);
         this.pdfList = res;
+        this.searchMore = res.length >= 20 ? true : false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  showMoreResources(skip) {
+    this._service.getAllPdf(this.regionID, this.locationID, 20, skip).subscribe(
+      (res: any) => {
+        this.pdfList = this.pdfList.concat(res);
+        this.searchMore = res.length < 20 ? false : true;
       },
       err => {
         console.log(err);
@@ -1910,5 +1939,34 @@ export class CourseplanComponent implements OnInit {
       $('#' + step).addClass('active');
       this.addOrRemoveClassOfStep($(event.target));
     }
+  }
+
+  isSameOpt: boolean = false;
+  checkFeeOption(idx) {
+    // let search = this.optArray[idx].name;
+    // for (var i = 0; i < this.optArray.length; i++) {
+    //   if (i != idx && search != '' && this.optArray[i].name === search) {
+    //     this.isSameOpt = true;
+    //     break;
+    //   } else this.isSameOpt = false;
+    // }
+
+    let data = this.optArray;
+    let same = false;
+    for (var i = 0; i < data.length; i++) {
+      if (same) break;
+      for (var j = i + 1; j < this.optArray.length; j++) {
+        if (
+          data[i].name != '' &&
+          this.optArray[j].name != '' &&
+          data[i].name === this.optArray[j].name
+        ) {
+          same = true;
+          break;
+        }
+      }
+    }
+    this.isSameOpt = same;
+    console.log(this.isSameOpt);
   }
 }

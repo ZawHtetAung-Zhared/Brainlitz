@@ -28,7 +28,8 @@ import {
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -45,6 +46,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('mainScreen') elementView: ElementRef;
   @ViewChild('notiForm') notiform;
 
+  private permissionSubscription: ISubscription;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public checkActive = true;
@@ -74,7 +76,7 @@ export class ToolsComponent implements OnInit {
   public isFousCategory: boolean = false;
   public wordLength: number = 0;
   public notiTypes: any = [
-    { name: 'Email', type: 'email', checked: false },
+    // { name: 'Email', type: 'email', checked: false },
     { name: 'App notification', type: 'noti', checked: false }
   ];
   public checkedType: any = [];
@@ -101,13 +103,12 @@ export class ToolsComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private elementRef: ElementRef,
     private datePipe: DatePipe,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
         console.log('~~~~', this.router.url);
@@ -128,14 +129,20 @@ export class ToolsComponent implements OnInit {
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/tools') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/tools') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
@@ -193,18 +200,27 @@ export class ToolsComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
-    this.windowH = window.innerHeight;
-    this.isFixed = true;
-    if (window.pageYOffset > 81) {
-      this.isSticky = true;
-      this.isMidStick = false;
-    } else if (window.pageYOffset < 0) {
-      this.isFixed = false;
-    } else {
+    if ($('.modal-open')[0]) {
       this.isSticky = false;
-    }
+      this.isMidStick = false;
+    } else {
+      this.windowH = window.innerHeight;
+      this.isFixed = true;
+      if (window.pageYOffset > 81) {
+        this.isSticky = true;
+        this.isMidStick = false;
+        var element = document.getElementById('notibar2');
+        if (typeof element == 'undefined' || element == null) {
+          $('.mid-top').css({ 'padding-top': '0px' });
+        }
+      } else if (window.pageYOffset < 0) {
+        this.isFixed = false;
+      } else {
+        this.isSticky = false;
+      }
 
-    this.isMidStick = window.pageYOffset > 45 ? true : false;
+      this.isMidStick = window.pageYOffset > 45 ? true : false;
+    }
   }
 
   clickTab(type) {
@@ -843,7 +859,7 @@ export class ToolsComponent implements OnInit {
         this.item.sendType = 'app';
         this.checkedType = [];
         this.notiTypes = [
-          { name: 'Email', type: 'email', checked: false },
+          // { name: 'Email', type: 'email', checked: false },
           { name: 'App notification', type: 'noti', checked: false }
         ];
         if (

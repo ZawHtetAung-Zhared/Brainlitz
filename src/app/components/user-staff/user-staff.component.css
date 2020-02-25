@@ -84,18 +84,21 @@ input:checked + .slider:before {
 }
 .location-name {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
-  line-height: 0.5;
+
+  /* line-height: 0.5; */
   position: relative;
-  margin-top: 7px;
+  /* margin-top: 7px; */
   font-size: 12px;
-  background: #cce6ff;
+  /* background: #cce6ff; */
   margin-left: 5px;
-  padding: 9px;
   margin-bottom: 0;
   border-radius: 25px;
-  display: table;
-  white-space: nowrap;
+  /* display: table; */
+  word-break: break-all;
+  max-width: 320px;
+  padding: 3px 8px;
+  max-height: 45px;
+  overflow: overlay;
 }
 .hide {
   display: none;
@@ -542,6 +545,7 @@ span.capitalize {
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
+  margin-bottom: 50px;
 }
 
 .inner-wrapper-detail {
@@ -846,8 +850,8 @@ input[type='radio']:checked ~ label {
 .rounded-checked {
   line-height: 2px;
   text-align: center;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   /*border-radius: 50%;*/
   cursor: pointer;
   border: 2px solid #007fff;
@@ -869,12 +873,12 @@ input[type='radio']:checked ~ label {
 }
 .radio-checked {
   border-radius: 50%;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   position: absolute;
   background: #007fff;
-  left: 1.5px;
-  top: 1.5px;
+  left: 2px;
+  top: 2px;
 }
 
 .tab-border {
@@ -1084,4 +1088,11 @@ ngb-datepicker {
   font-size: 15px;
   line-height: 24px;
   color: #5c6773;
+}
+
+@-moz-document url-prefix() {
+  .details-list-wrap,
+  .guardian-main-wrap {
+    overflow: auto;
+  }
 }

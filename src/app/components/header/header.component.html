@@ -7,13 +7,6 @@
       <div id="header-firstrow" class="d-flex first-row">
         <div class="mr-auto d-flex align-items-center">
           <form novalidate #chooseLocationForm="ngForm">
-            <!-- <div class="form-group m-bottom">
-                <label for="inputState" class="location-label">Location</label>
-                <i class="chevron-down"></i>
-                <select id="inputState" class="form-control" name="location" (change)="selectLocation($event)">
-                  <option [selected]="location.selected" *ngFor="let location of headerlocationLists; let i = index" value="{{location._id}}">{{ location.name }}</option>
-                </select>
-              </div> -->
             <label for="inputState" class="location-label m-0">Location</label>
             <div
               class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
@@ -115,10 +108,15 @@
           <li *ngIf="courseMenu.length > 0" class="nav-item">
             <a
               class="nav-link"
+              [ngClass]="{ active: activeTab == 'courses' }"
               routerLinkActive="active"
               routerLink="/course"
               (click)="onClickHeaderTab('course')"
               >Courses
+              <div
+                *ngIf="activeTab == 'courses'"
+                class="border-design active"
+              ></div>
               <div
                 class="border-design"
                 routerLinkActive="active"
@@ -251,6 +249,7 @@
         <li *ngIf="courseMenu.length > 0" class="nav-item header2-nav-item">
           <a
             class="nav-link"
+            [ngClass]="{ active: activeTab == 'courses' }"
             routerLinkActive="active"
             routerLink="/course"
             (click)="onClickHeaderTab('course')"
@@ -338,5 +337,5 @@
   [userData]="userData"
   [appname]="appName"
   [location]="locationName"
-  [region]="regionName"
+  [regionData]="regionInfo"
 ></app-livechat>

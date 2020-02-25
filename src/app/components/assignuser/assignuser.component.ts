@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-assignuser',
@@ -12,10 +12,10 @@ import { ToastsManager } from 'ng5-toastr/ng5-toastr';
 })
 export class AssignuserComponent implements OnInit {
   regionid = localStorage.getItem('regionId');
-  selectedCourse =  JSON.parse(localStorage.getItem('courseObj'));
-  public locationID = localStorage.getItem("locationId");
+  selectedCourse = JSON.parse(localStorage.getItem('courseObj'));
+  public locationID = localStorage.getItem('locationId');
   userList: any;
-  modalReference:any;
+  modalReference: any;
   closeResult: any;
   public chooseUser: any;
   public assignCustomer = [];
@@ -24,72 +24,81 @@ export class AssignuserComponent implements OnInit {
   public selectedUser: any;
   public deleteUser: any;
   public checkedUser = [];
-  public toggleBtn:boolean = true; 
+  public toggleBtn: boolean = true;
   public checkedName = [];
   public assignedUser = [];
-  public getAllUsers:any;
-  public userType:any = 'teacher';
-  public listType:any;
-  public emptyAssignStaff:boolean = false;
-  public emptyAssignCustomer:boolean = false;
+  public getAllUsers: any;
+  public userType: any = 'teacher';
+  public listType: any;
+  public emptyAssignStaff: boolean = false;
+  public emptyAssignCustomer: boolean = false;
   @BlockUI('contact-list') blockUIList: NgBlockUI;
 
-  constructor(private router: Router, private _service: appService, private modalService: NgbModal, public toastr: ToastsManager, public vcr: ViewContainerRef) {
-     this.toastr.setRootViewContainerRef(vcr);
+  constructor(
+    private router: Router,
+    private _service: appService,
+    private modalService: NgbModal,
+    public toastr: ToastrService,
+    public vcr: ViewContainerRef
+  ) {
+    // this.toastr.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {
-    console.log(this.regionid)
-    console.log(this.selectedCourse)
+    console.log(this.regionid);
+    console.log(this.selectedCourse);
     this.getAssignList();
   }
 
-  openUserModal(content,type) {
-    console.log(type)
+  openUserModal(content, type) {
+    console.log(type);
     this.modalReference = this.modalService.open(content, { size: 'lg' });
-    if(type == "customer"){
-      this.getUsers("customer");
-      this.listType = "Customer List";
-    }else{
-      this.getUsers("staff");
-      this.listType = "Staff List"
+    if (type == 'customer') {
+      this.getUsers('customer');
+      this.listType = 'Customer List';
+    } else {
+      this.getUsers('staff');
+      this.listType = 'Staff List';
     }
-    if(type == "customer"){
-      if(this.assignCustomer.length > 0){
-        for (var i=0; i < this.assignCustomer.length ; i++) {
+    if (type == 'customer') {
+      if (this.assignCustomer.length > 0) {
+        for (var i = 0; i < this.assignCustomer.length; i++) {
           this.assignedUser.push(this.assignCustomer[i].userId);
         }
         console.log(this.checkedUser);
       }
-    }else if(type == "staff"){
-      if(this.assignTeacher.length > 0){
-        for(var i = 0; i < this.assignTeacher.length; i++){
-          this.assignedUser.push(this.assignTeacher[i].userId)
+    } else if (type == 'staff') {
+      if (this.assignTeacher.length > 0) {
+        for (var i = 0; i < this.assignTeacher.length; i++) {
+          this.assignedUser.push(this.assignTeacher[i].userId);
         }
       }
-      console.log("Assign Staff Length",this.assignStaff.length)
-      if(this.assignStaff.length > 0){
-        for(var j = 0; j< this.assignStaff.length; j++){
-          this.assignedUser.push(this.assignStaff[j].userId)
+      console.log('Assign Staff Length', this.assignStaff.length);
+      if (this.assignStaff.length > 0) {
+        for (var j = 0; j < this.assignStaff.length; j++) {
+          this.assignedUser.push(this.assignStaff[j].userId);
         }
       }
     }
-    
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-      this.chooseUser = '';
-      this.checkedUser = [];
-      this.checkedName = [];
-      this.checkedUserStr = "";
-      this.assignedUser = [];
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.chooseUser = '';
-      this.checkedUser = [];
-      this.checkedName = [];
-      this.checkedUserStr = "";
-      this.assignedUser = [];
-    });
+
+    this.modalReference.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+        this.chooseUser = '';
+        this.checkedUser = [];
+        this.checkedName = [];
+        this.checkedUserStr = '';
+        this.assignedUser = [];
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        this.chooseUser = '';
+        this.checkedUser = [];
+        this.checkedName = [];
+        this.checkedUserStr = '';
+        this.assignedUser = [];
+      }
+    );
   }
 
   private getDismissReason(reason: any): string {
@@ -102,157 +111,172 @@ export class AssignuserComponent implements OnInit {
     }
   }
 
-
-  getUsers(type){
+  getUsers(type) {
     this.blockUIList.start('Loading...');
-  	this._service.getAllUsers(this.regionid, type, 20, 0)
-  	.subscribe((res:any) => {
-  		console.log("userList",res);
-  		this.userList = res;
-      this.blockUIList.stop();
-  	})
-  }
-
-  assignSelected(id, type){
-  	console.log("Assign Users",id);
-    this.assignedUser = [];
-    if(type == 'staff'){
-     let obj1 = {
-       'courseId': this.selectedCourse.courseid,
-       'userId': id,
-       'locationId': this.selectedCourse.locationId,
-       'userType': 'staff'
-     }
-     this.blockUIList.start('Loading...');
-     this._service.assignUser(this.regionid,obj1,this.locationID)
-     .subscribe((res:any) => {
-       this.blockUIList.stop();
-       console.log(res);
-       this.toastr.success('Successfully Assigned.');
-       this.getAssignList();
-     })
-     this.modalReference.close();
-    }else{
-     let obj = {
-       'courseId': this.selectedCourse.courseid,
-       'userId': id,
-       'locationId': this.selectedCourse.locationId,
-       'userType': 'customer'
-     }
-     this.blockUIList.start('Loading...');
-     this._service.assignUser(this.regionid,obj,this.locationID)
-     .subscribe((res:any) => {
-       this.blockUIList.stop(); 
-       console.log(res);
-       this.toastr.success('Successfully Assigned.');
-       this.getAssignList();
-     })
-     this.modalReference.close();
-    }
-  }
-
-  getAssignList(){
-    console.log("getAssignList")
-    this._service.getAssignUser(this.regionid,this.selectedCourse.courseid,null,null,null)
-     .subscribe((res:any) => {
-       this.blockUIList.stop();
-       console.log("getAssignList",res);
-       this.assignCustomer = res.CUSTOMER;
-       this.assignStaff = res.STAFF;
-       this.assignTeacher = res.TEACHER;
-       if(this.assignStaff.length>0){
-         this.emptyAssignStaff = false;
-       }else{
-         this.emptyAssignStaff= true;
-       }
-       if(this.assignCustomer.length>0){
-         this.emptyAssignCustomer = false;
-       }else{
-         this.emptyAssignCustomer = true;
-       }
-     })
-  }
-
-  onclickDelete(user,comfirm){
-    this.selectedUser = user;
-    console.log("onclickDelete",user);
-    this.modalReference = this.modalService.open(comfirm);
-    this.modalReference.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  comfirmDelete(user,alert){
-     console.log(user);
-      this.deleteUser = user;
-      this.modalReference.close();
-      this.modalReference = this.modalService.open(alert);
-      this.modalReference.result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this._service
+      .getAllUsers(this.regionid, type, 20, 0)
+      .subscribe((res: any) => {
+        console.log('userList', res);
+        this.userList = res;
+        this.blockUIList.stop();
       });
   }
 
-  withdrawUser(userid){
-    console.log(userid);
-    console.log(this.selectedCourse.courseid)
-    let userobj = {
-       'courseId': this.selectedCourse.courseid,
-       'userId': userid
-     }
-    this._service.withdrawAssignUser(this.regionid,userobj,'')
-    .subscribe((res:any) => {
+  assignSelected(id, type) {
+    console.log('Assign Users', id);
+    this.assignedUser = [];
+    if (type == 'staff') {
+      let obj1 = {
+        courseId: this.selectedCourse.courseid,
+        userId: id,
+        locationId: this.selectedCourse.locationId,
+        userType: 'staff'
+      };
+      this.blockUIList.start('Loading...');
+      this._service
+        .assignUser(this.regionid, obj1, this.locationID)
+        .subscribe((res: any) => {
+          this.blockUIList.stop();
+          console.log(res);
+          this.toastr.success('Successfully Assigned.');
+          this.getAssignList();
+        });
       this.modalReference.close();
-      console.log(res);
-      this.toastr.success('Withdrawal Completed.');
-      this.getAssignList();
-    })
+    } else {
+      let obj = {
+        courseId: this.selectedCourse.courseid,
+        userId: id,
+        locationId: this.selectedCourse.locationId,
+        userType: 'customer'
+      };
+      this.blockUIList.start('Loading...');
+      this._service
+        .assignUser(this.regionid, obj, this.locationID)
+        .subscribe((res: any) => {
+          this.blockUIList.stop();
+          console.log(res);
+          this.toastr.success('Successfully Assigned.');
+          this.getAssignList();
+        });
+      this.modalReference.close();
+    }
   }
 
-  backtoCourse(){
-  	this.router.navigate(['/course']);
+  getAssignList() {
+    console.log('getAssignList');
+    this._service
+      .getAssignUser(
+        this.regionid,
+        this.selectedCourse.courseid,
+        null,
+        null,
+        null
+      )
+      .subscribe((res: any) => {
+        this.blockUIList.stop();
+        console.log('getAssignList', res);
+        this.assignCustomer = res.CUSTOMER;
+        this.assignStaff = res.STAFF;
+        this.assignTeacher = res.TEACHER;
+        if (this.assignStaff.length > 0) {
+          this.emptyAssignStaff = false;
+        } else {
+          this.emptyAssignStaff = true;
+        }
+        if (this.assignCustomer.length > 0) {
+          this.emptyAssignCustomer = false;
+        } else {
+          this.emptyAssignCustomer = true;
+        }
+      });
   }
-  checkedUserStr:any;
+
+  onclickDelete(user, comfirm) {
+    this.selectedUser = user;
+    console.log('onclickDelete', user);
+    this.modalReference = this.modalService.open(comfirm);
+    this.modalReference.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+
+  comfirmDelete(user, alert) {
+    console.log(user);
+    this.deleteUser = user;
+    this.modalReference.close();
+    this.modalReference = this.modalService.open(alert);
+    this.modalReference.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+
+  withdrawUser(userid) {
+    console.log(userid);
+    console.log(this.selectedCourse.courseid);
+    let userobj = {
+      courseId: this.selectedCourse.courseid,
+      userId: userid
+    };
+    this._service
+      .withdrawAssignUser(this.regionid, userobj, '')
+      .subscribe((res: any) => {
+        this.modalReference.close();
+        console.log(res);
+        this.toastr.success('Withdrawal Completed.');
+        this.getAssignList();
+      });
+  }
+
+  backtoCourse() {
+    this.router.navigate(['/course']);
+  }
+  checkedUserStr: any;
   // for userlist checkbox
-  selectUser(user,event){
+  selectUser(user, event) {
     var idx = this.checkedUser.indexOf(user.userId);
-    console.log(idx)
-    console.log('selectUser',user.userId,event);
-    if(event.target.checked){
-      console.log("checked")
+    console.log(idx);
+    console.log('selectUser', user.userId, event);
+    if (event.target.checked) {
+      console.log('checked');
       this.checkedUser.push(user.userId);
       this.checkedUserStr = this.checkedUser.toString();
-      this.checkedName.push(user.preferredName); 
+      this.checkedName.push(user.preferredName);
       this.toggleBtn = false;
-    }else{
-      console.log("unchecked")
-      this.checkedUser.splice(idx,1);
-      this.checkedName.splice(idx,1);
+    } else {
+      console.log('unchecked');
+      this.checkedUser.splice(idx, 1);
+      this.checkedName.splice(idx, 1);
       this.checkedUserStr = this.checkedUser.toString();
-      console.log('unchecked str',this.checkedUserStr)
-      console.log('unchecked arr',this.checkedUser)
-       if(this.checkedUser.length > 0){
-         this.toggleBtn = false;
-       }else{
-         this.toggleBtn = true;
-       }
+      console.log('unchecked str', this.checkedUserStr);
+      console.log('unchecked arr', this.checkedUser);
+      if (this.checkedUser.length > 0) {
+        this.toggleBtn = false;
+      } else {
+        this.toggleBtn = true;
+      }
     }
     console.log(this.checkedUserStr);
   }
 
-  clickTab(type){
-      if(type == 'customer'){
-        this.userType = 'customer';
-      }else if(type == 'staff'){
-        this.userType = 'staff';
-      }else if(type == 'teacher'){
-        this.userType = 'teacher';
-      }else{
-        this.userType = 'all';
-      }
+  clickTab(type) {
+    if (type == 'customer') {
+      this.userType = 'customer';
+    } else if (type == 'staff') {
+      this.userType = 'staff';
+    } else if (type == 'teacher') {
+      this.userType = 'teacher';
+    } else {
+      this.userType = 'all';
     }
-
+  }
 }

@@ -26,7 +26,7 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
 declare var $: any;
@@ -38,7 +38,10 @@ declare var $: any;
 })
 export class CoursecreateComponent implements OnInit {
   @ViewChild('content') modalContent: TemplateRef<any>;
+  public accessToken = localStorage.getItem('token');
+  public tokenType = localStorage.getItem('tokenType');
   public regionID = localStorage.getItem('regionId');
+  public sparkWerkzRegion: boolean = false;
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
@@ -135,6 +138,7 @@ export class CoursecreateComponent implements OnInit {
   public rolloverCId: any;
   public modalReference: any;
   public courseType: any;
+  public sparkWerkzCourse: boolean = false;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -146,18 +150,19 @@ export class CoursecreateComponent implements OnInit {
     private _service: appService,
     private router: Router,
     private config: NgbDatepickerConfig,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private _eref: ElementRef,
     private dataService: DataService
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   test;
   ngOnInit() {
     console.log('CPLan', this.coursePlan);
     console.log('CourseID', this.course);
     console.log('Currency', this.currency);
+    this.getRegionInfo();
     // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
@@ -251,6 +256,17 @@ export class CoursecreateComponent implements OnInit {
       }
     }
   }
+
+  getRegionInfo() {
+    //get region info for SparkWerkz flag true/false
+    this._service
+      .getRegionalAdministrator(this.regionID, this.accessToken, this.tokenType)
+      .subscribe((res: any) => {
+        this.sparkWerkzRegion = res.sparkWerkz;
+        console.log('sparkWerkzRegion', this.sparkWerkzRegion);
+      });
+  }
+
   //check tax for course create
   checkTaxForCreate() {
     if (this.feesOptions != undefined && this.taxOptions == undefined) {
@@ -400,6 +416,11 @@ export class CoursecreateComponent implements OnInit {
             this.endOptChecked = 'end';
           }
           this.timeOptChecked = 'hideTimeSlot';
+        }
+        if (this.sparkWerkzRegion == true) {
+          this.sparkWerkzCourse = this.model.sparkWerkz.sparkWerkzCourse;
+        } else {
+          this.sparkWerkzCourse == false;
         }
         this.model.location = this.model.location.name;
         this.locationId = this.model.locationId;
@@ -837,12 +858,19 @@ export class CoursecreateComponent implements OnInit {
 
   backToCourses(ToCourses, cId) {
     // console.log('backtocourse')
-    console.log('cID');
+    console.log('cID', cId);
+    console.log('conflitCourseId~~~', this.conflitCourseId);
+    console.log('cPlanId', this.planId);
     console.log('backToCourses works');
     if (this.isEdit == true) {
       console.log('this.isEdit', this.isEdit);
       console.log('backtocourseDetail');
-      this._service.backCourseDetail();
+      if (cId == '') {
+        this.router.navigate(['/coursedetail', this.conflitCourseId]);
+      } else {
+        this.router.navigate(['/coursedetail', cId]);
+      }
+      // this._service.backCourseDetail();
     } else {
       console.log('this.isEdit===', this.isEdit);
       if (this.coursePlan != null) {
@@ -852,25 +880,32 @@ export class CoursecreateComponent implements OnInit {
           this.router.navigate(['course/']);
           console.log(cId);
           this.dataService.nevigateCDetail(cId);
+          // this.dataService.navagateActivePlan(this.planId)
         } else if (
           (this.coursePlan.from == 'courses' && ToCourses == '') ||
           (this.coursePlan.from = 'schedule' && ToCourses == 'back') ||
           (this.coursePlan.from = 'courses' && ToCourses == 'back')
         ) {
-          console.log('backtocourse');
-          this._service.backCourse();
+          console.log('backtocourse && courseplan', this.coursePlan);
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       } else {
-        console.log('this.coursePlan == null');
+        console.log('this.coursePlan == null', this.coursePlan);
         console.log('backtocourse');
         if (this.course.type == 'rollover') {
           // this.enrollUser(this.course.courseId,this.course.userId);
           // this.router.navigate(['/customer']);
           // this.dataService.nevigateCustomer(this.course.userId);
           // this._service.backCourse();
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         } else {
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       }
     }
@@ -922,6 +957,21 @@ export class CoursecreateComponent implements OnInit {
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
     this.numberOnly(e);
+    this.twoDigitOnly(e);
+  }
+
+  public numberLength = 0;
+  twoDigitOnly(event) {
+    this.numberOnly(event);
+    this.numberLength = event.target.value.length;
+    if (event.target.value.length > 2) {
+      event.target.value = event.target.value.slice(0, 2);
+      this.numberLength = event.target.value.length;
+      console.log('~~~~~~~~~~~', event.target.value);
+      // this.showMsgForLesssonCount = true
+    } else {
+      // this.showMsgForLesssonCount = false
+    }
   }
 
   chooseOpt(optType, itemType) {
@@ -1097,8 +1147,12 @@ export class CoursecreateComponent implements OnInit {
     }
   }
   closeDropdown(event, type, datePicker?) {
-    console.log('exit here close drop down');
-
+    console.log(
+      'exit here close drop down',
+      event.target.className.includes('dropD')
+    );
+    console.log(event.target.className);
+    console.log(datePicker);
     // if(event.path){
     //   if(type == 'feeOpt'){
     //     var parentWrap = event.path.filter(function(res){
@@ -1167,16 +1221,19 @@ export class CoursecreateComponent implements OnInit {
       // if(datePicker)
       //   datePicker.close();
     } else {
-      // console.log("##########",event.target.className)
+      console.log('##########', event.target.className);
       this.searchMenuShow = false;
       // if (type == "start")
       //   datePicker.close();
       // else if (type== 'end')
       //   datePicker.close();
       if (type == 'start' || type == 'end') {
+        console.log('exit');
         if (event.target.offsetParent == null) {
+          console.log('exit if');
           datePicker.close();
         } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          console.log('exit else');
           datePicker.close();
         }
       }
@@ -1571,7 +1628,8 @@ export class CoursecreateComponent implements OnInit {
       quizwerkz: [],
       description: this.model.description,
       skipLessons: JSON.stringify(this.skipArr),
-      ignoreLessons: JSON.stringify(this.ignoreArr)
+      ignoreLessons: JSON.stringify(this.ignoreArr),
+      sparkWerkzCourse: this.sparkWerkzCourse
     };
 
     if (this.chooseFee != '') {
@@ -2001,16 +2059,17 @@ export class CoursecreateComponent implements OnInit {
               );
               // this.toastr.error("Please choose the end date again that should be later than the first one");
               this.toastr.error('please choose end date or lesson count');
-            } else if (
-              err.error.message ==
-              'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED'
-            ) {
-              console.log('...');
-              // this.toastr.error("Please choose the end date again that should be later than the first one");
-              this.toastr.error(err.error.message);
-            } else {
-              this.toastr.error('Create Fail');
-            }
+            } else this.toastr.error(err.error.message);
+            // else if (
+            //   err.error.message ==
+            //   'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE REQUIRED'
+            // ) {
+            //   console.log('...');
+            //   // this.toastr.error("Please choose the end date again that should be later than the first one");
+            //   this.toastr.error(err.error.message);
+            // } else {
+            //   this.toastr.error('Create Fail');
+            // }
           }
         }
       );
@@ -2342,6 +2401,11 @@ export class CoursecreateComponent implements OnInit {
     } else {
       this.flexiOn = false;
     }
+  }
+
+  isSparkWerkzCourse(sparkWerkzCourse) {
+    this.sparkWerkzCourse = !sparkWerkzCourse;
+    console.log('sparkWerkzCourse~~~', this.sparkWerkzCourse);
   }
 
   //for rollover

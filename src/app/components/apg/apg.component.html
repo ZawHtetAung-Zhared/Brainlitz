@@ -11,7 +11,7 @@
 </div> -->
 <div
   id="mainapg"
-  class="main-wrapper pad-bottom"
+  class=" pad-bottom"
   *ngIf="
     ismodule == false &&
     iscreate == false &&
@@ -106,6 +106,7 @@
       </button>
     </div>
   </div>
+
   <div class="apg-wrapper card-columns">
     <div class="card" *ngFor="let apg of apgList; let i = index">
       <div
@@ -133,8 +134,6 @@
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
-              <!-- {{ apg.module.name }} -->
-
               {{
                 apg.module.name.toLowerCase() == 'user grading'
                   ? 'Grade'
@@ -346,13 +345,13 @@
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
-          <div>
+          <div class="d-flex">
             <div
               *ngIf="tempSharedApgId == apg._id && apg.share.status == true"
               class="status-wrapper-share ml-2"
               [ngClass]="{ 'apg-status': apg.share.status == true }"
             >
-              <span *ngIf="apg.share.status == true"
+              <span
                 ><img src="../../../assets/images/shared.png " alt=""
               /></span>
             </div>
@@ -364,18 +363,20 @@
                 ><img src="../../../assets/images/shared.png " alt=""
               /></span>
             </div>
-            <span *ngIf="apg.share.status == true">
-              <ul class="bullet-list-style">
+            <div *ngIf="apg.share.status == true" class="circle-apg">
+              <!-- <ul class="bullet-list-style">
                 <li></li>
-              </ul>
-            </span>
-            <button
-              class="apg-share remove-outline"
-              [ngClass]="{ 'apg-share-padding': apg.share.status == true }"
-              (click)="apgPublicShare(apg._id)"
-            >
-              Share
-            </button>
+              </ul> -->
+            </div>
+            <div>
+              <button
+                class="apg-share remove-outline"
+                (click)="apgPublicShare(apg._id)"
+              >
+                Share
+              </button>
+            </div>
+
             <span
               *ngIf="
                 apg.module.name.toLowerCase() == 'assessment' ||

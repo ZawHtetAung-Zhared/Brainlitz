@@ -28,7 +28,6 @@ import { appService } from './service/app.service';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
@@ -41,6 +40,8 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrModule } from 'ngx-toastr';
+import { NgbModalStackModule } from 'ng-bootstrap-modal-stack';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -72,6 +73,7 @@ import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetUtcDateoverviewPipe } from './service/pipe/utcDateoverview.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
@@ -132,6 +134,26 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
 import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
+// import { CourseListComponent } from './components/course-list/course-list.component';
+
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent,
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent,
+  ReportDetail2Component
+} from './components/course/index';
+import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
 
 @NgModule({
   declarations: [
@@ -177,6 +199,7 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     GetUtcTimePipe,
     GetFormatData,
     GetUtcDatePipe,
+    GetUtcDateoverviewPipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
@@ -225,12 +248,29 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     LessonDurationPipe,
     RemainingLessonDatePipe,
     ReviewComponent,
-    LivechatComponent
+    LivechatComponent,
+    CourseListComponent,
+    AssignTaskComponent,
+    CoursedetailComponent,
+    OverviewComponent,
+    CustomerComponent,
+    AttendanceComponent,
+    TasksComponent,
+    LeaderboardComponent,
+    MasteriesreportComponent,
+    EnrollUserComponent,
+    ReportDetailComponent,
+    StudentListComponent,
+    MasteryReportComponent,
+    CustomTaskComponent,
+    ReportDetail2Component
   ],
   imports: [
     ContentLoaderModule,
     BrowserModule,
-    // RouterTestingModule,
+
+    RouterTestingModule,
+    NgbModalStackModule.forRoot(),
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
@@ -249,7 +289,8 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     Daterangepicker,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot(),
+    ToastModule.forRoot(), //ng5-toastr
+    ToastrModule.forRoot(), // ngx-toastr ToastrModule added
     ClickOutsideModule,
     TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
@@ -270,12 +311,14 @@ import { LivechatComponent } from './components/livechat/livechat.component';
     appService,
     DataService,
     LoggedInGuard,
+    EnrollUserComponent,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,
       multi: true
-    }
+    },
+    TodayDatePipe
   ],
   bootstrap: [AppComponent]
 })

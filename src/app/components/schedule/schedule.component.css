@@ -61,7 +61,7 @@
   color: #64707d;
 }
 .single-user-wrap {
-  max-height: 200px;
+  max-height: 240px;
   overflow-y: overlay;
 }
 /*for modal box empty ui*/
@@ -80,6 +80,10 @@
 .arrow-pos {
   float: right;
   width: 46%;
+}
+
+.mb {
+  margin-bottom: 20px;
 }
 
 .arrow-pos img {
@@ -371,11 +375,6 @@
   max-height: 670px;
   overflow: overlay;
 }
-.tabs-inv {
-  min-height: 670px;
-  max-height: 670px;
-  overflow: overlay;
-}
 
 .back-inv {
   border: none;
@@ -631,6 +630,7 @@ ul.data-listing li.disabled {
   cursor: pointer;
   /* padding-left: 20px; */
 }
+
 .scedule-data-listing > li,
 ul.data-listing > li {
   padding-left: 20px;
@@ -1728,6 +1728,7 @@ ul.options-box li:last-child,
   font-size: 18px;
   font-weight: 600;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  word-break: break-word;
 }
 .lessonDuration {
   padding-left: 23px;
@@ -1994,4 +1995,23 @@ span.circle {
 
 .bg_white {
   background: white;
+}
+
+@-moz-document url-prefix() {
+  .tabs-inv,
+  .scedule-data-listing,
+  ul.data-listing,
+  .v-wrapper1,
+  .user-list-box,
+  .student-lists {
+    overflow: auto;
+  }
+  .single-user-wrap,
+  .modal-techerlist-wraper,
+  .body-wrap {
+    overflow-y: auto;
+  }
+  .teacher-list-wrapper {
+    overflow-x: auto;
+  }
 }

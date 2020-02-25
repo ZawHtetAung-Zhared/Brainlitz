@@ -74,9 +74,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
       alwaysShowCalendars: true,
       ranges: {
         Today: [moment()],
-        Yesteday: [moment().subtract(1, 'days'), moment()],
+        Yesterday: [moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
-        'Last 3 Months': [moment().subtract(4, 'month'), moment()],
+        'Last 3 Months': [moment().subtract(3, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
         'Last 12 Months': [moment().subtract(12, 'month'), moment()],
         'Last 18 Months': [moment().subtract(18, 'month'), moment()]
@@ -180,6 +180,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let users = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -229,11 +230,17 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
               courses.forEach(function(course) {
                 _self.courseNameList.push(course.courseName);
-                obj.students += course.students;
+                // obj.students += course.students;
+                let user = course.users || [];
+                user.forEach(function(count) {
+                  users.push(count);
+                });
               });
             });
           });
         });
+        users = Array.from(new Set(users));
+        obj.students = users.length;
         res.push(obj);
       });
     });

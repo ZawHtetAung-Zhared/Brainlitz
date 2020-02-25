@@ -22,9 +22,10 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-user-staff',
@@ -32,6 +33,7 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
+  private permissionSubscription: ISubscription;
   public returnProfile = false;
   public isCrop = false;
   public locationName: any;
@@ -91,12 +93,11 @@ export class UserStaffComponent implements OnInit {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private config: NgbDatepickerConfig
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
   }
@@ -109,13 +110,19 @@ export class UserStaffComponent implements OnInit {
       this.gtxtColor = localStorage.getItem('txtColor');
       this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/staff') {
-        this.permissionType = data;
-        this.staffLists = [];
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/staff') {
+          this.permissionType = data;
+          this.staffLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -612,16 +619,16 @@ export class UserStaffComponent implements OnInit {
     console.log(e.target.checked);
     this.permissionCount = e.target.checked;
     console.log(this.permissionCount);
-    $('label').on('click', function() {
-      if (
-        $(this)
-          .find('input[type="radio"]')
-          .is(':checked')
-      ) {
-        $('label').removeClass('radio-bg-active');
-        $(this).addClass('radio-bg-active');
-      }
-    });
+    // $('label').on('click', function() {
+    //   if (
+    //     $(this)
+    //       .find('input[type="radio"]')
+    //       .is(':checked')
+    //   ) {
+    //     $('label').removeClass('radio-bg-active');
+    //     $(this).addClass('radio-bg-active');
+    //   }
+    // });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -692,7 +699,7 @@ export class UserStaffComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+    }, 700);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
     this.uploadCrop

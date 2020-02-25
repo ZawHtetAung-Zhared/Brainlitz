@@ -15,7 +15,8 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { convertField } from './apg';
 import { appService } from '../../service/app.service';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
@@ -255,7 +256,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService
@@ -292,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         $(target).append($('.add-new-skill'));
       });
 
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
@@ -338,6 +339,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         document.addEventListener('mousemove', function(event) {
           // console.log(_this.stillDrag)
         });
+        document.addEventListener('touchmove', function(event) {
+          // event.preventDefault();
+          // $('.requirements-wrapper').css('overflow', 'hidden');
+        });
       }
       // this.msg = `Dragging the ${value[1].innerText}!`;
     });
@@ -371,7 +376,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           .children('.selection-wrapper')
           .children('.img-wrapper');
         $(clone).height(70);
-        $(clone).width(500);
+        $(clone).width(400);
         $(clone)
           .children('.selection-wrapper')
           .children('.data-close')
@@ -421,6 +426,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('CAncel');
         this.dragOut = false;
         console.log('Drag', this.dragEle, 'drop', this.dropEle);
+        // $('.requirements-wrapper').css('overflow', '');
         // if(this.dragEle !== [] && this.dropEle !== []){
         //   var temp = this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]].name;
         //   console.log(this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]])
@@ -442,6 +448,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log('------>>', this.templateAccessPointGroup);
       this.stillDrag = false;
       this.dragOut = false;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
       console.log(name === 'COLUMNS');
@@ -449,6 +456,27 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.stillDrag = true;
         document.addEventListener(
           'mousemove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.requirements-wrapper')[0];
+              if ($('.gu-mirror').position() && container) {
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 10) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 10) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+        document.addEventListener(
+          'touchmove',
           (this.testFunct = () => {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
@@ -476,16 +504,48 @@ export class ApgComponent implements OnInit, OnDestroy {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
               var container = $(el).parents('.data-wrapper')[0];
-              var windowHeight = $(window).height();
+              // var windowHeight = $(window).height();
+              if ($('.gu-mirror').position() && container) {
+                // var y = $('.gu-mirror').position().top;
+                // if (y > 900) {
+                //   var x = 5;
+                //   window.scrollBy(0, x);
+                // } else if (y < 900) {
+                //   console.log('s');
+                //   var z = -3;
+                //   window.scrollBy(0, z);
+                // }
+
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 200) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.data-wrapper')[0];
               if ($('.gu-mirror').position() && container) {
                 var y = $('.gu-mirror').position().top;
-                if (y > 900) {
-                  var x = 5;
-                  window.scrollBy(0, x);
-                } else if (y < 900) {
-                  console.log('s');
-                  var z = -3;
-                  window.scrollBy(0, z);
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 320) {
+                  container.scrollTop -= 5;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 5;
                 }
               }
             }
@@ -566,7 +626,34 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           })
         );
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            if (stillDrag) {
+              var y = $('.gu-mirror').position().top;
+              var container = $(el).parents('.requirement-inner-box');
+              if (container.length > 0) {
+                var ddd = container[0].getBoundingClientRect().top + 236;
+                var containerTop = container[0].getBoundingClientRect().top;
+                if (ddd - y <= 70) {
+                  var ele = container[0];
+                  ele.scrollTop += 20;
+                  if (ele.scrollHeight == ele.scrollTop + container.height()) {
+                  }
+                } else if (y - containerTop <= 20) {
+                  var ele = container[0];
+                  ele.scrollTop -= 20;
+                  if (ele.scrollTop == 0) {
+                  }
+                }
+              }
+            }
+          })
+        );
         document.addEventListener('mouseup', function(event) {
+          stillDrag = false;
+        });
+        document.addEventListener('touchend', function(event) {
           stillDrag = false;
         });
       }
@@ -578,6 +665,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log('out now');
       this.dragOut = true;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
       $(clone).css('top', $('#clone').height() + 'px');
@@ -785,7 +873,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 
@@ -1003,7 +1095,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           this.setSelectedTab(this.pickedMType);
         },
         err => {
-          this.toastr.success(status + ' Fail.');
+          this.toastr.error(status + ' Fail.');
           //this.blockUI.stop();
           console.log(err);
         }
@@ -1708,11 +1800,13 @@ export class ApgComponent implements OnInit, OnDestroy {
         this._service
           .updateAPG(this.regionID, apgId, this.model, null)
           .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
             console.log(res);
             this.cancelapg();
           }),
           err => {
             console.log(err);
+            this.toastr.success('APG update fail');
           };
       })
       .catch(err => {
@@ -2692,7 +2786,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.valueArray = [{ name: '' }];
       console.log(this.valueArray);
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else if (type == 'NUMBER') {
       // console.log(this.optionsArray)
@@ -2700,7 +2794,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
       // this.optionsArray = ['']
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else {
       // this.optionsArray = ['']
@@ -3111,7 +3205,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     }
 
     this.arrClasses = {
-      'arr-box': true,
+      // 'arr-box': true,
       'arr-down': false,
       'arr-up': true
     };
@@ -3141,7 +3235,11 @@ export class ApgComponent implements OnInit, OnDestroy {
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
-        ' !important;}</style>'
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
     );
   }
 }

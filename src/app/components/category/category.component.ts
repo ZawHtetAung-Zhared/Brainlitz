@@ -18,7 +18,7 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -52,12 +52,12 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private el: ElementRef,
     private renderer: Renderer
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
     console.log('constructure start ...');
     this._service.permissionList.subscribe(data => {
       console.log('===', data);
@@ -152,6 +152,7 @@ export class CategoryComponent implements OnInit {
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
     localStorage.setItem('categoryName', name);
+
     setTimeout(() => {
       console.log('--waiting--');
       this._service.gotoplan();

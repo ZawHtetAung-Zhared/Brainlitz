@@ -79,8 +79,9 @@ export class ClassTabComponent implements OnInit, OnDestroy {
 
   navigateToCourseDetail(courseid: string) {
     console.log(courseid);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(courseid);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(courseid);
+    this.router.navigate(['/coursedetail', courseid]);
   }
 
   ngOnDestroy() {
