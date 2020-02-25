@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { appService } from '../../../service/app.service';
 import {
@@ -13,6 +14,12 @@ import {
 import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
+
+export interface ISize {
+  width: number;
+  height: number;
+}
+
 @Component({
   selector: 'custom-task',
   templateUrl: './custom-task.component.html',
@@ -510,45 +517,15 @@ export class CustomTaskComponent implements OnInit {
     return this.datePipe.transform(date, 'HH:mm');
   }
 
-  ansarr = [];
-  changeHTMLFormat(data, name, index) {
-    console.log(data);
-    console.log(index);
-    let ques = data;
-    $('#' + name).html(ques);
-
-    let ppDiv = document.getElementById(name);
-    let cImg = ppDiv.getElementsByTagName('img');
-    for (var i = 0; i < cImg.length; i++) {
-      cImg[i].style.maxWidth = '100%';
-      cImg[i].style.maxHeight = '100%';
-      cImg[i].style.padding = '30px';
-    }
-
-    let textElems = $('text');
-    console.log('textElems', textElems);
-    for (let j = 0; j < textElems.length; j++) {
-      let currElem = textElems[j];
-      console.log($(textElems[j]).attr('value'));
-      $(textElems[j]).html('<div>' + $(textElems[j]).attr('value') + '</div>');
-    }
-  }
-
-  changeTest(xml, index) {
-    console.log($(xml).length);
+  changeHTMLFormat(xml) {
     let arr = [];
     $(xml).each(function(index, value) {
-      console.log(index, value);
       let temp: any = {};
-      console.log(value.tagName);
-      console.log($(value).attr('value'));
-
       temp.tag = value.tagName;
       temp.value =
         value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
       arr.push(temp);
     });
-    console.log(arr);
     return arr;
   }
 
@@ -556,6 +533,30 @@ export class CustomTaskComponent implements OnInit {
     console.log(value);
     this.getTemplateLists(value);
   }
+
+  checkImgSize(url) {
+    console.log(url, 'img url');
+    let img = new Image();
+    img.src = url;
+    console.log(img, 'img');
+    let autoSize;
+
+    console.log(img.height);
+    return img.height;
+  }
+
+  //   getImgSize(imageSrc: string): Observable<ISize> {
+  //     let mapLoadedImage = (event): ISize => {
+  //         return {
+  //             width: event.target.width,
+  //             height: event.target.height
+  //         };
+  //     }
+  //     var image = new Image();
+  //     let $loadedImg = Observable.fromEvent(image, "load").take(1).map(mapLoadedImage);
+  //     image.src = imageSrc;
+  //     return $loadedImg;
+  // }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
