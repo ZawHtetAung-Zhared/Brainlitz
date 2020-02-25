@@ -37,19 +37,15 @@
           <div class="no-circle">{{ i + 1 }}</div>
           <div class="mastery-body mb-4">
             {{ challenge.descriptionStudent }}
-            <span class="green-txt">{{ challenge.description }}</span>
           </div>
           <div calss="d-flex mastery-body">
             <span>Info for educator :</span>
             <img
               src="./assets/icons/mastery-question.svg"
-              class="pr-2 pl-2 btn"
+              class="pr-0 pl-2 btn"
               (click)="getQuestion(challenge.masteryId)"
             />
-            <span
-              >Identify the sources of light and objects that reflect
-              light.</span
-            >
+            <span> {{ challenge.infoForEducator }} </span>
           </div>
           <div class="mastery-body txt-bold mt-3">
             {{ challenge.challengingPercentage }} % of students have yet to meet

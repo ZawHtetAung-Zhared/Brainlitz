@@ -24,6 +24,16 @@ export class ReportDetail2Component implements OnInit {
   masteriesReports: any;
   public seriesData: any = [
     {
+      type: 'bar',
+      itemStyle: {
+        color: '#fff'
+      },
+      barGap: '-100%',
+      barCategoryGap: '40%',
+      data: [100],
+      animation: false
+    },
+    {
       name: 'Struggling',
       type: 'bar',
       stack: 'energy',
@@ -90,7 +100,7 @@ export class ReportDetail2Component implements OnInit {
         (res: any) => {
           console.log(res);
           this.challengeData = res.data.masteryReport;
-          // this.challengeData = Data.data;
+          // this.challengeData = Data.data.masteryReport;
           setTimeout(() => {
             for (var i = 0; i < this.challengeData.masteries.length; i++) {
               this.setupOption(this.challengeData.masteries[i]);
@@ -134,7 +144,7 @@ export class ReportDetail2Component implements OnInit {
       },
       grid: {
         left: 0,
-        right: '50%'
+        right: 0
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -142,70 +152,29 @@ export class ReportDetail2Component implements OnInit {
         color: '#64707d'
       },
       yAxis: {
-        type: 'category',
-        axisTick: { show: false },
-        axisLine: {
-          show: false
-        },
-        axisLabel: {
-          show: false
-        },
-        splitLine: { show: false }
+        type: 'category'
       },
-      xAxis: {
-        silent: false,
-        position: 'top',
-        axisLabel: {
-          show: true,
-          formatter: '{value} % ',
-          align: 'right'
-        },
-        axisTick: {
-          show: true,
-          length: 30,
-          lineStyle: {
-            color: '#E8E9EB'
-          }
-        },
-        axisLine: {
-          show: false,
-          lineStyle: {
-            color: '#edeff0'
-          }
-        },
-        splitLine: { show: true, lineStyle: { color: '#E8E9EB' } }
-      },
+      xAxis: {},
       barWidth: 20,
       legend: {
         show: false
       },
       series: this.seriesData
     };
-    let strugglingData = [];
-    let inprogressData = [];
-    let notTakenData = [];
-    let easeData = [];
-    let diffData = [];
 
-    strugglingData.push(mastery.userMasteries.STRUGGLE.percentage);
-    diffData.push(mastery.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
-    easeData.push(mastery.userMasteries.MASTERED_WITH_EASE.percentage);
-    inprogressData.push(mastery.userMasteries.INPROGRESS.percentage);
-    notTakenData.push(mastery.userMasteries.NEW.percentage);
-
-    // this.plotOption.yAxis.data = yAxisData;
-    // if(mastery.masteryId == 'LTN-01-01') {
-    //   strugglingData = [25];
-    //   notTakenData = [25];
-    //   inprogressData = [10];
-    //   diffData = [18];
-    //   easeData= [22];
-    // }
-    this.plotOption.series[0].data = strugglingData;
-    this.plotOption.series[1].data = notTakenData;
-    this.plotOption.series[2].data = inprogressData;
-    this.plotOption.series[3].data = diffData;
-    this.plotOption.series[4].data = easeData;
+    this.plotOption.series[1].data = [
+      mastery.userMasteries.STRUGGLE.percentage
+    ];
+    this.plotOption.series[2].data = [mastery.userMasteries.NEW.percentage];
+    this.plotOption.series[3].data = [
+      mastery.userMasteries.INPROGRESS.percentage
+    ];
+    this.plotOption.series[4].data = [
+      mastery.userMasteries.MASTERED_WITH_DIFFICULT.percentage
+    ];
+    this.plotOption.series[5].data = [
+      mastery.userMasteries.MASTERED_WITH_EASE.percentage
+    ];
     this.plotGraph(mastery.masteryId);
   }
 
