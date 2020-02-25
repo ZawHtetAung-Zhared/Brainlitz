@@ -3,6 +3,9 @@
     <span class="mastery-title">Mastery reports</span>
     <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
   </div>
+  <div *ngIf="notext" class="d-flex justify-content-center pt-5 mt-5">
+    Not enough data to generate reports.
+  </div>
   <div *ngIf="masteriesReports && !noData" class="d-flex flex-column">
     <div *ngFor="let report of masteriesReports; let i = index">
       <div class="d-flex">
@@ -16,21 +19,21 @@
             </span>
             <button
               class="btn-detail btn mt-4"
-              (click)="expandGraph(report.id)"
+              (click)="expandGraph(report._id)"
               routerLinkActive="active"
-              routerLink="/masteriesdetail/{{ report.id }}"
+              routerLink="/masteriesdetail/{{ report._id }}"
             >
               View detail
             </button>
           </div>
         </div>
         <div
-          id="{{ report.id }}"
+          id="{{ report._id }}"
           class="mt-4 mb-4 ml-2"
           style="width:70%; min-height: 200px;"
-          (click)="expandGraph(report.id)"
+          (click)="expandGraph(report._id)"
           routerLinkActive="active"
-          routerLink="/masteriesdetail/{{ report.id }}"
+          routerLink="/masteriesdetail/{{ report._id }}"
         ></div>
       </div>
       <div *ngIf="i < masteriesReports.length - 1" class="split-line"></div>

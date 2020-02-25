@@ -24,6 +24,16 @@ export class ReportDetail2Component implements OnInit {
   masteriesReports: any;
   public seriesData: any = [
     {
+      type: 'bar',
+      itemStyle: {
+        color: '#fff'
+      },
+      barGap: '-100%',
+      barCategoryGap: '40%',
+      data: [100],
+      animation: false
+    },
+    {
       name: 'Struggling',
       type: 'bar',
       stack: 'energy',
@@ -84,24 +94,26 @@ export class ReportDetail2Component implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(Data);
-    this.challengeData = Data.data;
-
-    // this.challengeData = this._data.getMasteryData().data.challengingMasteries;
-    //   this.masteriesReports = this._data.getMasteryData().data.masteryReport;
-    //   this.masteriesReports = this.masteriesReports.filter(function(res) {
-    //     return res.id == localStorage.getItem('mastery_reportId');
-    //   });
-    //   this.reportItems = this.masteriesReports[0].masteries;
-    //   this.setupOption();
+    this._service
+      .getMasteryDetailReport(localStorage.getItem('mastery_reportId'))
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.challengeData = res.data.masteryReport;
+          // this.challengeData = Data.data.masteryReport;
+          setTimeout(() => {
+            for (var i = 0; i < this.challengeData.masteries.length; i++) {
+              this.setupOption(this.challengeData.masteries[i]);
+            }
+          }, 200);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
-  ngAfterViewInit() {
-    console.log('finish view');
-    for (var i = 0; i < this.challengeData.masteries.length; i++) {
-      this.setupOption(this.challengeData.masteries[i]);
-    }
-  }
+  ngAfterViewInit() {}
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
@@ -132,7 +144,7 @@ export class ReportDetail2Component implements OnInit {
       },
       grid: {
         left: 0,
-        right: 20
+        right: 0
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -140,97 +152,51 @@ export class ReportDetail2Component implements OnInit {
         color: '#64707d'
       },
       yAxis: {
-        type: 'category',
-        axisTick: { show: false },
-        axisLine: {
-          show: false
-        },
-        axisLabel: {
-          show: false
-        },
-        splitLine: { show: false }
+        type: 'category'
       },
-      xAxis: {
-        silent: false,
-        position: 'top',
-        axisLabel: {
-          show: true,
-          formatter: '{value} % ',
-          align: 'right'
-        },
-        axisTick: {
-          show: true,
-          length: 30,
-          lineStyle: {
-            color: '#E8E9EB'
-          }
-        },
-        axisLine: {
-          show: false,
-          lineStyle: {
-            color: '#edeff0'
-          }
-        },
-        splitLine: { show: true, lineStyle: { color: '#E8E9EB' } }
-      },
+      xAxis: {},
       barWidth: 20,
       legend: {
         show: false
       },
       series: this.seriesData
     };
-    let strugglingData = [];
-    let inprogressData = [];
-    let notTakenData = [];
-    let easeData = [];
-    let diffData = [];
 
-    strugglingData.push(mastery.userMasteries.STRUGGLE.percentage);
-    diffData.push(mastery.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
-    easeData.push(mastery.userMasteries.MASTERED_WITH_EASE.percentage);
-    inprogressData.push(mastery.userMasteries.INPROGRESS.percentage);
-    notTakenData.push(mastery.userMasteries.NEW.percentage);
-
-    // this.plotOption.yAxis.data = yAxisData;
-    this.plotOption.series[0].data = strugglingData;
-    this.plotOption.series[1].data = notTakenData;
-    this.plotOption.series[2].data = inprogressData;
-    this.plotOption.series[3].data = diffData;
-    this.plotOption.series[4].data = easeData;
+    this.plotOption.series[1].data = [
+      mastery.userMasteries.STRUGGLE.percentage
+    ];
+    this.plotOption.series[2].data = [mastery.userMasteries.NEW.percentage];
+    this.plotOption.series[3].data = [
+      mastery.userMasteries.INPROGRESS.percentage
+    ];
+    this.plotOption.series[4].data = [
+      mastery.userMasteries.MASTERED_WITH_DIFFICULT.percentage
+    ];
+    this.plotOption.series[5].data = [
+      mastery.userMasteries.MASTERED_WITH_EASE.percentage
+    ];
     this.plotGraph(mastery.masteryId);
   }
 
   plotGraph(masteryId) {
-    var _self = this;
     var elem = document.getElementById(masteryId);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    // if (this.reportItems.length > 10)
-    //   elem.style.height = this.reportItems.length * 70 + 'px';
-    // else if (this.reportItems.length > 5)
-    //   elem.style.height = this.reportItems.length * 80 + 'px';
-    // else elem.style.height = this.reportItems.length * 90 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
-    graph.on('click', function(params) {
-      // console.log(params);
-      if (params.componentType === 'yAxis') {
-        var id =
-          _self.masteriesReports[0].masteries[
-            _self.plotOption.yAxis.data.indexOf(params.value)
-          ].masteryId;
-        _self._service.getMasteryQuestion(id).subscribe(
-          (res: any) => {
-            console.log(res);
-            _self.samplexml = res;
-            _self.openModal(_self.questionModal);
-          },
-          err => {
-            console.log(err);
-          }
-        );
+  }
+
+  getQuestion(masteryId) {
+    this._service.getMasteryQuestion(masteryId).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.samplexml = res;
+        this.openModal(this.questionModal);
+      },
+      err => {
+        console.log(err);
       }
-    });
+    );
   }
 
   cancelModal() {
@@ -249,13 +215,10 @@ export class ReportDetail2Component implements OnInit {
     setTimeout(() => {
       this.setupAnswer();
     }, 200);
-    // this.setupQuestion();
   }
 
   setupQuiz() {
-    var ques =
-      "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
-    $('#testQuestion').html(this.samplexml.data.quiz.question);
+    $('#Question').html(this.samplexml.data.quiz.question);
     var textElems = $('text');
     for (var j = 0; j < textElems.length; j++) {
       var currElem = textElems[j];
@@ -263,15 +226,9 @@ export class ReportDetail2Component implements OnInit {
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
     }
-
-    var imgElems = $('img');
-    for (var i = 0; i < imgElems.length; i++) {
-      $(imgElems[i]).attr('class', 'pt-4');
-    }
   }
 
   setupAnswer() {
-    var ans = "<text index=0 value='cannot grow without food' ></text>";
     this.samplexml.data.quiz.answers.forEach(function(element) {
       $('#' + element._id).html(element.answer);
       var textElems = $('text');
