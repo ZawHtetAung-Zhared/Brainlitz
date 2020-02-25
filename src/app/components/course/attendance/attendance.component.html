@@ -102,265 +102,264 @@
 
   <!-- end lesson list -->
 
-  <div
-    *ngIf="!isRescheduleLesson && !isNewLesson && loading == false"
-    class="mt-20"
-  >
-    <div class="d-flex justify-content-between">
-      <div class="d-flex flex-column">
-        <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
-        <div class="d-flex lesson-time" style="margin-bottom:15px">
-          <span>
-            {{ selectedLesson?.startDate | utcTime }} -
-            {{ selectedLesson?.endDate | utcTime }}
-          </span>
-        </div>
-        <!--  *ngIf="showCancelButton == true" -->
-        <div class="d-flex">
-          <button
-            class="d-flex btn assign_relief_button align-items-center"
-            *ngIf="disableCancel == false && reliefTeacher == null"
+  <div *ngIf="loading == false" class="mt-20">
+    <div *ngIf="!isRescheduleLesson && !isNewLesson">
+      <div class="d-flex justify-content-between">
+        <div class="d-flex flex-column">
+          <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
+          <div class="d-flex lesson-time" style="margin-bottom:15px">
+            <span>
+              {{ selectedLesson?.startDate | utcTime }} -
+              {{ selectedLesson?.endDate | utcTime }}
+            </span>
+          </div>
+          <!--  *ngIf="showCancelButton == true" -->
+          <div class="d-flex">
+            <button
+              class="d-flex btn assign_relief_button align-items-center"
+              *ngIf="disableCancel == false && reliefTeacher == null"
+              (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+              [disabled]="disableCancel == true"
+            >
+              <span
+                ><img
+                  src="../../../assets/icons/assignReliefIcon.svg"
+                  alt=""/></span
+              >Assign relief teacher
+            </button>
+            <button
+              class="d-flex btn reschedule_button align-items-center"
+              *ngIf="disableCancel == false && reliefTeacher == null"
+              (click)="rescheduleLesson()"
+            >
+              <span><img src="../../../assets/icons/Calendar.svg" alt=""/></span
+              >Reschedule
+            </button>
+            <button
+              class="d-flex btn cancel_class_button align-items-center"
+              *ngIf="
+                disableCancel == false &&
+                reliefTeacher == null &&
+                activeCourseInfo.CUSTOMER?.length > 0
+              "
+              (click)="cancelClass(content)"
+              [disabled]="disableCancel == true || reliefTeacher != null"
+            >
+              <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
+              >Cancel lesson
+            </button>
+            <button
+              class="d-flex btn cancel_class_button align-items-center"
+              *ngIf="
+                activeCourseInfo.CUSTOMER?.length < 1 &&
+                disableCancel == false &&
+                reliefTeacher == null
+              "
+              (click)="deleteLesson(lessonDelete)"
+            >
+              <!--    (click)="deleteLesson()" -->
+              <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
+              >Delete lesson
+            </button>
+          </div>
+          <!--   disableCancel == false && -->
+          <!--        showCancelButton == true -->
+          <div
             (click)="onClickAssignRelief(reliefModal, selectedLesson)"
-            [disabled]="disableCancel == true"
+            class="d-flex align-items-center"
+            *ngIf="reliefTeacher != null"
           >
-            <span
-              ><img
-                src="../../../assets/icons/assignReliefIcon.svg"
-                alt=""/></span
-            >Assign relief teacher
-          </button>
-          <button
-            class="d-flex btn reschedule_button align-items-center"
-            *ngIf="disableCancel == false && reliefTeacher == null"
-            (click)="rescheduleLesson()"
-          >
-            <span><img src="../../../assets/icons/Calendar.svg" alt=""/></span
-            >Reschedule
-          </button>
-          <button
-            class="d-flex btn cancel_class_button align-items-center"
-            *ngIf="
-              disableCancel == false &&
-              reliefTeacher == null &&
-              activeCourseInfo.CUSTOMER?.length > 0
-            "
-            (click)="cancelClass(content)"
-            [disabled]="disableCancel == true || reliefTeacher != null"
-          >
-            <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
-            >Cancel lesson
-          </button>
-          <button
-            class="d-flex btn cancel_class_button align-items-center"
-            *ngIf="
-              activeCourseInfo.CUSTOMER?.length < 1 &&
-              disableCancel == false &&
-              reliefTeacher == null
-            "
-            (click)="deleteLesson(lessonDelete)"
-          >
-            <!--    (click)="deleteLesson()" -->
-            <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
-            >Delete lesson
-          </button>
-        </div>
-        <!--   disableCancel == false && -->
-        <!--        showCancelButton == true -->
-        <div
-          (click)="onClickAssignRelief(reliefModal, selectedLesson)"
-          class="d-flex align-items-center"
-          *ngIf="reliefTeacher != null"
-        >
-          <div class="relief-name">
-            <label class="mb-0">Relief Teacher</label>
-            <h5>
-              {{ reliefTeacher?.preferredName }}
-            </h5>
+            <div class="relief-name">
+              <label class="mb-0">Relief Teacher</label>
+              <h5>
+                {{ reliefTeacher?.preferredName }}
+              </h5>
+            </div>
+            <div class="relief-img-wrap ml-2">
+              <img src="{{ reliefTeacher?.profilePic }}" />
+            </div>
           </div>
-          <div class="relief-img-wrap ml-2">
-            <img src="{{ reliefTeacher?.profilePic }}" />
-          </div>
-        </div>
 
-        <!-- &&
-            showCancelButton == true -->
-        <div
-          class="d-flex"
-          *ngIf="disableCancel == true && reliefTeacher == null"
-        >
-          <div class="d-flex align-items-center relief-name">
-            <h5 class="mb-0">Cancelled Class</h5>
-          </div>
-          <div class="d-flex justify-content-center align-items-center pl-2">
-            <div class="cc-icon-wrap">
-              <div class="icon-wrap">
-                <img src="./assets/images/withdraw-ico@2x.png" />
+          <!-- &&
+              showCancelButton == true -->
+          <div
+            class="d-flex"
+            *ngIf="disableCancel == true && reliefTeacher == null"
+          >
+            <div class="d-flex align-items-center relief-name">
+              <h5 class="mb-0">Cancelled Class</h5>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pl-2">
+              <div class="cc-icon-wrap">
+                <div class="icon-wrap">
+                  <img src="./assets/images/withdraw-ico@2x.png" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="d-flex">
-        <div
-          class="present_student d-flex justify-content-center align-items-center"
-        >
-          <div>
-            <p class="present_count">{{ presentStudent }}</p>
-            <span class="present_text">Present</span>
-          </div>
-        </div>
-        <div
-          class="absent_student d-flex justify-content-center align-items-center"
-        >
-          <div>
-            <p class="absent_count">{{ absentStudent }}</p>
-            <span class="absent_text">Absent</span>
-          </div>
-        </div>
-        <div
-          class="total_student d-flex justify-content-center align-items-center"
-        >
-          <div>
-            <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
-              {{ activeCourseInfo.CUSTOMER.length }}
-            </p>
-            <span class="total_text">Total</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="student-lists row " *ngIf="loading == false">
-      <div
-        *ngFor="let user of activeCourseInfo.CUSTOMER"
-        class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
-      >
-        <!-- {{user.attendance}} -->
-        <div
-          (click)="showAttendanceBox($event, user.userId)"
-          (document:click)="closeDropdown($event)"
-          class="d-flex flex-row single-student align-items-center"
-          [ngClass]="{
-            'no-data-alert': user.attendance == null,
-            'present-alert': user.attendance == true,
-            'absent-alert': user.attendance == false,
-            'active-alert': attdBox == true && this.uId == user.userId
-          }"
-        >
-          <div class="align-self-center justify-content-center pl-2">
-            <div class="std-img-wrap">
-              <img src="{{ user.profilePic }}" />
+        <div class="d-flex">
+          <div
+            class="present_student d-flex justify-content-center align-items-center"
+          >
+            <div>
+              <p class="present_count">{{ presentStudent }}</p>
+              <span class="present_text">Present</span>
             </div>
           </div>
-          <div class="single-user-info d-flex">
-            <p *ngIf="user.preferredName">
-              {{
-                user.preferredName.length > 20
-                  ? (user.preferredName | slice: 0:20) + '...'
-                  : user.preferredName
-              }}
-            </p>
-            <p *ngIf="user.preferredName == ''">
-              {{
-                user.email.length > 15
-                  ? (user.email | slice: 0:15) + '...'
-                  : user.email
-              }}
-            </p>
+          <div
+            class="absent_student d-flex justify-content-center align-items-center"
+          >
+            <div>
+              <p class="absent_count">{{ absentStudent }}</p>
+              <span class="absent_text">Absent</span>
+            </div>
           </div>
-          <div class="d-flex ml-auto pr-3">
-            <span
-              class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
-              [ngClass]="{
-                'text-white': attdBox == true && this.uId == user.userId
-              }"
-            ></span>
+          <div
+            class="total_student d-flex justify-content-center align-items-center"
+          >
+            <div>
+              <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
+                {{ activeCourseInfo.CUSTOMER.length }}
+              </p>
+              <span class="total_text">Total</span>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="student-lists row " *ngIf="loading == false">
         <div
-          class="att-box"
-          *ngIf="
-            attdBox == true &&
-            this.uId == user.userId &&
-            (!disableCancel || detailLists.type == 'FLEXY')
-          "
+          *ngFor="let user of activeCourseInfo.CUSTOMER"
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
         >
-          <div class="carret-box"></div>
-          <li
-            *ngIf="!disableCancel"
+          <!-- {{user.attendance}} -->
+          <div
+            (click)="showAttendanceBox($event, user.userId)"
+            (document:click)="closeDropdown($event)"
+            class="d-flex flex-row single-student align-items-center"
             [ngClass]="{
-              'attendance-wrap': detailLists.type == 'FLEXY',
-              'pb-3': detailLists.type == 'FLEXY',
-              'mb-3': detailLists.type == 'FLEXY'
+              'no-data-alert': user.attendance == null,
+              'present-alert': user.attendance == true,
+              'absent-alert': user.attendance == false,
+              'active-alert': attdBox == true && this.uId == user.userId
             }"
           >
-            <div id="divToHide">
-              <div class="pb-3">Take Attendance</div>
-              <div class="d-flex" id="divToHide">
-                <div
-                  id="divToHide"
-                  class="present-wrap"
-                  [ngClass]="{
-                    'attendance-radio': user.attendance == true
-                  }"
-                >
-                  <label id="divToHide" class="radio-present mb-0">
-                    <p
-                      class="mb-0"
-                      [ngClass]="{ 'present-text': user.attendance }"
-                    >
-                      Present
-                    </p>
-                    <input
-                      type="radio"
-                      name="radio"
-                      (click)="
-                        onClickRadio('present', user.userId, content, user)
-                      "
-                      [checked]="user.attendance == true"
-                    />
-                    <span class="checkmark"></span>
-                  </label>
-                </div>
-                <div
-                  id="divToHide"
-                  class="absent-wrap"
-                  [ngClass]="{
-                    'absent-radio': user.attendance == false
-                  }"
-                >
-                  <label id="divToHide" class="radio-absent mb-0">
-                    <p
-                      class="mb-0"
-                      [ngClass]="{ 'absent-text': user.attendance }"
-                    >
-                      Absent
-                    </p>
-                    <input
-                      type="radio"
-                      name="radio"
-                      (click)="
-                        onClickRadio('absent', user.userId, content, user)
-                      "
-                      [checked]="user.attendance == false"
-                    />
-                    <span class="checkmark"></span>
-                  </label>
-                </div>
+            <div class="align-self-center justify-content-center pl-2">
+              <div class="std-img-wrap">
+                <img src="{{ user.profilePic }}" />
               </div>
             </div>
-          </li>
-          <!-- && showCancelButton == true -->
-          <button
-            *ngIf="detailLists.type == 'FLEXY'"
-            (click)="getReschedule(reschedule, user)"
-            class="btn w-100 reschedule-btn p-0"
+            <div class="single-user-info d-flex">
+              <p *ngIf="user.preferredName">
+                {{
+                  user.preferredName.length > 20
+                    ? (user.preferredName | slice: 0:20) + '...'
+                    : user.preferredName
+                }}
+              </p>
+              <p *ngIf="user.preferredName == ''">
+                {{
+                  user.email.length > 15
+                    ? (user.email | slice: 0:15) + '...'
+                    : user.email
+                }}
+              </p>
+            </div>
+            <div class="d-flex ml-auto pr-3">
+              <span
+                class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down"
+                [ngClass]="{
+                  'text-white': attdBox == true && this.uId == user.userId
+                }"
+              ></span>
+            </div>
+          </div>
+          <div
+            class="att-box"
+            *ngIf="
+              attdBox == true &&
+              this.uId == user.userId &&
+              (!disableCancel || detailLists.type == 'FLEXY')
+            "
           >
-            Reschedule
-          </button>
+            <div class="carret-box"></div>
+            <li
+              *ngIf="!disableCancel"
+              [ngClass]="{
+                'attendance-wrap': detailLists.type == 'FLEXY',
+                'pb-3': detailLists.type == 'FLEXY',
+                'mb-3': detailLists.type == 'FLEXY'
+              }"
+            >
+              <div id="divToHide">
+                <div class="pb-3">Take Attendance</div>
+                <div class="d-flex" id="divToHide">
+                  <div
+                    id="divToHide"
+                    class="present-wrap"
+                    [ngClass]="{
+                      'attendance-radio': user.attendance == true
+                    }"
+                  >
+                    <label id="divToHide" class="radio-present mb-0">
+                      <p
+                        class="mb-0"
+                        [ngClass]="{ 'present-text': user.attendance }"
+                      >
+                        Present
+                      </p>
+                      <input
+                        type="radio"
+                        name="radio"
+                        (click)="
+                          onClickRadio('present', user.userId, content, user)
+                        "
+                        [checked]="user.attendance == true"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                  <div
+                    id="divToHide"
+                    class="absent-wrap"
+                    [ngClass]="{
+                      'absent-radio': user.attendance == false
+                    }"
+                  >
+                    <label id="divToHide" class="radio-absent mb-0">
+                      <p
+                        class="mb-0"
+                        [ngClass]="{ 'absent-text': user.attendance }"
+                      >
+                        Absent
+                      </p>
+                      <input
+                        type="radio"
+                        name="radio"
+                        (click)="
+                          onClickRadio('absent', user.userId, content, user)
+                        "
+                        [checked]="user.attendance == false"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- && showCancelButton == true -->
+            <button
+              *ngIf="detailLists.type == 'FLEXY'"
+              (click)="getReschedule(reschedule, user)"
+              class="btn w-100 reschedule-btn p-0"
+            >
+              Reschedule
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div *ngIf="loading == true" class="student-lists row ">
+    <!-- <div *ngIf="loading == true" class="student-lists row ">
       <div
         class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex align-items-center"
       >
@@ -375,7 +374,7 @@
           <svg:rect x="0" y="0.5" rx="0" ry="0" width="100%" height="80" />
         </content-loader>
       </div>
-    </div>
+    </div> -->
 
     <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
     <ng-template #reschedule let-modal>
@@ -455,7 +454,7 @@
       </div>
     </ng-template>
 
-    <div *ngIf="isRescheduleLesson" class="mt-20">
+    <div *ngIf="isRescheduleLesson" class="mt-20 mb-4">
       <app-reschedule-lesson
         (cancelReschedule)="cancelRescheduleLesson($event)"
         (updatedlessonObj)="updatedLessonObj($event)"
@@ -466,7 +465,7 @@
       ></app-reschedule-lesson>
     </div>
 
-    <div *ngIf="isNewLesson" class="mt-20">
+    <div *ngIf="isNewLesson" class="mt-20 mb-4">
       <app-reschedule-lesson
         (cancelReschedule)="cancelRescheduleLesson($event)"
         (updatedlessonObj)="updatedLessonObj($event)"
@@ -882,10 +881,7 @@
     </ng-template>
   </div>
   <!-- loading == true -->
-  <div
-    *ngIf="!isRescheduleLesson && !isNewLesson && loading == true"
-    class="mt-20"
-  >
+  <div *ngIf="loading == true" class="mt-20">
     <div class="d-flex justify-content-between">
       <div class="d-flex flex-column">
         <div style="height: 40px;">

@@ -624,7 +624,7 @@ export class EnrollUserComponent implements OnInit {
   cancelInvoiceModal() {
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.modalReference.close();
+    //this.modalReference.close();
     this.showList = false;
     this.selectedCustomer = {};
     this.showInvoice = false;
@@ -654,7 +654,7 @@ export class EnrollUserComponent implements OnInit {
     } else {
       console.log('else hi');
       // this.cancel();
-      this.modalReference.close();
+      //this.modalReference.close();
       this.courseList = [];
       this.getCourseLists(20, 0);
       // this.cancelModal();

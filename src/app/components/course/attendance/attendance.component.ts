@@ -1872,8 +1872,9 @@ export class AttendanceComponent implements OnInit {
     if (!e) {
       this.isRescheduleLesson = e;
       this.isNewLesson = e;
-      this.getCourseDetail(this.detailLists._id);
-      console.log('course detail', this.detailLists);
+      this.ngOnInit();
+      // this.getCourseDetail(this.detailLists._id);
+      // console.log('course detail', this.detailLists);
     }
   }
   updatedLessonObj(e) {
