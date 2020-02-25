@@ -126,6 +126,11 @@ export class FlexiComponent implements OnInit {
   conflictObj: any;
   lessonsCount: number = 0;
   showConflictBox(e, obj, ref: ElementRef) {
+    // User screen size
+    const screenHeight = window.screen.height;
+    const screenWidth = window.innerWidth;
+    console.log(screenHeight, screenWidth);
+
     console.log('ele', e);
     console.log(obj);
     this.lessonsCount = 0;
@@ -178,8 +183,10 @@ export class FlexiComponent implements OnInit {
         e.srcElement.className ==
           'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
       ) {
+        console.log('reach1', e.composedPath()[4].offsetLeft);
         this.arrLeft = e.composedPath()[4].offsetLeft + 130;
       } else {
+        console.log('reach2', e.composedPath()[3].offsetLeft);
         this.arrLeft = e.composedPath()[3].offsetLeft + 130;
       }
     } else {
@@ -202,9 +209,23 @@ export class FlexiComponent implements OnInit {
         e.srcElement.className ==
           'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
       ) {
-        this.arrLeft = e.path[4].offsetLeft + 190;
+        console.log('here1', e.path[4].offsetLeft);
+        if (screenWidth >= 1366) {
+          console.log('reach1');
+          this.arrLeft = e.path[4].offsetLeft - 100;
+        } else {
+          console.log('reach2');
+          this.arrLeft = e.path[4].offsetLeft + 150;
+        }
       } else {
-        this.arrLeft = e.path[3].offsetLeft + 190;
+        console.log('here2', e.path[3].offsetLeft);
+        if (screenWidth >= 1366) {
+          console.log('reach hereee');
+          this.arrLeft = e.path[3].offsetLeft + 190;
+        } else {
+          console.log('reach hereee2');
+          this.arrLeft = e.path[3].offsetLeft + 190;
+        }
       }
     }
 
