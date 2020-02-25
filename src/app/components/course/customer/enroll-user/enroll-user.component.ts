@@ -1279,7 +1279,7 @@ export class EnrollUserComponent implements OnInit {
         );
         var currentCount = this.enrolledCustomer.length;
         this.found = earlierCount - currentCount;
-        alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
+        //alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
         this.userLists.map(item => {
           item.addOrRemove = 'add-user';
           if (item.userId == user.userId) {
