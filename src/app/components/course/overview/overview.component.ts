@@ -27,7 +27,8 @@ export class OverviewComponent implements OnInit {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
-    this.getMastery();
+    // this.getMastery();
+    this.getOverviewMastery();
     if (localStorage.getItem('SPC') == 'true') this.sparkwerkz = true;
     else this.sparkwerkz = false;
   }
@@ -941,7 +942,7 @@ export class OverviewComponent implements OnInit {
         this.chart = new Chart('canvas' + i + j, {
           type: 'doughnut',
           data: {
-            labels: ['Struggling', 'In conslusive', 'Mastered', 'Not started'],
+            labels: ['Struggling', 'Doing fine', 'Mastered', 'Not started'],
             datasets: [
               {
                 data: [
@@ -986,11 +987,37 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  getMastery() {
-    this._service.getMasteryReports().subscribe(
+  // getMastery() {
+  //   this._service.getMasteryReports().subscribe(
+  //     (res: any) => {
+  //       this.loadingMastery = false;
+  //       this._data.setMasteryData(res);
+  //       if (res.data.masteryReport) {
+  //         this.Nomasteryflag = false;
+  //         this.mastery = res.data.masteryReport;
+  //         this.masteryStudentCount = res.data.enrolledStudentCount;
+  //         console.log(this.mastery);
+  //         console.log('2D', this.TwoDimensional(this.mastery, 2));
+  //         this.outerArray = this.TwoDimensional(this.mastery, 2);
+  //         console.log(this.outerArray);
+  //         setTimeout(() => {
+  //           this.drawChart(this.outerArray);
+  //         }, 200);
+  //       } else {
+  //         console.log('Null Mastery report');
+  //       }
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
+  getOverviewMastery() {
+    this._service.getOverviewMasteryList().subscribe(
       (res: any) => {
         this.loadingMastery = false;
-        this._data.setMasteryData(res);
+        // this._data.setMasteryData(res);
         if (res.data.masteryReport) {
           this.Nomasteryflag = false;
           this.mastery = res.data.masteryReport;

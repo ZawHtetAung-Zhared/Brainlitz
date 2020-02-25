@@ -161,7 +161,9 @@
             pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left !== null
           "
         >
-          <p>0/{{ detailLists?.coursePlan?.seats }} Customer</p>
+          <p class="body-l medium-font">
+            0/{{ detailLists?.coursePlan?.seats }} Customer
+          </p>
         </div>
         <div
           class="d-flex"
@@ -389,7 +391,7 @@
       </div>
     </div>
     <div
-      class="no-customer"
+      class="no-customer body-xl medium-font"
       *ngIf="pplLists?.CUSTOMER?.length <= 0 && loading == false"
     >
       <span class="">
