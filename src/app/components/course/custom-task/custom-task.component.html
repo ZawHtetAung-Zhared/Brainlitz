@@ -126,10 +126,10 @@
           <div class="simple-search input-group">
             <input
               class="form-control py-2 task-search-input bold data-name"
-              type="search"
+              type="text"
               placeholder="Search template"
+              (input)="searchTemplate($event.target.value)"
               autocomplete="off"
-              name="keyword"
             />
           </div>
           <p class="title bold">All templates</p>
@@ -239,9 +239,7 @@
                 <div
                   class="d-flex justify-content-center align-items-center img-block"
                 >
-                  <img
-                    src="https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg"
-                  />
+                  <img src="{{ task.posterImageUrl }}" />
                 </div>
                 <span class="mastery-count font-semi">{{
                   task.masteryCount == 1
@@ -730,12 +728,51 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <p class="step-title bold mb-0">
+      <p class="mastery-title font-semi mb-0">
         {{ questionObj.mastery.shortMasteryName }}
       </p>
     </div>
     <div class="mastery-body font-semi" id="question-content">
-      {{ changeHTMLFormat(questionObj.quiz.question) }}
+      <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
+      <div
+        *ngFor="let obj of changeTest(questionObj.quiz.question); let i = index"
+      >
+        <div
+          *ngIf="obj.tag === 'IMG'"
+          class="d-flex justify-content-center align-items-center questImg"
+        >
+          <img src="{{ obj.value }}" />
+        </div>
+        <span *ngIf="obj.tag === 'TEXT'">
+          {{ obj.value }}
+        </span>
+      </div>
+    </div>
+
+    <div class="anwer-wrapper">
+      <div
+        class="answer-block{{ i }} font-semi"
+        *ngFor="let obj of questionObj.quiz.answers; let i = index"
+      >
+        <span *ngIf="obj.correctness" class="regular ccAns"
+          >Correct answer</span
+        >
+        <div
+          *ngFor="let obj2 of changeTest(obj.answer); let i = index"
+          id="answer-block"
+          [ngClass]="{ correctnessActive: obj.correctness == true }"
+        >
+          <div
+            *ngIf="obj2.tag === 'IMG'"
+            class="d-flex justify-content-center align-items-center answer-img"
+          >
+            <img src="{{ obj2.value }}" />
+          </div>
+          <span *ngIf="obj2.tag === 'TEXT'">
+            {{ obj2.value }}
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>
