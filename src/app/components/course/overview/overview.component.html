@@ -176,7 +176,7 @@
 <!-- loadign for mastery report -->
 <div
   class="card-column"
-  [ngClass]="{ orphan: !sparkwerkz }"
+  [ngClass]="{ orphan: !sparkwerkz, orphan2: coursetype == 'ONLINE' }"
   *ngIf="loading == false"
 >
   <div class="customer-view">
@@ -485,7 +485,7 @@
     </div>
   </div>
 
-  <div class="attendance-view">
+  <div *ngIf="coursetype != 'ONLINE'" class="attendance-view">
     <div class="cardhead"></div>
     <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
       <content-loader>
