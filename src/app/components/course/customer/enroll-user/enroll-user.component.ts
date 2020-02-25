@@ -1161,20 +1161,23 @@ export class EnrollUserComponent implements OnInit {
             res.map(item => {
               item.addOrRemove = 'add-user';
             });
+            this.loading = false;
             if (this.courseType == 'FLEXY') {
               this.userLists = res;
             } else {
               this.userLists = res;
+
               this.enrolledCustomer = this.pplLists.CUSTOMER;
               console.log(this.enrolledCustomer[0].userId);
               for (var i = 0; i < this.enrolledCustomer.length; i++) {
                 this.removeEnrolledUser(this.enrolledCustomer[i]);
               }
+
               // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
             }
-            setTimeout(() => {
-              this.loading = false;
-            }, 3000);
+            // setTimeout(() => {
+            //   this.loading = false;
+            // }, 1000);
 
             //this.loading=false
             // console.log(this.userLists);
