@@ -245,9 +245,14 @@ export class appService {
     });
   }
 
-  getOrgCredentials(orgCode, hostName) {
+  getOrgCredentials(orgCode, hostName, envName) {
     console.log(hostName);
-    let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+    let url =
+      this.baseUrl1 +
+      '/organization-credentials/' +
+      orgCode +
+      '?env=' +
+      envName;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4349,16 +4354,33 @@ export class appService {
     });
   }
 
-  getTemplateLists(standardId, courseId) {
-    let apiUrl =
-      this.baseUrl +
-      '/regions/' +
-      localStorage.getItem('regionId') +
-      '/' +
-      standardId +
-      '/' +
-      courseId +
-      '/templates';
+  getTemplateLists(standardId, courseId, searchData) {
+    let apiUrl;
+    console.log(searchData);
+    if (searchData) {
+      console.log('here');
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates?search=' +
+        searchData;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates';
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4488,6 +4510,28 @@ export class appService {
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
       console.log('Overview data');
+      return result;
+    });
+  }
+
+  getOverviewMasteryList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview Mastery data');
       return result;
     });
   }

@@ -70,8 +70,44 @@ p.task-name {
 div#question-content {
   font-size: 17px;
   color: #5c6773;
+  padding-top: 32px;
 }
 
+.answer-img {
+  padding: 12px 16px;
+}
+.answer-img img {
+  max-width: 80%;
+  max-height: 100%;
+}
+
+div#answer-block {
+  color: #5c6773;
+  font-size: 17px;
+  border: 1px solid #edeef0;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+}
+
+.correctnessActive {
+  border: 2px solid #00a653 !important;
+}
+
+.questImg {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.questImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ccAns {
+  color: #00a653;
+  font-size: 15px;
+}
 @media only screen and (min-width: 1365px) {
   .mastery-scroll {
     overflow: overlay;

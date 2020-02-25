@@ -32,7 +32,8 @@ import {
   CourseListComponent,
   ReportDetailComponent,
   StudentListComponent,
-  MasteryReportComponent
+  MasteryReportComponent,
+  ReportDetail2Component
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 
@@ -127,7 +128,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'reportdetail', pathMatch: 'full' },
       {
         path: 'reportdetail',
-        component: ReportDetailComponent
+        // component: ReportDetailComponent
+        component: ReportDetail2Component
       },
       {
         path: 'studentlist',

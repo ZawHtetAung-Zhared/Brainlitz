@@ -237,49 +237,29 @@ export class MasteriesreportComponent implements OnInit {
     //   }
     // }, 200);
 
-    if (this._data.getMasteryData() == undefined) {
-      this._service.getMasteryReports().subscribe(
-        (res: any) => {
-          console.log(res);
-          this._data.setMasteryData(res);
-          if (res.data.masteryReport) {
-            this.noData = false;
-            this.masteriesReports = res.data.masteryReport;
-            setTimeout(() => {
-              for (var i = 0; i < this.masteriesReports.length; i++) {
-                this.reportItems = this.masteriesReports[i].masteries;
-                this.setupOption(i);
-              }
-            }, 200);
-          } else {
-            this.noData = true;
-            this.toastr.error('No masteries report for this course.');
-          }
-        },
-        err => {
-          this.toastr.error(err.message);
-          console.log(err);
-          this.noData = true;
-        }
-      );
-    } else {
-      if (this._data.getMasteryData().data.masteryReport) {
-        setTimeout(() => {
+    this._service.getMasteryReports().subscribe(
+      (res: any) => {
+        console.log(res);
+        this._data.setMasteryData(res);
+        if (res.data.masteryReport) {
           this.noData = false;
-        }, 1000);
-        this.masteriesReports = this._data.getMasteryData().data.masteryReport;
-        setTimeout(() => {
-          for (var i = 0; i < this.masteriesReports.length; i++) {
-            this.reportItems = this.masteriesReports[i].masteries;
-            this.setupOption(i);
-          }
-        }, 1200);
-      } else {
-        this.noData = true;
-        setTimeout(() => {
+          this.masteriesReports = res.data.masteryReport;
+          setTimeout(() => {
+            for (var i = 0; i < this.masteriesReports.length; i++) {
+              this.reportItems = this.masteriesReports[i].masteries;
+              this.setupOption(i);
+            }
+          }, 200);
+        } else {
+          this.noData = true;
           this.toastr.error('No masteries report for this course.');
-        }, 100);
+        }
+      },
+      err => {
+        this.toastr.error(err.error.message);
+        console.log(err);
+        this.noData = true;
       }
-    }
+    );
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { ISubscription } from 'rxjs/Subscription';
 
 import { appService } from '../../../service/app.service';
 import {
@@ -9,7 +10,8 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
-import { text } from '@angular/core/src/render3/instructions';
+import { ToastrService } from 'ngx-toastr';
+
 declare var $: any;
 @Component({
   selector: 'custom-task',
@@ -42,17 +44,19 @@ export class CustomTaskComponent implements OnInit {
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
+  public loading: boolean = false;
 
   // other
   public annoTaskDate: any;
   public taskStartDate: any;
   public taskEndDate: any;
   public modalReference: any;
+  private subscription: ISubscription;
 
   // hour and date picker
   public selectedHrRange: any;
   public selectedMinRange: any;
-  public overDurationHr: boolean = false;
+  public overDurationHr: boolean = true;
   public startFormat: any;
   public startTime: any;
   model: any = {};
@@ -66,10 +70,12 @@ export class CustomTaskComponent implements OnInit {
     private _route: Router,
     private _service: appService,
     private modalService: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public toastr: ToastrService
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     console.log(this.courseDetail);
     console.log(this.selectStandard);
     this.createCustom.standard = this.selectStandard;
@@ -88,12 +94,19 @@ export class CustomTaskComponent implements OnInit {
   }
 
   getAssignTask() {
-    this._service.getassignTasks().subscribe((res: any) => {
-      this.customObj = res[0];
-      this.createCustom.taskType = res[0];
-      console.log(this.createCustom);
-      console.log(res, 'assign task');
-    });
+    this.subscription = this._service.getassignTasks().subscribe(
+      (res: any) => {
+        this.customObj = res[0];
+        this.createCustom.taskType = res[0];
+        this.loading = false;
+        console.log(this.createCustom);
+        console.log(res, 'assign task');
+      },
+      err => {
+        this.loading = false;
+        console.log(err);
+      }
+    );
   }
 
   backCourseDetail() {
@@ -136,28 +149,36 @@ export class CustomTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
-    this.getTemplateLists();
+    this.getTemplateLists(null);
     this.clickableSteps.push(step);
     this.stepClick(event, step);
     this.addActiveBar(1, 2);
   }
 
   goToStep3(event, step) {
+    this.loading = true;
     this.isSelectedTime = 'AM';
-    this._service
+    this.subscription = this._service
       .getTaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.createCustom.template.startDate
       )
-      .subscribe((res: any) => {
-        console.log(res, 'task list');
-        this.taskLists = res;
-        // this.selectedTaskLists = res.slice();
-        // this.selectedTaskLists = res.slice();
-        this.clickableSteps.push(step);
-        this.addActiveBar(2, 3);
-        this.stepClick(event, step);
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(res, 'task list');
+          this.taskLists = res;
+          // this.selectedTaskLists = res.slice();
+          // this.selectedTaskLists = res.slice();
+          this.clickableSteps.push(step);
+          this.addActiveBar(2, 3);
+          this.stepClick(event, step);
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          console.log(err);
+        }
+      );
   }
 
   goToStep4($event, step) {
@@ -165,23 +186,31 @@ export class CustomTaskComponent implements OnInit {
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
-    this._service
+    this.subscription = this._service
       .getsingletaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.singleSelectedTask._id
       )
-      .subscribe((res: any) => {
-        this.createCustom.template.tasks[0].masteries = res.masteries;
-        this.masteryList = res.masteries.slice();
-        console.log(res);
-        this.clickableSteps.push(step);
-        this.activeStep = 1;
-        this.addActiveBar(3, 4);
-        this.stepClick($event, step);
-      });
+      .subscribe(
+        (res: any) => {
+          this.createCustom.template.tasks[0].masteries = res.masteries;
+          this.masteryList = res.masteries.slice();
+          console.log(res);
+          this.clickableSteps.push(step);
+          this.activeStep = 1;
+          this.addActiveBar(3, 4);
+          this.stepClick($event, step);
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          console.log(err);
+        }
+      );
   }
 
   goToStep5($event, step) {
+    this.loading = true;
     let annDate;
     this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
@@ -203,15 +232,22 @@ export class CustomTaskComponent implements OnInit {
     );
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
-    this._service
+    this.subscription = this._service
       .getassignMode(this.createCustom.taskType.id)
-      .subscribe((res: any) => {
-        console.log(res, 'assign mode');
-        this.addActiveBar(4, 5);
-        this.assignModeList = res;
-        this.clickableSteps.push(step);
-        this.stepClick($event, step);
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(res, 'assign mode');
+          this.addActiveBar(4, 5);
+          this.assignModeList = res;
+          this.clickableSteps.push(step);
+          this.stepClick($event, step);
+          this.loading = false;
+        },
+        err => {
+          console.log(err);
+          this.loading = false;
+        }
+      );
     console.log(this.createCustom);
   }
 
@@ -231,13 +267,24 @@ export class CustomTaskComponent implements OnInit {
     $('#step' + next).removeClass('active');
   }
 
-  getTemplateLists() {
-    this._service
-      .getTemplateLists(this.selectStandard.standardId, this.courseDetail._id)
-      .subscribe((res: any) => {
-        console.log(res, 'template list');
-        this.scheduletemplateList = res;
-      });
+  getTemplateLists(searchValue) {
+    this.loading = true;
+    this.subscription = this._service
+      .getTemplateLists(
+        this.selectStandard.standardId,
+        this.courseDetail._id,
+        searchValue
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res, 'template list');
+          this.scheduletemplateList = res;
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+        }
+      );
   }
 
   checkTemplate(obj) {
@@ -357,17 +404,26 @@ export class CustomTaskComponent implements OnInit {
 
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
-    this._service
+    this.loading = true;
+    this.subscription = this._service
       .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.questionObj = res.data;
-        this.modalReference = this.modalService.open(masteryModal, {
-          backdrop: 'static',
-          windowClass:
-            'jouranlModal d-flex justify-content-center align-items-center'
-        });
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.questionObj = res.data;
+
+          this.modalReference = this.modalService.open(masteryModal, {
+            backdrop: 'static',
+            windowClass:
+              'jouranlModal d-flex justify-content-center align-items-center'
+          });
+          this.loading = false;
+        },
+        err => {
+          this.loading = false;
+          console.log(err);
+        }
+      );
   }
 
   modalClose() {
@@ -380,14 +436,24 @@ export class CustomTaskComponent implements OnInit {
   }
 
   createAssign() {
+    this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
-    this._service
+    this.subscription = this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
-      .subscribe((res: any) => {
-        console.log(res);
-        this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+          this.loading = false;
+          this.toastr.success('Success Custom Task Create');
+        },
+        err => {
+          this.loading = false;
+          this.toastr.error(err.error.message);
+          console.log(err);
+        }
+      );
   }
 
   @HostListener('document:click', ['$event'])
@@ -444,26 +510,54 @@ export class CustomTaskComponent implements OnInit {
     return this.datePipe.transform(date, 'HH:mm');
   }
 
-  changeHTMLFormat(data) {
+  ansarr = [];
+  changeHTMLFormat(data, name, index) {
     console.log(data);
+    console.log(index);
     let ques = data;
-    $('#question-content').html(ques);
-    let imgElement = $('img');
-    for (let i = 0; i < imgElement.length; i++) {
-      console.log($(imgElement[i]));
-      $(imgElement[i]).html(
-        "<div class='d-flex justify-content-center align-items-center ques-img'" +
-          $(imgElement[i]) +
-          '</div>'
-      );
+    $('#' + name).html(ques);
+
+    let ppDiv = document.getElementById(name);
+    let cImg = ppDiv.getElementsByTagName('img');
+    for (var i = 0; i < cImg.length; i++) {
+      cImg[i].style.maxWidth = '100%';
+      cImg[i].style.maxHeight = '100%';
+      cImg[i].style.padding = '30px';
     }
+
     let textElems = $('text');
-    console.log('textElems', textElems.length);
+    console.log('textElems', textElems);
     for (let j = 0; j < textElems.length; j++) {
       let currElem = textElems[j];
-      console.log(textElems[j]);
       console.log($(textElems[j]).attr('value'));
       $(textElems[j]).html('<div>' + $(textElems[j]).attr('value') + '</div>');
     }
+  }
+
+  changeTest(xml, index) {
+    console.log($(xml).length);
+    let arr = [];
+    $(xml).each(function(index, value) {
+      console.log(index, value);
+      let temp: any = {};
+      console.log(value.tagName);
+      console.log($(value).attr('value'));
+
+      temp.tag = value.tagName;
+      temp.value =
+        value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
+      arr.push(temp);
+    });
+    console.log(arr);
+    return arr;
+  }
+
+  searchTemplate(value) {
+    console.log(value);
+    this.getTemplateLists(value);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

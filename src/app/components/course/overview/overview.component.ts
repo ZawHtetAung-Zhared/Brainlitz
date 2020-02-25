@@ -27,7 +27,10 @@ export class OverviewComponent implements OnInit {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
     this.getOverviewList(this.courseId);
-    this.getMastery();
+    // this.getMastery();
+    this.getOverviewMastery();
+    if (localStorage.getItem('SPC') == 'true') this.sparkwerkz = true;
+    else this.sparkwerkz = false;
   }
   public cc = 1;
   ngAfterViewInit() {}
@@ -823,6 +826,10 @@ export class OverviewComponent implements OnInit {
         this.index = 0;
         this.prevflag = false;
       }
+      if (this.index == this.lessonList.length - 1) {
+        console.log('Already At the end', this.index);
+        this.nextflag = false;
+      }
       this.indexDay = this.lessonList[this.index];
       console.log(this.indexDay, 'IDex');
       this.attendance = this.indexDay.attendance;
@@ -925,20 +932,23 @@ export class OverviewComponent implements OnInit {
   }
 
   drawChart(arr) {
-    console.log(arr);
     for (var i = 0; i < arr.length; i++) {
       for (var j = 0; j < arr[i].length; j++) {
+        var mastered =
+          arr[i][j].masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
+          arr[i][j].masteryCountInPercentage.MASTERED_WITH_EASE;
+        arr[i][j].masteryCountInPercentage.MASTERED =
+          Math.round((mastered + Number.EPSILON) * 100) / 100;
         this.chart = new Chart('canvas' + i + j, {
           type: 'doughnut',
           data: {
-            labels: ['Struggling', 'In conslusive', 'Mastered', 'Not started'],
+            labels: ['Struggling', 'Doing fine', 'Mastered', 'Not started'],
             datasets: [
               {
                 data: [
                   arr[i][j].masteryCountInPercentage.STRUGGLE,
                   arr[i][j].masteryCountInPercentage.INPROGRESS,
-                  arr[i][j].masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
-                    arr[i][j].masteryCountInPercentage.MASTERED_WITH_EASE,
+                  arr[i][j].masteryCountInPercentage.MASTERED,
                   arr[i][j].masteryCountInPercentage.NEW
                 ],
                 backgroundColor: ['#2D5E9E', '#46AACE', '#DCECC9', '#f7f9fa']
@@ -947,6 +957,7 @@ export class OverviewComponent implements OnInit {
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             tooltips: {
               enabled: true
             },
@@ -976,11 +987,37 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  getMastery() {
-    this._service.getMasteryReports().subscribe(
+  // getMastery() {
+  //   this._service.getMasteryReports().subscribe(
+  //     (res: any) => {
+  //       this.loadingMastery = false;
+  //       this._data.setMasteryData(res);
+  //       if (res.data.masteryReport) {
+  //         this.Nomasteryflag = false;
+  //         this.mastery = res.data.masteryReport;
+  //         this.masteryStudentCount = res.data.enrolledStudentCount;
+  //         console.log(this.mastery);
+  //         console.log('2D', this.TwoDimensional(this.mastery, 2));
+  //         this.outerArray = this.TwoDimensional(this.mastery, 2);
+  //         console.log(this.outerArray);
+  //         setTimeout(() => {
+  //           this.drawChart(this.outerArray);
+  //         }, 200);
+  //       } else {
+  //         console.log('Null Mastery report');
+  //       }
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
+  // }
+
+  getOverviewMastery() {
+    this._service.getOverviewMasteryList().subscribe(
       (res: any) => {
         this.loadingMastery = false;
-        this._data.setMasteryData(res);
+        // this._data.setMasteryData(res);
         if (res.data.masteryReport) {
           this.Nomasteryflag = false;
           this.mastery = res.data.masteryReport;

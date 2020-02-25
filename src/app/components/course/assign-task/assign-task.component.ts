@@ -542,7 +542,8 @@ export class AssignTaskComponent implements OnInit {
     this._service
       .getTemplateLists(
         this.createassignTask.standard.standardId,
-        this.courseDetail._id
+        this.courseDetail._id,
+        null
       )
       .subscribe((res: any) => {
         console.log(res, 'template list');

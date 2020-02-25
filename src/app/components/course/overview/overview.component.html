@@ -1,32 +1,9 @@
 <div
-  class="mastery-view no-m"
-  [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="Nomasteryflag && !loadingMastery"
->
-  <div class="mastery-view-head no-mh">
-    <h3>Masteries reports</h3>
-    <span class="spaninline">
-      <!-- <p class="m-0">SW</p> -->
-      <img src="../../../../assets/img/tiny-brainlitz.svg" />
-    </span>
-    <h6 class="p-3">
-      There is no masteries report for this course yet.
-    </h6>
-  </div>
-  <div class="mastery-view-footer no-mf">
-    <div style="float: right">
-      <button class="detail-btn white">
-        More detail
-      </button>
-    </div>
-  </div>
-</div>
-<div
   class="mastery-view"
-  [ngClass]="{ hide: !sparkwerkz }"
-  *ngIf="loadingMastery == false && !Nomasteryflag"
+  [ngClass]="{ hide: !sparkwerkz, 'no-m': Nomasteryflag }"
+  *ngIf="loadingMastery == false"
 >
-  <div class="mastery-view-head">
+  <div class="mastery-view-head" [ngClass]="{ 'no-mh': Nomasteryflag }">
     <h3>Masteries reports</h3>
     <span class="spaninline">
       <!-- <p class="m-0">SW</p> -->
@@ -40,7 +17,10 @@
       2
     </div>
   </div> -->
-    <div class="bd-example">
+    <h6 *ngIf="Nomasteryflag" class="p-3">
+      There is no masteries report for this course yet.
+    </h6>
+    <div *ngIf="!Nomasteryflag" class="bd-example">
       <div
         id="carouselExampleCaptions"
         class="carousel slide"
@@ -87,13 +67,7 @@
                     </div>
                     <div class="percentage d-flex justify-content-between">
                       <span class="mastered">
-                        <h4>
-                          {{
-                            li2.masteryCountInPercentage
-                              .MASTERED_WITH_DIFFICULT +
-                              li2.masteryCountInPercentage.MASTERED_WITH_EASE
-                          }}%
-                        </h4>
+                        <h4>{{ li2.masteryCountInPercentage.MASTERED }}%</h4>
                         <p>mastered</p> </span
                       ><span class="notstarted">
                         <h4>{{ li2.masteryCountInPercentage.NEW }}%</h4>
@@ -101,10 +75,10 @@
                       </span>
                     </div>
                   </div>
-                  <div style="width: 45%; position: relative">
+                  <div style="width: 45%; position: relative;bottom: 15px;">
                     <h6 class="stu-no">{{ masteryStudentCount }}</h6>
                     <p class="stu">student</p>
-                    <h6 class="mast-no">{{ li2.masteries?.length }}</h6>
+                    <h6 class="mast-no">{{ li2.masteryCount }}</h6>
                     <p class="mast">masteries</p>
                     <canvas
                       width="100%"
@@ -151,12 +125,10 @@
       </div>
     </div>
   </div>
-  <div class="mastery-view-footer">
-    <div style="float: right">
-      <button class="detail-btn white" (click)="goToMasteryReport()">
-        More detail
-      </button>
-    </div>
+  <div class="mastery-view-footer" [ngClass]="{ 'no-mf': Nomasteryflag }">
+    <button class="detail-btn white" (click)="goToMasteryReport()">
+      More detail
+    </button>
   </div>
 </div>
 <!-- loading for mastery report -->
@@ -181,11 +153,9 @@
     </div>
   </div>
   <div class="mastery-view-footer">
-    <div style="float: right">
-      <button class="detail-btn white">
-        More detail
-      </button>
-    </div>
+    <button class="btn detail-btn white" [disabled]="loadingMastery == true">
+      More detail
+    </button>
   </div>
 </div>
 <!-- loadign for mastery report -->
@@ -229,6 +199,7 @@
             >
               <img
                 *ngIf="ppl.fullName != ''"
+                [ngClass]="{ hide: !ppl.profilePic }"
                 ngbTooltip="{{ ppl.fullName }}"
                 src="{{ ppl.profilePic }}"
               />
@@ -246,20 +217,18 @@
       </div>
     </div>
     <div class="cardfoot" style="height: 20%;">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          (click)="enrollCustomer(courseId)"
-          [ngClass]="{
-            white: !on,
-            notallowed: seat_left == 0 && coursetype == 'REGULAR'
-          }"
-          [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
-        >
-          <!-- (click)="toggle()" -->
-          Enroll customer
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        (click)="enrollCustomer(courseId)"
+        [ngClass]="{
+          white: !on,
+          notallowed: seat_left == 0 && coursetype == 'REGULAR'
+        }"
+        [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
+      >
+        <!-- (click)="toggle()" -->
+        Enroll customer
+      </button>
     </div>
   </div>
 
@@ -275,14 +244,20 @@
         *ngIf="lessonList.attendance != ''"
         class="d-flex justify-content-between mb-3"
       >
-        <span (click)="previousDate()" [ngClass]="{ disabled: !prevflag }"
-          ><img src="../../../../assets/img/chevron-right-s.png"
+        <span [ngClass]="{ notallowed: !prevflag }"
+          ><img
+            (click)="previousDate()"
+            src="../../../../assets/img/chevron-right-s.png"
+            [ngClass]="{ disabled: !prevflag }"
         /></span>
         <span *ngIf="lessonList.length != 0">{{
           indexDay.lessonStartDate | utcDateoverview
         }}</span>
-        <span (click)="nextDate()" [ngClass]="{ disabled: !nextflag }"
-          ><img src="../../../../assets/img/chevron-left-s.png"
+        <span [ngClass]="{ notallowed: !nextflag }"
+          ><img
+            (click)="nextDate()"
+            src="../../../../assets/img/chevron-left-s.png"
+            [ngClass]="{ disabled: !nextflag }"
         /></span>
       </div>
       <div
@@ -310,15 +285,13 @@
       </div>
     </div>
     <div class="cardfoot" style="height: 25%;">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          [ngClass]="{ white: lessonList.attendance != '' }"
-          (click)="goToAttendance()"
-        >
-          Set attendance
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        [ngClass]="{ white: lessonList.attendance != '' }"
+        (click)="goToAttendance()"
+      >
+        Set attendance
+      </button>
     </div>
   </div>
 
@@ -349,16 +322,14 @@
       </div>
     </div>
     <div class="cardfoot">
-      <div style="float: right">
-        <button
-          class="detail-btn"
-          routerLink="../../../assignTask"
-          [ngClass]="{ white: scheduled != 0 || custom != 0 }"
-          (click)="goToAssignTask()"
-        >
-          Assign task
-        </button>
-      </div>
+      <button
+        class="detail-btn"
+        routerLink="../../../assignTask"
+        [ngClass]="{ white: scheduled != 0 || custom != 0 }"
+        (click)="goToAssignTask()"
+      >
+        Assign task
+      </button>
     </div>
   </div>
   <!-- ****Cancelled ****-->
@@ -492,12 +463,10 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 20%;">
-      <div style="float: right">
-        <button class="detail-btn">
-          <!-- (click)="toggle()" -->
-          Enroll customer
-        </button>
-      </div>
+      <button class="detail-btn">
+        <!-- (click)="toggle()" -->
+        Enroll customer
+      </button>
     </div>
   </div>
 
@@ -513,11 +482,9 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 25%;">
-      <div style="float: right">
-        <button class="detail-btn">
-          Set attendance
-        </button>
-      </div>
+      <button class="detail-btn">
+        Set attendance
+      </button>
     </div>
   </div>
 
@@ -530,11 +497,9 @@
       </content-loader>
     </div>
     <div class="cardfoot">
-      <div style="float: right">
-        <button class="detail-btn">
-          Assign task
-        </button>
-      </div>
+      <button class="detail-btn">
+        Assign task
+      </button>
     </div>
   </div>
 </div>
