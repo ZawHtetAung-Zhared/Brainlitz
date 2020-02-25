@@ -697,6 +697,21 @@
                 </p>
               </div>
             </div>
+
+            <div class="col-md-12 mb-5">
+              <div
+                class="choice-block"
+                [ngClass]="{
+                  activeMode:
+                    mode.id == createCustom?.template?.distributionMode?.id
+                }"
+              >
+                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-description medium">
+                  {{ mode.description }}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div class="button-wrapper">

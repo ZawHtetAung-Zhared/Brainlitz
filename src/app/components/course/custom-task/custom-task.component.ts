@@ -101,7 +101,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   getAssignTask() {
-    this.subscription = this._service.getassignTasks().subscribe(
+    this._service.getassignTasks().subscribe(
       (res: any) => {
         this.customObj = res[0];
         this.createCustom.taskType = res[0];
@@ -165,7 +165,7 @@ export class CustomTaskComponent implements OnInit {
   goToStep3(event, step) {
     this.loading = true;
     this.isSelectedTime = 'AM';
-    this.subscription = this._service
+    this._service
       .getTaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.createCustom.template.startDate
@@ -193,7 +193,7 @@ export class CustomTaskComponent implements OnInit {
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
-    this.subscription = this._service
+    this._service
       .getsingletaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.singleSelectedTask._id
@@ -239,22 +239,20 @@ export class CustomTaskComponent implements OnInit {
     );
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
-    this.subscription = this._service
-      .getassignMode(this.createCustom.taskType.id)
-      .subscribe(
-        (res: any) => {
-          console.log(res, 'assign mode');
-          this.addActiveBar(4, 5);
-          this.assignModeList = res;
-          this.clickableSteps.push(step);
-          this.stepClick($event, step);
-          this.loading = false;
-        },
-        err => {
-          console.log(err);
-          this.loading = false;
-        }
-      );
+    this._service.getassignMode(this.createCustom.taskType.id).subscribe(
+      (res: any) => {
+        console.log(res, 'assign mode');
+        this.addActiveBar(4, 5);
+        this.assignModeList = res;
+        this.clickableSteps.push(step);
+        this.stepClick($event, step);
+        this.loading = false;
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
+    );
     console.log(this.createCustom);
   }
 
@@ -276,7 +274,7 @@ export class CustomTaskComponent implements OnInit {
 
   getTemplateLists(searchValue) {
     this.loading = true;
-    this.subscription = this._service
+    this._service
       .getTemplateLists(
         this.selectStandard.standardId,
         this.courseDetail._id,
@@ -412,7 +410,7 @@ export class CustomTaskComponent implements OnInit {
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
     this.loading = true;
-    this.subscription = this._service
+    this._service
       .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
       .subscribe(
         (res: any) => {
@@ -446,7 +444,7 @@ export class CustomTaskComponent implements OnInit {
     this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
-    this.subscription = this._service
+    this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
       .subscribe(
         (res: any) => {
@@ -558,7 +556,7 @@ export class CustomTaskComponent implements OnInit {
   //     return $loadedImg;
   // }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }
