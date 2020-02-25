@@ -493,19 +493,19 @@
         <button
           type="submit"
           class="btn btn-submit"
-          *ngIf="checkobjArr.length != 0"
+          [disabled]="checkobjArr.length == 0"
           (click)="flexicomfirm(invoiceAlert)"
         >
-          Enroll
+          Confirm
         </button>
-        <button
+        <!-- <button
           type="submit"
           *ngIf="checkobjArr.length == 0"
           class="btn btn-submit"
           disabled
         >
           Confirm
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
