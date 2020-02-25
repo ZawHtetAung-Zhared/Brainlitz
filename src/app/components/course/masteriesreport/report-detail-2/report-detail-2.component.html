@@ -99,34 +99,38 @@
 </div>
 
 <ng-template #questionModal let-c="close" let-d="dismiss">
-  <div class="d-flex flex-column modal-body modal-hg">
-    <div class="d-flex w-100 mb-4">
+  <div class="d-flex flex-column modal-body">
+    <div class="d-flex flex-column header-question">
+      <div class="d-flex w-100">
+        <span class="sample-txt f-20"> Sample Question </span>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto btn"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+        </button>
+      </div>
       <h3 class="modal-title d-flex mr-auto">
         {{ samplexml.data.mastery.shortMasteryName }}
       </h3>
-      <button
-        (click)="cancelModal()"
-        aria-label="Close"
-        class="modal-close ml-auto btn"
-      >
-        <span class="closemark">
-          <div class="closemark_stem"></div>
-          <div class="closemark_kick"></div>
-        </span>
-      </button>
     </div>
-
-    <div id="Question"></div>
-    <div *ngFor="let ans of samplexml.data.quiz.answers" class="mt-4">
-      <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+    <div class="modal-hg sample-txt f-17">
+      <div id="Question"></div>
       <div
-        id="{{ ans._id }}"
-        class="ans-box"
-        [ngClass]="{ 'correct-box': ans.correctness == true }"
-      ></div>
+        *ngFor="let ans of samplexml.data.quiz.answers"
+        class="mt-4 ml-2 mr-2"
+      >
+        <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+        <div
+          id="{{ ans._id }}"
+          class="ans-box"
+          [ngClass]="{ 'correct-box': ans.correctness == true }"
+        ></div>
+      </div>
     </div>
-    <!-- <div class="testing" *ngFor="let item of qhtml">
-      <div class="pt-4" [innerHTML]="item"></div>
-    </div> -->
   </div>
 </ng-template>

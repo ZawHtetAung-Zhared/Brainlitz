@@ -220,7 +220,26 @@
 }
 
 .modal-hg {
-  max-height: 85vh;
+  max-height: 60vh;
   overflow: scroll;
-  padding: 32px;
+}
+.header-question {
+  border-bottom: 1px solid #edeef0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.sample-txt {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 28px;
+  color: #5c6773;
+}
+
+.f-20 {
+  font-size: 20px;
+}
+.f17 {
+  font-size: 17px;
 }

@@ -2056,6 +2056,7 @@ label.room-name::before {
   width: 100%;
   background: #fff;
   bottom: 0;
+  position: fixed;
 }
 
 .customer-modal-body {
