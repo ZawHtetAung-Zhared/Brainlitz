@@ -268,7 +268,6 @@ import { CustomTaskComponent } from './components/course/custom-task/custom-task
   imports: [
     ContentLoaderModule,
     BrowserModule,
-
     RouterTestingModule,
     NgbModalStackModule.forRoot(),
     NgCircleProgressModule.forRoot({
