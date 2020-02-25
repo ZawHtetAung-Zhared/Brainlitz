@@ -1932,6 +1932,7 @@ export class AttendanceComponent implements OnInit {
     }
 
     console.error(this.showCancelButton);
+    //this.ngOnInit()
 
     // if(lessonDate == onlytodayDate && onlytodayTime < lsessonTime || (lessonDate > onlytodayDate) ){
     //   console.log('same as today and not grater than today time')
@@ -4229,7 +4230,8 @@ export class AttendanceComponent implements OnInit {
           this.getCourseDetail(this.courseId);
           setTimeout(() => {
             // this.activeToday = true;
-            this.clickTab('Class', 'course');
+            //this.clickTab('Class', 'course');
+            this.ngOnInit();
             //this.blockUI.stop();
             this.toastr.success('Lesson successfully deleted');
           }, 100);
