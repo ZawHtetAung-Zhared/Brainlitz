@@ -1944,6 +1944,7 @@ label.room-name::before {
   height: 20px;
 }
 
+.remove-user::after,
 .remove-user::before,
 .remove-data::before {
   content: '';
