@@ -166,6 +166,7 @@ export class FlexiComponent implements OnInit {
     console.log('e>>', e.composedPath());
     if (e.path == undefined) {
       for (let i = 0; i < e.composedPath().length; i++) {
+        console.log(e.composedPath()[i].classList.value);
         if (e.composedPath()[i].classList.value == 'modal-dialog') {
           this.yPos = e.clientY - e.composedPath()[i].offsetTop + 16;
           break;
@@ -184,9 +185,14 @@ export class FlexiComponent implements OnInit {
     } else {
       for (let i = 0; i < e.path.length; i++) {
         if (e.path[i].classList != undefined) {
+          console.log(e.path[i].classList.value);
           if (e.path[i].classList.value == 'modal-dialog') {
             this.yPos = e.clientY - e.path[i].offsetTop + 16;
             break;
+          } else {
+            console.log(e.path[i].offsetTop);
+            console.log(e.clientY);
+            this.yPos = e.clientY - e.path[i].offsetTop + 26;
           }
         }
       }
@@ -196,9 +202,9 @@ export class FlexiComponent implements OnInit {
         e.srcElement.className ==
           'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
       ) {
-        this.arrLeft = e.path[4].offsetLeft + 130;
+        this.arrLeft = e.path[4].offsetLeft + 190;
       } else {
-        this.arrLeft = e.path[3].offsetLeft + 130;
+        this.arrLeft = e.path[3].offsetLeft + 190;
       }
     }
 
