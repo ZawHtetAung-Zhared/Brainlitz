@@ -176,7 +176,7 @@
 <!-- loadign for mastery report -->
 <div
   class="card-column"
-  [ngClass]="{ orphan: !sparkwerkz }"
+  [ngClass]="{ orphan: !sparkwerkz, orphan2: coursetype == 'ONLINE' }"
   *ngIf="loading == false"
 >
   <div class="customer-view">

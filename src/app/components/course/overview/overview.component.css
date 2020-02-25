@@ -80,6 +80,9 @@
 .orphan {
   orphans: 1 !important;
 }
+.orphan2 {
+  orphans: 1 !important;
+}
 .cardhead p {
   font-style: normal;
   font-weight: 500;
