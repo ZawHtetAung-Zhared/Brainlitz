@@ -199,6 +199,7 @@
             >
               <img
                 *ngIf="ppl.fullName != ''"
+                [ngClass]="{ hide: !ppl.profilePic }"
                 ngbTooltip="{{ ppl.fullName }}"
                 src="{{ ppl.profilePic }}"
               />
