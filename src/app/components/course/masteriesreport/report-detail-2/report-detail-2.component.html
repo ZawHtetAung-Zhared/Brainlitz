@@ -116,7 +116,7 @@
         {{ samplexml.mastery.shortMasteryName }}
       </p>
     </div>
-    <div class="mastery-body font-semi" id="question-content">
+    <div class="mastery-body modal-hg font-semi" id="question-content">
       <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
       <div
         *ngFor="
@@ -134,30 +134,33 @@
           {{ obj.value }}
         </span>
       </div>
-    </div>
-
-    <div class="anwer-wrapper">
-      <div
-        class="answer-block{{ i }} font-semi"
-        *ngFor="let obj of samplexml.quiz.answers; let i = index"
-      >
-        <span *ngIf="obj.correctness" class="regular ccAns"
-          >Correct answer</span
-        >
+      <div class="anwer-wrapper">
         <div
-          *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
-          id="answer-block"
-          [ngClass]="{ correctnessActive: obj.correctness == true }"
+          class="answer-block{{ i }} font-semi mt-4"
+          *ngFor="let obj of samplexml.quiz.answers; let i = index"
         >
-          <div
-            *ngIf="obj2.tag === 'IMG'"
-            class="d-flex justify-content-center align-items-center answer-img"
+          <span *ngIf="obj.correctness" class="regular ccAns"
+            >Correct answer</span
           >
-            <img src="{{ obj2.value }}" />
+          <div
+            [ngClass]="{ correctnessActive: obj.correctness == true }"
+            class="ans-box"
+          >
+            <div
+              *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
+              id="answer-block"
+            >
+              <div
+                *ngIf="obj2.tag === 'IMG'"
+                class="d-flex justify-content-center align-items-center answer-img"
+              >
+                <img src="{{ obj2.value }}" />
+              </div>
+              <span *ngIf="obj2.tag === 'TEXT'">
+                {{ obj2.value }}
+              </span>
+            </div>
           </div>
-          <span *ngIf="obj2.tag === 'TEXT'">
-            {{ obj2.value }}
-          </span>
         </div>
       </div>
     </div>

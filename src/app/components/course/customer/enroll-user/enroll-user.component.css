@@ -2177,6 +2177,10 @@ label.room-name::before {
   z-index: 9;
 }
 
+.row {
+  width: 100%;
+}
+
 .customer-row {
   /*max-height: 320px;
   height: 320px;
