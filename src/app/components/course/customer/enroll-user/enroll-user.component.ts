@@ -54,7 +54,7 @@ export class EnrollUserComponent implements OnInit {
     //this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     //this.clickCancel=this._location.back();
     console.log(' I got Id : ' + this.courseId);
-    //this.getUsersInCourse(this.courseId);
+    this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
