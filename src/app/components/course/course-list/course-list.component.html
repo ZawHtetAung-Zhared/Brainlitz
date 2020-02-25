@@ -312,7 +312,10 @@
                     *ngIf="course.students.earlyAttendees?.length > 0"
                   >
                     <div
-                      *ngFor="let student of course.students.earlyAttendees"
+                      *ngFor="
+                        let student of course.students.earlyAttendees
+                          | slice: 0:6
+                      "
                       class="d-flex"
                     >
                       <span
@@ -376,8 +379,14 @@
                         </div>
                       </div>
                     </div>
-                    <span class="font-15" *ngIf="course.students.other >= 1"
-                      >+{{ course.students.other }}</span
+                    <span
+                      class="font-15 student-profile-wrapper"
+                      *ngIf="course.students.earlyAttendees.length > 6"
+                      >+{{
+                        course.students.other +
+                          course.students.earlyAttendees.length -
+                          6
+                      }}</span
                     >
                   </div>
                   <div
