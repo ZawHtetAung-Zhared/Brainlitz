@@ -75,15 +75,30 @@
                       </span>
                     </div>
                   </div>
-                  <div style="width: 45%; position: relative;bottom: 15px;">
-                    <h6 class="stu-no">{{ masteryStudentCount }}</h6>
-                    <p class="stu">student</p>
-                    <h6 class="mast-no">{{ li2.masteryCount }}</h6>
-                    <p class="mast">masteries</p>
+                  <div class="canvas-div">
+                    <div
+                      *ngIf="
+                        masteryStudentCount != null || masteryStudentCount != ''
+                      "
+                      class="child-div mb-2"
+                    >
+                      <h6 class="stu-no">{{ masteryStudentCount }}</h6>
+                      <p class="stu">student</p>
+                    </div>
+                    <div
+                      *ngIf="
+                        li2.masteryCount != null || masteryStudentCount != ''
+                      "
+                      class="child-div"
+                    >
+                      <h6 class="mast-no">{{ li2.masteryCount }}</h6>
+                      <p class="mast">masteries</p>
+                    </div>
                     <canvas
                       width="100%"
                       height="100%"
                       id="canvas{{ j }}{{ k }}"
+                      style="position: absolute;"
                       class="canvas-size"
                     ></canvas>
                   </div>

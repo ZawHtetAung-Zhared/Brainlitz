@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { appService } from '../../../service/app.service';
 import {
@@ -13,6 +14,12 @@ import {
 import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
+
+export interface ISize {
+  width: number;
+  height: number;
+}
+
 @Component({
   selector: 'custom-task',
   templateUrl: './custom-task.component.html',
@@ -94,7 +101,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   getAssignTask() {
-    this.subscription = this._service.getassignTasks().subscribe(
+    this._service.getassignTasks().subscribe(
       (res: any) => {
         this.customObj = res[0];
         this.createCustom.taskType = res[0];
@@ -158,7 +165,7 @@ export class CustomTaskComponent implements OnInit {
   goToStep3(event, step) {
     this.loading = true;
     this.isSelectedTime = 'AM';
-    this.subscription = this._service
+    this._service
       .getTaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.createCustom.template.startDate
@@ -186,7 +193,7 @@ export class CustomTaskComponent implements OnInit {
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
-    this.subscription = this._service
+    this._service
       .getsingletaskBytemplate(
         this.createCustom.template.taskTemplateId,
         this.singleSelectedTask._id
@@ -232,22 +239,20 @@ export class CustomTaskComponent implements OnInit {
     );
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
-    this.subscription = this._service
-      .getassignMode(this.createCustom.taskType.id)
-      .subscribe(
-        (res: any) => {
-          console.log(res, 'assign mode');
-          this.addActiveBar(4, 5);
-          this.assignModeList = res;
-          this.clickableSteps.push(step);
-          this.stepClick($event, step);
-          this.loading = false;
-        },
-        err => {
-          console.log(err);
-          this.loading = false;
-        }
-      );
+    this._service.getassignMode(this.createCustom.taskType.id).subscribe(
+      (res: any) => {
+        console.log(res, 'assign mode');
+        this.addActiveBar(4, 5);
+        this.assignModeList = res;
+        this.clickableSteps.push(step);
+        this.stepClick($event, step);
+        this.loading = false;
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
+    );
     console.log(this.createCustom);
   }
 
@@ -269,7 +274,7 @@ export class CustomTaskComponent implements OnInit {
 
   getTemplateLists(searchValue) {
     this.loading = true;
-    this.subscription = this._service
+    this._service
       .getTemplateLists(
         this.selectStandard.standardId,
         this.courseDetail._id,
@@ -405,7 +410,7 @@ export class CustomTaskComponent implements OnInit {
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
     this.loading = true;
-    this.subscription = this._service
+    this._service
       .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
       .subscribe(
         (res: any) => {
@@ -439,7 +444,7 @@ export class CustomTaskComponent implements OnInit {
     this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
-    this.subscription = this._service
+    this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
       .subscribe(
         (res: any) => {
@@ -510,45 +515,15 @@ export class CustomTaskComponent implements OnInit {
     return this.datePipe.transform(date, 'HH:mm');
   }
 
-  ansarr = [];
-  changeHTMLFormat(data, name, index) {
-    console.log(data);
-    console.log(index);
-    let ques = data;
-    $('#' + name).html(ques);
-
-    let ppDiv = document.getElementById(name);
-    let cImg = ppDiv.getElementsByTagName('img');
-    for (var i = 0; i < cImg.length; i++) {
-      cImg[i].style.maxWidth = '100%';
-      cImg[i].style.maxHeight = '100%';
-      cImg[i].style.padding = '30px';
-    }
-
-    let textElems = $('text');
-    console.log('textElems', textElems);
-    for (let j = 0; j < textElems.length; j++) {
-      let currElem = textElems[j];
-      console.log($(textElems[j]).attr('value'));
-      $(textElems[j]).html('<div>' + $(textElems[j]).attr('value') + '</div>');
-    }
-  }
-
-  changeTest(xml, index) {
-    console.log($(xml).length);
+  changeHTMLFormat(xml) {
     let arr = [];
     $(xml).each(function(index, value) {
-      console.log(index, value);
       let temp: any = {};
-      console.log(value.tagName);
-      console.log($(value).attr('value'));
-
       temp.tag = value.tagName;
       temp.value =
         value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
       arr.push(temp);
     });
-    console.log(arr);
     return arr;
   }
 
@@ -557,7 +532,31 @@ export class CustomTaskComponent implements OnInit {
     this.getTemplateLists(value);
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  checkImgSize(url) {
+    console.log(url, 'img url');
+    let img = new Image();
+    img.src = url;
+    console.log(img, 'img');
+    let autoSize;
+
+    console.log(img.height);
+    return img.height;
   }
+
+  //   getImgSize(imageSrc: string): Observable<ISize> {
+  //     let mapLoadedImage = (event): ISize => {
+  //         return {
+  //             width: event.target.width,
+  //             height: event.target.height
+  //         };
+  //     }
+  //     var image = new Image();
+  //     let $loadedImg = Observable.fromEvent(image, "load").take(1).map(mapLoadedImage);
+  //     image.src = imageSrc;
+  //     return $loadedImg;
+  // }
+
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }
