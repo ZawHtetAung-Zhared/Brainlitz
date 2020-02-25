@@ -190,7 +190,7 @@ export class ReportDetail2Component implements OnInit {
     this._service.getMasteryQuestion(masteryId).subscribe(
       (res: any) => {
         console.log(res);
-        this.samplexml = res;
+        this.samplexml = res.data;
         this.openModal(this.questionModal);
       },
       err => {
@@ -209,12 +209,12 @@ export class ReportDetail2Component implements OnInit {
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+        'jouranlModal d-flex justify-content-center align-items-center'
     });
-    this.setupQuiz();
-    setTimeout(() => {
-      this.setupAnswer();
-    }, 200);
+    // this.setupQuiz();
+    // setTimeout(() => {
+    //   this.setupAnswer();
+    // }, 200);
   }
 
   setupQuiz() {
@@ -238,5 +238,17 @@ export class ReportDetail2Component implements OnInit {
         );
       }
     });
+  }
+
+  changeHTMLFormat(xml) {
+    let arr = [];
+    $(xml).each(function(index, value) {
+      let temp: any = {};
+      temp.tag = value.tagName;
+      temp.value =
+        value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
+      arr.push(temp);
+    });
+    return arr;
   }
 }

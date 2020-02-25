@@ -624,7 +624,7 @@ export class EnrollUserComponent implements OnInit {
   cancelInvoiceModal() {
     this.showStudentOption = '';
     this.xxxhello = '';
-    this.modalReference.close();
+    //this.modalReference.close();
     this.showList = false;
     this.selectedCustomer = {};
     this.showInvoice = false;
@@ -654,7 +654,7 @@ export class EnrollUserComponent implements OnInit {
     } else {
       console.log('else hi');
       // this.cancel();
-      this.modalReference.close();
+      //this.modalReference.close();
       this.courseList = [];
       this.getCourseLists(20, 0);
       // this.cancelModal();
@@ -1161,20 +1161,23 @@ export class EnrollUserComponent implements OnInit {
             res.map(item => {
               item.addOrRemove = 'add-user';
             });
+            this.loading = false;
             if (this.courseType == 'FLEXY') {
               this.userLists = res;
             } else {
               this.userLists = res;
+
               this.enrolledCustomer = this.pplLists.CUSTOMER;
               console.log(this.enrolledCustomer[0].userId);
               for (var i = 0; i < this.enrolledCustomer.length; i++) {
                 this.removeEnrolledUser(this.enrolledCustomer[i]);
               }
+
               // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
             }
-            setTimeout(() => {
-              this.loading = false;
-            }, 3000);
+            // setTimeout(() => {
+            //   this.loading = false;
+            // }, 1000);
 
             //this.loading=false
             // console.log(this.userLists);
@@ -1279,7 +1282,7 @@ export class EnrollUserComponent implements OnInit {
         );
         var currentCount = this.enrolledCustomer.length;
         this.found = earlierCount - currentCount;
-        alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
+        //alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
         this.userLists.map(item => {
           item.addOrRemove = 'add-user';
           if (item.userId == user.userId) {

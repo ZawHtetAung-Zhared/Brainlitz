@@ -239,10 +239,12 @@
   width: 50px;
   /* margin-right: 15px; */
   height: 50px;
-  background: #c8e2f4;
+  background: #edeef0;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
 }
 .student_profilePic {
   width: 100%;
