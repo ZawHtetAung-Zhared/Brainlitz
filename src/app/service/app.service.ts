@@ -4492,6 +4492,28 @@ export class appService {
     });
   }
 
+  getOverviewMasteryList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview Mastery data');
+      return result;
+    });
+  }
+
   getMasteryReports() {
     let apiUrl =
       this.baseUrl +
