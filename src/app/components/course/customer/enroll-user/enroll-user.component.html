@@ -87,6 +87,44 @@
               </div>
             </div>
           </div>
+          <div class="row single-user-wrap" *ngIf="loading == true">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+          </div>
         </div>
         <div *ngIf="userType == 'teacher'">
           <div class="row single-user-wrap" *ngIf="loading == true">

@@ -6,8 +6,6 @@
       <img _ngcontent-c5="" src="./assets/img/tiny-brainlitz.svg" />
     </span>
     <br />
-    <span class="task" *ngIf="tasks.length > 1">{{ tasks.length }} Tasks</span>
-    <span class="task" *ngIf="tasks.length <= 1">{{ tasks.length }} Task</span>
   </div>
   <div>
     <button
@@ -18,6 +16,15 @@
       Assign task
     </button>
   </div>
+</div>
+
+<div
+  *ngIf="loading == false"
+  class="d-flex justify-content-center pt-4 mt-4 task"
+>
+  <span *ngIf="tasks.length == 0">
+    There is no task in this course. Assign tasks to this course.</span
+  >
 </div>
 <!-- <div *ngIf="tasks.length == 0" class="no-task">
   <p>
