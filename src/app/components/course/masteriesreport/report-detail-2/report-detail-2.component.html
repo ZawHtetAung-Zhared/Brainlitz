@@ -36,20 +36,24 @@
         >
           <div class="no-circle">{{ i + 1 }}</div>
           <div class="mastery-body mb-4">
-            {{ challenge.pd.descriptionStudent }}
-            <span class="green-txt">{{ challenge.pd.pdDescription }}</span>
+            {{ challenge.descriptionStudent }}
+            <span class="green-txt">{{ challenge.description }}</span>
           </div>
           <div calss="d-flex mastery-body">
             <span>Info for educator :</span>
-            <img src="./assets/icons/mastery-question.svg" class="pr-2 pl-2" />
+            <img
+              src="./assets/icons/mastery-question.svg"
+              class="pr-2 pl-2 btn"
+              (click)="getQuestion(challenge.masteryId)"
+            />
             <span
               >Identify the sources of light and objects that reflect
               light.</span
             >
           </div>
           <div class="mastery-body txt-bold mt-3">
-            {{ challenge.pd.percentage }}% of students have yet to meet the
-            expectation of this mastery.
+            {{ challenge.challengingPercentage }} % of students have yet to meet
+            the expectation of this mastery.
           </div>
           <div class="mt-4 w-100">
             <div
@@ -116,7 +120,7 @@
       </button>
     </div>
 
-    <div id="testQuestion"></div>
+    <div id="Question"></div>
     <div *ngFor="let ans of samplexml.data.quiz.answers" class="mt-4">
       <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
       <div

@@ -16,21 +16,21 @@
             </span>
             <button
               class="btn-detail btn mt-4"
-              (click)="expandGraph(report.id)"
+              (click)="expandGraph(report._id)"
               routerLinkActive="active"
-              routerLink="/masteriesdetail/{{ report.id }}"
+              routerLink="/masteriesdetail/{{ report._id }}"
             >
               View detail
             </button>
           </div>
         </div>
         <div
-          id="{{ report.id }}"
+          id="{{ report._id }}"
           class="mt-4 mb-4 ml-2"
           style="width:70%; min-height: 200px;"
-          (click)="expandGraph(report.id)"
+          (click)="expandGraph(report._id)"
           routerLinkActive="active"
-          routerLink="/masteriesdetail/{{ report.id }}"
+          routerLink="/masteriesdetail/{{ report._id }}"
         ></div>
       </div>
       <div *ngIf="i < masteriesReports.length - 1" class="split-line"></div>

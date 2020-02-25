@@ -182,12 +182,6 @@ export class MasteriesreportComponent implements OnInit {
     let index = 0;
     this.reportItems.forEach(function(item) {
       yAxisData.push(++index);
-
-      // strugglingData.push(item.lessons.present);
-      // easeData.push(item.lessons.ease);
-      // inprogressData.push(item.lessons.absent);
-      // notTakenData.push(item.lessons.notTaken);
-
       strugglingData.push(item.userMasteries.STRUGGLE.percentage);
       easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
       diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
@@ -204,7 +198,7 @@ export class MasteriesreportComponent implements OnInit {
   }
 
   plotGraph(index) {
-    var elem = document.getElementById(this.masteriesReports[index].id);
+    var elem = document.getElementById(this.masteriesReports[index]._id);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
     if (this.reportItems.length > 10)
@@ -217,7 +211,6 @@ export class MasteriesreportComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.masteriesReports);
     this.getAllGraph();
   }
 

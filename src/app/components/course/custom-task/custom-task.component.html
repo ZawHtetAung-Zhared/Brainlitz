@@ -735,11 +735,14 @@
     <div class="mastery-body font-semi" id="question-content">
       <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
       <div
-        *ngFor="let obj of changeTest(questionObj.quiz.question); let i = index"
+        *ngFor="
+          let obj of changeHTMLFormat(questionObj.quiz.question);
+          let i = index
+        "
       >
         <div
           *ngIf="obj.tag === 'IMG'"
-          class="d-flex justify-content-center align-items-center questImg"
+          class="d-flex justify-content-center align-items-center questImg my-3"
         >
           <img src="{{ obj.value }}" />
         </div>
@@ -758,7 +761,7 @@
           >Correct answer</span
         >
         <div
-          *ngFor="let obj2 of changeTest(obj.answer); let i = index"
+          *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
           id="answer-block"
           [ngClass]="{ correctnessActive: obj.correctness == true }"
         >
