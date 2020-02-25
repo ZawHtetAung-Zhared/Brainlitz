@@ -76,11 +76,21 @@
                     </div>
                   </div>
                   <div class="canvas-div">
-                    <div class="child-div mb-2">
+                    <div
+                      *ngIf="
+                        masteryStudentCount != null || masteryStudentCount != ''
+                      "
+                      class="child-div mb-2"
+                    >
                       <h6 class="stu-no">{{ masteryStudentCount }}</h6>
                       <p class="stu">student</p>
                     </div>
-                    <div class="child-div">
+                    <div
+                      *ngIf="
+                        li2.masteryCount != null || masteryStudentCount != ''
+                      "
+                      class="child-div"
+                    >
                       <h6 class="mast-no">{{ li2.masteryCount }}</h6>
                       <p class="mast">masteries</p>
                     </div>
