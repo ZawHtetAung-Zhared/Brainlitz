@@ -84,24 +84,26 @@ export class ReportDetail2Component implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(Data);
-    this.challengeData = Data.data;
-
-    // this.challengeData = this._data.getMasteryData().data.challengingMasteries;
-    //   this.masteriesReports = this._data.getMasteryData().data.masteryReport;
-    //   this.masteriesReports = this.masteriesReports.filter(function(res) {
-    //     return res.id == localStorage.getItem('mastery_reportId');
-    //   });
-    //   this.reportItems = this.masteriesReports[0].masteries;
-    //   this.setupOption();
+    this._service
+      .getMasteryDetailReport(localStorage.getItem('mastery_reportId'))
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.challengeData = res.data.masteryReport;
+          // this.challengeData = Data.data;
+          setTimeout(() => {
+            for (var i = 0; i < this.challengeData.masteries.length; i++) {
+              this.setupOption(this.challengeData.masteries[i]);
+            }
+          }, 200);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
-  ngAfterViewInit() {
-    console.log('finish view');
-    for (var i = 0; i < this.challengeData.masteries.length; i++) {
-      this.setupOption(this.challengeData.masteries[i]);
-    }
-  }
+  ngAfterViewInit() {}
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
@@ -132,7 +134,7 @@ export class ReportDetail2Component implements OnInit {
       },
       grid: {
         left: 0,
-        right: 20
+        right: '50%'
       },
       textStyle: {
         fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
@@ -192,6 +194,13 @@ export class ReportDetail2Component implements OnInit {
     notTakenData.push(mastery.userMasteries.NEW.percentage);
 
     // this.plotOption.yAxis.data = yAxisData;
+    // if(mastery.masteryId == 'LTN-01-01') {
+    //   strugglingData = [25];
+    //   notTakenData = [25];
+    //   inprogressData = [10];
+    //   diffData = [18];
+    //   easeData= [22];
+    // }
     this.plotOption.series[0].data = strugglingData;
     this.plotOption.series[1].data = notTakenData;
     this.plotOption.series[2].data = inprogressData;
@@ -201,36 +210,24 @@ export class ReportDetail2Component implements OnInit {
   }
 
   plotGraph(masteryId) {
-    var _self = this;
     var elem = document.getElementById(masteryId);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    // if (this.reportItems.length > 10)
-    //   elem.style.height = this.reportItems.length * 70 + 'px';
-    // else if (this.reportItems.length > 5)
-    //   elem.style.height = this.reportItems.length * 80 + 'px';
-    // else elem.style.height = this.reportItems.length * 90 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
-    graph.on('click', function(params) {
-      // console.log(params);
-      if (params.componentType === 'yAxis') {
-        var id =
-          _self.masteriesReports[0].masteries[
-            _self.plotOption.yAxis.data.indexOf(params.value)
-          ].masteryId;
-        _self._service.getMasteryQuestion(id).subscribe(
-          (res: any) => {
-            console.log(res);
-            _self.samplexml = res;
-            _self.openModal(_self.questionModal);
-          },
-          err => {
-            console.log(err);
-          }
-        );
+  }
+
+  getQuestion(masteryId) {
+    this._service.getMasteryQuestion(masteryId).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.samplexml = res;
+        this.openModal(this.questionModal);
+      },
+      err => {
+        console.log(err);
       }
-    });
+    );
   }
 
   cancelModal() {
@@ -249,13 +246,10 @@ export class ReportDetail2Component implements OnInit {
     setTimeout(() => {
       this.setupAnswer();
     }, 200);
-    // this.setupQuestion();
   }
 
   setupQuiz() {
-    var ques =
-      "<text index=0 value='Which of the following gives off its own light?\nA. test \n></text>";
-    $('#testQuestion').html(this.samplexml.data.quiz.question);
+    $('#Question').html(this.samplexml.data.quiz.question);
     var textElems = $('text');
     for (var j = 0; j < textElems.length; j++) {
       var currElem = textElems[j];
@@ -263,15 +257,9 @@ export class ReportDetail2Component implements OnInit {
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
     }
-
-    var imgElems = $('img');
-    for (var i = 0; i < imgElems.length; i++) {
-      $(imgElems[i]).attr('class', 'pt-4');
-    }
   }
 
   setupAnswer() {
-    var ans = "<text index=0 value='cannot grow without food' ></text>";
     this.samplexml.data.quiz.answers.forEach(function(element) {
       $('#' + element._id).html(element.answer);
       var textElems = $('text');
