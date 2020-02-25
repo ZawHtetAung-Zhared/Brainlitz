@@ -407,65 +407,67 @@
           ></app-invoice>
         </div>
       </div>
-      <div
-        class="modal-footer d-flex justify-content-between"
-        style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
-      >
-        <div class="d-flex flex-column">
-          <div class="d-flex">
-            <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  (click)="isProrated = !this.isProrated"
-                  [checked]="isProrated"
-                />
-                <span class="slider round"></span>
-              </label>
-            </div>
-            <label class="switch-label" for="online">Prorated</label>
+    </div>
+  </div>
+  <div
+    class="modal-footer d-flex "
+    style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+  >
+    <div class="d-flex justify-content-between inner-wrapper">
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isProrated = !this.isProrated"
+                [checked]="isProrated"
+              />
+              <span class="slider round"></span>
+            </label>
           </div>
-          <div>
-            <p class="defaultLessonCount">
-              Default lessons count: {{ detailLists.defaultlessonCount }}
+          <label class="switch-label" for="online">Prorated</label>
+        </div>
+        <div>
+          <p class="defaultLessonCount">
+            Default lessons count: {{ detailLists.defaultlessonCount }}
+          </p>
+          <p class="textCount">Number of lessons required:</p>
+          <div class="selectedCountBox">
+            <p class="selectedTest">
+              Selected lessons: {{ checkobjArr.length }}
             </p>
-            <p class="textCount">Number of lessons required:</p>
-            <div class="selectedCountBox">
-              <p class="selectedTest">
-                Selected lessons: {{ checkobjArr.length }}
-              </p>
-            </div>
           </div>
-          <!-- <div class="defaultDiv">
-
-        </div> -->
         </div>
+        <!-- <div class="defaultDiv">
 
-        <div class="">
-          <button
-            type="button"
-            class="btn modal-cancel-btn"
-            (click)="cancelModal()"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            class="btn btn-submit"
-            *ngIf="checkobjArr.length != 0"
-            (click)="flexicomfirm(invoiceAlert)"
-          >
-            Enroll
-          </button>
-          <button
-            type="submit"
-            *ngIf="checkobjArr.length == 0"
-            class="btn btn-submit"
-            disabled
-          >
-            Confirm
-          </button>
-        </div>
+  </div> -->
+      </div>
+
+      <div class="">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-submit"
+          *ngIf="checkobjArr.length != 0"
+          (click)="flexicomfirm(invoiceAlert)"
+        >
+          Enroll
+        </button>
+        <button
+          type="submit"
+          *ngIf="checkobjArr.length == 0"
+          class="btn btn-submit"
+          disabled
+        >
+          Confirm
+        </button>
       </div>
     </div>
   </div>

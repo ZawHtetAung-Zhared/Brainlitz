@@ -3292,6 +3292,9 @@ button:focus {
     margin: 0 auto;
   }
 }
+.inner-wrapper {
+  width: 100%;
+}
 
 /* @media only screen and  (max-width:879px){
   .inner-wrapper{
