@@ -221,6 +221,7 @@ export class MasteriesreportComponent implements OnInit {
     localStorage.setItem('mastery_reportId', id);
   }
 
+  notext = false;
   getAllGraph() {
     this.isExpand = false;
     // setTimeout(() => {
@@ -244,7 +245,8 @@ export class MasteriesreportComponent implements OnInit {
             }
           }, 200);
         } else {
-          this.noData = true;
+          this.noData = false;
+          this.notext = true;
           this.toastr.error('No masteries report for this course.');
         }
       },
