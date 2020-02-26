@@ -84,7 +84,7 @@
           (focus)="focusSearch($event, 'category')"
           (focusout)="hideSearch($event)"
           (blur)="hideSearch($event)"
-          (input)="searchCategoryList($event.target.value, 'category')"
+          (keyup.enter)="searchCategoryList($event.target.value, 'category')"
         />
         <span class="input-group-append">
           <button
@@ -209,7 +209,7 @@
           autocomplete="off"
           type="search"
           placeholder="Search course plan"
-          (input)="getSearchCoursePlan($event.target.value, '', '')"
+          (keyup.enter)="getSearchCoursePlan($event.target.value, '', '')"
         />
       </div>
       <div class="d-flex flex-wrap  mt-3">
@@ -329,7 +329,7 @@
             id="example-search-input"
             (clickOutside)="hideSearch($event)"
             (click)="focusSearch2($event, 'category')"
-            (input)="searchCategoryList($event.target.value, 'category')"
+            (keyup.enter)="searchCategoryList($event.target.value, 'category')"
             readonly
           />
           <!-- <button
@@ -2022,7 +2022,7 @@
         name="staffId"
         [(ngModel)]="staff.staffId"
         #staffId="ngModel"
-        (input)="getSearchscheulestaff($event.target.value, '', '')"
+        (keyup.enter)="getSearchscheulestaff($event.target.value, '', '')"
       />
       <span class="input-group-append">
         <button class="btn btn-design btn-outline-secondary" type="button">
@@ -2235,7 +2235,7 @@
                   (focus)="focusMethod($event, 'customer')"
                   (focusout)="hideFocus($event)"
                   (blur)="hideFocus($event)"
-                  (input)="changeMethod($event.target.value, 'customer')"
+                  (keyup.enter)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                 />
                 <!-- (document:click)="closeDropdown($event,'search')" -->
