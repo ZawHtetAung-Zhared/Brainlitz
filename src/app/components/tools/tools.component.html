@@ -310,6 +310,7 @@
                 (focus)="focusSearch($event, 'category')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'category')"
+                (keyup)="searchStart($event, 'category')"
                 autocomplete="off"
               />
               <!-- <input
@@ -352,6 +353,7 @@
                 (focus)="focusSearch($event, 'course')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'course')"
+                (keyup)="searchStart($event, 'course')"
                 autocomplete="off"
               />
               <!-- <input
@@ -395,6 +397,7 @@
                 (focus)="focusSearch($event, 'user')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'user')"
+                (keyup)="searchStart($event, 'user')"
                 autocomplete="off"
               />
               <!-- <input

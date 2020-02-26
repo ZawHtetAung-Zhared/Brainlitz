@@ -2052,6 +2052,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   changeMethod(searchWord, userType) {
     // let courseId = "5beb8c7d1f893164fff2c31d";
+
     userType = userType == 'teacher' ? 'staff' : userType;
     console.log(userType);
     if (searchWord.length != 0) {
@@ -3200,6 +3201,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   getSearchCoursePlan(searchWord, skip, limit) {
+    console.log(searchWord);
     this.keyword = searchWord;
     if (skip == '' && limit == '') {
       var isFirst = true;

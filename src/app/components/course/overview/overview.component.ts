@@ -783,10 +783,15 @@ export class OverviewComponent implements OnInit {
         checkDate = new Date(checkDate).getTime();
 
       var distance = Math.abs(checkDate - new Date().getTime());
+      console.log(new Date(distance));
+      console.log(new Date(nearest));
       if (distance < nearest) {
         nearest = distance;
         winner = index;
       }
+      console.log(new Date(distance));
+      console.log(new Date(nearest));
+      console.log(winner);
     });
     return winner;
   }

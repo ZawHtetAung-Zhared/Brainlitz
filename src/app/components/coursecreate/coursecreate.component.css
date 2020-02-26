@@ -15,7 +15,7 @@ input[type='number']::-webkit-outer-spin-button {
   opacity: 0.6;
 }
 .refresh,
-.caption,
+.caption-teacher,
 ::-webkit-input-placeholder {
   color: #788796 !important;
 }

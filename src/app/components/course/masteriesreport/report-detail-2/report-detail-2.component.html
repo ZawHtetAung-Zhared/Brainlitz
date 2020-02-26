@@ -99,71 +99,6 @@
 </div>
 
 <ng-template #questionModal let-c="close" let-d="dismiss">
-  <!-- <div class="modal-body">
-    <div class="mastery-header">
-      <div class="d-flex justify-content-between">
-        <p class="font-semi small-title">Sample Question</p>
-        <button
-          type="button"
-          class="close"
-          aria-label="Close"
-          (click)="cancelModal()"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <p class="mastery-title font-semi mb-0">
-        {{ samplexml.mastery.shortMasteryName }}
-      </p>
-    </div>
-    <div class="mastery-body modal-hg font-semi" id="question-content">
-      <div
-        *ngFor="
-          let obj of changeHTMLFormat(samplexml.quiz.question);
-          let i = index
-        "
-      >
-        <div
-          *ngIf="obj.tag === 'IMG'"
-          class="d-flex justify-content-center align-items-center questImg my-3"
-        >
-          <img src="{{ obj.value }}" />
-        </div>
-        <span *ngIf="obj.tag === 'TEXT'">
-          {{ obj.value }}
-        </span>
-      </div>
-      <div class="anwer-wrapper">
-        <div
-          class="answer-block{{ i }} font-semi mt-4"
-          *ngFor="let obj of samplexml.quiz.answers; let i = index"
-        >
-          <span *ngIf="obj.correctness" class="regular ccAns"
-            >Correct answer</span
-          >
-          <div
-            [ngClass]="{ correctnessActive: obj.correctness == true }"
-            class="ans-box"
-          >
-            <div
-              *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
-              id="answer-block"
-            >
-              <div
-                *ngIf="obj2.tag === 'IMG'"
-                class="d-flex justify-content-center align-items-center answer-img"
-              >
-                <img src="{{ obj2.value }}" />
-              </div>
-              <span *ngIf="obj2.tag === 'TEXT'">
-                {{ obj2.value }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="d-flex flex-column modal-body">
     <div class="d-flex flex-column header-question">
       <div class="d-flex w-100">
@@ -184,7 +119,7 @@
       </h3>
     </div>
     <div class="modal-hg sample-txt f-17">
-      <div id="Question"></div>
+      <div id="Question" class="mastery-question"></div>
       <div
         *ngFor="let ans of samplexml.data.quiz.answers"
         class="mt-4 ml-2 mr-2"
@@ -192,7 +127,7 @@
         <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
         <div
           id="{{ ans._id }}"
-          class="ans-box"
+          class="ans-box mastery-answer"
           [ngClass]="{ 'correct-box': ans.correctness == true }"
         ></div>
       </div>

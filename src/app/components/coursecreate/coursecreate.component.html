@@ -730,7 +730,9 @@
                 focusInputMethod($event, 'staff', 'teacher')
               "
             >
-              <span *ngIf="!selectedTeacher" class="font-regular caption dropD"
+              <span
+                *ngIf="!selectedTeacher"
+                class="font-regular caption-teacher dropD"
                 >Type teacher name</span
               >
               <div class="d-flex" *ngIf="selectedTeacher">
@@ -774,6 +776,7 @@
                     (focus)="(searchMenuShow == true)"
                     (focusout)="hideFocus($event, 'teacher')"
                     (input)="changeInputMethod($event.target.value)"
+                    (keyup)="searchStart($event)"
                   />
                 </div>
                 <div class="list-wrap" *ngIf="searchMenuShow == true">
@@ -825,6 +828,7 @@
                 (focus)="focusInputMethod($event, 'staff', 'assistant')"
                 (focusout)="hideFocus($event, 'assistant')"
                 (input)="changeInputMethod($event.target.value)"
+                (keyup)="searchStart($event)"
               />
               <!-- <input *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}"
 							  class="form-control py-2 input-search-bg" 
