@@ -201,6 +201,37 @@
             </div>
           </div>
         </div>
+        <!-- aa -->
+        <div
+          *ngIf="
+            userLists.length == 0 && loading == false && searchword.length == 0
+          "
+          class="d-flex col-md-12 empty-ui-wrapper"
+        >
+          <div class="col-md-6 img-pos">
+            <div class="empty-wrapper">
+              <img src="assets/images/add-customer-illustration@2x.png" />
+            </div>
+          </div>
+          <div class="d-flex col-md-6">
+            <div class="txt-default">
+              <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
+              <h3 *ngIf="userType == 'customer'">
+                Add Customer to this Course
+              </h3>
+              <h3 *ngIf="userType == 'teacher'">
+                Change Teacher to this Course
+              </h3>
+            </div>
+            <div class="arrow-pos">
+              <img src="assets/img/arrow.png" />
+            </div>
+          </div>
+        </div>
+        <!-- <div class="d-flex col-md-12 justify-content-center align-items-center" *ngIf="searchword.length !=0 && loading == false && userLists.length ==0">
+          <p>There is no match-user with your search word.</p>
+        </div> -->
+        <!-- aa -->
       </div>
       <div
         *ngIf="isSeatAvailable == false && userType == 'customer'"
@@ -285,7 +316,11 @@
               <div
                 class="single-user-info d-flex flex-column justify-content-center"
               >
-                <h4>{{ user.preferredName }}</h4>
+                <h4>
+                  {{
+                    user.preferredName == '' ? user.email : user.preferredName
+                  }}
+                </h4>
               </div>
               <div class="ml-auto remover-wrap">
                 <div

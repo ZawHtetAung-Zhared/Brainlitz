@@ -1,3 +1,4 @@
+import { LessonDurationPipe } from './../../../../service/pipe/lesson-duration.pipe';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CustomerComponent } from './../customer.component';
@@ -45,6 +46,7 @@ export class EnrollUserComponent implements OnInit {
     //  // this.courseId=params.get('id'); // null
     // });
     //this.courseId = this.route.snapshot.params.id;
+    console.log(this.userLists.length);
     this.enrollUserList = [];
     this.userType = localStorage.getItem('userType');
     console.log(
@@ -1139,7 +1141,10 @@ export class EnrollUserComponent implements OnInit {
     }
   }
 
+  private searchword = '';
+
   changeMethod(searchWord, userType) {
+    this.searchword = searchWord;
     this.loading = true;
     console.log(this.detailLists.locationId);
     console.log(searchWord);
@@ -1802,7 +1807,6 @@ export class EnrollUserComponent implements OnInit {
     }
     this.invoiceModalReference.close();
     console.log(' Invoice Genereate confirm ');
-    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
   }
 
   cancelInvoiceAlert() {
@@ -1814,7 +1818,6 @@ export class EnrollUserComponent implements OnInit {
     }
     this.invoiceModalReference.close();
     console.log(' Invoice Genereate cancel ');
-    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
   }
 
   public invoiceModalReference;
@@ -1911,12 +1914,14 @@ export class EnrollUserComponent implements OnInit {
           console.log('-------->', this.courseInfo);
           this.invoice = res.invoice;
           this.showInvoice = true;
+          this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
         },
         err => {
           console.log(err);
+          this.toastr.error('Can not Enroll');
         }
       );
-      this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+      //this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
     }
   }
 
