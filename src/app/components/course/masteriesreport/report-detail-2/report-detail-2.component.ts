@@ -6,6 +6,7 @@ import { appService } from '../../../../service/app.service';
 import { DataService } from '../../../../service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Data from './sampleData';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-report-detail-2',
@@ -15,6 +16,7 @@ import Data from './sampleData';
 export class ReportDetail2Component implements OnInit {
   isSticky: boolean = false;
   public active = 'courses';
+  private questionSubscription: ISubscription;
   public challengeData: any;
   public modalReference: any;
   public samplexml: any;
@@ -187,16 +189,19 @@ export class ReportDetail2Component implements OnInit {
   }
 
   getQuestion(masteryId) {
-    this._service.getMasteryQuestion(masteryId).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.samplexml = res.data;
-        this.openModal(this.questionModal);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    this.questionSubscription = this._service
+      .getMasteryQuestion(masteryId)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          // this.samplexml = res.data;
+          this.samplexml = res;
+          this.openModal(this.questionModal);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 
   cancelModal() {
@@ -211,10 +216,10 @@ export class ReportDetail2Component implements OnInit {
       windowClass:
         'jouranlModal d-flex justify-content-center align-items-center'
     });
-    // this.setupQuiz();
-    // setTimeout(() => {
-    //   this.setupAnswer();
-    // }, 200);
+    this.setupQuiz();
+    setTimeout(() => {
+      this.setupAnswer();
+    }, 200);
   }
 
   setupQuiz() {
@@ -250,5 +255,8 @@ export class ReportDetail2Component implements OnInit {
       arr.push(temp);
     });
     return arr;
+  }
+  ngOnDestroy() {
+    this.questionSubscription.unsubscribe();
   }
 }
