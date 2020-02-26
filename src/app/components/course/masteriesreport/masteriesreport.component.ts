@@ -208,6 +208,11 @@ export class MasteriesreportComponent implements OnInit {
     else elem.style.height = this.reportItems.length * 70 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 
   ngOnInit() {

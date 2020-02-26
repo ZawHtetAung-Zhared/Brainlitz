@@ -185,6 +185,11 @@ export class ReportDetail2Component implements OnInit {
     elem.innerHTML = '';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 
   getQuestion(masteryId) {
