@@ -131,7 +131,7 @@
         placeholder="Search"
         id="staff-filter-search-input"
         (focusout)="clearSearch($event)"
-        (keyup.enter)="filterSearch($event.target.value)"
+        (input)="filterSearch($event.target.value)"
         autocomplete="off"
       />
       <span class="input-group-append">
