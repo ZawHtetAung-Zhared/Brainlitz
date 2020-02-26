@@ -1727,6 +1727,7 @@ export class EnrollUserComponent implements OnInit {
   flexicomfirm(invoiceAlert) {
     //add cutomer
     this.stdLists = [];
+    console.log('flexyconfirm');
     if (invoiceAlert) {
       this.invoiceModalReference = this.modalService.open(invoiceAlert, {
         backdrop: 'static',
@@ -1763,6 +1764,7 @@ export class EnrollUserComponent implements OnInit {
           //this.blockUI.stop();
           this.showflexyCourse = false;
           this.cancelInvoiceModal();
+          this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
           return;
         }
         this.courseInfo = this.detailLists;
@@ -1904,10 +1906,14 @@ export class EnrollUserComponent implements OnInit {
           console.log('-------->', res);
           // console.log(this.detailLists.invoice);
           if (this.disableInvoice) {
+            console.log('disableInvoice');
             this.invoiceModalReference.close();
             this.cancelInvoiceModal();
             // this.modalReference.close();
             //this.blockUI.stop();
+            this.router.navigateByUrl(
+              `/coursedetail/${this.courseId}/customers`
+            );
             return;
           }
           this.courseInfo = this.detailLists;
