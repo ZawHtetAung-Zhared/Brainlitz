@@ -73,7 +73,7 @@
           placeholder="Search customer here"
           id="customer-search-input"
           (focusout)="clearSearch($event)"
-          (input)="userSearch($event.target.value, 'customer', '', '')"
+          (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
           autocomplete="off"
         />
         <span class="input-group-append btn-design btn-outline-secondary">
@@ -2838,6 +2838,9 @@
                 #search="ngModel"
                 [(ngModel)]="searchData.searchText"
                 (input)="
+                  changeSearch2($event.target.value, custDetail.user.userId)
+                "
+                (keyup.enter)="
                   changeSearch(
                     $event.target.value,
                     custDetail.user.userId,

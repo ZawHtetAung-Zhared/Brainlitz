@@ -259,16 +259,17 @@
         *ngIf="lessonList.attendance != ''"
         class="d-flex justify-content-between mb-3"
       >
-        <span [ngClass]="{ notallowed: !prevflag }"
+        <span [ngClass]="{ notallowed: attandanceIndex == 0 }"
           ><img
             (click)="previousDate()"
             src="../../../../assets/img/chevron-right-s.png"
             [ngClass]="{ disabled: !prevflag }"
         /></span>
         <span *ngIf="lessonList.length != 0">{{
-          indexDay.lessonStartDate | utcDateoverview
+          lessonList[attandanceIndex].lessonStartDate | utcDateoverview
         }}</span>
-        <span [ngClass]="{ notallowed: !nextflag }"
+        <span
+          [ngClass]="{ notallowed: attandanceIndex == lessonList.length - 1 }"
           ><img
             (click)="nextDate()"
             src="../../../../assets/img/chevron-left-s.png"
@@ -281,19 +282,25 @@
       >
         <div class="d-flex present">
           <div class="d-flex data">
-            <span class="attendance-no">{{ present }}</span>
+            <span class="attendance-no">{{
+              lessonList[attandanceIndex].present
+            }}</span>
             <span>Present</span>
           </div>
         </div>
         <div class="d-flex absent">
           <div class="d-flex data">
-            <span class="attendance-no">{{ absent }}</span>
+            <span class="attendance-no">{{
+              lessonList[attandanceIndex].absent
+            }}</span>
             <span>Absent</span>
           </div>
         </div>
         <div class="d-flex nodata">
           <div class="d-flex data">
-            <span class="attendance-no">{{ total }}</span>
+            <span class="attendance-no">{{
+              lessonList[attandanceIndex].total
+            }}</span>
             <span>Total</span>
           </div>
         </div>
