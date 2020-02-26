@@ -25,7 +25,7 @@
         name="searchInput"
         placeholder="Search teacher..."
         class="input-search"
-        (input)="searchMethod($event.target.value, 'staff')"
+        (keyup)="searchMethod($event, $event.target.value, 'staff')"
         (focus)="focusSearch($event, 'focusOn')"
         (focusout)="focusSearch($event, 'focusOut')"
         (blur)="focusSearch($event, 'blur')"

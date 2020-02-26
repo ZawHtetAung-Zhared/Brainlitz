@@ -54,7 +54,7 @@ export class EnrollUserComponent implements OnInit {
     //this.clickCancel = `/coursedetail/${this.courseId}/customers`;
     //this.clickCancel=this._location.back();
     console.log(' I got Id : ' + this.courseId);
-    //this.getUsersInCourse(this.courseId);
+    this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
@@ -1130,66 +1130,69 @@ export class EnrollUserComponent implements OnInit {
       );
   }
 
-  changeMethod(searchWord, userType) {
-    this.loading = true;
-    console.log(this.detailLists.locationId);
-    console.log(searchWord);
-    console.log(userType);
-    console.log(this.courseId);
-    let locationId = this.detailLists.locationId;
+  changeMethod(e, searchWord, userType) {
+    console.log(e.keyCode);
+    if (e.keyCode == 13) {
+      this.loading = true;
+      console.log(this.detailLists.locationId);
+      console.log(searchWord);
+      console.log(userType);
+      console.log(this.courseId);
+      let locationId = this.detailLists.locationId;
 
-    userType = userType == 'teacher' ? 'staff' : userType;
-    if (searchWord.length != 0) {
-      this.enrollUserList = [];
-      this.userLists = [];
-      this.seatLeft = this.detailLists.seat_left;
-      setTimeout(() => {
-        this.getUsersInCourse(this.courseId); // Stop blocking
-      }, 1000);
-      this.showList = true;
-      this._service
-        .getSearchUser(
-          this.regionId,
-          searchWord,
-          userType,
-          20,
-          0,
-          this.courseId
-        )
-        .subscribe(
-          (res: any) => {
-            res.map(item => {
-              item.addOrRemove = 'add-user';
-            });
-            this.loading = false;
-            if (this.courseType == 'FLEXY') {
-              this.userLists = res;
-            } else {
-              this.userLists = res;
+      userType = userType == 'teacher' ? 'staff' : userType;
+      if (searchWord.length != 0) {
+        this.enrollUserList = [];
+        this.userLists = [];
+        this.seatLeft = this.detailLists.seat_left;
+        setTimeout(() => {
+          this.getUsersInCourse(this.courseId); // Stop blocking
+        }, 1000);
+        this.showList = true;
+        this._service
+          .getSearchUser(
+            this.regionId,
+            searchWord,
+            userType,
+            20,
+            0,
+            this.courseId
+          )
+          .subscribe(
+            (res: any) => {
+              res.map(item => {
+                item.addOrRemove = 'add-user';
+              });
+              this.loading = false;
+              if (this.courseType == 'FLEXY') {
+                this.userLists = res;
+              } else {
+                this.userLists = res;
 
-              this.enrolledCustomer = this.pplLists.CUSTOMER;
-              console.log(this.enrolledCustomer[0].userId);
-              for (var i = 0; i < this.enrolledCustomer.length; i++) {
-                this.removeEnrolledUser(this.enrolledCustomer[i]);
+                this.enrolledCustomer = this.pplLists.CUSTOMER;
+                console.log(this.enrolledCustomer[0].userId);
+                for (var i = 0; i < this.enrolledCustomer.length; i++) {
+                  this.removeEnrolledUser(this.enrolledCustomer[i]);
+                }
+
+                // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
               }
+              // setTimeout(() => {
+              //   this.loading = false;
+              // }, 1000);
 
-              // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
+              //this.loading=false
+              // console.log(this.userLists);
+              // console.log('length of user list ' + this.userLists.length);
+            },
+            err => {
+              console.log(err);
             }
-            // setTimeout(() => {
-            //   this.loading = false;
-            // }, 1000);
-
-            //this.loading=false
-            // console.log(this.userLists);
-            // console.log('length of user list ' + this.userLists.length);
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    } else if (searchWord.length == 0) {
-      this.userLists = [];
-      this.showList = false;
+          );
+      } else if (searchWord.length == 0) {
+        this.userLists = [];
+        this.showList = false;
+      }
     }
   }
 

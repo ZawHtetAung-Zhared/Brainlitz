@@ -34,7 +34,7 @@
             (focus)="focusMethod($event, userType)"
             (focusout)="hideFocus($event)"
             (blur)="hideFocus($event)"
-            (input)="changeMethod($event.target.value, userType)"
+            (keyup)="changeMethod($event, $event.target.value, userType)"
             autocomplete="off"
           />
           <input
@@ -49,7 +49,7 @@
             (focus)="focusMethod($event, userType)"
             (focusout)="hideFocus($event)"
             (blur)="hideFocus($event)"
-            (input)="changeMethod($event.target.value, userType)"
+            (keyup)="changeMethod($event, $event.target.value, userType)"
             autocomplete="off"
           />
           <span class="input-group-append">
