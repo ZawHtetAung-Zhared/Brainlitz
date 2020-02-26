@@ -1146,13 +1146,15 @@ export class EnrollUserComponent implements OnInit {
     console.log(userType);
     console.log(this.courseId);
     let locationId = this.detailLists.locationId;
-    this.selectedUserLists = [];
+    console.log(this.selectedUserLists);
+    console.log(this.selectUser);
+    // this.selectedUserLists = [];
 
     userType = userType == 'teacher' ? 'staff' : userType;
     if (searchWord.length != 0) {
-      this.enrollUserList = [];
+      // this.enrollUserList = [];
       this.userLists = [];
-      this.seatLeft = this.detailLists.seat_left;
+      //this.seatLeft = this.detailLists.seat_left;
       setTimeout(() => {
         this.getUsersInCourse(this.courseId); // Stop blocking
       }, 1000);
@@ -1174,13 +1176,16 @@ export class EnrollUserComponent implements OnInit {
             this.loading = false;
             if (this.courseType == 'FLEXY') {
               this.userLists = res;
+              this.selectedUserLists = this.selectUser;
             } else {
               this.userLists = res;
-
               this.enrolledCustomer = this.pplLists.CUSTOMER;
               //console.log(this.enrolledCustomer[0].userId);
               for (var i = 0; i < this.enrolledCustomer.length; i++) {
                 this.removeEnrolledUser(this.enrolledCustomer[i]);
+              }
+              for (var i = 0; i < this.enrollUserList.length; i++) {
+                this.removeEnrolledUser(this.enrollUserList[i]);
               }
 
               // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
@@ -1273,6 +1278,8 @@ export class EnrollUserComponent implements OnInit {
   public found = null;
 
   chooseCustomer(user) {
+    console.log(this.detailLists);
+    console.log(this.seatLeft);
     if (
       this.seatLeft <= 0 &&
       this.detailLists.seat_left !== null &&
@@ -1333,7 +1340,7 @@ export class EnrollUserComponent implements OnInit {
         }
       });
       --this.seatLeft;
-      console.log('from choose customer ' + this.seatLeft);
+      console.log('from choose customer regular' + this.seatLeft);
     }
     //this.showAndHideModal()
   }

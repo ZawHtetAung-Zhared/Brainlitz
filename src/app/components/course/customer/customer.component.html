@@ -1177,7 +1177,7 @@
         </button>
         <button
           *ngIf="userType == 'teacher'"
-          type="button"
+          type="submit"
           class="btn btn-submit"
           [disabled]="selectedTeacherLists.length == 0"
           (click)="
@@ -1394,7 +1394,7 @@
             Cancel
           </button>
           <button
-            type="button"
+            type="submit"
             class="btn btn-submit"
             [disabled]="
               (selectedCustomer | json) == '{}' ||
@@ -1485,7 +1485,7 @@
             Cancel
           </button>
           <button
-            type="button"
+            type="submit"
             class="btn btn-submit"
             *ngIf="checkobjArr.length != 0"
             (click)="flexicomfirm(invoiceAlert)"
@@ -1493,7 +1493,7 @@
             Confirm
           </button>
           <button
-            type="button"
+            type="submit"
             *ngIf="checkobjArr.length == 0"
             class="btn btn-submit"
             disabled
