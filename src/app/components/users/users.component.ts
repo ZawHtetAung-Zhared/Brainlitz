@@ -1198,6 +1198,11 @@ export class UsersComponent implements OnInit {
       }, 300);
     }
   }
+  changeSearch2(searchWord, userId) {
+    if (searchWord.length == 0) {
+      this.changeSearch(searchWord, userId, '', '');
+    }
+  }
 
   changeSearch(searchWord, userId, limit, skip) {
     this.acWord = searchWord;

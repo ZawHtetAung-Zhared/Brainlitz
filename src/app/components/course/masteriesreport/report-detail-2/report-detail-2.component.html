@@ -99,7 +99,7 @@
 </div>
 
 <ng-template #questionModal let-c="close" let-d="dismiss">
-  <div class="modal-body">
+  <!-- <div class="modal-body">
     <div class="mastery-header">
       <div class="d-flex justify-content-between">
         <p class="font-semi small-title">Sample Question</p>
@@ -117,7 +117,6 @@
       </p>
     </div>
     <div class="mastery-body modal-hg font-semi" id="question-content">
-      <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
       <div
         *ngFor="
           let obj of changeHTMLFormat(samplexml.quiz.question);
@@ -164,8 +163,8 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- <div class="d-flex flex-column modal-body">
+  </div> -->
+  <div class="d-flex flex-column modal-body">
     <div class="d-flex flex-column header-question">
       <div class="d-flex w-100">
         <span class="sample-txt f-20"> Sample Question </span>
@@ -198,5 +197,5 @@
         ></div>
       </div>
     </div>
-  </div> -->
+  </div>
 </ng-template>
