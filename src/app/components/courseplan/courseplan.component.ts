@@ -359,7 +359,10 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+      taxOption: [
+        { id: 1, name: 'inclusive' },
+        { id: 2, name: 'exclusive' }
+      ]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -392,7 +395,10 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+        taxOption: [
+          { id: 1, name: 'inclusive' },
+          { id: 2, name: 'exclusive' }
+        ]
       };
       if (
         taxobj == undefined ||
@@ -962,6 +968,11 @@ export class CourseplanComponent implements OnInit {
           this.assessmentPlanSearch(keyword);
         }
         break;
+    }
+  }
+  changeSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.changeSearch(keyword, 'apg');
     }
   }
 
