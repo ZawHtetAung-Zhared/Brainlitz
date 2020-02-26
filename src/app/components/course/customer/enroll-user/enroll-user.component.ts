@@ -1170,7 +1170,7 @@ export class EnrollUserComponent implements OnInit {
                 this.userLists = res;
 
                 this.enrolledCustomer = this.pplLists.CUSTOMER;
-                console.log(this.enrolledCustomer[0].userId);
+                //console.log(this.enrolledCustomer[0].userId);
                 for (var i = 0; i < this.enrolledCustomer.length; i++) {
                   this.removeEnrolledUser(this.enrolledCustomer[i]);
                 }
