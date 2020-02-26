@@ -221,7 +221,7 @@
           Next
         </button> -->
         <button
-          type="submit"
+          type="button"
           class="btn btn-submit"
           [disabled]="
             enrollUserList.length == 0 || (found == 0 && seatLeft == 0)
@@ -334,7 +334,7 @@
         Cancel
       </button>
       <button
-        type="submit"
+        type="button"
         *ngIf="userType == 'customer'"
         class="btn btn-submit"
         [disabled]="
@@ -346,7 +346,7 @@
       </button>
       <button
         *ngIf="userType == 'staff'"
-        type="submit"
+        type="button"
         class="btn btn-submit"
         [disabled]="enrollUserList.length == 0 || noSetting == true"
         (click)="enrollUserToCourse(detailLists._id, userType)"
@@ -355,7 +355,7 @@
       </button>
       <button
         *ngIf="userType == 'teacher'"
-        type="submit"
+        type="button"
         class="btn btn-submit"
         [disabled]="enrollUserList.length == 0"
         (click)="swapTeacherToCourse(detailLists._id, enrollUserList[0].userId)"
@@ -394,7 +394,7 @@
       </button>
       <button
         style="background: #1682fb!important;"
-        type="submit"
+        type="button"
         class="btn modal-delete-btn"
         (click)="confirmInvoiceAlert()"
       >
@@ -493,7 +493,7 @@
           Cancel
         </button>
         <button
-          type="submit"
+          type="button"
           class="btn btn-submit"
           [disabled]="checkobjArr.length == 0"
           (click)="flexicomfirm(invoiceAlert)"
