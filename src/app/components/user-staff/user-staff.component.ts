@@ -216,6 +216,13 @@ export class UserStaffComponent implements OnInit {
     }
   }
 
+  userSearch2(searchWord, userType, limit, skip) {
+    console.log('I am in 2');
+    if (searchWord.length == 0) {
+      this.userSearch(searchWord, userType, limit, skip);
+    }
+  }
+
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;

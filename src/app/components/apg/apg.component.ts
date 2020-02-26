@@ -2419,6 +2419,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.getAllTemplate(20, skip);
     }
   }
+
+  sharedApgSearch2(keyword, limit, skip) {
+    if (keyword.length == 0) {
+      this.sharedApgSearch(keyword, limit, skip);
+    }
+  }
+
   sharedApgSearch(keyword, limit, skip) {
     this.keyword = keyword;
     if (skip == '' && limit == '') {
@@ -2454,6 +2461,11 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.getAllTemplate(20, 0);
       this.isSearch = false;
       // }, 100);
+    }
+  }
+  apgListSearch2(searchWord, type, limit, skip) {
+    if (searchWord.length == 0) {
+      this.apgListSearch(searchWord, type, limit, skip);
     }
   }
 
