@@ -1433,10 +1433,23 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
+  searchStart(e) {
+    if (e.keyCode == 13) {
+      console.log('search start');
+      this.searchKeyword(e.target.value);
+    }
+  }
+
   changeInputMethod(searchWord) {
     // console.log(this.detailLists.locationId)
     // console.log(searchWord)
     // let locationId = this.detailLists.locationId;
+    if (searchWord.length == 0) {
+      this.searchKeyword(searchWord);
+    }
+  }
+
+  searchKeyword(searchWord) {
     console.log('searchword', searchWord);
     if (searchWord == '') {
       console.log('NULL');
