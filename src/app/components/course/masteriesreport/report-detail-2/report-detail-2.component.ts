@@ -16,7 +16,6 @@ import { Subscription, ISubscription } from 'rxjs/Subscription';
 export class ReportDetail2Component implements OnInit {
   isSticky: boolean = false;
   public active = 'courses';
-  private questionSubscription: ISubscription;
   public challengeData: any;
   public modalReference: any;
   public samplexml: any;
@@ -189,19 +188,17 @@ export class ReportDetail2Component implements OnInit {
   }
 
   getQuestion(masteryId) {
-    this.questionSubscription = this._service
-      .getMasteryQuestion(masteryId)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          // this.samplexml = res.data;
-          this.samplexml = res;
-          this.openModal(this.questionModal);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    this._service.getMasteryQuestion(masteryId).subscribe(
+      (res: any) => {
+        console.log(res);
+        // this.samplexml = res.data;
+        this.samplexml = res;
+        this.openModal(this.questionModal);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   cancelModal() {
@@ -243,20 +240,5 @@ export class ReportDetail2Component implements OnInit {
         );
       }
     });
-  }
-
-  changeHTMLFormat(xml) {
-    let arr = [];
-    $(xml).each(function(index, value) {
-      let temp: any = {};
-      temp.tag = value.tagName;
-      temp.value =
-        value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
-      arr.push(temp);
-    });
-    return arr;
-  }
-  ngOnDestroy() {
-    this.questionSubscription.unsubscribe();
   }
 }

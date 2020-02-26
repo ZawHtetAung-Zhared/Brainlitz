@@ -220,7 +220,7 @@
 }
 
 .modal-hg {
-  max-height: 80vh;
+  max-height: 75vh;
   overflow: scroll;
 }
 .header-question {
@@ -242,44 +242,4 @@
 }
 .f17 {
   font-size: 17px;
-}
-.mastery-header {
-  border-bottom: solid 1px #edeef0;
-}
-
-.small-title {
-  color: #5c6773;
-  font-size: 20px;
-  margin-bottom: 0;
-}
-div#question-content {
-  font-size: 17px;
-  color: #5c6773;
-  padding-top: 32px;
-  padding-bottom: 32px;
-}
-.questImg {
-  width: 100%;
-  max-height: 400px;
-}
-.questImg img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-}
-.answer-img {
-  width: 100%;
-  max-height: 200px;
-}
-.answer-img img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-}
-.ccAns {
-  color: #00a653;
-  font-size: 15px;
-}
-.correctnessActive {
-  border: 2px solid #00a653 !important;
 }
