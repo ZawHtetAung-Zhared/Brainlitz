@@ -3409,7 +3409,7 @@
           name=""
           class="form-control course-search-input"
           placeholder="Search courses"
-          (input)="searchMakeup($event.target.value)"
+          (keyup.enter)="searchMakeup($event.target.value)"
         />
       </div>
       <div class="mt-20 class-group">
