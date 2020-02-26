@@ -282,7 +282,7 @@
   justify-content: center;
 }
 .student-wrap {
-  width: 90%;
+  /* width: 90%; */
   overflow: overlay;
   padding-top: 20px;
 }
