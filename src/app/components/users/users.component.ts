@@ -1155,6 +1155,11 @@ export class UsersComponent implements OnInit {
     // this.isSearch = false;
   }
 
+  userSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.userSearch(keyword, 'customer', '', '');
+    }
+  }
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;
@@ -2228,6 +2233,12 @@ export class UsersComponent implements OnInit {
       },
       'slow'
     );
+  }
+
+  searchMakeup_input(keyword) {
+    if (keyword.length == 0) {
+      this.searchMakeup(keyword);
+    }
   }
 
   searchMakeup(keyword) {

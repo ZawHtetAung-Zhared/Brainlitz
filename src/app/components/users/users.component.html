@@ -73,6 +73,7 @@
           placeholder="Search customer here"
           id="customer-search-input"
           (focusout)="clearSearch($event)"
+          (input)="userSearch_input($event.target.value)"
           (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
           autocomplete="off"
         />
@@ -3409,7 +3410,8 @@
           name=""
           class="form-control course-search-input"
           placeholder="Search courses"
-          (input)="searchMakeup($event.target.value)"
+          (input)="searchMakeup_input($event.target.value)"
+          (keyup.enter)="searchMakeup($event.target.value)"
         />
       </div>
       <div class="mt-20 class-group">
