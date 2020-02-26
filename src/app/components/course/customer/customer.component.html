@@ -484,7 +484,7 @@
             Cancel
           </button>
           <button
-            type="submit"
+            type="button"
             class="btn btn-submit"
             [disabled]="!makeupF.valid"
             (click)="issuePass(makeupForm, singleUserData.userId)"
@@ -895,7 +895,7 @@
         Cancel
       </button>
       <button
-        type="submit"
+        type="button"
         class="btn modal-delete-btn"
         (click)="withdrawUser(deleteId)"
       >
@@ -1168,7 +1168,7 @@
         </button>
         <button
           *ngIf="userType != 'teacher'"
-          type="submit"
+          type="button"
           class="btn btn-submit"
           [disabled]="selectedUserLists.length == 0 || noSetting == true"
           (click)="enrollUserToCourse(detailLists._id, userType)"
@@ -1177,7 +1177,7 @@
         </button>
         <button
           *ngIf="userType == 'teacher'"
-          type="submit"
+          type="button"
           class="btn btn-submit"
           [disabled]="selectedTeacherLists.length == 0"
           (click)="
@@ -1394,7 +1394,7 @@
             Cancel
           </button>
           <button
-            type="submit"
+            type="button"
             class="btn btn-submit"
             [disabled]="
               (selectedCustomer | json) == '{}' ||
@@ -1485,7 +1485,7 @@
             Cancel
           </button>
           <button
-            type="submit"
+            type="button"
             class="btn btn-submit"
             *ngIf="checkobjArr.length != 0"
             (click)="flexicomfirm(invoiceAlert)"
@@ -1493,7 +1493,7 @@
             Confirm
           </button>
           <button
-            type="submit"
+            type="button"
             *ngIf="checkobjArr.length == 0"
             class="btn btn-submit"
             disabled
