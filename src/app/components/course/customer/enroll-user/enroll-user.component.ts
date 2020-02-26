@@ -1190,6 +1190,7 @@ export class EnrollUserComponent implements OnInit {
             }
           );
       } else if (searchWord.length == 0) {
+        this.loading = false;
         this.userLists = [];
         this.showList = false;
       }
