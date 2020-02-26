@@ -1322,7 +1322,8 @@ export class EnrollUserComponent implements OnInit {
         //multienrolluser block
         this.enrollUserList.pop();
         this.enrollUserList.push(user);
-        this.seatLeft--;
+        --this.seatLeft;
+        console.log('from choose customer flexy' + this.seatLeft);
       }
     } else {
       this.userLists.map(item => {
@@ -1331,7 +1332,8 @@ export class EnrollUserComponent implements OnInit {
           this.enrollUserList.push(user);
         }
       });
-      this.seatLeft--;
+      --this.seatLeft;
+      console.log('from choose customer ' + this.seatLeft);
     }
     //this.showAndHideModal()
   }
@@ -1379,9 +1381,11 @@ export class EnrollUserComponent implements OnInit {
         item.addOrRemove = 'add-user';
       }
     });
-    if (this.seatLeft != 0) {
-      this.seatLeft++;
+    console.log('From unchoose ' + this.seatLeft);
+    if (this.seatLeft >= 0) {
+      ++this.seatLeft;
     }
+    console.log('From unchoose ' + this.seatLeft);
   }
 
   unchooseTeacher(user) {
