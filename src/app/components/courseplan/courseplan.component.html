@@ -748,7 +748,8 @@
                     [(ngModel)]="formField.searchText"
                     (focus)="focusSearch($event, 'apg')"
                     (focusout)="hideSearch($event, 'apg')"
-                    (input)="changeSearch($event.target.value, 'apg')"
+                    (input)="changeSearch_input($event.target.value)"
+                    (keyup.enter)="changeSearch($event.target.value, 'apg')"
                     autocomplete="off"
                   />
                   <span class="input-group-append">
@@ -852,7 +853,7 @@
               <div class="button-wrapper">
                 <button
                   *ngIf="isEditCP == false"
-                  type="submit"
+                  type="button"
                   class="btn sticky-create"
                   (click)="createdPlan(parentForm.value, 'create')"
                 >
@@ -860,7 +861,7 @@
                 </button>
                 <button
                   *ngIf="isEditCP == true"
-                  type="submit"
+                  type="button"
                   class="btn sticky-create"
                   (click)="createdPlan(parentForm.value, 'update')"
                 >

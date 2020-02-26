@@ -6,6 +6,7 @@ import { appService } from '../../../../service/app.service';
 import { DataService } from '../../../../service/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Data from './sampleData';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-report-detail-2',
@@ -184,13 +185,19 @@ export class ReportDetail2Component implements OnInit {
     elem.innerHTML = '';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 
   getQuestion(masteryId) {
     this._service.getMasteryQuestion(masteryId).subscribe(
       (res: any) => {
         console.log(res);
-        this.samplexml = res.data;
+        // this.samplexml = res.data;
+        this.samplexml = res;
         this.openModal(this.questionModal);
       },
       err => {
@@ -211,10 +218,10 @@ export class ReportDetail2Component implements OnInit {
       windowClass:
         'jouranlModal d-flex justify-content-center align-items-center'
     });
-    // this.setupQuiz();
-    // setTimeout(() => {
-    //   this.setupAnswer();
-    // }, 200);
+    this.setupQuiz();
+    setTimeout(() => {
+      this.setupAnswer();
+    }, 200);
   }
 
   setupQuiz() {
@@ -238,17 +245,5 @@ export class ReportDetail2Component implements OnInit {
         );
       }
     });
-  }
-
-  changeHTMLFormat(xml) {
-    let arr = [];
-    $(xml).each(function(index, value) {
-      let temp: any = {};
-      temp.tag = value.tagName;
-      temp.value =
-        value.tagName == 'IMG' ? $(value).prop('src') : $(value).attr('value');
-      arr.push(temp);
-    });
-    return arr;
   }
 }

@@ -3,11 +3,13 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
 import { Chart } from 'chart.js';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.css']
+  styleUrls: ['./overview.component.css'],
+  providers: [DatePipe]
 })
 export class OverviewComponent implements OnInit {
   public chart: any;
@@ -16,13 +18,15 @@ export class OverviewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _service: appService,
-    private _data: DataService
+    private _data: DataService,
+    private datePipe: DatePipe
   ) {}
   testing: any = [1, 2];
   testingli: any = [1, 2];
   public loading = true;
   public loadingMastery = true;
-
+  public attandanceIndex: any;
+  public selectedAttandance: any = {};
   ngOnInit() {
     this.courseId = localStorage.getItem('COURSEID');
     console.log('CIDO', this.courseId);
@@ -742,15 +746,22 @@ export class OverviewComponent implements OnInit {
         }
         if (res.courseInfo.lessons.length > 0) {
           this.lessonList = res.courseInfo.lessons;
-          this.lessonList.sort(function(a, b) {
-            return (
-              new Date(a.lessonStartDate).getTime() -
-              new Date(b.lessonStartDate).getTime()
-            );
-          });
+          console.log(this.datePipe.transform(new Date(), 'dd-MMMM-yyyy'));
+          this.attandanceIndex = this.checkIndexforAttandance(this.lessonList);
+          this.selectedAttandance = this.lessonList[this.attandanceIndex];
+          console.log(this.lessonList);
+          console.log(this.attandanceIndex, 'dateindex');
+          console.log(this.checkIndexforAttandance(this.lessonList));
+
+          // this.lessonList.sort(function(a, b) {
+          //   return (
+          //     new Date(a.lessonStartDate).getTime() -
+          //     new Date(b.lessonStartDate).getTime()
+          //   );
+          // });
           console.log(this.lessonList, ' sorted lessonlist');
 
-          this.addlesson(this.lessonList);
+          // this.addlesson(this.lessonList);
         }
         setTimeout(() => {
           this.loading = false;
@@ -760,6 +771,29 @@ export class OverviewComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  checkIndexforAttandance(arr) {
+    var nearest = Infinity;
+    var winner = -1;
+
+    arr.forEach(function(date, index) {
+      let checkDate = date.lessonStartDate;
+      if (new Date(checkDate) instanceof Date)
+        checkDate = new Date(checkDate).getTime();
+
+      var distance = Math.abs(checkDate - new Date().getTime());
+      console.log(new Date(distance));
+      console.log(new Date(nearest));
+      if (distance < nearest) {
+        nearest = distance;
+        winner = index;
+      }
+      console.log(new Date(distance));
+      console.log(new Date(nearest));
+      console.log(winner);
+    });
+    return winner;
   }
 
   goToAttendance() {
@@ -855,69 +889,80 @@ export class OverviewComponent implements OnInit {
   }
 
   nextDate() {
-    this.absent = 0;
-    this.present = 0;
-    this.index++;
-    this.prevflag = true;
-    if (this.index == this.lessonList.length - 1) {
-      console.log('Over', this.index);
-      this.nextflag = false;
-    }
-    this.indexDay = this.lessonList[this.index];
-    console.log('nextDate', this.indexDay);
-    this.attendance = this.indexDay.attendance;
-    this.total = this.lessonList[this.index].total;
-    console.log('total', this.total);
+    this.attandanceIndex =
+      this.lessonList.length - 1 != this.attandanceIndex
+        ? this.attandanceIndex + 1
+        : this.attandanceIndex;
 
-    for (var j = 0; j < this.attendance.length; j++) {
-      if (this.attendance[j].attendance == null) {
-        this.present = 0;
-        this.absent = 0;
-        console.log('null attendance');
-      }
-      if (this.attendance[j].attendance == 'absent') {
-        this.absent = this.attendance[j].count;
-        console.log('absent', this.absent);
-      }
-      if (this.attendance[j].attendance == 'present') {
-        this.present = this.attendance[j].count;
-        console.log('present', this.present);
-      }
-    }
+    // this.absent = 0;
+    // this.present = 0;
+    // this.index++;
+    // this.prevflag = true;
+    // if (this.index == this.lessonList.length - 1) {
+    //   console.log('Over', this.index);
+    //   this.nextflag = false;
+    // }
+    // this.indexDay = this.lessonList[this.index];
+    // console.log('nextDate', this.indexDay);
+    // this.attendance = this.indexDay.attendance;
+    // this.total = this.lessonList[this.index].total;
+    // console.log('total', this.total);
+
+    // for (var j = 0; j < this.attendance.length; j++) {
+    //   if (this.attendance[j].attendance == null) {
+    //     this.present = 0;
+    //     this.absent = 0;
+    //     console.log('null attendance');
+    //   }
+    //   if (this.attendance[j].attendance == 'absent') {
+    //     this.absent = this.attendance[j].count;
+    //     console.log('absent', this.absent);
+    //   }
+    //   if (this.attendance[j].attendance == 'present') {
+    //     this.present = this.attendance[j].count;
+    //     console.log('present', this.present);
+    //   }
+    // }
   }
 
   previousDate() {
-    this.absent = 0;
-    this.present = 0;
-    this.index--;
-    this.nextflag = true;
-    if (this.index == 0) {
-      console.log('Under', this.index);
-      this.prevflag = false;
-    }
-    this.indexDay = this.lessonList[this.index];
-    console.log('previousDate', this.indexDay);
-    this.attendance = this.indexDay.attendance;
-    this.absent = this.attendance[0].count;
+    console.log(this.attandanceIndex);
+    this.attandanceIndex =
+      this.attandanceIndex == 0
+        ? this.attandanceIndex
+        : this.attandanceIndex - 1;
 
-    this.total = this.lessonList[this.index].total;
-    console.log('total', this.total);
+    // this.absent = 0;
+    // this.present = 0;
+    // this.index--;
+    // this.nextflag = true;
+    // if (this.index == 0) {
+    //   console.log('Under', this.index);
+    //   this.prevflag = false;
+    // }
+    // this.indexDay = this.lessonList[this.index];
+    // console.log('previousDate', this.indexDay);
+    // this.attendance = this.indexDay.attendance;
+    // this.absent = this.attendance[0].count;
 
-    for (var j = 0; j < this.attendance.length; j++) {
-      if (this.attendance[j].attendance == null) {
-        this.present = 0;
-        this.absent = 0;
-        console.log('null attendance');
-      }
-      if (this.attendance[j].attendance == 'absent') {
-        this.absent = this.attendance[j].count;
-        console.log('absent', this.absent);
-      }
-      if (this.attendance[j].attendance == 'present') {
-        this.present = this.attendance[j].count;
-        console.log('present', this.present);
-      }
-    }
+    // this.total = this.lessonList[this.index].total;
+    // console.log('total', this.total);
+
+    // for (var j = 0; j < this.attendance.length; j++) {
+    //   if (this.attendance[j].attendance == null) {
+    //     this.present = 0;
+    //     this.absent = 0;
+    //     console.log('null attendance');
+    //   }
+    //   if (this.attendance[j].attendance == 'absent') {
+    //     this.absent = this.attendance[j].count;
+    //     console.log('absent', this.absent);
+    //   }
+    //   if (this.attendance[j].attendance == 'present') {
+    //     this.present = this.attendance[j].count;
+    //     console.log('present', this.present);
+    //   }
+    // }
   }
 
   goToAssignTask() {

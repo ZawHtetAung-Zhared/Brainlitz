@@ -73,7 +73,8 @@
           placeholder="Search customer here"
           id="customer-search-input"
           (focusout)="clearSearch($event)"
-          (input)="userSearch($event.target.value, 'customer', '', '')"
+          (input)="userSearch_input($event.target.value)"
+          (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
           autocomplete="off"
         />
         <span class="input-group-append btn-design btn-outline-secondary">
@@ -2838,6 +2839,9 @@
                 #search="ngModel"
                 [(ngModel)]="searchData.searchText"
                 (input)="
+                  changeSearch2($event.target.value, custDetail.user.userId)
+                "
+                (keyup.enter)="
                   changeSearch(
                     $event.target.value,
                     custDetail.user.userId,
@@ -3406,7 +3410,8 @@
           name=""
           class="form-control course-search-input"
           placeholder="Search courses"
-          (input)="searchMakeup($event.target.value)"
+          (input)="searchMakeup_input($event.target.value)"
+          (keyup.enter)="searchMakeup($event.target.value)"
         />
       </div>
       <div class="mt-20 class-group">
@@ -3654,7 +3659,11 @@
             <p
               class="mb-0"
               style="color:#B0B1B2;"
-              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
+              *ngIf="
+                lesson.isUpcomingLesson &&
+                lesson.attendance == null &&
+                lesson.cancel == false
+              "
             >
               Not avaliable
             </p>
@@ -3675,7 +3684,11 @@
             >
             <span
               style="color:#788796;"
-              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
+              *ngIf="
+                lesson.isUpcomingLesson &&
+                lesson.attendance == null &&
+                lesson.cancel == false
+              "
               >-</span
             >
           </div>

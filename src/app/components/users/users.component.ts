@@ -871,9 +871,11 @@ export class UsersComponent implements OnInit {
   }
 
   isValidateEmail($email) {
-    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/; //for test@amdon.com format
+    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9]{1,})$/; //for test@amdon format
     if ($email != '') {
-      return emailReg.test($email);
+      if (emailReg1.test($email)) return true;
+      else return emailReg.test($email);
     } else {
       return true;
     }
@@ -1155,6 +1157,11 @@ export class UsersComponent implements OnInit {
     // this.isSearch = false;
   }
 
+  userSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.userSearch(keyword, 'customer', '', '');
+    }
+  }
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;
@@ -1196,6 +1203,11 @@ export class UsersComponent implements OnInit {
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
       }, 300);
+    }
+  }
+  changeSearch2(searchWord, userId) {
+    if (searchWord.length == 0) {
+      this.changeSearch(searchWord, userId, '', '');
     }
   }
 
@@ -2223,6 +2235,12 @@ export class UsersComponent implements OnInit {
       },
       'slow'
     );
+  }
+
+  searchMakeup_input(keyword) {
+    if (keyword.length == 0) {
+      this.searchMakeup(keyword);
+    }
   }
 
   searchMakeup(keyword) {

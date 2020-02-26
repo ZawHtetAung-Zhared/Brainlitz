@@ -1805,6 +1805,8 @@ export class AttendanceComponent implements OnInit {
             console.log(res);
             //this.blockUI.stop();
             this.activeCourseInfo = res;
+            console.log('Testing lower case');
+            console.log(this.activeCourseInfo.CUSTOMER);
             for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
               if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
                 this.presentStudent += 1;

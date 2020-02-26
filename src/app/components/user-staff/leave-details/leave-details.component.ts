@@ -961,6 +961,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         });
     }
   }
+  searchMethod_input(keyword) {
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
+    }
+  }
 
   focusSearch(e, type) {
     if (type == 'focusOn') {
