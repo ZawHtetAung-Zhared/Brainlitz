@@ -436,6 +436,13 @@ div.conflictPopUp {
   overflow: overlay; */
 }
 
+@media only screen and (min-width: 1366px) {
+  div.conflictPopUp {
+    width: 1020px !important;
+    left: unset !important;
+  }
+}
+
 .arr-box {
   width: 20px;
   height: 20px;
@@ -449,6 +456,7 @@ div.conflictPopUp {
   margin: auto;
   /* top: -7%; */
   top: -20px;
+  margin-left: 10px;
 }
 
 .arr-up {
