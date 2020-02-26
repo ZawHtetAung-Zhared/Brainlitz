@@ -1792,6 +1792,7 @@ export class EnrollUserComponent implements OnInit {
         this.isProrated = false;
         // this.invoiceID2 = this.detailLists.invoice[0]._id;
         // this.showOneInvoice(this.invoice);
+        this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
       });
 
     //add lesson
