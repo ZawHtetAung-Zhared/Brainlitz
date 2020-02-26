@@ -2089,8 +2089,17 @@ export class CoursecreateComponent implements OnInit {
   }
 
   defineType() {
+    console.log(
+      'endOptChecked',
+      this.endOptChecked,
+      ' & timeOptChecked ',
+      this.timeOptChecked
+    );
     if (this.timeOptChecked == 'showTimeSlot') {
-      if (this.model.defaultlessonCount) {
+      if (
+        this.model.defaultlessonCount &&
+        this.endOptChecked == 'defaultLesson'
+      ) {
         console.log('FLEXY~~~~~', this.timeOptChecked);
         this.courseObj['type'] = 'FLEXY';
       } else {
