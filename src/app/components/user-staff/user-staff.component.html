@@ -54,7 +54,8 @@
           type="search"
           placeholder="Search staff here"
           id="staff-search-input"
-          (input)="userSearch($event.target.value, 'staff', '', '')"
+          (input)="userSearch2($event.target.value, 'staff', '', '')"
+          (keyup.enter)="userSearch($event.target.value, 'staff', '', '')"
           autocomplete="off"
         />
         <span class="input-group-append">

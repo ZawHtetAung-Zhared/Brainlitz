@@ -25,6 +25,7 @@ import { Location } from '@angular/common';
 import { FlexiComponent } from '../../../flexi/flexi.component';
 import { ISubscription } from 'rxjs/Subscription';
 import { ModalDirective } from 'ngx-bootstrap';
+import { concat } from 'rxjs/observable/concat';
 
 @Component({
   selector: 'app-enroll-user',
@@ -525,6 +526,7 @@ export class EnrollUserComponent implements OnInit {
     //this.blockUI.start('Loading...');
     // console.log(this.detailLists);
     console.log('this.selectedCustomer', this.selectedCustomer);
+    console.log(this.detailLists);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       //this.blockUI.stop();
       // console.log('selected Customer', res);
@@ -546,6 +548,7 @@ export class EnrollUserComponent implements OnInit {
       this.stdLists = this.selectedCustomer.userId;
       console.log(this.stdLists);
       if (this.detailLists.type == 'FLEXY') {
+        console.log('I am flexy');
         if (this.detailLists.seat_left === 0) {
           // console.log(this.pplLists)
           var includedUserId = this.pplLists.CUSTOMER.findIndex(
@@ -1130,69 +1133,74 @@ export class EnrollUserComponent implements OnInit {
       );
   }
 
-  changeMethod(e, searchWord, userType) {
-    console.log(e.keyCode);
-    if (e.keyCode == 13) {
-      this.loading = true;
-      console.log(this.detailLists.locationId);
-      console.log(searchWord);
-      console.log(userType);
-      console.log(this.courseId);
-      let locationId = this.detailLists.locationId;
+  changeMethod2(searchWord, userType) {
+    if (searchWord.length == 0) {
+      this.changeMethod(searchWord, userType);
+    }
+  }
 
-      userType = userType == 'teacher' ? 'staff' : userType;
-      if (searchWord.length != 0) {
-        this.enrollUserList = [];
-        this.userLists = [];
-        this.seatLeft = this.detailLists.seat_left;
-        setTimeout(() => {
-          this.getUsersInCourse(this.courseId); // Stop blocking
-        }, 1000);
-        this.showList = true;
-        this._service
-          .getSearchUser(
-            this.regionId,
-            searchWord,
-            userType,
-            20,
-            0,
-            this.courseId
-          )
-          .subscribe(
-            (res: any) => {
-              res.map(item => {
-                item.addOrRemove = 'add-user';
-              });
-              this.loading = false;
-              if (this.courseType == 'FLEXY') {
-                this.userLists = res;
-              } else {
-                this.userLists = res;
+  changeMethod(searchWord, userType) {
+    this.loading = true;
+    console.log(this.detailLists.locationId);
+    console.log(searchWord);
+    console.log(userType);
+    console.log(this.courseId);
+    let locationId = this.detailLists.locationId;
+    this.selectedUserLists = [];
 
-                this.enrolledCustomer = this.pplLists.CUSTOMER;
-                console.log(this.enrolledCustomer[0].userId);
-                for (var i = 0; i < this.enrolledCustomer.length; i++) {
-                  this.removeEnrolledUser(this.enrolledCustomer[i]);
-                }
+    userType = userType == 'teacher' ? 'staff' : userType;
+    if (searchWord.length != 0) {
+      this.enrollUserList = [];
+      this.userLists = [];
+      this.seatLeft = this.detailLists.seat_left;
+      setTimeout(() => {
+        this.getUsersInCourse(this.courseId); // Stop blocking
+      }, 1000);
+      this.showList = true;
+      this._service
+        .getSearchUser(
+          this.regionId,
+          searchWord,
+          userType,
+          20,
+          0,
+          this.courseId
+        )
+        .subscribe(
+          (res: any) => {
+            res.map(item => {
+              item.addOrRemove = 'add-user';
+            });
+            this.loading = false;
+            if (this.courseType == 'FLEXY') {
+              this.userLists = res;
+            } else {
+              this.userLists = res;
 
-                // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
+              this.enrolledCustomer = this.pplLists.CUSTOMER;
+              //console.log(this.enrolledCustomer[0].userId);
+              for (var i = 0; i < this.enrolledCustomer.length; i++) {
+                this.removeEnrolledUser(this.enrolledCustomer[i]);
               }
-              // setTimeout(() => {
-              //   this.loading = false;
-              // }, 1000);
 
-              //this.loading=false
-              // console.log(this.userLists);
-              // console.log('length of user list ' + this.userLists.length);
-            },
-            err => {
-              console.log(err);
+              // this.userLists=this.userLists.filter(item => item.userId != this.enrolledCustomer[0].userId)
             }
-          );
-      } else if (searchWord.length == 0) {
-        this.userLists = [];
-        this.showList = false;
-      }
+            // setTimeout(() => {
+            //   this.loading = false;
+            // }, 1000);
+
+            //this.loading=false
+            // console.log(this.userLists);
+            // console.log('length of user list ' + this.userLists.length);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    } else if (searchWord.length == 0) {
+      this.loading = false;
+      this.userLists = [];
+      this.showList = false;
     }
   }
 
@@ -1272,6 +1280,7 @@ export class EnrollUserComponent implements OnInit {
     ) {
       this.toastr.error('You can not select because no more seat.');
     } else if (this.courseType == 'FLEXY') {
+      console.log('I am in FLEXY');
       setTimeout(() => {
         this.getUsersInCourse(this.courseId);
       }, 1000);
@@ -1285,17 +1294,24 @@ export class EnrollUserComponent implements OnInit {
         );
         var currentCount = this.enrolledCustomer.length;
         this.found = earlierCount - currentCount;
-        //alert('found is ' + this.found + ' and seatLeft is ' + this.seatLeft);
+        console.log(
+          'found is ' + this.found + ' and seatLeft is ' + this.seatLeft
+        );
+
         this.userLists.map(item => {
           item.addOrRemove = 'add-user';
           if (item.userId == user.userId) {
             item.addOrRemove = 'remove-user';
           }
         });
-        //multienrolluser block
         this.enrollUserList.pop();
         this.enrollUserList.push(user);
-        this.seatLeft--;
+
+        //this.toastr.error('Old student only can be enrolled')
+
+        //multienrolluser block
+
+        //this.seatLeft--;
       } else {
         this.userLists.map(item => {
           item.addOrRemove = 'add-user';
@@ -1363,7 +1379,9 @@ export class EnrollUserComponent implements OnInit {
         item.addOrRemove = 'add-user';
       }
     });
-    this.seatLeft++;
+    if (this.seatLeft != 0) {
+      this.seatLeft++;
+    }
   }
 
   unchooseTeacher(user) {
