@@ -56,7 +56,7 @@ export class ReportDetail2Component implements OnInit {
       data: []
     },
     {
-      name: 'In conslusive',
+      name: 'Inconclusive',
       type: 'bar',
       stack: 'energy',
       barWidth: '50%',
