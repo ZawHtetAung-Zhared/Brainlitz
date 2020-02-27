@@ -28,11 +28,33 @@
             >
               View detail
             </button>
+            <div class="d-flex mt-4">
+              <div class="d-flex flex-column w-50">
+                <div class="d-flex flex-column struggle">
+                  <span>{{ report.masteryCountInPercentage.STRUGGLE }}%</span>
+                  <span> struggling</span>
+                </div>
+                <div class="d-flex flex-column fine">
+                  <span>{{ report.masteryCountInPercentage.INPROGRESS }}%</span>
+                  <span> doing fine</span>
+                </div>
+              </div>
+              <div class="d-flex flex-column w-50">
+                <div class="d-flex flex-column mastered">
+                  <span>{{ report.masteryCountInPercentage.MASTERED }}%</span>
+                  <span> mastered</span>
+                </div>
+                <div class="d-flex flex-column notstarted">
+                  <span>{{ report.masteryCountInPercentage.NEW }}%</span>
+                  <span> not started</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div
           id="{{ report._id }}"
-          class="mt-4 mb-4 ml-2"
+          class="mt-4 mb-4 ml-3"
           style="width:70%; min-height: 200px;"
           (click)="expandGraph(report._id)"
           routerLinkActive="active"

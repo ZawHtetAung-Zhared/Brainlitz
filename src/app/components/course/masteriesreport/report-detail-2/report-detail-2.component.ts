@@ -224,6 +224,7 @@ export class ReportDetail2Component implements OnInit {
     });
     this.setupQuiz();
     setTimeout(() => {
+      this.loadingQuestion = false;
       this.setupAnswer();
     }, 200);
   }
