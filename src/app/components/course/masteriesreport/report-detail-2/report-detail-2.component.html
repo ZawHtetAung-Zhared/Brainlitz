@@ -1,4 +1,4 @@
-<div class="cust-bg" *ngIf="challengeData">
+<div class="cust-bg">
   <div class="cust-hg">
     <div class="pt-4 pb-4 inner-wrapper">
       <div (click)="backTo()" class="d-flex align-items-center">
@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <div class="inner-wrapper">
+    <div *ngIf="!loadingDetail && challengeData" class="inner-wrapper">
       <div class="mastery-box white-bg d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex justify-content-between align-items-center w-100">
@@ -62,16 +62,28 @@
         <!-- loop end -->
       </div>
     </div>
-
-    <!-- <div class="mb-4 white-bg">
-      <div class="inner-wrapper w-100">
-        <div
-          id="mastery_detail"
-          class="pt-4"
-          style="width:100%; min-height: 200px;"
-        ></div>
+    <!-- loading start -->
+    <div *ngIf="loadingDetail" class="inner-wrapper">
+      <div class="mastery-box white-bg d-flex flex-column">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="200px" height="10px" />
+          <svg:rect x="300" y="0" rx="3" ry="3" width="100px" height="10px" />
+          <svg:rect x="0" y="20" rx="50" ry="50" width="15px" height="15px" />
+          <svg:rect x="0" y="40" rx="3" ry="3" width="100%" height="20px" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="90" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="105" rx="3" ry="3" width="100%" height="15px" />
+        </content-loader>
+        <content-loader>
+          <svg:rect x="0" y="20" rx="50" ry="50" width="15px" height="15px" />
+          <svg:rect x="0" y="40" rx="3" ry="3" width="100%" height="20px" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="90" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="105" rx="3" ry="3" width="100%" height="15px" />
+        </content-loader>
       </div>
-    </div> -->
+    </div>
+    <!-- loading end -->
   </div>
 
   <div class="footer white-gb d-flex justify-content-center align-items-center">
@@ -85,7 +97,7 @@
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #D4D5D6;"></div>
-      <span class="color-txt"> In conslusive </span>
+      <span class="color-txt"> Inconclusive </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #6DC000;"></div>

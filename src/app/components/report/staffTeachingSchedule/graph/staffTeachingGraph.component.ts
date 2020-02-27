@@ -127,5 +127,10 @@ export class StaffTeachingReportGraph implements OnInit {
     var elem = document.getElementById('staffTeachingGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 }
