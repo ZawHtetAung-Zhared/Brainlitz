@@ -3,7 +3,10 @@
     <span class="mastery-title">Mastery reports</span>
     <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
   </div>
-  <div *ngIf="notext" class="d-flex justify-content-center pt-5 mt-5">
+  <div
+    *ngIf="!masteriesReports && !noData"
+    class="d-flex justify-content-center pt-5 mt-5"
+  >
     Not enough data to generate reports.
   </div>
   <div *ngIf="masteriesReports && !noData" class="d-flex flex-column">
