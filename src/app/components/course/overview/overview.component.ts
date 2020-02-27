@@ -759,7 +759,7 @@ export class OverviewComponent implements OnInit {
           //     new Date(b.lessonStartDate).getTime()
           //   );
           // });
-          console.log(this.lessonList, ' sorted lessonlist');
+          // console.log(this.lessonList, ' sorted lessonlist');
 
           // this.addlesson(this.lessonList);
         }
@@ -804,7 +804,7 @@ export class OverviewComponent implements OnInit {
       if (negatives.length != 0) {
         winner = negatives.length - 1;
       } else {
-        winner = positives[0];
+        winner = 0;
       }
 
       console.log(winner);
