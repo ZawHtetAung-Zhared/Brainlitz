@@ -88,7 +88,7 @@ export class AssignTaskComponent implements OnInit {
 
   // custom task
   public isCustom: boolean = false;
-
+  public loading: boolean = false;
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
@@ -99,6 +99,7 @@ export class AssignTaskComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
@@ -533,7 +534,7 @@ export class AssignTaskComponent implements OnInit {
       this.createassignTask.standard = temp;
 
       this.classList = res[0].classLevelId;
-
+      this.loading = false;
       console.log(this.createassignTask);
       console.log(this.classList, 'class list');
       console.log(this.standardList, 'standard list');

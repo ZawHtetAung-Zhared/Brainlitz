@@ -336,7 +336,7 @@ export class CustomerComponent implements OnInit {
   // }
 
   getCourseDetail(id) {
-    this.loading = true;
+    // this.loading = true;
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
         // console.log('APO details list', res);
@@ -353,9 +353,9 @@ export class CustomerComponent implements OnInit {
         } else {
           this.disabledTab = true;
         }
-        setTimeout(() => {
-          this.loading = false;
-        }, 1000);
+        // setTimeout(() => {
+        //   this.loading = false;
+        // }, 1000);
         //this.loading = false;
       },
       err => {
@@ -379,6 +379,7 @@ export class CustomerComponent implements OnInit {
       .getAssignUser(this.regionId, courseId, null, null, null)
       .subscribe(
         (res: any) => {
+          this.loading = false;
           //this.blockUI.stop();
           //console.log(res);
           this.pplLists = res;
