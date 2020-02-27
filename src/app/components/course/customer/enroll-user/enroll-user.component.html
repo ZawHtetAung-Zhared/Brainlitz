@@ -390,7 +390,7 @@
         [disabled]="enrollUserList.length == 0 || noSetting == true"
         (click)="enrollUserToCourse(detailLists._id, userType)"
       >
-        Enroll
+        Confirm
       </button>
       <button
         *ngIf="userType == 'teacher'"
@@ -399,7 +399,7 @@
         [disabled]="enrollUserList.length == 0"
         (click)="swapTeacherToCourse(detailLists._id, enrollUserList[0].userId)"
       >
-        Enroll
+        Confirm
       </button>
     </div>
 
