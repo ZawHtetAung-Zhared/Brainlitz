@@ -83,7 +83,17 @@
                       class="child-div mb-2"
                     >
                       <h6 class="stu-no">{{ masteryStudentCount }}</h6>
-                      <p class="stu">student</p>
+                      <p class="stu" *ngIf="masteryStudentCount > 1">
+                        students
+                      </p>
+                      <p
+                        class="stu"
+                        *ngIf="
+                          masteryStudentCount == 1 || masteryStudentCount == 0
+                        "
+                      >
+                        student
+                      </p>
                     </div>
                     <div
                       *ngIf="
@@ -92,7 +102,13 @@
                       class="child-div"
                     >
                       <h6 class="mast-no">{{ li2.masteryCount }}</h6>
-                      <p class="mast">masteries</p>
+                      <p class="mast" *ngIf="li2.masteryCount > 1">masteries</p>
+                      <p
+                        class="mast"
+                        *ngIf="li2.masteryCount == 1 || li2.masteryCount == 0"
+                      >
+                        mastery
+                      </p>
                     </div>
                     <canvas
                       width="100%"
@@ -343,7 +359,7 @@
         </div>
       </div>
     </div>
-    <div class="cardfoot">
+    <!-- <div class="cardfoot">
       <button
         class="detail-btn"
         routerLink="../../../assignTask"
@@ -352,7 +368,7 @@
       >
         Assign task
       </button>
-    </div>
+    </div> -->
   </div>
   <!-- ****Cancelled ****-->
 
@@ -518,10 +534,10 @@
         <svg:rect x="20" y="40" rx="0" ry="0" width="40px" height="10px" />
       </content-loader>
     </div>
-    <div class="cardfoot">
+    <!-- <div class="cardfoot">
       <button class="detail-btn">
         Assign task
       </button>
-    </div>
+    </div> -->
   </div>
 </div>

@@ -109,7 +109,7 @@ export class MasteriesreportComponent implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'Not started',
-          'In conslusive',
+          'Inconclusive',
           'Mastered w/ difficulties',
           'Mastered w/ ease'
         ]
@@ -145,7 +145,7 @@ export class MasteriesreportComponent implements OnInit {
           data: []
         },
         {
-          name: 'In conslusive',
+          name: 'Inconclusive',
           type: 'bar',
           stack: 'energy',
           itemStyle: {

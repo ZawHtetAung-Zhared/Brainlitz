@@ -5,6 +5,7 @@ import { DataService } from '../../../service/data.service';
 import { Router } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-course-list',
@@ -15,6 +16,7 @@ export class CourseListComponent implements OnInit {
   private permissionSubscription: ISubscription;
   private regionId = localStorage.getItem('regionId');
   private locationID = localStorage.getItem('locationId');
+  private courseTypeDisabled = environment.courseTypeDisabled;
   private courseList: Array<any> = [];
   private emptyCourse: boolean;
   private gtxtColor: any;
