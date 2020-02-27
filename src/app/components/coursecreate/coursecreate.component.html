@@ -484,6 +484,7 @@
                 #lesson="ngModel"
                 (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
+                min="0"
               />
             </div>
             <div *ngIf="endOptChecked == 'defaultLesson'">
@@ -500,6 +501,7 @@
                 #dlesson="ngModel"
                 (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
+                min="0"
               />
             </div>
           </div>

@@ -4101,7 +4101,7 @@ export class AttendanceComponent implements OnInit {
         console.log(res);
         this.toastr.success('Successfully reschedule.');
         this.getCourseDetail(courseId);
-        this.clickTab('Class', 'course');
+        this.getAttendance();
         this.modalReference.close();
       },
       err => {
