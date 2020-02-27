@@ -36,9 +36,17 @@
         >
           <div class="no-circle">{{ i + 1 }}</div>
           <div class="mastery-body mb-4">
-            {{ challenge.descriptionStudent }}
+            <!-- {{ challenge.descriptionStudent }} -->
+            {{ challenge.infoForEducator }}
+            <span>
+              <img
+                src="./assets/icons/mastery-question.svg"
+                class="pr-0 pl-2 btn"
+                (click)="getQuestion(challenge.masteryId)"
+              />
+            </span>
           </div>
-          <div calss="d-flex mastery-body">
+          <!-- <div calss="d-flex mastery-body">
             <span>Info for educator :</span>
             <img
               src="./assets/icons/mastery-question.svg"
@@ -46,7 +54,7 @@
               (click)="getQuestion(challenge.masteryId)"
             />
             <span> {{ challenge.infoForEducator }} </span>
-          </div>
+          </div> -->
           <div class="mastery-body txt-bold mt-3">
             {{ challenge.challengingPercentage }} % of students have yet to meet
             the expectation of this mastery.
