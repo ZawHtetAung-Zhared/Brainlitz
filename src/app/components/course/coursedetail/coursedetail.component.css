@@ -75,16 +75,18 @@
 }
 
 .spaninline {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
   line-height: 20px;
-  color: #ffffff;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   display: inline-block;
   background: #ffbf00;
-  border-radius: 25px;
+  border-radius: 8px;
   width: 30px;
+  text-align: center;
+  position: relative;
+  top: -2px;
+}
+.spaninline img {
+  width: 21px;
+  height: 16.8px;
 }
 
 .switch input {
@@ -4010,4 +4012,10 @@ button.today-button {
       239px 0 0 -6px #e3e4e6, 240px 0 0 -6px #e3e4e6;
     margin-top: -6px;
   }
+}
+
+.cust-bg {
+  background: #f2f4f5;
+  min-height: 90vh;
+  display: flex;
 }

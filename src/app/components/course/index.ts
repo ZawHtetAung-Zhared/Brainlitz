@@ -8,3 +8,7 @@ export * from './leaderboard/leaderboard.component';
 export * from './attendance/attendance.component';
 export * from './masteriesreport/masteriesreport.component';
 export * from './course-list/course-list.component';
+export * from './masteriesreport/report-detail/report-detail.component';
+export * from './masteriesreport/student-list/student-list.component';
+export * from './masteriesreport/mastery-report/mastery-report.component';
+export * from './masteriesreport/report-detail-2/report-detail-2.component';

@@ -13,7 +13,25 @@
         Change teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="loading == false">
       <div
         *ngFor="let user of pplLists.TEACHER"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3"
@@ -54,7 +72,54 @@
         Add teacher
       </button>
     </div>
-    <div class="row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="loading == false">
       <div
         *ngFor="let user of pplLists.STAFF"
         class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -90,25 +155,42 @@
   <div class="student-section ">
     <div class="d-flex justify-content-between user-header">
       <div class="d-flex flex-column">
-        <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length < 0">
-          <p>0/{{ detailLists.coursePlan.seats }} Customers</p>
+        <div
+          class="d-flex"
+          *ngIf="
+            pplLists?.CUSTOMER?.length < 1 && detailLists.seat_left !== null
+          "
+        >
+          <p class="body-l medium-font">
+            0/{{ detailLists?.coursePlan?.seats }} Customer
+          </p>
+        </div>
+        <div
+          class="d-flex"
+          *ngIf="
+            pplLists?.CUSTOMER?.length < 1 && detailLists?.seat_left == null
+          "
+        >
+          <p>0/unlimited Customer</p>
         </div>
         <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length > 0">
           <p class="seat-text-wrapper">
             Total:
-            <span *ngIf="detailLists.seat_left !== null">
-              {{ pplLists.CUSTOMER.length }}/{{ detailLists.coursePlan.seats }}
+            <span *ngIf="detailLists?.seat_left !== null">
+              {{ pplLists?.CUSTOMER?.length }}/{{
+                detailLists?.coursePlan?.seats
+              }}
             </span>
-            <span *ngIf="detailLists.seat_left === null">
-              {{ pplLists.CUSTOMER.length }}
+            <span *ngIf="detailLists.seat_left == null">
+              {{ pplLists?.CUSTOMER?.length }}/unlimited
             </span>
-            <span *ngIf="pplLists.CUSTOMER.length <= 1">customer</span>
-            <span *ngIf="pplLists.CUSTOMER.length > 1">customers</span>
+            <span *ngIf="pplLists?.CUSTOMER?.length <= 1">customer</span>
+            <span *ngIf="pplLists?.CUSTOMER?.length > 1">customers</span>
           </p>
         </div>
       </div>
       <button
-        *ngIf="courseDemo.assignStudent != '' && detailLists.seat_left !== null"
+        *ngIf="courseDemo.assignStudent != ''"
         type="button"
         class="btn"
         [ngClass]="pplLists.CUSTOMER.length < 1 ? 'btn-create' : 'btn-normal'"
@@ -122,11 +204,62 @@
           )
         "
         style="height:40px;"
+        [disabled]="detailLists.seat_left == 0 && this.courseType !== 'FLEXY'"
       >
         Enroll class
       </button>
     </div>
-    <div class="row customer-row">
+    <div *ngIf="loading == true" class="row ">
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4  col-xxl-3 ">
+        <div class="person-card">
+          <content-loader>
+            <svg:rect
+              x="0"
+              y="0.5"
+              rx="30"
+              ry="30"
+              width="48px"
+              height="48px"
+            />
+            <svg:rect x="60" y="14" rx="0" ry="0" width="80%" height="20px" />
+          </content-loader>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row customer-row"
+      *ngIf="pplLists.CUSTOMER.length > 0 && loading == false"
+    >
       <div
         *ngFor="let user of pplLists.CUSTOMER; let i = index"
         class="option-wrap col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
@@ -257,6 +390,15 @@
         </div>
       </div>
     </div>
+    <div
+      class="no-customer body-xl medium-font"
+      *ngIf="pplLists?.CUSTOMER?.length <= 0 && loading == false"
+    >
+      <span class="">
+        There is no customer in this course. Must enroll customers to this
+        course.
+      </span>
+    </div>
   </div>
   <ng-template #tabsModal let-c="close" let-d="dismiss">
     <div class="d-flex modal-header flex-column header-shadow">
@@ -342,7 +484,7 @@
             Cancel
           </button>
           <button
-            type="submit"
+            type="button"
             class="btn btn-submit"
             [disabled]="!makeupF.valid"
             (click)="issuePass(makeupForm, singleUserData.userId)"
@@ -753,7 +895,7 @@
         Cancel
       </button>
       <button
-        type="submit"
+        type="button"
         class="btn modal-delete-btn"
         (click)="withdrawUser(deleteId)"
       >
@@ -1026,7 +1168,7 @@
         </button>
         <button
           *ngIf="userType != 'teacher'"
-          type="submit"
+          type="button"
           class="btn btn-submit"
           [disabled]="selectedUserLists.length == 0 || noSetting == true"
           (click)="enrollUserToCourse(detailLists._id, userType)"
@@ -1047,4 +1189,330 @@
       </div>
     </form>
   </ng-template>
+
+  <ng-template #customerModal let-c="close" let-d="dismiss">
+    <div
+      *ngIf="
+        showInvoice == false && showPayment == false && showflexyCourse == false
+      "
+    >
+      <div class="d-flex modal-header">
+        <h3 class="modal-title d-flex mr-auto">Add customer</h3>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+          <!-- <span aria-hidden="true" >×</span> -->
+        </button>
+      </div>
+      <form nonvalidate #custForm="ngForm">
+        <div class="modal-body confirm-text customer-modal-body">
+          <div class="d-flex">
+            <div class="col-md-4 col-lg-4 modal-cfees pl-zero libr2">
+              <h5 class="mt-03">
+                <i class="fa fa-map-marker" style="font-size:15px"></i>
+                {{ detailLists.location.name }}
+              </h5>
+              <p class="course-name">{{ detailLists.name }}</p>
+            </div>
+            <div
+              *ngIf="detailLists.type != 'ONLINE'"
+              class="col-md-4 col-lg-4 modal-ctime pr-zero"
+            >
+              <div>
+                <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+                  {{ day }}
+                </h5>
+              </div>
+              <!-- <p>11:00 AM - 12:00 AM</p> -->
+              <div
+                *ngIf="detailLists.duration != undefined"
+                class="modal-duration"
+              >
+                <span *ngIf="detailLists.duration.endDate != undefined"
+                  >{{ detailLists.duration.startDate | utcTime }} -
+                  {{ detailLists.duration.endDate | utcTime }}</span
+                >
+              </div>
+            </div>
+            <div class="col-md-4 col-lg-4 modal-cdate">
+              <div class="d-flex">
+                <div class="col-md-6 pr-zero modal-dfees">
+                  <h5 class="mt-03">From</h5>
+                  <b>{{ detailLists.startDate | utcDate }}</b>
+                </div>
+                <div class="col-md-6 pr-zero modal-dfees">
+                  <h5 *ngIf="detailLists.endDate != null" class="mt-03">To</h5>
+                  <h5 *ngIf="detailLists.endDate == null" class="mt-03"></h5>
+                  <b *ngIf="detailLists.endDate != null">{{
+                    detailLists.endDate | utcDate
+                  }}</b>
+                  <div *ngIf="detailLists.endDate == null">
+                    <b>{{ detailLists.actualLessonCount }} Lessons</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-column mt-37" style="position: relative;">
+            <div class="d-flex">
+              <input
+                class="form-control py-2 input-search-bg"
+                type="search"
+                placeholder="Search customers"
+                id="example-search-input"
+                name="search"
+                #search="ngModel"
+                [(ngModel)]="formData.searchText"
+                (focus)="focusMethod($event, 'customer')"
+                (focusout)="hideFocus($event)"
+                (blur)="hideFocus($event)"
+                (input)="changeMethod($event.target.value, 'customer')"
+                autocomplete="off"
+              />
+              <span class="input-group-append">
+                <button
+                  class="bt btn-design btn-outline-secondary"
+                  type="button"
+                >
+                  <i class="fa fa-search search-size"></i>
+                </button>
+              </span>
+            </div>
+            <div class="user-list-box" *ngIf="showList == true">
+              <div
+                [ngClass]="[
+                  stdLists.indexOf(user.userId) > -1 ? 'hide-user' : '',
+                  !isSeatAvailable &&
+                  detailLists.type == 'REGULAR' &&
+                  userType == 'customer'
+                    ? 'disable-add1'
+                    : ''
+                ]"
+                (click)="selectCustomer('user', user.userId, 'customer')"
+                *ngFor="let user of userLists"
+                class="d-flex flex-row search-user justify-content-center align-items-center"
+              >
+                <div class="img-wrap">
+                  <img src="{{ user.profilePic }}" />
+                </div>
+                <div
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4>
+                    {{
+                      user.preferredName == '' ? user.email : user.preferredName
+                    }}
+                  </h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div class="add-user d-flex justify-content-end"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-20 user-row-wrap">
+            <div
+              class="d-flex modal-info-wrap"
+              *ngIf="(selectedCustomer | json) != '{}'"
+            >
+              <div class="img-div">
+                <div class="user-img-wrap">
+                  <img src="{{ selectedCustomer.profilePic }}" />
+                </div>
+              </div>
+              <div class="w-100">
+                <div class="d-flex">
+                  <div class="col-md-6">
+                    <div class="modal-userInfo">
+                      <h4>{{ selectedCustomer.preferredName }}</h4>
+                      <label class="mail">{{ selectedCustomer.email }}</label>
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-6 modal-userInfo"
+                    *ngIf="selectedCustomer.fullName != ''"
+                  >
+                    <label class="mb-0">Full name</label>
+                    <p class="modal-p">{{ selectedCustomer.fullName }}</p>
+                  </div>
+                  <div
+                    class="col-md-6 modal-userInfo"
+                    *ngIf="selectedCustomer.fullName == ''"
+                  ></div>
+                </div>
+                <!-- <div class="row single-user-wrap pad-15">
+                  <div
+                    *ngFor="let detail of selectedCustomer.details"
+                    class="col-sm-6 col-md-6 modal-userInfo"
+                  >
+                    <div *ngIf="detail.value.length != 0">
+                      <label class="mb-0">{{ detail.name }}</label>
+                      <p class="modal-p">
+                        {{ detail.value }}
+                      </p>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div
+              *ngIf="(selectedCustomer | json) == '{}'"
+              class="d-flex col-md-12 empty-ui-wrapper"
+            >
+              <div class="col-md-6 img-pos">
+                <div class="empty-wrapper">
+                  <img src="assets/images/add-customer-illustration@2x.png" />
+                </div>
+              </div>
+              <div class="d-flex col-md-6">
+                <div class="txt-default">
+                  <h3>Add Customer to this Course</h3>
+                </div>
+                <div class="arrow-pos">
+                  <img src="assets/img/arrow.png" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="noSetting == true" class="seat-taken">
+            You should set invoice setting and payment setting first.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            [disabled]="
+              (selectedCustomer | json) == '{}' ||
+              isDisabledBtn ||
+              noSetting == true
+            "
+            (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
+          >
+            Confirm
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
+    <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+    <div
+      class="flexiModal"
+      *ngIf="showInvoice == false && showflexyCourse == true"
+    >
+      <div class="innerFlexiModal">
+        <div class="d-flex" style="margin: 20px 20px 0px 32px;">
+          <div class="d-flex back" (click)="backtoCustomer()">
+            <i class="fa fa-angle-left flexiBackicon"></i>
+            <p class="mb-0 font-medium ">Add customer</p>
+          </div>
+          <button
+            (click)="cancelModal()"
+            aria-label="Close"
+            class="modal-close ml-auto"
+            type="button"
+          >
+            <span class="closemark">
+              <div class="closemark_stem"></div>
+              <div class="closemark_kick"></div>
+            </span>
+            <!-- <span aria-hidden="true" >×</span> -->
+          </button>
+        </div>
+        <app-flexi
+          [flexyarr]="flexyarr"
+          [selectedCustomer]="selectedCustomer"
+          [course]="detailLists"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
+        ></app-flexi>
+      </div>
+      <div
+        class="modal-footer d-flex justify-content-between"
+        style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+      >
+        <div class="d-flex flex-column">
+          <div class="d-flex">
+            <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (click)="isProrated = !this.isProrated"
+                  [checked]="isProrated"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Prorated</label>
+          </div>
+          <div>
+            <p class="defaultLessonCount">
+              Default lessons count: {{ detailLists.defaultlessonCount }}
+            </p>
+            <p class="textCount">Number of lessons required:</p>
+            <div class="selectedCountBox">
+              <p class="selectedTest">
+                Selected lessons: {{ checkobjArr.length }}
+              </p>
+            </div>
+          </div>
+          <!-- <div class="defaultDiv">
+
+          </div> -->
+        </div>
+
+        <div class="">
+          <button
+            type="button"
+            class="btn modal-cancel-btn"
+            (click)="cancelModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+            *ngIf="checkobjArr.length != 0"
+            (click)="flexicomfirm(invoiceAlert)"
+          >
+            Confirm
+          </button>
+          <button
+            type="submit"
+            *ngIf="checkobjArr.length == 0"
+            class="btn btn-submit"
+            disabled
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="invoice-wrap" *ngIf="showInvoice == true">
+      <app-invoice
+        [custDetail]="custDetail"
+        [course]="detailLists"
+        [invoiceId]="invoiceID2"
+        (closed)="cancelInvoiceModal()"
+      ></app-invoice>
+    </div>
+  </ng-template>
 </div>
+
+<!-- aa -->

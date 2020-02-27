@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ng2-img-cropper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CalendarModule } from 'angular-calendar';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
@@ -72,6 +73,7 @@ import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetUtcDateoverviewPipe } from './service/pipe/utcDateoverview.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
@@ -144,9 +146,14 @@ import {
   TasksComponent,
   LeaderboardComponent,
   MasteriesreportComponent,
-  CourseListComponent
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent,
+  ReportDetail2Component
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
 
 @NgModule({
   declarations: [
@@ -192,6 +199,7 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     GetUtcTimePipe,
     GetFormatData,
     GetUtcDatePipe,
+    GetUtcDateoverviewPipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
@@ -250,7 +258,12 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     TasksComponent,
     LeaderboardComponent,
     MasteriesreportComponent,
-    EnrollUserComponent
+    EnrollUserComponent,
+    ReportDetailComponent,
+    StudentListComponent,
+    MasteryReportComponent,
+    CustomTaskComponent,
+    ReportDetail2Component
   ],
   imports: [
     ContentLoaderModule,
@@ -290,18 +303,21 @@ import { EnrollUserComponent } from './components/course/customer/enroll-user/en
     Ng2TelInputModule,
     MediumEditorModule,
     CalendarModule.forRoot(),
+    ImageCropperModule,
     ColorPickerModule
   ],
   providers: [
     appService,
     DataService,
     LoggedInGuard,
+    EnrollUserComponent,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,
       multi: true
-    }
+    },
+    TodayDatePipe
   ],
   bootstrap: [AppComponent]
 })

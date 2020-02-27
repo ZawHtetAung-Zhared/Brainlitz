@@ -108,10 +108,15 @@
           <li *ngIf="courseMenu.length > 0" class="nav-item">
             <a
               class="nav-link"
+              [ngClass]="{ active: activeTab == 'courses' }"
               routerLinkActive="active"
               routerLink="/course"
               (click)="onClickHeaderTab('course')"
               >Courses
+              <div
+                *ngIf="activeTab == 'courses'"
+                class="border-design active"
+              ></div>
               <div
                 class="border-design"
                 routerLinkActive="active"
@@ -244,6 +249,7 @@
         <li *ngIf="courseMenu.length > 0" class="nav-item header2-nav-item">
           <a
             class="nav-link"
+            [ngClass]="{ active: activeTab == 'courses' }"
             routerLinkActive="active"
             routerLink="/course"
             (click)="onClickHeaderTab('course')"

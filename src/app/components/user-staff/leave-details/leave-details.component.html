@@ -287,7 +287,7 @@
                     mwlCalendarNextView
                     [view]="view"
                     [(viewDate)]="viewDate"
-                    (viewDateChange)="showExistData(viewDate)"
+                    (viewDateChange)="showExistData($event)"
                     style="padding-right:0px;"
                   >
                     <img src="assets/images/arrow-right.svg" />
@@ -362,7 +362,6 @@
             [viewDate]="viewDate"
             [events]="events"
             [refresh]="refresh"
-            (viewDateChange)="getJournalByMonth(viewDate)"
             (dayClicked)="dayClicked($event.day, $event.day)"
             [cellTemplate]="customCellTemplate"
             (beforeViewRender)="checkSelectedDate($event)"
@@ -982,7 +981,8 @@
           name="searchInput"
           placeholder="Search teacher..."
           class="input-search"
-          (input)="searchMethod($event.target.value, 'staff')"
+          (input)="searchMethod_input($event.target.value)"
+          (keyup.enter)="searchMethod($event.target.value, 'staff')"
           (focus)="focusSearch($event, 'focusOn')"
           (focusout)="focusSearch($event, 'focusOut')"
           (blur)="focusSearch($event, 'blur')"

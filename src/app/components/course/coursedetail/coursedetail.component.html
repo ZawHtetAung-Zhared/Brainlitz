@@ -1,20 +1,36 @@
 <app-header
   [ngClass]="{ stick: isSticky == true }"
   (newItemEvent)="reviewToggle($event)"
-></app-header>
-<div class="d-flex lfex-column justify-content-center align-items-center">
+  [activeTab]="active"
+>
+</app-header>
+<!-- <div
+  class="d-flex flex-column justify-content-center align-items-center cust-bg"
+> -->
+<div class="cust-bg">
   <div class="inner-wrapper w-100">
     <div class="back-wrap d-flex justify-content-between">
-      <div class="back-to " routerLink="/course">
+      <div class="back-to " (click)="backToCourses()">
         <i class="fa fa-angle-left"></i>
         <p>Courses</p>
       </div>
-      <button class="btn edit-course-btn">
+      <button class="btn edit-course-btn" (click)="editCourse(courseId)">
         Edit course
       </button>
     </div>
     <div>
-      <div class="display-flex">
+      <div
+        class="display-flex"
+        *ngIf="loading == true"
+        style="min-height:50px;"
+      >
+        <content-loader>
+          <svg:rect x="0" y="0" rx="0" ry="0" width="700px" height="10px" />
+          <svg:rect x="0" y="15" rx="0" ry="0" width="70px" height="10px" />
+          <svg:rect x="0" y="30" rx="0" ry="0" width="40px" height="10px" />
+        </content-loader>
+      </div>
+      <div class="display-flex" *ngIf="loading == false">
         <div class="col-md-8 detail-info">
           <label>{{ detailLists.coursePlan.name }}</label>
           <h4>
@@ -38,7 +54,51 @@
         </div>
       </div>
 
-      <div class="d-flex flex-row ">
+      <!-- wave card -->
+      <div class="d-flex flex-row " *ngIf="loading == true">
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="0" ry="0" width="90%" height="10px" />
+              <svg:rect x="0" y="20" rx="0" ry="0" width="90%" height="10px" />
+            </content-loader>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="0" ry="0" width="90%" height="10px" />
+              <svg:rect x="0" y="20" rx="0" ry="0" width="90%" height="10px" />
+            </content-loader>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="0" ry="0" width="90%" height="10px" />
+              <svg:rect x="0" y="20" rx="0" ry="0" width="90%" height="10px" />
+            </content-loader>
+          </div>
+        </div>
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
+        >
+          <div class="cdetail">
+            <content-loader>
+              <svg:rect x="0" y="0" rx="0" ry="0" width="90%" height="10px" />
+              <svg:rect x="0" y="20" rx="0" ry="0" width="90%" height="10px" />
+            </content-loader>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row " *ngIf="loading == false">
         <div
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
@@ -50,6 +110,7 @@
           </div>
         </div>
         <div
+          *ngIf="courseType != 'ONLINE'"
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
           <div class="cdetail">
@@ -138,32 +199,42 @@
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="attendance"
+            *ngIf="courseType != 'ONLINE'"
           >
             Attendance
           </button>
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="tasks"
           >
             Tasks
-            <span class="spaninline"><p class="m-0">SW</p></span>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
           </button>
-          <button
+          <!-- <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="leaderboard"
           >
             Leaderboard
-            <span class="spaninline"><p class="m-0">SW</p></span>
-          </button>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
+          </button> -->
           <button
+            *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab"
             routerLinkActive="active"
             routerLink="masteries-report"
           >
             Masteries reports
-            <span class="spaninline"><p class="m-0">SW</p></span>
+            <span class="spaninline"
+              ><img src="../../../../assets/img/tiny-brainlitz.svg"
+            /></span>
           </button>
           <!-- <button
             [ngClass]="{ active: activeTab == 'APG' || notiType == 'view' }"

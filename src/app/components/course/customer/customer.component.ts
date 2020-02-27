@@ -1,7 +1,13 @@
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ComponentFactoryResolver
+} from '@angular/core';
 import { appService } from '../../../service/app.service';
 import * as moment from 'moment-timezone';
+import * as $ from 'jquery';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -13,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from '../../../service/data.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-customer',
@@ -20,26 +27,6 @@ import { DataService } from '../../../service/data.service';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
-  ngOnInit(): void {
-    // this.route.paramMap.subscribe(params => {
-    //   this.courseId = params['id']; //undefined
-    //  // this.courseId=params.get('id'); // null
-    // });
-    //this.courseId=this.route.snapshot.params.id;
-    this.courseId = '5e3915d9a890f60ae76b8025';
-    console.log(' I got Id : ' + this.courseId);
-    this.getUsersInCourse(this.courseId);
-    this.getCourseDetail(this.courseId);
-
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/course') {
-        this.permissionType = data;
-        this.checkPermission();
-      }
-    });
-    console.log(this.courseDemo.assignStudent + ' assign student');
-  }
-
   constructor(
     private _service: appService,
     private router: Router,
@@ -48,6 +35,43 @@ export class CustomerComponent implements OnInit {
     public dataservice: DataService,
     public route: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    // this.route.paramMap.subscribe(params => {
+    //   console.log(params)
+    //   this.courseId = params['id']; //undefined
+    //  // this.courseId=params.get('id'); // null
+    // });
+    //this.courseId=this.route.snapshot.params.id;
+
+    //this.courseId = '5e3915d9a890f60ae76b8025';
+    this.pplLists = {
+      CUSTOMER: [{}],
+      TEACHER: [
+        {
+          preferredName: ''
+        }
+      ],
+      STAFF: [{}]
+    };
+    this.courseId = localStorage.getItem('COURSEID');
+    console.log(' I got Id : ' + this.courseId);
+    this.getUsersInCourse(this.courseId);
+    this.getCourseDetail(this.courseId);
+    console.log(this.router.url);
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/course') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
+  }
 
   @HostListener('document:click', ['$event'])
   public test(event): void {
@@ -62,6 +86,8 @@ export class CustomerComponent implements OnInit {
       this.optionBox = false;
     }
   }
+
+  private permissionSubscription: ISubscription;
 
   public detailLists = {
     paymentPolicy: {
@@ -82,7 +108,7 @@ export class CustomerComponent implements OnInit {
       name: '',
       seats: ''
     },
-    seat_left: 0,
+    seat_left: null,
     type: '',
     _id: '',
     lessons: [],
@@ -304,10 +330,14 @@ export class CustomerComponent implements OnInit {
   public reScheduleUId;
 
   getCourseDetail(id) {
+    this.loading = true;
     this._service.getSingleCourse(id, this.locationID).subscribe(
       (res: any) => {
-        console.log('here details list', res);
+        // console.log('APO details list', res);
         this.detailLists = res;
+        // if (this.detailLists.seat_left === null || this.detailLists.seat_left === undefined) {
+        //   this.detailLists.seat_left = 1000;
+        // }
         this.courseId = res._id;
         this.locationId = res.locationId;
         this.draft = res.draft;
@@ -317,14 +347,21 @@ export class CustomerComponent implements OnInit {
         } else {
           this.disabledTab = true;
         }
+        setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+        //this.loading = false;
       },
       err => {
         console.log(err);
       }
     );
   }
+  public loading = true;
 
   getUsersInCourse(courseId) {
+    console.log('loading true');
+    this.loading = true;
     this.reScheduleCId = '';
     //console.log('hi call course', courseId);
     localStorage.setItem('COURSEID', courseId);
@@ -339,6 +376,8 @@ export class CustomerComponent implements OnInit {
           //this.blockUI.stop();
           //console.log(res);
           this.pplLists = res;
+          // this.loading=false
+          // console.log('here pplList ', this.pplLists);
         },
         err => {
           console.log(err);
@@ -351,14 +390,14 @@ export class CustomerComponent implements OnInit {
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
       .subscribe((res: any) => {
-        console.log('Course List', res);
+        // console.log('Course List', res);
         this.result = res;
-        console.log(this.result);
-        console.log(this.result.length);
-        console.log(this.courseList);
+        // console.log(this.result);
+        // console.log(this.result.length);
+        // console.log(this.courseList);
         this.courseList = this.courseList.concat(res);
-        console.log(this.courseList);
-        console.log(this.courseList.length);
+        // console.log(this.courseList);
+        // console.log(this.courseList.length);
         if (this.courseList.length > 0) {
           this.emptyCourse = false;
           for (var i in this.courseList) {
@@ -419,22 +458,22 @@ export class CustomerComponent implements OnInit {
     );
     //console.log(this.coursePermission.includes('VIEWCOURSE'));
 
-    this.courseDemo['addCourse'] = this.coursePermission.includes(
-      'CREATECOURSE'
-    )
-      ? 'CREATECOURSE'
-      : '';
-    this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
-      ? 'VIEWCOURSE'
-      : '';
-    this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
-      ? 'EDITCOURSE'
-      : '';
-    this.courseDemo['deleteCourse'] = this.coursePermission.includes(
-      'DELETECOURSE'
-    )
-      ? 'DELETECOURSE'
-      : '';
+    // this.courseDemo['addCourse'] = this.coursePermission.includes(
+    //   'CREATECOURSE'
+    // )
+    //   ? 'CREATECOURSE'
+    //   : '';
+    // this.courseDemo['viewCourse'] = this.coursePermission.includes('VIEWCOURSE')
+    //   ? 'VIEWCOURSE'
+    //   : '';
+    // this.courseDemo['editCourse'] = this.coursePermission.includes('EDITCOURSE')
+    //   ? 'EDITCOURSE'
+    //   : '';
+    // this.courseDemo['deleteCourse'] = this.coursePermission.includes(
+    //   'DELETECOURSE'
+    // )
+    //   ? 'DELETECOURSE'
+    //   : '';
     this.courseDemo['assignTeacher'] = this.coursePermission.includes(
       'ASSIGNTEACHER'
     )
@@ -445,18 +484,20 @@ export class CustomerComponent implements OnInit {
     )
       ? 'ASSIGNSTUDENTS'
       : '';
-    this.courseDemo['createCP'] = this.coursePermission.includes(
-      'CREATECOURSEPLAN'
-    )
-      ? 'CREATECOURSEPLAN'
-      : '';
-    this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
-      ? 'VIEWCOURSEPLAN'
-      : '';
-    this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
-      ? 'EDITCOURSEPLAN'
-      : '';
+    // console.log(this.coursePermission.includes('ASSIGNSTUDENTS'));
+    // console.log(this.courseDemo.assignStudent + ' assign student');
 
+    // this.courseDemo['createCP'] = this.coursePermission.includes(
+    //   'CREATECOURSEPLAN'
+    // )
+    //   ? 'CREATECOURSEPLAN'
+    //   : '';
+    // this.courseDemo['viewCP'] = this.coursePermission.includes('VIEWCOURSEPLAN')
+    //   ? 'VIEWCOURSEPLAN'
+    //   : '';
+    // this.courseDemo['editCP'] = this.coursePermission.includes('EDITCOURSEPLAN')
+    //   ? 'EDITCOURSEPLAN'
+    //   : '';
     if (this.coursePermission.includes('VIEWCOURSE') != false) {
       this.locationName = localStorage.getItem('locationName');
       this.locationID = localStorage.getItem('locationId');
@@ -464,7 +505,7 @@ export class CustomerComponent implements OnInit {
       this.gbgColor = localStorage.getItem('backgroundColor');
       // console.error(this.gbgColor, 'backgroundColor', this.gtxtColor);
 
-      console.log('hi permission', this.locationName, this.locationID);
+      // console.log('hi permission', this.locationName, this.locationID);
       // this.getCPlanList(0,20);
       this.courseList = [];
       this.getCourseLists(20, 0);
@@ -496,7 +537,7 @@ export class CustomerComponent implements OnInit {
   getSingleCustomer(ID, type?) {
     //this.blockUI.start('Loading...');
     // console.log(this.detailLists);
-    console.log('this.selectedCustomer', this.selectedCustomer);
+    //console.log('this.selectedCustomer', this.selectedCustomer);
     this._service.editProfile(this.regionId, ID).subscribe((res: any) => {
       //this.blockUI.stop();
       console.log('selected Customer', res);
@@ -538,6 +579,12 @@ export class CustomerComponent implements OnInit {
 
   invoicesOfCourse: any = [];
   isFlexyInvoice: boolean = false;
+
+  viewSingleInvoice(id) {
+    console.log('id', id, this.activeUserTab);
+    this.invoiceID2 = id;
+    this.isFlexyInvoice = false;
+  }
 
   showTabsModal(modal, type, data) {
     this.isFlexyInvoice = false;
@@ -1040,6 +1087,7 @@ export class CustomerComponent implements OnInit {
     this.tempuserType = '';
     this.isProrated = false;
     this.isDisabledBtn = false;
+    this.selectedCustomer = {};
   }
 
   selectCustomer(state, id, type) {
@@ -1050,9 +1098,13 @@ export class CustomerComponent implements OnInit {
   }
 
   addUserModal(type, userModal, state, id, courseType) {
+    console.log('Type from addUserModal ' + type);
+    localStorage.setItem('userType', type);
+    console.log(localStorage.getItem('userType'));
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
 
     // this.selectedCustomer = {};
+    // this.trArrayLists = {};
     // this.selectedTeacherLists = [];
     // this.isvalidID = state;
     // this.selectedUserId = [];

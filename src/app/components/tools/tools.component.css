@@ -613,6 +613,7 @@ input:checked + .slider:before {
   font-size: 14px;
   font-family: 'Inter-UI-Regular';
   border-radius: 8px;
+  word-break: break-word;
 }
 .noti-subject {
   padding: 10px;
