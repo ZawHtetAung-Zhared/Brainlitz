@@ -329,11 +329,11 @@ export class CustomerComponent implements OnInit {
   public reScheduleCId;
   public reScheduleUId;
 
-  viewSingleInvoice(id) {
-    console.log('id', id, this.activeUserTab);
-    this.invoiceID2 = id;
-    this.isFlexyInvoice = false;
-  }
+  // viewSingleInvoice(id) {
+  //   console.log('id', id, this.activeUserTab);
+  //   this.invoiceID2 = id;
+  //   this.isFlexyInvoice = false;
+  // }
 
   getCourseDetail(id) {
     this.loading = true;
