@@ -85,9 +85,8 @@ export class TasksComponent implements OnInit {
   }
 
   getAllTasksInfo() {
-    this._service
-      .getAllTasksInfo(this.regionId, this.courseId)
-      .subscribe((res: any) => {
+    this._service.getAllTasksInfo(this.regionId, this.courseId).subscribe(
+      (res: any) => {
         this.allTasks = res;
         console.log(typeof this.allTasks);
         console.log(this.allTasks.tasks);
@@ -96,6 +95,11 @@ export class TasksComponent implements OnInit {
         setTimeout(() => {
           this.loading = false;
         }, 500);
-      });
+      },
+      err => {
+        console.log(err);
+        this.loading = false;
+      }
+    );
   }
 }

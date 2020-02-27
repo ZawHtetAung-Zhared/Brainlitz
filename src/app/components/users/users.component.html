@@ -3589,7 +3589,9 @@
               lesson.isUpcomingLesson == false &&
               lesson.cancel == false,
             notAvailable_block:
-              lesson.attendance == null && lesson.isUpcomingLesson == true
+              lesson.attendance == null &&
+              lesson.isUpcomingLesson == true &&
+              lesson.cancel == false
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3619,7 +3621,10 @@
                   lesson.attendance == true && lesson.cancel == false,
                 noData_icon:
                   lesson.attendance == null && lesson.cancel == false,
-                'bg-none': lesson.isUpcomingLesson && lesson.attendance == null
+                'bg-none':
+                  lesson.isUpcomingLesson &&
+                  lesson.attendance == null &&
+                  lesson.cancel == false
               }"
             ></span>
           </div>
@@ -3678,7 +3683,8 @@
               }"
               *ngIf="
                 !lesson.isUpcomingLesson ||
-                (lesson.isUpcomingLesson && lesson.attendance != null)
+                (lesson.isUpcomingLesson && lesson.attendance != null) ||
+                lesson.cancel == true
               "
               >by {{ lesson.teacher?.preferredName }}</span
             >
