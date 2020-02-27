@@ -1199,6 +1199,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   backtoSchedule() {
     // reset the initial values
+    console.error('back to');
     this.scheduleList = true;
     this.isPlan = false;
     this.isCategory = false;
@@ -1356,8 +1357,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isTeacherAll: boolean = false;
   /// Fix Get Sechedule Staff API ///
   getschedulestaff(type, limit, skip, index) {
+    console.error('call schedule');
+    this.scheduleList = false;
+    this.blockUI.start('Loading...');
+
     setTimeout(() => {
       this.updateScrollbar('v-wrapper');
+      // this.blockUI.stop();
     }, 1000);
 
     var repeatDays;
@@ -1371,7 +1377,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(this.selectedID);
     console.log(limit);
     console.log(skip);
-    this.scheduleList = false;
+
     this._service
       .getscheduleStaffList(
         this.regionId,
@@ -2048,6 +2054,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   changeMethod(searchWord, userType) {
     // let courseId = "5beb8c7d1f893164fff2c31d";
+
     userType = userType == 'teacher' ? 'staff' : userType;
     console.log(userType);
     if (searchWord.length != 0) {
@@ -3196,6 +3203,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   getSearchCoursePlan(searchWord, skip, limit) {
+    console.log(searchWord);
     this.keyword = searchWord;
     if (skip == '' && limit == '') {
       var isFirst = true;
@@ -3238,6 +3246,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     }
   }
   updateScrollbar(type) {
+    // console.error('update scroll bar');
     var scrollbar = document.getElementById('fixed-bottom-test');
     var content = document.getElementById('testScroll');
     var inner = document.getElementById('innerScrollbar');
@@ -3256,8 +3265,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   goToCourse(course) {
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course.courseId);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course.courseId);
+    this.router.navigate(['/coursedetail', course.courseId]);
   }
 
   //startFlexi

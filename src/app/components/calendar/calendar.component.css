@@ -537,6 +537,7 @@ ul.calendar-year li:first-child {
   outline: none;
   border: 0;
   width: 100%;
+  padding: 0px;
 }
 .input-wrap {
   padding: 15px 0px;

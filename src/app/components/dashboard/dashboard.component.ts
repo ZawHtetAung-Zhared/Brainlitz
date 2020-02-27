@@ -26,8 +26,9 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import * as currency from 'currency-symbol-map/map';
+import { Observable } from 'rxjs/Observable';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 // import currencyToSymbolMap from 'currency-symbol-map/map'
-import { ISubscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -294,6 +295,10 @@ export class DashboardComponent implements OnInit {
   public isQRChanged = false;
 
   @BlockUI() blockUI: NgBlockUI;
+  private isConnected;
+  private isRegionLoading: boolean = false;
+  private isAppLoading: boolean = false;
+  public isNetwork: boolean;
 
   constructor(
     private _service: appService,
@@ -302,6 +307,23 @@ export class DashboardComponent implements OnInit {
     private router: Router
   ) {
     window.scroll(0, 0);
+    this.isConnected = Observable.merge(
+      Observable.of(navigator.onLine),
+      Observable.fromEvent(window, 'online').map(() => true),
+      Observable.fromEvent(window, 'offline').map(() => false)
+    );
+    this.isConnected.subscribe(connection => {
+      this.isNetwork = connection;
+      if (!connection) {
+        if (this.isRegionLoading) this.blockUIRegionInfo.stop();
+        else if (this.isAppLoading) this.blockUIAppSetting.stop();
+      } else {
+        if (this.isRegionLoading)
+          this.blockUIRegionInfo.start('Updating app setting...');
+        else if (this.isAppLoading)
+          this.blockUIAppSetting.start('Updating regional setting...');
+      }
+    });
   }
 
   ngOnInit() {
@@ -396,9 +418,14 @@ export class DashboardComponent implements OnInit {
     }
     this.showProvider = false;
   }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
       this.navIsFixed = true;
       this.isMidStick = false;
     } else {
@@ -811,100 +838,109 @@ export class DashboardComponent implements OnInit {
   }
   public singleLoading = false;
   updateRegionalInfo(data, type) {
-    this.singleLoading = true;
-    console.log(data, type);
-    let regionalSettingFormData = new FormData();
-    this.token = localStorage.getItem('token');
-    this.type = localStorage.getItem('tokenType');
-    var updateType = '';
-    if (type == 'url') {
-      console.log('url');
-      updateType = 'url';
-      console.log(data);
-    } else if (type == 'timezone') {
-      updateType = 'timezone';
-      console.log('timezone');
-      console.log(this.startT);
-      let start = {
-        hr: this.srangeHr,
-        min: this.srangeMin,
-        meridiem: this.sisSelected
-      };
-      this.item.operatingHour['start'] = start;
-      let end = {
-        hr: this.erangeHr,
-        min: this.erangeMin,
-        meridiem: this.eisSelected
-      };
-      this.item.operatingHour['end'] = end;
-    }
-    console.log('DATA~~~', data);
-    if (updateType == 'url') {
-      this.blockUIAppSetting.start('Updating regional setting...');
-      regionalSettingFormData.append('url', data.url);
-    } else {
-      this.blockUIRegionInfo.start('Updating app setting...');
-      regionalSettingFormData.append('name', data.name);
-      regionalSettingFormData.append('timezone', data.timezone);
-      regionalSettingFormData.append('url', data.url);
-      if (this.isLogoChanged == true) {
-        console.log('isLogoChanged~~~~', this.isLogoChanged);
-        var test = this.getLogo('imgURL');
-        console.log(test);
-        regionalSettingFormData.append('logo', this.getLogo('imgURL'));
+    if (this.isNetwork) {
+      this.singleLoading = true;
+      console.log(data, type);
+      console.log(window.navigator.onLine);
+      let regionalSettingFormData = new FormData();
+      this.token = localStorage.getItem('token');
+      this.type = localStorage.getItem('tokenType');
+      var updateType = '';
+      if (type == 'url') {
+        console.log('url');
+        updateType = 'url';
+        console.log(data);
+      } else if (type == 'timezone') {
+        updateType = 'timezone';
+        console.log('timezone');
+        console.log(this.startT);
+        let start = {
+          hr: this.srangeHr,
+          min: this.srangeMin,
+          meridiem: this.sisSelected
+        };
+        this.item.operatingHour['start'] = start;
+        let end = {
+          hr: this.erangeHr,
+          min: this.erangeMin,
+          meridiem: this.eisSelected
+        };
+        this.item.operatingHour['end'] = end;
+      }
+      console.log('DATA~~~', data);
+      if (updateType == 'url') {
+        this.blockUIAppSetting.start('Updating regional setting...');
+        this.isAppLoading = true;
+        regionalSettingFormData.append('url', data.url);
+      } else {
+        this.blockUIRegionInfo.start('Updating app setting...');
+        this.isRegionLoading = true;
+        regionalSettingFormData.append('name', data.name);
+        regionalSettingFormData.append('timezone', data.timezone);
+        regionalSettingFormData.append('url', data.url);
+        if (this.isLogoChanged == true) {
+          console.log('isLogoChanged~~~~', this.isLogoChanged);
+          var test = this.getLogo('imgURL');
+          console.log(test);
+          regionalSettingFormData.append('logo', this.getLogo('imgURL'));
+        }
+
+        console.log('isLogoChanged~~~~', data.operatingHour);
+
+        regionalSettingFormData.append(
+          'operatingHour',
+          JSON.stringify(data.operatingHour)
+        );
+        console.log('isLogoChanged~~~~', regionalSettingFormData);
+        regionalSettingFormData.append(
+          'notificationSettings',
+          JSON.stringify(data.notificationSettings)
+        );
+        console.log(
+          'zhadata',
+          JSON.parse(JSON.stringify(data.notificationSettings))
+        );
+
+        regionalSettingFormData.append('journalApprove', data.journalApprove);
       }
 
-      console.log('isLogoChanged~~~~', data.operatingHour);
-
-      regionalSettingFormData.append(
-        'operatingHour',
-        JSON.stringify(data.operatingHour)
-      );
-      console.log('isLogoChanged~~~~', regionalSettingFormData);
-      regionalSettingFormData.append(
-        'notificationSettings',
-        JSON.stringify(data.notificationSettings)
-      );
-      console.log(
-        'zhadata',
-        JSON.parse(JSON.stringify(data.notificationSettings))
-      );
-
-      regionalSettingFormData.append('journalApprove', data.journalApprove);
+      setTimeout(() => {
+        this._service
+          .updateRegionalInfo(
+            this.regionId,
+            regionalSettingFormData,
+            this.token,
+            this.type
+          )
+          .subscribe(
+            (res: any) => {
+              if (updateType == 'url') {
+                this.blockUIAppSetting.stop();
+                this.isAppLoading = false;
+              } else {
+                this.blockUIRegionInfo.stop();
+                this.isRegionLoading = false;
+              }
+              this.singleLoading = false;
+              this.toastr.success('Successfully Updated.');
+              console.log('~~~', res);
+              this.orgLogo = res.logo;
+              localStorage.setItem('timezone', this.item.timezone);
+              this.getAdministrator();
+              if (type == 'timezone') {
+                this.isEdit = false;
+              } else if (type == 'url') {
+                this.isUrlEdit = false;
+              }
+            },
+            err => {
+              console.log(err);
+            }
+          );
+      }, 100);
+    } else {
+      this.toastr.error('Network error. Try again');
     }
-
-    setTimeout(() => {
-      this._service
-        .updateRegionalInfo(
-          this.regionId,
-          regionalSettingFormData,
-          this.token,
-          this.type
-        )
-        .subscribe(
-          (res: any) => {
-            if (updateType == 'url') {
-              this.blockUIAppSetting.stop();
-            } else {
-              this.blockUIRegionInfo.stop();
-            }
-            this.singleLoading = false;
-            this.toastr.success('Successfully Updated.');
-            console.log('~~~', res);
-            this.orgLogo = res.logo;
-            localStorage.setItem('timezone', this.item.timezone);
-            this.getAdministrator();
-            if (type == 'timezone') {
-              this.isEdit = false;
-            } else if (type == 'url') {
-              this.isUrlEdit = false;
-            }
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }, 100);
   }
 
   cancelUpdate() {
@@ -977,15 +1013,19 @@ export class DashboardComponent implements OnInit {
   }
   getCurrency() {
     this.objectKeys = Object.keys;
-
+    console.warn(Object.keys);
     this.currency_symbol = currency;
     var key,
       keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
     var n = keys.length;
+    var i = 0;
     var newobj = {};
-    while (n--) {
-      key = keys[n];
+
+    while (i <= n - 1) {
+      key = keys[i];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
     }
   }
 

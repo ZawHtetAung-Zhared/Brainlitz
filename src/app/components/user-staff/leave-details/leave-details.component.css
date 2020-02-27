@@ -623,6 +623,7 @@ min-width: 40px;
   background: #ffffff;
   border-left: none;
   cursor: pointer;
+  padding: 0;
 }
 .leave-list-name {
   color: #2e3d4d;
@@ -872,7 +873,6 @@ span.bold-txt {
 span.leave-text {
   font-family: 'Inter-UI-SemiRegular', Arial, sans-serif;
 }
-
 p.left-txt {
   color: #009940;
   font-size: 16px;
@@ -1280,7 +1280,7 @@ p.left-txt {
 }
 .scroll-main-wrapper {
   /* overflow: overlay; */
-  max-height: 550px;
+  max-height: 640px;
   /* width: 50%; */
   flex-grow: 0.1;
 }
@@ -1353,7 +1353,11 @@ p.left-txt {
 @media screen and (max-height: 768px) {
   .main-openleave {
     max-height: 500px;
-    overflow: auto;
+    overflow: unset;
+  }
+  .scroll-main-wrapper,
+  .skip-lessons-exit {
+    max-height: 380px;
   }
 }
 

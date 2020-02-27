@@ -29,7 +29,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -200,18 +200,27 @@ export class ToolsComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
-    this.windowH = window.innerHeight;
-    this.isFixed = true;
-    if (window.pageYOffset > 81) {
-      this.isSticky = true;
-      this.isMidStick = false;
-    } else if (window.pageYOffset < 0) {
-      this.isFixed = false;
-    } else {
+    if ($('.modal-open')[0]) {
       this.isSticky = false;
-    }
+      this.isMidStick = false;
+    } else {
+      this.windowH = window.innerHeight;
+      this.isFixed = true;
+      if (window.pageYOffset > 81) {
+        this.isSticky = true;
+        this.isMidStick = false;
+        var element = document.getElementById('notibar2');
+        if (typeof element == 'undefined' || element == null) {
+          $('.mid-top').css({ 'padding-top': '0px' });
+        }
+      } else if (window.pageYOffset < 0) {
+        this.isFixed = false;
+      } else {
+        this.isSticky = false;
+      }
 
-    this.isMidStick = window.pageYOffset > 45 ? true : false;
+      this.isMidStick = window.pageYOffset > 45 ? true : false;
+    }
   }
 
   clickTab(type) {
@@ -276,15 +285,33 @@ export class ToolsComponent implements OnInit {
     }, 300);
   }
 
+  searchStart(e, type) {
+    if (e.keyCode == 13) {
+      console.log('Search start~~~~~~~');
+      this.searchForKeyword(e.target.value, type);
+    }
+  }
+
   changeSearch(searchWord, type) {
-    console.log(searchWord);
-    console.log(this.active);
     this.checkActive = true;
     this.isSelected = false;
     this.selectedID = this.isSelected == false ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = searchWord.length == 0 ? undefined : this.selectedID;
     this.userCount = searchWord.length == 0 ? 0 : 0;
+    // this.searchForKeyword(searchWord,type)
+    if (searchWord.length == 0) {
+      console.log('searchWord length 0');
+      this.searchForKeyword(searchWord, type);
+    }
+  }
+
+  searchForKeyword(searchWord, type) {
+    console.log(
+      'searchWord.length & searchWord',
+      searchWord.length,
+      searchWord
+    );
     if (type == 'user') {
       if (searchWord.length != 0) {
         this._service
@@ -342,13 +369,6 @@ export class ToolsComponent implements OnInit {
           );
       }
     } else if (type == 'category') {
-      // <<<<<<< HEAD
-      //       this._service.getSearchCategory(this.regionID, searchWord, this.locationId)
-      //       // this._service.getSearchCategory(this.regionID, searchWord, 'all', 20, 0, '')
-      //       .subscribe((res:any) => {
-      //         console.log(res);
-      //         this.categoryLists = res;
-      // =======
       if (searchWord.length != 0) {
         this._service
           .getSearchCategory(this.regionID, searchWord, this.locationId)
@@ -356,7 +376,6 @@ export class ToolsComponent implements OnInit {
             (res: any) => {
               console.log(res);
               this.categoryLists = res;
-              // >>>>>>> 7f7d5ab9199d560503b054b5130f4612d80b725d
             },
             err => {
               console.log(err);

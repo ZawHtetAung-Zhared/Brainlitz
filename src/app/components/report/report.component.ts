@@ -6,7 +6,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 declare var $: any;
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-report',
@@ -109,6 +109,10 @@ export class ReportComponent implements OnInit {
       console.log('true');
       this.navIsFixed = true;
       this.isMidStick = false;
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
     } else {
       console.log('false');
       this.navIsFixed = false;

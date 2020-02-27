@@ -14,6 +14,7 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalSecondary } from 'ng-bootstrap-modal-stack';
 import {
   startOfDay,
   endOfDay,
@@ -135,6 +136,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
+    private modalSecondaryService: NgbModalSecondary,
     private datePipe: DatePipe,
     private toastr: ToastsManager,
     private leaveService: LeaveService
@@ -184,6 +186,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   getUserLeaves(userId) {
+    console.warn(userId, 'id');
+    console.warn(this.leaveLogsLoading);
     this.totalLeaveDay = 0;
     // this.showLoading.emit(false);
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
@@ -265,6 +269,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    console.warn('cancel lesson', skipCourses);
+    console.warn(this.skipCourseArr, 'skip course');
     this.cancelReason = '';
     this.giveMakeUp = false;
     this.cancelClassArray = [];
@@ -290,9 +296,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         });
       });
     }
-
+    console.warn(totalCount, 'total ');
     this.studentCount = totalCount;
-    this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
+    this.cancelModalReference = this.modalSecondaryService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -759,7 +765,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         conTainer1.style.overflow = 'hidden';
         mainWrapper.style.overflow = 'hidden';
       }
-    }, 30);
+    }, 20);
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
@@ -782,6 +788,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
+    this.modalReference.close();
+    this.leaveLogsLoading = true;
     let regionId = localStorage.getItem('regionId');
     let leaveObj = {};
     leaveObj = {
@@ -891,8 +899,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   //end leave modal
 
   //for assign relief and cancel class UI
+
   assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
-    this.reliefModalReference = this.cancelClassModalService.open(modalName, {
+    this.reliefModalReference = this.modalSecondaryService.open(modalName, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -950,6 +959,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
           console.log(res);
           this.searchTeacherLists = res;
         });
+    }
+  }
+  searchMethod_input(keyword) {
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
     }
   }
 

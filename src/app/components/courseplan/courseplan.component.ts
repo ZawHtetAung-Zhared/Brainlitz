@@ -970,6 +970,11 @@ export class CourseplanComponent implements OnInit {
         break;
     }
   }
+  changeSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.changeSearch(keyword, 'apg');
+    }
+  }
 
   assessmentPlanSearch(keyword) {
     this._service

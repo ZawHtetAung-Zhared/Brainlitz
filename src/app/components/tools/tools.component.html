@@ -172,21 +172,21 @@
 								<span class="location-name">{{locationName}}</span>
 							</div>
 							</div> -->
-      <div>
-        <h2
-          style="margin-right: 5px;"
-          class="title-heading margin-heading pull-left"
-        >
+      <div class="d-flex mt-3">
+        <h2 style="margin-right: 5px;" class="title-heading  pull-left">
           Send notification
         </h2>
-        <span
-          class="location-name"
-          [ngStyle]="{
-            color: gtxtColor,
-            background: gbgColor
-          }"
-          >{{ locationName }}</span
-        >
+        <div class="mt-2">
+          <label
+            class="location-name"
+            [ngStyle]="{
+              color: gtxtColor,
+              background: gbgColor
+            }"
+            >{{ locationName }}</label
+          >
+        </div>
+
         <!-- [ngStyle]="{
             color: gtxtColor,
             background: gbgColor
@@ -310,6 +310,7 @@
                 (focus)="focusSearch($event, 'category')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'category')"
+                (keyup)="searchStart($event, 'category')"
                 autocomplete="off"
               />
               <!-- <input
@@ -352,6 +353,7 @@
                 (focus)="focusSearch($event, 'course')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'course')"
+                (keyup)="searchStart($event, 'course')"
                 autocomplete="off"
               />
               <!-- <input
@@ -395,6 +397,7 @@
                 (focus)="focusSearch($event, 'user')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'user')"
+                (keyup)="searchStart($event, 'user')"
                 autocomplete="off"
               />
               <!-- <input
@@ -693,7 +696,7 @@
       </div>
     </div>
     <div
-      class="d-flex flex-column main-wrapper w-100 h-100 app-xxx align-items-center"
+      class="d-flex flex-column main-wrapper w-100 h-100"
       *ngIf="notiType == 'apg'"
     >
       <app-apg class="w-100 control-apg"></app-apg>

@@ -4,12 +4,12 @@
       <div class="d-flex">
         <div class="reschedule-img-div">
           <div class="reschedule-img-wrap">
-            <img src="{{ selectedCustomer.profilePic }}" />
+            <img src="{{ selectedCustomer?.profilePic }}" />
           </div>
         </div>
         <div class="reschedule-name-div">
-          <p class="reschedule-name">{{ selectedCustomer.preferredName }}</p>
-          <label class="reschedule-email">{{ selectedCustomer.email }}</label>
+          <p class="reschedule-name">{{ selectedCustomer?.preferredName }}</p>
+          <label class="reschedule-email">{{ selectedCustomer?.email }}</label>
         </div>
       </div>
     </div>

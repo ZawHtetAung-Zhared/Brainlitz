@@ -11,7 +11,7 @@
 </div> -->
 <div
   id="mainapg"
-  class="main-wrapper pad-bottom"
+  class=" pad-bottom"
   *ngIf="
     ismodule == false &&
     iscreate == false &&
@@ -69,7 +69,8 @@
       type="search"
       placeholder="Search tracking module"
       id="example-search-input"
-      (input)="apgListSearch($event.target.value, 'APG', '', '')"
+      (input)="apgListSearch2($event.target.value, 'APG', '', '')"
+      (keyup.enter)="apgListSearch($event.target.value, 'APG', '', '')"
       autocomplete="off"
     />
     <!-- <input 
@@ -106,6 +107,7 @@
       </button>
     </div>
   </div>
+
   <div class="apg-wrapper card-columns">
     <div class="card" *ngFor="let apg of apgList; let i = index">
       <div
@@ -133,8 +135,6 @@
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
-              <!-- {{ apg.module.name }} -->
-
               {{
                 apg.module.name.toLowerCase() == 'user grading'
                   ? 'Grade'
@@ -364,15 +364,14 @@
                 ><img src="../../../assets/images/shared.png " alt=""
               /></span>
             </div>
-            <div *ngIf="apg.share.status == true">
-              <ul class="bullet-list-style">
+            <div *ngIf="apg.share.status == true" class="circle-apg">
+              <!-- <ul class="bullet-list-style">
                 <li></li>
-              </ul>
+              </ul> -->
             </div>
             <div>
               <button
                 class="apg-share remove-outline"
-                [ngClass]="{ 'apg-share-padding': apg.share.status == true }"
                 (click)="apgPublicShare(apg._id)"
               >
                 Share
@@ -1529,7 +1528,8 @@
             type="search"
             placeholder="Search tracking module"
             id="template-search-input"
-            (input)="sharedApgSearch($event.target.value, '', '')"
+            (input)="sharedApgSearch2($event.target.value, '', '')"
+            (keyup.enter)="sharedApgSearch($event.target.value, '', '')"
             autocomplete="off"
           />
           <span class="input-group-append">

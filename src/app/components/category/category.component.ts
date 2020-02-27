@@ -152,6 +152,7 @@ export class CategoryComponent implements OnInit {
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
     localStorage.setItem('categoryName', name);
+
     setTimeout(() => {
       console.log('--waiting--');
       this._service.gotoplan();

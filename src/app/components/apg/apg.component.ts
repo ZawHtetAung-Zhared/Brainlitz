@@ -339,6 +339,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         document.addEventListener('mousemove', function(event) {
           // console.log(_this.stillDrag)
         });
+        document.addEventListener('touchmove', function(event) {
+          // event.preventDefault();
+          // $('.requirements-wrapper').css('overflow', 'hidden');
+        });
       }
       // this.msg = `Dragging the ${value[1].innerText}!`;
     });
@@ -372,7 +376,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           .children('.selection-wrapper')
           .children('.img-wrapper');
         $(clone).height(70);
-        $(clone).width(500);
+        $(clone).width(400);
         $(clone)
           .children('.selection-wrapper')
           .children('.data-close')
@@ -422,6 +426,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('CAncel');
         this.dragOut = false;
         console.log('Drag', this.dragEle, 'drop', this.dropEle);
+        // $('.requirements-wrapper').css('overflow', '');
         // if(this.dragEle !== [] && this.dropEle !== []){
         //   var temp = this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]].name;
         //   console.log(this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]])
@@ -443,6 +448,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log('------>>', this.templateAccessPointGroup);
       this.stillDrag = false;
       this.dragOut = false;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
       console.log(name === 'COLUMNS');
@@ -450,6 +456,27 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.stillDrag = true;
         document.addEventListener(
           'mousemove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.requirements-wrapper')[0];
+              if ($('.gu-mirror').position() && container) {
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 10) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 10) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+        document.addEventListener(
+          'touchmove',
           (this.testFunct = () => {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
@@ -477,16 +504,48 @@ export class ApgComponent implements OnInit, OnDestroy {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
               var container = $(el).parents('.data-wrapper')[0];
-              var windowHeight = $(window).height();
+              // var windowHeight = $(window).height();
+              if ($('.gu-mirror').position() && container) {
+                // var y = $('.gu-mirror').position().top;
+                // if (y > 900) {
+                //   var x = 5;
+                //   window.scrollBy(0, x);
+                // } else if (y < 900) {
+                //   console.log('s');
+                //   var z = -3;
+                //   window.scrollBy(0, z);
+                // }
+
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 200) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.data-wrapper')[0];
               if ($('.gu-mirror').position() && container) {
                 var y = $('.gu-mirror').position().top;
-                if (y > 900) {
-                  var x = 5;
-                  window.scrollBy(0, x);
-                } else if (y < 900) {
-                  console.log('s');
-                  var z = -3;
-                  window.scrollBy(0, z);
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 320) {
+                  container.scrollTop -= 5;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 5;
                 }
               }
             }
@@ -567,7 +626,34 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           })
         );
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            if (stillDrag) {
+              var y = $('.gu-mirror').position().top;
+              var container = $(el).parents('.requirement-inner-box');
+              if (container.length > 0) {
+                var ddd = container[0].getBoundingClientRect().top + 236;
+                var containerTop = container[0].getBoundingClientRect().top;
+                if (ddd - y <= 70) {
+                  var ele = container[0];
+                  ele.scrollTop += 20;
+                  if (ele.scrollHeight == ele.scrollTop + container.height()) {
+                  }
+                } else if (y - containerTop <= 20) {
+                  var ele = container[0];
+                  ele.scrollTop -= 20;
+                  if (ele.scrollTop == 0) {
+                  }
+                }
+              }
+            }
+          })
+        );
         document.addEventListener('mouseup', function(event) {
+          stillDrag = false;
+        });
+        document.addEventListener('touchend', function(event) {
           stillDrag = false;
         });
       }
@@ -579,6 +665,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log('out now');
       this.dragOut = true;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
       $(clone).css('top', $('#clone').height() + 'px');
@@ -2332,6 +2419,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.getAllTemplate(20, skip);
     }
   }
+
+  sharedApgSearch2(keyword, limit, skip) {
+    if (keyword.length == 0) {
+      this.sharedApgSearch(keyword, limit, skip);
+    }
+  }
+
   sharedApgSearch(keyword, limit, skip) {
     this.keyword = keyword;
     if (skip == '' && limit == '') {
@@ -2367,6 +2461,11 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.getAllTemplate(20, 0);
       this.isSearch = false;
       // }, 100);
+    }
+  }
+  apgListSearch2(searchWord, type, limit, skip) {
+    if (searchWord.length == 0) {
+      this.apgListSearch(searchWord, type, limit, skip);
     }
   }
 
@@ -2699,7 +2798,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.valueArray = [{ name: '' }];
       console.log(this.valueArray);
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else if (type == 'NUMBER') {
       // console.log(this.optionsArray)
@@ -2707,7 +2806,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
       // this.optionsArray = ['']
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else {
       // this.optionsArray = ['']
