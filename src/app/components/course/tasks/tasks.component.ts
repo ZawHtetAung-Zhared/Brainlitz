@@ -3,6 +3,7 @@ import { CourseComponent } from './../course.component';
 import { appService } from './../../../service/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +14,7 @@ export class TasksComponent implements OnInit {
   constructor(
     private router: Router,
     private _service: appService,
+    public toastr: ToastrService,
     private route: ActivatedRoute
   ) {}
 
@@ -98,7 +100,8 @@ export class TasksComponent implements OnInit {
       },
       err => {
         console.log(err);
-        this.loading = false;
+        this.toastr.error('task error');
+        //this.loading = false;
       }
     );
   }
