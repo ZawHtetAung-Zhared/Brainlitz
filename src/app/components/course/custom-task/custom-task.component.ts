@@ -449,6 +449,7 @@ export class CustomTaskComponent implements OnInit {
   createAssign() {
     // this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
+    delete this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
     this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
