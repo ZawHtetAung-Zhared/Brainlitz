@@ -751,7 +751,7 @@ export class OverviewComponent implements OnInit {
           this.selectedAttandance = this.lessonList[this.attandanceIndex];
           console.log(this.lessonList);
           console.log(this.attandanceIndex, 'dateindex');
-          console.log(this.checkIndexforAttandance(this.lessonList));
+          // console.log(this.checkIndexforAttandance(this.lessonList));
 
           // this.lessonList.sort(function(a, b) {
           //   return (
@@ -776,23 +776,40 @@ export class OverviewComponent implements OnInit {
   checkIndexforAttandance(arr) {
     var nearest = Infinity;
     var winner = -1;
-
+    var negatives = [];
+    var positives = [];
     arr.forEach(function(date, index) {
       let checkDate = date.lessonStartDate;
       if (new Date(checkDate) instanceof Date)
         checkDate = new Date(checkDate).getTime();
 
       var distance = Math.abs(checkDate - new Date().getTime());
-      console.log(new Date(distance));
-      console.log(new Date(nearest));
-      if (distance < nearest) {
-        nearest = distance;
-        winner = index;
+      console.log('Today', new Date().toISOString());
+      console.log(
+        'No abs',
+        date.lessonStartDate,
+        ' $$$ ',
+        checkDate - new Date().getTime()
+      );
+      if (checkDate - new Date().getTime() < 0) {
+        negatives.push(checkDate - new Date().getTime());
       }
-      console.log(new Date(distance));
-      console.log(new Date(nearest));
+      if (checkDate - new Date().getTime() > 0) {
+        positives.push(checkDate - new Date().getTime());
+      }
+      // if (distance < nearest) {
+      //   nearest = distance;
+      //   winner = index;
+      // }
+      if (negatives.length != 0) {
+        winner = negatives.length - 1;
+      } else {
+        winner = positives[0];
+      }
+
       console.log(winner);
     });
+    console.log('negatives', negatives, 'positives', positives);
     return winner;
   }
 
