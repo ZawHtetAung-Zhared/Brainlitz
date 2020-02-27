@@ -3,6 +3,7 @@ import { CourseComponent } from './../course.component';
 import { appService } from './../../../service/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +14,7 @@ export class TasksComponent implements OnInit {
   constructor(
     private router: Router,
     private _service: appService,
+    public toastr: ToastrService,
     private route: ActivatedRoute
   ) {}
 
@@ -85,9 +87,8 @@ export class TasksComponent implements OnInit {
   }
 
   getAllTasksInfo() {
-    this._service
-      .getAllTasksInfo(this.regionId, this.courseId)
-      .subscribe((res: any) => {
+    this._service.getAllTasksInfo(this.regionId, this.courseId).subscribe(
+      (res: any) => {
         this.allTasks = res;
         console.log(typeof this.allTasks);
         console.log(this.allTasks.tasks);
@@ -96,6 +97,12 @@ export class TasksComponent implements OnInit {
         setTimeout(() => {
           this.loading = false;
         }, 500);
-      });
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('task error');
+        //this.loading = false;
+      }
+    );
   }
 }
