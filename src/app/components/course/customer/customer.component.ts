@@ -580,6 +580,12 @@ export class CustomerComponent implements OnInit {
   invoicesOfCourse: any = [];
   isFlexyInvoice: boolean = false;
 
+  viewSingleInvoice(id) {
+    console.log('id', id, this.activeUserTab);
+    this.invoiceID2 = id;
+    this.isFlexyInvoice = false;
+  }
+
   showTabsModal(modal, type, data) {
     this.isFlexyInvoice = false;
     console.log('show Tabs Modal', data);
