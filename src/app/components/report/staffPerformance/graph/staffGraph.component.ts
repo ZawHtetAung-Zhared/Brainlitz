@@ -92,5 +92,10 @@ export class StaffReportGraph implements OnInit {
     var elem = document.getElementById(this.reportItem.id);
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 }
