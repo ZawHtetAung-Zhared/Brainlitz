@@ -2397,6 +2397,7 @@ export class AttendanceComponent implements OnInit {
           this.isGlobal = false;
           this.disableCancel = true;
           this.getCourseDetail(this.courseId);
+          this.getAttendance();
           this.studentArray = [];
           this.modalClose();
           // Close Dialog box
