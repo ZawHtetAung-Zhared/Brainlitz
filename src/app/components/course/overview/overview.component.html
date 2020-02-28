@@ -249,6 +249,18 @@
     </div>
     <div class="cardfoot" style="height: 20%;">
       <button
+        *ngIf="total_no_of_seats == 0"
+        class="detail-btn"
+        (click)="enrollCustomer(courseId)"
+        [ngClass]="{
+          white: !on
+        }"
+      >
+        <!-- (click)="toggle()" -->
+        Enroll customer
+      </button>
+      <button
+        *ngIf="total_no_of_seats != 0"
         class="detail-btn"
         (click)="enrollCustomer(courseId)"
         [ngClass]="{
