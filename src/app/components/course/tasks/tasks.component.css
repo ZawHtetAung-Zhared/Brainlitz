@@ -56,6 +56,15 @@ body {
   color: #5c6773;
 }
 
+.task-length {
+  font-style: normal;
+  font-size: 17px;
+  line-height: 28px;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
 .btn-create {
   font-family: 'Inter-UI-Light', 'Arial', sans-serif;
   color: #fff;
