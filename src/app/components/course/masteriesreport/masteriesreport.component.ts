@@ -42,7 +42,7 @@ export class MasteriesreportComponent implements OnInit {
             params.seriesName +
             ' : ' +
             params.value +
-            '</div>';
+            '% </div>';
           return value;
         }
       },
@@ -109,7 +109,7 @@ export class MasteriesreportComponent implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'Not started',
-          'In conslusive',
+          'Inconclusive',
           'Mastered w/ difficulties',
           'Mastered w/ ease'
         ]
@@ -145,7 +145,7 @@ export class MasteriesreportComponent implements OnInit {
           data: []
         },
         {
-          name: 'In conslusive',
+          name: 'Inconclusive',
           type: 'bar',
           stack: 'energy',
           itemStyle: {
@@ -242,6 +242,16 @@ export class MasteriesreportComponent implements OnInit {
         if (res.data.masteryReport) {
           this.noData = false;
           this.masteriesReports = res.data.masteryReport;
+          this.masteriesReports.forEach(element => {
+            if (element.masteryCountInPercentage) {
+              var mastered =
+                element.masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
+                element.masteryCountInPercentage.MASTERED_WITH_EASE;
+              element.masteryCountInPercentage.MASTERED =
+                Math.round((mastered + Number.EPSILON) * 100) / 100;
+            }
+          });
+          console.log(this.masteriesReports);
           setTimeout(() => {
             for (var i = 0; i < this.masteriesReports.length; i++) {
               this.reportItems = this.masteriesReports[i].masteries;

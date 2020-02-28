@@ -13,15 +13,20 @@
               [ngClass]="{ stickywrap: navIsFixed == true }"
             >
               <div class="mr-auto p-2 pl-0 pb-0">
-                <div class="back-modal" (click)="backCourseDetail()">
+                <button
+                  class="btn back-modal"
+                  (click)="backCourseDetail()"
+                  [disabled]="loading"
+                >
                   <i class="fa fa-angle-left"></i>
                   <p>{{ courseDetail?.name }}</p>
-                </div>
+                </button>
               </div>
               <div class="ml-auto">
                 <button
                   type="button"
                   class="btn sticky-cancel"
+                  [disabled]="loading"
                   (click)="backCourseDetail()"
                 >
                   Cancel
@@ -706,6 +711,7 @@
     *ngIf="isCustom"
     [(courseDetail)]="courseDetail"
     [(selectStandard)]="createassignTask.standard"
+    (backAssign)="backFromCustom($event)"
   >
   </custom-task>
 

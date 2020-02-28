@@ -5,7 +5,7 @@
       <button
         *ngIf="courseDemo.assignTeacher != ''"
         type="button"
-        class="btn btn-create"
+        class="btn btn-create body-m"
         (click)="
           addUserModal('teacher', userModal, 'inside', '', detailLists.type)
         "
@@ -64,7 +64,7 @@
       <button
         *ngIf="courseDemo.assignTeacher != ''"
         type="button"
-        class="btn btn-create"
+        class="btn btn-create body-m"
         (click)="
           addUserModal('staff', userModal, 'inside', '', detailLists.type)
         "
@@ -174,7 +174,7 @@
           <p>0/unlimited Customer</p>
         </div>
         <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length > 0">
-          <p class="seat-text-wrapper">
+          <p class="seat-text-wrapper body-l">
             Total:
             <span *ngIf="detailLists?.seat_left !== null">
               {{ pplLists?.CUSTOMER?.length }}/{{
@@ -192,7 +192,7 @@
       <button
         *ngIf="courseDemo.assignStudent != ''"
         type="button"
-        class="btn"
+        class="btn body-m"
         [ngClass]="pplLists.CUSTOMER.length < 1 ? 'btn-create' : 'btn-normal'"
         (click)="
           addUserModal(
@@ -206,7 +206,7 @@
         style="height:40px;"
         [disabled]="detailLists.seat_left == 0 && this.courseType !== 'FLEXY'"
       >
-        Enroll class
+        Enroll customer
       </button>
     </div>
     <div *ngIf="loading == true" class="row ">
@@ -394,7 +394,7 @@
       class="no-customer body-xl medium-font"
       *ngIf="pplLists?.CUSTOMER?.length <= 0 && loading == false"
     >
-      <span class="">
+      <span class="body-xl">
         There is no customer in this course. Must enroll customers to this
         course.
       </span>

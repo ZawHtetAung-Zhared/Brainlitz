@@ -232,14 +232,9 @@
 .sample-txt {
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
   font-style: normal;
-  font-weight: bold;
-  line-height: 28px;
   color: #5c6773;
 }
 
-.f-20 {
-  font-size: 20px;
-}
-.f17 {
-  font-size: 17px;
+.hide {
+  display: none !important;
 }

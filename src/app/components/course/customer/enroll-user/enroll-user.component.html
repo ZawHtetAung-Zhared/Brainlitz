@@ -76,11 +76,26 @@
                   <img src="{{ user.profilePic }}" />
                 </div>
                 <div
+                  *ngIf="user.preferredName !== ''"
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
                   <h4>
                     {{
-                      user.preferredName == '' ? user.email : user.preferredName
+                      user.preferredName.length > 11
+                        ? (user.preferredName | slice: 0:11) + '...'
+                        : user.preferredName
+                    }}
+                  </h4>
+                </div>
+                <div
+                  *ngIf="user.preferredName == ''"
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4>
+                    {{
+                      user.email.length > 11
+                        ? (user.email | slice: 0:11) + '...'
+                        : user.email
                     }}
                   </h4>
                 </div>
@@ -314,11 +329,26 @@
                 <img src="{{ user.profilePic }}" />
               </div>
               <div
+                *ngIf="user.preferredName !== ''"
                 class="single-user-info d-flex flex-column justify-content-center"
               >
                 <h4>
                   {{
-                    user.preferredName == '' ? user.email : user.preferredName
+                    user.preferredName.length > 11
+                      ? (user.preferredName | slice: 0:11) + '...'
+                      : user.preferredName
+                  }}
+                </h4>
+              </div>
+              <div
+                *ngIf="user.preferredName == ''"
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4>
+                  {{
+                    user.email.length > 11
+                      ? (user.email | slice: 0:11) + '...'
+                      : user.email
                   }}
                 </h4>
               </div>

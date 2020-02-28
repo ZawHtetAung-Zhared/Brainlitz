@@ -72,4 +72,26 @@
   box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   width: 121px;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.struggle {
+  color: #bf2926;
+  padding-bottom: 20px;
+}
+.fine {
+  color: #d4d5d6;
+  padding-bottom: 20px;
+}
+.mastered {
+  color: #4fdd00;
+  padding-bottom: 20px;
+}
+.notstarted {
+  color: #d3d3d3;
+  padding-bottom: 20px;
+}
+.w-80 {
+  width: 50%;
 }
