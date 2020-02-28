@@ -42,7 +42,7 @@ export class MasteriesreportComponent implements OnInit {
             params.seriesName +
             ' : ' +
             params.value +
-            '</div>';
+            '% </div>';
           return value;
         }
       },
@@ -243,11 +243,13 @@ export class MasteriesreportComponent implements OnInit {
           this.noData = false;
           this.masteriesReports = res.data.masteryReport;
           this.masteriesReports.forEach(element => {
-            var mastered =
-              element.masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
-              element.masteryCountInPercentage.MASTERED_WITH_EASE;
-            element.masteryCountInPercentage.MASTERED =
-              Math.round((mastered + Number.EPSILON) * 100) / 100;
+            if (element.masteryCountInPercentage) {
+              var mastered =
+                element.masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
+                element.masteryCountInPercentage.MASTERED_WITH_EASE;
+              element.masteryCountInPercentage.MASTERED =
+                Math.round((mastered + Number.EPSILON) * 100) / 100;
+            }
           });
           console.log(this.masteriesReports);
           setTimeout(() => {

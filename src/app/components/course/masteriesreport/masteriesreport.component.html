@@ -28,23 +28,23 @@
             >
               View detail
             </button>
-            <div class="d-flex mt-4">
+            <div *ngIf="report.masteryCountInPercentage" class="d-flex mt-4">
               <div class="d-flex flex-column w-50">
-                <div class="d-flex flex-column struggle">
+                <div class="d-flex flex-column struggle body-m">
                   <span>{{ report.masteryCountInPercentage.STRUGGLE }}%</span>
                   <span> struggling</span>
                 </div>
-                <div class="d-flex flex-column fine">
-                  <span>{{ report.masteryCountInPercentage.INPROGRESS }}%</span>
-                  <span> doing fine</span>
-                </div>
-              </div>
-              <div class="d-flex flex-column w-50">
-                <div class="d-flex flex-column mastered">
+                <div class="d-flex flex-column mastered body-m">
                   <span>{{ report.masteryCountInPercentage.MASTERED }}%</span>
                   <span> mastered</span>
                 </div>
-                <div class="d-flex flex-column notstarted">
+              </div>
+              <div class="d-flex flex-column w-50">
+                <div class="d-flex flex-column fine body-m">
+                  <span>{{ report.masteryCountInPercentage.INPROGRESS }}%</span>
+                  <span> doing fine</span>
+                </div>
+                <div class="d-flex flex-column notstarted body-m">
                   <span>{{ report.masteryCountInPercentage.NEW }}%</span>
                   <span> not started</span>
                 </div>

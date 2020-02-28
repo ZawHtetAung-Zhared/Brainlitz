@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
@@ -12,6 +19,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { parse } from 'querystring';
 
 declare var $: any;
 
@@ -39,7 +47,7 @@ export class CustomTaskComponent implements OnInit {
   // get data from parent component
   @Input() courseDetail;
   @Input() selectStandard;
-
+  @Output() backAssign: EventEmitter<boolean> = new EventEmitter();
   // lists && obj
   public customObj: any = {};
   public scheduletemplateList: any = [];
@@ -243,6 +251,10 @@ export class CustomTaskComponent implements OnInit {
           )
         : this.showFormat
     );
+
+    console.log(this.createCustom.template.tasks[0].taskStartDate);
+    console.log(this.createCustom.template.tasks[0].taskEndDate);
+
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
     this._service.getassignMode(this.createCustom.taskType.id).subscribe(
@@ -456,7 +468,9 @@ export class CustomTaskComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+          this._route.navigateByUrl(
+            'coursedetail/' + this.courseDetail._id + '/tasks'
+          );
           // this.loading = false;
           this.toastr.success('Success Custom Task Create');
         },
@@ -466,6 +480,11 @@ export class CustomTaskComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  backtoassignTask() {
+    if (this.courseDetail.sparkWerkz.standardSelected) this.backCourseDetail();
+    else this.backAssign.emit(false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -483,7 +502,13 @@ export class CustomTaskComponent implements OnInit {
 
   changeObjDateFormat(date) {
     console.log(date);
-    let sdate = date.year + '-' + date.month + '-' + date.day;
+    let sdate =
+      date.year +
+      '-' +
+      (date.month >= 10 ? date.month : '0' + date.month) +
+      '-' +
+      (date.day >= 10 ? date.day : '0' + date.day);
+    console.log(sdate);
     return new Date(sdate).toISOString();
   }
 

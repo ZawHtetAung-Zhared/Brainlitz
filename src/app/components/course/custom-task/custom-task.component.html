@@ -256,7 +256,7 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backtoassignTask()">
+              <div class="back-modal medium" (click)="backToPrevStep(1, 2)">
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
@@ -644,6 +644,7 @@
                                 (createCustom?.template.tasks)[0].taskEndDate
                                   | date: 'dd MMM yyyy'
                               }}"
+                              [minDate]="taskStartDate"
                               [(ngModel)]="taskEndDate"
                               readonly
                             />
