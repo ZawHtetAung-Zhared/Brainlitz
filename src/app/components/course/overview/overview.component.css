@@ -92,11 +92,11 @@
 }
 .cardhead {
   height: 20%;
-  padding: 15px;
+  padding: 25px 35px 0px 35px;
 }
 .cardbody {
   height: 50%;
-  padding: 25px 15px 25px 15px;
+  padding: 25px 35px 25px 35px;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -151,7 +151,7 @@
 
 .task-div {
   position: relative;
-  width: 45%;
+  /* width: 45%; */
   margin-right: 20px;
   font-style: normal;
   font-weight: normal;
@@ -213,11 +213,12 @@
   top: 5px; */
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-left: 10px;
-  padding-top: 5px;
+  /* padding-top: 5px; */
 }
 .task-status {
-  position: relative;
-  left: 45px;
+  /* position: relative;
+  left: 45px; */
+  align-items: center;
 }
 .present,
 .absent,
@@ -512,6 +513,9 @@
 .c-enroll {
   color: #363f4d !important;
 }
+.c-enroll span {
+  color: #5c6773;
+}
 .nodisplay {
   display: none !important;
 }
@@ -537,6 +541,7 @@
 }
 .percentage h4 {
   font-size: 17px;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .struggle {
   color: #2d5e9e;
