@@ -35,13 +35,13 @@
           class="mt-4 d-flex flex-column"
         >
           <div class="no-circle">{{ i + 1 }}</div>
-          <div class="mastery-body mb-4">
+          <div class="mastery-body mb-4 pr-2">
             <!-- {{ challenge.descriptionStudent }} -->
             {{ challenge.infoForEducator }}
             <span>
               <img
                 src="./assets/icons/mastery-question.svg"
-                class="pr-0 pl-2 btn"
+                class="p-0 btn"
                 (click)="openModal(challenge.masteryId)"
               />
             </span>

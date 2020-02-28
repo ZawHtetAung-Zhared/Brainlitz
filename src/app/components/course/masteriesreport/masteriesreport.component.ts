@@ -47,6 +47,7 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       grid: {
+        top: 30,
         left: 50
       },
       textStyle: {
@@ -202,9 +203,9 @@ export class MasteriesreportComponent implements OnInit {
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
     if (this.reportItems.length > 10)
-      elem.style.height = this.reportItems.length * 40 + 'px';
-    else if (this.reportItems.length > 5)
       elem.style.height = this.reportItems.length * 50 + 'px';
+    else if (this.reportItems.length >= 5)
+      elem.style.height = this.reportItems.length * 60 + 'px';
     else elem.style.height = this.reportItems.length * 70 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
