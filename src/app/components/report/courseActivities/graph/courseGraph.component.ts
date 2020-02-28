@@ -159,6 +159,11 @@ export class CourseActivitiesReportGraph implements OnInit {
     elem.style.height = this.reportItems.length * 125 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
   ngOnInit() {}
 }

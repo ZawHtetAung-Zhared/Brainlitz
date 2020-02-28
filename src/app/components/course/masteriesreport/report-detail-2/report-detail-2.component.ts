@@ -23,6 +23,8 @@ export class ReportDetail2Component implements OnInit {
   echarts: any;
   reportItems: any;
   masteriesReports: any;
+  public loadingDetail: boolean = true;
+  public loadingQuestion: boolean = true;
   public seriesData: any = [
     {
       type: 'bar',
@@ -56,7 +58,7 @@ export class ReportDetail2Component implements OnInit {
       data: []
     },
     {
-      name: 'In conslusive',
+      name: 'Inconclusive',
       type: 'bar',
       stack: 'energy',
       barWidth: '50%',
@@ -103,10 +105,13 @@ export class ReportDetail2Component implements OnInit {
           this.challengeData = res.data.masteryReport;
           // this.challengeData = Data.data.masteryReport;
           setTimeout(() => {
-            for (var i = 0; i < this.challengeData.masteries.length; i++) {
-              this.setupOption(this.challengeData.masteries[i]);
-            }
-          }, 200);
+            this.loadingDetail = false;
+            setTimeout(() => {
+              for (var i = 0; i < this.challengeData.masteries.length; i++) {
+                this.setupOption(this.challengeData.masteries[i]);
+              }
+            }, 100);
+          }, 1000);
         },
         err => {
           console.log(err);
@@ -207,7 +212,6 @@ export class ReportDetail2Component implements OnInit {
   }
 
   cancelModal() {
-    console.log('....');
     this.modalReference.close();
   }
 
@@ -220,6 +224,7 @@ export class ReportDetail2Component implements OnInit {
     });
     this.setupQuiz();
     setTimeout(() => {
+      this.loadingQuestion = false;
       this.setupAnswer();
     }, 200);
   }
