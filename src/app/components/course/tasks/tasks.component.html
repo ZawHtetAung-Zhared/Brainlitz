@@ -1,11 +1,14 @@
 <div class="d-flex justify-content-between mt-3">
-  <div class="task-header">
-    <span class="title-task">Tasks</span>
+  <div class="task-header-class">
+    <span class="title-task task-header">Tasks</span>
     <span class="spaninline">
       <!-- <p class="m-0">SW</p> -->
       <img _ngcontent-c5="" src="./assets/img/tiny-brainlitz.svg" />
     </span>
     <br />
+    <span class="task-length">{{ tasks.length }}</span>
+    <span class="task-length" *ngIf="tasks.length > 1">Tasks</span>
+    <span class="task-length" *ngIf="tasks.length <= 1">Task</span>
   </div>
   <div>
     <button
@@ -248,3 +251,4 @@
     </div>
   </div>
 </div>
+<!-- API Integration -->
