@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
@@ -39,7 +46,7 @@ export class CustomTaskComponent implements OnInit {
   // get data from parent component
   @Input() courseDetail;
   @Input() selectStandard;
-
+  @Output() backAssign: EventEmitter<boolean> = new EventEmitter();
   // lists && obj
   public customObj: any = {};
   public scheduletemplateList: any = [];
@@ -456,7 +463,9 @@ export class CustomTaskComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
+          this._route.navigateByUrl(
+            'coursedetail/' + this.courseDetail._id + '/tasks'
+          );
           // this.loading = false;
           this.toastr.success('Success Custom Task Create');
         },
@@ -466,6 +475,11 @@ export class CustomTaskComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  backtoassignTask() {
+    if (this.courseDetail.sparkWerkz.standardSelected) this.backCourseDetail();
+    else this.backAssign.emit(false);
   }
 
   @HostListener('document:click', ['$event'])

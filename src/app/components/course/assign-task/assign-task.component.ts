@@ -563,6 +563,11 @@ export class AssignTaskComponent implements OnInit {
     this.isStart = true;
     this.createassignTask.template = {};
   }
+
+  backFromCustom(e) {
+    console.log(e);
+    this.isCustom = e;
+  }
   // end back to
 
   dayandWeektoDate(week, day) {
