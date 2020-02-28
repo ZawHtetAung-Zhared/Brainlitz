@@ -265,9 +265,12 @@
         (click)="enrollCustomer(courseId)"
         [ngClass]="{
           white: !on,
-          notallowed: seat_left == 0 && coursetype == 'REGULAR'
+          notallowed:
+            seat_left == 0 && (coursetype == 'REGULAR' || coursetype == null)
         }"
-        [disabled]="seat_left == 0 && coursetype == 'REGULAR'"
+        [disabled]="
+          seat_left == 0 && (coursetype == 'REGULAR' || coursetype == null)
+        "
       >
         <!-- (click)="toggle()" -->
         Enroll customer
