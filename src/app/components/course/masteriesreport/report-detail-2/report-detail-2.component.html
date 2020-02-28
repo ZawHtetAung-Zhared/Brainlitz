@@ -43,7 +43,7 @@
             <img
               src="./assets/icons/mastery-question.svg"
               class="pr-0 pl-2 btn"
-              (click)="getQuestion(challenge.masteryId)"
+              (click)="openModal(challenge.masteryId)"
             />
             <span> {{ challenge.infoForEducator }} </span>
           </div>
@@ -126,11 +126,21 @@
           </span>
         </button>
       </div>
-      <h3 class="modal-title d-flex mr-auto">
+      <h3
+        class="modal-title d-flex mr-auto"
+        [ngClass]="{ hide: loadingQuestion }"
+      >
         {{ samplexml.data.mastery.shortMasteryName }}
       </h3>
+      <!-- loading header -->
+      <h3 *ngIf="loadingQuestion" style="height: 40px;">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="80%" height="20px" />
+        </content-loader>
+      </h3>
+      <!-- end loading header -->
     </div>
-    <div class="modal-hg sample-txt f-17">
+    <div class="modal-hg sample-txt f-17" [ngClass]="{ hide: loadingQuestion }">
       <div id="Question" class="mastery-question"></div>
       <div
         *ngFor="let ans of samplexml.data.quiz.answers"
@@ -144,5 +154,21 @@
         ></div>
       </div>
     </div>
+    <!-- loading body -->
+    <div *ngIf="loadingQuestion" class="modal-hg">
+      <content-loader>
+        <svg:rect x="0" y="0" rx="3" ry="3" width="100%" height="20px" />
+        <svg:rect x="0" y="40" rx="3" ry="3" width="70%" height="15px" />
+        <svg:rect x="0" y="60" rx="3" ry="3" width="100%" height="30px" />
+        <svg:rect x="0" y="100" rx="3" ry="3" width="70%" height="25px" />
+      </content-loader>
+      <content-loader>
+        <svg:rect x="0" y="0" rx="3" ry="3" width="100%" height="20px" />
+        <svg:rect x="0" y="40" rx="3" ry="3" width="70%" height="15px" />
+        <svg:rect x="0" y="60" rx="3" ry="3" width="100%" height="30px" />
+        <svg:rect x="0" y="100" rx="3" ry="3" width="70%" height="25px" />
+      </content-loader>
+    </div>
+    <!-- end loading body -->
   </div>
 </ng-template>

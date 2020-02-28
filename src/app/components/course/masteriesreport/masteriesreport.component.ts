@@ -42,7 +42,7 @@ export class MasteriesreportComponent implements OnInit {
             params.seriesName +
             ' : ' +
             params.value +
-            '</div>';
+            '% </div>';
           return value;
         }
       },

@@ -240,6 +240,10 @@
 .f-20 {
   font-size: 20px;
 }
-.f17 {
+.f-17 {
   font-size: 17px;
+}
+
+.hide {
+  display: none !important;
 }
