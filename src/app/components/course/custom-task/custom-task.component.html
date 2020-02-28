@@ -644,6 +644,7 @@
                                 (createCustom?.template.tasks)[0].taskEndDate
                                   | date: 'dd MMM yyyy'
                               }}"
+                              [minDate]="taskStartDate"
                               [(ngModel)]="taskEndDate"
                               readonly
                             />
