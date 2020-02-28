@@ -205,10 +205,11 @@ export class ReportDetail2Component implements OnInit {
         setTimeout(() => {
           this.loadingQuestion = false;
         }, 1000);
-        this.setupQuiz();
+
         setTimeout(() => {
+          this.setupQuiz();
           this.setupAnswer();
-        }, 200);
+        }, 100);
       },
       err => {
         console.log(err);
