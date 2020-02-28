@@ -1227,7 +1227,7 @@
                   <button
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'teacher',
@@ -1274,7 +1274,7 @@
                   <button
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'staff',
@@ -1332,7 +1332,7 @@
                   <div class="d-flex flex-column">
                     <h2 class="title-heading">Customers</h2>
                     <div class="d-flex">
-                      <p class="seat-text-wrapper">
+                      <p class="seat-text-wrapper body-l">
                         Total: {{ pplLists.CUSTOMER.length }}
                         <span *ngIf="pplLists.CUSTOMER.length <= 1"
                           >customer</span
@@ -1343,13 +1343,13 @@
                       </p>
                       <ul
                         *ngIf="detailLists.seat_left == null"
-                        class="seat-wrapper"
+                        class="seat-wrapper body-l"
                       >
                         <li class="seat-text-wrapper">unlimited seat</li>
                       </ul>
                       <ul
                         *ngIf="detailLists.seat_left !== null"
-                        class="seat-wrapper"
+                        class="seat-wrapper body-l"
                       >
                         <li
                           *ngIf="
@@ -1424,7 +1424,7 @@
                   <button
                     *ngIf="courseDemo.assignStudent != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'customer',
@@ -1436,7 +1436,7 @@
                     "
                     style="height:40px;"
                   >
-                    Enroll class
+                    Enroll customer
                   </button>
                 </div>
                 <div class="row customer-row">

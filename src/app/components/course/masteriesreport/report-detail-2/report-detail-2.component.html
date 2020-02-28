@@ -42,7 +42,7 @@
               <img
                 src="./assets/icons/mastery-question.svg"
                 class="pr-0 pl-2 btn"
-                (click)="getQuestion(challenge.masteryId)"
+                (click)="openModal(challenge.masteryId)"
               />
             </span>
           </div>
@@ -122,7 +122,7 @@
   <div class="d-flex flex-column modal-body">
     <div class="d-flex flex-column header-question">
       <div class="d-flex w-100">
-        <span class="sample-txt f-20"> Sample Question </span>
+        <span class="sample-txt h3-strong"> Sample Question </span>
         <button
           (click)="cancelModal()"
           aria-label="Close"
@@ -135,7 +135,7 @@
         </button>
       </div>
       <h3
-        class="modal-title d-flex mr-auto"
+        class="modal-title d-flex mr-auto h2-strong"
         [ngClass]="{ hide: loadingQuestion }"
       >
         {{ samplexml.data.mastery.shortMasteryName }}
@@ -148,7 +148,10 @@
       </h3>
       <!-- end loading header -->
     </div>
-    <div class="modal-hg sample-txt f-17" [ngClass]="{ hide: loadingQuestion }">
+    <div
+      class="modal-hg sample-txt h4-strong"
+      [ngClass]="{ hide: loadingQuestion }"
+    >
       <div id="Question" class="mastery-question"></div>
       <div
         *ngFor="let ans of samplexml.data.quiz.answers"

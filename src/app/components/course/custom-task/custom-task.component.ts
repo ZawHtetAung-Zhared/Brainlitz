@@ -19,6 +19,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { parse } from 'querystring';
 
 declare var $: any;
 
@@ -250,6 +251,10 @@ export class CustomTaskComponent implements OnInit {
           )
         : this.showFormat
     );
+
+    console.log(this.createCustom.template.tasks[0].taskStartDate);
+    console.log(this.createCustom.template.tasks[0].taskEndDate);
+
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
     this._service.getassignMode(this.createCustom.taskType.id).subscribe(
@@ -497,7 +502,13 @@ export class CustomTaskComponent implements OnInit {
 
   changeObjDateFormat(date) {
     console.log(date);
-    let sdate = date.year + '-' + date.month + '-' + date.day;
+    let sdate =
+      date.year +
+      '-' +
+      (date.month >= 10 ? date.month : '0' + date.month) +
+      '-' +
+      (date.day >= 10 ? date.day : '0' + date.day);
+    console.log(sdate);
     return new Date(sdate).toISOString();
   }
 
