@@ -135,6 +135,7 @@
         </button>
       </div>
       <h3
+        *ngIf="samplexml"
         class="modal-title d-flex mr-auto h2-strong"
         [ngClass]="{ hide: loadingQuestion }"
       >
@@ -149,6 +150,7 @@
       <!-- end loading header -->
     </div>
     <div
+      *ngIf="samplexml"
       class="modal-hg sample-txt h4-strong"
       [ngClass]="{ hide: loadingQuestion }"
     >

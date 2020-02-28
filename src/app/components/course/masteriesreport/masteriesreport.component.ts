@@ -242,15 +242,6 @@ export class MasteriesreportComponent implements OnInit {
         if (res.data.masteryReport) {
           this.noData = false;
           this.masteriesReports = res.data.masteryReport;
-          this.masteriesReports.forEach(element => {
-            if (element.masteryCountInPercentage) {
-              var mastered =
-                element.masteryCountInPercentage.MASTERED_WITH_DIFFICULT +
-                element.masteryCountInPercentage.MASTERED_WITH_EASE;
-              element.masteryCountInPercentage.MASTERED =
-                Math.round((mastered + Number.EPSILON) * 100) / 100;
-            }
-          });
           console.log(this.masteriesReports);
           setTimeout(() => {
             for (var i = 0; i < this.masteriesReports.length; i++) {
