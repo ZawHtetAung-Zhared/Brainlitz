@@ -1,3 +1,5 @@
+@import '../../../../assets/css/main.min.css';
+
 body {
   font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 }
@@ -5,7 +7,7 @@ body {
 .task-holder {
   margin-bottom: 1.8em;
   width: 476px;
-  /* height: 180px; */
+  min-height: 340px;
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -30,12 +32,13 @@ body {
 
 .cardbody {
   padding: 10px 10px 10px 10px;
-  min-height: 120px;
+  min-height: 128px;
   background: #fffc;
 }
 
 .cardfooter {
   padding: 24px 24px 24px 24px;
+  max-height: 100px;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;

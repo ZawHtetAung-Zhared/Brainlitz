@@ -206,12 +206,12 @@
       </div>
       <div *ngIf="pplLists?.length > 0">
         <div class="d-flex justify-content-between mb-4">
-          <div class="c-enroll ml-4">
+          <div class="c-enroll">
             <h3>{{ enrolledcount }}</h3>
             <span>customers currently enrolled</span>
           </div>
           <div
-            class="d-flex flex-column c-unpaid mr-4"
+            class="d-flex flex-column c-unpaid"
             [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
           >
             <span>
@@ -341,9 +341,21 @@
         <img src="../../../../assets/img/tiny-brainlitz.svg" />
       </span>
     </div>
-    <div class="cardbody">
+    <div class="cardbody d-flex flex-column justify-content-center">
       <div class="d-flex">
         <div class="d-flex task-div">
+          <div class="d-flex task-status">
+            <h2 class="big-no">{{ custom }}</h2>
+            <span class="task-label caption-u"> CUSTOM</span>
+            <span *ngIf="custom > 1" class="light-body-m pl-3"
+              >tasks assigned</span
+            >
+            <span *ngIf="custom < 2" class="light-body-m pl-3"
+              >task assigned</span
+            >
+          </div>
+        </div>
+        <!-- <div class="d-flex task-div">
           <div class="d-flex task-status">
             <h2 class="big-no">{{ scheduled }}</h2>
             <span class="task-label"> SCHEDULED</span>
@@ -356,7 +368,7 @@
             <span class="task-label"> CUSTOM</span>
           </div>
           <h6>tasks assigned</h6>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="cardfoot">

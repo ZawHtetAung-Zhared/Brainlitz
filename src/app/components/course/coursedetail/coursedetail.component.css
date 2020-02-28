@@ -1340,7 +1340,7 @@ li button {
 .send-btn,
 .relief-name h5 {
   color: #2e3d4d !important;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .modal-userInfo h4 {
@@ -1418,8 +1418,8 @@ li button {
 .modal-userInfo label,
 .user-name,
 .relief-name label {
-  color: #64707d;
-  font-size: 14px;
+  color: #5c6773;
+  font-size: 17px;
 }
 .detail-info label {
   margin-bottom: 0;
@@ -1432,10 +1432,13 @@ li button {
   margin-bottom: 16px;
   word-break: break-all;
 }
+.detail-info h1 {
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+}
 .detail-info span {
-  color: #0080ff;
-  font-size: 12px;
-  background: #cce6ff;
+  color: #0043a1;
+  font-size: 17px;
+  background: #d9ecff;
   padding: 8px;
   border-radius: 25px;
   margin-left: 10px;
@@ -1448,7 +1451,7 @@ li button {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
   line-height: 1.7;
   margin-bottom: 0;
-  font-size: 16px;
+  font-size: 17px;
   text-align: justify;
 }
 .detail-fees b,
@@ -1521,7 +1524,7 @@ li button {
 }
 
 .cdetail .locationTxt {
-  font-size: 16px;
+  font-size: 15px;
   padding: 3px;
   border-radius: 2px;
   max-height: 40px;
@@ -1542,7 +1545,7 @@ li button {
 }
 .cdetail h5 {
   color: #2e3d4d !important;
-  font-size: 16px;
+  font-size: 15px;
 }
 .cdetail p,
 .course-time p {
@@ -1559,8 +1562,8 @@ li button {
   border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 11px 18px;
-  font-size: 16px;
-  color: #2e3e4d;
+  font-size: 17px;
+  color: #363f4d;
   background: transparent;
 }
 .course-tab:focus {
@@ -2570,9 +2573,9 @@ input[type='number']::-webkit-outer-spin-button {
   .options-box {
     margin-left: 20px !important;
   }
-  .course-tab > span {
+  /* .course-tab > span {
     display: block;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
