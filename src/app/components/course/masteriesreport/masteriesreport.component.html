@@ -28,7 +28,7 @@
             >
               View detail
             </button>
-            <div class="d-flex mt-4">
+            <div *ngIf="report.masteryCountInPercentage" class="d-flex mt-4">
               <div class="d-flex flex-column w-50">
                 <div class="d-flex flex-column struggle body-m">
                   <span>{{ report.masteryCountInPercentage.STRUGGLE }}%</span>
