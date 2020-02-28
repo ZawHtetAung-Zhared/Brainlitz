@@ -25,11 +25,13 @@
 .light-txt {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 24px;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
+  color: #5c6773;
+}
+.bold-txt {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-style: normal;
   color: #5c6773;
 }
 .split-line {
