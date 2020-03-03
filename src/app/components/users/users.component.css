@@ -3874,7 +3874,7 @@ p.grade-txt {
   font-style: normal;
   font-weight: 500;
   font-size: 17px;
-  line-height: 20px;
+  /* line-height: 20px; */
   color: #2e3d4d;
   border-bottom: 1px solid #edeff0;
   padding-bottom: 10px;
@@ -3889,6 +3889,7 @@ p.grade-txt {
   font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   font-size: 14px;
   cursor: pointer;
+  margin-bottom: 13px;
   /* margin: 10px 10px 10px 0px; */
 }
 
