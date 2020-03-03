@@ -119,10 +119,10 @@ import { RescheduleComponent } from './components/reschedule/reschedule.componen
 import { FinancialPipe } from './service/pipe/financial.pipe';
 import { NumericValidationDirective } from './components/invoice/numeric-validation.directive';
 import { UserGradingComponent } from './components/apg/user-grading/user-grading.component';
-import {
-  CarouselComponent,
-  CarouselItemElement
-} from './components/users/carousel/carousel.component';
+// import {
+//   CarouselComponent,
+//   CarouselItemElement
+// } from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
 import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
@@ -154,6 +154,12 @@ import {
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
+import {
+  UserListComponent,
+  CarouselComponent,
+  CarouselItemElement,
+  CreateUserComponent
+} from './components/users/index';
 
 @NgModule({
   declarations: [
@@ -263,7 +269,9 @@ import { CustomTaskComponent } from './components/course/custom-task/custom-task
     StudentListComponent,
     MasteryReportComponent,
     CustomTaskComponent,
-    ReportDetail2Component
+    ReportDetail2Component,
+    UserListComponent,
+    CreateUserComponent
   ],
   imports: [
     ContentLoaderModule,
