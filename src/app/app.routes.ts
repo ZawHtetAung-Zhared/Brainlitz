@@ -18,6 +18,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
 
 import {
   CourseComponent,
@@ -155,6 +156,11 @@ export const routes: Routes = [
   {
     path: 'assignTask/:id',
     component: AssignTaskComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'today-lesson',
+    component: TodayLessonsComponent,
     canActivate: [LoggedInGuard]
   },
   {

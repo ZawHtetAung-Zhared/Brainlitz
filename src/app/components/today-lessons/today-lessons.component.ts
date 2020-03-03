@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener
+} from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -8,6 +15,7 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-today-lessons',
@@ -26,14 +34,24 @@ export class TodayLessonsComponent implements OnInit {
   public isGlobal: boolean = false;
   public reasonValue: any;
   public textAreaOption = false;
+  public isSticky = false;
 
   @Output() courseDetail = new EventEmitter();
 
   constructor(
     private _service: appService,
     public toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _router: Router
   ) {}
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      this.isSticky = true;
+    } else {
+      this.isSticky = false;
+    }
+  }
 
   ngOnInit() {
     this.todayDate = new Date();
@@ -54,7 +72,8 @@ export class TodayLessonsComponent implements OnInit {
     );
   }
   backToCourse() {
-    this._service.backCourse();
+    // this._service.backCourse();
+    this._router.navigateByUrl('/course');
   }
 
   expandTodayCourse() {

@@ -662,4 +662,8 @@ export class HeaderComponent implements OnInit, OnChanges {
       }
     );
   }
+
+  onClickTodayLesson() {
+    this._router.navigateByUrl('/today-lesson');
+  }
 }
