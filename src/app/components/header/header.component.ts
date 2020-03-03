@@ -24,6 +24,7 @@ declare var LiveAgent: any;
 export class HeaderComponent implements OnInit, OnChanges {
   @ViewChild(LocationComponent) lnameChanges: LocationComponent;
   @Input() orgLogo: string;
+  @Input() activeTab: string;
   public userName: any;
   public status: string = 'NEW';
   public regionID = localStorage.getItem('regionId');
@@ -340,13 +341,13 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(value: SimpleChanges) {
-    console.log(value.orgLogo.currentValue);
-    if (value.orgLogo.currentValue !== undefined) {
+    if (value.orgLogo && value.orgLogo.currentValue !== undefined) {
       this.OrgLogo = value.orgLogo.currentValue;
     }
   }
 
   ngOnInit() {
+    console.log('::::::\n:::::\n:::::::n:::::::\n:::::::::\n' + this.activeTab);
     console.log('headerLocation work');
     console.log('Org Log', this.orgLogo);
     this.getAdministrator();
@@ -641,6 +642,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     this._dataservice.nevigateCustomer('');
     this._dataservice.nevigateCDetail('');
     this._dataservice.nevigateSchedule('');
+    this._dataservice.navagateActivePlan('');
     // this._dataservice.defineCurrentTab(type);
   }
   switchRegion() {
@@ -659,5 +661,9 @@ export class HeaderComponent implements OnInit, OnChanges {
         console.log(err);
       }
     );
+  }
+
+  onClickTodayLesson() {
+    this._router.navigateByUrl('/today-lesson');
   }
 }

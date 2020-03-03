@@ -1,0 +1,240 @@
+.inner-wrapper {
+  padding-top: 0;
+  -ms-transition: padding-top 300ms linear;
+  transition: padding-top 300ms linear;
+}
+@media (min-width: 2000px) {
+  .inner-wrapper {
+    width: 1900px;
+    margin: 0 auto;
+  }
+}
+@media only screen and (min-width: 1366px) {
+  .inner-wrapper {
+    width: 1080px !important;
+    margin: 0 auto;
+  }
+}
+
+.cust-bg {
+  background: #f2f4f5;
+}
+.white-bg {
+  background: #ffffff;
+}
+
+.back-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 28px;
+  color: #363f4d;
+  cursor: pointer;
+  padding: 0px 5px;
+}
+
+.mastery-title {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 28px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #363f4d;
+}
+
+.light-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 24px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+  padding-top: 8px;
+}
+
+.footer {
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
+  width: 100vw;
+  height: 63px;
+  /* margin-left: -30px !important; */
+  padding: 0px 20px;
+  /* position: absolute;
+    bottom: 0; */
+  background: #fff;
+}
+.color-wrap {
+  margin-right: 16px;
+}
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  margin-right: 8px;
+}
+.color-txt {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 20px;
+  color: #363f4d;
+  word-break: break-all;
+}
+
+.stickHeader {
+  position: fixed;
+  top: 70px;
+  z-index: 1;
+  padding: 0px 15px;
+}
+
+.advance {
+  background: #fff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  position: relative;
+  left: -97px;
+  bottom: 124px;
+  cursor: pointer;
+}
+
+.advance-img {
+  width: 20px;
+  height: 20px;
+}
+
+.mastery-box {
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.sw-wrap {
+  background: #ffbf00;
+  border-radius: 8px;
+  padding: 0px 5px;
+  margin-left: 8px;
+  height: 24px;
+}
+
+.light-txt2 {
+  padding-top: 0px;
+  color: #b1b1b3;
+  font-weight: 500;
+}
+
+.no-circle {
+  width: 24px;
+  height: 24px;
+  background: #e8e9eb;
+  border-radius: 50%;
+  text-align: center;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  color: #363f4d;
+}
+
+.mastery-body {
+  padding-right: 46px;
+  color: #363f4d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 24px;
+  padding-top: 6px;
+}
+
+.green-txt {
+  color: #00a653;
+}
+
+.txt-bold {
+  font-weight: bold;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+}
+
+.split-line {
+  border-bottom: 1px solid #edeef0;
+  padding-top: 24px;
+}
+
+.cust-hg {
+  min-height: 80vh;
+}
+
+.closemark {
+  display: inline-block;
+  width: 30px;
+  height: 16px;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.closemark_stem,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 16px;
+  top: -2px;
+}
+
+.closemark_kick {
+  transform: rotate(90deg);
+}
+
+.testing {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 28px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
+.ans-box {
+  border: 1px solid #edeef0;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.correct-box {
+  border: 2px solid #00a653;
+}
+
+.modal-hg {
+  max-height: 75vh;
+  overflow: scroll;
+}
+.header-question {
+  border-bottom: 1px solid #edeef0;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.sample-txt {
+  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-style: normal;
+  color: #5c6773;
+}
+
+.hide {
+  display: none !important;
+}

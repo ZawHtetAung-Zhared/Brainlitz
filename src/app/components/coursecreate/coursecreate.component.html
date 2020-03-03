@@ -287,6 +287,24 @@
             </div>
           </div>
         </div>
+        <div *ngIf="sparkWerkzRegion == true">
+          <hr class="limit-hr-length" />
+          <div class="d-flex">
+            <div class="toggle-wrap">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (change)="isSparkWerkzCourse(sparkWerkzCourse)"
+                  [checked]="sparkWerkzCourse"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div class="switch-label input-title font-medium changeColor">
+              SparkWerkzCourse
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <hr class="hr-line" />
@@ -466,6 +484,7 @@
                 #lesson="ngModel"
                 (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
+                min="0"
               />
             </div>
             <div *ngIf="endOptChecked == 'defaultLesson'">
@@ -482,6 +501,7 @@
                 #dlesson="ngModel"
                 (input)="lCount($event, $event.target.value)"
                 (keypress)="numberOnly($event)"
+                min="0"
               />
             </div>
           </div>
@@ -712,7 +732,9 @@
                 focusInputMethod($event, 'staff', 'teacher')
               "
             >
-              <span *ngIf="!selectedTeacher" class="font-regular caption dropD"
+              <span
+                *ngIf="!selectedTeacher"
+                class="font-regular caption-teacher dropD"
                 >Type teacher name</span
               >
               <div class="d-flex" *ngIf="selectedTeacher">

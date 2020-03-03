@@ -1,0 +1,171 @@
+<div class="cust-bg">
+  <div class="cust-hg">
+    <div class="pt-4 pb-4 inner-wrapper">
+      <div class="d-flex justify-content-between w-100">
+        <div (click)="backTo()" class="d-flex align-items-center">
+          <i class="fa fa-angle-left"></i>
+          <span class="back-txt">
+            Mastery reports
+          </span>
+        </div>
+        <div class="d-flex align-items-center">
+          <button class="btn download-btn">Download as</button>
+          <div
+            class="download-box d-flex align-items-center"
+            (click)="downloadType($event)"
+          >
+            <span class="pr-3"> {{ dType }} </span>
+            <i class="fa fa-angle-down" style="font-size: 20px;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end pt-1">
+        <div *ngIf="isdType" class="doption-box">
+          <div class="option-item" (click)="downloadReport('XLS')">XLS</div>
+          <div class="option-item" (click)="downloadReport('PDF')">PDF</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="inner-wrapper">
+      <div class="mastery-box white-bg d-flex flex-column">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+              <span class="mastery-title">
+                Top 5 challenging masteries for this class
+              </span>
+              <span class="sw-wrap">
+                <img src="./assets/img/tiny-brainlitz.svg" />
+              </span>
+            </div>
+            <div class="light-txt2 light-txt">What are masteries?</div>
+          </div>
+        </div>
+        <!-- loop start -->
+        <div
+          *ngFor="let challenge of challengeData; let i = index"
+          class="mt-4 d-flex flex-column"
+        >
+          <div class="no-circle">{{ i + 1 }}</div>
+          <div class="mastery-body">
+            {{ challenge.descriptionStudent }}
+            <span class="green-txt">{{ challenge.pdDescription }}</span>
+          </div>
+          <div class="mastery-body txt-bold">
+            {{ challenge.percentage }}% of students have yet to meet the
+            expectation of this mastery.
+          </div>
+          <div class="split-line"></div>
+        </div>
+        <!-- loop end -->
+      </div>
+    </div>
+
+    <div
+      class="title-wrap"
+      [ngClass]="{ stickHeader: isStickyInnerHeader == true }"
+    >
+      <div
+        class="d-flex justify-content-between align-items-center inner-wrapper"
+      >
+        <div class="d-flex flex-column">
+          <span class="mastery-title"> {{ masteriesReports[0].name }} </span>
+          <span class="light-txt">
+            <!-- {{ masteriesReports[0].data.length }} masteries -->
+            {{ masteriesReports[0].totalMasteryCount }} masteries
+          </span>
+        </div>
+        <div class="d-flex align-items-center">
+          <button class="history-btn btn">Activity history</button>
+          <span (click)="changeGraph('expand')">
+            <i
+              *ngIf="isExpand"
+              class="fa fa-angle-up"
+              style="font-size: 20px;"
+            ></i>
+            <i
+              *ngIf="!isExpand"
+              class="fa fa-angle-down"
+              style="font-size: 20px;"
+            ></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4 white-bg">
+      <div class="inner-wrapper w-100">
+        <div
+          id="mastery_detail"
+          class="pt-4"
+          style="width:100%; min-height: 200px;"
+        ></div>
+        <!-- <div class="d-flex justify-content-end">
+          <span
+            class="d-flex justify-content-center align-items-center advance"
+            (click)="changeGraph('advance')"
+          >
+            <img class="advance-img" src="./assets/images/advanceMastery.png" />
+          </span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer white-gb d-flex justify-content-center align-items-center">
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #BF2926;"></div>
+      <span class="color-txt"> Struggling </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #EDEEF0;"></div>
+      <span class="color-txt"> Not started </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #D4D5D6;"></div>
+      <span class="color-txt"> In conslusive </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #6DC000;"></div>
+      <span class="color-txt"> Mastered w/ difficulties </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #4FDD00;"></div>
+      <span class="color-txt"> Mastered w/ ease </span>
+    </div>
+  </div>
+</div>
+
+<ng-template #questionModal let-c="close" let-d="dismiss">
+  <div class="d-flex flex-column modal-body modal-hg">
+    <div class="d-flex w-100 mb-4">
+      <h3 class="modal-title d-flex mr-auto">
+        {{ samplexml.data.mastery.shortMasteryName }}
+      </h3>
+      <button
+        (click)="cancelModal()"
+        aria-label="Close"
+        class="modal-close ml-auto btn"
+      >
+        <span class="closemark">
+          <div class="closemark_stem"></div>
+          <div class="closemark_kick"></div>
+        </span>
+      </button>
+    </div>
+
+    <div id="testQuestion"></div>
+    <div *ngFor="let ans of samplexml.data.quiz.answers" class="mt-4">
+      <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+      <div
+        id="{{ ans._id }}"
+        class="ans-box"
+        [ngClass]="{ 'correct-box': ans.correctness == true }"
+      ></div>
+    </div>
+    <!-- <div class="testing" *ngFor="let item of qhtml">
+      <div class="pt-4" [innerHTML]="item"></div>
+    </div> -->
+  </div>
+</ng-template>

@@ -29,6 +29,7 @@ import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -45,6 +46,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('mainScreen') elementView: ElementRef;
   @ViewChild('notiForm') notiform;
 
+  private permissionSubscription: ISubscription;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public checkActive = true;
@@ -127,14 +129,20 @@ export class ToolsComponent implements OnInit {
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/tools') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/tools') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
@@ -277,15 +285,33 @@ export class ToolsComponent implements OnInit {
     }, 300);
   }
 
+  searchStart(e, type) {
+    if (e.keyCode == 13) {
+      console.log('Search start~~~~~~~');
+      this.searchForKeyword(e.target.value, type);
+    }
+  }
+
   changeSearch(searchWord, type) {
-    console.log(searchWord);
-    console.log(this.active);
     this.checkActive = true;
     this.isSelected = false;
     this.selectedID = this.isSelected == false ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = searchWord.length == 0 ? undefined : this.selectedID;
     this.userCount = searchWord.length == 0 ? 0 : 0;
+    // this.searchForKeyword(searchWord,type)
+    if (searchWord.length == 0) {
+      console.log('searchWord length 0');
+      this.searchForKeyword(searchWord, type);
+    }
+  }
+
+  searchForKeyword(searchWord, type) {
+    console.log(
+      'searchWord.length & searchWord',
+      searchWord.length,
+      searchWord
+    );
     if (type == 'user') {
       if (searchWord.length != 0) {
         this._service

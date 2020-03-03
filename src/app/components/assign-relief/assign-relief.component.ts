@@ -1,3 +1,4 @@
+import { KeyedWrite } from '@angular/compiler';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { appService } from '../../service/app.service';
 import {
@@ -42,6 +43,12 @@ export class AssignReliefComponent implements OnInit {
       0,
       this.lessonInfo.startDate.search('T')
     );
+  }
+
+  searchMethod2(keyword, usertype) {
+    if (keyword.length == 0) {
+      this.searchMethod(keyword, usertype);
+    }
   }
 
   searchMethod(keyword, usertype) {

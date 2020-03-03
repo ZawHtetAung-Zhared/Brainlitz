@@ -69,7 +69,8 @@
       type="search"
       placeholder="Search tracking module"
       id="example-search-input"
-      (input)="apgListSearch($event.target.value, 'APG', '', '')"
+      (input)="apgListSearch2($event.target.value, 'APG', '', '')"
+      (keyup.enter)="apgListSearch($event.target.value, 'APG', '', '')"
       autocomplete="off"
     />
     <!-- <input 
@@ -529,7 +530,7 @@
             </div>
             <input
               type="text"
-              placeholder="Type {{ apgType.toLowerCase() }} name here"
+              placeholder="Type skill name here"
               class="evaluation-name"
               name="name"
               required
@@ -1527,7 +1528,8 @@
             type="search"
             placeholder="Search tracking module"
             id="template-search-input"
-            (input)="sharedApgSearch($event.target.value, '', '')"
+            (input)="sharedApgSearch2($event.target.value, '', '')"
+            (keyup.enter)="sharedApgSearch($event.target.value, '', '')"
             autocomplete="off"
           />
           <span class="input-group-append">

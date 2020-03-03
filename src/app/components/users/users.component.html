@@ -30,17 +30,19 @@
       <div class="col-md-10 pad-0">
         <div class="d-flex flex-row">
           <h3>Customers</h3>
-          <span
-            class="location-name"
-            [ngStyle]="{
-              color: gtxtColor,
-              background: gbgColor
-            }"
-          >
-            <!-- {{ locationName | slice: 0:45
+          <div class="mt-2">
+            <div
+              class="location-name"
+              [ngStyle]="{
+                color: gtxtColor,
+                background: gbgColor
+              }"
+            >
+              <!-- {{ locationName | slice: 0:45
             }}{{ locationName.length > 45 ? '...' : '' }} -->
-            {{ locationName }}
-          </span>
+              {{ locationName }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-2 pad-0">
@@ -71,7 +73,8 @@
           placeholder="Search customer here"
           id="customer-search-input"
           (focusout)="clearSearch($event)"
-          (input)="userSearch($event.target.value, 'customer', '', '')"
+          (input)="userSearch_input($event.target.value)"
+          (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
           autocomplete="off"
         />
         <span class="input-group-append btn-design btn-outline-secondary">
@@ -1439,6 +1442,23 @@
                           <p class="grade-apg-name">
                             {{ grade.assessment.apgName }}
                           </p>
+                          <div
+                            class="pick-grade-wrap d-flex align-items-center"
+                          >
+                            <div class="pick-grade-text">
+                              <span>Pick a grade level</span>
+                            </div>
+                            <div
+                              class="pick-grade-image d-flex align-items-center justify-content-center"
+                            >
+                              <img
+                                src="./assets/icons/pencil.svg"
+                                (click)="
+                                  pickGrade(pickGradeModal, grade, $event)
+                                "
+                              />
+                            </div>
+                          </div>
                         </div>
                         <div class="d-flex grade-body">
                           <span
@@ -1446,7 +1466,10 @@
                             *ngIf="grade.assessment.logs.length <= 0"
                             >No Data</span
                           >
-                          <div *ngIf="grade.assessment.logs.length != 0">
+                          <div
+                            *ngIf="grade.assessment.logs.length != 0"
+                            class="d-flex"
+                          >
                             <div
                               *ngFor="
                                 let log of grade.assessment.logs;
@@ -2819,6 +2842,9 @@
                 #search="ngModel"
                 [(ngModel)]="searchData.searchText"
                 (input)="
+                  changeSearch2($event.target.value, custDetail.user.userId)
+                "
+                (keyup.enter)="
                   changeSearch(
                     $event.target.value,
                     custDetail.user.userId,
@@ -3387,7 +3413,8 @@
           name=""
           class="form-control course-search-input"
           placeholder="Search courses"
-          (input)="searchMakeup($event.target.value)"
+          (input)="searchMakeup_input($event.target.value)"
+          (keyup.enter)="searchMakeup($event.target.value)"
         />
       </div>
       <div class="mt-20 class-group">
@@ -3531,7 +3558,7 @@
       </button>
     </div>
   </ng-template>
-
+  <!-- apo-update -->
   <ng-template #remainingLessons>
     <div class="d-flex modal-header">
       <h3 class="student_name">{{ custDetail.user.preferredName }}</h3>
@@ -3557,12 +3584,17 @@
         <div
           class="lesson_block"
           [ngClass]="{
-            absent_block: lesson.attendance == false,
-            present_block: lesson.attendance == true,
+            cancel_block: lesson.cancel == true,
+            absent_block: lesson.attendance == false && lesson.cancel == false,
+            present_block: lesson.attendance == true && lesson.cancel == false,
             noData_block:
-              lesson.attendance == null && lesson.isUpcomingLesson == false,
+              lesson.attendance == null &&
+              lesson.isUpcomingLesson == false &&
+              lesson.cancel == false,
             notAvailable_block:
-              lesson.attendance == null && lesson.isUpcomingLesson == true
+              lesson.attendance == null &&
+              lesson.isUpcomingLesson == true &&
+              lesson.cancel == false
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
@@ -3570,67 +3602,102 @@
             <p
               class="mb-0"
               [ngClass]="{
-                absent_date: lesson.attendance == false,
-                present_date: lesson.attendance == true,
+                cancel_date: lesson.cancel == true,
+                absent_date:
+                  lesson.attendance == false && lesson.cancel == false,
+                present_date:
+                  lesson.attendance == true && lesson.cancel == false,
                 noData_date:
-                  lesson.attendance == null && !lesson.isUpcomingLesson
+                  lesson.attendance == null &&
+                  !lesson.isUpcomingLesson &&
+                  lesson.cancel == false
               }"
             >
               {{ lesson.startDate | remainingLessonDate }}
             </p>
             <span
               [ngClass]="{
-                absent_icon: lesson.attendance == false,
-                present_icon: lesson.attendance == true,
-                noData_icon: lesson.attendance == null,
-                'bg-none': lesson.isUpcomingLesson && lesson.attendance == null
+                cancel_icon: lesson.cancel == true,
+                absent_icon:
+                  lesson.attendance == false && lesson.cancel == false,
+                present_icon:
+                  lesson.attendance == true && lesson.cancel == false,
+                noData_icon:
+                  lesson.attendance == null && lesson.cancel == false,
+                'bg-none':
+                  lesson.isUpcomingLesson &&
+                  lesson.attendance == null &&
+                  lesson.cancel == false
               }"
             ></span>
           </div>
           <div class="d-flex flex-column inner-body">
             <p
               class="mb-0"
+              style="color:#CC8800;"
+              *ngIf="lesson.cancel == true"
+            >
+              Cancelled
+            </p>
+            <p
+              class="mb-0"
               style="color:#006E2E;"
-              *ngIf="lesson.attendance == true"
+              *ngIf="lesson.attendance == true && lesson.cancel == false"
             >
               Present
             </p>
             <p
               class="mb-0"
               style="color:#C73028;"
-              *ngIf="lesson.attendance == false"
+              *ngIf="lesson.attendance == false && lesson.cancel == false"
             >
               Absent
             </p>
             <p
               class="mb-0"
               style="color:#64707D;"
-              *ngIf="lesson.attendance == null && !lesson.isUpcomingLesson"
+              *ngIf="
+                lesson.attendance == null &&
+                !lesson.isUpcomingLesson &&
+                lesson.cancel == false
+              "
             >
               No data
             </p>
             <p
               class="mb-0"
               style="color:#B0B1B2;"
-              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
+              *ngIf="
+                lesson.isUpcomingLesson &&
+                lesson.attendance == null &&
+                lesson.cancel == false
+              "
             >
               Not avaliable
             </p>
             <span
               [ngClass]="{
-                absent_text: lesson.attendance == false,
-                present_text: lesson.attendance == true,
-                noData_text: lesson.attendance == null
+                cancel_text: lesson.cancel == true,
+                absent_text:
+                  lesson.attendance == false && lesson.cancel == false,
+                present_text:
+                  lesson.attendance == true && lesson.cancel == false,
+                noData_text: lesson.attendance == null && lesson.cancel == false
               }"
               *ngIf="
                 !lesson.isUpcomingLesson ||
-                (lesson.isUpcomingLesson && lesson.attendance != null)
+                (lesson.isUpcomingLesson && lesson.attendance != null) ||
+                lesson.cancel == true
               "
               >by {{ lesson.teacher?.preferredName }}</span
             >
             <span
               style="color:#788796;"
-              *ngIf="lesson.isUpcomingLesson && lesson.attendance == null"
+              *ngIf="
+                lesson.isUpcomingLesson &&
+                lesson.attendance == null &&
+                lesson.cancel == false
+              "
               >-</span
             >
           </div>
@@ -3758,6 +3825,47 @@
       >
         Yes
       </button>
+    </div>
+  </ng-template>
+  <div
+    class="overlayModal "
+    *ngIf="showPickGradeBox"
+    (click)="clickOverlay()"
+  ></div>
+  <ng-template #pickGradeModal>
+    <!-- pickmeup -->
+    <div class="justify-content-center align-items-center grade-pickup-modal">
+      <p class="grade-change">Change grade for</p>
+      <p class="grade-name">{{ apgName }}</p>
+      <div
+        *ngFor="let option of gradeOptions"
+        class="apg-group d-flex align-items-center justify-content-between"
+        (click)="selectAPG(option)"
+      >
+        <div
+          class="option-point d-flex justify-content-center align-items-center"
+          [ngStyle]="{ color: color, background: bgcolor }"
+          [ngClass]="option.isSelected ? 'highlight-point' : ''"
+        >
+          <span>{{ option.point }}</span>
+        </div>
+        <div
+          class="option-name d-flex align-items-center justify-content-start"
+          [ngClass]="option.isSelected ? 'highlight-name' : ''"
+        >
+          <span>{{ option.name }}</span>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button
+          (click)="cancelGradePickUp()"
+          style="margin-right: 10px;"
+          class="btn modal-cancel-btn"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-submit" (click)="updateAPG()">Update</button>
+      </div>
     </div>
   </ng-template>
   <div class="custom_backdrop" *ngIf="isJournal_delete"></div>

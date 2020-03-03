@@ -38,8 +38,9 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import sampleData from './notiSample';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import 'rxjs/Rx';
+import { c } from '@angular/core/src/render3';
 declare var $: any;
 
 @Component({
@@ -49,6 +50,7 @@ declare var $: any;
 })
 export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
+  private permissionSubscription: ISubscription;
   userid: any;
   acResult: any;
   public isGuardian = false;
@@ -244,6 +246,20 @@ export class UsersComponent implements OnInit {
     //    });
   }
 
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // For student option box
+    if (this.showPickGradeBox != true) {
+      $('.options-box').css({ display: 'none' });
+    } else {
+      $('.options-box').css({ display: 'block' });
+      $('.options-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.showPickGradeBox = false;
+    }
+  }
+
   ngOnInit() {
     setTimeout(() => {
       console.log('~~~', this.locationName);
@@ -258,14 +274,20 @@ export class UsersComponent implements OnInit {
       }
     }, 300);
     this.blankCrop = false;
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/customer') {
-        this.permissionType = data;
-        this.customerLists = [];
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/customer') {
+          this.permissionType = data;
+          this.customerLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
     // this.selectedPayment = 'Cash';
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -849,9 +871,11 @@ export class UsersComponent implements OnInit {
   }
 
   isValidateEmail($email) {
-    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/; //for test@amdon.com format
+    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9]{1,})$/; //for test@amdon format
     if ($email != '') {
-      return emailReg.test($email);
+      if (emailReg1.test($email)) return true;
+      else return emailReg.test($email);
     } else {
       return true;
     }
@@ -1133,6 +1157,11 @@ export class UsersComponent implements OnInit {
     // this.isSearch = false;
   }
 
+  userSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.userSearch(keyword, 'customer', '', '');
+    }
+  }
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;
@@ -1174,6 +1203,11 @@ export class UsersComponent implements OnInit {
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
       }, 300);
+    }
+  }
+  changeSearch2(searchWord, userId) {
+    if (searchWord.length == 0) {
+      this.changeSearch(searchWord, userId, '', '');
     }
   }
 
@@ -2203,6 +2237,12 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  searchMakeup_input(keyword) {
+    if (keyword.length == 0) {
+      this.searchMakeup(keyword);
+    }
+  }
+
   searchMakeup(keyword) {
     if (keyword.length > 0) {
       //this.blockUI.start('Loading...');
@@ -2229,8 +2269,9 @@ export class UsersComponent implements OnInit {
     // this.isCourse = true;
     console.log('clicking course', course);
     // localStorage.setItem('userCourse',course._id);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course._id);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course._id);
+    this.router.navigate(['/coursedetail', course._id]);
   }
 
   rolloverCourse(id, course) {
@@ -2418,6 +2459,7 @@ export class UsersComponent implements OnInit {
   public lessonOfStudent;
   openLessonsModal(modal, course) {
     this.lessonOfStudent = course;
+    console.log(this.lessonOfStudent.lessonsOfStudent);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
@@ -2588,5 +2630,94 @@ export class UsersComponent implements OnInit {
         }
       );
     this.autoEnrollModal.close();
+  }
+
+  public showPickGradeBox = false;
+  public yPosition: any;
+  public optionsBoxStdID = '';
+
+  public apgName = '';
+  public gradeOptions = [];
+  public color = '';
+  public bgcolor = '';
+  public grade = [];
+  public apId = '';
+  public apCourseId = '';
+
+  pickGrade(pickGradeModal, clickedGrade, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //this.showPickGradeBox=true
+    this.modalReference = this.modalService.open(pickGradeModal, {
+      backdrop: 'static',
+      windowClass: 'd-flex justify-content-center align-items-center'
+    });
+    //if (this.optionsBoxStdID !== id) {
+    // this.optionsBoxStdID = id;
+    // this.yPosition = e.layerY+20;
+    //}
+    //this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    //  this.toastr.info(grade)
+    console.log(clickedGrade);
+    this.apId = clickedGrade.assessment.apId;
+    this.apCourseId = clickedGrade.course.id;
+    this.apgName = clickedGrade.assessment.apgName;
+    this.gradeOptions = clickedGrade.assessment.gradeOptions;
+    this.color = clickedGrade.assessment.sepalColor.text;
+    this.bgcolor = clickedGrade.assessment.sepalColor.background;
+  }
+
+  cancelGradePickUp() {
+    this.modalReference.close();
+  }
+
+  public selectedOption = {
+    _id: '',
+    name: '',
+    point: '',
+    isSelected: false
+  };
+
+  selectAPG(option) {
+    this.gradeOptions.filter(item => {
+      item.isSelected = false;
+      if (item._id === option._id) {
+        item.isSelected = true;
+        this.selectedOption = item;
+      }
+    });
+  }
+
+  updateAPG() {
+    this.modalReference.close();
+    var body = {
+      id: this.apId,
+      data: {
+        grade: {
+          name: this.selectedOption.name,
+          point: this.selectedOption.point
+        }
+      }
+    };
+    console.log(body, this.custDetail.user.userId);
+    this._service
+      .updateGrading(
+        this.custDetail.user.userId,
+        body,
+        this.regionID,
+        this.apCourseId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.callAchievements(6);
+          this.toastr.success('APG update successfully');
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('APG can not update successfully');
+        }
+      );
   }
 }

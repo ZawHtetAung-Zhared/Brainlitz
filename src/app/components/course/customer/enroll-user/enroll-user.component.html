@@ -1,0 +1,591 @@
+<div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
+<div class="customer-nav">
+  <div class="d-flex inner-wrapper align-items-center justify-content-between">
+    <div class="back-to" [routerLink]="backToCourse">
+      <i class="fa fa-angle-left"></i>
+      <p>Back to {{ detailLists.name }}</p>
+    </div>
+    <!-- <div class="back-to" [routerLink]="clickCancel"> -->
+    <div class="back-to" (click)="clickCancel()">
+      <p>Cancel</p>
+    </div>
+  </div>
+</div>
+<div class="d-flex dflex-column justify-content-center align-items-center">
+  <div
+    class="inner-wrapper w-100"
+    *ngIf="!showSelectedUserView && !showFlexyBox"
+  >
+    <!-- 
+      enroll UI
+     -->
+    <form novalidate #cfees="ngForm">
+      <div class="d-flex flex-column mt-37" style="position: relative;">
+        <div class="d-flex">
+          <input
+            *ngIf="userType == 'customer'"
+            class="form-control py-2 input-search-bg"
+            type="search"
+            placeholder="Search customer here"
+            id="example-search-input"
+            name="search"
+            #search="ngModel"
+            [(ngModel)]="formData.searchText"
+            (focus)="focusMethod($event, userType)"
+            (focusout)="hideFocus($event)"
+            (blur)="hideFocus($event)"
+            (input)="changeMethod2($event.target.value, userType)"
+            (keyup.enter)="changeMethod($event.target.value, userType)"
+            autocomplete="off"
+          />
+          <input
+            *ngIf="userType == 'staff' || userType == 'teacher'"
+            class="form-control py-2 input-search-bg"
+            type="search"
+            placeholder="Search teachers"
+            id="example-search-input"
+            name="search"
+            #search="ngModel"
+            [(ngModel)]="formData.searchText"
+            (focus)="focusMethod($event, userType)"
+            (focusout)="hideFocus($event)"
+            (blur)="hideFocus($event)"
+            (input)="changeMethod2($event.target.value, userType)"
+            (keyup.enter)="changeMethod($event.target.value, userType)"
+            autocomplete="off"
+          />
+          <span class="input-group-append">
+            <button class="bt btn-design btn-outline-secondary" type="button">
+              <i class="fa fa-search search-size"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="mt-20 user-row-wrap">
+        <div *ngIf="userType != 'teacher'">
+          <div class="row single-user-wrap" *ngIf="userLists.length > 0">
+            <div
+              *ngFor="let user of userLists"
+              class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+            >
+              <div
+                class="d-flex flex-row single-user justify-content-center align-items-center"
+                (click)="chooseUser(user)"
+              >
+                <div class="img-wrap">
+                  <img src="{{ user.profilePic }}" />
+                </div>
+                <div
+                  *ngIf="user.preferredName !== ''"
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4>
+                    {{
+                      user.preferredName.length > 20
+                        ? (user.preferredName | slice: 0:20) + '...'
+                        : user.preferredName
+                    }}
+                  </h4>
+                </div>
+                <div
+                  *ngIf="user.preferredName == ''"
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4>
+                    {{
+                      user.email.length > 20
+                        ? (user.email | slice: 0:20) + '...'
+                        : user.email
+                    }}
+                  </h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div
+                    class="add-user d-flex justify-content-end"
+                    [ngClass]="user.addOrRemove"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row single-user-wrap" *ngIf="loading == true">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="userType == 'teacher'">
+          <div class="row single-user-wrap" *ngIf="loading == true">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+              <content-loader>
+                <svg:rect
+                  x="0"
+                  y="0.5"
+                  rx="0"
+                  ry="0"
+                  width="100%"
+                  height="80"
+                />
+              </content-loader>
+            </div>
+          </div>
+          <div
+            class="row single-user-wrap"
+            *ngIf="userLists != '' && loading == false"
+          >
+            <div
+              *ngFor="let teacher of userLists"
+              class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+            >
+              <div
+                class="d-flex flex-row single-user justify-content-center align-items-center"
+                (click)="chooseUser(teacher)"
+              >
+                <div class="img-wrap">
+                  <img src="{{ teacher.profilePic }}" />
+                </div>
+                <div
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4>{{ teacher.preferredName }}</h4>
+                </div>
+                <div class="ml-auto remover-wrap">
+                  <div
+                    class="add-user d-flex justify-content-end"
+                    [ngClass]="teacher.addOrRemove"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- aa -->
+        <div
+          *ngIf="
+            userLists.length == 0 && loading == false && searchword.length == 0
+          "
+          class="d-flex col-md-12 empty-ui-wrapper"
+        >
+          <div class="col-md-6 img-pos">
+            <div class="empty-wrapper">
+              <img src="assets/images/add-customer-illustration@2x.png" />
+            </div>
+          </div>
+          <div class="d-flex col-md-6">
+            <div class="txt-default">
+              <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
+              <h3 *ngIf="userType == 'customer'">
+                Add Customer to this Course
+              </h3>
+              <h3 *ngIf="userType == 'teacher'">
+                Change Teacher to this Course
+              </h3>
+            </div>
+            <div class="arrow-pos">
+              <img src="assets/img/arrow.png" />
+            </div>
+          </div>
+        </div>
+        <!-- <div class="d-flex col-md-12 justify-content-center align-items-center" *ngIf="searchword.length !=0 && loading == false && userLists.length ==0">
+          <p>There is no match-user with your search word.</p>
+        </div> -->
+        <!-- aa -->
+      </div>
+      <div
+        *ngIf="isSeatAvailable == false && userType == 'customer'"
+        class="seat-taken"
+      >
+        All seat taken. Can't add user anymore.
+      </div>
+      <div
+        *ngIf="noSetting == true && userType != 'teacher'"
+        class="seat-taken"
+      >
+        You should set invoice setting and payment setting first.
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <!-- <button *ngIf="userType != 'teacher' && userLists.length !== 0" type="submit" class="btn btn-submit"
+          [disabled]="enrollUserList.length == 0 || noSetting == true" (click)="showSelectedUserViewFunc()">
+          Next
+        </button> -->
+        <!-- <button *ngIf="userType == 'teacher'" type="submit" class="btn btn-submit"
+          [disabled]="enrollUserList.length == 0" (click)="showSelectedUserViewFunc()">
+          Next
+        </button> -->
+        <button
+          type="button"
+          class="btn btn-submit"
+          [disabled]="
+            enrollUserList.length == 0 || (found == 0 && seatLeft == 0)
+          "
+          (click)="this.showSelectedUserView = true"
+        >
+          Next
+        </button>
+      </div>
+    </form>
+
+    <!-- 
+      enroll UI
+     -->
+  </div>
+  <div class="inner-wrapper w-100" *ngIf="showSelectedUserView">
+    <!-- 
+      enroll UI
+     -->
+    <div class="d-flex mt-3">
+      <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">
+        Confirm assistant
+        <span *ngIf="userLists.length <= 1"> teacher </span>
+        <span *ngIf="userLists.length > 1"> teachers </span>
+      </h3>
+      <div *ngIf="userType == 'customer'">
+        <h3 class="modal-title d-flex mr-auto">
+          Confirm customer
+        </h3>
+        <span *ngIf="userLists.length <= 1"
+          >{{ enrollUserList.length }} customer
+        </span>
+        <span *ngIf="userLists.length > 1"
+          >{{ enrollUserList.length }} customers
+        </span>
+        <span>selected</span>
+      </div>
+
+      <h3 *ngIf="userType == 'teacher'" class="modal-title d-flex mr-auto">
+        Confirm teacher
+      </h3>
+    </div>
+    <div class="mt-20 user-row-wrap">
+      <div *ngIf="userType != 'teacher'">
+        <div class="row single-user-wrap" *ngIf="enrollUserList.length > 0">
+          <div
+            *ngFor="let user of enrollUserList"
+            class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+          >
+            <div
+              class="d-flex flex-row single-user justify-content-center align-items-center"
+              (click)="chooseUser(user)"
+            >
+              <div class="img-wrap">
+                <img src="{{ user.profilePic }}" />
+              </div>
+              <div
+                *ngIf="user.preferredName !== ''"
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4>
+                  {{
+                    user.preferredName.length > 20
+                      ? (user.preferredName | slice: 0:20) + '...'
+                      : user.preferredName
+                  }}
+                </h4>
+              </div>
+              <div
+                *ngIf="user.preferredName == ''"
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4>
+                  {{
+                    user.email.length > 20
+                      ? (user.email | slice: 0:20) + '...'
+                      : user.email
+                  }}
+                </h4>
+              </div>
+              <div class="ml-auto remover-wrap">
+                <div
+                  class="add-user d-flex justify-content-end"
+                  [ngClass]="user.addOrRemove"
+                  (click)="chooseUser(user)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="userType == 'teacher'">
+        <div class="row single-user-wrap" *ngIf="(enrollUserList | json) != {}">
+          <div
+            *ngFor="let teacher of enrollUserList"
+            class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3"
+          >
+            <div class="d-flex flex-row single-user">
+              <div class="img-wrap">
+                <img src="{{ teacher.profilePic }}" />
+              </div>
+              <div
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4>{{ teacher.preferredName }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="isSeatAvailable == false && userType == 'customer'"
+      class="seat-taken"
+    >
+      All seat taken. Can't add user anymore.
+    </div>
+    <div *ngIf="noSetting == true && userType != 'teacher'" class="seat-taken">
+      You should set invoice setting and payment setting first.
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelModal()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        *ngIf="userType == 'customer'"
+        class="btn btn-submit"
+        [disabled]="
+          (enrollUserList | json) == '{}' || isDisabledBtn || noSetting == true
+        "
+        (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
+      >
+        Enroll
+      </button>
+      <button
+        *ngIf="userType == 'staff'"
+        type="button"
+        class="btn btn-submit"
+        [disabled]="enrollUserList.length == 0 || noSetting == true"
+        (click)="enrollUserToCourse(detailLists._id, userType)"
+      >
+        Confirm
+      </button>
+      <button
+        *ngIf="userType == 'teacher'"
+        type="button"
+        class="btn btn-submit"
+        [disabled]="enrollUserList.length == 0"
+        (click)="swapTeacherToCourse(detailLists._id, enrollUserList[0].userId)"
+      >
+        Confirm
+      </button>
+    </div>
+
+    <!-- 
+      enroll UI
+     -->
+  </div>
+  <!-- [ngClass]="{'backdrop': conflictBoxShow==true}" -->
+
+  <ng-template #invoiceAlert>
+    <div class="modal-header">
+      <h3 class="modal-title">Generate invoice</h3>
+      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+    </div>
+    <div class="modal-body apg-confirm">
+      <p>
+        Do you want to generate invoice for this enrollment?
+        <span class="target"></span>
+        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      </p>
+    </div>
+    <div class="modal-footer" style="background: none!important;">
+      <button
+        type="button"
+        class="btn modal-cancel-btn"
+        (click)="cancelInvoiceAlert()"
+      >
+        No
+      </button>
+      <button
+        style="background: #1682fb!important;"
+        type="button"
+        class="btn modal-delete-btn"
+        (click)="confirmInvoiceAlert()"
+      >
+        Yes
+      </button>
+    </div>
+  </ng-template>
+</div>
+
+<div class="d-flex justify-content-center" *ngIf="showFlexyBox">
+  <div class="inner-wrapper w-100 p-0">
+    <div
+      class="flexiModal"
+      *ngIf="showInvoice == false && showflexyCourse == true"
+    >
+      <div class="innerFlexiModal">
+        <!-- <div class="d-flex" >
+        
+        <div class="d-flex back" (click)="backtoCustomer()">
+          <i class="fa fa-angle-left flexiBackicon"></i>
+          <p class="mb-0 font-medium ">Add customer</p>
+        </div>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+         
+        </button>
+      </div> -->
+        <app-flexi
+          [flexyarr]="flexyarr"
+          [selectedCustomer]="enrollUserList[0]"
+          [course]="detailLists"
+          [showcb]="showcb"
+          (passDataconflictBoxShow)="conflictBoxShow($event)"
+          (checkObjArr)="lessionObjArr($event)"
+        ></app-flexi>
+        <div class="invoice-wrap" *ngIf="showInvoice == true">
+          <app-invoice
+            [custDetail]="custDetail"
+            [course]="detailLists"
+            [invoiceId]="invoiceID2"
+            (closed)="cancelInvoiceModal()"
+          ></app-invoice>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal-footer d-flex position-fixed"
+    style="padding: 18px 20px 18px 20px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+  >
+    <div class="d-flex justify-content-between inner-wrapper">
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="isProrated = !this.isProrated"
+                [checked]="isProrated"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <label class="switch-label" for="online">Prorated</label>
+        </div>
+        <div>
+          <p class="defaultLessonCount">
+            Default lessons count: {{ detailLists.defaultlessonCount }}
+          </p>
+          <p class="textCount">Number of lessons required:</p>
+          <div class="selectedCountBox">
+            <p class="selectedTest">
+              Selected lessons: {{ checkobjArr.length }}
+            </p>
+          </div>
+        </div>
+        <!-- <div class="defaultDiv">
+
+  </div> -->
+      </div>
+
+      <div class="">
+        <button
+          type="button"
+          class="btn modal-cancel-btn"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit"
+          [disabled]="checkobjArr.length == 0"
+          (click)="flexicomfirm(invoiceAlert)"
+        >
+          Confirm
+        </button>
+        <!-- <button
+          type="submit"
+          *ngIf="checkobjArr.length == 0"
+          class="btn btn-submit"
+          disabled
+        >
+          Confirm
+        </button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div mdbModal #showSelectedCustomer="mdbModal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content" style="background-color: burlywood;">
+        <span>AA is selected</span>
+      </div>
+  </div>
+</div> -->

@@ -96,7 +96,11 @@ export class StaffTeachingReportGraph implements OnInit {
         normal: {
           position: 'center',
           formatter: function(params) {
-            let value = '{a|' + totalHours.toFixed(2) + ' Hours}\n \n';
+            let totalhr;
+            Number.isInteger(totalHours)
+              ? (totalhr = totalHours)
+              : (totalhr = totalHours.toFixed(2));
+            let value = '{a|' + totalhr + ' Hours}\n \n';
             value += '{b|' + totalStaff + ' teachers}';
             return value;
           },
@@ -127,5 +131,10 @@ export class StaffTeachingReportGraph implements OnInit {
     var elem = document.getElementById('staffTeachingGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 }

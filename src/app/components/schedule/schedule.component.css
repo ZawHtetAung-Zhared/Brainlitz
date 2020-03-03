@@ -1728,6 +1728,7 @@ ul.options-box li:last-child,
   font-size: 18px;
   font-weight: 600;
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  word-break: break-word;
 }
 .lessonDuration {
   padding-left: 23px;

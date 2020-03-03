@@ -12,9 +12,11 @@
   /* display: table; */
   word-break: break-all;
   max-width: 290px;
-  padding: 5px 9px;
+  padding: 3px 8px;
   /* height: 40px; */
-  margin-top: 7px;
+  /* margin-top: 7px; */
+  max-height: 45px;
+  overflow: overlay;
 }
 
 .search-result-box {
@@ -611,6 +613,7 @@ input:checked + .slider:before {
   font-size: 14px;
   font-family: 'Inter-UI-Regular';
   border-radius: 8px;
+  word-break: break-word;
 }
 .noti-subject {
   padding: 10px;

@@ -1,0 +1,1047 @@
+<div class="h-100" style="overflow: hidden;">
+  <div class="d-flex justify-content-center p-2 addBg">
+    <div class="inner-wrapper1 pt-0">
+      <header>
+        <div
+          class="d-flex d-wrapper medium"
+          [ngClass]="{ stickywrap: navIsFixed == true }"
+        >
+          <div class="mr-auto p-2 pl-0 pb-0">
+            <div class="back-modal" (click)="backCourseDetail()">
+              <i class="fa fa-angle-left"></i>
+              <p>{{ courseDetail?.name }}</p>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <button
+              type="button"
+              class="btn sticky-cancel"
+              (click)="backCourseDetail()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div class="d-flex-jusitfy-content-center h-100 addborderTop">
+    <div class="progress-box-wrap">
+      <ol class="progress" data-steps="4">
+        <li id="step1">
+          <a
+            class="step"
+            id="astep1"
+            [class.adisabled]="!clickableSteps.includes('1')"
+            (click)="stepClick($event, '1')"
+          >
+            <span>1</span>
+          </a>
+        </li>
+        <li id="step2">
+          <a
+            class="step"
+            id="astep2"
+            [class.adisabled]="!clickableSteps.includes('2')"
+            (click)="stepClick($event, '2')"
+          >
+            <span>2</span>
+          </a>
+        </li>
+        <li id="step3">
+          <a
+            class="step"
+            id="astep3"
+            [class.adisabled]="!clickableSteps.includes('3')"
+            (click)="stepClick($event, '3')"
+          >
+            <span>3</span>
+          </a>
+        </li>
+        <li id="step4">
+          <a
+            class="step"
+            id="astep4"
+            [class.adisabled]="!clickableSteps.includes('4')"
+            (click)="stepClick($event, '4')"
+          >
+            <span>4</span>
+          </a>
+        </li>
+        <li id="step5">
+          <a
+            class="step"
+            id="astep5"
+            [class.adisabled]="!clickableSteps.includes('5')"
+            (click)="stepClick($event, '5')"
+          >
+            <span>5</span>
+          </a>
+        </li>
+      </ol>
+    </div>
+    <div *ngIf="activeStep == '1'" class="div_step">
+      <div class="d-flex justify-content-center ">
+        <div class="inside-data-wrapper">
+          <p class="name-header bold">
+            Assigning tasks - getting started
+          </p>
+
+          <div
+            *ngIf="!loading1"
+            class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
+          >
+            <div class="choice-block">
+              <p class="choice-title bold">{{ customObj?.title }}</p>
+              <p class="choice-description medium">
+                {{ customObj?.description }}
+              </p>
+            </div>
+          </div>
+
+          <div
+            *ngIf="loading1"
+            class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
+          >
+            <div class="choice-block" style="width:500px">
+              <content-loader>
+                <svg:rect x="0" y="20" rx="10" width="60%" height="10" />
+                <svg:rect x="0" y="60" rx="10" width="100%" height="10" />
+                <svg:rect x="0" y="80" rx="10" width="100%" height="10" />
+                <svg:rect x="0" y="100" rx="10" width="100%" height="10" />
+                <svg:rect x="0" y="120" rx="10" width="100%" height="10" />
+              </content-loader>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backtoassignTask()">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                (click)="goToStep2($event, '2')"
+                [disabled]="loading"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeStep == '2'" class="div_step">
+      <div class="d-flex justify-content-center ">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Choose a template to assign scheduled tasks.
+          </p>
+          <div class="simple-search input-group">
+            <input
+              class="form-control py-2 task-search-input bold data-name"
+              type="text"
+              placeholder="Search template"
+              (input)="searchTemplate($event.target.value)"
+              autocomplete="off"
+            />
+          </div>
+          <p class="title bold">All templates</p>
+          <div class="scrollable-wrapper">
+            <div class="d-flex flex-wrap template-wrapper" *ngIf="!loading2">
+              <div
+                class="col-md-6 pl-0"
+                *ngFor="let template of scheduletemplateList"
+                (click)="checkTemplate(template)"
+                [ngClass]="{
+                  active: createCustom?.template?.taskTemplateId == template._id
+                }"
+              >
+                <div
+                  class="template-block"
+                  [ngClass]="{
+                    active:
+                      createCustom?.template?.taskTemplateId == template._id
+                  }"
+                >
+                  <div
+                    class="d-flex template-name bold"
+                    [ngClass]="{
+                      active:
+                        createCustom?.template?.taskTemplateId == template._id
+                    }"
+                  >
+                    <span class="pr-2">
+                      <svg
+                        width="18"
+                        height="19"
+                        viewBox="0 0 18 19"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          class="template-icon"
+                          [ngClass]="{
+                            active:
+                              createCustom?.template?.taskTemplateId ==
+                              template._id
+                          }"
+                          d="M18 17.7327C18 17.9979 17.8946 18.2523 17.7071 18.4398C17.5196 18.6273 17.2652 18.7327 17 18.7327H1C0.734784 18.7327 0.48043 18.6273 0.292893 18.4398C0.105357 18.2523 2.4071e-07 17.9979 2.4071e-07 17.7327V7.22269C-0.000105484 7.07031 0.0346172 6.91991 0.101516 6.78299C0.168415 6.64608 0.26572 6.52626 0.386 6.43269L8.386 0.210694C8.56154 0.0741392 8.7776 0 9 0C9.2224 0 9.43846 0.0741392 9.614 0.210694L17.614 6.43269C17.7343 6.52626 17.8316 6.64608 17.8985 6.78299C17.9654 6.91991 18.0001 7.07031 18 7.22269V17.7327ZM4 12.7327V14.7327H14V12.7327H4Z"
+                          fill="#363F4D"
+                        />
+                      </svg>
+                    </span>
+                    <span>{{ template.templateName }}</span>
+                  </div>
+                  <p
+                    class="template-description medium"
+                    [ngClass]="{
+                      active:
+                        createCustom?.template?.taskTemplateId == template._id
+                    }"
+                  >
+                    {{ template.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap template-wrapper" *ngIf="loading2">
+              <div class="col-md-6 pl-0">
+                <div class="template-block" style="height: 140px;">
+                  <content-loader>
+                    <svg:rect x="0" y="10" rx="10" width="60%" height="10" />
+                    <svg:rect x="0" y="30" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="70" rx="10" width="100%" height="10" />
+                  </content-loader>
+                </div>
+              </div>
+              <div class="col-md-6 pl-0">
+                <div class="template-block" style="height: 140px;">
+                  <content-loader>
+                    <svg:rect x="0" y="10" rx="10" width="60%" height="10" />
+                    <svg:rect x="0" y="30" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="70" rx="10" width="100%" height="10" />
+                  </content-loader>
+                </div>
+              </div>
+              <div class="col-md-6 pl-0">
+                <div class="template-block" style="height: 140px;">
+                  <content-loader>
+                    <svg:rect x="0" y="10" rx="10" width="60%" height="10" />
+                    <svg:rect x="0" y="30" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="70" rx="10" width="100%" height="10" />
+                  </content-loader>
+                </div>
+              </div>
+              <div class="col-md-6 pl-0">
+                <div class="template-block" style="height: 140px;">
+                  <content-loader>
+                    <svg:rect x="0" y="10" rx="10" width="60%" height="10" />
+                    <svg:rect x="0" y="30" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="10" />
+                    <svg:rect x="0" y="70" rx="10" width="100%" height="10" />
+                  </content-loader>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backToPrevStep(1, 2)">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                [disabled]="!createCustom?.template?.taskTemplateId"
+                (click)="goToStep3($event, '3')"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeStep == '3'" class="div_step">
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Manage tasks
+          </p>
+          <p class="template-description2 medium">
+            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
+            elit cillum dolore.
+          </p>
+          <p class="title bold">All tasks - {{ taskLists.length }} Tasks</p>
+          <div class="task-wrapper" *ngIf="!loading3">
+            <div
+              class="col-md-4  pl-1"
+              *ngFor="let task of taskLists; let i = index"
+              (click)="checkTask(task)"
+            >
+              <div
+                class="task-block p-0"
+                [ngClass]="{
+                  selectedBorder: task._id == singleSelectedTask._id
+                }"
+              >
+                <div
+                  class="d-flex justify-content-center align-items-center img-block"
+                >
+                  <img src="{{ task.posterImageUrl }}" />
+                </div>
+                <span class="mastery-count font-semi">{{
+                  task.masteryCount == 1
+                    ? task.masteryCount + ' Mastery'
+                    : task.masteryCount + ' Masteries'
+                }}</span>
+
+                <p class="task-name medium">{{ task.name }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="task-wrapper" *ngIf="loading3">
+            <div class="col-md-4  pl-1">
+              <div
+                class="task-block p-0"
+                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+              padding: 10px !important;
+              height: 120px;"
+              >
+                <content-loader>
+                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4  pl-1">
+              <div
+                class="task-block p-0"
+                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+              padding: 10px !important;
+              height: 120px;"
+              >
+                <content-loader>
+                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4  pl-1">
+              <div
+                class="task-block p-0"
+                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+              padding: 10px !important;
+              height: 120px;"
+              >
+                <content-loader>
+                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                </content-loader>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backToPrevStep(2, 3)">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                [disabled]="!singleSelectedTask._id || loading3"
+                (click)="goToStep4($event, '4')"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeStep == '4'" class="div_step">
+      <div class="d-flex justify-content-center ">
+        <div class="inside-data-wrapper">
+          <div class="mastery-scroll" *ngIf="!loading4">
+            <p class="step-title bold">
+              Customize task infromation
+            </p>
+            <div class="d-flex template-name font-semi mb-2">
+              <span class="pr-2">
+                <svg
+                  width="18"
+                  height="19"
+                  viewBox="0 0 18 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    class="template-icon"
+                    d="M18 17.7327C18 17.9979 17.8946 18.2523 17.7071 18.4398C17.5196 18.6273 17.2652 18.7327 17 18.7327H1C0.734784 18.7327 0.48043 18.6273 0.292893 18.4398C0.105357 18.2523 2.4071e-07 17.9979 2.4071e-07 17.7327V7.22269C-0.000105484 7.07031 0.0346172 6.91991 0.101516 6.78299C0.168415 6.64608 0.26572 6.52626 0.386 6.43269L8.386 0.210694C8.56154 0.0741392 8.7776 0 9 0C9.2224 0 9.43846 0.0741392 9.614 0.210694L17.614 6.43269C17.7343 6.52626 17.8316 6.64608 17.8985 6.78299C17.9654 6.91991 18.0001 7.07031 18 7.22269V17.7327ZM4 12.7327V14.7327H14V12.7327H4Z"
+                    fill="#363F4D"
+                  />
+                </svg>
+              </span>
+              <span
+                >{{ createCustom?.template.name }} >
+                {{ (createCustom?.template.tasks)[0].name }}</span
+              >
+            </div>
+            <p class="template-description2 regular mb-4">
+              {{ (createCustom?.template.tasks)[0].description }}
+            </p>
+            <div class="mastery-block">
+              <div class="anno-block pl-4">
+                <div
+                  class="hidden-anno"
+                  [ngClass]="{ 'show-anno': isShowAnnoBlock == true }"
+                >
+                  <p
+                    class="d-none template-description2 regular"
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == false }"
+                  >
+                    Announcement time will be automatically set to 24 hours
+                    before the start date.
+                    <button
+                      class="btn btn-link pl-0"
+                      (click)="isShowAnnoBlock = true"
+                    >
+                      Set custom announcement time.
+                    </button>
+                  </p>
+                  <button
+                    type="button"
+                    class="close float-right d-none btn-close"
+                    aria-label="Close"
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                    (click)="isShowAnnoBlock = false"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+
+                  <div
+                    [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
+                    class="d-none"
+                  >
+                    <p class="anno-txt font-semi">
+                      Announcement information
+                    </p>
+                    <div class="d-flex duration-wrapper mb-3">
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >Date</label
+                        >
+                        <div class="input-wrap">
+                          <div class="cc-start">
+                            <span class="dp-icon">
+                              <img src="./assets/img/course-dp.png" />
+                            </span>
+                            <input
+                              type="text"
+                              class="input-day dropD startInput"
+                              name="annoDate"
+                              required
+                              (click)="annoDate.toggle()"
+                              ngbDatepicker
+                              #annoDate="ngbDatepicker"
+                              (document:click)="closeDropdown($event, annoDate)"
+                              [(ngModel)]="annoTaskDate"
+                              placeholder="{{
+                                (createCustom?.template.tasks)[0]
+                                  .announcementDate | date: 'dd MMM yyyy'
+                              }}"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pRight-15">
+                        <label for="course_name" class="input-title font-medium"
+                          >Time</label
+                        >
+                        <div class="input-wrap start-wrap">
+                          <span class="dp-icon">
+                            <img src="./assets/img/clock.png" />
+                          </span>
+                          <input
+                            type="text"
+                            class="input-day timeInput"
+                            name="innoTime"
+                            required
+                            readonly
+                            (click)="durationProgress($event)"
+                            style="background: none;"
+                            [(ngModel)]="showFormat"
+                            placeholder="{{
+                              (createCustom?.template.tasks)[0]
+                                .announcementDate | date: 'h:mm a'
+                            }}"
+                          />
+                          <div class="bg-box duration-progress">
+                            <div id="rectangle"></div>
+                            <div
+                              class="time-wrapper d-flex justify-content-center"
+                            >
+                              <div
+                                class="d-flex flex-column justify-content-center showTime medium"
+                              >
+                                {{ showFormat }}
+                              </div>
+                              <div>
+                                <div class="time-box">
+                                  <label
+                                    [ngClass]="{
+                                      selected: isSelectedTime == 'AM'
+                                    }"
+                                    class="mb-0 font-semi"
+                                    ><input
+                                      type="radio"
+                                      name="prop"
+                                      (click)="chooseTimeOpt('AM')"
+                                    />
+                                    AM
+                                  </label>
+                                  <label
+                                    [ngClass]="{
+                                      selected: isSelectedTime == 'PM'
+                                    }"
+                                    class="mb-0 font-semi"
+                                  >
+                                    <input
+                                      type="radio"
+                                      [(ngModel)]="model.prop"
+                                      name="prop"
+                                      (click)="chooseTimeOpt('PM')"
+                                    />
+                                    PM
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="gap-box">
+                              <label>
+                                <div class="col-md-4 max-range">Hour</div>
+                                <input
+                                  class="max-range-box"
+                                  type="range"
+                                  id="hrDuration"
+                                  name="pointsHr"
+                                  min="0"
+                                  max="12"
+                                  (input)="
+                                    ChangedRangeValue($event.target.value, 'hr')
+                                  "
+                                  [(ngModel)]="rangeHr"
+                                />
+                              </label>
+                            </div>
+                            <div class="gap-range-min">
+                              <label>
+                                <div class="col-md-4 min-range">Minute</div>
+                                <input
+                                  class="min-range-box"
+                                  type="range"
+                                  id="minDuration"
+                                  name="pointsMin"
+                                  min="0"
+                                  max="59"
+                                  step="1"
+                                  (input)="
+                                    ChangedRangeValue(
+                                      $event.target.value,
+                                      'min'
+                                    )
+                                  "
+                                  [(ngModel)]="rangeMin"
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="anno-txt font-semi">
+                  Task information
+                </p>
+                <div class="mastery-list-wrapper">
+                  <div class="d-flex flex-column duration-wrapper mb-4">
+                    <div class="d-flex flex-wrap mb-3">
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >Start Date</label
+                        >
+                        <div class="input-wrap">
+                          <div class="cc-start">
+                            <span class="dp-icon">
+                              <img src="./assets/img/course-dp.png" />
+                            </span>
+                            <input
+                              type="text"
+                              class="input-day dropD startInput"
+                              name="startDate"
+                              required
+                              (click)="startDate.toggle()"
+                              ngbDatepicker
+                              #startDate="ngbDatepicker"
+                              (document:click)="
+                                closeDropdown($event, startDate)
+                              "
+                              [(ngModel)]="taskStartDate"
+                              placeholder="{{
+                                (createCustom?.template.tasks)[0].taskStartDate
+                                  | date: 'dd MMM yyyy'
+                              }}"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >End Date</label
+                        >
+                        <div class="input-wrap">
+                          <div class="cc-start">
+                            <span class="dp-icon">
+                              <img src="./assets/img/course-dp.png" />
+                            </span>
+                            <input
+                              type="text"
+                              class="input-day dropD startInput"
+                              name="endDate"
+                              required
+                              (click)="endDate.toggle()"
+                              ngbDatepicker
+                              #endDate="ngbDatepicker"
+                              (document:click)="closeDropdown($event, endDate)"
+                              placeholder="{{
+                                (createCustom?.template.tasks)[0].taskEndDate
+                                  | date: 'dd MMM yyyy'
+                              }}"
+                              [minDate]="taskStartDate"
+                              [(ngModel)]="taskEndDate"
+                              readonly
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="masteries-box regular">
+                      {{
+                        masteryList.length > 1
+                          ? masteryList.length + ' Masteries'
+                          : masteryList.length + ' Mastery'
+                      }}
+                    </p>
+                    <div class="d-flex flex-wrap mb-3">
+                      <div
+                        class="col-md-4"
+                        *ngFor="let mastery of masteryList; let i = index"
+                        (click)="checkedMastery(mastery, $event)"
+                      >
+                        <div
+                          class="mastery-content mb-4"
+                          [ngClass]="{
+                            checkMastery: checkMasteryExit(mastery) != -1
+                          }"
+                        >
+                          <div class="d-flex justify-content-between">
+                            <div
+                              class="checkBox"
+                              [ngClass]="{
+                                checkboxChecked: checkMasteryExit(mastery) != -1
+                              }"
+                            >
+                              <i
+                                class="fa fa-check checkIcon"
+                                [ngClass]="{
+                                  showCheckbox: checkMasteryExit(mastery) != -1
+                                }"
+                              ></i>
+                            </div>
+                            <div
+                              style="height: 20px;"
+                              *ngIf="checkMasteryExit(mastery) != -1"
+                              (click)="
+                                showMasteryDetail(
+                                  mastery,
+                                  masteryDetail,
+                                  $event
+                                )
+                              "
+                            >
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <rect
+                                  x="1"
+                                  y="1"
+                                  width="18"
+                                  height="18"
+                                  rx="9"
+                                  stroke="white"
+                                  stroke-width="2"
+                                />
+                                <path
+                                  d="M14.2513 10.2728C14.2513 7.249 12.4416 5.41626 9.9949 5.41626C7.53893 5.41626 5.73389 7.249 5.73389 10.2728C5.73389 13.292 7.53893 15.1293 9.9949 15.1293C10.6043 15.1293 11.1721 15.0185 11.6799 14.8016L12.4878 15.8495H13.9466L12.6725 14.1876C13.6511 13.3612 14.2513 12.0132 14.2513 10.2728ZM9.51478 11.9347L10.8582 13.6982C10.5904 13.7859 10.2996 13.8275 9.9949 13.8275C8.36528 13.8275 7.15115 12.5764 7.15115 10.2728C7.15115 7.96917 8.36528 6.71811 9.9949 6.71811C11.6199 6.71811 12.8386 7.96917 12.8386 10.2728C12.8386 11.5654 12.4555 12.5303 11.8276 13.1212L10.9182 11.9347H9.51478Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                            <div
+                              style="height: 20px;"
+                              *ngIf="checkMasteryExit(mastery) == -1"
+                              (click)="
+                                showMasteryDetail(mastery, masteryDetail)
+                              "
+                            >
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <rect
+                                  width="20"
+                                  height="20"
+                                  rx="10"
+                                  fill="#5C6773"
+                                />
+                                <path
+                                  d="M14.2513 10.2728C14.2513 7.249 12.4416 5.41626 9.9949 5.41626C7.53893 5.41626 5.73389 7.249 5.73389 10.2728C5.73389 13.292 7.53893 15.1293 9.9949 15.1293C10.6043 15.1293 11.1721 15.0185 11.6799 14.8016L12.4878 15.8495H13.9466L12.6725 14.1876C13.6511 13.3612 14.2513 12.0132 14.2513 10.2728ZM9.51478 11.9347L10.8582 13.6982C10.5904 13.7859 10.2996 13.8275 9.9949 13.8275C8.36528 13.8275 7.15115 12.5764 7.15115 10.2728C7.15115 7.96917 8.36528 6.71811 9.9949 6.71811C11.6199 6.71811 12.8386 7.96917 12.8386 10.2728C12.8386 11.5654 12.4555 12.5303 11.8276 13.1212L10.9182 11.9347H9.51478Z"
+                                  fill="white"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+
+                          <p class="mastery-name medium">
+                            {{ mastery.shortMasteryName }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mastery-scroll" *ngIf="loading4">
+            <p class="step-title bold">
+              Customize task infromation
+            </p>
+            <p class="template-description2 regular mb-4" style="height: 10px;">
+              <content-loader>
+                <svg:rect x="0" y="10" rx="1" width="40%" height="3" />
+
+                <svg:rect x="0" y="20" rx="1" width="100%" height="3" />
+                <svg:rect x="0" y="30" rx="1" width="100%" height="3" />
+              </content-loader>
+            </p>
+            <div class="mastery-block">
+              <div class="anno-block pl-4" style="    margin-top: 80px;">
+                <div class="hidden-anno">
+                  <p
+                    class="d-none template-description2 regular"
+                    style="display: block !important;"
+                  >
+                    Announcement time will be automatically set to 24 hours
+                    before the start date.
+                    <button class="btn btn-link pl-0" [disabled]="loading4">
+                      Set custom announcement time.
+                    </button>
+                  </p>
+                  <button
+                    type="button"
+                    class="close float-right d-none btn-close"
+                    aria-label="Close"
+                    [disabled]="loading4"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <p class="anno-txt font-semi">
+                  Task information
+                </p>
+                <div class="mastery-list-wrapper">
+                  <div class="d-flex flex-column duration-wrapper mb-4">
+                    <div class="d-flex flex-wrap mb-3">
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >Start Date</label
+                        >
+                        <div class="input-wrap" style="height: 10px;">
+                          <content-loader>
+                            <svg:rect x="0" y="10" width="100%" height="20" />
+                          </content-loader>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="course_name" class="input-title medium"
+                          >End Date</label
+                        >
+                        <div class="input-wrap" style="height: 10px;">
+                          <content-loader>
+                            <svg:rect x="0" y="10" width="100%" height="20" />
+                          </content-loader>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="masteries-box regular">
+                      Mastery Lists
+                    </p>
+                    <div class="d-flex flex-wrap mb-3">
+                      <div class="col-md-4">
+                        <div>
+                          <content-loader>
+                            <svg:rect x="0" y="10" width="100%" height="60" />
+                          </content-loader>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div>
+                          <content-loader>
+                            <svg:rect x="0" y="10" width="100%" height="60" />
+                          </content-loader>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div>
+                          <content-loader>
+                            <svg:rect x="0" y="10" width="100%" height="60" />
+                          </content-loader>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backToPrevStep(3, 4)">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                (click)="goToStep5($event, '5')"
+                [disabled]="this.createCustom.template.tasks[0].masteries == 0"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeStep == '5'" class="div_step">
+      <div class="d-flex justify-content-center">
+        <div class="inside-data-wrapper">
+          <p class="step-title bold">
+            Assigning mode
+          </p>
+          <p class="template-description2 medium">
+            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
+            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
+            elit cillum dolore.
+          </p>
+          <div class="d-flex flex-wrap mode-wrapper" *ngIf="!loading5">
+            <div
+              class="col-md-12 mb-5"
+              *ngFor="let mode of assignModeList"
+              (click)="choicemode(mode)"
+            >
+              <div
+                class="choice-block"
+                [ngClass]="{
+                  activeMode:
+                    mode.id == createCustom?.template?.distributionMode?.id
+                }"
+              >
+                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-description medium">
+                  {{ mode.description }}
+                </p>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-12 mb-5">
+              <div
+                class="choice-block"
+                [ngClass]="{
+                  activeMode:
+                    mode.id == createCustom?.template?.distributionMode?.id
+                }"
+              >
+                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-description medium">
+                  {{ mode.description }}
+                </p>
+              </div>
+            </div> -->
+          </div>
+
+          <div class="d-flex flex-wrap mode-wrapper" *ngIf="loading5">
+            <div class="col-md-12 mb-5">
+              <div class="choice-block" style="height: 140px;">
+                <content-loader>
+                  <svg:rect x="0" y="10" rx="3" width="40%" height="4" />
+                  <svg:rect x="0" y="20" rx="3" width="100%" height="4" />
+                  <svg:rect x="0" y="30" rx="3" width="100%" height="4" />
+                  <svg:rect x="0" y="40" rx="3" width="100%" height="4" />
+                </content-loader>
+              </div>
+            </div>
+
+            <div class="col-md-12 mb-5">
+              <div class="choice-block" style="height: 140px;">
+                <content-loader>
+                  <svg:rect x="0" y="10" rx="3" width="40%" height="4" />
+                  <svg:rect x="0" y="20" rx="3" width="100%" height="4" />
+                  <svg:rect x="0" y="30" rx="3" width="100%" height="4" />
+                  <svg:rect x="0" y="40" rx="3" width="100%" height="4" />
+                </content-loader>
+              </div>
+            </div>
+            <!-- <div class="col-md-12 mb-5">
+              <div
+                class="choice-block"
+                [ngClass]="{
+                  activeMode:
+                    mode.id == createCustom?.template?.distributionMode?.id
+                }"
+              >
+                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-description medium">
+                  {{ mode.description }}
+                </p>
+              </div>
+            </div> -->
+          </div>
+
+          <div class="button-wrapper">
+            <div
+              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
+            >
+              <div class="back-modal medium" (click)="backToPrevStep(4, 5)">
+                <i class="fa fa-angle-left"></i>
+                <p>Back</p>
+              </div>
+              <button
+                class="btn btn-comfirm medium"
+                (click)="createAssign()"
+                [disabled]="!createCustom?.template?.distributionMode?.id"
+              >
+                Assign
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #masteryDetail let-modal>
+    <div class="modal-body">
+      <div class="mastery-header">
+        <div class="d-flex justify-content-between">
+          <p class="font-semi small-title">Sample Question</p>
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modalClose()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <p class="mastery-title font-semi mb-0">
+          {{ questionObj.mastery.shortMasteryName }}
+        </p>
+      </div>
+      <div class="mastery-body font-semi" id="question-content">
+        <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
+        <div
+          *ngFor="
+            let obj of changeHTMLFormat(questionObj.quiz.question);
+            let i = index
+          "
+        >
+          <div
+            *ngIf="obj.tag === 'IMG'"
+            class="d-flex justify-content-center align-items-center questImg my-3"
+          >
+            <img src="{{ obj.value }}" />
+          </div>
+          <span *ngIf="obj.tag === 'TEXT'">
+            {{ obj.value }}
+          </span>
+        </div>
+      </div>
+
+      <div class="anwer-wrapper">
+        <div
+          class="answer-block{{ i }} font-semi"
+          *ngFor="let obj of questionObj.quiz.answers; let i = index"
+        >
+          <span *ngIf="obj.correctness" class="regular ccAns"
+            >Correct answer</span
+          >
+          <div
+            *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
+            id="answer-block"
+            [ngClass]="{ correctnessActive: obj.correctness == true }"
+          >
+            <div
+              *ngIf="obj2.tag === 'IMG'"
+              class="d-flex justify-content-center align-items-center answer-img"
+            >
+              <img src="{{ obj2.value }}" />
+            </div>
+            <span *ngIf="obj2.tag === 'TEXT'">
+              {{ obj2.value }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

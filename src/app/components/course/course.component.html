@@ -26,14 +26,17 @@
         <div class="d-flex justify-content-between title">
           <div class="d-flex">
             <h3 class="header-font">Courses</h3>
-            <span
-              class="location-name"
-              [ngStyle]="{
-                color: gtxtColor,
-                background: gbgColor
-              }"
-              >{{ locationName }}</span
-            >
+            <div class="location-wrapper mt-2">
+              <div
+                class="location-name"
+                [ngStyle]="{
+                  color: gtxtColor,
+                  background: gbgColor
+                }"
+              >
+                {{ locationName }}
+              </div>
+            </div>
           </div>
           <button class="today-button" (click)="gotoTodayLesson()">
             Today’s lessons
@@ -592,6 +595,13 @@
               <!-- <p class="addCourseBtn">+</p> -->
               <p class="btn-largeLabel">Add new course plan</p>
             </button>
+            <button
+              class="btn btn-large d-flex align-items-center justify-content-center"
+              routerLinkActive="active"
+              routerLink="/coursedetail"
+            >
+              Course Detail
+            </button>
           </div>
           <div *ngFor="let courseGroup of courseList">
             <div class="card card-wrap">
@@ -605,7 +615,7 @@
                       #{{ courseGroup.coursePlan.category.name }}
                     </label>
                   </div>
-                  <h5 class="medium-font cursor-on">
+                  <h5 class="medium-font cursor-on wordBreak">
                     {{ courseGroup.coursePlan.name }}
                   </h5>
                   <div class="d-flex header-info light-font">
@@ -982,10 +992,10 @@
     class="category-content"
     *ngIf="isPlan == true"
   ></app-courseplan>
-  <app-coursecreate
+  <!-- <app-coursecreate
     class="category-content"
     *ngIf="isCourseCreate == true"
-  ></app-coursecreate>
+  ></app-coursecreate> -->
   <div class="w-100">
     <app-today-lessons
       *ngIf="isTodayLesson"
@@ -1217,7 +1227,7 @@
                   <button
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'teacher',
@@ -1264,7 +1274,7 @@
                   <button
                     *ngIf="courseDemo.assignTeacher != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'staff',
@@ -1322,7 +1332,7 @@
                   <div class="d-flex flex-column">
                     <h2 class="title-heading">Customers</h2>
                     <div class="d-flex">
-                      <p class="seat-text-wrapper">
+                      <p class="seat-text-wrapper body-l">
                         Total: {{ pplLists.CUSTOMER.length }}
                         <span *ngIf="pplLists.CUSTOMER.length <= 1"
                           >customer</span
@@ -1333,13 +1343,13 @@
                       </p>
                       <ul
                         *ngIf="detailLists.seat_left == null"
-                        class="seat-wrapper"
+                        class="seat-wrapper body-l"
                       >
                         <li class="seat-text-wrapper">unlimited seat</li>
                       </ul>
                       <ul
                         *ngIf="detailLists.seat_left !== null"
-                        class="seat-wrapper"
+                        class="seat-wrapper body-l"
                       >
                         <li
                           *ngIf="
@@ -1414,7 +1424,7 @@
                   <button
                     *ngIf="courseDemo.assignStudent != ''"
                     type="button"
-                    class="btn btn-create"
+                    class="btn btn-create body-m"
                     (click)="
                       addUserModal(
                         'customer',
@@ -1426,7 +1436,7 @@
                     "
                     style="height:40px;"
                   >
-                    Enroll class
+                    Enroll customer
                   </button>
                 </div>
                 <div class="row customer-row">
@@ -2339,6 +2349,7 @@
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
+                  <div class="remove-user d-flex justify-content-end"></div>
                 </div>
               </div>
             </div>
@@ -2816,6 +2827,7 @@
       ></app-invoice>
     </div>
   </ng-template>
+
   <ng-template #tabsModal let-c="close" let-d="dismiss">
     <div class="d-flex modal-header flex-column header-shadow">
       <div class="d-flex justify-content-between w-100 modal-headone">
@@ -3772,6 +3784,7 @@
       [scheduleRelief]="false"
     ></app-assign-relief>
   </ng-template>
+
   <ng-template #invoiceAlert>
     <div class="modal-header">
       <h3 class="modal-title">Generate invoice</h3>
@@ -3804,6 +3817,7 @@
       </button>
     </div>
   </ng-template>
+
   <ng-template #lessonDelete>
     <div class="modal-header">
       <h3 class="modal-title">Delete lesson</h3>
@@ -3835,8 +3849,6 @@
       </button>
     </div>
   </ng-template>
-  {{ !detailLists }}
-  <block-ui message="Deafult Message"></block-ui>
   <block-ui message="Deafult Message"></block-ui>
 </div>
 
