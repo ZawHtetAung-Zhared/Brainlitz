@@ -77,8 +77,8 @@
   line-height: 24px;
 }
 
-.pb-16 {
-  padding-bottom: 16px;
+.pb-24 {
+  padding-bottom: 24px;
 }
 .fine {
   color: #d4d5d6;
@@ -94,6 +94,9 @@
 }
 .w-90 {
   width: 90%;
+}
+.w-50 {
+  width: 50%;
 }
 .dotted {
   width: 5px;

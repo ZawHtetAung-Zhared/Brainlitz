@@ -40,8 +40,38 @@
               *ngIf="report.masteryCountInPercentage"
               class="d-flex flex-column w-90"
             >
-              <span class="bold-txt h5-strong mb-3">Overall percentage</span>
-              <div
+              <span class="bold-txt h4-strong mb-3">Overall percentage</span>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex flex-column w-50">
+                  <div class="d-flex flex-column pb-24 light-txt body-m">
+                    <span class="bold-txt h4-strong"
+                      >{{ report.masteryCountInPercentage.STRUGGLE }}%</span
+                    >
+                    <span> Struggling </span>
+                  </div>
+                  <div class="d-flex flex-column pb-24 light-txt body-m">
+                    <span class="bold-txt h4-strong"
+                      >{{ report.masteryCountInPercentage.MASTERED }}%</span
+                    >
+                    <span> Mastered </span>
+                  </div>
+                </div>
+                <div class="d-flex flex-column w-50">
+                  <div class="d-flex flex-column pb-24 light-txt body-m">
+                    <span class="bold-txt h4-strong"
+                      >{{ report.masteryCountInPercentage.INPROGRESS }}%</span
+                    >
+                    <span> Inconclusive </span>
+                  </div>
+                  <div class="d-flex flex-column pb-24 light-txt body-m">
+                    <span class="bold-txt h4-strong"
+                      >{{ report.masteryCountInPercentage.NEW }}%</span
+                    >
+                    <span> Not started </span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div
                 class="d-flex justify-content-between pb-16 light-txt body-m"
               >
                 <span> Struggling</span>
@@ -78,7 +108,7 @@
                     report.masteryCountInPercentage.MASTERED_WITH_EASE
                   }}%</span
                 >
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
