@@ -205,6 +205,10 @@ export class CustomTaskComponent implements OnInit {
     this.loading4 = true;
     let temp = [];
 
+    this.singleSelectedTask.announcementDate = this.singleSelectedTask
+      .announcementDate
+      ? this.singleSelectedTask.announcementDate
+      : new Date();
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
@@ -244,9 +248,13 @@ export class CustomTaskComponent implements OnInit {
       : this.createCustom.template.tasks[0].taskEndDate;
 
     annDate = this.changeDateTimeFormat(
-      this.annoTaskDate ? this.annoTaskDate : new Date(),
+      this.annoTaskDate
+        ? this.annoTaskDate
+        : this.createCustom.template.tasks[0].announcementDate,
       !this.showFormat == true
-        ? this.changeDatetoTime(new Date())
+        ? this.changeDatetoTime(
+            this.createCustom.template.tasks[0].announcementDate
+          )
         : this.showFormat
     );
 
