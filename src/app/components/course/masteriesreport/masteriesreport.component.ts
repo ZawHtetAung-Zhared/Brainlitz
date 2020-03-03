@@ -246,6 +246,15 @@ export class MasteriesreportComponent implements OnInit {
           console.log(this.masteriesReports);
           setTimeout(() => {
             for (var i = 0; i < this.masteriesReports.length; i++) {
+              //calculate mastered percentage
+              var mastered =
+                this.masteriesReports[i].masteryCountInPercentage
+                  .MASTERED_WITH_DIFFICULT +
+                this.masteriesReports[i].masteryCountInPercentage
+                  .MASTERED_WITH_EASE;
+              this.masteriesReports[i].masteryCountInPercentage.MASTERED =
+                Math.round((mastered + Number.EPSILON) * 100) / 100;
+              // end calculation
               this.reportItems = this.masteriesReports[i].masteries;
               this.setupOption(i);
             }
