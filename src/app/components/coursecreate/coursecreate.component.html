@@ -92,15 +92,15 @@
   <div class="header-wrapper">
     <header>
       <div class="d-flex justify-content-between">
-        <div class="d-flex back" (click)="backToCourses('back', '')">
+        <div class="d-flex back text-c75" (click)="backToCourses('back', '')">
           <i class="fa fa-angle-left"></i>
-          <p class="mb-0 font-medium ">Back</p>
+          <p class="mb-0 body-l ">Back</p>
         </div>
         <!-- <div class="d-flex flex-row courseInfo font-medium">
 					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
 					<h5 class="mb-0">Course</h5>
 				</div> -->
-        <div class="font-medium">
+        <div class="body-l">
           <button class="btn-cancel" (click)="backToCourses('back', '')">
             Cancel
           </button>
@@ -110,18 +110,18 @@
   </div>
   <form #courseForm="ngForm" novalidate>
     <div class="info-wrap">
-      <h3 *ngIf="isEdit == false" class="font-semi">Create course</h3>
-      <h3 *ngIf="isEdit == true" class="font-semi">Update course</h3>
-      <div class="d-flex courseInfo font-medium">
-        <p class="mb-0">Plan</p>
-        <span class="sticky-dot">&#183;</span>
-        <p class="mb-0">{{ planName }}</p>
+      <h3 *ngIf="isEdit == false" class="text-c300 h3-strong">Create course</h3>
+      <h3 *ngIf="isEdit == true" class="text-c300 h3-strong">Update course</h3>
+      <div class="d-flex light-body-m ">
+        <p class="mb-0 text-c100 ">Plan</p>
+        <span class="sticky-dot text-c75">&#183;</span>
+        <p class="mb-0 text-c100 ">{{ planName }}</p>
       </div>
     </div>
     <div class="d-flex step-wrapper">
       <div class="col-md-5">
-        <label class="all-title-font">Course information</label>
-        <p class="info-p font-medium">
+        <label class="text-c300 h3-strong">Course information</label>
+        <p class="light-body-m text-c100">
           Enter the course name, code and description here.
         </p>
       </div>
@@ -130,7 +130,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.name == '' || model.name == undefined
               }"
@@ -141,7 +141,7 @@
             </div>
           </div>
           <input
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             type="text"
             id="name"
             (focus)="focusMethod($event, 'name', $event.target.value)"
@@ -171,7 +171,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="seat"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor:
                   model.courseCode == '' || model.courseCode == undefined
@@ -185,7 +185,7 @@
           <input
             type="text"
             placeholder="Type relevant course code here"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             id="courseCode"
             name="courseCode"
             maxlength="8"
@@ -210,7 +210,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor:
                   model.description == '' || model.description == undefined
@@ -222,7 +222,7 @@
             </div>
           </div>
           <textarea
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             rows="5"
             id="description"
             [(ngModel)]="model.description"
@@ -239,7 +239,7 @@
         <div class="d-flex">
           <div class="col-md-12 pRight-15" *ngIf="feesOptions">
             <label
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{ changeColor: chooseFee == '' }"
               >Course fee</label
             >
@@ -300,7 +300,7 @@
                 <span class="slider round"></span>
               </label>
             </div>
-            <div class="switch-label input-title font-medium changeColor">
+            <div class="switch-label text-c300 body-l changeColor">
               SparkWerkzCourse
             </div>
           </div>
@@ -320,7 +320,7 @@
         <div class="pad-b">
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.start == '' || model.start == undefined
             }"
@@ -550,7 +550,7 @@
           <div class="col-md-6 pRight-15">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.startT == '' || model.startT == undefined
               }"
@@ -644,7 +644,7 @@
           <div class="col-md-6 pLeft-15">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.duration == '' || model.duration == undefined
               }"
@@ -674,7 +674,7 @@
         </div>
         <div *ngIf="timeOptChecked == 'showTimeSlot'" class="pad-b">
           <label
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{ changeColor: selectedDay?.length > 0 == false }"
             >Repeated days</label
           >
@@ -716,7 +716,7 @@
         <div class="pad-b">
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor:
                 selectedTeacher.preferredName == '' ||
@@ -811,7 +811,7 @@
         <div>
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{ changeColor: userLists?.length > 0 == false }"
             >Assistants</label
           >
@@ -920,7 +920,7 @@
         <div>
           <label
             for="location"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.location == '' || model.location == undefined
             }"
@@ -928,7 +928,7 @@
           >
           <input
             type="text"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             [(ngModel)]="model.location"
             name="location"
             #location="ngModel"
@@ -951,7 +951,7 @@
         <div>
           <label
             for="room"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.room == '' || model.room == undefined
             }"
@@ -959,7 +959,7 @@
           >
           <input
             type="text"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             placeholder="Type room name"
             id="room"
             name="room"
@@ -975,7 +975,7 @@
         <!-- <div>
           <label
             for="seat"
-            class="input-title font-medium"
+            class="text-c300 body-l"
             [ngClass]="{
               changeColor:
                 model.reservedNumberofSeat == '' ||
@@ -985,7 +985,7 @@
           >
           <input
             type="number"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             placeholder="0"
             id="seat"
             [(ngModel)]="model.reservedNumberofSeat"

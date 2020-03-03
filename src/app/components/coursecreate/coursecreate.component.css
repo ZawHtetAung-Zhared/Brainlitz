@@ -61,21 +61,16 @@ input:-webkit-input-placeholder {
   font-size: 10px !important;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
-.font-medium,
+/* .font-medium,
 .radio-wrap label,
 .timeslot-wrap label,
 .default-lesson {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
+} */
 .font-semi {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-textarea,
-input,
-select,
-.font-regular {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
+
 header div {
   height: 1.4rem;
 }
@@ -97,19 +92,19 @@ header div {
 .info-p {
   width: 90%;
 }
-.courseInfo p {
+/* .courseInfo p {
   color: #64707d;
   font-size: 14px;
   line-height: 1.7;
-}
-.input-title {
+} */
+/* .input-title {
   font-size: 18px;
-  /*color: #2e3e4d;*/
+  color: #2e3e4d;
   color: #64707d;
-}
+} */
 
 .changeColor {
-  color: #2e3e4d;
+  color: #363f4d;
   /*color: #64707d;*/
 }
 
@@ -127,13 +122,12 @@ header div {
 }*/
 .nav-title,
 .back p {
-  font-size: 16px;
-  color: #2e3e4d;
   cursor: pointer;
 }
 .back i {
   font-size: 21px;
   padding-right: 4px;
+  line-height: 28px;
 }
 .btn-cancel {
   padding: 0;
@@ -141,16 +135,13 @@ header div {
   outline: none;
   color: #2e3d4d;
   cursor: pointer;
-  font-size: 16px;
   background: #fff;
 }
 .sticky-dot {
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
-  color: #788796;
   font-size: 30px;
-  margin-top: -13px;
 }
 
 .inside-data-wrapper {
