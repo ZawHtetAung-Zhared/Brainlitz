@@ -4181,14 +4181,26 @@ export class AttendanceComponent implements OnInit {
     console.log('cancel relirf~~~');
     this.modalReference.close();
     return new Promise((resolve, reject) => {
+      // this.getAttendance()
+      console.log('lastSelectedObj', this.lastSelectedObj);
       this.getCourseDetail(this.detailLists._id);
-      resolve();
       setTimeout(() => {
+        resolve();
         this.loading = false;
       }, 1000);
     }).then(() => {
       setTimeout(() => {
         console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        this.attendanceList.lessons.map((item, index) => {
+          // console.log("item",item)
+          // console.log("index",index)
+          if (item._id == this.lastSelectedObj._id) {
+            this.attendanceList.lessons[index] = this.detailLists.lessons[
+              this.currentLessonIdx
+            ];
+            console.log('attendance list', this.attendanceList.lessons);
+          }
+        });
         this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
       }, 300);
     });

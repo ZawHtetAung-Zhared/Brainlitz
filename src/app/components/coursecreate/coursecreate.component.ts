@@ -1444,9 +1444,10 @@ export class CoursecreateComponent implements OnInit {
     // console.log(this.detailLists.locationId)
     // console.log(searchWord)
     // let locationId = this.detailLists.locationId;
-    if (searchWord.length == 0) {
-      this.searchKeyword(searchWord);
-    }
+    // if (searchWord.length == 0) {
+    //   this.searchKeyword(searchWord);
+    // }
+    this.searchKeyword(searchWord);
   }
 
   searchKeyword(searchWord) {

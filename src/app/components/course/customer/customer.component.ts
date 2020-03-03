@@ -1277,15 +1277,15 @@ export class CustomerComponent implements OnInit {
     this.formData = {};
   }
 
-  comparer(otherArray) {
-    return function(current) {
-      return (
-        otherArray.filter(function(other) {
-          return (
-            other.value == current.value && other.display == current.display
-          );
-        }).length == 0
-      );
-    };
-  }
+  // comparer(otherArray) {
+  //   return function(current) {
+  //     return (
+  //       otherArray.filter(function(other) {
+  //         return (
+  //           other.value == current.value && other.display == current.display
+  //         );
+  //       }).length == 0
+  //     );
+  //   };
+  // }
 }

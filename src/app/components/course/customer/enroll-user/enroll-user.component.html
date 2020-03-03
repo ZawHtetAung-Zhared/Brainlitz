@@ -81,8 +81,8 @@
                 >
                   <h4>
                     {{
-                      user.preferredName.length > 11
-                        ? (user.preferredName | slice: 0:11) + '...'
+                      user.preferredName.length > 20
+                        ? (user.preferredName | slice: 0:20) + '...'
                         : user.preferredName
                     }}
                   </h4>
@@ -93,8 +93,8 @@
                 >
                   <h4>
                     {{
-                      user.email.length > 11
-                        ? (user.email | slice: 0:11) + '...'
+                      user.email.length > 20
+                        ? (user.email | slice: 0:20) + '...'
                         : user.email
                     }}
                   </h4>
@@ -334,8 +334,8 @@
               >
                 <h4>
                   {{
-                    user.preferredName.length > 11
-                      ? (user.preferredName | slice: 0:11) + '...'
+                    user.preferredName.length > 20
+                      ? (user.preferredName | slice: 0:20) + '...'
                       : user.preferredName
                   }}
                 </h4>
@@ -346,8 +346,8 @@
               >
                 <h4>
                   {{
-                    user.email.length > 11
-                      ? (user.email | slice: 0:11) + '...'
+                    user.email.length > 20
+                      ? (user.email | slice: 0:20) + '...'
                       : user.email
                   }}
                 </h4>
@@ -520,7 +520,7 @@
   </div>
   <div
     class="modal-footer d-flex position-fixed"
-    style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+    style="padding: 18px 20px 18px 20px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
   >
     <div class="d-flex justify-content-between inner-wrapper">
       <div class="d-flex flex-column">

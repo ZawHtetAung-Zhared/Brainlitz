@@ -14,6 +14,7 @@ import { DatePipe, CurrencyPipe } from '@angular/common';
 export class OverviewComponent implements OnInit {
   public chart: any;
   public Nomasteryflag: boolean = true;
+  public total_no_of_seats: any;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -38,6 +39,7 @@ export class OverviewComponent implements OnInit {
   }
   public cc = 1;
   ngAfterViewInit() {}
+  public todayflag: boolean = false;
   public on: boolean = true;
   public courseId: any;
   public pplLists: any;
@@ -735,6 +737,7 @@ export class OverviewComponent implements OnInit {
         this.enrolledcount = res.courseInfo.enrolledStudentCount;
         this.seat_left = res.courseInfo.seat_left;
         this.seat_taken = res.courseInfo.seat_taken;
+        this.total_no_of_seats = res.courseInfo.total_no_of_seats;
         if (localStorage.getItem('SPC') == 'true') {
           console.log('Sparkwerkz Course', localStorage.getItem('SPC'));
           this.scheduled = res.tasks[0] ? res.tasks[0].count : 0;
@@ -747,7 +750,12 @@ export class OverviewComponent implements OnInit {
         if (res.courseInfo.lessons.length > 0) {
           this.lessonList = res.courseInfo.lessons;
           console.log(this.datePipe.transform(new Date(), 'dd-MMMM-yyyy'));
-          this.attandanceIndex = this.checkIndexforAttandance(this.lessonList);
+          this.HasToday(this.lessonList);
+          if (this.todayflag == false) {
+            this.attandanceIndex = this.checkIndexforAttandance(
+              this.lessonList
+            );
+          }
           this.selectedAttandance = this.lessonList[this.attandanceIndex];
           console.log(this.lessonList);
           console.log(this.attandanceIndex, 'dateindex');
@@ -1099,5 +1107,24 @@ export class OverviewComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  HasToday(list) {
+    for (var i = 0; i < list.length; i++) {
+      let checkDate = list[i].lessonStartDate;
+      var Today = new Date().toISOString().slice(0, 10);
+      if (checkDate.slice(0, 10) == Today) {
+        console.log(
+          'Today checked',
+          checkDate.slice(0, 10),
+          '%%%%',
+          Today,
+          'index',
+          i
+        );
+        this.attandanceIndex = i;
+        this.todayflag = true;
+      }
+    }
   }
 }

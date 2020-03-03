@@ -1490,6 +1490,7 @@ li button {
 }
 
 .back-to {
+  outline: none;
   padding-left: 0 !important;
   cursor: pointer;
 }
