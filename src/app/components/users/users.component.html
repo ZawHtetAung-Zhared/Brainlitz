@@ -1466,7 +1466,10 @@
                             *ngIf="grade.assessment.logs.length <= 0"
                             >No Data</span
                           >
-                          <div *ngIf="grade.assessment.logs.length != 0">
+                          <div
+                            *ngIf="grade.assessment.logs.length != 0"
+                            class="d-flex"
+                          >
                             <div
                               *ngFor="
                                 let log of grade.assessment.logs;
@@ -3839,26 +3842,30 @@
         class="apg-group d-flex align-items-center justify-content-between"
         (click)="selectAPG(option)"
       >
-        <span
+        <div
           class="option-point d-flex justify-content-center align-items-center"
           [ngStyle]="{ color: color, background: bgcolor }"
           [ngClass]="option.isSelected ? 'highlight-point' : ''"
-          >{{ option.point }}</span
         >
-        <span
-          class="option-name"
+          <span>{{ option.point }}</span>
+        </div>
+        <div
+          class="option-name d-flex align-items-center justify-content-start"
           [ngClass]="option.isSelected ? 'highlight-name' : ''"
-          >{{ option.name }}</span
         >
+          <span>{{ option.name }}</span>
+        </div>
       </div>
-      <button
-        (click)="cancelGradePickUp()"
-        style="margin-right: 10px;"
-        class="btn modal-cancel-btn"
-      >
-        Cancel
-      </button>
-      <button class="btn btn-submit" (click)="updateAPG()">Update</button>
+      <div class="btn-group">
+        <button
+          (click)="cancelGradePickUp()"
+          style="margin-right: 10px;"
+          class="btn modal-cancel-btn"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-submit" (click)="updateAPG()">Update</button>
+      </div>
     </div>
   </ng-template>
   <div class="custom_backdrop" *ngIf="isJournal_delete"></div>
