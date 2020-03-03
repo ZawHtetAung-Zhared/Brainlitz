@@ -93,15 +93,16 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
+              target="_blank"
               class="nav-link"
               routerLinkActive="active"
-              routerLink="/schedule"
+              routerLink="/timetable"
               (click)="onClickHeaderTab('schedule')"
               >Schedule
               <div
                 class="border-design"
                 routerLinkActive="active"
-                routerLink="/schedule"
+                routerLink="/timetable"
               ></div>
             </a>
           </li>
@@ -356,4 +357,5 @@
   [appname]="appName"
   [location]="locationName"
   [regionData]="regionInfo"
-></app-livechat>
+>
+</app-livechat>

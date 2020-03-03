@@ -1,0 +1,32 @@
+<app-header [ngClass]="{ stick: isSticky == true }"></app-header>
+
+<!-- write your code -->
+<!-- write your code -->
+
+<!-- mycode -->
+<div class="overlayModal" *ngIf="showPopUp" (click)="clickOverlay()"></div>
+<button class="btn btn-submit" (click)="showPopUpFunc(scheduleDetails)">
+  click me
+</button>
+<block-ui message="Deafult Message"></block-ui>
+
+<ng-template #scheduleDetails let-c="close" let-d="dismiss">
+  <div class="d-flex modal-header" style="border-radius: 16px 16px 0px 0px;">
+    <div class="imgwrap">Image</div>
+    <div class="staff-info">Info</div>
+    <span>Add new course</span>
+    <button
+      (click)="cancelModal()"
+      aria-label="Close"
+      class="modal-close ml-auto"
+      type="button"
+    >
+      <span class="closemark">
+        <div class="closemark_stem"></div>
+        <div class="closemark_kick"></div>
+      </span>
+    </button>
+  </div>
+</ng-template>
+
+<!-- mycode -->

@@ -1,3 +1,4 @@
+import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
@@ -161,6 +162,11 @@ export const routes: Routes = [
   {
     path: 'today-lesson',
     component: TodayLessonsComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'timetable',
+    component: TimetableComponent,
     canActivate: [LoggedInGuard]
   },
   {

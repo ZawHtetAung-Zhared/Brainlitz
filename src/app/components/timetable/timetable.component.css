@@ -1,0 +1,165 @@
+.overlayModal {
+  background: rgba(39, 49, 70, 0.4);
+  position: fixed !important;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+}
+
+/* aaa */
+
+.modal-close:focus {
+  outline: none;
+}
+
+.modal-close {
+  opacity: 1;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.fee-box .closemark {
+  display: inline-block;
+  width: 11px;
+  height: 15px;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.fee-box .closemark_stem,
+.fee-box .closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 5px;
+  top: 3px;
+}
+
+.fee-box .closemark_kick {
+  transform: rotate(90deg);
+}
+
+.fee-box .checkmark {
+  display: inline-block;
+  width: 11px;
+  height: 15px;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.fee-box .checkmark_stem {
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: #425568;
+  left: 6px;
+  top: 1px;
+}
+
+.fee-box .checkmark_kick {
+  position: absolute;
+  width: 6px;
+  height: 2px;
+  background-color: #425568;
+  left: 2px;
+  top: 12px;
+}
+
+.checkmark {
+  display: inline-block;
+  /* margin-right: 8px; */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.checkmark_stem {
+  position: absolute;
+  width: 3px;
+  height: 10px;
+  background-color: #007fff;
+  left: 7px;
+  top: 2px;
+}
+
+.checkmark_kick {
+  position: absolute;
+  width: 2px;
+  height: 3px;
+  background-color: #007fff;
+  left: 5px;
+  top: 9px;
+}
+
+.closemark {
+  display: inline-block;
+  width: 30px;
+  height: 16px;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.closemark_stem,
+.closemark_kick {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 16px;
+  top: -2px;
+}
+
+.closemark_kick {
+  transform: rotate(90deg);
+}
+
+.closemark_stem1,
+.closemark_kick1 {
+  position: absolute;
+  width: 2px;
+  height: 24px;
+  background-color: #3d5266;
+  left: 5px;
+  top: -21px;
+}
+
+.closemark_kick1 {
+  transform: rotate(90deg);
+}
+
+.close-tabModal {
+  width: 40px;
+}
+
+.close-tabModal span {
+  float: right;
+}
+
+.my-radius {
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+}

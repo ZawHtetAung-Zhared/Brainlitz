@@ -154,6 +154,7 @@ import {
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
+import { TimetableComponent } from './components/timetable/timetable.component';
 
 @NgModule({
   declarations: [
@@ -263,7 +264,8 @@ import { CustomTaskComponent } from './components/course/custom-task/custom-task
     StudentListComponent,
     MasteryReportComponent,
     CustomTaskComponent,
-    ReportDetail2Component
+    ReportDetail2Component,
+    TimetableComponent
   ],
   imports: [
     ContentLoaderModule,
