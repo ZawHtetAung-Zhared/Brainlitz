@@ -3877,7 +3877,7 @@ p.grade-txt {
   /* line-height: 20px; */
   color: #2e3d4d;
   border-bottom: 1px solid #edeff0;
-  padding-bottom: 10px;
+  min-height: 50px;
   width: 70%;
 }
 
@@ -3889,12 +3889,12 @@ p.grade-txt {
   font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   font-size: 14px;
   cursor: pointer;
-  margin-bottom: 13px;
+  /* margin-bottom: 13px; */
   /* margin: 10px 10px 10px 0px; */
 }
 
 .apg-group {
-  padding: 10px 10px 0px 0px;
+  min-height: 50px;
   cursor: pointer;
 }
 
