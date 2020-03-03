@@ -204,6 +204,7 @@ export class CustomTaskComponent implements OnInit {
   goToStep4($event, step) {
     this.loading4 = true;
     let temp = [];
+
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
@@ -216,6 +217,7 @@ export class CustomTaskComponent implements OnInit {
         (res: any) => {
           this.createCustom.template.tasks[0].masteries = res.masteries;
           this.masteryList = res.masteries.slice();
+
           console.log(res);
           this.clickableSteps.push(step);
           this.activeStep = 1;
@@ -242,13 +244,9 @@ export class CustomTaskComponent implements OnInit {
       : this.createCustom.template.tasks[0].taskEndDate;
 
     annDate = this.changeDateTimeFormat(
-      this.annoTaskDate
-        ? this.annoTaskDate
-        : this.createCustom.template.tasks[0].announcementDate,
+      this.annoTaskDate ? this.annoTaskDate : new Date(),
       !this.showFormat == true
-        ? this.changeDatetoTime(
-            this.createCustom.template.tasks[0].announcementDate
-          )
+        ? this.changeDatetoTime(new Date())
         : this.showFormat
     );
 
