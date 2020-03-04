@@ -20,10 +20,10 @@
       [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
     >
       <div class="d-flex align-items-center pl-4 pr-4 mt-4 courses-title-wrap">
-        <h3 class="header-font">Courses</h3>
+        <h3 class="text-c300">Courses</h3>
         <div class="location-wrapper">
           <div
-            class="location-name"
+            class="location-name small"
             [ngStyle]="{
               color: gtxtColor,
               background: gbgColor
@@ -60,7 +60,7 @@
       <div class="p-2 mt-3 mb-3" *ngIf="coursePlanLoading == false">
         <button
           *ngIf="courseDemo.createCP != ''"
-          class="btn btn-cplan"
+          class="btn btn-cplan text-b100 bg-s20 w-100 light-body-m"
           (click)="changeRoute()"
         >
           Add new course plan
@@ -90,7 +90,7 @@
             "
           >
             <span
-              class="cplan-small-txt light-color"
+              class="small text-c100"
               [ngClass]="{
                 'cplan-selected-color': selectedPlan == coursePlan._id
               }"
@@ -98,7 +98,7 @@
               #{{ coursePlan.category.name }}
             </span>
             <span
-              class="cplan-title"
+              class="cplan-title text-c300 body-l"
               [ngClass]="{
                 'cplan-selected-color': selectedPlan == coursePlan._id
               }"
@@ -106,21 +106,16 @@
               {{ coursePlan.name }}
             </span>
             <div
-              class="d-flex justify-content-between pt-2 light-color"
+              class="d-flex justify-content-between pt-2  text-c300 body-m"
               [ngClass]="{
                 'cplan-selected-color': selectedPlan == coursePlan._id
               }"
             >
-              <span class="cplan-duration regular-font">
+              <span>
                 {{ coursePlan.lesson.duration | minuteSeconds }}
                 duration
               </span>
-              <span
-                class="cplan-duration regular-font cplan-edit"
-                (click)="showCPDetail(coursePlan._id)"
-              >
-                Edit plan</span
-              >
+              <span (click)="showCPDetail(coursePlan._id)"> Edit plan</span>
             </div>
           </div>
         </div>
@@ -178,7 +173,7 @@
           <div class="col-md-8 course-search-gp">
             <div class="simple-search input-group pd-zero">
               <input
-                class="form-control input-csearch course-search-input"
+                class="form-control input-csearch course-search-input body-l"
                 type="search"
                 placeholder="Search courses..."
                 id="course-search"
@@ -231,15 +226,15 @@
           class="d-flex justify-content-between align-items-center plan-title"
         >
           <div class="d-flex flex-column">
-            <span class="cplan-small-txt light-color">
+            <span class="small text-c100">
               #{{ courseCollection.coursePlan.category.name }}
             </span>
-            <span class="cplan-title1">
+            <span class="cplan-title1 body-xl text-c300">
               {{ courseCollection.coursePlan.name }}
             </span>
           </div>
           <button
-            class="addCourse-btn"
+            class="addCourse-btn text-s0 bg-b100 body-m"
             (click)="addNewCourse(courseCollection.coursePlan)"
           >
             Add new course
@@ -275,7 +270,7 @@
                 <div class="cinfo-wrap m-4 d-flex flex-column">
                   <div>
                     <label
-                      class="class-label-12 body-m medium-font"
+                      class="class-label-12 small text-c300"
                       [ngStyle]="{
                         color: course.location.textColorHex,
                         background: course.location.backgroundColorHex
@@ -291,7 +286,7 @@
                     </label>
                   </div>
                   <span
-                    class="cplan-title1 cursor-on"
+                    class="cplan-title1 cursor-on h3-strong"
                     [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
                     (click)="showCourseDetail(course)"
                   >
@@ -299,12 +294,12 @@
                   </span>
                   <span
                     *ngIf="course.teacher != undefined"
-                    class="font-15 light-color"
+                    class="body-m text-c100"
                     >by {{ course.teacher.preferredName }}
                   </span>
                   <span
                     *ngIf="course.teacher == undefined"
-                    class="font-15 light-color"
+                    class="body-m text-c100"
                     >-
                   </span>
                   <div
@@ -402,18 +397,18 @@
                       *ngIf="course.startDate != null"
                       class="d-flex flex-column pr-4"
                     >
-                      <span class="light-body-m regular-font light-color">
+                      <span class="light-body-m  text-c100">
                         From
                       </span>
-                      <span class="h5-strong medium-font dark-color pt-1">
+                      <span class="body-m  text-c300 pt-1">
                         {{ course.startDate | utcDate }}
                       </span>
                     </div>
                     <div *ngIf="course.endDate" class="d-flex flex-column">
-                      <span class="light-body-m regular-font light-color">
+                      <span class="light-body-m text-c100">
                         To
                       </span>
-                      <span class="h5-strong medium-font dark-color pt-1">
+                      <span class="body-m  text-c300 pt-1">
                         {{ course.endDate | utcDate }}
                       </span>
                     </div>
@@ -427,7 +422,7 @@
                     "
                   >
                     <span
-                      class="body-m regular-font dark-color"
+                      class="body-m text-c100"
                       *ngFor="let day of course.repeatDays | weekDays"
                     >
                       {{ day }}
@@ -438,7 +433,7 @@
                           course.duration.startDate != null &&
                           course.duration.endDate != null
                         "
-                        class="body-m regular-font dark-color pt-1"
+                        class="body-m text-c300 pt-1"
                       >
                         {{ course.duration.startDate | utcTime }} -
                         {{ course.duration.endDate | utcTime }}
@@ -474,9 +469,9 @@
                     <div
                       [hidden]="course.draft == true"
                       *ngIf="course.seat_left > 0"
-                      class="d-flex flex-column pr-4 light-body-m light-color"
+                      class="d-flex flex-column pr-4 light-body-m text-c100"
                     >
-                      <span class="h5-strong medium-font">
+                      <span class="body-m">
                         {{ course.seat_left }}/
                         {{ course.seat_taken + course.seat_left }}
                       </span>
@@ -497,7 +492,7 @@
                       All seats taken
                     </div>
                     <button
-                      class="btn enroll-btn body-m medium-font"
+                      class="btn enroll-btn body-m bg-s0 text-c300"
                       [disabled]="
                         course.draft == true ||
                         (course.type == 'REGULAR' && course.seat_left == 0)

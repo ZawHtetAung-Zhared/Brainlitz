@@ -393,9 +393,5 @@ underline-style {
   margin-top: 12px;
 }
 .btn-today-lesson {
-  color: #363f4d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  line-height: 2.2;
-  background: #f2f3f5;
   border-radius: 4px;
 }

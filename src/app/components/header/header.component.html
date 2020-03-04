@@ -93,6 +93,7 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
+              target="_blank"
               class="nav-link"
               routerLinkActive="active"
               routerLink="/schedule"
@@ -197,7 +198,7 @@
         </ul>
         <div>
           <button
-            class="btn btn-today-lesson body-m"
+            class="btn btn-today-lesson body-m text-c300 bg-s20"
             (click)="onClickTodayLesson()"
           >
             Today’s lessons
@@ -356,4 +357,5 @@
   [appname]="appName"
   [location]="locationName"
   [regionData]="regionInfo"
-></app-livechat>
+>
+</app-livechat>

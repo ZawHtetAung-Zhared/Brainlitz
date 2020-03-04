@@ -161,6 +161,7 @@ import {
   CreateUserComponent,
   UserDetailComponent
 } from './components/users/index';
+import { TimetableComponent } from './components/timetable/timetable.component';
 
 @NgModule({
   declarations: [
@@ -273,7 +274,8 @@ import {
     ReportDetail2Component,
     UserListComponent,
     CreateUserComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    TimetableComponent
   ],
   imports: [
     ContentLoaderModule,
