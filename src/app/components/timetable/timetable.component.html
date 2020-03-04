@@ -27,43 +27,43 @@
 <div class="schedule-container">
   <div class="schedule">
     <div class="staff">Lu</div>
-    <div class="white">111111</div>
-    <div class="white">222222</div>
-    <div class="white">333333</div>
-    <div class="white">444444</div>
-    <div class="white">555555</div>
-    <div class="white">666666</div>
-    <div class="white">777777</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
   </div>
   <div class="schedule">
     <div class="staff">Lu</div>
-    <div class="white">111111</div>
-    <div class="white">222222</div>
-    <div class="white">333333</div>
-    <div class="white">444444</div>
-    <div class="white">555555</div>
-    <div class="white">666666</div>
-    <div class="white">777777</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
   </div>
   <div class="schedule">
     <div class="staff">Lu</div>
-    <div class="white">111111</div>
-    <div class="white">222222</div>
-    <div class="white">333333</div>
-    <div class="white">444444</div>
-    <div class="white">555555</div>
-    <div class="white">666666</div>
-    <div class="white">777777</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
   </div>
   <div class="schedule">
     <div class="staff">Lu</div>
-    <div class="white">111111</div>
-    <div class="white">222222</div>
-    <div class="white">333333</div>
-    <div class="white">444444</div>
-    <div class="white">555555</div>
-    <div class="white">666666</div>
-    <div class="white">777777</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
+    <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
   </div>
 </div>
 <div class="extra">
@@ -132,9 +132,9 @@
 
 <!-- mycode -->
 <div class="overlayModal" *ngIf="showPopUp" (click)="clickOverlay()"></div>
-<button class="btn btn-submit" (click)="showPopUpFunc(scheduleDetails)">
+<!-- <button class="btn btn-submit" (click)="showPopUpFunc(scheduleDetails)">
   click me
-</button>
+</button> -->
 <block-ui message="Deafult Message"></block-ui>
 
 <ng-template #scheduleDetails let-c="close" let-d="dismiss">
