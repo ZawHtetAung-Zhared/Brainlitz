@@ -135,12 +135,7 @@ export class CourseListComponent implements OnInit {
     console.log('scrollToActiveElement', activePlan);
     setTimeout(() => {
       var topPos = document.getElementById(activePlan).offsetTop;
-      console.log(topPos);
       document.getElementById('sidenav-wrap').scrollTop = topPos - 155;
-      console.log(
-        '~~~~~~',
-        (document.getElementById('sidenav-wrap').scrollTop = topPos - 155)
-      );
     }, 200);
   }
 
@@ -156,13 +151,14 @@ export class CourseListComponent implements OnInit {
         this.courseCollection != null &&
         window.innerHeight + window.scrollY === document.body.scrollHeight
       ) {
-        //for current plan ID
+        //bottom of the page
+        // console.log("bottom of the page")
         if (
           this.courseLoading == false &&
           this.courseCollection.current_page < this.courseCollection.totalPages
         ) {
           //for next page
-          console.log('call next page');
+          // console.log('call next page');
           this.page = this.page + 1;
           this.skip = this.courseCollection.courses.length;
           if (this.searchKeyword == null || this.searchKeyword == undefined) {
@@ -182,13 +178,60 @@ export class CourseListComponent implements OnInit {
               this.searchKeyword
             );
           }
+        } else {
+          console.log('call next plan');
+          this.getCoursesForNextPlan();
         }
       }
     } else if (this.oldValue - newValue > 0) {
       console.log('Direction Up');
+      if (window.scrollY == 0) {
+        console.log('top of the page');
+        this.getCoursesForPreviousPlan();
+      }
     }
     // Update the old value
     this.oldValue = newValue;
+  }
+
+  getCoursesForNextPlan() {
+    for (var index in this.coursePlanCollection) {
+      let item = this.coursePlanCollection[index];
+      let nextIdx = Number(index) + 1;
+      if (
+        item._id == this.selectedPlan &&
+        nextIdx < this.coursePlanCollection.length
+      ) {
+        let nextPlanId = this.coursePlanCollection[nextIdx]._id;
+        let nextPlanName = this.coursePlanCollection[nextIdx].name;
+        console.log('nextPlanId', nextPlanId, ',nextPlanName', nextPlanName);
+        this.getCourseswithPlanId(nextPlanId, nextPlanName, null);
+        break;
+      }
+    }
+  }
+
+  getCoursesForPreviousPlan() {
+    for (var index in this.coursePlanCollection) {
+      let item = this.coursePlanCollection[index];
+      let previousIdx = Number(index) - 1;
+      if (item._id == this.selectedPlan && previousIdx >= 0) {
+        let prevPlanId = this.coursePlanCollection[previousIdx]._id;
+        let prevPlanName = this.coursePlanCollection[previousIdx].name;
+        console.log(
+          'previousPlanId',
+          prevPlanId,
+          ',nextPlanName',
+          prevPlanName
+        );
+        // this.getCourseswithPlanId(
+        //   prevPlanName,
+        //   prevPlanName,
+        //   null
+        // );
+        break;
+      }
+    }
   }
 
   ngOnInit() {
@@ -224,7 +267,6 @@ export class CourseListComponent implements OnInit {
   }
 
   checkPermission() {
-    console.log(this.permissionType);
     this.coursePermission = [
       'CREATECOURSE',
       'VIEWCOURSE',
@@ -239,7 +281,7 @@ export class CourseListComponent implements OnInit {
     this.coursePermission = this.coursePermission.filter(
       value => -1 !== this.permissionType.indexOf(value)
     );
-    console.log(this.coursePermission.includes('VIEWCOURSE'));
+    // console.log(this.coursePermission.includes('VIEWCOURSE'));
 
     this.courseDemo['addCourse'] = this.coursePermission.includes(
       'CREATECOURSE'
@@ -301,10 +343,8 @@ export class CourseListComponent implements OnInit {
     this._service
       .getAllCourse(this.regionId, this.locationID, limit, skip)
       .subscribe((res: any) => {
-        console.log('Course List', res);
         this.courseList = this.courseList.concat(res);
-        console.log(this.courseList);
-        console.log(this.courseList.length);
+        console.log('course list', this.courseList);
         if (this.courseList.length > 0) {
           // this.getCourseswithPlanId(0, '');
           this.emptyCourse = false;
