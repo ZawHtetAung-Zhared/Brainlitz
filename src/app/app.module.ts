@@ -158,7 +158,8 @@ import {
   UserListComponent,
   CarouselComponent,
   CarouselItemElement,
-  CreateUserComponent
+  CreateUserComponent,
+  UserDetailComponent
 } from './components/users/index';
 
 @NgModule({
@@ -271,7 +272,8 @@ import {
     CustomTaskComponent,
     ReportDetail2Component,
     UserListComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    UserDetailComponent
   ],
   imports: [
     ContentLoaderModule,

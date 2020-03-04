@@ -1,8 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { appService } from '../../../service/app.service';
-import { Router } from '@angular/router';
-import { DataService } from '../../../service/data.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
@@ -29,7 +28,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private _service: appService,
     private router: Router,
-    private dataService: DataService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -41,7 +40,7 @@ export class UserListComponent implements OnInit {
     }, 300);
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
-        if (this.router.url === '/customer') {
+        if (this.router.url === '/customer/customerlist') {
           this.permissionType = data;
           this.customerLists = [];
           this.checkPermission();
@@ -184,5 +183,9 @@ export class UserListComponent implements OnInit {
         this.isSearch = false;
       }, 300);
     }
+  }
+
+  showDetails(ID, val) {
+    this.router.navigate(['../customerdetail', ID], { relativeTo: this.route });
   }
 }

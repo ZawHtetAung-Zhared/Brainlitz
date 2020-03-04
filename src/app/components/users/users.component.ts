@@ -287,7 +287,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.permissionSubscription.unsubscribe();
+    // this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

@@ -14,8 +14,6 @@
                 background: gbgColor
               }"
             >
-              <!-- {{ locationName | slice: 0:45
-            }}{{ locationName.length > 45 ? '...' : '' }} -->
               {{ locationName }}
             </div>
           </div>
@@ -26,7 +24,8 @@
           *ngIf="customerDemo.createCustomer != ''"
           type="button"
           class="btn btn-primary create-button-pos"
-          (click)="goCreateForm('create')"
+          routerLinkActive="active"
+          routerLink="../customercreate/create/0"
         >
           Add new customer
         </button>
@@ -46,7 +45,7 @@
         <input
           class="form-control py-2 input-search-bg"
           type="search"
-          placeholder="Search customer here11"
+          placeholder="Search customer here"
           id="customer-search-input"
           (input)="userSearch_input($event.target.value)"
           (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"

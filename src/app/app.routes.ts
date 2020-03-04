@@ -39,7 +39,8 @@ import {
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import {
   UserListComponent,
-  CreateUserComponent
+  CreateUserComponent,
+  UserDetailComponent
 } from './components/users/index';
 
 export const routes: Routes = [
@@ -65,17 +66,24 @@ export const routes: Routes = [
   },
   {
     path: 'customer',
-    // component: UsersComponent,
-    component: UserListComponent,
-    canActivate: [LoggedInGuard]
-    // children: [
-    //   { path: '', redirectTo: 'customerlist', pathMatch: 'full' },
-    //   {
-    //     path: 'customerlist',
-    //     component: UserListComponent,
-    //     canActivate: [LoggedInGuard]
-    //   }
-    // ]
+    component: UsersComponent,
+    // component: UserListComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'customerlist', pathMatch: 'full' },
+      {
+        path: 'customerlist',
+        component: UserListComponent
+      },
+      {
+        path: 'customercreate/:type/:userid',
+        component: CreateUserComponent
+      },
+      {
+        path: 'customerdetail/:userid',
+        component: UserDetailComponent
+      }
+    ]
   },
   {
     path: 'schedule',
