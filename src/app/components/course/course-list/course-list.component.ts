@@ -205,7 +205,7 @@ export class CourseListComponent implements OnInit {
         let nextPlanId = this.coursePlanCollection[nextIdx]._id;
         let nextPlanName = this.coursePlanCollection[nextIdx].name;
         console.log('nextPlanId', nextPlanId, ',nextPlanName', nextPlanName);
-        this.getCourseswithPlanId(nextPlanId, nextPlanName, null);
+        this.getCourseswithPlanId(nextPlanId, nextPlanName, this.searchKeyword);
         break;
       }
     }
