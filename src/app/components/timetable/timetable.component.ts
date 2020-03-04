@@ -14,7 +14,7 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-timetable',
