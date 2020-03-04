@@ -61,21 +61,16 @@ input:-webkit-input-placeholder {
   font-size: 10px !important;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
-.font-medium,
+/* .font-medium,
 .radio-wrap label,
 .timeslot-wrap label,
 .default-lesson {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
+} */
 .font-semi {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
-textarea,
-input,
-select,
-.font-regular {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
+
 header div {
   height: 1.4rem;
 }
@@ -97,19 +92,19 @@ header div {
 .info-p {
   width: 90%;
 }
-.courseInfo p {
+/* .courseInfo p {
   color: #64707d;
   font-size: 14px;
   line-height: 1.7;
-}
-.input-title {
+} */
+/* .input-title {
   font-size: 18px;
-  /*color: #2e3e4d;*/
+  color: #2e3e4d;
   color: #64707d;
-}
+} */
 
 .changeColor {
-  color: #2e3e4d;
+  color: #363f4d;
   /*color: #64707d;*/
 }
 
@@ -127,30 +122,24 @@ header div {
 }*/
 .nav-title,
 .back p {
-  font-size: 16px;
-  color: #2e3e4d;
   cursor: pointer;
 }
 .back i {
   font-size: 21px;
   padding-right: 4px;
+  line-height: 28px;
 }
 .btn-cancel {
   padding: 0;
   border: none;
   outline: none;
-  color: #2e3d4d;
   cursor: pointer;
-  font-size: 16px;
-  background: #fff;
 }
 .sticky-dot {
   margin-left: 10px;
   margin-right: 10px;
   font-weight: bold;
-  color: #788796;
   font-size: 30px;
-  margin-top: -13px;
 }
 
 .inside-data-wrapper {
@@ -164,21 +153,6 @@ header div {
   box-shadow: 0 0 0 100px #fff inset !important;
 }
 
-.step-font,
-.txt-default,
-.small-caption {
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
-  color: #64707d;
-}
-.all-title-font {
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
-  color: #2e3e4d;
-  font-size: 18px;
-}
-.text-font-align {
-  font-size: 28px;
-  line-height: 0.8;
-}
 .br-bshadow-none {
   border: none;
   box-shadow: none;
@@ -282,10 +256,6 @@ textarea:focus {
 }
 .radio-wrap label,
 .timeslot-wrap label {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  color: #0080ff;
   border-radius: 25px;
   text-align: center;
   padding: 8px 0px;
@@ -331,7 +301,6 @@ textarea:focus {
   height: 62px;
   border-radius: 4px;
   margin: 5px 8px 5px 0px;
-  color: #2e3e4d;
   padding: 10px;
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
@@ -603,8 +572,6 @@ textarea:focus {
 .showTime {
   padding: 0px 10px;
   width: 80px;
-  color: #0080ff;
-  font-size: 20px;
 }
 .alert-duration {
   position: absolute;
@@ -619,17 +586,13 @@ textarea:focus {
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  background-color: #1682fb;
-  color: #ffffff;
 }
 
 .button-savedraft {
-  color: #0080ff;
   height: 45px;
   border-radius: 3px;
   margin-right: 20px;
   border: solid 2px #007fff;
-  background: #ffffff;
 }
 .form-footer {
   padding: 20px 15px;
@@ -716,7 +679,7 @@ textarea:focus {
   right: 10px;
   /*display: none;*/
   background: #fff;
-  color: #2e3d4d !important;
+  /* color: #2e3d4d !important; */
   max-height: 250px;
   overflow: overlay;
 }
@@ -805,10 +768,7 @@ textarea:focus {
 .time-dropdown {
   margin: 13px 0px;
   padding: 8px 15px;
-  background-color: #f2f4f5;
   border-radius: 2px;
-  color: #2e3e4d;
-  font-size: 16px;
 }
 .icon {
   font-size: 20px;
@@ -829,7 +789,6 @@ textarea:focus {
 }
 .input-search-bg {
   padding: 10px 0 10px 12px !important;
-  background: #f2f4f5;
   border: none;
   z-index: auto !important;
   border-radius: 4px 0 0 4px;
@@ -848,7 +807,6 @@ textarea:focus {
   /*width: 90%;*/
   outline: none;
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
-  background: #ffffff;
 }
 .teacher-list-box {
   /*height: 300px;*/
@@ -877,7 +835,6 @@ textarea:focus {
   position: absolute;
   width: 100%;
   top: 49px;
-  background: #fff;
   z-index: 9;
 }
 .search-user {

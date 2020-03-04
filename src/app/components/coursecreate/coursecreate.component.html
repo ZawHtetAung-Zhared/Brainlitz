@@ -1,27 +1,29 @@
 <div class="navbar" [ngClass]="{ 'sticky-bar': isCreateFix == true }">
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-center flex-column">
-      <div class="d-flex back" (click)="backToCourses('back', '')">
+      <div class="d-flex back text-c300" (click)="backToCourses('back', '')">
         <i class="fa fa-angle-left"></i>
-        <p class="mb-0 font-medium">Back</p>
+        <p class="mb-0 body-l ">Back</p>
       </div>
     </div>
     <div>
       <div>
-        <h5 class="mb-0 nav-title font-semi text-center">Create course</h5>
+        <h3 class="mb-0 nav-title text-c300 h3-strong text-center">
+          Create course
+        </h3>
       </div>
-      <div class="d-flex flex-row courseInfo font-medium">
+      <div class="d-flex flex-row text-c100 light-body-m">
         <p class="mb-0">Plan</p>
         <span class="sticky-dot">&#183;</span>
         <p class="mb-0">{{ planName }}</p>
       </div>
     </div>
-    <div class="d-flex justify-content-center flex-column">
+    <div class="d-flex justify-content-center flex-column ">
       <div>
         <button
           *ngIf="isEdit == false && flexiOn == false"
           type="button"
-          class="btn button-savedraft font-medium"
+          class="btn button-savedraft text-b100 body-l bg-s0 "
           [disabled]="
             (!courseForm.form.valid ||
               selectedTeacher == '' ||
@@ -42,7 +44,7 @@
         <button
           *ngIf="isEdit == false && flexiOn == false"
           type="button"
-          class="btn button-submit font-medium"
+          class="btn button-submit body-l bg-b100 text-s0"
           [disabled]="
             (!courseForm.form.valid ||
               selectedTeacher == '' ||
@@ -92,16 +94,19 @@
   <div class="header-wrapper">
     <header>
       <div class="d-flex justify-content-between">
-        <div class="d-flex back" (click)="backToCourses('back', '')">
+        <div class="d-flex back text-c300" (click)="backToCourses('back', '')">
           <i class="fa fa-angle-left"></i>
-          <p class="mb-0 font-medium ">Back</p>
+          <p class="mb-0 body-l">Back</p>
         </div>
         <!-- <div class="d-flex flex-row courseInfo font-medium">
 					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
 					<h5 class="mb-0">Course</h5>
 				</div> -->
-        <div class="font-medium">
-          <button class="btn-cancel" (click)="backToCourses('back', '')">
+        <div class="body-l">
+          <button
+            class="btn-cancel bg-s0 text-c300"
+            (click)="backToCourses('back', '')"
+          >
             Cancel
           </button>
         </div>
@@ -110,18 +115,18 @@
   </div>
   <form #courseForm="ngForm" novalidate>
     <div class="info-wrap">
-      <h3 *ngIf="isEdit == false" class="font-semi">Create course</h3>
-      <h3 *ngIf="isEdit == true" class="font-semi">Update course</h3>
-      <div class="d-flex courseInfo font-medium">
-        <p class="mb-0">Plan</p>
-        <span class="sticky-dot">&#183;</span>
-        <p class="mb-0">{{ planName }}</p>
+      <h3 *ngIf="isEdit == false" class="text-c300 h3-strong">Create course</h3>
+      <h3 *ngIf="isEdit == true" class="text-c300 h3-strong">Update course</h3>
+      <div class="d-flex light-body-m ">
+        <p class="mb-0 text-c100 ">Plan</p>
+        <span class="sticky-dot text-c100">&#183;</span>
+        <p class="mb-0 text-c100 ">{{ planName }}</p>
       </div>
     </div>
     <div class="d-flex step-wrapper">
       <div class="col-md-5">
-        <label class="all-title-font">Course information</label>
-        <p class="info-p font-medium">
+        <label class="text-c300 h3-strong">Course information</label>
+        <p class="light-body-m text-c100">
           Enter the course name, code and description here.
         </p>
       </div>
@@ -130,7 +135,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.name == '' || model.name == undefined
               }"
@@ -141,7 +146,7 @@
             </div>
           </div>
           <input
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             type="text"
             id="name"
             (focus)="focusMethod($event, 'name', $event.target.value)"
@@ -171,7 +176,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="seat"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor:
                   model.courseCode == '' || model.courseCode == undefined
@@ -185,7 +190,7 @@
           <input
             type="text"
             placeholder="Type relevant course code here"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             id="courseCode"
             name="courseCode"
             maxlength="8"
@@ -210,7 +215,7 @@
           <div class="d-flex justify-content-between">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor:
                   model.description == '' || model.description == undefined
@@ -222,7 +227,7 @@
             </div>
           </div>
           <textarea
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             rows="5"
             id="description"
             [(ngModel)]="model.description"
@@ -239,7 +244,7 @@
         <div class="d-flex">
           <div class="col-md-12 pRight-15" *ngIf="feesOptions">
             <label
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{ changeColor: chooseFee == '' }"
               >Course fee</label
             >
@@ -260,7 +265,7 @@
                 /><span class="fa fa-angle-down down-icon feeDownOpt"></span>
               </div>
               <div class="dropdown-wrap" *ngIf="feeOptShow == true">
-                <ul class="feeOpt-dropdown">
+                <ul class="feeOpt-dropdown text-c300 light-body-l">
                   <li *ngFor="let key of objectKeys(feesOptions)">
                     <div
                       class="w-100"
@@ -300,7 +305,7 @@
                 <span class="slider round"></span>
               </label>
             </div>
-            <div class="switch-label input-title font-medium changeColor">
+            <div class="switch-label text-c300 body-l changeColor">
               SparkWerkzCourse
             </div>
           </div>
@@ -310,8 +315,8 @@
     <hr class="hr-line" />
     <div class="d-flex step-wrapper">
       <div class="col-md-5">
-        <label class="all-title-font">Time range & Teacher</label>
-        <p class="info-p font-medium">
+        <label class="text-c300 h3-strong">Time range & Teacher</label>
+        <p class="light-body-m text-c100 w-90">
           Enter time range and assign teacher. You may set the End date as a
           ‘date’ or as Lesson Count.
         </p>
@@ -320,7 +325,7 @@
         <div class="pad-b">
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.start == '' || model.start == undefined
             }"
@@ -409,13 +414,13 @@
               End by date
             </label>
           </div> -->
-          <div class="d-flex radio-wrap">
+          <div class="d-flex radio-wrap text-b100">
             <label
               [ngClass]="{
                 selected: endOptChecked == 'defaultLesson',
                 'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
-              class="mb-0 cursor-on"
+              class="mb-0 cursor-on body-m"
             >
               <input
                 type="radio"
@@ -430,7 +435,7 @@
                 selected: endOptChecked == 'lesson',
                 'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
-              class="mb-0 cursor-on"
+              class="mb-0 cursor-on body-m"
             >
               <input
                 type="radio"
@@ -444,7 +449,7 @@
               [ngClass]="{
                 selected: endOptChecked == 'end'
               }"
-              class="mb-0 cursor-on"
+              class="mb-0 cursor-on body-m "
             >
               <input
                 type="radio"
@@ -550,7 +555,7 @@
           <div class="col-md-6 pRight-15">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.startT == '' || model.startT == undefined
               }"
@@ -575,7 +580,7 @@
                 <div id="rectangle"></div>
                 <div class="time-wrapper d-flex justify-content-center">
                   <div
-                    class="d-flex flex-column justify-content-center showTime font-medium"
+                    class="d-flex flex-column justify-content-center showTime body-xl text-b100"
                   >
                     {{ showFormat }}
                   </div>
@@ -583,7 +588,7 @@
                     <div class="time-box">
                       <label
                         [ngClass]="{ selected: isSelected == 'AM' }"
-                        class="mb-0 font-semi"
+                        class="mb-0 body-xl text-c300"
                         ><input
                           type="radio"
                           name="prop"
@@ -593,7 +598,7 @@
                       </label>
                       <label
                         [ngClass]="{ selected: isSelected == 'PM' }"
-                        class="mb-0 font-semi"
+                        class="mb-0 body-l text-c300"
                       >
                         <input
                           type="radio"
@@ -608,7 +613,7 @@
                 </div>
                 <div class="gap-box">
                   <label>
-                    <div class="col-md-4 max-range">Hour</div>
+                    <div class="col-md-4 max-range text-c300 body-l">Hour</div>
                     <input
                       class="max-range-box"
                       type="range"
@@ -623,7 +628,9 @@
                 </div>
                 <div class="gap-range-min">
                   <label>
-                    <div class="col-md-4 min-range">Minute</div>
+                    <div class="col-md-4 min-range text-c300 body-l">
+                      Minute
+                    </div>
                     <input
                       class="min-range-box"
                       type="range"
@@ -644,14 +651,14 @@
           <div class="col-md-6 pLeft-15">
             <label
               for="course_name"
-              class="input-title font-medium"
+              class="text-c100 body-l"
               [ngClass]="{
                 changeColor: model.duration == '' || model.duration == undefined
               }"
               >Duration</label
             >
             <div
-              class="d-flex justify-content-between time-dropdown font-semi durationDp dropD durationInput"
+              class="d-flex justify-content-between time-dropdown body-l text-c300 durationDp bg-s20"
             >
               {{ model.duration }} min
               <!-- <span
@@ -674,7 +681,7 @@
         </div>
         <div *ngIf="timeOptChecked == 'showTimeSlot'" class="pad-b">
           <label
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{ changeColor: selectedDay?.length > 0 == false }"
             >Repeated days</label
           >
@@ -682,7 +689,7 @@
             <div>
               <span *ngFor="let d of days; let i = index">
                 <label
-                  class="cursor-on day"
+                  class="cursor-on day light-body-m text-c300"
                   [ngClass]="{
                     'active-label': selectedDay.indexOf(d.val) != -1,
                     'm-0': i + 1 == days.length
@@ -716,7 +723,7 @@
         <div class="pad-b">
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor:
                 selectedTeacher.preferredName == '' ||
@@ -726,15 +733,13 @@
           >
           <div class="search-wrap">
             <div
-              class="cursor-on d-flex justify-content-between time-dropdown font-semi  m-0 dropD teacherInput"
+              class="cursor-on d-flex justify-content-between time-dropdown  m-0 dropD light-body-m text-c300 bg-s20"
               (click)="
                 showDropdown('search', isEdit);
                 focusInputMethod($event, 'staff', 'teacher')
               "
             >
-              <span
-                *ngIf="!selectedTeacher"
-                class="font-regular caption-teacher dropD"
+              <span *ngIf="!selectedTeacher" class=" caption-teacher dropD"
                 >Type teacher name</span
               >
               <div class="d-flex" *ngIf="selectedTeacher">
@@ -768,7 +773,7 @@
               <div class="teacher-list-box">
                 <div class="d-flex">
                   <input
-                    class="form-control py-2 input-dropdown dropD teacherInput"
+                    class="form-control py-2 input-dropdown bg-s0 light-body-m"
                     type="search"
                     placeholder="Type teacher name"
                     id="myInput"
@@ -780,7 +785,10 @@
                     (input)="changeInputMethod($event.target.value)"
                   />
                 </div>
-                <div class="list-wrap" *ngIf="searchMenuShow == true">
+                <div
+                  class="list-wrap bg-s0 light-body-m text-c300"
+                  *ngIf="searchMenuShow == true"
+                >
                   <div
                     (click)="chooseUser(user, 'teacher')"
                     *ngFor="let user of userLists"
@@ -811,14 +819,14 @@
         <div>
           <label
             for="course_name"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{ changeColor: userLists?.length > 0 == false }"
             >Assistants</label
           >
           <div class="d-flex flex-column" style="position: relative;">
             <div class="d-flex">
               <input
-                class="form-control py-2 input-search-bg"
+                class="form-control py-2 input-search-bg light-body-m text-c300 bg-s20"
                 type="search"
                 autocomplete="off"
                 placeholder="Add assistants by searching"
@@ -848,7 +856,10 @@
                 </button>
               </span>
             </div>
-            <div class="user-list-box" *ngIf="isFocus == true">
+            <div
+              class="user-list-box bg-s0 text-c300 light-body-m"
+              *ngIf="isFocus == true"
+            >
               <div
                 (click)="chooseUser(user, 'assistant')"
                 *ngFor="let user of userLists"
@@ -881,7 +892,7 @@
             <div class="d-flex flex-wrap" *ngIf="selectedUserLists.length > 0">
               <div *ngFor="let user of selectedUserLists">
                 <div
-                  class="d-flex flex-row single-user font-semi justify-content-center align-items-center"
+                  class="d-flex flex-row single-user justify-content-center align-items-center"
                 >
                   <div class="img-wrap">
                     <img
@@ -910,8 +921,8 @@
     <hr class="hr-line" />
     <div class="d-flex step-wrapper">
       <div class="col-md-5">
-        <label class="all-title-font">Venue</label>
-        <p class="info-p font-medium">
+        <label class="h3-strong text-c300">Venue</label>
+        <p class="w-90 text-c100 light-body-m">
           Enter venue information, specific room (if any), and the no. of seats
           allotted for this course.
         </p>
@@ -920,7 +931,7 @@
         <div>
           <label
             for="location"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.location == '' || model.location == undefined
             }"
@@ -928,7 +939,7 @@
           >
           <input
             type="text"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l bg-s20"
             [(ngModel)]="model.location"
             name="location"
             #location="ngModel"
@@ -951,7 +962,7 @@
         <div>
           <label
             for="room"
-            class="input-title font-medium"
+            class="text-c100 body-l"
             [ngClass]="{
               changeColor: model.room == '' || model.room == undefined
             }"
@@ -959,7 +970,7 @@
           >
           <input
             type="text"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             placeholder="Type room name"
             id="room"
             name="room"
@@ -975,7 +986,7 @@
         <!-- <div>
           <label
             for="seat"
-            class="input-title font-medium"
+            class="text-c300 body-l"
             [ngClass]="{
               changeColor:
                 model.reservedNumberofSeat == '' ||
@@ -985,7 +996,7 @@
           >
           <input
             type="number"
-            class="form-control br-bshadow-none all-left-box-10"
+            class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
             placeholder="0"
             id="seat"
             [(ngModel)]="model.reservedNumberofSeat"
@@ -1256,8 +1267,12 @@
             class="flex-item2"
             [ngClass]="{ borderL: courseFeess }"
           >
-            <sup class="font-semi sup-sign">{{ currency.invCurrencySign }}</sup
-            ><span class="font-medium font-20">{{ courseFeess }}</span>
+            <sup class="small bg-s0 text-c300">{{
+              currency.invCurrencySign
+            }}</sup
+            ><span class="body-xl font-20 text-c300 bg-s0">{{
+              courseFeess
+            }}</span>
           </div>
         </div>
         <hr class="hr-line" />
@@ -1343,10 +1358,10 @@
     <!-- <hr class="hr-line"> -->
     <div class="d-flex justify-content-between form-footer">
       <div class="d-flex justify-content-center flex-column">
-        <div class="font-medium">
+        <div class="body-l">
           <button
             type="button"
-            class="btn-cancel"
+            class="btn-cancel bg-s0 text-c300"
             (click)="backToCourses('back', '')"
           >
             Cancel
@@ -1357,7 +1372,7 @@
         <button
           *ngIf="isEdit == false && flexiOn == false"
           type="button"
-          class="btn button-savedraft font-medium"
+          class="btn button-savedraft text-b100 body-l bg-s0"
           [disabled]="
             (!courseForm.form.valid ||
               selectedTeacher == '' ||
@@ -1378,7 +1393,7 @@
         <button
           *ngIf="isEdit == false && flexiOn == false"
           type="button"
-          class="btn button-submit font-medium"
+          class="btn button-submit body-l bg-b100 text-s0 "
           [disabled]="
             (!courseForm.form.valid ||
               selectedTeacher == '' ||

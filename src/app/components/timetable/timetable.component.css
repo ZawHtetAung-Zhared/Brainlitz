@@ -1,4 +1,82 @@
 @import '../../../assets/css/main.min.css';
+.setting {
+  height: 56px;
+  background: #f7f9fa;
+  align-items: center;
+}
+.tdy-btn {
+  width: 84px;
+  height: 40px;
+  background: #f7f9fa;
+  border: 1px solid #d4d5d6;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0 10px 0 10px;
+}
+.arrow {
+  margin: 0 10px 0 10px;
+}
+.setting-date {
+  margin: 0 10px 0 10px;
+}
+.category {
+  margin: 0 10px 0 10px;
+}
+.heading {
+  height: 56px;
+  display: grid;
+  grid-template-columns: 72px repeat(7, 1fr);
+  grid-gap: 1px 1px;
+  border-top: 1px solid #e8e9eb;
+  border-left: 1px solid #e8e9eb;
+  text-align: center;
+}
+.dates {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.white {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.white:hover {
+  background: #f2f3f5;
+}
+.schedule-container {
+  display: grid;
+  grid-gap: 1px 1px;
+  background: #e8e9eb;
+  border: 1px solid #e8e9eb;
+}
+.extra {
+  display: grid;
+  background: #e8e9eb;
+  border: 1px solid #e8e9eb;
+  border-top: 0;
+}
+.schedule {
+  min-height: 86px;
+  display: grid;
+  grid-template-columns: 72px repeat(7, 1fr);
+  grid-gap: 1px 1px;
+  text-align: center;
+}
+.s-c {
+  border-right: 1px solid #e8e9eb;
+  margin-right: -1px;
+}
+.staff {
+  background: #f7f9fa;
+  margin-bottom: -1px;
+  margin-top: -1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .overlayModal {
   background: rgba(39, 49, 70, 0.4);
   position: fixed !important;
