@@ -190,6 +190,7 @@ export class CoursecreateComponent implements OnInit {
       this.model = [];
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
+      console.log('this.planName ' + this.planName);
       this.model.duration = this.coursePlan.duration;
       this.model.description = this.coursePlan.description;
       // this.createList(this.model.duration);
@@ -197,35 +198,6 @@ export class CoursecreateComponent implements OnInit {
       console.log('~~~~~', this.feesOptions);
       this.taxOptions = this.coursePlan.paymentPolicy.taxOptions;
       console.log('Tax Opt', this.taxOptions);
-      // if (this.feesOptions != undefined && this.taxOptions == undefined) {
-      //   var tempObj = {};
-      //   var tempChooseFee: any;
-      //   var tempFeeOpt = this.feesOptions;
-      //   Object.keys(tempFeeOpt).map(function(key, index) {
-      //     console.log('key~~~~~~', key);
-      //     if (
-      //       (key == null || key == undefined || key == '') &&
-      //       (tempFeeOpt[key] == null ||
-      //         tempFeeOpt[key] == undefined ||
-      //         tempFeeOpt[key] == '')
-      //     ) {
-      //       tempChooseFee = 'no';
-      //     } else {
-      //       console.log('~~~~~~not null');
-      //       tempObj[key] = {
-      //         taxInclusive: true
-      //       };
-      //     }
-      //   });
-      //   console.log('Temp Obj', tempObj);
-      //   this.taxOptions = tempObj;
-      //   if (tempChooseFee == 'no') {
-      //     this.chooseFee = 'no';
-      //     this.feesOptions = null;
-      //     console.log('~~~~', this.chooseFee);
-      //   }
-      //   console.log(this.taxOptions);
-      // }
       this.checkTaxForCreate();
       if (this.feesOptions == undefined) {
         console.log('No Fees OPtions', this.feesOptions);
@@ -344,15 +316,6 @@ export class CoursecreateComponent implements OnInit {
 
     this.model.starttime = h + ':' + min;
   }
-
-  // feeOptList(feeOptions){
-  //   console.log(feeOptions);
-  //   var options = feeOptions;
-  //   for(var key in options){
-  //     console.log("--Options",options[key]);
-  //     // this.feesOptions = options[key].
-  //   }
-  // }
 
   showDraftCourse(cId, type) {
     console.log('Function Works');
