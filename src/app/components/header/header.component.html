@@ -87,7 +87,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center menu-border">
-      <div id="menu" class="sidebar-wrap">
+      <div id="menu" class="sidebar-wrap d-flex justify-content-between">
         <!-- <app-sidebar class="d-flex"></app-sidebar> -->
         <ul class="nav navbar-nav nav-style">
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
@@ -195,6 +195,14 @@
             </a>
           </li>
         </ul>
+        <div>
+          <button
+            class="btn btn-today-lesson body-m text-c300 bg-s20"
+            (click)="onClickTodayLesson()"
+          >
+            Today’s lessons
+          </button>
+        </div>
       </div>
     </div>
     <div
@@ -235,73 +243,83 @@
   >
     <div id="onscroll" class="sidebar-wrap1 w-100">
       <!-- <app-sidebar class="d-flex"></app-sidebar> -->
-      <ul class="nav navbar-nav nav-style">
-        <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
-        <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/schedule"
-            (click)="onClickHeaderTab('schedule')"
-            >Schedule</a
+      <div class="d-flex justify-content-between">
+        <ul class="nav navbar-nav nav-style">
+          <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
+          <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/schedule"
+              (click)="onClickHeaderTab('schedule')"
+              >Schedule</a
+            >
+          </li>
+          <li *ngIf="courseMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ active: activeTab == 'courses' }"
+              routerLinkActive="active"
+              routerLink="/course"
+              (click)="onClickHeaderTab('course')"
+              >Courses</a
+            >
+          </li>
+          <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/customer"
+              (click)="onClickHeaderTab('customer')"
+              >Customers</a
+            >
+          </li>
+          <li *ngIf="staffMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/staff"
+              (click)="onClickHeaderTab('staff')"
+              >Staff</a
+            >
+          </li>
+          <li *ngIf="toolsMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/tools"
+              (click)="onClickHeaderTab('tool')"
+              >Tools</a
+            >
+          </li>
+          <li *ngIf="settingMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/dashboard"
+              (click)="onClickHeaderTab('setting')"
+              >Settings</a
+            >
+          </li>
+          <li *ngIf="reportMenu.length > 0" class="nav-item header2-nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="/report"
+              (click)="onClickHeaderTab('report')"
+              >Reports</a
+            >
+          </li>
+        </ul>
+        <div class="pt-2">
+          <button
+            class="btn btn-today-lesson body-m text-c300 bg-s20"
+            (click)="onClickTodayLesson()"
           >
-        </li>
-        <li *ngIf="courseMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            [ngClass]="{ active: activeTab == 'courses' }"
-            routerLinkActive="active"
-            routerLink="/course"
-            (click)="onClickHeaderTab('course')"
-            >Courses</a
-          >
-        </li>
-        <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/customer"
-            (click)="onClickHeaderTab('customer')"
-            >Customers</a
-          >
-        </li>
-        <li *ngIf="staffMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/staff"
-            (click)="onClickHeaderTab('staff')"
-            >Staff</a
-          >
-        </li>
-        <li *ngIf="toolsMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/tools"
-            (click)="onClickHeaderTab('tool')"
-            >Tools</a
-          >
-        </li>
-        <li *ngIf="settingMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/dashboard"
-            (click)="onClickHeaderTab('setting')"
-            >Settings</a
-          >
-        </li>
-        <li *ngIf="reportMenu.length > 0" class="nav-item header2-nav-item">
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            routerLink="/report"
-            (click)="onClickHeaderTab('report')"
-            >Reports</a
-          >
-        </li>
-      </ul>
+            Today’s lessons
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <div id="sc" class="nooutline" routerLink="/review">
