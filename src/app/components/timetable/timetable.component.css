@@ -20,6 +20,10 @@
 }
 .category {
   margin: 0 10px 0 10px;
+  font-size: 15px;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
 }
 .heading {
   height: 56px;
@@ -37,12 +41,23 @@
   flex-direction: column;
   justify-content: center;
   background: white;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
 }
 .white {
   background: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 .white:hover {
   background: #f2f3f5;
@@ -114,6 +129,11 @@
   }
   .setting-date {
     margin: 0 10px 0 10px;
+    font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+      'ss03' on, 'case' on;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Inter-UI-Regular', Arial, sans-serif;
   }
 }
 @media only screen and (min-width: 1920px) {
@@ -126,16 +146,32 @@
     font-size: 15px;
     line-height: 24px;
   }
-  .setting {
-    height: 60px;
-  }
+  .setting,
   .heading {
     height: 60px;
+  }
+
+  .white {
+    font-size: 15px;
+  }
+  .dates {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .setting-date,
+  .s-flex,
+  .category {
+    font-size: 17px;
   }
 }
 .s-flex {
   display: flex;
   flex-direction: column;
+  font-size: 15px;
+  font-weight: 500;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 .s-flex > span {
   margin-right: 10px;
