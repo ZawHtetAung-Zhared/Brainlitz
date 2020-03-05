@@ -270,6 +270,18 @@ export class UserDetailComponent implements OnInit {
     );
   }
 
+  showGuardian(ID) {
+    console.log('Gurdians::::' + ID);
+    this.router.navigate(['../../customerdetail', ID], {
+      relativeTo: this._Activatedroute
+    });
+    setTimeout(() => {
+      this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
+      console.log(this.editId);
+      this.showDetails(this.editId, 'class');
+    }, 100);
+  }
+
   getRegionInfo() {
     this.token = localStorage.getItem('token');
     this.type = localStorage.getItem('tokenType');

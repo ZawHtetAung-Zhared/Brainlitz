@@ -108,10 +108,7 @@
                   />
                 </div>
 
-                <div
-                  class="guar-name"
-                  (click)="showDetails(guardian.userId, 'class')"
-                >
+                <div class="guar-name" (click)="showGuardian(guardian.userId)">
                   {{
                     guardian.fullName == '' || guardian.fullName == null
                       ? guardian.email
