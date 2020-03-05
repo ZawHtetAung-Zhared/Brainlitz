@@ -38,6 +38,11 @@ import {
   ReportDetail2Component
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import {
+  UserListComponent,
+  CreateUserComponent,
+  UserDetailComponent
+} from './components/users/index';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -63,7 +68,23 @@ export const routes: Routes = [
   {
     path: 'customer',
     component: UsersComponent,
-    canActivate: [LoggedInGuard]
+    // component: UserListComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'customerlist', pathMatch: 'full' },
+      {
+        path: 'customerlist',
+        component: UserListComponent
+      },
+      {
+        path: 'customercreate/:type/:userid',
+        component: CreateUserComponent
+      },
+      {
+        path: 'customerdetail/:userid',
+        component: UserDetailComponent
+      }
+    ]
   },
   {
     path: 'schedule',
