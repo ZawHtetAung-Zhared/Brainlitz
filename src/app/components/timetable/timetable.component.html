@@ -1,6 +1,10 @@
 <div *ngIf="showTimetable == true">
+  <!-- zha -->
   <div class="setting d-flex">
-    <div style="margin-left: 20px; height: 40px;">
+    <div
+      class="d-flex"
+      style="margin-left: 20px; height: 40px;align-items: center;"
+    >
       <button class="btn tdy-btn body-m">Today</button>
       <span class="arrow"
         ><img src="../../../assets/img/chevron-right-s.png"
@@ -9,59 +13,71 @@
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date">23 Feb ’20 - 29 Feb ’20</span>
-      <span class="category">All category</span>
+      <div class="category">All category</div>
     </div>
   </div>
   <div class="heading">
-    <div class="staff s-c">Staff</div>
-    <div class="dates">Sun</div>
-    <div class="dates">Mon</div>
-    <div class="dates">Tue</div>
-    <div class="dates">Wed</div>
-    <div class="dates">Thurs</div>
-    <div class="dates">Fri</div>
-    <div class="dates">Sat</div>
+    <div class="staff s-c">
+      <div class="s-flex"><span>7</span><span>staffs</span></div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Sun, 23 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Mon, 24 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Tue, 25 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Wed, 26 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Thu, 27 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Fri, 28 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Sat, 29 Feb</div>
+    </div>
   </div>
   <div class="schedule-container">
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
+    <div class="schedule" *ngFor="let staff of timetablelist; let i = index">
+      <div class="staff">
+        <div class="staffpic-container">
+          <div class="staff-pic">
+            <img class="pic" src="{{ staff.profilePic }}" />
+          </div>
+          {{ staff.staffName }}
+        </div>
+      </div>
+      <div
+        *ngFor="let schedule of staff.schedules; let j = index"
+        class="white"
+        (click)="showPopUpFunc(scheduleDetails)"
+      >
+        <div *ngIf="schedule.absent == true" class="absent">
+          <div class="orange"></div>
+          <div>Absent</div>
+        </div>
+        <span *ngIf="schedule.absent != true">
+          <div
+            *ngFor="let count of staff.schedules[j].timetable; let k = index"
+          >
+            {{ count.start.hr }}:{{ count.start.min }}
+            {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
+            {{ count.end.meridiem }}
+          </div></span
+        >
+      </div>
     </div>
   </div>
   <div class="extra">
@@ -126,254 +142,265 @@
       <div class="white"></div>
     </div>
   </div>
-</div>
 
-<!-- mycode -->
-<div class="overlayModal" *ngIf="aa" (click)="clickOverlay()"></div>
+  <!-- mycode -->
+  <div class="overlayModal" *ngIf="aa" (click)="clickOverlay()"></div>
 
-<block-ui message="Deafult Message"></block-ui>
+  <block-ui message="Deafult Message"></block-ui>
 
-<div class="modal-wrapper" *ngIf="showPopUp" (click)="clickOverlay()">
-  <div id="my-modal" class="my-modal" *ngIf="showPopUp == true">
-    <div class=" my-modal-header ">
-      <div class="img-wrap">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/3/33/Bessie_Coleman_in_1923.jpg"
-          alt="bessie edwards"
-        />
-      </div>
-      <div class="staff-info">
-        <span class="body-l" style="color: #363F4D;">Bessie Edwards</span>
-        <h5 class="h5-strong" style="color: #363F4D;">Wed 26, Feb 2020</h5>
-      </div>
-      <div class="add-course">
-        <li style="color: #D4D5D6;">
-          <span class="new-course" (click)="addNewCourse()"
-            >Add new course</span
-          >
-        </li>
-      </div>
-
-      <button
-        (click)="cancelModal()"
-        aria-label="Close"
-        class="modal-close ml-auto"
-        type="button"
-        style="float: right;"
-      >
-        <span class="closemark">
-          <div class="closemark_stem"></div>
-          <div class="closemark_kick"></div>
-        </span>
-      </button>
-    </div>
-
-    <div class="my-modal-body">
-      <div class="schedule-wrap d-flex flex-column">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span
-            class="body-m"
-            class="course-details"
-            (click)="goCourseDetails(id)"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
+  <div class="modal-wrapper" *ngIf="showPopUp" (click)="clickOverlay()">
+    <div id="my-modal" class="my-modal" *ngIf="showPopUp == true">
+      <div class=" my-modal-header ">
+        <div class="img-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/3/33/Bessie_Coleman_in_1923.jpg"
+            alt="bessie edwards"
+          />
         </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
+        <div class="staff-info">
+          <span class="body-l" style="color: #363F4D;">Bessie Edwards</span>
+          <h5 class="h5-strong" style="color: #363F4D;">Wed 26, Feb 2020</h5>
         </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
+        <div class="add-course">
+          <li style="color: #D4D5D6;">
+            <span class="new-course" (click)="addNewCourse()"
+              >Add new course</span
+            >
+          </li>
         </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
-        </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- mycode -->
-
-<!-- schedule -->
-
-<app-category
-  class="category-content"
-  *ngIf="isCategory == true && isPlan == false"
-></app-category>
-<app-courseplan
-  class="category-content"
-  *ngIf="isPlan == true && isCategory == false"
-></app-courseplan>
-<app-coursecreate
-  class="category-content"
-  *ngIf="isCourseCreate == true"
-></app-coursecreate>
-<block-ui message="Deafult Message"></block-ui>
-<div *ngIf="addNewCoursePlan == true" class="disabledScroll">
-  <div
-    class="d-flex justify-content-center"
-    *ngIf="isCategory == false && isPlan == false && isCourseCreate == false"
-  >
-    <div class="d-flex w-100  justify-content-between responsive-width">
-      <div class="p-2 pl-4 pb-0 ">
-        <div class="back-to" (click)="backtoTimetable()">
-          <i class="fa fa-angle-left"></i>
-          <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
-        </div>
-      </div>
-      <div class="pr-4 pt-2">
-        <p class="cancel-txt cursor-on" (click)="backtoTimetable()">Cancel</p>
-      </div>
-    </div>
-  </div>
-  <!-- Pick Course Plan -->
-  <div
-    class="d-flex justify-content-center"
-    *ngIf="isCategory == false && isPlan == false && isCourseCreate == false"
-  >
-    <div class="d-flex w-100 flex-column pl-4 responsive-width">
-      <div class="d-flex flex-column">
-        <p class="category-title">#{{ item.itemID }}</p>
-        <!-- <p class="category-title">#Piano</p> -->
-        <p class="pickCourseplan">Pick course plan</p>
-      </div>
-      <div class="input-group mt-3 pr-4" *ngIf="courseplanLists">
-        <span class="input-group-append">
-          <button
-            class="btn courseplanSearch-btn btn-outline-secondary"
-            type="button"
-          >
-            <i class="fa fa-search search-size"></i>
-          </button>
-        </span>
-        <input
-          class="form-control search-courseplan"
-          autocomplete="off"
-          type="search"
-          placeholder="Search course plan"
-          (keyup.enter)="getSearchCoursePlan($event.target.value, '', '')"
-        />
-      </div>
-      <div class="d-flex flex-wrap  mt-3">
-        <div
-          class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list"
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto"
+          type="button"
+          style="float: right;"
         >
-          <div class="createcouresplan">
-            <p class="createCourseText" (click)="createPlan()">
-              <i class="fa plus-sign fa-plus mr-2"></i>Create new course plan
-            </p>
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+        </button>
+      </div>
+
+      <div class="my-modal-body">
+        <div class="schedule-wrap d-flex flex-column">
+          <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            Conquer Vocabulary Primary Levels WorkBook 1
+          </h4>
+          <div class="d-flex">
+            <span
+              class="body-m"
+              class="course-details"
+              (click)="goCourseDetails(id)"
+              >Go to course details</span
+            >
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m" style="color: #5C6773;"
+              >Pedok Center</span
+            >
           </div>
         </div>
-        <div
-          class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list"
-          *ngFor="let item of courseplanLists"
-        >
+        <div class="schedule-wrap d-flex flex-column action-location">
+          <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            Conquer Vocabulary Primary Levels WorkBook 1
+          </h4>
+          <div class="d-flex">
+            <span class="body-m" class="course-details"
+              >Go to course details</span
+            >
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m" style="color: #5C6773;"
+              >Pedok Center</span
+            >
+          </div>
+        </div>
+        <div class="schedule-wrap d-flex flex-column action-location">
+          <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            Conquer Vocabulary Primary Levels WorkBook 1
+          </h4>
+          <div class="d-flex">
+            <span class="body-m" class="course-details"
+              >Go to course details</span
+            >
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m" style="color: #5C6773;"
+              >Pedok Center</span
+            >
+          </div>
+        </div>
+        <div class="schedule-wrap d-flex flex-column action-location">
+          <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            Conquer Vocabulary Primary Levels WorkBook 1
+          </h4>
+          <div class="d-flex">
+            <span class="body-m" class="course-details"
+              >Go to course details</span
+            >
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m" style="color: #5C6773;"
+              >Pedok Center</span
+            >
+          </div>
+        </div>
+        <div class="schedule-wrap d-flex flex-column action-location">
+          <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            Conquer Vocabulary Primary Levels WorkBook 1
+          </h4>
+          <div class="d-flex">
+            <span class="body-m" class="course-details"
+              >Go to course details</span
+            >
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m" style="color: #5C6773;"
+              >Pedok Center</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- zha -->
+
+  <!-- mycode -->
+
+  <!-- schedule -->
+
+  <app-category
+    class="category-content"
+    *ngIf="isCategory == true && isPlan == false"
+  ></app-category>
+  <app-courseplan
+    class="category-content"
+    *ngIf="isPlan == true && isCategory == false"
+  ></app-courseplan>
+  <app-coursecreate
+    class="category-content"
+    *ngIf="isCourseCreate == true"
+  ></app-coursecreate>
+  <block-ui message="Deafult Message"></block-ui>
+  <div *ngIf="addNewCoursePlan == true" class="disabledScroll">
+    <div
+      class="d-flex justify-content-center"
+      *ngIf="isCategory == false && isPlan == false && isCourseCreate == false"
+    >
+      <div class="d-flex w-100  justify-content-between responsive-width">
+        <div class="p-2 pl-4 pb-0 ">
+          <div class="back-to" (click)="backtoTimetable()">
+            <i class="fa fa-angle-left"></i>
+            <p class="mb-0" (click)="backtoTimetable()">Schedule</p>
+          </div>
+        </div>
+        <div class="pr-4 pt-2">
+          <p class="cancel-txt cursor-on" (click)="backtoTimetable()">Cancel</p>
+        </div>
+      </div>
+    </div>
+    <!-- Pick Course Plan -->
+    <div
+      class="d-flex justify-content-center"
+      *ngIf="isCategory == false && isPlan == false && isCourseCreate == false"
+    >
+      <div class="d-flex w-100 flex-column pl-4 responsive-width">
+        <div class="d-flex flex-column">
+          <p class="category-title">#{{ item.itemID }}</p>
+          <!-- <p class="category-title">#Piano</p> -->
+          <p class="pickCourseplan">Pick course plan</p>
+        </div>
+        <div class="input-group mt-3 pr-4" *ngIf="courseplanLists">
+          <span class="input-group-append">
+            <button
+              class="btn courseplanSearch-btn btn-outline-secondary"
+              type="button"
+            >
+              <i class="fa fa-search search-size"></i>
+            </button>
+          </span>
+          <input
+            class="form-control search-courseplan"
+            autocomplete="off"
+            type="search"
+            placeholder="Search course plan"
+            (keyup.enter)="getSearchCoursePlan($event.target.value, '', '')"
+          />
+        </div>
+        <div class="d-flex flex-wrap  mt-3">
           <div
-            class="d-flex couresplanList justify-content-between"
-            (click)="selectPlan(item)"
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 create-course-plan-list"
           >
-            <div class=" d-flex flex-column">
-              <span
-                class="courseplanName mb-1"
-                [ngClass]="{ 'hilight-plan': highlightPlan == item._id }"
-                >{{ item.name }}</span
-              >
-              <div class="d-flex">
-                <span class="createCourseTextSeat"
-                  >{{
-                    item.seats == null ? 'unlimited' : item.seats
-                  }}
-                  students</span
+            <div class="createcouresplan">
+              <p class="createCourseText" (click)="createPlan()">
+                <i class="fa plus-sign fa-plus mr-2"></i>Create new course plan
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 course-plan-list create-course-plan-list"
+            *ngFor="let item of courseplanLists"
+          >
+            <div
+              class="d-flex couresplanList justify-content-between"
+              (click)="selectPlan(item)"
+            >
+              <div class=" d-flex flex-column">
+                <span
+                  class="courseplanName mb-1"
+                  [ngClass]="{ 'hilight-plan': highlightPlan == item._id }"
+                  >{{ item.name }}</span
                 >
-                <ul class="lessonDuration">
-                  <li class="createCourseTextSeat">
-                    {{ item.lesson.duration | minuteSeconds }} duration
-                  </li>
-                </ul>
+                <div class="d-flex">
+                  <span class="createCourseTextSeat"
+                    >{{
+                      item.seats == null ? 'unlimited' : item.seats
+                    }}
+                    students</span
+                  >
+                  <ul class="lessonDuration">
+                    <li class="createCourseTextSeat">
+                      {{ item.lesson.duration | minuteSeconds }} duration
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="align-slef-center pt-3">
+                <i
+                  class="fa lesson-slot-box fa-2x  fa-angle-right"
+                  [ngClass]="{ 'hilight-arrow': highlightPlan == item._id }"
+                ></i>
               </div>
             </div>
-            <div class="align-slef-center pt-3">
-              <i
-                class="fa lesson-slot-box fa-2x  fa-angle-right"
-                [ngClass]="{ 'hilight-arrow': highlightPlan == item._id }"
-              ></i>
-            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="btn w-100 remove-outline"
-        style="position:sticky; color: #0080ff; font-size: 14px; font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-        *ngIf="courseplanLists && courseplanLists.length >= 20"
-        (click)="showMore(courseplanLists.length)"
-      >
-        load more
+        <div
+          class="btn w-100 remove-outline"
+          style="position:sticky; color: #0080ff; font-size: 14px; font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+          *ngIf="courseplanLists && courseplanLists.length >= 20"
+          (click)="showMore(courseplanLists.length)"
+        >
+          load more
+        </div>
       </div>
     </div>
   </div>
+  <!-- schedule -->
 </div>
-<!-- schedule -->
