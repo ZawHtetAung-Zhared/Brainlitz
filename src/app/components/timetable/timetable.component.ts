@@ -23,7 +23,8 @@ import * as moment from 'moment';
 })
 export class TimetableComponent implements OnInit {
   //zha variable
-
+  public stafflist: any;
+  public timetablelist: any;
   //zha variable
 
   //apo variable
@@ -328,6 +329,7 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit() {
     //zha ngOnInit
+    this.getStaffListperWeek();
     //zha ngOnInit
 
     //copy from schedule
@@ -380,6 +382,29 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  getStaffListperWeek() {
+    this._service.getStaffList().subscribe(
+      (res: any) => {
+        this.stafflist = res.staffList;
+        console.log('SL', this.stafflist);
+        this.getTimetables(this.stafflist.toString());
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  getTimetables(list) {
+    this._service.getTimetableList(list).subscribe(
+      (res: any) => {
+        this.timetablelist = res.data;
+        console.log('timetable list', this.timetablelist);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 
   //zha function
 

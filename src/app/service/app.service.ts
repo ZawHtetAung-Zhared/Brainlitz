@@ -4617,4 +4617,43 @@ export class appService {
       return res;
     });
   }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getStaffList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedule?staffList=5de9c8fd31f64d0013c47199,5de9c8fd31f64d0013c47199&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getTimetableList(list) {
+    console.log('stafflist in service', list);
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedule?staffList=' +
+      list +
+      '&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
