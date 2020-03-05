@@ -43,6 +43,11 @@ import {
   CreateUserComponent,
   UserDetailComponent
 } from './components/users/index';
+import {
+  UserStaffListComponent,
+  UserStaffDetailComponent,
+  CreateUserStaffComponent
+} from './components/user-staff/index';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -94,7 +99,22 @@ export const routes: Routes = [
   {
     path: 'staff',
     component: UserStaffComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'stafflist', pathMatch: 'full' },
+      {
+        path: 'stafflist',
+        component: UserStaffListComponent
+      },
+      {
+        path: 'staffdetail/:staffid',
+        component: UserStaffDetailComponent
+      },
+      {
+        path: 'staffcreate/:type/:staffid',
+        component: CreateUserStaffComponent
+      }
+    ]
   },
   {
     path: 'course',

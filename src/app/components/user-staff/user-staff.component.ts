@@ -103,26 +103,26 @@ export class UserStaffComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.blankCrop = false;
-    setTimeout(() => {
-      console.log('~~~', this.locationName);
-      this.locationName = localStorage.getItem('locationName');
-      this.gtxtColor = localStorage.getItem('txtColor');
-      this.gbgColor = localStorage.getItem('backgroundColor');
-    }, 300);
-    this.permissionSubscription = this._service.permissionList.subscribe(
-      data => {
-        if (this.router.url === '/staff') {
-          this.permissionType = data;
-          this.staffLists = [];
-          this.checkPermission();
-        }
-      }
-    );
+    // this.blankCrop = false;
+    // setTimeout(() => {
+    //   console.log('~~~', this.locationName);
+    //   this.locationName = localStorage.getItem('locationName');
+    //   this.gtxtColor = localStorage.getItem('txtColor');
+    //   this.gbgColor = localStorage.getItem('backgroundColor');
+    // }, 300);
+    // this.permissionSubscription = this._service.permissionList.subscribe(
+    //   data => {
+    //     if (this.router.url === '/staff') {
+    //       this.permissionType = data;
+    //       this.staffLists = [];
+    //       this.checkPermission();
+    //     }
+    //   }
+    // );
   }
 
   ngOnDestroy() {
-    this.permissionSubscription.unsubscribe();
+    // this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
