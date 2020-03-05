@@ -590,6 +590,8 @@ export class TimetableComponent implements OnInit {
     this.courseCreate = false;
     this.showDp = false;
     this.courseplanLists = [];
+    this.showTimetable = true;
+    this.addNewCoursePlan = false;
     // setTimeout(() => {
     //   this.updateScrollbar('v-wrapper');
     // }, 600);
