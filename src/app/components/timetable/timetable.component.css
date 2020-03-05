@@ -3,6 +3,9 @@
   height: 56px;
   background: #f7f9fa;
   align-items: center;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
 }
 .tdy-btn {
   width: 84px;
@@ -26,11 +29,14 @@
   border-top: 1px solid #e8e9eb;
   border-left: 1px solid #e8e9eb;
   text-align: center;
+  position: sticky;
+  top: 56px;
 }
 .dates {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: white;
 }
 .white {
   background: white;
@@ -41,6 +47,7 @@
 .white:hover {
   background: #f2f3f5;
 }
+
 .schedule-container {
   display: grid;
   grid-gap: 1px 1px;
@@ -82,6 +89,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
 }
 @media only screen and (min-width: 1368px) {
   .heading {
@@ -110,6 +120,11 @@
   .staff-pic {
     width: 40px;
     height: 40px;
+  }
+  .staffpic-container {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 24px;
   }
   .setting {
     height: 60px;
