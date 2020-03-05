@@ -128,6 +128,9 @@ export class LoginComponent implements OnInit {
         case 'staging-brainlitz-web':
           str_res = 'classwerkz';
           break;
+        case 'beta-classwerkz-web':
+          str_res = 'classwerkz';
+          break;
         case 'dev-brainlitz-web':
           str_res = 'stgbl-cw1';
           break;
