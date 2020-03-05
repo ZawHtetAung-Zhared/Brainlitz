@@ -1364,7 +1364,7 @@ export class EnrollUserComponent implements OnInit {
         //multienrolluser block
         this.enrollUserList.pop();
         this.enrollUserList.push(user);
-        --this.seatLeft;
+        // --this.seatLeft;
         console.log('from choose customer flexy' + this.seatLeft);
       }
     } else {
@@ -1377,7 +1377,7 @@ export class EnrollUserComponent implements OnInit {
       //multienrolluser block
       this.enrollUserList.pop();
       this.enrollUserList.push(user);
-      --this.seatLeft;
+      // --this.seatLeft;
       console.log('from choose customer flexy' + this.seatLeft);
       // this.userLists.map(item => {
       //   if (item.userId == user.userId) {
@@ -1435,9 +1435,9 @@ export class EnrollUserComponent implements OnInit {
       }
     });
     console.log('From unchoose ' + this.seatLeft);
-    if (this.seatLeft >= 0) {
-      ++this.seatLeft;
-    }
+    // if (this.seatLeft >= 0) {
+    //   ++this.seatLeft;
+    // }
     console.log('From unchoose ' + this.seatLeft);
   }
 

@@ -18,6 +18,5 @@ export const environment = {
   // apiurl: 'https://staging-brainlitz.pagewerkz.com',
   courseTypeDisabled: false,
   livechatDisabled: false,
-  // environmentName: 'staging'
   environmentName: 'dev'
 };
