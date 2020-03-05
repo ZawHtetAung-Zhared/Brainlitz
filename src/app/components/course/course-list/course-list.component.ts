@@ -186,6 +186,8 @@ export class CourseListComponent implements OnInit {
     } else if (this.oldValue - newValue > 0) {
       console.log('Direction Up');
       if (window.scrollY == 0) {
+        // $(window).scrollTop($('body').height() - $(window).height() -1);
+        // console.log("window.innerHeight",window.innerHeight,'document.body.height',document.body.clientHeight,'document.body.scrollheight',document.body.scrollHeight,'window.scrollY',window.scrollY)
         console.log('top of the page');
         this.getCoursesForPreviousPlan();
       }
@@ -221,7 +223,7 @@ export class CourseListComponent implements OnInit {
         console.log(
           'previousPlanId',
           prevPlanId,
-          ',nextPlanName',
+          ',previousPlanName',
           prevPlanName
         );
         // this.getCourseswithPlanId(
@@ -434,6 +436,16 @@ export class CourseListComponent implements OnInit {
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
             this.checkCoursesLength();
+            console.log(
+              'window.innerHeight',
+              window.innerHeight,
+              'document.body.height',
+              document.body.clientHeight,
+              'document.body.scrollheight',
+              document.body.scrollHeight,
+              'window.scrollY',
+              window.scrollY
+            );
           }
         },
         err => {
