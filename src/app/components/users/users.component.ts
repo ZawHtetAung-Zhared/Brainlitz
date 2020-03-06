@@ -114,6 +114,7 @@ export class UsersComponent implements OnInit {
   ];
 
   public showLoading: boolean = false;
+  private searchKeyword;
 
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -1158,6 +1159,7 @@ export class UsersComponent implements OnInit {
   }
 
   userSearch_input(keyword) {
+    this.searchKeyword = keyword;
     if (keyword.length == 0) {
       this.userSearch(keyword, 'customer', '', '');
     }
@@ -1202,6 +1204,7 @@ export class UsersComponent implements OnInit {
         this.customerLists = [];
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
+        this.searchKeyword = '';
       }, 300);
     }
   }

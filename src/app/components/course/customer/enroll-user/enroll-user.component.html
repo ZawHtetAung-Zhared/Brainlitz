@@ -409,7 +409,9 @@
         [disabled]="
           (enrollUserList | json) == '{}' || isDisabledBtn || noSetting == true
         "
-        (click)="addCustomer(detailLists._id, userType, invoiceAlert)"
+        (click)="
+          addCustomer(detailLists._id, userType, invoiceAlert, invoiceModal)
+        "
       >
         Enroll
       </button>
@@ -581,6 +583,18 @@
     </div>
   </div>
 </div>
+
+<ng-template #invoiceModal>
+  <div class="invoice-wrap">
+    <app-invoice
+      [custDetail]="custDetail"
+      [course]="courseInfo"
+      [invoiceId]="invoiceID2"
+      (closed)="closeInvoiceModal()"
+    >
+    </app-invoice>
+  </div>
+</ng-template>
 
 <!-- <div mdbModal #showSelectedCustomer="mdbModal" class="modal fade" id="basicExample" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">

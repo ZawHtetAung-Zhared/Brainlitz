@@ -58,7 +58,10 @@
           (keyup.enter)="userSearch($event.target.value, 'staff', '', '')"
           autocomplete="off"
         />
-        <span class="input-group-append">
+        <span
+          class="input-group-append"
+          (click)="userSearch(searchword, 'staff', '', '')"
+        >
           <button class="bt btn-design btn-outline-secondary" type="button">
             <i class="fa fa-search search-size"></i>
           </button>
