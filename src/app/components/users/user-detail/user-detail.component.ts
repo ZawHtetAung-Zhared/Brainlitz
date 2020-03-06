@@ -134,6 +134,7 @@ export class UserDetailComponent implements OnInit {
   selectedCustomer: any = {};
   public disableInvoice;
   searchData: any = {};
+  public passForm: any = {};
 
   //for loading
   public detailLoading: boolean = true;
