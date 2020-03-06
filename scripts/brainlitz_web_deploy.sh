@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
 deploy(){
-  if [ "$environment" = "dev" ]; then
-    # IP - 13.229.235.46
-    # Same IP as Staging but different folder
+  if [ "$environment" = "devops" ]; then
     PROJECT_FOLDER="/public_html/brainlitz-web-multi"
+  fi
+
+  if [ "$environment" = "dev" ]; then
+    # on STAGING server
+    PROJECT_FOLDER="/public_html/dev-brainlitz-web"
   fi
 
   if [ "$environment" = "staging" ]; then
@@ -17,24 +20,23 @@ deploy(){
     PROJECT_FOLDER="/public_html/brainlitz-web-multi"
   fi
 
-  cd $PROJECT_FOLDER
-  echo "Make new folder"
-  mkdir old_version
+  if [ -d "$DIRECTORY" ]; then
+      cd $PROJECT_FOLDER
+      echo "Remove and Create new folder"
+      rm -rf $PROJECT_FOLDER/old_version && mkdir $PROJECT_FOLDER/old_version
 
-  echo "Move old files into 'old_version'"
-  mv !(dist.zip|old_version) old_version/
+      echo "Move old files into 'old_version'"
+      # mv !\(dist.zip|old_version|brainlitz_web_deploy.sh\) $PROJECT_FOLDER/old_version/
+      mv !\('dist.zip'|'old_version'|'brainlitz_web_deploy.sh'\) $PROJECT_FOLDER/old_version/
 
-  echo "Unzip"
-  unzip dist.zip
+      echo "Unzipping ..."
+      unzip $PROJECT_FOLDER/dist.zip -d $PROJECT_FOLDER/
 
-  echo "Move files from dist folder"
-  cd dist/ && mv {} ..;
+      echo "UPDATING file permissions ..."
+      chgrp -R development $PROJECT_FOLDER
 
-  echo "Update file permissions"
-  chown -R heinlinaung:development $PROJECT_FOLDER
-
-  echo "REMOVE"
-  rm -rf $PROJECT_FOLDER/dist.zip $PROJECT_FOLDER/dist/ $PROJECT_FOLDER/old_version/
+      echo "REMOVING unnecessary folder & files ..."
+      rm -rf $PROJECT_FOLDER/dist.zip $PROJECT_FOLDER/brainlitz_web_deploy.sh $PROJECT_FOLDER/old_version/
 
 cat << "EOF"
                       /^--^\     /^--^\     /^--^\
@@ -48,7 +50,9 @@ cat << "EOF"
 | | | | | | | | | | | | \/| | | | \/| | | | | |\/ | | | | | | | | | | | |
 |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
 EOF
-
+  else
+    echo 'Project folder DOES NOT EXIST -> '$PROJECT_FOLDER
+  fi
 }
 
 main(){
