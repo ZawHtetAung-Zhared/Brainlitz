@@ -1,7 +1,7 @@
 <app-header [ngClass]="{ stick: isSticky == true }"></app-header>
 
 <div class="content-wrapper">
-  <div *ngIf="staffDetail && staffDetail.user" class="main-wrapper">
+  <div *ngIf="!detailLoading" class="main-wrapper">
     <div class="top-profile-wrap">
       <div class="d-flex heading-space">
         <div class="back" (click)="backToStaff()">
@@ -172,4 +172,35 @@
       </div>
     </div>
   </div>
+
+  <!-- loading start -->
+  <div *ngIf="detailLoading" class="main-wrapper w-100">
+    <div class="top-profile-wrap">
+      <div class="heading-space w-100" style="height: 180px">
+        <content-loader
+          [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+          [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+        >
+          <svg:rect x="0" y="0" rx="3" ry="3" width="20%" height="10" />
+          <svg:rect x="70%" y="0" rx="3" ry="3" width="30%" height="15" />
+          <svg:rect x="0" y="30" rx="50%" ry="50%" width="50" height="50" />
+          <svg:rect x="65%" y="30" rx="3" ry="3" width="20%" height="5" />
+          <svg:rect x="65%" y="40" rx="3" ry="3" width="35%" height="10" />
+        </content-loader>
+      </div>
+    </div>
+    <div class="row section-wrap">
+      <div class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3">
+        <list-content-loader class="mt-4"></list-content-loader>
+        <bullet-list-content-loader class="mt-3"></bullet-list-content-loader>
+        <list-content-loader class="mt-4"></list-content-loader>
+        <bullet-list-content-loader class="mt-3"></bullet-list-content-loader>
+        <list-content-loader class="mt-4"></list-content-loader>
+      </div>
+      <div class="col-md-8 col-xl-9 col-lg-9 d-flex flex-column profile-right">
+        <bullet-list-content-loader></bullet-list-content-loader>
+      </div>
+    </div>
+  </div>
+  <!-- loading end -->
 </div>

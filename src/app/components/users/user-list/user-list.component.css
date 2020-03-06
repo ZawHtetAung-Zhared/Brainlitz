@@ -275,3 +275,8 @@ h5 {
   outline: none;
   border: none;
 }
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
