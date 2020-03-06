@@ -215,16 +215,42 @@
     </div>
     <div class="my-modal-body" *ngIf="absent">
       <div class="schedule-wrap d-flex flex-column">
+        <!-- <div class="d-flex align-items-center">
+          <div class="d-flex justify-content-center" style="margin-right: 16px;">
+            <span class="am1"></span><span class="am2"></span>
+          </div>
+          <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+          <span class="half-full d-flex align-items-center justify-content-center" style="color:#5C6773">HALF-AM</span>
+        </div> -->
+        <!-- <div class="d-flex align-items-center">
+          <div class="d-flex justify-content-center" style="margin-right: 16px;">
+            <span class="am1"></span><span class="am2"></span>
+          </div>
+          <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+          <span class="half-full d-flex align-items-center justify-content-center" style="color:#5C6773">HALF-PM</span>
+        </div> -->
         <div class="d-flex align-items-center">
-          <div class="orange"></div>
+          <div
+            class="d-flex justify-content-center"
+            style="margin-right: 16px;"
+          >
+            <span class="orange"></span>
+          </div>
           <span class="h4-strong" style="margin-right: 10px;">Absent</span>
           <span
-            class="half-full d-flex align-items-center justify-content-center"
+            class="half-full d-flex align-items-center justify-content-center CAPTION_U"
             style="color:#5C6773"
-            >Half or Full</span
+            >ALL-DAY</span
           >
         </div>
         <span class="body-m" style="color: #5C6773;">Reason</span>
+      </div>
+    </div>
+    <div class="my-modal-body" *ngIf="timetable.length == 0">
+      <div
+        class="schedule-wrap d-flex justify-content-center align-items-center"
+      >
+        <span class="body-m">There is no lesson yet.</span>
       </div>
     </div>
   </div>
@@ -352,3 +378,8 @@
   </div>
 </div>
 <!-- schedule -->
+
+<div class="d-flex justify-content-center">
+  <span class="am1"></span><span class="am2"></span>
+</div>
+<br />
