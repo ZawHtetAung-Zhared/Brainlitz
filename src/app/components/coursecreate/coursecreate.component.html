@@ -104,7 +104,7 @@
 				</div> -->
         <div class="body-l">
           <button
-            class="btn-cancel bg-s0 text-c300"
+            class="btn-cancel bg-s0 text-c300 body-l"
             (click)="backToCourses('back', '')"
           >
             Cancel
@@ -770,7 +770,7 @@
           </div>
           <div class="search-dropdown" *ngIf="searchMenuShow == true">
             <div class="d-flex flex-column">
-              <div class="teacher-list-box">
+              <div class="teacher-list-box bg-s0 text-c300">
                 <div class="d-flex">
                   <input
                     class="form-control py-2 input-dropdown bg-s0 light-body-m"
@@ -803,7 +803,7 @@
                       />
                     </div>
                     <div
-                      class="single-user-info d-flex flex-column justify-content-center"
+                      class="single-user-info d-flex flex-column justify-content-center body-m text-c300"
                     >
                       {{ user.preferredName }}
                     </div>
@@ -1361,7 +1361,7 @@
         <div class="body-l">
           <button
             type="button"
-            class="btn-cancel bg-s0 text-c300"
+            class="btn-cancel bg-s0 text-c300 body-l"
             (click)="backToCourses('back', '')"
           >
             Cancel

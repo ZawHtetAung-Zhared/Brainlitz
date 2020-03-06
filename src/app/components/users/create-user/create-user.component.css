@@ -78,6 +78,11 @@ h5 {
   .inner-wrapper-detail {
     width: 1080px !important;
   }
+  .button-group {
+    width: 1080px !important;
+    margin: 0 auto;
+    left: unset !important;
+  }
 }
 
 .mr-bt-top {
@@ -399,4 +404,13 @@ i.fa.fa-angle-left.flexiBackicon {
 
 .checkedDate {
   color: #007fff;
+}
+
+.button-group {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 20px;
+  left: 0;
+  background: #fff;
 }

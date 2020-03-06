@@ -341,6 +341,10 @@
   font-weight: 700;
   line-height: 20px;
 }
+
+.lineHeight-unset {
+  line-height: unset !important;
+}
 .caption-u {
   text-transform: uppercase;
 }
