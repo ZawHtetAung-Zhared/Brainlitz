@@ -11,7 +11,7 @@
 </div> -->
 <div
   id="mainapg"
-  class="main-wrapper pad-bottom"
+  class=" pad-bottom"
   *ngIf="
     ismodule == false &&
     iscreate == false &&
@@ -69,7 +69,8 @@
       type="search"
       placeholder="Search tracking module"
       id="example-search-input"
-      (input)="apgListSearch($event.target.value, 'APG', '', '')"
+      (input)="apgListSearch2($event.target.value, 'APG', '', '')"
+      (keyup.enter)="apgListSearch($event.target.value, 'APG', '', '')"
       autocomplete="off"
     />
     <!-- <input 
@@ -106,6 +107,7 @@
       </button>
     </div>
   </div>
+
   <div class="apg-wrapper card-columns">
     <div class="card" *ngFor="let apg of apgList; let i = index">
       <div
@@ -133,8 +135,6 @@
             }"
           >
             <p class="apg-type" *ngIf="apg.module">
-              <!-- {{ apg.module.name }} -->
-
               {{
                 apg.module.name.toLowerCase() == 'user grading'
                   ? 'Grade'
@@ -346,13 +346,13 @@
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
-          <div>
+          <div class="d-flex">
             <div
               *ngIf="tempSharedApgId == apg._id && apg.share.status == true"
               class="status-wrapper-share ml-2"
               [ngClass]="{ 'apg-status': apg.share.status == true }"
             >
-              <span *ngIf="apg.share.status == true"
+              <span
                 ><img src="../../../assets/images/shared.png " alt=""
               /></span>
             </div>
@@ -364,18 +364,20 @@
                 ><img src="../../../assets/images/shared.png " alt=""
               /></span>
             </div>
-            <span *ngIf="apg.share.status == true">
-              <ul class="bullet-list-style">
+            <div *ngIf="apg.share.status == true" class="circle-apg">
+              <!-- <ul class="bullet-list-style">
                 <li></li>
-              </ul>
-            </span>
-            <button
-              class="apg-share remove-outline"
-              [ngClass]="{ 'apg-share-padding': apg.share.status == true }"
-              (click)="apgPublicShare(apg._id)"
-            >
-              Share
-            </button>
+              </ul> -->
+            </div>
+            <div>
+              <button
+                class="apg-share remove-outline"
+                (click)="apgPublicShare(apg._id)"
+              >
+                Share
+              </button>
+            </div>
+
             <span
               *ngIf="
                 apg.module.name.toLowerCase() == 'assessment' ||
@@ -469,7 +471,7 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} tracking module</p>
+        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -481,7 +483,7 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType }} tracking module</p>
+        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
       <a class="cancel-back" (click)="cancelapg()">Cancel</a>
@@ -489,7 +491,7 @@
   </div>
   <div class="location-group">
     <h3 *ngIf="ismodule == true" class="title-heading">
-      Updating {{ apgType }} Pick tracking module type
+      Pick tracking module type
     </h3>
     <p
       *ngIf="ismodule == true"
@@ -504,16 +506,16 @@
     <!-- <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
       <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3> -->
     <h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">
-      Creating {{ apgType }} tracking module
+      Creating {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">
-      Create {{ apgType }} tracking module
+      Create {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">
-      Update {{ apgType }} tracking module
+      Update {{ apgType.toLowerCase() }} tracking module
     </h3>
     <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">
-      Shared {{ apgType }} tracking module
+      Shared {{ apgType.toLowerCase() }} tracking module
     </h3>
   </div>
   <div class="apg-form">
@@ -682,7 +684,7 @@
                 class="d-flex container requirement"
                 *ngFor="let test of item.data.evaluation.details; let x = index"
                 style="padding-left:40px;"
-                id="requirement{{ x }}"
+                id="requirement{{ i }}{{ x }}"
               >
                 <!-- {{test.name}} -->
                 <span class="img-wrapper">
@@ -794,7 +796,10 @@
     <!-- end Assemenent -->
     <!-- </form> -->
     <!-- Start Data -->
-    <div *ngIf="iscreate == true && dataApCreate == true">
+    <div
+      *ngIf="iscreate == true && dataApCreate == true"
+      style="padding-bottom: 80px;"
+    >
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
           <div class="d-flex justify-content-between">
@@ -805,19 +810,59 @@
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <input
-            type="text"
-            class="form-control create-input"
-            placeholder="Type preffered name here"
-            name="name"
-            maxlength="60"
-            [(ngModel)]="model.name"
-            (focus)="focusMethod($event, 'name', $event.target.value)"
-            (blur)="blurMethod($event, 'name')"
-            (input)="changeMethod($event.target.value)"
-            required
-            #name="ngModel"
-          />
+          <div class="d-flex flex-row pl-2">
+            <input
+              type="text"
+              class="form-control create-input data-name"
+              placeholder="Type preffered name here"
+              name="name"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              (focus)="focusMethod($event, 'name', $event.target.value)"
+              (blur)="blurMethod($event, 'name')"
+              (input)="changeMethod($event.target.value)"
+              required
+              #name="ngModel"
+              [ngStyle]="{
+                background: selectedDataColor.background,
+                color: selectedDataColor.text
+              }"
+            />
+            <div class="color-box" (click)="showColorPicker($event)">
+              <span class="icon-img">
+                <img src="../../../assets/img/Vector.png" />
+              </span>
+              <div
+                *ngIf="isShowPicker"
+                class="carret-box"
+                [ngClass]="arrClasses"
+              ></div>
+              <!--      [ngStyle]="colorArrClasses" -->
+            </div>
+            <div
+              id="colorPletteBox"
+              *ngIf="isShowPicker"
+              (clickOutside)="closePopUp($event)"
+            >
+              <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+
+              <!--  [ngClass]="arrClasses"
+          [ngStyle]="colorArrClasses" -->
+              <p class="color-title mb-0 pb-0">Color</p>
+              <div class="color-section d-flex flex-wrap">
+                <div
+                  class="color-circle"
+                  *ngFor="let item of sepalColor; let i = index"
+                  [style.background]="item.color.background"
+                  (click)="selectColor(i, item)"
+                  [ngClass]="{
+                    addBorder:
+                      item.color.background == selectedDataColor.background
+                  }"
+                ></div>
+              </div>
+            </div>
+          </div>
           <div
             *ngIf="name.invalid && (name.dirty || name.touched)"
             class="alert alert-danger"
@@ -996,7 +1041,7 @@
               </div>
             </div>
             <div class="gap-box">
-              <label class="d-flex">
+              <div class="d-flex">
                 <div class="d-flex flex-column">
                   <label class="minlbl">Min</label>
                   <input
@@ -1084,7 +1129,7 @@
                     #max_method="ngModel"
                   />
                 </div>
-              </label>
+              </div>
               <div
                 class="justify-content-between showMsg"
                 *ngIf="emptymin == true || emptymax == true || overmin == true"
@@ -1227,7 +1272,8 @@
       *ngIf="
         iscreate == true &&
         userGradingAp == true &&
-        (!isCreateStatus && UserGradeApg != undefined)
+        !isCreateStatus &&
+        UserGradeApg != undefined
       "
       style="width: 480px;"
     >
@@ -1312,7 +1358,7 @@
                 <div class="icon-apg"></div>
               </div>
               <label class="form-title input-label apgTypeTxt" for="address"
-                >Create new {{ apgType }} Tracking Module</label
+                >Create new {{ apgType.toLowerCase() }} tracking module</label
               >
             </div>
           </div>
@@ -1332,8 +1378,8 @@
                 <div class="icon-apg"></div>
               </div>
               <label class="form-title input-label" for="address"
-                >Create using publicly shared {{ apgType }} tracking
-                module</label
+                >Create using publicly shared
+                {{ apgType.toLowerCase() }} tracking module</label
               >
             </div>
           </div>
@@ -1482,7 +1528,8 @@
             type="search"
             placeholder="Search tracking module"
             id="template-search-input"
-            (input)="sharedApgSearch($event.target.value, '', '')"
+            (input)="sharedApgSearch2($event.target.value, '', '')"
+            (keyup.enter)="sharedApgSearch($event.target.value, '', '')"
             autocomplete="off"
           />
           <span class="input-group-append">
@@ -1491,141 +1538,289 @@
             </button>
           </span>
         </div>
-
-        <div class="card-columns" *ngIf="apgType == 'Data'">
-          <div
-            *ngFor="let temp of templateList; let i = index"
-            class="card card-wrap share-input"
-          >
-            <label
-              class="form-check-label"
-              [ngClass]="{ selected: sharechecked == temp._id }"
+        <!-- Here data -->
+        <div class="apg-share-content" *ngIf="apgType == 'Data'">
+          <div class="col1">
+            <div
+              *ngFor="let temp of templateList | slice: 0:half; let i = index"
+              class="assement-shared-apg share-input share-input"
             >
-              <div class="d-flex justify-content-between apgBoxHead">
-                <span
-                  class="textapgType"
-                  [ngClass]="{ selected: sharechecked == temp._id }"
-                  >{{ apgType }}</span
-                >
-                <div class="label-checked"></div>
-              </div>
-
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="temp._id"
-                value="{{ temp.name }}"
-                (click)="chooseShareAPG(temp._id, temp.name)"
-              />
-              <span
-                class="textTempName"
+              <label
+                class="form-check-label"
                 [ngClass]="{ selected: sharechecked == temp._id }"
-                >{{ temp.name }}</span
               >
-              <div class="apgBoxFooter" *ngFor="let tobj of temp.accessPoints">
-                <!-- {{tobj.data.inputType}} -->
-                <div
-                  class="d-flex justify-content-between numberType"
-                  *ngIf="tobj.data.inputType == 'NUMBER'"
-                >
-                  <div>
-                    <span
-                      class="textUnitName"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                      >Unit:</span
-                    ><span
-                      class="textUnit"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      {{ tobj.data.unit }}</span
-                    >
-                  </div>
-                  <div
-                    class="showType"
-                    *ngIf="
-                      tobj.data.inputTypeProperties.min == null &&
-                      tobj.data.inputTypeProperties.max == null
-                    "
-                  >
-                    <img
-                      src="../../../assets/img/input-icon.png"
-                      class="inputIcon"
-                    />
-                    <span
-                      class="inputText"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      Input box
-                    </span>
-                  </div>
-                </div>
-
-                <div
-                  class="d-flex justify-content-between rangeType"
-                  *ngIf="tobj.data.inputType == 'RANGE'"
-                >
-                  <div>
-                    <span
-                      class="textUnitName"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                      >Unit:</span
-                    ><span
-                      class="textUnit"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      {{ tobj.data.unit }}</span
-                    >
-                  </div>
-
-                  <div
-                    class="showType"
-                    *ngIf="
-                      tobj.data.inputTypeProperties.min != null &&
-                      tobj.data.inputTypeProperties.max != null
-                    "
-                  >
-                    <img
-                      src="../../../assets/img/slider-icon.png"
-                      class="inputIcon"
-                    />
-                    <span
-                      class="inputText"
-                      [ngClass]="{ selected: sharechecked == temp._id }"
-                    >
-                      Slider
-                    </span>
-                  </div>
-                </div>
-
-                <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
-                  <div
-                    class="d-flex flex-row listGroup"
-                    *ngFor="
-                      let option of tobj.data.inputTypeProperties.options;
-                      let j = index
-                    "
+                <div class="d-flex justify-content-between apgBoxHead">
+                  <span
+                    class="textapgType"
                     [ngClass]="{ selected: sharechecked == temp._id }"
+                    >{{ apgType }}</span
                   >
-                    <span class="detail-dot"></span>
+                  <div class="label-checked"></div>
+                </div>
+
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ temp.name }}"
+                  (click)="chooseShareAPG(temp._id, temp.name)"
+                />
+                <span
+                  class="textTempName"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ temp.name }}</span
+                >
+                <div
+                  class="apgBoxFooter"
+                  *ngFor="let tobj of temp.accessPoints"
+                >
+                  <!-- {{tobj.data.inputType}} -->
+                  <div
+                    class="d-flex justify-content-between numberType"
+                    *ngIf="tobj.data.inputType == 'NUMBER'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
                     <div
-                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
-                      [ngClass]="{
-                        'hide-border':
-                          tobj.data.inputTypeProperties.options.length == j + 1
-                      }"
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min == null &&
+                        tobj.data.inputTypeProperties.max == null
+                      "
                     >
-                      {{ option }}
+                      <img
+                        src="../../../assets/img/input-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Input box
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex justify-content-between rangeType"
+                    *ngIf="tobj.data.inputType == 'RANGE'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
                     </div>
 
-                    <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
-                        {{option}}
-                      </div> -->
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min != null &&
+                        tobj.data.inputTypeProperties.max != null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/slider-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Slider
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                    <div
+                      class="d-flex flex-row listGroup"
+                      *ngFor="
+                        let option of tobj.data.inputTypeProperties.options;
+                        let j = index
+                      "
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        [ngClass]="{
+                          'hide-border':
+                            tobj.data.inputTypeProperties.options.length ==
+                            j + 1,
+                          selected: sharechecked == temp._id
+                        }"
+                      >
+                        {{ option }}
+                      </div>
+
+                      <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
+                          {{option}}
+                        </div> -->
+                    </div>
                   </div>
                 </div>
-              </div>
-              <!-- </div> -->
-            </label>
+                <!-- </div> -->
+              </label>
+            </div>
+          </div>
+          <div class="col2">
+            <div
+              *ngFor="let temp of templateList | slice: half; let i2 = index"
+              class="assement-shared-apg share-input share-input"
+            >
+              <label
+                class="form-check-label"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+              >
+                <div class="d-flex justify-content-between apgBoxHead">
+                  <span
+                    class="textapgType"
+                    [ngClass]="{ selected: sharechecked == temp._id }"
+                    >{{ apgType }}</span
+                  >
+                  <div class="label-checked"></div>
+                </div>
+
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ temp.name }}"
+                  (click)="chooseShareAPG(temp._id, temp.name)"
+                />
+                <span
+                  class="textTempName"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ temp.name }}</span
+                >
+                <div
+                  class="apgBoxFooter"
+                  *ngFor="let tobj of temp.accessPoints"
+                >
+                  <!-- {{tobj.data.inputType}} -->
+                  <div
+                    class="d-flex justify-content-between numberType"
+                    *ngIf="tobj.data.inputType == 'NUMBER'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min == null &&
+                        tobj.data.inputTypeProperties.max == null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/input-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Input box
+                      </span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="d-flex justify-content-between rangeType"
+                    *ngIf="tobj.data.inputType == 'RANGE'"
+                  >
+                    <div>
+                      <span
+                        class="textUnitName"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                        >Unit:</span
+                      ><span
+                        class="textUnit"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        {{ tobj.data.unit }}</span
+                      >
+                    </div>
+
+                    <div
+                      class="showType"
+                      *ngIf="
+                        tobj.data.inputTypeProperties.min != null &&
+                        tobj.data.inputTypeProperties.max != null
+                      "
+                    >
+                      <img
+                        src="../../../assets/img/slider-icon.png"
+                        class="inputIcon"
+                      />
+                      <span
+                        class="inputText"
+                        [ngClass]="{ selected: sharechecked == temp._id }"
+                      >
+                        Slider
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                    <div
+                      class="d-flex flex-row listGroup"
+                      *ngFor="
+                        let option of tobj.data.inputTypeProperties.options;
+                        let j = index
+                      "
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        [ngClass]="{
+                          'hide-border':
+                            tobj.data.inputTypeProperties.options.length ==
+                            j + 1,
+                          selected: sharechecked == temp._id
+                        }"
+                      >
+                        {{ option }}
+                      </div>
+
+                      <!-- <div class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlistnoBorder" *ngIf="tobj.data.inputTypeProperties.options.length-1==j"> <span class="detail-dot"></span>
+                          {{option}}
+                        </div> -->
+                    </div>
+                  </div>
+                </div>
+                <!-- </div> -->
+              </label>
+            </div>
           </div>
 
           <!-- </label> -->
@@ -1693,7 +1888,14 @@
                         }"
                         style="margin-bottom: 16px"
                       >
-                        <p class="gradename">{{ grade.name }}</p>
+                        <p
+                          class="gradename"
+                          [ngClass]="{
+                            'grade-selected': sharechecked == temp._id
+                          }"
+                        >
+                          {{ grade.name }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1992,3 +2194,5 @@
     </button>
   </div>
 </ng-template>
+
+<div id="placeholder_color"></div>

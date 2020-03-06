@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ng2-img-cropper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CalendarModule } from 'angular-calendar';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
@@ -12,6 +13,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
 import { DragulaModule } from 'ng2-dragula';
 import { NgDragDropModule } from 'ng-drag-drop';
+import { ColorPickerModule } from 'ngx-color-picker';
 // import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { Daterangepicker } from 'ng2-daterangepicker';
 import { Ng2TelInputModule } from 'ng2-tel-input';
@@ -26,7 +28,6 @@ import { appService } from './service/app.service';
 import { LoggedInGuard } from './service/loggedIn.guard';
 import { DataService } from './service/data.service';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { CourseComponent } from './components/course/course.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CourseplanComponent } from './components/courseplan/courseplan.component';
@@ -39,6 +40,8 @@ import { QuizwerkzComponent } from './components/quizwerkz/quizwerkz.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrModule } from 'ngx-toastr';
+import { NgbModalStackModule } from 'ng-bootstrap-modal-stack';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -60,6 +63,7 @@ import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
 import { MinuteSecondsPipe } from './service/pipe/time.pipe';
+import { HourMinutePipe } from './service/pipe/hourMinute.pipe';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { WeekDaysPipe } from './service/pipe/weekday.pipe';
 import { ScheduleWeekDaysPipe } from './service/pipe/scheduleWeekDays.pipe';
@@ -69,6 +73,7 @@ import { GetDayPipe } from './service/pipe/day.pipe';
 import { GetFormatData } from './service/pipe/timeformat.pipe';
 import { GetUtcTimePipe } from './service/pipe/utcTime.pipe';
 import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
+import { GetUtcDateoverviewPipe } from './service/pipe/utcDateoverview.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
@@ -106,6 +111,7 @@ import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.c
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
 import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
+import { UtcDateAndDayObjPipe } from './service/pipe/utc-date-and-day-obj.pipe';
 import { AssignReliefComponent } from './components/assign-relief/assign-relief.component';
 // import { CalendarModule, DateAdapter } from 'angular-calendar';
 // import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -118,6 +124,37 @@ import {
   CarouselItemElement
 } from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
+import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
+import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
+import { UtcDateandFullDayPipe } from './service/pipe/utc-dateand-full-day.pipe';
+import { TodayDatePipe } from './service/pipe/today-date.pipe';
+import { RescheduleLessonComponent } from './components/reschedule-lesson/reschedule-lesson.component';
+import { LessonDurationPipe } from './service/pipe/lesson-duration.pipe';
+import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pipe';
+import { from } from 'rxjs/observable/from';
+import { ReviewComponent } from './components/review/review.component';
+import { LivechatComponent } from './components/livechat/livechat.component';
+// import { CourseListComponent } from './components/course-list/course-list.component';
+
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent,
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent,
+  ReportDetail2Component
+} from './components/course/index';
+import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
+import { TimetableComponent } from './components/timetable/timetable.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +190,7 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     TemplateComponent,
     ModuleComponent,
     MinuteSecondsPipe,
+    HourMinutePipe,
     WeekDaysPipe,
     ScheduleWeekDaysPipe,
     GroupByPipe,
@@ -162,6 +200,7 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     GetUtcTimePipe,
     GetFormatData,
     GetUtcDatePipe,
+    GetUtcDateoverviewPipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
     attandanceDayPipe,
@@ -193,6 +232,7 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     ClassTabComponent,
     LeaveDetailsComponent,
     UtcDateAndDayPipe,
+    UtcDateAndDayObjPipe,
     RescheduleComponent,
     AssignReliefComponent,
     FinancialPipe,
@@ -200,12 +240,38 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     UserGradingComponent,
     CarouselComponent,
     CarouselItemDirective,
-    CarouselItemElement
+    CarouselItemElement,
+    UtcDateByObjPipe,
+    TodayLessonsComponent,
+    UtcDateandFullDayPipe,
+    TodayDatePipe,
+    RescheduleLessonComponent,
+    LessonDurationPipe,
+    RemainingLessonDatePipe,
+    ReviewComponent,
+    LivechatComponent,
+    CourseListComponent,
+    AssignTaskComponent,
+    CoursedetailComponent,
+    OverviewComponent,
+    CustomerComponent,
+    AttendanceComponent,
+    TasksComponent,
+    LeaderboardComponent,
+    MasteriesreportComponent,
+    EnrollUserComponent,
+    ReportDetailComponent,
+    StudentListComponent,
+    MasteryReportComponent,
+    CustomTaskComponent,
+    ReportDetail2Component,
+    TimetableComponent
   ],
   imports: [
     ContentLoaderModule,
     BrowserModule,
     RouterTestingModule,
+    NgbModalStackModule.forRoot(),
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
@@ -224,7 +290,8 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     Daterangepicker,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot(),
+    ToastModule.forRoot(), //ng5-toastr
+    ToastrModule.forRoot(), // ngx-toastr ToastrModule added
     ClickOutsideModule,
     TimepickerModule.forRoot(),
     //ConfirmationPopoverModule.forRoot({
@@ -237,18 +304,22 @@ import { CarouselItemDirective } from './components/users/carousel/carousel-item
     StarRatingModule,
     Ng2TelInputModule,
     MediumEditorModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    ImageCropperModule,
+    ColorPickerModule
   ],
   providers: [
     appService,
     DataService,
     LoggedInGuard,
+    EnrollUserComponent,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptService,
       multi: true
-    }
+    },
+    TodayDatePipe
   ],
   bootstrap: [AppComponent]
 })

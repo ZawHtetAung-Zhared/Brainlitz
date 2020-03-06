@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- devops
+  batch: true
+  branches:
+    include:
+    - live
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -28,15 +31,7 @@ steps:
     archiveFile: '$(System.DefaultWorkingDirectory)/dist.zip'
     replaceExistingArchive: true
 
-# - task: CopyFiles@2
-#   displayName: 'Copy /dist folder to Artifact directory'
-#   inputs:
-#     SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
-#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish dist.zip to System default working directory'
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/dist.zip'
-
-    

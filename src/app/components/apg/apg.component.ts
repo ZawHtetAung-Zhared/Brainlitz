@@ -15,7 +15,8 @@ import { apgField } from './apg';
 import { apField } from './apg';
 import { convertField } from './apg';
 import { appService } from '../../service/app.service';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+// import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
@@ -147,11 +148,115 @@ export class ApgComponent implements OnInit, OnDestroy {
   emptymax: boolean = true;
   overmin: boolean = true;
   showDp: boolean = false;
+  public selectedDataColor = {
+    text: '#544600',
+    background: '#FFE04D'
+  };
+  public selectedDataPattel = {
+    text: '#594a00',
+    background: '#fff4bf'
+  };
+  public isShowPicker: boolean = false;
+  public colorWrapper = {};
+  public colorArrClasses = {};
+  public colorPopUpX;
+  public colorPopUpLeft;
+  public arrClasses: any;
+  // colour group
+  public sepalColor = [
+    {
+      name: '1',
+      color: {
+        text: '#6E2D00',
+        background: '#FFCBA6'
+      }
+    },
+    {
+      name: '2',
+      color: {
+        text: '#544600',
+        background: '#FFE04D'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005733',
+        background: '#80FFCA'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#003E7D',
+        background: '#B3D8FF'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#5000A1',
+        background: '#DFBFFF'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#7A0052',
+        background: '#FFBFE9'
+      }
+    }
+  ];
+
+  public colorPalette = [
+    {
+      name: '1',
+      color: {
+        text: '#803500',
+        background: '#ffe9d9'
+      }
+    },
+    {
+      name: '2',
+      color: {
+        text: '#594a00',
+        background: '#fff4bf'
+      }
+    },
+    {
+      name: '3',
+      color: {
+        text: '#005934',
+        background: '#ccffea'
+      }
+    },
+    {
+      name: '4',
+      color: {
+        text: '#004080',
+        background: '#cce6ff'
+      }
+    },
+    {
+      name: '5',
+      color: {
+        text: '#6600cc',
+        background: '#f2e6ff'
+      }
+    },
+    {
+      name: '6',
+      color: {
+        text: '#990066',
+        background: '#ffe6f6'
+      }
+    }
+  ];
 
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
     private dragulaService: DragulaService
@@ -188,7 +293,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         $(target).append($('.add-new-skill'));
       });
 
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
 
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
@@ -234,6 +339,10 @@ export class ApgComponent implements OnInit, OnDestroy {
         document.addEventListener('mousemove', function(event) {
           // console.log(_this.stillDrag)
         });
+        document.addEventListener('touchmove', function(event) {
+          // event.preventDefault();
+          // $('.requirements-wrapper').css('overflow', 'hidden');
+        });
       }
       // this.msg = `Dragging the ${value[1].innerText}!`;
     });
@@ -267,7 +376,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           .children('.selection-wrapper')
           .children('.img-wrapper');
         $(clone).height(70);
-        $(clone).width(500);
+        $(clone).width(400);
         $(clone)
           .children('.selection-wrapper')
           .children('.data-close')
@@ -317,6 +426,7 @@ export class ApgComponent implements OnInit, OnDestroy {
         console.log('CAncel');
         this.dragOut = false;
         console.log('Drag', this.dragEle, 'drop', this.dropEle);
+        // $('.requirements-wrapper').css('overflow', '');
         // if(this.dragEle !== [] && this.dropEle !== []){
         //   var temp = this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]].name;
         //   console.log(this.templateAccessPointGroup[this.dragEle[2]].data.evaluation.details[this.dropEle[0]])
@@ -338,6 +448,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       console.log('------>>', this.templateAccessPointGroup);
       this.stillDrag = false;
       this.dragOut = false;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.drag().subscribe(({ name, el, source }) => {
       console.log(name === 'COLUMNS');
@@ -345,6 +456,27 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.stillDrag = true;
         document.addEventListener(
           'mousemove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.requirements-wrapper')[0];
+              if ($('.gu-mirror').position() && container) {
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 10) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 10) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+        document.addEventListener(
+          'touchmove',
           (this.testFunct = () => {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
@@ -372,16 +504,48 @@ export class ApgComponent implements OnInit, OnDestroy {
             // console.log(this.stillDrag)
             if (this.stillDrag) {
               var container = $(el).parents('.data-wrapper')[0];
-              var windowHeight = $(window).height();
+              // var windowHeight = $(window).height();
+              if ($('.gu-mirror').position() && container) {
+                // var y = $('.gu-mirror').position().top;
+                // if (y > 900) {
+                //   var x = 5;
+                //   window.scrollBy(0, x);
+                // } else if (y < 900) {
+                //   console.log('s');
+                //   var z = -3;
+                //   window.scrollBy(0, z);
+                // }
+
+                var y = $('.gu-mirror').position().top;
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 200) {
+                  container.scrollTop -= 10;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 10;
+                }
+              }
+            }
+          }),
+          false
+        );
+
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            // console.log(this.stillDrag)
+            if (this.stillDrag) {
+              var container = $(el).parents('.data-wrapper')[0];
               if ($('.gu-mirror').position() && container) {
                 var y = $('.gu-mirror').position().top;
-                if (y > 900) {
-                  var x = 5;
-                  window.scrollBy(0, x);
-                } else if (y < 900) {
-                  console.log('s');
-                  var z = -3;
-                  window.scrollBy(0, z);
+                var dragHeight = y + $('.gu-mirror').height();
+                var dropHeight =
+                  $(container).position().top + $(container).height();
+                if (y - $(container).position().top < 320) {
+                  container.scrollTop -= 5;
+                } else if (dropHeight - dragHeight < 50) {
+                  container.scrollTop += 5;
                 }
               }
             }
@@ -462,7 +626,34 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           })
         );
+        document.addEventListener(
+          'touchmove',
+          (this.testFunct = () => {
+            if (stillDrag) {
+              var y = $('.gu-mirror').position().top;
+              var container = $(el).parents('.requirement-inner-box');
+              if (container.length > 0) {
+                var ddd = container[0].getBoundingClientRect().top + 236;
+                var containerTop = container[0].getBoundingClientRect().top;
+                if (ddd - y <= 70) {
+                  var ele = container[0];
+                  ele.scrollTop += 20;
+                  if (ele.scrollHeight == ele.scrollTop + container.height()) {
+                  }
+                } else if (y - containerTop <= 20) {
+                  var ele = container[0];
+                  ele.scrollTop -= 20;
+                  if (ele.scrollTop == 0) {
+                  }
+                }
+              }
+            }
+          })
+        );
         document.addEventListener('mouseup', function(event) {
+          stillDrag = false;
+        });
+        document.addEventListener('touchend', function(event) {
           stillDrag = false;
         });
       }
@@ -474,6 +665,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.dragulaService.out().subscribe(({ name, container, source }) => {
       console.log('out now');
       this.dragOut = true;
+      // $('.requirements-wrapper').css('overflow', '');
     });
     this.dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
       $(clone).css('top', $('#clone').height() + 'px');
@@ -551,24 +743,24 @@ export class ApgComponent implements OnInit, OnDestroy {
   //   console.log("DRRRRAAG")
   // }
 
-  @HostListener('window:scroll', ['$event']) onScroll($event) {
-    // console.log('==== ',$('.pad-bottom').height() + 150)
-    // console.log($(window).height())
-    // if(window.pageYOffset < 15){
-    //   console.log('less than 40')
-    //   this.isSticky = false;
-    // }
-    // console.log($event);
-    // console.log("scrolling");
-    // console.log(window.pageYOffset)
-    // if(window.pageYOffset > 40){
-    //   console.log('greater than 100')
-    //   this.navIsFixed = true;
-    // }else{
-    //   console.log('less than 100')
-    //   this.navIsFixed = false;
-    // }
-  }
+  // @HostListener('window:scroll', ['$event']) onScroll($event) {
+  // console.log('==== ',$('.pad-bottom').height() + 150)
+  // console.log($(window).height())
+  // if(window.pageYOffset < 15){
+  //   console.log('less than 40')
+  //   this.isSticky = false;
+  // }
+  // console.log($event);
+  // console.log("scrolling");
+  // console.log(window.pageYOffset)
+  // if(window.pageYOffset > 40){
+  //   console.log('greater than 100')
+  //   this.navIsFixed = true;
+  // }else{
+  //   console.log('less than 100')
+  //   this.navIsFixed = false;
+  // }
+  // }
 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.showDp = false;
@@ -665,6 +857,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.isshare = true;
       this.shareAPG = false;
       this.iscreate = false;
+      this.userGradingAp = false;
     }
     this.templateAccessPointGroup = [];
   }
@@ -676,6 +869,16 @@ export class ApgComponent implements OnInit, OnDestroy {
     this.model = {};
     this.ismodule = true;
     this.isUpdate = false;
+
+    $('#placeholder_color').append(
+      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+        this.selectedDataColor.text +
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
+    );
   }
 
   // createNewAPG(status) {
@@ -885,15 +1088,15 @@ export class ApgComponent implements OnInit, OnDestroy {
         (res: any) => {
           console.log(res);
           this.toastr.success('APG successfully created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           setTimeout(() => {
             this.cancelapg();
           }, 200);
           this.setSelectedTab(this.pickedMType);
         },
         err => {
-          this.toastr.success(status + ' Fail.');
-          this.blockUI.stop();
+          this.toastr.error(status + ' Fail.');
+          //this.blockUI.stop();
           console.log(err);
         }
       );
@@ -909,6 +1112,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // if(name == "Assessment")
     //   this.apgType = "evaluation"
     console.log('ModuleName --->', name);
+
     this.ischecked = val;
     this.moduleID = val;
     this.pickedMType.name = name;
@@ -1097,7 +1301,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
         for (var j = 0; j < data[i].data.evaluation.details.length; j++) {
           const requirement: HTMLElement = document.getElementById(
-            'requirement' + j
+            'requirement' + i + j
           );
           req_total_height += requirement.clientHeight;
         }
@@ -1143,12 +1347,14 @@ export class ApgComponent implements OnInit, OnDestroy {
     const innerBoxHeight: HTMLElement = document.getElementById(
       'requirement-inner-box-' + skillId
     );
+
     var req_total_height = 0;
 
     for (var j = 0; j < skillObj.data.evaluation.details.length; j++) {
       const requirement: HTMLElement = document.getElementById(
-        'requirement' + j
+        'requirement' + skillId + j
       );
+
       req_total_height += requirement.clientHeight;
     }
 
@@ -1159,7 +1365,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     if (totalHeight < 400) {
       skillHeight.setAttribute('style', 'height: auto;');
-      innerBoxHeight.setAttribute('style', 'height:auto;overflow:none;');
+      innerBoxHeight.setAttribute('style', 'height:auto;overflow:unset;');
       this.templateAccessPointGroup[skillId].upDownOptions = false;
       this.templateAccessPointGroup[skillId].upOptions = false;
       this.templateAccessPointGroup[skillId].DownOptions = false;
@@ -1375,22 +1581,22 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   updateEVApgOnly(idArray) {
-    setTimeout(() => {
-      console.log('UPDATE');
-      console.log(idArray);
-      this.model.accessPoints = idArray;
-      this._service
-        .updateAPG(this.regionID, this.model._id, this.model, null)
-        .subscribe(
-          (res: any) => {
-            console.log(res);
-            this.cancelapg();
-          },
-          err => {
-            console.log(err);
-          }
-        );
-    }, 200);
+    // setTimeout(() => {
+    console.log('UPDATE');
+    console.log(idArray);
+    this.model.accessPoints = idArray;
+    this._service
+      .updateAPG(this.regionID, this.model._id, this.model, null)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.cancelapg();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    // }, 200);
   }
 
   createEvaluateApgs(nameparam) {
@@ -1419,10 +1625,10 @@ export class ApgComponent implements OnInit, OnDestroy {
             (res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res);
-              setTimeout(() => {
-                this.cancelapg();
-              }, 200);
-              this.setSelectedTab(this.pickedMType);
+              // setTimeout(() => {
+              this.cancelapg();
+              // }, 200);
+              // this.setSelectedTab(this.pickedMType);
             },
             err => {
               this.toastr.error('Created APG Fail');
@@ -1538,6 +1744,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   createDataApg() {
     // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
     // this.optionsArray = [];
+    console.log('create data ap');
     this.createDataAccessPoint()
       .then(apId => {
         var moduleId = localStorage.getItem('moduleID');
@@ -1545,18 +1752,21 @@ export class ApgComponent implements OnInit, OnDestroy {
           name: this.model.name,
           description: '',
           moduleId: moduleId,
-          accessPoints: [apId]
+          accessPoints: [apId],
+          color: this.selectedDataPattel,
+          sepalColor: this.selectedDataColor
         };
         this._service
           .createAPG(this.regionID, this.locationID, apg, null, moduleId)
           .subscribe(
             (res: any) => {
               console.log(res);
+              // setTimeout(() => {
+              this.cancelapg();
+              // }, 200);
               this.toastr.success('APG successfully Created.');
-              setTimeout(() => {
-                this.cancelapg();
-              }, 200);
-              this.setSelectedTab(this.pickedMType);
+              console.warn(this.selectedAPGTab);
+              // this.setSelectedTab(this.pickedMType);
               // this.optionsArray = [];
             },
             err => {
@@ -1575,6 +1785,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('not data apg');
     }
+    console.log('model', this.model);
     // ap.data.inputTypeProperties.options = this.optionsArray;
     return new Promise((resolve, reject) => {
       this._service.updateAP(this.regionID, apId, ap).subscribe((res: any) => {
@@ -1589,11 +1800,13 @@ export class ApgComponent implements OnInit, OnDestroy {
         this._service
           .updateAPG(this.regionID, apgId, this.model, null)
           .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
             console.log(res);
             this.cancelapg();
           }),
           err => {
             console.log(err);
+            this.toastr.success('APG update fail');
           };
       })
       .catch(err => {
@@ -1631,12 +1844,13 @@ export class ApgComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               (res: any) => {
-                this.toastr.success('APG successfully Created.');
-                console.log(res);
                 setTimeout(() => {
                   this.cancelapg();
                 }, 200);
-                this.setSelectedTab(this.pickedMType);
+                this.toastr.success('APG successfully Created.');
+                console.log(res);
+                console.warn(this.pickedMType, 'pick m type');
+                // this.setSelectedTab(this.pickedMType);
                 // this.cancelapg();
               },
               err => {
@@ -1653,7 +1867,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     } else {
       console.log('update');
       console.log(data);
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .updateAPG(this.regionID, data._id, data, templateID)
         .subscribe(
@@ -1661,7 +1875,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             console.log('success update', res);
             this.toastr.success('Successfully APG Updated.');
             this.cancelapg();
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             this.toastr.error('Updated APG Fail');
@@ -1803,13 +2017,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   singleAPG(id, state) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         this._service.getSingleAPG(this.regionID, id).subscribe(
           (res: any) => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log('editapg', res);
             this.model = res;
             console.log('resolve res.accessPoints', res.accessPoints);
@@ -1824,7 +2038,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -1833,7 +2047,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // setTimeout(() => {
     //   this._service.getSingleAPG(this.regionID, id)
     //     .subscribe((res: any) => {
-    //       this.blockUI.stop();
+    //       //this.blockUI.stop();
     //       console.log('editapg', res)
     //       this.model = res;
     //       if (state == 'share') {
@@ -1846,7 +2060,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
     //       }
     //     }, err => {
-    //       this.blockUI.stop();
+    //       //this.blockUI.stop();
     //       console.log(err)
     //     })
     // }, 10);
@@ -1855,16 +2069,16 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   // getAllTemplate(){
-  //   this.blockUI.start('Loading...');
+  //   //this.blockUI.start('Loading...');
   //   this._service.getAllTemplate(this.regionID)
   //   .subscribe((res:any) => {
   //      console.log(res.length)
   //      console.log(res)
-  //      this.blockUI.stop();
+  //      //this.blockUI.stop();
   //      this.tempLists = res;
   //      this.isempty = (res.length === 0) ? true : false;
   //   }, err => {
-  //       this.blockUI.stop();
+  //       //this.blockUI.stop();
   //       console.log(err)
   //   })
   // }
@@ -2024,14 +2238,14 @@ export class ApgComponent implements OnInit, OnDestroy {
   //      console.log('create',data)
   //      this.newAPList = [];
   //      this.modalReference.close();
-  //      this.blockUI.start('Loading...');
+  //      //this.blockUI.start('Loading...');
   //      this._service.createAPG(this.regionID, data, formData.templateId, formData.moduleId)
   //        .subscribe((res:any) => {
   //            console.log('success post',res);
   //            this.toastr.success('Successfully APG Created.');
   //            this.apArray = [];
   //            this.getAllAPG();
-  //            this.blockUI.stop();
+  //            //this.blockUI.stop();
   //        }, err => {
   //            this.toastr.error('Created APG Fail');
   //            console.log(err)
@@ -2041,13 +2255,13 @@ export class ApgComponent implements OnInit, OnDestroy {
   //      console.log('update', data)
   //      this.newAPList = [];
   //      this.modalReference.close();
-  //      this.blockUI.start('Loading...');
+  //      //this.blockUI.start('Loading...');
   //      this._service.updateAPG(this.regionID, this.editId, data, formData.templateId)
   //        .subscribe((res:any) => {
   //            console.log('success update',res);
   //            this.toastr.success('Successfully APG Updated.');
   //            this.getAllAPG();
-  //            this.blockUI.stop();
+  //            //this.blockUI.stop();
   //        }, err => {
   //            this.toastr.error('Updated APG Fail');
   //            console.log(err)
@@ -2123,7 +2337,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log(this.apgType);
     var moduleId = localStorage.getItem('moduleID');
     console.log(moduleId);
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service
       .getAllTemplate(this.regionID, limit, skip, moduleId)
       .subscribe(
@@ -2143,9 +2357,9 @@ export class ApgComponent implements OnInit, OnDestroy {
             }
           }
           console.log(this.templateList);
-          setTimeout(() => {
-            this.blockUI.stop();
-          }, 300);
+          // setTimeout(() => {
+          //this.blockUI.stop();
+          // }, 300);
         },
         err => {
           console.log(err);
@@ -2156,7 +2370,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   getAllModule() {
     this._service.getAllModule(this.regionID).subscribe(
       (res: any) => {
-        console.log('moduleLists', res);
+        console.warn('moduleLists', res);
         for (var i in res) {
           if (res[i]._id != null) {
             this.moduleList.push(res[i]);
@@ -2205,6 +2419,13 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.getAllTemplate(20, skip);
     }
   }
+
+  sharedApgSearch2(keyword, limit, skip) {
+    if (keyword.length == 0) {
+      this.sharedApgSearch(keyword, limit, skip);
+    }
+  }
+
   sharedApgSearch(keyword, limit, skip) {
     this.keyword = keyword;
     if (skip == '' && limit == '') {
@@ -2235,11 +2456,16 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      setTimeout(() => {
-        this.templateList = [];
-        this.getAllTemplate(20, 0);
-        this.isSearch = false;
-      }, 100);
+      // setTimeout(() => {
+      this.templateList = [];
+      this.getAllTemplate(20, 0);
+      this.isSearch = false;
+      // }, 100);
+    }
+  }
+  apgListSearch2(searchWord, type, limit, skip) {
+    if (searchWord.length == 0) {
+      this.apgListSearch(searchWord, type, limit, skip);
     }
   }
 
@@ -2286,12 +2512,12 @@ export class ApgComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      setTimeout(() => {
-        this.apgList = [];
-        this.clearAPGTypeArr();
-        this.getAllAPG(limit, skip);
-        this.isSearch = false;
-      }, 100);
+      // setTimeout(() => {
+      this.apgList = [];
+      this.clearAPGTypeArr();
+      this.getAllAPG(limit, skip);
+      this.isSearch = false;
+      // }, 100);
     }
   }
 
@@ -2333,8 +2559,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   // }
 
   getAllAPG(limit, skip) {
-    this.blockUI.start('Loading...');
-    console.log(this.selectedAPGTab);
+    //this.blockUI.start('Loading...');
+    console.warn(this.selectedAPGTab);
     this._service
       .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
       .subscribe(
@@ -2377,7 +2603,7 @@ export class ApgComponent implements OnInit, OnDestroy {
               }
             }
           }
-          console.log('APG lists', this.apgList);
+          console.warn('APG lists', this.apgList);
 
           // this.apgList = res;
           // this.result = res;
@@ -2389,7 +2615,7 @@ export class ApgComponent implements OnInit, OnDestroy {
             this.emptyAPG = false;
           }
           setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+            //this.blockUI.stop(); // Stop blocking
           }, 300);
         },
         err => {
@@ -2419,13 +2645,13 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   apgDelete(id) {
     this.modalReference.close();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.deleteAPG(this.regionID, id).subscribe(
       (res: any) => {
         console.log('deleteapg', res);
-        setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
-        }, 200);
+        // setTimeout(() => {
+        //this.blockUI.stop(); // Stop blocking
+        // }, 200);
         this.toastr.success('Successfully APG deleted.');
         this.apgList = [];
         this.getAllAPG(20, 0);
@@ -2494,7 +2720,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     };
     this.tempSharedApgId = id;
     console.log(data, id);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.convertApgTemplate(id, data).subscribe(
       (res: any) => {
         console.log(res);
@@ -2516,19 +2742,19 @@ export class ApgComponent implements OnInit, OnDestroy {
         this.clearAPGTypeArr();
         this.getAllAPG(20, 0);
         this.toastr.success('Successfully shared to public.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
       },
       err => {
         this.toastr.success(status + ' Fail.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
   }
   autoResize(item, e, id, name, x) {
-    console.log(e.target.style);
-    console.log(e.target.scrollHeight);
-    console.log(id);
+    // console.log(e.target.style);
+    // console.log(e.target.scrollHeight);
+    console.log(id, 'id');
     e.target.style.cssText = 'height:auto';
     e.target.style.height = e.target.scrollHeight + 'px';
     this.scrollCalculation(item, id);
@@ -2572,7 +2798,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.valueArray = [{ name: '' }];
       console.log(this.valueArray);
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else if (type == 'NUMBER') {
       // console.log(this.optionsArray)
@@ -2580,7 +2806,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
       // this.optionsArray = ['']
       this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '';
+      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
       this.templateAccessPointGroup.data.inputTypeProperties.max = '';
     } else {
       // this.optionsArray = ['']
@@ -2837,7 +3063,6 @@ export class ApgComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         console.log('report json', res);
         if (res.length > 0) {
-          console.log('download file');
           this.downloadFile(res, apgName);
         } else {
           console.log('no report');
@@ -2848,6 +3073,7 @@ export class ApgComponent implements OnInit, OnDestroy {
 
   downloadFile(res, name) {
     var csvData = this.ConvertToCSV(res);
+    console.log(csvData);
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -2873,7 +3099,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     // }
     // row = row.slice(0, -1);
     row =
-      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date';
+      'Student Name,Teacher Name,Course Name,Course Plan Name,Class Start Time,Location,APG Name,Result,Submitted Date,Previous Grade,Current Grade,Grade Result';
     //append Label row with line break
     str += row + '\r\n';
     // console.log(str);
@@ -2881,16 +3107,18 @@ export class ApgComponent implements OnInit, OnDestroy {
     for (var i = 0; i < array.length; i++) {
       var line = '';
       var apgObject = {};
-      apgObject['studentName'] = array[i].student.preferredName;
-      apgObject['teacherName'] = array[i].teacher.preferredName;
+      apgObject['studentName'] = array[i].student.preferredName || ' ';
+      apgObject['teacherName'] = array[i].teacher.preferredName || ' ';
       apgObject['courseName'] = array[i].courseName.replace(/,/g, ' ');
       apgObject['cPlanName'] = array[i].coursePlanName.replace(/,/g, ' ');
-      apgObject['classStartTime'] = array[i].classStartTime;
+      apgObject['classStartTime'] = array[i].classStartTime.replace(/,/g, ' ');
       apgObject['location'] = array[i].locationName.replace(/,/g, ' ');
       apgObject['apgName'] = array[i].apgName.replace(/,/g, ' ');
-      apgObject['result'] = array[i].results;
+      apgObject['result'] = array[i].results || ' ';
       apgObject['submittedDate'] = array[i].submittedDate.replace(/,/g, ' ');
-      console.log(apgObject);
+      apgObject['previousGrade'] = array[i].previousGrade.replace(/,/g, ' ');
+      apgObject['currentGrade'] = array[i].currentGrade.replace(/,/g, ' ');
+      apgObject['gradeResult'] = array[i].gradeResult.replace(/,/g, ' ');
       for (var index in apgObject) {
         if (line != '') line += ',';
         line += apgObject[index];
@@ -2953,5 +3181,77 @@ export class ApgComponent implements OnInit, OnDestroy {
     if (e) {
       this.toastr.success('APG successfully created.');
     }
+  }
+
+  showColorPicker(e) {
+    this.isShowPicker = true;
+    console.log('open', this.isShowPicker);
+    $('body').css('overflow', 'hidden');
+    this.caculatePosition(e);
+  }
+
+  caculatePosition(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let YPosition = e.clientY;
+    let XPosition = e.clientX;
+    console.log(YPosition, 'ypostion');
+    console.log(XPosition, 'XPosition');
+
+    if (e.target.className == '') {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 34 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 149 + 'px'; //21
+      console.log('here mee>if');
+    } else {
+      this.colorArrClasses = {
+        // top: YPosition + 'px',
+        left: XPosition - 10 + 'px' //11
+      };
+      this.colorPopUpX = YPosition + 20 + this.scrollHeight + 'px';
+      this.colorPopUpLeft = XPosition - 160 + 'px'; //21
+      console.log('here mee>else');
+    }
+
+    this.arrClasses = {
+      // 'arr-box': true,
+      'arr-down': false,
+      'arr-up': true
+    };
+  }
+  // @HostListener('document:click', ['$event']) clickout($event) {}
+  public scrollHeight = 0;
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    this.scrollHeight = $event.target.scrollingElement.scrollTop;
+  }
+
+  closePopUp(e) {
+    this.isShowPicker = false;
+    $('body').css('overflow', 'overlay');
+  }
+
+  selectColor(i, item) {
+    console.log(i, '<i>');
+    console.log(item, 'item');
+    this.selectedDataColor.background = item.color.background;
+    this.selectedDataColor.text = item.color.text;
+    this.selectedDataPattel.background = this.colorPalette[i].color.background;
+    this.selectedDataPattel.text = this.colorPalette[i].color.text;
+
+    this.isShowPicker = false;
+
+    $('#feedback').remove();
+    $('#placeholder_color').append(
+      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
+        this.selectedDataColor.text +
+        ' !important;} .data-name::-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
+        this.selectedDataColor.text +
+        ' !important; opacity:1;}</style>'
+    );
   }
 }

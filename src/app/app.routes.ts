@@ -1,3 +1,4 @@
+import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
@@ -8,7 +9,6 @@ import { RegionComponent } from './components/region/region.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
-import { CourseComponent } from './components/course/course.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { ToolsComponent } from './components/tools/tools.component';
 import { ReportComponent } from './components/report/report.component';
@@ -17,6 +17,27 @@ import { HomeComponent } from './components/home/home.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 
 import { LoggedInGuard } from './service/loggedIn.guard';
+import { ReviewComponent } from './components/review/review.component';
+import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
+import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
+
+import {
+  CourseComponent,
+  AssignTaskComponent,
+  CoursedetailComponent,
+  OverviewComponent,
+  CustomerComponent,
+  AttendanceComponent,
+  TasksComponent,
+  LeaderboardComponent,
+  MasteriesreportComponent,
+  CourseListComponent,
+  ReportDetailComponent,
+  StudentListComponent,
+  MasteryReportComponent,
+  ReportDetail2Component
+} from './components/course/index';
+import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -56,8 +77,67 @@ export const routes: Routes = [
   },
   {
     path: 'course',
-    component: CourseComponent,
+    // component: CourseComponent,
+    component: CourseListComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'coursedetail/:id/enroll',
+    component: EnrollUserComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'coursecreate',
+    component: CoursecreateComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'coursedetail/:id',
+    component: CoursedetailComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      {
+        path: 'overview',
+        component: OverviewComponent
+      },
+      {
+        path: 'customers',
+        component: CustomerComponent
+      },
+      {
+        path: 'tasks',
+        component: TasksComponent
+      },
+      {
+        path: 'attendance',
+        component: AttendanceComponent
+      },
+      {
+        path: 'leaderboard',
+        component: LeaderboardComponent
+      },
+      {
+        path: 'masteries-report',
+        component: MasteriesreportComponent
+      }
+    ]
+  },
+  {
+    path: 'masteriesdetail/:id',
+    component: MasteryReportComponent,
+    children: [
+      { path: '', redirectTo: 'reportdetail', pathMatch: 'full' },
+      {
+        path: 'reportdetail',
+        // component: ReportDetailComponent
+        component: ReportDetail2Component
+      },
+      {
+        path: 'studentlist',
+        component: StudentListComponent
+      }
+    ]
   },
   {
     path: 'tools',
@@ -67,6 +147,26 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'review',
+    component: ReviewComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'assignTask/:id',
+    component: AssignTaskComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'today-lesson',
+    component: TodayLessonsComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'timetable',
+    component: TimetableComponent,
     canActivate: [LoggedInGuard]
   },
   {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
@@ -12,6 +12,9 @@ import {
 import { appService } from './service/app.service';
 import { DOCUMENT } from '@angular/platform-browser';
 
+declare var LiveAgent: any;
+declare var $: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,6 +27,7 @@ export class AppComponent implements OnInit {
   public str_res: any;
   public favicon = localStorage.getItem('favicon');
   public appName = localStorage.getItem('appname');
+  loadAPI: Promise<any>;
   // public appName = "Hello";
 
   constructor(
@@ -110,9 +114,51 @@ export class AppComponent implements OnInit {
       .setAttribute('href', this.favicon);
     // this.document.getElementById('appname').innerHTML = this.appName;
     this.setTitle(this.appName);
+    // this.liveChatAgent(this.appName);
+  }
+
+  liveChatAgent(appName) {
+    //for live chat button
+    var locationName = localStorage.getItem('locationName');
+    console.log('liveChatAgent works', appName, locationName);
+    console.log(this.appName);
+    const head = document.getElementsByTagName('head')[0];
+    let scriptUrl = 'https://pagewerkz.ladesk.com/scripts/track.js';
+    let node = document.createElement('script');
+    node.src = scriptUrl;
+    node.id = 'la_x2s6df8d';
+    node.type = 'text/javascript';
+    node.async = true;
+    node.charset = 'utf-8';
+    node.onload = function() {
+      console.log('livechat onload', appName, locationName);
+      LiveAgent.createButton(
+        '02y1jb4z',
+        document.getElementById('livechat'),
+        appName,
+        locationName
+      );
+    };
+    head.appendChild(node);
   }
 
   public setTitle(newTitle: string) {
+    console.log('object');
     this.titleService.setTitle(newTitle);
+  }
+
+  private scrollPosition: any;
+  private isOpenModal: boolean = false;
+  @HostListener('document:click', ['$event']) documentClick($event): void {
+    if (!$('.modal-backdrop')[0]) {
+      if (this.isOpenModal) {
+        $('html, body').animate({ scrollTop: this.scrollPosition });
+      }
+      this.isOpenModal = false;
+    } else this.isOpenModal = true;
+  }
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if ($('html, body').scrollTop() != 0)
+      this.scrollPosition = $('html, body').scrollTop();
   }
 }
