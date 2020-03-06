@@ -950,26 +950,51 @@ export class CoursecreateComponent implements OnInit {
     // chooseOpt function for including flexi and onlinecourse UI
     switch (optType) {
       case 'endOpt':
+        console.log(
+          'chooseOpt',
+          optType,
+          ',endOptChecked',
+          itemType,
+          'tempVar',
+          this.tempVar
+        );
+        console.log(
+          'model.lCount',
+          this.model.lessonCount,
+          '& model.endDate',
+          this.model.end,
+          '& model.defaultLessons',
+          this.model.defaultlessonCount
+        );
         this.endOptChecked = itemType;
-        if (this.tempVar) {
-          if (this.tempVar == this.endOptChecked) {
-            console.log(
-              'Draft Choose',
-              this.tempVar,
-              '& temp value',
-              this.tempValue
-            );
-            // console.log("model.lCount",this.model.lessonCount,'& model.endDate',this.model.end)
-            if (this.tempVar == 'end') {
-              this.model.end = this.tempValue;
-              this.model.lessonCount = '';
-            } else {
-              this.model.lessonCount = this.tempValue;
-              this.model.end = '';
-            }
+        if (this.tempVar == this.endOptChecked) {
+          console.log(
+            'Draft Choose',
+            this.tempVar,
+            '& temp value',
+            this.tempValue
+          );
+          console.log(
+            'model.lCount',
+            this.model.lessonCount,
+            '& model.endDate',
+            this.model.end
+          );
+          if (this.tempVar == 'end') {
+            this.model.end = this.tempValue;
+            this.model.lessonCount = '';
+            this.model.defaultlessonCount = '';
+          } else if (this.tempVar == 'lesson') {
+            this.model.lessonCount = this.tempValue;
+            this.model.end = '';
+            this.model.defaultlessonCount = '';
+          } else {
+            this.model.defaultlessonCount = this.tempValue;
+            this.model.lessonCount = '';
+            this.model.end = '';
           }
         } else {
-          // console.log("CREATE");
+          console.log('CREATE~~~~~~');
           if (this.endOptChecked == 'end') {
             this.model.lessonCount = '';
             this.model.defaultlessonCount = '';
@@ -991,7 +1016,7 @@ export class CoursecreateComponent implements OnInit {
 
       case 'timeOpt':
         // this.timeOptChecked = itemType;
-        console.log(this.timeOptChecked);
+        console.log('timeOpt', this.timeOptChecked);
         if (itemType == 'showTimeSlot') {
           this.timeOptChecked = 'hideTimeSlot';
         } else {
@@ -1085,12 +1110,12 @@ export class CoursecreateComponent implements OnInit {
     }
   }
   closeDropdown(event, type, datePicker?) {
-    console.log(
-      'exit here close drop down',
-      event.target.className.includes('dropD')
-    );
-    console.log(event.target.className);
-    console.log(datePicker);
+    // console.log(
+    //   'exit here close drop down',
+    //   event.target.className.includes('dropD')
+    // );
+    // console.log(event.target.className);
+    // console.log(datePicker);
     // if(event.path){
     //   if(type == 'feeOpt'){
     //     var parentWrap = event.path.filter(function(res){
@@ -1159,19 +1184,19 @@ export class CoursecreateComponent implements OnInit {
       // if(datePicker)
       //   datePicker.close();
     } else {
-      console.log('##########', event.target.className);
+      // console.log('##########', event.target.className);
       this.searchMenuShow = false;
       // if (type == "start")
       //   datePicker.close();
       // else if (type== 'end')
       //   datePicker.close();
       if (type == 'start' || type == 'end') {
-        console.log('exit');
+        // console.log('exit');
         if (event.target.offsetParent == null) {
-          console.log('exit if');
+          // console.log('exit if');
           datePicker.close();
         } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
-          console.log('exit else');
+          // console.log('exit else');
           datePicker.close();
         }
       }
