@@ -114,6 +114,7 @@ export class UsersComponent implements OnInit {
   ];
 
   public showLoading: boolean = false;
+  private searchKeyword;
 
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -261,33 +262,33 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      console.log('~~~', this.locationName);
-      this.locationName = localStorage.getItem('locationName');
-      this.gtxtColor = localStorage.getItem('txtColor');
-      this.gbgColor = localStorage.getItem('backgroundColor');
-      var userId;
-      this.dataService.currentCustomer.subscribe(uId => (userId = uId));
-      if (userId != '') {
-        console.log('!!!!!!UID');
-        this.showDetails(userId, 'class');
-      }
-    }, 300);
-    this.blankCrop = false;
-    this.permissionSubscription = this._service.permissionList.subscribe(
-      data => {
-        if (this.router.url === '/customer') {
-          this.permissionType = data;
-          this.customerLists = [];
-          this.checkPermission();
-        }
-      }
-    );
+    // setTimeout(() => {
+    //   console.log('~~~', this.locationName);
+    //   this.locationName = localStorage.getItem('locationName');
+    //   this.gtxtColor = localStorage.getItem('txtColor');
+    //   this.gbgColor = localStorage.getItem('backgroundColor');
+    //   var userId;
+    //   this.dataService.currentCustomer.subscribe(uId => (userId = uId));
+    //   if (userId != '') {
+    //     console.log('!!!!!!UID');
+    //     this.showDetails(userId, 'class');
+    //   }
+    // }, 300);
+    // this.blankCrop = false;
+    // this.permissionSubscription = this._service.permissionList.subscribe(
+    //   data => {
+    //     if (this.router.url === '/customer') {
+    //       this.permissionType = data;
+    //       this.customerLists = [];
+    //       this.checkPermission();
+    //     }
+    //   }
+    // );
     // this.selectedPayment = 'Cash';
   }
 
   ngOnDestroy() {
-    this.permissionSubscription.unsubscribe();
+    // this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -1158,6 +1159,7 @@ export class UsersComponent implements OnInit {
   }
 
   userSearch_input(keyword) {
+    this.searchKeyword = keyword;
     if (keyword.length == 0) {
       this.userSearch(keyword, 'customer', '', '');
     }
@@ -1202,6 +1204,7 @@ export class UsersComponent implements OnInit {
         this.customerLists = [];
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
+        this.searchKeyword = '';
       }, 300);
     }
   }

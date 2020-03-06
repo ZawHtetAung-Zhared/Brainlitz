@@ -561,44 +561,44 @@ export class EnrollUserComponent implements OnInit {
   invoicesOfCourse: any = [];
   isFlexyInvoice: boolean = false;
 
-  showTabsModal(modal, type, data) {
-    this.isFlexyInvoice = false;
-    console.log('show Tabs Modal', data);
-    console.warn(type, 'type');
+  // showTabsModal(modal, type, data) {
+  //   this.isFlexyInvoice = false;
+  //   console.log('show Tabs Modal', data);
+  //   console.warn(type, 'type');
 
-    this.showStudentOption = '';
-    this.xxxhello = '';
-    this.getSingleCustomer(data.userId, type);
-    this.singleUserData = data;
-    this.modalReference = this.modalService.open(modal, {
-      backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
-    });
+  //   this.showStudentOption = '';
+  //   this.xxxhello = '';
+  //   this.getSingleCustomer(data.userId, type);
+  //   this.singleUserData = data;
+  //   this.modalReference = this.modalService.open(modal, {
+  //     backdrop: 'static',
+  //     windowClass:
+  //       'modal-xl modal-inv d-flex justify-content-center align-items-center'
+  //   });
 
-    if (type == 'transfer') {
-      this.getAllAC(20, 0, data.userId);
-    } else if (type == 'invoice') {
-      console.warn('just show invoice', data);
-      if (data.invoice != null) {
-        console.warn('exit', data);
-        if (this.courseType == 'FLEXY') {
-          this.invoicesOfCourse = data.invoicesOfCourse;
-          this.isFlexyInvoice = true;
-          console.warn('invoicesOfCourse', this.invoicesOfCourse);
-        }
-        this.invoiceID2 = data.invoice._id;
+  //   if (type == 'transfer') {
+  //     this.getAllAC(20, 0, data.userId);
+  //   } else if (type == 'invoice') {
+  //     console.warn('just show invoice', data);
+  //     if (data.invoice != null) {
+  //       console.warn('exit', data);
+  //       if (this.courseType == 'FLEXY') {
+  //         this.invoicesOfCourse = data.invoicesOfCourse;
+  //         this.isFlexyInvoice = true;
+  //         console.warn('invoicesOfCourse', this.invoicesOfCourse);
+  //       }
+  //       this.invoiceID2 = data.invoice._id;
 
-        // this.viewInvoice(data);
-      }
-    } else if (type == 'makeup') {
-      this.activeUserTab = type;
-      console.log('ddddd');
-      this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
-    }
-    console.log('show Tabs Modal', this.activeUserTab);
-    console.warn(this.isFlexyInvoice, 'flexy invoice');
-  }
+  //       // this.viewInvoice(data);
+  //     }
+  //   } else if (type == 'makeup') {
+  //     this.activeUserTab = type;
+  //     console.log('ddddd');
+  //     this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
+  //   }
+  //   console.log('show Tabs Modal', this.activeUserTab);
+  //   console.warn(this.isFlexyInvoice, 'flexy invoice');
+  // }
 
   getMakeupLists(userId, type, regionId, courseId) {
     //this.blockUI.start('Loading...');
@@ -613,6 +613,49 @@ export class EnrollUserComponent implements OnInit {
       }
     );
   }
+
+  // cancelInvoiceModal() {
+  //   this.showStudentOption = '';
+  //   this.xxxhello = '';
+  //   //this.modalReference.close();
+  //   this.showList = false;
+  //   this.selectedCustomer = {};
+  //   this.showInvoice = false;
+  //   this.showPayment = false;
+  //   this.showPaidInvoice = false;
+  //   this.paymentItem = {};
+  //   this.hideReg = false;
+  //   this.hideDeposit = false;
+  //   this.hideMisc = false;
+  //   this.isEditInv = false;
+  //   this.singleInv = [];
+  //   this.updateInvData = {};
+  //   this.availableCourses = [];
+  //   this.makeupForm = {};
+  //   this.invPayment = [];
+  //   console.log('hideMisc', this.hideMisc);
+  //   // this.getCourseDetail(this.detailLists._id);
+  //   // this.getUsersInCourse(this.detailLists._id);
+  //   this.activeTab = 'People';
+  //   if (this.isvalidID == 'inside') {
+  //     console.log('hi');
+  //     // this.cancel();
+  //     this.getCourseDetail(this.detailLists._id);
+  //     console.log('call getUsersInCourse from swap');
+  //     //this.getUsersInCourse(this.detailLists._id);
+  //     // this.cancelModal();
+  //   } else {
+  //     console.log('else hi');
+  //     // this.cancel();
+  //     //this.modalReference.close();
+  //     this.courseList = [];
+  //     this.getCourseLists(20, 0);
+  //     // this.cancelModal();
+  //     // this.getUsersInCourse(courseId);
+  //   }
+  //   // this.courseList = [];
+  //   // this.getCourseLists(20,0);
+  // }
 
   cancelInvoiceModal() {
     this.showStudentOption = '';
@@ -633,28 +676,13 @@ export class EnrollUserComponent implements OnInit {
     this.availableCourses = [];
     this.makeupForm = {};
     this.invPayment = [];
-    console.log('hideMisc', this.hideMisc);
-    // this.getCourseDetail(this.detailLists._id);
-    // this.getUsersInCourse(this.detailLists._id);
-    this.activeTab = 'People';
-    if (this.isvalidID == 'inside') {
-      console.log('hi');
-      // this.cancel();
-      this.getCourseDetail(this.detailLists._id);
-      console.log('call getUsersInCourse from swap');
-      //this.getUsersInCourse(this.detailLists._id);
-      // this.cancelModal();
-    } else {
-      console.log('else hi');
-      // this.cancel();
-      //this.modalReference.close();
-      this.courseList = [];
-      this.getCourseLists(20, 0);
-      // this.cancelModal();
-      // this.getUsersInCourse(courseId);
-    }
-    // this.courseList = [];
-    // this.getCourseLists(20,0);
+  }
+
+  closeInvoiceModal() {
+    console.log('Close invoice modal');
+    this.invoiceModalReference.close();
+    this.cancelInvoiceModal();
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
   }
 
   getAllAC(limit, skip, userId) {
@@ -1271,6 +1299,8 @@ export class EnrollUserComponent implements OnInit {
   public found = null;
 
   chooseCustomer(user) {
+    console.log('user', user);
+    this.custDetail.user = user;
     console.log(this.detailLists);
     console.log(this.seatLeft);
     if (
@@ -1322,18 +1352,29 @@ export class EnrollUserComponent implements OnInit {
         //multienrolluser block
         this.enrollUserList.pop();
         this.enrollUserList.push(user);
-        --this.seatLeft;
+        // --this.seatLeft;
         console.log('from choose customer flexy' + this.seatLeft);
       }
     } else {
       this.userLists.map(item => {
+        item.addOrRemove = 'add-user';
         if (item.userId == user.userId) {
           item.addOrRemove = 'remove-user';
-          this.enrollUserList.push(user);
         }
       });
-      --this.seatLeft;
-      console.log('from choose customer regular' + this.seatLeft);
+      //multienrolluser block
+      this.enrollUserList.pop();
+      this.enrollUserList.push(user);
+      // --this.seatLeft;
+      console.log('from choose customer flexy' + this.seatLeft);
+      // this.userLists.map(item => {
+      //   if (item.userId == user.userId) {
+      //     item.addOrRemove = 'remove-user';
+      //     this.enrollUserList.push(user);
+      //   }
+      // });
+      // --this.seatLeft;
+      // console.log('from choose customer regular' + this.seatLeft);
     }
     //this.showAndHideModal()
   }
@@ -1382,9 +1423,9 @@ export class EnrollUserComponent implements OnInit {
       }
     });
     console.log('From unchoose ' + this.seatLeft);
-    if (this.seatLeft >= 0) {
-      ++this.seatLeft;
-    }
+    // if (this.seatLeft >= 0) {
+    //   ++this.seatLeft;
+    // }
     console.log('From unchoose ' + this.seatLeft);
   }
 
@@ -1758,6 +1799,7 @@ export class EnrollUserComponent implements OnInit {
         this.courseInfo = this.detailLists;
         Object.assign(this.courseInfo, res.body);
         console.log('-------->', this.courseInfo);
+        console.log('custDetail >>>>>>>', this.custDetail);
 
         console.log('res Assign customer', res);
         if (res.invoiceSettings == {} || res.invoiceSettings == undefined) {
@@ -1780,9 +1822,13 @@ export class EnrollUserComponent implements OnInit {
         this.showflexyCourse = false;
         this.showPayment = false;
         this.isProrated = false;
-        // this.invoiceID2 = this.detailLists.invoice[0]._id;
-        // this.showOneInvoice(this.invoice);
-        this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+        this.invoiceID2 = res.body.invoice[0]._id;
+        this.invoiceModalReference = this.modalService.open(this.invModal, {
+          backdrop: 'static',
+          windowClass:
+            'modal-xl modal-inv d-flex justify-content-center align-items-center'
+        });
+        // this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
       });
 
     //add lesson
@@ -1794,7 +1840,12 @@ export class EnrollUserComponent implements OnInit {
     if (this.courseType == 'FLEXY') {
       this.flexicomfirm(undefined);
     } else {
-      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+      this.addCustomer(
+        this.tempCourdeId,
+        this.tempuserType,
+        undefined,
+        undefined
+      );
     }
     this.invoiceModalReference.close();
     console.log(' Invoice Genereate confirm ');
@@ -1805,7 +1856,12 @@ export class EnrollUserComponent implements OnInit {
     if (this.courseType == 'FLEXY') {
       this.flexicomfirm(undefined);
     } else {
-      this.addCustomer(this.tempCourdeId, this.tempuserType, undefined);
+      this.addCustomer(
+        this.tempCourdeId,
+        this.tempuserType,
+        undefined,
+        undefined
+      );
     }
     this.invoiceModalReference.close();
     console.log(' Invoice Genereate cancel ');
@@ -1813,9 +1869,13 @@ export class EnrollUserComponent implements OnInit {
 
   public invoiceModalReference;
   public disableInvoice;
+  public invModal;
 
-  addCustomer(courseId, userType, invoiceAlert) {
+  addCustomer(courseId, userType, invoiceAlert, invoiceModal) {
     //console.log("ADD CUSTOMER")
+    if (invoiceModal != undefined) {
+      this.invModal = invoiceModal;
+    }
     this.tempCourdeId = courseId;
     this.tempuserType = userType;
     this.isDisabledBtn = false;
@@ -1888,6 +1948,7 @@ export class EnrollUserComponent implements OnInit {
         disableInvoice: this.disableInvoice
       };
       console.log('body', body);
+      console.log('custDetail --->', this.custDetail);
       //this.blockUI.start('Loading...');
       this._service.assignUser(this.regionId, body, this.locationID).subscribe(
         (res: any) => {
@@ -1909,7 +1970,13 @@ export class EnrollUserComponent implements OnInit {
           console.log('-------->', this.courseInfo);
           this.invoice = res.invoice;
           this.showInvoice = true;
-          this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
+          this.invoiceID2 = res.body.invoice[0]._id;
+          this.invoiceModalReference = this.modalService.open(this.invModal, {
+            backdrop: 'static',
+            windowClass:
+              'modal-xl modal-inv d-flex justify-content-center align-items-center'
+          });
+          // this.router.navigateByUrl(`/coursedetail/${this.courseId}/customers`);
         },
         err => {
           console.log(err);

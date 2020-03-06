@@ -1,6 +1,10 @@
 <div *ngIf="showTimetable == true">
+  <!-- zha -->
   <div class="setting d-flex">
-    <div style="margin-left: 20px; height: 40px;">
+    <div
+      class="d-flex"
+      style="margin-left: 20px; height: 40px;align-items: center;"
+    >
       <button class="btn tdy-btn body-m">Today</button>
       <span class="arrow"
         ><img src="../../../assets/img/chevron-right-s.png"
@@ -9,59 +13,71 @@
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date">23 Feb ’20 - 29 Feb ’20</span>
-      <span class="category">All category</span>
+      <span class="category">All category </span>
     </div>
   </div>
   <div class="heading">
-    <div class="staff s-c">Staff</div>
-    <div class="dates">Sun</div>
-    <div class="dates">Mon</div>
-    <div class="dates">Tue</div>
-    <div class="dates">Wed</div>
-    <div class="dates">Thurs</div>
-    <div class="dates">Fri</div>
-    <div class="dates">Sat</div>
+    <div class="staff s-c">
+      <div class="s-flex"><span>7</span><span>staffs</span></div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Sun, 23 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Mon, 24 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Tue, 25 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Wed, 26 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Thu, 27 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Fri, 28 Feb</div>
+    </div>
+    <div class="dates">
+      <div class="active-cover"><span class="active-blue"></span></div>
+      <div class="active-date">Sat, 29 Feb</div>
+    </div>
   </div>
   <div class="schedule-container">
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">777777</div>
-    </div>
-    <div class="schedule">
-      <div class="staff">Lu</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">111111</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">222222</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">333333</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">444444</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">555555</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)">666666</div>
-      <div class="white" (click)="showPopUpFunc(scheduleDetails)"></div>
+    <div class="schedule" *ngFor="let staff of timetablelist; let i = index">
+      <div class="staff">
+        <div class="staffpic-container">
+          <div class="staff-pic">
+            <img class="pic" src="{{ staff.profilePic }}" />
+          </div>
+          {{ staff.staffName }}
+        </div>
+      </div>
+      <div
+        *ngFor="let schedule of staff.schedules; let j = index"
+        class="white"
+        (click)="showPopUpFunc(staff, schedule)"
+      >
+        <div *ngIf="schedule.absent == true" class="absent">
+          <div class="orange"></div>
+          <div>Absent</div>
+        </div>
+        <span *ngIf="schedule.absent != true">
+          <div
+            *ngFor="let count of staff.schedules[j].timetable; let k = index"
+          >
+            {{ count.start.hr }}:{{ count.start.min }}
+            {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
+            {{ count.end.meridiem }}
+          </div>
+        </span>
+      </div>
     </div>
   </div>
   <div class="extra">
@@ -127,7 +143,7 @@
     </div>
   </div>
 </div>
-
+<!-- zha -->
 <!-- mycode -->
 <div class="overlayModal" *ngIf="aa" (click)="clickOverlay()"></div>
 
@@ -137,13 +153,12 @@
   <div id="my-modal" class="my-modal" *ngIf="showPopUp == true">
     <div class=" my-modal-header ">
       <div class="img-wrap">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/3/33/Bessie_Coleman_in_1923.jpg"
-          alt="bessie edwards"
-        />
+        <img src="{{ selectedStaff.profilePic }}" alt="pic" />
       </div>
       <div class="staff-info">
-        <span class="body-l" style="color: #363F4D;">Bessie Edwards</span>
+        <span class="body-l" style="color: #363F4D;">{{
+          selectedStaff.staffName
+        }}</span>
         <h5 class="h5-strong" style="color: #363F4D;">Wed 26, Feb 2020</h5>
       </div>
       <div class="add-course">
@@ -168,89 +183,48 @@
       </button>
     </div>
 
-    <div class="my-modal-body">
-      <div class="schedule-wrap d-flex flex-column">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
+    <div class="my-modal-body" *ngIf="!absent">
+      <div
+        class="schedule-wrap d-flex flex-column"
+        *ngFor="let count of timetable"
+      >
+        <span class="body-m" style="color: #363F4D;">
+          {{ count.start.hr }}:{{ count.start.min }}
+          {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
+          {{ count.end.meridiem }}
+        </span>
         <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
+          {{ count.name }}
         </h4>
         <div class="d-flex">
           <span
             class="body-m"
             class="course-details"
-            (click)="goCourseDetails(id)"
+            (click)="goCourseDetails(count.courseId)"
             >Go to course details</span
           >
           <i
             class="fa fa-map-marker"
             style="font-size:15px;color: #7A8A99; margin: 4px;"
           ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
+          <span class="light-body-m" style="color: #5C6773;">{{
+            count.location.name
+          }}</span>
         </div>
       </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
+    </div>
+    <div class="my-modal-body" *ngIf="absent">
+      <div class="schedule-wrap d-flex flex-column">
+        <div class="d-flex align-items-center">
+          <div class="orange"></div>
+          <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+          <span
+            class="half-full d-flex align-items-center justify-content-center"
+            style="color:#5C6773"
+            >Half or Full</span
           >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
         </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
-        </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
-        </div>
-      </div>
-      <div class="schedule-wrap d-flex flex-column action-location">
-        <span class="body-m" style="color: #363F4D;">8:30 AM - 9:30 AM</span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          Conquer Vocabulary Primary Levels WorkBook 1
-        </h4>
-        <div class="d-flex">
-          <span class="body-m" class="course-details"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">Pedok Center</span>
-        </div>
+        <span class="body-m" style="color: #5C6773;">Reason</span>
       </div>
     </div>
   </div>
@@ -297,7 +271,8 @@
   >
     <div class="d-flex w-100 flex-column pl-4 responsive-width">
       <div class="d-flex flex-column">
-        <p class="category-title">#{{ item.itemID }}</p>
+        <p class="category-title" *ngIf="item.itemID">#{{ item.itemID }}</p>
+        <p class="category-title" *ngIf="item.itemID == null">#All</p>
         <!-- <p class="category-title">#Piano</p> -->
         <p class="pickCourseplan">Pick course plan</p>
       </div>
