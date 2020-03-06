@@ -13,7 +13,10 @@
       <span class="arrow"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
-      <span class="setting-date">23 Feb ’20 - 29 Feb ’20</span>
+      <span class="setting-date"
+        >{{ thisStart2 | date: 'd MMM' }} '{{ thisStart2 | date: 'yy' }} -
+        {{ thisEnd2 | date: 'd MMM' }} '{{ thisEnd2 | date: 'yy' }}</span
+      >
       <div class="category" (click)="toggledropdown()">
         <span class="pl-3">All category</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>

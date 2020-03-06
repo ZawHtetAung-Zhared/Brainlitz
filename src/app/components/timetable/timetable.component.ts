@@ -27,7 +27,9 @@ export class TimetableComponent implements OnInit {
   public timetablelist: any;
   public clist: boolean = false;
   public thisStart: any;
+  public thisStart2: any;
   public thisEnd: any;
+  public thisEnd2: any;
   public indexWeek: any = [];
   public today: any;
   public today2: any;
@@ -470,9 +472,15 @@ export class TimetableComponent implements OnInit {
     this.thisStart = moment(date)
       .weekday(0)
       .format('DD-MM-YYYY');
+    this.thisStart2 = moment(date)
+      .weekday(0)
+      .format('YYYY-MM-DD');
     this.thisEnd = moment(date)
       .weekday(6)
       .format('DD-MM-YYYY');
+    this.thisEnd2 = moment(date)
+      .weekday(6)
+      .format('YYYY-MM-DD');
 
     this.today = moment(date).format('YYYY-MM-DD');
     this.today2 = moment(date).format('DD-MM-YYYY');
