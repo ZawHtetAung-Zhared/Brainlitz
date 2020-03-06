@@ -682,7 +682,7 @@
         <div *ngIf="timeOptChecked == 'showTimeSlot'" class="pad-b">
           <label
             class="text-c100 body-l"
-            [ngClass]="{ changeColor: selectedDay?.length > 0 == false }"
+            [ngClass]="{ changeColor: selectedDay.length > 0 == false }"
             >Repeated days</label
           >
           <div>
@@ -696,7 +696,7 @@
                   }"
                 >
                   <div
-                    *ngIf="selectedDay.indexOf(d.val) == -1"
+                    *ngIf="selectedDay?.indexOf(d.val) == -1"
                     class="rounded-box"
                   ></div>
                   <div
