@@ -698,6 +698,8 @@ export class TimetableComponent implements OnInit {
     this.courseCreate = false;
     this.showDp = false;
     this.courseplanLists = [];
+    this.showTimetable = true;
+    this.addNewCoursePlan = false;
     // setTimeout(() => {
     //   this.updateScrollbar('v-wrapper');
     // }, 600);
@@ -1087,7 +1089,7 @@ export class TimetableComponent implements OnInit {
   // }
 
   cancelModal(type) {
-    this.modalReference.close();
+    //this.modalReference.close();
     this.staff.staffId = '';
     this.tempstafflist = [];
     // this.getschedulestaff()
@@ -2046,6 +2048,7 @@ export class TimetableComponent implements OnInit {
         .subscribe(
           (res: any) => {
             this.result = res;
+            console.log(this.result);
             if (isFirst == true) {
               console.log('First Time Searching');
               this.courseplanLists = [];
@@ -2101,13 +2104,68 @@ export class TimetableComponent implements OnInit {
   }
 
   //
+  public selectedStaff: any;
+  public timetable: any;
+  public absent: boolean;
 
-  showPopUpFunc(modal) {
+  showPopUpFunc(staff, schedule) {
+    var staffObj = {
+      staffId: staff.staffId,
+      staffName: staff.staffName,
+      profilePic: staff.profilePic
+    };
+    this.selectedStaff = staffObj;
+    console.log(this.selectedStaff);
+    this.timetable = schedule.timetable;
+    this.absent = schedule.absent;
     this.getAllCoursePlan('0', '20');
-    this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
+    //this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
+    var weekday = 'Sun';
+    var day = [];
+    switch (weekday) {
+      case 'Sun':
+        day.push(0);
+        break;
+      case 'Mon':
+        day.push(1);
+        break;
+      case 'Tue':
+        day.push(2);
+        break;
+      case 'Wed':
+        day.push(3);
+        break;
+      case 'Thu':
+        day.push(4);
+        break;
+      case 'Fri':
+        day.push(5);
+        break;
+      case 'Sat':
+        day.push(6);
+    }
+
+    var sDate = {
+      year: schedule.date.year,
+      month: schedule.date.month,
+      day: schedule.date.day
+    };
+
+    var time = {
+      hr: 0,
+      min: 0,
+      meridiem: 'AM'
+    };
+    console.log(this.selectedStaff);
+    this.scheduleObj['repeatDays'] = day;
+    this.scheduleObj['date'] = sDate;
+    this.scheduleObj['teacher'] = this.selectedStaff;
+    console.log(this.scheduleObj['teacher']);
+    this.scheduleObj['time'] = time;
+
     //this.scheduleObj['repeatDays'] = day;
     //this.scheduleObj['date'] = sDate;
-    this.scheduleObj['teacher'] = this.selectedTeacher; //give selected teacher
+    //this.scheduleObj['teacher'] = this.selectedStaff; //give selected teacher
     //this.scheduleObj['time'] = time;
     this.showPopUp = true;
   }
@@ -2118,7 +2176,7 @@ export class TimetableComponent implements OnInit {
 
   goCourseDetails(id) {
     var courseId = '5e4cb79ed0019f00125bf69a'; //testing
-    this.router.navigate(['/coursedetail', courseId]);
+    this.router.navigate(['/coursedetail', id]);
   }
 
   public showTimetable = true;
@@ -2168,6 +2226,7 @@ export class TimetableComponent implements OnInit {
       description: plan.description,
       from: 'schedule'
     };
+    console.log('plan', JSON.stringify(planObj));
     // this.goBackCat = false;
     // this.isCourseCreate = true;
     console.log('redirect rolloverCourse to courseCreate', this.rolloverCourse);

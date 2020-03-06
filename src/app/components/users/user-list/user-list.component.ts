@@ -24,6 +24,8 @@ export class UserListComponent implements OnInit {
   public result: any;
   private isSearch: boolean = false;
   private searchword: any;
+  public customerLoading: boolean = true;
+  public customerListLoading: boolean = false;
 
   constructor(
     private _service: appService,
@@ -112,6 +114,7 @@ export class UserListComponent implements OnInit {
   }
 
   getAllUsers(type, limit, skip) {
+    // this.customerLoading = true;
     console.log('calling all users ....');
     console.log('....', this.customerLists);
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
@@ -121,6 +124,8 @@ export class UserListComponent implements OnInit {
         this.customerLists = this.customerLists.concat(res);
         // this.customerLists = res;
         console.log('this.customerLists', this.customerLists);
+        this.customerLoading = false;
+        this.customerListLoading = false;
       },
       err => {
         console.log(err);
@@ -129,6 +134,10 @@ export class UserListComponent implements OnInit {
   }
 
   showMore(type: any, skip: any) {
+    this.customerListLoading = true;
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 100);
     console.log(skip);
     if (this.isSearch == true) {
       console.log('User Search', skip);
@@ -146,12 +155,16 @@ export class UserListComponent implements OnInit {
   }
 
   userSearch(searchWord, userType, limit, skip) {
+    this.customerListLoading = true;
     this.searchword = searchWord;
     console.log('hi hello');
     if (skip == '' && limit == '') {
       var isFirst = true;
       limit = 20;
       skip = 0;
+    }
+    if (isFirst == true) {
+      this.customerLists = [];
     }
 
     if (searchWord.length != 0) {
@@ -161,15 +174,17 @@ export class UserListComponent implements OnInit {
         .subscribe(
           (res: any) => {
             console.log(res);
-            this.result = res;
-            if (isFirst == true) {
-              console.log('First time searching');
-              this.customerLists = [];
-              this.customerLists = res;
-            } else {
-              console.log('Not First time searching');
-              this.customerLists = this.customerLists.concat(this.result);
-            }
+            setTimeout(() => {
+              this.customerListLoading = false;
+              this.result = res;
+              if (isFirst == true) {
+                console.log('First time searching');
+                this.customerLists = res;
+              } else {
+                console.log('Not First time searching');
+                this.customerLists = this.customerLists.concat(this.result);
+              }
+            }, 2000);
           },
           err => {
             console.log(err);

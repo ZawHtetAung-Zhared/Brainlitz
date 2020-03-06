@@ -211,7 +211,8 @@ export class TodayLessonsComponent implements OnInit {
 
   getcourseDetail(cid) {
     console.log(cid);
-    this.courseDetail.emit(cid);
+    // this.courseDetail.emit(cid);
+    this._router.navigate(['/coursedetail', cid]);
   }
 
   closemakeupmodal() {
