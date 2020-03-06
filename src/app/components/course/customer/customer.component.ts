@@ -1030,8 +1030,8 @@ export class CustomerComponent implements OnInit {
     // localStorage.setItem("courseCustomer",id)
     console.log('*-------*', id);
 
-    this.router.navigate(['/customer']);
-    this.dataservice.nevigateCustomer(id);
+    this.router.navigate(['/customer/customerdetail', id]);
+    // this.dataservice.nevigateCustomer(id);
   }
 
   openRemoveModal(id, deleteModal, n) {
