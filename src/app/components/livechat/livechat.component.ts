@@ -30,7 +30,7 @@ export class LivechatComponent implements OnInit {
 
   liveChat() {
     setTimeout(() => {
-      console.log('liveChatAgent ~~~', this.appname, this.userData);
+      // console.log('liveChatAgent ~~~', this.appname, this.userData);
       if (this.userData == undefined) {
         this.userData = {
           id: '',
@@ -82,7 +82,7 @@ export class LivechatComponent implements OnInit {
       ',' +
       'RegionName=' +
       regionData.name;
-    console.log('requiredInfo~~~', requiredInfo);
+    // console.log('requiredInfo~~~', requiredInfo);
     let scriptUrl = 'https://pagewerkz.ladesk.com/scripts/track.js';
     let node = document.createElement('script');
     node.src = scriptUrl;
@@ -92,7 +92,7 @@ export class LivechatComponent implements OnInit {
     node.async = true;
     node.charset = 'utf-8';
     node.onload = function(e) {
-      console.log(appname, userData, regionData, location);
+      // console.log(appname, userData, regionData, location);
       livechatBtn.innerHTML += '<div id="chatButton"></div>';
       LiveAgent.createButton(
         '02y1jb4z',

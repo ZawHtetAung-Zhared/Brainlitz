@@ -1,5 +1,6 @@
 <div *ngIf="showTimetable == true">
   <!-- zha -->
+  <div></div>
   <div class="setting d-flex">
     <div
       class="d-flex"
@@ -13,40 +14,24 @@
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date">23 Feb ’20 - 29 Feb ’20</span>
-      <span class="category">All category </span>
+      <div class="category" (click)="toggledropdown()">
+        <span class="pl-3">All category</span>
+        <div *ngIf="clist == true" class="category-list"></div>
+      </div>
     </div>
   </div>
   <div class="heading">
     <div class="staff s-c">
-      <div class="s-flex"><span>7</span><span>staffs</span></div>
+      <div class="s-flex">
+        <span>{{ stafflist.length }}</span
+        ><span>staffs</span>
+      </div>
     </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Sun, 23 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Mon, 24 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Tue, 25 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Wed, 26 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Thu, 27 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Fri, 28 Feb</div>
-    </div>
-    <div class="dates">
-      <div class="active-cover"><span class="active-blue"></span></div>
-      <div class="active-date">Sat, 29 Feb</div>
+    <div class="dates" *ngFor="let date of indexWeek">
+      <div class="active-cover">
+        <span *ngIf="date == today" class="active-blue"></span>
+      </div>
+      <div class="active-date">{{ date | date: 'EEE, d MMM' }}</div>
     </div>
   </div>
   <div class="schedule-container">
@@ -69,9 +54,7 @@
           <div>Absent</div>
         </div>
         <span *ngIf="schedule.absent != true">
-          <div
-            *ngFor="let count of staff.schedules[j].timetable; let k = index"
-          >
+          <div *ngFor="let count of schedule.timetable; let k = index">
             {{ count.start.hr }}:{{ count.start.min }}
             {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
             {{ count.end.meridiem }}
@@ -378,8 +361,3 @@
   </div>
 </div>
 <!-- schedule -->
-
-<div class="d-flex justify-content-center">
-  <span class="am1"></span><span class="am2"></span>
-</div>
-<br />

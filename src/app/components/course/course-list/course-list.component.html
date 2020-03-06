@@ -85,7 +85,8 @@
               getCourseswithPlanId(
                 coursePlan._id,
                 coursePlan.name,
-                this.searchKeyword
+                this.searchKeyword,
+                'onclick'
               )
             "
           >
@@ -123,7 +124,7 @@
     </div>
     <div class="main-content">
       <!-- course loading start -->
-      <div *ngIf="courseLoading == true || coursePlanLoading == true">
+      <div *ngIf="coursePlanLoading == true">
         <div class="header-loading">
           <div class="loading-wrapper">
             <content-loader>
@@ -168,7 +169,7 @@
         </div>
       </div>
       <!-- course loading end-->
-      <div *ngIf="courseLoading == false && coursePlanLoading == false">
+      <div *ngIf="coursePlanLoading == false">
         <div class="csearch-wrap pt-4">
           <div class="col-md-8 course-search-gp">
             <div class="simple-search input-group pd-zero">
@@ -246,261 +247,267 @@
           class="course-list-wrapper"
         >
           <div
-            *ngIf="courseCollection?.courses.length <= 0"
+            *ngIf="courses.length <= 0"
             class="d-flex justify-content-center"
           >
             <span class="p-4 no-course">There is no courses.</span>
           </div>
-          <div *ngFor="let course of courseCollection.courses">
-            <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
-              <div class="d-flex justify-content-between w-100 cinfo-firstwrap">
-                <div class="draft-sign" *ngIf="course.draft == true">
-                  Draft
-                </div>
+          <div>
+            <div *ngFor="let course of courses">
+              <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
                 <div
-                  class="course-type"
-                  *ngIf="
-                    course.draft == false &&
-                    course.type != undefined &&
-                    !courseTypeDisabled
-                  "
+                  class="d-flex justify-content-between w-100 cinfo-firstwrap"
                 >
-                  {{ course.type | lowercase }}
-                </div>
-                <div class="cinfo-wrap m-4 d-flex flex-column">
-                  <div>
-                    <label
-                      class="class-label-12 small text-c300"
-                      [ngStyle]="{
-                        color: course.location.textColorHex,
-                        background: course.location.backgroundColorHex
-                      }"
-                    >
-                      <i
-                        class="fa fa-map-marker"
-                        style="font-size:12px;padding-right: 4px"
-                      ></i>
-                      {{
-                        course.location == null ? '-' : course.location?.name
-                      }}
-                    </label>
+                  <div class="draft-sign" *ngIf="course.draft == true">
+                    Draft
                   </div>
-                  <span
-                    class="cplan-title1 cursor-on h3-strong"
-                    [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
-                    (click)="showCourseDetail(course)"
-                  >
-                    {{ course.name }}
-                  </span>
-                  <span
-                    *ngIf="course.teacher != undefined"
-                    class="body-m text-c100"
-                    >by {{ course.teacher.preferredName }}
-                  </span>
-                  <span
-                    *ngIf="course.teacher == undefined"
-                    class="body-m text-c100"
-                    >-
-                  </span>
                   <div
-                    class="d-flex align-items-center student-wrap"
-                    *ngIf="course.students.earlyAttendees?.length > 0"
+                    class="course-type"
+                    *ngIf="
+                      course.draft == false &&
+                      course.type != undefined &&
+                      !courseTypeDisabled
+                    "
                   >
+                    {{ course.type | lowercase }}
+                  </div>
+                  <div class="cinfo-wrap m-4 d-flex flex-column">
+                    <div>
+                      <label
+                        class="class-label-12 small text-c300"
+                        [ngStyle]="{
+                          color: course.location.textColorHex,
+                          background: course.location.backgroundColorHex
+                        }"
+                      >
+                        <i
+                          class="fa fa-map-marker"
+                          style="font-size:12px;padding-right: 4px"
+                        ></i>
+                        {{
+                          course.location == null ? '-' : course.location?.name
+                        }}
+                      </label>
+                    </div>
+                    <span
+                      class="cplan-title1 cursor-on h3-strong"
+                      [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
+                      (click)="showCourseDetail(course)"
+                    >
+                      {{ course.name }}
+                    </span>
+                    <span
+                      *ngIf="course.teacher != undefined"
+                      class="body-m text-c100"
+                      >by {{ course.teacher.preferredName }}
+                    </span>
+                    <span
+                      *ngIf="course.teacher == undefined"
+                      class="font-15 light-color"
+                      >-
+                    </span>
                     <div
-                      *ngFor="
-                        let student of course.students.earlyAttendees
-                          | slice: 0:6
+                      class="d-flex align-items-center student-wrap"
+                      *ngIf="course.students.earlyAttendees?.length > 0"
+                    >
+                      <div
+                        *ngFor="
+                          let student of course.students.earlyAttendees
+                            | slice: 0:6
+                        "
+                        class="d-flex"
+                      >
+                        <span
+                          *ngIf="student.fullName != ''"
+                          class="student-profile-wrapper"
+                          placement="bottom"
+                          ngbTooltip="{{ student.fullName }}"
+                        >
+                          <img
+                            class="d-inline-block"
+                            src="{{ student.profilePic }}"
+                            alt=""
+                            class="student_profilePic"
+                            *ngIf="
+                              student.profilePic != undefined ||
+                              student.profilePic == null
+                            "
+                          />
+                        </span>
+                        <span
+                          *ngIf="student.fullName == ''"
+                          class="student-profile-wrapper"
+                          placement="bottom"
+                          ngbTooltip="{{ student.guardianEmail }}"
+                        >
+                          <img
+                            class="d-inline-block student_profilePic"
+                            src="{{ student.profilePic }}"
+                            alt=""
+                            class=""
+                            *ngIf="
+                              student.profilePic != undefined ||
+                              student.profilePic == null
+                            "
+                          />
+                        </span>
+                        <div
+                          class="user-grade"
+                          *ngIf="(student.userGrading.grade | json) != '{}'"
+                        >
+                          <div
+                            *ngIf="
+                              student.userGrading.grade.point != undefined &&
+                              student.userGrading.grade.point != null
+                            "
+                            class="justify-content-center d-flex"
+                            [style.background]="
+                              student.userGrading.sepalColor.background
+                            "
+                            [ngClass]="{
+                              'test-circle':
+                                student.userGrading.grade.point.length == 1,
+                              circle: student.userGrading.grade.point.length > 1
+                            }"
+                          >
+                            <span
+                              [style.color]="
+                                student.userGrading.sepalColor.text
+                              "
+                            >
+                              {{ student.userGrading.grade.point }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        class="font-15 student-profile-wrapper"
+                        *ngIf="course.students.earlyAttendees.length > 6"
+                        >+{{
+                          course.students.other +
+                            course.students.earlyAttendees.length -
+                            6
+                        }}</span
+                      >
+                    </div>
+                    <div
+                      class="font-15 no-cust"
+                      *ngIf="course.students.earlyAttendees?.length == 0"
+                    >
+                      No customers added yet.
+                    </div>
+                  </div>
+                  <div class="ctime-wrap mt-4 mr-4 mb-4">
+                    <div class="d-flex time-box">
+                      <div
+                        *ngIf="course.startDate != null"
+                        class="d-flex flex-column pr-4"
+                      >
+                        <span class="light-body-m text-c100">
+                          From
+                        </span>
+                        <span class="body-m text-c300 pt-1">
+                          {{ course.startDate | utcDate }}
+                        </span>
+                      </div>
+                      <div *ngIf="course.endDate" class="d-flex flex-column">
+                        <span class="light-body-m text-c100">
+                          To
+                        </span>
+                        <span class="body-m text-c300 pt-1">
+                          {{ course.endDate | utcDate }}
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="pt-3 body"
+                      *ngIf="
+                        course.type == null ||
+                        course.type == 'REGULAR' ||
+                        course.type == 'FLEXY'
                       "
-                      class="d-flex"
                     >
                       <span
-                        *ngIf="student.fullName != ''"
-                        class="student-profile-wrapper"
-                        placement="bottom"
-                        ngbTooltip="{{ student.fullName }}"
+                        class="body-m text-c100"
+                        *ngFor="let day of course.repeatDays | weekDays"
                       >
-                        <img
-                          class="d-inline-block"
-                          src="{{ student.profilePic }}"
-                          alt=""
-                          class="student_profilePic"
-                          *ngIf="
-                            student.profilePic != undefined ||
-                            student.profilePic == null
-                          "
-                        />
+                        {{ day }}
                       </span>
-                      <span
-                        *ngIf="student.fullName == ''"
-                        class="student-profile-wrapper"
-                        placement="bottom"
-                        ngbTooltip="{{ student.guardianEmail }}"
-                      >
-                        <img
-                          class="d-inline-block student_profilePic"
-                          src="{{ student.profilePic }}"
-                          alt=""
-                          class=""
-                          *ngIf="
-                            student.profilePic != undefined ||
-                            student.profilePic == null
-                          "
-                        />
-                      </span>
-                      <div
-                        class="user-grade"
-                        *ngIf="(student.userGrading.grade | json) != '{}'"
-                      >
+                      <div *ngIf="course.duration">
                         <div
                           *ngIf="
-                            student.userGrading.grade.point != undefined &&
-                            student.userGrading.grade.point != null
+                            course.duration.startDate != null &&
+                            course.duration.endDate != null
                           "
-                          class="justify-content-center d-flex"
-                          [style.background]="
-                            student.userGrading.sepalColor.background
-                          "
-                          [ngClass]="{
-                            'test-circle':
-                              student.userGrading.grade.point.length == 1,
-                            circle: student.userGrading.grade.point.length > 1
-                          }"
+                          class="body-m text-c300 pt-1"
                         >
-                          <span
-                            [style.color]="student.userGrading.sepalColor.text"
-                          >
-                            {{ student.userGrading.grade.point }}
-                          </span>
+                          {{ course.duration.startDate | utcTime }} -
+                          {{ course.duration.endDate | utcTime }}
                         </div>
                       </div>
                     </div>
-                    <span
-                      class="font-15 student-profile-wrapper"
-                      *ngIf="course.students.earlyAttendees.length > 6"
-                      >+{{
-                        course.students.other +
-                          course.students.earlyAttendees.length -
-                          6
-                      }}</span
-                    >
-                  </div>
-                  <div
-                    class="font-15 no-cust"
-                    *ngIf="course.students.earlyAttendees?.length == 0"
-                  >
-                    No customers added yet.
                   </div>
                 </div>
-                <div class="ctime-wrap mt-4 mr-4 mb-4">
-                  <div class="d-flex time-box">
-                    <div
-                      *ngIf="course.startDate != null"
-                      class="d-flex flex-column pr-4"
-                    >
-                      <span class="light-body-m  text-c100">
-                        From
-                      </span>
-                      <span class="body-m  text-c300 pt-1">
-                        {{ course.startDate | utcDate }}
-                      </span>
-                    </div>
-                    <div *ngIf="course.endDate" class="d-flex flex-column">
-                      <span class="light-body-m text-c100">
-                        To
-                      </span>
-                      <span class="body-m  text-c300 pt-1">
-                        {{ course.endDate | utcDate }}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="pt-3 body"
-                    *ngIf="
-                      course.type == null ||
-                      course.type == 'REGULAR' ||
-                      course.type == 'FLEXY'
-                    "
-                  >
-                    <span
-                      class="body-m text-c100"
-                      *ngFor="let day of course.repeatDays | weekDays"
-                    >
-                      {{ day }}
-                    </span>
-                    <div *ngIf="course.duration">
-                      <div
-                        *ngIf="
-                          course.duration.startDate != null &&
-                          course.duration.endDate != null
-                        "
-                        class="body-m text-c300 pt-1"
+                <div class="cinfo-secwrap p-3">
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                      <!-- <div
+                        *ngIf="course.lessonCount"
+                        class="d-flex flex-column pr-5 font-15 light-color"
+                        style="min-width: 110px;"
                       >
-                        {{ course.duration.startDate | utcTime }} -
-                        {{ course.duration.endDate | utcTime }}
+                        {{ course.lessonCount }}
+                        <span> lessons </span>
+                      </div> -->
+                      <!-- <div
+                        *ngIf="!course.lessonCount"
+                        class="d-flex flex-column pr-5 font-15 light-color"
+                        style="min-width: 110px;"
+                      >
+                        -
+                      </div> -->
+                      <!-- <div class="d-flex flex-column light-color">
+                        <span class="font-16-b"> 0 </span>
+                        <span class="font-15"> task assigned </span>
+                      </div> -->
+                    </div>
+                    <div class="d-flex">
+                      <div
+                        [hidden]="course.draft == true"
+                        *ngIf="course.seat_left > 0"
+                        class="d-flex flex-column pr-4 light-body-m text-c100"
+                      >
+                        <span class="body-m">
+                          {{ course.seat_left }}/
+                          {{ course.seat_taken + course.seat_left }}
+                        </span>
+                        <span *ngIf="course.seat_left > 1"> seats left </span>
+                        <span *ngIf="course.seat_left == 1"> seat left </span>
                       </div>
+                      <div
+                        [hidden]="course.draft == true"
+                        *ngIf="course.seat_left == null"
+                        class="d-flex flex-column pr-4 font-15 light-color seats-info"
+                      >
+                        unlimited seats
+                      </div>
+                      <div
+                        *ngIf="course.seat_left == 0 || course.seat_left == -1"
+                        class="d-flex flex-column pr-4 font-15 light-color seats-info"
+                      >
+                        All seats taken
+                      </div>
+                      <button
+                        class="btn enroll-btn body-m bg-s0 text-c300"
+                        [disabled]="
+                          course.draft == true ||
+                          (course.type == 'REGULAR' && course.seat_left == 0)
+                        "
+                        (click)="enrollCustomer(course._id)"
+                      >
+                        Enroll customer
+                      </button>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="cinfo-secwrap p-3">
-                <div class="d-flex justify-content-between">
-                  <div class="d-flex">
-                    <!-- <div
-                      *ngIf="course.lessonCount"
-                      class="d-flex flex-column pr-5 font-15 light-color"
-                      style="min-width: 110px;"
-                    >
-                      {{ course.lessonCount }}
-                      <span> lessons </span>
-                    </div> -->
-                    <!-- <div
-                      *ngIf="!course.lessonCount"
-                      class="d-flex flex-column pr-5 font-15 light-color"
-                      style="min-width: 110px;"
-                    >
-                      -
-                    </div> -->
-                    <!-- <div class="d-flex flex-column light-color">
-                      <span class="font-16-b"> 0 </span>
-                      <span class="font-15"> task assigned </span>
-                    </div> -->
-                  </div>
-                  <div class="d-flex">
-                    <div
-                      [hidden]="course.draft == true"
-                      *ngIf="course.seat_left > 0"
-                      class="d-flex flex-column pr-4 light-body-m text-c100"
-                    >
-                      <span class="body-m">
-                        {{ course.seat_left }}/
-                        {{ course.seat_taken + course.seat_left }}
-                      </span>
-                      <span *ngIf="course.seat_left > 1"> seats left </span>
-                      <span *ngIf="course.seat_left == 1"> seat left </span>
-                    </div>
-                    <div
-                      [hidden]="course.draft == true"
-                      *ngIf="course.seat_left == null"
-                      class="d-flex flex-column pr-4 font-15 light-color seats-info"
-                    >
-                      unlimited seats
-                    </div>
-                    <div
-                      *ngIf="course.seat_left == 0 || course.seat_left == -1"
-                      class="d-flex flex-column pr-4 font-15 light-color seats-info"
-                    >
-                      All seats taken
-                    </div>
-                    <button
-                      class="btn enroll-btn body-m bg-s0 text-c300"
-                      [disabled]="
-                        course.draft == true ||
-                        (course.type == 'REGULAR' && course.seat_left == 0)
-                      "
-                      (click)="enrollCustomer(course._id)"
-                    >
-                      Enroll customer
-                    </button>
                   </div>
                 </div>
               </div>
