@@ -301,7 +301,7 @@
               <img src="{{ user.profilePic }}" />
             </div>
             <div
-              style="margin-left: 35px;margin-top: -20px;position: relative;"
+              style="margin-left: 35px;margin-top: 0px;position: relative;"
               class="user-grade"
             >
               <div
@@ -352,6 +352,9 @@
                   : user.email
               }}
             </h4>
+          </div>
+          <div *ngIf="user.isMakeupStudent">
+            <img src="../../../../assets/icons/makeup-student.svg" />
           </div>
           <div class="ml-auto remover-wrap">
             <span

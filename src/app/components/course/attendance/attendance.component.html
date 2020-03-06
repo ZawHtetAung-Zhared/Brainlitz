@@ -505,18 +505,33 @@
         </button>
       </div>
       <div class="makeup-style">
-        <div class="d-flex">
-          <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
-            <label class="switch">
-              <input
-                type="checkbox"
-                (click)="isGlobal = !this.isGlobal"
-                [checked]="isGlobal"
-              />
-              <span class="slider round"></span>
-            </label>
+        <div class="row">
+          <div class="d-flex col-md-6">
+            <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (click)="isGlobal = !this.isGlobal"
+                  [checked]="isGlobal"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Issue makeup pass</label>
           </div>
-          <label class="switch-label" for="online">Issue makeup pass</label>
+          <div class="d-flex  col-md-6">
+            <div class="toggle-wrap" (click)="addExtraLesson = !addExtraLesson">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (click)="addExtraLesson = !addExtraLesson"
+                  [checked]="addExtraLesson"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label" for="online">Add extra lesson</label>
+          </div>
         </div>
         <div class="w-100 d-flex">
           <div class="input-wrap p-0" style="width:80%;margin-right:20px">

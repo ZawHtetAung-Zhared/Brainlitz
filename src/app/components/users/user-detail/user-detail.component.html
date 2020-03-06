@@ -2137,6 +2137,7 @@
                     class=" form-check-inline tool-checked"
                   >
                     <label
+                      *ngIf="lesson && lesson._id"
                       [ngClass]="{ selected: isChecked == lesson._id }"
                       class="form-check-label"
                     >
