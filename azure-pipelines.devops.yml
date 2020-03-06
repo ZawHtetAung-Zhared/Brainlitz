@@ -21,6 +21,12 @@ steps:
     versionSpec: '10.15.3'
   displayName: 'Install Node.js'
 
+- task: DownloadSecureFile@1
+  name: shellScript
+  displayName: 'Download shellScript file'
+  inputs:
+    secureFile: 'brainlitz_web_deploy.sh'
+
 - script: |
     npm install
     npm run build:dev
@@ -29,7 +35,7 @@ steps:
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
-    includeRootFolder: true
+    includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(System.DefaultWorkingDirectory)/dist.zip'
     replaceExistingArchive: true
@@ -44,3 +50,8 @@ steps:
   displayName: 'Publish dist.zip to System default working directory'
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/dist.zip'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish shellScript to System default working directory'
+  inputs:
+    PathtoPublish: '$(shellScript.secureFilePath)'
