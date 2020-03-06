@@ -21,6 +21,9 @@ export class UserStaffDetailComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
 
+  //for loading
+  public detailLoading: boolean = true;
+
   constructor(
     private _service: appService,
     private _Activatedroute: ActivatedRoute,
@@ -85,6 +88,9 @@ export class UserStaffDetailComponent implements OnInit {
           console.log('StaffDetail', res);
           console.log('Staff App test', this.staffDetail.user.journalApprove);
           this.showloading = true;
+          setTimeout(() => {
+            this.detailLoading = false;
+          }, 2000);
         },
         err => {
           console.log(err);

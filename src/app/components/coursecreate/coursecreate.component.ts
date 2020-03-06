@@ -102,7 +102,7 @@ export class CoursecreateComponent implements OnInit {
   public isDpFocus: boolean = false;
   public detailLists: any;
   public userLists: any;
-  public selectedTeacher: any = '';
+  public selectedTeacher: any = {};
   public isSticky: boolean = false;
   public isShowDetail: boolean = false;
   public save: boolean = false;
@@ -274,47 +274,22 @@ export class CoursecreateComponent implements OnInit {
 
   scheduleCourse() {
     console.log('from schedule', this.scheduleObj);
+    console.log('plan name', this.planName);
+
     this.model.start = this.scheduleObj.date;
     this.selectedDay = this.scheduleObj.repeatDays;
-    this.selectedTeacher = this.scheduleObj.teacher;
+    //
+    var teacher = {
+      userId: this.scheduleObj.teacher.staffId,
+      preferredName: this.scheduleObj.teacher.staffName,
+      profilePic: this.scheduleObj.teacher.profilePic
+    };
+    console.log(teacher);
+    //
+    this.selectedTeacher = teacher;
+    console.log('selectedTeacher', this.selectedTeacher);
     this.model.teacherId = this.selectedTeacher.userId;
-    this.model.durationTimes = 1;
-    this.minDate = this.scheduleObj.date;
-    this.rangeHr = this.scheduleObj.time.hr;
-    this.rangeMin = this.scheduleObj.time.min;
-    this.selectedHrRange = this.scheduleObj.time.hr;
-    this.selectedMinRange = this.scheduleObj.time.min;
     this.isSelected = this.scheduleObj.time.meridiem;
-    var hr: any;
-    var min: any;
-    var h: any;
-    if (this.scheduleObj.time.hr < 10) {
-      hr = '0' + this.scheduleObj.time.hr;
-    } else {
-      hr = this.scheduleObj.time.hr;
-    }
-    if (this.scheduleObj.time.min < 10) {
-      min = '0' + this.scheduleObj.time.min;
-    } else {
-      min = this.scheduleObj.time.min;
-    }
-    if (this.scheduleObj.time.meridiem == 'PM') {
-      if (this.scheduleObj.time.hr == 12) {
-        h = this.scheduleObj.time.hr;
-      } else {
-        h = this.scheduleObj.time.hr + 12;
-      }
-    } else {
-      if (this.scheduleObj.time.hr == 12) {
-        h = 0;
-      } else {
-        h = this.scheduleObj.time.hr;
-      }
-    }
-    this.showFormat = hr + ':' + min;
-    this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
-
-    this.model.starttime = h + ':' + min;
   }
 
   showDraftCourse(cId, type) {

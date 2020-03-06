@@ -6,20 +6,24 @@
         [ngClass]="{ stickywrap: navIsFixed == true }"
       >
         <div class="mr-auto p-2 pl-0 pb-0">
-          <div class="back-modal" (click)="back()">
+          <div class="back-modal text-c300 body-l" (click)="back()">
             <i class="fa fa-angle-left"></i>
             <p>Pick category</p>
           </div>
         </div>
         <div class="p-2">
-          <div class="d-flex flex-row courseplan-info">
-            <p>#{{ checkedName }}</p>
-            <span class="sticky-dot">&#183;</span>
-            <h5>Course plan</h5>
+          <div class="d-flex flex-row ">
+            <p class="small text-c100 lineHeight-unset">#{{ checkedName }}</p>
+            <span class="sticky-dot text-c100 h1-strong">&#183;</span>
+            <h5 class="body-l text-c300 lineHeight-unset">Course plan</h5>
           </div>
         </div>
         <div class="ml-auto">
-          <button type="button" class="btn sticky-cancel" (click)="cancel()">
+          <button
+            type="button"
+            class="btn sticky-cancel bg-s0 text-c300 body-l"
+            (click)="cancel()"
+          >
             Cancel
           </button>
         </div>
@@ -30,7 +34,7 @@
     <div class="sticky-menu" [ngClass]="{ sticky: navIsFixed == true }">
       <div class="d-flex">
         <div class="mr-auto p-2 pl-0 pb-0">
-          <div class="back-modal" (click)="back()">
+          <div class="back-modal text-c300 body-l" (click)="back()">
             <i class="fa fa-angle-left"></i>
             <p>Pick category</p>
           </div>
@@ -43,7 +47,11 @@
           </div>
         </div>
         <div class="ml-auto">
-          <button type="button" class="btn sticky-cancel" (click)="cancel()">
+          <button
+            type="button"
+            class="btn sticky-cancel body-l bg-s0 text-c300"
+            (click)="cancel()"
+          >
             Cancel
           </button>
         </div>
@@ -132,14 +140,14 @@
           <div class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 1</p>
-                <h5 class="all-title-font text-font-align">Plan information</h5>
+                <p class="text-c100 body-m">Step 1</p>
+                <h5 class="text-c300 h1-strong">Plan information</h5>
               </div>
               <div class="display-style">
                 <div class="col-md-6">
                   <div>
                     <div class="d-flex justify-content-between">
-                      <label for="course_name" class="all-title-font"
+                      <label for="course_name" class="body-l text-c300"
                         >Plan name</label
                       >
                       <div class="limit-wordcount">
@@ -147,7 +155,7 @@
                       </div>
                     </div>
                     <input
-                      class="form-control br-bshadow-none all-left-box-10"
+                      class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
                       type="text"
                       [(ngModel)]="formField.name"
                       (focus)="focusMethod($event, 'name', $event.target.value)"
@@ -171,11 +179,11 @@
                     <hr class="limit-hr-length" />
                   </div>
                   <div class="mr-top">
-                    <label for="seat" class="all-title-font">Seats</label>
+                    <label for="seat" class="body-l text-c300">Seats</label>
                     <input
                       type="number"
                       placeholder="0"
-                      class="form-control br-bshadow-none all-left-box-10"
+                      class="form-control br-bshadow-none all-left-box-10 text-c100 light-body-l"
                       (keypress)="numberOnly($event, 'seats')"
                       [(ngModel)]="formField.seats"
                       min="0"
@@ -190,11 +198,11 @@
                     <hr class="limit-hr-length" />
                   </div>
                   <div class="mr-top" style="position: relative;">
-                    <label class="all-title-font"> Duration</label>
+                    <label class="body-l text-c300"> Duration</label>
                     <input
                       type="text"
                       placeholder="{{ formField.lesson.duration }}"
-                      class="form-control br-bshadow-none hoverReadonly all-left-box-10"
+                      class="form-control br-bshadow-none hoverReadonly all-left-box-10 text-c100 light-body-l"
                       [(ngModel)]="formField.lesson.duration"
                       min="1"
                       id="duration"
@@ -270,7 +278,7 @@
                       <label
                         style="padding-left: 10px;"
                         for="desc"
-                        class="all-title-font"
+                        class="body-l text-c300"
                         >Description</label
                       >
                       <div class="limit-wordcount1">
@@ -278,7 +286,7 @@
                       </div>
                     </div>
                     <textarea
-                      class="form-control br-bshadow-none"
+                      class="form-control br-bshadow-none text-c100 light-body-l"
                       rows="5"
                       [(ngModel)]="formField.description"
                       (focus)="focusMethod($event, 'msg', $event.target.value)"
@@ -297,7 +305,7 @@
                     <hr class="limit-hr-length" />
                   </div>
                   <div>
-                    <label class="all-title-font" style="padding-left: 10px;"
+                    <label class="body-l text-c300" style="padding-left: 10px;"
                       >Holiday calendar</label
                     >
                     <div>
@@ -306,7 +314,7 @@
                         (click)="holidayDropdown()"
                       >
                         <input
-                          class="cursor-on form-control br-bshadow-none"
+                          class="cursor-on form-control br-bshadow-none text-c100 light-body-l"
                           name="holiday"
                           readonly
                           type="text"
@@ -318,7 +326,7 @@
                         ></span>
                       </div>
                       <div class="dropdown-wrap">
-                        <ul class="holiday-dropdown">
+                        <ul class="holiday-dropdown bg-s0 text-c300 body-m">
                           <li
                             *ngFor="let holidayCalendar of holidayCalendarLists"
                             (click)="chooseHoliday(holidayCalendar)"
@@ -337,7 +345,7 @@
             <div class="button-wrapper">
               <button
                 type="button"
-                class="btn sticky-create"
+                class="btn sticky-create body-l bg-b100 text-s0"
                 [disabled]="
                   !childForm1.valid || formField.lesson.duration == '0 min'
                 "
@@ -363,10 +371,10 @@
         <form class="form-wrap" #childForm2="ngForm" novalidate>
           <div class="inside-data-wrapper">
             <div class="col-md-12 overlay-wrapper">
-              <p class="step-font">Step 2</p>
+              <p class="step-font text-c100 body-m">Step 2</p>
               <div class="step_height">
                 <div class="display-style">
-                  <h5 class="all-title-font title-br-rt">Makeup policy</h5>
+                  <h5 class="h1-strong text-c300 title-br-rt">Makeup policy</h5>
                   <div class="radio-pos">
                     <label class="switch">
                       <input
@@ -388,7 +396,7 @@
                     </label>
                   </div>
                 </div>
-                <p class="input-recommend">
+                <p class="text-c100 body-m">
                   If you allow your students to catch up with their missed
                   classes, Turn On the “Makeup policy” option.
                 </p>
@@ -401,7 +409,7 @@
                   <div class="display-style">
                     <div class="col-md-6" style="padding: 0;">
                       <div>
-                        <label class="all-title-font">
+                        <label class="body-l text-c300">
                           Issued makeup pass valid for
                         </label>
                         <div class="d-flex makeup-wrap">
@@ -429,7 +437,7 @@
                     <div class="col-md-6" style="padding-right: 0;">
                       <div>
                         <label
-                          class="all-title-font"
+                          class="body-l text-c300"
                           style="padding-left: 20px;"
                         >
                           Limit number of makeup pass per payment term
@@ -463,7 +471,7 @@
             <div class="button-wrapper">
               <div
                 [hidden]="!step2"
-                class="back-modal"
+                class="back-modal text-c300 body-l"
                 (click)="backStep('step2')"
               >
                 <i class="fa fa-angle-left"></i>
@@ -471,7 +479,7 @@
               </div>
               <button
                 type="button"
-                class="btn sticky-create"
+                class="btn sticky-create body-l bg-b100 text-s0"
                 [disabled]="!childForm2.valid"
                 (click)="continueStep('step2', childForm2.value)"
               >
@@ -488,13 +496,13 @@
           <div class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 3</p>
-                <h5 class="all-title-font text-font-align">Payment policy</h5>
+                <p class="step-font text-c100 body-m">Step 3</p>
+                <h5 class="h1-strong text-c300">Payment policy</h5>
               </div>
               <div class="step_height">
                 <label
-                  class="cfOpt-title"
-                  style="padding-left: 15px; padding-top: 40px"
+                  class="text-c100 body-l"
+                  style="padding-left: 10px; padding-top: 20px"
                 >
                   Course fee options</label
                 >
@@ -512,21 +520,21 @@
                         type="text"
                         autofocus="true"
                         name="{{ 'name' + idx }}"
-                        class="form-control col-md-8 col-sm-8 taxopt-input feeName-input"
+                        class="form-control col-md-8 col-sm-8 taxopt-input body-l text-c300"
                         placeholder="Type option name"
                         [value]="opt.name"
                         (input)="this.optArray[idx].name = $event.target.value"
                         (input)="checkFeeOption(idx)"
                       />
-                      <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap">
-                        <div class="currencySign">
+                      <div class="d-flex col-md-8 col-sm-8 p-0 cfee-wrap ">
+                        <div class="currencySign bg-s20 body-l text-c300">
                           {{ currency.invCurrencySign }}
                         </div>
                         <input
                           type="number"
                           [(ngModel)]="optArray[idx].fees"
                           (input)="inputOpt(idx, $event.target.value)"
-                          class="form-control taxopt-input c-fee"
+                          class="form-control taxopt-input c-fee bg-s0 light-body-l text-c100"
                           placeholder="Course fee"
                           (keypress)="
                             isDecimalValue($event, optArray[idx].fees)
@@ -575,7 +583,10 @@
                 </div>
                 <hr class="opt-hr-length" />
                 <!-- <pre>{{ optArray | json }}</pre> -->
-                <button class="addOpt-btn" (click)="addFeeOption()">
+                <button
+                  class="addOpt-btn text-b100 body-l bg-s0"
+                  (click)="addFeeOption()"
+                >
                   Add another option
                 </button>
               </div>
@@ -583,7 +594,7 @@
             <div class="button-wrapper">
               <button
                 type="button"
-                class="btn sticky-create"
+                class="btn sticky-create body-l bg-b100 text-s0"
                 [disabled]="!childForm3.valid || isSameOpt"
                 (click)="continueStep('step3', childForm3.value)"
               >
@@ -591,7 +602,7 @@
               </button>
               <div
                 [hidden]="!step3"
-                class="back-modal"
+                class="back-modal text-c300 body-l"
                 (click)="backStep('step3')"
               >
                 <i class="fa fa-angle-left"></i>
@@ -608,10 +619,10 @@
           <div class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 4</p>
+                <p class="step-font text-c100 body-m">Step 4</p>
 
                 <div class="display-style">
-                  <h5 class="all-title-font title-br-rt">Resources</h5>
+                  <h5 class="h1-strong text-c300 title-br-rt">Resources</h5>
                   <div class="radio-pos-book">
                     <label class="switch">
                       <input
@@ -629,7 +640,7 @@
                     </label>
                   </div>
                 </div>
-                <p class="input-recommend">
+                <p class="text-c100 body-m">
                   Select your books / resources for this Course plan. If you do
                   not see the required book here, go to Tools > ‘Create
                   resources.
@@ -673,13 +684,15 @@
                         name="pdf"
                         [checked]="pdfId.indexOf(pdf._id) != -1"
                       />
-                      <div class="book-name">{{ pdf.name }}</div>
+                      <div class="book-name small text-c100">
+                        {{ pdf.name }}
+                      </div>
                     </label>
                   </div>
                 </drag-scroll>
                 <div *ngIf="searchMore" class="d-flex justify-content-center ">
                   <button
-                    class="btn load-more"
+                    class="btn load-more bg-s0 text-b100 body-l"
                     (click)="showMoreResources(pdfList.length)"
                   >
                     load more
@@ -691,20 +704,22 @@
               <!-- <button type="button" class="btn sticky-create" [disabled]="pdfId?.length == 0 || formField.allowPagewerkz != true" (click)="continueStep('step5', childForm5.value)">Continue</button> -->
               <button
                 type="button"
-                class="btn sticky-create"
+                class="btn sticky-create body-l bg-b100 text-s0"
                 (click)="continueStep('step4', childForm5.value)"
               >
                 Continue
               </button>
               <div
                 [hidden]="!step4"
-                class="back-modal"
+                class="back-modal text-c300 body-l"
                 (click)="backStep('step4')"
               >
                 <i class="fa fa-angle-left"></i>
                 <p>Back</p>
               </div>
-              <span class="show-count">{{ pdfId.length }} books picked</span>
+              <span class="show-count text-c100 body-l"
+                >{{ pdfId.length }} books picked</span
+              >
             </div>
           </div>
           <!-- <hr class="limit-hr-100 mr-top-20"> -->
@@ -717,9 +732,9 @@
           <div *ngIf="showSearchAPG" class="inside-data-wrapper">
             <div class="overlay-wrapper">
               <div class="col-md-12">
-                <p class="step-font">Step 5</p>
+                <p class="step-font text-c100 body-m">Step 5</p>
                 <div class="d-flex">
-                  <h3 class="all-title-font" style="float: left;">
+                  <h3 class="h1-strong text-c300" style="float: left;">
                     Tracking module
                   </h3>
                   <!-- <span class="sticky-dot-large">&#183;</span>
@@ -727,7 +742,7 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <p class="input-recommend">
+                <p class="body-m text-c100">
                   Tracking module is where a Teacher will be able to mark the
                   progress or improvement of each student. It can be in the form
                   of Progress bar or Badges. This will be notified to the Parent
@@ -736,11 +751,11 @@
                 </p>
               </div>
               <div
-                class="custom-dropdown-width input-group col-md-12 all-title-font"
+                class="custom-dropdown-width input-group col-md-12 body-l text-c300"
               >
                 <div class="input-group w-100">
                   <input
-                    class="form-control py-2 input-search-bg"
+                    class="form-control py-2 input-search-bg bg-s20 text-c300 body-l"
                     type="search"
                     placeholder="Search tracking module"
                     id="search-apg"
@@ -754,7 +769,7 @@
                   />
                   <span class="input-group-append">
                     <button
-                      class="bt btn-design btn-outline-secondary"
+                      class="bt btn-design btn-outline-secondary bg-s20 text-c300"
                       type="button"
                     >
                       <i class="fa fa-search search-size"></i>
@@ -762,7 +777,7 @@
                   </span>
                 </div>
                 <div>
-                  <div class="search-result-box" *ngIf="isfocus == true">
+                  <div class="search-result-box bg-s0" *ngIf="isfocus == true">
                     <div
                       class="single-result"
                       (click)="selectData(apg._id, apg.name)"
@@ -773,11 +788,19 @@
                           <div class="circle1 plus"></div>
                         </div>
                         <div>
-                          <div class="wordBreak">{{ apg.name }}</div>
-                          <div class="step-font font-12" *ngIf="apg.module">
+                          <div class="wordBreak text-c300 body-m">
+                            {{ apg.name }}
+                          </div>
+                          <div
+                            class="step-font text-c100 body-m"
+                            *ngIf="apg.module"
+                          >
                             {{ apg.module.name }}
                           </div>
-                          <div class="step-font font-12" *ngIf="!apg.module">
+                          <div
+                            class="step-font text-c100 body-m"
+                            *ngIf="!apg.module"
+                          >
                             -
                           </div>
                         </div>
@@ -833,7 +856,7 @@
                         (click)="removeSelectedAPG(cAPG)"
                       >
                         <div class="circle2 minus"></div>
-                        <div class="all-title-font wordBreak">
+                        <div class="body-l text-c300 wordBreak">
                           {{ cAPG.name }}
                         </div>
                         <div
@@ -854,7 +877,7 @@
                 <button
                   *ngIf="isEditCP == false"
                   type="button"
-                  class="btn sticky-create"
+                  class="btn sticky-create body-l bg-b100 text-s0"
                   (click)="createdPlan(parentForm.value, 'create')"
                 >
                   Create
@@ -862,14 +885,14 @@
                 <button
                   *ngIf="isEditCP == true"
                   type="button"
-                  class="btn sticky-create"
+                  class="btn sticky-create body-l bg-b100 text-s0"
                   (click)="createdPlan(parentForm.value, 'update')"
                 >
                   Update
                 </button>
                 <div
                   [hidden]="!step5"
-                  class="back-modal"
+                  class="back-modal text-c300 body-l"
                   (click)="backStep('step5')"
                 >
                   <i class="fa fa-angle-left"></i>
@@ -886,7 +909,7 @@
                 </button>
                 <div
                   [hidden]="!step5"
-                  class="back-modal"
+                  class="back-modal text-c300 body-l"
                   (click)="backStep('step5')"
                 >
                   <i class="fa fa-angle-left"></i>
@@ -902,7 +925,7 @@
                 <i class="fa fa-angle-left left-arrow"></i
                 ><span>Tracking module</span>
               </p>
-              <h3 class="all-title-font">Pick tracking module type</h3>
+              <h3 class="body-l text-c300">Pick tracking module type</h3>
             </div>
             <div class="row pad-15">
               <div
@@ -958,13 +981,13 @@
                     <i class="fa fa-angle-left left-arrow"></i
                     ><span>Pick tracking module type</span>
                   </p>
-                  <h3 class="all-title-font">Create tracking module</h3>
+                  <h3 class="body-l text-c300">Create tracking module</h3>
                 </div>
                 <div class="col-md-6" style="padding-top: 40px;">
                   <!-- <p>APG name <br><span>We recommend to set APG name as same as Course name.</span></p> -->
                   <div class="d-flex justify-content-between">
                     <label
-                      class="form-title input-label all-title-font"
+                      class="form-title input-label body-l text-c300"
                       for="address"
                       >Tracking Module name</label
                     >
@@ -974,12 +997,12 @@
                       >
                     </div>
                   </div>
-                  <p class="input-recommend">
+                  <p class="body-m text-c300">
                     We recommend to set Tracking Module name as same as Course
                     name.
                   </p>
                   <input
-                    class="form-control br-bshadow-none all-left-box-10"
+                    class="form-control br-bshadow-none all-left-box-10 light-body-l text-c100"
                     type="text"
                     [(ngModel)]="formAPG.name"
                     name="name"
@@ -1005,7 +1028,7 @@
                   <hr class="limit-hr-length" />
                   <div class="d-flex justify-content-between">
                     <label
-                      class="form-title input-label all-title-font"
+                      class="form-title input-label body-l text-c300"
                       for="address"
                       >Description</label
                     >
@@ -1016,7 +1039,7 @@
                     </div>
                   </div>
                   <textarea
-                    class="form-control br-bshadow-none all-left-box-10"
+                    class="form-control br-bshadow-none all-left-box-10 light-body-l text-c100"
                     rows="5"
                     style="margin-bottom: 15px;"
                     [(ngModel)]="formAPG.description"
@@ -1065,13 +1088,13 @@
           <div class="overlay-wrapper">
             <div class="col-md-12">
               <p class="step-font">Step 6</p>
-              <h5 class="all-title-font text-font-align">Optional fields</h5>
+              <h5 class="body-l text-c300 text-font-align">Optional fields</h5>
             </div>
             <div class="col-md-12" style="padding-top: 40px;">
-              <label for="age" class="all-title-font parent-box-name">Age</label>
+              <label for="age" class="body-l text-c300 parent-box-name">Age</label>
               <div class="display-style">
                 <div class="col-md-6" style="padding-left: 0;">
-                  <label class="all-title-font"> From </label>
+                  <label class="body-l text-c300"> From </label>
                   <input
                     type="number"
                     placeholder="0 year"
@@ -1092,7 +1115,7 @@
                   </div>
                 </div>
                 <div class="col-md-6" style="padding-right: 0;">
-                  <label class="all-title-font" style="padding-left: 20px;">
+                  <label class="body-l text-c300" style="padding-left: 20px;">
                     To
                   </label>
                   <input
@@ -1118,12 +1141,12 @@
               <hr class="limit-hr-100" />
             </div>
             <div class="col-md-12" style="padding-top: 40px;">
-              <label for="age" class="all-title-font parent-box-name"
+              <label for="age" class="body-l text-c300 parent-box-name"
                 >Payment policy</label
               >
               <div class="display-style">
                 <div class="col-md-4" style="padding: 0;">
-                                      <label class="all-title-font">Deposit</label>
+                                      <label class="body-l text-c300">Deposit</label>
                                       <select class="form-control br-bshadow-none all-left-box-10" name="deposit" [(ngModel)]="depositModel">
                                           <option [value]="depositModel" disabled="true">S$ 0</option>
                                           <option *ngFor="let deposit of depositLists" value="{{deposit._id}}">S$ {{deposit.amount}}</option>
@@ -1131,7 +1154,7 @@
                                       <i class="fa fa-chevron-down down-arrow1"></i>
                                   </div>
                 <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font">Deposit</label>
+                  <label class="body-l text-c300">Deposit</label>
                   <div>
                     <div
                       class="form-group has-feedback"
@@ -1164,7 +1187,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 10px;">
+                  <label class="body-l text-c300" style="padding-left: 10px;">
                     Miscellaneous fee
                   </label>
                   <div class="inner-divleft-pad">
@@ -1198,7 +1221,7 @@
               <div class="d-flex">
                 <div class="col-md-6 p-0">
                   <div class="display-style">
-                    <label class="all-title-font">Prorate class fee</label>
+                    <label class="body-l text-c300">Prorate class fee</label>
                     <br />
                     <div class="radio-pos-payment">
                       <label class="switch">
@@ -1247,7 +1270,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 10px;"
+                  <label class="body-l text-c300" style="padding-left: 10px;"
                     >Tax Options</label
                   >
                   <div>
@@ -1282,7 +1305,7 @@
               </div>
               <div class="d-flex">
                 <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font">Invoice Duration</label>
+                  <label class="body-l text-c300">Invoice Duration</label>
                   <div class="inner-divleft-pad">
                     <input
                       type="number"
@@ -1303,12 +1326,12 @@
               <hr class="limit-hr-100" />
             </div>
             <div class="col-md-12" style="padding-top: 40px;">
-              <label for="duration" class="all-title-font parent-box-name"
+              <label for="duration" class="body-l text-c300 parent-box-name"
                 >Lesson</label
               >
               <div class="display-style">
                 <div class="col-md-6" style="padding: 0;">
-                  <label class="all-title-font"> Minimum </label>
+                  <label class="body-l text-c300"> Minimum </label>
                   <div class="inner-div-pad">
                     <input
                       type="number"
@@ -1330,7 +1353,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label class="all-title-font" style="padding-left: 20px;">
+                  <label class="body-l text-c300" style="padding-left: 20px;">
                     Maximum
                   </label>
                   <div class="inner-divleft-pad">
@@ -1383,7 +1406,7 @@
             >
               Update
             </button>
-            <div [hidden]="!step6" class="back-modal" (click)="backStep('step6')">
+            <div [hidden]="!step6" class="back-modal text-c300 body-l" (click)="backStep('step6')">
               <i class="fa fa-angle-left"></i>
               <p>Back</p>
             </div>
@@ -1397,10 +1420,10 @@
           <div class="overlay-wrapper">
             <div class="col-md-12">
               <p class="step-font">Step 7</p>
-              <h3 class="all-title-font">Assessment Plan</h3>
+              <h3 class="body-l text-c300">Assessment Plan</h3>
             </div>
             <div
-              class="custom-dropdown-width input-group col-md-12 all-title-font"
+              class="custom-dropdown-width input-group col-md-12 body-l text-c300"
             >
               <div class="input-group w-100">
                 <input
@@ -1464,7 +1487,7 @@
                       >
                         <div class="circle2 minus"></div>
                       </button>
-                      <div class="all-title-font aPlan-name">
+                      <div class="body-l text-c300 aPlan-name">
                         {{ selectedPlan.name }}
                       </div>
                       <span
@@ -1547,7 +1570,7 @@
             </button>
             <div
               [hidden]="!step7"
-              class="back-modal"
+              class="back-modal text-c300 body-l"
               (click)="backStep('step7')"
             >
               <i class="fa fa-angle-left"></i>

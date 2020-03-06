@@ -1,21 +1,4 @@
 /*===customer details===*/
-
-.top-profile-wrap {
-  background: linear-gradient(
-      360deg,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(0, 0, 0, 0.25) 100%
-    ),
-    radial-gradient(
-      100% 100% at 49.25% 112.55%,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(0, 0, 0, 0.5) 100%
-    ),
-    #cddcdc;
-  background-blend-mode: overlay, screen, normal;
-  padding: 0px 15px;
-}
-
 h3,
 h5 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;

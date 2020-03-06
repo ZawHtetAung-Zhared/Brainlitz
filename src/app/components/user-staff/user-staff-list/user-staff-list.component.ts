@@ -21,11 +21,14 @@ export class UserStaffListComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public staffLists: Array<any> = [];
   public staffDemo: any = [];
-  permissionLists: any;
   usertype: any;
   result: any;
   isSearch = false;
   searchword: any;
+
+  // for loading
+  public staffLoading: boolean = true;
+  public staffListLoading: boolean = false;
 
   constructor(
     private _service: appService,
@@ -95,33 +98,22 @@ export class UserStaffListComponent implements OnInit {
       this.gtxtColor = localStorage.getItem('txtColor');
       this.gbgColor = localStorage.getItem('backgroundColor');
       this.getAllUsers('staff', 20, 0);
-      this.getAllpermission();
     } else {
       console.log('permission deny');
       this.staffLists = [];
     }
   }
 
-  getAllpermission() {
-    console.log('hi permission');
-    this._service.getAllPermission(this.regionID).subscribe((res: any) => {
-      this.permissionLists = res;
-      console.log('this.permissionLists', this.permissionLists);
-    });
-  }
-
   getAllUsers(type, limit, skip) {
-    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
       (res: any) => {
-        //this.blockUI.stop();
         this.result = res;
         this.staffLists = this.staffLists.concat(res);
-        // this.staffLists = res;
         console.log('this.staffLists', this.staffLists);
+        this.staffLoading = false;
+        this.staffListLoading = false;
       },
       err => {
-        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -135,6 +127,7 @@ export class UserStaffListComponent implements OnInit {
   }
 
   userSearch(searchWord, userType, limit, skip) {
+    this.staffListLoading = true;
     this.searchword = searchWord;
     this.usertype = userType;
     console.log('hi hello');
@@ -143,6 +136,10 @@ export class UserStaffListComponent implements OnInit {
       var isFirst = true;
       limit = 20;
       skip = 0;
+    }
+
+    if (isFirst == true) {
+      this.staffLists = [];
     }
 
     if (searchWord.length != 0) {
@@ -154,15 +151,17 @@ export class UserStaffListComponent implements OnInit {
           (res: any) => {
             console.log(res);
             // this.staffLists = res;
-            this.result = res;
-            if (isFirst == true) {
-              console.log('First time searching');
-              this.staffLists = [];
-              this.staffLists = res;
-            } else {
-              console.log('Not First time searching');
-              this.staffLists = this.staffLists.concat(res);
-            }
+            setTimeout(() => {
+              this.staffListLoading = false;
+              this.result = res;
+              if (isFirst == true) {
+                console.log('First time searching');
+                this.staffLists = res;
+              } else {
+                console.log('Not First time searching');
+                this.staffLists = this.staffLists.concat(res);
+              }
+            }, 2000);
           },
           err => {
             console.log(err);
@@ -178,6 +177,10 @@ export class UserStaffListComponent implements OnInit {
   }
 
   showMore(type: any, skip: any) {
+    this.staffListLoading = true;
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 100);
     console.log(skip, this.usertype);
     // this.getAllUsers(type, 20, skip);
     if (this.isSearch == true) {
