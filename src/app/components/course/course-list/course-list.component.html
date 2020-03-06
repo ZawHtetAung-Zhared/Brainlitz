@@ -274,7 +274,7 @@
                   <div class="cinfo-wrap m-4 d-flex flex-column">
                     <div>
                       <label
-                        class="class-label-12 body-m medium-font"
+                        class="class-label-12 small text-c300"
                         [ngStyle]="{
                           color: course.location.textColorHex,
                           background: course.location.backgroundColorHex
@@ -290,7 +290,7 @@
                       </label>
                     </div>
                     <span
-                      class="cplan-title1 cursor-on"
+                      class="cplan-title1 cursor-on h3-strong"
                       [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
                       (click)="showCourseDetail(course)"
                     >
@@ -298,7 +298,7 @@
                     </span>
                     <span
                       *ngIf="course.teacher != undefined"
-                      class="font-15 light-color"
+                      class="body-m text-c100"
                       >by {{ course.teacher.preferredName }}
                     </span>
                     <span
@@ -403,18 +403,18 @@
                         *ngIf="course.startDate != null"
                         class="d-flex flex-column pr-4"
                       >
-                        <span class="light-body-m regular-font light-color">
+                        <span class="light-body-m text-c100">
                           From
                         </span>
-                        <span class="h5-strong medium-font dark-color pt-1">
+                        <span class="body-m text-c300 pt-1">
                           {{ course.startDate | utcDate }}
                         </span>
                       </div>
                       <div *ngIf="course.endDate" class="d-flex flex-column">
-                        <span class="light-body-m regular-font light-color">
+                        <span class="light-body-m text-c100">
                           To
                         </span>
-                        <span class="h5-strong medium-font dark-color pt-1">
+                        <span class="body-m text-c300 pt-1">
                           {{ course.endDate | utcDate }}
                         </span>
                       </div>
@@ -428,7 +428,7 @@
                       "
                     >
                       <span
-                        class="body-m regular-font dark-color"
+                        class="body-m text-c100"
                         *ngFor="let day of course.repeatDays | weekDays"
                       >
                         {{ day }}
@@ -439,7 +439,7 @@
                             course.duration.startDate != null &&
                             course.duration.endDate != null
                           "
-                          class="body-m regular-font dark-color pt-1"
+                          class="body-m text-c300 pt-1"
                         >
                           {{ course.duration.startDate | utcTime }} -
                           {{ course.duration.endDate | utcTime }}
@@ -475,9 +475,9 @@
                       <div
                         [hidden]="course.draft == true"
                         *ngIf="course.seat_left > 0"
-                        class="d-flex flex-column pr-4 light-body-m light-color"
+                        class="d-flex flex-column pr-4 light-body-m text-c100"
                       >
-                        <span class="h5-strong medium-font">
+                        <span class="body-m">
                           {{ course.seat_left }}/
                           {{ course.seat_taken + course.seat_left }}
                         </span>
@@ -498,7 +498,7 @@
                         All seats taken
                       </div>
                       <button
-                        class="btn enroll-btn body-m medium-font"
+                        class="btn enroll-btn body-m bg-s0 text-c300"
                         [disabled]="
                           course.draft == true ||
                           (course.type == 'REGULAR' && course.seat_left == 0)
