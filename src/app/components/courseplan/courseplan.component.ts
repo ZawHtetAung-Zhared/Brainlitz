@@ -14,7 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { cPlanField } from './courseplan';
 import { apgForm } from './courseplan';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -36,13 +36,12 @@ export class CourseplanComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
     private _router: Router
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   public tempDuration: any;
   public optionFee: boolean = false;
   public showModal: boolean = false;
@@ -360,7 +359,10 @@ export class CourseplanComponent implements OnInit {
       name: name(),
       fees: null,
       selectedTax: { id: 1, name: 'inclusive' },
-      taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+      taxOption: [
+        { id: 1, name: 'inclusive' },
+        { id: 2, name: 'exclusive' }
+      ]
     };
     this.optArray.push(obj);
     console.log('optArray in addFeeOption', this.optArray);
@@ -372,6 +374,8 @@ export class CourseplanComponent implements OnInit {
 
   removeFeeOption(idx) {
     this.optArray.splice(idx, 1);
+    if (this.optArray.length > 1) this.checkFeeOption(1);
+    else this.isSameOpt = false;
     console.log('optArray for removeFee~~~', this.optArray);
   }
 
@@ -391,13 +395,18 @@ export class CourseplanComponent implements OnInit {
         name: key,
         fees: feeobj[key],
         selectedTax: null,
-        taxOption: [{ id: 1, name: 'inclusive' }, { id: 2, name: 'exclusive' }]
+        taxOption: [
+          { id: 1, name: 'inclusive' },
+          { id: 2, name: 'exclusive' }
+        ]
       };
       if (
         taxobj == undefined ||
         taxobj == null ||
         taxobj == '' ||
-        (taxobj[key] == undefined || taxobj[key] == null || taxobj[key] == '')
+        taxobj[key] == undefined ||
+        taxobj[key] == null ||
+        taxobj[key] == ''
       ) {
         data.selectedTax = { id: 1, name: 'inclusive' };
       } else {
@@ -680,14 +689,14 @@ export class CourseplanComponent implements OnInit {
 
     if (type == 'create') {
       console.log('CreatePlan');
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .createCoursePlan(this.regionID, this.locationID, data)
         .subscribe(
           (res: any) => {
             console.log('success post', res);
             this.toastr.success('Successfully Created.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.getAllCoursePlan();
             this.cancel();
             this.mainForm.reset();
@@ -701,7 +710,7 @@ export class CourseplanComponent implements OnInit {
           },
           err => {
             this.toastr.error('Create Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -712,7 +721,7 @@ export class CourseplanComponent implements OnInit {
         data.paymentPolicy.deposit = this.formField.paymentPolicy.deposit;
       }
       if (type == 'update') {
-        this.blockUI.start('Loading...');
+        //this.blockUI.start('Loading...');
         this._service
           .updateSignlecPlan(this.editPlanId, data, this.locationID)
           .subscribe(
@@ -721,7 +730,7 @@ export class CourseplanComponent implements OnInit {
               setTimeout(() => {
                 this.toastr.success('Successfully Updated.');
               }, 300);
-              this.blockUI.stop();
+              //this.blockUI.stop();
               this.cancel();
               this.mainForm.reset();
               this.formField = new cPlanField();
@@ -735,7 +744,7 @@ export class CourseplanComponent implements OnInit {
             err => {
               console.log(err);
               this.toastr.error('Update Fail');
-              this.blockUI.stop();
+              //this.blockUI.stop();
             }
           );
       }
@@ -765,13 +774,13 @@ export class CourseplanComponent implements OnInit {
 
   //  deleteCoursePlan(id) {
   //   console.log(id)
-  //    this.blockUI.start('Loading...');
+  //    //this.blockUI.start('Loading...');
   //    this.modalReference1.close();
   //   this._service.deleteCoursePlan(id)
   //   .subscribe((res:any) => {
   //     console.log(res);
   //      setTimeout(() => {
-  //        this.blockUI.stop(); // Stop blocking
+  //        //this.blockUI.stop(); // Stop blocking
   //      }, 300);
   //      this.toastr.success('Successfully Deleted.');
   //     this.getAllCoursePlan();
@@ -880,7 +889,7 @@ export class CourseplanComponent implements OnInit {
   // }
 
   getAllCoursePlan() {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let cid, key, skip, limit;
     this._service
       .getAllCourseplan(this.regionID, this.locationID, cid, skip, limit, key)
@@ -888,7 +897,7 @@ export class CourseplanComponent implements OnInit {
         (res: any) => {
           this.courseplanLists = res;
           setTimeout(() => {
-            this.blockUI.stop(); // Stop blocking
+            //this.blockUI.stop(); // Stop blocking
           }, 300);
           console.log(this.courseplanLists);
         },
@@ -961,6 +970,11 @@ export class CourseplanComponent implements OnInit {
         break;
     }
   }
+  changeSearch_input(keyword) {
+    if (keyword.length == 0) {
+      this.changeSearch(keyword, 'apg');
+    }
+  }
 
   assessmentPlanSearch(keyword) {
     this._service
@@ -1012,10 +1026,10 @@ export class CourseplanComponent implements OnInit {
   }
 
   singleAPG(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getSingleAPG(this.regionID, id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('editapg', res);
         this.clickedItem = res;
         this.createdAPGstore.push(this.clickedItem);
@@ -1025,7 +1039,7 @@ export class CourseplanComponent implements OnInit {
         this.formField.searchText = '';
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -1086,13 +1100,19 @@ export class CourseplanComponent implements OnInit {
   }
 
   getAllAPG(skip, limit) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllAPG(this.regionID, '', skip, limit).subscribe(
       (res: any) => {
         console.log('apgLists', res);
         this.apgList = res;
+        for (var i = 0; i < this.selectedAPGidArray.length; i++) {
+          this.apgList = this.apgList.filter(
+            v => v._id != this.selectedAPGidArray[i]
+          );
+        }
+
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
@@ -1113,11 +1133,25 @@ export class CourseplanComponent implements OnInit {
     );
   }
 
+  searchMore: boolean = false;
   getAllPdf() {
     this._service.getAllPdf(this.regionID, this.locationID, 20, 0).subscribe(
       (res: any) => {
         console.log('pdflists', res);
         this.pdfList = res;
+        this.searchMore = res.length >= 20 ? true : false;
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  showMoreResources(skip) {
+    this._service.getAllPdf(this.regionID, this.locationID, 20, skip).subscribe(
+      (res: any) => {
+        this.pdfList = this.pdfList.concat(res);
+        this.searchMore = res.length < 20 ? false : true;
       },
       err => {
         console.log(err);
@@ -1910,5 +1944,34 @@ export class CourseplanComponent implements OnInit {
       $('#' + step).addClass('active');
       this.addOrRemoveClassOfStep($(event.target));
     }
+  }
+
+  isSameOpt: boolean = false;
+  checkFeeOption(idx) {
+    // let search = this.optArray[idx].name;
+    // for (var i = 0; i < this.optArray.length; i++) {
+    //   if (i != idx && search != '' && this.optArray[i].name === search) {
+    //     this.isSameOpt = true;
+    //     break;
+    //   } else this.isSameOpt = false;
+    // }
+
+    let data = this.optArray;
+    let same = false;
+    for (var i = 0; i < data.length; i++) {
+      if (same) break;
+      for (var j = i + 1; j < this.optArray.length; j++) {
+        if (
+          data[i].name != '' &&
+          this.optArray[j].name != '' &&
+          data[i].name === this.optArray[j].name
+        ) {
+          same = true;
+          break;
+        }
+      }
+    }
+    this.isSameOpt = same;
+    console.log(this.isSameOpt);
   }
 }

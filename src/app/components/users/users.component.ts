@@ -19,6 +19,7 @@ import { appService } from '../../service/app.service';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { ImageCropperComponent } from 'ng2-img-cropper/src/imageCropperComponent';
 import { CropperSettings } from 'ng2-img-cropper/src/cropperSettings';
 import { Bounds } from 'ng2-img-cropper/src/model/bounds';
@@ -28,7 +29,7 @@ import Cropper from 'cropperjs';
 import { environment } from '../../../environments/environment';
 import { customer } from './user';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import { DataService } from '../../service/data.service';
@@ -36,6 +37,10 @@ import { equalSegments } from '@angular/router/src/url_tree';
 import { InvoiceComponent } from '../invoice/invoice.component';
 import { FlexiComponent } from '../flexi/flexi.component';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import sampleData from './notiSample';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
+import 'rxjs/Rx';
+import { c } from '@angular/core/src/render3';
 declare var $: any;
 
 @Component({
@@ -45,6 +50,7 @@ declare var $: any;
 })
 export class UsersComponent implements OnInit {
   @ViewChild('stuffPic') stuffPic: ElementRef;
+  private permissionSubscription: ISubscription;
   userid: any;
   acResult: any;
   public isGuardian = false;
@@ -69,6 +75,7 @@ export class UsersComponent implements OnInit {
   public className: any;
   public showflexyCourse: boolean = false;
   public isGlobal: boolean = false;
+  public notifications: any;
   // formFieldc: customer = new customer();
   claimCourses: any;
   formFieldc: any = {};
@@ -107,6 +114,8 @@ export class UsersComponent implements OnInit {
   ];
 
   public showLoading: boolean = false;
+  private searchKeyword;
+
   @BlockUI() blockUI: NgBlockUI;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
@@ -205,6 +214,7 @@ export class UsersComponent implements OnInit {
   public invPayment: any = [];
   public achievementProgess: any = [];
   public achievementEvaluation: any = [];
+  public achievementGrade: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
   //flexy
@@ -215,16 +225,18 @@ export class UsersComponent implements OnInit {
   dataObj: any = [];
   flexiTemp: any = [];
   checkobjArr: any = [];
+  public gtxtColor: any;
+  public gbgColor: any;
+
   constructor(
     private config: NgbDatepickerConfig,
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
     // this._service.goUserCourseDetail.subscribe(() => {
@@ -235,25 +247,48 @@ export class UsersComponent implements OnInit {
     //    });
   }
 
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    // For student option box
+    if (this.showPickGradeBox != true) {
+      $('.options-box').css({ display: 'none' });
+    } else {
+      $('.options-box').css({ display: 'block' });
+      $('.options-box').click(function(event) {
+        event.stopPropagation();
+      });
+      this.showPickGradeBox = false;
+    }
+  }
+
   ngOnInit() {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       var userId;
       this.dataService.currentCustomer.subscribe(uId => (userId = uId));
       if (userId != '') {
         console.log('!!!!!!UID');
-        this.showDetails(userId);
+        this.showDetails(userId, 'class');
       }
     }, 300);
     this.blankCrop = false;
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/customer') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/customer') {
+          this.permissionType = data;
+          this.customerLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
     // this.selectedPayment = 'Cash';
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -344,6 +379,8 @@ export class UsersComponent implements OnInit {
     if (this.customerPermission.includes('VIEWCUSTOMERS') != false) {
       this.getAllUsers('customer', 20, 0);
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     } else {
       console.log('permission deny');
       this.customerLists = [];
@@ -374,6 +411,7 @@ export class UsersComponent implements OnInit {
         this.goCreateForm('edit');
         if (res.email && res.email.length > 0) {
           this.customerEmail = true;
+          this.personalMail = true;
         } else {
           this.customerEmail = false;
         }
@@ -408,7 +446,7 @@ export class UsersComponent implements OnInit {
         testArray = [];
       });
       this.customFields = res.userInfoPermitted;
-
+      console.error(this.customFields, 'custom fields');
       for (var i = 0; i < this.customFields.length; i++) {
         console.log('^^i', this.customFields[i]);
         var fieldName = this.customFields[i].name.toLowerCase();
@@ -423,7 +461,7 @@ export class UsersComponent implements OnInit {
           var test = this.formFieldc.details.filter(
             item => item.permittedUserInfoId == findId
           );
-          console.log('Test', test);
+          console.error('Test', test);
           if (test.length > 0) {
             console.log('value', test[0].value);
             // var dateTime = test[0].value;
@@ -591,6 +629,7 @@ export class UsersComponent implements OnInit {
 
     if (apiState == 'create') {
       let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -608,16 +647,17 @@ export class UsersComponent implements OnInit {
       objData.append('location', JSON.stringify([]));
 
       console.log('Data', objData);
-      this.blockUI.start('Loading...');
+      console.log('this.ulFile>>', this.ulFile);
+      //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.back();
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           // if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
           // 	this.toastr.error('Email already exist');
           // }
@@ -625,11 +665,40 @@ export class UsersComponent implements OnInit {
           // 	this.toastr.error('Create Fail');
           // }
           console.log(err);
-          console.log(err.status);
+          for (var i = 0; i < this.customFields.length; i++) {
+            if (
+              this.customFields[i].controlType === 'Datepicker' &&
+              this.customFields[i].value
+            ) {
+              var dateTime = this.customFields[i].value;
+              if (dateTime != undefined || dateTime != null) {
+                var ok = dateTime.substring(0, dateTime.search('T'));
+                var testSplit = ok.split('-');
+                var format = {
+                  year: Number(testSplit[0]),
+                  month: Number(testSplit[1]),
+                  day: Number(testSplit[2])
+                };
+                this.customFields[i]['value'] = format;
+              }
+            }
+          }
+          console.log(this.customFields);
           if (err.status == 400) {
             this.toastr.error('Email already exist');
           } else {
-            this.toastr.error('Create Fail');
+            if (
+              err.error != undefined &&
+              (err.error.message != undefined ||
+                err.error.message != null ||
+                err.error.message != '')
+            ) {
+              if (err.error.message) {
+                this.toastr.error(err.error.message);
+              } else this.toastr.error('Network Error');
+            } else {
+              this.toastr.error('Create Fail');
+            }
           }
         }
       );
@@ -668,7 +737,7 @@ export class UsersComponent implements OnInit {
       guardianArray = obj.guardianEmail ? guardianArray : [];
       objData.append('guardianEmail', JSON.stringify(guardianArray));
 
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .updateUser(this.regionID, this.locationID, obj.userId, objData)
         .subscribe(
@@ -676,13 +745,14 @@ export class UsersComponent implements OnInit {
             console.log(res);
             this.backToDetails();
             this.toastr.success('Successfully updated.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.back();
           },
           err => {
             // this.toastr.error('Update Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
+            this.getCustomFields('edit');
             if (err.status == 400) {
               this.toastr.error('Email already exist');
             } else {
@@ -723,7 +793,7 @@ export class UsersComponent implements OnInit {
   getAllUsers(type, limit, skip) {
     console.log('calling all users ....');
     console.log('....', this.customerLists);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
       (res: any) => {
         console.log(res);
@@ -732,11 +802,11 @@ export class UsersComponent implements OnInit {
         // this.customerLists = res;
         console.log('this.customerLists', this.customerLists);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -766,11 +836,14 @@ export class UsersComponent implements OnInit {
   sameMail;
   validateEmail(data) {
     console.log(data);
-    if (data === this.formFieldc.guardianEmail) {
-      this.sameMail = true;
-    } else {
-      this.sameMail = false;
+    if (data != '') {
+      if (data === this.formFieldc.guardianEmail) {
+        this.sameMail = true;
+      } else {
+        this.sameMail = false;
+      }
     }
+
     // this.atLeastOneMail = false;
     this.emailAlert = !this.isValidateEmail(data) ? true : false;
     this.personalMail = this.isValidateEmail(data) ? true : false;
@@ -781,11 +854,15 @@ export class UsersComponent implements OnInit {
   }
 
   validateGuarmail(gData) {
-    if (gData === this.formFieldc.email) {
-      this.sameMail = true;
-    } else {
-      this.sameMail = false;
+    // console.error(gData=='','gdata')
+    if (gData != '') {
+      if (gData === this.formFieldc.email) {
+        this.sameMail = true;
+      } else {
+        this.sameMail = false;
+      }
     }
+
     console.log(gData);
     // this.atLeastOneMail = false;
     this.guardianAlert = !this.isValidateEmail(gData) ? true : false;
@@ -795,9 +872,11 @@ export class UsersComponent implements OnInit {
   }
 
   isValidateEmail($email) {
-    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/; //for test@amdon.com format
+    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9]{1,})$/; //for test@amdon format
     if ($email != '') {
-      return emailReg.test($email);
+      if (emailReg1.test($email)) return true;
+      else return emailReg.test($email);
     } else {
       return true;
     }
@@ -856,7 +935,7 @@ export class UsersComponent implements OnInit {
     this.imgDemoSlider = false;
     $('.frame-upload').css('display', 'none');
     this.customerLists = [];
-    this.showDetails(this.custDetail.user.userId);
+    this.showDetails(this.custDetail.user.userId, 'class');
   }
 
   uploadCropImg($event: any) {
@@ -917,7 +996,9 @@ export class UsersComponent implements OnInit {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+      let getImg = document.getElementById('blobUrl');
+      console.log('getImg>>>>>', getImg);
+    }, 700);
     console.log(this.uploadCrop);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
@@ -969,8 +1050,9 @@ export class UsersComponent implements OnInit {
     $('.frame-upload').css('display', 'none');
   }
 
-  showDetails(ID) {
-    this.activeTab = 'class';
+  showDetails(ID, val) {
+    console.log(this.custDetail);
+    this.activeTab = val;
     this.hideMenu = false;
     this.customerLists = [];
     console.log(ID);
@@ -993,14 +1075,24 @@ export class UsersComponent implements OnInit {
       }
     }
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
       (res: any) => {
         this.custDetail = res;
+        this.userArchive = res.user.isArchive;
         res.user.details.map(info => {
-          if (info.controlType === 'Datepicker')
+          if (info.controlType === 'Datepicker') {
             info.value = moment(info.value).format('YYYY-MM-DD');
+
+            const birthday = moment(info.value);
+            info.year = moment().diff(birthday, 'years');
+            // var month = moment().diff(birthday, 'months') - info.year * 12;
+            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+            birthday.add(info.year, 'years'); // for years and days calculation
+            info.day = moment().diff(birthday, 'days');
+          }
         });
+
         console.log('CustDetail', res);
         for (var i = 0; i < this.custDetail.ratings.length; i++) {
           var tempData = this.custDetail.ratings[i].updatedDate;
@@ -1011,19 +1103,22 @@ export class UsersComponent implements OnInit {
             .format(format);
         }
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 300);
       },
       err => {
         console.log(err);
-        this.blockUI.stop();
+        //this.blockUI.stop();
       }
     );
   }
 
   backToCustomer() {
-    this.hideMenu = false;
     console.log('back');
+    this.custDetail = {
+      user: {}
+    };
+    this.hideMenu = false;
     this.formFieldc = new customer();
     this.showCustDetail = false;
     this.isupdate = false;
@@ -1063,6 +1158,12 @@ export class UsersComponent implements OnInit {
     // this.isSearch = false;
   }
 
+  userSearch_input(keyword) {
+    this.searchKeyword = keyword;
+    if (keyword.length == 0) {
+      this.userSearch(keyword, 'customer', '', '');
+    }
+  }
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;
@@ -1103,7 +1204,13 @@ export class UsersComponent implements OnInit {
         this.customerLists = [];
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
+        this.searchKeyword = '';
       }, 300);
+    }
+  }
+  changeSearch2(searchWord, userId) {
+    if (searchWord.length == 0) {
+      this.changeSearch(searchWord, userId, '', '');
     }
   }
 
@@ -1171,7 +1278,7 @@ export class UsersComponent implements OnInit {
   callEnrollModal(enrollModal, userId) {
     console.log(userId);
     console.log(enrollModal);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this.showInvoice = false;
     this.showPaidInvoice = false;
     console.log(this.showInvoice, this.showPaidInvoice);
@@ -1194,7 +1301,7 @@ export class UsersComponent implements OnInit {
           this.availableCourses = this.availableCourses.concat(res);
           console.log('Available C', this.availableCourses);
           this.checkedDisabled(this.availableCourses);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
@@ -1220,13 +1327,14 @@ export class UsersComponent implements OnInit {
     }
   }
   selectedCustomer: any = {};
-  enrollUser(course, type) {
+  public disableInvoice;
+  enrollUser(course, type, invoiceAlert) {
     console.log('enroll user');
 
     this.selectedCourse = course;
     console.log(course, type);
     if (type == 'FLEXY') {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this.selectedCourse = course;
       this.selectedCustomer = this.custDetail.user;
       console.log('is flexy');
@@ -1240,14 +1348,22 @@ export class UsersComponent implements OnInit {
             this.flexyarr = res;
             this.showInvoice = false;
             this.showflexyCourse = true;
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
           }
         );
     } else {
-      this.blockUI.start('Loading...');
+      if (invoiceAlert) {
+        this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+          backdrop: 'static',
+          windowClass:
+            'deleteModal d-flex justify-content-center align-items-center'
+        });
+        return;
+      }
+      //this.blockUI.start('Loading...');
       console.log(this.custDetail);
       let courseId = course._id;
       let body = {
@@ -1261,6 +1377,12 @@ export class UsersComponent implements OnInit {
           console.log(this.custDetail);
           if (res.status == 200) {
             this.toastr.success('Successfully Enrolled.');
+            if (this.disableInvoice) {
+              this.invoiceModalReference.close();
+              this.closeModal('closeInv');
+              //this.blockUI.stop();
+              return;
+            }
             Object.assign(this.selectedCourse, res.body);
             // this.showDetails(this.custDetail.user.userId);
             // this.closeModel();
@@ -1286,12 +1408,18 @@ export class UsersComponent implements OnInit {
             this.invoiceID2 = this.invoice[0]._id;
             this.showInvoice = true;
 
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
           } else {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.showInvoice = false;
+            if (this.disableInvoice) {
+              this.invoiceModalReference.close();
+              this.closeModal('closeInv');
+              //this.blockUI.stop();
+              return;
+            }
           }
           // for(var i in this.invoice){
           //  this.updatedDate = this.dateFormat(this.invoice[i].updatedDate);
@@ -1539,7 +1667,7 @@ export class UsersComponent implements OnInit {
     this.showflexyCourse = false;
 
     if (type == 'closeInv') {
-      this.showDetails(this.custDetail.user.userId);
+      this.showDetails(this.custDetail.user.userId, 'class');
     }
     this.showflexyCourse = false;
   }
@@ -1625,7 +1753,7 @@ export class UsersComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId);
+        this.showDetails(this.custDetail.user.userId, 'class');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
       },
@@ -1714,15 +1842,64 @@ export class UsersComponent implements OnInit {
     this.activePass = 'available';
     if (val == 'makeup') {
       this.callMakeupLists();
-    } else if (val == 'class') {
-      this.showDetails(this.custDetail.user.userId);
+    } else if (val == 'class' || val == 'activity') {
+      this.showDetails(this.custDetail.user.userId, val);
     } else if (val == 'achievements') {
       console.log('cos', this.carousel);
       // this.carousel.pause();
       console.log('achievements');
       this.callAchievements(1);
       this.callAchievements(3);
+      this.callAchievements(6);
+    } else if (val == 'notifications') {
+      this.getNotiList();
     }
+  }
+
+  getNotiList() {
+    // this.notifications = sampleData;
+    this._service
+      .getNotificationHistory(this.regionID, this.custDetail.user.userId)
+      .subscribe(
+        (res: any) => {
+          this.notifications = res;
+          // if (this.notifications.length > 1) {
+          //   this.notifications = this.notifications.sort(
+          //     (a, b) =>
+          //       moment(b.date.utcDate).format('YYYYMMDD') -
+          //       moment(a.date.utcDate).format('YYYYMMDD')
+          //   );
+          // }
+          for (var i = 0; i < this.notifications.length; i++) {
+            for (var j = 0; j < this.notifications[i].noti.length; j++) {
+              var data = this.notifications[i].noti[j];
+              data.createdTime = this.formatAMPM(data.createdDate);
+            }
+          }
+          console.log('notilist is', this.notifications);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+
+  formatAMPM(date) {
+    const zone = localStorage.getItem('timezone');
+    var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+    var hours = parseInt(
+      moment(date, format)
+        .tz(zone)
+        .format('HH')
+    );
+    var minutes = moment(date, format)
+      .tz(zone)
+      .format('mm');
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 
   callMakeupLists() {
@@ -1736,7 +1913,7 @@ export class UsersComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           console.log(res);
           this.makeupLists = res;
         },
@@ -1747,20 +1924,22 @@ export class UsersComponent implements OnInit {
   }
 
   callAchievements(type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getAchievementsByType(this.custDetail.user.userId, type)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
-          console.log('get achievements', res);
+          //this.blockUI.stop();
           if (type == 1) {
             this.achievementProgess = res;
+            console.log('Progress', this.achievementProgess);
           } else if (type == 3) {
             this.achievementEvaluation = res;
+            console.log('Evaluation', this.achievementEvaluation);
+          } else if (type == 6) {
+            this.achievementGrade = res;
+            console.log('Grade', this.achievementGrade);
           }
-          console.log('Progress', this.achievementProgess);
-          console.log('Evaluation', this.achievementEvaluation);
         },
         err => {
           console.log(err);
@@ -1778,15 +1957,15 @@ export class UsersComponent implements OnInit {
   }
 
   getClaimCourses(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getClaimPassCourses(id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(res);
         this.claimCourses = res;
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -1804,7 +1983,7 @@ export class UsersComponent implements OnInit {
       passId: this.currentPassObj.passId
     };
     console.log(body);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .enrollPass(
         body,
@@ -1815,7 +1994,7 @@ export class UsersComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.modalReference.close();
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.isChecked = '';
           this.checkCourse = '';
           this.toastr.success('Successfully passed.');
@@ -1825,7 +2004,7 @@ export class UsersComponent implements OnInit {
           console.log(err);
           // this.toastr.error('Claim pass failed.');
           this.toastr.error(err.error.message);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.isChecked = '';
           this.checkCourse = '';
           this.modalReference.close();
@@ -1863,7 +2042,7 @@ export class UsersComponent implements OnInit {
         }
         console.log(this.journals);
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
   trackByFn(index, item) {
@@ -1871,6 +2050,7 @@ export class UsersComponent implements OnInit {
   }
   viewJournal(journalModal, course, name) {
     this.jSkip = 0;
+    this.tempCourse = course;
     this.journals = [];
     console.log(this.custDetail);
     console.log(course);
@@ -1900,7 +2080,7 @@ export class UsersComponent implements OnInit {
           windowClass:
             'jouranlModal d-flex justify-content-center align-items-center'
         });
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
   viewInvoice(enrollModal, course) {
@@ -1936,10 +2116,10 @@ export class UsersComponent implements OnInit {
     } else {
       console.log('no invoice id');
     }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getSingleInvoice(invoiceId).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('invoice detail', res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
@@ -1964,11 +2144,11 @@ export class UsersComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     this.getRegionInfo();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     this._service.getSingleInvoice(invoice._id).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log('invoice detail', res);
         this.singleInv.push(res);
         this.invoice = this.singleInv;
@@ -2060,19 +2240,25 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  searchMakeup_input(keyword) {
+    if (keyword.length == 0) {
+      this.searchMakeup(keyword);
+    }
+  }
+
   searchMakeup(keyword) {
     if (keyword.length > 0) {
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service
         .searchMakeupCourse(keyword, this.currentPassObj.course.courseId, 20, 0)
         .subscribe(
           (res: any) => {
             console.log(res);
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.claimCourses = res;
           },
           err => {
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
           }
         );
@@ -2086,8 +2272,9 @@ export class UsersComponent implements OnInit {
     // this.isCourse = true;
     console.log('clicking course', course);
     // localStorage.setItem('userCourse',course._id);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(course._id);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(course._id);
+    this.router.navigate(['/coursedetail', course._id]);
   }
 
   rolloverCourse(id, course) {
@@ -2145,7 +2332,15 @@ export class UsersComponent implements OnInit {
     console.log(e);
     this.checkobjArr = e;
   }
-  flexicomfirm() {
+  flexicomfirm(invoiceAlert) {
+    if (invoiceAlert) {
+      this.invoiceModalReference = this.modalService.open(invoiceAlert, {
+        backdrop: 'static',
+        windowClass:
+          'deleteModal d-flex justify-content-center align-items-center'
+      });
+      return;
+    }
     //add cutomer
     let courseId = this.selectedCourse._id;
     let body = {
@@ -2153,6 +2348,7 @@ export class UsersComponent implements OnInit {
       userId: this.custDetail.user.userId,
       userType: 'customer',
       lessons: this.checkobjArr,
+      disableInvoice: this.disableInvoice,
       paymentPolicy: {
         allowProrated: this.isProrated
       }
@@ -2160,10 +2356,16 @@ export class UsersComponent implements OnInit {
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
+
         console.log(this.custDetail);
         this.toastr.success('Successfully Enrolled.');
         console.log(this.selectedCourse);
-
+        if (this.disableInvoice) {
+          this.invoiceModalReference.close();
+          this.closeModal('closeInv');
+          //this.blockUI.stop();
+          return;
+        }
         Object.assign(this.selectedCourse, res.body);
         // this.showDetails(this.custDetail.user.userId);
         // this.closeModel();
@@ -2192,7 +2394,7 @@ export class UsersComponent implements OnInit {
         this.showflexyCourse = false;
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
-        this.blockUI.stop();
+        //this.blockUI.stop();
         // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
       err => {
@@ -2236,5 +2438,289 @@ export class UsersComponent implements OnInit {
     // if (event.target.value.search(/^0/) != -1) {
     //   event.target.value = '';
     // }
+  }
+  confirmInvoiceAlert(courseId, userType) {
+    this.disableInvoice = false;
+    if (this.selectedCourse.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.enrollUser(this.selectedCourse, this.selectedCourse.type, undefined);
+    }
+    this.invoiceModalReference.close();
+  }
+  cancelInvoiceAlert() {
+    this.disableInvoice = true;
+    if (this.selectedCourse.type == 'FLEXY') {
+      this.flexicomfirm(undefined);
+    } else {
+      this.enrollUser(this.selectedCourse, this.selectedCourse.type, undefined);
+    }
+    // this.invoiceModalReference.close();
+  }
+  public invoiceModalReference;
+  public autoEnrollModal;
+  public lessonOfStudent;
+  openLessonsModal(modal, course) {
+    this.lessonOfStudent = course;
+    console.log(this.lessonOfStudent.lessonsOfStudent);
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+  }
+
+  public tempcIndex;
+  public tempCourse;
+  autoEnroll(i, data, autoEnroll) {
+    this.tempCourse = data;
+    console.warn(autoEnroll);
+    this.autoEnrollModal = this.modalService.open(autoEnroll, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal autoEnrollModal d-flex justify-content-center align-items-center'
+    });
+    this.tempcIndex = i;
+    console.warn(this.custDetail.courses[this.tempcIndex].autoEnroll);
+  }
+
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isJournal_delete = false;
+  }
+
+  confirmAutoEnroll() {
+    console.error('object');
+    this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
+      .courses[this.tempcIndex].autoEnroll;
+    let tempObj = {
+      courseId: this.custDetail.courses[this.tempcIndex]._id,
+      userId: this.custDetail.user.userId,
+      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll
+    };
+    this._service.autoEnroll(this.regionID, tempObj).subscribe(
+      res => {
+        console.log(res);
+        this.showDetails(this.custDetail.user.userId, 'class');
+      },
+      err => {
+        console.error(err);
+      }
+    );
+    this.autoEnrollModal.close();
+  }
+
+  public isJournal_delete = false;
+  public tempJournal;
+  journalDeleteModal(journal, course, modal) {
+    console.log(journal);
+    console.log(course);
+    console.log(modal);
+    this.isJournal_delete = true;
+    this.tempJournal = journal;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  confirmJournalDelete() {
+    this.isJournal_delete = false;
+    this._service
+      .journalDelete(
+        this.regionID,
+        this.tempJournal._id,
+        this.tempCourse._id,
+        this.custDetail.user.userId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.toastr.success('A Journal has been successfully removed.');
+          this._service
+            .getJournal(
+              this.tempCourse._id,
+              this.custDetail.user.userId,
+              String(this.jSkip),
+              String(this.jLimit),
+              null
+            )
+            .subscribe((res: any) => {
+              console.log(res.length);
+              // tslint:disable-next-line: curly
+              if (res.length >= 20) this.toShowLoadMore = true;
+              else this.toShowLoadMore = false;
+              this.jSlectedCourse = this.tempCourse._id;
+              this.journals = res;
+              console.log(this.journals.length);
+              if (this.journals.length === 0) this.toShowNoJournl = true;
+              else this.toShowNoJournl = false;
+              //this.blockUI.stop();
+            });
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    this.autoEnrollModal.close();
+  }
+
+  setRandomPwd() {
+    // console.log(this.userid, this.custDetail.user.userId);
+    let data = {
+      customerId: this.custDetail.user.userId
+    };
+    this._service.setRandomPassword(this.regionID, data).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('New password has been sent successfully.');
+      },
+      err => {
+        console.error(err);
+        this.toastr.error('Fail to set new password.');
+      }
+    );
+  }
+  userArchive = false;
+
+  staffArchive(archive) {
+    this.userArchive = archive;
+    let customerId = this.custDetail.user.userId;
+    let isArchive = archive;
+    isArchive = this.userArchive;
+    let regionId = this.regionID;
+    const tempData = {
+      customerId,
+      isArchive,
+      regionId
+    };
+    this._service.userArchive(tempData).subscribe(
+      res => {
+        console.error(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  deleteGradeId: any = null;
+  confirmDeleteGrade(gradeId) {
+    // this.deleteGradeId = true;
+  }
+  gradeDeleteModal(gradeId, modal) {
+    this.deleteGradeId = gradeId;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal journal-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  deleteGrade() {
+    this._service
+      .deleteGrade(this.custDetail.user.userId, this.deleteGradeId)
+      .subscribe(
+        res => {
+          console.log(res);
+          this.deleteGradeId = null;
+          this.callAchievements(6); //calling grade achievements data
+          this.toastr.success('Successfully Deleted.');
+        },
+        err => {
+          console.error(err);
+        }
+      );
+    this.autoEnrollModal.close();
+  }
+
+  public showPickGradeBox = false;
+  public yPosition: any;
+  public optionsBoxStdID = '';
+
+  public apgName = '';
+  public gradeOptions = [];
+  public color = '';
+  public bgcolor = '';
+  public grade = [];
+  public apId = '';
+  public apCourseId = '';
+
+  pickGrade(pickGradeModal, clickedGrade, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    //this.showPickGradeBox=true
+    this.modalReference = this.modalService.open(pickGradeModal, {
+      backdrop: 'static',
+      windowClass: 'd-flex justify-content-center align-items-center'
+    });
+    //if (this.optionsBoxStdID !== id) {
+    // this.optionsBoxStdID = id;
+    // this.yPosition = e.layerY+20;
+    //}
+    //this.yPosition = e.layerY + 40;
+    // this.yPosition = e.offsetY - 30;
+    //  this.toastr.info(grade)
+    console.log(clickedGrade);
+    this.apId = clickedGrade.assessment.apId;
+    this.apCourseId = clickedGrade.course.id;
+    this.apgName = clickedGrade.assessment.apgName;
+    this.gradeOptions = clickedGrade.assessment.gradeOptions;
+    this.color = clickedGrade.assessment.sepalColor.text;
+    this.bgcolor = clickedGrade.assessment.sepalColor.background;
+  }
+
+  cancelGradePickUp() {
+    this.modalReference.close();
+  }
+
+  public selectedOption = {
+    _id: '',
+    name: '',
+    point: '',
+    isSelected: false
+  };
+
+  selectAPG(option) {
+    this.gradeOptions.filter(item => {
+      item.isSelected = false;
+      if (item._id === option._id) {
+        item.isSelected = true;
+        this.selectedOption = item;
+      }
+    });
+  }
+
+  updateAPG() {
+    this.modalReference.close();
+    var body = {
+      id: this.apId,
+      data: {
+        grade: {
+          name: this.selectedOption.name,
+          point: this.selectedOption.point
+        }
+      }
+    };
+    console.log(body, this.custDetail.user.userId);
+    this._service
+      .updateGrading(
+        this.custDetail.user.userId,
+        body,
+        this.regionID,
+        this.apCourseId
+      )
+      .subscribe(
+        res => {
+          console.log(res);
+          this.callAchievements(6);
+          this.toastr.success('APG update successfully');
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('APG can not update successfully');
+        }
+      );
   }
 }

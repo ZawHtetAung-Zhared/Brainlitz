@@ -4,6 +4,8 @@ import {
   OnChanges,
   OnDestroy,
   Input,
+  Output,
+  EventEmitter,
   ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -29,11 +31,14 @@ export class ClassTabComponent implements OnInit, OnDestroy {
   @Input() regionId: string;
   @Input() userId: string;
   @Input() locationId: string;
+  @Output() showLoading = new EventEmitter();
 
   courses: Course[] = [];
   loading = true;
   nocourse = false;
   private subscription: ISubscription;
+  public gtxtColor: any;
+  public gbgColor: any;
 
   constructor(
     private _service: appService,
@@ -48,6 +53,9 @@ export class ClassTabComponent implements OnInit, OnDestroy {
     console.log(this.userId);
     console.log(this.locationId);
     this.loading = true;
+    // this.showLoading.emit(false);
+    this.gtxtColor = localStorage.getItem('txtColor');
+    this.gbgColor = localStorage.getItem('backgroundColor');
     this.subscription = this._service
       .getUserDetail(this.regionId, this.userId, this.locationId)
       .subscribe(
@@ -59,6 +67,8 @@ export class ClassTabComponent implements OnInit, OnDestroy {
             console.log('nocourse');
             this.nocourse = true;
           }
+
+          // this.showLoading.emit(true);
         },
         err => {
           this.loading = false;
@@ -69,8 +79,9 @@ export class ClassTabComponent implements OnInit, OnDestroy {
 
   navigateToCourseDetail(courseid: string) {
     console.log(courseid);
-    this.router.navigate(['/course']);
-    this.dataService.nevigateCourse(courseid);
+    // this.router.navigate(['/course']);
+    // this.dataService.nevigateCourse(courseid);
+    this.router.navigate(['/coursedetail', courseid]);
   }
 
   ngOnDestroy() {

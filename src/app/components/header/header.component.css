@@ -2,8 +2,13 @@
   max-width: 140px;
   width: 140px;
   float: left;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
+  overflow: hidden;
   height: 24px;
+}
+.pr {
+  position: relative;
+  padding-right: 35px;
 }
 .logo-wrap {
   height: 50px;
@@ -24,10 +29,24 @@
   top: 0;
   z-index: 999;
 }
+.remove {
+  display: none !important;
+}
 #header {
   z-index: 999;
   position: relative;
 }
+#notibar,
+#notibar2 {
+  width: 1080px !important;
+  height: 48px;
+  padding: 10px 30px;
+}
+.notibg {
+  color: #bf2926;
+  background: #ffe7e6;
+}
+
 #header,
 #header2 {
   width: 100%;
@@ -41,6 +60,10 @@
   -ms-transform: translateY(0);
   transform: translateY(0);
   margin-top: 0;*/
+}
+.nooutline:focus {
+  border: none;
+  outline: none;
 }
 #inputState {
   border: none;
@@ -82,11 +105,11 @@ select {
 .menu-border {
   border-top: 1px solid #e3e4e6;
   border-bottom: 1px solid #e3e4e6;
-  height: 75px !important;
+  height: 60px !important;
 }
 
 .first-row {
-  padding: 17px 30px;
+  padding: 12px 30px;
 }
 
 .sidebar-wrap {
@@ -170,7 +193,12 @@ select {
   color: #2e3d4d !important;
   cursor: pointer;
   max-height: 250px;
-  overflow: overlay;
+  overflow: auto;
+}
+@-moz-document url-prefix() {
+  .location-dp {
+    overflow: auto;
+  }
 }
 .location-dp:after {
   content: '';
@@ -250,8 +278,12 @@ ul.nav-style li:hover a {
   color: #535353;
 }
 li.nav-item {
-  padding: 5px 15px 10px;
+  padding: 2px 15px 10px;
   float: left;
+  align-items: center !important;
+}
+li.header2-nav-item {
+  padding: 8px 15px 10px !important;
 }
 a.nav-link.active {
   /*border-bottom: 2px solid #4392f1 !important;*/
@@ -281,8 +313,11 @@ a.nav-link.active {
   #menu {
     width: 100% !important;
   }
+  #notibar,
+  #notibar2 {
+    width: 100% !important;
+  }
 }
-
 @media only screen and (min-width: 1366px) {
   /* #header{
     width: 1080px!important;
@@ -336,9 +371,29 @@ underline-style {
   align-items: center;
   justify-content: center;
 }
-
+.oval {
+  position: absolute;
+  width: 30px;
+  height: 20px;
+  background: #ffcfcc;
+  color: #8c1e1c;
+  left: 24px;
+  top: 2px;
+  border-radius: 50px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border: 1px solid #fff;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
 .border-design.active {
   border-top: 4px solid #007fff;
   border-radius: 4px 4px 0px 0px;
-  margin-top: 25px;
+  margin-top: 12px;
+}
+
+.btn-today-lesson {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  line-height: 2.2;
 }

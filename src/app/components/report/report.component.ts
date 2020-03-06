@@ -6,6 +6,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 declare var $: any;
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-report',
@@ -14,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class ReportComponent implements OnInit {
   //report permission
+  private permissionSubscription: ISubscription;
   public reportPermission: any = [];
   public reportDemo: any = [];
   public permissionType: any;
@@ -58,12 +60,18 @@ export class ReportComponent implements OnInit {
     window.addEventListener('scroll', this.scroll, true);
     this.dropDownShow = false;
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/report') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/report') {
+          this.permissionType = data;
+          this.checkPermission();
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
@@ -101,6 +109,10 @@ export class ReportComponent implements OnInit {
       console.log('true');
       this.navIsFixed = true;
       this.isMidStick = false;
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
     } else {
       console.log('false');
       this.navIsFixed = false;
@@ -177,13 +189,13 @@ export class ReportComponent implements OnInit {
 
   getStaffRating(limit, skip) {
     this.showFeedback = false;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this.locationID = localStorage.getItem('locationId');
     this._service.getRatingList(this.locationID, limit, skip).subscribe(
       (res: any) => {
         this.ratingLists = res;
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         if (this.ratingLists == []) {
           this.noData = true;

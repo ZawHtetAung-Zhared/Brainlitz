@@ -6,9 +6,12 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastsManager } from 'ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { appService } from '../../service/app.service';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -21,21 +24,56 @@ export class CustomfieldComponent implements OnInit {
   public fieldLists: any = [];
   public showForm: boolean = false;
   public isUpdate: boolean = false;
-  public testLists = ['String', 'Number', 'Date', 'Radio', 'Checkbox'];
+  public testLists = ['String', 'Number', 'Date', 'Selection'];
   public isChecked: any;
   public model: any = {};
   public wordLength: any;
   public modalReference: any;
   public deleteObj: any = {};
+  public isMultiple: boolean = false;
+  public isMultipleSelection: boolean = false;
+  subs = new Subscription();
+  HANDLES = 'HANDLES';
   @BlockUI() blockUI: NgBlockUI;
 
   constructor(
     private modalService: NgbModal,
     private _service: appService,
-    public toastr: ToastsManager,
-    public vcr: ViewContainerRef
+    // public toastr: ToastsManager,
+    private toastr: ToastrService,
+    public vcr: ViewContainerRef,
+    private dragulaService: DragulaService
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    dragulaService.createGroup('HANDLES', {
+      moves: (el, container, handle) => {
+        return handle.className === 'handle';
+      }
+    });
+
+    this.subs.add(
+      dragulaService
+        .dropModel(this.HANDLES)
+        .subscribe(({ el, target, source, sourceModel, targetModel, item }) => {
+          console.log('dropModel:');
+          console.log(el);
+          console.log(source);
+          console.log(target);
+          console.log(sourceModel);
+          console.log(targetModel);
+          console.log(item);
+        })
+    );
+    this.subs.add(
+      dragulaService
+        .removeModel(this.HANDLES)
+        .subscribe(({ el, source, item, sourceModel }) => {
+          console.log('removeModel:');
+          console.log(el);
+          console.log(source);
+          console.log(sourceModel);
+          console.log(item);
+        })
+    );
   }
 
   ngOnInit() {
@@ -44,22 +82,29 @@ export class CustomfieldComponent implements OnInit {
   }
 
   focusMethod(e, status, word) {
-    console.log('hi', e);
+    console.log('hi', e, status);
     if (status == 'name') {
       this.wordLength = word.length;
       $('.limit-wordcount').show('slow');
-    } else {
+    } else if (status == 'sub') {
       this.wordLength = word.length;
       $('.limit-wordcount1').show('slow');
+    } else {
+      this.wordLength = word.length;
+      // $('.limit-wordcount2').show('slow');
+      $('.' + status).show('slow');
     }
   }
 
   blurMethod(e, status) {
-    console.log('blur', e);
+    console.log('blur', status);
     if (status == 'name') {
       $('.limit-wordcount').hide('slow');
-    } else {
+    } else if (status == 'sub') {
       $('.limit-wordcount1').hide('slow');
+    } else {
+      // $('.limit-wordcount2').hide('slow');
+      $('.' + status).hide('slow');
     }
     this.wordLength = 0;
   }
@@ -70,12 +115,12 @@ export class CustomfieldComponent implements OnInit {
 
   getAllCustomfields() {
     this.checkFieldArr = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllFields(this.regionID).subscribe((res: any) => {
       console.log(res);
       this.fieldLists = res.userInfoPermitted;
       console.log(this.fieldLists);
-      this.blockUI.stop();
+      //this.blockUI.stop();
     });
   }
 
@@ -96,9 +141,30 @@ export class CustomfieldComponent implements OnInit {
   }
 
   chooseType(item) {
-    console.log('Choose', item);
-    this.isChecked = item;
-    this.defineType(this.isChecked);
+    if (item == 'Selection') {
+      // if(this.isMultipleSelection){
+      //   this.isChecked = 'Checkbox';
+      //   this.defineType(this.isChecked);
+      // }else{
+      this.isChecked = item;
+      this.defineType('Radio');
+      // }
+    } else {
+      this.isChecked = item;
+      this.defineType(this.isChecked);
+    }
+  }
+
+  choiceMultiple() {
+    console.log(this.isMultipleSelection);
+    this.isChecked = 'Selection';
+    if (this.isMultipleSelection) {
+      this.defineType('Radio');
+      this.isMultipleSelection = false;
+    } else {
+      this.defineType('Checkbox');
+      this.isMultipleSelection = true;
+    }
   }
 
   defineType(type) {
@@ -190,7 +256,7 @@ export class CustomfieldComponent implements OnInit {
     }
 
     console.log('Field Obj', fieldObj);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     if (id == '') {
       console.log('CREATE');
       this._service.createCustomField(this.regionID, fieldObj).subscribe(
@@ -199,13 +265,13 @@ export class CustomfieldComponent implements OnInit {
           this.model = {};
           this.showForm = false;
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.getAllCustomfields();
         },
         err => {
           console.log(err);
           this.toastr.success('Create Fail');
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }
       );
     } else {
@@ -215,14 +281,14 @@ export class CustomfieldComponent implements OnInit {
           console.log(res);
           this.model = {};
           this.toastr.success('Successfully Updated.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.getAllCustomfields();
           this.showForm = false;
         },
         err => {
           console.log(err);
           this.toastr.success('Update Fail');
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }
       );
     }
@@ -241,7 +307,14 @@ export class CustomfieldComponent implements OnInit {
     // this.defineType(this.isChecked);
     console.log(field.controlType);
     if (field.inputValues.length != 0) {
-      this.isChecked = field.controlType;
+      if (field.controlType == 'Radio') {
+        this.isChecked = 'Selection';
+        this.isMultipleSelection = false;
+      } else {
+        this.isChecked = 'Selection';
+        this.isMultipleSelection = true;
+      }
+
       for (let i = 0; i < field.inputValues.length; i++) {
         let obj = {
           name: field.inputValues[i]
@@ -277,7 +350,7 @@ export class CustomfieldComponent implements OnInit {
   }
 
   deleteField(id) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.deleteCustomField(this.regionID, id).subscribe(
       (res: any) => {
         console.log(res);
@@ -306,6 +379,12 @@ export class CustomfieldComponent implements OnInit {
     console.log(this.checkFieldArr);
   }
 
+  addNewItem() {
+    const obj = {
+      name: ''
+    };
+    this.checkFieldArr.push(obj);
+  }
   removeFeeOption(id) {
     this.checkFieldArr.splice(id, 1);
   }
@@ -327,4 +406,16 @@ export class CustomfieldComponent implements OnInit {
       this.isCustomeValid = true;
     }
   }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+    this.dragulaService.destroy('HANDLES');
+    // this.dragulaService.destroy('COLUMNS');
+  }
+
+  // ngOnDestroy() {
+
+  //   for (var i = 0; i < this.groupNumber; i++)
+  //     var dd = this.dragulaService.find(String(i));
+  // }
 }

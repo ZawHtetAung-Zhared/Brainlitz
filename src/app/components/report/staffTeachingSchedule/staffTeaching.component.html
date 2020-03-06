@@ -1,4 +1,12 @@
-<h3 class="pd-lft-15">Staff Teaching Schedule</h3>
+<div
+  class="pd-lft-15 d-flex flex-row justify-content-between align-items-center"
+>
+  <h3>Staff teaching schedule</h3>
+  <button class="btn btn-submit" (click)="exportCSV()">
+    Download report
+  </button>
+</div>
+<!-- <h3 class="pd-lft-15">Staff teaching schedule</h3> -->
 <div class="pd-lft-15 report-content">
   <div class="row">
     <div class="report-time-range d-flex flex-column col-md-4">
@@ -24,7 +32,7 @@
       <div style="padding-top: 15px">
         <select
           id="stsGroupBy"
-          class="form-control rpt-groupBy-opt"
+          class="rpt-groupBy-opt"
           name="stsGroupBy"
           (change)="updateGraphUsingGroupBy($event)"
         >
@@ -37,6 +45,41 @@
         </select>
       </div>
     </div>
+    <!-- <div class="report-location-input d-flex flex-column col-md-4">
+      <div class="rpt-input-title">
+        Teacher name
+      </div>
+      <div style="padding-top: 15px">
+        <div class="d-flex justify-content-end teacher-box ">
+          <input
+            class="form-control py-2 input-search-dropdown-bg"
+            type="search"
+            autocomplete="off"
+            placeholder="Choose teacher"
+            name="teacherID"
+            [(ngModel)]="staff"
+            #teacherID="ngModel"
+            id="example-search-input"
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event)"
+            (input)="searchStaffList($event.target.value)"
+          />
+          <button
+            class="fa fa-angle-down d-flex justify-content-center flex-column icon course-search-down "
+            (clickOutside)="hideSearch($event)"
+            (click)="focusSearch2($event)"
+          ></button>
+          <ul class="scedule-data-listing" *ngIf="isFocusCategory == true">
+            <li
+              *ngFor="let staff of staffLists"
+              (click)="selectData(staff)"
+            >
+              {{ staff.preferredName }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div> -->
   </div>
   <div
     class="d-flex flex-column w-100 h-100"
@@ -46,7 +89,7 @@
     <div style="padding:15px;" class="row">
       <div class="col-md-4">
         <button class="btn btn-filter" (click)="showFilterModal(filterFields)">
-          Filter Fields
+          Filter fields
         </button>
       </div>
     </div>
@@ -82,7 +125,10 @@
       </div>
     </div>
     <div class="rpt-content">
-      <staff-teaching-graph [reportItems]="reportData"></staff-teaching-graph>
+      <staff-teaching-graph
+        [reportItems]="reportData"
+        [staffCount]="staffCount"
+      ></staff-teaching-graph>
     </div>
   </div>
   <div
@@ -96,18 +142,18 @@
 
 <ng-template #filterFields let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title " id="modal-basic-title">Filter Fields</h3>
+    <h3 class="modal-title " id="modal-basic-title">Filter fields</h3>
     <button
       type="button"
       class="close"
       aria-label="Close"
-      (click)="modalReference.close()"
+      (click)="cancelModal()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
+    <div class="slt-rpt-filter rpt-input-title">Select filter</div>
     <div class="pd-top-15">
       <select
         id="filterType"
@@ -140,7 +186,7 @@
         </button>
       </span>
     </div>
-    <div style="" class="search-result-box" *ngIf="searchResult.show == true">
+    <div class="search-result-box" *ngIf="searchResult.show == true">
       <div
         class="single-result"
         *ngFor="let suggestedItem of searchResult.value"
@@ -157,7 +203,7 @@
         {{ selectedItem }}
         <div
           class="remove-selected-filter"
-          (click)="removeCurrentFilter(selectedItem)"
+          (click)="removeCurrentFilterForModal(selectedItem)"
         >
           <span>-</span>
         </div>
@@ -169,11 +215,74 @@
       <button class="btn btn-primary confirm-filter" (click)="applyFilters()">
         Confirm
       </button>
+      <button class="btn btn-default cancel-filter" (click)="cancelModal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #downloadReport let-c="close" let-d="dismiss">
+  <div class="modal-downloadreport">
+    <div class="d-flex align-items-center justify-content-between">
+      <h3 class="modal-title " style="font-size: 18px;">Download report</h3>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modalReference.close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class=" downloadreport-body">
+      <div class="d-flex flex-column">
+        <span class="date-text">Date</span>
+        <div class="d-flex justify-content-between">
+          <div class="date-wrap cc-start" style="margin-right: 10px;">
+            <input
+              type="text"
+              placeholder="From"
+              class="input-day cstart w-100 search-input"
+              name="start"
+              required
+              (ngModelChange)="setMinDate($event, 'start')"
+              [(ngModel)]="model.start"
+              ngbDatepicker
+              #start="ngbDatepicker"
+              (document:click)="closeDropdown($event, 'start', start)"
+              readonly
+            />
+          </div>
+          <!-- (document:click)="closeDropdown($event, 'start', start)" -->
+          <div class="date-wrap">
+            <input
+              type="text"
+              placeholder="To"
+              class="input-day cend w-100 search-input"
+              name="end"
+              [maxDate]="todayDate"
+              required
+              (ngModelChange)="setMinDate($event, 'end')"
+              [(ngModel)]="model.end"
+              ngbDatepicker
+              #end="ngbDatepicker"
+              (document:click)="closeDropdown1($event, 'end', end)"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end downloadreport-footer">
       <button
         class="btn btn-default cancel-filter"
         (click)="modalReference.close()"
       >
         Cancel
+      </button>
+      <button class="btn btn-primary confirm-filter">
+        Download
       </button>
     </div>
   </div>

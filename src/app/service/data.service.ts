@@ -19,6 +19,14 @@ export class DataService {
   private rolloverCourse = new BehaviorSubject('');
   rolloverCId = this.rolloverCourse.asObservable();
 
+  private backtoSchedule = new BehaviorSubject('');
+  categoryId = this.backtoSchedule;
+
+  private activePlan = new BehaviorSubject('');
+  currentActivePlan = this.activePlan.asObservable();
+
+  private masteryData: any;
+
   constructor() {}
 
   nevigateCourse(message: string) {
@@ -39,5 +47,21 @@ export class DataService {
 
   defineCurrentTab(tab: string) {
     this.currentTab.next(tab);
+  }
+
+  backToScheduleTable(id: any) {
+    this.backtoSchedule.next(id);
+  }
+
+  navagateActivePlan(id: any) {
+    this.activePlan.next(id);
+  }
+
+  setMasteryData(data) {
+    this.masteryData = data;
+  }
+
+  getMasteryData() {
+    return this.masteryData;
   }
 }

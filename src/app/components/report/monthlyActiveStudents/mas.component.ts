@@ -52,6 +52,17 @@ export class MonthlyActiveStudentsReport implements OnInit {
   initFilter = true;
   public regionID = localStorage.getItem('regionId');
   @BlockUI() blockUI: NgBlockUI;
+
+  //for bug fixs by zzkz
+  public fullCategoryList: any = [];
+  public fullLocationList: any = [];
+  public fullCoursePlanList: any = [];
+  public fullCourseNameList: any = [];
+  public selectFilterTemp: any = [];
+  public removeFilterTemp: any = [];
+  public updateFilterTemp: any = {};
+  // public monthlyActiveData: any;
+
   constructor(
     private daterangepickerOptions: DaterangepickerConfig,
     private modalService: NgbModal,
@@ -63,9 +74,9 @@ export class MonthlyActiveStudentsReport implements OnInit {
       alwaysShowCalendars: true,
       ranges: {
         Today: [moment()],
-        Yesteday: [moment().subtract(1, 'days'), moment()],
+        Yesterday: [moment().subtract(1, 'days'), moment()],
         'Last Month': [moment().subtract(1, 'month'), moment()],
-        'Last 3 Months': [moment().subtract(4, 'month'), moment()],
+        'Last 3 Months': [moment().subtract(3, 'month'), moment()],
         'Last 6 Months': [moment().subtract(6, 'month'), moment()],
         'Last 12 Months': [moment().subtract(12, 'month'), moment()],
         'Last 18 Months': [moment().subtract(18, 'month'), moment()]
@@ -84,8 +95,16 @@ export class MonthlyActiveStudentsReport implements OnInit {
     this.categoryList = [];
     this.coursePlanList = [];
     this.courseNameList = [];
-    this.startDate = moment('02/28/2015').toISOString();
-    this.endDate = moment().toISOString();
+    this.startDate = new Date('2015-02-01').toISOString();
+    this.endDate = new Date(
+      new Date(moment().year(), moment().month() + 1).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+    // this.endDate = moment().toISOString();
     this.options = {
       startDate: moment('28/02/2015').startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -102,7 +121,10 @@ export class MonthlyActiveStudentsReport implements OnInit {
     console.log(endMonth, endYear);
     $('#monthRangePicker')
       .rangePicker({
-        setDate: [[2, 2015], [endMonth, endYear]],
+        setDate: [
+          [2, 2015],
+          [endMonth, endYear]
+        ],
         minDate: [2, 2015],
         maxDate: [endMonth, endYear],
         closeOnSelect: true,
@@ -117,10 +139,11 @@ export class MonthlyActiveStudentsReport implements OnInit {
             new Date(result[1][1], result[1][0] - 1)
           );
           _self.startDate = new Date(
-            result[0][1],
-            result[0][0] - 1
+            new Date(result[0][1], result[0][0] - 1).setUTCHours(24, 0, 0, 0)
           ).toISOString();
-          _self.endDate = new Date(result[1][1], result[1][0]).toISOString();
+          _self.endDate = new Date(
+            new Date(result[1][1], result[1][0]).setUTCHours(23, 59, 59, 999)
+          ).toISOString();
           _self.showReport();
         } else {
           console.log(result);
@@ -129,13 +152,14 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
   showReport() {
     this.reportData = [];
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getMASReport(this.regionID, this.startDate, this.endDate)
       .subscribe(
         (res: any) => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.length) {
+            // this.monthlyActiveData = res;
             this.reportData = this.getfilteredData(res);
           } else {
             this.reportData = [];
@@ -156,6 +180,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
+    let users = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -205,11 +230,17 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
               courses.forEach(function(course) {
                 _self.courseNameList.push(course.courseName);
-                obj.students += course.students;
+                // obj.students += course.students;
+                let user = course.users || [];
+                user.forEach(function(count) {
+                  users.push(count);
+                });
               });
             });
           });
         });
+        users = Array.from(new Set(users));
+        obj.students = users.length;
         res.push(obj);
       });
     });
@@ -222,33 +253,64 @@ export class MonthlyActiveStudentsReport implements OnInit {
       _self.searchResult.value = _self.categoryList;
       _self.initFilter = false;
     }
+    if (filter.value.length == 0) {
+      _self.fullCategoryList = _self.categoryList;
+      _self.fullLocationList = _self.locationList;
+      _self.fullCourseNameList = _self.courseNameList;
+      _self.fullCoursePlanList = _self.coursePlanList;
+    }
+    // this.reportData = res;
     return res;
   }
   updateFilterType(value) {
-    this.filter = {
-      value: []
-    };
-    switch (value) {
-      case 'Category':
+    if (this.filter.value.length) {
+      this.updateFilterTemp = {
+        value: []
+      };
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.updateFilterTemp.value.push(this.filter.value[i]);
+      }
+      this.updateFilterTemp.type = this.filter.type;
+
+      this.filter = {
+        value: []
+      };
+    }
+    switch (true) {
+      case value == 'Category' || value == 'category':
         this.filter.type = 'category';
-        this.searchResult.value = this.categoryList;
+        this.searchResult.value = this.fullCategoryList;
         break;
-      case 'Course Plan':
+      case value == 'Course Plan' || value == 'coursePlan':
         this.filter.type = 'coursePlan';
-        this.searchResult.value = this.coursePlanList;
+        this.searchResult.value = this.fullCoursePlanList;
         break;
-      case 'Course Name':
+      case value == 'Course Name' || value == 'course':
         this.filter.type = 'course';
-        this.searchResult.value = this.courseNameList;
+        this.searchResult.value = this.fullCourseNameList;
         break;
-      case 'Location':
+      case value == 'Location' || value == 'location':
         this.filter.type = 'location';
-        this.searchResult.value = this.locationList;
+        this.searchResult.value = this.fullLocationList;
         break;
+    }
+    if (this.updateFilterTemp.type == this.filter.type) {
+      this.filter.value = this.updateFilterTemp.value;
+      for (var i = 0; i < this.filter.value.length; i++) {
+        this.searchResult.value = this.searchResult.value.filter(
+          e => e !== this.filter.value[i]
+        );
+      }
     }
   }
   showFilterModal(content) {
+    if (this.filter.value.length == 0) {
+      this.updateFilterType(this.filter.type);
+    }
     this.searchResult.show = false;
+    this.selectFilterTemp = [];
+    this.removeFilterTemp = [];
+    this.updateFilterTemp = { value: [] };
     this.modalReference = this.modalService.open(content, {
       backdrop: 'static',
       windowClass: 'animation-wrap',
@@ -265,6 +327,13 @@ export class MonthlyActiveStudentsReport implements OnInit {
     );
   }
 
+  removeCurrentFilterForModal(value) {
+    this.removeFilterTemp.push(value);
+    this.filter.value = this.filter.value.filter(e => e !== value);
+    this.searchResult.value.push(value);
+    // this.applyFilters();
+  }
+
   removeCurrentFilter(value) {
     this.filter.value = this.filter.value.filter(e => e !== value);
     this.searchResult.value.push(value);
@@ -279,6 +348,19 @@ export class MonthlyActiveStudentsReport implements OnInit {
   clearSearch() {}
   filterSearch(value) {
     if (value) {
+      var temp = this.searchResult.value;
+      var filteredLists;
+      for (var i = 0; i < temp.length; i++) {
+        // searching input value in search box
+        if (temp[i].toLowerCase().includes(value.toLowerCase())) {
+          filteredLists = this.searchResult.value.filter(
+            item => item !== temp[i]
+          );
+          filteredLists.unshift(temp[i]);
+          filteredLists = Array.from(new Set(filteredLists));
+          this.searchResult.value = filteredLists;
+        }
+      }
       this.searchResult.show = true;
     } else {
       this.searchResult.show = false;
@@ -286,12 +368,51 @@ export class MonthlyActiveStudentsReport implements OnInit {
   }
 
   selectFilter(value) {
+    this.selectFilterTemp.push(value);
     this.filter.value.push(value);
     this.searchResult.show = false;
     this.searchResult.value = this.searchResult.value.filter(e => e !== value);
   }
   applyFilters() {
     this.showReport();
+    // this.getfilteredData(this.monthlyActiveData);
+    this.modalReference.close();
+  }
+
+  cancelModal() {
+    for (var i = 0; i < this.selectFilterTemp.length; i++) {
+      this.filter.value = this.filter.value.filter(
+        e => e !== this.selectFilterTemp[i]
+      );
+      this.searchResult.value.push(this.selectFilterTemp[i]);
+    }
+    for (var i = 0; i < this.removeFilterTemp.length; i++) {
+      this.filter.value.push(this.removeFilterTemp[i]);
+      this.searchResult.value = this.searchResult.value.filter(
+        e => e !== this.removeFilterTemp[i]
+      );
+    }
+    if (this.updateFilterTemp.value.length) {
+      this.filter.value = [];
+      for (var i = 0; i < this.updateFilterTemp.value.length; i++) {
+        this.filter.value.push(this.updateFilterTemp.value[i]);
+      }
+      this.filter.type = this.updateFilterTemp.type;
+    }
+    switch (this.filter.type) {
+      case 'category':
+        this.filterModel = 'Category';
+        break;
+      case 'coursePlan':
+        this.filterModel = 'Course Plan';
+        break;
+      case 'course':
+        this.filterModel = 'Course Name';
+        break;
+      case 'location':
+        this.filterModel = 'Location';
+        break;
+    }
     this.modalReference.close();
   }
 }

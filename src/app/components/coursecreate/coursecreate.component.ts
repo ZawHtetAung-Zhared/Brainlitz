@@ -26,7 +26,7 @@ import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 
 declare var $: any;
@@ -38,7 +38,10 @@ declare var $: any;
 })
 export class CoursecreateComponent implements OnInit {
   @ViewChild('content') modalContent: TemplateRef<any>;
+  public accessToken = localStorage.getItem('token');
+  public tokenType = localStorage.getItem('tokenType');
   public regionID = localStorage.getItem('regionId');
+  public sparkWerkzRegion: boolean = false;
   public currentLocation = localStorage.getItem('locationId');
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
@@ -135,6 +138,7 @@ export class CoursecreateComponent implements OnInit {
   public rolloverCId: any;
   public modalReference: any;
   public courseType: any;
+  public sparkWerkzCourse: boolean = false;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -146,18 +150,19 @@ export class CoursecreateComponent implements OnInit {
     private _service: appService,
     private router: Router,
     private config: NgbDatepickerConfig,
-    public toastr: ToastsManager,
+    // public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private _eref: ElementRef,
     private dataService: DataService
-  ) {
-    this.toastr.setRootViewContainerRef(vcr);
-  }
+  ) {}
+
   test;
   ngOnInit() {
     console.log('CPLan', this.coursePlan);
     console.log('CourseID', this.course);
     console.log('Currency', this.currency);
+    this.getRegionInfo();
     // this.isChecked = 'end';
     this.isSelected = 'AM';
     this.rangeHr = '0';
@@ -251,6 +256,17 @@ export class CoursecreateComponent implements OnInit {
       }
     }
   }
+
+  getRegionInfo() {
+    //get region info for SparkWerkz flag true/false
+    this._service
+      .getRegionalAdministrator(this.regionID, this.accessToken, this.tokenType)
+      .subscribe((res: any) => {
+        this.sparkWerkzRegion = res.sparkWerkz;
+        console.log('sparkWerkzRegion', this.sparkWerkzRegion);
+      });
+  }
+
   //check tax for course create
   checkTaxForCreate() {
     if (this.feesOptions != undefined && this.taxOptions == undefined) {
@@ -341,13 +357,13 @@ export class CoursecreateComponent implements OnInit {
   showDraftCourse(cId, type) {
     console.log('Function Works');
     this.getAllLocations();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getSingleCourse(cId, this.currentLocation)
       .subscribe((res: any) => {
         console.log('Course Detail', res);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         this.model = res;
         this.courseFeess = res.paymentPolicy.courseFee;
@@ -400,6 +416,11 @@ export class CoursecreateComponent implements OnInit {
             this.endOptChecked = 'end';
           }
           this.timeOptChecked = 'hideTimeSlot';
+        }
+        if (this.sparkWerkzRegion == true) {
+          this.sparkWerkzCourse = this.model.sparkWerkz.sparkWerkzCourse;
+        } else {
+          this.sparkWerkzCourse == false;
         }
         this.model.location = this.model.location.name;
         this.locationId = this.model.locationId;
@@ -528,13 +549,13 @@ export class CoursecreateComponent implements OnInit {
   rolloverCourse(cId, type) {
     console.log('Function Works');
     this.getAllLocations();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getSingleCourse(cId, this.currentLocation)
       .subscribe((res: any) => {
         console.log('Course Detail', res);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         this.endOptChecked = 'end';
         this.model = res;
@@ -837,12 +858,19 @@ export class CoursecreateComponent implements OnInit {
 
   backToCourses(ToCourses, cId) {
     // console.log('backtocourse')
-    console.log('cID');
+    console.log('cID', cId);
+    console.log('conflitCourseId~~~', this.conflitCourseId);
+    console.log('cPlanId', this.planId);
     console.log('backToCourses works');
     if (this.isEdit == true) {
       console.log('this.isEdit', this.isEdit);
       console.log('backtocourseDetail');
-      this._service.backCourseDetail();
+      if (cId == '') {
+        this.router.navigate(['/coursedetail', this.conflitCourseId]);
+      } else {
+        this.router.navigate(['/coursedetail', cId]);
+      }
+      // this._service.backCourseDetail();
     } else {
       console.log('this.isEdit===', this.isEdit);
       if (this.coursePlan != null) {
@@ -852,25 +880,32 @@ export class CoursecreateComponent implements OnInit {
           this.router.navigate(['course/']);
           console.log(cId);
           this.dataService.nevigateCDetail(cId);
+          // this.dataService.navagateActivePlan(this.planId)
         } else if (
           (this.coursePlan.from == 'courses' && ToCourses == '') ||
           (this.coursePlan.from = 'schedule' && ToCourses == 'back') ||
           (this.coursePlan.from = 'courses' && ToCourses == 'back')
         ) {
-          console.log('backtocourse');
-          this._service.backCourse();
+          console.log('backtocourse && courseplan', this.coursePlan);
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       } else {
-        console.log('this.coursePlan == null');
+        console.log('this.coursePlan == null', this.coursePlan);
         console.log('backtocourse');
         if (this.course.type == 'rollover') {
           // this.enrollUser(this.course.courseId,this.course.userId);
           // this.router.navigate(['/customer']);
           // this.dataService.nevigateCustomer(this.course.userId);
           // this._service.backCourse();
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         } else {
-          this._service.backCourse();
+          // this._service.backCourse();
+          this.router.navigate(['/course']);
+          this.dataService.navagateActivePlan(this.planId);
         }
       }
     }
@@ -922,6 +957,21 @@ export class CoursecreateComponent implements OnInit {
     this.isthereLC = val == '' ? false : true;
     console.log(this.isthereLC);
     this.numberOnly(e);
+    this.twoDigitOnly(e);
+  }
+
+  public numberLength = 0;
+  twoDigitOnly(event) {
+    this.numberOnly(event);
+    this.numberLength = event.target.value.length;
+    if (event.target.value.length > 2) {
+      event.target.value = event.target.value.slice(0, 2);
+      this.numberLength = event.target.value.length;
+      console.log('~~~~~~~~~~~', event.target.value);
+      // this.showMsgForLesssonCount = true
+    } else {
+      // this.showMsgForLesssonCount = false
+    }
   }
 
   chooseOpt(optType, itemType) {
@@ -962,26 +1012,51 @@ export class CoursecreateComponent implements OnInit {
     // chooseOpt function for including flexi and onlinecourse UI
     switch (optType) {
       case 'endOpt':
+        console.log(
+          'chooseOpt',
+          optType,
+          ',endOptChecked',
+          itemType,
+          'tempVar',
+          this.tempVar
+        );
+        console.log(
+          'model.lCount',
+          this.model.lessonCount,
+          '& model.endDate',
+          this.model.end,
+          '& model.defaultLessons',
+          this.model.defaultlessonCount
+        );
         this.endOptChecked = itemType;
-        if (this.tempVar) {
-          if (this.tempVar == this.endOptChecked) {
-            console.log(
-              'Draft Choose',
-              this.tempVar,
-              '& temp value',
-              this.tempValue
-            );
-            // console.log("model.lCount",this.model.lessonCount,'& model.endDate',this.model.end)
-            if (this.tempVar == 'end') {
-              this.model.end = this.tempValue;
-              this.model.lessonCount = '';
-            } else {
-              this.model.lessonCount = this.tempValue;
-              this.model.end = '';
-            }
+        if (this.tempVar == this.endOptChecked) {
+          console.log(
+            'Draft Choose',
+            this.tempVar,
+            '& temp value',
+            this.tempValue
+          );
+          console.log(
+            'model.lCount',
+            this.model.lessonCount,
+            '& model.endDate',
+            this.model.end
+          );
+          if (this.tempVar == 'end') {
+            this.model.end = this.tempValue;
+            this.model.lessonCount = '';
+            this.model.defaultlessonCount = '';
+          } else if (this.tempVar == 'lesson') {
+            this.model.lessonCount = this.tempValue;
+            this.model.end = '';
+            this.model.defaultlessonCount = '';
+          } else {
+            this.model.defaultlessonCount = this.tempValue;
+            this.model.lessonCount = '';
+            this.model.end = '';
           }
         } else {
-          // console.log("CREATE");
+          console.log('CREATE~~~~~~');
           if (this.endOptChecked == 'end') {
             this.model.lessonCount = '';
             this.model.defaultlessonCount = '';
@@ -1003,7 +1078,7 @@ export class CoursecreateComponent implements OnInit {
 
       case 'timeOpt':
         // this.timeOptChecked = itemType;
-        console.log(this.timeOptChecked);
+        console.log('timeOpt', this.timeOptChecked);
         if (itemType == 'showTimeSlot') {
           this.timeOptChecked = 'hideTimeSlot';
         } else {
@@ -1097,6 +1172,12 @@ export class CoursecreateComponent implements OnInit {
     }
   }
   closeDropdown(event, type, datePicker?) {
+    // console.log(
+    //   'exit here close drop down',
+    //   event.target.className.includes('dropD')
+    // );
+    // console.log(event.target.className);
+    // console.log(datePicker);
     // if(event.path){
     //   if(type == 'feeOpt'){
     //     var parentWrap = event.path.filter(function(res){
@@ -1165,16 +1246,19 @@ export class CoursecreateComponent implements OnInit {
       // if(datePicker)
       //   datePicker.close();
     } else {
-      // console.log("##########",event.target.className)
+      // console.log('##########', event.target.className);
       this.searchMenuShow = false;
       // if (type == "start")
       //   datePicker.close();
       // else if (type== 'end')
       //   datePicker.close();
       if (type == 'start' || type == 'end') {
+        // console.log('exit');
         if (event.target.offsetParent == null) {
+          // console.log('exit if');
           datePicker.close();
         } else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER') {
+          // console.log('exit else');
           datePicker.close();
         }
       }
@@ -1374,10 +1458,23 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
+  searchStart(e) {
+    if (e.keyCode == 13) {
+      console.log('search start');
+      this.searchKeyword(e.target.value);
+    }
+  }
+
   changeInputMethod(searchWord) {
     // console.log(this.detailLists.locationId)
     // console.log(searchWord)
     // let locationId = this.detailLists.locationId;
+    if (searchWord.length == 0) {
+      this.searchKeyword(searchWord);
+    }
+  }
+
+  searchKeyword(searchWord) {
     console.log('searchword', searchWord);
     if (searchWord == '') {
       console.log('NULL');
@@ -1442,13 +1539,13 @@ export class CoursecreateComponent implements OnInit {
   }
 
   getAllUsers(type) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, 20, 0).subscribe(
       (res: any) => {
         this.userLists = res;
         console.log('this.userLists', this.userLists);
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
       },
       err => {
@@ -1569,7 +1666,8 @@ export class CoursecreateComponent implements OnInit {
       quizwerkz: [],
       description: this.model.description,
       skipLessons: JSON.stringify(this.skipArr),
-      ignoreLessons: JSON.stringify(this.ignoreArr)
+      ignoreLessons: JSON.stringify(this.ignoreArr),
+      sparkWerkzCourse: this.sparkWerkzCourse
     };
 
     if (this.chooseFee != '') {
@@ -1680,6 +1778,7 @@ export class CoursecreateComponent implements OnInit {
       console.log('Not First Time');
       console.log('Course Type', this.model.type);
       console.log(this.model.end, this.model.lessonCount, this.flexiOn);
+      this.defineType();
       if (this.timeOptChecked == 'showTimeSlot') {
         // flexy and regular
         if (this.model.end && this.endOptChecked == 'end') {
@@ -1899,6 +1998,7 @@ export class CoursecreateComponent implements OnInit {
       flexy = true;
     }
 
+    console.log(this.courseObj['type']);
     console.log('Course', this.courseObj);
     console.log('course model', this.model);
     this.blockUI.start('Loading...');
@@ -1915,7 +2015,7 @@ export class CoursecreateComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (res.status === 201) {
             this.toastr.success('You have no conflict.');
             this.addCheck = false;
@@ -1929,7 +2029,11 @@ export class CoursecreateComponent implements OnInit {
             }, 300);
             localStorage.removeItem('coursePlanId');
             localStorage.removeItem('splan');
-            if (this.course) {
+            console.error(this.scheduleObj);
+            if (this.scheduleObj != null) {
+              // this.router.navigate(['schedule/']);
+              this.dataService.backToScheduleTable(true);
+            } else if (this.course) {
               if (this.course.type == 'rollover') {
                 console.log('RES', res);
                 let createdId = res.body.courseId;
@@ -1952,7 +2056,7 @@ export class CoursecreateComponent implements OnInit {
         err => {
           console.log(err);
           console.log(err.status);
-          this.blockUI.stop();
+          //this.blockUI.stop();
           if (err.status == 409) {
             console.log('course model', this.model);
             console.log(this.model.end);
@@ -1993,24 +2097,34 @@ export class CoursecreateComponent implements OnInit {
               );
               // this.toastr.error("Please choose the end date again that should be later than the first one");
               this.toastr.error('please choose end date or lesson count');
-            } else if (
-              err.error.message ==
-              'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE NEEDED'
-            ) {
-              console.log('...');
-              // this.toastr.error("Please choose the end date again that should be later than the first one");
-              this.toastr.error(err.error.message);
-            } else {
-              this.toastr.error('Create Fail');
-            }
+            } else this.toastr.error(err.error.message);
+            // else if (
+            //   err.error.message ==
+            //   'LESSON COUNT,END DATE,START DATE AND REPEATDAYS ARE REQUIRED'
+            // ) {
+            //   console.log('...');
+            //   // this.toastr.error("Please choose the end date again that should be later than the first one");
+            //   this.toastr.error(err.error.message);
+            // } else {
+            //   this.toastr.error('Create Fail');
+            // }
           }
         }
       );
   }
 
   defineType() {
+    console.log(
+      'endOptChecked',
+      this.endOptChecked,
+      ' & timeOptChecked ',
+      this.timeOptChecked
+    );
     if (this.timeOptChecked == 'showTimeSlot') {
-      if (this.model.defaultlessonCount) {
+      if (
+        this.model.defaultlessonCount &&
+        this.endOptChecked == 'defaultLesson'
+      ) {
         console.log('FLEXY~~~~~', this.timeOptChecked);
         this.courseObj['type'] = 'FLEXY';
       } else {
@@ -2096,17 +2210,17 @@ export class CoursecreateComponent implements OnInit {
   //     this.courseObj["courseFee"] = this.chooseFee;
   //   }
   //   console.log('update CourseObj',this.courseObj);
-  //   this.blockUI.start('Loading...');
+  //   //this.blockUI.start('Loading...');
   //   this._service.updateCourse(this.conflitCourseId,this.courseObj, this.currentLocation)
   //   .subscribe((res:any)=>{
   //     console.log(res);
-  //     this.blockUI.stop();
+  //     //this.blockUI.stop();
   //     this.backToCourses('');
   //     setTimeout(() => {
   //       this.toastr.success('Successfully Created.');
   //     }, 300);
   //   },err=>{
-  //     this.blockUI.stop();
+  //     //this.blockUI.stop();
   //     setTimeout(() => {
   //       this.toastr.error('Update Fail');
   //     }, 300);
@@ -2334,6 +2448,11 @@ export class CoursecreateComponent implements OnInit {
     } else {
       this.flexiOn = false;
     }
+  }
+
+  isSparkWerkzCourse(sparkWerkzCourse) {
+    this.sparkWerkzCourse = !sparkWerkzCourse;
+    console.log('sparkWerkzCourse~~~', this.sparkWerkzCourse);
   }
 
   //for rollover

@@ -571,6 +571,7 @@ min-width: 40px;
   padding: 20px 20px 20px 20px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  margin: 4px;
 }
 
 .calendar-part .calendarbtn {
@@ -622,6 +623,7 @@ min-width: 40px;
   background: #ffffff;
   border-left: none;
   cursor: pointer;
+  padding: 0;
 }
 .leave-list-name {
   color: #2e3d4d;
@@ -871,7 +873,6 @@ span.bold-txt {
 span.leave-text {
   font-family: 'Inter-UI-SemiRegular', Arial, sans-serif;
 }
-
 p.left-txt {
   color: #009940;
   font-size: 16px;
@@ -1082,6 +1083,7 @@ p.left-txt {
   position: fixed;
   bottom: 0;
   width: 100%;
+  z-index: 4;
 }
 
 .modal-footer {
@@ -1092,7 +1094,10 @@ p.left-txt {
   font-size: 28px;
   color: #2e3d4d;
 }
-
+.data-scroll {
+  overflow: auto;
+  height: 66px;
+}
 .date-wrap {
   background: #cce5ff;
   border-radius: 50px;
@@ -1161,6 +1166,9 @@ p.left-txt {
   padding: 0px 15px;
   border-radius: 4px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  background: white;
+  position: relative;
+  z-index: 5;
 }
 
 .result-name {
@@ -1271,11 +1279,23 @@ p.left-txt {
   width: 100%;
 }
 .scroll-main-wrapper {
-  overflow: overlay;
-  max-height: 550px;
+  /* overflow: overlay; */
+  max-height: 640px;
   /* width: 50%; */
   flex-grow: 0.1;
 }
+
+@-moz-document url-prefix() {
+  .leave-day-list,
+  .scroll-main-wrapper,
+  .assign-modal-body,
+  .leave-type-listing,
+  .result-wrapper,
+  .skip-lessons-exit {
+    overflow: auto;
+  }
+}
+
 .skip-lessons-part {
   /* width: 50%; */
   /* display: flex; */
@@ -1328,4 +1348,49 @@ p.left-txt {
 .cancel-icon-wrap div {
   float: right;
   cursor: pointer;
+}
+
+@media screen and (max-height: 768px) {
+  .main-openleave {
+    max-height: 500px;
+    overflow: unset;
+  }
+  .scroll-main-wrapper,
+  .skip-lessons-exit {
+    max-height: 380px;
+  }
+}
+
+.teacher-text {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #64707d;
+}
+
+.conflict-text {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #e66000;
+  padding-left: 5px;
+}
+
+.circleExclamation {
+  width: 17px;
+  height: 17px;
+  border: solid 2px #f26500;
+  border-radius: 50%;
+  font-size: 10px;
+  color: #f26500;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.conflict-box {
+  padding-bottom: 20px;
 }

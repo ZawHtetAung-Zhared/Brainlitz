@@ -1,7 +1,7 @@
 <div class="modal-wrap">
   <div class="assign-modal-header" *ngIf="!scheduleRelief">
     <div class="d-flex justify-content-between w-100">
-      <h4 class="assignmodal-title">Assign Relief Teacher</h4>
+      <h4 class="assignmodal-title">Assign relief teacher</h4>
       <button class="closeBtn" (click)="cancelModal('relief')">
         <img src="assets/img/removeIcon.png" />
       </button>
@@ -25,9 +25,11 @@
         name="searchInput"
         placeholder="Search teacher..."
         class="input-search"
-        (input)="searchMethod($event.target.value, 'staff')"
+        (input)="searchMethod2($event.target.value, 'staff')"
+        (keyup.enter)="searchMethod($event.target.value, 'staff')"
         (focus)="focusSearch($event, 'focusOn')"
         (focusout)="focusSearch($event, 'focusOut')"
+        (blur)="focusSearch($event, 'blur')"
         [(ngModel)]="searchKeyword"
         #tsearch="ngModel"
         autocomplete="off"
@@ -117,7 +119,7 @@
     </div>
   </div>
   <div class="d-flex modal-footer assign-modal-footer">
-    <button class="btn bg-white" (click)="cancelModal()">
+    <button class="btn btn-cancel" (click)="cancelModal()">
       Cancel
     </button>
     <button

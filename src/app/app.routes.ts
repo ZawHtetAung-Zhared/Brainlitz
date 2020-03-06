@@ -165,11 +165,14 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
+<<<<<<< HEAD
     path: 'timetable',
     component: TimetableComponent,
     canActivate: [LoggedInGuard]
   },
   {
+=======
+>>>>>>> master
     path: '**',
     component: PagenotfoundComponent
   }

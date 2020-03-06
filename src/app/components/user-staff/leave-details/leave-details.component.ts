@@ -3,7 +3,9 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  HostListener
+  HostListener,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import {
   NgbModalRef,
@@ -12,6 +14,7 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalSecondary } from 'ng-bootstrap-modal-stack';
 import {
   startOfDay,
   endOfDay,
@@ -71,6 +74,8 @@ const colors: any = {
 })
 export class LeaveDetailsComponent implements OnInit, OnDestroy {
   @Input() staffObj: any;
+  @Output() showLoading = new EventEmitter();
+
   loading: boolean = false;
   public leaveLogsLoading = true;
   public userLeave = [];
@@ -125,10 +130,13 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   };
   skipLessonsCount: any = 0;
   actualSkipLessons: any = 0;
+  public isConflict: boolean = false;
+  public isSingleLeave: boolean = false;
 
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
+    private modalSecondaryService: NgbModalSecondary,
     private datePipe: DatePipe,
     private toastr: ToastsManager,
     private leaveService: LeaveService
@@ -178,7 +186,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   getUserLeaves(userId) {
+    console.warn(userId, 'id');
+    console.warn(this.leaveLogsLoading);
     this.totalLeaveDay = 0;
+    // this.showLoading.emit(false);
     this._service.getUserLeaveDetails(this.regionID, userId).subscribe(
       (res: any) => {
         res.leaves.map(leave => {
@@ -191,6 +202,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.leaveLogsLoading = false;
         }, 1000);
+        // this.showLoading.emit(true);
       },
       err => {
         console.error(err);
@@ -257,6 +269,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
   public dateIndex;
   cancelClassModal(cancelClass, skipCourses, type, index, i) {
+    console.warn('cancel lesson', skipCourses);
+    console.warn(this.skipCourseArr, 'skip course');
     this.cancelReason = '';
     this.giveMakeUp = false;
     this.cancelClassArray = [];
@@ -282,9 +296,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         });
       });
     }
-
+    console.warn(totalCount, 'total ');
     this.studentCount = totalCount;
-    this.cancelModalReference = this.cancelClassModalService.open(cancelClass, {
+    this.cancelModalReference = this.modalSecondaryService.open(cancelClass, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -293,6 +307,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //start leave modal
   openLeaveModal(openLeave) {
+    // this.showLoading.emit(true);
     this.viewDate = new Date();
     this.getleaveforuser();
     this.selectedDays = [];
@@ -500,7 +515,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
           this.calculateSkipLessons(this.skipCourseArr);
           this.loading = false;
           // }
-          console.log(this.skipCourseArr);
+          console.log(this.skipCourseArr, this.selectedDays);
         },
         err => {}
       );
@@ -520,7 +535,10 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       );
       this.skipLessonsCount = this.skipLessonsCount + skipCourse.courses.length;
       skipCourse.courses.map(course => {
-        if (course.lessons[0].cancel == true) {
+        if (
+          course.lessons[0].cancel == true ||
+          course.lessons[0].makeup == true
+        ) {
           tempLCount = tempLCount + course.lessons.length;
         } else {
           this.actualSkipLessons = this.skipLessonsCount;
@@ -534,7 +552,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
 
   //to get leave taken day by one month
   getleaveforuser() {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let tempArr = [];
     let res = this.viewDate;
     //this for to get start and end date for current months
@@ -632,7 +650,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         // console.log(tempArr);
 
         this.events = tempArr;
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(this.events);
       },
       err => {}
@@ -747,7 +765,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         conTainer1.style.overflow = 'hidden';
         mainWrapper.style.overflow = 'hidden';
       }
-    }, 30);
+    }, 20);
   }
 
   selectedLeave: any = { id: 0, name: 'Full Day' };
@@ -770,6 +788,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     this.showRelief = true;
   }
   createLeave(selectedDays, skipCourses) {
+    this.modalReference.close();
+    this.leaveLogsLoading = true;
     let regionId = localStorage.getItem('regionId');
     let leaveObj = {};
     leaveObj = {
@@ -879,8 +899,9 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   //end leave modal
 
   //for assign relief and cancel class UI
+
   assignReliefTeacher(modalName, data, date, dateLevelIdx, courseIdx) {
-    this.reliefModalReference = this.cancelClassModalService.open(modalName, {
+    this.reliefModalReference = this.modalSecondaryService.open(modalName, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
@@ -892,6 +913,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       this.reliefObj.dateLevelIdx = '';
       this.reliefObj.courseIdx = '';
       this.modalCourseData = data;
+      this.isSingleLeave = false;
       console.log('for all', this.modalCourseData);
     } else {
       // clicked assignRelife btn for single courses
@@ -904,6 +926,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
       };
       obj.courses.push(data);
       this.modalCourseData.push(obj);
+      this.isSingleLeave = true;
       console.log('for single', this.modalCourseData);
     }
   }
@@ -938,6 +961,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
         });
     }
   }
+  searchMethod_input(keyword) {
+    if (keyword == 0) {
+      this.searchTeacherLists = [];
+    }
+  }
 
   focusSearch(e, type) {
     if (type == 'focusOn') {
@@ -952,6 +980,7 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSelectTeacher(data) {
+    this.isConflict = false;
     console.log('onSelectTeacher', this.skipCourseArr);
     this.selectedTeacher = data;
     this.conflictLessonArr = [];
@@ -969,6 +998,8 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
             .subscribe(
               (res: any) => {
                 console.log('conflict lessons', res);
+                if (res.courses.length > 0 && this.isConflict == false)
+                  this.isConflict = true;
                 this.conflictLessonArr.push(res);
                 console.log('conflictLessonArr', this.conflictLessonArr);
               },

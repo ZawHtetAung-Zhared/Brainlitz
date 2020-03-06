@@ -1,4 +1,4 @@
-<h3 class="pd-lft-15">Staff Performance</h3>
+<h3 class="pd-lft-15">Staff performance</h3>
 <div class="pd-lft-15 report-content">
   <div class="row">
     <div class="report-time-range d-flex flex-column col-md-4">
@@ -51,7 +51,7 @@
   >
     <div style="padding:15px;">
       <button class="btn btn-filter" (click)="showFilterModal(filterFields)">
-        Filter Fields
+        Filter fields
       </button>
     </div>
     <div
@@ -102,18 +102,18 @@
 
 <ng-template #filterFields let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title " id="modal-basic-title">Filter Fields</h3>
+    <h3 class="modal-title " id="modal-basic-title">Filter fields</h3>
     <button
       type="button"
       class="close"
       aria-label="Close"
-      (click)="modalReference.close()"
+      (click)="cancelModal()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="slt-rpt-filter rpt-input-title">Select Filter</div>
+    <div class="slt-rpt-filter rpt-input-title">Select filter</div>
     <div class="pd-top-15">
       <select
         id="filterType"
@@ -162,7 +162,7 @@
         {{ selectedItem }}
         <div
           class="remove-selected-filter"
-          (click)="removeCurrentFilter(selectedItem)"
+          (click)="removeCurrentFilterForModal(selectedItem)"
         >
           <span>-</span>
         </div>
@@ -174,10 +174,7 @@
       <button class="btn btn-primary confirm-filter" (click)="applyFilters()">
         Confirm
       </button>
-      <button
-        class="btn btn-default cancel-filter"
-        (click)="modalReference.close()"
-      >
+      <button class="btn btn-default cancel-filter" (click)="cancelModal()">
         Cancel
       </button>
     </div>

@@ -123,39 +123,61 @@ export class LoginComponent implements OnInit {
       console.warn(localStorage.getItem('redirectURL'));
       // localStorage.removeItem('OrgId')
       console.log(str_res);
-      str_res = str_res == 'staging-brainlitz-web' ? 'stgbl-cw1' : str_res;
+
+      switch (str_res) {
+        case 'staging-brainlitz-web':
+          str_res = 'classwerkz';
+          break;
+        case 'beta-classwerkz-web':
+          str_res = 'classwerkz';
+          break;
+        case 'dev-brainlitz-web':
+          str_res = 'stgbl-cw1';
+          break;
+        default:
+          str_res = str_res;
+          break;
+      }
+      //     : str_res;
+      // str_res =
+      //   str_res == 'staging-brainlitz-web' || 'dev-brainlitz-web'
+      //     ? 'stgbl-cw1'
+      //     : str_res;
       this.getOrgKey(str_res);
     }
   }
 
   getOrgKey(orgCode) {
+    console.log('environmentName~~~', environment.environmentName);
     console.log(this.host);
-    this._service.getOrgCredentials(orgCode, this.host).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.islogin = true;
-        localStorage.setItem('OrgId', res.orgId);
-        localStorage.setItem('OrgLogo', res.logo);
-        localStorage.setItem('clientId', res.clientId);
-        localStorage.setItem('clientSecret', res.clientSecret);
-        localStorage.setItem('favicon', res.favicon);
-        var id = 'appFavicon';
-        var basepath = localStorage.getItem('redirectURL');
-        this.document
-          .getElementById('appFavicon')
-          .setAttribute('href', res.favicon);
-        console.log(res.logo);
-        this.clientId = res.clientId;
-        this.clientSecret = res.clientSecret;
-        this.loginUrl = this.loginUrl + res.orgId;
-        this.noOrginExit = false;
-      },
-      err => {
-        console.log(err);
-        console.log(err.error.message);
-        this.noOrginExit = true;
-      }
-    );
+    this._service
+      .getOrgCredentials(orgCode, this.host, environment.environmentName)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.islogin = true;
+          localStorage.setItem('OrgId', res.orgId);
+          localStorage.setItem('OrgLogo', res.logo);
+          localStorage.setItem('clientId', res.clientId);
+          localStorage.setItem('clientSecret', res.clientSecret);
+          localStorage.setItem('favicon', res.favicon);
+          var id = 'appFavicon';
+          var basepath = localStorage.getItem('redirectURL');
+          this.document
+            .getElementById('appFavicon')
+            .setAttribute('href', res.favicon);
+          console.log(res.logo);
+          this.clientId = res.clientId;
+          this.clientSecret = res.clientSecret;
+          this.loginUrl = this.loginUrl + res.orgId;
+          this.noOrginExit = false;
+        },
+        err => {
+          console.log(err);
+          console.log(err.error.message);
+          this.noOrginExit = true;
+        }
+      );
   }
 
   generateRandom() {

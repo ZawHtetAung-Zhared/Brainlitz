@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { Response, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+import 'rxjs/add/observable/fromEvent';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
@@ -58,6 +59,12 @@ export class appService {
   goCourseDetail: Observable<any>;
   private backCDetail = new Subject<any>();
 
+  goCourseDetail1: Observable<any>;
+  private backCDetail1 = new Subject<any>();
+
+  goCourseDetail2: Observable<any>;
+  private backCDetail2 = new Subject<any>();
+
   goPlanDetail: Observable<any>;
   private backCPdetail = new Subject<any>();
 
@@ -88,6 +95,8 @@ export class appService {
     this.goCourse = this.backCo.asObservable();
     this.goCourseCreate = this.backCC.asObservable();
     this.goCourseDetail = this.backCDetail.asObservable();
+    this.goCourseDetail1 = this.backCDetail1.asObservable();
+    this.goCourseDetail2 = this.backCDetail2.asObservable();
     this.goPlanDetail = this.backCPdetail.asObservable();
     this.lnameChanges = this.lnameUpdated.asObservable();
     this.goSchedule = this.backSc.asObservable();
@@ -125,6 +134,14 @@ export class appService {
 
   backCourseDetail() {
     this.backCDetail.next(false);
+  }
+
+  backCourseDetail1() {
+    this.backCDetail1.next(false);
+  }
+
+  backCourseDetail2() {
+    this.backCDetail2.next(false);
   }
 
   backPlanDetail() {
@@ -228,9 +245,14 @@ export class appService {
     });
   }
 
-  getOrgCredentials(orgCode, hostName) {
+  getOrgCredentials(orgCode, hostName, envName) {
     console.log(hostName);
-    let url = this.baseUrl1 + '/organization-credentials/' + orgCode;
+    let url =
+      this.baseUrl1 +
+      '/organization-credentials/' +
+      orgCode +
+      '?env=' +
+      envName;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -386,6 +408,21 @@ export class appService {
       .map((res: Response) => {
         let result = res;
         console.log(result);
+        return result;
+      });
+  }
+
+  updatePayNowPayment(regionId: string, body: object) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/payNow-invoice';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .put(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
         return result;
       });
   }
@@ -745,6 +782,7 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
@@ -797,7 +835,7 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      console.log(result);
+      console.log('staff journal app', result);
       return result;
     });
   }
@@ -827,6 +865,20 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+  getNotiList(id: string, status: string) {
+    let apiUrl = this.baseUrl + '/regions/' + id + '/journals?status=' + status;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('res', res);
       return result;
     });
   }
@@ -1408,6 +1460,38 @@ export class appService {
     });
   }
 
+  getCourseplanCollection(regionId, locationId, keyword) {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans?locationId=' +
+        locationId +
+        '&keyword=' +
+        keyword;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   getSearchCoursePlan(
     id: string,
     location: string,
@@ -1756,9 +1840,13 @@ export class appService {
     console.log(categoryIDArray);
     let url =
       this.baseUrl + '/' + regionID + '/course?locationId=' + locationID;
-
+    console.error(repeatedDays, 'repeated days');
+    console.error(repeatedDays != '' || repeatedDays != undefined);
     url = keyword != undefined ? url + '&keyword=' + keyword : url;
-    url = repeatedDays != '' ? url + '&repeatedDays=' + repeatedDays : url;
+    url =
+      repeatedDays != '' && repeatedDays != undefined
+        ? url + '&repeatedDays=' + repeatedDays
+        : url;
     url = eventStart != null ? url + '&startDate=' + eventStart : url;
     url = eventEnd != null ? url + '&endDate=' + eventEnd : url;
     url =
@@ -1802,6 +1890,68 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
+  getCoursesPerPlan(
+    regionId,
+    locationId,
+    courseplanId,
+    limit,
+    skip,
+    page,
+    direction,
+    keyword
+  ): Observable<any> {
+    let url;
+    if (keyword == null || keyword == undefined) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/course_plans/' +
+        courseplanId +
+        '/courses?locationId=' +
+        locationId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip +
+        '&page=' +
+        page +
+        '&direction=' +
+        direction +
+        '&keyword=' +
+        keyword;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
       console.log(result);
@@ -1913,12 +2063,33 @@ export class appService {
     });
   }
 
+  getAttendance(courseid) {
+    let url;
+    url = this.baseUrl + '/courses/' + courseid + '/attendances';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    console.log('getAttendance works');
+    return this.httpClient.get(url, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
+
   getAssignUser(regionid, courseid, date, month, year) {
     let url;
     if (date == null && month == null && year == null) {
-      url = this.baseUrl + '/' + regionid + '/course/user/' + courseid;
-    } else {
       url =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/course/user/' +
+        courseid +
+        '?usergrade=1';
+    } else {
+      (url =
         this.baseUrl +
         '/' +
         regionid +
@@ -1929,7 +2100,8 @@ export class appService {
         '&month=' +
         month +
         '&year=' +
-        year;
+        year),
+        '&usergrade=1';
     }
 
     const httpOptions = {
@@ -3595,7 +3767,8 @@ export class appService {
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
-      return result;
+      console.log(res);
+      return res;
     });
   }
   getEvaluationExport(apg: any, regionId: string) {
@@ -3640,6 +3813,40 @@ export class appService {
 
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
+      return result;
+    });
+  }
+
+  updateGrading(userId, data, regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/users/' + userId + '/grading?courseId=' + courseId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(apiUrl, data, httpOptions).map((res: any) => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  getAllTasksInfo(regionId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/courses/' + courseId + '/tasks';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Here All Tasks');
+      console.log(result);
       return result;
     });
   }
@@ -3801,6 +4008,613 @@ export class appService {
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       let result = res;
       return result;
+    });
+  }
+  deleteLesson(courseID, lessonId) {
+    let url = this.baseUrl + `/courses/${courseID}/lessons/${lessonId}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  createNewLesson(id, obj) {
+    let url = this.baseUrl + `/courses/${id}/lessons/`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.post(url, obj, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  // reschedule lesson
+  updateLesson(courseId, lessonId, body) {
+    let url = this.baseUrl + '/courses/' + courseId + '/lessons/' + lessonId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.put(url, body, httpOptions).map((res: Response) => {
+      console.log(res);
+      return res;
+    });
+  }
+
+  // today lesson
+  gettodayLesson(regionId, locationid) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/today-lessons?locationId=' +
+      locationid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTeachingHours(regionId, startDate, endDate) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/staff/teachinghours?startDate=' +
+      startDate +
+      '&endDate=' +
+      endDate;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  autoEnroll(regionId, obj) {
+    let url =
+      this.baseUrl + '/' + regionId + '/course/user/user-autoenrollment';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.post(url, obj, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  journalDelete(regionId, journalId, coruseId, customerId) {
+    let url =
+      this.baseUrl +
+      `/regions/${regionId}/courses/${coruseId}/journals/${journalId}/delete-journal`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      }),
+      body: { customerId }
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('result', result);
+      return result;
+    });
+  }
+
+  setRandomPassword(regionId, data) {
+    let url = this.baseUrl + '/regions/' + regionId + '/user-random-password';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  //for auto enrollment setting
+  setAutoEnrol(regionId, data) {
+    let url = this.baseUrl + '/' + regionId + '/setting/autoEnrol';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.put(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  userArchive(data) {
+    let url =
+      this.baseUrl +
+      '/users/' +
+      `${localStorage.getItem('userId')}` +
+      '/archive-user';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  journalApprove(data) {
+    console.log('reached service jourapp');
+    let url =
+      this.baseUrl +
+      '/users/' +
+      `${localStorage.getItem('userId')}` +
+      '/journal-approve';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      console.log('test100', res);
+      return res;
+    });
+  }
+
+  singleApprove(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/approve-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+  HEAD;
+  singleReject(regionId, cId, jId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      cId +
+      '/journals/' +
+      jId +
+      '/reject-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  rejectAllMessage(regionId, body) {
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/reject-all-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  aproveAllMessage(regionId, body) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/approve-all-pending-journals';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        let result = res;
+        return result;
+      });
+  }
+
+  getNotificationHistory(regionId, userId) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/notification-history';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  deleteGrade(userId, gradeId) {
+    let url =
+      this.baseUrl +
+      '/users/' +
+      userId +
+      '/grades/' +
+      gradeId +
+      '/delete-grade';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getStandardClass() {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/standard-class-level';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignTasks() {
+    let apiUrl =
+      this.baseUrl + '/' + localStorage.getItem('regionId') + '/assign-tasks';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTemplateLists(standardId, courseId, searchData) {
+    let apiUrl;
+    console.log(searchData);
+    if (searchData) {
+      console.log('here');
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates?search=' +
+        searchData;
+    } else {
+      apiUrl =
+        this.baseUrl +
+        '/regions/' +
+        localStorage.getItem('regionId') +
+        '/' +
+        standardId +
+        '/' +
+        courseId +
+        '/templates';
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getsingleTemplate(templateId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/' +
+      templateId +
+      '/template';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getTaskBytemplate(templateId, startDate) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks?startDate=' +
+      startDate;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getsingletaskBytemplate(templateId, taskId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/templates/' +
+      templateId +
+      '/tasks/' +
+      taskId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getassignMode(id) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      localStorage.getItem('regionId') +
+      '/assign-modes/' +
+      id;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  createAssigntask(courseId, data): Observable<any> {
+    let url = this.baseUrl + '/courses/' + courseId + '/assign-course-task';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, data, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
+  getOverviewList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview data');
+      return result;
+    });
+  }
+
+  getOverviewMasteryList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/overview/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log('Overview Mastery data');
+      return result;
+    });
+  }
+
+  getMasteryReports() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      // '5dc292803161140e23b4de2d' +
+      localStorage.getItem('COURSEID') +
+      '/mastery-reports';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  getMasteryQuestion(masteryId) {
+    let apiUrl =
+      this.baseUrl +
+      '/courses/' +
+      // '5dc292803161140e23b4de2d' +
+      localStorage.getItem('COURSEID') +
+      '/masteries/' +
+      masteryId +
+      '/sample-quiz';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getQuestionbymastery(courseId, masteryId) {
+    let apiUrl =
+      this.baseUrl +
+      '/courses/' +
+      courseId +
+      '/masteries/' +
+      masteryId +
+      '/sample-quiz';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getMasteryDetailReport(masteryGroupId) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/courses/' +
+      localStorage.getItem('COURSEID') +
+      '/mastery-reports/mastery-groups/' +
+      masteryGroupId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
     });
   }
 }

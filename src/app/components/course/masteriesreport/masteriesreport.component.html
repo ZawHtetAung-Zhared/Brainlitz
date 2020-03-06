@@ -1,0 +1,89 @@
+<div class="d-flex flex-column">
+  <div class="d-flex align-items-center mt-4">
+    <span class="mastery-title">Mastery reports</span>
+    <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
+  </div>
+  <div
+    *ngIf="!masteriesReports && !noData"
+    class="d-flex justify-content-center pt-5 mt-5"
+  >
+    Not enough data to generate reports.
+  </div>
+  <div *ngIf="masteriesReports && !noData" class="d-flex flex-column">
+    <div *ngFor="let report of masteriesReports; let i = index">
+      <div class="d-flex">
+        <div class="mt-4 mb-4" style="width: 30%">
+          <div class="d-flex flex-column">
+            <span class="mastery-title">
+              {{ report.name }}
+            </span>
+            <span class="light-txt">
+              {{ report.masteries.length }} masteries
+            </span>
+            <button
+              class="btn-detail btn mt-4"
+              (click)="expandGraph(report._id)"
+              routerLinkActive="active"
+              routerLink="/masteriesdetail/{{ report._id }}"
+            >
+              View detail
+            </button>
+          </div>
+        </div>
+        <div
+          id="{{ report._id }}"
+          class="mt-4 mb-4 ml-2"
+          style="width:70%; min-height: 200px;"
+          (click)="expandGraph(report._id)"
+          routerLinkActive="active"
+          routerLink="/masteriesdetail/{{ report._id }}"
+        ></div>
+      </div>
+      <div *ngIf="i < masteriesReports.length - 1" class="split-line"></div>
+    </div>
+    <div class="footer d-flex justify-content-center align-items-center">
+      <div class="d-flex color-wrap">
+        <div class="color-box" style="background: #BF2926;"></div>
+        <span class="color-txt"> Struggling </span>
+      </div>
+      <div class="d-flex color-wrap">
+        <div class="color-box" style="background: #EDEEF0;"></div>
+        <span class="color-txt"> Not started </span>
+      </div>
+      <div class="d-flex color-wrap">
+        <div class="color-box" style="background: #D4D5D6;"></div>
+        <span class="color-txt"> Inconclusive </span>
+      </div>
+      <div class="d-flex color-wrap">
+        <div class="color-box" style="background: #6DC000;"></div>
+        <span class="color-txt"> Mastered w/ difficulties </span>
+      </div>
+      <div class="d-flex color-wrap">
+        <div class="color-box" style="background: #4FDD00;"></div>
+        <span class="color-txt"> Mastered w/ ease </span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="noData" class="d-flex">
+    <!-- left loading start -->
+    <div class="mt-4 mb-4" style="width: 30%">
+      <content-loader>
+        <svg:rect x="0" y="0" rx="0" ry="0" width="80%" height="25px" />
+        <svg:rect x="0" y="30" rx="0" ry="0" width="50%" height="20px" />
+        <svg:rect x="0" y="80" rx="15" ry="15" width="60%" height="50px" />
+      </content-loader>
+    </div>
+    <!-- left loading end -->
+    <!-- right loading start -->
+    <div class="mt-4 mb-4 ml-2" style="width:70%; min-height: 200px;">
+      <content-loader>
+        <svg:rect x="0" y="0" rx="0" ry="0" width="80%" height="15px" />
+        <svg:rect x="0" y="20" rx="0" ry="0" width="60%" height="10px" />
+        <svg:rect x="0" y="40" rx="0" ry="0" width="70%" height="20px" />
+      </content-loader>
+    </div>
+    <!-- right loading end -->
+  </div>
+</div>
+
+<router-outlet></router-outlet>

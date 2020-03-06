@@ -1,3 +1,4 @@
+import { KeyedWrite } from '@angular/compiler';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { appService } from '../../service/app.service';
 import {
@@ -44,12 +45,25 @@ export class AssignReliefComponent implements OnInit {
     );
   }
 
+  searchMethod2(keyword, usertype) {
+    if (keyword.length == 0) {
+      this.searchMethod(keyword, usertype);
+    }
+  }
+
   searchMethod(keyword, usertype) {
     if (keyword == 0) {
       this.searchTeacherLists = [];
     } else {
       this._service
-        .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
+        .getSearchUser(
+          this.regionID,
+          keyword,
+          usertype,
+          20,
+          0,
+          this.courseInfo._id
+        )
         .subscribe((res: any) => {
           console.log(res);
           this.searchTeacherLists = res;

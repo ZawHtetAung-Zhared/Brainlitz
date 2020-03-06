@@ -22,9 +22,10 @@ import {
   ModalDismissReasons,
   NgbDatepickerConfig
 } from '@ng-bootstrap/ng-bootstrap';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 import { Router } from '@angular/router';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 @Component({
   selector: 'app-user-staff',
@@ -32,8 +33,9 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./user-staff.component.css']
 })
 export class UserStaffComponent implements OnInit {
-  public returnProfile: boolean = false;
-  public isCrop: boolean = false;
+  private permissionSubscription: ISubscription;
+  public returnProfile = false;
+  public isCrop = false;
   public locationName: any;
   public permissionType: any;
   public staffPermission: any = [];
@@ -42,11 +44,11 @@ export class UserStaffComponent implements OnInit {
   public orgID = localStorage.getItem('OrgId');
   public regionID = localStorage.getItem('regionId');
   public staffLists: Array<any> = [];
-  showFormCreate: boolean = false;
-  isPasswordChange: boolean = false;
-  emailAlert: boolean = false;
-  public permissionCount: boolean = false;
-  public hideMenu: boolean = false;
+  showFormCreate = false;
+  isPasswordChange = false;
+  emailAlert = false;
+  public permissionCount = false;
+  public hideMenu = false;
   public img: any;
   public ulFile: any;
   public activeTab = 'Classes';
@@ -60,13 +62,13 @@ export class UserStaffComponent implements OnInit {
   cropperSettings1: CropperSettings;
   input: any;
   uploadCrop: any;
-  blankCrop: boolean = false;
-  validProfile: boolean = false;
-  isupdate: boolean = false;
-  imgDemoSlider: boolean = false;
-  isSticky: boolean = false;
-  public navIsFixed: boolean = false;
-  public isCreateFix: boolean = false;
+  blankCrop = false;
+  validProfile = false;
+  isupdate = false;
+  imgDemoSlider = false;
+  isSticky = false;
+  public navIsFixed = false;
+  public isCreateFix = false;
   // public atLeastOneMail: boolean = false;
   permissionId: any;
   editId: any;
@@ -74,26 +76,28 @@ export class UserStaffComponent implements OnInit {
   public wordLength: any = 0;
   public aboutTest = 'Owns Guitar & PianoOwns Guitar & PianoOwnsijii';
   public aboutTest1 = ' How your call you or like your preferred name kuiui';
-  public showStaffDetail: boolean = false;
+  public showStaffDetail = false;
   public staffDetail: any = {};
-  isSearch: boolean = false;
+  isSearch = false;
   searchword: any;
   usertype: any;
   result: any;
   public customFields: any = [];
   courseList: any = [];
   userId: string;
-  visited: boolean = false;
+  visited = false;
   staffObj: any = {};
+  public gtxtColor: any;
+  public gbgColor: any;
+
   constructor(
     private _service: appService,
     private cancelClassModalService: NgbModal,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router,
     private config: NgbDatepickerConfig
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     // customize default values of datepickers used by this component tree
     config.minDate = { year: 1950, month: 1, day: 1 };
   }
@@ -103,19 +107,29 @@ export class UserStaffComponent implements OnInit {
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
     }, 300);
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/staff') {
-        this.permissionType = data;
-        this.checkPermission();
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/staff') {
+          this.permissionType = data;
+          this.staffLists = [];
+          this.checkPermission();
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
     this.staffDetail = {
       user: {
-        about: ''
+        about: '',
+        journalApprove: ''
       }
     };
   }
@@ -149,6 +163,8 @@ export class UserStaffComponent implements OnInit {
 
     if (this.staffPermission.includes('VIEWSTAFFS') != false) {
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       this.getAllUsers('staff', 20, 0);
       this.getAllpermission();
     } else {
@@ -171,6 +187,7 @@ export class UserStaffComponent implements OnInit {
       (res: any) => {
         console.log('SingleUser', res);
         this.formFields = res;
+        this.formFields.permission = res.location[0].permissionId;
         this.isupdate = true;
         this.returnProfile = res.profilePic;
         // console.log('~~~', this.returnProfile)
@@ -199,6 +216,14 @@ export class UserStaffComponent implements OnInit {
     }
   }
 
+  userSearch2(searchWord, userType, limit, skip) {
+    this.searchword = searchWord;
+    console.log('I am in 2');
+    if (searchWord.length == 0) {
+      this.userSearch(searchWord, userType, limit, skip);
+    }
+  }
+
   userSearch(searchWord, userType, limit, skip) {
     this.searchword = searchWord;
     this.usertype = userType;
@@ -211,6 +236,7 @@ export class UserStaffComponent implements OnInit {
     }
 
     if (searchWord.length != 0) {
+      console.log(limit, skip);
       this.isSearch = true;
       this._service
         .getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
@@ -237,22 +263,23 @@ export class UserStaffComponent implements OnInit {
         this.staffLists = [];
         this.getAllUsers('staff', 20, 0);
         this.isSearch = false;
+        this.searchword = '';
       }, 300);
     }
   }
 
   getAllUsers(type, limit, skip) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllUsers(this.regionID, type, limit, skip).subscribe(
       (res: any) => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.result = res;
         this.staffLists = this.staffLists.concat(res);
         // this.staffLists = res;
         console.log('this.staffLists', this.staffLists);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -341,7 +368,11 @@ export class UserStaffComponent implements OnInit {
               this.date = '';
             }
           }
-          console.log(this.formFields.details);
+          console.log(
+            this.formFields.details,
+            this.customFields,
+            this.formFields.permission
+          );
         }
       }
     });
@@ -387,9 +418,11 @@ export class UserStaffComponent implements OnInit {
   }
 
   isValidateEmail($email) {
-    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/;
+    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/; //for test@amdon.com format
+    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9]{1,})$/; //for test@amdon format
     if ($email != '') {
-      return emailReg.test($email);
+      if (emailReg1.test($email)) return true;
+      else return emailReg.test($email);
     } else {
       return true;
     }
@@ -447,8 +480,8 @@ export class UserStaffComponent implements OnInit {
     }
     console.log('formFields details', this.formFields.details);
 
-    let objData = new FormData();
-    let locationObj = [
+    const objData = new FormData();
+    const locationObj = [
       { locationId: this.locationID, permissionId: obj.permission }
     ];
 
@@ -474,10 +507,9 @@ export class UserStaffComponent implements OnInit {
     if (state == 'create' || this.isPasswordChange == true) {
       objData.append('password', obj.password);
     }
-
+    objData.append('location', JSON.stringify(locationObj));
     if (state == 'create') {
-      objData.append('location', JSON.stringify(locationObj));
-      let getImg = document.getElementById('blobUrl');
+      const getImg = document.getElementById('blobUrl');
       this.img =
         getImg != undefined
           ? document.getElementById('blobUrl').getAttribute('src')
@@ -487,16 +519,16 @@ export class UserStaffComponent implements OnInit {
         objData.append('profilePic', this.ulFile);
       }
       console.log('create');
-      this.blockUI.start('Loading...');
+      //this.blockUI.start('Loading...');
       this._service.createUser(objData, this.locationID).subscribe(
         (res: any) => {
           console.log(res);
           this.toastr.success('Successfully Created.');
-          this.blockUI.stop();
+          //this.blockUI.stop();
           this.back();
         },
         err => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
           // if(err.message == 'Http failure response for http://dev-app.brainlitz.com/api/v1/signup: 400 Bad Request'){
           // 	this.toastr.error('Email already exist');
           // }
@@ -513,8 +545,8 @@ export class UserStaffComponent implements OnInit {
         }
       );
     } else {
-      this.blockUI.start('Loading...');
-      let getImg = document.getElementsByClassName('circular-profile');
+      //this.blockUI.start('Loading...');
+      const getImg = document.getElementsByClassName('circular-profile');
       if (getImg != undefined) {
         $('.circular-profile img:last-child').attr('id', 'blobUrl');
       }
@@ -532,18 +564,20 @@ export class UserStaffComponent implements OnInit {
         objData.append('profilePic', this.ulFile);
       }
       console.log('update');
+      console.log('locationobj permission>>>>>>', locationObj);
+      console.log(objData);
       this._service
         .updateUser(this.regionID, this.locationID, this.editId, objData)
         .subscribe(
           (res: any) => {
             console.log(res);
             this.toastr.success('Successfully Updated.');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             this.backToDetails();
           },
           err => {
             // this.toastr.error('Update Fail');
-            this.blockUI.stop();
+            //this.blockUI.stop();
             console.log(err);
             if (err.status == 400) {
               this.toastr.error('Email already exist');
@@ -596,16 +630,16 @@ export class UserStaffComponent implements OnInit {
     console.log(e.target.checked);
     this.permissionCount = e.target.checked;
     console.log(this.permissionCount);
-    $('label').on('click', function() {
-      if (
-        $(this)
-          .find('input[type="radio"]')
-          .is(':checked')
-      ) {
-        $('label').removeClass('radio-bg-active');
-        $(this).addClass('radio-bg-active');
-      }
-    });
+    // $('label').on('click', function() {
+    //   if (
+    //     $(this)
+    //       .find('input[type="radio"]')
+    //       .is(':checked')
+    //   ) {
+    //     $('label').removeClass('radio-bg-active');
+    //     $(this).addClass('radio-bg-active');
+    //   }
+    // });
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
@@ -670,13 +704,13 @@ export class UserStaffComponent implements OnInit {
   cropResult(modal) {
     this.validProfile = true;
     this.isCrop = true;
-    let self = this;
+    const self = this;
     this.imgDemoSlider = false;
     setTimeout(function() {
       $('.circular-profile img:last-child').attr('id', 'blobUrl');
       $('.frame-upload').css('display', 'none');
       this.blankCrop = false;
-    }, 200);
+    }, 700);
     var cropper = this.uploadCrop;
     var BlobUrl = this.dataURItoBlob;
     this.uploadCrop
@@ -702,14 +736,14 @@ export class UserStaffComponent implements OnInit {
   }
 
   dataURItoBlob(dataURI: any) {
-    var byteString = atob(dataURI.split(',')[1]);
-    var mimeString = dataURI
+    let byteString = atob(dataURI.split(',')[1]);
+    let mimeString = dataURI
       .split(',')[0]
       .split(':')[1]
       .split(';')[0];
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
+    let ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: mimeString });
@@ -723,6 +757,8 @@ export class UserStaffComponent implements OnInit {
   }
 
   showDetails(data, ID) {
+    this.showloading = false;
+    this.userArchive = data.isArchive;
     this.userId = data.userId;
     this.isPasswordChange = false;
     this.activeTab = 'Classes';
@@ -731,7 +767,7 @@ export class UserStaffComponent implements OnInit {
     this.staffObj = data;
     console.log('show Staff details', this.staffObj);
     console.log(ID);
-    this.blockUI.start('Loading...');
+    // //this.blockUI.start('Loading...');
     this.showStaffDetail = true;
     this._service
       .getUserDetail(this.regionID, data.userId, this.locationID)
@@ -739,22 +775,36 @@ export class UserStaffComponent implements OnInit {
         (res: any) => {
           this.staffDetail = res;
           res.user.details.map(info => {
-            if (info.controlType === 'Datepicker')
+            if (info.controlType === 'Datepicker') {
               info.value = moment(info.value).format('YYYY-MM-DD');
+
+              const birthday = moment(info.value);
+              info.year = moment().diff(birthday, 'years');
+              // var month = moment().diff(birthday, 'months') - info.year * 12;
+              // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+              birthday.add(info.year, 'years'); // for years and days calculation
+              info.day = moment().diff(birthday, 'days');
+            }
           });
+
           console.log('StaffDetail', res);
-          setTimeout(() => {
-            this.blockUI.stop();
-          }, 100);
+          console.log('Staff App test', this.staffDetail.user.journalApprove);
+          // setTimeout(() => {
+          //   //this.blockUI.stop();
+          // }, 100);
+          this.showloading = true;
         },
         err => {
-          this.blockUI.stop();
+          // //this.blockUI.stop();
           console.log(err);
         }
       );
   }
 
   backToStaff() {
+    this.staffDetail = {
+      user: {}
+    };
     this.hideMenu = false;
     // this.formFieldc = new customer();
     this.showStaffDetail = false;
@@ -793,7 +843,10 @@ export class UserStaffComponent implements OnInit {
     item.isCheck = !item.isCheck;
   }
 
-  radioCheck(item, fields) {
+  radioCheck(item, fields, idx1, idx2) {
+    let id = idx1 + idx2;
+    console.log('id', id);
+
     fields.map(field => {
       field.isCheck = false;
     });
@@ -801,7 +854,11 @@ export class UserStaffComponent implements OnInit {
   }
 
   clickTab(type) {
+    this.showloading = false;
     this.activeTab = type;
+    // setTimeout(() => {
+    //   this.showloading = true;
+    // }, 4000);
   }
 
   numberOnly(event, type) {
@@ -812,5 +869,65 @@ export class UserStaffComponent implements OnInit {
     if (event.target.value.search(/^0/) != -1) {
       event.target.value = '';
     }
+  }
+  showloading = true;
+  showLoadingFun(e) {
+    // console.warn(e)
+    this.showloading = e;
+  }
+
+  setRandomPwd() {
+    // console.log(this.userid, this.custDetail.user.userId);
+    const data = {
+      customerId: this.staffDetail.user.userId
+    };
+    this._service.setRandomPassword(this.regionID, data).subscribe(
+      res => {
+        console.log(res);
+        this.toastr.success('New password has been sent successfully.');
+      },
+      err => {
+        console.error(err);
+        this.toastr.error('Fail to set new password.');
+      }
+    );
+  }
+  userArchive = false;
+
+  staffArchive(archive) {
+    this.userArchive = archive;
+    let customerId = this.staffDetail.user.userId;
+    let isArchive = archive;
+    isArchive = this.userArchive;
+    let regionId = this.regionID;
+    const tempData = {
+      customerId,
+      isArchive,
+      regionId
+    };
+    this._service.userArchive(tempData).subscribe(
+      res => {
+        console.error(res);
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+  JourApprov() {
+    this.staffDetail.user.journalApprove = !this.staffDetail.user
+      .journalApprove;
+    let app = this.staffDetail.user.journalApprove;
+    let customerId = this.staffDetail.user.userId;
+    let regionId = this.regionID;
+    const tempData = {
+      staffId: customerId,
+      journalApprove: app,
+      regionId: regionId
+    };
+    this._service.journalApprove(tempData).subscribe(res => {
+      console.log('jourtest', res);
+    });
+    console.log('Staff Jour App Test', this.staffDetail.user);
   }
 }

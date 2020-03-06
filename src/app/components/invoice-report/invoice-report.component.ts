@@ -3,7 +3,7 @@ import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-invoice-report',
   templateUrl: './invoice-report.component.html',
@@ -16,7 +16,7 @@ export class InvoiceReportComponent implements OnInit {
     private _service: appService,
     private router: Router,
     public modalService: NgbModal,
-    public toastr: ToastsManager
+    public toastr: ToastrService
   ) {}
   public custDetail: any = {};
   public selectedCourse: any = {};
@@ -32,7 +32,7 @@ export class InvoiceReportComponent implements OnInit {
   }
 
   getInvoiceList(limit, skip) {
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service
       .getAllInvoices(this.regionID, limit, skip)
       // .getAllInvoices(this.regionID, limit, skip)
@@ -41,7 +41,7 @@ export class InvoiceReportComponent implements OnInit {
         this.invlistsResult = res;
         this.invoiceList = this.invoiceList.concat(res);
         console.log(this.invoiceList);
-        this.blockUI.stop();
+        //this.blockUI.stop();
       });
   }
 
@@ -50,7 +50,7 @@ export class InvoiceReportComponent implements OnInit {
     this.getInvoiceList(20, skip);
   }
   openModal(invoice, classEnrollModal) {
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this.selectedCourse = invoice.courseDetails;
     this.selectedCourse.invoice = invoice;
     console.log(invoice);
@@ -64,7 +64,7 @@ export class InvoiceReportComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 1000);
   }
 

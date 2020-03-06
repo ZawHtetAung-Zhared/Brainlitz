@@ -1,0 +1,136 @@
+<div class="cust-bg" *ngIf="challengeData">
+  <div class="cust-hg">
+    <div class="pt-4 pb-4 inner-wrapper">
+      <div (click)="backTo()" class="d-flex align-items-center">
+        <i class="fa fa-angle-left"></i>
+        <span class="back-txt">
+          Mastery reports
+        </span>
+      </div>
+    </div>
+
+    <div class="inner-wrapper">
+      <div class="mastery-box white-bg d-flex flex-column">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+              <span class="mastery-title">
+                Top 5 challenging {{ challengeData.name }} masteries for this
+                class
+              </span>
+              <span class="sw-wrap">
+                <img src="./assets/img/tiny-brainlitz.svg" />
+              </span>
+            </div>
+            <div class="pl-4 light-txt2 light-txt">What are masteries?</div>
+          </div>
+        </div>
+        <!-- loop start -->
+        <div
+          *ngFor="
+            let challenge of challengeData.masteries;
+            let i = index;
+            let lastcall = last
+          "
+          class="mt-4 d-flex flex-column"
+        >
+          <div class="no-circle">{{ i + 1 }}</div>
+          <div class="mastery-body mb-4">
+            {{ challenge.descriptionStudent }}
+          </div>
+          <div calss="d-flex mastery-body">
+            <span>Info for educator :</span>
+            <img
+              src="./assets/icons/mastery-question.svg"
+              class="pr-0 pl-2 btn"
+              (click)="getQuestion(challenge.masteryId)"
+            />
+            <span> {{ challenge.infoForEducator }} </span>
+          </div>
+          <div class="mastery-body txt-bold mt-3">
+            {{ challenge.challengingPercentage }} % of students have yet to meet
+            the expectation of this mastery.
+          </div>
+          <div class="mt-4 w-100">
+            <div
+              id="{{ challenge.masteryId }}"
+              style="width:100%; min-height: 20px;"
+            ></div>
+          </div>
+          <div *ngIf="!lastcall" class="split-line"></div>
+        </div>
+        <!-- loop end -->
+      </div>
+    </div>
+
+    <!-- <div class="mb-4 white-bg">
+      <div class="inner-wrapper w-100">
+        <div
+          id="mastery_detail"
+          class="pt-4"
+          style="width:100%; min-height: 200px;"
+        ></div>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="footer white-gb d-flex justify-content-center align-items-center">
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #BF2926;"></div>
+      <span class="color-txt"> Struggling </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #EDEEF0;"></div>
+      <span class="color-txt"> Not started </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #D4D5D6;"></div>
+      <span class="color-txt"> Inconclusive </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #6DC000;"></div>
+      <span class="color-txt"> Mastered w/ difficulties </span>
+    </div>
+    <div class="d-flex color-wrap">
+      <div class="color-box" style="background: #4FDD00;"></div>
+      <span class="color-txt"> Mastered w/ ease </span>
+    </div>
+  </div>
+</div>
+
+<ng-template #questionModal let-c="close" let-d="dismiss">
+  <div class="d-flex flex-column modal-body">
+    <div class="d-flex flex-column header-question">
+      <div class="d-flex w-100">
+        <span class="sample-txt f-20"> Sample Question </span>
+        <button
+          (click)="cancelModal()"
+          aria-label="Close"
+          class="modal-close ml-auto btn"
+        >
+          <span class="closemark">
+            <div class="closemark_stem"></div>
+            <div class="closemark_kick"></div>
+          </span>
+        </button>
+      </div>
+      <h3 class="modal-title d-flex mr-auto">
+        {{ samplexml.data.mastery.shortMasteryName }}
+      </h3>
+    </div>
+    <div class="modal-hg sample-txt f-17">
+      <div id="Question" class="mastery-question"></div>
+      <div
+        *ngFor="let ans of samplexml.data.quiz.answers"
+        class="mt-4 ml-2 mr-2"
+      >
+        <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+        <div
+          id="{{ ans._id }}"
+          class="ans-box mastery-answer"
+          [ngClass]="{ 'correct-box': ans.correctness == true }"
+        ></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

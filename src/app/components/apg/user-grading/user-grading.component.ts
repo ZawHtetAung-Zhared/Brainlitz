@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 @Component({
   selector: 'app-user-grading',
@@ -126,7 +127,7 @@ export class UserGradingComponent implements OnInit {
     }
   ];
 
-  constructor(private _service: appService) {}
+  constructor(private _service: appService, public toastr: ToastrService) {}
 
   ngOnInit() {
     this.userGradeData = {
@@ -151,10 +152,10 @@ export class UserGradingComponent implements OnInit {
       }
     };
     if (!this.isCreateStatus) {
-      this.blockUI.start('Loading');
+      //this.blockUI.start('Loading');
       this.userGradeData = this.UserGradeObj;
       setTimeout(() => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
       }, 300);
     }
     this.checkValidation();
@@ -196,6 +197,7 @@ export class UserGradingComponent implements OnInit {
     $('body').css('overflow', 'hidden');
     this.caculatePosition(e);
   }
+
   closePopUp(e) {
     this.showPopUp = false;
     $('body').css('overflow', 'overlay');
@@ -249,10 +251,10 @@ export class UserGradingComponent implements OnInit {
   }
   createUserGradeApg(data) {
     console.log(data);
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this.createAp(data);
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 300);
   }
   apgCreate(id) {
@@ -272,10 +274,12 @@ export class UserGradingComponent implements OnInit {
       )
       .subscribe(
         res => {
+          // this.toastr.success("Successfully Create")
           this.cancelGrade.emit(true);
           this.createGrade.emit(true);
         },
         err => {
+          this.toastr.error('Create Fail');
           console.error(err);
         }
       );
@@ -291,6 +295,8 @@ export class UserGradingComponent implements OnInit {
     e.stopPropagation();
     let YPosition = e.clientY;
     let XPosition = e.clientX;
+    console.error(YPosition);
+
     if (e.target.className == '') {
       this.colorArrClasses = {
         top: YPosition + 'px',
@@ -376,9 +382,11 @@ export class UserGradingComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
+          this.toastr.success('Successfully updated');
           console.log(res);
         },
         err => {
+          this.toastr.error(' Update Fail');
           console.log(err);
         }
       );

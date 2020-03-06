@@ -20,7 +20,7 @@
             <img
               *ngIf="notiType == 'send' || notiType == 'view'"
               class="setting-icon"
-              src="./assets/images/sidebar-notification_a@2x.png"
+              src="./assets/images/sidebar-notification.svg"
             />
             <img
               *ngIf="notiType != 'send' && notiType != 'view'"
@@ -80,14 +80,14 @@
             <img
               *ngIf="notiType == 'apg'"
               class="setting-icon"
-              src="./assets/images/sidebar-APG_a@2x.png"
+              src="./assets/images/sidebar-apg.svg"
             />
             <img
               *ngIf="notiType != 'apg'"
               class="setting-icon"
               src="./assets/images/sidebar-APG@2x.png"
             />
-            <span>Tracking module</span>
+            <span class="setting-label">Tracking module</span>
           </span>
         </button>
       </div>
@@ -101,7 +101,7 @@
             <img
               *ngIf="notiType == 'quizwerkz'"
               class="setting-icon"
-              src="./assets/images/sidebar-quizwerkz_a@2x.png"
+              src="./assets/images/sidebar-quizwerkz.svg"
             />
             <img
               *ngIf="notiType != 'quizwerkz'"
@@ -122,7 +122,7 @@
             <img
               *ngIf="notiType == 'testWerkz'"
               class="setting-icon"
-              src="./assets/images/sidebar-quizwerkz_a@2x.png"
+              src="./assets/images/sidebar-quizwerkz.svg"
             />
             <img
               *ngIf="notiType != 'testWerkz'"
@@ -143,12 +143,12 @@
             <img
               *ngIf="notiType == 'calendar'"
               class="setting-icon"
-              src="./assets/images/calendar_a@2x.png"
+              src="./assets/images/Calendar-active.svg"
             />
             <img
               *ngIf="notiType != 'calendar'"
               class="setting-icon"
-              src="./assets/images/calendar@2x.png"
+              src="./assets/images/Calendar.svg"
             />
             <span>Calendar</span>
           </span>
@@ -172,14 +172,25 @@
 								<span class="location-name">{{locationName}}</span>
 							</div>
 							</div> -->
-      <div>
-        <h2
-          style="margin-right: 5px;"
-          class="title-heading margin-heading pull-left"
-        >
+      <div class="d-flex mt-3">
+        <h2 style="margin-right: 5px;" class="title-heading  pull-left">
           Send notification
         </h2>
-        <span class="location-name">{{ locationName }}</span>
+        <div class="mt-2">
+          <label
+            class="location-name"
+            [ngStyle]="{
+              color: gtxtColor,
+              background: gbgColor
+            }"
+            >{{ locationName }}</label
+          >
+        </div>
+
+        <!-- [ngStyle]="{
+            color: gtxtColor,
+            background: gbgColor
+          }" -->
       </div>
       <div>
         <p class="input-recommend">
@@ -299,6 +310,7 @@
                 (focus)="focusSearch($event, 'category')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'category')"
+                (keyup)="searchStart($event, 'category')"
                 autocomplete="off"
               />
               <!-- <input
@@ -341,6 +353,7 @@
                 (focus)="focusSearch($event, 'course')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'course')"
+                (keyup)="searchStart($event, 'course')"
                 autocomplete="off"
               />
               <!-- <input
@@ -384,6 +397,7 @@
                 (focus)="focusSearch($event, 'user')"
                 (focusout)="hideSearch($event)"
                 (input)="changeSearch($event.target.value, 'user')"
+                (keyup)="searchStart($event, 'user')"
                 autocomplete="off"
               />
               <!-- <input
@@ -424,7 +438,7 @@
                     [checked]="!checkActive"
                     (change)="checkedActive($event, 'active')"
                   />
-                  "All user" with "Includes withdrawn students"
+                  Includes inactive customers
                 </label>
               </div>
               <div
@@ -439,7 +453,8 @@
                     [checked]="!checkActive"
                     (change)="checkedActive($event, 'active')"
                   />
-                  "All user" with "Includes non-teaching staffs"
+                  <!-- "All user" with "Includes non-teaching staffs" -->
+                  Includes inactive staffs
                 </label>
               </div>
               <div
@@ -454,7 +469,8 @@
                     [checked]="!checkActive"
                     (change)="checkedActive($event, 'active')"
                   />
-                  "All user" with "Includes withdrawn students"
+                  <!-- "All user" with "Includes withdrawn students" -->
+                  Includes inactive customers
                 </label>
               </div>
               <div
@@ -469,7 +485,8 @@
                     [checked]="!checkActive"
                     (change)="checkedActive($event, 'active')"
                   />
-                  "All user" with "Includes withdrawn students"
+                  <!-- "All user" with "Includes withdrawn students" -->
+                  Includes inactive customers
                 </label>
               </div>
             </div>
@@ -505,9 +522,9 @@
             <div class="form-group">
               <div class="d-flex justify-content-between">
                 <label for="address" class="lable-title">Message</label>
-                <div class="limit-word1">
+                <!-- <div class="limit-word1">
                   <span>{{ wordLength }}/280characters</span>
-                </div>
+                </div> -->
               </div>
               <textarea
                 class="form-control input-create"
@@ -518,7 +535,6 @@
                 #message="ngModel"
                 (focus)="focusMethod($event, 'msg', $event.target.value)"
                 (blur)="blurMethod($event, 'msg')"
-                maxlength="280"
                 (input)="changeMethod($event.target.value)"
                 required
               ></textarea>
@@ -532,7 +548,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="address" class="lable-title">Message Type</label>
+              <label for="address" class="lable-title">Message type</label>
               <div class="d-flex flex-row">
                 <div
                   class="col-md-6 d-flex flex-row switch-col"
@@ -633,7 +649,12 @@
               </div>
               <div class="user-info">
                 <span class="group-type">{{ noti.group.name }}</span>
-                <span class="count-wrap">{{ noti.count }} users</span>
+                <span *ngIf="noti.count > 1" class="count-wrap"
+                  >{{ noti.count }} users</span
+                >
+                <span *ngIf="noti.count == 1" class="count-wrap"
+                  >{{ noti.count }} user</span
+                >
                 <span class="social-links">
                   <a
                     ><i id="mobile" class="fa fa-mobile" aria-hidden="true"></i
@@ -669,13 +690,13 @@
       </div>
 
       <div *ngIf="notiLists.length >= 20" class="load-more">
-        <button class="btn" (click)="showMore(notiLists.length)">
+        <button class="btn remove-outline" (click)="showMore(notiLists.length)">
           load more
         </button>
       </div>
     </div>
     <div
-      class="d-flex flex-column main-wrapper w-100 h-100 app-xxx align-items-center"
+      class="d-flex flex-column main-wrapper w-100 h-100"
       *ngIf="notiType == 'apg'"
     >
       <app-apg class="w-100 control-apg"></app-apg>

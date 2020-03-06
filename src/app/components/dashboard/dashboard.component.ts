@@ -15,7 +15,7 @@ import {
   Timezone
 } from 'ng2-timezone-selector/timezone-picker.service';
 import { TimezonePickerModule } from 'ng2-timezone-selector';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -26,6 +26,8 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment-timezone';
 import { Router } from '@angular/router';
 import * as currency from 'currency-symbol-map/map';
+import { Observable } from 'rxjs/Observable';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 // import currencyToSymbolMap from 'currency-symbol-map/map'
 declare var $: any;
 
@@ -38,6 +40,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
   @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
   @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
+  @BlockUI('auto-enrol-setting') blockUIAutoEnrol: NgBlockUI;
+  private permissionSubscription: ISubscription;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -71,7 +75,9 @@ export class DashboardComponent implements OnInit {
     timezone: '',
     url: '',
     logo: '',
-    operatingHour: {}
+    operatingHour: {},
+    notificationSettings: {},
+    journalApprove: ''
   };
 
   // public menuType:any = "location";
@@ -92,6 +98,8 @@ export class DashboardComponent implements OnInit {
   public invoice: any = {};
 
   public isOnline: boolean = false;
+  public CreEmail: any;
+  public JourApp: any;
   public showDropdown: boolean = false;
   public showProvider: boolean = false;
   public online: any = {};
@@ -283,16 +291,39 @@ export class DashboardComponent implements OnInit {
     'zar',
     'zmw'
   ];
+  public isAcceptPaynow = false;
+  public isQRChanged = false;
+
   @BlockUI() blockUI: NgBlockUI;
+  private isConnected;
+  private isRegionLoading: boolean = false;
+  private isAppLoading: boolean = false;
+  public isNetwork: boolean;
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     window.scroll(0, 0);
+    this.isConnected = Observable.merge(
+      Observable.of(navigator.onLine),
+      Observable.fromEvent(window, 'online').map(() => true),
+      Observable.fromEvent(window, 'offline').map(() => false)
+    );
+    this.isConnected.subscribe(connection => {
+      this.isNetwork = connection;
+      if (!connection) {
+        if (this.isRegionLoading) this.blockUIRegionInfo.stop();
+        else if (this.isAppLoading) this.blockUIAppSetting.stop();
+      } else {
+        if (this.isRegionLoading)
+          this.blockUIRegionInfo.start('Updating app setting...');
+        else if (this.isAppLoading)
+          this.blockUIAppSetting.start('Updating regional setting...');
+      }
+    });
   }
 
   ngOnInit() {
@@ -312,7 +343,12 @@ export class DashboardComponent implements OnInit {
           min: '',
           meridiem: ''
         }
-      }
+      },
+      notificationSettings: {
+        sendEmailNoti: null,
+        sendAppNoti: null
+      },
+      journalApprove: ''
     };
     // this.c = 3+':'+20+' '+this.item.operatingHour.start.meridiem;
 
@@ -322,18 +358,25 @@ export class DashboardComponent implements OnInit {
       this.checkPermission();
       localStorage.setItem('permission', JSON.stringify([]));
     }
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/dashboard') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/dashboard') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
 
     this.getInvoiceSetting('invoiceSettings');
+    console.log('invoice return');
     this.getPaymentSetting('paymentSettings');
     this.orgLogo = localStorage.getItem('OrgLogo');
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   // valueChanged() {
@@ -375,9 +418,14 @@ export class DashboardComponent implements OnInit {
     }
     this.showProvider = false;
   }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
       this.navIsFixed = true;
       this.isMidStick = false;
     } else {
@@ -447,6 +495,22 @@ export class DashboardComponent implements OnInit {
           this.item.timezone = res.timezone;
           this.item.url = res.url;
           this.item.logo = res.logo;
+          // notificationSettings: {sendEmailNoti: true, sendAppNoti: true}
+
+          this.item.notificationSettings.sendAppNoti =
+            res.notificationSettings.sendAppNoti != undefined
+              ? res.notificationSettings.sendAppNoti
+              : true;
+          this.item.notificationSettings.sendEmailNoti =
+            res.notificationSettings.sendEmailNoti != undefined
+              ? res.notificationSettings.sendEmailNoti
+              : true;
+          console.log('zhazha', this.item.notificationSettings.sendEmailNoti);
+          this.CreEmail = res.notificationSettings.sendEmailNoti;
+          console.log('journal approve get test', res.journalApprove);
+          this.item.journalApprove = res.journalApprove;
+          this.JourApp = res.journalApprove;
+          this.enroll = res.autoEnrolDay;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
             this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
@@ -471,6 +535,7 @@ export class DashboardComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.invoiceData = res;
+
         console.log('this.invoiceData', this.invoiceData);
         console.log(Object.keys(this.invoiceData).length);
 
@@ -583,6 +648,7 @@ export class DashboardComponent implements OnInit {
   // }
 
   dataURItoBlob(dataURI: String) {
+    console.warn(dataURI, 'data uri');
     const byteString = atob(dataURI.split(',')[1]);
     const mimeString = dataURI
       .split(',')[0]
@@ -623,9 +689,44 @@ export class DashboardComponent implements OnInit {
       reader.readAsDataURL(files[0]);
       reader.onload = _event => {
         this.imgURL = reader.result;
+        console.log(this.imgURL);
       };
     }
   }
+
+  qrURL: any;
+  handleQRInput(files: FileList, $event) {
+    this.isQRChanged = true;
+    console.log('handleqrInput~~~');
+    var qrPath;
+    console.log(files);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
+    var qr = files.item(0);
+    // this.item.logo = this.logo;
+    const reader = new FileReader();
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    if (qr.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      qrPath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.qrURL = reader.result;
+      };
+    }
+  }
+
   editRegion() {
     console.log(this.item);
     this.isLogoChanged = false;
@@ -648,10 +749,10 @@ export class DashboardComponent implements OnInit {
     this.erangeHr = this.item.operatingHour.end.hr;
     this.erangeMin = this.item.operatingHour.end.min;
     this.eisSelected = this.item.operatingHour.end.meridiem;
-    console.log(this.srangeHr, this.srangeMin, this.sisSelected);
-    console.log(this.erangeHr, this.erangeMin, this.eisSelected);
+    // console.log(this.srangeHr, this.srangeMin, this.sisSelected);
+    // console.log(this.erangeHr, this.erangeMin, this.eisSelected);
 
-    console.log('--->', this.startT, this.endT);
+    // console.log('--->', this.startT, this.endT);
     this.temp = this.item.timezone;
     // this.startT = this.getTwentyFourHourStartTime(this.item.operatingHour.start);
     // this.endT = this.getTwentyFourHourStartTime(this.item.operatingHour.end);
@@ -660,6 +761,56 @@ export class DashboardComponent implements OnInit {
     this.isUrlEdit = true;
     this.urlTemp = this.item.url;
   }
+
+  //for Auto-enroll setting
+  isEnrollEdit = false;
+  enroll = 0;
+  tempSchedule: any = {
+    enroll: 0,
+    beforeD: 0,
+    overD: 0
+  };
+  isAuto = false;
+  editEnroll(value) {
+    if (this.enroll > 0) this.isAuto = true;
+    else this.isAuto = false;
+    this.isEnrollEdit = true;
+    this.tempSchedule.enroll = this.enroll;
+    this.tempSchedule.beforeD = this.invoiceData.beforeDue;
+    this.tempSchedule.overD = this.invoiceData.overDue;
+  }
+  updateEnroll() {
+    this.updateInvoice(this.invoiceData, 'invoice');
+    let data = { autoEnrolDay: this.enroll };
+    // this.blockUIAutoEnrol.start('Updating auto enrollment setting...');
+    setTimeout(() => {
+      this._service.setAutoEnrol(this.regionId, data).subscribe(
+        (res: any) => {
+          console.log(res);
+          // this.blockUIAutoEnrol.stop();
+          this.toastr.success('Successfully Updated.');
+          this.isEnrollEdit = false;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }, 100);
+  }
+  closeEnroll() {
+    this.enroll = this.tempSchedule.enroll;
+    this.invoiceData.beforeDue = this.tempSchedule.beforeD;
+    this.invoiceData.overDue = this.tempSchedule.overD;
+    this.isEnrollEdit = false;
+  }
+  autoEnrollSwitch() {
+    this.isAuto = !this.isAuto;
+    if (!this.isAuto) this.enroll = 0;
+    else if (this.tempSchedule.enroll == 0) this.enroll = 30;
+    else this.enroll = this.tempSchedule.enroll;
+  }
+  //end for Auto-enroll setting
+
   validateTime(time) {
     var starTTemp = time.trim().split(':');
     console.log(starTTemp);
@@ -668,96 +819,135 @@ export class DashboardComponent implements OnInit {
     return starTTemp;
   }
 
-  getLogo() {
-    let logo = document.getElementById('imgURL').getAttribute('src');
-
+  getLogo(url) {
+    console.log(url, 'url');
+    let logo = document.getElementById(url).getAttribute('src');
     return this.dataURItoBlob(logo);
   }
 
-  updateRegionalInfo(data, type) {
-    console.log(data, type);
-    let regionalSettingFormData = new FormData();
-    this.token = localStorage.getItem('token');
-    this.type = localStorage.getItem('tokenType');
-    var updateType = '';
-    if (type == 'url') {
-      console.log('url');
-      updateType = 'url';
-      console.log(data);
-    } else if (type == 'timezone') {
-      updateType = 'timezone';
-      console.log('timezone');
-      console.log(this.startT);
-      let start = {
-        hr: this.srangeHr,
-        min: this.srangeMin,
-        meridiem: this.sisSelected
-      };
-      this.item.operatingHour['start'] = start;
-      let end = {
-        hr: this.erangeHr,
-        min: this.erangeMin,
-        meridiem: this.eisSelected
-      };
-      this.item.operatingHour['end'] = end;
-    }
-    console.log('DATA~~~', data);
-    if (updateType == 'url') {
-      this.blockUIAppSetting.start('Updating regional setting...');
-      regionalSettingFormData.append('url', data.url);
-    } else {
-      this.blockUIRegionInfo.start('Updating app setting...');
-      regionalSettingFormData.append('name', data.name);
-      regionalSettingFormData.append('timezone', data.timezone);
-      regionalSettingFormData.append('url', data.url);
-      if (this.isLogoChanged == true) {
-        console.log('isLogoChanged~~~~', this.isLogoChanged);
-        regionalSettingFormData.append('logo', this.getLogo());
-      } else {
-        console.log('isLogoChanged~~~~', this.isLogoChanged);
-      }
-      regionalSettingFormData.append(
-        'operatingHour',
-        JSON.stringify(data.operatingHour)
-      );
-    }
+  getQR(url) {
+    console.log(url, 'url');
+    console.log('is qr change', this.isQRChanged);
+    if (this.isQRChanged) {
+      let logo = document.getElementById(url).getAttribute('src');
 
-    setTimeout(() => {
-      this._service
-        .updateRegionalInfo(
-          this.regionId,
-          regionalSettingFormData,
-          this.token,
-          this.type
-        )
-        .subscribe(
-          (res: any) => {
-            if (updateType == 'url') {
-              this.blockUIAppSetting.stop();
-            } else {
-              this.blockUIRegionInfo.stop();
-            }
-            this.toastr.success('Successfully Updated.');
-            console.log('~~~', res);
-            this.orgLogo = res.logo;
-            localStorage.setItem('timezone', this.item.timezone);
-            this.getAdministrator();
-            if (type == 'timezone') {
-              this.isEdit = false;
-            } else if (type == 'url') {
-              this.isUrlEdit = false;
-            }
-          },
-          err => {
-            console.log(err);
-          }
+      return this.dataURItoBlob(logo);
+    } else {
+      return null;
+    }
+  }
+  public singleLoading = false;
+  updateRegionalInfo(data, type) {
+    if (this.isNetwork) {
+      this.singleLoading = true;
+      console.log(data, type);
+      console.log(window.navigator.onLine);
+      let regionalSettingFormData = new FormData();
+      this.token = localStorage.getItem('token');
+      this.type = localStorage.getItem('tokenType');
+      var updateType = '';
+      if (type == 'url') {
+        console.log('url');
+        updateType = 'url';
+        console.log(data);
+      } else if (type == 'timezone') {
+        updateType = 'timezone';
+        console.log('timezone');
+        console.log(this.startT);
+        let start = {
+          hr: this.srangeHr,
+          min: this.srangeMin,
+          meridiem: this.sisSelected
+        };
+        this.item.operatingHour['start'] = start;
+        let end = {
+          hr: this.erangeHr,
+          min: this.erangeMin,
+          meridiem: this.eisSelected
+        };
+        this.item.operatingHour['end'] = end;
+      }
+      console.log('DATA~~~', data);
+      if (updateType == 'url') {
+        this.blockUIAppSetting.start('Updating regional setting...');
+        this.isAppLoading = true;
+        regionalSettingFormData.append('url', data.url);
+      } else {
+        this.blockUIRegionInfo.start('Updating app setting...');
+        this.isRegionLoading = true;
+        regionalSettingFormData.append('name', data.name);
+        regionalSettingFormData.append('timezone', data.timezone);
+        regionalSettingFormData.append('url', data.url);
+        if (this.isLogoChanged == true) {
+          console.log('isLogoChanged~~~~', this.isLogoChanged);
+          var test = this.getLogo('imgURL');
+          console.log(test);
+          regionalSettingFormData.append('logo', this.getLogo('imgURL'));
+        }
+
+        console.log('isLogoChanged~~~~', data.operatingHour);
+
+        regionalSettingFormData.append(
+          'operatingHour',
+          JSON.stringify(data.operatingHour)
         );
-    }, 100);
+        console.log('isLogoChanged~~~~', regionalSettingFormData);
+        regionalSettingFormData.append(
+          'notificationSettings',
+          JSON.stringify(data.notificationSettings)
+        );
+        console.log(
+          'zhadata',
+          JSON.parse(JSON.stringify(data.notificationSettings))
+        );
+
+        regionalSettingFormData.append('journalApprove', data.journalApprove);
+      }
+
+      setTimeout(() => {
+        this._service
+          .updateRegionalInfo(
+            this.regionId,
+            regionalSettingFormData,
+            this.token,
+            this.type
+          )
+          .subscribe(
+            (res: any) => {
+              if (updateType == 'url') {
+                this.blockUIAppSetting.stop();
+                this.isAppLoading = false;
+              } else {
+                this.blockUIRegionInfo.stop();
+                this.isRegionLoading = false;
+              }
+              this.singleLoading = false;
+              this.toastr.success('Successfully Updated.');
+              console.log('~~~', res);
+              this.orgLogo = res.logo;
+              localStorage.setItem('timezone', this.item.timezone);
+              this.getAdministrator();
+              if (type == 'timezone') {
+                this.isEdit = false;
+              } else if (type == 'url') {
+                this.isUrlEdit = false;
+              }
+            },
+            err => {
+              console.log(err);
+            }
+          );
+      }, 100);
+    } else {
+      this.toastr.error('Network error. Try again');
+    }
   }
 
   cancelUpdate() {
     this.isEdit = false;
     this.item.timezone = this.temp;
+    this.item.notificationSettings.sendEmailNoti = this.CreEmail;
+    this.item.journalApprove = this.JourApp;
   }
   closeEdit() {
     this.isUrlEdit = false;
@@ -773,12 +963,15 @@ export class DashboardComponent implements OnInit {
 
   editSetting(type) {
     console.log('hi');
+    this.isQRChanged = false;
     this.option = type;
     this.getCurrency();
     this.selectedCurrency = this.invoiceData.currencySign;
     this.selectedFlag = this.invoiceData.currencyCode;
 
     this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
+    this.isAcceptPaynow = this.paymentData.acceptPayNow;
+    this.qrURL = this.paymentData.payNowQr;
     // if(this.isOnline == true){
     //   this.selectedProvider = this.paymentData.paymentProviders.name;
     // }
@@ -820,15 +1013,19 @@ export class DashboardComponent implements OnInit {
   }
   getCurrency() {
     this.objectKeys = Object.keys;
-
+    console.warn(Object.keys);
     this.currency_symbol = currency;
     var key,
       keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
     var n = keys.length;
+    var i = 0;
     var newobj = {};
-    while (n--) {
-      key = keys[n];
+
+    while (i <= n - 1) {
+      key = keys[i];
       this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
     }
   }
 
@@ -1006,30 +1203,68 @@ export class DashboardComponent implements OnInit {
         invoiceSettings: this.invoiceData,
         paymentSettings: data
       };
+
+      var qrFormData = new FormData();
+      qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
+      if (this.isAcceptPaynow == true) {
+        qrFormData.append('qrcode', this.getQR('qrURL'));
+      }
     }
 
     console.log(body);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
+    // this._service.updatePayNowPayment(this.regionId, paynowData).subscribe((res:any)=>{
+    //   console.log(res)
+    // });
+
     this._service.updateInvoiceSetting(this.regionId, body).subscribe(
-      (res: any) => {
-        this.blockUI.stop();
-        console.log(res);
-        this.invoiceData = res.invoiceSettings;
-        this.paymentData = res.paymentSettings;
-        let currency = {
-          invCurrencyCode: res.invoiceSettings.currencyCode,
-          invCurrencySign: res.invoiceSettings.currencySign
-        };
-        console.log(currency);
-        localStorage.setItem('currency', JSON.stringify(currency));
-        this.cancel();
+      (res1: any) => {
+        //this.blockUI.stop();
+        console.error(res1);
+        this._service
+          .updatePayNowPayment(this.regionId, qrFormData)
+          .subscribe((res2: any) => {
+            console.log('*******', res2);
+            this.invoiceData = res1.invoiceSettings;
+            this.paymentData = res1.paymentSettings;
+            let currency = {
+              invCurrencyCode: res1.invoiceSettings.currencyCode,
+              invCurrencySign: res1.invoiceSettings.currencySign
+            };
+            console.log(currency);
+            localStorage.setItem('currency', JSON.stringify(currency));
+            this.cancel();
+          });
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
   }
+
+  // saveQR(){
+  //   let qrFormData = new FormData();
+  //   if (this.isQRChanged == true) {
+  //     var paynowData;
+  //     console.log('isQRChanged~~~~', this.isLogoChanged);
+  //     // var payNowQr = this.getLogo('qrURL')
+
+  //     paynowData = {
+  //       "acceptPayNow": this.isAcceptPaynow,
+  //       "payNowQr": this.getLogo('qrURL')
+  //     }
+  //     qrFormData.append('qrcode', this.getLogo('qrURL'));
+  //     qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow))
+  //     // console.log("paynowData",paynowData)
+  //   }
+  //   setTimeout(()=>{
+  //     this._service.updatePayNowPayment(this.regionId, qrFormData).subscribe((res:any)=>{
+  //       console.log("*******",res)
+  //     });
+  //   },200)
+
+  // }
 
   cancel() {
     this.option = '';
@@ -1052,6 +1287,7 @@ export class DashboardComponent implements OnInit {
       event.target.value = '';
     }
   }
+
   onlinePayment() {
     this.isOnline = !this.isOnline;
     if (this.isOnline == true) {
@@ -1082,6 +1318,23 @@ export class DashboardComponent implements OnInit {
       this.payment = {};
     }
   }
+
+  acceptPaynow() {
+    this.isAcceptPaynow = !this.isAcceptPaynow;
+  }
+
+  SendCreEmail() {
+    this.item.notificationSettings.sendEmailNoti = !this.item
+      .notificationSettings.sendEmailNoti;
+    // this.item.notificationSettings = !this.item.notificationSettings;
+    console.log('zhatest', this.item.notificationSettings);
+  }
+
+  JourApprov() {
+    this.item.journalApprove = !this.item.journalApprove;
+    console.log('auto approve test', this.item.journalApprove);
+  }
+
   getTwentyFourHourStartTime(obj) {
     console.log('time obj', obj);
     this.operationStart = obj.hr + ':' + obj.min + ' ' + obj.meridiem;
@@ -1127,16 +1380,16 @@ export class DashboardComponent implements OnInit {
     }
   }
   editTime(hr, min, medrian) {
-    console.log(hr, min, medrian);
-    console.log(String(hr).length);
-    console.log(String(min).length);
+    // console.log(hr, min, medrian);
+    // console.log(String(hr).length);
+    // console.log(String(min).length);
     if (String(hr).length == 1) {
       hr = '0' + String(hr);
     }
     if (String(min).length == 1) {
       min = '0' + String(min);
     }
-    console.log('res', hr + ':' + min + ' ' + medrian);
+    // console.log('res', hr + ':' + min + ' ' + medrian);
     return hr + ':' + min + ' ' + medrian;
   }
   updateBtnDisabled() {

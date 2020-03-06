@@ -18,7 +18,7 @@ import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../service/app.service';
 import { Observable } from 'rxjs/Rx';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 
@@ -52,12 +52,12 @@ export class CategoryComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private el: ElementRef,
     private renderer: Renderer
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
+    // this.toastr.setRootViewContainerRef(vcr);
     console.log('constructure start ...');
     this._service.permissionList.subscribe(data => {
       console.log('===', data);
@@ -117,13 +117,13 @@ export class CategoryComponent implements OnInit {
     this.categoryList = [];
     this.isfocus = !this.isfocus;
     console.log(item);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     // this.modalReference.close();
     this._service.createCategory(item, this.regionID).subscribe(
       (res: any) => {
         console.log(res);
         this.toastr.success('Successfully Created.');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.getAllCategories(20, 0, 'create');
         // this.ischecked = this.categoryList[0]._id;
         console.log('category Lists', this.categoryList);
@@ -131,7 +131,7 @@ export class CategoryComponent implements OnInit {
       },
       err => {
         this.toastr.error('Create Fail');
-        this.blockUI.stop();
+        //this.blockUI.stop();
         console.log(err);
       }
     );
@@ -152,6 +152,7 @@ export class CategoryComponent implements OnInit {
     this.ischecked = val;
     localStorage.setItem('categoryID', val);
     localStorage.setItem('categoryName', name);
+
     setTimeout(() => {
       console.log('--waiting--');
       this._service.gotoplan();
@@ -212,12 +213,12 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllCategories(limit, skip, state) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getCategory(this.regionID, limit, skip)
       .subscribe((res: any) => {
         setTimeout(() => {
-          this.blockUI.stop(); // Stop blocking
+          //this.blockUI.stop(); // Stop blocking
         }, 300);
         console.log(res);
         this.result = res;

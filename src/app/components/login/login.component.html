@@ -1,9 +1,12 @@
 <div class="container h-100">
   <div class="row h-100 justify-content-center align-items-center">
-  	<!-- <h4>{{slicePathName}}</h4> -->
+    <!-- <h4>{{slicePathName}}</h4> -->
     <form *ngIf="!noOrginExit" novalidate (ngSubmit)="login()" #f="ngForm">
-      <button [disabled]="!islogin" type="submit" class="btn btn-primary">Log in to {{orgName}}</button>
-    </form>   
+      <button [disabled]="!islogin" type="submit" class="btn btn-primary">
+        Log in to {{ orgName }}
+      </button>
+      <app-livechat [appname]="appName"></app-livechat>
+    </form>
     <h2 *ngIf="noOrginExit">404</h2>
-  </div>  
+  </div>
 </div>

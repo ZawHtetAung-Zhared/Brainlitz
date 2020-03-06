@@ -1,16 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment-timezone';
+import { months, monthsShort } from 'moment';
 
 @Pipe({
   name: 'utcDateAndDay'
 })
 export class UtcDateAndDayPipe implements PipeTransform {
   transform(getDate): any {
-    if (true) {
-      getDate = moment(getDate).format('YYYY-MM-DD');
-      // console.warn(getDate)
-    }
-
     let d = new Date(getDate).getUTCDay();
     const monthNames = [
       'Jan',
@@ -29,38 +25,55 @@ export class UtcDateAndDayPipe implements PipeTransform {
     let fullDay;
     switch (d) {
       case 0:
-        fullDay = 'Sun';
+        fullDay = 'Sunday';
         break;
       case 1:
-        fullDay = 'Mon';
+        fullDay = 'Monday';
         break;
       case 2:
-        fullDay = 'Tue';
+        fullDay = 'Tuesday';
         break;
       case 3:
-        fullDay = 'Wed';
+        fullDay = 'Wednesday';
         break;
       case 4:
-        fullDay = 'Thu';
+        fullDay = 'Thursday';
         break;
       case 5:
-        fullDay = 'Fri';
+        fullDay = 'Friday';
         break;
       case 6:
-        fullDay = 'Sat';
+        fullDay = 'Saturday';
     }
     var monthName = monthNames[new Date(getDate).getUTCMonth()];
     var yearName = new Date(getDate).getUTCFullYear();
     var year = yearName.toString();
-    monthName;
-    var utcDateAndDay =
-      fullDay +
-      ', ' +
-      new Date(getDate).getUTCDate() +
-      ' ' +
-      monthName +
-      ' ' +
-      year;
+    var todayMonth = monthNames[new Date().getUTCMonth()];
+    var todayYear = new Date().getUTCFullYear();
+    var todayDate = new Date().getUTCDate();
+    var utcDateAndDay;
+    if (
+      todayDate == new Date(getDate).getUTCDate() &&
+      monthName == todayMonth &&
+      yearName == todayYear
+    ) {
+      utcDateAndDay =
+        'Today, ' +
+        new Date(getDate).getUTCDate() +
+        ' ' +
+        monthName +
+        ' ' +
+        year;
+    } else {
+      utcDateAndDay =
+        fullDay +
+        ', ' +
+        new Date(getDate).getUTCDate() +
+        ' ' +
+        monthName +
+        ' ' +
+        year;
+    }
     return utcDateAndDay;
   }
 }

@@ -9,13 +9,23 @@
     [ngClass]="{ pdactive: isSticky == true }"
   >
     <div class="display-flex mr-top-menu">
-      <div class="col-md-4 pad-0">
+      <div class="col-md-10 pad-0">
         <div class="d-flex flex-row">
-          <h3>Staffs</h3>
-          <span class="location-name">{{ locationName }}</span>
+          <h3>Staff</h3>
+          <div class="mt-2">
+            <div
+              class="location-name"
+              [ngStyle]="{
+                color: gtxtColor,
+                background: gbgColor
+              }"
+            >
+              {{ locationName }}
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-8 pad-0">
+      <div class="col-md-2 pad-0">
         <button
           *ngIf="staffDemo.addStaff != ''"
           type="button"
@@ -28,7 +38,7 @@
     </div>
     <div class="col-sm-9 col-md-9 col-lg-10 col-xl-12 pad-0">
       <p class="input-recommend">
-        This is the list of your ‘Staffs’ that may include teachers, trainers
+        This is the list of your ‘Staff’ that may include teachers, trainers
         etc. Click on a ‘staff’ to see their profile details
       </p>
     </div>
@@ -44,10 +54,14 @@
           type="search"
           placeholder="Search staff here"
           id="staff-search-input"
-          (input)="userSearch($event.target.value, 'staff', '', '')"
+          (input)="userSearch2($event.target.value, 'staff', '', '')"
+          (keyup.enter)="userSearch($event.target.value, 'staff', '', '')"
           autocomplete="off"
         />
-        <span class="input-group-append">
+        <span
+          class="input-group-append"
+          (click)="userSearch(searchword, 'staff', '', '')"
+        >
           <button class="bt btn-design btn-outline-secondary" type="button">
             <i class="fa fa-search search-size"></i>
           </button>
@@ -76,7 +90,11 @@
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <div><label class="staff-label">Staff</label></div>
+            <div>
+              <label class="staff-label" *ngIf="staff.permission">{{
+                staff.permission.name
+              }}</label>
+            </div>
             <h5>
               {{
                 staff.preferredName.length > 20
@@ -115,108 +133,234 @@
 
   <div *ngIf="showStaffDetail" class="content-wrapper">
     <div class="main-wrapper">
-      <div class="d-flex heading-space">
-        <div class="back" (click)="backToStaff()">
-          <i
-            class="fa fa-angle-left"
-            style="color: #3d5266;font-size: 20px;"
-          ></i
-          ><span>Staffs</span>
-        </div>
-        <div class="ml-auto">
-          <span class="back" (click)="getSingleInfo(editId)">Edit Profile</span>
-        </div>
-      </div>
-
-      <div class="user-info-wrap d-flex -justify-content-between">
-        <div class="d-flex col-left">
-          <div class="img-wrap">
-            <div class="circular-image">
-              <img src="{{ staffDetail.user.profilePic }}" />
-            </div>
+      <div class="top-profile-wrap">
+        <div class="d-flex heading-space">
+          <div class="back" (click)="backToStaff()">
+            <i
+              class="fa fa-angle-left"
+              style="color: #3d5266;font-size: 20px;"
+            ></i
+            ><span>Staff</span>
           </div>
-          <div class="pad-left-15" style="width: 80%">
-            <div class="infoGp-wrap">
-              <h5>{{ staffDetail.user.preferredName }}</h5>
-              <p class="info-mail mb-0">{{ staffDetail.user.email }}</p>
-            </div>
-            <div class="infoGp-wrap mb-0">
-              <p *ngIf="staffDetail.user.about != ''" class="mb-0 info-p">
-                {{ staffDetail.user.about }}
-              </p>
-              <p *ngIf="staffDetail.user.about == ''" class="mb-0 info-p">
-                -
-              </p>
-            </div>
-          </div>
-          <div></div>
-        </div>
-        <div class="pad-left-15 col-right">
-          <div>
-            <div class="infoGp-wrap">
-              <label class="info-mail">Full name</label>
-              <p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
-              <!-- <p class="mb-0 info-p">{{ staffDetail.user.firstName }} <span style="padding: 1px"></span>{{staffDetail.user.lastName}}</p> -->
-            </div>
-            <div class="d-flex info-wrap details-list-wrap">
-              <div
-                *ngIf="staffDetail.user.details"
-                class="list-wrapper detail-list"
+          <div class="ml-auto d-flex align-items-center">
+            <!-- <div class="d-flex g-inner-wrap">
+              <div>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (change)="JourApprov()"
+                    [checked]="staffDetail.user.journalApprove"
+                  />
+                  <span class="slider round nocur"></span>
+                </label>
+              </div>
+              <label class="switch-label cre-email" for="online"
+                >Auto Journal Approval</label
               >
-                <div
-                  *ngFor="let detail of staffDetail.user.details"
-                  class="child-detail"
-                  [ngClass]="{ hide: detail.value.length == 0 }"
+            </div>
+ -->
+            <div
+              class="d-flex auto-enroll align-items-center justify-content-between"
+              [ngClass]="{ autoEnrollTrue: userArchive }"
+            >
+              <label class="switch-label mt-0" for="online" *ngIf="userArchive"
+                >Archive</label
+              >
+              <label class="switch-label mt-0" for="online" *ngIf="!userArchive"
+                >Unarchive</label
+              >
+              <div class="toggle-wrap d-flex align-items-center mr-2 ">
+                <label
+                  class="switch"
+                  *ngIf="userArchive"
+                  style="margin-top: 8px;"
                 >
-                  <label class="info-mail">
-                    {{ detail.name }}
-                  </label>
-                  <p class="mb-0 info-p">
-                    {{ detail.value }}
-                  </p>
+                  <input type="button" (click)="staffArchive(false)" />
+                  <span
+                    class="slider round"
+                    [ngClass]="{
+                      'checked-slider': true
+                    }"
+                  ></span>
+                </label>
+                <label
+                  *ngIf="!userArchive"
+                  class="switch"
+                  style="margin-top: 8px;"
+                >
+                  <input type="button" (click)="staffArchive(true)" />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            <span class="back" (click)="getSingleInfo(editId)"
+              >Edit profile</span
+            >
+          </div>
+        </div>
+
+        <!-- <div class="user-info-wrap d-flex -justify-content-between">
+          <div class="d-flex col-left">
+            <div class="img-wrap">
+              <div class="circular-image">
+                <img src="{{ staffDetail.user.profilePic }}" />
+              </div>
+            </div>
+            <div class="pad-left-15" style="width: 80%">
+              <div class="infoGp-wrap">
+                <h5>{{ staffDetail.user.preferredName }}</h5>
+                <p class="info-mail mb-0">{{ staffDetail.user.email }}</p>
+              </div>
+              <div class="infoGp-wrap mb-0">
+                <p *ngIf="staffDetail.user.about != ''" class="mb-0 info-p">
+                  {{ staffDetail.user.about }}
+                </p>
+                <p *ngIf="staffDetail.user.about == ''" class="mb-0 info-p">
+                  -
+                </p>
+              </div>
+            </div>
+            <div></div>
+          </div>
+          <div class="pad-left-15 col-right">
+            <div>
+              <div class="infoGp-wrap">
+                <label class="info-mail">Full name</label>
+                <p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
+              </div>
+              <div class="d-flex info-wrap details-list-wrap">
+                <div
+                  *ngIf="staffDetail.user.details"
+                  class="list-wrapper detail-list"
+                >
+                  <div
+                    *ngFor="let detail of staffDetail.user.details"
+                    class="child-detail"
+                    [ngClass]="{ hide: detail.value.length == 0 }"
+                  >
+                    <label class="info-mail">
+                      {{ detail.name }}
+                    </label>
+                    <p class="mb-0 info-p">
+                      {{ detail.value }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="btn-wrap">
+            <div></div>
+          </div>
+        </div> -->
+
+        <div class="half-profile-wrap">
+          <div class="circular-image big-circular-image">
+            <img src="{{ staffDetail.user.profilePic }}" />
+          </div>
         </div>
-        <div class="btn-wrap">
-          <div></div>
-        </div>
-      </div>
-      <div class="d-flex tab-border">
-        <button
-          [ngClass]="{
-            activeTab: activeTab == 'Classes'
-          }"
-          class="btn classes-tab"
-          (click)="clickTab('Classes')"
-        >
-          Classes
-        </button>
-        <button
-          [ngClass]="{ activeTab: activeTab == 'Absent' }"
-          class="btn leave-tab"
-          (click)="clickTab('Absent')"
-        >
-          Absent
-        </button>
       </div>
 
-      <!-- for classess  start-->
-      <div *ngIf="activeTab == 'Classes'">
-        <app-class-tab
-          [regionId]="regionID"
-          [userId]="userId"
-          [locationId]="locationID"
-        ></app-class-tab>
-      </div>
-      <!-- for classess end -->
-      <!-- for leave start -->
-      <div *ngIf="activeTab == 'Absent'" class="mt-3">
-        <app-leave-details [staffObj]="staffObj"></app-leave-details>
-      </div>
+      <div class="row section-wrap">
+        <div class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3">
+          <div class="infoGp-wrap">
+            <h5 class="staff-name">{{ staffDetail.user.preferredName }}</h5>
+            <p class="info-mail staff-email mb-0">
+              {{ staffDetail.user.email }}
+            </p>
+          </div>
+          <div
+            class="infoGp-wrap mb-0"
+            style="border-bottom: 1px dotted #7A8A99;"
+          >
+            <p *ngIf="staffDetail.user.about != ''" class="mb-0 staff-p">
+              {{ staffDetail.user.about }}
+            </p>
+            <p *ngIf="staffDetail.user.about == ''" class="mb-0 staff-p">
+              -
+            </p>
+          </div>
+          <div class="infoGp-wrap">
+            <label class="info-mail">Full name</label>
+            <p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
+          </div>
+          <div *ngIf="staffDetail.user.details">
+            <div
+              *ngFor="let detail of staffDetail.user.details"
+              class="infoGp-wrap"
+              [ngClass]="{ hide: detail.value.length == 0 }"
+            >
+              <label class="info-mail">
+                {{ detail.name }}
+              </label>
+              <div *ngIf="detail.dataType == 'Date'">
+                <span class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                  {{ detail.value | todayDate2 }}
+                </span>
+                <span class="info-mail" *ngIf="detail.value.length != 0">
+                  ({{
+                    detail.year > 1
+                      ? detail.year + ' years, '
+                      : detail.year > 0
+                      ? detail.year + ' year, '
+                      : ''
+                  }}{{
+                    detail.day > 1 ? detail.day + ' days' : detail.day + ' day'
+                  }})
+                </span>
+              </div>
+              <div *ngIf="detail.dataType != 'Date'">
+                <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+                  {{ detail.value }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <!-- for leave end -->
+        <div
+          class="d-flex flex-column profile-right col-md-8 col-xl-9 col-lg-9"
+        >
+          <div class="d-flex tab-border">
+            <button
+              [ngClass]="{
+                activeTab: activeTab == 'Classes'
+              }"
+              class="btn classes-tab"
+              (click)="clickTab('Classes')"
+            >
+              Classes
+            </button>
+            <button
+              [ngClass]="{ activeTab: activeTab == 'Absent' }"
+              class="btn leave-tab"
+              (click)="clickTab('Absent')"
+            >
+              Absent
+            </button>
+          </div>
+
+          <!-- for classess  start-->
+          <div *ngIf="activeTab == 'Classes'" class="pb-20">
+            <app-class-tab
+              [regionId]="regionID"
+              [userId]="userId"
+              [locationId]="locationID"
+              (showLoading)="showLoadingFun($event)"
+            ></app-class-tab>
+          </div>
+          <!-- for classess end -->
+          <!-- for leave start -->
+          <div *ngIf="activeTab == 'Absent'" class="mt-3 pb-20">
+            <app-leave-details
+              [staffObj]="staffObj"
+              (showLoading)="showLoadingFun($event)"
+            ></app-leave-details>
+          </div>
+
+          <!-- for leave end -->
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -228,7 +372,7 @@
 >
   <button type="button" class="back-button display-flex" (click)="back()">
     <i class="fa fa-angle-left left-arrow"></i>
-    <p class="back-staff-txt">Staffs</p>
+    <p class="back-staff-txt">Staff</p>
   </button>
 </div>
 
@@ -236,10 +380,11 @@
   <div class="inner-wrapper-detail" *ngIf="showFormCreate">
     <button type="button" class="back-button display-flex" (click)="back()">
       <i class="fa fa-angle-left left-arrow"></i>
-      <p class="back-staff-txt">Staffs</p>
+      <p class="back-staff-txt">Staff</p>
     </button>
     <div class="col-md-12 pad-0 mr-bt-top">
-      <h3>Create staff account</h3>
+      <h3 *ngIf="isupdate == false">Create staff account</h3>
+      <h3 *ngIf="isupdate == true">Update staff account</h3>
     </div>
     <form class="form-wrap" novalidate #createForm="ngForm">
       <div class="row display-flex">
@@ -251,7 +396,7 @@
                 <span
                   >e.g. How your call you or like your preferred name</span
                 > -->
-                Display Name
+                Display name
               </label>
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/15characters</span>
@@ -318,6 +463,7 @@
               class="form-control"
               placeholder="Type email address here"
               (keyup)="validateEmail(formFields.email)"
+              (input)="validateEmail(formFields.email)"
               name="email"
               [(ngModel)]="formFields.email"
               #email="ngModel"
@@ -357,7 +503,7 @@
           </div> -->
           <div *ngIf="isupdate" class="form-group form-divider">
             <div class="d-flex flex-row">
-              <label for="" class="label-txt">Change Password</label>
+              <label for="" class="label-txt">Change password</label>
               <div class="toggle-wrap">
                 <label class="switch">
                   <input
@@ -469,9 +615,10 @@
                   class="m-0 p-0 d-flex align-items-center"
                 >
                   <input
+                    checked="checked"
                     type="radio"
                     id="{{ 'radio' + i + j }}"
-                    (click)="radioCheck(item, field.inputValues)"
+                    (click)="radioCheck(item, field.inputValues, i, j)"
                     name="{{ 'radio' + i + j }}"
                     class="d-none"
                   />
@@ -523,7 +670,7 @@
             <!-- <input *ngIf="field.dataType == 'Number'" type="number" class="texHeight" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value">
 						<textarea *ngIf="field.dataType != 'Number'" class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea> -->
           </div>
-          <div *ngIf="!isupdate" class="col-md-12 pad-bottom">
+          <div class="col-md-12 pad-bottom">
             <div
               style="border-bottom: 1px solid #e3e4e6;"
               class="form-group"
@@ -540,6 +687,9 @@
                   <label
                     for="{{ user._id }}"
                     style="cursor: pointer; position: relative;"
+                    [ngClass]="{
+                      'radio-bg-active': formFields.permission == user._id
+                    }"
                   >
                     <div class="permission-box permission-name">
                       <input
@@ -637,6 +787,11 @@
               </div>
             </div>
           </div>
+          <div *ngIf="!imgDemoSlider && isupdate == true" class="pwd-container">
+            <span class="sent-randon-psw" (click)="setRandomPwd()">
+              Send random password
+            </span>
+          </div>
         </div>
       </div>
       <div class="d-flex justify-content-end button-group">
@@ -662,7 +817,10 @@
           (click)="createUser(formFields, 'create')"
           class="btn create-button"
           [disabled]="
-            !createForm.form.valid || permissionCount == false || emailAlert
+            !createForm.form.valid ||
+            permissionCount == false ||
+            emailAlert ||
+            imgDemoSlider
           "
         >
           Create
@@ -672,7 +830,7 @@
           type="submit"
           (click)="createUser(formFields, 'edit')"
           class="btn create-button"
-          [disabled]="!createForm.form.valid || emailAlert"
+          [disabled]="!createForm.form.valid || emailAlert || imgDemoSlider"
         >
           Update
         </button>
@@ -681,4 +839,5 @@
   </div>
 </div>
 
-<!-- <block-ui message="Deafult Message"></block-ui> -->
+<!-- <block-ui message="Deafult Message" *ngIf="showloading"></block-ui> -->
+<block-ui message="Deafult Message"></block-ui>

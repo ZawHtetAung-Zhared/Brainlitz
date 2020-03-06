@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ElementRef
+} from '@angular/core';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { templateJitUrl } from '@angular/compiler';
@@ -28,8 +36,10 @@ export class FlexiComponent implements OnInit {
   // lessionIdArr:any=[];
   public modalReference: any;
   @BlockUI() blockUI: NgBlockUI;
-
-  constructor(private _service: appService) {}
+  elelf: any;
+  constructor(private _service: appService, elelf: ElementRef) {
+    this.elelf = elelf;
+  }
   @Input() flexyarr;
   @Input() showcb;
   @Input() course;
@@ -43,31 +53,25 @@ export class FlexiComponent implements OnInit {
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
+    console.log('I am in flexi');
     this.lessionIdArr = [];
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
     this.teacherDetail = this.flexyarr.teacherDetails;
     this.flitterFlexyObj(this.flexyarr.lessons);
+    console.log(this.flexyarr);
   }
 
   flitterFlexyObj(obj) {
     this.lessionIdArr = [];
     var j = 0;
     for (let i = 0; i < obj.length; i++) {
-      console.log(obj[i]);
-      if (obj[i].hasConflict == false && obj[i].isEnrolled == false) {
+      if (obj[i].isEnrolled == false) {
         j++;
-        // console.warn(j);
 
         //to remove id
         let tobj: any = {};
         tobj = obj[i];
-        // tobj.startDate = obj[i].startDate;
-        // tobj.conflictWith = obj[i].conflictWith;
-        // tobj.endDate = obj[i].endDate;
-        // tobj.hasConflict = obj[i].hasConflict;
-        // tobj.isEnrolled = obj[i].isEnrolled;
-        // tobj.teacherId = obj[i].teacherId;
         tobj.id = i;
 
         if (j <= this.course.defaultlessonCount) {
@@ -121,7 +125,13 @@ export class FlexiComponent implements OnInit {
   clickId: any;
   conflictObj: any;
   lessonsCount: number = 0;
-  showConflictBox(e, obj) {
+  showConflictBox(e, obj, ref: ElementRef) {
+    // User screen size
+    const screenHeight = window.screen.height;
+    const screenWidth = window.innerWidth;
+    console.log(screenHeight, screenWidth);
+
+    console.log('ele', e);
     console.log(obj);
     this.lessonsCount = 0;
     this.tempSignle = [];
@@ -156,33 +166,73 @@ export class FlexiComponent implements OnInit {
           .setAttribute('style', 'overflow: hidden;');
       });
     }
-    if (this.ctype == 'schedule') {
-      this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 50 + 85;
-      this.arrTop = e.clientY - 50 + 68;
-      this.arrLeft = e.clientX - 173 - 65;
-      this.styleArr = {
-        top: this.yPos + 'px'
-      };
-      console.log(this.xPos);
-      console.log(this.yPos);
-    } else {
-      console.log(e);
-      console.log(e.path[4].offsetLeft);
-      console.log($(event.target).offset().top);
-      this.xPos = e.clientX - 173 - 65;
-      this.yPos = e.clientY - 150 + 112;
-      this.arrTop = e.clientY - 150 + 92;
-      if (e.srcElement.className == 'fa fa-angle-down downIcon') {
-        this.arrLeft = e.path[4].offsetLeft + 40;
-      } else {
-        this.arrLeft = e.path[3].offsetLeft + 40;
+
+    this.xPos = e.clientX - 173 - 65;
+    console.log('e>>', e.composedPath());
+    if (e.path == undefined) {
+      for (let i = 0; i < e.composedPath().length; i++) {
+        console.log(e.composedPath()[i].classList.value);
+        if (e.composedPath()[i].classList.value == 'modal-dialog') {
+          this.yPos = e.clientY - e.composedPath()[i].offsetTop + 16;
+          break;
+        }
       }
 
-      this.styleArr = {
-        top: this.yPos + 'px'
-      };
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        console.log('reach1', e.composedPath()[4].offsetLeft);
+        this.arrLeft = e.composedPath()[4].offsetLeft + 130;
+      } else {
+        console.log('reach2', e.composedPath()[3].offsetLeft);
+        this.arrLeft = e.composedPath()[3].offsetLeft + 130;
+      }
+    } else {
+      for (let i = 0; i < e.path.length; i++) {
+        if (e.path[i].classList != undefined) {
+          console.log(e.path[i].classList.value);
+          if (e.path[i].classList.value == 'modal-dialog') {
+            this.yPos = e.clientY - e.path[i].offsetTop + 16;
+            break;
+          } else {
+            console.log(e.path[i].offsetTop);
+            console.log(e.clientY);
+            this.yPos = e.clientY - e.path[i].offsetTop + 26;
+          }
+        }
+      }
+
+      if (
+        e.srcElement.className == 'fa fa-exclamation-circle exclamationIcon' ||
+        e.srcElement.className ==
+          'fa fa-exclamation-circle exclamationIcon exclamationIconSelected'
+      ) {
+        console.log('here1', e.path[4].offsetLeft);
+        if (screenWidth >= 1366) {
+          console.log('reach1');
+          this.arrLeft = e.path[4].offsetLeft - 100;
+        } else {
+          console.log('reach2');
+          this.arrLeft = e.path[4].offsetLeft + 150;
+        }
+      } else {
+        console.log('here2', e.path[3].offsetLeft);
+        if (screenWidth >= 1366) {
+          console.log('reach hereee');
+          this.arrLeft = e.path[3].offsetLeft + 190;
+        } else {
+          console.log('reach hereee2');
+          this.arrLeft = e.path[3].offsetLeft + 190;
+        }
+      }
     }
+
+    this.styleArr = {
+      top: this.yPos + 'px'
+    };
+
     for (let x = 0; x < this.conflictObj.conflictWith.length; x++) {
       this.lessonsCount += this.conflictObj.conflictWith[x].lessons.length;
     }
@@ -194,11 +244,12 @@ export class FlexiComponent implements OnInit {
     let startDate;
     let date = new Date(this.lessonsObj[0].startDate);
     let dres = new Date(date.setDate(date.getDate() - 1)).toISOString();
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getFlexi(this.course._id, this.selectedCustomer.userId, startDate, dres)
       .subscribe(
         (res: any) => {
+          console.log(res);
           let tempLesson = [];
           let tempflexy = [];
           let tempdata = [];
@@ -211,6 +262,11 @@ export class FlexiComponent implements OnInit {
               tempLesson.push(i);
               tempdata.push(res.lessons[i]);
             }
+            // console.log(i+".........",res.lessons[i]);
+            // this.lessonsObj.unshift(res.lessons[i]);
+          }
+
+          for (let i = res.lessons.length - 1; i >= 0; i--) {
             this.lessonsObj.unshift(res.lessons[i]);
           }
 
@@ -226,11 +282,12 @@ export class FlexiComponent implements OnInit {
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
+          console.log(this.lessonsObj);
           // this.lessionIdArr = tempLesson.concat(this.lessionIdArr);
           // this.lessonObjArr = tempdata.concat(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
@@ -266,6 +323,19 @@ export class FlexiComponent implements OnInit {
       this.tempSkip.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      console.log('exit skip');
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
 
     if (this.tempSignle.find(d => d == data) == undefined) {
@@ -294,7 +364,7 @@ export class FlexiComponent implements OnInit {
     let date = new Date(this.lessonsObj[this.lessonsObj.length - 1].startDate);
     let startDate = new Date(date.setDate(date.getDate() + 1)).toISOString();
     console.log(startDate);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service
       .getFlexi(
         this.course._id,
@@ -319,7 +389,7 @@ export class FlexiComponent implements OnInit {
           console.log(this.lessonsObj);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
-          this.blockUI.stop();
+          //this.blockUI.stop();
         },
         err => {
           console.log(err);
@@ -355,7 +425,20 @@ export class FlexiComponent implements OnInit {
       this.tempskipAll.length == 0
     ) {
       this.lessonsObj[number].hasConflict = false;
+    } else {
+      if (this.lessionIdArr.includes(this.conflictObj.id)) {
+        this.lessionIdArr.splice(
+          this.lessionIdArr.indexOf(this.conflictObj.id),
+          1
+        );
+        this.lessonObjArr.splice(
+          // this.lessonObjArr.map(x => x._id).indexOf(id),
+          this.lessonObjArr.indexOf(this.conflictObj),
+          1
+        );
+      }
     }
+    console.log(this.lessonObjArr);
     if (this.tempAll.length == this.conflictObj.conflictWith.length) {
       console.log('close');
       this.conflictBoxShow = false;

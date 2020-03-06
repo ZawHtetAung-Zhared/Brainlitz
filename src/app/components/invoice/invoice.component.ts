@@ -10,7 +10,7 @@ import {
 import { appService } from '../../service/app.service';
 import { DataService } from '../../service/data.service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { FormStyle } from '@angular/common';
 import { isBoolean } from 'util';
 import { tryParse } from 'selenium-webdriver/http';
@@ -88,7 +88,7 @@ export class InvoiceComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     private router: Router,
     private dataService: DataService
   ) {}
@@ -107,6 +107,8 @@ export class InvoiceComponent implements OnInit {
     this.singleInv = [];
     this.getSingleinvoice();
     this.getRegionInfo();
+    console.warn(this.custDetail, 'cust detail');
+    console.warn(this.invoiceId, 'inv id');
     // if (Array.isArray(this.course.invoice)) {
     //   if (this.course.invoice[0].status == 'PAID') {
     //     this.showPaidInvoice = true;
@@ -140,6 +142,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   getSingleinvoice() {
+    console.error(this.course, 'course');
     this._service.getSingleInvoice(this.invoiceId).subscribe(
       (res: any) => {
         console.log('single invoice>>', res);
@@ -321,6 +324,7 @@ export class InvoiceComponent implements OnInit {
   }
   showOneInvoice(course, invoice) {
     // for (var i in this.invoice) {
+    console.error(invoice, 'invoice');
     this.invStatus = this.invoice.status;
     this.taxRate = this.invoice.tax.rate;
     this.updatedDate = this.dateFormat(invoice.updatedDate);
@@ -349,11 +353,19 @@ export class InvoiceComponent implements OnInit {
     // if (invoice.courseId == course._id) {
 
     this.invoiceCourse['name'] = this.invoice.courseDetails.name;
-    this.invoiceCourse['startDate'] = this.invoice.courseDetails.startDate;
     this.invoiceCourse['endDate'] = this.invoice.courseDetails.endDate;
-    this.invoiceCourse[
-      'lessonCount'
-    ] = this.invoice.courseDetails.lessons.length;
+    if (this.invoice.studentLessons.length == 0) {
+      this.invoiceCourse['startDate'] = this.invoice.courseDetails.startDate;
+    } else {
+      this.invoiceCourse[
+        'startDate'
+      ] = this.invoice.studentLessons[0].startDate;
+    }
+
+    if (this.invoice.studentLessons != undefined) {
+      this.invoiceCourse['lessonCount'] = this.invoice.studentLessons.length;
+    }
+
     // }
     // }
   }
@@ -1107,7 +1119,7 @@ export class InvoiceComponent implements OnInit {
 
   removeDiscount(type, obj, id) {
     console.log('type', type, this.cDiscount.isDefault);
-
+    this.isEditInv = true;
     if (type == 'courseFee') {
       this.iscDiscount = false;
       // if (this.cDiscount.isDefault) {
@@ -1120,7 +1132,7 @@ export class InvoiceComponent implements OnInit {
         amount: 0.0,
         isDefault: this.cDiscount.isDefault
       };
-      this.isEditInv = true;
+
       // }
 
       this.default_disTotal = 0;

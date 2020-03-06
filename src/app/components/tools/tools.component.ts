@@ -28,7 +28,8 @@ import {
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription, ISubscription } from 'rxjs/Subscription';
 import * as moment from 'moment-timezone';
 
 import { Router } from '@angular/router';
@@ -45,6 +46,7 @@ export class ToolsComponent implements OnInit {
   @ViewChild('mainScreen') elementView: ElementRef;
   @ViewChild('notiForm') notiform;
 
+  private permissionSubscription: ISubscription;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public checkActive = true;
@@ -60,6 +62,8 @@ export class ToolsComponent implements OnInit {
   public courseLists: any;
   public dataLists: any;
   public locationName: any;
+  public gtxtColor: any;
+  public gbgColor: any;
   public userCount: any;
   public notiType: any;
   public notiLists: Array<any> = [];
@@ -72,7 +76,7 @@ export class ToolsComponent implements OnInit {
   public isFousCategory: boolean = false;
   public wordLength: number = 0;
   public notiTypes: any = [
-    { name: 'Email', type: 'email', checked: false },
+    // { name: 'Email', type: 'email', checked: false },
     { name: 'App notification', type: 'noti', checked: false }
   ];
   public checkedType: any = [];
@@ -99,13 +103,12 @@ export class ToolsComponent implements OnInit {
 
   constructor(
     private _service: appService,
-    public toastr: ToastsManager,
+    public toastr: ToastrService,
     vcr: ViewContainerRef,
     private elementRef: ElementRef,
     private datePipe: DatePipe,
     private router: Router
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
         console.log('~~~~', this.router.url);
@@ -126,14 +129,20 @@ export class ToolsComponent implements OnInit {
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
-    this._service.permissionList.subscribe(data => {
-      if (this.router.url === '/tools') {
-        this.permissionType = data;
-        console.log(this.permissionType);
-        this.checkPermission();
-        localStorage.setItem('permission', JSON.stringify(data));
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        if (this.router.url === '/tools') {
+          this.permissionType = data;
+          console.log(this.permissionType);
+          this.checkPermission();
+          localStorage.setItem('permission', JSON.stringify(data));
+        }
       }
-    });
+    );
+  }
+
+  ngOnDestroy() {
+    this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
@@ -176,6 +185,8 @@ export class ToolsComponent implements OnInit {
     if (this.notiSidebar.length > 0) {
       console.log('noti');
       this.locationName = localStorage.getItem('locationName');
+      this.gtxtColor = localStorage.getItem('txtColor');
+      this.gbgColor = localStorage.getItem('backgroundColor');
       this.notiType = this.notiSidebar.includes('SENDNOTIFICATION')
         ? 'send'
         : 'view';
@@ -189,18 +200,27 @@ export class ToolsComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
-    this.windowH = window.innerHeight;
-    this.isFixed = true;
-    if (window.pageYOffset > 81) {
-      this.isSticky = true;
-      this.isMidStick = false;
-    } else if (window.pageYOffset < 0) {
-      this.isFixed = false;
-    } else {
+    if ($('.modal-open')[0]) {
       this.isSticky = false;
-    }
+      this.isMidStick = false;
+    } else {
+      this.windowH = window.innerHeight;
+      this.isFixed = true;
+      if (window.pageYOffset > 81) {
+        this.isSticky = true;
+        this.isMidStick = false;
+        var element = document.getElementById('notibar2');
+        if (typeof element == 'undefined' || element == null) {
+          $('.mid-top').css({ 'padding-top': '0px' });
+        }
+      } else if (window.pageYOffset < 0) {
+        this.isFixed = false;
+      } else {
+        this.isSticky = false;
+      }
 
-    this.isMidStick = window.pageYOffset > 45 ? true : false;
+      this.isMidStick = window.pageYOffset > 45 ? true : false;
+    }
   }
 
   clickTab(type) {
@@ -265,15 +285,33 @@ export class ToolsComponent implements OnInit {
     }, 300);
   }
 
+  searchStart(e, type) {
+    if (e.keyCode == 13) {
+      console.log('Search start~~~~~~~');
+      this.searchForKeyword(e.target.value, type);
+    }
+  }
+
   changeSearch(searchWord, type) {
-    console.log(searchWord);
-    console.log(this.active);
     this.checkActive = true;
     this.isSelected = false;
     this.selectedID = this.isSelected == false ? undefined : this.selectedID;
     // this.active = (searchWord.length == 0 ) ? [] : this.active;
     this.selectedID = searchWord.length == 0 ? undefined : this.selectedID;
     this.userCount = searchWord.length == 0 ? 0 : 0;
+    // this.searchForKeyword(searchWord,type)
+    if (searchWord.length == 0) {
+      console.log('searchWord length 0');
+      this.searchForKeyword(searchWord, type);
+    }
+  }
+
+  searchForKeyword(searchWord, type) {
+    console.log(
+      'searchWord.length & searchWord',
+      searchWord.length,
+      searchWord
+    );
     if (type == 'user') {
       if (searchWord.length != 0) {
         this._service
@@ -468,12 +506,12 @@ export class ToolsComponent implements OnInit {
 
     this.showDayType();
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.viewNoti(limit, skip, this.locationId).subscribe(
       (res: any) => {
         console.log('~~~', this.notiLists);
         console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
 
         // this.notiLists = res;
         this.notiLists = this.notiLists.concat(res);
@@ -509,7 +547,7 @@ export class ToolsComponent implements OnInit {
         console.log('Noti List', this.notiLists);
       },
       err => {
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.error('View sent history fail');
         console.log(err);
       }
@@ -826,7 +864,7 @@ export class ToolsComponent implements OnInit {
     dataObj['id'] = this.selectedID;
     console.log(dataObj);
 
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.createNoti(dataObj, body).subscribe(
       (res: any) => {
         console.log('~~~', res);
@@ -834,12 +872,12 @@ export class ToolsComponent implements OnInit {
         setTimeout(() => {
           this.toastr.success('Successfully notified.');
         }, 100);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.item = {};
         this.item.sendType = 'app';
         this.checkedType = [];
         this.notiTypes = [
-          { name: 'Email', type: 'email', checked: false },
+          // { name: 'Email', type: 'email', checked: false },
           { name: 'App notification', type: 'noti', checked: false }
         ];
         if (

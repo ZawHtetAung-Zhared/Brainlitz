@@ -6,7 +6,7 @@ import { TargetLocator, promise } from 'selenium-webdriver';
 import { pd } from './apg';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
-import { ToastsManager } from 'ng5-toastr/ng5-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { type } from 'os';
 import { appService } from '../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -170,7 +170,7 @@ export class TestwerkzComponent implements OnInit {
     private modalService: NgbModal,
     private modalService1: NgbModal,
     private dragulaService: DragulaService,
-    public toastr: ToastsManager
+    public toastr: ToastrService
   ) {}
 
   // waiyan's code start
@@ -352,14 +352,14 @@ export class TestwerkzComponent implements OnInit {
 
   getConceptLists(page, size) {
     // console.log(page,size)
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service
       .getAllConcept(this.regionID, 1, size)
       .subscribe((res: any) => {
         console.log('Concept lists', res);
         this.conceptsArr = res;
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 300);
       });
   }
@@ -417,13 +417,13 @@ export class TestwerkzComponent implements OnInit {
     }
   }
   getAllTag() {
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     this._service.getAllTags(this.regionID).subscribe(
       (res: any) => {
         console.log(res);
         this.tagsWerkzList = res;
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 300);
       },
       err => {
@@ -1154,7 +1154,7 @@ export class TestwerkzComponent implements OnInit {
     } else {
       isFirst = false;
     }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     // console.log(this.ImgArr)
     return new Promise((resolve, reject) => {
       this._service
@@ -1201,7 +1201,7 @@ export class TestwerkzComponent implements OnInit {
               }
             }
             resolve();
-            this.blockUI.stop();
+            //this.blockUI.stop();
           },
           err => {
             console.log(err);
@@ -1256,7 +1256,7 @@ export class TestwerkzComponent implements OnInit {
       var file = event.target.files;
       console.log('is me', this.videoFile);
     }
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.loadImage(this.regionID, file).subscribe(
       (res: any) => {
         // console.log("res.meta~~~",res.meta)
@@ -1281,7 +1281,7 @@ export class TestwerkzComponent implements OnInit {
           });
         }
 
-        this.blockUI.stop();
+        //this.blockUI.stop();
       },
       err => {
         console.log(err);
@@ -2281,14 +2281,14 @@ export class TestwerkzComponent implements OnInit {
     // console.log("---------------------");
     // console.log(this.performanceDemands);
     // console.log("---------------------");
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     async.map(
       this.performanceDemands,
       this.pdLoop.bind(null, this),
       this.pdLoopDone.bind(null, this)
     );
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 300);
   }
   createQuestions(_this, pd, question, callback) {
@@ -2858,7 +2858,7 @@ export class TestwerkzComponent implements OnInit {
     // console.log("---------------------");
     // console.log(this.performanceDemands);
     // console.log("---------------------", id);
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
 
     async.map(
       this.performanceDemands,
@@ -2866,7 +2866,7 @@ export class TestwerkzComponent implements OnInit {
       this.updatepdLoopDone.bind(null, this, id)
     );
     setTimeout(() => {
-      this.blockUI.stop();
+      //this.blockUI.stop();
     }, 300);
   }
 
@@ -3361,7 +3361,7 @@ export class TestwerkzComponent implements OnInit {
 
   //start collection group
   getCollectionlist(page, size) {
-    this.blockUI.start('Loading');
+    //this.blockUI.start('Loading');
     console.log(page, size);
     this._service
       .getAllCollection(this.regionID, 1, size)
@@ -3372,18 +3372,18 @@ export class TestwerkzComponent implements OnInit {
         this.collectionarr = res;
         this.result = res;
         setTimeout(() => {
-          this.blockUI.stop();
+          //this.blockUI.stop();
         }, 300);
       });
   }
 
   getCollectionSearch(keyword) {
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getCollectionBySearch(this.regionID, keyword).subscribe(
       (res: any) => {
         console.log(res);
         this.collectionarr = res;
-        this.blockUI.stop();
+        //this.blockUI.stop();
       },
       err => {
         console.log(err);
@@ -3431,17 +3431,18 @@ export class TestwerkzComponent implements OnInit {
   focusSearch(e) {
     console.log(e);
 
-    this.isFocus_collection = true;
+    this.isFocus_collection = false;
     // this.showfixedcreate = true;
     // this.apgList = [];
-    // this.concept_in_collection=[];
-    // this.conceptsArr=[];
+    this.concept_in_collection = [];
+    this.conceptsArr = [];
   }
 
   hideSearch(e) {
     console.log(e);
     setTimeout(() => {
       this.isFocus_collection = false;
+      this.searchWords = '';
       // this.showfixedcreate = false;
     }, 300);
   }
@@ -3451,6 +3452,7 @@ export class TestwerkzComponent implements OnInit {
     this.searchWords = keyword;
     if (keyword == 0 || keyword == '') {
       this.concept_in_collection = [];
+      this.isFocus_collection = false;
       console.log(this.concept_in_collection);
       // this.getAllAPG(20, 0)
     } else {
@@ -3460,7 +3462,7 @@ export class TestwerkzComponent implements OnInit {
 
   getConceptSearch(keyword) {
     // console.error(this.isCollectionList,this.pageConcept)
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     this._service.getAllConceptBySearch(this.regionID, keyword).subscribe(
       (res: any) => {
         console.log(res);
@@ -3468,8 +3470,11 @@ export class TestwerkzComponent implements OnInit {
           this.conceptsArr = res;
         } else {
           this.concept_in_collection = res;
+          this.isFocus_collection = true;
+          if (this.concept_in_collection.length == 0)
+            this.isFocus_collection = false;
         }
-        this.blockUI.stop();
+        //this.blockUI.stop();
       },
       err => {
         console.log(err);
@@ -3488,7 +3493,7 @@ export class TestwerkzComponent implements OnInit {
         res.isExpand = false;
         this.selectedConcept.push(res);
         this.selectedConceptIdArr.push(res._id);
-        // this.blockUI.stop();
+        // //this.blockUI.stop();
         this.isfocus = false;
       },
       err => {
@@ -3643,7 +3648,7 @@ export class TestwerkzComponent implements OnInit {
 
   // goTocollectionEdit(id){
   //   console.log(id);
-  //   this.blockUI.start("Loading...");
+  //   //this.blockUI.start("Loading...");
   //   this._service.getCollectionById(this.regionID,id).subscribe(
   //     (res: any) => {
   //       console.log(res)
@@ -3655,7 +3660,7 @@ export class TestwerkzComponent implements OnInit {
   //       res.concepts.map(obj=>{
   //         this.getConceptByIdForCollection(obj.conceptId)
   //       })
-  //       this.blockUI.stop();
+  //       //this.blockUI.stop();
   //     },
   //     err => {
   //       console.log(err);
@@ -3678,7 +3683,7 @@ export class TestwerkzComponent implements OnInit {
   updateCollection(id) {
     // console.log(id)
     this.pageCollection = 1;
-    this.blockUI.start('Loading...');
+    //this.blockUI.start('Loading...');
     let idArr = [];
     this.isCollectionEdit = false;
     for (let i = 0; i < this.selectedConcept.length; i++) {
@@ -3696,7 +3701,7 @@ export class TestwerkzComponent implements OnInit {
     this._service.updateCollection(this.regionID, obj, id).subscribe(
       (res: any) => {
         // console.log(res);
-        this.blockUI.stop();
+        //this.blockUI.stop();
         this.toastr.success('Successfully Plan updated.');
         this.getCollectionlist(1, 20);
       },

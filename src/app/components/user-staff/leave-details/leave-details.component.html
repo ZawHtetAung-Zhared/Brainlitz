@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between">
   <!-- <h3 class="leave-title">Leave</h3> -->
-  <h3 class="leave-title">Absent History</h3>
+  <h3 class="leave-title">Absent history</h3>
   <button class="btn btn-primary add-leave" (click)="openLeaveModal(openLeave)">
     Add new absent
   </button>
@@ -110,7 +110,7 @@
             HLAF - {{ log.meridian }}
           </p>
           <p class="leave-type-info mb-0" *ngIf="log.meridian == 'DAY'">
-            1 DAY
+            FULL DAY
           </p>
         </div>
         <div class="d-flex align-items-center pb-3 pt-2">
@@ -129,7 +129,7 @@
 <ng-template #cancelClass let-modal>
   <div class="cancel-class-wrapper">
     <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
-      <h1 class="cancel-class-title">Cancel Lesson</h1>
+      <h1 class="cancel-class-title">Cancel lesson</h1>
       <span class="close-icon" (click)="closeCancelClassModal()"></span>
     </div>
     <div class="d-flex">
@@ -171,7 +171,7 @@
           /></span>
           <span class="total-student-text"
             >Total of {{ studentCount }} students will be affected as
-            <span *ngIf="giveMakeUp">MakeUp Pass</span>
+            <span *ngIf="giveMakeUp">MakeUp pass</span>
             <span *ngIf="!giveMakeUp">Cancel class</span>
           </span>
         </p>
@@ -287,7 +287,7 @@
                     mwlCalendarNextView
                     [view]="view"
                     [(viewDate)]="viewDate"
-                    (viewDateChange)="showExistData(viewDate)"
+                    (viewDateChange)="showExistData($event)"
                     style="padding-right:0px;"
                   >
                     <img src="assets/images/arrow-right.svg" />
@@ -362,17 +362,13 @@
             [viewDate]="viewDate"
             [events]="events"
             [refresh]="refresh"
-            (viewDateChange)="getJournalByMonth(viewDate)"
             (dayClicked)="dayClicked($event.day, $event.day)"
             [cellTemplate]="customCellTemplate"
             (beforeViewRender)="checkSelectedDate($event)"
           >
           </mwl-calendar-month-view>
         </div>
-        <div
-          class="d-flex flex-column leave-day-part"
-          *ngIf="selectedDays.length != 0"
-        >
+        <div class="leave-day-part" *ngIf="selectedDays.length != 0">
           <div class="leave-day-title">
             Leave days
           </div>
@@ -386,7 +382,8 @@
               *ngFor="let sday of selectedDays; let i = index"
             >
               <div class="leave-day-date">
-                {{ sday.date | utcDateAndDay }}
+                <!-- {{ sday.date | utcDateAndDay }} -->
+                {{ sday.date | date: 'EEEE, dd MMM yyyy' }}
               </div>
               <div class="leave-day-Choosetype">
                 <div class="input-group leave-input-gp">
@@ -471,11 +468,11 @@
             <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
               >{{ staffObj.preferredName }} </span
             >will skip
-            <span
-              style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-              >{{ skipLessonsCount }}</span
+            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+              >{{ skipLessonsCount }}
+              {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}</span
             >
-            lessons in this following days
+            in this following days
           </div>
 
           <div
@@ -736,7 +733,7 @@
                           )
                         "
                       >
-                        Assign Relief Teacher
+                        Assign relief teacher
                       </button>
                       <span class="small-line"></span>
                       <button
@@ -763,7 +760,7 @@
                       class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
                     >
                       <label class="mb-0 selected-name pl-3">
-                        Cancelled Class
+                        Cancelled class
                       </label>
                       <div
                         class="d-flex justify-content-center align-items-center pl-2"
@@ -842,7 +839,7 @@
                             <label
                               *ngIf="course.pass == false"
                               class="mb-0 selected-name pl-3"
-                              >Cancelled Class</label
+                              >Cancelled class</label
                             >
                             <label
                               *ngIf="course.pass == true"
@@ -931,6 +928,7 @@
     <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
       Cancel
     </button>
+
     <button
       [disabled]="
         !assignedReliefAll &&
@@ -948,21 +946,29 @@
   <div class="modal-wrap">
     <div class="assign-modal-header">
       <div class="d-flex justify-content-between w-100">
-        <h4 class="assignmodal-title">Assingn Relief Teacher</h4>
+        <h4 class="assignmodal-title">Assign relief teacher</h4>
         <button class="closeBtn" (click)="cancelModal('relief')">
           <img src="assets/img/removeIcon.png" />
         </button>
       </div>
-      <div class="d-flex pb-2" *ngFor="let data of modalCourseData">
-        <div class="date-wrap">
-          {{ data.date }}
-        </div>
-        <div class="d-flex" *ngFor="let cData of data.courses; let idx = index">
-          <div class="cName lType">
-            {{ cData.name }}
+      <div class="data-scroll">
+        <div class="d-flex pb-2" *ngFor="let data of modalCourseData">
+          <div class="date-wrap">
+            {{ data.date }}
           </div>
-          <div *ngIf="data.courses?.length != idx + 1" class="cInfo-dot-wrap2">
-            <span class="cInfo-dot2"> </span>
+          <div
+            class="d-flex"
+            *ngFor="let cData of data.courses; let idx = index"
+          >
+            <div class="cName lType">
+              {{ cData.name }}
+            </div>
+            <div
+              *ngIf="data.courses?.length != idx + 1"
+              class="cInfo-dot-wrap2"
+            >
+              <span class="cInfo-dot2"> </span>
+            </div>
           </div>
         </div>
       </div>
@@ -975,9 +981,11 @@
           name="searchInput"
           placeholder="Search teacher..."
           class="input-search"
-          (input)="searchMethod($event.target.value, 'staff')"
+          (input)="searchMethod_input($event.target.value)"
+          (keyup.enter)="searchMethod($event.target.value, 'staff')"
           (focus)="focusSearch($event, 'focusOn')"
           (focusout)="focusSearch($event, 'focusOut')"
+          (blur)="focusSearch($event, 'blur')"
           [(ngModel)]="searchKeyword"
           #tsearch="ngModel"
           autocomplete="off"
@@ -1015,7 +1023,7 @@
         </div>
         <div class="d-flex col-md-6">
           <div class="assign-text">
-            Assign Relief Teacher to this Course
+            Assign relief teacher to this course
           </div>
           <div class="mt-3">
             <img src="assets/img/arrow.png" />
@@ -1023,12 +1031,32 @@
         </div>
       </div>
       <div *ngIf="!isFocusSearch && selectedTeacher != null">
-        <div class="d-flex pt-3 pb-3">
+        <div class="d-flex align-items-center pt-3 pb-3">
           <div>
             <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
           </div>
-          <div class="pl-3 selected-name lh-3">
-            {{ selectedTeacher.preferredName }}
+          <div class="d-flex flex-column pl-3">
+            <div class="teacher-text">
+              Senior teacher
+            </div>
+            <div class="selected-name">
+              {{ selectedTeacher.preferredName }}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isConflict" class="d-flex align-items-center conflict-box">
+          <div class="circleExclamation">
+            <i class="fa fa-exclamation"></i>
+          </div>
+          <div class="conflict-text">
+            The selected
+            <span *ngIf="!isSingleLeave && skipLessonsCount > 1"
+              >lessons conflict</span
+            >
+            <span *ngIf="skipLessonsCount <= 1 || isSingleLeave"
+              >lesson conflicts</span
+            >
+            with the following.
           </div>
         </div>
         <div *ngFor="let conflictLesson of conflictLessonArr">
@@ -1082,4 +1110,4 @@
   </div>
 </ng-template>
 
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message" *ngIf="!leaveLogsLoading"></block-ui> -->
