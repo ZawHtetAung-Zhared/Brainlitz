@@ -58,6 +58,7 @@ export class CourseListComponent implements OnInit {
   private activePlanId: any = '';
   private removeHeight: boolean = false;
   private coursesResLength;
+  private scrollType = 'auto-call';
 
   constructor(
     private _service: appService,
@@ -167,7 +168,7 @@ export class CourseListComponent implements OnInit {
               this.limit,
               this.skip,
               this.page,
-              'onScroll'
+              'next-page'
             );
           } else {
             this.simpleCourseSearchPerPlan(
@@ -186,10 +187,14 @@ export class CourseListComponent implements OnInit {
     } else if (this.oldValue - newValue > 0) {
       console.log('Direction Up');
       if (window.scrollY == 0) {
+        console.log('scroll Type~~~~~~~~', this.scrollType);
         // $(window).scrollTop($('body').height() - $(window).height() -1);
         // console.log("window.innerHeight",window.innerHeight,'document.body.height',document.body.clientHeight,'document.body.scrollheight',document.body.scrollHeight,'window.scrollY',window.scrollY)
         console.log('top of the page');
-        this.getCoursesForPreviousPlan();
+        if (this.scrollType != 'next-plan') {
+          console.log('~~~~~call previous plan');
+          this.getCoursesForPreviousPlan();
+        }
       }
     }
     // Update the old value
@@ -207,7 +212,12 @@ export class CourseListComponent implements OnInit {
         let nextPlanId = this.coursePlanCollection[nextIdx]._id;
         let nextPlanName = this.coursePlanCollection[nextIdx].name;
         console.log('nextPlanId', nextPlanId, ',nextPlanName', nextPlanName);
-        this.getCourseswithPlanId(nextPlanId, nextPlanName, this.searchKeyword);
+        this.getCourseswithPlanId(
+          nextPlanId,
+          nextPlanName,
+          this.searchKeyword,
+          'next-plan'
+        );
         break;
       }
     }
@@ -398,7 +408,8 @@ export class CourseListComponent implements OnInit {
           this.getCourseswithPlanId(
             autoSelectedPlanId,
             autoSelectedPlanName,
-            null
+            null,
+            'auto-call'
           );
           this.scrollToActiveElement(autoSelectedPlanId);
         },
@@ -410,8 +421,9 @@ export class CourseListComponent implements OnInit {
       );
   }
 
-  getCoursesPerPlan(courseplanId, limit, skip, page, from) {
-    console.log('call getCoursesPerPlan from', from);
+  getCoursesPerPlan(courseplanId, limit, skip, page, scrollType) {
+    this.scrollType = scrollType;
+    console.log('call getCoursesPerPlan from', scrollType);
     console.log(limit, skip, page);
     this.courseLoading = true;
     this._service
@@ -427,7 +439,6 @@ export class CourseListComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          console.log(res);
           this.courseLoading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
@@ -436,16 +447,6 @@ export class CourseListComponent implements OnInit {
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
             this.checkCoursesLength();
-            console.log(
-              'window.innerHeight',
-              window.innerHeight,
-              'document.body.height',
-              document.body.clientHeight,
-              'document.body.scrollheight',
-              document.body.scrollHeight,
-              'window.scrollY',
-              window.scrollY
-            );
           }
         },
         err => {
@@ -455,6 +456,14 @@ export class CourseListComponent implements OnInit {
         }
       );
   }
+
+  // setScrollPosition(scrollType){
+  //   if(scrollType == 'next-plan'){
+  //     // document.getElementById('courseWrapper').scrollTop = 155;
+  //     window.scroll(0,150)
+  //     console.log('scroll pos',scrollY)
+  //   }
+  // }
 
   checkCoursesLength() {
     //check courses length for content-wrapper height for background color
@@ -469,7 +478,7 @@ export class CourseListComponent implements OnInit {
     return (data < 10 ? '0' : '') + data;
   }
 
-  getCourseswithPlanId(courseplanId, planName, keyword) {
+  getCourseswithPlanId(courseplanId, planName, keyword, scrollType) {
     this.courseCollection = null;
     this.skip = 0;
     this.page = 1;
@@ -482,7 +491,7 @@ export class CourseListComponent implements OnInit {
         this.limit,
         this.skip,
         this.page,
-        'autoCall'
+        scrollType
       );
     } else {
       this.simpleCourseSearchPerPlan(
@@ -626,7 +635,8 @@ export class CourseListComponent implements OnInit {
             this.getCourseswithPlanId(
               autoSelectedPlanId,
               autoSelectedPlanName,
-              keyword
+              keyword,
+              'auto-call'
             );
           } else {
             //for no course plan
