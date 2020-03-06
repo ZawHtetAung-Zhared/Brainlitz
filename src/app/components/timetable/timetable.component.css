@@ -511,6 +511,37 @@
   padding: 2px 8px;
 }
 
+.am1 {
+  width: 8px;
+  height: 16px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background: linear-gradient(90deg, #ffd500 0%, #ffaa00 100%);
+}
+
+.pm2 {
+  width: 8px;
+  height: 16px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background: #f7f9fa;
+}
+
+.pm1 {
+  width: 8px;
+  height: 16px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 16px;
+  background: linear-gradient(90deg, #ffd500 0%, #ffaa00 100%);
+}
+
+.am2 {
+  width: 8px;
+  height: 16px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 16px;
+  background: #f7f9fa;
+}
 /* apo */
 
 /* schedule */
