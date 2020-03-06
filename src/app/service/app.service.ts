@@ -1503,20 +1503,37 @@ export class appService {
     this.getLocalstorage();
     console.log(location);
     console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url =
-      this.baseUrl +
-      '/' +
-      id +
-      '/courseplan?locationId=' +
-      location +
-      '&categoryId=' +
-      categoryId +
-      '&skip=' +
-      skip +
-      '&limit=' +
-      limit +
-      '&keyword=' +
-      keyword;
+    let url;
+    if (categoryId == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&categoryId=' +
+        categoryId +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -1524,6 +1541,7 @@ export class appService {
     };
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
