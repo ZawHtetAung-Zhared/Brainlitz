@@ -23,6 +23,8 @@ export class ReportDetail2Component implements OnInit {
   echarts: any;
   reportItems: any;
   masteriesReports: any;
+  public loadingDetail: boolean = true;
+  public loadingQuestion: boolean = true;
   public seriesData: any = [
     {
       type: 'bar',
@@ -103,10 +105,13 @@ export class ReportDetail2Component implements OnInit {
           this.challengeData = res.data.masteryReport;
           // this.challengeData = Data.data.masteryReport;
           setTimeout(() => {
-            for (var i = 0; i < this.challengeData.masteries.length; i++) {
-              this.setupOption(this.challengeData.masteries[i]);
-            }
-          }, 200);
+            this.loadingDetail = false;
+            setTimeout(() => {
+              for (var i = 0; i < this.challengeData.masteries.length; i++) {
+                this.setupOption(this.challengeData.masteries[i]);
+              }
+            }, 100);
+          }, 1000);
         },
         err => {
           console.log(err);
@@ -196,9 +201,15 @@ export class ReportDetail2Component implements OnInit {
     this._service.getMasteryQuestion(masteryId).subscribe(
       (res: any) => {
         console.log(res);
-        // this.samplexml = res.data;
         this.samplexml = res;
-        this.openModal(this.questionModal);
+        setTimeout(() => {
+          this.loadingQuestion = false;
+        }, 1000);
+
+        setTimeout(() => {
+          this.setupQuiz();
+          this.setupAnswer();
+        }, 100);
       },
       err => {
         console.log(err);
@@ -207,21 +218,18 @@ export class ReportDetail2Component implements OnInit {
   }
 
   cancelModal() {
-    console.log('....');
     this.modalReference.close();
   }
 
   @ViewChild('questionModal') questionModal: any;
-  openModal(modal) {
-    this.modalReference = this.modalService.open(modal, {
+  openModal(masteryId) {
+    this.loadingQuestion = true;
+    this.modalReference = this.modalService.open(this.questionModal, {
       backdrop: 'static',
       windowClass:
         'jouranlModal d-flex justify-content-center align-items-center'
     });
-    this.setupQuiz();
-    setTimeout(() => {
-      this.setupAnswer();
-    }, 200);
+    this.getQuestion(masteryId);
   }
 
   setupQuiz() {
@@ -233,6 +241,7 @@ export class ReportDetail2Component implements OnInit {
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
     }
+    console.log('>>>>>>>>>>>>>>>setup Quiz<<<<<<<<<<<<<<<<');
   }
 
   setupAnswer() {

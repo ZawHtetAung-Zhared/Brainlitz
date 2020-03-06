@@ -1,21 +1,24 @@
 <div class="d-flex justify-content-between mt-3">
-  <div class="task-header">
-    <span class="title-task">Tasks</span>
+  <div class="task-header-class">
+    <span class="h2-strong">Tasks</span>
     <span class="spaninline">
       <!-- <p class="m-0">SW</p> -->
       <img _ngcontent-c5="" src="./assets/img/tiny-brainlitz.svg" />
     </span>
     <br />
+    <span class="body-l">{{ tasks.length }}</span>
+    <span class="body-l" *ngIf="tasks.length > 1">Tasks</span>
+    <span class="body-l" *ngIf="tasks.length <= 1">Task</span>
   </div>
-  <!-- <div>
+  <div>
     <button
       [ngClass]="true ? 'btn-create' : 'btn-normal'"
-      class="btn"
+      class="btn body-m"
       (click)="goToAssignTask()"
     >
       Assign task
     </button>
-  </div> -->
+  </div>
 </div>
 
 <div
@@ -189,14 +192,14 @@
         [ngStyle]="{ 'background-image': 'url(' + task.posterImageUrl + ')' }"
       >
         <div class="cardhead mb-3">
-          <span class="custom-or-schedule"
+          <span class="light-body-m custom-or-schedule"
             >{{ task.distributionMode | titlecase }} -
-            {{ task.taskType | titlecase }}</span
+            {{ task.taskType | lowercase }} task</span
           >
         </div>
         <div class="cardbody">
-          <h3 class="title-text">{{ task.name }}</h3>
-          <p class="body-text">
+          <h3 class="h3-strong">{{ task.name }}</h3>
+          <p class="body-text light-body-m">
             {{
               task.description.length > 110
                 ? (task.description | slice: 0:110) + ' ...'
@@ -207,12 +210,12 @@
       </div>
       <div class="cardfooter d-flex justify-content-between">
         <div class="masteries-count d-flex flex-column">
-          <span class="count-text"
+          <span class="count-text body-l"
             >{{ task.overview.count }} {{ task.overview.type }}</span
           >
         </div>
-        <div class="">
-          <span class="count-text">
+        <div class="d-flex justify-content-end align-items-end">
+          <span class="count-text small">
             {{ task.taskStartDate | utcDate }} -
             {{ task.taskEndDate | utcDate }}
           </span>
@@ -248,3 +251,4 @@
     </div>
   </div>
 </div>
+<!-- API Integration -->

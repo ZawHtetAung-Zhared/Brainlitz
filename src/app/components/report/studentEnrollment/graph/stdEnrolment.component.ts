@@ -90,6 +90,11 @@ export class StdEnrolmentReportGraph implements OnInit {
     var elem = document.getElementById('stdEnrolmentGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
   ngOnInit() {}
 }

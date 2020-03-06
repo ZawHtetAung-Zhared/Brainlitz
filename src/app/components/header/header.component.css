@@ -394,6 +394,5 @@ underline-style {
 }
 
 .btn-today-lesson {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  line-height: 2.2;
+  border-radius: 4px;
 }

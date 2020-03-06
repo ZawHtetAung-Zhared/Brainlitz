@@ -1503,20 +1503,37 @@ export class appService {
     this.getLocalstorage();
     console.log(location);
     console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url =
-      this.baseUrl +
-      '/' +
-      id +
-      '/courseplan?locationId=' +
-      location +
-      '&categoryId=' +
-      categoryId +
-      '&skip=' +
-      skip +
-      '&limit=' +
-      limit +
-      '&keyword=' +
-      keyword;
+    let url;
+    if (categoryId == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&categoryId=' +
+        categoryId +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -1524,6 +1541,7 @@ export class appService {
     };
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
@@ -4606,6 +4624,45 @@ export class appService {
       localStorage.getItem('COURSEID') +
       '/mastery-reports/mastery-groups/' +
       masteryGroupId;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getStaffList() {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedule?staffList=5de9c8fd31f64d0013c47199,5de9c8fd31f64d0013c47199&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getTimetableList(list) {
+    console.log('stafflist in service', list);
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedule?staffList=' +
+      list +
+      '&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20';
 
     const httpOptions = {
       headers: new HttpHeaders({

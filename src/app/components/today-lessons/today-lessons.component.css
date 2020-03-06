@@ -766,6 +766,7 @@ input:checked + .slider:before {
   padding-top: 0;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
+  overflow-x: hidden;
 }
 
 @media (min-width: 2000px) {

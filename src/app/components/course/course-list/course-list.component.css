@@ -1,6 +1,12 @@
 /* .courseContentWrapper{
   height: 100%;
 } */
+
+.medium-font {
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+}
 #courseWrapper {
   height: 100%;
 }
@@ -11,9 +17,7 @@
 }
 
 .location-name {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   position: relative;
-  font-size: 12px;
   margin-left: 5px;
   margin-bottom: 0;
   border-radius: 25px;
@@ -60,24 +64,11 @@
   color: #fff !important;
 }
 
-.cplan-small-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 20px;
-}
 .cplan-title {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 17px;
-  line-height: 28px;
   width: 220px;
   height: 32px;
   overflow: overlay;
   word-break: break-all;
-  color: #363f4d;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -96,23 +87,15 @@
 }
 
 .cplan-duration {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
   line-height: 24px;
 }
 .cplan-edit {
-  font-weight: normal;
   cursor: pointer;
 }
 .cplan-title1 {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 28px;
-  color: #363f4d;
   width: 300px;
   height: 32px;
   overflow: overlay;
@@ -147,12 +130,12 @@
   color: #363f4d;
 }
 .addCourse-btn {
-  background: #0065f2;
   border-radius: 8px;
   padding: 8px 16px;
   text-align: center;
-  color: #ffffff;
   min-width: 160px;
+  border: none;
+  outline: none;
   /* width: 250px;
   height: 40px; */
 }
@@ -201,13 +184,10 @@
   height: 80px;
 }
 .enroll-btn {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  background: #ffffff;
-  color: #363f4d;
   box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
 }
-.font-15 {
+.regular-font {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -224,9 +204,6 @@
 .class-label-12 {
   border-radius: 2px;
   word-break: break-all;
-  font-size: 15px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #64707d;
   max-width: 280px;
   padding: 0px 9px;
 }
@@ -287,10 +264,7 @@
   padding-top: 20px;
 }
 .btn-cplan {
-  background: #f2f3f5;
   border-radius: 8px;
-  color: #0065f2;
-  width: 100%;
 }
 .input-csearch {
   background: #f2f3f5;
@@ -482,7 +456,6 @@ ul.recent-lists li:last-child {
   font-size: 10px;
   background: #fff0e6;
   color: #e66000;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .course-type {

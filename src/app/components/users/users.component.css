@@ -3874,9 +3874,10 @@ p.grade-txt {
   font-style: normal;
   font-weight: 500;
   font-size: 17px;
-  line-height: 20px;
+  /* line-height: 20px; */
   color: #2e3d4d;
   border-bottom: 1px solid #edeff0;
+  min-height: 50px;
   width: 70%;
 }
 
@@ -3888,10 +3889,12 @@ p.grade-txt {
   font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
   font-size: 14px;
   cursor: pointer;
+  /* margin-bottom: 13px; */
+  /* margin: 10px 10px 10px 0px; */
 }
 
 .apg-group {
-  margin-bottom: 5px;
+  min-height: 50px;
   cursor: pointer;
 }
 
@@ -4313,4 +4316,8 @@ span.grade-date {
 .grade_delete {
   width: 18px !important;
   height: 18px !important;
+}
+
+.btn-group {
+  margin-top: 15px;
 }

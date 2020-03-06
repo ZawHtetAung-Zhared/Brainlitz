@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
@@ -12,6 +19,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { parse } from 'querystring';
 
 declare var $: any;
 
@@ -39,7 +47,7 @@ export class CustomTaskComponent implements OnInit {
   // get data from parent component
   @Input() courseDetail;
   @Input() selectStandard;
-
+  @Output() backAssign: EventEmitter<boolean> = new EventEmitter();
   // lists && obj
   public customObj: any = {};
   public scheduletemplateList: any = [];
@@ -51,7 +59,11 @@ export class CustomTaskComponent implements OnInit {
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
-  public loading: boolean = false;
+  public loading1: boolean = false;
+  public loading2: boolean = false;
+  public loading3: boolean = false;
+  public loading4: boolean = false;
+  public loading5: boolean = false;
 
   // other
   public annoTaskDate: any;
@@ -82,7 +94,7 @@ export class CustomTaskComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loading = true;
+    this.loading1 = true;
     console.log(this.courseDetail);
     console.log(this.selectStandard);
     this.createCustom.standard = this.selectStandard;
@@ -105,12 +117,12 @@ export class CustomTaskComponent implements OnInit {
       (res: any) => {
         this.customObj = res[0];
         this.createCustom.taskType = res[0];
-        this.loading = false;
+        this.loading1 = false;
         console.log(this.createCustom);
         console.log(res, 'assign task');
       },
       err => {
-        this.loading = false;
+        this.loading1 = false;
         console.log(err);
       }
     );
@@ -156,6 +168,7 @@ export class CustomTaskComponent implements OnInit {
 
   goToStep2(event, step) {
     console.log(step, 'step');
+    this.loading2 = true;
     this.getTemplateLists(null);
     this.clickableSteps.push(step);
     this.stepClick(event, step);
@@ -163,7 +176,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   goToStep3(event, step) {
-    this.loading = true;
+    this.loading3 = true;
     this.isSelectedTime = 'AM';
     this._service
       .getTaskBytemplate(
@@ -179,17 +192,23 @@ export class CustomTaskComponent implements OnInit {
           this.clickableSteps.push(step);
           this.addActiveBar(2, 3);
           this.stepClick(event, step);
-          this.loading = false;
+          this.loading3 = false;
         },
         err => {
-          this.loading = false;
+          this.loading3 = false;
           console.log(err);
         }
       );
   }
 
   goToStep4($event, step) {
+    this.loading4 = true;
     let temp = [];
+
+    this.singleSelectedTask.announcementDate = this.singleSelectedTask
+      .announcementDate
+      ? this.singleSelectedTask.announcementDate
+      : new Date();
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
@@ -202,22 +221,23 @@ export class CustomTaskComponent implements OnInit {
         (res: any) => {
           this.createCustom.template.tasks[0].masteries = res.masteries;
           this.masteryList = res.masteries.slice();
+
           console.log(res);
           this.clickableSteps.push(step);
           this.activeStep = 1;
           this.addActiveBar(3, 4);
           this.stepClick($event, step);
-          this.loading = false;
+          this.loading4 = false;
         },
         err => {
-          this.loading = false;
+          this.loading4 = false;
           console.log(err);
         }
       );
   }
 
   goToStep5($event, step) {
-    this.loading = true;
+    this.loading5 = true;
     let annDate;
     this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
@@ -237,6 +257,10 @@ export class CustomTaskComponent implements OnInit {
           )
         : this.showFormat
     );
+
+    console.log(this.createCustom.template.tasks[0].taskStartDate);
+    console.log(this.createCustom.template.tasks[0].taskEndDate);
+
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
     this._service.getassignMode(this.createCustom.taskType.id).subscribe(
@@ -246,11 +270,11 @@ export class CustomTaskComponent implements OnInit {
         this.assignModeList = res;
         this.clickableSteps.push(step);
         this.stepClick($event, step);
-        this.loading = false;
+        this.loading5 = false;
       },
       err => {
         console.log(err);
-        this.loading = false;
+        this.loading5 = false;
       }
     );
     console.log(this.createCustom);
@@ -273,7 +297,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   getTemplateLists(searchValue) {
-    this.loading = true;
+    this.loading2 = true;
     this._service
       .getTemplateLists(
         this.selectStandard.standardId,
@@ -284,10 +308,10 @@ export class CustomTaskComponent implements OnInit {
         (res: any) => {
           console.log(res, 'template list');
           this.scheduletemplateList = res;
-          this.loading = false;
+          this.loading2 = false;
         },
         err => {
-          this.loading = false;
+          this.loading2 = false;
         }
       );
   }
@@ -409,7 +433,7 @@ export class CustomTaskComponent implements OnInit {
 
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
-    this.loading = true;
+    // this.loading = true;
     this._service
       .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
       .subscribe(
@@ -422,10 +446,10 @@ export class CustomTaskComponent implements OnInit {
             windowClass:
               'jouranlModal d-flex justify-content-center align-items-center'
           });
-          this.loading = false;
+          // this.loading = false;
         },
         err => {
-          this.loading = false;
+          // this.loading = false;
           console.log(err);
         }
       );
@@ -441,24 +465,32 @@ export class CustomTaskComponent implements OnInit {
   }
 
   createAssign() {
-    this.loading = true;
+    // this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
+    delete this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
     this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
       .subscribe(
         (res: any) => {
           console.log(res);
-          this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
-          this.loading = false;
+          this._route.navigateByUrl(
+            'coursedetail/' + this.courseDetail._id + '/tasks'
+          );
+          // this.loading = false;
           this.toastr.success('Success Custom Task Create');
         },
         err => {
-          this.loading = false;
+          // this.loading = false;
           this.toastr.error(err.error.message);
           console.log(err);
         }
       );
+  }
+
+  backtoassignTask() {
+    if (this.courseDetail.sparkWerkz.standardSelected) this.backCourseDetail();
+    else this.backAssign.emit(false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -476,7 +508,13 @@ export class CustomTaskComponent implements OnInit {
 
   changeObjDateFormat(date) {
     console.log(date);
-    let sdate = date.year + '-' + date.month + '-' + date.day;
+    let sdate =
+      date.year +
+      '-' +
+      (date.month >= 10 ? date.month : '0' + date.month) +
+      '-' +
+      (date.day >= 10 ? date.day : '0' + date.day);
+    console.log(sdate);
     return new Date(sdate).toISOString();
   }
 

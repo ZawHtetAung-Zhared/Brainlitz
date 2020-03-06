@@ -42,11 +42,12 @@ export class MasteriesreportComponent implements OnInit {
             params.seriesName +
             ' : ' +
             params.value +
-            '</div>';
+            '% </div>';
           return value;
         }
       },
       grid: {
+        top: 30,
         left: 50
       },
       textStyle: {
@@ -202,9 +203,9 @@ export class MasteriesreportComponent implements OnInit {
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
     if (this.reportItems.length > 10)
-      elem.style.height = this.reportItems.length * 40 + 'px';
-    else if (this.reportItems.length > 5)
       elem.style.height = this.reportItems.length * 50 + 'px';
+    else if (this.reportItems.length >= 5)
+      elem.style.height = this.reportItems.length * 60 + 'px';
     else elem.style.height = this.reportItems.length * 70 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
@@ -242,8 +243,18 @@ export class MasteriesreportComponent implements OnInit {
         if (res.data.masteryReport) {
           this.noData = false;
           this.masteriesReports = res.data.masteryReport;
+          console.log(this.masteriesReports);
           setTimeout(() => {
             for (var i = 0; i < this.masteriesReports.length; i++) {
+              //calculate mastered percentage
+              var mastered =
+                this.masteriesReports[i].masteryCountInPercentage
+                  .MASTERED_WITH_DIFFICULT +
+                this.masteriesReports[i].masteryCountInPercentage
+                  .MASTERED_WITH_EASE;
+              this.masteriesReports[i].masteryCountInPercentage.MASTERED =
+                Math.round((mastered + Number.EPSILON) * 100) / 100;
+              // end calculation
               this.reportItems = this.masteriesReports[i].masteries;
               this.setupOption(i);
             }

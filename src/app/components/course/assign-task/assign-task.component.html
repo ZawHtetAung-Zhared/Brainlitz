@@ -13,15 +13,20 @@
               [ngClass]="{ stickywrap: navIsFixed == true }"
             >
               <div class="mr-auto p-2 pl-0 pb-0">
-                <div class="back-modal" (click)="backCourseDetail()">
+                <button
+                  class="btn back-modal"
+                  (click)="backCourseDetail()"
+                  [disabled]="loading"
+                >
                   <i class="fa fa-angle-left"></i>
                   <p>{{ courseDetail?.name }}</p>
-                </div>
+                </button>
               </div>
               <div class="ml-auto">
                 <button
                   type="button"
                   class="btn sticky-cancel"
+                  [disabled]="loading"
                   (click)="backCourseDetail()"
                 >
                   Cancel
@@ -41,7 +46,7 @@
       <div class="d-flex jusitfy-content-center main-wrapper">
         <div class="inner-wrapper pt-3">
           <p class="title bold">Standard</p>
-          <div class="d-flex standard-wrapper">
+          <div class="d-flex standard-wrapper" *ngIf="!loading">
             <div
               class="standard-block medium"
               *ngFor="let standard of standardList"
@@ -53,8 +58,32 @@
               {{ standard.name }}
             </div>
           </div>
+          <div class="d-flex flex-wrap standard-wrapper" *ngIf="loading">
+            <div class="col-md-2 standard-block" style="height: 40px;">
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+
+            <div class="col-md-2 standard-block" style="height: 40px;">
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+            <div class="col-md-2 standard-block" style="height: 40px;">
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+            <div class="col-md-2 standard-block" style="height: 40px;">
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+          </div>
+
           <p class="title bold mb-0">Class level</p>
-          <div class="d-flex class-wrapper">
+          <div class="d-flex class-wrapper" *ngIf="!loading">
             <div
               class="col-md-4 ml-0 pl-0 mt-0 pt-0"
               *ngFor="let class of classList"
@@ -68,6 +97,33 @@
               >
                 <div class="check-circle"></div>
                 <p class="class-name">{{ class.name }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex class-wrapper" *ngIf="loading">
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
               </div>
             </div>
           </div>
@@ -655,7 +711,9 @@
     *ngIf="isCustom"
     [(courseDetail)]="courseDetail"
     [(selectStandard)]="createassignTask.standard"
-  ></custom-task>
+    (backAssign)="backFromCustom($event)"
+  >
+  </custom-task>
 
   <div id="placeholder_color"></div>
 </div>
