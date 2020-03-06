@@ -6,6 +6,7 @@
   position: sticky;
   position: -webkit-sticky;
   top: 0;
+  z-index: 10;
 }
 
 .tdy-btn {
@@ -16,17 +17,41 @@
   box-sizing: border-box;
   border-radius: 8px;
 }
-
+.setting-date {
+  margin: 0 10px 0 10px;
+  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+}
 .arrow {
   margin: 0 10px 0 10px;
 }
 
 .category {
+  width: 280px;
+  text-align: c;
+  height: 40px;
+  line-height: 40px;
   margin: 0 10px 0 10px;
   font-size: 15px;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
+  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+.category-list {
+  position: absolute;
+  z-index: 999;
+  width: 280px;
+  height: 288px;
+  background: #ffffff;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
 }
 
 .heading {
@@ -85,7 +110,7 @@
 }
 
 .schedule {
-  min-height: 86px;
+  min-height: 76px;
   display: grid;
   grid-template-columns: 72px repeat(7, 1fr);
   grid-gap: 1px 1px;
@@ -121,8 +146,21 @@
   font-weight: 500;
   line-height: 20px;
 }
-
-@media only screen and (min-width: 1368px) {
+<<<<<<< head .active-bold {
+  font-family: 'Inter-UI-bold', Arial, sans-serif;
+}
+@media only screen and (max-width: 855px) {
+  .absent {
+    margin: 0px 15px !important;
+  }
+  .orange {
+    margin-right: 10px !important;
+  }
+  .active-blue {
+    width: 80px !important;
+  }
+}
+=======>>>>>>>dev @media only screen and (min-width: 1368px) {
   .heading {
     grid-template-columns: 240px repeat(7, 1fr);
   }
@@ -140,14 +178,6 @@
   }
   .tdy-btn {
     margin: 0 10px 0 10px;
-  }
-  .setting-date {
-    margin: 0 10px 0 10px;
-    font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-      'ss03' on, 'case' on;
-    font-size: 15px;
-    font-weight: 500;
-    font-family: 'Inter-UI-Regular', Arial, sans-serif;
   }
 }
 
