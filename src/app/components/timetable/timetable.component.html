@@ -16,6 +16,8 @@
       <span class="setting-date">23 Feb ’20 - 29 Feb ’20</span>
       <div class="category" (click)="toggledropdown()">
         <span class="pl-3">All category</span>
+        <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>
+        <i *ngIf="clist == true" class="fa fa-chevron-up dropdown-arrow"></i>
         <div *ngIf="clist == true" class="category-list"></div>
       </div>
     </div>
