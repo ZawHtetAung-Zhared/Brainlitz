@@ -187,9 +187,7 @@ export class CourseListComponent implements OnInit {
     } else if (this.oldValue - newValue > 0) {
       console.log('Direction Up');
       if (window.scrollY == 0) {
-        console.log('scroll Type~~~~~~~~', this.scrollType);
-        // $(window).scrollTop($('body').height() - $(window).height() -1);
-        // console.log("window.innerHeight",window.innerHeight,'document.body.height',document.body.clientHeight,'document.body.scrollheight',document.body.scrollHeight,'window.scrollY',window.scrollY)
+        // console.log('scroll Type~~~~~~~~', this.scrollType);
         console.log('top of the page');
         if (this.scrollType != 'next-plan') {
           console.log('~~~~~call previous plan');
@@ -236,11 +234,12 @@ export class CourseListComponent implements OnInit {
           ',previousPlanName',
           prevPlanName
         );
-        // this.getCourseswithPlanId(
-        //   prevPlanName,
-        //   prevPlanName,
-        //   null
-        // );
+        this.getCourseswithPlanId(
+          prevPlanId,
+          prevPlanName,
+          null,
+          this.scrollType
+        );
         break;
       }
     }
@@ -447,6 +446,9 @@ export class CourseListComponent implements OnInit {
             this.courseCollection.courses = this.courses;
             console.log('courseCollection', this.courseCollection);
             this.checkCoursesLength();
+            if (this.scrollType == 'next-plan') {
+              this.scrollType = 'next-page';
+            }
           }
         },
         err => {
