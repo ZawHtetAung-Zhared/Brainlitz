@@ -643,6 +643,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     this._dataservice.nevigateCDetail('');
     this._dataservice.nevigateSchedule('');
     this._dataservice.navagateActivePlan('');
+    this._dataservice.setCourseSearchWord(null);
     // this._dataservice.defineCurrentTab(type);
   }
   switchRegion() {

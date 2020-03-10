@@ -1462,7 +1462,8 @@ export class appService {
 
   getCourseplanCollection(regionId, locationId, keyword) {
     let url;
-    if (keyword == null || keyword == undefined) {
+    console.log('keyword', keyword, ',', keyword == '');
+    if (keyword == null || keyword == undefined || keyword == '') {
       url =
         this.baseUrl +
         '/regions/' +
@@ -1908,7 +1909,7 @@ export class appService {
     keyword
   ): Observable<any> {
     let url;
-    if (keyword == null || keyword == undefined) {
+    if (keyword == null || keyword == undefined || keyword == '') {
       url =
         this.baseUrl +
         '/regions/' +

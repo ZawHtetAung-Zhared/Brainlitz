@@ -910,6 +910,15 @@ export class CoursecreateComponent implements OnInit {
       }
     }
 
+    if (ToCourses != 'back' && this.isEdit == false) {
+      console.log(
+        'clear course search history~~~~',
+        this.isEdit,
+        this.model.draft
+      );
+      this.dataService.setCourseSearchWord(null);
+    }
+
     //clear data
     setTimeout(() => {
       this.staffArrLists = [];
