@@ -2,12 +2,6 @@
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
-.seat-text-wrapper {
-  color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 14px;
-}
-
 .seat-wrapper {
   list-style-type: disc;
   padding-left: 30px;
@@ -136,13 +130,6 @@ input:checked + .slider:before {
   box-shadow: 0 0 0 2px #ff3d33 !important;
 }
 
-.input-label {
-  font-size: 18px;
-  color: #2e3e4d;
-  margin-bottom: 0;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
 /* .form-group {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 } */
@@ -160,7 +147,6 @@ input:checked + .slider:before {
 }
 
 .create-input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -789,7 +775,6 @@ ul.options-box,
 .att-box {
   position: absolute;
   width: 40%;
-  background: #fff;
   z-index: 9;
   list-style: none;
   -webkit-box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
@@ -822,13 +807,10 @@ ul.options-box,
 }
 
 ul.options-box li {
-  color: #2e3d4d;
-  font-size: 16px;
   border-bottom: 1px solid #edeff0;
   padding: 16px 0;
   cursor: pointer;
   transition: 0.2s ease-out all;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 ul.options-box li:hover {
@@ -1419,9 +1401,6 @@ li button {
 
 .back-to,
 .edit-course-btn,
-.detail-info label .course-tab,
-.single-user-info p,
-.btn-submit,
 .modal-ctime p,
 .modal-dfees h5,
 .modal-duration,
@@ -1472,9 +1451,7 @@ li button {
 .room-name,
 .detail-info h4,
 .detail-fees b,
-.single-user-info h4,
 .room-label,
-.title-heading,
 .seat,
 .target,
 .modal-title,
@@ -1525,7 +1502,6 @@ li button {
 }
 
 .detail-info label,
-.single-user-info p,
 .modal-ctime p,
 .modal-dfees h5,
 .modal-duration,
@@ -1571,7 +1547,6 @@ li button {
 }
 
 .detail-fees b,
-.single-user-info h4,
 .modal-cfees b,
 .modal-userInfo .modal-p,
 .invoice-label,
@@ -1693,8 +1668,6 @@ li button {
   border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 11px 18px;
-  font-size: 16px;
-  color: #2e3e4d;
   background: transparent;
 }
 
@@ -1766,18 +1739,10 @@ label.room-name::before {
 }
 
 .btn-create {
-  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
-  color: #fff;
-  background-color: #1682fb;
   border: none;
   padding: 8px 20px;
   border-radius: 3px;
   min-width: 137px;
-}
-
-.title-heading {
-  font-size: 20px;
-  color: #2e3e4d;
 }
 
 .student-section {
@@ -2019,8 +1984,6 @@ label.room-name::before {
 
 .modal-cancel-btn,
 .modal-delete-btn {
-  font-size: 16px;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   border-radius: 3px;
   height: 44px;
   min-width: 90px;
@@ -2118,12 +2081,8 @@ label.room-name::before {
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  color: #fff;
-  background-color: #1682fb;
   margin-left: 15px;
   box-shadow: none;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-size: 16px;
 }
 
 .modal-cfees h5,
@@ -3551,7 +3510,6 @@ p.textCount {
 
 .makeup-head {
   padding: 12px;
-  background: #cce5ff;
   border-radius: 4px 4px 0 0;
 }
 
@@ -3666,9 +3624,6 @@ p.textCount {
 }
 
 .release-text {
-  font-size: 18px;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-top: 32px;
   margin-bottom: 24px;
 }
@@ -4373,7 +4328,6 @@ button.today-button {
 }
 
 .btn-normal {
-  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
   color: #000;
   background-color: #fff;
   border: none;
