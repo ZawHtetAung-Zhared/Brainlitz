@@ -1,7 +1,3 @@
-.medium-font {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
-
 .seat-wrapper {
   list-style-type: disc;
   padding-left: 30px;
@@ -1453,8 +1449,6 @@ li button {
 .detail-fees b,
 .room-label,
 .seat,
-.target,
-.modal-title,
 .modal-cfees,
 .modal-ctime h5,
 .modal-dfees b,
@@ -1971,17 +1965,6 @@ label.room-name::before {
   right: -12px;
 }
 
-.modal-title {
-  font-size: 20px;
-  color: #2e3d4d;
-}
-
-.confirm-text p {
-  color: #64707d;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-size: 16px;
-}
-
 .modal-cancel-btn,
 .modal-delete-btn {
   border-radius: 3px;
@@ -1995,16 +1978,6 @@ label.room-name::before {
   padding: 0;
   background: #fff;
   margin-right: 30px;
-}
-
-.modal-delete-btn {
-  background: #1682fb;
-  color: #fff;
-}
-
-.modal-cancel-btn {
-  color: #2e3d4d;
-  background: #fff;
 }
 
 .modal-cancel-btn:hover {
@@ -2034,10 +2007,6 @@ label.room-name::before {
   max-height: 70vh;
   min-height: 70vh;
   overflow: overlay;
-}
-
-.target {
-  color: #ff3d33;
 }
 
 .mt-15 {
