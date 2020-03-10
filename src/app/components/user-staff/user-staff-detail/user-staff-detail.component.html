@@ -176,17 +176,51 @@
   <!-- loading start -->
   <div *ngIf="detailLoading" class="main-wrapper w-100">
     <div class="top-profile-wrap">
-      <div class="heading-space w-100" style="height: 180px">
-        <content-loader
-          [primaryColor]="'rgba(255, 255, 255, 0.25)'"
-          [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
-        >
-          <svg:rect x="0" y="0" rx="3" ry="3" width="20%" height="10" />
-          <svg:rect x="70%" y="0" rx="3" ry="3" width="30%" height="15" />
-          <svg:rect x="0" y="30" rx="50%" ry="50%" width="50" height="50" />
-          <svg:rect x="65%" y="30" rx="3" ry="3" width="20%" height="5" />
-          <svg:rect x="65%" y="40" rx="3" ry="3" width="35%" height="10" />
-        </content-loader>
+      <div class="d-flex flex-column heading-space w-100" style="height: 180px">
+        <div class="d-flex justify-content-between">
+          <div style="width: 200px">
+            <content-loader
+              [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+              [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+            >
+              <svg:rect x="0" y="0" rx="6" ry="6" width="100%" height="60" />
+            </content-loader>
+          </div>
+          <div style="float: right; width: 200px">
+            <content-loader
+              [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+              [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+            >
+              <svg:rect x="0" y="0" rx="6" ry="6" width="100%" height="60" />
+            </content-loader>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div style="width: 500px">
+            <content-loader
+              [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+              [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+            >
+              <svg:rect
+                x="0"
+                y="0"
+                rx="50%"
+                ry="50%"
+                width="100"
+                height="100"
+              />
+            </content-loader>
+          </div>
+          <div style="float: right; width: 300px">
+            <content-loader
+              [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+              [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+            >
+              <svg:rect x="0" y="30" rx="6" ry="6" width="80%" height="20" />
+              <svg:rect x="0" y="60" rx="6" ry="6" width="100%" height="25" />
+            </content-loader>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row section-wrap">

@@ -243,6 +243,8 @@ export class AttendanceComponent implements OnInit {
   public defineType: any;
   public gtxtColor: any;
   public gbgColor: any;
+  private addExtraLesson = false;
+  private showReliefPopup = false;
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
@@ -575,6 +577,17 @@ export class AttendanceComponent implements OnInit {
     if (e.target.parentNode != null) {
       if (e.target.parentNode.id != 'divToHide') {
         this.attdBox = false;
+      }
+    }
+  }
+
+  closeReliefDropdown(e) {
+    // console.log("closeReliefDropdown~~~")
+    var divToHide = document.getElementById('relief-popup');
+    if (e.target.parentNode != null) {
+      if (e.target.parentNode.id != 'relief-popup') {
+        console.log('closeReliefDropdown~~~', e);
+        this.showReliefPopup = false;
       }
     }
   }
@@ -4150,6 +4163,12 @@ export class AttendanceComponent implements OnInit {
     this.modalReference.close();
   }
 
+  onClickReliefDropdown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.showReliefPopup = true;
+  }
+
   onClickAssignRelief(reliefModal, lesson) {
     this.modalReference = this.modalService.open(reliefModal, {
       backdrop: 'static',
@@ -4179,6 +4198,7 @@ export class AttendanceComponent implements OnInit {
 
   cancelReliefModal() {
     console.log('cancel relirf~~~');
+    this.showReliefPopup = false;
     this.modalReference.close();
     return new Promise((resolve, reject) => {
       // this.getAttendance()
