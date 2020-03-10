@@ -5,12 +5,12 @@
   >
     <div class="d-flex justify-content-between header-wrap">
       <div class="mr-auto pl-15">
-        <h3 class="text-c300 ">Locations</h3>
+        <h3 class="location-h3 text-c300 ">Locations</h3>
       </div>
       <button
         *ngIf="locationDemo.addLocation != ''"
         type="button"
-        class="btn btn-create bg-b100 text-s0 body-m mr-15"
+        class="btn btn-create bg-b100 text-s0 body-l mr-15"
         (click)="creatnew()"
       >
         Add new location
@@ -53,7 +53,7 @@
         <div class="location-footer d-flex justify-content-end">
           <button
             *ngIf="locationDemo.editLocation != ''"
-            class="btn text-y200"
+            class="btn text-y100"
             (click)="getSingleLocation(location._id)"
           >
             Edit
@@ -78,20 +78,24 @@
     <div class="back-wrap d-flex">
       <div class="back-to" (click)="back()">
         <i class="fa fa-angle-left"></i>
-        <p>Location</p>
+        <p class="light-body-l text-c200">Location</p>
       </div>
     </div>
     <div class="location-group">
-      <h3 *ngIf="isUpdate == false" class="location-h3">Create location</h3>
-      <h3 *ngIf="isUpdate == true" class="location-h3">Update location</h3>
-      <p class="input-recommend">
+      <h3 *ngIf="isUpdate == false" class="location-h3 text-c300">
+        Create location
+      </h3>
+      <h3 *ngIf="isUpdate == true" class="location-h3 text-c300">
+        Update location
+      </h3>
+      <p class="input-recommend body-m text-c100">
         Add different locations of your training centres (if any). This will
         help to retrieve data/ information from any location.
       </p>
       <form novalidate #locationForm="ngForm" class="form-wrap">
         <div class="form-group form-divider">
           <div class="d-flex justify-content-between">
-            <label class="form-title location-name" for="name"
+            <label class="form-title location-name body-l text-c300" for="name"
               >Location name</label
             >
             <div class="limit-wordcount">
@@ -164,7 +168,9 @@
 
         <!-- <div class="row"> -->
         <div class="form-group form-divider">
-          <label class="form-title" for="address">Address</label>
+          <label class="form-title body-l text-c300" for="address"
+            >Address</label
+          >
           <textarea
             class="form-control"
             rows="3"
@@ -180,7 +186,9 @@
             </div> -->
         </div>
         <div class="form-group form-divider">
-          <label class="form-title" for="address">Telephone</label>
+          <label class="form-title body-l text-c300" for="address"
+            >Telephone</label
+          >
           <div class="tel-box">
             <div class="coun-code">+{{ countrycode }}</div>
             <input
@@ -232,13 +240,17 @@
         <!-- color picker -->
 
         <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="back()">
+          <button
+            type="button"
+            class="btn body-l btn-cancel bg-s20"
+            (click)="back()"
+          >
             Cancel
           </button>
           <button
             *ngIf="isUpdate == false"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit text-s0 bg-b100 body-l"
             (click)="createLocation(model, false)"
             [disabled]="!locationForm.valid || isnumber == true"
           >
@@ -247,7 +259,7 @@
           <button
             *ngIf="isUpdate == true"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit text-s0 bg-b100 body-l"
             [disabled]="!locationForm.valid || isnumber == true"
             (click)="createLocation(model, true, currentID)"
           >

@@ -1,11 +1,11 @@
 <div *ngIf="!showForm" class="content-wrapper mx-auto">
   <div class="d-flex justify-content-between header-wrap">
     <div class="mr-auto pl-15">
-      <h3 class="field-h3 font-semi m-0">Custom field</h3>
+      <h3 class="h1-strong font-semi text-c300 m-0">Custom field</h3>
     </div>
     <button
       type="button"
-      class="btn btn-create mr-15 font-medium"
+      class="btn btn-create bg-b100 text-s0 body-l mr-15 font-medium"
       (click)="showCreateForm()"
     >
       Add new field
@@ -15,23 +15,26 @@
     <div class="card" *ngFor="let field of fieldLists">
       <div class="single-field">
         <div class="field-info">
-          <h5 class="field-name font-semi">{{ field.name }}</h5>
+          <h5 class="body-l text-c300 font-semi">{{ field.name }}</h5>
           <div>
-            <p class="mb-0 field-desc">
+            <p class="mb-0 text-c100 body-m">
               {{ field.description }}
             </p>
           </div>
         </div>
         <div class="d-flex justify-content-between btn-section">
-          <div class="show-type font-semi">
+          <div class="text-b100 bg-b25 show-type font-semi">
             <!-- <span *ngIf="field.dataType == 'String'">Text</span>
             <span *ngIf="field.dataType != 'String'">{{ field.dataType }}</span> -->
-            <span *ngIf="field.controlType != 'Radio'">{{
+            <span class="small" *ngIf="field.controlType != 'Radio'">{{
               field.controlType
             }}</span>
-            <span *ngIf="field.controlType == 'Radio'">Choice</span>
+            <span class="small" *ngIf="field.controlType == 'Radio'"
+              >Choice</span
+            >
 
             <span
+              class="small"
               style="padding-left: 3px;"
               *ngIf="
                 field.controlType == 'Textarea' ||
@@ -42,12 +45,15 @@
             >
           </div>
           <div class="d-flex font-medium">
-            <button class="btn-action cursor-on" (click)="editField(field)">
+            <button
+              class="btn-action body-m text-y100 cursor-on"
+              (click)="editField(field)"
+            >
               Edit
             </button>
             <span class="dot font-semi">.</span>
             <button
-              class="btn-action cursor-on"
+              class="btn-action body-m text-r100 cursor-on"
               (click)="deleteModal(field, alertDelete)"
             >
               Delete
@@ -62,21 +68,21 @@
   <div class="back-wrap d-flex">
     <div class="d-flex back cursor-on" (click)="cancel()">
       <i class="fa fa-angle-left"></i>
-      <p class="mb-0 font-medium">Custom field</p>
+      <p class="mb-0 font-medium light-body-l text-c200">Custom field</p>
     </div>
   </div>
   <div class="form-wrap">
-    <h3 *ngIf="!isUpdate" class="field-h3 font-semi m-bottom">
+    <h3 *ngIf="!isUpdate" class="text-c300 h1-strong font-semi m-bottom">
       Create custom field
     </h3>
-    <h3 *ngIf="isUpdate" class="field-h3 font-semi m-bottom">
+    <h3 *ngIf="isUpdate" class="text-c300 h1-strong font-semi m-bottom">
       Update custom field
     </h3>
     <form novalidate #fieldForm="ngForm">
       <div class="col-md-8 p-0">
         <div class="form-group">
           <div class="d-flex justify-content-between">
-            <label class="form-title field-name font-semi" for="name"
+            <label class="form-title body-l text-c300 font-semi" for="name"
               >Field name</label
             >
             <div class="limit-wordcount">
@@ -107,7 +113,7 @@
         </div>
         <div class="form-group formfield-wrap">
           <div class="d-flex justify-content-between">
-            <label class="form-title field-name font-semi mb-0" for="name"
+            <label class="form-title body-l text-c300 font-semi mb-0" for="name"
               >Description</label
             >
             <div class="limit-wordcount1">
@@ -131,7 +137,7 @@
           />
         </div>
         <div>
-          <label class="field-name font-semi">
+          <label class="body-l text-c300 font-semi">
             Input type
           </label>
           <div class="d-flex tool-box">
@@ -167,7 +173,7 @@
         class="d-flex justify-content-between col-md-8 p-0"
         *ngIf="isChecked == 'Selection'"
       >
-        <p class="switchTxt">Allow multiple selection</p>
+        <p class="body-l text-c200">Allow multiple selection</p>
         <div class="toggle-wrap" (click)="choiceMultiple()">
           <label class="switch">
             <input
@@ -230,7 +236,7 @@
           </div>
         </div>
         <p
-          class="col-md-4 add-selection"
+          class="col-md-4 text-b100 body-l"
           *ngIf="isChecked == 'Selection'"
           (click)="addNewItem()"
         >
@@ -238,7 +244,11 @@
         </p>
       </div>
       <div class="d-flex justify-content-end form-footer mt-5">
-        <button type="button" class="btn-cancel cursor-on" (click)="cancel()">
+        <button
+          type="button"
+          class="btn-cancel body-l bg-s20 cursor-on"
+          (click)="cancel()"
+        >
           Cancel
         </button>
         <div class="d-none" *ngIf="isChecked == 'Selection'">
@@ -249,7 +259,7 @@
           <button
             *ngIf="!isUpdate"
             type="button"
-            class="btn-submit cursor-on"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
             (click)="createField(this.model, '')"
             [disabled]="!isCustomeValid || !fieldForm.form.valid"
           >
@@ -266,7 +276,7 @@
           <button
             *ngIf="!isUpdate"
             type="button"
-            class="btn-submit cursor-on"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
             (click)="createField(this.model, '')"
             [disabled]="!fieldForm.form.valid"
           >
@@ -277,7 +287,7 @@
           <button
             *ngIf="isUpdate"
             type="button"
-            class="btn-submit cursor-on"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
             (click)="createField(this.model, this.model._id)"
             [disabled]="!isCustomeValid || !fieldForm.form.valid"
           >
@@ -294,7 +304,7 @@
           <button
             *ngIf="isUpdate"
             type="button"
-            class="btn-submit cursor-on"
+            class="btn-submit cursor-on bg-b100 body-l"
             (click)="createField(this.model, this.model._id)"
             [disabled]="!fieldForm.form.valid"
           >
