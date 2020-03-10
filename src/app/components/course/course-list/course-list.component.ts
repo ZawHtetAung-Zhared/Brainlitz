@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
@@ -63,6 +63,7 @@ export class CourseListComponent implements OnInit {
     private _service: appService,
     public dataservice: DataService,
     private router: Router,
+    private route: ActivatedRoute,
     public toastr: ToastrService
   ) {
     this._service.goplan.subscribe(() => {
@@ -134,13 +135,16 @@ export class CourseListComponent implements OnInit {
   scrollToActiveElement(activePlan) {
     console.log('scrollToActiveElement', activePlan);
     setTimeout(() => {
-      var topPos = document.getElementById(activePlan).offsetTop;
-      console.log(topPos);
-      document.getElementById('sidenav-wrap').scrollTop = topPos - 155;
-      console.log(
-        '~~~~~~',
-        (document.getElementById('sidenav-wrap').scrollTop = topPos - 155)
-      );
+      if (activePlan != null || activePlan != undefined) {
+        console.log(document.getElementById(activePlan));
+        var topPos = document.getElementById(activePlan).offsetTop;
+        console.log(topPos);
+        document.getElementById('sidenav-wrap').scrollTop = topPos - 155;
+        console.log(
+          '~~~~~~',
+          (document.getElementById('sidenav-wrap').scrollTop = topPos - 155)
+        );
+      }
     }, 200);
   }
 
@@ -195,6 +199,17 @@ export class CourseListComponent implements OnInit {
     this.dataservice.currentActivePlan.subscribe(
       planID => (this.activePlanId = planID)
     );
+    console.log('currentActivePlan', this.activePlanId);
+    this.searchKeyword = this.dataservice.getCourseSearchWord();
+    // this.searchVal = this.searchKeyword == null ? '' : this.searchKeyword;
+    if (this.searchKeyword == null) {
+      this.searchVal = '';
+      this.iswordcount = false;
+    } else {
+      this.searchVal = this.searchKeyword;
+      this.iswordcount = true;
+    }
+    console.log('SearchWord~~~', this.searchKeyword);
     let recentTemp = localStorage.getItem('recentSearchLists');
     this.recentLists = recentTemp == null ? [] : JSON.parse(recentTemp);
     console.log('recent lists', this.recentLists);
@@ -289,7 +304,11 @@ export class CourseListComponent implements OnInit {
       // this.courseList = [];
       // this.getCourseLists(20, 0);
       this.coursePlanCollection = [];
-      this.getAllCourseplan();
+      if (this.searchKeyword == null) {
+        this.getAllCourseplan();
+      } else {
+        this.simpleCoursePlanSearch(this.searchKeyword);
+      }
     } else {
       console.log('permission deny');
       // this.courseList = [];
@@ -467,6 +486,7 @@ export class CourseListComponent implements OnInit {
     // this.isCourseCreate = true;
     //add this line to change route for course create and need to change in coursecreate.ts for redirect to course when click back button
     this.router.navigate(['/coursecreate']);
+    // this.clearSearchHistory();
   }
 
   showCPDetail(planID) {
@@ -546,6 +566,7 @@ export class CourseListComponent implements OnInit {
       this.courseList = [];
       this.recentLists.unshift(e.target.value);
       this.searchKeyword = e.target.value;
+      this.dataservice.setCourseSearchWord(this.searchKeyword);
       this.simpleCoursePlanSearch(e.target.value);
       if (this.recentLists.length > 3) {
         console.log(this.recentLists);
@@ -568,14 +589,22 @@ export class CourseListComponent implements OnInit {
           this.coursePlanLoading = false;
           this.iscourseSearch = false;
           this.coursePlanCollection = res;
+          let autoSelectedPlanId;
+          let autoSelectedPlanName;
           if (this.coursePlanCollection.length > 0) {
-            let autoSelectedPlanId = this.coursePlanCollection[0]._id;
-            let autoSelectedPlanName = this.coursePlanCollection[0].name;
+            if (this.activePlanId == '' || this.activePlanId == null) {
+              autoSelectedPlanId = this.coursePlanCollection[0]._id;
+              autoSelectedPlanName = this.coursePlanCollection[0].name;
+            } else {
+              autoSelectedPlanId = this.activePlanId;
+              autoSelectedPlanName = '';
+            }
             this.getCourseswithPlanId(
               autoSelectedPlanId,
               autoSelectedPlanName,
               keyword
             );
+            this.scrollToActiveElement(autoSelectedPlanId);
           } else {
             //for no course plan
             this.courseCollection = null;
@@ -629,7 +658,12 @@ export class CourseListComponent implements OnInit {
     this.searchVal = '';
     this.searchKeyword = null;
     this.activePlanId = null;
+    this.clearSearchHistory();
     this.getAllCourseplan();
+  }
+
+  clearSearchHistory() {
+    this.dataservice.setCourseSearchWord(null);
   }
 
   searchCourse(val) {
@@ -648,6 +682,8 @@ export class CourseListComponent implements OnInit {
     this.searchVal = val;
     this.searchKeyword = val;
     this.iswordcount = true;
+    this.activePlanId = null;
+    this.dataservice.setCourseSearchWord(this.searchVal);
     this.simpleCoursePlanSearch(this.searchVal);
   }
 }
