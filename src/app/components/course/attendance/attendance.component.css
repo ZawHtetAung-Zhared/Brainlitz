@@ -4414,3 +4414,24 @@ button.today-button {
   transition: 0.3s all ease;
   height: 50px;
 }
+
+/*popup*/
+.relief-teacher-block {
+  position: relative;
+  background: #fff;
+  border-radius: 45px;
+}
+.popup {
+  position: absolute;
+  background: #fff;
+  top: 65px;
+  /* left: 248px; */
+  width: 230px;
+  z-index: 99;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.br-bottom {
+  border-bottom: 1px solid #edeff0;
+}

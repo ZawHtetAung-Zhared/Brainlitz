@@ -134,6 +134,12 @@ export class UserDetailComponent implements OnInit {
   selectedCustomer: any = {};
   public disableInvoice;
   searchData: any = {};
+  public passForm: any = {};
+
+  //for loading
+  public detailLoading: boolean = true;
+  public tabLoading: boolean = false;
+  public makeupLoading: boolean = false;
 
   constructor(
     private _service: appService,
@@ -261,7 +267,9 @@ export class UserDetailComponent implements OnInit {
         }
         setTimeout(() => {
           //this.blockUI.stop();
-        }, 300);
+          this.detailLoading = false;
+          this.tabLoading = false;
+        }, 2000);
       },
       err => {
         console.log(err);
@@ -355,6 +363,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   clickTab(val) {
+    this.tabLoading = true;
     this.activeTab = val;
     this.activePass = 'available';
     if (val == 'makeup') {
@@ -387,6 +396,10 @@ export class UserDetailComponent implements OnInit {
           //this.blockUI.stop();
           console.log(res);
           this.makeupLists = res;
+          setTimeout(() => {
+            this.tabLoading = false;
+            this.makeupLoading = false;
+          }, 2000);
         },
         err => {
           console.log(err);
@@ -395,6 +408,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   clickPass(type) {
+    this.makeupLoading = true;
     this.activePass = type;
     this.callMakeupLists();
   }
@@ -408,6 +422,9 @@ export class UserDetailComponent implements OnInit {
       .subscribe(
         (res: any) => {
           //this.blockUI.stop();
+          setTimeout(() => {
+            this.tabLoading = false;
+          }, 2000);
           if (type == 1) {
             this.achievementProgess = res;
             console.log('Progress', this.achievementProgess);
@@ -536,6 +553,9 @@ export class UserDetailComponent implements OnInit {
             }
           }
           console.log('notilist is', this.notifications);
+          setTimeout(() => {
+            this.tabLoading = false;
+          }, 2000);
         },
         err => {
           console.log(err);

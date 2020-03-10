@@ -2,7 +2,7 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div
-    *ngIf="custDetail && custDetail.user && custDetail.courses"
+    *ngIf="!detailLoading"
     class="content-wrapper w-100"
     [ngClass]="{ pdactive: isSticky == true }"
   >
@@ -233,7 +233,7 @@
                 Activity
               </button>
             </div>
-            <div *ngIf="activeTab == 'class'" class="pb-20">
+            <div *ngIf="activeTab == 'class' && !tabLoading" class="pb-20">
               <div class="d-flex title-space">
                 <div class="d-flex flex-column justify-content-center">
                   <h4 class="mb-0 tab-title">Attending lessons</h4>
@@ -614,7 +614,7 @@
               </div>
             </div>
 
-            <div *ngIf="activeTab == 'makeup'" class="pb-20">
+            <div *ngIf="activeTab == 'makeup' && !tabLoading" class="pb-20">
               <div class="d-flex justify-content-center">
                 <ul class="pass-list">
                   <li
@@ -637,7 +637,10 @@
                   </li>
                 </ul>
               </div>
-              <div *ngIf="makeupLists" class="row makeup-wrap">
+              <div
+                *ngIf="makeupLists && !makeupLoading"
+                class="row makeup-wrap"
+              >
                 <div class="col-md-6 col-lg-4" *ngFor="let list of makeupLists">
                   <div class="single-makeup">
                     <div *ngIf="activePass == 'available'" class="makeup-head">
@@ -797,10 +800,30 @@
                   </div>
                 </div>
               </div>
+              <div *ngIf="makeupLoading" class="w-100 mt-4">
+                <content-loader>
+                  <svg:rect
+                    x="0"
+                    y="0"
+                    rx="3"
+                    ry="3"
+                    width="30%"
+                    height="500"
+                  />
+                  <svg:rect
+                    x="35%"
+                    y="0"
+                    rx="3"
+                    ry="3"
+                    width="30%"
+                    height="500"
+                  />
+                </content-loader>
+              </div>
             </div>
 
             <div
-              *ngIf="activeTab == 'achievements'"
+              *ngIf="activeTab == 'achievements' && !tabLoading"
               class="pb-20"
               style="overflow:hidden"
             >
@@ -1048,7 +1071,10 @@
               </div>
             </div>
 
-            <div *ngIf="activeTab == 'notifications'" class="right-scroll-wrap">
+            <div
+              *ngIf="activeTab == 'notifications' && !tabLoading"
+              class="right-scroll-wrap"
+            >
               <div class="d-flex flex-column pb-20">
                 <h4 class="mb-0 tab-title title-space">Notifications</h4>
                 <div
@@ -1146,7 +1172,10 @@
               </div>
             </div>
 
-            <div class="d-flex pb-20" *ngIf="activeTab == 'activity'">
+            <div
+              class="d-flex pb-20"
+              *ngIf="activeTab == 'activity' && !tabLoading"
+            >
               <div class="firstCol">
                 <div>
                   <h6 class="title-space tab-title">Ratings and reviews</h6>
@@ -1249,11 +1278,130 @@
                 </div>
               </div>
             </div>
+
+            <div *ngIf="tabLoading" class="pb-20 w-100">
+              <div class="title-space" style="height: 20px">
+                <content-loader>
+                  <svg:rect x="0" y="0" rx="3" ry="3" width="80%" height="15" />
+                  <svg:rect
+                    x="0"
+                    y="20"
+                    rx="3"
+                    ry="3"
+                    width="60%"
+                    height="15"
+                  />
+                  <svg:rect
+                    x="0"
+                    y="40"
+                    rx="3"
+                    ry="3"
+                    width="100%"
+                    height="25"
+                  />
+                  <svg:rect
+                    x="0"
+                    y="75"
+                    rx="3"
+                    ry="3"
+                    width="80%"
+                    height="20"
+                  />
+                  <svg:rect
+                    x="0"
+                    y="100"
+                    rx="3"
+                    ry="3"
+                    width="60%"
+                    height="25"
+                  />
+                </content-loader>
+              </div>
+              <!-- <div class="title-space">
+                <content-loader>
+                  <svg:rect x="0" y="20" rx="3" ry="3" width="100%" height="25" />
+                  <svg:rect x="0" y="50" rx="3" ry="3" width="80%" height="20" />
+                  <svg:rect x="0" y="75" rx="3" ry="3" width="60%" height="25" />
+                </content-loader>
+              </div> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- loading start -->
+  <div *ngIf="detailLoading" class="content-wrapper w-100">
+    <div class="main-wrapper">
+      <div class="top-profile-wrap">
+        <div
+          class="d-flex flex-column heading-space w-100"
+          style="height: 180px"
+        >
+          <div class="d-flex justify-content-between">
+            <div style="width: 200px">
+              <content-loader
+                [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+                [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+              >
+                <svg:rect x="0" y="0" rx="6" ry="6" width="100%" height="60" />
+              </content-loader>
+            </div>
+            <div style="float: right; width: 200px">
+              <content-loader
+                [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+                [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+              >
+                <svg:rect x="0" y="0" rx="6" ry="6" width="100%" height="60" />
+              </content-loader>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div style="width: 500px">
+              <content-loader
+                [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+                [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+              >
+                <svg:rect
+                  x="0"
+                  y="0"
+                  rx="50%"
+                  ry="50%"
+                  width="100"
+                  height="100"
+                />
+              </content-loader>
+            </div>
+            <div style="float: right; width: 300px">
+              <content-loader
+                [primaryColor]="'rgba(255, 255, 255, 0.25)'"
+                [secondaryColor]="'rgba(0, 0, 0, 0.25)'"
+              >
+                <svg:rect x="0" y="30" rx="6" ry="6" width="80%" height="20" />
+                <svg:rect x="0" y="60" rx="6" ry="6" width="100%" height="25" />
+              </content-loader>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row section-wrap">
+        <div class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3">
+          <list-content-loader class="mt-4"></list-content-loader>
+          <bullet-list-content-loader class="mt-3"></bullet-list-content-loader>
+          <list-content-loader class="mt-4"></list-content-loader>
+          <bullet-list-content-loader class="mt-3"></bullet-list-content-loader>
+          <list-content-loader class="mt-4"></list-content-loader>
+        </div>
+        <div
+          class="col-md-8 col-xl-9 col-lg-9 d-flex flex-column profile-right"
+        >
+          <bullet-list-content-loader></bullet-list-content-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- loading end -->
 
   <ng-template #journalContent let-modal let-c="close" let-d="dismiss">
     <div class="modal-body" style="padding-top:0px !important;">
@@ -2026,6 +2174,7 @@
                     class=" form-check-inline tool-checked"
                   >
                     <label
+                      *ngIf="lesson && lesson._id"
                       [ngClass]="{ selected: isChecked == lesson._id }"
                       class="form-check-label"
                     >
@@ -2397,5 +2546,5 @@
   </ng-template>
 
   <div class="custom_backdrop" *ngIf="isJournal_delete"></div>
-  <block-ui message="Deafult Message"></block-ui>
+  <!-- <block-ui message="Deafult Message"></block-ui> -->
 </div>

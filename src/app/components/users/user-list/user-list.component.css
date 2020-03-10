@@ -23,18 +23,12 @@
 
 h3,
 h5 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3d4d;
   word-wrap: break-word;
 }
 
 .location-name {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
-  /* line-height: 0.5; */
   position: relative;
   /* margin-top: 7px; */
-  font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
   /* padding: 9px; */
@@ -50,22 +44,22 @@ h5 {
 }
 
 .create-button-pos {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  color: #2e3d4d;
+  /* font-family: 'Inter-UI-Regular', Arial, sans-serif; */
+  /* color: #2e3d4d; */
   word-wrap: break-word;
   cursor: pointer;
   float: right;
-  background: #007fff !important;
-  color: #fff !important;
+  /* background: #007fff !important; */
+  /* color: #fff !important; */
   padding: 9px 13px !important;
-  font-weight: unset;
+  /* font-weight: unset; */
   letter-spacing: 0.5px;
 }
 
 .input-recommend,
 .load-more button {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 14px;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-size: 14px; */
 }
 
 .input-search-bg {
@@ -244,7 +238,7 @@ h5 {
 }
 
 .input-recommend {
-  color: #64707d;
+  /* color: #64707d; */
   padding-top: 15px;
 }
 
@@ -259,14 +253,14 @@ h5 {
   z-index: 99;
   bottom: 0;
   width: 100%;
-  background: #fff;
+  /* background: #fff; */
   border-top: 1px solid #eee;
   padding: 10px;
 }
 
 .load-more button {
-  background: #fff;
-  color: #0080ff;
+  /* background: #fff; */
+  /* color: #0080ff; */
   outline: none;
   border: none;
 }
@@ -274,4 +268,9 @@ h5 {
 .load-more button:focus {
   outline: none;
   border: none;
+}
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }

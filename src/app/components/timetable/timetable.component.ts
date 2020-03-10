@@ -23,8 +23,16 @@ import * as moment from 'moment';
 })
 export class TimetableComponent implements OnInit {
   //zha variable
-  public stafflist: any;
+  public stafflist: any = 0;
   public timetablelist: any;
+  public clist: boolean = false;
+  public thisStart: any;
+  public thisStart2: any;
+  public thisEnd: any;
+  public thisEnd2: any;
+  public indexWeek: any = [];
+  public today: any;
+  public today2: any;
   //zha variable
 
   //apo variable
@@ -329,7 +337,11 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit() {
     //zha ngOnInit
+
+    this.DateCalculate();
+
     this.getStaffListperWeek();
+
     //zha ngOnInit
 
     //copy from schedule
@@ -382,30 +394,109 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  toggledropdown() {
+    this.clist = !this.clist;
+    console.log('clist', this.clist);
+  }
   getStaffListperWeek() {
-    this._service.getStaffList().subscribe(
+    this._service.getStaffList(this.thisStart, this.thisEnd).subscribe(
       (res: any) => {
         this.stafflist = res.staffList;
         console.log('SL', this.stafflist);
-        this.getTimetables(this.stafflist.toString());
+        this.getTimetables(
+          this.stafflist.toString(),
+          this.thisStart,
+          this.thisEnd
+        );
       },
       err => {
         console.log(err);
       }
     );
   }
-  getTimetables(list) {
-    this._service.getTimetableList(list).subscribe(
+  getTimetables(list, start, end) {
+    this._service.getTimetableList(list, start, end).subscribe(
       (res: any) => {
         this.timetablelist = res.data;
         console.log('timetable list', this.timetablelist);
+        // var startOfWeek = moment().startOf('week').toDate();
+        // var endOfWeek = moment().endOf('week').toDate();
+        // console.log("MMMM", startOfWeek, "MMMM", endOfWeek, "Next Week", endOfWeek);
       },
       err => {
         console.log(err);
       }
     );
   }
+  DateCalculate() {
+    var date = new Date();
+    console.log(
+      'next start',
+      moment(date)
+        .weekday(7)
+        .format('DD-MM-YYYY')
+    );
+    console.log(
+      'next end',
+      moment(date)
+        .weekday(13)
+        .format('DD-MM-YYYY')
+    );
 
+    console.log(
+      'prev start',
+      moment(date)
+        .weekday(-7)
+        .format('DD-MM-YYYY')
+    );
+    console.log(
+      'prev end',
+      moment(date)
+        .weekday(-1)
+        .format('DD-MM-YYYY')
+    );
+
+    console.log(
+      'current start',
+      moment(date)
+        .weekday(0)
+        .format('DD-MM-YYYY')
+    );
+    console.log(
+      'current end',
+      moment(date)
+        .weekday(6)
+        .format('DD-MM-YYYY')
+    );
+
+    this.thisStart = moment(date)
+      .weekday(0)
+      .format('DD-MM-YYYY');
+    this.thisStart2 = moment(date)
+      .weekday(0)
+      .format('YYYY-MM-DD');
+    this.thisEnd = moment(date)
+      .weekday(6)
+      .format('DD-MM-YYYY');
+    this.thisEnd2 = moment(date)
+      .weekday(6)
+      .format('YYYY-MM-DD');
+
+    this.today = moment(date).format('YYYY-MM-DD');
+    this.today2 = moment(date).format('DD-MM-YYYY');
+    console.log(this.today);
+    for (var i = 0; i < 7; i++) {
+      this.indexWeek.push(
+        moment(date)
+          .weekday(i)
+          .format('YYYY-MM-DD')
+      );
+      if (moment(date).weekday(i) == this.today) {
+        console.log('Today is', this.today);
+      }
+    }
+    console.log('Show Week', this.indexWeek);
+  }
   //zha function
 
   ngAfterViewInit() {
