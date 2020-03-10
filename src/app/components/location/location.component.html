@@ -5,12 +5,12 @@
   >
     <div class="d-flex justify-content-between header-wrap">
       <div class="mr-auto pl-15">
-        <h3 class="location-h3">Locations</h3>
+        <h3 class="text-c300 ">Locations</h3>
       </div>
       <button
         *ngIf="locationDemo.addLocation != ''"
         type="button"
-        class="btn btn-create mr-15"
+        class="btn btn-create bg-b100 text-s0 body-m mr-15"
         (click)="creatnew()"
       >
         Add new location
@@ -24,7 +24,7 @@
       >
         <div class="single-item">
           <span
-            class="h5-title"
+            class="h5-title body-l"
             [ngStyle]="{
               background: location.backgroundColorHex,
               color: location.textColorHex
@@ -33,16 +33,18 @@
             {{ location.name }}
           </span>
 
-          <div class="pl-0 address-text pt-2">{{ location.address }}</div>
+          <div class="pl-0 address-text body-m text-c100  pt-2">
+            {{ location.address }}
+          </div>
           <div
-            class="pl-0 h5-title"
+            class="pl-0 h5-title body-l"
             *ngIf="location.phoneNumber.number != null"
           >
             +{{ location.phoneNumber.countryCode }}
             {{ location.phoneNumber.number }}
           </div>
           <div
-            class="pl-0 h5-title"
+            class="pl-0 h5-title body-l"
             *ngIf="location.phoneNumber.number == null"
           >
             -
@@ -51,7 +53,7 @@
         <div class="location-footer d-flex justify-content-end">
           <button
             *ngIf="locationDemo.editLocation != ''"
-            class="btn edit-btn"
+            class="btn text-y200"
             (click)="getSingleLocation(location._id)"
           >
             Edit
