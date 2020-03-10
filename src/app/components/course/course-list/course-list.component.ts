@@ -304,7 +304,7 @@ export class CourseListComponent implements OnInit {
       // this.courseList = [];
       // this.getCourseLists(20, 0);
       this.coursePlanCollection = [];
-      if (this.searchKeyword == null) {
+      if (this.searchKeyword == null || this.searchKeyword == '') {
         this.getAllCourseplan();
       } else {
         this.simpleCoursePlanSearch(this.searchKeyword);
@@ -580,8 +580,25 @@ export class CourseListComponent implements OnInit {
   }
 
   simpleCoursePlanSearch(keyword) {
-    console.log('keyword', keyword);
+    console.log(
+      'keyword',
+      keyword,
+      keyword.length,
+      keyword,
+      keyword.match(/^\s*$/)
+    );
+    keyword = keyword.match(/^\s*$/) != null ? '' : keyword;
     this.coursePlanLoading = true;
+    if (
+      keyword == undefined ||
+      keyword == null ||
+      keyword == '' ||
+      keyword.match(/^\s*$/) != null
+    ) {
+      this.searchKeyword = null;
+      this.searchVal = null;
+      this.iswordcount = false;
+    }
     this._service
       .getCourseplanCollection(this.regionId, this.locationID, keyword)
       .subscribe(

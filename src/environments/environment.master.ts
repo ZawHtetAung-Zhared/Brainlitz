@@ -7,5 +7,6 @@ export const environment = {
   apiurl: 'https://app-admin.brainlitz.com',
   courseTypeDisabled: true,
   livechatDisabled: true,
-  environmentName: 'production'
+  // environmentName: 'production'
+  environmentName: 'staging'
 };
