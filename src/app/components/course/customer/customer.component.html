@@ -516,10 +516,10 @@
                   'expired-header': makeup.passType === 'expired'
                 }"
               >
-                <p class="light-body-m bg-b300 ">
+                <p class="light-body-m text-b300 ">
                   <span *ngIf="makeup.passType === 'available'">
                     Valid until
-                    <span class=" body-l"
+                    <span class=" body-m"
                       >{{ makeup.expirationDate.day }}
                       {{ makeup.expirationDate.month - 1 | TTmonth }}
                       {{ makeup.expirationDate.year }}</span
@@ -540,19 +540,22 @@
                 </p>
               </div>
               <div class="makeup-body">
-                <h5 class="makeup-title">{{ makeup.name }}</h5>
-                <p class="makeup-desc">{{ makeup.reason }}</p>
-                <div class="makeup-box">
-                  <p>
+                <h5 class="makeup-title body-l text-C300">{{ makeup.name }}</h5>
+                <p class="body-m text-c100">{{ makeup.reason }}</p>
+                <div class="makeup-box bg-s20">
+                  <p class="small text-c100">
                     Issued on {{ makeup.issueDate.day }}
                     {{ makeup.issueDate.month - 1 | TTmonth }}
                     {{ makeup.issueDate.year }}
                   </p>
-                  <div class="issue-box d-flex flex-column">
-                    <strong class="makeup-course-name"
+                  <div class="issue-box d-flex flex-column bg-s0">
+                    <span class="makeup-course-name small text-c300"
                       >{{ makeup.course.name }}
-                    </strong>
-                    <label *ngIf="makeup.course.type !== 'ONLINE'">
+                    </span>
+                    <label
+                      *ngIf="makeup.course.type !== 'ONLINE'"
+                      class="small text-c100"
+                    >
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}
@@ -573,10 +576,13 @@
                       {{ makeup.claimedDateFor.year }}
                     </p>
                     <div class="issue-box d-flex flex-column">
-                      <strong class="makeup-course-name">{{
+                      <span class="makeup-course-name small text-c300">{{
                         makeup.makeupCourse.name
-                      }}</strong>
-                      <label *ngIf="makeup.course.type !== 'ONLINE'">
+                      }}</span>
+                      <label
+                        *ngIf="makeup.course.type !== 'ONLINE'"
+                        class="small text-c100"
+                      >
                         <span
                           >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
                           {{ makeup.makeupCourse.startTime.min | timeFormat }}

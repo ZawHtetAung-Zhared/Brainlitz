@@ -3535,12 +3535,9 @@ p.textCount {
 }
 
 .makeup-box {
-  background: #f2f4f5;
   padding: 8px;
   margin-top: 16px;
-  color: #64707d;
   border-radius: 4px;
-  font-size: 12px;
 }
 
 .makeup-box label,
@@ -3548,9 +3545,7 @@ p.textCount {
   margin-bottom: 0;
 }
 
-.makeup-box strong {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3d4d;
+.makeup-box span {
   text-transform: uppercase;
 }
 
@@ -3561,7 +3556,6 @@ p.textCount {
 
 .issue-box,
 .claimed-box {
-  background: #fff;
   padding: 8px;
 }
 
@@ -3631,30 +3625,6 @@ p.textCount {
 .claim-text {
   color: #0080ff;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 14px;
-}
-
-.valid-date {
-  color: #004080;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 14px;
-}
-
-.makeup-head p {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 14px;
-  color: #004080;
-}
-
-.makeup-title {
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 16px;
-}
-
-.makeup-desc {
-  color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 14px;
 }
 
