@@ -19,6 +19,7 @@ import { LoggedInGuard } from './service/loggedIn.guard';
 import { ReviewComponent } from './components/review/review.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
+import { CourseSearchComponent } from './components/course/course-search/course-search.component';
 
 import {
   CourseComponent,
@@ -79,6 +80,13 @@ export const routes: Routes = [
     // component: CourseComponent,
     component: CourseListComponent,
     canActivate: [LoggedInGuard]
+    // children: [
+    //   { path: '', redirectTo: 'overview', pathMatch: 'full' },
+    //   {
+    //     path: 'keyword',
+    //     component: CourseSearchComponent
+    //   }
+    // ]
   },
   {
     path: 'coursedetail/:id/enroll',
