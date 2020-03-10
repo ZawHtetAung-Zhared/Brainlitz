@@ -4200,6 +4200,15 @@ export class AttendanceComponent implements OnInit {
     console.log('cancel relirf~~~');
     this.showReliefPopup = false;
     this.modalReference.close();
+    this.updateForRelief();
+    // this._service
+    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //   });
+  }
+
+  updateForRelief() {
     return new Promise((resolve, reject) => {
       // this.getAttendance()
       console.log('lastSelectedObj', this.lastSelectedObj);
@@ -4224,11 +4233,6 @@ export class AttendanceComponent implements OnInit {
         this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
       }, 300);
     });
-    // this._service
-    //   .editProfile(this.regionId, this.selectedLesson.teacherId)
-    //   .subscribe((res: any) => {
-    //     console.log(res);
-    //   });
   }
 
   viewSingleInvoice(id) {
@@ -4332,5 +4336,16 @@ export class AttendanceComponent implements OnInit {
 
   checkLessonCount(data) {
     this.checkobjArr = data;
+  }
+
+  withdrawReliefTeacher(staffId) {
+    console.log('withdraw relief teacher', staffId);
+    this._service
+      .withdrawReliefTeacher(this.regionId, this.courseId, staffId)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.showReliefPopup = false;
+        this.updateForRelief();
+      });
   }
 }
