@@ -44,8 +44,8 @@ p.switchTxt {
 }
 
 .btn-create {
-  color: #fff;
-  background-color: #1682fb;
+  /* color: #fff;
+  background-color: #1682fb; */
   border: none;
   height: 44px;
   border-radius: 3px;
@@ -95,14 +95,14 @@ p.switchTxt {
 
 .btn-action {
   border: none;
-  background: none;
+  /* background: none;
   color: #f23a30;
-  font-size: 14px;
+  font-size: 14px; */
 }
 
-.btn-action:first-child {
+/* .btn-action:first-child {
   color: #f28d00;
-}
+} */
 
 .input-field {
   font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
@@ -147,8 +147,9 @@ p.switchTxt {
 }
 
 .back p {
-  font-size: 16px;
-  color: #2e3d4d;
+  /* font-size: 16px;
+  color: #2e3d4d; */
+  line-height: inherit;
 }
 
 .m-bottom {
@@ -209,17 +210,17 @@ p.switchTxt {
 }
 
 .btn-cancel {
-  background-color: #f2f4f5;
-  color: #2e3d4d;
+  /* background-color: #f2f4f5;
+  color: #2e3d4d; */
   margin-right: 20px;
 }
 .inputvaluewrapper {
   padding-bottom: 90px;
 }
-.btn-submit {
+/* .btn-submit {
   background-color: #007fff;
   color: #ffffff;
-}
+} */
 .cursor-on {
   cursor: pointer;
 }
@@ -261,10 +262,10 @@ p.switchTxt {
 }
 
 .show-type {
-  color: #0080ff;
+  /* color: #0080ff;
   font-size: 12px;
   line-height: 2;
-  background-color: #cce6ff;
+  background-color: #cce6ff; */
   padding: 0px 10px;
 }
 
@@ -417,11 +418,11 @@ input:checked + .slider:before {
 
 /* end switch */
 
-p.switchTxt {
+/* p.switchTxt {
   font-size: 16px;
   font-weight: 600;
   color: #64707d;
-}
+} */
 
 /* drag & drop */
 .img-wrapper {
@@ -547,9 +548,9 @@ p.switchTxt {
 
 .add-selection {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 16px;
+  /* font-size: 16px;
   font-weight: 500;
-  color: #0080ff;
+  color: #0080ff; */
   padding-left: 20px;
   cursor: pointer;
   margin-bottom: 0px;

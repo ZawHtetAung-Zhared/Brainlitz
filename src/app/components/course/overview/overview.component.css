@@ -11,11 +11,11 @@
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
 }
-.customer-view h3 {
+/* .customer-view h3 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   font-size: 20px;
   line-height: 28px;
-}
+} */
 .tasks-view {
   width: 476px;
   height: 232px;
@@ -123,7 +123,6 @@
 .spaninline {
   line-height: 20px;
   display: inline-block;
-  background: #ffbf00;
   border-radius: 8px;
   width: 30px;
   text-align: center;
@@ -191,19 +190,13 @@
   font-family: 'Inter-UI-bold', Arial, sans-serif;
 }
 .detail-btn {
-  background: #0065f2;
   box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
   align-items: center;
   text-align: center;
-  color: #ffffff;
   height: 40px;
   cursor: pointer;
   line-height: 18px !important;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   border: none;
   outline: none;
 }
@@ -265,16 +258,10 @@
   color: #004d20;
 }
 .white {
-  background: #ffffff !important;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 24px;
   align-items: center;
   text-align: center;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-  color: #363f4d;
 }
 .mastery-type {
   margin: 5px 15px 5px 15px;
@@ -497,25 +484,13 @@
 }
 .c-h3 {
   display: inline-block;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
   line-height: 32px;
   display: contents;
-  font-family: 'Inter-UI-bold', Arial, sans-serif;
 }
 .c-unpaid {
   color: lightgray !important;
 }
-.c-unpaid h3 {
-  font-size: 24px;
-}
-.c-enroll {
-  color: #363f4d !important;
-}
-.c-enroll span {
-  color: #5c6773;
-}
+
 .nodisplay {
   display: none !important;
 }
@@ -523,12 +498,6 @@
 .mastery-head {
   height: 22%;
   padding-left: 30px !important;
-}
-.mastery-head > h3 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #475466;
-  font-size: 20px;
-  line-height: 28px;
 }
 
 .mastery-body {
@@ -607,16 +576,10 @@
 }
 .mastery-view-head > h3 {
   margin: 15px;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 28px;
   -webkit-font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on,
     'ss01' on, 'ss02' on, 'ss03' on;
   font-feature-settings: 'tnum' on, 'lnum' on, 'case' on, 'zero' on, 'ss01' on,
     'ss02' on, 'ss03' on;
-  color: #363f4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   display: inline-block;
 }
 .mastery-view-head {

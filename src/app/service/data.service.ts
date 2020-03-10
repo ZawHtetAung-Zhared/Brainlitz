@@ -25,7 +25,12 @@ export class DataService {
   private activePlan = new BehaviorSubject('');
   currentActivePlan = this.activePlan.asObservable();
 
+  // private courseSearchWord = new BehaviorSubject('');
+  // currentCourseSearch = this.courseSearchWord.asObservable();
+
   private masteryData: any;
+
+  private courseSearchWord: any;
 
   constructor() {}
 
@@ -63,5 +68,13 @@ export class DataService {
 
   getMasteryData() {
     return this.masteryData;
+  }
+
+  setCourseSearchWord(keyword) {
+    this.courseSearchWord = keyword;
+  }
+
+  getCourseSearchWord() {
+    return this.courseSearchWord;
   }
 }

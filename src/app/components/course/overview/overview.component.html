@@ -4,8 +4,8 @@
   *ngIf="loadingMastery == false"
 >
   <div class="mastery-view-head" [ngClass]="{ 'no-mh': Nomasteryflag }">
-    <h3>Masteries reports</h3>
-    <span class="spaninline">
+    <h3 class="h3-strong text-c300">Masteries reports</h3>
+    <span class="spaninline bg-y100 ">
       <!-- <p class="m-0">SW</p> -->
       <img src="../../../../assets/img/tiny-brainlitz.svg" />
     </span>
@@ -51,7 +51,7 @@
                 class="mastery-type pb-3"
               >
                 <div class="mastery-head p-3">
-                  <h3>{{ li2.name }}</h3>
+                  <h3 class="h3-strong text-c200">{{ li2.name }}</h3>
                 </div>
                 <div class="mastery-body d-flex p-3">
                   <div class="d-flex flex-column" class="masteries-stats">
@@ -157,7 +157,10 @@
     </div>
   </div>
   <div class="mastery-view-footer" [ngClass]="{ 'no-mf': Nomasteryflag }">
-    <button class="detail-btn white" (click)="goToMasteryReport()">
+    <button
+      class="detail-btn white body-m  bg-s0 text-c300"
+      (click)="goToMasteryReport()"
+    >
       More detail
     </button>
   </div>
@@ -184,7 +187,10 @@
     </div>
   </div>
   <div class="mastery-view-footer">
-    <button class="btn detail-btn white" [disabled]="loadingMastery == true">
+    <button
+      class="btn detail-btn white body-m  bg-s0 text-c300"
+      [disabled]="loadingMastery == true"
+    >
       More detail
     </button>
   </div>
@@ -197,7 +203,7 @@
 >
   <div class="customer-view">
     <div class="cardhead">
-      <h3>Customers</h3>
+      <h3 class="h3-strong text-c300">Customers</h3>
       <!-- <p>30 / 30 seats left</p> -->
     </div>
     <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
@@ -206,19 +212,19 @@
       </div>
       <div *ngIf="pplLists?.length > 0">
         <div class="d-flex justify-content-between mb-4">
-          <div class="c-enroll">
-            <h3>{{ enrolledcount }}</h3>
-            <span>customers currently enrolled</span>
+          <div>
+            <h3 class="h3-strong text-c300">{{ enrolledcount }}</h3>
+            <span class="body-m  text-c100">customers currently enrolled</span>
           </div>
           <div
-            class="d-flex flex-column c-unpaid"
+            class="d-flex flex-column c-unpaid h2-strong text-c300"
             [ngClass]="{ 'c-enroll': unpaid > 0, nodisplay: unpaid == 0 }"
           >
-            <span>
-              <h3 class="c-h3">{{ unpaid }}</h3>
+            <span class="h5-strong text-c300">
+              <span class="c-h3  h2-strong ">{{ unpaid }}</span>
               invoice
             </span>
-            <span>Unpaid</span>
+            <span class="text-c100 h5-strong ">Unpaid</span>
           </div>
         </div>
         <div>
@@ -250,7 +256,7 @@
     <div class="cardfoot" style="height: 20%;">
       <button
         *ngIf="total_no_of_seats == 0"
-        class="detail-btn"
+        class="detail-btn bg-s0 text-c300 body-m"
         (click)="enrollCustomer(courseId)"
         [ngClass]="{
           white: !on
@@ -261,7 +267,7 @@
       </button>
       <button
         *ngIf="total_no_of_seats != 0"
-        class="detail-btn"
+        class="detail-btn text-c300 body-m"
         (click)="enrollCustomer(courseId)"
         [ngClass]="{
           white: !on,
@@ -339,7 +345,7 @@
     </div>
     <div class="cardfoot" style="height: 25%;">
       <button
-        class="detail-btn"
+        class="detail-btn body-m  bg-s0 text-c300"
         [ngClass]="{ white: lessonList.attendance != '' }"
         (click)="goToAttendance()"
       >
@@ -388,7 +394,7 @@
     </div>
     <div class="cardfoot">
       <button
-        class="detail-btn"
+        class="detail-btn body-m text-c300 bg-s0"
         routerLink="../../../assignTask"
         [ngClass]="{ white: scheduled != 0 || custom != 0 }"
         (click)="goToAssignTask()"
@@ -528,7 +534,7 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 20%;">
-      <button class="detail-btn">
+      <button class="detail-btn body-m  bg-b100 text-s0">
         <!-- (click)="toggle()" -->
         Enroll customer
       </button>
@@ -547,7 +553,7 @@
       </content-loader>
     </div>
     <div class="cardfoot" style="height: 25%;">
-      <button class="detail-btn">
+      <button class="detail-btn body-m  bg-s0 text-c300">
         Set attendance
       </button>
     </div>
