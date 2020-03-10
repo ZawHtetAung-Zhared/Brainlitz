@@ -20,7 +20,7 @@ deploy(){
     PROJECT_FOLDER="/public_html/brainlitz-web-multi"
   fi
 
-  if [ -d "$DIRECTORY" ]; then
+  if [ -d "$PROJECT_FOLDER" ]; then
       cd $PROJECT_FOLDER
       echo "Remove and Create new folder"
       rm -rf $PROJECT_FOLDER/old_version && mkdir $PROJECT_FOLDER/old_version
