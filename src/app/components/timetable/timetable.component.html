@@ -33,7 +33,17 @@
         <span class="pl-3">All category</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>
         <i *ngIf="clist == true" class="fa fa-chevron-up dropdown-arrow"></i>
-        <div *ngIf="clist == true" class="category-list"></div>
+        <div *ngIf="clist == true" class="category-list">
+          <ul class="cat-ul">
+            <li (click)="CategorySelected('', '', true)">All Category</li>
+            <li
+              (click)="CategorySelected(cat.name, cat._id, false)"
+              *ngFor="let cat of catList"
+            >
+              {{ cat.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -67,14 +77,20 @@
         (click)="showPopUpFunc(staff, schedule)"
       >
         <!---Absent All Day -->
-        <div class="pad-left" *ngIf="schedule.leaveInfo.meridian == 'DAY'">
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'DAY'"
+        >
           <div style="display: inline;">
             <img src="../../../assets/icons/Ellipse 2.svg" />
           </div>
           <div style="display: inline;">Absent</div>
         </div>
         <!---Absent AM -->
-        <div class="pad-left" *ngIf="schedule.leaveInfo.meridian == 'AM'">
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'AM'"
+        >
           <div>
             <div style="display: inline;">
               <img src="../../../assets/icons/am.svg" />
@@ -92,7 +108,10 @@
           </div>
         </div>
         <!---Absent PM -->
-        <div class="pad-left" *ngIf="schedule.leaveInfo.meridian == 'PM'">
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'PM'"
+        >
           <div>
             <div style="display: inline;">
               <img src="../../../assets/icons/PM.svg" />
@@ -110,7 +129,10 @@
           </div>
         </div>
         <!--No Absent-->
-        <div class="pad-left" *ngIf="schedule.leaveInfo.absent != true">
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.absent != true"
+        >
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span
               >{{ count.start.hour }}:{{ count.start.min }}
