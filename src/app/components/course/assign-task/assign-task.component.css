@@ -43,8 +43,6 @@
 }
 
 .back-modal {
-  font-size: 16px;
-  color: #2e3d4d !important;
   padding-left: 0 !important;
   cursor: pointer;
   padding-top: 10px;
@@ -66,14 +64,7 @@
   text-align: center;
   padding-top: 17px;
   padding-bottom: 17px;
-  font-size: 24px;
-  color: #363f4d;
   margin-bottom: 0;
-}
-
-p.title {
-  color: #363f4d;
-  font-size: 20px;
 }
 
 /* start standard block */
@@ -150,11 +141,7 @@ button.btn.btn-back {
   font-size: 16px;
 }
 button.btn.btn-comfirm {
-  background: #007fff;
   border-radius: 3px;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 16px;
   padding: 8px 10px;
 }
 
@@ -175,13 +162,7 @@ button.btn.btn-comfirm {
   cursor: pointer;
 }
 
-.choice-title {
-  color: #363f4d;
-  font-size: 20px;
-}
 .choice-description {
-  color: #5c6773;
-  font-size: 15px;
   word-break: break-all;
 }
 .choice-block:hover {
@@ -375,10 +356,7 @@ button.btn.sticky-cancel {
 /* end progress bar */
 
 /* start step */
-.step-title {
-  color: #363f4d;
-  font-size: 28px;
-}
+
 .task-search-input:focus {
   box-shadow: none;
 }
@@ -404,7 +382,7 @@ button.btn.sticky-cancel {
 .template-wrapper {
   margin-bottom: 0px;
 }
-.template-name,
+
 .task-title {
   font-size: 20px;
   color: #363f4d;
@@ -429,7 +407,7 @@ path.template-icon.active {
   margin-bottom: 24px;
   margin-left: 3px;
 }
-p.template-description,
+
 p.task-description {
   color: #5c6773;
   font-size: 15px;
@@ -456,8 +434,6 @@ p.task-description {
   margin-bottom: 20px;
 }
 .template-description2 {
-  color: #5c6773;
-  font-size: 17px;
   word-break: break-all;
   margin-right: 70px;
   padding-right: 10px;
@@ -804,9 +780,7 @@ input:checked + .slider:before {
 
 /* mastery modal */
 .input-title {
-  color: #363f4d;
   margin-bottom: 0;
-  font-size: 17px;
 }
 .input-wrap {
   margin: 13px 0px;
@@ -1144,8 +1118,6 @@ i.fa.fa-check.checkIcon {
   overflow: overlay;
 }
 p.masteries-box {
-  color: #5c6773;
-  font-size: 17px;
   padding-left: 16px;
   margin-bottom: 6px;
 }
