@@ -617,7 +617,6 @@ export class CreateUserComponent implements OnInit {
             console.log(res);
             this.backToDetails();
             this.toastr.success('Successfully updated.');
-            this.backToCustomer();
           },
           err => {
             console.log(err);

@@ -48,7 +48,7 @@
     >
       <div class="input-group col-md-12 p-0">
         <input
-          class="form-control py-2 input-search-bg"
+          class="form-control py-2 input-search-bg body-l"
           type="search"
           placeholder="Search customer here"
           id="customer-search-input"
@@ -57,7 +57,7 @@
           autocomplete="off"
         />
         <span class="btn-design btn-outline-secondary">
-          <i class="fa fa-search search-size"></i>
+          <i class="fa fa-search search-size body-xl"></i>
         </span>
       </div>
     </div>
@@ -91,7 +91,7 @@
                   customer.userGrading != undefined &&
                   customer.userGrading.grade.point != null
                 "
-                class="b-white justify-content-center d-flex"
+                class="b-white justify-content-center d-flex small"
                 [style.background]="customer.userGrading.sepalColor.background"
                 [ngClass]="{
                   'test-circle': customer.userGrading.grade.point.length == 1,
@@ -105,18 +105,30 @@
             </div>
           </div>
           <div class="info-side d-flex flex-column justify-content-center">
-            <h5 *ngIf="customer.preferredName" style="margin-bottom: 0px">
+            <h5
+              *ngIf="customer.preferredName"
+              class="body-xl text-c300"
+              style="margin-bottom: 0px"
+            >
               {{
                 customer.preferredName.length > 20
                   ? (customer.preferredName | slice: 0:20) + '...'
                   : customer.preferredName
               }}
             </h5>
-            <p class="info-mail mb-0">
+            <p class="info-mail mb-0 body-m text-c100">
               {{ customer.email }}
             </p>
-            <p class="info-about" *ngIf="customer.about == 'undefined'">-</p>
-            <p class="info-about" *ngIf="customer.about != 'undefined'">
+            <p
+              class="info-about body-m text-c300"
+              *ngIf="customer.about == 'undefined'"
+            >
+              -
+            </p>
+            <p
+              class="info-about body-m text-c300"
+              *ngIf="customer.about != 'undefined'"
+            >
               {{
                 customer.about.length > 25
                   ? (customer.about | slice: 0:25) + '...'
@@ -126,7 +138,7 @@
           </div>
           <div
             *ngIf="customerDemo.viewCustomer != ''"
-            class="ml-auto right-arrow"
+            class="ml-auto right-arrow h1-strong text-s60"
           >
             <i class="fa fa-angle-right"></i>
           </div>

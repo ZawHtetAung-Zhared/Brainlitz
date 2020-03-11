@@ -1,7 +1,10 @@
 <div class="d-flex justify-content-between">
   <!-- <h3 class="leave-title">Leave</h3> -->
-  <h3 class="leave-title">Absent history</h3>
-  <button class="btn btn-primary add-leave" (click)="openLeaveModal(openLeave)">
+  <h3 class="h3-strong text-c300">Absent history</h3>
+  <button
+    class="btn text-s0 body-l bg-b100 add-leave"
+    (click)="openLeaveModal(openLeave)"
+  >
     Add new absent
   </button>
 </div>
@@ -102,14 +105,25 @@
       /></span>
       <div class="d-flex flex-column">
         <div class="d-flex">
-          <p class="mb-0 leave-date">{{ log.leaveDay | utcDateAndDay }}</p>
-          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'AM'">
+          <p class="mb-0 body-l text-c300">
+            {{ log.leaveDay | utcDateAndDay }}
+          </p>
+          <p
+            class="leave-type-info mb-0 body-m text-c300"
+            *ngIf="log.meridian == 'AM'"
+          >
             HALF - {{ log.meridian }}
           </p>
-          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'PM'">
-            HLAF - {{ log.meridian }}
+          <p
+            class="leave-type-info mb-0 body-m text-c300"
+            *ngIf="log.meridian == 'PM'"
+          >
+            HALF - {{ log.meridian }}
           </p>
-          <p class="leave-type-info mb-0" *ngIf="log.meridian == 'DAY'">
+          <p
+            class="leave-type-info mb-0 body-m text-c300"
+            *ngIf="log.meridian == 'DAY'"
+          >
             FULL DAY
           </p>
         </div>
@@ -119,118 +133,18 @@
           </p>
           <span class="dotted-spot"></span>
           <p class="mb-0 leave-status">{{ log.leaveStatus }}</p> -->
-          <p class="mb-0 leave-reason">{{ log.reason }}</p>
+          <p class="mb-0 leave-reason body-m text-c100">{{ log.reason }}</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<ng-template #cancelClass let-modal>
-  <div class="cancel-class-wrapper">
-    <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
-      <h1 class="cancel-class-title">Cancel lesson</h1>
-      <span class="close-icon" (click)="closeCancelClassModal()"></span>
-    </div>
-    <div class="d-flex">
-      <div class="d-flex flex-column col-md-5 p-0">
-        <div class="d-flex justify-content-between">
-          <p class="makeup-text">Issue makeup pass?</p>
-          <div
-            class="toggle-wrap"
-            (click)="this.giveMakeUp = !giveMakeUp; cancelReason = ''"
-          >
-            <label class="switch">
-              <input
-                type="checkbox"
-                (click)="giveMakeUp = !this.giveMakeUp"
-                [checked]="giveMakeUp"
-              />
-              <span class="slider round"></span>
-            </label>
-          </div>
-        </div>
-        <div class="d-flex flex-column" *ngIf="giveMakeUp">
-          <label for="" class="reason-title">Reason (Optional)</label>
-          <textarea
-            (input)="autoResize($event, 'cancel')"
-            rows="1"
-            [(ngModel)]="cancelReason"
-            class="reason-text"
-            placeholder="Type reason here..."
-          ></textarea>
-        </div>
-      </div>
-      <div class="class-info-side col-md-7">
-        <p class="total-student mb-0" [ngClass]="{ 'makeup-true': giveMakeUp }">
-          <span class="Union-icon" *ngIf="!giveMakeUp"
-            ><img src="../../../assets/icons/Union.svg" alt=""
-          /></span>
-          <span class="Union-icon" *ngIf="giveMakeUp"
-            ><img src="../../../assets/icons/Vector.svg" alt=""
-          /></span>
-          <span class="total-student-text"
-            >Total of {{ studentCount }} students will be affected as
-            <span *ngIf="giveMakeUp">MakeUp pass</span>
-            <span *ngIf="!giveMakeUp">Cancel class</span>
-          </span>
-        </p>
-        <!-- <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/PM.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p>
-        <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/am.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p> -->
-        <div class="cancel-classes-info">
-          <div
-            class="d-flex classes-info-block"
-            *ngFor="let course of cancelClassArray"
-          >
-            <span class="cancelclass-leaveType">
-              <img
-                *ngIf="course.meridian == 'DAY'"
-                src="../../../../assets/icons/Ellipse 2.svg"
-              />
-              <img
-                *ngIf="course.meridian == 'AM'"
-                src="../../../../assets/icons/am.svg"
-              />
-              <img
-                *ngIf="course.meridian == 'PM'"
-                src="../../../../assets/icons/PM.svg"
-              />
-            </span>
-            <div class="d-flex flex-column">
-              <p class="leave-taken-date">{{ course.date | utcDateAndDay }}</p>
-              <div
-                class="d-flex align-items-center"
-                *ngFor="let courseObj of course.courses"
-              >
-                <p class="student-count">
-                  {{ courseObj.enrolledStudentCount }} students
-                </p>
-                <p class="cancel-class-name">{{ courseObj.name }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn bg-white" (click)="closeCancelClassModal()">
-      Cancel
-    </button>
-    <button
-      class="btn btn-primary create-button-pos"
-      (click)="confirmCancelClass()"
-    >
-      Confirm
-    </button>
-  </div>
-</ng-template>
-
 <ng-template #openLeave let-modal>
   <div *ngIf="!showRelief" class="main-openleave">
     <div class="d-flex w-100 mb-3">
       <div class="col-md-4">
-        <h1 class="leave-class-title">Create absent</h1>
+        <h1 class="leave-class-title body-xl text-c300">Create absent</h1>
       </div>
       <div
         class="profileimg-wrap d-flex flex-column justify-content-center align-items-center col-md-4"
@@ -245,11 +159,11 @@
             src="{{ staffObj.profilePic }}"
           />
         </div>
-        <div class="staffname">
+        <div class="staffname body-m text-c100">
           {{ staffObj.preferredName }}
         </div>
       </div>
-      <div class="col-md-4 p-0 cancel-icon-wrap">
+      <div class="col-md-4 p-0 cancel-icon-wrap text-c200">
         <div (click)="closeOpenLeaveModal()">
           <img src="assets/img/removeIcon.png" />
         </div>
@@ -266,14 +180,14 @@
             <div class="col-md-12">
               <div class="cal-title d-flex justify-content-between">
                 <div class="cal-month">
-                  <div class="month-name">
+                  <div class="month-name body-m text-c300">
                     {{ viewDate | calendarDate: view + 'ViewTitle':'en' }}
                   </div>
                 </div>
                 <div class="">
                   <button
                     name="left"
-                    class="btn calendarbtn"
+                    class="btn calendarbtn text-c200"
                     mwlCalendarPreviousView
                     [view]="view"
                     [(viewDate)]="viewDate"
@@ -283,7 +197,7 @@
                   </button>
                   <button
                     name="right"
-                    class="btn calendarbtn"
+                    class="btn calendarbtn text-c200"
                     mwlCalendarNextView
                     [view]="view"
                     [(viewDate)]="viewDate"
@@ -296,6 +210,7 @@
               </div>
             </div>
           </div>
+
           <ng-template #customCellTemplate let-day="day" let-locale="locale">
             <div class="cal-month-view" id="cal-month-view{{ day.date }}">
               <div class="cal-cell-top" *ngIf="day.events.length == 0">
@@ -358,6 +273,7 @@
               </div>
             </div>
           </ng-template>
+
           <mwl-calendar-month-view
             [viewDate]="viewDate"
             [events]="events"
@@ -368,8 +284,9 @@
           >
           </mwl-calendar-month-view>
         </div>
+
         <div class="leave-day-part" *ngIf="selectedDays.length != 0">
-          <div class="leave-day-title">
+          <div class="leave-day-title h3-strong text-c300">
             Leave days
           </div>
           <div
@@ -381,7 +298,7 @@
               class="d-flex justify-content-between leave-day-box"
               *ngFor="let sday of selectedDays; let i = index"
             >
-              <div class="leave-day-date">
+              <div class="leave-day-date body-l text-c100">
                 <!-- {{ sday.date | utcDateAndDay }} -->
                 {{ sday.date | date: 'EEEE, dd MMM yyyy' }}
               </div>
@@ -392,7 +309,7 @@
                       'active-dropdown':
                         checkId == sday.id && isFocusleavetype == true
                     }"
-                    class="form-control py-2 input-search-dropdown-bg"
+                    class="form-control py-2 input-search-dropdown-bg body-l text-c300"
                     value="{{ sday.name }}"
                     type="search"
                     autocomplete="off"
@@ -409,7 +326,7 @@
                       'active-dropdown':
                         checkId == sday.id && isFocusleavetype == true
                     }"
-                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down fa-2x"
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon leave-search-down fa-2x text-c75"
                     (click)="downleaveType($event, i, sday.date)"
                   ></button>
                 </div>
@@ -425,7 +342,7 @@
                   >
                     <div class="d-flex justify-content-between">
                       <span
-                        class="leave-list-name"
+                        class="leave-list-name body-l text-c300"
                         [ngClass]="{
                           'check-leave-name': sday.name == leaveTypeList[j].name
                         }"
@@ -452,7 +369,9 @@
           </div> -->
         </div>
         <div class="d-flex flex-column leave-reason-wrapper">
-          <h2 class="leave-reason-title">Reason <span>(Optional)</span></h2>
+          <h2 class="leave-reason-title h3-strong text-c300">
+            Reason <span class="body-m text-c100">(Optional)</span>
+          </h2>
           <textarea
             class="leave-reason-input"
             type="text"
@@ -464,11 +383,9 @@
       </div>
       <div class="skip-lessons-part">
         <div class="skip-lessons-exit" *ngIf="skipCourseArr.length != 0">
-          <div class="skip-header">
-            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
-              >{{ staffObj.preferredName }} </span
-            >will skip
-            <span style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;"
+          <div class="skip-header body-m text-s0">
+            <span>{{ staffObj.preferredName }} </span>will skip
+            <span
               >{{ skipLessonsCount }}
               {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}</span
             >
@@ -491,11 +408,11 @@
                 <span class="leave-info-icon2" *ngIf="sobj.meridian == 'AM'"
                   ><img src="../../../../assets/icons/am.svg" alt=""
                 /></span>
-                <span class="skip-lessons-date">{{
+                <span class="skip-lessons-date small text-c300">{{
                   sobj.date | utcDateAndDay
                 }}</span>
               </div>
-              <div class="lessons-count">
+              <div class="lessons-count text-c100">
                 <span
                   class="txt-lessouns-count"
                   *ngIf="sobj.courses.length > 1"
@@ -503,7 +420,7 @@
                   {{ sobj.courses.length }} lessons
                 </span>
                 <span
-                  class="txt-lessouns-count"
+                  class="txt-lessouns-count text-c100"
                   *ngIf="sobj.courses.length == 1"
                 >
                   {{ sobj.courses.length }} lesson
@@ -511,10 +428,10 @@
               </div>
             </div>
             <div class="skip-lessons" *ngFor="let course of sobj.courses">
-              <div class="course-name">
+              <div class="course-name body-m text-c100">
                 {{ course.name | uppercase }}
               </div>
-              <div class="d-flex course-des">
+              <div class="d-flex course-des light-body-m text-c75">
                 <span>{{ sobj.enrolledStudentCount }} student</span>
                 <span class="small_circle"></span>
                 <span class="timezone"
@@ -539,7 +456,7 @@
               src="../../../../assets/images/notAffectedYet.svg"
               class="notAffectedYet-img"
           /></span>
-          <div class="empty-txt">
+          <div class="empty-txt body-m text-c100">
             Affected lessons for the selected dates will be listed here, if any.
           </div>
         </div>
@@ -550,7 +467,7 @@
     <div class="container-div">
       <div class="d-flex w-100 mb-3">
         <div class="col-md-4">
-          <h1 class="leave-class-title">Create absent</h1>
+          <h1 class="leave-class-title text-c300">Create absent</h1>
         </div>
         <div
           class="profileimg-wrap d-flex flex-column justify-content-center align-items-center col-md-4"
@@ -565,11 +482,11 @@
               src="{{ staffObj.profilePic }}"
             />
           </div>
-          <div class="staffname">
+          <div class="staffname body-m text-c100">
             {{ staffObj.preferredName }}
           </div>
         </div>
-        <div class="col-md-4 p-0 cancel-icon-wrap">
+        <div class="col-md-4 p-0 cancel-icon-wrap text-c200">
           <div (click)="closeOpenLeaveModal()">
             <img src="assets/img/removeIcon.png" />
           </div>
@@ -578,10 +495,9 @@
       <div class="d-flex">
         <div class="lessons-table col-md-9 p-0">
           <div class="d-flex justify-content-end skipLessons-header">
-            <div class="user-info col-md-7 p-0">
-              <span class="bold-span">{{ staffObj.preferredName }}</span> will
-              skip
-              <span class="bold-span"
+            <div class="user-info col-md-7 p-0 body-l">
+              <span>{{ staffObj.preferredName }}</span> will skip
+              <span
                 >{{ skipLessonsCount }}
                 {{ skipLessonsCount > 1 ? 'lessons' : 'lesson' }}
               </span>
@@ -589,11 +505,11 @@
             </div>
             <div
               *ngIf="!assignedReliefAll && !cancelAll"
-              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns caption text-c300 text-right d-flex justify-content-end align-items-center"
             >
               <button
                 [disabled]="checkedArr.length > 0"
-                class="pr-2 header-undo all-btn"
+                class="pr-2"
                 (click)="
                   assignReliefTeacher(
                     reliefTeacherModal,
@@ -609,7 +525,7 @@
               <span class="small-line"></span>
               <button
                 [disabled]="checkedArr.length > 0"
-                class="pl-2 header-undo all-btn"
+                class="pl-2"
                 (click)="
                   cancelClassModal(cancelClass, skipCourseArr, 'ALL', null)
                 "
@@ -619,26 +535,26 @@
             </div>
             <div
               *ngIf="assignedReliefAll"
-              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns body-m text-c300 text-right d-flex justify-content-end align-items-center"
             >
-              <button class="pr-3 header-undo" (click)="undoAll('relief')">
+              <button class="pr-3" (click)="undoAll('relief')">
                 UNDO
               </button>
               <span class="small-line"></span>
-              <div class="selected-name pl-3">
+              <div class=" pl-3">
                 Assigned Relief Teacher
               </div>
             </div>
             <div
               *ngIf="cancelAll"
-              class="col-md-5 p-0 header-btns text-right d-flex justify-content-end align-items-center"
+              class="col-md-5 p-0 header-btns body-m text-c300 text-right d-flex justify-content-end align-items-center"
             >
-              <button class="pr-3 header-undo" (click)="undoAll('cancel')">
+              <button class="pr-3" (click)="undoAll('cancel')">
                 UNDO
               </button>
               <span class="small-line"></span>
               <div class="d-flex">
-                <div class="lh-3 selected-name pl-3">
+                <div class="lh-3 pl-3">
                   Cancelled all
                 </div>
                 <div
@@ -677,10 +593,10 @@
               </div>
               <div class="w-100">
                 <div class="d-flex">
-                  <label class="lesson-date mb-0">
+                  <label class="h3-strong text-c300 mb-0">
                     {{ lessonObj.date | utcDateAndDay }}
                   </label>
-                  <div class="cInfo l-count-wrapper">
+                  <div class="body-m text-c100 l-count-wrapper">
                     {{ lessonObj.courses?.length }}
                     {{ lessonObj.courses?.length > 1 ? 'lessons' : 'lesson' }}
                   </div>
@@ -693,10 +609,10 @@
                     }"
                   >
                     <div class="col-md-6 p-0">
-                      <label class="lesson-name">
+                      <label class="body-l">
                         {{ course.name | uppercase }}
                       </label>
-                      <div class="d-flex cInfo">
+                      <div class="d-flex light-body-m text-c100">
                         <div>{{ course.enrolledStudentCount }} students</div>
                         <div class="cInfo-dot-wrap">
                           <span class="cInfo-dot"></span>
@@ -719,7 +635,7 @@
                         course.lessons[0].cancel == false &&
                         course.lessons[0].makeup == undefined
                       "
-                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns caption text-b300 text-right d-flex justify-content-end align-items-center"
                     >
                       <button
                         class="pr-2"
@@ -757,9 +673,9 @@
                         course.cancel == undefined &&
                         course.lessons[0].cancel == true
                       "
-                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns caption text-b300 text-right d-flex justify-content-end align-items-center"
                     >
-                      <label class="mb-0 selected-name pl-3">
+                      <label class="mb-0 pl-3">
                         Cancelled class
                       </label>
                       <div
@@ -778,24 +694,22 @@
                         course.cancel == undefined &&
                         course.lessons[0].makeup == true
                       "
-                      class="col-md-6 p-0 lesson-btns d-flex align-items-center justify-content-end"
+                      class="col-md-6 p-0 lesson-btns caption text-b300 text-right d-flex align-items-center justify-content-end"
                     >
-                      <label class="mb-0 selected-name pl-3">
+                      <label class="mb-0 pl-3">
                         Assigned Relief Teacher
                       </label>
                     </div>
                     <div
                       *ngIf="course.newTeacherId != undefined"
-                      class="col-md-6 p-0 lesson-btns d-flex align-items-center justify-content-end"
+                      class="col-md-6 p-0 lesson-btns small text-c100 text-right d-flex align-items-center justify-content-end"
                     >
                       <div>
-                        <label class="text-right cInfo mb-0"
-                          >Relief Teacher</label
-                        >
+                        <label class="text-right mb-0">Relief Teacher</label>
                         <div class="d-flex justify-content-end">
                           <button
                             *ngIf="!assignedReliefAll"
-                            class="pr-3 cInfo"
+                            class="pr-3"
                             (click)="undoMethod('relief', i, idx)"
                           >
                             Undo
@@ -804,7 +718,7 @@
                             *ngIf="!assignedReliefAll"
                             class="small-line-undo"
                           ></span>
-                          <div class="selected-name undo-name">
+                          <div class="light-body-l text-c200 undo-name">
                             {{ course.newTeacherInfo.preferredName }}
                           </div>
                         </div>
@@ -815,18 +729,18 @@
                     </div>
                     <div
                       *ngIf="course.cancel == true"
-                      class="col-md-6 p-0 lesson-btns d-flex justify-content-end align-items-center"
+                      class="col-md-6 p-0 lesson-btns caption text-b300 text-right d-flex justify-content-end align-items-center"
                     >
                       <div>
                         <label
                           *ngIf="course.pass == true"
-                          class="text-right cInfo mb-0"
+                          class="text-right mb-0"
                           >Issued</label
                         >
                         <div class="d-flex">
                           <button
                             *ngIf="!cancelAll"
-                            class="pr-3 cInfo"
+                            class="pr-3"
                             (click)="undoMethod('cancel', i, idx)"
                           >
                             Undo
@@ -877,8 +791,10 @@
         <div class="col-md-3 p-0">
           <div class="leave-info">
             <div class="p20">
-              <div class="lInfo pb-2">
-                <span class="bold-leaveCount">{{ skipCourseArr.length }}</span>
+              <div class="light-body-m pb-2">
+                <span class="bold-leaveCount text-c200">{{
+                  skipCourseArr.length
+                }}</span>
                 {{ skipCourseArr.length > 1 ? 'days' : 'day' }} total
               </div>
               <!-- <div class="d-flex lType">
@@ -899,33 +815,33 @@
     </div>
   </div>
   <div *ngIf="!showRelief" class="modal-footer">
-    <button class="btn bg-white" (click)="closeOpenLeaveModal()">
+    <button class="btn bg-s0" (click)="closeOpenLeaveModal()">
       Cancel
     </button>
     <button
       *ngIf="skipCourseArr.length != 0 && selectedDays.length != 0"
-      class="btn button-submit font-medium"
+      class="btn button-submit btn bg-b100 text-s0"
       (click)="goTonext()"
     >
       Continue
     </button>
     <button
       *ngIf="skipCourseArr.length == 0 && selectedDays.length != 0"
-      class="btn button-submit font-medium"
+      class="btn button-submit btn bg-b100 text-s0"
       (click)="createLeave(selectedDays, '')"
     >
       Continue
     </button>
     <button
       *ngIf="selectedDays.length == 0"
-      class="btn button-submit font-medium"
+      class="btn button-submit btn bg-b100 text-s0"
       disabled="true"
     >
       Continue
     </button>
   </div>
   <div *ngIf="showRelief" class="modal-footer">
-    <button class="btn bg-white" (click)="cancelModal('relief&cancel')">
+    <button class="btn bg-s0" (click)="cancelModal('relief&cancel')">
       Cancel
     </button>
 
@@ -935,32 +851,138 @@
         !cancelAll &&
         checkedArr.length < actualSkipLessons
       "
-      class="btn button-submit font-medium"
+      class="btn button-submit bg-b100 text-s0 font-medium"
       (click)="createLeave(selectedDays, skipCourseArr)"
     >
       Continue
     </button>
   </div>
 </ng-template>
+
+<ng-template #cancelClass let-modal>
+  <div class="cancel-class-wrapper">
+    <div class="d-flex w-100 justify-content-between cancel-lesson-wrapper">
+      <h1 class="cancel-class-title text-c300 h3-strong">Cancel lesson</h1>
+      <span
+        class="close-icon text-c200"
+        (click)="closeCancelClassModal()"
+      ></span>
+    </div>
+    <div class="d-flex">
+      <div class="d-flex flex-column col-md-5 p-0">
+        <div class="d-flex justify-content-between">
+          <p class="makeup-text h3-strong text-c300">Issue makeup pass?</p>
+          <div
+            class="toggle-wrap"
+            (click)="this.giveMakeUp = !giveMakeUp; cancelReason = ''"
+          >
+            <label class="switch">
+              <input
+                type="checkbox"
+                (click)="giveMakeUp = !this.giveMakeUp"
+                [checked]="giveMakeUp"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div class="d-flex flex-column" *ngIf="giveMakeUp">
+          <label for="" class="reason-title text-c100 body-l"
+            >Reason (Optional)</label
+          >
+          <textarea
+            (input)="autoResize($event, 'cancel')"
+            rows="1"
+            [(ngModel)]="cancelReason"
+            class="reason-text"
+            placeholder="Type reason here..."
+          ></textarea>
+        </div>
+      </div>
+      <div class="class-info-side col-md-7">
+        <p class="total-student mb-0" [ngClass]="{ 'makeup-true': giveMakeUp }">
+          <span class="Union-icon" *ngIf="!giveMakeUp"
+            ><img src="../../../assets/icons/Union.svg" alt=""
+          /></span>
+          <span class="Union-icon" *ngIf="giveMakeUp"
+            ><img src="../../../assets/icons/Vector.svg" alt=""
+          /></span>
+          <span class="light-body-l text-c200"
+            >Total of {{ studentCount }} students will be affected as
+            <span *ngIf="giveMakeUp">MakeUp pass</span>
+            <span *ngIf="!giveMakeUp">Cancel class</span>
+          </span>
+        </p>
+        <!-- <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/PM.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p>
+        <p class="total-student"> <span class="Union-icon"><img src="../../../assets/icons/am.svg" alt=""></span> <span>Total of 20 students will be affected as Cancel class </span> </p> -->
+        <div class="cancel-classes-info">
+          <div
+            class="d-flex classes-info-block"
+            *ngFor="let course of cancelClassArray"
+          >
+            <span class="cancelclass-leaveType">
+              <img
+                *ngIf="course.meridian == 'DAY'"
+                src="../../../../assets/icons/Ellipse 2.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'AM'"
+                src="../../../../assets/icons/am.svg"
+              />
+              <img
+                *ngIf="course.meridian == 'PM'"
+                src="../../../../assets/icons/PM.svg"
+              />
+            </span>
+            <div class="d-flex flex-column">
+              <p class="body-l text-c100">{{ course.date | utcDateAndDay }}</p>
+              <div
+                class="d-flex align-items-center"
+                *ngFor="let courseObj of course.courses"
+              >
+                <p class="student-count body-m text-c300">
+                  {{ courseObj.enrolledStudentCount }} students
+                </p>
+                <p class="body-m text-c100">{{ courseObj.name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn bg-s0" (click)="closeCancelClassModal()">
+      Cancel
+    </button>
+    <button
+      class="btn button-submit bg-b100 text-s0"
+      (click)="confirmCancelClass()"
+    >
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
 <ng-template #reliefTeacherModal let-c="close" let-d="dismiss">
   <div class="modal-wrap">
     <div class="assign-modal-header">
       <div class="d-flex justify-content-between w-100">
-        <h4 class="assignmodal-title">Assign relief teacher</h4>
-        <button class="closeBtn" (click)="cancelModal('relief')">
+        <h4 class="assignmodal-title text-c300">Assign relief teacher</h4>
+        <button class="closeBtn text-c200" (click)="cancelModal('relief')">
           <img src="assets/img/removeIcon.png" />
         </button>
       </div>
       <div class="data-scroll">
         <div class="d-flex pb-2" *ngFor="let data of modalCourseData">
-          <div class="date-wrap">
+          <div class="date-wrap body-m text-c300">
             {{ data.date }}
           </div>
           <div
             class="d-flex"
             *ngFor="let cData of data.courses; let idx = index"
           >
-            <div class="cName lType">
+            <div class="cName body-m text-c100">
               {{ cData.name }}
             </div>
             <div
@@ -1006,7 +1028,7 @@
             <div class="circular-img">
               <img src="{{ teacher.profilePic }}" />
             </div>
-            <div class="result-name">
+            <div class="result-name body-xl text-c300">
               {{ teacher.preferredName }}
             </div>
           </div>
@@ -1022,7 +1044,7 @@
           </div>
         </div>
         <div class="d-flex col-md-6">
-          <div class="assign-text">
+          <div class="assign-text h3-strong text-c300">
             Assign relief teacher to this course
           </div>
           <div class="mt-3">
@@ -1036,10 +1058,10 @@
             <img src="{{ selectedTeacher.profilePic }}" class="circular-img" />
           </div>
           <div class="d-flex flex-column pl-3">
-            <div class="teacher-text">
+            <div class="small text-c300">
               Senior teacher
             </div>
-            <div class="selected-name">
+            <div class="light-body-l text-c300">
               {{ selectedTeacher.preferredName }}
             </div>
           </div>
@@ -1048,7 +1070,7 @@
           <div class="circleExclamation">
             <i class="fa fa-exclamation"></i>
           </div>
-          <div class="conflict-text">
+          <div class="conflict-text body-l text-c300">
             The selected
             <span *ngIf="!isSingleLeave && skipLessonsCount > 1"
               >lessons conflict</span
@@ -1065,29 +1087,29 @@
             *ngFor="let course of conflictLesson.courses"
           >
             <div class="conflict-col1">
-              <label class="selected-name">{{
+              <label class="body-l text-c300">{{
                 course.lessons[0].startDate | utcDate
               }}</label>
-              <div class="lesson-time">
+              <div class="small text-c100">
                 {{ course.lessons[0].startDate | utcTime }} -
                 {{ course.lessons[0].endDate | utcTime }}
               </div>
             </div>
             <div class="conflict-col2">
-              <label class="cInfo">Lesson</label>
-              <div class="selected-name">
+              <label class="body-m text-c100">Lesson</label>
+              <div class="body-l text-c300">
                 {{ course.name }}
               </div>
             </div>
             <div class="conflict-col3">
-              <label class="cInfo">Location</label>
-              <div class="selected-name">
+              <label class="body-m text-c100">Location</label>
+              <div class="body-l text-c300">
                 {{ course.location.name }}
               </div>
             </div>
             <div class="conflict-col4">
-              <label class="cInfo">Number of students</label>
-              <div class="selected-name">
+              <label class="body-m text-c100">Number of students</label>
+              <div class="body-l text-c300">
                 {{ course.enrolledStudentCount }}
               </div>
             </div>
@@ -1096,12 +1118,12 @@
       </div>
     </div>
     <div class="d-flex modal-footer assign-modal-footer">
-      <button class="btn bg-white" (click)="cancelModal('relief')">
+      <button class="btn bg-s0" (click)="cancelModal('relief')">
         Cancel
       </button>
       <button
         [disabled]="selectedTeacher == null"
-        class="btn button-submit font-medium"
+        class="btn button-submit bg-b100 text-s0 font-medium"
         (click)="confirmRelief(selectedTeacher, selectedDays, skipCourseArr)"
       >
         Confirm

@@ -4008,6 +4008,30 @@ export class appService {
       });
   }
 
+  withdrawReliefTeacher(regionId, courseId, staffId) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      courseId +
+      '/' +
+      staffId +
+      '/remove-relief-teacher';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   getAchievementsByType(userId, type) {
     let apiUrl =
       this.baseUrl +

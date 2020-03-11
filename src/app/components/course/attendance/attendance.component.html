@@ -207,7 +207,11 @@
                 <label class="mb-0">Change relief teacher</label>
               </div>
               <div class="pt-2 pb-3">
-                <label class="mb-0">Withdraw relief teacher</label>
+                <label
+                  class="mb-0"
+                  (click)="withdrawReliefTeacher(reliefTeacher.userId)"
+                  >Withdraw relief teacher</label
+                >
               </div>
             </div>
           </div>
@@ -546,27 +550,43 @@
       <div class="makeup-style">
         <div class="row">
           <div class="d-flex col-md-6">
-            <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+            <div
+              class="toggle-wrap"
+              [ngClass]="{ disabledSwitch: addExtraLesson == true }"
+              (click)="switchForCancelLesson('issue-makeup')"
+            >
               <label class="switch">
                 <input
                   type="checkbox"
-                  (click)="isGlobal = !this.isGlobal"
+                  (click)="switchForCancelLesson('issue-makeup')"
                   [checked]="isGlobal"
+                  [ngClass]="{ disabledSwitch: addExtraLesson == true }"
                 />
-                <span class="slider round"></span>
+                <span
+                  class="slider round"
+                  [ngClass]="{ disabledSwitch: addExtraLesson == true }"
+                ></span>
               </label>
             </div>
             <label class="switch-label" for="online">Issue makeup pass</label>
           </div>
-          <div class="d-flex  col-md-6">
-            <div class="toggle-wrap" (click)="addExtraLesson = !addExtraLesson">
+          <div *ngIf="this.modalType != 'absent'" class="d-flex  col-md-6">
+            <div
+              class="toggle-wrap"
+              [ngClass]="{ disabledSwitch: isGlobal == true }"
+              (click)="switchForCancelLesson('add-extra')"
+            >
               <label class="switch">
                 <input
                   type="checkbox"
-                  (click)="addExtraLesson = !addExtraLesson"
+                  (click)="switchForCancelLesson('add-extra')"
                   [checked]="addExtraLesson"
+                  [ngClass]="{ disabledSwitch: isGlobal == true }"
                 />
-                <span class="slider round"></span>
+                <span
+                  class="slider round"
+                  [ngClass]="{ disabledSwitch: isGlobal == true }"
+                ></span>
               </label>
             </div>
             <label class="switch-label" for="online">Add extra lesson</label>

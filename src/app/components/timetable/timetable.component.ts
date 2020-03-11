@@ -317,7 +317,7 @@ export class TimetableComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.overFlowWidth(20, 'button');
+    //this.overFlowWidth(20, 'button');
     //to define is side or not
     var diff = window.innerWidth - this.screenValue;
     if (this.isSide) {
@@ -385,7 +385,7 @@ export class TimetableComponent implements OnInit {
             // );
           }
           setTimeout(() => {
-            this.overFlowWidth(this.selectedIndex, 'modalteacher');
+            //this.overFlowWidth(this.selectedIndex, 'modalteacher');
           }, 30);
         }
       });
@@ -715,82 +715,82 @@ export class TimetableComponent implements OnInit {
 
   // Search Category
 
-  searchCategoryList(val, type) {
-    console.log(val, type);
-    //this.blockUI.start('Loading...');
-    if (val.length > 0) {
-      // //this.blockUI.start('Loading...');
-      this._service
-        .getSearchCategory(this.regionId, val, this.locationID)
-        .subscribe(
-          (res: any) => {
-            res.unshift({ name: 'All category', _id: 'all' });
-            // console.log(res.length);
-            console.log(this.categoryList.name);
-            var element = <HTMLInputElement>(
-              document.getElementById('categoryList')
-            );
-            console.log(element);
-            if (element != null && this.selectedDay.length != 0) {
-              element.disabled = true;
-            }
+  // searchCategoryList(val, type) {
+  //   console.log(val, type);
+  //   //this.blockUI.start('Loading...');
+  //   if (val.length > 0) {
+  //     // //this.blockUI.start('Loading...');
+  //     this._service
+  //       .getSearchCategory(this.regionId, val, this.locationID)
+  //       .subscribe(
+  //         (res: any) => {
+  //           res.unshift({ name: 'All category', _id: 'all' });
+  //           // console.log(res.length);
+  //           console.log(this.categoryList.name);
+  //           var element = <HTMLInputElement>(
+  //             document.getElementById('categoryList')
+  //           );
+  //           console.log(element);
+  //           if (element != null && this.selectedDay.length != 0) {
+  //             element.disabled = true;
+  //           }
 
-            this.categoryList = res;
-            //this.blockUI.stop();
-          },
-          err => {
-            console.log(err);
-            //this.blockUI.stop();
-          }
-        );
-    } else if (val.length <= 0) {
-      // //this.blockUI.start('Loading...');
-      this._service.getCategory(this.regionId, 20, 0).subscribe(
-        (res: any) => {
-          console.log(res);
-          console.log(this.categoryList.name);
-          res.unshift({ name: 'All category', _id: 'all' });
-          this.categoryList = res;
-          //this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-          //this.blockUI.stop();
-        }
-      );
-    }
-  }
+  //           this.categoryList = res;
+  //           //this.blockUI.stop();
+  //         },
+  //         err => {
+  //           console.log(err);
+  //           //this.blockUI.stop();
+  //         }
+  //       );
+  //   } else if (val.length <= 0) {
+  //     // //this.blockUI.start('Loading...');
+  //     this._service.getCategory(this.regionId, 20, 0).subscribe(
+  //       (res: any) => {
+  //         console.log(res);
+  //         console.log(this.categoryList.name);
+  //         res.unshift({ name: 'All category', _id: 'all' });
+  //         this.categoryList = res;
+  //         //this.blockUI.stop();
+  //       },
+  //       err => {
+  //         console.log(err);
+  //         //this.blockUI.stop();
+  //       }
+  //     );
+  //   }
+  // }
   // Focus Search
-  focusSearch(val, type) {
-    this._service.getCategory(this.regionId, 20, 0).subscribe(
-      (res: any) => {
-        console.log(res);
-        res.unshift({ name: 'All category', _id: 'all' });
-        this.categoryList = res;
-        console.log(val, 'OK');
-      },
-      err => {
-        console.log(err);
-      }
-    );
+  // focusSearch(val, type) {
+  //   this._service.getCategory(this.regionId, 20, 0).subscribe(
+  //     (res: any) => {
+  //       console.log(res);
+  //       res.unshift({ name: 'All category', _id: 'all' });
+  //       this.categoryList = res;
+  //       console.log(val, 'OK');
+  //     },
+  //     err => {
+  //       console.log(err);
+  //     }
+  //   );
 
-    val.preventDefault();
-    val.stopPropagation();
-    this.isFousCategory = true;
-  }
+  //   val.preventDefault();
+  //   val.stopPropagation();
+  //   this.isFousCategory = true;
+  // }
 
-  focusSearch2(val, tye) {
-    val.preventDefault();
-    val.stopPropagation();
-    this.isFousCategory = true;
-    //this.overlap = false;
-  }
+  // focusSearch2(val, tye) {
+  //   val.preventDefault();
+  //   val.stopPropagation();
+  //   this.isFousCategory = true;
+  //   //this.overlap = false;
+  // }
   //  Hide Search
-  hideSearch() {
-    setTimeout(() => {
-      this.isFousCategory = false;
-    }, 300);
-  }
+  // hideSearch() {
+  //   setTimeout(() => {
+  //     this.isFousCategory = false;
+  //   }, 300);
+  // }
 
   // single Select Data
   selectData(category) {
@@ -809,125 +809,126 @@ export class TimetableComponent implements OnInit {
   isTeacherAll: boolean = false;
 
   public selectedIndex;
-  overFlowWidth(index, type) {
-    // this.selectedIndex = index;
-    localStorage.setItem('teacherIndex', index);
-    var arr = index;
-    // for normal calling
-    if (type == 'button') {
-      if (window.innerWidth < 1366) {
-        for (let i = 0; i <= 5; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-          this.totalWidth += removeDecimal;
-        }
-        $('.teacher-wrapper').width(this.totalWidth);
-      }
-      if (window.innerWidth >= 1366 && window.innerWidth < 1920) {
-        for (let i = 0; i <= 9; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-          this.totalWidth += removeDecimal;
-          console.log(removeDecimal);
-        }
-        $('.teacher-wrapper').width(this.totalWidth);
-      }
 
-      if (window.innerWidth >= 1920) {
-        for (let i = 0; i <= 14; i++) {
-          var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-          this.totalWidth += removeDecimal;
-          console.log(removeDecimal);
-        }
-        $('.teacher-wrapper').width(this.totalWidth);
-      }
-    }
-    // for modal
-    if (type == 'modalteacher') {
-      // for screensize less than 1366
-      if (window.innerWidth < 1366) {
-        console.log(index - 6, 'index =======', index);
-        if (index >= 6) {
-          for (let i = index - 5; i <= index; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-            console.log(removeDecimal, '###', i);
-          }
-          $('.teacher-wrapper').width(this.totalWidth);
-          var tempNum = index - 6;
-          for (let i = 0; i <= tempNum; i++) {
-            console.log(i);
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.scrollLeftPosition += removeDecimal;
-            console.log(removeDecimal);
-          }
-        }
-        if (index < 6) {
-          for (let i = 0; i <= 5; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-          }
-          $('.teacher-wrapper').width(this.totalWidth);
-        }
-      }
-      // for screensize greater than 1366 and less than 1920
-      if (window.innerWidth >= 1366 && window.innerWidth < 1920) {
-        var tempNum = index - 10;
-        for (let i = 0; i <= tempNum; i++) {
-          console.log(i);
-          var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-          this.scrollLeftPosition += removeDecimal;
-          console.log(removeDecimal);
-        }
-        if (index >= 10) {
-          for (let i = index - 9; i <= index; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-            console.log(removeDecimal);
-          }
-          $('.teacher-wrapper').width(this.totalWidth);
-        }
+  // overFlowWidth(index, type) {
+  //   // this.selectedIndex = index;
+  //   localStorage.setItem('teacherIndex', index);
+  //   var arr = index;
+  //   // for normal calling
+  //   if (type == 'button') {
+  //     if (window.innerWidth < 1366) {
+  //       for (let i = 0; i <= 5; i++) {
+  //         var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //         this.totalWidth += removeDecimal;
+  //       }
+  //       $('.teacher-wrapper').width(this.totalWidth);
+  //     }
+  //     if (window.innerWidth >= 1366 && window.innerWidth < 1920) {
+  //       for (let i = 0; i <= 9; i++) {
+  //         var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //         this.totalWidth += removeDecimal;
+  //         console.log(removeDecimal);
+  //       }
+  //       $('.teacher-wrapper').width(this.totalWidth);
+  //     }
 
-        if (index < 10) {
-          for (let i = 0; i <= 9; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-            console.log(removeDecimal);
-          }
-          $('.teacher-wrapper').width(this.totalWidth);
-        }
-      }
+  //     if (window.innerWidth >= 1920) {
+  //       for (let i = 0; i <= 14; i++) {
+  //         var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //         this.totalWidth += removeDecimal;
+  //         console.log(removeDecimal);
+  //       }
+  //       $('.teacher-wrapper').width(this.totalWidth);
+  //     }
+  //   }
+  //   // for modal
+  //   if (type == 'modalteacher') {
+  //     // for screensize less than 1366
+  //     if (window.innerWidth < 1366) {
+  //       console.log(index - 6, 'index =======', index);
+  //       if (index >= 6) {
+  //         for (let i = index - 5; i <= index; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //           console.log(removeDecimal, '###', i);
+  //         }
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //         var tempNum = index - 6;
+  //         for (let i = 0; i <= tempNum; i++) {
+  //           console.log(i);
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.scrollLeftPosition += removeDecimal;
+  //           console.log(removeDecimal);
+  //         }
+  //       }
+  //       if (index < 6) {
+  //         for (let i = 0; i <= 5; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //         }
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //       }
+  //     }
+  //     // for screensize greater than 1366 and less than 1920
+  //     if (window.innerWidth >= 1366 && window.innerWidth < 1920) {
+  //       var tempNum = index - 10;
+  //       for (let i = 0; i <= tempNum; i++) {
+  //         console.log(i);
+  //         var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //         this.scrollLeftPosition += removeDecimal;
+  //         console.log(removeDecimal);
+  //       }
+  //       if (index >= 10) {
+  //         for (let i = index - 9; i <= index; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //           console.log(removeDecimal);
+  //         }
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //       }
 
-      // for screensize less than 1920
-      if (window.innerWidth >= 1920) {
-        var tempNum = index - 15;
-        for (let i = 0; i <= tempNum; i++) {
-          console.log(i);
-          var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-          this.scrollLeftPosition += removeDecimal;
-          console.log(removeDecimal);
-        }
-        if (index >= 15) {
-          for (let i = index - 14; i <= index; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-            console.log(removeDecimal, '###', i);
-          }
-          console.log(index, 'indexx=======');
-          $('.teacher-wrapper').width(this.totalWidth);
-        }
-        if (index < 15) {
-          for (let i = 0; i <= 14; i++) {
-            var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
-            this.totalWidth += removeDecimal;
-            console.log(removeDecimal);
-          }
-          $('.teacher-wrapper').width(this.totalWidth);
-        }
-      }
+  //       if (index < 10) {
+  //         for (let i = 0; i <= 9; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //           console.log(removeDecimal);
+  //         }
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //       }
+  //     }
 
-      $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition);
-    }
-    this.totalWidth = 0;
-  }
+  //     // for screensize less than 1920
+  //     if (window.innerWidth >= 1920) {
+  //       var tempNum = index - 15;
+  //       for (let i = 0; i <= tempNum; i++) {
+  //         console.log(i);
+  //         var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //         this.scrollLeftPosition += removeDecimal;
+  //         console.log(removeDecimal);
+  //       }
+  //       if (index >= 15) {
+  //         for (let i = index - 14; i <= index; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //           console.log(removeDecimal, '###', i);
+  //         }
+  //         console.log(index, 'indexx=======');
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //       }
+  //       if (index < 15) {
+  //         for (let i = 0; i <= 14; i++) {
+  //           var removeDecimal = Math.round($('#overFlowWidth' + i).width()) + 8;
+  //           this.totalWidth += removeDecimal;
+  //           console.log(removeDecimal);
+  //         }
+  //         $('.teacher-wrapper').width(this.totalWidth);
+  //       }
+  //     }
+
+  //     $('.teacher-list-wrapper').scrollLeft(this.scrollLeftPosition);
+  //   }
+  //   this.totalWidth = 0;
+  // }
   // for modal
   // getViewAllStaff(type, skip, limit) {
   //   var repeatDays;
