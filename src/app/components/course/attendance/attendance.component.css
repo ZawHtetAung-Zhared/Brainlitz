@@ -4435,3 +4435,7 @@ button.today-button {
 .br-bottom {
   border-bottom: 1px solid #edeff0;
 }
+
+.disabledSwitch {
+  cursor: not-allowed;
+}

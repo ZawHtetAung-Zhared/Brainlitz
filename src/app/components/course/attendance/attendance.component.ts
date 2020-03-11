@@ -4338,6 +4338,29 @@ export class AttendanceComponent implements OnInit {
     this.checkobjArr = data;
   }
 
+  switchForCancelLesson(type) {
+    switch (type) {
+      case 'issue-makeup':
+        if (this.addExtraLesson == true) {
+          event.preventDefault();
+        } else {
+          this.isGlobal = !this.isGlobal;
+        }
+        break;
+      default:
+        if (this.isGlobal == true) {
+          event.preventDefault();
+        } else {
+          this.addExtraLesson = !this.addExtraLesson;
+        }
+    }
+    // if(type == 'issue-makeup' && this.addExtraLesson == false){
+    //   this.isGlobal = !this.isGlobal;
+    // }else if(type == 'add-extra' && this.isGlobal == false){
+    //   this.addExtraLesson = !this.addExtraLesson;
+    // }
+  }
+
   withdrawReliefTeacher(staffId) {
     console.log('withdraw relief teacher', staffId);
     this._service
