@@ -267,7 +267,9 @@
         <div class="d-flex w-100" *ngIf="isGlobal">
           <div class="input-wrap p-0" style="width:80%;margin-right:20px">
             <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
-              <label for="name" class="input-label">Name</label>
+              <label for="name" class="input-label body-xl text-c300"
+                >Name</label
+              >
               <input
                 type="text"
                 class="form-control create-input"
@@ -279,7 +281,9 @@
               />
             </div>
             <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
-              <label for="name" class="input-label">Reason</label>
+              <label for="name" class="input-label body-xl text-c300"
+                >Reason</label
+              >
               <textarea
                 class="form-control create-input"
                 rows="4"
@@ -313,7 +317,9 @@
             class="d-flex flex-column makeup-sidebar"
             style="width:50%;"
           >
-            <h1 class="release-text container">Released makeup passes</h1>
+            <h1 class="release-text container body-xl text-c300">
+              Released makeup passes
+            </h1>
             <div class="" *ngFor="let makeup of makeupLists">
               <!--for valid start-->
               <div class="col-md-12 av-block claimed-height">

@@ -301,10 +301,7 @@ div#divToHide {
 }
 
 .input-label {
-  font-size: 18px;
-  color: #2e3e4d;
   margin-bottom: 0;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .create-input:hover {
@@ -314,7 +311,6 @@ div#divToHide {
   box-shadow: none;
 }
 .create-input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -522,9 +518,6 @@ div#divToHide {
 }
 
 .release-text {
-  font-size: 18px;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-top: 32px;
   margin-bottom: 24px;
 }

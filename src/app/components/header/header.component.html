@@ -7,7 +7,9 @@
       <div id="header-firstrow" class="d-flex first-row">
         <div class="mr-auto d-flex align-items-center">
           <form novalidate #chooseLocationForm="ngForm">
-            <label for="inputState" class="location-label m-0">Location</label>
+            <label for="inputState" class="m-0 text-c100 body-l"
+              >Location</label
+            >
             <div
               class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
             >
@@ -19,7 +21,7 @@
               <div *ngIf="locationDpShow">
                 <ul class="location-dp">
                   <li
-                    class="test"
+                    class="test text-c300"
                     *ngFor="let location of headerlocationLists"
                     (click)="selectLocation(location)"
                     [ngClass]="{
@@ -71,7 +73,7 @@
             <span class="caret"></span>
           </div>
           <div *ngIf="dropMenuShow">
-            <ul class="dropdown-box">
+            <ul class="dropdown-box bg-s0 text-c300">
               <!-- <li>Profile</li> -->
               <li (click)="switchRegion()">Switch region</li>
               <li (click)="logoff()">Sign Out</li>
@@ -94,7 +96,7 @@
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
               target="_blank"
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/timetable"
               (click)="onClickHeaderTab('schedule')"
@@ -108,7 +110,7 @@
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               [ngClass]="{ active: activeTab == 'courses' }"
               routerLinkActive="active"
               routerLink="/course"
@@ -127,7 +129,7 @@
           </li>
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/customer"
               (click)="onClickHeaderTab('customer')"
@@ -141,7 +143,7 @@
           </li>
           <li *ngIf="staffMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/staff"
               (click)="onClickHeaderTab('staff')"
@@ -155,7 +157,7 @@
           </li>
           <li *ngIf="toolsMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/tools"
               (click)="onClickHeaderTab('tool')"
@@ -169,7 +171,7 @@
           </li>
           <li *ngIf="settingMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/dashboard"
               (click)="onClickHeaderTab('setting')"
@@ -183,7 +185,7 @@
           </li>
           <li *ngIf="reportMenu.length > 0" class="nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/report"
               (click)="onClickHeaderTab('report')"
@@ -249,7 +251,7 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/schedule"
               (click)="onClickHeaderTab('schedule')"
@@ -258,7 +260,7 @@
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               [ngClass]="{ active: activeTab == 'courses' }"
               routerLinkActive="active"
               routerLink="/course"
@@ -268,7 +270,7 @@
           </li>
           <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/customer"
               (click)="onClickHeaderTab('customer')"
@@ -277,7 +279,7 @@
           </li>
           <li *ngIf="staffMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/staff"
               (click)="onClickHeaderTab('staff')"
@@ -286,7 +288,7 @@
           </li>
           <li *ngIf="toolsMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/tools"
               (click)="onClickHeaderTab('tool')"
@@ -295,7 +297,7 @@
           </li>
           <li *ngIf="settingMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/dashboard"
               (click)="onClickHeaderTab('setting')"
@@ -304,7 +306,7 @@
           </li>
           <li *ngIf="reportMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link"
+              class="nav-link text-c300 body-l"
               routerLinkActive="active"
               routerLink="/report"
               (click)="onClickHeaderTab('report')"
