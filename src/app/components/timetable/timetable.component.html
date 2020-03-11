@@ -58,7 +58,7 @@
           <div class="staff-pic">
             <img class="pic" src="{{ staff.profilePic }}" />
           </div>
-          {{ staff.staffName }}
+          {{ staff.staffpreferredName }}
         </div>
       </div>
       <div
@@ -66,14 +66,16 @@
         class="white"
         (click)="showPopUpFunc(staff, schedule)"
       >
-        <div *ngIf="schedule.absent == true" class="absent">
+        <!-- <div *ngIf="schedule.absent == true" class="absent">
           <div class="orange"></div>
           <div>Absent</div>
-        </div>
+        </div> -->
         <span *ngIf="schedule.absent != true">
-          <div *ngFor="let count of schedule.timetable; let k = index">
-            {{ count.start.hr }}:{{ count.start.min }}
-            {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
+          <div *ngFor="let count of schedule.timetables; let k = index">
+            {{ count.start.hour }}:{{ count.start.min }}
+            {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+              count.end.min
+            }}
             {{ count.end.meridiem }}
           </div>
         </span>
