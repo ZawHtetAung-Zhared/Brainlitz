@@ -953,17 +953,20 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     if (keyword == 0) {
       this.searchTeacherLists = [];
     } else {
+      this.loading = true;
       this._service
         .getSearchUser(this.regionID, keyword, usertype, 20, 0, '')
         .subscribe((res: any) => {
           console.log(res);
           this.searchTeacherLists = res;
+          this.loading = false;
         });
     }
   }
   searchMethod_input(keyword) {
     if (keyword == 0) {
       this.searchTeacherLists = [];
+      this.loading = false;
     }
   }
 
