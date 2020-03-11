@@ -66,11 +66,12 @@ h5 {
 .input-search-bg:focus,
 .create-button-pos:focus {
   box-shadow: none;
+  background: #f2f3f5;
 }
 
-.input-search-bg::-webkit-input-placeholder {
+/* .input-search-bg::-webkit-input-placeholder {
   color: #788796 !important;
-}
+} */
 
 .input-search-bg,
 .btn-outline-secondary {
@@ -79,20 +80,20 @@ h5 {
 
 .input-search-bg {
   padding: 12px 0 12px 12px !important;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border: none;
   z-index: auto !important;
 }
 
 .btn-design {
   padding: 12px;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border: none;
 }
 
 .btn-design.btn-outline-secondary,
 .btn-design.btn-outline-secondary:hover {
-  color: #788796;
+  /* color: #788796; */
   cursor: pointer;
 }
 
@@ -101,7 +102,7 @@ h5 {
 .btn-design.btn-outline-secondary:active {
   outline: none;
   box-shadow: none;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
 }
 
 .input-recommend {

@@ -117,7 +117,7 @@
   padding-right: 5px;
 }
 .leave-type-info {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   padding: 3px 8px 3px 8px;
   border-radius: 11px;
   margin-left: 12px;
@@ -186,7 +186,7 @@
 }
 .total-student {
   margin-left: 32px;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   padding: 8px 0px 8px 0px;
   border-radius: 8px;
 }
@@ -203,7 +203,7 @@
 }
 .student-count {
   padding: 4px 12px 4px 12px;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 15px;
   margin-right: 12px;
   /* font-size: 14px;
@@ -220,15 +220,10 @@
   color: #64707d;
 }
 .makeup-true {
-  background: #cce5ff;
+  background: #d9ecff;
 }
 .makeup-true span {
-  color: #004080;
-}
-.leave-taken-date {
-  font-size: 16px;
-  color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #0043a1;
 }
 /* .cancel-class-name {
   font-size: 14px;
@@ -813,14 +808,14 @@ span.skip-lessons-date {
 }
 
 span.txt-lessouns-count {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 15px;
   padding: 2px 12px 2px 12px;
   font-weight: 600;
-  color: #64707d;
-  font-size: 12px;
+  /* color: #64707d; */
+  /* font-size: 12px; */
   text-align: center;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
 }
 
 .d-flex.course-des {
@@ -889,7 +884,7 @@ p.left-txt {
 }
 
 .skipLessons-header {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   padding: 20px;
 }
 
@@ -1099,7 +1094,7 @@ p.left-txt {
   height: 66px;
 }
 .date-wrap {
-  background: #cce5ff;
+  background: #d9ecff;
   border-radius: 50px;
   padding: 2px 10px;
   /* color: #004080;
@@ -1114,7 +1109,7 @@ p.left-txt {
 
 .search-wrapper {
   display: flex;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   padding: 12px 0px;
   color: #788796;
 }
@@ -1187,7 +1182,7 @@ p.left-txt {
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  background-color: #555f69;
+  background-color: #5c6773;
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -1304,7 +1299,7 @@ p.left-txt {
 }
 
 .l-count-wrapper {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 45px;
   padding: 3px 10px;
   text-align: center;

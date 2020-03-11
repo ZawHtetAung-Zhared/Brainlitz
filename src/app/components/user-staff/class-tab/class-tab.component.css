@@ -14,7 +14,7 @@
 
 .course-block {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  background: #ffffff;
+  /* background: #ffffff; */
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin-top: 24px;

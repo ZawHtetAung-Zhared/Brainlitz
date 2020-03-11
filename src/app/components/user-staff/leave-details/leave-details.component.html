@@ -121,7 +121,7 @@
             HALF - {{ log.meridian }}
           </p>
           <p
-            class="leave-type-info mb-0 body-m text-c300"
+            class="leave-type-info mb-0 caption text-c300 bg-s40"
             *ngIf="log.meridian == 'DAY'"
           >
             FULL DAY
@@ -414,13 +414,13 @@
               </div>
               <div class="lessons-count text-c100">
                 <span
-                  class="txt-lessouns-count"
+                  class="txt-lessouns-count bg-s20 caption"
                   *ngIf="sobj.courses.length > 1"
                 >
                   {{ sobj.courses.length }} lessons
                 </span>
                 <span
-                  class="txt-lessouns-count text-c100"
+                  class="txt-lessouns-count bg-s20 caption"
                   *ngIf="sobj.courses.length == 1"
                 >
                   {{ sobj.courses.length }} lesson
@@ -494,8 +494,8 @@
       </div>
       <div class="d-flex">
         <div class="lessons-table col-md-9 p-0">
-          <div class="d-flex justify-content-end skipLessons-header">
-            <div class="user-info col-md-7 p-0 body-l">
+          <div class="d-flex justify-content-end skipLessons-header bg-s20">
+            <div class="user-info col-md-7 p-0 caption text-c300">
               <span>{{ staffObj.preferredName }}</span> will skip
               <span
                 >{{ skipLessonsCount }}
@@ -596,7 +596,7 @@
                   <label class="h3-strong text-c300 mb-0">
                     {{ lessonObj.date | utcDateAndDay }}
                   </label>
-                  <div class="body-m text-c100 l-count-wrapper">
+                  <div class="body-m text-c100 l-count-wrapper bg-s20">
                     {{ lessonObj.courses?.length }}
                     {{ lessonObj.courses?.length > 1 ? 'lessons' : 'lesson' }}
                   </div>
@@ -815,7 +815,7 @@
     </div>
   </div>
   <div *ngIf="!showRelief" class="modal-footer">
-    <button class="btn bg-s0" (click)="closeOpenLeaveModal()">
+    <button class="btn bg-s0 text-c300" (click)="closeOpenLeaveModal()">
       Cancel
     </button>
     <button
@@ -900,7 +900,10 @@
         </div>
       </div>
       <div class="class-info-side col-md-7">
-        <p class="total-student mb-0" [ngClass]="{ 'makeup-true': giveMakeUp }">
+        <p
+          class="total-student mb-0 bg-s20"
+          [ngClass]="{ 'makeup-true': giveMakeUp }"
+        >
           <span class="Union-icon" *ngIf="!giveMakeUp"
             ><img src="../../../assets/icons/Union.svg" alt=""
           /></span>
@@ -940,7 +943,10 @@
                 class="d-flex align-items-center"
                 *ngFor="let courseObj of course.courses"
               >
-                <p class="student-count body-m text-c300">
+                <p
+                  class="student-count bg-s20 
+                body-m text-c300"
+                >
                   {{ courseObj.enrolledStudentCount }} students
                 </p>
                 <p class="body-m text-c100">{{ courseObj.name }}</p>
@@ -996,13 +1002,13 @@
       </div>
     </div>
     <div class="assign-modal-body">
-      <div class="search-wrapper">
+      <div class="search-wrapper bg-s20">
         <span class="fa fa-search search-icon"> </span>
         <input
           type="text"
           name="searchInput"
           placeholder="Search teacher..."
-          class="input-search"
+          class="input-search text-c100"
           (input)="searchMethod_input($event.target.value)"
           (keyup.enter)="searchMethod($event.target.value, 'staff')"
           (focus)="focusSearch($event, 'focusOn')"
@@ -1118,7 +1124,7 @@
       </div>
     </div>
     <div class="d-flex modal-footer assign-modal-footer">
-      <button class="btn bg-s0" (click)="cancelModal('relief')">
+      <button class="btn bg-s0 text-c300" (click)="cancelModal('relief')">
         Cancel
       </button>
       <button
