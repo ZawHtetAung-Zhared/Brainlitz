@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-between w-100">
         <div (click)="backTo()" class="d-flex align-items-center">
           <i class="fa fa-angle-left"></i>
-          <span class="back-txt">
+          <span class="back-txt body-l text-c300">
             Mastery reports
           </span>
         </div>
@@ -32,14 +32,14 @@
         <div class="d-flex justify-content-between">
           <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
-              <span class="mastery-title">
+              <span class="h2-strong text-c300">
                 Top 5 challenging masteries for this class
               </span>
               <span class="sw-wrap">
                 <img src="./assets/img/tiny-brainlitz.svg" />
               </span>
             </div>
-            <div class="light-txt2 light-txt">What are masteries?</div>
+            <div class="light-txt2  text-s70 small">What are masteries?</div>
           </div>
         </div>
         <!-- loop start -->
@@ -47,12 +47,12 @@
           *ngFor="let challenge of challengeData; let i = index"
           class="mt-4 d-flex flex-column"
         >
-          <div class="no-circle">{{ i + 1 }}</div>
-          <div class="mastery-body">
+          <div class="no-circle text-c300 body-l bg-s20">{{ i + 1 }}</div>
+          <div class="mastery-body small text-c300 ">
             {{ challenge.descriptionStudent }}
             <span class="green-txt">{{ challenge.pdDescription }}</span>
           </div>
-          <div class="mastery-body txt-bold">
+          <div class="mastery-body small text-c300">
             {{ challenge.percentage }}% of students have yet to meet the
             expectation of this mastery.
           </div>
@@ -70,7 +70,9 @@
         class="d-flex justify-content-between align-items-center inner-wrapper"
       >
         <div class="d-flex flex-column">
-          <span class="mastery-title"> {{ masteriesReports[0].name }} </span>
+          <span class="h2-strong text-c300">
+            {{ masteriesReports[0].name }}
+          </span>
           <span class="light-txt">
             <!-- {{ masteriesReports[0].data.length }} masteries -->
             {{ masteriesReports[0].totalMasteryCount }} masteries
@@ -115,23 +117,23 @@
 
   <div class="footer white-gb d-flex justify-content-center align-items-center">
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #BF2926;"></div>
+      <div class="color-box small text-c300 bg-r200"></div>
       <span class="color-txt"> Struggling </span>
     </div>
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #EDEEF0;"></div>
+      <div class="color-box small text-c300 bg-s30"></div>
       <span class="color-txt"> Not started </span>
     </div>
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #D4D5D6;"></div>
+      <div class="color-box small text-c300 bg-s60"></div>
       <span class="color-txt"> In conslusive </span>
     </div>
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #6DC000;"></div>
+      <div class="color-box small text-c300" style="background: #6DC000;"></div>
       <span class="color-txt"> Mastered w/ difficulties </span>
     </div>
     <div class="d-flex color-wrap">
-      <div class="color-box" style="background: #4FDD00;"></div>
+      <div class="color-box small text-c300" style="background: #4FDD00;"></div>
       <span class="color-txt"> Mastered w/ ease </span>
     </div>
   </div>

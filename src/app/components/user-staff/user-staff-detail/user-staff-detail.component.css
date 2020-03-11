@@ -77,9 +77,9 @@
 }
 .switch-label {
   margin-left: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
-  color: #64707d;
+  color: #64707d; */
   margin-bottom: 0;
   margin-top: 7px;
   margin-right: 10px;
@@ -127,7 +127,7 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
-  border: 2px solid #64707d;
+  border: 2px solid #7a8a99;
 }
 
 .slider.round:before {
@@ -135,12 +135,12 @@ input:checked + .slider:before {
 }
 .checked-slider {
   background: #cce5ff;
-  border: 2px solid #0080ff !important;
+  border: 2px solid #0065f2 !important;
 }
 
 .checked-slider::before {
   transform: translateX(13px);
-  background: #0080ff;
+  background: #0065f2;
   content: '';
   background-image: url(/assets/img/tick.png);
   background-repeat: no-repeat;
@@ -149,14 +149,14 @@ input:checked + .slider:before {
 }
 
 .auto-enroll {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 25px !important;
   min-width: 156px;
   margin-right: 14px;
 }
 
 .autoEnrollTrue {
-  background: #cce5ff;
+  background: #d9ecff;
 }
 
 .toggle-wrap {
@@ -197,7 +197,7 @@ input:checked + .slider:before {
   margin: 0px !important;
 }
 .profile-right {
-  background: #f7f9fa;
+  /* background: #f7f9fa; */
   min-height: 75vh;
   padding-left: 0px;
   padding-right: 0px;
@@ -241,26 +241,26 @@ input:checked + .slider:before {
 }
 
 .info-p {
-  font-size: 20px;
+  /* font-size: 20px;
   color: #2e3e4d;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  font-family: 'Inter-UI-SemiBold', Arial, sans-serif; */
   word-break: break-all;
   /*padding: 5px; */
 }
 
 .info-mail {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;
-  font-size: 14px;
+  font-size: 14px; */
   word-wrap: break-word;
   margin-bottom: 0;
   /*padding: 0 20px 0 0;*/
 }
 
 .staff-name {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-style: normal;
-  font-weight: bold;
+  font-weight: bold; */
   font-size: 28px;
   line-height: 36px;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
@@ -268,20 +268,20 @@ input:checked + .slider:before {
   color: #363f4d;
 }
 .staff-email {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 17px;
+  font-size: 17px; */
   line-height: 28px;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   color: #5c6773;
 }
 .staff-p {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 15px; */
   line-height: 24px;
   color: #5c6773;
 }

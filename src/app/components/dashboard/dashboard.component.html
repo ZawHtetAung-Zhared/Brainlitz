@@ -109,7 +109,7 @@
     <div class="d-flex flex-column h-100 setting-wrapper">
       <div *ngIf="option != 'Invoice' && option != 'Payment' && !isEnrollEdit">
         <div *ngIf="generalSidebar.length > 0" class="header-wrap">
-          <h3 class="general">General</h3>
+          <h3 class="general h1-strong text-c300">General</h3>
         </div>
         <div class="card-columns">
           <div *blockUI="'region-info'">
@@ -121,26 +121,32 @@
               *ngIf="generalDemo.appsetting != ''"
               class="card card-wrap region-wrap"
             >
-              <div class="title">
+              <div class="title bg-c100 text-s0 text-s0 body-xl">
                 Regional settings
               </div>
               <div class="region-info">
                 <div>
                   <div class="title-wrap">
-                    <div id="parent">
+                    <div id="parent" class="bg-s30">
                       <img src="./assets/images/map.png" />
                     </div>
-                    <label class="labelTitle">Region name</label>
+                    <label class="labelTitle text-c100 body-m"
+                      >Region name</label
+                    >
                   </div>
-                  <label class="labelName">{{ item.name }}</label>
+                  <label class="labelName text-c300 body-l">{{
+                    item.name
+                  }}</label>
                 </div>
                 <div class="timezone-wrap ease" *ngIf="!isEdit">
                   <div>
                     <div class="title-wrap">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/time_zone.png" />
                       </div>
-                      <label class="labelTitle">Time zone</label>
+                      <label class="labelTitle text-c100 body-m"
+                        >Time zone</label
+                      >
                     </div>
                   </div>
                   <div class="picker-wrap">
@@ -169,10 +175,12 @@
                 <!-- Operation Hour -->
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent">
+                    <div id="parent" class="bg-s30">
                       <img src="./assets/images/map.png" />
                     </div>
-                    <label class="labelTitle">Operating hour</label>
+                    <label class="labelTitle text-c100 body-m"
+                      >Operating hour</label
+                    >
                   </div>
                   <label *ngIf="!isEdit" class="operatingTime"
                     ><span *ngIf="item && item.operatingHour.start.hr < 10"
@@ -194,10 +202,12 @@
                   </label>
                   <div class="timezone-wrap">
                     <div class="title-wrap" *ngIf="!isEdit">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Organization logo</label>
+                      <label class="labelTitle text-c100 body-m"
+                        >Organization logo</label
+                      >
                     </div>
                     <div class="preview" *ngIf="!isEdit">
                       <img
@@ -550,87 +560,103 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Invoice settings
             </div>
             <div class="region-info">
               <div>
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/profile.png" />
                   </div>
-                  <label class="labelTitle">Company name</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Company name</label
+                  >
                 </div>
                 <label
                   *ngIf="invoiceData.companyName != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.companyName }}</label
                 >
-                <label *ngIf="invoiceData.companyName == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.companyName == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <p class="dot">...</p>
                   </div>
-                  <label class="labelTitle">Registration number</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Registration number</label
+                  >
                 </div>
                 <label
                   *ngIf="invoiceData.registration != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.registration }}</label
                 >
-                <label *ngIf="invoiceData.registration == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.registration == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/map.png" />
                   </div>
-                  <label class="labelTitle">Address</label>
+                  <label class="labelTitle text-c100 body-m">Address</label>
                 </div>
                 <label
                   *ngIf="invoiceData.address != '' || invoiceData.city != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.address }} {{ invoiceData.city }}</label
                 >
                 <label
                   *ngIf="invoiceData.address == '' && invoiceData.city == ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/email.png" />
                   </div>
-                  <label class="labelTitle">Contact email</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Contact email</label
+                  >
                 </div>
-                <label *ngIf="invoiceData.email != ''" class="labelName">{{
-                  invoiceData.email
-                }}</label>
-                <label *ngIf="invoiceData.email == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.email != ''"
+                  class="labelName text-c300 body-l"
+                  >{{ invoiceData.email }}</label
+                >
+                <label
+                  *ngIf="invoiceData.email == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <p class="currency">$</p>
                   </div>
-                  <label class="labelTitle">Currency sign</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Currency sign</label
+                  >
                 </div>
                 <div
                   *ngIf="
                     invoiceData.currencyCode != undefined &&
                     invoiceData.currencySign != undefined
                   "
-                  class="labelName d-flex"
+                  class="labelName text-c300 body-l d-flex"
                 >
                   <div
                     class="currency-flag currency-flag-{{
@@ -655,24 +681,26 @@
                     invoiceData.currencyCode == undefined &&
                     invoiceData.currencySign == undefined
                   "
-                  class="labelName d-flex"
+                  class="labelName text-c300 body-l d-flex"
                 >
                   -
                 </div>
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img
                       style="width: 60%"
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice note</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Invoice note</label
+                  >
                 </div>
                 <div
                   *ngIf="invoiceData.invoiceNote != ''"
-                  class="labelName inv-note"
+                  class="labelName text-c300 body-l inv-note"
                 >
                   {{ invoiceData.invoiceNote }}
                 </div>
@@ -682,19 +710,21 @@
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img
                       style="width: 60%"
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice validity(days)</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Invoice validity(days)</label
+                  >
                 </div>
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
                   name="settingIdueDateCount"
                   id="settingInvNote"
-                  class="labelName readonly-note"
+                  class="labelName text-c300 body-l readonly-note"
                   [(ngModel)]="invoiceData.dueDateCount"
                   readonly
                 />
@@ -718,23 +748,27 @@
               *ngIf="generalDemo.regional != ''"
               class="card card-wrap"
             >
-              <div class="title">
+              <div class="title bg-c100 text-s0 body-xl">
                 App settings
               </div>
               <div class="setting-container">
                 <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
                   <div class="link-wrap">
                     <div class="title-wrap">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Home page URL</label>
+                      <label class="labelTitle text-c100 body-m"
+                        >Home page URL</label
+                      >
                       <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
                     </div>
                     <p class="input-recommend">
                       This is the URL your customers will see on their device.
                     </p>
-                    <label class="labelName">{{ item.url }}</label>
+                    <label class="labelName text-c300 body-l">{{
+                      item.url
+                    }}</label>
                   </div>
                   <div class="timezone-wrap d-none">
                     <div>
@@ -742,7 +776,9 @@
                         <div id="parent">
                           <img src="./assets/images/filter.png" />
                         </div>
-                        <label class="labelTitle">Widget type visibility</label>
+                        <label class="labelTitle text-c100 body-m"
+                          >Widget type visibility</label
+                        >
                       </div>
                       <p class="input-recommend">
                         Turning on widget type visibility such as ‘Progress’ or
@@ -819,21 +855,23 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Payment settings
             </div>
             <div class="region-info">
               <div>
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/currency.png" />
                   </div>
-                  <label class="labelTitle">Currency code</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Currency code</label
+                  >
                 </div>
                 <div>
                   <div
                     *ngIf="paymentData.currencyCode != undefined"
-                    class="labelName d-flex"
+                    class="labelName text-c300 body-l d-flex"
                   >
                     <div
                       class="currency-flag currency-flag-{{
@@ -846,7 +884,7 @@
                   </div>
                   <div
                     *ngIf="paymentData.currencyCode == undefined"
-                    class="labelName d-flex"
+                    class="labelName text-c300 body-l d-flex"
                   >
                     -
                   </div>
@@ -854,12 +892,15 @@
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/currency-sign.png" />
                   </div>
-                  <label class="labelTitle">Tax setting</label>
+                  <label class="labelTitle text-c100 body-m">Tax setting</label>
                 </div>
-                <label *ngIf="emptyPaymentData == false" class="labelName">
+                <label
+                  *ngIf="emptyPaymentData == false"
+                  class="labelName text-c300 body-l"
+                >
                   <span *ngIf="paymentData.tax.name != ''"
                     >{{ paymentData.tax.name }}
                   </span>
@@ -869,27 +910,34 @@
                   >
                   <span *ngIf="paymentData.tax.rate == null">(-)</span>
                 </label>
-                <label *ngIf="emptyPaymentData == true" class="labelName">
+                <label
+                  *ngIf="emptyPaymentData == true"
+                  class="labelName text-c300 body-l"
+                >
                   <span>-</span>
                 </label>
               </div>
               <div class="sectionWrap">
-                <label class="sectionTitle">Online payment</label>
+                <label class="sectionTitle body-m">Online payment</label>
                 <div *ngIf="paymentData.paymentProviders.length > 0">
                   <div
                     class="provider-list"
                     *ngFor="let provider of paymentData.paymentProviders"
                   >
-                    <span *ngIf="provider.name != ''">{{ provider.name }}</span>
-                    <span *ngIf="provider.name == ''">-</span>
+                    <span class="small text-c100" *ngIf="provider.name != ''">{{
+                      provider.name
+                    }}</span>
+                    <span class="small text-c100" *ngIf="provider.name == ''"
+                      >-</span
+                    >
                   </div>
                 </div>
                 <div *ngIf="paymentData.paymentProviders.length == 0">
-                  <div class="provider-list">none</div>
+                  <div class="provider-list small text-c100">none</div>
                 </div>
               </div>
               <div class="sectionWrap">
-                <label class="sectionTitle">Pay Now Payment</label>
+                <label class="sectionTitle body-m">Pay Now Payment</label>
                 <div *ngIf="paymentData.acceptPayNow">
                   <div class="qr-preview">
                     <img
@@ -920,20 +968,20 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Schedule settings
             </div>
             <div class="setting-container">
               <div class="schedule-setting">
                 <div class="ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img
                         style="width: 60%"
                         src="./assets/images/sidebar-quizwerkz@2x.png"
                       />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Send payment reminder notification for invoice</label
                     >
                   </div>
@@ -942,27 +990,27 @@
                       *ngIf="invoiceData.beforeDue != ''"
                       name="settingIdueDateCount"
                       id="settingInvBeforeD"
-                      class="labelName readonly-note"
+                      class="labelName text-c300 body-l readonly-note"
                       [(ngModel)]="invoiceData.beforeDue"
                       readonly
                     />
                     <label *ngIf="invoiceData.beforeDue == ''">
                       -
                     </label>
-                    <label class="labelTitle day-color">
+                    <label class="labelTitle day-color body-m">
                       days before due date
                     </label>
                   </div>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img
                         style="width: 60%"
                         src="./assets/images/sidebar-quizwerkz@2x.png"
                       />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Send payment overdue notification for invoice</label
                     >
                   </div>
@@ -971,24 +1019,24 @@
                       *ngIf="invoiceData.overDue != ''"
                       name="settingIdueDateCount"
                       id="settingInvOverD"
-                      class="labelName readonly-note"
+                      class="labelName text-c300 body-l readonly-note"
                       [(ngModel)]="invoiceData.overDue"
                       readonly
                     />
                     <label *ngIf="invoiceData.overDue == ''">
                       -
                     </label>
-                    <label class="labelTitle day-color">
+                    <label class="labelTitle day-color body-m">
                       days after due date
                     </label>
                   </div>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img src="./assets/images/profile.png" />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Auto-enrollment will start if the last lesson is
                       within(days)</label
                     >
@@ -996,7 +1044,7 @@
                   <input
                     name="settingIdueDateCount"
                     id="settingAutoEnroll"
-                    class="labelName readonly-note"
+                    class="labelName text-c300 body-l readonly-note"
                     [(ngModel)]="enroll"
                     readonly
                   />

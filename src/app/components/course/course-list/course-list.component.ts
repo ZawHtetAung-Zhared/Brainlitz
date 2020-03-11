@@ -108,6 +108,11 @@ export class CourseListComponent implements OnInit {
     });
   }
 
+  scrollHandler(e) {
+    console.log('scroll handler~~~~~~~~~~~~', e);
+    // should log top or bottom
+  }
+
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     if (window.pageYOffset > 81) {
       this.isSticky = true;
@@ -189,18 +194,19 @@ export class CourseListComponent implements OnInit {
             );
           }
         } else {
-          console.log('call next plan');
-          this.getCoursesForNextPlan();
+          // console.log('call next plan');
+          // this.getCoursesForNextPlan();
         }
       }
     } else if (this.oldValue - newValue > 0) {
-      console.log('Direction Up');
+      // console.log('Direction Up');
       if (window.scrollY == 0) {
         // console.log('scroll Type~~~~~~~~', this.scrollType);
-        console.log('top of the page');
+        // console.log('top of the page');
+
         if (this.scrollType != 'next-plan') {
           console.log('~~~~~call previous plan');
-          this.getCoursesForPreviousPlan();
+          // this.getCoursesForPreviousPlan();
         }
       }
     }
@@ -243,12 +249,7 @@ export class CourseListComponent implements OnInit {
           ',previousPlanName',
           prevPlanName
         );
-        this.getCourseswithPlanId(
-          prevPlanId,
-          prevPlanName,
-          null,
-          this.scrollType
-        );
+        this.getCourseswithPlanId(prevPlanId, prevPlanName, null, 'prev-plan');
         break;
       }
     }
@@ -449,6 +450,7 @@ export class CourseListComponent implements OnInit {
     console.log('call getCoursesPerPlan from', scrollType);
     console.log(limit, skip, page);
     this.courseLoading = true;
+    let scrollDirection = scrollType == 'prev-plan' ? 'up' : 'down';
     this._service
       .getCoursesPerPlan(
         this.regionId,
@@ -457,7 +459,7 @@ export class CourseListComponent implements OnInit {
         limit,
         skip,
         page,
-        'down',
+        scrollDirection,
         null
       )
       .subscribe(
@@ -472,6 +474,8 @@ export class CourseListComponent implements OnInit {
             this.checkCoursesLength();
             if (this.scrollType == 'next-plan') {
               this.scrollType = 'next-page';
+            } else if (this.scrollType == 'prev-plan') {
+              this.scrollType = 'prev-page';
             }
           }
         },

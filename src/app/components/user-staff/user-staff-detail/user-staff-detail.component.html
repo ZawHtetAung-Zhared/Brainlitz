@@ -5,11 +5,8 @@
     <div class="top-profile-wrap">
       <div class="d-flex heading-space">
         <div class="back" (click)="backToStaff()">
-          <i
-            class="fa fa-angle-left"
-            style="color: #3d5266;font-size: 20px;"
-          ></i
-          ><span>Staff</span>
+          <i class="fa fa-angle-left text-c200" style="font-size: 20px;"></i
+          ><span class="text-c300">Staff</span>
         </div>
         <div class="ml-auto d-flex align-items-center">
           <!-- <div class="d-flex g-inner-wrap">
@@ -29,13 +26,19 @@
           </div>
 -->
           <div
-            class="d-flex auto-enroll align-items-center justify-content-between"
+            class="d-flex auto-enroll align-items-center justify-content-between bg-s20"
             [ngClass]="{ autoEnrollTrue: userArchive }"
           >
-            <label class="switch-label mt-0" for="online" *ngIf="userArchive"
+            <label
+              class="switch-label mt-0 text-c100 body-l"
+              for="online"
+              *ngIf="userArchive"
               >Archive</label
             >
-            <label class="switch-label mt-0" for="online" *ngIf="!userArchive"
+            <label
+              class="switch-label mt-0 text-c100 body-l"
+              for="online"
+              *ngIf="!userArchive"
               >Unarchive</label
             >
             <div class="toggle-wrap d-flex align-items-center mr-2 ">
@@ -62,7 +65,9 @@
               </label>
             </div>
           </div>
-          <span class="back" (click)="getSingleInfo()">Edit profile</span>
+          <span class="back text-c300" (click)="getSingleInfo()"
+            >Edit profile</span
+          >
         </div>
       </div>
 
@@ -76,8 +81,10 @@
     <div class="row section-wrap">
       <div class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3">
         <div class="infoGp-wrap">
-          <h5 class="staff-name">{{ staffDetail.user.preferredName }}</h5>
-          <p class="info-mail staff-email mb-0">
+          <h5 class="staff-name text-c300">
+            {{ staffDetail.user.preferredName }}
+          </h5>
+          <p class="info-mail staff-email mb-0 body-l text-c100">
             {{ staffDetail.user.email }}
           </p>
         </div>
@@ -85,7 +92,10 @@
           class="infoGp-wrap mb-0"
           style="border-bottom: 1px dotted #7A8A99;"
         >
-          <p *ngIf="staffDetail.user.about != ''" class="mb-0 staff-p">
+          <p
+            *ngIf="staffDetail.user.about != ''"
+            class="mb-0 staff-p light-body-m text-c100"
+          >
             {{ staffDetail.user.about }}
           </p>
           <p *ngIf="staffDetail.user.about == ''" class="mb-0 staff-p">
@@ -93,8 +103,10 @@
           </p>
         </div>
         <div class="infoGp-wrap">
-          <label class="info-mail">Full name</label>
-          <p class="mb-0 info-p">{{ staffDetail.user.fullName }}</p>
+          <label class="info-mail body-m text-c100">Full name</label>
+          <p class="mb-0 info-p h3-strong text-c300">
+            {{ staffDetail.user.fullName }}
+          </p>
         </div>
         <div *ngIf="staffDetail.user.details">
           <div
@@ -102,14 +114,20 @@
             class="infoGp-wrap"
             [ngClass]="{ hide: detail.value.length == 0 }"
           >
-            <label class="info-mail">
+            <label class="info-mail body-m text-c100">
               {{ detail.name }}
             </label>
             <div *ngIf="detail.dataType == 'Date'">
-              <span class="mb-0 info-p" *ngIf="detail.value.length != 0">
+              <span
+                class="mb-0 info-p h3-strong text-c300"
+                *ngIf="detail.value.length != 0"
+              >
                 {{ detail.value | todayDate2 }}
               </span>
-              <span class="info-mail" *ngIf="detail.value.length != 0">
+              <span
+                class="info-mail light-body-m text-c100"
+                *ngIf="detail.value.length != 0"
+              >
                 ({{
                   detail.year > 1
                     ? detail.year + ' years, '
@@ -122,7 +140,10 @@
               </span>
             </div>
             <div *ngIf="detail.dataType != 'Date'">
-              <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
+              <p
+                class="mb-0 info-p h3-strong text-c300"
+                *ngIf="detail.value.length != 0"
+              >
                 {{ detail.value }}
               </p>
             </div>
@@ -130,7 +151,10 @@
         </div>
       </div>
 
-      <div class="d-flex flex-column profile-right col-md-8 col-xl-9 col-lg-9">
+      <div
+        class="d-flex flex-column profile-right bg-s10 
+      col-md-8 col-xl-9 col-lg-9"
+      >
         <div class="d-flex tab-border">
           <button
             [ngClass]="{
