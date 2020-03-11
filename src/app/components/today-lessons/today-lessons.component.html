@@ -3,11 +3,15 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100">
     <div class="today-container">
-      <button type="button" class="d-flex back-button" (click)="backToCourse()">
+      <button
+        type="button"
+        class="d-flex back-button text-c100"
+        (click)="backToCourse()"
+      >
         <i class="fa fa-angle-left left-arrow"></i>
-        <p class="backtxt">Courses</p>
+        <p class="backtxt body-l">Courses</p>
       </button>
-      <div class="today-date">
+      <div class="today-date h2-strong text-c300">
         {{ todayDate | utcDateAndDay }}
       </div>
       <div
@@ -35,14 +39,14 @@
                   style="margin-bottom:10px;"
                 >
                   <p
-                    class="course-name mb-0"
+                    class="course-name mb-0 text-b100 body-xl"
                     (click)="getcourseDetail(tcourse._id)"
                   >
                     {{ tcourse.name | slice: 0:40
                     }}{{ tcourse.name.length > 40 ? '...' : '' }}
                   </p>
 
-                  <span class="course-code">
+                  <span class="course-code small text-b300 bg-b25">
                     {{ tcourse.courseCode }}
                   </span>
                 </div>
@@ -53,12 +57,12 @@
                     tcourse.lessonDuration.endDate != undefined
                   "
                 >
-                  <span class="course-time">
+                  <span class="course-time body-l text-c100">
                     {{ tcourse.lessonDuration.startDate | utcTime }} -{{
                       tcourse.lessonDuration.endDate | utcTime
                     }}
                   </span>
-                  <span class="course-duration">
+                  <span class="course-duration body-m text-c100 bg-s20">
                     {{ tcourse.lessonDuration | lessonDuration }}
                   </span>
                 </div>

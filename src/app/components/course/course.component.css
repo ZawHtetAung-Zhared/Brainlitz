@@ -94,9 +94,6 @@ input:checked + .slider:before {
 .switch-label {
   line-height: 1.8;
   margin-left: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 18px;
-  color: #2e3e4d;
   margin-bottom: 0;
 }
 
@@ -3459,27 +3456,16 @@ i.fa.fa-angle-left.flexiBackicon {
 }
 
 p.textCount {
-  color: #64707d;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
   margin: 0;
   margin-bottom: 5px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .selectedCountBox {
   width: 155px;
   height: 32px;
-  background: #cce6ff;
   border-radius: 27px;
   text-align: center;
   padding-top: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  color: #004080;
-  line-height: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .overlayModal {
@@ -3496,10 +3482,6 @@ p.textCount {
 
 .defaultLessonCount {
   margin-bottom: 10px;
-  color: #64707d;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 /* end flexi modal */

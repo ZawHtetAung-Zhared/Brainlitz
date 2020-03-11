@@ -4,9 +4,6 @@
 }
 
 p.backtxt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-  color: #2e3d4d;
-  font-size: 16px;
   margin: 0;
   padding: 2px 5px;
 }
@@ -14,6 +11,7 @@ p.backtxt {
 .left-arrow {
   font-size: 25px;
   float: left;
+  line-height: 1.2;
 }
 
 .back-button {
@@ -24,10 +22,6 @@ p.backtxt {
   outline: none;
 }
 .today-date {
-  color: #2e3d4d;
-  font-weight: 600;
-  font-size: 24px;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   padding-top: 15px;
 }
 
@@ -37,38 +31,23 @@ p.backtxt {
 }
 
 p.course-name {
-  font-size: 20px;
-  color: #007fff;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   cursor: pointer;
 }
 
 .course-code {
-  color: #004080;
-  font-size: 12px;
-  background: #cce5ff;
   padding: 3px 8px 0px 8px;
   border-radius: 25px;
   margin-left: 10px;
   height: 24px;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   /* margin-top: 6px; */
 }
 
 span.course-time {
-  color: #64707d;
-  font-size: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   padding: 5px 0px;
 }
 .course-duration {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #64707d;
-  line-height: 0.5;
   position: relative;
   margin-top: 3px;
-  font-size: 14px;
-  background: #f2f4f5;
   margin-left: 5px;
   padding: 9px;
   margin-bottom: 0;
