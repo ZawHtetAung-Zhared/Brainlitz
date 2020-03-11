@@ -33,6 +33,7 @@ export class TimetableComponent implements OnInit {
   public indexWeek: any = [];
   public today: any;
   public today2: any;
+  public catList: any;
   //zha variable
 
   //apo variable
@@ -342,6 +343,8 @@ export class TimetableComponent implements OnInit {
 
     this.getStaffListperWeek();
 
+    this.getCatList();
+
     //zha ngOnInit
 
     //copy from schedule
@@ -396,7 +399,7 @@ export class TimetableComponent implements OnInit {
   //zha function
   toggledropdown() {
     this.clist = !this.clist;
-    console.log('clist', this.clist);
+    // console.log('clist', this.clist);
   }
   getStaffListperWeek() {
     this._service.getStaffList(this.thisStart, this.thisEnd).subscribe(
@@ -496,6 +499,18 @@ export class TimetableComponent implements OnInit {
       }
     }
     console.log('Show Week', this.indexWeek);
+  }
+
+  getCatList() {
+    this._service.getCategory(this.regionId, 20, 0).subscribe(
+      (res: any) => {
+        console.log('CAT', res);
+        this.catList = res;
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   //zha function
 
@@ -2284,5 +2299,8 @@ export class TimetableComponent implements OnInit {
       localStorage.setItem('scheduleObj', JSON.stringify(this.scheduleObj));
     }
     // console.log("scheduleObj",this.scheduleObj);
+  }
+  CategorySelected(name, id, all) {
+    console.log('caught', name, ' ~ ', id, ' ~ ', all);
   }
 }

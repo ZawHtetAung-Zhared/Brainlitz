@@ -3,11 +3,15 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100">
     <div class="today-container">
-      <button type="button" class="d-flex back-button" (click)="backToCourse()">
+      <button
+        type="button"
+        class="d-flex back-button text-c100"
+        (click)="backToCourse()"
+      >
         <i class="fa fa-angle-left left-arrow"></i>
-        <p class="backtxt">Courses</p>
+        <p class="backtxt body-l">Courses</p>
       </button>
-      <div class="today-date">
+      <div class="today-date h2-strong text-c300">
         {{ todayDate | utcDateAndDay }}
       </div>
       <div
@@ -35,14 +39,14 @@
                   style="margin-bottom:10px;"
                 >
                   <p
-                    class="course-name mb-0"
+                    class="course-name mb-0 text-b100 body-xl"
                     (click)="getcourseDetail(tcourse._id)"
                   >
                     {{ tcourse.name | slice: 0:40
                     }}{{ tcourse.name.length > 40 ? '...' : '' }}
                   </p>
 
-                  <span class="course-code">
+                  <span class="course-code small text-b300 bg-b25">
                     {{ tcourse.courseCode }}
                   </span>
                 </div>
@@ -53,34 +57,34 @@
                     tcourse.lessonDuration.endDate != undefined
                   "
                 >
-                  <span class="course-time">
+                  <span class="course-time body-l text-c100">
                     {{ tcourse.lessonDuration.startDate | utcTime }} -{{
                       tcourse.lessonDuration.endDate | utcTime
                     }}
                   </span>
-                  <span class="course-duration">
+                  <span class="course-duration body-m text-c100 bg-s20">
                     {{ tcourse.lessonDuration | lessonDuration }}
                   </span>
                 </div>
               </div>
               <div class="d-flex course-attance">
-                <div class="count-box present">
-                  <p class="student-txt present mb-0">
+                <div class="count-box bg-g25">
+                  <p class="mb-0 body-xl text-g300">
                     {{ tcourse.attendance.present }}
                   </p>
-                  <p class="student-txt present mb-0">Present</p>
+                  <p class="small text-g300 mb-0">Present</p>
                 </div>
-                <div class="count-box absent">
-                  <p class="student-txt absent mb-0">
+                <div class="count-box  bg-r50">
+                  <p class="mb-0 body-xl text-r300">
                     {{ tcourse.attendance.absent }}
                   </p>
-                  <p class="student-txt absent mb-0">Absent</p>
+                  <p class="small text-r300 mb-0">Absent</p>
                 </div>
-                <div class="count-box total">
-                  <p class="student-txt total mb-0">
+                <div class="count-box bg-s30">
+                  <p class="text-c300 body-xl mb-0">
                     {{ tcourse.attendance.total }}
                   </p>
-                  <p class="student-txt total mb-0">Total</p>
+                  <p class="small text-c300 mb-0">Total</p>
                 </div>
               </div>
             </div>
@@ -99,7 +103,7 @@
                   > -->
                   <!-- <p class="positon">Senior Teacher</p> -->
                   <div>
-                    <p class="teacher-name pl-2 pt-2">
+                    <p class="teacher-name pl-2 pt-2 body-m text-c300">
                       {{ tcourse.teacher.fullName }}
                     </p>
                   </div>
@@ -144,7 +148,7 @@
                         </div>
                       </div>
 
-                      <p class="student-name mb-0">
+                      <p class="student-name mb-0 body-l text-c300">
                         {{ student.userDetails.fullName }}
                       </p>
                     </div>
@@ -157,9 +161,9 @@
                             student.todayLesson.attendance == true
                         }"
                       >
-                        <label id="divToHide" class="radio-present mb-0">
+                        <label id="divToHide" class="radio-present mb-0 ">
                           <p
-                            class="mb-0"
+                            class="mb-0 body-m"
                             [ngClass]="{
                               'present-text': student.todayLesson.attendance
                             }"
@@ -185,7 +189,7 @@
                       >
                         <label id="divToHide" class="radio-absent mb-0">
                           <p
-                            class="mb-0"
+                            class="mb-0 body-m"
                             [ngClass]="{
                               'absent-text':
                                 student.todayLesson.attendance == false
@@ -216,7 +220,7 @@
     <ng-template #makeupModal let-c="close" let-d="dismiss">
       <div class="modal-header">
         <div class="d-flex flex-column ">
-          <h3 class="makeup-pass-title">
+          <h3 class="h1-strong text-c300">
             Absent
           </h3>
           <!-- <p class="makeup-pass-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p> -->
@@ -255,13 +259,17 @@
               <span class="slider round"></span>
             </label>
           </div>
-          <label class="switch-label" for="online">Issue makeup pass</label>
+          <label class="switch-label body-xl text-c100" for="online"
+            >Issue makeup pass</label
+          >
         </div>
 
         <div class="d-flex w-100" *ngIf="isGlobal">
           <div class="input-wrap p-0" style="width:80%;margin-right:20px">
             <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
-              <label for="name" class="input-label">Name</label>
+              <label for="name" class="input-label body-xl text-c300"
+                >Name</label
+              >
               <input
                 type="text"
                 class="form-control create-input"
@@ -273,7 +281,9 @@
               />
             </div>
             <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
-              <label for="name" class="input-label">Reason</label>
+              <label for="name" class="input-label body-xl text-c300"
+                >Reason</label
+              >
               <textarea
                 class="form-control create-input"
                 rows="4"
@@ -307,7 +317,9 @@
             class="d-flex flex-column makeup-sidebar"
             style="width:50%;"
           >
-            <h1 class="release-text container">Released makeup passes</h1>
+            <h1 class="release-text container body-xl text-c300">
+              Released makeup passes
+            </h1>
             <div class="" *ngFor="let makeup of makeupLists">
               <!--for valid start-->
               <div class="col-md-12 av-block claimed-height">
@@ -466,7 +478,7 @@
       <div class="modal-footer">
         <button
           type="button"
-          class="btn modal-cancel-btn"
+          class="btn modal-cancel-btn body-l text-c300 bg-s0"
           (click)="closemakeupmodal()"
         >
           Cancel
@@ -474,7 +486,7 @@
         <button
           type="submit"
           *ngIf="isGlobal"
-          class="btn btn-submit"
+          class="btn btn-submit body-l bg-b100 text-s0"
           (click)="issuePass(makeupForm, studentDetail._id)"
           [disabled]="makeupForm.reason == null || makeupForm.name == null"
         >
@@ -482,7 +494,7 @@
         </button>
         <button
           *ngIf="!isGlobal"
-          class="btn btn-submit"
+          class="btn btn-submit body-l bg-b100 text-s0"
           (click)="issuePass()"
           type="submit"
         >

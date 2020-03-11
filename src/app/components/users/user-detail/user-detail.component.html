@@ -69,7 +69,7 @@
                   custDetail.user.userGrading?.grade.point != undefined &&
                   custDetail.user.userGrading?.grade.point != null
                 "
-                class="b-white justify-content-center d-flex"
+                class="b-white justify-content-center d-flex caption"
                 [style.background]="
                   custDetail.user.userGrading.sepalColor.background
                 "
@@ -497,7 +497,7 @@
                         </div>
                       </div>
                       <div
-                        class="show-invoice col-5"
+                        class="show-invoice bg-s20 col-5"
                         [ngClass]="{
                           'd-flex justify-content-center align-items-center':
                             course.invoicesOfCourse &&
@@ -525,9 +525,11 @@
                               course.invoicesOfCourse.length > 0
                             "
                           >
-                            <label class="invoice-label">Invoice</label>
+                            <label class="invoice-label h3-strong text-c300"
+                              >Invoice</label
+                            >
                             <span
-                              class="invoiceOflength"
+                              class="invoiceOflength bg-s0 caption"
                               *ngIf="course.invoicesOfCourse != undefined"
                               >{{ course.invoicesOfCourse.length }}</span
                             >
@@ -538,7 +540,7 @@
                           >
                             <div class="d-flex">
                               <div class="first-one d-flex flex-column">
-                                <p class="lesson">
+                                <p class="lesson small text-b300">
                                   {{ invoice.studentLessonsCount }}
                                   <span *ngIf="invoice.studentLessonsCount > 1">
                                     lessons
@@ -550,7 +552,7 @@
                                   </span>
                                 </p>
                                 <span
-                                  class="date"
+                                  class="date body-m text-c300"
                                   *ngIf="
                                     invoice.courseDuration != undefined &&
                                     invoice.courseDuration.startDate !=
@@ -564,8 +566,10 @@
                                   -
                                   {{ invoice.courseDuration.endDate | utcDate }}
                                 </span>
-                                <label class="payment">Payment date</label>
-                                <p class="date1">
+                                <label class="payment body-m text-c100"
+                                  >Payment date</label
+                                >
+                                <p class="date1 body-m text-c300">
                                   {{ invoice.updatedDate | utcDate }}
                                 </p>
                               </div>
@@ -580,14 +584,15 @@
                                   <div
                                     class="paybill"
                                     [ngClass]="{
-                                      'paid-status': invoice.status == 'PAID',
-                                      'unpaid-status':
+                                      'paid-status bg-g25 text-g200':
+                                        invoice.status == 'PAID',
+                                      'unpaid-status bg-r25 text-r200':
                                         invoice.status == 'UNPAID',
-                                      'partially-paid-status':
+                                      'partially-paid-status bg-y25 text-y300 partially-paid-width':
                                         invoice.status == 'PAID[PARTIAL]'
                                     }"
                                   >
-                                    <p>
+                                    <p class="caption pl-2">
                                       {{
                                         invoice.status == 'PAID[PARTIAL]'
                                           ? 'Partially paid'
@@ -600,16 +605,17 @@
                                   <span class="right"></span>
                                 </div>
                                 <div
-                                  class="date"
+                                  class="date body-m text-c300"
                                   *ngIf="course.invoice != null; currency"
                                 >
-                                  <span class="currency date">{{
-                                    invoice.currency.sign
-                                  }}</span>
+                                  <span
+                                    class="currency date body-m text-c300"
+                                    >{{ invoice.currency.sign }}</span
+                                  >
                                   {{ invoice.total }}
                                 </div>
                                 <span
-                                  class="view-invoice"
+                                  class="view-invoice body-m bg-s0 text-b100"
                                   (click)="
                                     viewFlexyInvoice(
                                       classEnrollModal,
@@ -979,7 +985,7 @@
                               "
                             >
                               <div
-                                class="d-flex flex-column grade-box"
+                                class="d-flex flex-column grade-box body-l"
                                 [ngStyle]="{
                                   background:
                                     grade.assessment.sepalColor.background,
@@ -1001,7 +1007,7 @@
                                     {{ log.createdDate | dateFormat }}</span
                                   >
                                   <span
-                                    class="journal_delete grade_delete"
+                                    class="journal_delete grade_delete body-m text-r100"
                                     (click)="
                                       gradeDeleteModal(
                                         log.gradeId,
@@ -1469,23 +1475,27 @@
       <form>
         <div class="form-group">
           <div class="" style="padding-right:5px">
-            <p class="cus-name col-md-10 mb-2">
+            <p class="cus-name body-m text-c100 col-md-10 mb-2">
               {{ custDetail.user.preferredName }}
             </p>
             <div class="journal_modal_close" (click)="closeModal()"></div>
           </div>
 
-          <p class="learn-journal  col-md-12 mb-0" style="padding-bottom:8px;">
+          <p
+            class="h1-strong text-c300 col-md-12 mb-0"
+            style="padding-bottom:8px;"
+          >
             Progress book
           </p>
-          <p class="class-name  col-md-12">{{ className }}</p>
+          <p class="class-name body-l text-c100 col-md-12">{{ className }}</p>
           <div class="no-journal" *ngIf="toShowNoJournl">
             <img
               class="no-journal-img"
               src="./assets/images/noJournal@2x.png"
             />
             <div
-              style="color:#64707B; top:65%;position:absolute;text-align: center;width:100%"
+              class="body-l text-c100"
+              style="top:65%;position:absolute;text-align: center;width:100%"
             >
               No Journal Yet
             </div>
@@ -1500,7 +1510,7 @@
                 *ngIf="journal.type == 1 && !journal.teacherOnly"
               >
                 <div class="journal-side-bar">
-                  <div class="img-container" style="background:#cce6ff">
+                  <div class="img-container bg-b25">
                     <img
                       class="journal-img"
                       src="./assets/images/msg-journal@2x.png"
@@ -1511,25 +1521,27 @@
                 </div>
 
                 <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
+                  <div class="journal-header h3-strong text-c300">
                     Message
-                    <div class="d-flex align-items-center justify-content-end">
-                      <p class="from">
+                    <div
+                      class="d-flex align-items-center justify-content-end pt-2"
+                    >
+                      <p class="from mb-0 body-m text-c100">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right ml-auto">
+                      <p class="date body-m text-c300 float-right ml-auto mb-0">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete"
+                        class="journal_delete body-m text-r100"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
                       ></span>
                     </div>
                   </div>
-                  <div class="journal-detail">
+                  <div class="journal-detail body-l text-c300">
                     <p>
                       {{ journal.message }}
                     </p>
@@ -1546,7 +1558,7 @@
                 *ngIf="journal.type == 1 && journal.teacherOnly"
               >
                 <div class="journal-side-bar">
-                  <div class="img-container" style="background:#b7cfe6">
+                  <div class="img-container bg-c25">
                     <img
                       class="journal-img"
                       src="./assets/images/private-padlock@2x.png"
@@ -1556,25 +1568,27 @@
                   <div class="side-line" [class.last-side-line]="last"></div>
                 </div>
                 <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
+                  <div class="journal-header h3-strong text-c300">
                     Private notes
-                    <div class="d-flex align-items-center justify-content-end">
-                      <p class="from" mb-0>
+                    <div
+                      class="d-flex align-items-center justify-content-end pt-2"
+                    >
+                      <p class="from mb-0 body-m text-c100">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right mb-0 ml-auto">
+                      <p class="date body-m text-c300 float-right mb-0 ml-auto">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete"
+                        class="journal_delete body-m text-r100"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
                       ></span>
                     </div>
                   </div>
-                  <div class="journal-detail">
+                  <div class="journal-detail body-l text-c300">
                     <p>
                       {{ journal.message }}
                     </p>
@@ -1588,7 +1602,7 @@
               </div>
               <div class="row eachJournl" *ngIf="journal.type == 2">
                 <div class="journal-side-bar">
-                  <div class="img-container" tyle="background:#f23a30">
+                  <div class="img-container bg-r25">
                     <img
                       class="journal-img"
                       src="./assets/images/journal-unpaid@2x.png"
@@ -1597,25 +1611,27 @@
                   <div class="side-line" [class.last-side-line]="last"></div>
                 </div>
                 <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
+                  <div class="journal-header h3-strong text-c300">
                     Payment
-                    <div class="d-flex align-items-center justify-content-end">
-                      <p class="from mb-0 ">
+                    <div
+                      class="d-flex align-items-center justify-content-end pt-2"
+                    >
+                      <p class="from mb-0 body-m text-c100">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right mb-0 ml-auto">
+                      <p class="date body-m text-c300 float-right mb-0 ml-auto">
                         {{ journal.updatedDate | date: 'd MMM y' }}
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete"
+                        class="journal_delete body-m text-r100"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
                       ></span>
                     </div>
                   </div>
-                  <div class="journal-detail">
+                  <div class="journal-detail body-l text-c300">
                     <p>
                       {{ journal.message }}
                     </p>
@@ -1629,7 +1645,7 @@
               </div>
               <div class="row eachJournl" *ngIf="journal.type == 3">
                 <div class="journal-side-bar">
-                  <div class="img-container" style="background:#c2f2d6">
+                  <div class="img-container bg-g25">
                     <img
                       class="journal-img"
                       src="./assets/images/journal-tick@2x.png"
@@ -1638,28 +1654,27 @@
                   <div class="side-line" [class.last-side-line]="last"></div>
                 </div>
                 <div class="journal-content" [class.border-bott]="last">
-                  <div class="journal-header">
+                  <div class="journal-header h3-strong text-c300">
                     Attendance
                     <div
-                      class="d-flex align-items-center justify-content-end"
-                      style="padding-top:4px;"
+                      class="d-flex align-items-center justify-content-end pt-2"
                     >
-                      <p class="from mb-0">
+                      <p class="from mb-0 body-m text-c100">
                         from {{ journal.sender.preferredName }}
                       </p>
-                      <p class="date float-right mb-0 ml-auto">
+                      <p class="date body-m text-c300 float-right mb-0 ml-auto">
                         {{ journal.updatedDate | timezoneDate }}
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete"
+                        class="journal_delete body-m text-r100"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
                       ></span>
                     </div>
                   </div>
-                  <div class="journal-detail">
+                  <div class="journal-detail body-l text-c300">
                     <p>
                       {{ journal.message }}
                     </p>
@@ -1670,10 +1685,10 @@
                     />
                   </div>
                   <div
-                    class="attendance-time"
+                    class="attendance-time bg-s20"
                     [ngSwitch]="journal.type_detail.attendance"
                   >
-                    <p class="atten-time">
+                    <p class="atten-time body-m text-c100">
                       {{ journal.type_detail.date | utcTime }}
                     </p>
                     <img
@@ -1696,7 +1711,7 @@
               </div>
 
               <div
-                class="row j-load-more"
+                class="row j-load-more body-m text-b100 bg-s0"
                 *ngIf="toShowLoadMore && last"
                 (click)="jLoadMore()"
               >
@@ -1729,8 +1744,8 @@
       <div class="innerFlexiModal">
         <div class="d-flex" style="margin: 20px 20px 0px 32px;">
           <div class="d-flex back" (click)="backtoCustomer()">
-            <i class="fa fa-angle-left flexiBackicon"></i>
-            <p class="mb-0 font-medium ">Add customer</p>
+            <i class="fa fa-angle-left flexiBackicon body-xl text-c200"></i>
+            <p class="mb-0 body-l text-c300 ">Add customer</p>
           </div>
           <button
             (click)="closeModal('close')"
@@ -1774,11 +1789,11 @@
               >Prorated</label
             >
           </div>
-          <p class="defaultLessonCount">
+          <p class="defaultLessonCount body-m text-c100">
             Default lessons count: {{ selectedCourse.defaultlessonCount }}
           </p>
-          <p class="textCount">Number of lessons required:</p>
-          <div class="selectedCountBox">
+          <p class="textCount body-m text-c100">Number of lessons required:</p>
+          <div class="selectedCountBox bg-b25 text-b300 body-m">
             <p class="selectedTest">
               Selected lessons: {{ checkobjArr.length }}
             </p>
@@ -1787,7 +1802,7 @@
         <div class="">
           <button
             type="button"
-            class="btn modal-cancel-btn"
+            class="btn modal-cancel-btn body-l bg-s0 text-c300"
             d-flex
             tab-section
             (click)="closeModal('close')"
@@ -1796,7 +1811,7 @@
           </button>
           <button
             type="submit"
-            class="btn btn-submit"
+            class="btn btn-submit body-l bg-b100 text-s0"
             *ngIf="checkobjArr.length != 0"
             (click)="flexicomfirm(invoiceAlert)"
           >
@@ -1805,7 +1820,7 @@
           <button
             type="submit"
             *ngIf="checkobjArr.length == 0"
-            class="btn btn-submit"
+            class="btn btn-submit body-l bg-b100 text-s0"
             disabled
           >
             Confirm
@@ -1881,12 +1896,12 @@
                   class="bt btn-design btn-outline-secondary btn-right-radius"
                   type="button"
                 >
-                  <i class="fa fa-search search-size"></i>
+                  <i class="fa fa-search search-size h3-strong text-c200"></i>
                 </button>
               </span>
             </div>
           </div>
-          <div *ngIf="noSetting == true" class="seat-taken">
+          <div *ngIf="noSetting == true" class="seat-taken body-m text-r100">
             You should set invoice setting and payment setting first.
           </div>
           <div class="mt-20 mb40 class-group">
@@ -1896,7 +1911,10 @@
                 *ngFor="let course of availableCourses; let i = index"
               >
                 <div class="single-class">
-                  <div class="no-seat" *ngIf="course.seat_left == 0">
+                  <div
+                    class="no-seat small bg-s20 text-c100"
+                    *ngIf="course.seat_left == 0"
+                  >
                     All seat taken
                   </div>
                   <div
@@ -2092,12 +2110,21 @@
           <img src="{{ logo }}" />
         </div>
         <div class="mt-40">
-          <label class="payment-label">Choose payment method</label>
+          <label class="payment-label body-xl text-c300"
+            >Choose payment method</label
+          >
           <div class="d-flex mt-1">
-            <div class="payment-item" *ngFor="let provider of paymentProviders">
+            <div
+              class="payment-item "
+              *ngFor="let provider of paymentProviders"
+            >
               <label
-                [ngClass]="{ selectedItem: selectedPayment == provider.name }"
-                class="form-check-label"
+                [ngClass]="{
+                  'selectedItem text-s0 bg-b100':
+                    selectedPayment == provider.name,
+                  'text-c300 bg-s0': selectedPayment != provider.name
+                }"
+                class="form-check-label body-l"
               >
                 <input
                   class="form-check-input"
@@ -2116,12 +2143,14 @@
           <div>
             <form #paymentForm="ngForm" nonvalidate>
               <div class="mt-30">
-                <label class="payment-label">Reference number</label>
+                <label class="payment-label body-xl text-c300"
+                  >Reference number</label
+                >
                 <div>
                   <input
                     type="text"
                     name="ref"
-                    class="w-75 cash-input"
+                    class="w-75 cash-input text-c75 bg-s20"
                     placeholder="Reference number"
                     [(ngModel)]="paymentItem.refNumber"
                     #refNumber="ngModel"
@@ -2129,15 +2158,15 @@
                 </div>
               </div>
               <div class="mt-30">
-                <label class="payment-label">Amount</label>
+                <label class="payment-label body-xl text-c300">Amount</label>
                 <div class="d-flex popup-input w-75">
-                  <div class="input-sign">
+                  <div class="input-sign light-body-l text-c100">
                     {{ currency.invCurrencySign }}
                   </div>
                   <input
                     type="number"
                     name="amount"
-                    class="w-100 cash-input"
+                    class="w-100 cash-input text-c75 bg-s20"
                     placeholder="0"
                     [(ngModel)]="paymentItem.amount"
                     #amount="ngModel"
@@ -2161,11 +2190,14 @@
         *ngIf="selectedPayment != ''"
         class="modal-footer d-flex justify-content-between payment-footer"
       >
-        <button class="back-inv cursor-on" (click)="backToInvoice()">
-          <i class="fa fa-angle-left"></i><span>Back</span>
+        <button
+          class="back-inv body-l text-c300 cursor-on"
+          (click)="backToInvoice()"
+        >
+          <i class="fa fa-angle-left h3-strong text-c200"></i><span>Back</span>
         </button>
         <button
-          class="btn btn-submit cursor-on"
+          class="btn btn-submit body-l bg-b100 text-s0 cursor-on"
           (click)="payNow(selectedPayment)"
           [disabled]="
             paymentItem.amount == '' ||
@@ -2182,7 +2214,7 @@
   <ng-template #claimModal let-c="close" let-d="dismiss">
     <div class="modal-header d-flex justify-content-between">
       <div>
-        <p class="valid-until">
+        <p class="valid-until body-m text-c100">
           Valid until
           <span
             >{{ currentPassObj.expirationDate.day }}
@@ -2209,7 +2241,7 @@
         <input
           type="search"
           name=""
-          class="form-control course-search-input"
+          class="form-control course-search-input body-l"
           placeholder="Search courses"
           (input)="searchMakeup_input($event.target.value)"
           (keyup.enter)="searchMakeup($event.target.value)"
@@ -2219,7 +2251,10 @@
         <div class="card-columns pd-zero" *ngIf="claimCourses">
           <div class="card" *ngFor="let claim of claimCourses; let i = index">
             <div class="single-class">
-              <div class="no-seat" *ngIf="claim.seat_left == 0">
+              <div
+                class="no-seat small bg-s20 text-c100"
+                *ngIf="claim.seat_left == 0"
+              >
                 All seat taken
               </div>
               <div
@@ -2241,7 +2276,7 @@
                 </h5>
                 <b class="h3-strong text-c300">{{ claim.name }}</b
                 ><br />
-                <label class="makeup-plan">
+                <label class="makeup-plan small text-c100">
                   <span *ngIf="claim.startTime"
                     >{{ claim.startTime.hr | timeFormat }} :
                     {{ claim.startTime.min | timeFormat }}
@@ -2255,9 +2290,11 @@
                   >
                 </label>
               </div>
-              <div class="d-flex flex-column count-wrap w-100">
+              <div class="d-flex flex-column count-wrap w-100 bg-s20">
                 <div class="d-flex justify-content-between">
-                  <p class="valid-until">Pick a date to claim makeup pass</p>
+                  <p class="valid-until body-m text-c100">
+                    Pick a date to claim makeup pass
+                  </p>
                   <div>
                     <img
                       src="./assets/img/chevron-right-s.png"
@@ -2278,8 +2315,11 @@
                   >
                     <label
                       *ngIf="lesson && lesson._id"
-                      [ngClass]="{ selected: isChecked == lesson._id }"
-                      class="form-check-label"
+                      [ngClass]="{
+                        'selected bg-b100 text-s0': isChecked == lesson._id
+                      }"
+                      [ngClass]="{ 'bg-s0': isChecked != lesson._id }"
+                      class="form-check-label light-body-l"
                     >
                       <input
                         class="form-check-input"
@@ -2292,10 +2332,12 @@
                         [checked]="false"
                         (click)="chooseDate(lesson, claim)"
                       />
-                      <p class="xxxdate">
+                      <p class="xxxdate body-m text-c300">
                         {{ lesson.startDate | timelineDate }}
                       </p>
-                      <p class="xxxday">{{ lesson.startDate | timelineDay }}</p>
+                      <p class="xxxday small text-c100">
+                        {{ lesson.startDate | timelineDay }}
+                      </p>
                     </label>
                   </div>
                 </div>
@@ -2303,7 +2345,8 @@
               <div class="row d-flex justify-content-center class-info-footer">
                 <button
                   type="button"
-                  class="btn enroll-button"
+                  class="btn enroll-button body-l"
+                  [ngClass]="{ 'text-c300': checkCourse == claim.courseId }"
                   (click)="enrollPass(claim, currentPassObj.course.courseId)"
                   [disabled]="checkCourse != claim.courseId"
                 >
@@ -2330,15 +2373,14 @@
     <div class="modal-footer invoiceAlert-footer">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
         (click)="cancelInvoiceAlert()"
       >
         No
       </button>
       <button
-        style="background: #1682fb!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-b100 text-s0 body-l"
         (click)="confirmInvoiceAlert()"
       >
         Yes
@@ -2348,22 +2390,28 @@
 
   <ng-template #remainingLessons>
     <div class="d-flex modal-header">
-      <h3 class="student_name">{{ custDetail.user.preferredName }}</h3>
+      <h3 class="body-m text-c100">{{ custDetail.user.preferredName }}</h3>
       <span class="cross_close" (click)="closeModal('')"></span>
     </div>
     <div class="modal-body lessons_body">
       <div class="d-flex flex-column">
-        <h3>Lesson</h3>
-        <p class="pb-0">{{ lessonOfStudent.name }}</p>
+        <h3 class="h1-strong text-c300">Lesson</h3>
+        <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
       </div>
-      <p class="_lessons_left">
+      <p class="_lessons_left body-l text-c300">
         {{ lessonOfStudent.upComingLessonCountOfStudent }}/{{
           lessonOfStudent.lessonsOfStudent.length
         }}
-        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
+        <span
+          class="body-l text-c100"
+          *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+        >
           lessons left
         </span>
-        <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
+        <span
+          class="body-l text-c100"
+          *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
+        >
           lesson left
         </span>
       </p>
@@ -2371,32 +2419,38 @@
         <div
           class="lesson_block"
           [ngClass]="{
-            cancel_block: lesson.cancel == true,
-            absent_block: lesson.attendance == false && lesson.cancel == false,
-            present_block: lesson.attendance == true && lesson.cancel == false,
-            noData_block:
+            'bg-y25': lesson.cancel == true,
+            'bg-r25': lesson.attendance == false && lesson.cancel == false,
+            'bg-g25': lesson.attendance == true && lesson.cancel == false,
+            'bg-s20':
               lesson.attendance == null &&
               lesson.isUpcomingLesson == false &&
               lesson.cancel == false,
-            notAvailable_block:
+            'bg-s0 notAvailable_block':
               lesson.attendance == null &&
               lesson.isUpcomingLesson == true &&
               lesson.cancel == false
           }"
           *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
         >
-          <div class="d-flex inner-header justify-content-between">
+          <div
+            class="d-flex inner-header justify-content-between align-items-center"
+          >
             <p
-              class="mb-0"
+              class="mb-0 h4-strong"
               [ngClass]="{
-                cancel_date: lesson.cancel == true,
-                absent_date:
+                'text-y300': lesson.cancel == true,
+                'text-r300':
                   lesson.attendance == false && lesson.cancel == false,
-                present_date:
+                'text-g300':
                   lesson.attendance == true && lesson.cancel == false,
-                noData_date:
+                'text-c300':
                   lesson.attendance == null &&
                   !lesson.isUpcomingLesson &&
+                  lesson.cancel == false,
+                'text-c100':
+                  lesson.attendance == null &&
+                  lesson.isUpcomingLesson &&
                   lesson.cancel == false
               }"
             >
@@ -2419,30 +2473,23 @@
             ></span>
           </div>
           <div class="d-flex flex-column inner-body">
-            <p
-              class="mb-0"
-              style="color:#CC8800;"
-              *ngIf="lesson.cancel == true"
-            >
+            <p class="mb-0 body-m text-y200" *ngIf="lesson.cancel == true">
               Cancelled
             </p>
             <p
-              class="mb-0"
-              style="color:#006E2E;"
+              class="mb-0 body-m text-g200"
               *ngIf="lesson.attendance == true && lesson.cancel == false"
             >
               Present
             </p>
             <p
-              class="mb-0"
-              style="color:#C73028;"
+              class="mb-0 body-m text-r200"
               *ngIf="lesson.attendance == false && lesson.cancel == false"
             >
               Absent
             </p>
             <p
-              class="mb-0"
-              style="color:#64707D;"
+              class="mb-0 body-m text-c100"
               *ngIf="
                 lesson.attendance == null &&
                 !lesson.isUpcomingLesson &&
@@ -2452,8 +2499,7 @@
               No data
             </p>
             <p
-              class="mb-0"
-              style="color:#B0B1B2;"
+              class="mb-0 body-m text-s70"
               *ngIf="
                 lesson.isUpcomingLesson &&
                 lesson.attendance == null &&
@@ -2463,13 +2509,14 @@
               Not avaliable
             </p>
             <span
+              class="caption"
               [ngClass]="{
-                cancel_text: lesson.cancel == true,
-                absent_text:
+                'text-y100': lesson.cancel == true,
+                'text-r100':
                   lesson.attendance == false && lesson.cancel == false,
-                present_text:
+                'text-g100':
                   lesson.attendance == true && lesson.cancel == false,
-                noData_text: lesson.attendance == null && lesson.cancel == false
+                'text-c75': lesson.attendance == null && lesson.cancel == false
               }"
               *ngIf="
                 !lesson.isUpcomingLesson ||
@@ -2479,7 +2526,7 @@
               >by {{ lesson.teacher?.preferredName }}</span
             >
             <span
-              style="color:#788796;"
+              class="caption text-c75"
               *ngIf="
                 lesson.isUpcomingLesson &&
                 lesson.attendance == null &&
@@ -2495,24 +2542,30 @@
 
   <ng-template #auto_Enroll>
     <h3
-      class="modal-title enroll_title text-c300"
+      class="modal-title enroll_title h3-strong text-c300"
       *ngIf="!tempCourse.autoEnroll"
     >
       Enable automatic enrollment
     </h3>
     <h3
-      class="modal-title enroll_title text-c300"
+      class="modal-title enroll_title h3-strong text-c300"
       *ngIf="tempCourse.autoEnroll"
     >
       Disable automatic enrollment
     </h3>
     <div class="autoEnroll-body">
-      <p *ngIf="!tempCourse.autoEnroll" class="auto_enroll_body">
+      <p
+        *ngIf="!tempCourse.autoEnroll"
+        class="auto_enroll_body light-body-l text-c300"
+      >
         Enabling this will allow automatic assigment of lessons to the student
         once the current payment term ends. This will also generate a new
         invoice if the invoice option is available.
       </p>
-      <p *ngIf="tempCourse.autoEnroll" class="auto_enroll_body">
+      <p
+        *ngIf="tempCourse.autoEnroll"
+        class="auto_enroll_body light-body-l text-c300"
+      >
         Disabling this will cancel the automatic assignment of lessons to the
         student once the current payment term ends. You will still be able to
         assign new lessons manually.
@@ -2521,24 +2574,22 @@
     <div class="modal-footer autoEnroll-footer">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
         (click)="cancelAutoEnroll()"
       >
         Cancel
       </button>
       <button
-        style="background: #1682fb!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-b100 text-s0 body-l"
         (click)="confirmAutoEnroll()"
         *ngIf="!tempCourse.autoEnroll"
       >
         Enable
       </button>
       <button
-        style="background: #1682fb!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-b100 text-s0 body-l"
         (click)="confirmAutoEnroll()"
         *ngIf="tempCourse.autoEnroll"
       >
@@ -2548,36 +2599,34 @@
   </ng-template>
 
   <ng-template #journal_delete>
-    <h3 class="modal-title enroll_title text-c300">
+    <h3 class="modal-title enroll_title h3-strong text-c300">
       Confirm delete?
     </h3>
     <div class="autoEnroll-body">
-      <p>
+      <p class="light-body-l text-c300">
         Are you sure you want to delete? You won’t back it return.
       </p>
     </div>
     <div class="modal-footer autoEnroll-footer">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
         (click)="cancelAutoEnroll()"
       >
         Cancel
       </button>
       <button
         *ngIf="deleteGradeId == null"
-        style="background: #FF3D33!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
         (click)="confirmJournalDelete()"
       >
         Yes
       </button>
       <button
         *ngIf="deleteGradeId != null"
-        style="background: #FF3D33!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
         (click)="deleteGrade()"
       >
         Yes
@@ -2586,26 +2635,25 @@
   </ng-template>
 
   <ng-template #archive_modal>
-    <h3 class="modal-title enroll_title text-c300">
+    <h3 class="modal-title enroll_title h3-strong text-c300">
       Confirm archive?
     </h3>
     <div class="autoEnroll-body">
-      <p>
+      <p class="light-body-l text-c300">
         Are you sure you want to archive?
       </p>
     </div>
     <div class="modal-footer autoEnroll-footer">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
         (click)="cancelAutoEnroll()"
       >
         Cancel
       </button>
       <button
-        style="background: #1682fb!important;"
         type="submit"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn bg-b100 text-s0 body-l"
         (click)="confirmJournalDelete()"
       >
         Yes
@@ -2620,7 +2668,7 @@
 
   <ng-template #pickGradeModal>
     <div class="justify-content-center align-items-center grade-pickup-modal">
-      <p class="grade-change">Change grade for</p>
+      <p class="grade-change small text-c100">Change grade for</p>
       <p class="body-l text-c300">{{ apgName }}</p>
       <div
         *ngFor="let option of gradeOptions"
@@ -2628,15 +2676,15 @@
         (click)="selectAPG(option)"
       >
         <div
-          class="option-point d-flex justify-content-center align-items-center"
+          class="option-point body-m d-flex justify-content-center align-items-center"
           [ngStyle]="{ color: color, background: bgcolor }"
           [ngClass]="option.isSelected ? 'highlight-point' : ''"
         >
           <span>{{ option.point }}</span>
         </div>
         <div
-          class="option-name d-flex align-items-center justify-content-start"
-          [ngClass]="option.isSelected ? 'highlight-name' : ''"
+          class="option-name body-l d-flex align-items-center justify-content-start"
+          [ngClass]="option.isSelected ? 'text-b100' : 'text-c300'"
         >
           <span>{{ option.name }}</span>
         </div>
@@ -2645,11 +2693,16 @@
         <button
           (click)="cancelGradePickUp()"
           style="margin-right: 10px;"
-          class="btn modal-cancel-btn"
+          class="btn modal-cancel-btn body-l bg-s0 text-c300"
         >
           Cancel
         </button>
-        <button class="btn btn-submit" (click)="updateAPG()">Update</button>
+        <button
+          class="btn btn-submit body-l bg-b100 text-s0"
+          (click)="updateAPG()"
+        >
+          Update
+        </button>
       </div>
     </div>
   </ng-template>
