@@ -208,6 +208,9 @@
   .category {
     font-size: 17px;
   }
+  .dropdown-arrow {
+    padding-left: 130px !important;
+  }
 }
 
 .s-flex {
