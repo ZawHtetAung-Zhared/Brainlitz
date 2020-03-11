@@ -256,9 +256,9 @@
   height: 2px;
 }
 .provider-list {
-  color: #2e3d4d;
+  /* color: #2e3d4d; */
   font-family: 'Inter-UI-SemiBold', 'Arial', sans-serif;
-  font-size: 12px;
+  /* font-size: 12px; */
 }
 .online-wrap {
   margin-left: 45px;
@@ -507,7 +507,7 @@ input:checked + .slider:before {
 }
 .general {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3d4d;
+  /* color: #2e3d4d; */
 }
 .card-columns {
   column-count: 2;
@@ -523,11 +523,11 @@ input:checked + .slider:before {
   /*height: 309px;*/
 }
 .title {
-  color: #ffffff;
+  /* color: #ffffff; */
   padding: 1rem;
-  background: #64707d;
+  /* background: #64707d; */
   border-radius: 8px 8px 0px 0px;
-  font-size: 1.15rem;
+  /* font-size: 1.15rem; */
   font-family: 'Inter-UI-Regular', 'Arial', sans-serif;
 }
 .region-info {
@@ -543,17 +543,18 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 .labelTitle {
-  color: #64707d;
+  /* color: #64707d; */
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
-  font-size: 15px;
+  /* font-size: 15px; */
   padding-top: 6px;
   width: 70%;
+  line-height: 22px;
 }
 .labelName,
 .sectionTitle {
-  color: #2e3e4d;
+  /* color: #2e3e4d; */
   font-family: 'Inter-UI-SemiBold', 'Arial', sans-serif;
-  font-size: 16px;
+  /* font-size: 16px; */
   margin-bottom: 0;
   font-weight: 900;
   word-break: break-word;
@@ -595,7 +596,7 @@ input:checked + .slider:before {
   text-align: center;
   width: 30px;
   height: 30px;
-  background: #edeff0;
+  /* background: #edeff0; */
   border-radius: 50%;
   margin-right: 15px;
 }

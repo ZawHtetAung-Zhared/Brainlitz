@@ -417,7 +417,7 @@ export class TimetableComponent implements OnInit {
   getTimetables(list, start, end) {
     this._service.getTimetableList(list, start, end).subscribe(
       (res: any) => {
-        this.timetablelist = res.data;
+        this.timetablelist = res;
         console.log('timetable list', this.timetablelist);
         // var startOfWeek = moment().startOf('week').toDate();
         // var endOfWeek = moment().endOf('week').toDate();
