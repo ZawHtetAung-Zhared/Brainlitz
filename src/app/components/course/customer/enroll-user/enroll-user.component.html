@@ -93,8 +93,8 @@
                 >
                   <h4>
                     {{
-                      user.email.length > 20
-                        ? (user.email | slice: 0:20) + '...'
+                      user.email.length > 12
+                        ? (user.email | slice: 0:12) + '...'
                         : user.email
                     }}
                   </h4>
@@ -334,8 +334,8 @@
               >
                 <h4>
                   {{
-                    user.preferredName.length > 20
-                      ? (user.preferredName | slice: 0:20) + '...'
+                    user.preferredName.length > 12
+                      ? (user.preferredName | slice: 0:12) + '...'
                       : user.preferredName
                   }}
                 </h4>
@@ -346,8 +346,8 @@
               >
                 <h4>
                   {{
-                    user.email.length > 20
-                      ? (user.email | slice: 0:20) + '...'
+                    user.email.length > 12
+                      ? (user.email | slice: 0:12) + '...'
                       : user.email
                   }}
                 </h4>

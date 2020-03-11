@@ -19,8 +19,8 @@
 
 h3,
 h5 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3d4d;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  color: #2e3d4d; */
   word-wrap: break-word;
 }
 
@@ -37,9 +37,9 @@ h5 {
 }
 
 .location-name {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif; */
   position: relative;
-  font-size: 12px;
+  /* font-size: 12px; */
   margin-left: 5px;
   margin-bottom: 0;
   border-radius: 25px;
@@ -105,16 +105,16 @@ h5 {
 }
 
 .input-recommend {
-  font-size: 14px;
+  /* font-size: 14px;
   color: #64707d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   padding-top: 15px;
 }
 
 .search-size {
   font-size: 20px;
   padding-right: 10px;
-  vertical-align: middle;
+  line-height: 20px;
 }
 
 .user-group {
@@ -173,25 +173,26 @@ h5 {
 }
 
 .info-mail {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;
-  font-size: 14px;
+  font-size: 14px; */
   word-wrap: break-word;
   margin-bottom: 0;
 }
 
 .info-about {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #2e3d4d;
-  font-size: 14px;
+  font-size: 14px; */
   word-wrap: break-word;
   margin-bottom: 0 !important;
 }
 
 .staff-label {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #64707d;
-  font-size: 12px;
+
+  font-size: 12px; */
   margin-bottom: 0 !important;
 }
 

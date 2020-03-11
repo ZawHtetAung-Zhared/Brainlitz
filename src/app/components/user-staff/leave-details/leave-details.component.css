@@ -26,11 +26,11 @@
 }
 
 .add-leave {
-  background: #007fff !important;
+  /* background: #007fff !important;
   color: #fff !important;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 16px;
-  font-weight: unset;
+  font-size: 16px; */
+  /* font-weight: unset; */
   letter-spacing: 0.5px;
   cursor: pointer;
 }
@@ -121,9 +121,9 @@
   padding: 3px 8px 3px 8px;
   border-radius: 11px;
   margin-left: 12px;
-  color: #64707d;
+  /* color: #64707d;
   font-size: 12px;
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif; */
 }
 .leave-date {
   font-size: 16px;
@@ -137,9 +137,9 @@
 }
 
 .leave-reason {
-  font-size: 14px;
+  /* font-size: 14px;
   color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif; */
   word-break: break-all;
 }
 .cancel-class-wrapper {
@@ -167,13 +167,13 @@
 }
 .cancel-class-title {
   font-size: 28px;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
+  /* color: #2e3d4d;
+  font-family: 'Inter-UI-Bold', Arial, sans-serif; */
 }
 .leave-class-title {
   font-size: 28px;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  /* color: #2e3d4d;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   padding-top: 32px;
   /* margin-right: 241px; */
 }
@@ -206,9 +206,9 @@
   background: #f2f4f5;
   border-radius: 15px;
   margin-right: 12px;
-  font-size: 14px;
+  /* font-size: 14px;
   color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
 }
 .classes-info-block {
   border-bottom: 1px solid #edeff0;
@@ -230,21 +230,21 @@
   color: #64707d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
-.cancel-class-name {
+/* .cancel-class-name {
   font-size: 14px;
   color: #64707d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
+} */
 .makeup-text {
-  font-size: 18px;
+  /* font-size: 18px;
   color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   margin-bottom: 24px;
 }
 .reason-title {
-  color: #64707d;
+  /* color: #64707d;
   font-size: 16px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   margin-bottom: 16px;
 }
 .reason-text {
@@ -597,9 +597,9 @@ min-width: 40px;
   /* -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3); */
   background-color: #ffffff;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
+  /* font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   font-size: 16px;
-  color: #2e3d4d;
+  color: #2e3d4d; */
   cursor: pointer;
   box-shadow: unset;
 }
@@ -626,9 +626,9 @@ min-width: 40px;
   padding: 0;
 }
 .leave-list-name {
-  color: #2e3d4d;
+  /* color: #2e3d4d;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 16px;
+  font-size: 16px; */
 }
 .check-leave-name {
   color: #007fff;
@@ -694,11 +694,11 @@ li.date-type-list-name {
 }
 
 .leave-day-title {
-  color: #2e3d4d;
+  /* color: #2e3d4d;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 18px; */
   line-height: 22px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   margin-bottom: 15px;
   padding: 20px 20px 0 20px;
 }
@@ -769,9 +769,9 @@ span.notAffectedYet {
 }
 
 .staffname {
-  color: #64707d;
+  /* color: #64707d;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 600; */
   text-align: center;
   /*margin-right: 49px;*/
 }
@@ -789,8 +789,8 @@ span.notAffectedYet {
   height: 84px;
   border-bottom: solid 1px #788796;
   background: #788796;
-  color: #ffff;
-  font-weight: bold;
+  /* color: #ffff; */
+  /* font-weight: bold; */
   text-align: center;
   padding: 20px;
   /* font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
@@ -848,8 +848,8 @@ span.txt-lessouns-count {
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  background-color: #1682fb;
-  color: #ffffff;
+  /* background-color: #1682fb;
+  color: #ffffff; */
 }
 
 .leave-day-list {
@@ -893,7 +893,7 @@ p.left-txt {
   padding: 20px;
 }
 
-.header-btns,
+/* .header-btns,
 .bold-span,
 .lesson-date,
 .lesson-name,
@@ -909,27 +909,27 @@ p.left-txt {
 .user-info,
 .lInfo {
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
+} */
 
-.lesson-btns,
+/* .lesson-btns,
 .cInfo,
 .lType,
 .date-wrap,
 .lesson-time {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
+} */
 
 .user-info {
   font-size: 16px;
   color: #64707d;
 }
 
-.header-btns,
+/* .header-btns,
 .lesson-time,
 .header-undo {
   font-size: 12px;
   color: #64707d;
-}
+} */
 
 .lessons-table {
   border: 1px solid #edeff0;
@@ -1092,7 +1092,7 @@ p.left-txt {
 
 .assignmodal-title {
   font-size: 28px;
-  color: #2e3d4d;
+  /* color: #2e3d4d; */
 }
 .data-scroll {
   overflow: auto;
@@ -1102,8 +1102,8 @@ p.left-txt {
   background: #cce5ff;
   border-radius: 50px;
   padding: 2px 10px;
-  color: #004080;
-  font-size: 14px;
+  /* color: #004080;
+  font-size: 14px; */
   line-height: 1.8;
 }
 
@@ -1174,8 +1174,8 @@ p.left-txt {
 .result-name {
   line-height: 3;
   padding-left: 15px;
-  color: #2e3e4d;
-  font-size: 18px;
+  /* color: #2e3e4d;
+  font-size: 18px; */
 }
 
 .tooltip {
@@ -1224,10 +1224,10 @@ p.left-txt {
   justify-content: space-between;
 }
 
-.selected-name {
+/* .selected-name {
   color: #2e3d4d;
   font-size: 16px;
-}
+} */
 
 .lh-3 {
   line-height: 3;
@@ -1371,11 +1371,11 @@ p.left-txt {
 }
 
 .conflict-text {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  line-height: 19px;
+  line-height: 19px; */
   color: #e66000;
   padding-left: 5px;
 }
