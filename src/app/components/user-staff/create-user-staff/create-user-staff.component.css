@@ -62,12 +62,13 @@ h5 {
 
 .left-arrow {
   font-size: 25px;
+  line-height: 26px;
 }
 
 .back-staff-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
   color: #2e3d4d;
-  font-size: 16px;
+  font-size: 16px; */
   margin: 0;
   padding: 2px 5px;
 }
@@ -145,9 +146,9 @@ h5 {
 }
 
 .label-txt {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
+  /* font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
   color: #2e3d4d;
-  font-size: 18px;
+  font-size: 18px; */
   padding-bottom: 16px;
   margin-right: 5px;
 }
@@ -161,9 +162,9 @@ h5 {
 .limit-wordcount1,
 .limit-wordcount2 {
   display: none;
-  font-size: 14px;
+  /* font-size: 14px;
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
-  color: #0080ff;
+  color: #0080ff; */
   position: absolute;
   right: 0;
 }
@@ -257,7 +258,7 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
-  border: 2px solid #64707d;
+  border: 2px solid #7a8a99;
 }
 
 .slider.round:before {
@@ -363,7 +364,7 @@ input:checked + .slider:before {
 }
 
 .radio-bg-active {
-  background: #007fff;
+  background: #0065f2;
 }
 .radio-bg-active .permission-box {
   color: #fff !important;
@@ -463,9 +464,9 @@ span.capitalize {
 }
 
 .profile-box p {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
-  font-size: 16px;
+  font-size: 16px; */
   position: absolute;
   bottom: 0;
   left: 0;
@@ -510,9 +511,9 @@ span.capitalize {
   text-align: center;
 }
 .sent-randon-psw {
-  color: #007fff;
+  /* color: #007fff;
   font-size: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif !important; */
   cursor: pointer;
 }
 
@@ -524,12 +525,13 @@ span.capitalize {
 }
 
 .mr-button {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 0px !important;
 }
 
 .crop-box {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   padding: 5px 0 5px 0;
 }
 

@@ -1,31 +1,43 @@
 <app-header class="hide"></app-header>
 
 <div class="sticky-back-user" [ngClass]="{ 'sticky-bar': isCreateFix == true }">
-  <button type="button" class="back-button display-flex" (click)="back()">
+  <button
+    type="button"
+    class="back-button display-flex align-items-center"
+    (click)="back()"
+  >
     <i class="fa fa-angle-left left-arrow"></i>
-    <p class="back-staff-txt">Staff</p>
+    <p class="back-staff-txt text-c300 body-l">Staff</p>
   </button>
 </div>
 
 <div class="d-flex justify-content-center">
   <div class="inner-wrapper-detail">
-    <button type="button" class="back-button display-flex" (click)="back()">
+    <button
+      type="button"
+      class="back-button display-flex align-items-center"
+      (click)="back()"
+    >
       <i class="fa fa-angle-left left-arrow"></i>
-      <p class="back-staff-txt">Staff</p>
+      <p class="back-staff-txt text-c300 body-l">Staff</p>
     </button>
     <div class="col-md-12 p-0 mr-bt-top">
-      <h3 *ngIf="isupdate == false">Create staff account</h3>
-      <h3 *ngIf="isupdate == true">Update staff account</h3>
+      <h3 *ngIf="isupdate == false" class="h3-strong text-c300">
+        Create staff account
+      </h3>
+      <h3 *ngIf="isupdate == true" class="h3-strong text-c300">
+        Update staff account
+      </h3>
     </div>
     <form class="form-wrap" novalidate #createForm="ngForm">
       <div class="row display-flex">
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="" class="label-txt">
+              <label for="" class="label-txt h3-strong text-c300">
                 Display name
               </label>
-              <div class="limit-wordcount">
+              <div class="limit-wordcount body-m text-b100">
                 <span>{{ wordLength }}/15characters</span>
               </div>
             </div>
@@ -56,8 +68,10 @@
           </div>
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="firstname" class="label-txt">Full name</label>
-              <div class="limit-wordcount2">
+              <label for="firstname" class="label-txt h3-strong text-c300"
+                >Full name</label
+              >
+              <div class="limit-wordcount body-m text-b100">
                 <span>{{ wordLength }}/60characters</span>
               </div>
             </div>
@@ -84,7 +98,9 @@
             </div>
           </div>
           <div class="form-group form-divider">
-            <label for="" class="label-txt">Email address</label>
+            <label for="" class="label-txt h3-strong text-c300"
+              >Email address</label
+            >
             <input
               type="email"
               class="form-control"
@@ -110,7 +126,9 @@
           </div>
           <div *ngIf="isupdate" class="form-group form-divider">
             <div class="d-flex flex-row">
-              <label for="" class="label-txt">Change password</label>
+              <label for="" class="label-txt h3-strong text-c300"
+                >Change password</label
+              >
               <div class="toggle-wrap">
                 <label class="switch">
                   <input
@@ -145,8 +163,10 @@
 
           <div class="form-group form-divider">
             <div class="d-flex justify-content-between">
-              <label for="about" class="label-txt">About</label>
-              <div class="limit-wordcount1">
+              <label for="about" class="label-txt h3-strong text-c300"
+                >About</label
+              >
+              <div class="limit-wordcount body-m text-b100">
                 <span>{{ wordLength }}/280characters</span>
               </div>
             </div>
@@ -168,7 +188,9 @@
             class="form-group form-divider"
             *ngFor="let field of customFields; let i = index"
           >
-            <label for="guardmail" class="label-txt">{{ field.name }}</label>
+            <label for="guardmail" class="label-txt h3-strong text-c300">{{
+              field.name
+            }}</label>
             <div *ngIf="field.controlType == 'Textarea'">
               <input
                 *ngIf="field.dataType == 'Number'"
@@ -276,7 +298,9 @@
               class="form-group"
               ngFor="let user of permissionLists"
             >
-              <label class="label-txt radio" style="padding-bottom: 10px"
+              <label
+                class="label-txt radio h3-strong text-c300"
+                style="padding-bottom: 10px"
                 >Permission as</label
               >
               <div class="d-flex flex-wrap">
@@ -291,7 +315,7 @@
                       'radio-bg-active': formFields.permission == user._id
                     }"
                   >
-                    <div class="permission-box permission-name">
+                    <div class="permission-box light-body-m text-c300">
                       <input
                         type="radio"
                         id="{{ user._id }}"
@@ -317,7 +341,7 @@
           style="display: block;"
         >
           <label for="upload">
-            <div *ngIf="!imgDemoSlider" class="profile-box label-txt">
+            <div *ngIf="!imgDemoSlider" class="profile-box body-l text-c300">
               <div class="form-group">
                 <label for="upload" class="profile-label">Profile</label><br />
                 <div class="circular-wrap">
@@ -348,7 +372,7 @@
                     </div>
                   </div>
                 </div>
-                <p>Update photo</p>
+                <p class="text-b100">Update photo</p>
               </div>
             </div>
           </label>
@@ -358,13 +382,13 @@
             </div>
             <div class="row mr-button">
               <div
-                class="col-md-6 crop-box"
+                class="col-md-6 crop-box bg-s20"
                 style="border-bottom-left-radius: 10px;"
               >
                 <div class="br-right">
                   <button
                     *ngIf="blankCrop"
-                    class="upload-result btn1"
+                    class=" text-c200"
                     (click)="backToUpload()"
                   >
                     Cancel
@@ -372,12 +396,12 @@
                 </div>
               </div>
               <div
-                class="col-md-6 crop-box"
+                class="col-md-6 crop-box bg-s20"
                 style="border-bottom-right-radius: 10px;"
               >
                 <button
                   *ngIf="blankCrop"
-                  class="upload-result btn2"
+                  class="text-b100"
                   id="sizeDisable"
                   (click)="cropResult()"
                   [value]="blankCrop"
@@ -388,7 +412,10 @@
             </div>
           </div>
           <div *ngIf="!imgDemoSlider && isupdate == true" class="pwd-container">
-            <span class="sent-randon-psw" (click)="setRandomPwd()">
+            <span
+              class="sent-randon-psw body-l text-b100"
+              (click)="setRandomPwd()"
+            >
               Send random password
             </span>
           </div>
