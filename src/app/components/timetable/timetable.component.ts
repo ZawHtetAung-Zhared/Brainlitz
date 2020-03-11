@@ -2224,7 +2224,7 @@ export class TimetableComponent implements OnInit {
   }
 
   createPlan() {
-    if (this.testCategory == 'all') {
+    if (this.isAll) {
       this.isCategory = true;
       this.isPlan = false;
     } else {
@@ -2300,7 +2300,11 @@ export class TimetableComponent implements OnInit {
     }
     // console.log("scheduleObj",this.scheduleObj);
   }
+
+  public isAll = true;
   CategorySelected(name, id, all) {
     console.log('caught', name, ' ~ ', id, ' ~ ', all);
+    this.item.itemID = name;
+    this.isAll = all;
   }
 }
