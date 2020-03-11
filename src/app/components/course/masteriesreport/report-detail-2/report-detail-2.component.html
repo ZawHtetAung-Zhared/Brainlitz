@@ -28,7 +28,7 @@
         <!-- loop start -->
         <div
           *ngFor="
-            let challenge of challengeData.masteries;
+            let challenge of challengeData.challengingMasteries;
             let i = index;
             let lastcall = last
           "
@@ -92,6 +92,16 @@
       </div>
     </div>
     <!-- loading end -->
+  </div>
+
+  <div class="white-bg">
+    <div class="inner-wrapper w-100">
+      <div
+        id="mastery_detail"
+        class="pt-4"
+        style="width:100%; min-height: 200px;"
+      ></div>
+    </div>
   </div>
 
   <div class="footer white-gb d-flex justify-content-center align-items-center">
