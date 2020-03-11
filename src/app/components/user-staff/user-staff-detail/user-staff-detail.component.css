@@ -127,7 +127,7 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
-  border: 2px solid #64707d;
+  border: 2px solid #7a8a99;
 }
 
 .slider.round:before {
@@ -135,12 +135,12 @@ input:checked + .slider:before {
 }
 .checked-slider {
   background: #cce5ff;
-  border: 2px solid #0080ff !important;
+  border: 2px solid #0065f2 !important;
 }
 
 .checked-slider::before {
   transform: translateX(13px);
-  background: #0080ff;
+  background: #0065f2;
   content: '';
   background-image: url(/assets/img/tick.png);
   background-repeat: no-repeat;
@@ -149,14 +149,14 @@ input:checked + .slider:before {
 }
 
 .auto-enroll {
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   border-radius: 25px !important;
   min-width: 156px;
   margin-right: 14px;
 }
 
 .autoEnrollTrue {
-  background: #cce5ff;
+  background: #d9ecff;
 }
 
 .toggle-wrap {
@@ -197,7 +197,7 @@ input:checked + .slider:before {
   margin: 0px !important;
 }
 .profile-right {
-  background: #f7f9fa;
+  /* background: #f7f9fa; */
   min-height: 75vh;
   padding-left: 0px;
   padding-right: 0px;

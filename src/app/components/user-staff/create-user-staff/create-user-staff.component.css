@@ -258,7 +258,7 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
-  border: 2px solid #64707d;
+  border: 2px solid #7a8a99;
 }
 
 .slider.round:before {
@@ -364,7 +364,7 @@ input:checked + .slider:before {
 }
 
 .radio-bg-active {
-  background: #007fff;
+  background: #0065f2;
 }
 .radio-bg-active .permission-box {
   color: #fff !important;
@@ -525,8 +525,9 @@ span.capitalize {
 }
 
 .mr-button {
-  padding-left: 5px;
-  padding-right: 5px;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 0px !important;
 }
 
 .crop-box {
