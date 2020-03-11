@@ -1,11 +1,11 @@
 <div class="customer-tab pt-3">
   <div class="teacher-section">
     <div class="d-flex justify-content-between user-header">
-      <h2 class="title-heading">Teachers</h2>
+      <h2 class="h3-strong text-c300">Teachers</h2>
       <button
         *ngIf="courseDemo.assignTeacher != ''"
         type="button"
-        class="btn btn-create body-m"
+        class="btn btn-create text-s0 bg-b100 body-m"
         (click)="
           addUserModal('teacher', userModal, 'inside', '', detailLists.type)
         "
@@ -45,14 +45,14 @@
           <div
             class="single-user-info d-flex flex-wrap flex-column justify-content-center"
           >
-            <p>{{ user.userType }}</p>
-            <h4>
+            <p class="light-body-m text-c200">{{ user.userType }}</p>
+            <p class="text-c300 body-xl">
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </h4>
+            </p>
           </div>
         </div>
       </div>
@@ -60,11 +60,11 @@
   </div>
   <div class="teacher-section">
     <div class="d-flex justify-content-between user-header">
-      <h2 class="title-heading">Assistant teachers</h2>
+      <h2 class="h3-strong text-c300">Assistant teachers</h2>
       <button
         *ngIf="courseDemo.assignTeacher != ''"
         type="button"
-        class="btn btn-create body-m"
+        class="btn btn-create text-s0 bg-b100 body-m"
         (click)="
           addUserModal('staff', userModal, 'inside', '', detailLists.type)
         "
@@ -129,16 +129,16 @@
             <img src="{{ user.profilePic }}" />
           </div>
           <div
-            class="single-user-info d-flex flex-column justify-content-center"
+            class="single-user-info d-flex flex-column justify-content-center "
           >
-            <p>{{ user.userType }}</p>
-            <h4 *ngIf="user.preferredName">
+            <p class="text-c100 light-body-l">{{ user.userType }}</p>
+            <p *ngIf="user.preferredName" class="text-c300 body-l">
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </h4>
+            </p>
           </div>
           <div class="ml-auto remover-wrap">
             <div
@@ -174,7 +174,7 @@
           <p>0/unlimited Customer</p>
         </div>
         <div class="d-flex" *ngIf="pplLists?.CUSTOMER?.length > 0">
-          <p class="seat-text-wrapper body-l">
+          <p class="light-body-l text-c100">
             Total:
             <span *ngIf="detailLists?.seat_left !== null">
               {{ pplLists?.CUSTOMER?.length }}/{{
@@ -326,32 +326,33 @@
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <h4
+            <p
+              class="text-c300 body-l"
               *ngIf="user.preferredName"
               (click)="onClickCustomer(user.userId)"
-              class="clickable-user"
+              class="clickable-user text-c300 body-l"
             >
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </h4>
+            </p>
           </div>
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <h4
+            <p
               *ngIf="user.preferredName == ''"
               (click)="onClickCustomer(user.userId)"
-              class="clickable-user"
+              class="clickable-user text-c300 body-l"
             >
               {{
                 user.email.length > 20
                   ? (user.email | slice: 0:20) + '...'
                   : user.email
               }}
-            </h4>
+            </p>
           </div>
           <div class="ml-auto remover-wrap">
             <span
@@ -364,7 +365,7 @@
             id="user.userId"
             [ngStyle]="{ top: yPosition + 'px' }"
             *ngIf="optionBox == true && xxxhello == user.userId"
-            class="options-box"
+            class="options-box body-l bg-s0 text-c300"
           >
             <div class="carret-box"></div>
             <li (click)="showTabsModal(tabsModal, 'makeup', user)">
@@ -375,7 +376,7 @@
               (click)="showTabsModal(tabsModal, 'invoice', user)"
               class="view-li"
             >
-              <button class="cursor-on">
+              <button class="cursor-on body-l text-c300">
                 View invoice
               </button>
             </li>
@@ -410,9 +411,11 @@
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <h4>{{ singleUserData.preferredName }}</h4>
-            <p *ngIf="singleUserData.email">{{ singleUserData.email }}</p>
-            <p *ngIf="!singleUserData.email">-</p>
+            <p class="text-c300 body-l">{{ singleUserData.preferredName }}</p>
+            <p *ngIf="singleUserData.email" class="text-c100 small">
+              {{ singleUserData.email }}
+            </p>
+            <p *ngIf="!singleUserData.email" class="text-c300 body-l">-</p>
           </div>
         </div>
         <div class="custom-close-button" (click)="cancelInvoiceModal()"></div>
@@ -420,14 +423,14 @@
       <div class="d-flex tab-section">
         <button
           [ngClass]="{ active: activeUserTab == 'makeup' }"
-          class="btn course-tab active"
+          class="btn course-tab active body-l text-c300"
           (click)="clickTab('makeup', 'user')"
         >
           Issue makeup
         </button>
         <button
           [ngClass]="{ active: activeUserTab == 'invoice' }"
-          class="btn course-tab active"
+          class="btn course-tab active body-l text-c300"
           (click)="clickTab('invoice', 'user')"
           [disabled]="singleUserData.invoice == null"
         >
@@ -450,10 +453,10 @@
         <div class="modal-body">
           <div class="col-md-12 input-wrap">
             <div class="form-group">
-              <label for="name" class="input-label">Name</label>
+              <label for="name" class="body-l text-c300" mb-0>Name</label>
               <input
                 type="text"
-                class="form-control create-input"
+                class="form-control create-input text-c100 light-body-l"
                 placeholder="Type makeup pass name here"
                 name="name"
                 [(ngModel)]="makeupForm.name"
@@ -462,9 +465,9 @@
               />
             </div>
             <div class="form-group">
-              <label for="reason" class="input-label">Reason</label>
+              <label for="reason" class="body-l text-c300">Reason</label>
               <textarea
-                class="form-control create-input"
+                class="form-control create-input text-c100 light-body-l"
                 rows="4"
                 placeholder="Got any reasons?"
                 name="reason"
@@ -478,14 +481,14 @@
         <div class="modal-footer fixed-bottom">
           <button
             type="button"
-            class="btn modal-cancel-btn"
+            class="btn modal-cancel-btn body-l text-c300"
             (click)="cancelInvoiceModal()"
           >
             Cancel
           </button>
           <button
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit body-l text-s0 bg-b100"
             [disabled]="!makeupF.valid"
             (click)="issuePass(makeupForm, singleUserData.userId)"
           >
@@ -498,23 +501,25 @@
         class="d-flex flex-column makeup-sidebar"
         style="width:50%;"
       >
-        <h1 class="release-text container">Released makeup passes</h1>
+        <h1 class="release-text container body-xl text-c300">
+          Released makeup passes
+        </h1>
         <div class="" *ngFor="let makeup of makeupLists">
           <!--for valid start-->
           <div class="col-md-12 av-block claimed-height">
             <!-- [ngClass]="{'claimed-height': makeup.passType === 'claimed'}" -->
             <div class="single-makeup claimed-height">
               <div
-                class="makeup-head"
+                class="makeup-head bg-b25 "
                 [ngClass]="{
                   'claimed-header': makeup.passType === 'claimed',
                   'expired-header': makeup.passType === 'expired'
                 }"
               >
-                <p>
+                <p class="light-body-m text-b300 ">
                   <span *ngIf="makeup.passType === 'available'">
                     Valid until
-                    <span class="valid-date"
+                    <span class=" body-m"
                       >{{ makeup.expirationDate.day }}
                       {{ makeup.expirationDate.month - 1 | TTmonth }}
                       {{ makeup.expirationDate.year }}</span
@@ -535,19 +540,22 @@
                 </p>
               </div>
               <div class="makeup-body">
-                <h5 class="makeup-title">{{ makeup.name }}</h5>
-                <p class="makeup-desc">{{ makeup.reason }}</p>
-                <div class="makeup-box">
-                  <p>
+                <h5 class="makeup-title body-l text-c300">{{ makeup.name }}</h5>
+                <p class="body-m text-c100">{{ makeup.reason }}</p>
+                <div class="makeup-box bg-s20">
+                  <p class="small text-c100">
                     Issued on {{ makeup.issueDate.day }}
                     {{ makeup.issueDate.month - 1 | TTmonth }}
                     {{ makeup.issueDate.year }}
                   </p>
-                  <div class="issue-box d-flex flex-column">
-                    <strong class="makeup-course-name"
+                  <div class="issue-box d-flex flex-column bg-s0">
+                    <span class="makeup-course-name small text-c300"
                       >{{ makeup.course.name }}
-                    </strong>
-                    <label *ngIf="makeup.course.type !== 'ONLINE'">
+                    </span>
+                    <label
+                      *ngIf="makeup.course.type !== 'ONLINE'"
+                      class="small text-c100"
+                    >
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}
@@ -568,10 +576,13 @@
                       {{ makeup.claimedDateFor.year }}
                     </p>
                     <div class="issue-box d-flex flex-column">
-                      <strong class="makeup-course-name">{{
+                      <span class="makeup-course-name small text-c300">{{
                         makeup.makeupCourse.name
-                      }}</strong>
-                      <label *ngIf="makeup.course.type !== 'ONLINE'">
+                      }}</span>
+                      <label
+                        *ngIf="makeup.course.type !== 'ONLINE'"
+                        class="small text-c100"
+                      >
                         <span
                           >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
                           {{ makeup.makeupCourse.startTime.min | timeFormat }}
@@ -878,25 +889,25 @@
   </ng-template>
   <ng-template #deleteModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-      <h3 class="modal-title">Withdraw user?</h3>
+      <h3 class="modal-title body-xl text-c300">Withdraw user?</h3>
     </div>
-    <div class="modal-body confirm-text">
-      <p>
+    <div class="modal-body">
+      <p class="text-c100 light-body-l">
         Are You sure you want to remove
-        <span class="target">"{{ removeUser }}"</span> from this course?
+        <span class="text-r100">"{{ removeUser }}"</span> from this course?
       </p>
     </div>
     <div class="modal-footer">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn text-c300 bg-s0"
         (click)="cancelModal('Close click')"
       >
         Cancel
       </button>
       <button
         type="button"
-        class="btn modal-delete-btn"
+        class="btn modal-delete-btn body-l text-c300 bg-b100 text-s0"
         (click)="withdrawUser(deleteId)"
       >
         Withdraw
@@ -905,13 +916,19 @@
   </ng-template>
   <ng-template #userModal let-c="close" let-d="dismiss">
     <div class="d-flex modal-header">
-      <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">
+      <h3 *ngIf="userType == 'staff'" class="body-xl d-flex mr-auto text-c300">
         Add teacher
       </h3>
-      <h3 *ngIf="userType == 'customer'" class="modal-title d-flex mr-auto">
+      <h3
+        *ngIf="userType == 'customer'"
+        class="body-xl text-c300 d-flex mr-auto"
+      >
         Add customer
       </h3>
-      <h3 *ngIf="userType == 'teacher'" class="modal-title d-flex mr-auto">
+      <h3
+        *ngIf="userType == 'teacher'"
+        class="body-xl text-c300  d-flex mr-auto "
+      >
         Change teacher
       </h3>
       <button
@@ -1028,11 +1045,11 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>
+                  <p class="body-l text-c300">
                     {{
                       user.preferredName == '' ? user.email : user.preferredName
                     }}
-                  </h4>
+                  </p>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
@@ -1058,7 +1075,7 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>{{ user.preferredName }}</h4>
+                  <p class="text-c300 body-l">{{ user.preferredName }}</p>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>
@@ -1086,7 +1103,7 @@
                   <div
                     class="single-user-info d-flex flex-column justify-content-center"
                   >
-                    <h4>{{ user.preferredName }}</h4>
+                    <p class="text-c300 body-l">{{ user.preferredName }}</p>
                   </div>
                   <div class="ml-auto remover-wrap">
                     <div
@@ -1114,7 +1131,7 @@
                   <div
                     class="single-user-info d-flex flex-column justify-content-center"
                   >
-                    <h4>{{ teacher.preferredName }}</h4>
+                    <p class="text-c300 body-l">{{ teacher.preferredName }}</p>
                   </div>
                 </div>
               </div>
@@ -1197,7 +1214,7 @@
       "
     >
       <div class="d-flex modal-header">
-        <h3 class="modal-title d-flex mr-auto">Add customer</h3>
+        <h3 class="d-flex mr-auto">Add customer</h3>
         <button
           (click)="cancelModal()"
           aria-label="Close"
@@ -1305,11 +1322,11 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>
+                  <p class="text-c300 body-l">
                     {{
                       user.preferredName == '' ? user.email : user.preferredName
                     }}
-                  </h4>
+                  </p>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div class="add-user d-flex justify-content-end"></div>

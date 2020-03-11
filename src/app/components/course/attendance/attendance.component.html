@@ -34,8 +34,10 @@
             "
             (click)="checkAttendance(timeline.startDate, timeline, cancelUI, i)"
           >
-            <b>{{ timeline.startDate | timelineDate }} </b>
-            <p>
+            <b class="body-m text-c300"
+              >{{ timeline.startDate | timelineDate }}
+            </b>
+            <p class="small text-c100 mb-0">
               {{ timeline.startDate | timelineDay }}
               <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
               <span
@@ -54,8 +56,10 @@
           (click)="checkAttendance(timeline.startDate, timeline, cancelUI, i)"
         >
           <div>
-            <b>{{ timeline.startDate | timelineDate }}</b>
-            <p>
+            <b class="body-m text-c300">{{
+              timeline.startDate | timelineDate
+            }}</b>
+            <p class="small text-c100 mb-0">
               {{ timeline.startDate | timelineDay }}
               <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
               <span
@@ -74,8 +78,10 @@
             "
             (click)="checkAttendance(timeline.startDate, timeline, cancelUI, i)"
           >
-            <b>{{ timeline.startDate | timelineDate }}</b>
-            <p>
+            <b class="body-m text-c300">{{
+              timeline.startDate | timelineDate
+            }}</b>
+            <p class="small text-c100 mb-0">
               {{ timeline.startDate | timelineDay }}
               <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
               <span
@@ -106,8 +112,10 @@
     <div *ngIf="!isRescheduleLesson && !isNewLesson">
       <div class="d-flex justify-content-between">
         <div class="d-flex flex-column">
-          <span class="selected_date">{{ LASD | utcDateAndDay }}</span>
-          <div class="d-flex lesson-time" style="margin-bottom:15px">
+          <span class="selected_date h3-strong text-c300">{{
+            LASD | utcDateAndDay
+          }}</span>
+          <div class="d-flex  light-body-l" style="margin-bottom:15px">
             <span>
               {{ selectedLesson?.startDate | utcTime }} -
               {{ selectedLesson?.endDate | utcTime }}
@@ -116,7 +124,7 @@
           <!--  *ngIf="showCancelButton == true" -->
           <div class="d-flex">
             <button
-              class="d-flex btn assign_relief_button align-items-center"
+              class="d-flex btn assign_relief_button align-items-center body-m text-c100 bg-s0"
               *ngIf="disableCancel == false && reliefTeacher == null"
               (click)="onClickAssignRelief(reliefModal, selectedLesson)"
               [disabled]="disableCancel == true"
@@ -128,7 +136,7 @@
               >Assign relief teacher
             </button>
             <button
-              class="d-flex btn reschedule_button align-items-center"
+              class="d-flex btn reschedule_button align-items-center body-m text-c100 bg-s0"
               *ngIf="disableCancel == false && reliefTeacher == null"
               (click)="rescheduleLesson()"
             >
@@ -136,7 +144,7 @@
               >Reschedule
             </button>
             <button
-              class="d-flex btn cancel_class_button align-items-center"
+              class="d-flex btn cancel_class_button align-items-center body-m text-c100 bg-s0"
               *ngIf="
                 disableCancel == false &&
                 reliefTeacher == null &&
@@ -149,7 +157,7 @@
               >Cancel lesson
             </button>
             <button
-              class="d-flex btn cancel_class_button align-items-center"
+              class="d-flex btn cancel_class_button align-items-center body-m text-c100 bg-s0"
               *ngIf="
                 activeCourseInfo.CUSTOMER?.length < 1 &&
                 disableCancel == false &&
@@ -199,7 +207,11 @@
                 <label class="mb-0">Change relief teacher</label>
               </div>
               <div class="pt-2 pb-3">
-                <label class="mb-0">Withdraw relief teacher</label>
+                <label
+                  class="mb-0"
+                  (click)="withdrawReliefTeacher(reliefTeacher.userId)"
+                  >Withdraw relief teacher</label
+                >
               </div>
             </div>
           </div>
@@ -223,29 +235,34 @@
         </div>
         <div class="d-flex">
           <div
-            class="present_student d-flex justify-content-center align-items-center"
+            class="d-flex justify-content-center align-items-center bg-g25 att-circle"
           >
             <div>
-              <p class="present_count">{{ presentStudent }}</p>
-              <span class="present_text">Present</span>
+              <p class="present_count body-xl text-g300">
+                {{ presentStudent }}
+              </p>
+              <span class="text-g300 small">Present</span>
             </div>
           </div>
           <div
-            class="absent_student d-flex justify-content-center align-items-center"
+            class="d-flex justify-content-center align-items-center bg-r50 att-circle"
           >
             <div>
-              <p class="absent_count">{{ absentStudent }}</p>
-              <span class="absent_text">Absent</span>
+              <p class="absent_count body-xl text-r300">{{ absentStudent }}</p>
+              <span class="small text-r300">Absent</span>
             </div>
           </div>
           <div
-            class="total_student d-flex justify-content-center align-items-center"
+            class="d-flex justify-content-center align-items-center bg-s30 att-circle"
           >
             <div>
-              <p class="total_count" *ngIf="activeCourseInfo.CUSTOMER">
+              <p
+                class="total_count text-c300 body-xl"
+                *ngIf="activeCourseInfo.CUSTOMER"
+              >
                 {{ activeCourseInfo.CUSTOMER.length }}
               </p>
-              <span class="total_text">Total</span>
+              <span class="small text-c300">Total</span>
             </div>
           </div>
         </div>
@@ -273,14 +290,14 @@
               </div>
             </div>
             <div class="single-user-info d-flex">
-              <p *ngIf="user.preferredName">
+              <p *ngIf="user.preferredName" class="text-c100 body-m">
                 {{
                   user.preferredName.length > 20
                     ? (user.preferredName | slice: 0:20) + '...'
                     : user.preferredName
                 }}
               </p>
-              <p *ngIf="user.preferredName == ''">
+              <p *ngIf="user.preferredName == ''" class="text-c100 body-m">
                 {{
                   user.email.length > 15
                     ? (user.email | slice: 0:15) + '...'
@@ -533,27 +550,43 @@
       <div class="makeup-style">
         <div class="row">
           <div class="d-flex col-md-6">
-            <div class="toggle-wrap" (click)="this.isGlobal = !isGlobal">
+            <div
+              class="toggle-wrap"
+              [ngClass]="{ disabledSwitch: addExtraLesson == true }"
+              (click)="switchForCancelLesson('issue-makeup')"
+            >
               <label class="switch">
                 <input
                   type="checkbox"
-                  (click)="isGlobal = !this.isGlobal"
+                  (click)="switchForCancelLesson('issue-makeup')"
                   [checked]="isGlobal"
+                  [ngClass]="{ disabledSwitch: addExtraLesson == true }"
                 />
-                <span class="slider round"></span>
+                <span
+                  class="slider round"
+                  [ngClass]="{ disabledSwitch: addExtraLesson == true }"
+                ></span>
               </label>
             </div>
             <label class="switch-label" for="online">Issue makeup pass</label>
           </div>
-          <div class="d-flex  col-md-6">
-            <div class="toggle-wrap" (click)="addExtraLesson = !addExtraLesson">
+          <div *ngIf="this.modalType != 'absent'" class="d-flex  col-md-6">
+            <div
+              class="toggle-wrap"
+              [ngClass]="{ disabledSwitch: isGlobal == true }"
+              (click)="switchForCancelLesson('add-extra')"
+            >
               <label class="switch">
                 <input
                   type="checkbox"
-                  (click)="addExtraLesson = !addExtraLesson"
+                  (click)="switchForCancelLesson('add-extra')"
                   [checked]="addExtraLesson"
+                  [ngClass]="{ disabledSwitch: isGlobal == true }"
                 />
-                <span class="slider round"></span>
+                <span
+                  class="slider round"
+                  [ngClass]="{ disabledSwitch: isGlobal == true }"
+                ></span>
               </label>
             </div>
             <label class="switch-label" for="online">Add extra lesson</label>
@@ -939,18 +972,24 @@
           </content-loader>
         </div>
         <div class="d-flex">
-          <button class="d-flex btn assign_relief_button align-items-center">
+          <button
+            class="d-flex btn assign_relief_button align-items-center body-m text-c100 bg-s0"
+          >
             <span
               ><img
                 src="../../../assets/icons/assignReliefIcon.svg"
                 alt=""/></span
             >Assign relief teacher
           </button>
-          <button class="d-flex btn reschedule_button align-items-center">
+          <button
+            class="d-flex btn reschedule_button align-items-center body-m text-c100 bg-s0"
+          >
             <span><img src="../../../assets/icons/Calendar.svg" alt=""/></span
             >Reschedule
           </button>
-          <button class="d-flex btn cancel_class_button align-items-center">
+          <button
+            class="d-flex btn cancel_class_button align-items-center body-m text-c100 bg-s0"
+          >
             <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
             >Cancel lesson
           </button>

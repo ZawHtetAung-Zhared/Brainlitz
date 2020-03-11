@@ -10,11 +10,14 @@
 <div class="cust-bg">
   <div class="inner-wrapper w-100">
     <div class="back-wrap d-flex justify-content-between">
-      <div class="back-to " (click)="backToCourses()">
-        <i class="fa fa-angle-left"></i>
-        <p>Courses</p>
+      <div class="back-to  " (click)="backToCourses()">
+        <i class="fa fa-angle-left text-c200"></i>
+        <p class="text-c300 body-l">Courses</p>
       </div>
-      <button class="btn edit-course-btn" (click)="editCourse(courseId)">
+      <button
+        class="btn edit-course-btn text-c300 body-l"
+        (click)="editCourse(courseId)"
+      >
         Edit course
       </button>
     </div>
@@ -32,11 +35,16 @@
       </div>
       <div class="display-flex" *ngIf="loading == false">
         <div class="col-md-8 detail-info">
-          <label class="body-l">{{ detailLists.coursePlan.name }}</label>
+          <label class="body-l text-c100">{{
+            detailLists.coursePlan.name
+          }}</label>
           <h1 class="h1-strong">
-            {{ detailLists.name }}<span>{{ detailLists.courseCode }}</span>
+            {{ detailLists.name
+            }}<span class="body-l bg-b25 text-b300">{{
+              detailLists.courseCode
+            }}</span>
           </h1>
-          <p>{{ detailLists.description }}</p>
+          <p class="text-c100 body-l">{{ detailLists.description }}</p>
         </div>
         <div class="col-md-4 pad-0 d-flex row-reverse">
           <div class="d-flex">
@@ -47,8 +55,10 @@
               />
             </div>
             <div class="flex-column">
-              <p class="cap1">Teacher</p>
-              <p class="cap2">{{ detailLists.teacher.preferredName }}</p>
+              <p class="small text-c100 m-0">Teacher</p>
+              <p class="body-l text-c300">
+                {{ detailLists.teacher.preferredName }}
+              </p>
             </div>
           </div>
         </div>
@@ -103,8 +113,8 @@
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
           <div class="cdetail">
-            <p>Location</p>
-            <p class="locationTxt">
+            <p class="text-c100 light-body-m">Location</p>
+            <p class="locationTxt body-m text-c300">
               {{ detailLists.location.name }}
             </p>
           </div>
@@ -114,10 +124,13 @@
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
           <div class="cdetail">
-            <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
+            <h5
+              *ngFor="let day of detailLists.repeatDays | weekDays"
+              class="text-c300 body-m"
+            >
               {{ day }}
             </h5>
-            <p>
+            <p class="text-c100 light-body-m">
               {{ detailLists.duration.startDate | utcTime }} -
               {{ detailLists.duration.endDate | utcTime }}
             </p>
@@ -127,8 +140,9 @@
           class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 pl-zero course-bg"
         >
           <div class="cdetail">
-            <p>Lesson count</p>
+            <p class="light-body-m text-c100">Lesson count</p>
             <h5
+              class="body-m text-c300"
               *ngIf="
                 detailLists.type !== 'FLEXY' && detailLists.lessonCount == null
               "
@@ -166,12 +180,16 @@
         >
           <div class="d-flex cdetail">
             <div class="col-md-6 pd-zero">
-              <p>From</p>
-              <h5>{{ detailLists.startDate | utcDate }}</h5>
+              <p class="text-c100 light-body-m">From</p>
+              <h5 class="text-c300 body-m">
+                {{ detailLists.startDate | utcDate }}
+              </h5>
             </div>
             <div class="col-md-6 pd-zero">
-              <p *ngIf="detailLists.endDate">To</p>
-              <h5 *ngIf="detailLists.endDate">
+              <p *ngIf="detailLists.endDate" class="text-c100 light-body-m">
+                To
+              </p>
+              <h5 *ngIf="detailLists.endDate" class="text-c300 body-m">
                 {{ detailLists.endDate | utcDate }}
               </h5>
             </div>
@@ -182,21 +200,21 @@
       <div class="d-flex flex-column mt-32">
         <div class="d-flex c-border">
           <button
-            class="btn course-tab"
+            class="btn course-tab text-c300 body-l"
             routerLinkActive="active"
             routerLink="overview"
           >
             Overview
           </button>
           <button
-            class="btn course-tab"
+            class="btn course-tab text-c300 body-l"
             routerLinkActive="active"
             routerLink="customers"
           >
             Customers
           </button>
           <button
-            class="btn course-tab"
+            class="btn course-tab text-c300 body-l"
             routerLinkActive="active"
             routerLink="attendance"
             *ngIf="courseType != 'ONLINE'"
@@ -205,7 +223,7 @@
           </button>
           <button
             *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
-            class="btn course-tab"
+            class="btn course-tab text-c300 body-l"
             routerLinkActive="active"
             routerLink="tasks"
           >
@@ -227,7 +245,7 @@
           </button> -->
           <button
             *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
-            class="btn course-tab"
+            class="btn course-tab text-c300 body-l"
             routerLinkActive="active"
             routerLink="masteries-report"
           >
