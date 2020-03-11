@@ -2114,51 +2114,57 @@ export class TimetableComponent implements OnInit {
 
   //
   public selectedStaff: any;
-  public timetable: any;
+  public schedule = [];
   public absent: boolean;
+  public leaveInfo: any;
+  public mDate: any;
 
   showPopUpFunc(staff, schedule) {
-    var staffObj = {
-      staffId: staff.staffId,
-      staffName: staff.staffName,
-      profilePic: staff.profilePic
-    };
-    this.selectedStaff = staffObj;
-    console.log(this.selectedStaff);
-    this.timetable = schedule.timetable;
-    this.absent = schedule.absent;
+    this.selectedStaff = staff;
+    this.schedule = schedule;
+    //this.timetables =this.selectedStaff.schedules.timetables;
+    this.leaveInfo = schedule.leaveInfo;
+    //console.log(this.timetables)
+    //console.log(this.absent,this.timetables.length)
     this.getAllCoursePlan('0', '20');
     //this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
-    var weekday = 'Sun';
-    var day = [];
-    switch (weekday) {
-      case 'Sun':
-        day.push(0);
-        break;
-      case 'Mon':
-        day.push(1);
-        break;
-      case 'Tue':
-        day.push(2);
-        break;
-      case 'Wed':
-        day.push(3);
-        break;
-      case 'Thu':
-        day.push(4);
-        break;
-      case 'Fri':
-        day.push(5);
-        break;
-      case 'Sat':
-        day.push(6);
-    }
 
+    var d = new Date(schedule.date);
     var sDate = {
-      year: schedule.date.year,
-      month: schedule.date.month,
-      day: schedule.date.day
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate()
     };
+    console.log(sDate);
+
+    this.mDate = d;
+
+    //var weekday = d.getUTCDay();
+    var day = [];
+    day.push(d.getUTCDay());
+    console.log(day);
+    // switch (weekday) {
+    //   case 'Sun':
+    //     day.push(0);
+    //     break;
+    //   case 'Mon':
+    //     day.push(1);
+    //     break;
+    //   case 'Tue':
+    //     day.push(2);
+    //     break;
+    //   case 'Wed':
+    //     day.push(3);
+    //     break;
+    //   case 'Thu':
+    //     day.push(4);
+    //     break;
+    //   case 'Fri':
+    //     day.push(5);
+    //     break;
+    //   case 'Sat':
+    //     day.push(6);
+    // }
 
     var time = {
       hr: 0,
