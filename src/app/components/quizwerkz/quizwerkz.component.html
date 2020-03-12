@@ -13,13 +13,13 @@
     <div class="d-flex justify-content-between heading-margin">
       <div class="mr-auto">
         <div class="d-flex flex-row">
-          <h2 class="title-heading">Resources</h2>
+          <h2 class="title-heading h3-strong text-c300">Resources</h2>
         </div>
       </div>
       <button
         *ngIf="pdfDemo.addPdf != ''"
         type="button"
-        class="btn btn-create"
+        class="btn btn-create bg-b100 text-s0 body-l"
         (click)="creatnew()"
       >
         Add new resources
@@ -37,12 +37,12 @@
           <div style="flex: 1;">
             <div class="d-flex flex-column h-100">
               <div class="book-title">
-                <h4>{{ pdf.name }}</h4>
+                <h4 class="h3-strong text-c200">{{ pdf.name }}</h4>
               </div>
               <div class="btn-section d-flex justify-content-end">
                 <button
                   *ngIf="pdfDemo.editPdf != ''"
-                  class="btn-action remove-outline"
+                  class="btn-action light-body-m remove-outline"
                   (click)="onclickUpdate(pdf._id)"
                 >
                   Edit
@@ -50,7 +50,7 @@
                 <span class="line-between"></span>
                 <button
                   *ngIf="pdfDemo.deletePdf != ''"
-                  class="btn-action remove-outline"
+                  class="btn-action light-body-m remove-outline"
                   (click)="onClickDelete(pdf._id, deletemodal)"
                 >
                   Delete
@@ -65,15 +65,19 @@
   <div *ngIf="iscreate == true">
     <div class="d-flex back-wrap">
       <!-- <a class="back-to" (click)="cancel()">< QuizWerkz</a> -->
-      <div class="back-to" (click)="cancel()">
+      <div class="back-to text-c300 body-l" (click)="cancel()">
         <i class="fa fa-angle-left"></i>
         <p>Resources</p>
       </div>
     </div>
     <div class="quizwerkz-form-wrap">
-      <h3 *ngIf="!isEdit" class="title-heading">Create resources</h3>
-      <h3 *ngIf="isEdit" class="title-heading">Update resources</h3>
-      <p class="input-recommend">
+      <h3 *ngIf="!isEdit" class="title-heading text h3-strong">
+        Create resources
+      </h3>
+      <h3 *ngIf="isEdit" class="title-heading text h3-strong">
+        Update resources
+      </h3>
+      <p class="input-recommend text-c300 body-m">
         Resources is like a library to upload and keep all your resources. Pair
         the resources to its relevant Course Plan and this will be visible to
         the users in their device under ‘Resources’ tab.
@@ -83,14 +87,16 @@
           <div class="col-md-8 input-wrap">
             <div class="form-group">
               <div class="d-flex justify-content-between">
-                <label class="input-label" for="name">Name</label>
-                <div class="limit-wordcount">
+                <label class="input-label text-c300 body-l" for="name"
+                  >Name</label
+                >
+                <div class="limit-wordcount text-b100 body-l">
                   <span>{{ wordLength }}/80characters</span>
                 </div>
               </div>
               <input
                 type="text"
-                class="form-control create-input"
+                class="form-control create-input light-body-l text-c100"
                 placeholder="quizwerkz name"
                 name="name"
                 [(ngModel)]="formField.name"
@@ -112,10 +118,12 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="input-label" for="name">Book url</label>
+              <label class="input-label text-c300 body-l" for="name"
+                >Book url</label
+              >
               <input
                 type="url"
-                class="form-control create-input"
+                class="form-control create-input light-body-l text-c100"
                 placeholder="https://bookurl.jpg"
                 pattern="https?://.+"
                 name="url"
@@ -137,10 +145,12 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="input-label" for="name">Book cover url</label>
+              <label class="input-label text-c300 body-l" for="name"
+                >Book cover url</label
+              >
               <input
                 type="url"
-                class="form-control create-input"
+                class="form-control create-input light-body-l text-c100"
                 placeholder="enter cover URl link"
                 name="cover"
                 [(ngModel)]="formField.cover"
@@ -164,14 +174,18 @@
             </div>
           </div>
           <div class="d-flex justify-content-end form-footer">
-            <button type="button" class="btn btn-cancel" (click)="cancel()">
+            <button
+              type="button"
+              class="btn btn-cancel text-c300"
+              (click)="cancel()"
+            >
               Cancel
             </button>
             <button
               type="button"
               *ngIf="!isEdit"
               [disabled]="!createqwForm.valid"
-              class="btn btn-submit"
+              class="btn btn-submit text-s0 bg-b100"
               (click)="createQuizWerkz(formField, isEdit)"
             >
               Create
@@ -180,7 +194,7 @@
               type="button"
               *ngIf="isEdit"
               [disabled]="!createqwForm.valid"
-              class="btn btn-submit"
+              class="btn btn-submit text-s0 bg-b100"
               (click)="updateQuizWerkz(formField)"
             >
               Update
@@ -198,9 +212,12 @@
     result.length != 0 &&
     pdfDemo.viewPdf != ''
   "
-  class="d-flex justify-content-center load-more"
+  class="d-flex justify-content-center load-more bg-s0"
 >
-  <button class="btn remove-outline" (click)="showMore(pdfList.length)">
+  <button
+    class="btn remove-outline text-b100 body-m"
+    (click)="showMore(pdfList.length)"
+  >
     load more
   </button>
 </div>
