@@ -52,6 +52,7 @@
   background: #ffffff;
   box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
+  overflow: auto;
 }
 
 .heading {
@@ -85,7 +86,7 @@
   justify-content: center;
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
   line-height: 20px;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
@@ -114,7 +115,7 @@
   display: grid;
   grid-template-columns: 72px repeat(7, 1fr);
   grid-gap: 1px 1px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .s-c {
@@ -150,9 +151,9 @@
   font-family: 'Inter-UI-bold', Arial, sans-serif;
 }
 @media only screen and (max-width: 855px) {
-  .absent {
+  /* .absent {
     margin: 0px 15px !important;
-  }
+  } */
   .orange {
     margin-right: 10px !important;
   }
@@ -178,6 +179,9 @@
   }
   .tdy-btn {
     margin: 0 10px 0 10px;
+  }
+  .white {
+    font-size: 13px;
   }
 }
 
@@ -236,11 +240,11 @@
   margin-right: 15px;
 }
 
-.absent {
+/* .absent {
   display: flex;
   line-height: 10px;
   margin: 0 20px;
-}
+} */
 
 .active-cover {
   display: flex;
@@ -269,6 +273,14 @@
 .dropdown-arrow {
   padding-left: 150px;
 }
+.pad-left {
+  padding-left: 10%;
+}
+.cat-ul {
+  list-style: none;
+  padding-left: 20px;
+}
+
 /* .................................................................................................................................................................................................... */
 
 /* apo */
@@ -467,10 +479,16 @@
 .my-modal-body {
   width: 100%;
   background: #ffffff;
-  padding: 26px;
+  padding: 0px 26px 0px 26px;
+  min-height: 104px;
   max-height: 540px;
-  border-radius: 0px 0px 16px 16px;
   overflow: overlay;
+  border-radius: 0px 0px 16px 16px;
+}
+
+.schedule-wrap {
+  padding: 26px 0px 26px 0px;
+  border-top: 1px solid #edeff0;
 }
 
 .flex-column {

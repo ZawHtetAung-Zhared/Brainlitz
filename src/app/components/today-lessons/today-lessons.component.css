@@ -4,9 +4,6 @@
 }
 
 p.backtxt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-  color: #2e3d4d;
-  font-size: 16px;
   margin: 0;
   padding: 2px 5px;
 }
@@ -14,6 +11,7 @@ p.backtxt {
 .left-arrow {
   font-size: 25px;
   float: left;
+  line-height: 1.2;
 }
 
 .back-button {
@@ -24,10 +22,6 @@ p.backtxt {
   outline: none;
 }
 .today-date {
-  color: #2e3d4d;
-  font-weight: 600;
-  font-size: 24px;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   padding-top: 15px;
 }
 
@@ -37,38 +31,24 @@ p.backtxt {
 }
 
 p.course-name {
-  font-size: 20px;
-  color: #007fff;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   cursor: pointer;
 }
 
 .course-code {
-  color: #004080;
-  font-size: 12px;
-  background: #cce5ff;
   padding: 3px 8px 0px 8px;
   border-radius: 25px;
   margin-left: 10px;
   height: 24px;
-  font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   /* margin-top: 6px; */
 }
 
 span.course-time {
-  color: #64707d;
-  font-size: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   padding: 5px 0px;
 }
 .course-duration {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #64707d;
-  line-height: 0.5;
   position: relative;
   margin-top: 3px;
-  font-size: 14px;
-  background: #f2f4f5;
+  line-height: 0.5;
   margin-left: 5px;
   padding: 9px;
   margin-bottom: 0;
@@ -85,20 +65,6 @@ span.course-time {
   width: 80px;
 }
 
-.present {
-  background: #c2f2d6;
-  color: #004d20;
-}
-
-.absent {
-  background: #ffdbd9;
-  color: #7d1e19;
-}
-.total {
-  background: #edeff0;
-  color: #64707d;
-}
-
 .d-flex.today-coruse {
   border-bottom: 1px solid #edeff0;
   padding-bottom: 20px;
@@ -113,9 +79,6 @@ p.positon {
 }
 
 p.teacher-name {
-  color: #2e3d4d;
-  font-family: 'Inter-UI-semibold', Arial, sans-serif;
-  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -127,9 +90,6 @@ p.teacher-name {
 }
 
 p.student-name {
-  color: #2e3d4d;
-  font-family: 'Inter-UI-semibold', Arial, sans-serif;
-  font-size: 16px;
   padding: 10px 26px 0px 12px;
 }
 
@@ -185,13 +145,11 @@ div#divToHide {
 .present-wrap {
   border: 2px solid #00b34a;
   border-radius: 25px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .absent-wrap {
   border: 2px solid #ff3d33;
   border-radius: 25px;
   margin-left: 18px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .radio-present,
@@ -206,16 +164,14 @@ div#divToHide {
 
 .radio-present p {
   padding: 0px 10px;
-  font-size: 14px;
-  line-height: 2.2;
   color: #00b34a;
+  line-height: 2;
 }
 
 .radio-absent p {
   padding: 0px 10px;
-  font-size: 14px;
-  line-height: 2.2;
   color: #f23a30;
+  line-height: 2;
 }
 
 .radio-present input,
@@ -337,8 +293,7 @@ div#divToHide {
   word-break: break-all;
 }
 
-.single-user-info p,
-.btn-submit {
+.single-user-info p {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .single-user-info h4 {
@@ -346,10 +301,7 @@ div#divToHide {
 }
 
 .input-label {
-  font-size: 18px;
-  color: #2e3e4d;
   margin-bottom: 0;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .create-input:hover {
@@ -359,7 +311,6 @@ div#divToHide {
   box-shadow: none;
 }
 .create-input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -370,16 +321,11 @@ div#divToHide {
 }
 
 .modal-cancel-btn {
-  font-size: 16px;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   border-radius: 3px;
   height: 44px;
   min-width: 90px;
 }
-.modal-cancel-btn {
-  color: #2e3d4d;
-  background: #fff;
-}
+
 .modal-cancel-btn:hover {
   background: #f2f4f5;
 }
@@ -393,12 +339,8 @@ div#divToHide {
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  color: #fff;
-  background-color: #1682fb;
   margin-left: 15px;
   box-shadow: none;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-size: 16px;
 }
 
 /* makeup */
@@ -576,9 +518,6 @@ div#divToHide {
 }
 
 .release-text {
-  font-size: 18px;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-top: 32px;
   margin-bottom: 24px;
 }
@@ -591,13 +530,6 @@ div#divToHide {
 .claimed-height {
   max-height: 90vh !important;
   z-index: 0;
-}
-
-.makeup-pass-title {
-  font-family: Inter-UI-SemiBold;
-  font-size: 28px;
-  font-weight: 600;
-  color: #2e3d4d;
 }
 
 @-moz-document url-prefix() {
@@ -700,9 +632,6 @@ input:checked + .slider:before {
 .switch-label {
   line-height: 1.8;
   margin-left: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 18px;
-  color: #2e3e4d;
   margin-bottom: 0;
 }
 .slider.round {

@@ -33,7 +33,17 @@
         <span class="pl-3">All category</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>
         <i *ngIf="clist == true" class="fa fa-chevron-up dropdown-arrow"></i>
-        <div *ngIf="clist == true" class="category-list"></div>
+        <div *ngIf="clist == true" class="category-list">
+          <ul class="cat-ul">
+            <li (click)="CategorySelected('', '', true)">All Category</li>
+            <li
+              (click)="CategorySelected(cat.name, cat._id, false)"
+              *ngFor="let cat of catList"
+            >
+              {{ cat.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -66,19 +76,73 @@
         class="white"
         (click)="showPopUpFunc(staff, schedule)"
       >
-        <!-- <div *ngIf="schedule.absent == true" class="absent">
-          <div class="orange"></div>
-          <div>Absent</div>
-        </div> -->
-        <span *ngIf="schedule.absent != true">
-          <div *ngFor="let count of schedule.timetables; let k = index">
-            {{ count.start.hour }}:{{ count.start.min }}
-            {{ count.start.meridiem }} - {{ count.end.hour }}:{{
-              count.end.min
-            }}
-            {{ count.end.meridiem }}
+        <!---Absent All Day -->
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'DAY'"
+        >
+          <div style="display: inline;">
+            <img src="../../../assets/icons/Ellipse 2.svg" />
           </div>
-        </span>
+          <div style="display: inline;">Absent</div>
+        </div>
+        <!---Absent AM -->
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'AM'"
+        >
+          <div>
+            <div style="display: inline;">
+              <img src="../../../assets/icons/am.svg" />
+            </div>
+            <div style="display: inline;">Absent</div>
+          </div>
+          <div *ngFor="let count of schedule.timetables; let k = index">
+            <span *ngIf="count.start.meridiem == 'PM'"
+              >{{ count.start.hour }}:{{ count.start.min }}
+              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+                count.end.min
+              }}
+              {{ count.end.meridiem }}</span
+            >
+          </div>
+        </div>
+        <!---Absent PM -->
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.meridian == 'PM'"
+        >
+          <div>
+            <div style="display: inline;">
+              <img src="../../../assets/icons/PM.svg" />
+            </div>
+            <div style="display: inline;">Absent</div>
+          </div>
+          <div *ngFor="let count of schedule.timetables; let k = index">
+            <span *ngIf="count.start.meridiem == 'AM'"
+              >{{ count.start.hour }}:{{ count.start.min }}
+              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+                count.end.min
+              }}
+              {{ count.end.meridiem }}</span
+            >
+          </div>
+        </div>
+        <!--No Absent-->
+        <div
+          class="pad-left text-c200"
+          *ngIf="schedule.leaveInfo.absent != true"
+        >
+          <div *ngFor="let count of schedule.timetables; let k = index">
+            <span
+              >{{ count.start.hour }}:{{ count.start.min }}
+              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+                count.end.min
+              }}
+              {{ count.end.meridiem }}</span
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -159,9 +223,11 @@
       </div>
       <div class="staff-info">
         <span class="body-l" style="color: #363F4D;">{{
-          selectedStaff.staffName
+          selectedStaff.staffpreferredName
         }}</span>
-        <h5 class="h5-strong" style="color: #363F4D;">Wed 26, Feb 2020</h5>
+        <h5 class="h5-strong" style="color: #363F4D;">
+          {{ mDate | date: 'EEE, d MMM' }}
+        </h5>
       </div>
       <div class="add-course">
         <li style="color: #D4D5D6;">
@@ -185,58 +251,222 @@
       </button>
     </div>
 
-    <div class="my-modal-body" *ngIf="!absent">
-      <div
-        class="schedule-wrap d-flex flex-column"
-        *ngFor="let count of timetable"
-      >
-        <span class="body-m" style="color: #363F4D;">
-          {{ count.start.hr }}:{{ count.start.min }}
-          {{ count.start.meridiem }} - {{ count.end.hr }}:{{ count.end.min }}
-          {{ count.end.meridiem }}
-        </span>
-        <h4 class="h4-strong" style="color: #363F4D;">
-          {{ count.name }}
-        </h4>
-        <div class="d-flex">
-          <span
-            class="body-m"
-            class="course-details"
-            (click)="goCourseDetails(count.courseId)"
-            >Go to course details</span
-          >
-          <i
-            class="fa fa-map-marker"
-            style="font-size:15px;color: #7A8A99; margin: 4px;"
-          ></i>
-          <span class="light-body-m" style="color: #5C6773;">{{
-            count.location.name
+    <!-- <div class="my-modal-body ">
+      <div class="schedule-wrap " *ngFor="let count of schedule.timetables">
+        <div class="d-flex flex-column" *ngIf="!leaveInfo.absent">
+          <span class="body-m" style="color: #363F4D;">
+            {{ count.start.hour }}:{{ count.start.min }}
+            {{ count.start.meridiem }} - {{ count.end.hour }}:{{ count.end.min }}
+            {{ count.end.meridiem }}
+          </span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            {{ count.name }}
+          </h4>
+          <div class="d-flex">
+            <span class="body-m" class="course-details" (click)="goCourseDetails(count.courseId)">Go to course
+              details</span>
+        
+            <i class="fa fa-map-marker" style="font-size:15px;color: #7A8A99; margin: 4px;"></i>
+            <span class="light-body-m">{{
+              count.location.name
+            }}</span>
+
+          </div>
+        </div>
+        <div class="d-flex flex-column" *ngIf="leaveInfo.absent">
+          <div class="d-flex align-items-center">
+            <div class="d-flex justify-content-center" style="margin-right: 16px;">
+              <span class="leave-info-icon" *ngIf="leaveInfo.meridian == 'DAY'"><img
+                  src="../../../../../assets/icons/Ellipse 2.svg" alt="" /></span>
+              <span class="leave-info-icon" *ngIf="leaveInfo.meridian == 'PM'"><img
+                  src="../../../../../assets/icons/PM.svg" alt="" /></span>
+              <span class="leave-info-icon" *ngIf="leaveInfo.meridian == 'AM'"><img
+                  src="../../../../../assets/icons/am.svg" alt="" /></span>
+            </div>
+            <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+            <span class="half-full d-flex align-items-center justify-content-center CAPTION_U" style="color:#5C6773"
+              *ngIf="leaveInfo.meridian == 'DAY'">ALL-DAY</span>
+            <span class="half-full d-flex align-items-center justify-content-center CAPTION_U" style="color:#5C6773"
+              *ngIf="leaveInfo.meridian == 'AM'">HALF-AM</span>
+            <span class="half-full d-flex align-items-center justify-content-center CAPTION_U" style="color:#5C6773"
+              *ngIf="leaveInfo.meridian == 'PM'">HALF-PM</span>
+          </div>
+          <span class="body-m" style="color: #5C6773;">{{leaveInfo.reason}}</span>
+        </div>
+      </div>
+    </div> -->
+
+    <div
+      class="my-modal-body"
+      *ngIf="!leaveInfo.absent && schedule.timetables.length != 0"
+    >
+      <div class="schedule-wrap " *ngFor="let count of schedule.timetables">
+        <div class="d-flex flex-column">
+          <span class="body-m" style="color: #363F4D;">
+            {{ count.start.hour }}:{{ count.start.min }}
+            {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+              count.end.min
+            }}
+            {{ count.end.meridiem }}
+          </span>
+          <h4 class="h4-strong" style="color: #363F4D;">
+            {{ count.name }}
+          </h4>
+          <div class="d-flex">
+            <span
+              class="body-m"
+              class="course-details"
+              (click)="goCourseDetails(count.courseId)"
+              >Go to course details</span
+            >
+
+            <i
+              class="fa fa-map-marker"
+              style="font-size:15px;color: #7A8A99; margin: 4px;"
+            ></i>
+            <span class="light-body-m">{{ count.location.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="my-modal-body"
+      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'AM'"
+    >
+      <div class="schedule-wrap">
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <div
+              class="d-flex justify-content-center"
+              style="margin-right: 16px;"
+            >
+              <span class="leave-info-icon"
+                ><img src="../../../../../assets/icons/am.svg" alt=""
+              /></span>
+            </div>
+            <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+            <span
+              class="half-full d-flex align-items-center justify-content-center CAPTION_U"
+              style="color:#5C6773"
+              >HALF-AM</span
+            >
+          </div>
+          <span class="body-m" style="color: #5C6773;">{{
+            leaveInfo.reason
+          }}</span>
+        </div>
+      </div>
+      <div *ngFor="let count of schedule.timetables">
+        <div class="schedule-wrap " *ngIf="count.start.meridiem == 'PM'">
+          <div class="d-flex flex-column">
+            <span class="body-m" style="color: #363F4D;">
+              {{ count.start.hour }}:{{ count.start.min }}
+              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+                count.end.min
+              }}
+              {{ count.end.meridiem }}
+            </span>
+            <h4 class="h4-strong" style="color: #363F4D;">
+              {{ count.name }}
+            </h4>
+            <div class="d-flex">
+              <span
+                class="body-m"
+                class="course-details"
+                (click)="goCourseDetails(count.courseId)"
+                >Go to course details</span
+              >
+              <!-- <div class="apo-location" [ngStyle]="{'background-color': count.location.backgroundColorHex,'color':count.location.textColorHex, 'padding': '5px'}"> -->
+
+              <i
+                class="fa fa-map-marker"
+                style="font-size:15px;color: #7A8A99; margin: 4px;"
+              ></i>
+              <span class="light-body-m">{{ count.location.name }}</span>
+
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="my-modal-body"
+      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'PM'"
+    >
+      <div *ngFor="let count of schedule.timetables">
+        <div class="schedule-wrap " *ngIf="count.start.meridiem == 'AM'">
+          <div class="d-flex flex-column">
+            <span class="body-m" style="color: #363F4D;">
+              {{ count.start.hour }}:{{ count.start.min }}
+              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
+                count.end.min
+              }}
+              {{ count.end.meridiem }}
+            </span>
+            <h4 class="h4-strong" style="color: #363F4D;">
+              {{ count.name }}
+            </h4>
+            <div class="d-flex">
+              <span
+                class="body-m"
+                class="course-details"
+                (click)="goCourseDetails(count.courseId)"
+                >Go to course details</span
+              >
+              <!-- <div class="apo-location" [ngStyle]="{'background-color': count.location.backgroundColorHex,'color':count.location.textColorHex, 'padding': '5px'}"> -->
+
+              <i
+                class="fa fa-map-marker"
+                style="font-size:15px;color: #7A8A99; margin: 4px;"
+              ></i>
+              <span class="light-body-m">{{ count.location.name }}</span>
+
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="schedule-wrap">
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center">
+            <div
+              class="d-flex justify-content-center"
+              style="margin-right: 16px;"
+            >
+              <span class="leave-info-icon"
+                ><img src="../../../../../assets/icons/PM.svg" alt=""
+              /></span>
+            </div>
+            <span class="h4-strong" style="margin-right: 10px;">Absent</span>
+            <span
+              class="half-full d-flex align-items-center justify-content-center CAPTION_U"
+              style="color:#5C6773"
+              >HALF-PM</span
+            >
+          </div>
+          <span class="body-m" style="color: #5C6773;">{{
+            leaveInfo.reason
           }}</span>
         </div>
       </div>
     </div>
-    <div class="my-modal-body" *ngIf="absent">
+
+    <div
+      class="my-modal-body"
+      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'DAY'"
+    >
       <div class="schedule-wrap d-flex flex-column">
-        <!-- <div class="d-flex align-items-center">
-          <div class="d-flex justify-content-center" style="margin-right: 16px;">
-            <span class="am1"></span><span class="am2"></span>
-          </div>
-          <span class="h4-strong" style="margin-right: 10px;">Absent</span>
-          <span class="half-full d-flex align-items-center justify-content-center" style="color:#5C6773">HALF-AM</span>
-        </div> -->
-        <!-- <div class="d-flex align-items-center">
-          <div class="d-flex justify-content-center" style="margin-right: 16px;">
-            <span class="am1"></span><span class="am2"></span>
-          </div>
-          <span class="h4-strong" style="margin-right: 10px;">Absent</span>
-          <span class="half-full d-flex align-items-center justify-content-center" style="color:#5C6773">HALF-PM</span>
-        </div> -->
         <div class="d-flex align-items-center">
           <div
             class="d-flex justify-content-center"
             style="margin-right: 16px;"
           >
-            <span class="orange"></span>
+            <span class="leave-info-icon"
+              ><img src="../../../../../assets/icons/Ellipse 2.svg" alt=""
+            /></span>
           </div>
           <span class="h4-strong" style="margin-right: 10px;">Absent</span>
           <span
@@ -245,15 +475,17 @@
             >ALL-DAY</span
           >
         </div>
-        <span class="body-m" style="color: #5C6773;">Reason</span>
+        <span class="body-m" style="color: #5C6773;">{{
+          leaveInfo.reason
+        }}</span>
       </div>
     </div>
-    <div class="my-modal-body" *ngIf="timetable.length == 0">
-      <div
-        class="schedule-wrap d-flex justify-content-center align-items-center"
-      >
-        <span class="body-m">There is no lesson yet.</span>
-      </div>
+
+    <div
+      class="my-modal-body d-flex justify-content-center align-items-center"
+      *ngIf="schedule.timetables.length == 0"
+    >
+      <span class="body-m">There is no lesson yet.</span>
     </div>
   </div>
 </div>

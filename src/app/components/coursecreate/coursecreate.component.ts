@@ -281,7 +281,7 @@ export class CoursecreateComponent implements OnInit {
     //
     var teacher = {
       userId: this.scheduleObj.teacher.staffId,
-      preferredName: this.scheduleObj.teacher.staffName,
+      preferredName: this.scheduleObj.teacher.staffpreferredName,
       profilePic: this.scheduleObj.teacher.profilePic
     };
     console.log(teacher);
