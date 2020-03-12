@@ -101,10 +101,11 @@
           </div>
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span *ngIf="count.start.meridiem == 'PM'"
-              >{{ count.start.hour }}:{{ count.start.min }}
+              >{{ count.start.hour }}:{{ count.start.min
+              }}<span *ngIf="count.start.min == 0">0</span>
               {{ count.start.meridiem }} - {{ count.end.hour }}:{{
                 count.end.min
-              }}
+              }}<span *ngIf="count.end.min == 0">0</span>
               {{ count.end.meridiem }}</span
             >
           </div>
@@ -122,10 +123,11 @@
           </div>
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span *ngIf="count.start.meridiem == 'AM'"
-              >{{ count.start.hour }}:{{ count.start.min }}
+              >{{ count.start.hour }}:{{ count.start.min
+              }}<span *ngIf="count.start.min == 0">0</span>
               {{ count.start.meridiem }} - {{ count.end.hour }}:{{
                 count.end.min
-              }}
+              }}<span *ngIf="count.end.min == 0">0</span>
               {{ count.end.meridiem }}</span
             >
           </div>
@@ -137,10 +139,11 @@
         >
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span
-              >{{ count.start.hour }}:{{ count.start.min }}
+              >{{ count.start.hour }}:{{ count.start.min
+              }}<span *ngIf="count.start.min == 0">0</span>
               {{ count.start.meridiem }} - {{ count.end.hour }}:{{
                 count.end.min
-              }}
+              }}<span *ngIf="count.end.min == 0">0</span>
               {{ count.end.meridiem }}</span
             >
           </div>
