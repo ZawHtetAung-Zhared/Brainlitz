@@ -2,17 +2,17 @@
   position: fixed;
   z-index: 1;
   width: 85%;
-  background: #fff;
+  /* background: #fff; */
   border-top: 1px solid #eee;
   padding: 10px;
   bottom: 0;
   right: 0;
 }
-.load-more button {
+/* .load-more button {
   color: #0080ff;
   font-size: 14px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
+} */
 .main-wrapper {
   padding: 0 15px;
 }
@@ -31,23 +31,23 @@
 .stickywrap {
   top: 63px;
 }
-.title-heading,
+/* .title-heading,
 .single-quizwerkz h4,
 .input-label {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
+} */
 .title-heading {
   font-size: 27px;
   padding-left: 15px;
-  color: #2e3e4d;
+  /* color: #2e3e4d; */
 }
 .heading-margin {
   margin-top: 23px;
 }
 .btn-create {
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
+  /* font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   color: #fff;
-  background-color: #1682fb;
+  background-color: #1682fb; */
   border: none;
   height: 45px;
   margin-right: 15px;
@@ -71,8 +71,8 @@
   box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
 }
 .single-quizwerkz h4 {
-  color: #2e3e4d;
-  font-size: 18px;
+  /* color: #2e3e4d; */
+  /* font-size: 18px; */
   padding-right: 20px;
 }
 .quizwerkz-group {
@@ -88,12 +88,12 @@
   margin-right: 12px;
 }
 .btn-action:first-child {
-  color: orange;
+  color: #ffbf00;
 }
 .btn-action {
-  font-size: 14px;
-  color: red;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  /* font-size: 14px; */
+  color: #e53c39;
+  /* font-family: 'Inter-UI-Regular', Arial, sans-serif; */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -121,11 +121,11 @@
   padding: 23px 15px 15px;
 }
 .back-to {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #2e3d4d !important;
+  /* font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  color: #2e3d4d !important; */
   padding-left: 0 !important;
   cursor: pointer;
-  font-size: 16px;
+  /* font-size: 16px; */
 }
 .back-to i,
 .back-to p {
@@ -184,7 +184,7 @@
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
 .create-input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
+  /* font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important; */
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -194,8 +194,8 @@
   margin-top: 4px;
 }
 .input-label {
-  font-size: 18px;
-  color: #2e3e4d;
+  /* font-size: 18px;
+  color: #2e3e4d; */
   margin-bottom: 0;
 }
 .modal-title {
@@ -324,9 +324,9 @@ ul.qwbook-lists li p {
 }
 
 .input-recommend {
-  font-size: 14px;
+  /* font-size: 14px;
   color: #64707d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  font-family: 'Inter-UI-Semibold', Arial, sans-serif; */
   padding-left: 15px;
 }
 .remove-outline:focus {

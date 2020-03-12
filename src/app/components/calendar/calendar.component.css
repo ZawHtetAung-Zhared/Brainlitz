@@ -20,11 +20,11 @@
   bottom: 0;
   right: 0;
 }
-.load-more button {
+/* .load-more button {
   color: #0080ff;
   font-size: 14px;
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
+} */
 
 .overlay {
   background: rgba(217, 217, 217, 0.7);
@@ -43,36 +43,36 @@
 .main-wrapper {
   padding: 0 15px;
 }
-.btnC,
+/* .btnC,
 .edit-calnedar-btn,
 ul.calendar-year li {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
-.title-heading,
+} */
+/* .title-heading,
 .single-calendar h4,
 .input-label {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
+} */
 
 .title-heading {
   font-size: 27px;
   padding-left: 15px;
-  color: #2e3e4d;
+  /* color: #2e3e4d; */
 }
 .heading-margin {
   margin-top: 23px;
 }
 .btn-create {
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
+  /* font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   color: #fff;
-  background-color: #1682fb;
+  background-color: #1682fb; */
   border: none;
   height: 45px;
   margin-right: 15px;
   border-radius: 3px;
 }
 .single-calendar:hover .right-arrow {
-  color: #0080ff;
+  color: #0065f2;
 }
 .single-calendar:hover {
   -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
@@ -133,8 +133,8 @@ ul.calendar-year li.noliststyle {
 }
 
 ul.calendar-year li {
-  color: #64707d;
-  font-size: 14px;
+  /* color: #64707d;
+  font-size: 14px; */
   float: left;
   padding-right: 27px;
 }
@@ -170,7 +170,7 @@ ul.calendar-year li:first-child {
 }
 .btn-submit,
 .btn-cancel {
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
+  /* font-family: 'Inter-UI-Medium', 'Arial', sans-serif; */
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -182,7 +182,7 @@ ul.calendar-year li:first-child {
   margin-left: 15px;
 }
 .btn-cancel {
-  background-color: #f2f4f5;
+  /* background-color: #f2f4f5; */
 }
 .input-wrap {
   padding-left: 0;
@@ -199,7 +199,7 @@ ul.calendar-year li:first-child {
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
 .create-input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
+  /* font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important; */
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -209,8 +209,8 @@ ul.calendar-year li:first-child {
   margin-top: 4px;
 }
 .input-label {
-  font-size: 18px;
-  color: #2e3e4d;
+  /* font-size: 18px;
+  color: #2e3e4d; */
   margin-bottom: 0;
 }
 .form-footer {
@@ -259,8 +259,8 @@ ul.calendar-year li:first-child {
   display: none;
 }
 .edit-calnedar-btn {
-  color: #2e3d4d;
-  font-size: 16px;
+  /* color: #2e3d4d;
+  font-size: 16px; */
   -ms-word-break: break-all;
   word-break: break-all;
 }
@@ -379,21 +379,11 @@ ul.calendar-year li:first-child {
 }
 .btn-edit {
   font-size: 14px;
-  color: #ff9500;
+  color: #ffbf00;
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
 }
 .circle1 {
-  border: 2px solid #007fff;
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  position: relative;
-  display: inline-block;
-  margin-right: 10px;
-  float: left;
-}
-.circle1 {
-  border: 2px solid #007fff;
+  border: 2px solid #0065f2;
   width: 20px;
   height: 20px;
   border-radius: 100%;
@@ -486,7 +476,7 @@ ul.calendar-year li:first-child {
   top: 240px;
   display: none;
   background: #fff;
-  color: #2e3d4d !important;
+  /* color: #2e3d4d !important; */
 }
 .year-dropdown:after {
   content: '';
@@ -525,7 +515,7 @@ ul.calendar-year li:first-child {
 .input-day {
   border: 0;
   padding: 7px;
-  background: #f2f4f5;
+  /* background: #f2f4f5; */
   outline: none;
   width: 100%;
 }
@@ -548,13 +538,13 @@ ul.calendar-year li:first-child {
   /*float: right;*/
 }
 .btn-cancel {
-  background: #f2f4f5;
-  color: #2e3d4d;
+  /* background: #f2f4f5;
+  color: #2e3d4d; */
   margin-right: 20px;
 }
 .btn-Primary {
-  background: #007fff;
-  color: #ffffff;
+  /* background: #007fff;
+  color: #ffffff; */
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -567,7 +557,7 @@ ul.calendar-year li:first-child {
   border: 0;
   padding: 10px 0px;
   background: #fff;
-  color: #ff3d33;
+  color: #e53c39;
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
   font-size: 16px;
 }
