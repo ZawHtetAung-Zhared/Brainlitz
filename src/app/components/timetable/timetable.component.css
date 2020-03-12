@@ -212,9 +212,6 @@
   .category {
     font-size: 17px;
   }
-  .dropdown-arrow {
-    padding-left: 130px !important;
-  }
 }
 
 .s-flex {
@@ -271,7 +268,8 @@
   border-radius: 50%;
 }
 .dropdown-arrow {
-  padding-left: 150px;
+  width: 255px;
+  display: inline-block;
 }
 .pad-left {
   padding-left: 10%;
