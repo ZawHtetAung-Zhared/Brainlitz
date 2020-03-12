@@ -1,42 +1,15 @@
 <div class="content-wrapper d-flex flex-column">
-  <div
-    *ngIf="selectedMastery && selectedMastery.selectData"
-    class="inner-wrapper"
-  >
+  <div class="inner-wrapper">
     <div class="d-flex align-items-center">
       <span (click)="backTo()">
         <i class="fa fa-angle-left"></i>
         <span class="back-txt">
-          {{ selectedMastery.name }}
+          Detail view
         </span>
       </span>
     </div>
-    <div class="d-flex justify-content-between mt-4">
-      <div
-        class="d-flex align-items-center"
-        (click)="dropDown($event, 'item', 'id')"
-      >
-        <span class="header-title">
-          <!-- {{ selectedMastery.selectData[0].groupTypeValue }} -->
-          {{ selectedMastery.selectData[0].shortMasteryName }}
-        </span>
-        <span class="ml-4 dropdown-toggle cust-dropbtn"></span>
-      </div>
-      <button class="btn btn-history">Activity history</button>
-    </div>
-    <div *ngIf="isItemSelect" class="item-dp">
-      <!-- <div
-        *ngFor="let item of selectedMastery.data"
-        class="item-list"
-        (click)="selectItem(item.id)"
-      > -->
-      <div
-        *ngFor="let item of selectedMastery.masteries"
-        class="item-list"
-        (click)="selectItem(item.masteryId)"
-      >
-        {{ item.shortMasteryName }}
-      </div>
+    <div class="h2-strong text-c300 pt-4">
+      {{ selectedMastery?.shortMasteryName }}
     </div>
     <div class="mt-4 mb-4">
       <span class="light-txt"
@@ -46,33 +19,42 @@
       >
     </div>
     <!-- start for -->
-
+    <!-- <div *ngFor="let key of objectKeys(userList)">
+      <div>{{key}}</div>
+      <div>{{userList[key] | json}}</div>
+    </div> -->
     <div
-      *ngFor="let report of selectedMastery.selectData[0].reportList"
+      *ngFor="let userType of objectKeys(userList)"
       class="mb-4 card cust-card"
     >
       <div class="cust-1 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <span class="option-title"> {{ report.type }} </span>
+          <span class="option-title"> {{ userType }} </span>
           <span class="dotted ml-3 mr-3"></span>
           <span class="student-info">
             {{
-              report.student_list.length > 1
-                ? report.student_list.length + ' students'
-                : report.student_list.length + ' student'
+              userList[userType].length > 1
+                ? userList[userType].length + 'students'
+                : userList[userType].length + 'student'
             }}
           </span>
         </div>
-        <div
-          [ngClass]="{
-            dropup: report.showList
-          }"
-          (click)="dropDown($event, 'student', report.id)"
-        >
-          <span class="dropdown-toggle cust-dropbtn"></span>
+        <div (click)="dropDown($event, userType)">
+          <img src=" ../../../../../../../assets/icons/up-arrow.svg" />
         </div>
       </div>
-      <div *ngIf="report.showList" class="cust-2 row m-0">
+      <div class="cust-2 row m-0">
+        <div
+          *ngFor="let user of userList[userType]"
+          class="col-md-4 d-flex align-items-center mt-3 mb-3"
+        >
+          <div class="d-flex justify-content-center std-img">
+            <img src="{{ user.profilePic }}" />
+          </div>
+          <span class="std-name"> {{ user.preferredName }} </span>
+        </div>
+      </div>
+      <!-- <div *ngIf="report.showList" class="cust-2 row m-0">
         <div
           *ngFor="let std of report.student_list"
           class="col-md-4 d-flex align-items-center mt-3 mb-3"
@@ -82,7 +64,7 @@
           </div>
           <span class="std-name"> {{ std.name }} </span>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- end for -->
