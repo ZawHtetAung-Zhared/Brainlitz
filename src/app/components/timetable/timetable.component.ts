@@ -2293,8 +2293,10 @@ export class TimetableComponent implements OnInit {
   public absent: boolean;
   public leaveInfo: any;
   public mDate: any;
+  public disabledScroll = false;
 
   showPopUpFunc(staff, schedule) {
+    this.disabledScroll = true;
     this.selectedStaff = staff;
     this.schedule = schedule;
     //this.timetables =this.selectedStaff.schedules.timetables;
@@ -2362,6 +2364,7 @@ export class TimetableComponent implements OnInit {
 
   clickOverlay() {
     this.showPopUp = false;
+    this.disabledScroll = false;
   }
 
   goCourseDetails(id) {
