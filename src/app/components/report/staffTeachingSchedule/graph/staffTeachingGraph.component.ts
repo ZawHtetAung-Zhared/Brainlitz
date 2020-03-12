@@ -96,12 +96,19 @@ export class StaffTeachingReportGraph implements OnInit {
         normal: {
           position: 'center',
           formatter: function(params) {
-            let totalhr;
+            let totalhr, hr_st, teacher_st;
             Number.isInteger(totalHours)
               ? (totalhr = totalHours)
               : (totalhr = totalHours.toFixed(2));
-            let value = '{a|' + totalhr + ' Hours}\n \n';
-            value += '{b|' + totalStaff + ' teachers}';
+
+            totalhr > 1
+              ? (hr_st = totalhr + ' Hours')
+              : (hr_st = totalhr + ' Hour');
+            totalStaff > 1
+              ? (teacher_st = totalStaff + ' teachers')
+              : (teacher_st = totalStaff + ' teacher');
+            let value = '{a|' + hr_st + '}\n \n';
+            value += '{b|' + teacher_st + '}';
             return value;
           },
           rich: {
