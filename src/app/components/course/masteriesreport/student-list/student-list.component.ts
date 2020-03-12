@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import sampleData from './../sampleData';
 import student_Data from './studentData';
 import { appService } from '../../../../service/app.service';
+import { DataService } from '../../../../service/data.service';
 
 @Component({
   selector: 'app-student-list',
@@ -10,100 +11,69 @@ import { appService } from '../../../../service/app.service';
   styleUrls: ['./student-list.component.css']
 })
 export class StudentListComponent implements OnInit {
-  masteriesReports: any = [
-    { id: 1, name: 'Light Energy', data: sampleData },
-    { id: 2, name: 'Heat Energy', data: sampleData }
-  ];
-  public selectedMastery: any; //= this.masteriesReports[localStorage.getItem('mastery_reportId')];
-  public itemId = localStorage.getItem('mastery_itemId');
-  public studentlist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  public isItemSelect: boolean = false;
-  public showStdList: boolean = true;
+  private regionId = localStorage.getItem('regionId');
+  private courseId = localStorage.getItem('course_id');
+  private selectedMastery: any; //= this.masteriesReports[localStorage.getItem('mastery_reportId')];
+  private itemId = localStorage.getItem('mastery_itemId');
+  private studentlist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  private isItemSelect: boolean = false;
+  private userList = {};
+  private showUserTypeArr = [];
+  objectKeys = Object.keys;
 
-  constructor(private _location: Location, private _service: appService) {}
+  constructor(
+    private _location: Location,
+    private _service: appService,
+    private dataservice: DataService
+  ) {}
 
   ngOnInit() {
-    this._service.getMasteryReports().subscribe(
-      (res: any) => {
-        this.masteriesReports = res.data;
-        this.masteriesReports = this.masteriesReports.filter(function(res) {
-          return res.id == localStorage.getItem('mastery_reportId');
-        });
-        this.selectedMastery = this.masteriesReports[0];
-        this.selectItem(this.itemId);
-
-        console.log(this.selectedMastery, this.itemId, this.masteriesReports);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
-    // for sample data
-    // this.masteriesReports = this.masteriesReports.filter(function(res) {
-    //   return res.id == '1'//localStorage.getItem('mastery_reportId');
-    // });
-    // this.selectedMastery = this.masteriesReports[0];
-    // this.selectedMastery.selectData = this.selectedMastery.data.filter(function(
-    //   res
-    // ) {
-    //   return res.id == '1'//localStorage.getItem('mastery_itemId');
-    // });
-    // this.selectedMastery.selectData[0].reportList = student_Data;
-    // this.selectedMastery.selectData[0].reportList.forEach(element => {
-    //   element.showList = true;
-    // });
-    // console.log(this.selectedMastery, this.itemId, this.masteriesReports);
+    // this.selectedMastery = this.dataservice.getMasteryData();
+    this.selectedMastery = JSON.parse(localStorage.getItem('userMastery'));
+    console.log(this.selectedMastery);
+    this.getUsersForMastery(this.selectedMastery);
   }
 
-  @HostListener('document:click', ['$event']) clickedOutside($event) {
+  @HostListener('document:click', ['$event']) clickedOutsisde($event) {
     this.isItemSelect = false;
+  }
+
+  getUsersForMastery(mastery) {
+    let userMasteriesObj = {
+      struggling: mastery.userMasteries.STRUGGLE.users,
+      notStarted: mastery.userMasteries.NEW.users,
+      inconslusive: mastery.userMasteries.INPROGRESS.users,
+      masteredWithdifficult:
+        mastery.userMasteries.MASTERED_WITH_DIFFICULT.users,
+      masteredWithEase: mastery.userMasteries.MASTERED_WITH_EASE.users
+    };
+    console.log('userMasteriesObj', userMasteriesObj);
+    this._service
+      .getUsersForMastery(this.regionId, this.courseId, userMasteriesObj)
+      .subscribe((res: any) => {
+        this.userList = res;
+        console.log('user list for mastery', res);
+      });
   }
 
   backTo() {
     this._location.back();
+    // this.dataservice.setMasteryData(null);
     localStorage.removeItem('mastery_itemId');
   }
 
-  selectItem(ItemId) {
-    this.selectedMastery.selectData = this.selectedMastery.masteries.filter(
-      function(res) {
-        return res.masteryId == ItemId;
-      }
-    );
-    this.selectedMastery.selectData[0].reportList = student_Data;
-    this.selectedMastery.selectData[0].reportList.forEach(element => {
-      element.showList = true;
-      if (element.id == 1 || element.id == 2)
-        element.student_list = this.selectedMastery.selectData[0].userMasteries.MASTERED.users;
-      else if (element.id == 3)
-        element.student_list = this.selectedMastery.selectData[0].userMasteries.INPROGRESS.users;
-      else if (element.id == 4)
-        element.student_list = this.selectedMastery.selectData[0].userMasteries.STRUGGLE.users;
-      else if (element.id == 6)
-        element.student_list = this.selectedMastery.selectData[0].userMasteries.NEW.users;
-    });
-    this.itemId = ItemId;
-
-    // this.selectedMastery.selectData = this.selectedMastery.data.filter(function(
-    //   res
-    // ) {
-    //   return res.id == ItemId;
-    // });
-    // this.selectedMastery.selectData[0].reportList = student_Data;
-    // this.itemId = ItemId;
-    // console.log(this.selectedMastery);
-  }
-
-  dropDown($event: Event, state, id) {
+  dropDown($event: Event, userType) {
     $event.preventDefault();
     $event.stopPropagation();
-    if (state == 'student') {
-      this.showStdList = !this.showStdList;
-      this.selectedMastery.selectData[0].reportList.forEach(element => {
-        if (element.id == id) element.showList = !element.showList;
-      });
+    const index = this.showUserTypeArr.indexOf(userType);
+    if (index > -1) {
+      console.log('splice');
+      this.showUserTypeArr.splice(index, 1);
+    } else {
+      console.log('push');
+      this.showUserTypeArr.push(userType);
     }
-    this.isItemSelect = state == 'item' ? !this.isItemSelect : false;
+
+    console.log(this.showUserTypeArr);
   }
 }

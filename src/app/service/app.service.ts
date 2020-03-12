@@ -4712,4 +4712,27 @@ export class appService {
       return res;
     });
   }
+
+  getUsersForMastery(regionId, courseId, userMasteriesObj) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      courseId +
+      '/apls-mastery-users';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, userMasteriesObj, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }
