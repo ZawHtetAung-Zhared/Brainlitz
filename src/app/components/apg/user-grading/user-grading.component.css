@@ -1,9 +1,3 @@
-.grade-title {
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  font-size: 18px;
-}
-
 .create-input {
   font-family: 'Inter-UI-Medium', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
@@ -49,14 +43,10 @@
   height: 24px;
   border-radius: 12px;
   text-align: center;
-  font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
-  font-size: 14px;
   color: #544600;
   cursor: pointer;
 }
 .grade-icon span {
-  font-family: 'IBM-Plex-SemiBold', 'Arial', sans-serif;
-  font-size: 14px;
   color: #544600;
 }
 .down-icon {
@@ -69,22 +59,17 @@
   box-shadow: none !important;
 }
 .btn-cancel {
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   border: none;
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  background-color: #f2f4f5;
   cursor: pointer;
 }
 .btn-submit {
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
   border: none;
   height: 45px;
   border-radius: 3px;
   width: 100px;
-  color: #fff;
-  background-color: #1682fb;
   margin-left: 15px;
 }
 .btn-wrapper {
@@ -96,9 +81,6 @@
 }
 .add-new-lvl {
   padding-left: 52px;
-  color: #007fff;
-  font-family: 'Inter-UI-Medium', 'Arial', sans-serif;
-  font-size: 16px;
   cursor: pointer;
 }
 
@@ -117,26 +99,17 @@
   height: 95px;
 }
 
-.input-section > p {
-  color: #b0b1b3;
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
-  font-size: 14px;
-}
-
 .sepalColor-wrapper {
   width: 48px;
 }
 .lvl-name-input {
-  background: #f2f4f5;
   border-radius: 4px;
-  font-size: 16px;
   border: 0;
   padding-left: 12px;
   height: 44px;
   outline: none;
   box-shadow: none;
   width: 100%;
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif;
 }
 .lvl-name-input:focus {
   background: #ffffff;
@@ -144,12 +117,10 @@
   border-radius: 4px;
 }
 .apply-btn {
-  background: #ffffff;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   width: 72px;
   line-height: 16px;
-  color: #80bfff;
   position: relative;
   top: -38px;
   right: -59px;

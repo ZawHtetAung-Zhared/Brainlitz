@@ -472,44 +472,19 @@ export class TimetableComponent implements OnInit {
   }
   DateCalculate() {
     var date = new Date();
-    console.log(
-      'next start',
-      moment(date)
-        .weekday(7)
-        .format('DD-MM-YYYY')
-    );
-    console.log(
-      'next end',
-      moment(date)
-        .weekday(13)
-        .format('DD-MM-YYYY')
-    );
 
-    console.log(
-      'prev start',
-      moment(date)
-        .weekday(-7)
-        .format('DD-MM-YYYY')
-    );
-    console.log(
-      'prev end',
-      moment(date)
-        .weekday(-1)
-        .format('DD-MM-YYYY')
-    );
-
-    console.log(
-      'current start',
-      moment(date)
-        .weekday(0)
-        .format('DD-MM-YYYY')
-    );
-    console.log(
-      'current end',
-      moment(date)
-        .weekday(6)
-        .format('DD-MM-YYYY')
-    );
+    // console.log(
+    //   'current start',
+    //   moment(date)
+    //     .weekday(0)
+    //     .format('DD-MM-YYYY')
+    // );
+    // console.log(
+    //   'current end',
+    //   moment(date)
+    //     .weekday(6)
+    //     .format('DD-MM-YYYY')
+    // );
 
     this.thisStart = moment(date)
       .weekday(0)
@@ -527,6 +502,7 @@ export class TimetableComponent implements OnInit {
     this.today = moment(date).format('YYYY-MM-DD');
     this.today2 = moment(date).format('DD-MM-YYYY');
     console.log(this.today);
+    this.indexWeek = [];
     for (var i = 0; i < 7; i++) {
       this.indexWeek.push(
         moment(date)
@@ -549,6 +525,151 @@ export class TimetableComponent implements OnInit {
       err => {
         console.log(err);
       }
+    );
+  }
+
+  public prevstart: any;
+  public prevend: any;
+  public nextstart: any;
+  public nextend: any;
+  public index: any = new Date();
+  public PS: any;
+  public PE: any;
+  public NS: any;
+  public NE: any;
+  public PSr: any;
+  public PEr: any;
+  public NSr: any;
+  public NEr: any;
+
+  weekCalculate(when) {
+    if (when == 'next') {
+      console.log(
+        'next start',
+        moment(this.index)
+          .weekday(7)
+          .format('YYYY-MM-DD')
+      );
+      this.nextstart = moment(this.index)
+        .weekday(7)
+        .utc();
+
+      this.NS = moment(this.index)
+        .weekday(7)
+        .format('YYYY-MM-DD');
+      this.NSr = moment(this.index)
+        .weekday(7)
+        .format('DD-MM-YYYY');
+
+      console.log(
+        'next end',
+        moment(this.index)
+          .weekday(13)
+          .format('YYYY-MM-DD')
+      );
+      this.nextend = moment(this.index)
+        .weekday(13)
+        .utc();
+
+      this.NE = moment(this.index)
+        .weekday(13)
+        .format('YYYY-MM-DD');
+      this.NEr = moment(this.index)
+        .weekday(13)
+        .format('DD-MM-YYYY');
+
+      this.index = moment(this.nextstart)
+        .weekday(1)
+        .utc();
+      console.log(
+        'Next index',
+        moment(this.nextstart)
+          .weekday(1)
+          .format('YYYY-MM-DD')
+      );
+
+      this.getTimetables(
+        this.stafflist.toString(),
+        this.NSr,
+        this.NEr,
+        this.currentCat
+      );
+
+      this.thisStart2 = this.NS;
+      this.thisEnd2 = this.NE;
+    }
+
+    if (when == 'prev') {
+      console.log(
+        'prev start',
+        moment(this.index)
+          .weekday(-7)
+          .format('YYYY-MM-DD')
+      );
+      this.prevstart = moment(this.index)
+        .weekday(-7)
+        .utc();
+
+      this.PS = moment(this.index)
+        .weekday(-7)
+        .format('YYYY-MM-DD');
+      this.PSr = moment(this.index)
+        .weekday(-7)
+        .format('DD-MM-YYYY');
+
+      console.log(
+        'prev end',
+        moment(this.index)
+          .weekday(-1)
+          .format('YYYY-MM-DD')
+      );
+      this.prevend = moment(this.index)
+        .weekday(-1)
+        .utc();
+
+      this.PE = moment(this.index)
+        .weekday(-1)
+        .format('YYYY-MM-DD');
+      this.PEr = moment(this.index)
+        .weekday(-1)
+        .format('DD-MM-YYYY');
+
+      this.index = moment(this.prevstart)
+        .weekday(1)
+        .utc();
+      console.log(
+        'Prev index',
+        moment(this.prevstart)
+          .weekday(1)
+          .format('YYYY-MM-DD')
+      );
+
+      this.getTimetables(
+        this.stafflist.toString(),
+        this.PSr,
+        this.PEr,
+        this.currentCat
+      );
+      this.thisStart2 = this.PS;
+      this.thisEnd2 = this.PE;
+    }
+    this.indexWeek = [];
+    for (var i = 0; i < 7; i++) {
+      this.indexWeek.push(
+        moment(this.index)
+          .weekday(i)
+          .format('YYYY-MM-DD')
+      );
+    }
+  }
+  TodayCalculate() {
+    this.index = new Date();
+    this.DateCalculate();
+    this.getTimetables(
+      this.stafflist.toString(),
+      this.thisStart,
+      this.thisEnd,
+      this.currentCat
     );
   }
   //zha function
@@ -2342,17 +2463,19 @@ export class TimetableComponent implements OnInit {
 
   public isAll = true;
   public selected: String = 'All Category';
+  public currentCat: any = 'all';
   CategorySelected(name, id, all) {
     console.log('caught', name, ' ~ ', id, ' ~ ', all);
     this.item.itemID = name;
     this.isAll = all;
     this.selected = name == '' ? 'All Category' : name;
     console.log(this.selected, ' is selected');
+    this.currentCat = id;
     this.getTimetables(
       this.stafflist.toString(),
       this.thisStart,
       this.thisEnd,
-      id
+      this.currentCat
     );
   }
 }

@@ -42,12 +42,14 @@
           class="noti-dropdown"
         >
           <li
+            class="body-m text-c300"
             [ngClass]="{ activetab: notiType == 'send' }"
             (click)="clickTab('send')"
           >
             Send notification
           </li>
           <li
+            class="body-m text-c300"
             [ngClass]="{ activetab: notiType == 'view' }"
             (click)="clickTab('view')"
           >
@@ -642,15 +644,21 @@
         class="notiGroup-wrap"
         *ngFor="let notiGroup of notiLists | groupBy: 'sentdate'"
       >
-        <h5 *ngIf="notiGroup.key == today" class="title-padding">
+        <h5
+          *ngIf="notiGroup.key == today"
+          class="title-padding body-l text-c300 bg-s0"
+        >
           Today, {{ notiGroup.key | date }}
         </h5>
-        <h5 *ngIf="notiGroup.key == yesterday" class="title-padding">
+        <h5
+          *ngIf="notiGroup.key == yesterday"
+          class="title-padding body-l text-c300 bg-s0"
+        >
           Yesterday, {{ notiGroup.key | date }}
         </h5>
         <h5
           *ngIf="notiGroup.key != today && notiGroup.key != yesterday"
-          class="title-padding"
+          class="title-padding body-l text-c300 bg-s0"
         >
           {{ notiGroup | getDay }}, {{ notiGroup.key | date }}
         </h5>
@@ -661,7 +669,7 @@
           <div class="flex-wrap">
             <div class="col-sm-2 oo" [ngClass]="{ notlast: !isLast }">
               <div class="same-label"></div>
-              <label class="sentTime">{{
+              <label class="sentTime body-l text-c100">{{
                 noti.senttime | convertTimeFormat
               }}</label>
             </div>
@@ -673,15 +681,19 @@
               }"
               class="col-sm-10 noti-info"
             >
-              <div class="same-label">
+              <div class="same-label small text-c100">
                 Sent to
               </div>
               <div class="user-info">
-                <span class="group-type">{{ noti.group.name }}</span>
-                <span *ngIf="noti.count > 1" class="count-wrap"
+                <span class="text-c300">{{ noti.group.name }}</span>
+                <span
+                  *ngIf="noti.count > 1"
+                  class="count-wrap bg-s20 small text-c100"
                   >{{ noti.count }} users</span
                 >
-                <span *ngIf="noti.count == 1" class="count-wrap"
+                <span
+                  *ngIf="noti.count == 1"
+                  class="count-wrap bg-s20 small text-c100"
                   >{{ noti.count }} user</span
                 >
                 <span class="social-links">
@@ -693,23 +705,25 @@
                   <a><i id="envelope" class="fa fa-envelope-o"></i></a>
                 </span>
               </div>
-              <div class="subject-wrap">
+              <div class="subject-wrap light-body-m text-c100 bg-s20">
                 <div class="xxx" [ngClass]="{ notlast: !isLast }">
                   <div class="xx1" [ngClass]="{ line1: isLast }"></div>
                   <div class="xx2" [ngClass]="{ line1: isLast }"></div>
                 </div>
                 <div class="noti-subject">
-                  <div class="noti-title">
+                  <div class="noti-title body-m text-c100">
                     {{ noti.title }}
                   </div>
                   <read-more [text]="noti.message"></read-more>
                 </div>
               </div>
-              <div class="sender-info">
+              <div class="sender-info text-c100 small ">
                 <span>Sent by</span>
                 <ul>
                   <li>
-                    <span id="senderName">{{ noti.sender.preferredName }}</span>
+                    <span id="senderName text-c300">{{
+                      noti.sender.preferredName
+                    }}</span>
                   </li>
                 </ul>
               </div>
@@ -718,8 +732,14 @@
         </div>
       </div>
 
-      <div *ngIf="notiLists.length >= 20" class="load-more">
-        <button class="btn remove-outline" (click)="showMore(notiLists.length)">
+      <div
+        *ngIf="notiLists.length >= 20"
+        class="load-more body-m text-b100 bg-s0"
+      >
+        <button
+          class="btn remove-outline text-b100 bg-s0"
+          (click)="showMore(notiLists.length)"
+        >
           load more
         </button>
       </div>

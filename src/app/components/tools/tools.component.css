@@ -42,18 +42,11 @@
   position: fixed;
   z-index: 9;
   width: 85%;
-  background: #fff;
   border-top: 1px solid #eee;
   padding: 10px;
   bottom: 0;
   right: 0;
   text-align: center;
-}
-.load-more1 button,
-.load-more button {
-  color: #0080ff;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
 .sub-title {
@@ -76,10 +69,7 @@ ul.noti-dropdown li:last-child {
 ul.noti-dropdown li {
   cursor: pointer;
   margin-left: 23px;
-  color: #2e3d4d;
   border-top: 1px solid #e3e4e6;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding: 16px 0;
   margin-right: 20px;
 }
@@ -505,11 +495,8 @@ input:checked + .slider:before {
 /*For confirm UI*/
 .title-padding {
   padding-left: 15px;
-  color: #2f3d4c;
-  font-family: 'Inter-UI-Medium';
   position: relative;
   z-index: 9;
-  background: #fff;
 }
 
 .notiGroup-wrap {
@@ -524,8 +511,6 @@ input:checked + .slider:before {
 .sentTime {
   /*color: #788795;
     font-family: 'Inter-UI-Regular';*/
-  color: #64707c;
-  font-family: 'Inter-UI-medium';
   position: relative;
   z-index: 9;
 }
@@ -564,19 +549,11 @@ input:checked + .slider:before {
   margin-bottom: 15px;
 }
 .count-wrap {
-  background: #f2f4f5;
   padding: 4px;
-  font-size: 12px;
   margin-left: 10px;
-  color: #717c87;
-  font-family: Inter-UI-Regular;
   border-radius: 4px;
 }
 .subject-wrap {
-  background: #f2f4f5;
-  color: #64707c;
-  font-size: 14px;
-  font-family: 'Inter-UI-Regular';
   border-radius: 8px;
   word-break: break-word;
 }
@@ -586,21 +563,15 @@ input:checked + .slider:before {
 .noti-title {
   /*color: #525e6a;*/
   /*color: #788795;*/
-  font-family: 'Inter-UI-Medium';
-  font-size: 16px;
   margin-bottom: 0.7rem;
 }
 .sender-info {
   display: flex;
   float: right;
   padding-top: 10px;
-  font-size: 13px;
   height: 35px;
-  font-family: 'Inter-UI-Regular';
 }
-.sender-info span {
-  color: #66727e;
-}
+
 .sender-info ul {
   /*color: #2f3e4c;*/
   color: #66727e;
@@ -611,9 +582,6 @@ input:checked + .slider:before {
 }
 .same-label {
   height: 17px;
-  font-size: 13px;
-  font-family: Inter-UI-Regular;
-  color: #838d96;
 }
 /*testing timeline*/
 .wrapper {
@@ -653,10 +621,7 @@ input:checked + .slider:before {
   font: bold 12px arial, sans-serif;
   background: #fff;
 }
-.group-type {
-  font-family: Inter-UI-Medium;
-  color: #2f3d4c;
-}
+
 /*testing timeline*/
 .vl {
   width: 20%;
