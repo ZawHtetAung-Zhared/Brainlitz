@@ -34,6 +34,21 @@ export class TimetableComponent implements OnInit {
   public today: any;
   public today2: any;
   public catList: any;
+  public staffcount: any = 0;
+  public extracount: any = [
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1',
+    '1'
+  ];
   //zha variable
 
   //apo variable
@@ -405,11 +420,16 @@ export class TimetableComponent implements OnInit {
     this._service.getStaffList(this.thisStart, this.thisEnd).subscribe(
       (res: any) => {
         this.stafflist = res.staffList;
+        this.staffcount = this.stafflist.length;
+        if (this.staffcount > 10) {
+          this.extracount = ['1', '1', '1'];
+        }
         console.log('SL', this.stafflist);
         this.getTimetables(
           this.stafflist.toString(),
           this.thisStart,
-          this.thisEnd
+          this.thisEnd,
+          'all'
         );
       },
       err => {
@@ -417,10 +437,29 @@ export class TimetableComponent implements OnInit {
       }
     );
   }
-  getTimetables(list, start, end) {
-    this._service.getTimetableList(list, start, end).subscribe(
+  getTimetables(list, start, end, id) {
+    this._service.getTimetableList(list, start, end, id).subscribe(
       (res: any) => {
         this.timetablelist = res;
+        this.staffcount = res.length;
+        if (this.staffcount > 10) {
+          this.extracount = ['1', '1', '1'];
+        } else {
+          this.extracount = [
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1',
+            '1'
+          ];
+        }
         console.log('timetable list', this.timetablelist);
         // var startOfWeek = moment().startOf('week').toDate();
         // var endOfWeek = moment().endOf('week').toDate();
@@ -2302,9 +2341,18 @@ export class TimetableComponent implements OnInit {
   }
 
   public isAll = true;
+  public selected: String = 'All Category';
   CategorySelected(name, id, all) {
     console.log('caught', name, ' ~ ', id, ' ~ ', all);
     this.item.itemID = name;
     this.isAll = all;
+    this.selected = name == '' ? 'All Category' : name;
+    console.log(this.selected, ' is selected');
+    this.getTimetables(
+      this.stafflist.toString(),
+      this.thisStart,
+      this.thisEnd,
+      id
+    );
   }
 }
