@@ -324,10 +324,9 @@
                           ngbTooltip="{{ student.fullName }}"
                         >
                           <img
-                            class="d-inline-block"
+                            class="d-inline-block student_profilePic"
                             src="{{ student.profilePic }}"
                             alt=""
-                            class="student_profilePic"
                             *ngIf="
                               student.profilePic != undefined ||
                               student.profilePic == null

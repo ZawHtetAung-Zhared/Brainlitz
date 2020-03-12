@@ -52,6 +52,7 @@
   background: #ffffff;
   box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
+  overflow: auto;
 }
 
 .heading {
@@ -275,6 +276,10 @@
 .pad-left {
   padding-left: 10%;
 }
+.cat-ul {
+  list-style: none;
+  padding-left: 20px;
+}
 
 /* .................................................................................................................................................................................................... */
 
@@ -474,10 +479,16 @@
 .my-modal-body {
   width: 100%;
   background: #ffffff;
-  padding: 26px;
+  padding: 0px 26px 0px 26px;
+  min-height: 104px;
   max-height: 540px;
-  border-radius: 0px 0px 16px 16px;
   overflow: overlay;
+  border-radius: 0px 0px 16px 16px;
+}
+
+.schedule-wrap {
+  padding: 26px 0px 26px 0px;
+  border-top: 1px solid #edeff0;
 }
 
 .flex-column {
