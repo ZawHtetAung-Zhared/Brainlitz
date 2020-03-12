@@ -9,7 +9,6 @@
   -ms-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
   top: -80px;
-  background: #fff;
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 
@@ -17,10 +16,7 @@
   top: 0;
 }
 
-h3,
-h5 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3d4d;
+h3 {
   word-wrap: break-word;
 }
 
@@ -37,10 +33,6 @@ h5 {
 }
 
 .cancel-button {
-  background: #f2f4f5;
-  color: #2e3d4d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 16px;
   padding: 10px 20px !important;
   border: none;
   cursor: pointer;
@@ -48,18 +40,11 @@ h5 {
 }
 
 .create-button {
-  background: #007fff;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 16px;
   padding: 10px 20px !important;
-  color: #fff;
   border: none;
 }
 
 .back-staff-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-  color: #2e3d4d;
-  font-size: 16px;
   margin: 0;
   padding: 2px 5px;
 }
@@ -96,7 +81,6 @@ h5 {
 
 .form-wrap textarea,
 .form-wrap input {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   padding: 0.6rem 0.75rem;
@@ -125,34 +109,18 @@ h5 {
 }
 
 .label-txt {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif !important;
-  color: #2e3d4d;
-  font-size: 18px;
   padding-bottom: 16px;
 }
 
-.guardian-select {
+/* .label-txt span {
   font-size: 14px;
   color: #64707d;
-}
-
-.label-txt span {
-  font-size: 14px;
-  color: #64707d;
-}
-
-.limit-wordcount,
-.limit-wordcount1,
-.limit-wordcount2 {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 14px;
-}
+} */
 
 .limit-wordcount,
 .limit-wordcount1,
 .limit-wordcount2 {
   display: none;
-  color: #0080ff;
   position: absolute;
   right: 0;
 }
@@ -171,14 +139,6 @@ h5 {
   cursor: pointer;
 }
 
-.addEmail-text,
-.sent-randon-psw {
-  color: #007fff;
-  background: #fff;
-  font-size: 16px;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-}
-
 .addEmail-text {
   padding-left: 16px;
 }
@@ -193,7 +153,6 @@ h5 {
   /*width: 90%;*/
   outline: none;
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
 }
 
 .input-day {
@@ -208,7 +167,6 @@ h5 {
 
 .square-box,
 .rounded-box {
-  line-height: 12px;
   text-align: center;
   width: 16px;
   height: 16px;
@@ -219,16 +177,6 @@ h5 {
   cursor: pointer;
 }
 
-.square-box i,
-.rounded-box i {
-  font-size: 10px;
-  color: #ffffff;
-}
-
-.square-checked {
-  background: #007fff;
-}
-
 .square-box,
 .square-checked {
   border-radius: 4px;
@@ -236,13 +184,12 @@ h5 {
 
 .square-checked,
 .rounded-checked {
-  line-height: 2px;
   text-align: center;
   width: 17px;
   height: 17px;
   /*border-radius: 50%;*/
   cursor: pointer;
-  border: 2px solid #007fff;
+  border: 2px solid #0065f2;
 }
 
 .rounded-checked,
@@ -251,16 +198,9 @@ h5 {
   position: relative;
 }
 
-.square-checked i {
-  font-size: 10px;
-  color: #fff;
-}
-
 .box-label {
-  line-height: 0.9;
   padding-left: 5px;
   cursor: pointer;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .radio-checked {
@@ -268,7 +208,6 @@ h5 {
   width: 9px;
   height: 9px;
   position: absolute;
-  background: #007fff;
   left: 2px;
   top: 2px;
 }
@@ -285,7 +224,6 @@ h5 {
 
 .profile-box {
   /*background: #f2f4f5;*/
-  background: #ffffff;
   border: 1px solid #e3e4e6;
   /*width: 220px;*/
   width: 337px;
@@ -302,9 +240,6 @@ h5 {
 }
 
 .profile-box p {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  color: #0080ff;
-  font-size: 16px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -315,7 +250,6 @@ h5 {
 }
 
 .circular-wrap {
-  background: #f2f4f5;
   padding: 55px;
   border-radius: 4px;
   margin-top: 10px;
@@ -354,7 +288,6 @@ h5 {
 }
 
 .crop-box {
-  background: #f2f4f5;
   padding: 5px 0 5px 0;
 }
 
@@ -363,7 +296,6 @@ h5 {
   background: none;
   padding: 5px 60px;
   cursor: pointer;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
 .crop-box button:focus {
@@ -374,14 +306,6 @@ h5 {
   border-right: 1px solid gray;
 }
 
-.btn1 {
-  color: #2e3d4d !important;
-}
-
-.btn2 {
-  color: #007fff;
-}
-
 .pwd-container {
   margin-top: 430px;
   position: absolute;
@@ -390,21 +314,10 @@ h5 {
   text-align: center;
 }
 
-.btn-pwd {
+/* .btn-pwd {
   font-family: 'Inter-UI-SemiBold', Arial, sans-serif;
   width: 200px;
-}
-
-i.fa.fa-angle-left.flexiBackicon {
-  font-size: 20px;
-  color: #3d5266;
-  font-weight: bold;
-  padding-right: 4px;
-}
-
-.checkedDate {
-  color: #007fff;
-}
+} */
 
 .button-group {
   position: fixed;
@@ -412,5 +325,4 @@ i.fa.fa-angle-left.flexiBackicon {
   bottom: 0;
   padding: 20px;
   left: 0;
-  background: #fff;
 }
