@@ -18,11 +18,13 @@
       class="d-flex"
       style="margin-left: 20px; height: 40px;align-items: center;"
     >
-      <button class="btn tdy-btn body-m">Today</button>
-      <span class="arrow"
+      <button class="btn tdy-btn body-m" (click)="TodayCalculate()">
+        Today
+      </button>
+      <span class="arrow" (click)="weekCalculate('prev')"
         ><img src="../../../assets/img/chevron-right-s.png"
       /></span>
-      <span class="arrow"
+      <span class="arrow" (click)="weekCalculate('next')"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date"
