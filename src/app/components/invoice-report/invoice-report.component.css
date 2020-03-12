@@ -1,24 +1,7 @@
-.title-div h2,
-.header-wrapper,
-.view-inv-btn,
-.invList {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
-.btn-export,
-.option-dp {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-}
-
 .title-div {
   padding: 0px 15px;
   margin-top: 28px;
   margin-bottom: 36px;
-}
-
-.title-div h2 {
-  color: #2e3d4d;
-  font-size: 28px;
 }
 
 .table-wrapper {
@@ -45,17 +28,9 @@
   border-bottom: 1px solid #edeff0;
 }
 
-.header-wrappe,
-.invList {
-  color: #2e3d4d;
-  font-size: 14px;
-  /*display: table-cell;*/
-}
-
 .view-inv-btn {
   background: none;
   border: none;
-  color: #007fff;
   cursor: pointer;
   padding: 0;
   outline: none;
@@ -74,16 +49,12 @@ table td {
   position: fixed;
   z-index: 1;
   width: 85%;
-  background: #fff;
   border-top: 1px solid #eee;
   padding: 10px;
   bottom: 0;
   right: 0;
 }
 .load-more button {
-  color: #0080ff;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   cursor: pointer;
 }
 
@@ -102,27 +73,20 @@ table td {
 }
 
 .btn-export {
-  background: #007fff;
   border: none;
   outline: none;
-  font-size: 16px;
-  color: #fff;
   padding: 8px 15px;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .downIcon {
-  color: #fff;
-  font-size: 12px;
   margin-left: 8px;
 }
 
 .option-dp {
   position: absolute;
   z-index: 99;
-  background: #fff;
-  color: #2e3d4d !important;
   cursor: pointer;
   min-width: 100px;
   text-align: center;
