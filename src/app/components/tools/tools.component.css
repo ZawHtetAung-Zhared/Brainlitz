@@ -1,10 +1,8 @@
 .location-name {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
   /* line-height: 0.5; */
   position: relative;
   /* margin-top: 28px; */
-  font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
   margin-bottom: 0;
@@ -44,24 +42,14 @@
   position: fixed;
   z-index: 9;
   width: 85%;
-  background: #fff;
   border-top: 1px solid #eee;
   padding: 10px;
   bottom: 0;
   right: 0;
   text-align: center;
 }
-.load-more1 button,
-.load-more button {
-  color: #0080ff;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
 
 .sub-title {
-  color: #2e3e4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 18px;
   margin-top: 32px;
 }
 .noti-dropdown.down {
@@ -81,10 +69,7 @@ ul.noti-dropdown li:last-child {
 ul.noti-dropdown li {
   cursor: pointer;
   margin-left: 23px;
-  color: #2e3d4d;
   border-top: 1px solid #e3e4e6;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding: 16px 0;
   margin-right: 20px;
 }
@@ -167,11 +152,8 @@ img.setting-icon {
   /*border: none;*/
   border-right: 0;
   padding: 8px 6px;
-  color: #0080ff;
-  font-size: 16px;
   flex: auto;
   text-align: center;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 .tool-checked:last-child label {
   /*border-right: 1px solid #0080ff;*/
@@ -194,11 +176,7 @@ img.setting-icon {
 .selected label {
   color: #fff !important;
 }
-.lable-title {
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  font-size: 18px;
-  color: #2e3e4d;
-}
+
 .limit-word,
 .limit-word1 {
   display: none;
@@ -213,7 +191,6 @@ img.setting-icon {
   background: #f7f9fa;
 }
 .input-create {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -227,11 +204,7 @@ img.setting-icon {
   -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
-.active-user-form label {
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  font-size: 16px;
-  color: #2e3e4d;
-}
+
 .notif {
   position: relative;
   padding-bottom: 130px;
@@ -253,18 +226,13 @@ img.setting-icon {
   /*padding-top: 150px;*/
 }
 .title-heading {
-  font-size: 27px;
   padding-left: 15px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3e4d;
   margin-bottom: 0;
   display: table;
 }
 .user-count {
   padding: 25px 20px;
-  background: #ece8ef;
   border: 1px solid transparent;
-  color: #212529;
   display: table;
   border-radius: 5px;
   margin-top: 4em;
@@ -273,8 +241,6 @@ img.setting-icon {
   transition: 0.1s all ease-out;
   text-align: center;
   width: 100%;
-  color: #009940;
-  background: #c2f2d6;
 }
 .no-user {
   background: #fff;
@@ -289,11 +255,8 @@ img.setting-icon {
 }
 .user-count h4 {
   margin-bottom: 0;
-  font-size: 32px;
   /*min-height: 48px;*/
   min-width: 22px;
-  color: #009940;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .choose-cat {
   /*width: 95.5% !important;*/
@@ -320,7 +283,6 @@ img.setting-icon {
   -ms-transition: 300ms linear;
   transition: 300ms linear;
   width: 25%;
-  background: #f2f4f5;
 }
 .large-col {
   width: 75%;
@@ -370,14 +332,10 @@ img.setting-icon {
   position: relative;
   z-index: 99;
   text-align: left;
-  background: #f2f4f5;
   padding: 10px 26px;
   border-radius: 0;
   outline: none;
   border-left: 3px solid transparent;
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  color: #2e3e4d;
-  font-size: 16px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -393,9 +351,6 @@ img.setting-icon {
 }*/
 .switch-col label {
   margin-bottom: 0;
-  font-size: 16px;
-  color: #2e3e4d;
-  font-family: 'Inter-UI-SemiBold', 'Arial', sans-serif;
 }
 .radio-switch {
   position: relative;
@@ -540,11 +495,8 @@ input:checked + .slider:before {
 /*For confirm UI*/
 .title-padding {
   padding-left: 15px;
-  color: #2f3d4c;
-  font-family: 'Inter-UI-Medium';
   position: relative;
   z-index: 9;
-  background: #fff;
 }
 
 .notiGroup-wrap {
@@ -559,8 +511,6 @@ input:checked + .slider:before {
 .sentTime {
   /*color: #788795;
     font-family: 'Inter-UI-Regular';*/
-  color: #64707c;
-  font-family: 'Inter-UI-medium';
   position: relative;
   z-index: 9;
 }
@@ -599,19 +549,11 @@ input:checked + .slider:before {
   margin-bottom: 15px;
 }
 .count-wrap {
-  background: #f2f4f5;
   padding: 4px;
-  font-size: 12px;
   margin-left: 10px;
-  color: #717c87;
-  font-family: Inter-UI-Regular;
   border-radius: 4px;
 }
 .subject-wrap {
-  background: #f2f4f5;
-  color: #64707c;
-  font-size: 14px;
-  font-family: 'Inter-UI-Regular';
   border-radius: 8px;
   word-break: break-word;
 }
@@ -621,21 +563,15 @@ input:checked + .slider:before {
 .noti-title {
   /*color: #525e6a;*/
   /*color: #788795;*/
-  font-family: 'Inter-UI-Medium';
-  font-size: 16px;
   margin-bottom: 0.7rem;
 }
 .sender-info {
   display: flex;
   float: right;
   padding-top: 10px;
-  font-size: 13px;
   height: 35px;
-  font-family: 'Inter-UI-Regular';
 }
-.sender-info span {
-  color: #66727e;
-}
+
 .sender-info ul {
   /*color: #2f3e4c;*/
   color: #66727e;
@@ -646,9 +582,6 @@ input:checked + .slider:before {
 }
 .same-label {
   height: 17px;
-  font-size: 13px;
-  font-family: Inter-UI-Regular;
-  color: #838d96;
 }
 /*testing timeline*/
 .wrapper {
@@ -688,10 +621,7 @@ input:checked + .slider:before {
   font: bold 12px arial, sans-serif;
   background: #fff;
 }
-.group-type {
-  font-family: Inter-UI-Medium;
-  color: #2f3d4c;
-}
+
 /*testing timeline*/
 .vl {
   width: 20%;
@@ -842,12 +772,8 @@ hr {
 
 /* notification */
 .info-message {
-  background: #f2f4f5;
   padding: 8px 20px;
   border-radius: 25px;
-  color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 14px;
   margin-top: 0px;
   margin-right: 10px;
 }
@@ -858,8 +784,6 @@ hr {
   overflow: overlay;
 }
 .btn-create {
-  color: #fff;
-  background-color: #1682fb;
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -881,9 +805,6 @@ hr {
 }
 
 .input-recommend {
-  font-size: 14px;
-  color: #64707d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-left: 15px;
   padding-top: 15px;
   margin: 0;

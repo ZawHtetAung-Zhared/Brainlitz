@@ -18,11 +18,13 @@
       class="d-flex"
       style="margin-left: 20px; height: 40px;align-items: center;"
     >
-      <button class="btn tdy-btn body-m">Today</button>
-      <span class="arrow"
+      <button class="btn tdy-btn body-m" (click)="TodayCalculate()">
+        Today
+      </button>
+      <span class="arrow" (click)="weekCalculate('prev')"
         ><img src="../../../assets/img/chevron-right-s.png"
       /></span>
-      <span class="arrow"
+      <span class="arrow" (click)="weekCalculate('next')"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date"
@@ -30,9 +32,9 @@
         {{ thisEnd2 | date: 'd MMM' }} '{{ thisEnd2 | date: 'yy' }}</span
       >
       <div class="category" (click)="toggledropdown()">
-        <span class="pl-3">All category</span>
-        <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>
-        <i *ngIf="clist == true" class="fa fa-chevron-up dropdown-arrow"></i>
+        <span class="pl-3 dropdown-arrow">{{ selected }}</span>
+        <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
+        <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
         <div *ngIf="clist == true" class="category-list">
           <ul class="cat-ul">
             <li (click)="CategorySelected('', '', true)">All Category</li>
@@ -50,7 +52,7 @@
   <div class="heading">
     <div class="staff s-c">
       <div class="s-flex">
-        <span>{{ stafflist.length }}</span
+        <span>{{ staffcount }}</span
         ><span>staffs</span>
       </div>
     </div>
@@ -99,11 +101,10 @@
           </div>
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span *ngIf="count.start.meridiem == 'PM'"
-              >{{ count.start.hour }}:{{ count.start.min }}
-              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
-                count.end.min
-              }}
-              {{ count.end.meridiem }}</span
+              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
+              >{{ count.start.min }} {{ count.start.meridiem }} -
+              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+              >{{ count.end.min }} {{ count.end.meridiem }}</span
             >
           </div>
         </div>
@@ -120,11 +121,10 @@
           </div>
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span *ngIf="count.start.meridiem == 'AM'"
-              >{{ count.start.hour }}:{{ count.start.min }}
-              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
-                count.end.min
-              }}
-              {{ count.end.meridiem }}</span
+              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
+              >{{ count.start.min }} {{ count.start.meridiem }} -
+              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+              >{{ count.end.min }} {{ count.end.meridiem }}</span
             >
           </div>
         </div>
@@ -135,11 +135,10 @@
         >
           <div *ngFor="let count of schedule.timetables; let k = index">
             <span
-              >{{ count.start.hour }}:{{ count.start.min }}
-              {{ count.start.meridiem }} - {{ count.end.hour }}:{{
-                count.end.min
-              }}
-              {{ count.end.meridiem }}</span
+              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
+              >{{ count.start.min }} {{ count.start.meridiem }} -
+              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+              >{{ count.end.min }} {{ count.end.meridiem }}</span
             >
           </div>
         </div>
@@ -147,57 +146,7 @@
     </div>
   </div>
   <div class="extra">
-    <div class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-    </div>
-    <div class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-    </div>
-    <div class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-    </div>
-    <div class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-    </div>
-    <div class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-    </div>
-    <div class="schedule">
+    <div *ngFor="let ex of extracount" class="schedule">
       <div class="staff"></div>
       <div class="white"></div>
       <div class="white"></div>

@@ -26,13 +26,13 @@
   >
     <div class="mr-auto">
       <div class="d-flex flex-row">
-        <h2 class="title-heading">Tracking module</h2>
+        <h2 class="title-heading h1-strong text-c300">Tracking module</h2>
         <!-- <span class="apg-longterm">Access Point Group</span> -->
       </div>
     </div>
     <div style="position: relative;">
       <button
-        class="btn-exportAll"
+        class="btn-exportAll text-b100 bg-s0 body-l"
         (click)="showExportOption($event, 'exportOpt')"
       >
         Export
@@ -56,7 +56,7 @@
       <button
         *ngIf="apgDemo.addAPG != ''"
         type="button"
-        class="btn btn-create"
+        class="btn btn-create text-s0 bg-b100 body-l"
         (click)="addNewAPG()"
       >
         Add new tracking module
@@ -65,7 +65,7 @@
   </div>
   <div class="input-group col-md-12 mt-30">
     <input
-      class="form-control py-2 input-search-bg"
+      class="form-control py-2 input-search-bg bg-s20"
       type="search"
       placeholder="Search tracking module"
       id="example-search-input"
@@ -90,13 +90,14 @@
   <div>
     <div class="d-flex tabs-wrapper tab-name">
       <button
-        class="modal-tab"
+        class="modal-tab body-m text-c300 bg-s0"
         [ngClass]="{ 'active-apg-tab': selectedAPGTab.name == 'All' }"
         (click)="onClickApgTab('All')"
       >
         All
       </button>
       <button
+        class="body-m text-c300 bg-s0"
         *ngFor="let module of moduleList"
         [ngClass]="{ 'active-apg-tab': selectedAPGTab.name == module.name }"
         (click)="onClickApgTab(module.name, module._id)"
@@ -134,15 +135,15 @@
                 apg.module.name.toLowerCase() == 'user grading'
             }"
           >
-            <p class="apg-type" *ngIf="apg.module">
+            <p class="apg-type small text-c100" *ngIf="apg.module">
               {{
                 apg.module.name.toLowerCase() == 'user grading'
                   ? 'Grade'
                   : apg.module.name
               }}
             </p>
-            <p class="apg-type" *ngIf="!apg.module">-</p>
-            <h4>{{ apg.name }}</h4>
+            <p class="apg-type  small text-c100" *ngIf="!apg.module">-</p>
+            <p class="body-m text-c300 mb-0">{{ apg.name }}</p>
           </div>
           <div
             class="apg-scroll"
@@ -162,7 +163,7 @@
                 apg.module.name.toLowerCase() == 'progress' ||
                 apg.module.name.toLowerCase() == 'badge'
               "
-              class="apg-desc padding-lr"
+              class="apg-desc padding-lr body-m text-c100"
             >
               {{ apg.description }}
             </p>
@@ -180,7 +181,7 @@
                 <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
                 <div class="d-flex flex-row justify-content-between">
                   <p
-                    class="mb-0 ev-apgName"
+                    class="mb-0 ev-apgName body-l text-c300"
                     [ngClass]="{ changeColor: ap.isExpand }"
                   >
                     {{ ap.name }}
@@ -212,7 +213,7 @@
                   >
                     <span class="detail-dot"></span>
                     <div
-                      class="mb-0 list-dot-wrap detail-line apg-desc w-100"
+                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
                       [ngClass]="{
                         'hide-border':
                           ap.data.evaluation.details?.length == idx + 1
@@ -239,9 +240,11 @@
                   <div
                     class="d-flex flex-row justify-content-between list-dot-wrap"
                   >
-                    <div class="d-flex flex-row">
-                      <span class="textUnitName">Unit:</span
-                      ><span class="textUnit pl-2">{{ ap.data.unit }}</span>
+                    <div class="d-flex flex-row body-l">
+                      <span class="textUnitName text-c100">Unit:</span
+                      ><span class="textUnit pl-2 text-c300 ">{{
+                        ap.data.unit
+                      }}</span>
                     </div>
                     <div class="showType">
                       <img
@@ -254,7 +257,7 @@
                         src="../../../assets/img/slider-icon.png"
                         class="inputIcon"
                       />
-                      <span class="inputText">
+                      <span class="inputText body-m text-c100">
                         {{
                           ap.data.inputType == 'RANGE' ? 'Slider' : 'Input box'
                         }}
@@ -272,7 +275,7 @@
                   >
                     <span class="detail-dot"></span>
                     <div
-                      class="mb-0 list-dot-wrap detail-line apg-desc w-100"
+                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
                       [ngClass]="{
                         'hide-border':
                           ap.data.inputTypeProperties.options?.length ==
@@ -337,7 +340,7 @@
                         'hide-border': ap.data.grades?.length == j + 1
                       }"
                     >
-                      <p class="gradename">{{ grade.name }}</p>
+                      <p class="gradename body-m text-c300">{{ grade.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -371,7 +374,7 @@
             </div>
             <div>
               <button
-                class="apg-share remove-outline"
+                class="apg-share remove-outline text-b100 body-m text-b100 body-m"
                 (click)="apgPublicShare(apg._id)"
               >
                 Share
@@ -391,21 +394,21 @@
                 apg.module.name.toLowerCase() == 'evaluation'
               "
               (click)="exportCSV(apg)"
-              class="apg-share remove-outline"
+              class="apg-share remove-outline text-b100 body-m"
             >
               Export
             </button>
           </div>
           <div>
             <button
-              class="btn-action remove-outline"
+              class="btn-action remove-outline light-body-m text-y100"
               (click)="onclickUpdate(apg._id, apg)"
             >
               Edit
             </button>
             <span class="small-line"></span>
             <button
-              class="btn-action remove-outline"
+              class="btn-action remove-outline light-body-m text-r100"
               (click)="onclickDelete(apg._id, alertDelete)"
             >
               Delete
@@ -426,10 +429,13 @@
     isshare == false &&
     apCreate == false
   "
-  class="load-more"
+  class="load-more bg-s0"
 >
   <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
-  <button class="btn remove-outline" (click)="showmore('apg', apgList.length)">
+  <button
+    class="btn remove-outline body-m text-b100 "
+    (click)="showmore('apg', apgList.length)"
+  >
     load more
   </button>
 </div>
@@ -446,12 +452,12 @@
 >
   <div class="back-wrap">
     <div
-      class="d-flex back-to"
+      class="d-flex back-to "
       *ngIf="ismodule == true || isUpdate == true"
       (click)="goToBack('type')"
     >
       <i class="fa fa-angle-left"></i>
-      <p>Tracking module</p>
+      <p class="body-l text-c300">Tracking module</p>
     </div>
     <div
       class="d-flex back-to"
@@ -459,7 +465,7 @@
       (click)="goToBack('create')"
     >
       <i class="fa fa-angle-left"></i>
-      <p>Pick a tracking module type</p>
+      <p class="body-l text-c300">Pick a tracking module type</p>
     </div>
 
     <!-- <a class="back-to" *ngIf="ismodule == true || isUpdate == true" (click)="goToBack('type')">< APG</a> -->
@@ -471,10 +477,12 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
+        <p class="body-l text-c300">
+          Creating {{ apgType.toLowerCase() }} tracking module
+        </p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-      <a class="cancel-back" (click)="cancelapg()">Cancel</a>
+      <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
     </div>
 
     <div
@@ -483,19 +491,21 @@
     >
       <div class="back-to" (click)="goToBack('share')">
         <i class="fa fa-angle-left"></i>
-        <p>Creating {{ apgType.toLowerCase() }} tracking module</p>
+        <p class="body-l text-c300">
+          Creating {{ apgType.toLowerCase() }} tracking module
+        </p>
       </div>
       <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
-      <a class="cancel-back" (click)="cancelapg()">Cancel</a>
+      <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
     </div>
   </div>
   <div class="location-group">
-    <h3 *ngIf="ismodule == true" class="title-heading">
+    <h3 *ngIf="ismodule == true" class="title-heading h1-strong text-c300">
       Pick tracking module type
     </h3>
     <p
       *ngIf="ismodule == true"
-      class="input-recommend"
+      class=" body-m text-c100"
       style="padding-left: 15px"
     >
       Tracking module is where a Teacher will be able to mark the progress or
@@ -505,16 +515,28 @@
     </p>
     <!-- <h3 *ngIf="isshare == true && isUpdate == false && apCreate == false && iscreate== false" class="title-heading">Creating progress APG</h3>
       <h3 *ngIf="apCreate == true && iscreate == false" class="title-heading">Creating evaluation APG</h3> -->
-    <h3 *ngIf="isshare == true && isUpdate == false" class="title-heading">
+    <h3
+      *ngIf="isshare == true && isUpdate == false"
+      class="title-heading h1-strong text-c300"
+    >
       Creating {{ apgType.toLowerCase() }} tracking module
     </h3>
-    <h3 *ngIf="iscreate == true && isUpdate == false" class="title-heading">
+    <h3
+      *ngIf="iscreate == true && isUpdate == false"
+      class="title-heading h1-strong text-c300"
+    >
       Create {{ apgType.toLowerCase() }} tracking module
     </h3>
-    <h3 *ngIf="iscreate == true && isUpdate == true" class="title-heading">
+    <h3
+      *ngIf="iscreate == true && isUpdate == true"
+      class="title-heading h1-strong text-c300"
+    >
       Update {{ apgType.toLowerCase() }} tracking module
     </h3>
-    <h3 *ngIf="shareAPG == true && isUpdate == false" class="title-heading">
+    <h3
+      *ngIf="shareAPG == true && isUpdate == false"
+      class="title-heading h1-strong text-c300"
+    >
       Shared {{ apgType.toLowerCase() }} tracking module
     </h3>
   </div>
@@ -524,14 +546,16 @@
       <div class="d-flex flex-column">
         <div class="d-flex flex-row">
           <div class="d-flex flex-column">
-            <label class="evaluation-Name"> Evaluation Name</label>
+            <label class="evaluation-Name body-l text-c300">
+              Evaluation Name</label
+            >
             <div class="limit-wordcount ml-auto">
               <span>{{ wordLength }}/60characters</span>
             </div>
             <input
               type="text"
               placeholder="Type skill name here"
-              class="evaluation-name"
+              class="evaluation-name light-body-l"
               name="name"
               required
               maxlength="60"
@@ -553,7 +577,7 @@
         </div>
         <div class="inform-wrapper">
           <p class="icon"><span class="icon">i</span></p>
-          <span class="inform-text"
+          <span class="body-m text-c100"
             >Some information about how do skill and requirement create with
             multiple lines</span
           >
@@ -639,7 +663,12 @@
                     <span class="slider round"></span>
                   </label>
                 </div>
-                <p style="padding-left:12px;" class="pass-mark">allow zero</p>
+                <p
+                  style="padding-left:12px;"
+                  class="pass-mark body-m text-c100"
+                >
+                  allow zero
+                </p>
               </div>
               <div class="d-flex align-items-center">
                 <div class="toggle-wrap">
@@ -652,7 +681,10 @@
                     <span class="slider round"></span>
                   </label>
                 </div>
-                <p style="padding-left:12px;" class="pass-mark">
+                <p
+                  style="padding-left:12px;"
+                  class="pass-mark body-m text-c100"
+                >
                   Use passing mark
                 </p>
               </div>
@@ -743,7 +775,7 @@
                 </div>
               </div>
               <button
-                class="add-requirement"
+                class="add-requirement body-l text-b100"
                 (click)="subAccessPointAdd(item, i)"
                 [disabled]="item.name == ''"
                 [ngClass]="{ 'no-pl': item.upDownOptions }"
@@ -755,20 +787,27 @@
             <!-- {{isScroll}} -->
           </div>
 
-          <p class="add-new-skill cursor-on" (click)="mainAccessPointAdd()">
+          <p
+            class="add-new-skill cursor-on body-l text-b100"
+            (click)="mainAccessPointAdd()"
+          >
             Add new Skill
           </p>
           <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
           <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
         </div>
         <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="cancelapg()">
+          <button
+            type="button"
+            class="btn btn-cancel bg-s20 text-c300"
+            (click)="cancelapg()"
+          >
             Cancel
           </button>
           <button
             *ngIf="isUpdate == false"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b100 text-s0"
             (click)="createEvaluateApgs(model, false)"
             [disabled]="!model.name || isEmpty == true"
           >
@@ -777,7 +816,7 @@
           <button
             *ngIf="isUpdate == true"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b100 text-s0"
             (click)="editAccessmentApg()"
             [disabled]="!model.name || isEmpty == true"
           >
@@ -803,7 +842,7 @@
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
           <div class="d-flex justify-content-between">
-            <label class="form-title input-label" for="address"
+            <label class="form-title input-label body-l text-c300" for="address"
               >Data name</label
             >
             <div class="limit-wordcount">
@@ -848,7 +887,7 @@
 
               <!--  [ngClass]="arrClasses"
           [ngStyle]="colorArrClasses" -->
-              <p class="color-title mb-0 pb-0">Color</p>
+              <p class="color-title mb-0 pb-0 small text-c300">Color</p>
               <div class="color-section d-flex flex-wrap">
                 <div
                   class="color-circle"
@@ -874,7 +913,7 @@
         </div>
         <div class="form-group radio-form-group">
           <div class="d-flex justify-content-between">
-            <label class="form-title input-label" for="address"
+            <label class="form-title input-label body-l text-c300" for="address"
               >Input type</label
             >
 
@@ -911,8 +950,8 @@
                   value="input-box"
                 />
 
-                <div class="huey">Input box</div>
-                <div class="huey-child">Number</div>
+                <div class="huey text-c300 body-m">Input box</div>
+                <div class="huey-child small text-c100">Number</div>
               </div>
             </button>
 
@@ -965,7 +1004,9 @@
           <div *ngIf="selectedRadio == 'NUMBER'">
             <div class="form-group ">
               <div class="d-flex justify-content-between">
-                <label class="form-title input-label" for="address"
+                <label
+                  class="form-title input-label body-l text-c300"
+                  for="address"
                   >Measurement unit</label
                 >
                 <div class="limit-type-wordcount">
@@ -1005,7 +1046,9 @@
           <div *ngIf="selectedRadio == 'RANGE'">
             <div class="form-group slider-form">
               <div class="d-flex justify-content-between">
-                <label class="form-title input-label" for="address"
+                <label
+                  class="form-title input-label body-l text-c300"
+                  for="address"
                   >Measurement unit</label
                 >
                 <div class="limit-type-wordcount">
@@ -1233,7 +1276,7 @@
           <button
             *ngIf="isUpdate == false"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b100 text-s0"
             (click)="createDataApg()"
             [disabled]="
               model.name == undefined ||
@@ -1247,7 +1290,7 @@
           <button
             *ngIf="isUpdate == true"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b20 text-c300"
             [disabled]="
               model.name == undefined ||
               model.name.length == 0 ||
@@ -1304,7 +1347,7 @@
           [ngClass]="{ 'disable-click': module.name == 'Badge' }"
         >
           <label
-            class="form-check-label"
+            class="form-check-label text-c300 body-l"
             [ngClass]="{ selected: ischecked == module._id }"
           >
             <div class="module-img">
@@ -1357,7 +1400,9 @@
                 </div>
                 <div class="icon-apg"></div>
               </div>
-              <label class="form-title input-label apgTypeTxt" for="address"
+              <label
+                class="form-title input-label  text-c300 body-l"
+                for="address"
                 >Create new {{ apgType.toLowerCase() }} tracking module</label
               >
             </div>
@@ -1377,7 +1422,9 @@
                 </div>
                 <div class="icon-apg"></div>
               </div>
-              <label class="form-title input-label" for="address"
+              <label
+                class="form-title input-label body-l text-c300"
+                for="address"
                 >Create using publicly shared
                 {{ apgType.toLowerCase() }} tracking module</label
               >
@@ -1397,14 +1444,16 @@
         <div class="col-md-8 input-wrap">
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <label class="form-title input-label" for="address"
+              <label
+                class="form-title input-label body-l text-c300"
+                for="address"
                 >Tracking module name</label
               >
               <div class="limit-wordcount">
                 <span>{{ wordLength }}/60characters</span>
               </div>
             </div>
-            <p class="input-recommend">
+            <p class="body-m text-c100">
               We recommend to set tracking module name as same as Course name.
             </p>
             <input
@@ -1431,7 +1480,9 @@
           </div>
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <label class="form-title input-label" for="address"
+              <label
+                class="form-title input-label body-l text-c300"
+                for="address"
                 >Description</label
               >
               <div class="limit-wordcount1">
@@ -1464,7 +1515,7 @@
           <button
             *ngIf="isUpdate == false"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b100 text-s0"
             (click)="createapgs(model, false)"
             [disabled]="!createapgForm.valid"
           >
@@ -1473,7 +1524,7 @@
           <button
             *ngIf="isUpdate == true"
             type="button"
-            class="btn btn-submit"
+            class="btn btn-submit bg-b100 text-s0"
             [disabled]="!createapgForm.valid"
             (click)="createapgs(model, true, currentID)"
           >
@@ -1524,7 +1575,7 @@
       <div *ngIf="shareAPG == true">
         <div class="input-group w-100">
           <input
-            class="form-control py-2 input-search-bg"
+            class="form-control py-2 input-search-bg bg-s20"
             type="search"
             placeholder="Search tracking module"
             id="template-search-input"
@@ -1543,7 +1594,7 @@
           <div class="col1">
             <div
               *ngFor="let temp of templateList | slice: 0:half; let i = index"
-              class="assement-shared-apg share-input share-input"
+              class="assement-shared-apg share-input body-xl text-c300"
             >
               <label
                 class="form-check-label"
@@ -1551,7 +1602,7 @@
               >
                 <div class="d-flex justify-content-between apgBoxHead">
                   <span
-                    class="textapgType"
+                    class="textapgType small text-c100"
                     [ngClass]="{ selected: sharechecked == temp._id }"
                     >{{ apgType }}</span
                   >
@@ -1567,7 +1618,7 @@
                   (click)="chooseShareAPG(temp._id, temp.name)"
                 />
                 <span
-                  class="textTempName"
+                  class="textTempName body-xl text-c300"
                   [ngClass]="{ selected: sharechecked == temp._id }"
                   >{{ temp.name }}</span
                 >
@@ -1580,13 +1631,13 @@
                     class="d-flex justify-content-between numberType"
                     *ngIf="tobj.data.inputType == 'NUMBER'"
                   >
-                    <div>
+                    <div class="body-l">
                       <span
-                        class="textUnitName"
+                        class="textUnitName text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                         >Unit:</span
                       ><span
-                        class="textUnit"
+                        class="textUnit text-c300"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         {{ tobj.data.unit }}</span
@@ -1604,7 +1655,7 @@
                         class="inputIcon"
                       />
                       <span
-                        class="inputText"
+                        class="inputText body-m text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         Input box
@@ -1616,13 +1667,13 @@
                     class="d-flex justify-content-between rangeType"
                     *ngIf="tobj.data.inputType == 'RANGE'"
                   >
-                    <div>
+                    <div class="body-l">
                       <span
-                        class="textUnitName"
+                        class="textUnitName text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                         >Unit:</span
                       ><span
-                        class="textUnit"
+                        class="textUnit text-c300"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         {{ tobj.data.unit }}</span
@@ -1641,7 +1692,7 @@
                         class="inputIcon"
                       />
                       <span
-                        class="inputText"
+                        class="inputText body-m text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         Slider
@@ -1660,7 +1711,7 @@
                     >
                       <span class="detail-dot"></span>
                       <div
-                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist body-m text-c100"
                         [ngClass]="{
                           'hide-border':
                             tobj.data.inputTypeProperties.options.length ==
@@ -1692,7 +1743,7 @@
               >
                 <div class="d-flex justify-content-between apgBoxHead">
                   <span
-                    class="textapgType"
+                    class="textapgType small text-c100"
                     [ngClass]="{ selected: sharechecked == temp._id }"
                     >{{ apgType }}</span
                   >
@@ -1708,7 +1759,7 @@
                   (click)="chooseShareAPG(temp._id, temp.name)"
                 />
                 <span
-                  class="textTempName"
+                  class="textTempName body-xl text-c300"
                   [ngClass]="{ selected: sharechecked == temp._id }"
                   >{{ temp.name }}</span
                 >
@@ -1721,13 +1772,13 @@
                     class="d-flex justify-content-between numberType"
                     *ngIf="tobj.data.inputType == 'NUMBER'"
                   >
-                    <div>
+                    <div class="body-l">
                       <span
-                        class="textUnitName"
+                        class="textUnitName text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                         >Unit:</span
                       ><span
-                        class="textUnit"
+                        class="textUnit text-c300"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         {{ tobj.data.unit }}</span
@@ -1745,7 +1796,7 @@
                         class="inputIcon"
                       />
                       <span
-                        class="inputText"
+                        class="inputText body-m text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         Input box
@@ -1757,13 +1808,13 @@
                     class="d-flex justify-content-between rangeType"
                     *ngIf="tobj.data.inputType == 'RANGE'"
                   >
-                    <div>
+                    <div class="body-l">
                       <span
-                        class="textUnitName"
+                        class="textUnitName text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                         >Unit:</span
                       ><span
-                        class="textUnit"
+                        class="textUnit text-c300"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         {{ tobj.data.unit }}</span
@@ -1771,7 +1822,7 @@
                     </div>
 
                     <div
-                      class="showType"
+                      class="showType bg-s20"
                       *ngIf="
                         tobj.data.inputTypeProperties.min != null &&
                         tobj.data.inputTypeProperties.max != null
@@ -1782,7 +1833,7 @@
                         class="inputIcon"
                       />
                       <span
-                        class="inputText"
+                        class="inputText body-m text-c100"
                         [ngClass]="{ selected: sharechecked == temp._id }"
                       >
                         Slider
@@ -1801,7 +1852,7 @@
                     >
                       <span class="detail-dot"></span>
                       <div
-                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist"
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist body-m text-c100"
                         [ngClass]="{
                           'hide-border':
                             tobj.data.inputTypeProperties.options.length ==
@@ -1837,7 +1888,7 @@
             >
               <div class="d-flex justify-content-between apgBoxHead">
                 <span
-                  class="textapgType"
+                  class="textapgType small text-c100"
                   [ngClass]="{ selected: sharechecked == temp._id }"
                   >{{ apgType }}</span
                 >
@@ -1853,7 +1904,7 @@
                 (click)="chooseShareAPG(temp._id, temp.name)"
               />
               <span
-                class="textTempName"
+                class="textTempName text-c300 body-l"
                 [ngClass]="{ selected: sharechecked == temp._id }"
                 >{{ temp.name }}</span
               >
@@ -1889,7 +1940,7 @@
                         style="margin-bottom: 16px"
                       >
                         <p
-                          class="gradename"
+                          class="gradename body-m text-c300"
                           [ngClass]="{
                             'grade-selected': sharechecked == temp._id
                           }"
@@ -1922,8 +1973,10 @@
                 [ngClass]="{ selected: sharechecked == template._id }"
               >
                 <label class="form-check-label data">
-                  <span class="eval-name">Evaluation</span>
-                  <span class="temp-name">{{ template.name }}</span>
+                  <span class="eval-name small text-c100">Evaluation</span>
+                  <span class="temp-name body-xl text-c300">{{
+                    template.name
+                  }}</span>
                   <div class="label-checked data" style="float:right"></div>
                   <input
                     class="form-check-input"
@@ -1978,7 +2031,7 @@
                       >
                         <span class="detail-dot"></span>
                         <div
-                          class="mb-0 list-dot-wrap detail-line apg-desc w-100"
+                          class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
                           [ngClass]="{
                             'hide-border':
                               accessPoint.data.evaluation.details?.length ==
@@ -2007,8 +2060,10 @@
                 [ngClass]="{ selected: sharechecked == template._id }"
               >
                 <label class="form-check-label data">
-                  <span class="eval-name">Evaluation</span>
-                  <span class="temp-name">{{ template.name }}</span>
+                  <span class="eval-name small text-c100">Evaluation</span>
+                  <span class="temp-name body-xl text-c300">{{
+                    template.name
+                  }}</span>
                   <div class="label-checked data" style="float:right"></div>
                   <input
                     class="form-check-input"
@@ -2063,7 +2118,7 @@
                       >
                         <span class="detail-dot"></span>
                         <div
-                          class="mb-0 list-dot-wrap detail-line apg-desc w-100"
+                          class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
                           [ngClass]="{
                             'hide-border':
                               accessPoint.data.evaluation.details?.length ==
@@ -2116,7 +2171,7 @@
               "
               *ngIf="isUpdate == false"
               type="button"
-              class="btn btn-submit"
+              class="btn btn-submit bg-b100 text-s0"
               (click)="setShareAPG(temp)"
             >
               Create
@@ -2126,10 +2181,10 @@
         <div class="d-flex justify-content-center shareApgLoadMore loadMore1">
           <div
             *ngIf="templateList.length >= 20 && result.length == 20"
-            class="load-more1"
+            class="load-more1 bg-s0"
           >
             <button
-              class="btn remove-outline"
+              class="btn remove-outline body-m text-b100 "
               (click)="showMoreShareApg(templateList.length)"
             >
               load more
@@ -2165,29 +2220,30 @@
 
 <ng-template #alertDelete let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title">Confirm delete?</h3>
+    <h3 class="modal-title body-xl text-c300">Confirm delete?</h3>
     <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button> -->
   </div>
-  <div class="modal-body apg-confirm">
-    <p>
+  <div class="modal-body">
+    <p class="text-c100 light-body-m">
       Are You sure you want to delete
-      <span class="target">"{{ deleteAPG }}"</span>? You won't back it return.
+      <span class="text-r100 body-m">"{{ deleteAPG }}"</span>? You won't back it
+      return.
       <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
     </p>
   </div>
   <div class="modal-footer">
     <button
       type="button"
-      class="btn modal-cancel-btn"
+      class="btn modal-cancel-btn body-l bg-s0 text-c300"
       (click)="closeDeleteModal()"
     >
       Cancel
     </button>
     <button
       type="submit"
-      class="btn modal-delete-btn"
+      class="btn modal-delete-btn body-l text-s0 bg-r100"
       (click)="apgDelete(deleteId)"
     >
       Delete

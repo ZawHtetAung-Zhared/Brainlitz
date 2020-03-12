@@ -1,9 +1,13 @@
 <!-- <block-ui> -->
 <div *ngIf="isReschedule" class="d-flex justify-content-center">
   <div class="col-md-6 mx-auto">
-    <h3 class="header" *ngIf="defineType == 'Reschedule'">Reschedule</h3>
-    <h3 class="header" *ngIf="defineType == 'New'">New lesson</h3>
-    <p class="pick-a-date mt-20 ">Pick a date</p>
+    <h3 class="header h2-strong text-c300" *ngIf="defineType == 'Reschedule'">
+      Reschedule
+    </h3>
+    <h3 class="header h2-strong text-c300" *ngIf="defineType == 'New'">
+      New lesson
+    </h3>
+    <p class="pick-a-date mt-20 text-c100 body-xl">Pick a date</p>
     <div class="d-flex flex-row input-wrap">
       <div
         class="d-flex flex-row align-items-center cc-start pdRight-20"
@@ -56,7 +60,7 @@
     <div style="padding-top:5px;">
       <span
         *ngIf="model.start && !correctRescheduleDate"
-        class="light-text invalid-text"
+        class="body-m text-c100 invalid-text"
         >Invalid Date</span
       >
       <span class="valid-text">Valid Date</span>
@@ -64,7 +68,7 @@
 
     <div class="d-flex" style="padding-top: 20px;">
       <div class="time-box d-flex flex-column w-100">
-        <h3 class="starting-time">Starting time</h3>
+        <h3 class="starting-time body-xl text-c300">Starting time</h3>
         <div class="d-flex flex-row time-box-input justify-content-between">
           <input
             type="text"
@@ -144,14 +148,14 @@
               </label>
             </div>
           </div>
-          <div class="d-flex align-items-center duration-box">
+          <div class="d-flex align-items-center duration-box bg-s20 text-c300">
             Duration {{ duration | hrMin }}
           </div>
         </div>
       </div>
     </div>
 
-    <div style="padding-top:20px;" class="light-text">
+    <div style="padding-top:20px;" class="body-m text-c100 body-m text-c100">
       <span *ngIf="classend && !correctRescheduleTime" class="invalid-text"
         >Invalid Time</span
       >
@@ -164,7 +168,7 @@
     <div class="d-flex justify-content-end btn-padding">
       <button
         type="button"
-        class="align-self-end btn-cancel"
+        class="align-self-end btn-cancel body-l text-c300 bg-s0"
         (click)="backTo()"
       >
         Cancel
@@ -174,7 +178,7 @@
       <button
         type="button"
         *ngIf="defineType == 'Reschedule'"
-        class="align-self-end btn btn-reschedule"
+        class="align-self-end btn btn-reschedule  bg-b100 text-s0"
         (click)="rescheduleTo()"
         [disabled]="disableReschedule"
       >
@@ -184,7 +188,7 @@
       <button
         type="button"
         *ngIf="defineType == 'New'"
-        class="align-self-end btn btn-reschedule"
+        class="align-self-end btn btn-reschedule  bg-b100 text-s0"
         (click)="createNewLesson()"
         [disabled]="disableReschedule"
       >
@@ -226,7 +230,7 @@
       <div style="padding-top:10px;">
         <span
           *ngIf="model.start && !correctRescheduleDate"
-          class="light-text invalid-text"
+          class="body-m text-c100 invalid-text body-m text-c100"
         >
           Invalid Date
         </span>
@@ -321,13 +325,13 @@
       <div style="padding-top: 10px;">
         <span
           *ngIf="classend && !correctRescheduleTime"
-          class="light-text invalid-text"
+          class="body-m text-c100 invalid-text"
           >Invalid Time</span
         >
       </div>
     </div>
 
-    <div *ngIf="classend" class="light-text" style="padding-top: 20px;">
+    <div *ngIf="classend" class="body-m text-c100" style="padding-top: 20px;">
       It will end at {{ classend }}
     </div>
   </div>
@@ -338,7 +342,7 @@
       src="{{ courseDetail.teacher.profilePic }}"
     />
     <div class="d-flex flex-column" style="padding-left: 20px;">
-      <span class="light-text" style="padding-bottom: 4px;"
+      <span class="body-m text-c100" style="padding-bottom: 4px;"
         >Senior Teacher</span
       >
       <span class="weight-text"> {{ courseDetail.teacher.fullName }} </span>
@@ -352,18 +356,18 @@
     >
       <div class="d-flex flex-column">
         <p class="weight-text">8 Aug 2018</p>
-        <p class="light-text">11:00am - 12:00pm</p>
+        <p class="body-m text-c100">11:00am - 12:00pm</p>
       </div>
       <div class="d-flex flex-column split-line1">
-        <p class="light-text">Lesson</p>
+        <p class="body-m text-c100">Lesson</p>
         <p class="weight-text">Sample Lesson</p>
       </div>
       <div class="d-flex flex-column split-line1">
-        <p class="light-text">Location</p>
+        <p class="body-m text-c100">Location</p>
         <p class="weight-text">Sample Location</p>
       </div>
       <div class="d-flex flex-column split-line1">
-        <p class="light-text">Number of students</p>
+        <p class="body-m text-c100">Number of students</p>
         <p class="weight-text">Sample students</p>
       </div>
     </div>
@@ -375,13 +379,17 @@
     </div> -->
   </div>
   <div class="d-flex justify-content-end btn-padding">
-    <button type="button" class="align-self-end btn-cancel" (click)="backTo()">
+    <button
+      type="button"
+      class="align-self-end btn-cancel body-l text-c300 bg-s0"
+      (click)="backTo()"
+    >
       Cancel
     </button>
     <button
       *ngIf="defineType == 'Reschedule'"
       type="button"
-      class="align-self-end btn btn-reschedule"
+      class="align-self-end btn btn-reschedule bg-b100 text-s0"
       (click)="rescheduleTo()"
       style="width: 185px;"
       [disabled]="disableReschedule"
@@ -391,7 +399,7 @@
     <button
       *ngIf="defineType == 'New'"
       type="button"
-      class="align-self-end btn-reschedule"
+      class="align-self-end btn-reschedule bg-b100 text-s0"
       (click)="createNewLesson()"
     >
       Confirm new lessons
@@ -407,7 +415,7 @@
         src="{{ courseDetail.teacher.profilePic }}"
       />
       <div class="d-flex flex-column" style="padding-left: 20px;">
-        <span class="light-text" style="padding-bottom: 4px;"
+        <span class="body-m text-c100" style="padding-bottom: 4px;"
           >Senior Teacher</span
         >
         <span class="weight-text"> {{ courseDetail.teacher.fullName }} </span>
@@ -434,18 +442,18 @@
       >
         <div class="d-flex flex-column">
           <p class="weight-text">8 Aug 2018</p>
-          <p class="light-text">11:00am - 12:00pm</p>
+          <p class="body-m text-c100">11:00am - 12:00pm</p>
         </div>
         <div class="d-flex flex-column split-line1">
-          <p class="light-text">Lesson</p>
+          <p class="body-m text-c100">Lesson</p>
           <p class="weight-text">Sample Lesson</p>
         </div>
         <div class="d-flex flex-column split-line1">
-          <p class="light-text">Location</p>
+          <p class="body-m text-c100">Location</p>
           <p class="weight-text">Sample Location</p>
         </div>
         <div class="d-flex flex-column split-line1">
-          <p class="light-text">Number of students</p>
+          <p class="body-m text-c100">Number of students</p>
           <p class="weight-text">Sample students</p>
         </div>
       </div>
@@ -454,7 +462,7 @@
   <div class="modal-footer d-flex justify-content-end">
     <button
       type="button"
-      class="align-self-end btn-cancel"
+      class="align-self-end btn-cancel body-l text-c300 bg-s0"
       (click)="cancelModal()"
     >
       Cancel
@@ -462,7 +470,7 @@
     <button
       *ngIf="defineType == 'Reschedule'"
       type="button"
-      class="align-self-end btn btn-reschedule"
+      class="align-self-end btn btn-reschedule  bg-b100 text-s0"
       (click)="rescheduleTo()"
       style="width: 185px;"
       [disabled]="disableReschedule"
@@ -472,7 +480,7 @@
     <button
       *ngIf="defineType == 'New'"
       type="button"
-      class="align-self-end btn-reschedule"
+      class="align-self-end btn-reschedule  bg-b100 text-s0"
       (click)="createNewLesson()"
       style="width: 185px;"
     >

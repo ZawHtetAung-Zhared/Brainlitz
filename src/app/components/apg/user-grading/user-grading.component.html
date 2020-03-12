@@ -16,7 +16,7 @@
 </div> -->
 <div class="d-flex flex-row w-100">
   <div class="d-flex flex-column w-100">
-    <label class="evaluation-Name"> Grade Name</label>
+    <label class="evaluation-Name body-l text-c300"> Grade Name</label>
     <div class="limit-wordcount ml-auto">
       <span>{{ wordLength }}/12characters</span>
     </div>
@@ -45,7 +45,7 @@
 </div>
 
 <div class="d-flex flex-column pb-5" *ngIf="userGradeData != undfined">
-  <h4 class="grade-title">Level</h4>
+  <h4 class="body-l text-c300">Level</h4>
   <div
     class="d-flex level-wrapper"
     *ngFor="let grade of userGradeData.data.grades; let i = index"
@@ -54,7 +54,7 @@
       class="d-flex align-items-center sepalColor-wrapper justify-content-between"
     >
       <div
-        class="grade-icon d-flex justify-content-center align-items-center"
+        class="grade-icon body-m d-flex justify-content-center align-items-center"
         [ngClass]="{ 'ml-1': grade.point && grade.point.length != 2 }"
         [style.background]="userGradeData.data.sepalColor.background"
         (click)="colorpalettePopUp(i, $event, userGradeData.data)"
@@ -84,11 +84,11 @@
     >
       <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
       <div class="carret-box" [ngClass]="arrClasses"></div>
-      <div class="input-section">
-        <p class="pb-0 mb-0">2 characters max</p>
+      <div class="input-section ">
+        <p class="pb-0 mb-0 body-m text-s70">2 characters max</p>
         <input
           type="text"
-          class="lvl-name-input"
+          class="lvl-name-input bg-s20 body-l text-c300"
           maxlength="2"
           (focus)="onFocus()"
           (focusout)="onFocusOut()"
@@ -97,7 +97,7 @@
           (input)="checkValidation()"
         />
         <button
-          class="btn apply-btn"
+          class="btn apply-btn text-b50 bg-s0"
           [ngClass]="{
             'remove-boxshadow': isFocus,
             'focus-background': gradename.dirty
@@ -144,16 +144,19 @@
       </div>
     </div>
   </div>
-  <div class="add-new-lvl" (click)="addLevel(i)">
+  <div class="add-new-lvl text-b100 body-l" (click)="addLevel(i)">
     Add new level
   </div>
 </div>
 <div class="btn-wrapper d-flex justify-content-end w-100">
-  <button class="btn  btn-cancel" (click)="cancelUserGrade(userGradeData)">
+  <button
+    class="btn  btn-cancel body-l text-c300 bg-s20"
+    (click)="cancelUserGrade(userGradeData)"
+  >
     Cancel
   </button>
   <button
-    class="btn btn-submit"
+    class="btn btn-submit text-s0 bg-b100 body-l"
     (click)="createUserGradeApg(userGradeData)"
     *ngIf="this.isCreateStatus"
     [disabled]="!isValid"
@@ -161,7 +164,7 @@
     Create
   </button>
   <button
-    class="btn btn-submit"
+    class="btn btn-submit text-s0 bg-b100 body-l"
     (click)="updateAP(userGradeData)"
     *ngIf="!this.isCreateStatus"
     [disabled]="!isValid"
