@@ -1798,13 +1798,8 @@ export class AttendanceComponent implements OnInit {
       console.log(this.LASD);
       // this.lastSelectedObj = null;
 
-      // ACD = activeCourseDate/Month/Year
-      let ACD = new Date(this.LASD).getUTCDate();
-      let ACM = new Date(this.LASD).getUTCMonth() + 1;
-      let ACY = new Date(this.LASD).getUTCFullYear();
-      console.log('ACD', ACD);
-      console.log('ACM', ACM);
-      console.log('ACY', ACY);
+      let activeDateObj = this.getDateMonthYear(this.LASD);
+      console.log('activeDateObj~~~', activeDateObj);
       console.log(
         'this.regionId ' +
           this.regionId +
@@ -1812,7 +1807,13 @@ export class AttendanceComponent implements OnInit {
           this.currentCourse
       );
       this._service
-        .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
+        .getAssignUser(
+          this.regionId,
+          this.currentCourse,
+          activeDateObj.day,
+          activeDateObj.month,
+          activeDateObj.year
+        )
         .subscribe(
           (res: any) => {
             console.log(res);
@@ -1993,11 +1994,16 @@ export class AttendanceComponent implements OnInit {
     this.presentStudent = 0;
     this.absentStudent = 0;
     this.noStudent = 0;
-    let ACD = new Date(targetDate).getUTCDate();
-    let ACM = new Date(targetDate).getUTCMonth() + 1;
-    let ACY = new Date(targetDate).getUTCFullYear();
+    let activeDateObj = this.getDateMonthYear(targetDate);
+    console.log('activeDateObj', activeDateObj);
     this._service
-      .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
+      .getAssignUser(
+        this.regionId,
+        this.currentCourse,
+        activeDateObj.day,
+        activeDateObj.month,
+        activeDateObj.year
+      )
       .subscribe(
         (res: any) => {
           this.presentStudent = 0;
@@ -4361,10 +4367,24 @@ export class AttendanceComponent implements OnInit {
     // }
   }
 
+  getDateMonthYear(LASD) {
+    // ACD = activeCourseDate/Month/Year
+    let ACD = new Date(LASD).getUTCDate();
+    let ACM = new Date(LASD).getUTCMonth() + 1;
+    let ACY = new Date(LASD).getUTCFullYear();
+    let obj = {
+      day: ACD,
+      month: ACM,
+      year: ACY
+    };
+    return obj;
+  }
+
   withdrawReliefTeacher(staffId) {
     console.log('withdraw relief teacher', staffId);
+    let dateObj = this.getDateMonthYear(this.LASD);
     this._service
-      .withdrawReliefTeacher(this.regionId, this.courseId, staffId)
+      .withdrawReliefTeacher(this.regionId, this.courseId, staffId, dateObj)
       .subscribe((res: any) => {
         console.log(res);
         this.showReliefPopup = false;

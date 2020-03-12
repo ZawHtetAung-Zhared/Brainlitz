@@ -4008,7 +4008,7 @@ export class appService {
       });
   }
 
-  withdrawReliefTeacher(regionId, courseId, staffId) {
+  withdrawReliefTeacher(regionId, courseId, staffId, dateObj) {
     let url =
       this.baseUrl +
       '/regions/' +
@@ -4017,7 +4017,12 @@ export class appService {
       courseId +
       '/' +
       staffId +
-      '/remove-relief-teacher';
+      '/remove-relief-teacher?day=' +
+      dateObj.day +
+      '&month=' +
+      dateObj.month +
+      '&year=' +
+      dateObj.year;
 
     const httpOptions = {
       headers: new HttpHeaders({
