@@ -452,7 +452,8 @@ export class InvoiceComponent implements OnInit {
         this.hideMisc == true) ||
       this.hideReg == true ||
       this.hideDeposit == true ||
-      this.hideMisc == true
+      this.hideMisc == true ||
+      this.newItemArr.length != 0
     ) {
       this.isEditInv = true;
     } else {
