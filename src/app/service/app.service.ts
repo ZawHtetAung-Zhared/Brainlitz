@@ -4008,7 +4008,7 @@ export class appService {
       });
   }
 
-  withdrawReliefTeacher(regionId, courseId, staffId) {
+  withdrawReliefTeacher(regionId, courseId, staffId, dateObj) {
     let url =
       this.baseUrl +
       '/regions/' +
@@ -4017,7 +4017,12 @@ export class appService {
       courseId +
       '/' +
       staffId +
-      '/remove-relief-teacher';
+      '/remove-relief-teacher?day=' +
+      dateObj.day +
+      '&month=' +
+      dateObj.month +
+      '&year=' +
+      dateObj.year;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4683,15 +4688,21 @@ export class appService {
     });
   }
   //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedule?staffList=5de9c8fd31f64d0013c47199,5de9c8fd31f64d0013c47199&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
-  getTimetableList(list, start, end) {
+  getTimetableList(list, start, end, id) {
     console.log('stafflist in service', list);
+    console.log('got id from app service', id);
+    if (id == '') {
+      id = 'all';
+    }
     let apiUrl =
       this.baseUrl +
       '/regions/' +
       localStorage.getItem('regionId') +
       '/schedule?staffList=' +
       list +
-      '&categoryId=all&start=' +
+      '&categoryId=' +
+      id +
+      '&start=' +
       start +
       '&end=' +
       end +

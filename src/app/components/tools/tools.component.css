@@ -1,10 +1,8 @@
 .location-name {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   color: #0080ff;
   /* line-height: 0.5; */
   position: relative;
   /* margin-top: 28px; */
-  font-size: 12px;
   background: #cce6ff;
   margin-left: 5px;
   margin-bottom: 0;
@@ -59,9 +57,6 @@
 }
 
 .sub-title {
-  color: #2e3e4d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-size: 18px;
   margin-top: 32px;
 }
 .noti-dropdown.down {
@@ -167,11 +162,8 @@ img.setting-icon {
   /*border: none;*/
   border-right: 0;
   padding: 8px 6px;
-  color: #0080ff;
-  font-size: 16px;
   flex: auto;
   text-align: center;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
 }
 .tool-checked:last-child label {
   /*border-right: 1px solid #0080ff;*/
@@ -194,11 +186,7 @@ img.setting-icon {
 .selected label {
   color: #fff !important;
 }
-.lable-title {
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  font-size: 18px;
-  color: #2e3e4d;
-}
+
 .limit-word,
 .limit-word1 {
   display: none;
@@ -213,7 +201,6 @@ img.setting-icon {
   background: #f7f9fa;
 }
 .input-create {
-  font-family: 'Inter-UI-Regular', 'Arial', sans-serif !important;
   border-radius: 0.25rem;
   border: none;
   margin-bottom: 15px;
@@ -227,11 +214,7 @@ img.setting-icon {
   -moz-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
   box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
 }
-.active-user-form label {
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  font-size: 16px;
-  color: #2e3e4d;
-}
+
 .notif {
   position: relative;
   padding-bottom: 130px;
@@ -253,18 +236,13 @@ img.setting-icon {
   /*padding-top: 150px;*/
 }
 .title-heading {
-  font-size: 27px;
   padding-left: 15px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  color: #2e3e4d;
   margin-bottom: 0;
   display: table;
 }
 .user-count {
   padding: 25px 20px;
-  background: #ece8ef;
   border: 1px solid transparent;
-  color: #212529;
   display: table;
   border-radius: 5px;
   margin-top: 4em;
@@ -273,8 +251,6 @@ img.setting-icon {
   transition: 0.1s all ease-out;
   text-align: center;
   width: 100%;
-  color: #009940;
-  background: #c2f2d6;
 }
 .no-user {
   background: #fff;
@@ -289,11 +265,8 @@ img.setting-icon {
 }
 .user-count h4 {
   margin-bottom: 0;
-  font-size: 32px;
   /*min-height: 48px;*/
   min-width: 22px;
-  color: #009940;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 .choose-cat {
   /*width: 95.5% !important;*/
@@ -320,7 +293,6 @@ img.setting-icon {
   -ms-transition: 300ms linear;
   transition: 300ms linear;
   width: 25%;
-  background: #f2f4f5;
 }
 .large-col {
   width: 75%;
@@ -370,14 +342,10 @@ img.setting-icon {
   position: relative;
   z-index: 99;
   text-align: left;
-  background: #f2f4f5;
   padding: 10px 26px;
   border-radius: 0;
   outline: none;
   border-left: 3px solid transparent;
-  font-family: 'Inter-UI-Semibold', 'Arial', sans-serif !important;
-  color: #2e3e4d;
-  font-size: 16px;
   -ms-transition: padding-top 300ms linear;
   transition: padding-top 300ms linear;
 }
@@ -393,9 +361,6 @@ img.setting-icon {
 }*/
 .switch-col label {
   margin-bottom: 0;
-  font-size: 16px;
-  color: #2e3e4d;
-  font-family: 'Inter-UI-SemiBold', 'Arial', sans-serif;
 }
 .radio-switch {
   position: relative;
@@ -842,12 +807,8 @@ hr {
 
 /* notification */
 .info-message {
-  background: #f2f4f5;
   padding: 8px 20px;
   border-radius: 25px;
-  color: #64707d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-size: 14px;
   margin-top: 0px;
   margin-right: 10px;
 }
@@ -858,8 +819,6 @@ hr {
   overflow: overlay;
 }
 .btn-create {
-  color: #fff;
-  background-color: #1682fb;
   border: none;
   height: 45px;
   border-radius: 3px;
@@ -881,9 +840,6 @@ hr {
 }
 
 .input-recommend {
-  font-size: 14px;
-  color: #64707d;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
   padding-left: 15px;
   padding-top: 15px;
   margin: 0;
