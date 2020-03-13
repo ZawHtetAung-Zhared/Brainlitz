@@ -424,6 +424,12 @@ export class TimetableComponent implements OnInit {
 
   //zha function
   toggledropdown() {
+    if (this.showOverLay == false) {
+      this.renderer.addClass(document.body, 'modal-open');
+    } else {
+      this.renderer.removeClass(document.body, 'modal-open');
+    }
+    this.showOverLay = !this.showOverLay;
     this.clist = !this.clist;
     // console.log('clist', this.clist);
   }
@@ -2374,6 +2380,8 @@ export class TimetableComponent implements OnInit {
 
   clickOverlay() {
     this.showPopUp = false;
+    this.showOverLay = false;
+    this.clist = !this.clist;
     // this.disabledScroll = false;
     // this.renderer.removeClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.removeClass(document.body, 'modal-open');
@@ -2481,6 +2489,7 @@ export class TimetableComponent implements OnInit {
   public isAll = true;
   public selected: String = 'All Category';
   public currentCat: any = 'all';
+  public showOverLay = false;
   CategorySelected(name, id, all) {
     this.stafflist = [];
     this.staffskip = 0;

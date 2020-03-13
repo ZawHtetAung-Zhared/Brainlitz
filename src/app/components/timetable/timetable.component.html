@@ -31,6 +31,11 @@
         >{{ thisStart | date: 'd MMM' }} '{{ thisStart | date: 'yy' }} -
         {{ thisEnd | date: 'd MMM' }} '{{ thisEnd | date: 'yy' }}</span
       >
+      <div
+        class="overlayModal"
+        *ngIf="showOverLay"
+        (click)="clickOverlay()"
+      ></div>
       <div class="category" (click)="toggledropdown()">
         <span class="pl-3 dropdown-arrow">{{ selected }}</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
@@ -177,7 +182,6 @@
 </div>
 <!-- zha -->
 <!-- apo -->
-<div class="overlayModal" *ngIf="aa" (click)="clickOverlay()"></div>
 
 <block-ui message="Deafult Message"></block-ui>
 
