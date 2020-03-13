@@ -7,11 +7,12 @@
       [ngClass]="{ 'p-top': navIsFixed == true, 'mid-top': isMidStick == true }"
     >
       <div
-        [ngClass]="{ active: reportType == 'invoiceReport' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'invoiceReport' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="reportType != 'invoiceReport' ? 'text-c300' : 'text-s0'"
           (click)="reportType = 'invoiceReport'"
         >
           <div class="d-flex">
@@ -30,11 +31,12 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'averageRating' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'averageRating' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="reportType != 'averageRating' ? 'text-c300' : 'text-s0'"
           (click)="reportType = 'averageRating'; back()"
         >
           <div class="d-flex">
@@ -55,11 +57,12 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'staffPerformance' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'staffPerformance' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="reportType != 'staffPerformance' ? 'text-c300' : 'text-s0'"
           (click)="reportType = 'staffPerformance'"
         >
           <div class="d-flex">
@@ -80,11 +83,12 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'courseActivities' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'courseActivities' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="reportType != 'courseActivities' ? 'text-c300' : 'text-s0'"
           (click)="reportType = 'courseActivities'"
         >
           <div class="d-flex">
@@ -106,11 +110,14 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'studentEnrollment' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'studentEnrollment' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="
+            reportType != 'studentEnrollment' ? 'text-c300' : 'text-s0'
+          "
           (click)="reportType = 'studentEnrollment'"
         >
           <div class="d-flex">
@@ -131,11 +138,14 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'monthlyActiveStudent' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'monthlyActiveStudent' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="
+            reportType != 'monthlyActiveStudent' ? 'text-c300' : 'text-s0'
+          "
           (click)="reportType = 'monthlyActiveStudent'"
         >
           <div class="d-flex">
@@ -156,11 +166,14 @@
         </button>
       </div>
       <div
-        [ngClass]="{ active: reportType == 'staffTeachingSchedule' }"
+        [ngClass]="{ 'active bg-b100': reportType == 'staffTeachingSchedule' }"
         class="tab-wrap"
       >
         <button
-          class="btn noti-tab w-100"
+          class="btn noti-tab w-100 body-l"
+          [ngClass]="
+            reportType != 'staffTeachingSchedule' ? 'text-c300' : 'text-s0'
+          "
           (click)="reportType = 'staffTeachingSchedule'"
         >
           <div class="d-flex">
@@ -191,11 +204,13 @@
     >
       <div *ngIf="!showDetail" class="w-100">
         <div *ngIf="ratingLists.length == 0" class="txt-color-center">
-          <h3>Don't have staff for this location.</h3>
+          <h3 class="h1-strong text-c300">
+            Don't have staff for this location.
+          </h3>
         </div>
         <div *ngIf="ratingLists.length != 0">
           <div [ngClass]="{ sticky: isSticky == true }">
-            <h3 class="pd-lft-15">Average ratings</h3>
+            <h3 class="pd-lft-15 h1-strong text-c300 mb-0">Average ratings</h3>
           </div>
           <div class="d-style pd-top-15">
             <div
@@ -203,27 +218,34 @@
               *ngFor="let staffRating of ratingLists; let i = index"
             >
               <div
-                class="rating-box"
+                class="rating-box bg-s0"
                 (click)="getFeedBack(staffRating.teacherId, staffRating)"
               >
                 <div class="inner-box">
                   <div class="circular-image">
                     <img src="{{ staffRating.profilePic }}" />
                   </div>
-                  <div class="teacher-average-font"><span>Staff</span></div>
-                  <h5 style="letter-spacing: 0.5px;">
+                  <div class="teacher-average-font small text-c100">
+                    <span>Staff</span>
+                  </div>
+                  <h5
+                    class="h3-strong text-c300"
+                    style="letter-spacing: 0.5px;"
+                  >
                     {{ staffRating.preferredName }}
                   </h5>
                   <div class="wrap-rating d-flex flex-row">
                     <div class="d-flex half">
-                      <h2 style="margin: 0;">{{ staffRating.rating }}</h2>
+                      <h2 class="light-body-l text-c100" style="margin: 0;">
+                        {{ staffRating.rating }}
+                      </h2>
                       <div style="display: block;">
                         <star-rating-comp
                           [readOnly]="true"
                           [starType]="'svg'"
                           [rating]="staffRating.rating"
                         ></star-rating-comp>
-                        <div class="average-rating-font">
+                        <div class="average-rating-font small text-c100">
                           {{ staffRating.voter }}
                           <span *ngIf="staffRating.voter > 1">ratings</span
                           ><span *ngIf="staffRating.voter == 1">rating</span>
@@ -232,7 +254,9 @@
                     </div>
                     <div class="d-flex wil">
                       <button class="detail-bg" type="button">
-                        <i class="fa fa-angle-right right-arrow"></i>
+                        <i
+                          class="fa fa-angle-right right-arrow text-s60 h1-strong"
+                        ></i>
                       </button>
                     </div>
                   </div>
@@ -244,8 +268,8 @@
       </div>
       <div *ngIf="showDetail">
         <div class="back-wrap d-flex justify-content-between">
-          <div class="back-to" (click)="back()">
-            <i class="fa fa-angle-left back-average-arrow"></i>
+          <div class="back-to body-l text-c300" (click)="back()">
+            <i class="fa fa-angle-left body-xl text-c200"></i>
             <p>Average ratings</p>
           </div>
           <!-- <div class="dropdown custom-dropdown">
@@ -268,20 +292,26 @@
                 <img src="{{ teacherProfile }}" />
               </div>
             </div>
-            <div style="display: block; margin-top: 15px;">
-              <div class="teacher-detail-font">Staff</div>
-              <h4 class="teacher-name">{{ teacherPreferredName }}</h4>
+            <div style="display: block;">
+              <div class="teacher-detail-font body-l text-c100">Staff</div>
+              <h4 class="teacher-name h1-strong text-c300">
+                {{ teacherPreferredName }}
+              </h4>
             </div>
           </div>
           <div class="col-md-6 right-side">
-            <h3 class="head-rating-count">{{ teacherRating }}</h3>
+            <h3 class="head-rating-count h1-strong text-c100">
+              {{ teacherRating }}
+            </h3>
             <div style="display: block;">
               <star-rating-comp
                 [readOnly]="true"
                 [starType]="'svg'"
                 [rating]="teacherRating"
               ></star-rating-comp>
-              <div style="padding-left: 10px;">{{ teacherVote }} ratings</div>
+              <div style="padding-left: 10px;" class="body-l text-c300">
+                {{ teacherVote }} ratings
+              </div>
             </div>
           </div>
         </div>
@@ -293,8 +323,8 @@
           <div *ngFor="let detail of feedbackLists; let i = index">
             <div class="card card-wrap">
               <div class="header">
-                <h5>{{ detail.course.name }}</h5>
-                <div class="size-16">
+                <h5 class="body-xl text-s0">{{ detail.course.name }}</h5>
+                <div class="body-l text-s0">
                   Room <span class="room-dot">&#183;</span>
                   {{ detail.course.room }}
                 </div>
@@ -313,16 +343,22 @@
                 >
                   <div class="">
                     <div>
-                      <p class="mr-0">{{ detailVote.preferredName }}</p>
+                      <p class="mr-0 body-m text-c300">
+                        {{ detailVote.preferredName }}
+                      </p>
                       <star-rating-comp
                         [readOnly]="true"
                         [starType]="'svg'"
                         [rating]="detailVote.rating"
                       ></star-rating-comp>
                     </div>
-                    <p class="detail-message">{{ detailVote.message }}</p>
+                    <p class="detail-message body-m text-c300">
+                      {{ detailVote.message }}
+                    </p>
                   </div>
-                  <p class="detail-show-date">{{ detailVote.updatedDate }}</p>
+                  <p class="detail-show-date small text-c300">
+                    {{ detailVote.updatedDate }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -332,9 +368,12 @@
 
       <div
         *ngIf="ratingLists.length >= 20 && !showDetail"
-        class="d-flex justify-content-center load-more"
+        class="d-flex justify-content-center load-more bg-s0"
       >
-        <button class="btn" (click)="showMore(ratingLists.length)">
+        <button
+          class="btn body-m text-b100"
+          (click)="showMore(ratingLists.length)"
+        >
           load more
         </button>
       </div>

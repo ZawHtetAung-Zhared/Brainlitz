@@ -68,16 +68,9 @@ h3 {
   color: #64707d;
 }
 
-.payment-label,
-.invID {
-  color: #2e3e4d;
-  font-size: 18px;
-}
-
-.payment-label,
+.payment-label .payment-label,
 .payment-item,
-.inv-Cname,
-.invID {
+.inv-Cname {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 
