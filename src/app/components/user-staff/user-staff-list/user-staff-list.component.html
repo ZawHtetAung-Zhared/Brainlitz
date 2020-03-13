@@ -26,7 +26,7 @@
         <button
           *ngIf="staffDemo.addStaff != ''"
           type="button"
-          class="btn bg-c100 text-s0 create-button-pos"
+          class="btn bg-b100 text-s0 create-button-pos"
           (click)="goCreateForm('create')"
         >
           Add new staff
@@ -60,7 +60,7 @@
             class="bt btn-design bg-s20 btn-outline-secondary"
             type="button"
           >
-            <i class="fa fa-search search-size text-c75"></i>
+            <i class="fa fa-search search-size text-c75 body-xl"></i>
           </button>
         </span>
       </div>
@@ -165,10 +165,10 @@
 
   <div
     *ngIf="staffLists.length >= 20 && result?.length > 0"
-    class="d-flex justify-content-center load-more"
+    class="d-flex justify-content-center load-more bg-s0"
   >
     <button
-      class="text-b100 body-m"
+      class="text-b100 body-m bg-s0"
       style="border:none;outline: none;cursor: pointer;"
       (click)="showMore('staff', staffLists.length)"
     >

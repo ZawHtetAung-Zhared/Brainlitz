@@ -3,7 +3,7 @@
     <div class="pt-4 pb-4 inner-wrapper">
       <div (click)="backTo()" class="d-flex align-items-center">
         <i class="fa fa-angle-left"></i>
-        <span class="back-txt">
+        <span class="back-txt body-l text-c300">
           Mastery reports
         </span>
       </div>
@@ -14,7 +14,7 @@
         <div class="d-flex justify-content-between">
           <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
-              <span class="mastery-title">
+              <span class="h3-strong text-c300">
                 Top 5 challenging {{ challengeData.name }} masteries for this
                 class
               </span>
@@ -22,7 +22,7 @@
                 <img src="./assets/img/tiny-brainlitz.svg" />
               </span>
             </div>
-            <div class="pl-4 light-txt2 light-txt">What are masteries?</div>
+            <div class="pl-4 body-m text-c100">What are masteries?</div>
           </div>
         </div>
         <!-- loop start -->
@@ -35,7 +35,7 @@
           class="mt-4 d-flex flex-column"
         >
           <div class="no-circle">{{ i + 1 }}</div>
-          <div class="mastery-body mb-4 pr-2">
+          <div class="mastery-body body-m text-c300 mb-4 pr-2">
             <!-- {{ challenge.descriptionStudent }} -->
             {{ challenge.infoForEducator }}
             <span>
@@ -46,7 +46,7 @@
               />
             </span>
           </div>
-          <!-- <div calss="d-flex mastery-body">
+          <!-- <div calss="d-flex mastery-body body-m text-c300">
             <span>Info for educator :</span>
             <img
               src="./assets/icons/mastery-question.svg"
@@ -55,7 +55,7 @@
             />
             <span> {{ challenge.infoForEducator }} </span>
           </div> -->
-          <div class="mastery-body txt-bold mt-3">
+          <div class="mastery-body h5-strong text-c300 mt-3">
             {{ challenge.challengingPercentage }} % of students have yet to meet
             the expectation of this mastery.
           </div>
@@ -94,7 +94,7 @@
     <!-- loading end -->
   </div>
 
-  <div class="white-bg">
+  <div class="white-bg" style="margin-bottom: 80px;">
     <div class="inner-wrapper w-100">
       <div
         id="mastery_detail"
@@ -107,23 +107,23 @@
   <div class="footer white-gb d-flex justify-content-center align-items-center">
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #BF2926;"></div>
-      <span class="color-txt"> Struggling </span>
+      <span class="color-txt small text-c300"> Struggling </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #EDEEF0;"></div>
-      <span class="color-txt"> Not started </span>
+      <span class="color-txt small text-c300"> Not started </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #D4D5D6;"></div>
-      <span class="color-txt"> Inconclusive </span>
+      <span class="color-txt small text-c300"> Inconclusive </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #6DC000;"></div>
-      <span class="color-txt"> Mastered w/ difficulties </span>
+      <span class="color-txt small text-c300"> Mastered w/ difficulties </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #4FDD00;"></div>
-      <span class="color-txt"> Mastered w/ ease </span>
+      <span class="color-txt small text-c300"> Mastered w/ ease </span>
     </div>
   </div>
 </div>
@@ -169,7 +169,9 @@
         *ngFor="let ans of samplexml.data.quiz.answers"
         class="mt-4 ml-2 mr-2"
       >
-        <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+        <span *ngIf="ans.correctness" class="text-g100 body-m">
+          Correct answer
+        </span>
         <div
           id="{{ ans._id }}"
           class="ans-box mastery-answer"
