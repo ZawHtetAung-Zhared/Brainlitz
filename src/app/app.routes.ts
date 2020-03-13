@@ -183,7 +183,7 @@ export const routes: Routes = [
         component: ReportDetail2Component
       },
       {
-        path: 'studentlist',
+        path: 'studentlist/:id',
         component: StudentListComponent
       }
     ]
