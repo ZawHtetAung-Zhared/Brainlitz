@@ -102,7 +102,7 @@ export class CoursecreateComponent implements OnInit {
   public isDpFocus: boolean = false;
   public detailLists: any;
   public userLists: any;
-  public selectedTeacher: any = {};
+  public selectedTeacher: any = '';
   public isSticky: boolean = false;
   public isShowDetail: boolean = false;
   public save: boolean = false;
@@ -159,6 +159,7 @@ export class CoursecreateComponent implements OnInit {
 
   test;
   ngOnInit() {
+    console.log(this.selectedTeacher.preferredName);
     console.log('CPLan', this.coursePlan);
     console.log('CourseID', this.course);
     console.log('Currency', this.currency);
@@ -214,6 +215,7 @@ export class CoursecreateComponent implements OnInit {
         this.scheduleCourse();
       }
       console.log(this.model);
+      console.log(this.selectedTeacher);
     }
 
     if (this.currency == undefined || this.currency == null) {
@@ -1412,9 +1414,14 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
+  myfocus(e) {
+    this.searchMenuShow == true;
+    console.log(e);
+  }
+
   changeInputMethod(searchWord) {
     // console.log(this.detailLists.locationId)
-    // console.log(searchWord)
+    console.log(searchWord);
     // let locationId = this.detailLists.locationId;
     // if (searchWord.length == 0) {
     //   this.searchKeyword(searchWord);
