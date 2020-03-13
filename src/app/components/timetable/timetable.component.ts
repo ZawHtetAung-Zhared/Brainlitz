@@ -2381,7 +2381,7 @@ export class TimetableComponent implements OnInit {
   clickOverlay() {
     this.showPopUp = false;
     this.showOverLay = false;
-    this.clist = !this.clist;
+    this.clist = false;
     // this.disabledScroll = false;
     // this.renderer.removeClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.removeClass(document.body, 'modal-open');

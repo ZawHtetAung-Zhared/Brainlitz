@@ -36,7 +36,11 @@
         *ngIf="showOverLay"
         (click)="clickOverlay()"
       ></div>
-      <div class="category" (click)="toggledropdown()">
+      <div
+        class="category"
+        (click)="toggledropdown()"
+        [ngClass]="{ 'category-bottom-border': showOverLay == false }"
+      >
         <span class="pl-3 dropdown-arrow">{{ selected }}</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
         <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
