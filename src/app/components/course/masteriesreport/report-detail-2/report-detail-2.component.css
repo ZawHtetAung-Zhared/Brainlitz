@@ -24,37 +24,8 @@
 }
 
 .back-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 28px;
-  color: #363f4d;
   cursor: pointer;
   padding: 0px 5px;
-}
-
-.mastery-title {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 28px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #363f4d;
-}
-
-.light-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 24px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #5c6773;
-  padding-top: 8px;
 }
 
 .footer {
@@ -78,11 +49,6 @@
   margin-right: 8px;
 }
 .color-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-size: 13px;
-  line-height: 20px;
-  color: #363f4d;
   word-break: break-all;
 }
 
@@ -125,12 +91,6 @@
   height: 24px;
 }
 
-.light-txt2 {
-  padding-top: 0px;
-  color: #b1b1b3;
-  font-weight: 500;
-}
-
 .no-circle {
   width: 24px;
   height: 24px;
@@ -146,22 +106,7 @@
 
 .mastery-body {
   padding-right: 46px;
-  color: #363f4d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 24px;
   padding-top: 6px;
-}
-
-.green-txt {
-  color: #00a653;
-}
-
-.txt-bold {
-  font-weight: bold;
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 
 .split-line {

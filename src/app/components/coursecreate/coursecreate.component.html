@@ -786,14 +786,14 @@
               <div class="teacher-list-box bg-s0 text-c300">
                 <div class="d-flex">
                   <input
-                    class="form-control py-2 input-dropdown bg-s0 light-body-m"
+                    class="form-control py-2 input-dropdown bg-s0 light-body-m dropD teacherInput"
                     type="search"
                     placeholder="Type teacher name"
                     id="myInput"
                     name="search"
                     #search="ngModel"
                     [(ngModel)]="model.teacherSearch"
-                    (focus)="(searchMenuShow == true)"
+                    (focusin)="myfocus($event)"
                     (focusout)="hideFocus($event, 'teacher')"
                     (input)="changeInputMethod($event.target.value)"
                   />

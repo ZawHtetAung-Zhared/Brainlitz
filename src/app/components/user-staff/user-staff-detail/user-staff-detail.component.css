@@ -26,9 +26,6 @@
 
 .heading-space {
   padding: 15px;
-  font-size: 16px;
-  font-family: Inter-UI-Medium;
-  color: #2e3d4d;
 }
 
 .back {
@@ -226,12 +223,9 @@ input:checked + .slider:before {
 
 .classes-tab,
 .leave-tab {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
   border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 20px 0px;
-  font-size: 16px;
-  color: #2e3e4d;
   background: transparent;
   margin-right: 20px;
 }
@@ -249,41 +243,8 @@ input:checked + .slider:before {
 }
 
 .info-mail {
-  /* font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-  color: #64707d;
-  font-size: 14px; */
   word-wrap: break-word;
   margin-bottom: 0;
-  /*padding: 0 20px 0 0;*/
-}
-
-.staff-name {
-  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold; */
-  font-size: 28px;
-  line-height: 36px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #363f4d;
-}
-.staff-email {
-  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 17px; */
-  line-height: 28px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #5c6773;
-}
-.staff-p {
-  /* font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px; */
-  line-height: 24px;
-  color: #5c6773;
 }
 
 .hide {
