@@ -3127,6 +3127,27 @@ export class appService {
     });
   }
 
+  extraLessonForCancelClass(regionId, courseId, data) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/' +
+      courseId +
+      '/add-extra-lesson';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, data, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
   transferClass(body: object) {
     console.log('body', body);
     let apiUrl = this.baseUrl + '/class/actions/transfer';

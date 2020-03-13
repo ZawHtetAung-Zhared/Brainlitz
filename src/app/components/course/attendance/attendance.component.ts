@@ -2403,6 +2403,18 @@ export class AttendanceComponent implements OnInit {
 
     // Call cancel class api service
     //this.blockUI.start('Loading...');
+    if (this.addExtraLesson == true) {
+      let data = {
+        lessonDate: this.LASD,
+        excludedUserIds: []
+      };
+      console.log(data);
+      this._service
+        .extraLessonForCancelClass(this.regionId, this.courseId, data)
+        .subscribe((res: any) => {
+          console.log(res);
+        });
+    }
     this._service
       .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
