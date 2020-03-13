@@ -2411,38 +2411,54 @@ export class AttendanceComponent implements OnInit {
       console.log(data);
       this._service
         .extraLessonForCancelClass(this.regionId, this.courseId, data)
-        .subscribe((res: any) => {
-          console.log(res);
-        });
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            // Success function
+            this.reloadAttendance();
+          },
+          err => {
+            // Error function
+            this.isGlobal = false;
+            console.log('cancle user from class has got error', err);
+            // Do something
+          }
+        );
+    } else {
+      this._service
+        .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
+        .subscribe(
+          (res: any) => {
+            // Success function
+            this.reloadAttendance();
+          },
+          err => {
+            // Error function
+            this.isGlobal = false;
+            console.log('cancle user from class has got error', err);
+            // Do something
+          }
+        );
     }
-    this._service
-      .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
-      .subscribe(
-        (res: any) => {
-          // Success function
-          //this.blockUI.stop();
-          this.cancelUI = false;
-          this.cancelUi = false;
-          console.info('cancle user from class api calling is done');
-          console.log(res);
-          this.isGlobal = false;
-          this.disableCancel = true;
-          this.getCourseDetail(this.courseId);
-          this.getAttendance();
-          this.studentArray = [];
-          this.modalClose();
-          // Close Dialog box
-          // Show the canceled users
-        },
-        err => {
-          // Error function
-          this.isGlobal = false;
-          console.log('cancle user from class has got error', err);
-          // Do something
-        }
-      );
+
     this.cancelUItext = false;
     this.ngOnInit();
+  }
+
+  reloadAttendance() {
+    // Success function
+    this.cancelUI = false;
+    this.cancelUi = false;
+    console.info('cancle user from class api calling is done');
+    this.isGlobal = false;
+    this.addExtraLesson = false;
+    this.disableCancel = true;
+    this.getCourseDetail(this.courseId);
+    this.getAttendance();
+    this.studentArray = [];
+    this.modalClose();
+    // Close Dialog box
+    // Show the canceled users
   }
 
   modalClose() {
