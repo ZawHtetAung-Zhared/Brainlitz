@@ -28,8 +28,8 @@
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date"
-        >{{ thisStart2 | date: 'd MMM' }} '{{ thisStart2 | date: 'yy' }} -
-        {{ thisEnd2 | date: 'd MMM' }} '{{ thisEnd2 | date: 'yy' }}</span
+        >{{ thisStart | date: 'd MMM' }} '{{ thisStart | date: 'yy' }} -
+        {{ thisEnd | date: 'd MMM' }} '{{ thisEnd | date: 'yy' }}</span
       >
       <div class="category" (click)="toggledropdown()">
         <span class="pl-3 dropdown-arrow">{{ selected }}</span>
@@ -37,12 +37,19 @@
         <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
         <div *ngIf="clist == true" class="category-list">
           <ul class="cat-ul">
-            <li (click)="CategorySelected('', '', true)">All Category</li>
+            <li (click)="CategorySelected('', 'all', true)">All Category</li>
             <li
               (click)="CategorySelected(cat.name, cat._id, false)"
               *ngFor="let cat of catList"
             >
               {{ cat.name }}
+            </li>
+            <li
+              *ngIf="catdone == true"
+              (click)="getCatList()"
+              class="text-b100"
+            >
+              Load More ...
             </li>
           </ul>
         </div>
@@ -60,7 +67,9 @@
       <div class="active-cover">
         <span *ngIf="date == today" class="active-blue"></span>
       </div>
-      <div class="active-date">{{ date | date: 'EEE, d MMM' }}</div>
+      <div [ngClass]="{ 'text-b100': date == today }" class="active-date">
+        {{ date | date: 'EEE, d MMM' }}
+      </div>
     </div>
   </div>
   <div class="schedule-container">
@@ -143,6 +152,14 @@
           </div>
         </div>
       </div>
+      <div *ngIf="staffdone == true" class="load-more body-m text-b100 bg-s0">
+        <button
+          class="btn remove-outline text-b100 bg-s0"
+          (click)="getStaffListperWeek()"
+        >
+          load more
+        </button>
+      </div>
     </div>
   </div>
   <div class="extra">
@@ -158,6 +175,7 @@
     </div>
   </div>
 </div>
+
 <!-- zha -->
 <!-- apo -->
 <div class="overlayModal" *ngIf="aa" (click)="clickOverlay()"></div>
