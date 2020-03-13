@@ -6,7 +6,7 @@
       <div class="d-flex heading-space">
         <div class="back" (click)="backToStaff()">
           <i class="fa fa-angle-left text-c200" style="font-size: 20px;"></i
-          ><span class="text-c300">Staff</span>
+          ><span class="body-l text-c300">Staff</span>
         </div>
         <div class="ml-auto d-flex align-items-center">
           <!-- <div class="d-flex g-inner-wrap">
@@ -65,7 +65,7 @@
               </label>
             </div>
           </div>
-          <span class="back text-c300" (click)="getSingleInfo()"
+          <span class="back body-l text-c300" (click)="getSingleInfo()"
             >Edit profile</span
           >
         </div>
@@ -81,10 +81,10 @@
     <div class="row section-wrap">
       <div class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3">
         <div class="infoGp-wrap">
-          <h5 class="staff-name text-c300">
+          <h5 class="h1-strong text-c300">
             {{ staffDetail.user.preferredName }}
           </h5>
-          <p class="info-mail staff-email mb-0 body-l text-c100">
+          <p class="info-mail mb-0 body-l text-c100">
             {{ staffDetail.user.email }}
           </p>
         </div>
@@ -94,11 +94,14 @@
         >
           <p
             *ngIf="staffDetail.user.about != ''"
-            class="mb-0 staff-p light-body-m text-c100"
+            class="mb-0 light-body-m text-c100"
           >
             {{ staffDetail.user.about }}
           </p>
-          <p *ngIf="staffDetail.user.about == ''" class="mb-0 staff-p">
+          <p
+            *ngIf="staffDetail.user.about == ''"
+            class="mb-0 light-body-m text-c100"
+          >
             -
           </p>
         </div>
@@ -160,14 +163,14 @@
             [ngClass]="{
               activeTab: activeTab == 'Classes'
             }"
-            class="btn classes-tab"
+            class="btn classes-tab body-l text-c300"
             (click)="clickTab('Classes')"
           >
             Classes
           </button>
           <button
             [ngClass]="{ activeTab: activeTab == 'Absent' }"
-            class="btn leave-tab"
+            class="btn leave-tab body-l text-c300"
             (click)="clickTab('Absent')"
           >
             Absent
