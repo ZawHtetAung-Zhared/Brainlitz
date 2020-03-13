@@ -25,8 +25,8 @@ import * as moment from 'moment';
 })
 export class TimetableComponent implements OnInit {
   //zha variable
-  public stafflist: any = 0;
-  public timetablelist: any;
+  public stafflist: any = [];
+  public timetablelist: any = [];
   public clist: boolean = false;
   public thisStart: any;
   public thisStart2: any;
@@ -35,7 +35,7 @@ export class TimetableComponent implements OnInit {
   public indexWeek: any = [];
   public today: any;
   public today2: any;
-  public catList: any;
+  public catList: any = [];
   public staffcount: any = 0;
   public extracount: any = [
     '1',
@@ -51,6 +51,10 @@ export class TimetableComponent implements OnInit {
     '1',
     '1'
   ];
+  public sk: any = 0;
+  public staffskip: any = 0;
+  public staffdone: boolean = true;
+
   //zha variable
 
   //apo variable
@@ -283,8 +287,7 @@ export class TimetableComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private http: HttpClient,
-    private renderer: Renderer2,
-    private elmRef: ElementRef
+    private renderer: Renderer2
   ) {
     this._service.goback.subscribe(() => {
       console.log('goooo');
@@ -368,6 +371,8 @@ export class TimetableComponent implements OnInit {
 
     //zha ngOnInit
 
+    this.renderer.removeClass(document.body, 'modal-open');
+
     //copy from schedule
     localStorage.removeItem('scheduleObj');
     this.activeTab = 'enroll';
@@ -419,35 +424,53 @@ export class TimetableComponent implements OnInit {
 
   //zha function
   toggledropdown() {
+    if (this.showOverLay == false) {
+      this.renderer.addClass(document.body, 'modal-open');
+    } else {
+      this.renderer.removeClass(document.body, 'modal-open');
+    }
+    this.showOverLay = !this.showOverLay;
     this.clist = !this.clist;
     // console.log('clist', this.clist);
   }
   getStaffListperWeek() {
-    this._service.getStaffList(this.thisStart, this.thisEnd).subscribe(
-      (res: any) => {
-        this.stafflist = res.staffList;
-        this.staffcount = this.stafflist.length;
-        if (this.staffcount > 10) {
-          this.extracount = ['1', '1', '1'];
+    this._service
+      .getStaffList(
+        this.thisStart,
+        this.thisEnd,
+        this.staffskip,
+        20,
+        this.currentCat
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.staffList == '') {
+            this.staffdone = false;
+          }
+          this.stafflist = this.stafflist.concat(res.staffList);
+          this.staffcount = this.stafflist.length;
+          if (this.staffcount > 10) {
+            this.extracount = ['1', '1', '1'];
+          }
+          console.log('SL', this.stafflist);
+          this.getTimetables(
+            res.staffList.toString(),
+            this.thisStart,
+            this.thisEnd,
+            this.currentCat
+          );
+        },
+        err => {
+          console.log(err);
         }
-        console.log('SL', this.stafflist);
-        this.getTimetables(
-          this.stafflist.toString(),
-          this.thisStart,
-          this.thisEnd,
-          'all'
-        );
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      );
+    this.staffskip += 20;
   }
   getTimetables(list, start, end, id) {
     this._service.getTimetableList(list, start, end, id).subscribe(
       (res: any) => {
-        this.timetablelist = res;
-        this.staffcount = res.length;
+        this.timetablelist = this.timetablelist.concat(res);
+        this.staffcount = this.timetablelist.length;
         if (this.staffcount > 10) {
           this.extracount = ['1', '1', '1'];
         } else {
@@ -494,19 +517,13 @@ export class TimetableComponent implements OnInit {
 
     this.thisStart = moment(date)
       .weekday(0)
-      .format('DD-MM-YYYY');
-    this.thisStart2 = moment(date)
-      .weekday(0)
       .format('YYYY-MM-DD');
+
     this.thisEnd = moment(date)
-      .weekday(6)
-      .format('DD-MM-YYYY');
-    this.thisEnd2 = moment(date)
       .weekday(6)
       .format('YYYY-MM-DD');
 
     this.today = moment(date).format('YYYY-MM-DD');
-    this.today2 = moment(date).format('DD-MM-YYYY');
     console.log(this.today);
     this.indexWeek = [];
     for (var i = 0; i < 7; i++) {
@@ -522,16 +539,23 @@ export class TimetableComponent implements OnInit {
     console.log('Show Week', this.indexWeek);
   }
 
+  public catdone: boolean = true;
   getCatList() {
-    this._service.getCategory(this.regionId, 20, 0).subscribe(
+    this._service.getCategory(this.regionId, 20, this.sk).subscribe(
       (res: any) => {
-        console.log('CAT', res);
-        this.catList = res;
+        console.log('CCCC', this.catList);
+        this.catList = this.catList.concat(res);
+        console.log('CAT', this.catList);
+        if (res == '') {
+          this.catdone = false;
+          console.log('cat has ended', this.catdone);
+        }
       },
       err => {
         console.log(err);
       }
     );
+    this.sk += 20;
   }
 
   public prevstart: any;
@@ -543,12 +567,11 @@ export class TimetableComponent implements OnInit {
   public PE: any;
   public NS: any;
   public NE: any;
-  public PSr: any;
-  public PEr: any;
-  public NSr: any;
-  public NEr: any;
 
   weekCalculate(when) {
+    this.stafflist = [];
+    this.staffskip = 0;
+    this.timetablelist = [];
     if (when == 'next') {
       console.log(
         'next start',
@@ -563,10 +586,8 @@ export class TimetableComponent implements OnInit {
       this.NS = moment(this.index)
         .weekday(7)
         .format('YYYY-MM-DD');
-      this.NSr = moment(this.index)
-        .weekday(7)
-        .format('DD-MM-YYYY');
 
+      this.thisStart = this.NS;
       console.log(
         'next end',
         moment(this.index)
@@ -580,9 +601,8 @@ export class TimetableComponent implements OnInit {
       this.NE = moment(this.index)
         .weekday(13)
         .format('YYYY-MM-DD');
-      this.NEr = moment(this.index)
-        .weekday(13)
-        .format('DD-MM-YYYY');
+
+      this.thisEnd = this.NE;
 
       this.index = moment(this.nextstart)
         .weekday(1)
@@ -594,12 +614,7 @@ export class TimetableComponent implements OnInit {
           .format('YYYY-MM-DD')
       );
 
-      this.getTimetables(
-        this.stafflist.toString(),
-        this.NSr,
-        this.NEr,
-        this.currentCat
-      );
+      this.getStaffListperWeek();
 
       this.thisStart2 = this.NS;
       this.thisEnd2 = this.NE;
@@ -619,9 +634,8 @@ export class TimetableComponent implements OnInit {
       this.PS = moment(this.index)
         .weekday(-7)
         .format('YYYY-MM-DD');
-      this.PSr = moment(this.index)
-        .weekday(-7)
-        .format('DD-MM-YYYY');
+
+      this.thisStart = this.PS;
 
       console.log(
         'prev end',
@@ -636,9 +650,8 @@ export class TimetableComponent implements OnInit {
       this.PE = moment(this.index)
         .weekday(-1)
         .format('YYYY-MM-DD');
-      this.PEr = moment(this.index)
-        .weekday(-1)
-        .format('DD-MM-YYYY');
+
+      this.thisEnd = this.PE;
 
       this.index = moment(this.prevstart)
         .weekday(1)
@@ -650,12 +663,8 @@ export class TimetableComponent implements OnInit {
           .format('YYYY-MM-DD')
       );
 
-      this.getTimetables(
-        this.stafflist.toString(),
-        this.PSr,
-        this.PEr,
-        this.currentCat
-      );
+      this.getStaffListperWeek();
+
       this.thisStart2 = this.PS;
       this.thisEnd2 = this.PE;
     }
@@ -669,15 +678,14 @@ export class TimetableComponent implements OnInit {
     }
   }
   TodayCalculate() {
+    this.stafflist = [];
+    this.staffskip = 0;
+    this.timetablelist = [];
     this.index = new Date();
     this.DateCalculate();
-    this.getTimetables(
-      this.stafflist.toString(),
-      this.thisStart,
-      this.thisEnd,
-      this.currentCat
-    );
+    this.getStaffListperWeek();
   }
+
   //zha function
 
   ngAfterViewInit() {
@@ -2372,12 +2380,15 @@ export class TimetableComponent implements OnInit {
 
   clickOverlay() {
     this.showPopUp = false;
+    this.showOverLay = false;
+    this.clist = !this.clist;
     // this.disabledScroll = false;
     // this.renderer.removeClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.removeClass(document.body, 'modal-open');
   }
 
   goCourseDetails(id) {
+    this.renderer.removeClass(document.body, 'modal-open');
     var courseId = '5e4cb79ed0019f00125bf69a'; //testing
     this.router.navigate(['/coursedetail', id]);
   }
@@ -2386,6 +2397,7 @@ export class TimetableComponent implements OnInit {
   public addNewCoursePlan = false;
 
   addNewCourse() {
+    this.renderer.removeClass(document.body, 'modal-open');
     this.showTimetable = false;
     this.showPopUp = false;
     this.addNewCoursePlan = true;
@@ -2477,18 +2489,18 @@ export class TimetableComponent implements OnInit {
   public isAll = true;
   public selected: String = 'All Category';
   public currentCat: any = 'all';
+  public showOverLay = false;
   CategorySelected(name, id, all) {
+    this.stafflist = [];
+    this.staffskip = 0;
+    this.timetablelist = [];
     console.log('caught', name, ' ~ ', id, ' ~ ', all);
     this.item.itemID = name;
     this.isAll = all;
     this.selected = name == '' ? 'All Category' : name;
     console.log(this.selected, ' is selected');
     this.currentCat = id;
-    this.getTimetables(
-      this.stafflist.toString(),
-      this.thisStart,
-      this.thisEnd,
-      this.currentCat
-    );
+    this.DateCalculate();
+    this.getStaffListperWeek();
   }
 }

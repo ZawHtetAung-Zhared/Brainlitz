@@ -4666,16 +4666,21 @@ export class appService {
     });
   }
   //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
-  getStaffList(start, end) {
+  getStaffList(start, end, skip, limit, id) {
     let apiUrl =
       this.baseUrl +
       '/regions/' +
       localStorage.getItem('regionId') +
-      '/schedules/staff?categoryId=all&start=' +
+      '/schedules/staff?categoryId=' +
+      id +
+      '&start=' +
       start +
       '&end=' +
       end +
-      '&skip=0&limit=20';
+      '&skip=' +
+      skip +
+      '&limit=' +
+      limit;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4705,8 +4710,7 @@ export class appService {
       '&start=' +
       start +
       '&end=' +
-      end +
-      '&skip=0&limit=20';
+      end;
 
     const httpOptions = {
       headers: new HttpHeaders({

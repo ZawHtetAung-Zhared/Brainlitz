@@ -3,20 +3,25 @@
     <div class="d-flex align-items-center">
       <span (click)="backTo()">
         <i class="fa fa-angle-left"></i>
-        <span class="back-txt">
+        <span class="back-txt body-l text-c300">
           Detail view
         </span>
       </span>
     </div>
     <div class="h2-strong text-c300 pt-4">
       {{ selectedMastery?.shortMasteryName }}
+      <span>
+        <img
+          src="./assets/icons/mastery-question.svg"
+          class="p-0 btn"
+          (click)="openModal(selectedMastery.masteryId)"
+        />
+      </span>
     </div>
     <div class="mt-4 mb-4">
-      <span class="light-txt"
-        >Proident elit labore proident aute cupidatat nulla proident est. Sit
-        reprehenderit exercitation sunt quis incididunt mollit ea reprehenderit
-        nisi incididunt. Amet aliquip Lorem cillum .</span
-      >
+      <span class="light-txt body-m text-c300">
+        {{ selectedMastery?.infoForEducator }}
+      </span>
     </div>
     <!-- start for -->
     <!-- <div *ngFor="let key of objectKeys(userList)">
@@ -27,11 +32,13 @@
       *ngFor="let userType of objectKeys(userList)"
       class="mb-4 card cust-card"
     >
-      <div class="cust-1 d-flex justify-content-between align-items-center">
+      <div
+        class="cust-1 bg-s30 d-flex justify-content-between align-items-center"
+      >
         <div class="d-flex align-items-center">
-          <span class="option-title"> {{ userType }} </span>
-          <span class="dotted ml-3 mr-3"></span>
-          <span class="student-info">
+          <span class="h3-strong text-c100"> {{ userType }} </span>
+          <span class="dotted bg-c100 ml-3 mr-3"></span>
+          <span class="h5-strong text-c100">
             {{
               userList[userType].length > 1
                 ? userList[userType].length + 'students'
@@ -40,33 +47,39 @@
           </span>
         </div>
         <div (click)="dropDown($event, userType)">
-          <img src=" ../../../../../../../assets/icons/up-arrow.svg" />
+          <img
+            *ngIf="showUserTypeArr.indexOf(userType) == -1"
+            src="../../../../../../../assets/icons/up-arrow.svg"
+          />
+          <img
+            *ngIf="showUserTypeArr.indexOf(userType) != -1"
+            src=" ../../../../../../../assets/icons/down-arrow.svg"
+          />
         </div>
       </div>
-      <div class="cust-2 row m-0">
+      <div
+        *ngIf="showUserTypeArr.indexOf(userType) == -1"
+        class="cust-2 row m-0"
+      >
         <div
           *ngFor="let user of userList[userType]"
-          class="col-md-4 d-flex align-items-center mt-3 mb-3"
+          class="col-md-4 pl-4 pr-4 d-flex align-items-center mt-3 mb-3"
         >
           <div class="d-flex justify-content-center std-img">
             <img src="{{ user.profilePic }}" />
           </div>
-          <span class="std-name"> {{ user.preferredName }} </span>
+          <span class="h4-strong text-c300"> {{ user.preferredName }} </span>
         </div>
       </div>
-      <!-- <div *ngIf="report.showList" class="cust-2 row m-0">
-        <div
-          *ngFor="let std of report.student_list"
-          class="col-md-4 d-flex align-items-center mt-3 mb-3"
-        >
-          <div class="d-flex justify-content-center std-img">
-            <img _ngcontent-c2="" src="./assets/images/Vector.svg" />
-          </div>
-          <span class="std-name"> {{ std.name }} </span>
-        </div>
-      </div> -->
     </div>
 
     <!-- end for -->
   </div>
 </div>
+
+<ng-template #questionModal let-c="close" let-d="dismiss">
+  <app-sample-question
+    [masteryId]="selectedMastery.masteryId"
+    (closed)="closedQuestionModal()"
+  ></app-sample-question>
+</ng-template>
