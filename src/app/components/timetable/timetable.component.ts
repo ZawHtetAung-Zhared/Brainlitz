@@ -5,7 +5,9 @@ import {
   ViewChildren,
   QueryList,
   ViewContainerRef,
-  HostListener
+  HostListener,
+  Renderer2,
+  ElementRef
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -270,6 +272,8 @@ export class TimetableComponent implements OnInit {
     { name: 'Kagura', id: 6 }
   ];
 
+  // public renderer:Renderer2;
+
   constructor(
     private _service: appService,
     private dataservice: DataService,
@@ -278,7 +282,9 @@ export class TimetableComponent implements OnInit {
     public vcr: ViewContainerRef,
     private router: Router,
     private dataService: DataService,
-    private http: HttpClient
+    private http: HttpClient,
+    private renderer: Renderer2,
+    private elmRef: ElementRef
   ) {
     this._service.goback.subscribe(() => {
       console.log('goooo');
@@ -2293,8 +2299,12 @@ export class TimetableComponent implements OnInit {
   public absent: boolean;
   public leaveInfo: any;
   public mDate: any;
+  // public disabledScroll = false;
 
   showPopUpFunc(staff, schedule) {
+    // this.renderer.addClass(this.elmRef.nativeElement, 'modal-open');
+    this.renderer.addClass(document.body, 'modal-open');
+    // this.disabledScroll = true;
     this.selectedStaff = staff;
     this.schedule = schedule;
     //this.timetables =this.selectedStaff.schedules.timetables;
@@ -2362,6 +2372,9 @@ export class TimetableComponent implements OnInit {
 
   clickOverlay() {
     this.showPopUp = false;
+    // this.disabledScroll = false;
+    // this.renderer.removeClass(this.elmRef.nativeElement, 'modal-open');
+    this.renderer.removeClass(document.body, 'modal-open');
   }
 
   goCourseDetails(id) {
