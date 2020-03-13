@@ -12,7 +12,9 @@
   </div>
   <div>
     <button
-      [ngClass]="true ? 'btn-create' : 'btn-normal'"
+      [ngClass]="
+        true ? 'btn-create bg-b100 text-s0' : 'btn-normal bg-s0 text-c300'
+      "
       class="btn body-m"
       (click)="goToAssignTask()"
     >
@@ -25,7 +27,7 @@
   *ngIf="loading == false"
   class="d-flex justify-content-center pt-4 mt-4 task"
 >
-  <span *ngIf="tasks.length == 0">
+  <span *ngIf="tasks.length == 0" class="body-l text-c300">
     There is no task in this course. Assign tasks to this course.</span
   >
 </div>

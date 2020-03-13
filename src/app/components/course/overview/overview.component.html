@@ -4,20 +4,20 @@
   *ngIf="loadingMastery == false"
 >
   <div class="mastery-view-head" [ngClass]="{ 'no-mh': Nomasteryflag }">
-    <h3 class="h3-strong text-c300">Masteries reports</h3>
+    <h3 class="h3-strong text-c300 mr-1">Masteries reports</h3>
     <span class="spaninline bg-y100 ">
       <!-- <p class="m-0">SW</p> -->
       <img src="../../../../assets/img/tiny-brainlitz.svg" />
     </span>
     <!-- <div class="d-flex">
-    <div class="mastery-type">
-      1
-    </div>
-    <div class="mastery-type">
-      2
-    </div>
-  </div> -->
-    <h6 *ngIf="Nomasteryflag" class="p-3">
+      <div class="mastery-type">
+        1
+      </div>
+      <div class="mastery-type">
+        2
+      </div>
+    </div> -->
+    <h6 *ngIf="Nomasteryflag" class="p-3 body-l text-c300">
       There is no masteries report for this course yet.
     </h6>
     <div *ngIf="!Nomasteryflag" class="bd-example">
@@ -57,21 +57,29 @@
                   <div class="d-flex flex-column" class="masteries-stats">
                     <div class="percentage d-flex justify-content-between">
                       <span class="struggle">
-                        <h4>{{ li2.masteryCountInPercentage.STRUGGLE }}%</h4>
-                        <p>struggling</p>
+                        <h4 class="h4-strong mb-0">
+                          {{ li2.masteryCountInPercentage.STRUGGLE }}%
+                        </h4>
+                        <p class="body-m">struggling</p>
                       </span>
                       <span class="fine">
-                        <h4>{{ li2.masteryCountInPercentage.INPROGRESS }}%</h4>
-                        <p>doing fine</p>
+                        <h4 class="h4-strong mb-0">
+                          {{ li2.masteryCountInPercentage.INPROGRESS }}%
+                        </h4>
+                        <p class="body-m">doing fine</p>
                       </span>
                     </div>
                     <div class="percentage d-flex justify-content-between">
                       <span class="mastered">
-                        <h4>{{ li2.masteryCountInPercentage.MASTERED }}%</h4>
-                        <p>mastered</p> </span
+                        <h4 class="h4-strong mb-0">
+                          {{ li2.masteryCountInPercentage.MASTERED }}%
+                        </h4>
+                        <p class="body-m">mastered</p> </span
                       ><span class="notstarted">
-                        <h4>{{ li2.masteryCountInPercentage.NEW }}%</h4>
-                        <p>not started</p>
+                        <h4 class="h4-strong mb-0">
+                          {{ li2.masteryCountInPercentage.NEW }}%
+                        </h4>
+                        <p class="body-m">not started</p>
                       </span>
                     </div>
                   </div>
@@ -82,7 +90,7 @@
                       "
                       class="child-div mb-2"
                     >
-                      <!-- <h6 class="stu-no">{{ masteryStudentCount }}</h6>
+                      <!-- <h6 class="stu-no mb-0">{{ masteryStudentCount }}</h6>
                       <p class="stu" *ngIf="masteryStudentCount > 1">
                         students
                       </p> -->
@@ -101,10 +109,17 @@
                       "
                       class="child-div"
                     >
-                      <h6 class="mast-no">{{ li2.masteryCount }}</h6>
-                      <p class="mast" *ngIf="li2.masteryCount > 1">masteries</p>
+                      <h6 class="mast-no mb-0 body-l text-c300">
+                        {{ li2.masteryCount }}
+                      </h6>
                       <p
-                        class="mast"
+                        class="mast mb-0 body-m text-c100"
+                        *ngIf="li2.masteryCount > 1"
+                      >
+                        masteries
+                      </p>
+                      <p
+                        class="mast mb-0 body-m text-c100"
                         *ngIf="li2.masteryCount == 1 || li2.masteryCount == 0"
                       >
                         mastery
@@ -208,7 +223,7 @@
     </div>
     <div class="cardbody d-flex" style="height: 60%;flex-direction: column;">
       <div *ngIf="pplLists?.length == 0">
-        <p class="enroll">No student in this course yet</p>
+        <p class="enroll body-l text-c300">No student in this course yet</p>
       </div>
       <div *ngIf="pplLists?.length > 0">
         <div class="d-flex justify-content-between mb-4">
@@ -253,7 +268,7 @@
         </div>
       </div>
     </div>
-    <div class="cardfoot" style="height: 20%;">
+    <div class="cardfoot bg-s10" style="height: 20%;">
       <button
         *ngIf="total_no_of_seats == 0"
         class="detail-btn bg-s0 text-c300 body-m"
@@ -286,11 +301,11 @@
 
   <div *ngIf="coursetype != 'ONLINE'" class="attendance-view">
     <div class="cardhead">
-      <h3>Attendance</h3>
+      <h3 class="h3-strong text-c300">Attendance</h3>
     </div>
     <div class="cardbody d-flex" style="flex-direction: column; height: 55%">
       <div *ngIf="lessonList.attendance == ''">
-        <p class="enroll">No lesson in this course yet</p>
+        <p class="enroll body-l text-c300">No lesson in this course yet</p>
       </div>
       <div
         *ngIf="lessonList.attendance != ''"
@@ -302,7 +317,7 @@
             src="../../../../assets/img/chevron-right-s.png"
             [ngClass]="{ disabled: !prevflag }"
         /></span>
-        <span *ngIf="lessonList.length != 0">{{
+        <span class="body-m text-c100" *ngIf="lessonList.length != 0">{{
           lessonList[attandanceIndex].lessonStartDate | utcDateoverview
         }}</span>
         <span
@@ -317,35 +332,41 @@
         *ngIf="lessonList.attendance != ''"
         class="d-flex justify-content-center"
       >
-        <div class="d-flex present">
-          <div class="d-flex data">
-            <span class="attendance-no">{{
+        <div class="d-flex justify-content-center present bg-g50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center text-g300"
+          >
+            <span class="h3-strong">{{
               lessonList[attandanceIndex].present
             }}</span>
-            <span>Present</span>
+            <span class="caption">Present</span>
           </div>
         </div>
-        <div class="d-flex absent">
-          <div class="d-flex data">
-            <span class="attendance-no">{{
+        <div class="d-flex justify-content-center absent bg-r50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center text-r300"
+          >
+            <span class="h3-strong">{{
               lessonList[attandanceIndex].absent
             }}</span>
-            <span>Absent</span>
+            <span class="caption">Absent</span>
           </div>
         </div>
-        <div class="d-flex nodata">
-          <div class="d-flex data">
-            <span class="attendance-no">{{
+        <div class="d-flex justify-content-center nodata bg-s50">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center text-c300"
+          >
+            <span class="h3-strong">{{
               lessonList[attandanceIndex].total
             }}</span>
-            <span>Total</span>
+            <span class="caption">Total</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="cardfoot" style="height: 25%;">
+    <div class="cardfoot bg-s10" style="height: 25%;">
       <button
-        class="detail-btn body-m  bg-s0 text-c300"
+        class="detail-btn body-m bg-s0 text-c300"
         [ngClass]="{ white: lessonList.attendance != '' }"
         (click)="goToAttendance()"
       >
@@ -355,8 +376,8 @@
   </div>
 
   <div class="tasks-view" [ngClass]="{ hide: !sparkwerkz }">
-    <div class="cardhead">
-      <h3>Tasks</h3>
+    <div class="cardhead d-flex align-items-center">
+      <h3 class="h3-strong text-c300 pr-2">Tasks</h3>
       <span class="spaninline bg-y100">
         <!-- <p class="m-0">SW</p> -->
         <img src="../../../../assets/img/tiny-brainlitz.svg" />
@@ -366,12 +387,12 @@
       <div class="d-flex">
         <div class="d-flex task-div">
           <div class="d-flex task-status">
-            <h2 class="big-no">{{ custom }}</h2>
-            <span class="task-label caption-u"> CUSTOM</span>
-            <span *ngIf="custom > 1" class="light-body-m pl-3"
+            <h2 class="h2-strong text-c300">{{ custom }}</h2>
+            <span class="task-label caption-u text-c100"> CUSTOM </span>
+            <span *ngIf="custom > 1" class="light-body-m text-c300 pl-3"
               >tasks assigned</span
             >
-            <span *ngIf="custom < 2" class="light-body-m pl-3"
+            <span *ngIf="custom < 2" class="light-body-m text-c300 pl-3"
               >task assigned</span
             >
           </div>
@@ -392,7 +413,7 @@
         </div> -->
       </div>
     </div>
-    <div class="cardfoot">
+    <div class="cardfoot bg-s10">
       <button
         class="detail-btn body-m text-c300 bg-s0"
         routerLink="../../../assignTask"
@@ -408,12 +429,12 @@
   <!-- <div class="leaderboard-view" [ngClass]="{ hide: !sparkwerkz }">
     <div class="cardhead d-flex justify-content-between">
       <div>
-        <h3>Leaderboard</h3>
+        <h3 class="h3-strong text-c300">Leaderboard</h3>
         <span class="spaninline">
           <p class="m-0">SW</p>
         </span>
       </div>
-      <div class="lb-date">
+      <div class="lb-date bg-b100 text-s0 body-m">
         1 Sep 2019 - 7 Sep 2019
       </div>
     </div>
@@ -533,7 +554,7 @@
         <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
       </content-loader>
     </div>
-    <div class="cardfoot" style="height: 20%;">
+    <div class="cardfoot bg-s10" style="height: 20%;">
       <button class="detail-btn body-m  bg-b100 text-s0">
         <!-- (click)="toggle()" -->
         Enroll customer
@@ -552,7 +573,7 @@
         <svg:rect x="30" y="90" rx="0" ry="0" width="200px" height="10px" />
       </content-loader>
     </div>
-    <div class="cardfoot" style="height: 25%;">
+    <div class="cardfoot bg-s10" style="height: 25%;">
       <button class="detail-btn body-m  bg-s0 text-c300">
         Set attendance
       </button>

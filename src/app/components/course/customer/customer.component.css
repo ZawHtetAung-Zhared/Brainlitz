@@ -1671,7 +1671,6 @@ li button {
 }
 
 .course-tab.active {
-  color: #0080ff;
   border-bottom: 2px solid #0080ff;
 }
 
