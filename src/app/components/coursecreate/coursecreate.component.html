@@ -141,7 +141,7 @@
               }"
               >Course name</label
             >
-            <div class="limit-wordcount">
+            <div class="limit-wordcount text-b100 body-m">
               <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
@@ -183,7 +183,7 @@
               }"
               >Course code</label
             >
-            <div class="limit-wordcount2">
+            <div class="limit-wordcount2 text-b100 body-m">
               <span>{{ wordLength }}/8characters</span>
             </div>
           </div>
@@ -222,7 +222,7 @@
               }"
               >Description</label
             >
-            <div class="limit-wordcount1">
+            <div class="limit-wordcount1 text-b100 body-m">
               <span>{{ wordLength }}/280characters</span>
             </div>
           </div>
@@ -339,7 +339,7 @@
               <input
                 type="text"
                 placeholder="Starting date"
-                class="input-day dropD startInput"
+                class="input-day dropD startInput body-l text-c300"
                 name="start"
                 required
                 [maxDate]="maxDate"
@@ -414,10 +414,12 @@
               End by date
             </label>
           </div> -->
-          <div class="d-flex radio-wrap text-b100">
+          <div class="d-flex radio-wrap">
+            <!-- selected: endOptChecked == 'defaultLesson', -->
             <label
               [ngClass]="{
-                selected: endOptChecked == 'defaultLesson',
+                'text-s0 bg-b100': endOptChecked == 'defaultLesson',
+                'text-b100': endOptChecked != 'defaultLesson',
                 'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
               class="mb-0 cursor-on body-m"
@@ -430,9 +432,11 @@
               />
               Regular lessons
             </label>
+            <!-- selected: endOptChecked == 'lesson', -->
             <label
               [ngClass]="{
-                selected: endOptChecked == 'lesson',
+                'text-s0 bg-b100': endOptChecked == 'lesson',
+                'text-b100': endOptChecked != 'lesson',
                 'disabled-endOpt': timeOptChecked == 'hideTimeSlot'
               }"
               class="mb-0 cursor-on body-m"
@@ -445,9 +449,11 @@
               />
               End by lessons
             </label>
+            <!-- selected: endOptChecked == 'end' -->
             <label
               [ngClass]="{
-                selected: endOptChecked == 'end'
+                'text-s0 bg-b100': endOptChecked == 'end',
+                'text-b100': endOptChecked != 'end'
               }"
               class="mb-0 cursor-on body-m "
             >
@@ -465,7 +471,7 @@
                 <img src="./assets/img/course-dp.png" />
               </span>
               <input
-                class="input-lesson dropD endInput"
+                class="input-lesson dropD endInput body-l text-c300"
                 type="text"
                 placeholder="Ending date"
                 (ngModelChange)="setMaxDate($event)"
@@ -481,7 +487,7 @@
             </div>
             <div *ngIf="endOptChecked == 'lesson'">
               <input
-                class="input-lesson"
+                class="input-lesson body-l text-c300"
                 type="number"
                 name="lesson"
                 placeholder="0 lesson"
@@ -493,11 +499,11 @@
               />
             </div>
             <div *ngIf="endOptChecked == 'defaultLesson'">
-              <div class="default-lesson pb-3">
+              <div class="default-lesson body-l text-c300 pb-3">
                 Number of lessons to be allocated for each enrolment
               </div>
               <input
-                class="input-lesson"
+                class="input-lesson body-l text-c300"
                 type="number"
                 name="dlesson"
                 placeholder="0 lesson"
@@ -546,7 +552,9 @@
                 <span class="slider round"></span>
               </label>
             </div>
-            <div class="d-flex align-items-center pl-3 name-label font-medium">
+            <div
+              class="d-flex align-items-center pl-3 name-label body-l text-c300"
+            >
               This course do not require schedule for lesson time slot
             </div>
           </div>
@@ -568,7 +576,7 @@
               <input
                 type="text"
                 placeholder="Starting time"
-                class="input-day timeInput"
+                class="input-day timeInput body-l text-c300"
                 name="starttime"
                 required
                 [(ngModel)]="model.startT"
@@ -587,8 +595,10 @@
                   <div>
                     <div class="time-box">
                       <label
-                        [ngClass]="{ selected: isSelected == 'AM' }"
-                        class="mb-0 body-xl text-c300"
+                        [ngClass]="
+                          isSelected == 'AM' ? 'bg-b100 text-s0' : 'text-b100'
+                        "
+                        class="mb-0 body-m"
                         ><input
                           type="radio"
                           name="prop"
@@ -597,8 +607,10 @@
                         AM
                       </label>
                       <label
-                        [ngClass]="{ selected: isSelected == 'PM' }"
-                        class="mb-0 body-l text-c300"
+                        [ngClass]="
+                          isSelected == 'PM' ? 'bg-b100 text-s0' : 'text-b100'
+                        "
+                        class="mb-0 body-m"
                       >
                         <input
                           type="radio"
@@ -674,7 +686,7 @@
                 </li>
               </ul>
             </div> -->
-            <div *ngIf="classend" class="msg font-medium">
+            <div *ngIf="classend" class="body-m text-c300 font-medium">
               It will end at {{ classend }}
             </div>
           </div>
@@ -691,7 +703,8 @@
                 <label
                   class="cursor-on day light-body-m text-c300"
                   [ngClass]="{
-                    'active-label': selectedDay.indexOf(d.val) != -1,
+                    'active-label bg-b100 text-s0':
+                      selectedDay.indexOf(d.val) != -1,
                     'm-0': i + 1 == days.length
                   }"
                 >
@@ -749,7 +762,7 @@
                       selectedTeacher.profilePic || './assets/img/user.svg'
                     }}"/></span
                 ><span
-                  class="d-flex flex-column justify-content-center pad-left-5"
+                  class="d-flex flex-column justify-content-center pad-left-5 body-l text-c300"
                   >{{ selectedTeacher.preferredName }}</span
                 >
               </div>
@@ -826,7 +839,7 @@
           <div class="d-flex flex-column" style="position: relative;">
             <div class="d-flex">
               <input
-                class="form-control py-2 input-search-bg light-body-m text-c300 bg-s20"
+                class="form-control py-2 input-search-bg light-body-l text-c300 bg-s20"
                 type="search"
                 autocomplete="off"
                 placeholder="Add assistants by searching"
@@ -878,7 +891,7 @@
                   />
                 </div>
                 <div
-                  class="single-user-info d-flex flex-column justify-content-center"
+                  class="single-user-info d-flex flex-column justify-content-center body-m text-c300"
                 >
                   {{ user.preferredName }}
                 </div>
@@ -900,11 +913,13 @@
                     />
                   </div>
                   <div
-                    class="single-user-info d-flex flex-column justify-content-center"
+                    class="single-user-info d-flex flex-column justify-content-center body-m text-c300"
                   >
                     <label class="mb-0">{{ user.preferredName }}</label>
                   </div>
-                  <div class="ml-auto remover-wrap single-user-info">
+                  <div
+                    class="ml-auto remover-wrap single-user-info body-m text-c300"
+                  >
                     <div
                       class="remove-user d-flex justify-content-end"
                       (click)="removeSelectedUser(user.userId)"
@@ -1024,7 +1039,9 @@
               </span>
               <div class="pad-left-10">
                 <!-- <div class="label-12 font-regular">Teacher</div> -->
-                <div class="name-label">{{ conflit.preferredName }}</div>
+                <div class="name-label body-l text-c300">
+                  {{ conflit.preferredName }}
+                </div>
               </div>
             </div>
             <div class="d-flex font-medium msg-padding">
@@ -1052,7 +1069,7 @@
             </span>
             <div class="pad-left-10">
               <!-- <div class="label-12 font-regular">Senior Teacher</div> -->
-              <div class="name-label font-semi">
+              <div class="name-label font-semi body-l text-c300">
                 {{ conflit.preferredName }}
               </div>
             </div>
@@ -1072,7 +1089,7 @@
         >
           <div class="d-flex column-wrap">
             <div class="flex-item">
-              <div class="name-label font-medium">
+              <div class="name-label font-medium body-l text-c300">
                 <!-- {{ conflit.date }} -->
                 {{ lesson.startDate | utcDate }}
                 <!-- {{ lesson.endDate | utcDate }} -->
@@ -1083,27 +1100,51 @@
               </div>
             </div>
             <div class="flex-item">
-              <div class="item-label font-medium">Lesson</div>
-              <div *ngIf="lesson.name" class="name-label font-medium">
+              <div class="item-label font-medium body-m text-c100">Lesson</div>
+              <div
+                *ngIf="lesson.name"
+                class="name-label font-medium body-l text-c300"
+              >
                 {{ lesson.name }}
               </div>
-              <div *ngIf="!lesson.name" class="name-label font-medium">-</div>
-            </div>
-            <div class="flex-item">
-              <div class="item-label font-medium">Location</div>
-              <div *ngIf="lesson.location" class="name-label font-medium">
-                {{ lesson.location }}
-              </div>
-              <div *ngIf="!lesson.location" class="name-label font-medium">
+              <div
+                *ngIf="!lesson.name"
+                class="name-label font-medium body-l text-c300"
+              >
                 -
               </div>
             </div>
             <div class="flex-item">
-              <div class="item-label font-medium">Number of students</div>
-              <div *ngIf="lesson.no_of_student" class="name-label font-medium">
+              <div class="item-label font-medium body-m text-c100">
+                Location
+              </div>
+              <div
+                *ngIf="lesson.location"
+                class="name-label font-medium body-l text-c300"
+              >
+                {{ lesson.location }}
+              </div>
+              <div
+                *ngIf="!lesson.location"
+                class="name-label font-medium body-l text-c300"
+              >
+                -
+              </div>
+            </div>
+            <div class="flex-item">
+              <div class="item-label font-medium body-m text-c100">
+                Number of students
+              </div>
+              <div
+                *ngIf="lesson.no_of_student"
+                class="name-label font-medium body-l text-c300"
+              >
                 {{ lesson.no_of_student }}
               </div>
-              <div *ngIf="!lesson.no_of_student" class="name-label font-medium">
+              <div
+                *ngIf="!lesson.no_of_student"
+                class="name-label font-medium body-l text-c300"
+              >
                 -
               </div>
             </div>
@@ -1202,13 +1243,13 @@
         <div id="parent">
           <img src="./assets/images/timetable-ico.png" />
         </div>
-        <span class="name-label font-semi">Timetable</span>
+        <span class="name-label font-semi body-l text-c300">Timetable</span>
       </div>
       <div class="timetable-wrapper" *ngIf="!isShowDetail">
         <div class="d-flex timetable">
           <div class="d-flex justify-content-between flex-item1">
             <div>
-              <div class="name-label font-medium">
+              <div class="name-label font-medium body-l text-c300">
                 {{ ttStartDate.date }} {{ ttStartDate.month | TTmonth }}
                 {{ ttStartDate.year }}
               </div>
@@ -1234,7 +1275,7 @@
               <img src="./assets/images/timetable-arrow@2x.png" />
             </div>
             <div>
-              <div class="name-label font-medium">
+              <div class="name-label font-medium body-l text-c300">
                 {{ ttEndDate.date }} {{ ttEndDate.month | TTmonth }} 2018
               </div>
               <div class="label-12 font-medium">
@@ -1257,8 +1298,10 @@
             </div>
           </div>
           <div class="flex-item2">
-            <div class="item-label font-medium">Number of lessons</div>
-            <div class="name-label font-medium">
+            <div class="item-label font-medium body-m text-c100">
+              Number of lessons
+            </div>
+            <div class="name-label font-medium body-l text-c300">
               {{ timetable.lessons_count }}
             </div>
           </div>
@@ -1293,7 +1336,7 @@
             </div>
           </div>
           <div *ngIf="courseFeess" class="table-item">
-            <sup class="font-semi sup-detail-sign">{{
+            <sup class="sup-detail-sign caption text-s0">{{
               currency.invCurrencySign
             }}</sup
             ><span class="font-medium font-20">{{ courseFeess }}</span>
@@ -1302,7 +1345,7 @@
         <div class="table-body">
           <div *ngFor="let timetable of timetableLists">
             <div class="time-info">
-              <div class="name-label font-semi">
+              <div class="name-label font-semi body-l text-c300">
                 {{ timetable.month | TTmonth }} {{ timetable.year }}
               </div>
               <div class="label-12 font-medium">
@@ -1336,7 +1379,7 @@
                     skip
                   </div>
                   <div>
-                    <div class="font-semi">
+                    <div class="font-semi body-l text-c300">
                       {{ item.date }} {{ item.month | TTmonth }}
                     </div>
                     <div class="label-12 font-medium">

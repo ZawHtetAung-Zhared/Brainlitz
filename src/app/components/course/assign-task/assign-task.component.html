@@ -25,7 +25,7 @@
               <div class="ml-auto">
                 <button
                   type="button"
-                  class="btn sticky-cancel"
+                  class="btn sticky-cancel bg-s0 body-l text-c300"
                   [disabled]="loading"
                   (click)="backCourseDetail()"
                 >
@@ -48,34 +48,47 @@
           <p class="title bold">Standard</p>
           <div class="d-flex standard-wrapper" *ngIf="!loading">
             <div
-              class="standard-block medium"
+              class="standard-block bg-s0 body-l"
               *ngFor="let standard of standardList"
               (click)="checkStandard(standard._id)"
               [ngClass]="{
-                active: createassignTask.standard.standardId == standard._id
+                'bg-b100 text-s0':
+                  createassignTask.standard.standardId == standard._id
               }"
             >
               {{ standard.name }}
             </div>
           </div>
           <div class="d-flex flex-wrap standard-wrapper" *ngIf="loading">
-            <div class="col-md-2 standard-block" style="height: 40px;">
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
               <content-loader>
                 <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
               </content-loader>
             </div>
 
-            <div class="col-md-2 standard-block" style="height: 40px;">
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
               <content-loader>
                 <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
               </content-loader>
             </div>
-            <div class="col-md-2 standard-block" style="height: 40px;">
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
               <content-loader>
                 <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
               </content-loader>
             </div>
-            <div class="col-md-2 standard-block" style="height: 40px;">
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
               <content-loader>
                 <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
               </content-loader>
@@ -165,7 +178,7 @@
               <div class="ml-auto">
                 <button
                   type="button"
-                  class="btn sticky-cancel"
+                  class="btn sticky-cancel bg-s0 body-l text-c300"
                   (click)="backCourseDetail()"
                 >
                   Cancel
@@ -191,7 +204,7 @@
               (click)="goToScheduleTask(assign)"
               *ngFor="let assign of assignTaskList"
             >
-              <div class="choice-block">
+              <div class="choice-block bg-s40">
                 <p class="choice-title bold">{{ assign.title }}</p>
                 <p class="choice-description medium">
                   {{ assign.description }}
@@ -226,7 +239,7 @@
             <div class="ml-auto">
               <button
                 type="button"
-                class="btn sticky-cancel"
+                class="btn sticky-cancel bg-s0 body-l text-c300"
                 (click)="backCourseDetail()"
               >
                 Cancel
@@ -289,7 +302,7 @@
             </p>
             <div class="simple-search input-group">
               <input
-                class="form-control py-2 task-search-input bold data-name"
+                class="form-control py-2 task-search-input body-l text-c100 data-name"
                 type="search"
                 placeholder="Search template"
                 autocomplete="off"
@@ -668,7 +681,7 @@
                 (click)="choicemode(mode)"
               >
                 <div
-                  class="choice-block"
+                  class="choice-block bg-s40"
                   [ngClass]="{
                     activeMode:
                       mode.id ==

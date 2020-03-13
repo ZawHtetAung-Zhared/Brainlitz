@@ -474,9 +474,11 @@ export class ReportDetail2Component implements OnInit {
             _self.plotDetailOption.yAxis.data.indexOf(params.name)
           ];
         console.log('on click series', selectedMastery);
-        _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
-        // _self.dataservice.setMasteryData(selectedMastery)
-        localStorage.setItem('userMastery', JSON.stringify(selectedMastery));
+        var id = selectedMastery._id;
+        _self.router.navigate([`../studentlist/${id}`], {
+          relativeTo: _self.route
+        });
+        _self.dataservice.setMasteryData(selectedMastery);
         // console.log(params.dataIndex);
         // console.log(
         //   _self.masteriesReports[0].masteries[params.dataIndex].question

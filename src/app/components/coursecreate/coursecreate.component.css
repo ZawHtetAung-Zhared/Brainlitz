@@ -67,9 +67,6 @@ input:-webkit-input-placeholder {
 .default-lesson {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 } */
-.font-semi {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
 
 header div {
   height: 1.4rem;
@@ -217,10 +214,6 @@ textarea:focus {
   font-size: 16px;
   font-family: 'Inter-UI-Regular',Arial,sans-serif;
 }*/
-.msg {
-  color: #2e3d4d;
-  font-size: 14px;
-}
 .input-day {
   width: 100%;
 }
@@ -232,7 +225,7 @@ textarea:focus {
 }
 .tool-box {
   display: flex;
-  border: 2px solid #0080ff;
+  border: 2px solid #0065f2;
   border-radius: 4px;
   margin-bottom: 16px;
   margin-top: 13px;
@@ -246,7 +239,7 @@ textarea:focus {
   padding: 8px 0px;
   text-align: center;
   font-size: 14px;
-  color: #0080ff;
+  color: #0065f2;
 }
 .radio-wrap,
 .timeslot-wrap {
@@ -283,7 +276,7 @@ textarea:focus {
   width: 50%;
 }
 .selected {
-  background: #0080ff;
+  background: #0065f2;
   color: #fff !important;
 }
 .input-wrap {
@@ -336,8 +329,6 @@ textarea:focus {
   color: #007fff;
 }
 .active-label {
-  background-color: #007fff;
-  color: #ffffff;
   border-radius: 4px;
 }
 .box-label {
@@ -410,7 +401,7 @@ textarea:focus {
 }
 
 .duration-progress input::-webkit-slider-runnable-track {
-  background: #0080ff;
+  background: #0065f2;
   content: '';
   height: 2px;
 }
@@ -420,7 +411,7 @@ textarea:focus {
   width: 16px;
   -webkit-appearance: none;
   appearance: none;
-  background: #0080ff;
+  background: #0065f2;
   border-radius: 50%;
   box-shadow: 5px 0 0 -6px #e3e4e6, 6px 0 0 -6px #e3e4e6, 7px 0 0 -6px #e3e4e6,
     8px 0 0 -6px #e3e4e6, 9px 0 0 -6px #e3e4e6, 10px 0 0 -6px #e3e4e6,
@@ -553,7 +544,7 @@ textarea:focus {
 
 .time-box {
   display: table;
-  border: 2px solid #0080ff;
+  border: 2px solid #0065f2;
   border-radius: 4px;
   margin: 0px 10px;
 }
@@ -566,8 +557,6 @@ textarea:focus {
   width: 45px;
   padding: 5px 0px;
   text-align: center;
-  font-size: 14px;
-  color: #0080ff;
 }
 .showTime {
   padding: 0px 10px;
@@ -1059,9 +1048,7 @@ textarea:focus {
   padding: 15px 0px;
 }
 .name-label {
-  font-size: 16px;
-  color: #2e3e4d;
-  word-break: break-all;
+  word-break: break-word;
   max-height: 50px;
   overflow: overlay;
 }
@@ -1079,7 +1066,7 @@ textarea:focus {
 .skipped,
 .ignored {
   cursor: pointer;
-  color: #0080ff;
+  color: #0065f2;
   font-size: 14px;
   border: none;
   background: none;
@@ -1231,13 +1218,9 @@ button:disabled {
 .cursor-on {
   cursor: pointer;
 }
-.sup-sign,
-.sup-detail-sign {
+.sup-sign {
   font-size: 12px;
   color: #2e3e4d;
-}
-.sup-detail-sign {
-  color: #ffffff;
 }
 
 .font-20 {
@@ -1317,7 +1300,7 @@ button:disabled {
 }
 
 .clickable-user {
-  color: #0080ff !important;
+  color: #0065f2 !important;
   cursor: pointer;
 }
 
@@ -1350,10 +1333,6 @@ button:disabled {
 .disabled-color {
   color: #b1b2b3 !important;
   cursor: not-allowed;
-}
-.default-lesson {
-  color: #2e3d4d;
-  font-size: 18px;
 }
 
 .disabled-endOpt {
@@ -1433,18 +1412,18 @@ button:disabled {
 }
 
 input:checked + .slider {
-  border: 2px solid #0080ff;
+  border: 2px solid #0065f2;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px #0065f2;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(13px);
   -ms-transform: translateX(13px);
   transform: translateX(13px);
-  background: #0080ff;
+  background: #0065f2;
   content: '';
   background-image: url(/assets/img/tick.png);
   background-repeat: no-repeat;
@@ -1506,18 +1485,18 @@ input:checked + .slider:before {
 }
 
 input:checked + .slider {
-  border: 2px solid #0080ff;
+  border: 2px solid #0065f2;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
+  box-shadow: 0 0 1px #0065f2;
 }
 
 input:checked + .slider:before {
   -webkit-transform: translateX(13px);
   -ms-transform: translateX(13px);
   transform: translateX(13px);
-  background: #0080ff;
+  background: #0065f2;
   content: '';
   background-image: url(/assets/img/tick.png);
   background-repeat: no-repeat;
@@ -1564,7 +1543,7 @@ input:checked + .slider:before {
     overflow-y: auto;
   }
   .duration-progress input::-moz-range-track {
-    background: #0080ff;
+    background: #0065f2;
     content: '';
     height: 2px;
   }
@@ -1574,7 +1553,7 @@ input:checked + .slider:before {
     -moz-appearance: none;
     appearance: none;
     border-radius: 50%;
-    background: #0080ff;
+    background: #0065f2;
     box-shadow: 5px 0 0 -6px #e3e4e6, 6px 0 0 -6px #e3e4e6, 7px 0 0 -6px #e3e4e6,
       8px 0 0 -6px #e3e4e6, 9px 0 0 -6px #e3e4e6, 10px 0 0 -6px #e3e4e6,
       11px 0 0 -6px #e3e4e6, 12px 0 0 -6px #e3e4e6, 13px 0 0 -6px #e3e4e6,

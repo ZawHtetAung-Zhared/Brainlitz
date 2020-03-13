@@ -286,7 +286,7 @@
                   'test-circle': user.grade.recentGrade.grade.point.length == 1,
                   circle: user.grade.recentGrade.grade.point.length > 1
                 }"
-                class="justify-content-center d-flex"
+                class="justify-content-center d-flex caption text-c300"
                 [style.background]="user.grade.sepalColor.background"
               >
                 <span [style.color]="user.grade.sepalColor.text">
@@ -314,7 +314,7 @@
                   'test-circle': user.grade.recentGrade.grade.point.length == 1,
                   circle: user.grade.recentGrade.grade.point.length > 1
                 }"
-                class="justify-content-center d-flex"
+                class="justify-content-center d-flex caption text-c300"
                 [style.background]="user.grade.sepalColor.background"
               >
                 <span [style.color]="user.grade.sepalColor.text">
@@ -422,15 +422,19 @@
       </div>
       <div class="d-flex tab-section">
         <button
-          [ngClass]="{ active: activeUserTab == 'makeup' }"
-          class="btn course-tab active body-l text-c300"
+          [ngClass]="
+            activeUserTab == 'makeup' ? 'active text-b100' : 'text-c300'
+          "
+          class="btn course-tab body-l"
           (click)="clickTab('makeup', 'user')"
         >
           Issue makeup
         </button>
         <button
-          [ngClass]="{ active: activeUserTab == 'invoice' }"
-          class="btn course-tab active body-l text-c300"
+          [ngClass]="
+            activeUserTab == 'invoice' ? 'active text-b100' : 'text-c300'
+          "
+          class="btn course-tab body-l"
           (click)="clickTab('invoice', 'user')"
           [disabled]="singleUserData.invoice == null"
         >
@@ -616,7 +620,7 @@
             <div class="d-flex flex-column mt-37" style="position: relative;">
               <div class="d-flex">
                 <input
-                  class="form-control py-2 input-search-bg"
+                  class="form-control py-2 input-search-bg body-l text-c300"
                   type="search"
                   placeholder="Search class"
                   id="example-search-input"
@@ -992,7 +996,7 @@
           <div class="d-flex">
             <input
               *ngIf="userType == 'customer'"
-              class="form-control py-2 input-search-bg"
+              class="form-control py-2 input-search-bg body-l text-c300"
               type="search"
               placeholder="Search customers"
               id="example-search-input"
@@ -1007,7 +1011,7 @@
             />
             <input
               *ngIf="userType == 'staff' || userType == 'teacher'"
-              class="form-control py-2 input-search-bg"
+              class="form-control py-2 input-search-bg body-l text-c300"
               type="search"
               placeholder="Search teachers"
               id="example-search-input"
@@ -1148,11 +1152,13 @@
             </div>
             <div class="d-flex col-md-6">
               <div class="txt-default">
-                <h3 *ngIf="userType == 'staff'">Add Teacher to this Course</h3>
-                <h3 *ngIf="userType == 'customer'">
+                <h3 class="h1-strong text-c300" *ngIf="userType == 'staff'">
+                  Add Teacher to this Course
+                </h3>
+                <h3 class="h1-strong text-c300" *ngIf="userType == 'customer'">
                   Add Customer to this Course
                 </h3>
-                <h3 *ngIf="userType == 'teacher'">
+                <h3 class="h1-strong text-c300" *ngIf="userType == 'teacher'">
                   Change Teacher to this Course
                 </h3>
               </div>
@@ -1280,7 +1286,7 @@
           <div class="d-flex flex-column mt-37" style="position: relative;">
             <div class="d-flex">
               <input
-                class="form-control py-2 input-search-bg"
+                class="form-control py-2 input-search-bg body-l text-c300"
                 type="search"
                 placeholder="Search customers"
                 id="example-search-input"

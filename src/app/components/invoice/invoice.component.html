@@ -141,7 +141,7 @@
                   <div class="p-3">
                     <h5 class="light-body-l">CourseFee</h5>
                     <div class="d-flex popup-input">
-                      <div class="input-sign">
+                      <div class="input-sign body-l text-c100">
                         {{ invCurrency.sign }}
                       </div>
                       <!--  oninput="validity.valid||(value='')" -->
@@ -246,7 +246,7 @@
               <div class="p-3">
                 <h5 class="light-body-l">Discount</h5>
                 <div class="d-flex popup-input">
-                  <div class="input-sign">
+                  <div class="input-sign body-l text-c100">
                     {{ invCurrency.sign }}
                   </div>
                   <input
@@ -392,7 +392,7 @@
                   <div class="p-3">
                     <h5 class="light-body-l text-left">Discount:</h5>
                     <div class="d-flex popup-input">
-                      <div class="input-sign">
+                      <div class="input-sign body-l text-c100">
                         {{ invCurrency.sign }}
                       </div>
                       <input
@@ -488,7 +488,7 @@
                   <div class="p-3">
                     <h5 class="light-body-l">ItemFee</h5>
                     <div class="d-flex popup-input">
-                      <div class="input-sign">
+                      <div class="input-sign body-l text-c100">
                         {{ invCurrency.sign }}
                       </div>
                       <input
@@ -557,7 +557,10 @@
                   0%
                 </div>
                 <div *ngIf="obj.isDefault == false">
-                  <button class="taxOpt-wrap" (click)="showDropdown(i)">
+                  <button
+                    class="taxOpt-wrap body-l text-b100 bg-s20"
+                    (click)="showDropdown(i)"
+                  >
                     <span>{{ obj.taxtype }}</span
                     ><i class="fa fa-chevron-down downIcon"></i>
                   </button>
@@ -566,10 +569,10 @@
                     *ngIf="isShowDown == true && i == activeId"
                   >
                     <!-- <div *ngIf="locationMenuShow == false" class="carret"></div> -->
-                    <ul class="taxOpt-dropdown">
+                    <ul class="taxOpt-dropdown bg-s0 caption text-c100">
                       <li>
                         <div
-                          class="w-100"
+                          class="w-100 light-body-l text-b100"
                           (click)="chooseTaxOption('Exclusive', i)"
                         >
                           Exclusive
@@ -577,7 +580,7 @@
                       </li>
                       <li>
                         <div
-                          class="w-100"
+                          class="w-100 light-body-l text-b100"
                           (click)="chooseTaxOption('Inclusive', i)"
                         >
                           Inclusive
@@ -585,7 +588,7 @@
                       </li>
                       <li>
                         <div
-                          class="w-100"
+                          class="w-100 light-body-l text-b100"
                           (click)="chooseTaxOption('No Tax', i)"
                         >
                           No Tax
@@ -640,7 +643,7 @@
                   <div class="p-3">
                     <h5 class="light-body-l">Discount</h5>
                     <div class="d-flex popup-input">
-                      <div class="input-sign">
+                      <div class="input-sign body-l text-c100">
                         {{ invCurrency.sign }}
                       </div>
                       <input
@@ -762,7 +765,7 @@
                     <div class="p-3">
                       <h5 class="light-body-l">Discount</h5>
                       <div class="d-flex popup-input">
-                        <div class="input-sign">
+                        <div class="input-sign body-l text-c100">
                           {{ invCurrency.sign }}
                         </div>
                         <input
@@ -1042,21 +1045,35 @@
                     class="pl-3"
                     *ngIf="payment.brandName || payment.cardNumber"
                   >
-                    <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                    <label class="mb-0 c-label body-l text-c100">{{
+                      payment.brandName
+                    }}</label>
                     <div class="d-flex light-body-l">
                       {{ payment.cardNumber }}
                     </div>
                   </div>
-                  <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                  <div
+                    class="c-label body-l text-c100"
+                    *ngIf="payment.paymentMethod == 0"
+                  >
                     Cash
                   </div>
-                  <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                  <div
+                    class="c-label body-l text-c100"
+                    *ngIf="payment.paymentMethod == 1"
+                  >
                     Credit/Debit card
                   </div>
-                  <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                  <div
+                    class="c-label body-l text-c100"
+                    *ngIf="payment.paymentMethod == 2"
+                  >
                     Cheque
                   </div>
-                  <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                  <div
+                    class="c-label body-l text-c100"
+                    *ngIf="payment.paymentMethod == 3"
+                  >
                     Others
                   </div>
                 </div>
@@ -1666,21 +1683,35 @@
                   class="pl-3"
                   *ngIf="payment.brandName || payment.cardNumber"
                 >
-                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
+                  <label class="mb-0 c-label body-l text-c100">{{
+                    payment.brandName
+                  }}</label>
                   <div class="d-flex light-body-l">
                     {{ payment.cardNumber }}
                   </div>
                 </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 0">
+                <div
+                  class="c-label body-l text-c100"
+                  *ngIf="payment.paymentMethod == 0"
+                >
                   Cash
                 </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 1">
+                <div
+                  class="c-label body-l text-c100"
+                  *ngIf="payment.paymentMethod == 1"
+                >
                   Cheque
                 </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 2">
+                <div
+                  class="c-label body-l text-c100"
+                  *ngIf="payment.paymentMethod == 2"
+                >
                   Credit/Debit card
                 </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 3">
+                <div
+                  class="c-label body-l text-c100"
+                  *ngIf="payment.paymentMethod == 3"
+                >
                   Others
                 </div>
               </div>
@@ -1712,11 +1743,18 @@
         <img src="{{ logo }}" />
       </div>
       <div class="mt-40">
-        <label class="payment-label">Choose payment method</label>
+        <label class="payment-label body-l text-c300"
+          >Choose payment method</label
+        >
         <div class="d-flex mt-1 mb-4">
-          <div class="payment-item" *ngFor="let provider of paymentProviders">
+          <div
+            class="payment-item body-l text-c300"
+            *ngFor="let provider of paymentProviders"
+          >
             <label
-              [ngClass]="{ selectedItem: selectedPayment == provider.name }"
+              [ngClass]="{
+                'selectedItem bg-b100 text-s0': selectedPayment == provider.name
+              }"
               class="form-check-label"
             >
               <input
@@ -1736,12 +1774,14 @@
         <div>
           <form #paymentForm="ngForm" nonvalidate>
             <div class="mb-4">
-              <label class="payment-label">Reference number</label>
+              <label class="payment-label body-l text-c300"
+                >Reference number</label
+              >
               <div>
                 <input
                   type="text"
                   name="ref"
-                  class="w-75 cash-input"
+                  class="w-75 cash-input body-l text-c300"
                   placeholder="Reference number"
                   [(ngModel)]="paymentItem.refNumber"
                   #refNumber="ngModel"
@@ -1749,15 +1789,15 @@
               </div>
             </div>
             <div>
-              <label class="payment-label">Amount</label>
-              <div class="d-flex popup-input w-75">
-                <div class="input-sign">
+              <label class="payment-label body-l text-c300">Amount</label>
+              <div class="d-flex align-items-center popup-input w-75">
+                <div class="input-sign body-l text-c100">
                   {{ invCurrency.sign }}
                 </div>
                 <input
                   type="number"
                   name="amount"
-                  class="w-100 cash-input"
+                  class="w-100 cash-input body-l text-c300"
                   placeholder="0"
                   [(ngModel)]="paymentItem.amount"
                   #amount="ngModel"
@@ -1801,8 +1841,11 @@
       *ngIf="selectedPayment != ''"
       class="modal-footer justify-content-between fixed-bottom"
     >
-      <button class="back-inv cursor-on" (click)="backToInvoice()">
-        <i class="fa fa-angle-left"></i><span>Back</span>
+      <button
+        class="back-inv cursor-on bg-s0 body-l text-c300"
+        (click)="backToInvoice()"
+      >
+        <i class="fa fa-angle-left body-xl"></i><span>Back</span>
       </button>
       <button
         class="btn btn-submit cursor-on body-l bg-b100 text-s0"
