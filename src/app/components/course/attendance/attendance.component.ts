@@ -3815,7 +3815,12 @@ export class AttendanceComponent implements OnInit {
     this.yPosition = e.layerY;
     this.uId = uID;
     this.reScheduleUId = uID;
-    this.attdBox = true;
+    if (
+      (this.detailLists.type === 'REGULAR' || this.detailLists.type === null) &&
+      this.disableCancel
+    )
+      this.attdBox = false;
+    else this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
   public modalType;
