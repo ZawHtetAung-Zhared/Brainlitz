@@ -51,27 +51,9 @@
   width: 32px;
   height: 32px;
 }
-.cap1 {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif !important;
-  margin: 0;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 20px;
-  color: #5c6773;
-}
 
 .row-reverse {
   flex-direction: row-reverse;
-}
-
-.cap2 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 17px;
-  line-height: 28px;
-  color: #363f4d;
 }
 
 .spaninline {
@@ -1031,7 +1013,6 @@ li button {
   margin: 23px 0px 35px 0px;
 }
 .back-wrap {
-  margin-bottom: 10px;
   margin-top: 20px;
 }
 .header-font {
@@ -1310,8 +1291,6 @@ li button {
 }
 
 /*Course detail*/
-.back-to,
-.edit-course-btn,
 .detail-info label .course-tab,
 .single-user-info p,
 .btn-submit,
@@ -1329,8 +1308,6 @@ li button {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
 .single-progress h4,
-.back-to,
-.edit-course-btn,
 .course-time h5,
 .room-name,
 .invoice-info,
@@ -1376,8 +1353,7 @@ li button {
 .payment-label,
 .invModal-cancel,
 .send-btn,
-.relief-name h5,
-.locationTxt {
+.relief-name h5 {
   font-family: 'Inter-UI-Semibold', Arial, sans-serif;
 }
 
@@ -1410,7 +1386,6 @@ li button {
 .edit-course-btn:hover {
   background: #f2f4f5;
 }
-.detail-info label,
 .single-user-info p,
 .modal-ctime p,
 .modal-dfees h5,
@@ -1432,13 +1407,8 @@ li button {
   margin-bottom: 16px;
   word-break: break-all;
 }
-.detail-info h1 {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
+
 .detail-info span {
-  color: #0043a1;
-  font-size: 17px;
-  background: #d9ecff;
   padding: 8px;
   border-radius: 25px;
   margin-left: 10px;
@@ -1447,11 +1417,8 @@ li button {
   min-height: 80px;
   height: 80px;
   overflow: overlay;
-  color: #64707d;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
   line-height: 1.7;
   margin-bottom: 0;
-  font-size: 17px;
   text-align: justify;
 }
 .detail-fees b,
@@ -1524,7 +1491,6 @@ li button {
 }
 
 .cdetail .locationTxt {
-  font-size: 15px;
   padding: 3px;
   border-radius: 2px;
   max-height: 40px;
@@ -1543,17 +1509,10 @@ li button {
 .course-bg:nth-child(4) .cdetail {
   background-image: url('../../../../assets/img/wave-4@3x.png');
 }
-.cdetail h5 {
-  color: #2e3d4d !important;
-  font-size: 15px;
-}
+
 .cdetail p,
 .course-time p {
-  color: #64707d;
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-  line-height: 1.7;
   margin-bottom: 0;
-  font-size: 14px;
 }
 .mt-32 {
   margin-top: 32px;
@@ -1562,8 +1521,6 @@ li button {
   border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 11px 18px;
-  font-size: 17px;
-  color: #363f4d;
   background: transparent;
 }
 .course-tab:focus {

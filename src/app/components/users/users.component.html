@@ -1,20 +1,9 @@
-<app-header
+<router-outlet></router-outlet>
+
+<!-- <app-header
   *ngIf="isCourse == false"
   [ngClass]="{ stick: isSticky == true, hide: hideMenu }"
 ></app-header>
-<!-- <app-course *ngIf="isCourse == true"></app-course> -->
-<!-- <div *ngIf="!showFormCreate" class="full-width">
-	<div class="sticky-menu" [ngClass]="{'stickywrap' : navIsFixed == true}">
-		<div class="display-flex mr-top-menu">
-			<div class="col-md-4 pad-0">
-				<h3>Customers</h3>
-			</div>
-			<div class="col-md-8 pad-0">
-				<button type="button" class="btn btn-primary create-button-pos" (click)="goCreateForm()">Add new customer</button>
-			</div>
-		</div>
-	</div>
-</div>	 -->
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div
     *ngIf="
@@ -38,8 +27,6 @@
                 background: gbgColor
               }"
             >
-              <!-- {{ locationName | slice: 0:45
-            }}{{ locationName.length > 45 ? '...' : '' }} -->
               {{ locationName }}
             </div>
           </div>
@@ -176,8 +163,9 @@
   >
     load more
   </button>
-</div>
-<div class="d-flex flex-column justify-content-center align-items-center">
+</div> -->
+
+<!-- <div class="d-flex flex-column justify-content-center align-items-center">
   <div
     *ngIf="showCustDetail"
     class="content-wrapper w-100"
@@ -228,128 +216,7 @@
             >
           </div>
         </div>
-        <!-- comment -->
-        <!-- <div class="user-info-wrap d-flex -justify-content-between">
-          <div class="d-flex col-left">
-            <div class="img-wrap">
-              <div class="circular-image">
-                <img src="{{ custDetail.user.profilePic }}" />
-              </div>
-              <div
-                class="user-grading"
-                *ngIf="(custDetail.user.userGrading?.grade | json) != '{}'"
-              >
-                <div
-                  *ngIf="
-                    custDetail.user.userGrading?.grade.point != undefined &&
-                    custDetail.user.userGrading?.grade.point != null
-                  "
-                  class="b-white justify-content-center d-flex"
-                  [style.background]="
-                    custDetail.user.userGrading.sepalColor.background
-                  "
-                  [ngClass]="{
-                    'test-circle':
-                      custDetail.user.userGrading.grade.point.length == 1,
-                    circle: custDetail.user.userGrading.grade.point.length > 1
-                  }"
-                >
-                  <span
-                    [style.color]="custDetail.user.userGrading.sepalColor.text"
-                  >
-                    {{ custDetail.user.userGrading.grade.point }}
-                  </span>
-                </div>
-              </div>
-            </div> 
-            <div class="pad-left-15" style="width: 80%">
-              <div class="infoGp-wrap">
-                <h5>{{ custDetail.user.preferredName }}</h5>
-                <p class="info-mail mb-0">{{ custDetail.user.email }}</p>
-              </div>
-              <div class="infoGp-wrap mb-0 info-p">
-                <p *ngIf="custDetail.user.about" class="mb-0">
-                  {{ custDetail.user.about }}
-                </p>
-                <p
-                  *ngIf="!custDetail.user.about"
-                  class="mb-0 info-p"
-                  style="margin-top: -20px"
-                >
-                  -
-                </p>
-              </div>
-              <div
-                *ngIf="custDetail.user.guardians?.length > 0"
-                class="infoGp-wrap"
-                style="border-top: 1px dotted #64707d;"
-              >
-                <label class="info-mail">Guardians</label>
-                <div class="guardian-main-wrap d-flex">
-                  <div
-                    *ngFor="let guardian of custDetail.user.guardians"
-                    class="g-inner-wrap d-flex"
-                  >
-                    <div class="small-circular-image">
-                      <img
-                        *ngIf="
-                          guardian.profilePic == undefined ||
-                          guardian.profilePic == ''
-                        "
-                        src="assets/img/user.svg"
-                      />
-                      <img
-                        *ngIf="guardian.profilePic != undefined"
-                        src="{{ guardian.profilePic }}"
-                      />
-                    </div>
 
-                    <div
-                      class="guar-name"
-                      (click)="showDetails(guardian.userId)"
-                    >
-                      {{
-                        guardian.fullName == '' || guardian.fullName == null
-                          ? guardian.email
-                          : guardian.fullName
-                      }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="pad-left-15 col-right">
-            <div>
-              <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
-                <label class="info-mail">Full name</label>
-                <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
-              </div>
-              <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
-                <label class="info-mail">Full name</label>
-                <p class="mb-0 info-p">
-                  -
-                </p>
-              </div>
-              <div class="d-flex info-wrap details-list-wrap">
-                <div class="list-wrapper detail-list">
-                  <div
-                    *ngFor="let detail of custDetail.user.details"
-                    class="child-detail"
-                  >
-                    <label class="info-mail" *ngIf="detail.value.length != 0">{{
-                      detail.name
-                    }}</label>
-                    <p class="mb-0 info-p" *ngIf="detail.value.length != 0">
-                      {{ detail.value }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> 
-        </div>  -->
-        <!-- comment -->
         <div class="d-flex align-items-center justify-content-between">
           <div class="half-profile-wrap">
             <div class="circular-image big-circular-image">
@@ -421,17 +288,13 @@
           </div>
         </div>
       </div>
-      <div class="btn-wrap">
-        <!-- <div></div> -->
-      </div>
+      <div class="btn-wrap"></div>
       <div class="">
-        <!--    [ngClass]="{ 'bg-makeup': activeTab == 'makeup' }" -->
         <div class="row section-wrap">
           <div
             class="d-flex flex-column profile-left col-md-4 col-xl-3 col-lg-3"
           >
             <div class="infoGp-wrap">
-              <!-- <p>{{custDetail.user.profilePic}}</p> -->
               <h5 class="cust-name">{{ custDetail.user.preferredName }}</h5>
               <p class="info-mail customer-email mb-0">
                 {{ custDetail.user.email }}
@@ -455,12 +318,10 @@
             <div>
               <div class="infoGp-wrap" *ngIf="custDetail.user.fullName != ''">
                 <label class="info-mail">Full name</label>
-                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
                 <p class="mb-0 info-p">{{ custDetail.user.fullName }}</p>
               </div>
               <div class="infoGp-wrap" *ngIf="custDetail.user.fullName == ''">
                 <label class="info-mail">Full name</label>
-                <!-- <p class="mb-0 info-p">{{ custDetail.user.fullName }} <span style="padding: 1px"></span>{{custDetail.user.lastName}}</p> -->
                 <p class="mb-0 info-p">
                   -
                 </p>
@@ -560,186 +421,6 @@
                 </button>
               </div>
 
-              <!-- <div>
-                <div
-                  class="btn-wrap no-item"
-                  style="padding-left: 20px;padding-right: 20px"
-                  *ngIf="custDetail.courses?.length <= 0"
-                >
-                  There is no course from this customer!
-                </div>
-                <div class="child_two" *ngFor="let course of custDetail.courses">
-                  <div class="section-one">
-                    <div
-                      class="d-flex justify-content-between"
-                      style="padding-left: 20px"
-                    >
-                      <label class="class-label-12"
-                        ><i
-                          class="fa fa-map-marker"
-                          style="font-size:12px;padding-right: 4px"
-                        ></i
-                        >{{ course.location.name }}</label
-                      >
-                    </div>
-                    <div>
-                      <p
-                        class="info-p clickable"
-                        (click)="onClickCourse(course)"
-                        style="padding-left: 20px"
-                      >
-                        {{ course.name }}
-                      </p>
-
-                      <div class="d-flex row info-wrap" style="padding-left: 20px">
-                        <div
-                          *ngIf="course.type != 'ONLINE'"
-                          class="col-4 info-wrap"
-                        >
-                          <label
-                            class="class-label-14 mb-0"
-                            *ngFor="let day of course.repeatDays | weekDays"
-                            >{{ day }}</label
-                          >
-                          <p
-                            *ngIf="course.duration != undefined"
-                            class="medium-label-14 mb-0"
-                          >
-                            {{ course.duration.startDate | utcTime }} -
-                            {{ course.duration.endDate | utcTime }}
-                          </p>
-                        </div>
-
-                        <div class="d-flex  col-4 day-wrap info-wrap">
-                          <div *ngIf="course.startDate" class="timetable-col ml-3">
-                            <label class="medium-label-14 mb-0">From</label>
-                            <p class="class-label-14 mb-0">
-                              {{ course.startDate | utcDate }}
-                            </p>
-                          </div>
-                          <div class="timetable-col">
-                            <label
-                              *ngIf="course.endDate"
-                              class="medium-label-14 mb-0"
-                              >To</label
-                            >
-                            <label
-                              *ngIf="course.lessonCount"
-                              class="medium-label-14 mb-0"
-                            ></label>
-                            <p *ngIf="course.endDate" class="class-label-14 mb-0">
-                              {{ course.endDate | utcDate }}
-                            </p>
-                            <p
-                              *ngIf="course.lessonCount"
-                              class="class-label-14 mb-0"
-                            >
-                              {{ course.lessonCount }} Lessons
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-4 info-wrap">
-                          <div
-                            class="d-flex flex-row day-wrap"
-                            *ngIf="course.invoice != null"
-                          >
-                            <div
-                              *ngIf="course.invoice.status == 'UNPAID'"
-                              class="ml-3"
-                            >
-                              <img src="./assets/images/unpaid_indicator.png" />
-                            </div>
-                            <div
-                              *ngIf="course.invoice.status == 'PAID'"
-                              class="ml-3"
-                            >
-                              <img src="./assets/images/paid indicator.png" />
-                            </div>
-                            <div
-                              *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
-                              class="ml-3"
-                            >
-                              <img src="./assets/images/paid indicator.png" />
-                            </div>
-
-                            <div>
-                              <label
-                                *ngIf="course.invoice.status == 'UNPAID'"
-                                class="unpaid-text medium-label-14 mb-0"
-                                style="color: #F23A30;"
-                                >Unpaid</label
-                              >
-                              <label
-                                *ngIf="course.invoice.status == 'PAID'"
-                                class="paid-text"
-                                style="color: #009940;"
-                                >Paid</label
-                              >
-                              <label
-                                *ngIf="course.invoice.status == 'PAID[PARTIAL]'"
-                                class="paid-text"
-                                style="color: #009940;"
-                                >Paid[Partial]</label
-                              >
-                              <div
-                                *ngIf="course.invoice != null; currency"
-                                style="font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-                              font-size:14px;color: #2E3D4D;"
-                              >
-                                <span
-                                  style="padding-left: 16px;font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-                                font-size:14px;color: #2E3D4D;"
-                                  class="currency"
-                                  >{{ course.invoice.currency.sign }}</span
-                                >
-                                {{ course.invoice.total }}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="page-footer flex-wrap mt-2">
-                        <div
-                          class="d-flex justify-content-between mt-2"
-                          style="padding-left: 20px"
-                        >
-                          <div class="d-flex">
-                            <label
-                              class="view-invoice"
-                              (click)="rolloverCourse(course._id, course)"
-                              >Rollover this course</label
-                            >
-                            <div class="d-flex">
-                              <span class="dot">&#8226;</span>
-                              <label
-                                class="btn view-invoice"
-                                (click)="
-                                  viewJournal(
-                                    journalContent,
-                                    course,
-                                    course.teacher.preferredName
-                                  )
-                                "
-                              >
-                                View Journal
-                              </label>
-                            </div>
-                          </div>
-
-                          <button
-                            class="btn view-invoice"
-                            (click)="viewInvoice(classEnrollModal, course)"
-                            [disabled]="course.invoice == null"
-                          >
-                            View invoice
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-              <!-- Attending lessons -->
               <div class="col-md-12 col-lg-12 col-xl-9 pl-0 pr-0">
                 <div class="no-item" *ngIf="custDetail.courses?.length <= 0">
                   There is no course from this customer!
@@ -802,20 +483,6 @@
                                   {{ course.startDate | utcDate }}
                                 </p>
                               </div>
-                              <!-- <div
-                                class="timetable-col"
-                                *ngIf="
-                                  course.type != 'ONLINE' &&
-                                  course.type != 'REGULAR'
-                                "
-                              >
-                                <label
-                                  class="medium-label-14"
-                                  style="line-height: 0.5"
-                                  >Continuous</label
-                                >
-                                <p class="medium-label-14">with no end date</p>
-                              </div> -->
                               <div class="timetable-col">
                                 <label
                                   *ngIf="course.endDate"
@@ -832,12 +499,6 @@
                                 >
                                   {{ course.endDate | utcDate }}
                                 </p>
-                                <!-- <p
-                                  *ngIf="course.lessonCount"
-                                  class="class-label-14 mb-0"
-                                >
-                                  {{ course.lessonCount }} Lessons
-                                </p> -->
                               </div>
                             </div>
                             <div class="d-flex tchr-img">
@@ -903,15 +564,6 @@
                               >
                                 remaining lesson
                               </span>
-                              <!-- <span *ngIf="course.lessonsOfStudent">
-                                of total {{ course.lessonsOfStudent.length }}
-                                <span *ngIf="course.lessonsOfStudent.length > 1">
-                                  lessons
-                                </span>
-                                <span *ngIf="course.lessonsOfStudent.length <= 1">
-                                  lesson
-                                </span>
-                              </span> -->
                             </div>
                           </div>
                         </div>
@@ -1095,8 +747,6 @@
                                   }}</span>
                                   {{ invoice.total }}
                                 </div>
-                                <!-- (click)="viewInvoice(classEnrollModal, course)"
-                      [disabled]="course.invoice == null" -->
                                 <span
                                   class="view-invoice"
                                   (click)="
@@ -1131,6 +781,7 @@
                 </div>
               </div>
             </div>
+
             <div *ngIf="activeTab == 'makeup'" class="pb-20">
               <div class="d-flex justify-content-center">
                 <ul class="pass-list">
@@ -1314,72 +965,13 @@
                   </div>
                 </div>
               </div>
-              <!-- <div *ngIf="activePass == 'claimed'" class="d-flex makeup-wrap flex-column">
-                <div class="d-flex makeup-wrap">
-                  <div class="col-md-4">
-                    <div class="single-expired">
-                      <div class="makeup-body">
-                        <h5 class="makeup-title">MoeGuitar101</h5>
-                        <p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <div class="makeup-box">
-                          <p>Issued on 12 Aug 2018</p>
-                          <div class="issue-box">
-                            <strong>From Piano Grade 2 SATURDAY</strong>
-                            <label>11:00 AM - 12:00 AM</label>
-                          </div>
-                          <p>Claimed on 12 Aug 2018</p>
-                          <div class="claimed-box">
-                            <strong>From Piano Grade 2 SATURDAY</strong>
-                            <label>11:00 AM - 12:00 AM</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="left-scoope"></div>
-                      <div class="right-scoope"></div>
-                      <div class="makeup-footer d-flex justify-content-center">
-                        <p class="pass-text">Claimed pass</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      
-              <div *ngIf="activePass == 'expired'" class="d-flex makeup-wrap flex-column">
-                <div class="d-flex makeup-wrap">
-                  <div class="col-md-4">
-                    <div class="single-expired">
-                      <div class="makeup-body">
-                        <h5 class="makeup-title">MoeGuitar101</h5>
-                        <p class="makeup-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <div class="makeup-box">
-                          <p>Issued on 12 Aug 2018</p>
-                          <div class="issue-box">
-                            <strong>From Piano Grade 2 SATURDAY</strong>
-                            <label>11:00 AM - 12:00 AM</label>
-                          </div>
-                          <p>Claimed on 12 Aug 2018</p>
-                          <div class="claimed-box">
-                            <strong>From Piano Grade 2 SATURDAY</strong>
-                            <label>11:00 AM - 12:00 AM</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="left-scoope"></div>
-                      <div class="right-scoope"></div>
-                      <div class="makeup-footer d-flex justify-content-center">
-                        <p class="expired-text">Expired</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
+
             <div
               *ngIf="activeTab == 'achievements'"
               class="pb-20"
               style="overflow:hidden"
             >
-              <!-- <h6 class="title-space tab-title">Ratings and reviews</h6> -->
               <div
                 class="title-space no-item"
                 *ngIf="
@@ -1423,7 +1015,6 @@
                           >by {{ progress.by.preferredName }}</span
                         >
                       </div>
-                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
@@ -1437,7 +1028,6 @@
                 </div>
                 <div class="card-columns grade-list">
                   <div *ngFor="let grade of achievementGrade">
-                    <!-- <div *ngIf="grade.assessment.logs.length != 0"> -->
                     <div class="card">
                       <div class="grade-main">
                         <div class="grade-header">
@@ -1517,7 +1107,6 @@
                         </div>
                       </div>
                     </div>
-                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -1566,12 +1155,6 @@
                                       <p class="assessment-name">
                                         {{ evaluate.apName }}
                                       </p>
-                                      <!-- <p
-                                        class="assessment-by"
-                                        *ngIf="ass.createdDate != null"
-                                      >
-                                        by {{ evaluate.by }}
-                                      </p> -->
                                     </div>
 
                                     <span
@@ -1632,10 +1215,10 @@
                 </div>
               </div>
             </div>
+
             <div *ngIf="activeTab == 'notifications'" class="right-scroll-wrap">
               <div class="d-flex flex-column pb-20">
                 <h4 class="mb-0 tab-title title-space">Notifications</h4>
-                <!-- ngfor outer start -->
                 <div
                   *ngFor="let notification of notifications; let i = index"
                   class="d-flex flex-column"
@@ -1643,7 +1226,6 @@
                   <div class="title-space noti-date">
                     {{ notification.date.utcDate | todayDate2 }}
                   </div>
-                  <!-- ngfor inner start -->
                   <div
                     *ngFor="let noti of notification.noti; let j = index"
                     class="d-flex flex-column"
@@ -1652,14 +1234,6 @@
                       <div class="d-flex align-items-center">
                         <div>
                           <div id="parent">
-                            <!-- <img
-                              *ngIf="noti.type == 1"
-                              [ngClass]="{
-                                'img-read': noti.isRead == true,
-                                'img-unread': noti.isRead == false
-                              }"
-                              src="./assets/images/Attendance.png"
-                            /> -->
                             <img
                               *ngIf="
                                 noti.type == 1 ||
@@ -1673,22 +1247,6 @@
                               style="filter: brightness(50%);"
                               src="./assets/images/courseIconFrame.png"
                             />
-                            <!-- <img
-                              *ngIf="noti.type == 3"
-                              [ngClass]="{
-                                'img-read': noti.isRead == true,
-                                'img-unread': noti.isRead == false
-                              }"
-                              src="./assets/images/attendanceChange.png"
-                            />
-                            <img
-                              *ngIf="noti.type == 4"
-                              [ngClass]="{
-                                'img-read': noti.isRead == true,
-                                'img-unread': noti.isRead == false
-                              }"
-                              src="./assets/images/lessonAbsentFrame.png"
-                            /> -->
                           </div>
                         </div>
                         <div class="col-md-12" style="padding-left: 0px;">
@@ -1711,8 +1269,6 @@
                             'status-unread': noti.isRead == false
                           }"
                         >
-                          <!-- {{ noti.isRead == true ? 'Read' : 'Unread' }} -->
-
                           <img
                             *ngIf="noti.isRead"
                             src="../../../assets/icons/Read.png"
@@ -1731,21 +1287,9 @@
                           }"
                         >
                           {{ noti.createdTime }}
-                          <!-- {{ noti.createdDate | timezoneDate }} -->
                         </div>
                       </div>
                     </div>
-                    <!-- <div
-                      *ngIf="noti.regard.regard != null"
-                      class="noti-body"
-                      [ngClass]="{
-                        'body-read': noti.isRead == true,
-                        'body-unread': noti.isRead == false
-                      }"
-                    >
-                      <span class="body-read"> Regarding: </span>
-                      {{ noti.regard.regard }}
-                    </div> -->
                     <div
                       class="noti-body"
                       [ngClass]="{
@@ -1760,7 +1304,6 @@
                       class="inner-line"
                     ></div>
                   </div>
-                  <!-- ngfor inner end -->
                   <div
                     [ngClass]="{
                       'outer-line': notifications.length - 1 > i,
@@ -1768,8 +1311,6 @@
                     }"
                   ></div>
                 </div>
-
-                <!-- ngfor outer end -->
               </div>
             </div>
 
@@ -1875,52 +1416,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="secondCol">
-                <div class="inner-secondCol">
-                  <h6>Activity</h6>
-                  <div class="no-item" *ngIf="custDetail.journals?.length <= 0">
-                    There is no activity for this customer!
-                  </div>
-                  <div style="overflow: scroll;" [style.height.px]="divHeight">
-                    <div
-                      class="activity-wrapper"
-                      *ngFor="
-                        let activity of custDetail.journals
-                          | slice
-                            : 0
-                            : [
-                                selectedId.indexOf('activity') != -1
-                                  ? custDetail.journals?.length
-                                  : 2
-                              ]
-                      "
-                    >
-                      <div class="d-flex">
-                        <div class="teacher-label-12" style="width: 100%">
-                          {{ activity.message }}
-                        </div>
-                        <div class="icon-img"></div>
-                      </div>
-                      <label class="medium-label-12 mb-0">{{
-                        activity.time
-                      }}</label>
-                    </div>
-                    <div>
-                      <div *ngIf="custDetail.journals?.length > 4">
-                        <button
-                          *ngIf="selectedId.indexOf('activity') == -1"
-                          class="btn-showmore pad-0"
-                          style="font-size: 14px"
-                          (click)="showMoreItem('activity')"
-                        >
-                          <span>See all activities</span
-                          ><i class="fa fa-angle-right" aria-hidden="true"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
@@ -1963,11 +1458,7 @@
             <div class="form-group form-divider">
               <div class="d-flex justify-content-between">
                 <label for="prename" class="label-txt">
-                  <!-- What should we call you? <br /> -->
                   Display name
-                  <!-- <span
-                  >e.g. How your call you or like your preferred name</span
-                > -->
                 </label>
                 <div class="limit-wordcount">
                   <span>{{ wordLength }}/15characters</span>
@@ -2027,15 +1518,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="form-group form-divider">
-                <label for="lastName" class="label-txt">Last name</label> 	
-                <input type="text" class="form-control" placeholder="Type last name here" name="lastName" [(ngModel)]="formFieldc.lastName" #lastName="ngModel" required>
-                <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
-                  <div [hidden]="!lastName.errors.required">
-                    Last name is required!
-                  </div>
-              </div>
-              </div> -->
 
             <div class="form-group form-divider" *ngIf="!customerEmail">
               <div
@@ -2048,22 +1530,6 @@
             </div>
             <div class="form-group form-divider" *ngIf="customerEmail">
               <label for="email" class="label-txt">Email address</label>
-              <!-- <label for="guardian" class="m-0 p-0 d-flex">
-              <input
-                type="radio"
-                id="email"
-                (click)="isGuardian = !isGuardian"
-                name="customer"
-                class="d-none"
-              />
-              <div *ngIf="!isGuardian" class="rounded-box"></div>
-              <div *ngIf="isGuardian" class="rounded-checked">
-                <span class="radio-checked"></span>
-              </div>
-              <div class="box-label" [ngClass]="{ checkedDate: isGuardian }">
-                Guardian email?
-              </div>
-            </label> -->
               <input
                 type="email"
                 class="form-control"
@@ -2148,21 +1614,6 @@
                 #about="ngModel"
               ></textarea>
             </div>
-            <!-- <div class="form-group form-divider">
-            <label for="guardmail" class="label-txt">Guardian email</label>
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Type guardian email here"
-              name="guardianEmail"
-              [(ngModel)]="formFieldc.guardianEmail"
-              (keyup)="validateGuarmail(formFieldc.guardianEmail)"
-              #guardianEmail="ngModel"
-            />
-            <div *ngIf="guardianAlert" class="alert alert-danger">
-              Please provide a valid email!
-            </div>
-          </div> -->
             <div
               class="form-group form-divider"
               *ngFor="let field of customFields; let i = index"
@@ -2191,9 +1642,6 @@
               <div *ngIf="field.controlType === 'Datepicker'">
                 <div class="input-wrap">
                   <div class="customField-dp">
-                    <!-- <span class="dp-icon">
-                    <img src="./assets/img/course-dp.png" />
-                  </span> -->
                     <input
                       type="text"
                       placeholder="{{ field.description }}"
@@ -2250,9 +1698,7 @@
                   style="padding-bottom: 24px;cursor: pointer;"
                 >
                   <label class="d-flex p-0 m-0 align-items-center">
-                    <div *ngIf="!item.isCheck" class="square-box">
-                      <!-- <i class="fa fa-check"></i> -->
-                    </div>
+                    <div *ngIf="!item.isCheck" class="square-box"></div>
                     <div *ngIf="item.isCheck" class="square-checked">
                       <i class="fa fa-check"></i>
                     </div>
@@ -2275,10 +1721,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="form-group form-divider" *ngFor="let field of formFieldc.details;">
-                <label for="guardmail" class="label-txt">{{ field.name }}</label>
-                <textarea class="form-control" rows="3" placeholder="{{ field.description }}" name="{{field.name}}" [(ngModel)]="field.value"></textarea>
-              </div> -->
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
             <label for="upload">
@@ -2425,13 +1867,6 @@
             Update
           </button>
         </div>
-        <!-- <div class="d-flex justify-content-end button-group">
-        <button type="button" class="bt cancel-button" (click)="back()" >Cancel</button>
-            <button *ngIf="isupdate == false" type="submit" (click)="createUser(formFieldc, 'create')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Create
-        </button>
-        <button *ngIf="isupdate == true" type="submit" (click)="createUser(formFieldc, 'edit')" class="btn create-button" [disabled]="!customerForm.valid || (emailAlert || !formFieldc.email || !formFieldc.password ) && (guardianAlert || !formFieldc.guardianEmail)">Update
-        </button>
-      </div> -->
       </form>
     </div>
   </div>
@@ -2444,18 +1879,6 @@
             <p class="cus-name col-md-10 mb-2">
               {{ custDetail.user.preferredName }}
             </p>
-            <!-- <button
-              (click)="closeModal()"
-              aria-label="Close"
-              class="modal-close ml-auto"
-              type="button"
-              style="width:15% ; text-align: right"
-            >
-              <span class="closemark">
-                <div class="closemark_stem"></div>
-                <div class="closemark_kick"></div>
-              </span>
-            </button> -->
             <div class="journal_modal_close" (click)="closeModal()"></div>
           </div>
 
@@ -2725,7 +2148,6 @@
               <div class="closemark_stem"></div>
               <div class="closemark_kick"></div>
             </span>
-            <!-- <span aria-hidden="true" >×</span> -->
           </button>
         </div>
         <app-flexi
@@ -3030,253 +2452,7 @@
         </div>
       </form>
     </div>
-    <!-- <div *ngIf="showInvoice == true && showPayment == false && showPaidInvoice == false" class="container-height">
-    <div *ngIf="feesBox == true" class="overlayInv"></div>
-    <div *ngIf="invStatus == 'PAID[PARTIAL]'" class="paid-header">PAID[PARTIAL]</div>
-    <div class="invoice-container">
-      <div class="d-flex justify-content-between">
-        <div class="logo-wrapper">
-          <img src="{{logo}}">
-        </div>
-        <div class="text-right">
-          <h3 class="modal-title">Invoice</h3>
-          <label class="mr-auto mb-0 invoice-info">{{ refInvID }}</label>
-        </div>
-      </div>
-      <div class="pt-4">
-        <h5 *ngIf="invoiceInfo.companyName != ''" class="invoice-label">{{ invoiceInfo.companyName }}</h5>
-        <h5 *ngIf="invoiceInfo.companyName == ''" class="invoice-label"> - </h5>
-        <div class="d-flex">
-          <div class="col-md-6 col-lg-6 pl-zero">
-            <p *ngIf="invoiceInfo.address != '' || invoiceInfo.address != undefined" class="invoice-info">{{
-              invoiceInfo.address }}</p>
-            <p *ngIf="invoiceInfo.address == ''" class="invoice-info"> - </p>
-          </div>
-          <div class="col-md-3 col-lg-3 text-right">
-            <label class="invoice-label">Invoice date</label>
-            <p class="invoice-info">{{ updatedDate }}</p>
-          </div>
-          <div class="col-md-3 col-lg-3 text-right">
-            <label class="invoice-label">Due date</label>
-            <p class="invoice-info">{{ dueDate }}</p>
-          </div>
-        </div>
-        <p class="invoice-info">{{ invoiceInfo.email }}<p>
-      </div>
-      <div class="pb-4">
-        <label class="invoice-label mb-0">Bill to: <span class="p2 price-info">{{ custDetail.user.preferredName }}</span></label>
-        <div class="d-flex">
-          <p class="invoice-info label-height mb-0">
-            <span *ngIf="custDetail.user.email != ''">{{ custDetail.user.email }}</span>
-            <span *ngFor="let mail of custDetail.user.guardians">{{ mail.email }}</span>
-            <span *ngIf="custDetail.user.email == '' && custDetail.user.guardians?.length == 0">-</span>
-          </p>
-        </div>
-      </div>
-      <div *ngIf="invPayment?.length > 0">
-        <div class="d-flex">
-          <div class="col-md-4 p-0">
-            <label class="invoice-label">Amount</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Billed paid</label>
-          </div>
-          <div class="col-md-4">
-            <label class="invoice-label">Payment method</label>
-          </div>
-        </div>
-        <div *ngFor="let payment of invPayment">
-          <div *ngIf="payment.status == 'COMPLETE'" class="d-flex pb-4">
-            <div class="col-md-4 p-0 d-flex invoice-label">
-              <span>{{invCurrency.sign}}</span>
-              <div>{{ payment.amount }}</div>
-            </div>
-            <div class="col-md-4">
-              <p class="invoice-info">{{payment.updatedDate | dateFormat}}</p>
-            </div>
-            <div class="col-md-4">
-              <div class="d-flex">
-                <div style="width: 55px;">
-        
-                  <i class="fa fa-credit-card" style="font-size: 30px;"></i>
-                </div>
-                <div class="pl-3" *ngIf="payment.brandName || payment.cardNumber">
-                  <label class="mb-0 c-label">{{ payment.brandName }}</label>
-                  <div class="d-flex price-info">
-                    {{ payment.cardNumber }}
-                  </div>
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 0">
-                  Cash
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 1">
-                  Credit/Debit Card
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 2">
-                  Cheque
-                </div>
-                <div class="c-label" *ngIf="payment.paymentMethod == 3">
-                  Others
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex invoice-label fees-header bg-label">
-        <div class="col-md-5 p-0">Course</div>
-        <div class="col-md-1 p-0 text-right">Quantity</div>
-        <div class="col-md-2 p-0 text-right">Unit price</div>
-        <div class="col-md-2 p-0 text-right">Tax<span *ngIf="invTaxName">({{invTaxName}})</span></div>
-        <div class="col-md-2 p-0 text-right">Amount</div>
-      </div>
-      <div *ngFor="let data of invoice">
-        <div>
-          <div class="inv-Cname">
-            {{ invoiceCourse.name }}
-            <div>
-              <span>From: {{ invoiceCourse.startDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.endDate">To:
-                {{ invoiceCourse.endDate|utcDate }}</span><span class="pl-3" *ngIf="invoiceCourse.lessonCount">{{
-                invoiceCourse.lessonCount }} lessons</span>
-            </div>
-          </div>
-          <div class="d-flex inv-courseFee">
-            <div class="cFee-w"></div>
-            <div class="d-flex w-100 mlr-15">
-              <div class="col-md-5 p-0 price-info">Course Fee</div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <div *ngIf="feesBox == true" class="popup-box price-box text-left">
-                  <div id="rectangle"></div>
-                  <div class="p-3">
-                    <h5>CourseFee</h5>
-                    <div class="d-flex popup-input">
-                      <div class="input-sign">
-                        {{ invCurrency.sign }}
-                      </div>
-                      <input type="number" name="discount" class="w-100 input-txt" placeholder="0" [(ngModel)]="value.courseFee">
-                    </div>
-                  </div>
-                </div>
-                <div *ngIf="feesBox == true" class="d-flex btns-wrap">
-                  <button type="submit" class="btn" (click)="cancelPopup('courseFee')">
-                    <span class="closemark">
-                      <div class="closemark_stem"></div>
-                      <div class="closemark_kick"></div>
-                    </span>
-                  </button>
-                  <button type="submit" class="btn" (click)="updateCfee(value.courseFee)" [disabled]="value.courseFee == undefined || value.courseFee == '' || value.courseFee == data.courseFee.fee">
-                    <span class="checkmark">
-                      <div class="checkmark_stem"></div>
-                      <div class="checkmark_kick"></div>
-                    </span>
-                  </button>
-                </div>
-                <p class="mb-0" (click)="showPopup('courseFee',data.courseFee.fee)">{{data.courseFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.courseFee.tax}} <span *ngIf="data.courseFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.courseFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.courseFee.amount}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="inv-bordered">
-          <div *ngIf="hideReg == false" class="d-flex inv-row">
-            <div class="row-icon cursor-on" (click)="hideInvoiceRow('reg')">
-              <img src="./assets/images/withdraw-ico@2x.png">
-            </div>
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Registration Fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.registrationFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.registrationFee.tax}} <span *ngIf="data.registrationFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.registrationFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}}{{data.registrationFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideMisc == false" class="d-flex inv-row">
-            <div class="row-icon cursor-on" (click)="hideInvoiceRow('misc')">
-              <img src="./assets/images/withdraw-ico@2x.png">
-            </div>
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">
-                Miscellaneous fee
-              </div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.miscFee.fee}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">
-                {{data.miscFee.tax}} <span *ngIf="data.miscFee.taxInclusive == true" class="tax-status">(inclusive)</span>
-                <span *ngIf="data.miscFee.taxInclusive == false" class="tax-status">(exclusive)</span>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.miscFee.amount}}</div>
-            </div>
-          </div>
-          <div *ngIf="hideDeposit == false" class="d-flex inv-row">
-            <div class="row-icon cursor-on" (click)="hideInvoiceRow('deposit')">
-              <img src="./assets/images/withdraw-ico@2x.png">
-            </div>
-            <div class="d-flex w-100 b-bottom mlr-15">
-              <div class="col-md-5 p-0 price-info">Deposit</div>
-              <div class="col-md-1 p-0 text-right price-info">1</div>
-              <div class="col-md-2 p-0 text-right price-info">
-                <p class="mb-0">{{data.deposit}}</p>
-              </div>
-              <div class="col-md-2 p-0 text-right price-info"></div>
-              <div class="col-md-2 p-0 text-right price-info">{{invCurrency.sign}} {{data.deposit}}</div>
-            </div>
-          </div>
-        </div>
-        <hr class="invoice-hr">
-        <div class="d-flex justify-content-end">
-          <div class="w-50">
-            <div class="d-flex pad-10 price-info">
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  Sub total
-                </div>
-                <div class="col-sm-5 p-0">
-                </div>
-              </div>
-              <div class="col-md-4 text-right">{{invCurrency.sign}} {{ data.subtotal }}</div>
-            </div>
-            <div class="d-flex invoice-label amount-result pad-10 mb-4 mt-3">
-              <div class="col-md-8 d-flex p-0">
-                <div class="col-sm-7 text-right p-0">
-                  Amount due
-                </div>
-                <div class="col-sm-5 text-right p-0"></div>
-              </div>
-              <div class="col-md-4 text-right">{{invCurrency.sign}} {{ total }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer justify-content-between">
-      <div class="d-flex">
-        <button type="button" class="btn invModal-cancel" (click)="closeModal('closeInv')">Close</button>
-        <div class="l-border">
-          <button class="btn-print cursor-on" (click)="printInvoice()"><img src="./assets/images/print@2x.png"></button>
-        </div>
-      </div>
-      <div>
-        <button *ngIf="isEditInv == false" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0"
-          (click)="sendInvoice()">Send invoice</button>
-        <button *ngIf="isEditInv == true" class="btn send-btn" [disabled]="custDetail.user.email == '' && custDetail.user.guardians?.length == 0"
-          (click)="updateInvoice()">Save</button>
-      </div>
-    </div>
-  </div> -->
+
     <div *ngIf="showPayment == true">
       <div class="invoice-container">
         <div class="logo-wrapper">
@@ -3342,21 +2518,10 @@
                   <div [hidden]="!amount.errors.required">
                     Amount is required!
                   </div>
-                  <!-- <div *ngIf="paymentItem.amount <= 0 && !amount.errors.required">
-					    	Amount should be grater than 0;
-					    </div> -->
                 </div>
               </div>
             </form>
           </div>
-          <!-- <div *ngIf="selectedPayment != 'Cash'">
-				<div class="mt-30">
-					<label class="payment-label">Reference number</label>
-					<div>
-					  <input type="text" name="ref" class="w-75 cash-input" placeholder="Reference number" [(ngModel)]="refInvID" readonly>
-					</div>
-				</div>
-	        </div> -->
         </div>
       </div>
       <div
@@ -3377,9 +2542,6 @@
         >
           Pay now
         </button>
-        <!-- <button *ngIf="selectedPayment != 'Cash'" class="btn btn-submit cursor-on" (click)="payNow(selectedPayment)">
-	      	Pay now
-	      </button> -->
       </div>
     </div>
   </ng-template>
@@ -3500,18 +2662,6 @@
                     </label>
                   </div>
                 </div>
-
-                <!-- <div id="timeline-{{i}}" class="d-flex timeline flex-nowrap">
-	    					<div class="d-flex flex-nowrap">
-		    					<div *ngFor="let lesson of claim.lessons" class="form-check form-check-inline tool-checked">
-		    						<label [ngClass]="{'selected': isChecked == lesson.startDate}" class="form-check-label">
-		    						  <input class="form-check-input" type="radio" name="passForm" id="course" value="{{lesson}}" [(ngModel)]="passForm.lesson" #course="ngModel" [checked]='false' (click)="chooseDate(lesson, claim)"> 
-		    						  <p class="xxxdate">{{lesson.startDate | timelineDate}}</p>
-		    						  <p class="xxxday">{{lesson.startDate | timelineDay}}</p>
-		    						</label>
-		    					</div>
-	    					</div>
-	    				</div> -->
               </div>
               <div class="row d-flex justify-content-center class-info-footer">
                 <button
@@ -3532,15 +2682,11 @@
   <ng-template #invoiceAlert>
     <div class="modal-header">
       <h3 class="modal-title">Generate invoice</h3>
-      <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
     </div>
     <div class="modal-body apg-confirm">
       <p>
         Do you want to generate invoice for this enrollment?
         <span class="target"></span>
-        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>
     </div>
     <div class="modal-footer invoiceAlert-footer">
@@ -3561,7 +2707,6 @@
       </button>
     </div>
   </ng-template>
-  <!-- apo-update -->
   <ng-template #remainingLessons>
     <div class="d-flex modal-header">
       <h3 class="student_name">{{ custDetail.user.preferredName }}</h3>
@@ -3716,9 +2861,6 @@
     <h3 class="modal-title enroll_title" *ngIf="tempCourse.autoEnroll">
       Disable automatic enrollment
     </h3>
-    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
     <div class="autoEnroll-body">
       <p *ngIf="!tempCourse.autoEnroll" class="auto_enroll_body">
         Enabling this will allow automatic assigment of lessons to the student
@@ -3764,14 +2906,9 @@
     <h3 class="modal-title enroll_title">
       Confirm delete?
     </h3>
-    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
     <div class="autoEnroll-body">
       <p>
         Are you sure you want to delete? You won’t back it return.
-        <!-- <span class="target"></span> -->
-        <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
       </p>
     </div>
     <div class="modal-footer autoEnroll-footer">
@@ -3836,7 +2973,6 @@
     (click)="clickOverlay()"
   ></div>
   <ng-template #pickGradeModal>
-    <!-- pickmeup -->
     <div class="justify-content-center align-items-center grade-pickup-modal">
       <p class="grade-change">Change grade for</p>
       <p class="grade-name">{{ apgName }}</p>
@@ -3873,4 +3009,4 @@
   </ng-template>
   <div class="custom_backdrop" *ngIf="isJournal_delete"></div>
   <block-ui message="Deafult Message"></block-ui>
-</div>
+</div> -->

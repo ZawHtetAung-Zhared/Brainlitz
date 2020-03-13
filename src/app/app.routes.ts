@@ -1,3 +1,4 @@
+import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule, Router } from '@angular/router';
@@ -38,6 +39,16 @@ import {
   ReportDetail2Component
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
+import {
+  UserListComponent,
+  CreateUserComponent,
+  UserDetailComponent
+} from './components/users/index';
+import {
+  UserStaffListComponent,
+  UserStaffDetailComponent,
+  CreateUserStaffComponent
+} from './components/user-staff/index';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -63,7 +74,23 @@ export const routes: Routes = [
   {
     path: 'customer',
     component: UsersComponent,
-    canActivate: [LoggedInGuard]
+    // component: UserListComponent,
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'customerlist', pathMatch: 'full' },
+      {
+        path: 'customerlist',
+        component: UserListComponent
+      },
+      {
+        path: 'customercreate/:type/:userid',
+        component: CreateUserComponent
+      },
+      {
+        path: 'customerdetail/:userid',
+        component: UserDetailComponent
+      }
+    ]
   },
   {
     path: 'schedule',
@@ -73,7 +100,22 @@ export const routes: Routes = [
   {
     path: 'staff',
     component: UserStaffComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'stafflist', pathMatch: 'full' },
+      {
+        path: 'stafflist',
+        component: UserStaffListComponent
+      },
+      {
+        path: 'staffdetail/:staffid',
+        component: UserStaffDetailComponent
+      },
+      {
+        path: 'staffcreate/:type/:staffid',
+        component: CreateUserStaffComponent
+      }
+    ]
   },
   {
     path: 'course',
@@ -141,7 +183,7 @@ export const routes: Routes = [
         component: ReportDetail2Component
       },
       {
-        path: 'studentlist',
+        path: 'studentlist/:id',
         component: StudentListComponent
       }
     ]
@@ -169,6 +211,11 @@ export const routes: Routes = [
   {
     path: 'today-lesson',
     component: TodayLessonsComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'timetable',
+    component: TimetableComponent,
     canActivate: [LoggedInGuard]
   },
   {

@@ -159,6 +159,7 @@ export class CoursecreateComponent implements OnInit {
 
   test;
   ngOnInit() {
+    console.log(this.selectedTeacher.preferredName);
     console.log('CPLan', this.coursePlan);
     console.log('CourseID', this.course);
     console.log('Currency', this.currency);
@@ -190,6 +191,7 @@ export class CoursecreateComponent implements OnInit {
       this.model = [];
       this.planId = this.coursePlan.id;
       this.planName = this.coursePlan.name;
+      console.log('this.planName ' + this.planName);
       this.model.duration = this.coursePlan.duration;
       this.model.description = this.coursePlan.description;
       // this.createList(this.model.duration);
@@ -197,35 +199,6 @@ export class CoursecreateComponent implements OnInit {
       console.log('~~~~~', this.feesOptions);
       this.taxOptions = this.coursePlan.paymentPolicy.taxOptions;
       console.log('Tax Opt', this.taxOptions);
-      // if (this.feesOptions != undefined && this.taxOptions == undefined) {
-      //   var tempObj = {};
-      //   var tempChooseFee: any;
-      //   var tempFeeOpt = this.feesOptions;
-      //   Object.keys(tempFeeOpt).map(function(key, index) {
-      //     console.log('key~~~~~~', key);
-      //     if (
-      //       (key == null || key == undefined || key == '') &&
-      //       (tempFeeOpt[key] == null ||
-      //         tempFeeOpt[key] == undefined ||
-      //         tempFeeOpt[key] == '')
-      //     ) {
-      //       tempChooseFee = 'no';
-      //     } else {
-      //       console.log('~~~~~~not null');
-      //       tempObj[key] = {
-      //         taxInclusive: true
-      //       };
-      //     }
-      //   });
-      //   console.log('Temp Obj', tempObj);
-      //   this.taxOptions = tempObj;
-      //   if (tempChooseFee == 'no') {
-      //     this.chooseFee = 'no';
-      //     this.feesOptions = null;
-      //     console.log('~~~~', this.chooseFee);
-      //   }
-      //   console.log(this.taxOptions);
-      // }
       this.checkTaxForCreate();
       if (this.feesOptions == undefined) {
         console.log('No Fees OPtions', this.feesOptions);
@@ -242,6 +215,7 @@ export class CoursecreateComponent implements OnInit {
         this.scheduleCourse();
       }
       console.log(this.model);
+      console.log(this.selectedTeacher);
     }
 
     if (this.currency == undefined || this.currency == null) {
@@ -302,57 +276,23 @@ export class CoursecreateComponent implements OnInit {
 
   scheduleCourse() {
     console.log('from schedule', this.scheduleObj);
+    console.log('plan name', this.planName);
+
     this.model.start = this.scheduleObj.date;
     this.selectedDay = this.scheduleObj.repeatDays;
-    this.selectedTeacher = this.scheduleObj.teacher;
+    //
+    var teacher = {
+      userId: this.scheduleObj.teacher.staffId,
+      preferredName: this.scheduleObj.teacher.staffpreferredName,
+      profilePic: this.scheduleObj.teacher.profilePic
+    };
+    console.log(teacher);
+    //
+    this.selectedTeacher = teacher;
+    console.log('selectedTeacher', this.selectedTeacher);
     this.model.teacherId = this.selectedTeacher.userId;
-    this.model.durationTimes = 1;
-    this.minDate = this.scheduleObj.date;
-    this.rangeHr = this.scheduleObj.time.hr;
-    this.rangeMin = this.scheduleObj.time.min;
-    this.selectedHrRange = this.scheduleObj.time.hr;
-    this.selectedMinRange = this.scheduleObj.time.min;
     this.isSelected = this.scheduleObj.time.meridiem;
-    var hr: any;
-    var min: any;
-    var h: any;
-    if (this.scheduleObj.time.hr < 10) {
-      hr = '0' + this.scheduleObj.time.hr;
-    } else {
-      hr = this.scheduleObj.time.hr;
-    }
-    if (this.scheduleObj.time.min < 10) {
-      min = '0' + this.scheduleObj.time.min;
-    } else {
-      min = this.scheduleObj.time.min;
-    }
-    if (this.scheduleObj.time.meridiem == 'PM') {
-      if (this.scheduleObj.time.hr == 12) {
-        h = this.scheduleObj.time.hr;
-      } else {
-        h = this.scheduleObj.time.hr + 12;
-      }
-    } else {
-      if (this.scheduleObj.time.hr == 12) {
-        h = 0;
-      } else {
-        h = this.scheduleObj.time.hr;
-      }
-    }
-    this.showFormat = hr + ':' + min;
-    this.model.startT = hr + ':' + min + this.scheduleObj.time.meridiem;
-
-    this.model.starttime = h + ':' + min;
   }
-
-  // feeOptList(feeOptions){
-  //   console.log(feeOptions);
-  //   var options = feeOptions;
-  //   for(var key in options){
-  //     console.log("--Options",options[key]);
-  //     // this.feesOptions = options[key].
-  //   }
-  // }
 
   showDraftCourse(cId, type) {
     console.log('Function Works');
@@ -880,7 +820,7 @@ export class CoursecreateComponent implements OnInit {
           this.router.navigate(['course/']);
           console.log(cId);
           this.dataService.nevigateCDetail(cId);
-          // this.dataService.navagateActivePlan(this.planId)
+          this.dataService.navagateActivePlan(this.planId);
         } else if (
           (this.coursePlan.from == 'courses' && ToCourses == '') ||
           (this.coursePlan.from = 'schedule' && ToCourses == 'back') ||
@@ -1474,9 +1414,14 @@ export class CoursecreateComponent implements OnInit {
     }
   }
 
+  myfocus(e) {
+    this.searchMenuShow == true;
+    console.log(e);
+  }
+
   changeInputMethod(searchWord) {
     // console.log(this.detailLists.locationId)
-    // console.log(searchWord)
+    console.log(searchWord);
     // let locationId = this.detailLists.locationId;
     // if (searchWord.length == 0) {
     //   this.searchKeyword(searchWord);
@@ -1699,6 +1644,7 @@ export class CoursecreateComponent implements OnInit {
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if (this.conflitCourseId == '') {
+      21;
       console.log('First Time');
       // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       // this.courseObj["repeatDays"] = this.selectedDay;
@@ -2042,7 +1988,18 @@ export class CoursecreateComponent implements OnInit {
             console.error(this.scheduleObj);
             if (this.scheduleObj != null) {
               // this.router.navigate(['schedule/']);
-              this.dataService.backToScheduleTable(true);
+              if (res.body.meta.draft == true) {
+                console.log('he he har harr');
+                this.conflitCourseId = res.body.courseId;
+              } else if (res.body.meta.draft == false) {
+                console.log(res.body.courseId, 'from publish');
+                this.backToCourses('', res.body.courseId);
+                // this.dataService.backToScheduleTable(true);
+              }
+              // else{
+              //   console.log(res.body.meta.draft, this.scheduleObj,'ha ha')
+              //   this.dataService.backToScheduleTable(true);
+              // }
             } else if (this.course) {
               if (this.course.type == 'rollover') {
                 console.log('RES', res);
@@ -2056,8 +2013,10 @@ export class CoursecreateComponent implements OnInit {
               }
             } else {
               if (res.body.meta.draft == false) {
+                console.log('in false');
                 this.backToCourses('', res.body.courseId);
               } else {
+                console.log('in conflict');
                 this.conflitCourseId = res.body.courseId;
               }
             }

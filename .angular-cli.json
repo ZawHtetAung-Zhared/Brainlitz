@@ -32,6 +32,7 @@
         "../node_modules/upndown/lib/upndown.bundle.js",
         "../node_modules/month-range-picker/datePicker.js"
       ],
+      "optimization": { "scripts": true, "styles": true },
       "environmentSource": "environments/environment.ts",
       "environments": {
         "local": "environments/environment.ts",

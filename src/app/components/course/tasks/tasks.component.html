@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between mt-3">
-  <div class="task-header-class">
+  <div class="task-header-class text-c300">
     <span class="h2-strong">Tasks</span>
     <span class="spaninline">
       <!-- <p class="m-0">SW</p> -->
@@ -12,7 +12,9 @@
   </div>
   <div>
     <button
-      [ngClass]="true ? 'btn-create' : 'btn-normal'"
+      [ngClass]="
+        true ? 'btn-create bg-b100 text-s0' : 'btn-normal bg-s0 text-c300'
+      "
       class="btn body-m"
       (click)="goToAssignTask()"
     >
@@ -25,7 +27,7 @@
   *ngIf="loading == false"
   class="d-flex justify-content-center pt-4 mt-4 task"
 >
-  <span *ngIf="tasks.length == 0">
+  <span *ngIf="tasks.length == 0" class="body-l text-c300">
     There is no task in this course. Assign tasks to this course.</span
   >
 </div>
@@ -192,14 +194,14 @@
         [ngStyle]="{ 'background-image': 'url(' + task.posterImageUrl + ')' }"
       >
         <div class="cardhead mb-3">
-          <span class="light-body-m custom-or-schedule"
+          <span class="light-body-m custom-or-schedule text-s0"
             >{{ task.distributionMode | titlecase }} -
             {{ task.taskType | lowercase }} task</span
           >
         </div>
-        <div class="cardbody">
-          <h3 class="h3-strong">{{ task.name }}</h3>
-          <p class="body-text light-body-m">
+        <div class="cardbody bg-s20">
+          <h3 class="h3-strong text-c300">{{ task.name }}</h3>
+          <p class="body-text light-body-m text-c300">
             {{
               task.description.length > 110
                 ? (task.description | slice: 0:110) + ' ...'
@@ -209,13 +211,13 @@
         </div>
       </div>
       <div class="cardfooter d-flex justify-content-between">
-        <div class="masteries-count d-flex flex-column">
-          <span class="count-text body-l"
+        <div class="masteries-count d-flex flex-column bg-s20 ">
+          <span class="count-text body-l text-c100"
             >{{ task.overview.count }} {{ task.overview.type }}</span
           >
         </div>
         <div class="d-flex justify-content-end align-items-end">
-          <span class="count-text small">
+          <span class="count-text body-l text-c100">
             {{ task.taskStartDate | utcDate }} -
             {{ task.taskEndDate | utcDate }}
           </span>

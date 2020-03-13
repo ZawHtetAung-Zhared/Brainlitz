@@ -1,5 +1,5 @@
 <div class="" style="margin:0px 40px 0px 32px;">
-  <p class="flexititle">Enroll lesson</p>
+  <p class="h1-strong text-c300">Enroll lesson</p>
   <div class="d-flex">
     <div class="col-md-4 p-0">
       <div class="d-flex">
@@ -9,28 +9,31 @@
           </div>
         </div>
         <div class="flexi-name-div">
-          <p class="flexi-name">{{ selectedCustomer.preferredName }}</p>
-          <label class="flexi-email">{{ selectedCustomer.email }}</label>
+          <p class="body-xl text-c300">{{ selectedCustomer.preferredName }}</p>
+          <label class="body-m text-c100">{{ selectedCustomer.email }}</label>
         </div>
       </div>
     </div>
     <div class="col-md-4 modal-cfees">
-      <h5 class="mt-03 flexi-modal-duration">
+      <h5 class="mt-03 body-m text-c100">
         <i class="fa fa-map-marker" style="font-size:15px"></i>
         {{ course.location.name }}
       </h5>
-      <b class="flexi-name">{{ course.name }}</b>
+      <b class="body-xl text-c300">{{ course.name }}</b>
     </div>
     <div class="col-md-4 modal-cfees">
       <!-- <h5 *ngFor="let day of detailLists.repeatDays | weekDays">
           {{ day }}
         </h5> -->
-      <h5 class="flexi-day" *ngFor="let day of course.repeatDays | weekDays">
+      <h5
+        class="body-l text-c300"
+        *ngFor="let day of course.repeatDays | weekDays"
+      >
         {{ day }}
       </h5>
       <!-- <div class="modal-duration">{{ detailLists.duration.startDate | utcTime }} - {{ detailLists.duration.endDate
           | utcTime }}</div> -->
-      <div class="flexi-modal-duration" *ngIf="course.duration != undefined">
+      <div class="body-m text-c100" *ngIf="course.duration != undefined">
         {{ course.duration.startDate | utcTime }} -
         {{ course.duration.endDate | utcTime }}
       </div>
@@ -44,9 +47,7 @@
     </div>
     <div class="flexi-teacher-div">
       <!-- <p class="flexi-teacher-position">Senior Teacher</p> -->
-      <label class="flexi-teacher-name">{{
-        teacherDetail.preferredName
-      }}</label>
+      <label class=" text-c300 body-l">{{ teacherDetail.preferredName }}</label>
     </div>
   </div>
   <div
@@ -58,7 +59,7 @@
     <div class="flexiCircle" (click)="getPreLessons()">
       <i class="fa fa-plus circlePlus"></i>
     </div>
-    <p class="previousDate">load previous dates</p>
+    <p class="text-b100 body-l bg-s0">load previous dates</p>
   </div>
 </div>
 <!-- [ngStyle]="
@@ -102,13 +103,13 @@
           ></div>
           <div class="showDate">
             <p
-              class="date"
+              class="date text-c300 body-m"
               [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
             >
               {{ obj?.startDate | utcShortDate }}
             </p>
             <p
-              class="day"
+              class="day text-c100 small"
               [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
             >
               {{ obj?.startDate | utcFullDay }}
@@ -144,13 +145,13 @@
             ></div>
             <div class="showDate">
               <p
-                class="date"
+                class="date text-c300 body-m"
                 [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 {{ obj.startDate | utcShortDate }}
               </p>
               <p
-                class="day"
+                class="day text-c100 small"
                 [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 {{ obj.startDate | utcFullDay }}
@@ -174,7 +175,7 @@
           class="statusBox"
           [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
         >
-          <p class="statusText">Skip: Conflict</p>
+          <p class="small">Skip: Conflict</p>
         </div>
       </div>
       <div
@@ -198,13 +199,13 @@
             ></div>
             <div class="showDate">
               <p
-                class="date"
+                class="date text-c300 body-m"
                 [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 {{ obj.startDate | utcShortDate }}
               </p>
               <p
-                class="day"
+                class="day text-c100 small"
                 [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 {{ obj.startDate | utcFullDay }}
@@ -234,17 +235,17 @@
 
       <div class="lessonbox-skipped" *ngIf="obj.status == 'skipped'">
         <div class="d-flex justify-content-between">
-          <div class="d-flex">
+          <div class="d-flex pt-2">
             <div class="skippedIcon minus"></div>
             <div class="showDate skippedDate">
               <p
-                class="date"
+                class="date text-c300 body-m"
                 [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 8 May
               </p>
               <p
-                class="day"
+                class="day text-c100 small"
                 [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
               >
                 Monday
@@ -267,13 +268,13 @@
           <div class="circleMinus minus"></div>
           <div class="showDate holidayDate">
             <p
-              class="date"
+              class="date text-c300 body-m"
               [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
             >
               8 May
             </p>
             <p
-              class="day"
+              class="day text-c100 small"
               [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
             >
               Monday
@@ -307,11 +308,13 @@
         </div>
       </div>
       <div class="lessonbox-enroll" *ngIf="obj.isEnrolled">
-        <div class="d-flex">
+        <div class="d-flex pt-2">
           <div class="skippedIcon minus"></div>
           <div class="showDate skippedDate">
-            <p class="date">{{ obj.startDate | utcShortDate }}</p>
-            <p class="day">{{ obj.startDate | utcFullDay }}</p>
+            <p class="date text-c300 body-m">
+              {{ obj.startDate | utcShortDate }}
+            </p>
+            <p class="day text-c100 small">{{ obj.startDate | utcFullDay }}</p>
           </div>
         </div>
         <div class="d-flex justify-content-center enrolled-statusBox">
@@ -366,11 +369,11 @@
                   style="padding-bottom: 15px;padding-left: 0;"
                 >
                   <div class="boxDiv">
-                    <h5 class="flexi-day">
+                    <h5 class="body-l text-c300">
                       {{ lesson.startDate | dateFormat }}
                     </h5>
 
-                    <div class="conflict-duration">
+                    <div class="conflict-duration ">
                       {{ lesson.startDate | utcTime }} -
                       {{ lesson.endDate | utcTime }}
                     </div>

@@ -1,0 +1,202 @@
+<app-header [ngClass]="{ stick: isSticky == true }"></app-header>
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <div
+    *ngIf="!customerLoading && customerPermission.length > 0"
+    class="inner-wrapper "
+  >
+    <div class="d-flex mr-top-menu">
+      <div class="col-md-10 p-0">
+        <div class="d-flex flex-row">
+          <h3 class="text-c300">Customers</h3>
+          <div class="mt-2">
+            <div
+              class="location-name small"
+              [ngStyle]="{
+                color: gtxtColor,
+                background: gbgColor
+              }"
+            >
+              {{ locationName }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 p-0">
+        <button
+          *ngIf="customerDemo.createCustomer != ''"
+          type="button"
+          class="btn create-button-pos bg-b100 light-body-l text-s0"
+          routerLinkActive="active"
+          routerLink="../customercreate/create/0"
+        >
+          Add new customer
+        </button>
+      </div>
+    </div>
+    <p
+      class="input-recommend body-m text-c100 col-md-9 pl-0 col-lg-9 col-xl-9 col-sm-9"
+    >
+      See the list of all your customers. ‘Customers’ include students or
+      parents whose email ID has been registered. Click on a ‘customer’ to see
+      their profile details, classes enrolled, progress, activity etc.
+    </p>
+    <div
+      *ngIf="customerDemo.viewCustomer != ''"
+      class="col-md-12 p-0"
+      style="margin-top: 35px;"
+    >
+      <div class="input-group col-md-12 p-0">
+        <input
+          class="form-control py-2 input-search-bg body-l"
+          type="search"
+          placeholder="Search customer here"
+          id="customer-search-input"
+          (input)="userSearch_input($event.target.value)"
+          (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
+          autocomplete="off"
+        />
+        <span class="btn-design btn-outline-secondary">
+          <i class="fa fa-search search-size body-xl"></i>
+        </span>
+      </div>
+    </div>
+    <div class="row display-flex user-group">
+      <div
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+        *ngFor="let customer of customerLists; let i = index"
+      >
+        <div
+          class="box-design d-flex flex-row align-items-center"
+          (click)="showDetails(customer.userId, 'class')"
+        >
+          <div class="profileimg-wrap">
+            <div class="circular-image">
+              <img
+                *ngIf="customer.profilePic == 'undefined'"
+                src="assets/img/user.svg"
+              />
+              <img
+                *ngIf="customer.profilePic != 'undefined'"
+                src="{{ customer.profilePic }}"
+              />
+            </div>
+            <div
+              class="user-grade"
+              *ngIf="(customer.userGrading.grade | json) != '{}'"
+            >
+              <div
+                *ngIf="
+                  customer.userGrading.grade.point != undefined &&
+                  customer.userGrading != undefined &&
+                  customer.userGrading.grade.point != null
+                "
+                class="b-white justify-content-center d-flex small"
+                [style.background]="customer.userGrading.sepalColor.background"
+                [ngClass]="{
+                  'test-circle': customer.userGrading.grade.point.length == 1,
+                  circle: customer.userGrading.grade.point.length > 1
+                }"
+              >
+                <span [style.color]="customer.userGrading.sepalColor.text">
+                  {{ customer.userGrading.grade.point }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="info-side d-flex flex-column justify-content-center">
+            <h5
+              *ngIf="customer.preferredName"
+              class="body-xl text-c300"
+              style="margin-bottom: 0px"
+            >
+              {{
+                customer.preferredName.length > 20
+                  ? (customer.preferredName | slice: 0:20) + '...'
+                  : customer.preferredName
+              }}
+            </h5>
+            <p class="info-mail mb-0 body-m text-c100">
+              {{ customer.email }}
+            </p>
+            <p
+              class="info-about body-m text-c300"
+              *ngIf="customer.about == 'undefined'"
+            >
+              -
+            </p>
+            <p
+              class="info-about body-m text-c300"
+              *ngIf="customer.about != 'undefined'"
+            >
+              {{
+                customer.about.length > 25
+                  ? (customer.about | slice: 0:25) + '...'
+                  : customer.about
+              }}
+            </p>
+          </div>
+          <div
+            *ngIf="customerDemo.viewCustomer != ''"
+            class="ml-auto right-arrow h1-strong text-s60"
+          >
+            <i class="fa fa-angle-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="customerListLoading"
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+      >
+        <content-loader>
+          <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
+          <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+        </content-loader>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="customerLoading" class="inner-wrapper w-100">
+    <div
+      class="d-flex mr-top-menu justify-content-between"
+      style="height: 60px"
+    >
+      <div style="width: 50%">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="0" ry="0" width="50%" height="40px" />
+        </content-loader>
+      </div>
+      <div style="width: 50%">
+        <content-loader>
+          <svg:rect x="60%" y="0" rx="0" ry="0" width="40%" height="40px" />
+        </content-loader>
+      </div>
+    </div>
+    <content-loader>
+      <svg:rect x="0" y="5" rx="0" ry="0" width="70%" height="10" />
+      <svg:rect x="0" y="18" rx="0" ry="0" width="50%" height="8" />
+      <svg:rect x="0" y="40" rx="2" ry="2" width="100%" height="20" />
+      <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+    </content-loader>
+    <content-loader>
+      <svg:rect x="0" y="10" rx="2" ry="2" width="100%" height="60" />
+      <svg:rect x="0" y="80" rx="2" ry="2" width="100%" height="60" />
+    </content-loader>
+  </div>
+</div>
+
+<div
+  *ngIf="customerLists.length >= 20 && result?.length > 0"
+  class="d-flex justify-content-center load-more bg-s0"
+>
+  <button
+    type="button"
+    class="btn body-m text-b100"
+    (click)="showMore('customer', customerLists.length)"
+  >
+    load more
+  </button>
+</div>
+
+<!-- <block-ui message="Deafult Message"></block-ui> -->

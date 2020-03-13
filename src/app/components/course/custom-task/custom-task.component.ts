@@ -268,6 +268,8 @@ export class CustomTaskComponent implements OnInit {
         console.log(res, 'assign mode');
         this.addActiveBar(4, 5);
         this.assignModeList = res;
+        this.createCustom.template.distributionMode = res[0];
+
         this.clickableSteps.push(step);
         this.stepClick($event, step);
         this.loading5 = false;

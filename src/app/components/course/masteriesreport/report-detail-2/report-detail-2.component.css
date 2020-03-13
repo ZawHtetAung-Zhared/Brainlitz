@@ -24,48 +24,20 @@
 }
 
 .back-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 28px;
-  color: #363f4d;
   cursor: pointer;
   padding: 0px 5px;
-}
-
-.mastery-title {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 28px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #363f4d;
-}
-
-.light-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 24px;
-  font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
-    'ss03' on, 'case' on;
-  color: #5c6773;
-  padding-top: 8px;
 }
 
 .footer {
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.08);
   width: 100vw;
   height: 63px;
-  /* margin-left: -30px !important; */
   padding: 0px 20px;
-  /* position: absolute;
-    bottom: 0; */
   background: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 .color-wrap {
   margin-right: 16px;
@@ -77,11 +49,6 @@
   margin-right: 8px;
 }
 .color-txt {
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-size: 13px;
-  line-height: 20px;
-  color: #363f4d;
   word-break: break-all;
 }
 
@@ -113,7 +80,7 @@
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   padding: 24px;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
 }
 
 .sw-wrap {
@@ -122,12 +89,6 @@
   padding: 0px 5px;
   margin-left: 8px;
   height: 24px;
-}
-
-.light-txt2 {
-  padding-top: 0px;
-  color: #b1b1b3;
-  font-weight: 500;
 }
 
 .no-circle {
@@ -145,22 +106,7 @@
 
 .mastery-body {
   padding-right: 46px;
-  color: #363f4d;
-  font-family: 'Inter-UI-Medium', Arial, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 24px;
   padding-top: 6px;
-}
-
-.green-txt {
-  color: #00a653;
-}
-
-.txt-bold {
-  font-weight: bold;
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 
 .split-line {
@@ -229,12 +175,10 @@
   margin-bottom: 20px;
 }
 
-.sample-txt {
-  font-family: 'Inter-UI-Bold', Arial, sans-serif;
-  font-style: normal;
-  color: #5c6773;
-}
-
 .hide {
   display: none !important;
+}
+
+.pb-100 {
+  padding-bottom: 100px;
 }

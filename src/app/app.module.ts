@@ -106,10 +106,8 @@ import { InterceptService } from './service/intercept.service';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { UtcShortDatePipe } from './service/pipe/utc-short-date.pipe';
 import { UtcFullDayPipe } from './service/pipe/utc-full-day.pipe';
-import { ClassTabComponent } from './components/user-staff/class-tab/class-tab.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
-import { LeaveDetailsComponent } from './components/user-staff/leave-details/leave-details.component';
 import { UtcDateAndDayPipe } from './service/pipe/utc-date-and-day.pipe';
 import { UtcDateAndDayObjPipe } from './service/pipe/utc-date-and-day-obj.pipe';
 import { AssignReliefComponent } from './components/assign-relief/assign-relief.component';
@@ -119,10 +117,6 @@ import { RescheduleComponent } from './components/reschedule/reschedule.componen
 import { FinancialPipe } from './service/pipe/financial.pipe';
 import { NumericValidationDirective } from './components/invoice/numeric-validation.directive';
 import { UserGradingComponent } from './components/apg/user-grading/user-grading.component';
-import {
-  CarouselComponent,
-  CarouselItemElement
-} from './components/users/carousel/carousel.component';
 import { CarouselItemDirective } from './components/users/carousel/carousel-item.directive';
 import { UtcDateByObjPipe } from './service/pipe/utc-date-by-obj.pipe';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
@@ -134,7 +128,6 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
 import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
-// import { CourseListComponent } from './components/course-list/course-list.component';
 
 import {
   CourseComponent,
@@ -151,10 +144,26 @@ import {
   StudentListComponent,
   MasteryReportComponent,
   ReportDetail2Component,
-  CourseSearchComponent
+  CourseSearchComponent,
+  SampleQuestionComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
+import {
+  UserListComponent,
+  CarouselComponent,
+  CarouselItemElement,
+  CreateUserComponent,
+  UserDetailComponent
+} from './components/users/index';
+import { TimetableComponent } from './components/timetable/timetable.component';
+import {
+  ClassTabComponent,
+  LeaveDetailsComponent,
+  UserStaffListComponent,
+  UserStaffDetailComponent,
+  CreateUserStaffComponent
+} from './components/user-staff/index';
 
 @NgModule({
   declarations: [
@@ -265,7 +274,15 @@ import { CustomTaskComponent } from './components/course/custom-task/custom-task
     MasteryReportComponent,
     CustomTaskComponent,
     ReportDetail2Component,
-    CourseSearchComponent
+    UserListComponent,
+    CreateUserComponent,
+    UserDetailComponent,
+    TimetableComponent,
+    UserStaffListComponent,
+    UserStaffDetailComponent,
+    CreateUserStaffComponent,
+    CourseSearchComponent,
+    SampleQuestionComponent
   ],
   imports: [
     ContentLoaderModule,

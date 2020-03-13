@@ -2,9 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'staff-graph',
   templateUrl: './staffGraph.component.html',
-  styles: [
-    '.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Inter-UI-Medium, Arial,sans-serif;line-height: 0.5;}'
-  ]
+  styles: ['.average-rating-font {padding-left: 10px;}']
 })
 export class StaffReportGraph implements OnInit {
   @Input() reportItem: any;

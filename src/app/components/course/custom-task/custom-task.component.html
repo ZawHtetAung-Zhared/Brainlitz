@@ -7,15 +7,15 @@
           [ngClass]="{ stickywrap: navIsFixed == true }"
         >
           <div class="mr-auto p-2 pl-0 pb-0">
-            <div class="back-modal" (click)="backCourseDetail()">
+            <div class="back-modal " (click)="backCourseDetail()">
               <i class="fa fa-angle-left"></i>
-              <p>{{ courseDetail?.name }}</p>
+              <p class="text-c300 body-l">{{ courseDetail?.name }}</p>
             </div>
           </div>
           <div class="ml-auto">
             <button
               type="button"
-              class="btn sticky-cancel"
+              class="btn sticky-cancel bg-s0 body-l text-c300"
               (click)="backCourseDetail()"
             >
               Cancel
@@ -83,7 +83,7 @@
     <div *ngIf="activeStep == '1'" class="div_step">
       <div class="d-flex justify-content-center ">
         <div class="inside-data-wrapper">
-          <p class="name-header bold">
+          <p class="name-header h2-strong text-c300">
             Assigning tasks - getting started
           </p>
 
@@ -92,8 +92,10 @@
             class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
           >
             <div class="choice-block">
-              <p class="choice-title bold">{{ customObj?.title }}</p>
-              <p class="choice-description medium">
+              <p class="choice-title h4-strong text-c300">
+                {{ customObj?.title }}
+              </p>
+              <p class="choice-description  body-m text-c100">
                 {{ customObj?.description }}
               </p>
             </div>
@@ -118,12 +120,12 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backtoassignTask()">
+              <div class="back-modal " (click)="backtoassignTask()">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p class="text-c300 body-l">Back</p>
               </div>
               <button
-                class="btn btn-comfirm medium"
+                class="btn btn-comfirm  bg-b100 body-l text-s0"
                 (click)="goToStep2($event, '2')"
                 [disabled]="loading"
               >
@@ -137,19 +139,19 @@
     <div *ngIf="activeStep == '2'" class="div_step">
       <div class="d-flex justify-content-center ">
         <div class="inside-data-wrapper">
-          <p class="step-title bold">
+          <p class="h1-strong text-c300">
             Choose a template to assign scheduled tasks.
           </p>
           <div class="simple-search input-group">
             <input
-              class="form-control py-2 task-search-input bold data-name"
+              class="form-control py-2 task-search-input body-l text-c100 data-name"
               type="text"
               placeholder="Search template"
               (input)="searchTemplate($event.target.value)"
               autocomplete="off"
             />
           </div>
-          <p class="title bold">All templates</p>
+          <p class="h3-strong text-c300">All templates</p>
           <div class="scrollable-wrapper">
             <div class="d-flex flex-wrap template-wrapper" *ngIf="!loading2">
               <div
@@ -168,7 +170,7 @@
                   }"
                 >
                   <div
-                    class="d-flex template-name bold"
+                    class="d-flex text-c300 h3-strong template-name"
                     [ngClass]="{
                       active:
                         createCustom?.template?.taskTemplateId == template._id
@@ -197,7 +199,7 @@
                     <span>{{ template.templateName }}</span>
                   </div>
                   <p
-                    class="template-description medium"
+                    class="template-description medium body-m text-c100"
                     [ngClass]="{
                       active:
                         createCustom?.template?.taskTemplateId == template._id
@@ -256,12 +258,12 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backToPrevStep(1, 2)">
+              <div class="back-modal " (click)="backToPrevStep(1, 2)">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p class="text-c300 body-l">Back</p>
               </div>
               <button
-                class="btn btn-comfirm medium"
+                class="btn btn-comfirm  bg-b100 body-l text-s0"
                 [disabled]="!createCustom?.template?.taskTemplateId"
                 (click)="goToStep3($event, '3')"
               >
@@ -275,15 +277,17 @@
     <div *ngIf="activeStep == '3'" class="div_step">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper">
-          <p class="step-title bold">
+          <p class="h1-strong text-c300">
             Manage tasks
           </p>
-          <p class="template-description2 medium">
+          <p class="template-description2 text-c100 body-l">
             Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
             ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
             elit cillum dolore.
           </p>
-          <p class="title bold">All tasks - {{ taskLists.length }} Tasks</p>
+          <p class="h3-strong text-c300">
+            All tasks - {{ taskLists.length }} Tasks
+          </p>
           <div class="task-wrapper" *ngIf="!loading3">
             <div
               class="col-md-4  pl-1"
@@ -301,13 +305,13 @@
                 >
                   <img src="{{ task.posterImageUrl }}" />
                 </div>
-                <span class="mastery-count font-semi">{{
+                <span class="mastery-count  bg-c200 small text-s0">{{
                   task.masteryCount == 1
                     ? task.masteryCount + ' Mastery'
                     : task.masteryCount + ' Masteries'
                 }}</span>
 
-                <p class="task-name medium">{{ task.name }}</p>
+                <p class="task-name light-body-m text-c300">{{ task.name }}</p>
               </div>
             </div>
           </div>
@@ -367,12 +371,12 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backToPrevStep(2, 3)">
+              <div class="back-modal " (click)="backToPrevStep(2, 3)">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p class="text-c300 body-l">Back</p>
               </div>
               <button
-                class="btn btn-comfirm medium"
+                class="btn btn-comfirm  bg-b100 body-l text-s0"
                 [disabled]="!singleSelectedTask._id || loading3"
                 (click)="goToStep4($event, '4')"
               >
@@ -387,10 +391,10 @@
       <div class="d-flex justify-content-center ">
         <div class="inside-data-wrapper">
           <div class="mastery-scroll" *ngIf="!loading4">
-            <p class="step-title bold">
+            <p class="h1-strong text-c300">
               Customize task infromation
             </p>
-            <div class="d-flex template-name font-semi mb-2">
+            <div class="d-flex text-c300 h3-strong mb-2">
               <span class="pr-2">
                 <svg
                   width="18"
@@ -411,12 +415,12 @@
                 {{ (createCustom?.template.tasks)[0].name }}</span
               >
             </div>
-            <p class="template-description2 regular mb-4">
+            <p class="template-description2 mb-4 text-c100 body-l">
               {{ (createCustom?.template.tasks)[0].description }}
             </p>
             <div class="mastery-block">
               <div class="anno-block pl-4">
-                <div
+                <!-- <div
                   class="hidden-anno"
                   [ngClass]="{ 'show-anno': isShowAnnoBlock == true }"
                 >
@@ -447,12 +451,14 @@
                     [ngClass]="{ 'd-block': isShowAnnoBlock == true }"
                     class="d-none"
                   >
-                    <p class="anno-txt font-semi">
+                    <p class="h3-strong text-c100">
                       Announcement information
                     </p>
                     <div class="d-flex duration-wrapper mb-3">
                       <div class="col-md-6">
-                        <label for="course_name" class="input-title medium"
+                        <label
+                          for="course_name"
+                          class="input-title light-body-l text-c300"
                           >Date</label
                         >
                         <div class="input-wrap">
@@ -480,7 +486,9 @@
                         </div>
                       </div>
                       <div class="col-md-6 pRight-15">
-                        <label for="course_name" class="input-title font-medium"
+                        <label
+                          for="course_name"
+                          class="input-title light-body-l text-c300"
                           >Time</label
                         >
                         <div class="input-wrap start-wrap">
@@ -585,7 +593,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <p class="anno-txt font-semi">
                   Task information
                 </p>
@@ -593,7 +601,9 @@
                   <div class="d-flex flex-column duration-wrapper mb-4">
                     <div class="d-flex flex-wrap mb-3">
                       <div class="col-md-6">
-                        <label for="course_name" class="input-title medium"
+                        <label
+                          for="course_name"
+                          class="input-title  light-body-l text-c300"
                           >Start Date</label
                         >
                         <div class="input-wrap">
@@ -623,7 +633,9 @@
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <label for="course_name" class="input-title medium"
+                        <label
+                          for="course_name"
+                          class="input-title light-body-l text-c300"
                           >End Date</label
                         >
                         <div class="input-wrap">
@@ -652,7 +664,7 @@
                         </div>
                       </div>
                     </div>
-                    <p class="masteries-box regular">
+                    <p class="masteries-box  body-l text-c100">
                       {{
                         masteryList.length > 1
                           ? masteryList.length + ' Masteries'
@@ -746,7 +758,7 @@
                             </div>
                           </div>
 
-                          <p class="mastery-name medium">
+                          <p class="mastery-name body-l">
                             {{ mastery.shortMasteryName }}
                           </p>
                         </div>
@@ -759,7 +771,7 @@
           </div>
 
           <div class="mastery-scroll" *ngIf="loading4">
-            <p class="step-title bold">
+            <p class="h1-strong text-c300">
               Customize task infromation
             </p>
             <p class="template-description2 regular mb-4" style="height: 10px;">
@@ -799,7 +811,9 @@
                   <div class="d-flex flex-column duration-wrapper mb-4">
                     <div class="d-flex flex-wrap mb-3">
                       <div class="col-md-6">
-                        <label for="course_name" class="input-title medium"
+                        <label
+                          for="course_name"
+                          class="input-title light-body-l text-c300"
                           >Start Date</label
                         >
                         <div class="input-wrap" style="height: 10px;">
@@ -809,7 +823,9 @@
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <label for="course_name" class="input-title medium"
+                        <label
+                          for="course_name"
+                          class="input-title light-body-l text-c300"
                           >End Date</label
                         >
                         <div class="input-wrap" style="height: 10px;">
@@ -855,12 +871,12 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backToPrevStep(3, 4)">
+              <div class="back-modal " (click)="backToPrevStep(3, 4)">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p class="text-c300 body-l">Back</p>
               </div>
               <button
-                class="btn btn-comfirm medium"
+                class="btn btn-comfirm  bg-b100 body-l text-s0"
                 (click)="goToStep5($event, '5')"
                 [disabled]="this.createCustom.template.tasks[0].masteries == 0"
               >
@@ -875,10 +891,10 @@
     <div *ngIf="activeStep == '5'" class="div_step">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper">
-          <p class="step-title bold">
+          <p class="h1-strong text-c300">
             Assigning mode
           </p>
-          <p class="template-description2 medium">
+          <p class="template-description2  text-c100 body-l">
             Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
             ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
             elit cillum dolore.
@@ -896,8 +912,8 @@
                     mode.id == createCustom?.template?.distributionMode?.id
                 }"
               >
-                <p class="choice-title bold">{{ mode.title }}</p>
-                <p class="choice-description medium">
+                <p class="h3-strong text-c300">{{ mode.title }}</p>
+                <p class="choice-description text-c100 body-l">
                   {{ mode.description }}
                 </p>
               </div>
@@ -911,7 +927,7 @@
                     mode.id == createCustom?.template?.distributionMode?.id
                 }"
               >
-                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-h3-strong text-c300">{{ mode.title }}</p>
                 <p class="choice-description medium">
                   {{ mode.description }}
                 </p>
@@ -949,7 +965,7 @@
                     mode.id == createCustom?.template?.distributionMode?.id
                 }"
               >
-                <p class="choice-title bold">{{ mode.title }}</p>
+                <p class="choice-h3-strong text-c300">{{ mode.title }}</p>
                 <p class="choice-description medium">
                   {{ mode.description }}
                 </p>
@@ -961,12 +977,12 @@
             <div
               class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
             >
-              <div class="back-modal medium" (click)="backToPrevStep(4, 5)">
+              <div class="back-modal " (click)="backToPrevStep(4, 5)">
                 <i class="fa fa-angle-left"></i>
-                <p>Back</p>
+                <p class="text-c300 body-l">Back</p>
               </div>
               <button
-                class="btn btn-comfirm medium"
+                class="btn btn-comfirm  bg-b100 body-l text-s0"
                 (click)="createAssign()"
                 [disabled]="!createCustom?.template?.distributionMode?.id"
               >
@@ -983,7 +999,7 @@
     <div class="modal-body">
       <div class="mastery-header">
         <div class="d-flex justify-content-between">
-          <p class="font-semi small-title">Sample Question</p>
+          <p class="body-xl text-c100 mb-0">Sample Question</p>
           <button
             type="button"
             class="close"
@@ -993,11 +1009,14 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <p class="mastery-title font-semi mb-0">
+        <p class="font-semi mb-0 h1-strong text-c300">
           {{ questionObj.mastery.shortMasteryName }}
         </p>
       </div>
-      <div class="mastery-body font-semi" id="question-content">
+      <div
+        class="mastery-body font-semi body-l text-c100"
+        id="question-content"
+      >
         <!-- {{ changeHTMLFormat(questionObj.quiz.question,"question-content",null) }} -->
         <div
           *ngFor="
@@ -1019,14 +1038,15 @@
 
       <div class="anwer-wrapper">
         <div
-          class="answer-block{{ i }} font-semi"
+          class="answer-block{{ i }} body-l text-c100"
           *ngFor="let obj of questionObj.quiz.answers; let i = index"
         >
-          <span *ngIf="obj.correctness" class="regular ccAns"
+          <span *ngIf="obj.correctness" class="regular ccAns body-m text-g100"
             >Correct answer</span
           >
           <div
             *ngFor="let obj2 of changeHTMLFormat(obj.answer); let i = index"
+            class=" body-m text-c100"
             id="answer-block"
             [ngClass]="{ correctnessActive: obj.correctness == true }"
           >

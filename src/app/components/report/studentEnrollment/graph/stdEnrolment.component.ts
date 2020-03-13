@@ -28,7 +28,7 @@ export class StdEnrolmentReportGraph implements OnInit {
         type: 'scroll',
         axis: 'right',
         top: 10,
-        right: 0,
+        right: 30,
         avoidLabelOverlap: true,
         data: [],
         textStyle: {

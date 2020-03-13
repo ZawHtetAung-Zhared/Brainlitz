@@ -1,11 +1,11 @@
 <div class="d-flex flex-column">
   <div class="d-flex align-items-center mt-4">
-    <span class="mastery-title">Mastery reports</span>
+    <span class="h2-strong text-c300">Mastery reports</span>
     <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
   </div>
   <div
     *ngIf="!masteriesReports && !noData"
-    class="d-flex justify-content-center pt-5 mt-5"
+    class="d-flex justify-content-center pt-5 mt-5 body-l text-c300"
   >
     Not enough data to generate reports.
   </div>
@@ -13,10 +13,10 @@
     <div *ngFor="let report of masteriesReports; let i = index">
       <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="d-flex flex-column">
-          <span class="mastery-title">
+          <span class="h2-strong text-c300">
             {{ report.name }}
           </span>
-          <div class="d-flex align-items-center bold-txt h5-strong pt-1">
+          <div class="d-flex align-items-center h5-strong pt-1 text-c100">
             <span> {{ report.masteryCount }} masteries </span>
             <span class="dotted"></span>
             <span> {{ report.enrolledStudentCount }} students </span>
@@ -24,7 +24,7 @@
         </div>
 
         <button
-          class="btn-detail btn"
+          class="btn-detail btn bg-s0 text-c300 body-m"
           (click)="expandGraph(report._id)"
           routerLinkActive="active"
           routerLink="/masteriesdetail/{{ report._id }}"
@@ -40,31 +40,31 @@
               *ngIf="report.masteryCountInPercentage"
               class="d-flex flex-column w-90"
             >
-              <span class="bold-txt h4-strong mb-3">Overall percentage</span>
+              <span class=" h4-strong mb-3 text-c300">Overall percentage</span>
               <div class="d-flex justify-content-between">
                 <div class="d-flex flex-column w-50">
-                  <div class="d-flex flex-column pb-24 light-txt body-m">
-                    <span class="bold-txt h4-strong"
+                  <div class="d-flex flex-column pb-24 body-m text-c100">
+                    <span class="text-c300 h4-strong text-c300"
                       >{{ report.masteryCountInPercentage.STRUGGLE }}%</span
                     >
                     <span> Struggling </span>
                   </div>
-                  <div class="d-flex flex-column pb-24 light-txt body-m">
-                    <span class="bold-txt h4-strong"
+                  <div class="d-flex flex-column pb-24 text-c100 body-m">
+                    <span class="text-c300 h4-strong"
                       >{{ report.masteryCountInPercentage.MASTERED }}%</span
                     >
                     <span> Mastered </span>
                   </div>
                 </div>
                 <div class="d-flex flex-column w-50">
-                  <div class="d-flex flex-column pb-24 light-txt body-m">
-                    <span class="bold-txt h4-strong"
+                  <div class="d-flex flex-column pb-24 text-c100 body-m">
+                    <span class="text-c300 h4-strong"
                       >{{ report.masteryCountInPercentage.INPROGRESS }}%</span
                     >
                     <span> Inconclusive </span>
                   </div>
-                  <div class="d-flex flex-column pb-24 light-txt body-m">
-                    <span class="bold-txt h4-strong"
+                  <div class="d-flex flex-column pb-24 text-c100 body-m">
+                    <span class="text-c300 h4-strong"
                       >{{ report.masteryCountInPercentage.NEW }}%</span
                     >
                     <span> Not started </span>
@@ -72,25 +72,25 @@
                 </div>
               </div>
               <!-- <div
-                class="d-flex justify-content-between pb-16 light-txt body-m"
+                class="d-flex justify-content-between pb-16 text-c100 body-m"
               >
                 <span> Struggling</span>
                 <span>{{ report.masteryCountInPercentage.STRUGGLE }}%</span>
               </div>
               <div
-                class="d-flex justify-content-between pb-16 light-txt body-m"
+                class="d-flex justify-content-between pb-16 text-c100 body-m"
               >
                 <span> Not started</span>
                 <span>{{ report.masteryCountInPercentage.NEW }}%</span>
               </div>
               <div
-                class="d-flex justify-content-between pb-16 light-txt body-m"
+                class="d-flex justify-content-between pb-16 text-c100 body-m"
               >
                 <span> Inconclusive</span>
                 <span>{{ report.masteryCountInPercentage.INPROGRESS }}%</span>
               </div>
               <div
-                class="d-flex justify-content-between pb-16 light-txt body-m"
+                class="d-flex justify-content-between pb-16 text-c100 body-m"
               >
                 <span> Mastered w/ difficulties</span>
                 <span
@@ -100,7 +100,7 @@
                 >
               </div>
               <div
-                class="d-flex justify-content-between pb-16 light-txt body-m"
+                class="d-flex justify-content-between pb-16 text-c100 body-m"
               >
                 <span> Mastered w/ ease</span>
                 <span
@@ -123,26 +123,36 @@
       </div>
       <div *ngIf="i < masteriesReports.length - 1" class="split-line"></div>
     </div>
-    <div class="footer d-flex justify-content-center align-items-center">
+    <div
+      class="footer white-gb d-flex justify-content-center align-items-center"
+    >
       <div class="d-flex color-wrap">
-        <div class="color-box" style="background: #BF2926;"></div>
-        <span class="color-txt"> Struggling </span>
+        <div class="color-box small text-c300 bg-r200"></div>
+        <span class="color-txt small text-c300"> Struggling </span>
       </div>
       <div class="d-flex color-wrap">
-        <div class="color-box" style="background: #EDEEF0;"></div>
-        <span class="color-txt"> Not started </span>
+        <div class="color-box small text-c300 bg-s30"></div>
+        <span class="color-txt small text-c300"> Not started </span>
       </div>
       <div class="d-flex color-wrap">
-        <div class="color-box" style="background: #D4D5D6;"></div>
-        <span class="color-txt"> Inconclusive </span>
+        <div class="color-box small text-c300 bg-s60"></div>
+        <span class="color-txt small text-c300"> In conslusive </span>
       </div>
       <div class="d-flex color-wrap">
-        <div class="color-box" style="background: #6DC000;"></div>
-        <span class="color-txt"> Mastered w/ difficulties </span>
+        <div
+          class="color-box small text-c300"
+          style="background: #6DC000;"
+        ></div>
+        <span class="color-txt small text-c300">
+          Mastered w/ difficulties
+        </span>
       </div>
       <div class="d-flex color-wrap">
-        <div class="color-box" style="background: #4FDD00;"></div>
-        <span class="color-txt"> Mastered w/ ease </span>
+        <div
+          class="color-box small text-c300"
+          style="background: #4FDD00;"
+        ></div>
+        <span class="color-txt small text-c300"> Mastered w/ ease </span>
       </div>
     </div>
   </div>

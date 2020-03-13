@@ -1504,20 +1504,37 @@ export class appService {
     this.getLocalstorage();
     console.log(location);
     console.log(this.baseUrl + '/' + id + '/courseplan?locationId=' + location);
-    let url =
-      this.baseUrl +
-      '/' +
-      id +
-      '/courseplan?locationId=' +
-      location +
-      '&categoryId=' +
-      categoryId +
-      '&skip=' +
-      skip +
-      '&limit=' +
-      limit +
-      '&keyword=' +
-      keyword;
+    let url;
+    if (categoryId == undefined) {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    } else {
+      url =
+        this.baseUrl +
+        '/' +
+        id +
+        '/courseplan?locationId=' +
+        location +
+        '&categoryId=' +
+        categoryId +
+        '&skip=' +
+        skip +
+        '&limit=' +
+        limit +
+        '&keyword=' +
+        keyword;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -1525,6 +1542,7 @@ export class appService {
     };
     return this.httpClient.get(url, httpOptions).map((res: Response) => {
       let result = res;
+      console.log(result);
       return result;
     });
   }
@@ -3109,6 +3127,27 @@ export class appService {
     });
   }
 
+  extraLessonForCancelClass(regionId, courseId, data) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/' +
+      courseId +
+      '/add-extra-lesson';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, data, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
   transferClass(body: object) {
     console.log('body', body);
     let apiUrl = this.baseUrl + '/class/actions/transfer';
@@ -3990,6 +4029,35 @@ export class appService {
       });
   }
 
+  withdrawReliefTeacher(regionId, courseId, staffId, dateObj) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      courseId +
+      '/' +
+      staffId +
+      '/remove-relief-teacher?day=' +
+      dateObj.day +
+      '&month=' +
+      dateObj.month +
+      '&year=' +
+      dateObj.year;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.delete(url, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   getAchievementsByType(userId, type) {
     let apiUrl =
       this.baseUrl +
@@ -4617,5 +4685,85 @@ export class appService {
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
+  }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedules/staff?categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getStaffList(start, end, skip, limit, id) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedules/staff?categoryId=' +
+      id +
+      '&start=' +
+      start +
+      '&end=' +
+      end +
+      '&skip=' +
+      skip +
+      '&limit=' +
+      limit;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+  //https://dev-brainlitz.pagewerkz.com/api/v1/regions/5af915541de9052c869687a3/schedule?staffList=5de9c8fd31f64d0013c47199,5de9c8fd31f64d0013c47199&categoryId=all&start=23-02-2020&end=29-02-2020&skip=0&limit=20
+  getTimetableList(list, start, end, id) {
+    console.log('stafflist in service', list);
+    console.log('got id from app service', id);
+    if (id == '') {
+      id = 'all';
+    }
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      localStorage.getItem('regionId') +
+      '/schedule?staffList=' +
+      list +
+      '&categoryId=' +
+      id +
+      '&start=' +
+      start +
+      '&end=' +
+      end;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getUsersForMastery(regionId, courseId, userMasteriesObj) {
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/' +
+      courseId +
+      '/apls-mastery-users';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient
+      .post(apiUrl, userMasteriesObj, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }

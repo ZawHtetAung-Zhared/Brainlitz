@@ -1,16 +1,5 @@
 /* start flexy course modal*/
-.flexi-name,
-.flexi-day,
-.flexi-teacher-name,
-.date,
-.day,
-.statusText,
-.flexititle {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
 
-.flexi-email,
-.flexi-modal-duration,
 .flexi-teacher-position {
   font-family: 'Inter-UI-Medium', Arial, sans-serif;
 }
@@ -89,29 +78,10 @@ p.mb-0.font-medium {
   font-size: 16px;
 }
 
-p.flexititle {
-  font-size: 28px;
-  color: #2e3d4d;
-  padding-top: 8px;
-}
-
-.flexi-name {
-  font-size: 18px;
-  color: #2e3d4d;
-  font-weight: 600;
-}
-
 .flexi-name-div {
   line-height: 10.2px;
   padding-top: 7px;
   padding-left: 12px;
-}
-
-.flexi-email,
-.flexi-modal-duration {
-  font-size: 14px;
-  color: #64707d;
-  font-weight: 500;
 }
 
 .flexi-modal-duration {
@@ -120,11 +90,6 @@ p.flexititle {
 
 .col-md-4.modal-cfees {
   border-left: 2px solid #edeff0;
-}
-h5.flexi-day {
-  font-size: 16px;
-  color: #2e3d4d;
-  font-weight: 600;
 }
 
 .d-flex.teacher-gp {
@@ -136,12 +101,6 @@ p.flexi-teacher-position {
   font-weight: 500;
   font-size: 12px;
   color: #64707d;
-}
-label.flexi-teacher-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #2e3d4d;
-  line-height: 1.5;
 }
 
 .flexi-teacher-div {
@@ -181,9 +140,6 @@ i.fa.fa-plus.circlePlus {
 } */
 
 p.previousDate {
-  font-weight: 500;
-  font-size: 16px;
-  color: #007fff;
   padding-top: 5px;
   padding-left: 12px;
 }
@@ -221,7 +177,7 @@ p.previousDate {
   /* background: #FFFFFF; */
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
-  height: 88px;
+  height: 92px;
   padding-left: 12px;
 }
 .uncheckBox {
@@ -239,16 +195,8 @@ p.previousDate {
 
 p.date {
   margin-bottom: 4px;
-  color: #2e3d4d;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
 }
 p.day {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  color: #64707d;
   margin-bottom: 10px;
 }
 

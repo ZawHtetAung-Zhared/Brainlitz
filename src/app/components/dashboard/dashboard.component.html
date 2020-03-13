@@ -109,7 +109,7 @@
     <div class="d-flex flex-column h-100 setting-wrapper">
       <div *ngIf="option != 'Invoice' && option != 'Payment' && !isEnrollEdit">
         <div *ngIf="generalSidebar.length > 0" class="header-wrap">
-          <h3 class="general">General</h3>
+          <h3 class="h1-strong text-c300">General</h3>
         </div>
         <div class="card-columns">
           <div *blockUI="'region-info'">
@@ -121,26 +121,32 @@
               *ngIf="generalDemo.appsetting != ''"
               class="card card-wrap region-wrap"
             >
-              <div class="title">
+              <div class="title bg-c100 text-s0 text-s0 body-xl">
                 Regional settings
               </div>
               <div class="region-info">
                 <div>
                   <div class="title-wrap">
-                    <div id="parent">
+                    <div id="parent" class="bg-s30">
                       <img src="./assets/images/map.png" />
                     </div>
-                    <label class="labelTitle">Region name</label>
+                    <label class="labelTitle text-c100 body-m"
+                      >Region name</label
+                    >
                   </div>
-                  <label class="labelName">{{ item.name }}</label>
+                  <label class="labelName text-c300 body-l">{{
+                    item.name
+                  }}</label>
                 </div>
                 <div class="timezone-wrap ease" *ngIf="!isEdit">
                   <div>
                     <div class="title-wrap">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/time_zone.png" />
                       </div>
-                      <label class="labelTitle">Time zone</label>
+                      <label class="labelTitle text-c100 body-m"
+                        >Time zone</label
+                      >
                     </div>
                   </div>
                   <div class="picker-wrap">
@@ -154,7 +160,7 @@
                 </div>
                 <div class="timezone-wrap" *ngIf="isEdit">
                   <div>
-                    <label class="labelTitle">Time zone</label>
+                    <label class="labelTitle text-c100 body-m">Time zone</label>
                   </div>
                   <div>
                     <ng2-timezone-picker
@@ -169,12 +175,14 @@
                 <!-- Operation Hour -->
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent">
+                    <div id="parent" class="bg-s30">
                       <img src="./assets/images/map.png" />
                     </div>
-                    <label class="labelTitle">Operating hour</label>
+                    <label class="labelTitle text-c100 body-m"
+                      >Operating hour</label
+                    >
                   </div>
-                  <label *ngIf="!isEdit" class="operatingTime"
+                  <label *ngIf="!isEdit" class="operatingTime text-c300 body-l"
                     ><span *ngIf="item && item.operatingHour.start.hr < 10"
                       >0</span
                     >{{ item.operatingHour.start.hr }}:<span
@@ -184,7 +192,7 @@
                     {{ item.operatingHour.start.meridiem }}
                   </label>
                   <span *ngIf="!isEdit" class="timedash"> </span>
-                  <label *ngIf="!isEdit" class="operatingTime1"
+                  <label *ngIf="!isEdit" class="operatingTime1 text-c300 body-l"
                     ><span *ngIf="item.operatingHour.end.hr < 10">0</span
                     >{{ item.operatingHour.end.hr }}:<span
                       *ngIf="item.operatingHour.end.min < 10"
@@ -194,10 +202,12 @@
                   </label>
                   <div class="timezone-wrap">
                     <div class="title-wrap" *ngIf="!isEdit">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Organization logo</label>
+                      <label class="labelTitle text-c100 body-m"
+                        >Organization logo</label
+                      >
                     </div>
                     <div class="preview" *ngIf="!isEdit">
                       <img
@@ -219,7 +229,9 @@
                           <span class="slider round nocur"></span>
                         </label>
                       </div>
-                      <label class="switch-label cre-email" for="online"
+                      <label
+                        class="switch-label cre-email text-c300 body-xl"
+                        for="online"
                         >Send Credential Emails upon user registration</label
                       >
                     </div>
@@ -236,7 +248,9 @@
                           <span class="slider round nocur"></span>
                         </label>
                       </div>
-                      <label class="switch-label cre-email" for="online"
+                      <label
+                        class="switch-label cre-email text-c300 body-xl"
+                        for="online"
                         >Require journal approval</label
                       >
                     </div>
@@ -247,7 +261,9 @@
                       <div
                         class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4"
                       >
-                        <label class="labelTitle"> Start Time </label>
+                        <label class="labelTitle text-c100 body-m">
+                          Start Time
+                        </label>
                         <input
                           type="text"
                           placeholder="Start time"
@@ -341,7 +357,9 @@
                         class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
                         (document:click)="documentclick($event)"
                       >
-                        <label class="labelTitle fix-text">End Time</label>
+                        <label class="labelTitle text-c100 body-m fix-text"
+                          >End Time</label
+                        >
                         <input
                           type="text"
                           placeholder="End time"
@@ -439,7 +457,9 @@
                         <div id="parent">
                           <img src="./assets/images/home.png" />
                         </div>
-                        <label class="labelTitle">Organization logo</label>
+                        <label class="labelTitle text-c100 body-m"
+                          >Organization logo</label
+                        >
                       </div>
                       <div class="form-group">
                         <div class="input-group">
@@ -496,7 +516,9 @@
                           <span class="slider round"></span>
                         </label>
                       </div>
-                      <label class="switch-label cre-email" for="online"
+                      <label
+                        class="switch-label cre-email text-c300 body-l"
+                        for="online"
                         >Send Credential Emails upon user registration</label
                       >
                     </div>
@@ -512,7 +534,9 @@
                           <span class="slider round"></span>
                         </label>
                       </div>
-                      <label class="switch-label cre-email" for="online"
+                      <label
+                        class="switch-label cre-email text-c300 body-l"
+                        for="online"
                         >Require journal approval</label
                       >
                     </div>
@@ -522,13 +546,13 @@
                       *ngIf="isEdit"
                     >
                       <button
-                        class="cancel btn remove-bg"
+                        class="cancel btn remove-bg text-c300 body-m"
                         (click)="cancelUpdate()"
                       >
                         Cancel
                       </button>
                       <button
-                        class="btn updateButton remove-bg"
+                        class="btn updateButton remove-bg text-b100 body-m"
                         (click)="updateRegionalInfo(item, 'timezone')"
                         [disabled]="!dashboradForm.valid || updateBtnDisabled()"
                       >
@@ -540,7 +564,7 @@
                 <!-- Operation Hour Close -->
               </div>
               <div *ngIf="!isEdit">
-                <a class="link-btn" (click)="editRegion()">Edit</a>
+                <a class="link-btn small" (click)="editRegion()">Edit</a>
               </div>
             </div>
           </div>
@@ -550,94 +574,110 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Invoice settings
             </div>
             <div class="region-info">
               <div>
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/profile.png" />
                   </div>
-                  <label class="labelTitle">Company name</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Company name</label
+                  >
                 </div>
                 <label
                   *ngIf="invoiceData.companyName != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.companyName }}</label
                 >
-                <label *ngIf="invoiceData.companyName == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.companyName == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <p class="dot">...</p>
                   </div>
-                  <label class="labelTitle">Registration number</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Registration number</label
+                  >
                 </div>
                 <label
                   *ngIf="invoiceData.registration != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.registration }}</label
                 >
-                <label *ngIf="invoiceData.registration == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.registration == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/map.png" />
                   </div>
-                  <label class="labelTitle">Address</label>
+                  <label class="labelTitle text-c100 body-m">Address</label>
                 </div>
                 <label
                   *ngIf="invoiceData.address != '' || invoiceData.city != ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >{{ invoiceData.address }} {{ invoiceData.city }}</label
                 >
                 <label
                   *ngIf="invoiceData.address == '' && invoiceData.city == ''"
-                  class="labelName"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/email.png" />
                   </div>
-                  <label class="labelTitle">Contact email</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Contact email</label
+                  >
                 </div>
-                <label *ngIf="invoiceData.email != ''" class="labelName">{{
-                  invoiceData.email
-                }}</label>
-                <label *ngIf="invoiceData.email == ''" class="labelName"
+                <label
+                  *ngIf="invoiceData.email != ''"
+                  class="labelName text-c300 body-l"
+                  >{{ invoiceData.email }}</label
+                >
+                <label
+                  *ngIf="invoiceData.email == ''"
+                  class="labelName text-c300 body-l"
                   >-</label
                 >
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <p class="currency">$</p>
                   </div>
-                  <label class="labelTitle">Currency sign</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Currency sign</label
+                  >
                 </div>
                 <div
                   *ngIf="
                     invoiceData.currencyCode != undefined &&
                     invoiceData.currencySign != undefined
                   "
-                  class="labelName d-flex"
+                  class="labelName text-c300 body-l d-flex"
                 >
                   <div
                     class="currency-flag currency-flag-{{
                       invoiceData.currencyCode
                     }}"
                   ></div>
-                  <div class="c-sign">
+                  <div class="c-sign h4-strong text-c">
                     <div
                       class="pull-left"
                       *ngIf="
@@ -655,24 +695,26 @@
                     invoiceData.currencyCode == undefined &&
                     invoiceData.currencySign == undefined
                   "
-                  class="labelName d-flex"
+                  class="labelName text-c300 body-l d-flex"
                 >
                   -
                 </div>
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img
                       style="width: 60%"
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice note</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Invoice note</label
+                  >
                 </div>
                 <div
                   *ngIf="invoiceData.invoiceNote != ''"
-                  class="labelName inv-note"
+                  class="labelName text-c300 body-l inv-note"
                 >
                   {{ invoiceData.invoiceNote }}
                 </div>
@@ -682,19 +724,21 @@
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img
                       style="width: 60%"
                       src="./assets/images/sidebar-quizwerkz@2x.png"
                     />
                   </div>
-                  <label class="labelTitle">Invoice validity(days)</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Invoice validity(days)</label
+                  >
                 </div>
                 <input
                   *ngIf="invoiceData.dueDateCount != ''"
                   name="settingIdueDateCount"
                   id="settingInvNote"
-                  class="labelName readonly-note"
+                  class="labelName text-c300 body-l readonly-note"
                   [(ngModel)]="invoiceData.dueDateCount"
                   readonly
                 />
@@ -705,7 +749,9 @@
               </div>
             </div>
             <div>
-              <a class="link-btn" (click)="editSetting('Invoice')">Edit</a>
+              <a class="link-btn small" (click)="editSetting('Invoice')"
+                >Edit</a
+              >
             </div>
           </div>
 
@@ -718,23 +764,29 @@
               *ngIf="generalDemo.regional != ''"
               class="card card-wrap"
             >
-              <div class="title">
+              <div class="title bg-c100 text-s0 body-xl">
                 App settings
               </div>
               <div class="setting-container">
                 <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
                   <div class="link-wrap">
                     <div class="title-wrap">
-                      <div id="parent">
+                      <div id="parent" class="bg-s30">
                         <img src="./assets/images/home.png" />
                       </div>
-                      <label class="labelTitle">Home page URL</label>
-                      <div class="urlEdit"><a (click)="editUrl()">Edit</a></div>
+                      <label class="labelTitle text-c100 body-m"
+                        >Home page URL</label
+                      >
+                      <div class="urlEdit">
+                        <a class="link-btn small" (click)="editUrl()">Edit</a>
+                      </div>
                     </div>
                     <p class="input-recommend">
                       This is the URL your customers will see on their device.
                     </p>
-                    <label class="labelName">{{ item.url }}</label>
+                    <label class="labelName text-c300 body-l">{{
+                      item.url
+                    }}</label>
                   </div>
                   <div class="timezone-wrap d-none">
                     <div>
@@ -742,7 +794,9 @@
                         <div id="parent">
                           <img src="./assets/images/filter.png" />
                         </div>
-                        <label class="labelTitle">Widget type visibility</label>
+                        <label class="labelTitle text-c100 body-m"
+                          >Widget type visibility</label
+                        >
                       </div>
                       <p class="input-recommend">
                         Turning on widget type visibility such as ‘Progress’ or
@@ -759,7 +813,9 @@
                   <div class="text">
                     <form novalidate #dashboradForm="ngForm">
                       <div class="form-group url-edit">
-                        <label class="labelTitle">Home Page Url</label>
+                        <label class="labelTitle text-c100 body-m"
+                          >Home Page Url</label
+                        >
                         <input
                           type="url"
                           class="form-control"
@@ -819,34 +875,36 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Payment settings
             </div>
             <div class="region-info">
               <div>
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/currency.png" />
                   </div>
-                  <label class="labelTitle">Currency code</label>
+                  <label class="labelTitle text-c100 body-m"
+                    >Currency code</label
+                  >
                 </div>
                 <div>
                   <div
                     *ngIf="paymentData.currencyCode != undefined"
-                    class="labelName d-flex"
+                    class="labelName text-c300 body-l d-flex"
                   >
                     <div
                       class="currency-flag currency-flag-{{
                         paymentData.currencyCode
                       }}"
                     ></div>
-                    <div class="c-sign">
+                    <div class="c-sign h4-strong text-c300">
                       {{ paymentData.currencyCode | uppercase }}
                     </div>
                   </div>
                   <div
                     *ngIf="paymentData.currencyCode == undefined"
-                    class="labelName d-flex"
+                    class="labelName text-c300 body-l d-flex"
                   >
                     -
                   </div>
@@ -854,12 +912,15 @@
               </div>
               <div class="timezone-wrap ease">
                 <div class="title-wrap">
-                  <div id="parent">
+                  <div id="parent" class="bg-s30">
                     <img src="./assets/images/currency-sign.png" />
                   </div>
-                  <label class="labelTitle">Tax setting</label>
+                  <label class="labelTitle text-c100 body-m">Tax setting</label>
                 </div>
-                <label *ngIf="emptyPaymentData == false" class="labelName">
+                <label
+                  *ngIf="emptyPaymentData == false"
+                  class="labelName text-c300 body-l"
+                >
                   <span *ngIf="paymentData.tax.name != ''"
                     >{{ paymentData.tax.name }}
                   </span>
@@ -869,27 +930,38 @@
                   >
                   <span *ngIf="paymentData.tax.rate == null">(-)</span>
                 </label>
-                <label *ngIf="emptyPaymentData == true" class="labelName">
+                <label
+                  *ngIf="emptyPaymentData == true"
+                  class="labelName text-c300 body-l"
+                >
                   <span>-</span>
                 </label>
               </div>
               <div class="sectionWrap">
-                <label class="sectionTitle">Online payment</label>
+                <label class="sectionTitle h4-strong text-c300 "
+                  >Online payment</label
+                >
                 <div *ngIf="paymentData.paymentProviders.length > 0">
                   <div
                     class="provider-list"
                     *ngFor="let provider of paymentData.paymentProviders"
                   >
-                    <span *ngIf="provider.name != ''">{{ provider.name }}</span>
-                    <span *ngIf="provider.name == ''">-</span>
+                    <span class="small text-c100" *ngIf="provider.name != ''">{{
+                      provider.name
+                    }}</span>
+                    <span class="small text-c100" *ngIf="provider.name == ''"
+                      >-</span
+                    >
                   </div>
                 </div>
                 <div *ngIf="paymentData.paymentProviders.length == 0">
-                  <div class="provider-list">none</div>
+                  <div class="provider-list small text-c100">none</div>
                 </div>
               </div>
               <div class="sectionWrap">
-                <label class="sectionTitle">Pay Now Payment</label>
+                <label class="sectionTitle h4-strong text-c300"
+                  >Pay Now Payment</label
+                >
                 <div *ngIf="paymentData.acceptPayNow">
                   <div class="qr-preview">
                     <img
@@ -905,7 +977,9 @@
               </div>
             </div>
             <div>
-              <a class="link-btn" (click)="editSetting('Payment')">Edit</a>
+              <a class="link-btn small" (click)="editSetting('Payment')"
+                >Edit</a
+              >
             </div>
           </div>
 
@@ -920,20 +994,20 @@
             *ngIf="generalDemo.appsetting != ''"
             class="card card-wrap region-wrap"
           >
-            <div class="title">
+            <div class="title bg-c100 text-s0 body-xl">
               Schedule settings
             </div>
             <div class="setting-container">
               <div class="schedule-setting">
                 <div class="ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img
                         style="width: 60%"
                         src="./assets/images/sidebar-quizwerkz@2x.png"
                       />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Send payment reminder notification for invoice</label
                     >
                   </div>
@@ -942,27 +1016,27 @@
                       *ngIf="invoiceData.beforeDue != ''"
                       name="settingIdueDateCount"
                       id="settingInvBeforeD"
-                      class="labelName readonly-note"
+                      class="labelName text-c300 body-l readonly-note"
                       [(ngModel)]="invoiceData.beforeDue"
                       readonly
                     />
                     <label *ngIf="invoiceData.beforeDue == ''">
                       -
                     </label>
-                    <label class="labelTitle day-color">
+                    <label class="labelTitle day-color body-m">
                       days before due date
                     </label>
                   </div>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img
                         style="width: 60%"
                         src="./assets/images/sidebar-quizwerkz@2x.png"
                       />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Send payment overdue notification for invoice</label
                     >
                   </div>
@@ -971,24 +1045,24 @@
                       *ngIf="invoiceData.overDue != ''"
                       name="settingIdueDateCount"
                       id="settingInvOverD"
-                      class="labelName readonly-note"
+                      class="labelName text-c300 body-l readonly-note"
                       [(ngModel)]="invoiceData.overDue"
                       readonly
                     />
                     <label *ngIf="invoiceData.overDue == ''">
                       -
                     </label>
-                    <label class="labelTitle day-color">
+                    <label class="labelTitle day-color body-m">
                       days after due date
                     </label>
                   </div>
                 </div>
                 <div class="timezone-wrap ease">
                   <div class="title-wrap">
-                    <div id="parent" class="schedule-img">
+                    <div id="parent" class="schedule-img bg-s30">
                       <img src="./assets/images/profile.png" />
                     </div>
-                    <label class="labelTitle"
+                    <label class="labelTitle text-c100 body-m"
                       >Auto-enrollment will start if the last lesson is
                       within(days)</label
                     >
@@ -996,7 +1070,7 @@
                   <input
                     name="settingIdueDateCount"
                     id="settingAutoEnroll"
-                    class="labelName readonly-note"
+                    class="labelName text-c300 body-l readonly-note"
                     [(ngModel)]="enroll"
                     readonly
                   />
@@ -1004,7 +1078,7 @@
               </div>
             </div>
             <div>
-              <a class="link-btn" (click)="editEnroll('enroll')">Edit</a>
+              <a class="link-btn small" (click)="editEnroll('enroll')">Edit</a>
             </div>
           </div>
           <!-- </div> -->
@@ -1026,7 +1100,7 @@
             <form novalidate #invoiceForm="ngForm" class="form-wrap">
               <div class="col-md-10 input-wrap">
                 <div class="form-group">
-                  <label class="input-label" for="name"
+                  <label class="body-xl text-c300 mb-0" for="name"
                     >Send payment reminder notification for invoice</label
                   >
                   <div
@@ -1040,13 +1114,13 @@
                       [(ngModel)]="invoiceData.beforeDue"
                       #invBeforedue="ngModel"
                     />
-                    <label for="name" class="labelTitle day-color"
+                    <label for="name" class="labelTitle day-color body-m"
                       >days before due date</label
                     >
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="input-label" for="name"
+                  <label class="body-xl text-c300 mb-0" for="name"
                     >Send payment overdue notification for invoice</label
                   >
                   <div
@@ -1060,7 +1134,7 @@
                       [(ngModel)]="invoiceData.overDue"
                       #invOverdue="ngModel"
                     />
-                    <label for="name" class="labelTitle day-color"
+                    <label for="name" class="labelTitle day-color body-m"
                       >days after due date</label
                     >
                   </div>
@@ -1077,12 +1151,12 @@
                         <span class="slider round"></span>
                       </label>
                     </div>
-                    <label class="switch-label" for="name"
+                    <label class="switch-label text-c300 body-xl" for="name"
                       >Auto-enrollment</label
                     >
                   </div>
                   <div *ngIf="isAuto">
-                    <label class="input-label" for="name"
+                    <label class="body-xl text-c300 mb-0" for="name"
                       >Auto-enrollment will start if the last lesson is
                       within</label
                     >
@@ -1098,7 +1172,9 @@
                         #enrol="ngModel"
                         required
                       />
-                      <label for="day" class="labelTitle day-color">days</label>
+                      <label for="day" class="labelTitle day-color body-m"
+                        >days</label
+                      >
                     </div>
                     <div
                       *ngIf="enrol.errors && (enrol.dirty || enrol.touched)"
@@ -1140,11 +1216,11 @@
           >
             <div class="back-to" (click)="cancel()">
               <i class="fa fa-angle-left"></i>
-              <p>General</p>
+              <p class="light-body-l text-300">General</p>
             </div>
           </div>
           <div class="setting-edit-wrap">
-            <h3 class="heading-h3">{{ option }} setting</h3>
+            <h3 class="h1-strong text-300">{{ option }} setting</h3>
             <form
               *ngIf="option == 'Invoice'"
               novalidate
@@ -1154,7 +1230,9 @@
               <div class="col-md-8 input-wrap">
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Company name</label>
+                    <label class="body-xl text-c300 mb-0" for="name"
+                      >Company name</label
+                    >
                   </div>
                   <input
                     type="text"
@@ -1167,7 +1245,9 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Prefix</label>
+                    <label class="body-xl text-c300 mb-0" for="name"
+                      >Prefix</label
+                    >
                   </div>
                   <input
                     type="text"
@@ -1180,7 +1260,7 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name"
+                    <label class="body-xl text-c300 mb-0" for="name"
                       >Registration number</label
                     >
                   </div>
@@ -1196,7 +1276,9 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Address</label>
+                    <label class="body-xl text-c300 mb-0" for="name"
+                      >Address</label
+                    >
                   </div>
                   <textarea
                     class="form-control create-textarea"
@@ -1231,7 +1313,9 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label" for="name">Contact email</label>
+                    <label class="body-xl text-c300 mb-0" for="name"
+                      >Contact email</label
+                    >
                   </div>
                   <input
                     type="email"
@@ -1244,7 +1328,9 @@
                 </div>
                 <div class="form-group">
                   <div class="currency-wrap">
-                    <label class="input-label" for="name">Currency sign</label>
+                    <label class="body-xl text-c300 mb-0" for="name"
+                      >Currency sign</label
+                    >
                     <div
                       (click)="showCurrencyBox('currency', $event)"
                       class="current-currency d-flex justify-content-between"
@@ -1258,14 +1344,16 @@
                           }} flag-wrap"
                         ></div>
                         <div
-                          class="sectionTitle"
+                          class="sectionTitle h4-strong text-c300"
                           *ngIf="
                             selectedFlag == 'sgd' && selectedCurrency == '$'
                           "
                         >
                           S
                         </div>
-                        <div class="c-input">{{ selectedCurrency }}</div>
+                        <div class="c-input text-c300 h4-strong">
+                          {{ selectedCurrency }}
+                        </div>
                       </div>
                       <span
                         class="fa fa-angle-down d-flex justify-content-center flex-column icon"
@@ -1281,7 +1369,7 @@
                       />
                       <div class="currency-list">
                         <div
-                          class="sectionTitle d-flex"
+                          class="sectionTitle h4-strong text-c300 d-flex"
                           (click)="selectCurrency(newCurrency[key], key)"
                           *ngFor="let key of objectKeys(newCurrency)"
                         >
@@ -1292,7 +1380,7 @@
                             <div
                               class="currency-flag currency-flag-{{ key }}"
                             ></div>
-                            <div class="c-sign">
+                            <div class="c-sign text-c300 h4-strong">
                               <div
                                 class="pull-left"
                                 *ngIf="key == 'sgd' && newCurrency[key] == '$'"
@@ -1309,7 +1397,7 @@
                 </div>
                 <div class="form-group">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label">Invoice note</label>
+                    <label class="body-xl text-c300 mb-0">Invoice note</label>
                   </div>
                   <textarea
                     class="form-control create-textarea"
@@ -1322,7 +1410,9 @@
                 </div>
                 <div class="form-group mb-45">
                   <div class="d-flex justify-content-between">
-                    <label class="input-label">Invoice validity(days)</label>
+                    <label class="body-xl text-c300 mb-0"
+                      >Invoice validity(days)</label
+                    >
                   </div>
                   <input
                     type="number"
@@ -1359,7 +1449,9 @@
               <div class="col-md-8 input-wrap">
                 <div class="form-group">
                   <div class="currency-wrap">
-                    <label class="input-label" for="code">Currency Code</label>
+                    <label class="h3-strong text-c300" for="code"
+                      >Currency Code</label
+                    >
                     <div
                       (click)="showCurrencyBox('currency', $event)"
                       class="current-currency d-flex justify-content-between"
@@ -1390,7 +1482,7 @@
                       />
                       <div class="currency-list">
                         <div
-                          class="sectionTitle d-flex"
+                          class="sectionTitle h4-strong text-c300 d-flex"
                           (click)="selectCurrency(newCurrency[key], key)"
                           *ngFor="let key of objectKeys(newCurrency)"
                         >
@@ -1401,7 +1493,7 @@
                             <div
                               class="currency-flag currency-flag-{{ key }}"
                             ></div>
-                            <div class="c-sign">
+                            <div class="c-sign h4-strong text-c300">
                               {{ key | uppercase }}
                             </div>
                           </div>
@@ -1411,7 +1503,9 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="input-label" for="tax">Tax setting</label>
+                  <label class="h3-strong text-c300" for="tax"
+                    >Tax setting</label
+                  >
                   <div class="row">
                     <div class="col-md-6">
                       <input
@@ -1450,7 +1544,7 @@
                         <span class="slider round"></span>
                       </label>
                     </div>
-                    <label class="switch-label" for="online"
+                    <label class="switch-label text-c300 body-xl" for="online"
                       >Accept online payment</label
                     >
                   </div>
@@ -1472,7 +1566,7 @@
                     </div>
                     <div class="form-group">
                       <div class="provider-wrap">
-                        <label class="input-label" for="merchant"
+                        <label class="body-xl text-c300 mb-0" for="merchant"
                           >Payment provider</label
                         >
                         <div
@@ -1498,7 +1592,7 @@
                         >
                           <div class="provider-listing">
                             <div
-                              class="sectionTitle d-flex"
+                              class="sectionTitle h4-strong text-c300 d-flex"
                               (click)="selectProvider(item.id, item.name)"
                               *ngFor="let item of providers"
                             >
@@ -1514,9 +1608,11 @@
                         <div *ngFor="let reqField of provider.requiredField">
                           <div class="form-group req-field">
                             <div class="d-flex justify-content-between">
-                              <label class="input-label" for="merchant">{{
-                                reqField.name
-                              }}</label>
+                              <label
+                                class="body-xl text-c300 mb-0"
+                                for="merchant"
+                                >{{ reqField.name }}</label
+                              >
                             </div>
                             <input
                               type="text"
@@ -1533,7 +1629,7 @@
                     <!-- <div *ngFor="let reqField of providerField">
                         <div class="form-group req-field">
                           <div class="d-flex justify-content-between">
-                            <label class="input-label" for="merchant">{{reqField.name}}</label>
+                            <label class="h3-strong text-c300 mb-0" for="merchant">{{reqField.name}}</label>
                           </div>
                           <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
                         </div>
@@ -1566,7 +1662,7 @@
                           <span class="slider round"></span>
                         </label>
                       </div>
-                      <label class="switch-label" for="online"
+                      <label class="switch-label text-c300 body-xl" for="online"
                         >Accept paynow payment</label
                       >
                     </div>

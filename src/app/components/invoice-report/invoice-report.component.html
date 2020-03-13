@@ -1,11 +1,14 @@
 <div>
   <div class=" d-flex title-div justify-content-between">
-    <h2>Invoice reports</h2>
+    <h2 class="h1-strong text-c300">Invoice reports</h2>
     <div style="position: relative;">
-      <button class="btn-export" (click)="showExportOption($event, 'paid')">
-        <span>Export</span><i class="fa fa-chevron-down downIcon"></i>
+      <button
+        class="btn-export body-l bg-b100 text-s0"
+        (click)="showExportOption($event, 'paid')"
+      >
+        <span>Export</span><i class="fa fa-chevron-down downIcon small"></i>
       </button>
-      <div *ngIf="showDp" class="option-dp">
+      <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
         <div class="inv-opt bottom-border" (click)="exportInvoiceLists('PAID')">
           Paid
         </div>
@@ -18,7 +21,7 @@
   </div>
   <div class="table-wrapper">
     <table class="inv-table">
-      <tr class="header-wrapper">
+      <tr class="header-wrapper body-l text-c300">
         <td>Invoice#</td>
         <td>To</td>
         <td>Date</td>
@@ -27,24 +30,24 @@
         <td>Status</td>
         <td>Action</td>
       </tr>
-      <tr class="invList" *ngFor="let invoice of invoiceList">
-        <td>
+      <tr class="invList body-m" *ngFor="let invoice of invoiceList">
+        <td class="text-c300">
           {{ invoice.refInvoiceId }}
         </td>
-        <td>
+        <td class="text-c300">
           {{
             invoice.userDetails.preferredName == ''
               ? invoice.user.email
               : invoice.userDetails.preferredName
           }}
         </td>
-        <td>
+        <td class="text-c300">
           {{ invoice.updatedDate | dateFormat }}
         </td>
-        <td>
+        <td class="text-c300">
           {{ invoice.dueDate | dateFormat }}
         </td>
-        <td style="text-align: center;">
+        <td style="text-align: center;" class="text-c300">
           <span *ngIf="invoice.noti != null">
             {{ invoice.noti.createdDate | dateFormat }}
           </span>
@@ -52,15 +55,15 @@
         </td>
         <td>
           <span
-            [ngStyle]="{
-              color:
-                invoice.status == 'PAID'
-                  ? '#009940'
-                  : invoice.status == 'UNPAID'
-                  ? '#F23A30'
-                  : '#F26500'
-            }"
-            >{{
+            [ngClass]="
+              invoice.status == 'PAID'
+                ? 'text-g100'
+                : invoice.status == 'UNPAID'
+                ? 'text-r100'
+                : '#F26500'
+            "
+          >
+            {{
               invoice.status == 'PAID[PARTIAL]'
                 ? 'Partially paid'
                 : invoice.status == 'PAID'
@@ -71,7 +74,7 @@
         </td>
         <td>
           <button
-            class="view-inv-btn"
+            class="view-inv-btn body-m text-b100"
             (click)="openModal(invoice, classEnrollModal)"
           >
             View invoice
@@ -83,9 +86,12 @@
 </div>
 <div
   *ngIf="invlistsResult.length >= 20"
-  class="d-flex justify-content-center load-more"
+  class="d-flex justify-content-center load-more bg-s0"
 >
-  <button class="btn remove-outline" (click)="showMore(invoiceList.length)">
+  <button
+    class="btn remove-outline text-b100 body-m"
+    (click)="showMore(invoiceList.length)"
+  >
     load more
   </button>
 </div>

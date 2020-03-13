@@ -5,13 +5,6 @@
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 
-.regular {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
-.font-semi {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
 .addborderTop {
   border-top: 1px solid #edeff0 !important;
 }
@@ -43,8 +36,6 @@
 }
 
 .back-modal {
-  font-size: 16px;
-  color: #2e3d4d !important;
   padding-left: 0 !important;
   cursor: pointer;
   padding-top: 10px;
@@ -66,14 +57,7 @@
   text-align: center;
   padding-top: 17px;
   padding-bottom: 17px;
-  font-size: 24px;
-  color: #363f4d;
   margin-bottom: 0;
-}
-
-p.title {
-  color: #363f4d;
-  font-size: 20px;
 }
 
 /* start standard block */
@@ -82,16 +66,9 @@ p.title {
 }
 .standard-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
-  background: #ffffff;
   border-radius: 20px;
   padding: 6px 12px;
   margin-right: 16px;
-  font-weight: 500;
-  font-size: 17px;
-}
-.standard-block.active {
-  background: #0065f2 !important;
-  color: #ffffff !important;
 }
 /* end standard block */
 /* start class block */
@@ -150,11 +127,7 @@ button.btn.btn-back {
   font-size: 16px;
 }
 button.btn.btn-comfirm {
-  background: #007fff;
   border-radius: 3px;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 16px;
   padding: 8px 10px;
 }
 
@@ -175,13 +148,7 @@ button.btn.btn-comfirm {
   cursor: pointer;
 }
 
-.choice-title {
-  color: #363f4d;
-  font-size: 20px;
-}
 .choice-description {
-  color: #5c6773;
-  font-size: 15px;
   word-break: break-all;
 }
 .choice-block:hover {
@@ -369,16 +336,10 @@ a.adisabled:active {
   color: #363f4d;
 }
 /* end */
-button.btn.sticky-cancel {
-  background: #ffffff;
-}
 /* end progress bar */
 
 /* start step */
-.step-title {
-  color: #363f4d;
-  font-size: 28px;
-}
+
 .task-search-input:focus {
   box-shadow: none;
 }
@@ -390,10 +351,7 @@ button.btn.sticky-cancel {
   background-position-y: center;
   background-position-x: 99%;
   padding: 12px 18px !important;
-  line-height: 20px;
   border-radius: 4px;
-  color: #788796;
-  font-size: 17px;
 }
 
 .simple-search {
@@ -404,7 +362,7 @@ button.btn.sticky-cancel {
 .template-wrapper {
   margin-bottom: 0px;
 }
-.template-name,
+
 .task-title {
   font-size: 20px;
   color: #363f4d;
@@ -429,7 +387,7 @@ path.template-icon.active {
   margin-bottom: 24px;
   margin-left: 3px;
 }
-p.template-description,
+
 p.task-description {
   color: #5c6773;
   font-size: 15px;
@@ -456,8 +414,6 @@ p.task-description {
   margin-bottom: 20px;
 }
 .template-description2 {
-  color: #5c6773;
-  font-size: 17px;
   word-break: break-all;
   margin-right: 70px;
   padding-right: 10px;
@@ -804,9 +760,7 @@ input:checked + .slider:before {
 
 /* mastery modal */
 .input-title {
-  color: #363f4d;
   margin-bottom: 0;
-  font-size: 17px;
 }
 .input-wrap {
   margin: 13px 0px;
@@ -835,10 +789,7 @@ input:checked + .slider:before {
   cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
-p.mastery-title {
-  font-size: 24px;
-  color: #363f4d;
-}
+
 p.anno-txt {
   color: #5c6773;
   font-size: 20px;
@@ -1144,8 +1095,6 @@ i.fa.fa-check.checkIcon {
   overflow: overlay;
 }
 p.masteries-box {
-  color: #5c6773;
-  font-size: 17px;
   padding-left: 16px;
   margin-bottom: 6px;
 }
