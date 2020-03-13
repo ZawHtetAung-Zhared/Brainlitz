@@ -420,7 +420,7 @@
             </p>
             <div class="mastery-block">
               <div class="anno-block pl-4">
-                <div
+                <!-- <div
                   class="hidden-anno"
                   [ngClass]="{ 'show-anno': isShowAnnoBlock == true }"
                 >
@@ -593,7 +593,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <p class="anno-txt font-semi">
                   Task information
                 </p>
@@ -1041,7 +1041,7 @@
           class="answer-block{{ i }} body-l text-c100"
           *ngFor="let obj of questionObj.quiz.answers; let i = index"
         >
-          <span *ngIf="obj.correctness" class="regular ccAns body-m text-c100"
+          <span *ngIf="obj.correctness" class="regular ccAns body-m text-g100"
             >Correct answer</span
           >
           <div
