@@ -818,7 +818,7 @@ export class CoursecreateComponent implements OnInit {
           this.router.navigate(['course/']);
           console.log(cId);
           this.dataService.nevigateCDetail(cId);
-          // this.dataService.navagateActivePlan(this.planId)
+          this.dataService.navagateActivePlan(this.planId);
         } else if (
           (this.coursePlan.from == 'courses' && ToCourses == '') ||
           (this.coursePlan.from = 'schedule' && ToCourses == 'back') ||
@@ -1637,6 +1637,7 @@ export class CoursecreateComponent implements OnInit {
     // console.log("createCourse work",this.model);
     // console.log("Temp Obj",this.temp);
     if (this.conflitCourseId == '') {
+      21;
       console.log('First Time');
       // this.courseObj["startDate"] = this.changeDateFormat(this.model.start,this.model.starttime);
       // this.courseObj["repeatDays"] = this.selectedDay;
@@ -1980,7 +1981,18 @@ export class CoursecreateComponent implements OnInit {
             console.error(this.scheduleObj);
             if (this.scheduleObj != null) {
               // this.router.navigate(['schedule/']);
-              this.dataService.backToScheduleTable(true);
+              if (res.body.meta.draft == true) {
+                console.log('he he har harr');
+                this.conflitCourseId = res.body.courseId;
+              } else if (res.body.meta.draft == false) {
+                console.log(res.body.courseId, 'from publish');
+                this.backToCourses('', res.body.courseId);
+                // this.dataService.backToScheduleTable(true);
+              }
+              // else{
+              //   console.log(res.body.meta.draft, this.scheduleObj,'ha ha')
+              //   this.dataService.backToScheduleTable(true);
+              // }
             } else if (this.course) {
               if (this.course.type == 'rollover') {
                 console.log('RES', res);
@@ -1994,8 +2006,10 @@ export class CoursecreateComponent implements OnInit {
               }
             } else {
               if (res.body.meta.draft == false) {
+                console.log('in false');
                 this.backToCourses('', res.body.courseId);
               } else {
+                console.log('in conflict');
                 this.conflitCourseId = res.body.courseId;
               }
             }

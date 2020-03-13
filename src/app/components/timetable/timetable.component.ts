@@ -283,8 +283,7 @@ export class TimetableComponent implements OnInit {
     private router: Router,
     private dataService: DataService,
     private http: HttpClient,
-    private renderer: Renderer2,
-    private elmRef: ElementRef
+    private renderer: Renderer2
   ) {
     this._service.goback.subscribe(() => {
       console.log('goooo');
@@ -367,6 +366,8 @@ export class TimetableComponent implements OnInit {
     this.getCatList();
 
     //zha ngOnInit
+
+    this.renderer.removeClass(document.body, 'modal-open');
 
     //copy from schedule
     localStorage.removeItem('scheduleObj');
@@ -2378,6 +2379,7 @@ export class TimetableComponent implements OnInit {
   }
 
   goCourseDetails(id) {
+    this.renderer.removeClass(document.body, 'modal-open');
     var courseId = '5e4cb79ed0019f00125bf69a'; //testing
     this.router.navigate(['/coursedetail', id]);
   }
@@ -2386,6 +2388,7 @@ export class TimetableComponent implements OnInit {
   public addNewCoursePlan = false;
 
   addNewCourse() {
+    this.renderer.removeClass(document.body, 'modal-open');
     this.showTimetable = false;
     this.showPopUp = false;
     this.addNewCoursePlan = true;
