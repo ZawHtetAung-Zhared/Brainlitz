@@ -1,8 +1,8 @@
-<h3 class="pd-lft-15">Staff performance</h3>
+<h3 class="pd-lft-15 h1-strong text-c300">Staff performance</h3>
 <div class="pd-lft-15 report-content">
   <div class="row">
     <div class="report-time-range d-flex flex-column col-md-4">
-      <div class="rpt-input-title">
+      <div class="rpt-input-title h3-strong text-c100">
         Time
       </div>
       <div style="padding-top: 15px;position:relative;">
@@ -20,17 +20,18 @@
           (showDaterangepicker)="togglePicker($event)"
           (hideDaterangepicker)="togglePicker($event)"
           style="padding-left:30px;width:100%;"
+          class="body-l text-c300"
         />
       </div>
     </div>
     <div class="report-location-input d-flex flex-column col-md-8">
-      <div class="rpt-input-title">
+      <div class="rpt-input-title h3-strong text-c100">
         Group by
       </div>
       <div style="padding-top: 15px">
         <select
           id="staffGroupBy"
-          class="form-control rpt-groupBy-opt"
+          class="form-control rpt-groupBy-opt body-l bg-s0"
           name="staffGroupBy"
           (change)="updateGraphUsingGroupBy($event)"
         >
@@ -50,13 +51,16 @@
     *ngIf="reportData.length"
   >
     <div style="padding:15px;">
-      <button class="btn btn-filter" (click)="showFilterModal(filterFields)">
+      <button
+        class="btn btn-filter body-l bg-s0 text-b100"
+        (click)="showFilterModal(filterFields)"
+      >
         Filter fields
       </button>
     </div>
     <div
-      class="selected-filter-content"
-      style="background: #f2f4f5;padding: 15px 0;"
+      class="selected-filter-content bg-s20 body-l text-c300"
+      style="padding: 15px 0;"
       *ngIf="filter.value.length"
     >
       <div style="padding:15px;padding: 15px;width: 100%;height: 50px;">
@@ -65,7 +69,7 @@
         </div>
         <div
           style="float:right;"
-          class="remove-selected-filter remove-all-filters"
+          class="remove-selected-filter text-r100 remove-all-filters"
           (click)="removeAllFilters()"
         >
           <span>-</span>
@@ -73,12 +77,12 @@
       </div>
       <div
         *ngFor="let selectedItem of filter.value"
-        class="selected-filter-value"
+        class="selected-filter-value bg-s0 text-c300"
         style="display:inline-block;"
       >
         {{ selectedItem }}
         <div
-          class="remove-selected-filter"
+          class="remove-selected-filter text-r100"
           (click)="removeCurrentFilter(selectedItem)"
         >
           <span>-</span>
@@ -92,7 +96,7 @@
     </div>
   </div>
   <div
-    class="d-flex flex-column w-100 h-100"
+    class="d-flex flex-column w-100 h-100 body-l text-c300"
     style="margin-top: 30px;"
     *ngIf="!reportData.length"
   >
@@ -102,7 +106,9 @@
 
 <ng-template #filterFields let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title " id="modal-basic-title">Filter fields</h3>
+    <h3 class="modal-title h1-strong text-c300" id="modal-basic-title">
+      Filter fields
+    </h3>
     <button
       type="button"
       class="close"
@@ -113,11 +119,13 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="slt-rpt-filter rpt-input-title">Select filter</div>
+    <div class="slt-rpt-filter rpt-input-title h3-strong text-c100">
+      Select filter
+    </div>
     <div class="pd-top-15">
       <select
         id="filterType"
-        class="form-control"
+        class="form-control body-l bg-s0 text-c300"
         name="filterType"
         [(ngModel)]="filterModel"
         (change)="updateFilterType($event.target.value)"
@@ -131,7 +139,7 @@
     </div>
     <div class="input-group col-md-12" style="padding:15px 0;">
       <input
-        class="form-control py-2 input-search-bg"
+        class="form-control py-2 input-search-bg body-l text-c300 bg-s20"
         type="search"
         placeholder="Search"
         id="staff-filter-search-input"
@@ -140,28 +148,31 @@
         autocomplete="off"
       />
       <span class="input-group-append">
-        <button class="bt btn-design btn-outline-secondary" type="button">
-          <i class="fa fa-search search-size"></i>
+        <button
+          class="bt btn-design btn-outline-secondary bg-s20 text-c75"
+          type="button"
+        >
+          <i class="fa fa-search"></i>
         </button>
       </span>
     </div>
-    <div style="" class="search-result-box" *ngIf="searchResult.show == true">
+    <div class="search-result-box bg-s0" *ngIf="searchResult.show == true">
       <div
-        class="single-result"
+        class="single-result body-l text-c300"
         *ngFor="let suggestedItem of searchResult.value"
         (click)="selectFilter(suggestedItem)"
       >
         {{ suggestedItem }}
       </div>
     </div>
-    <div class="selected-filter-content">
+    <div class="selected-filter-content body-l text-c300">
       <span
         *ngFor="let selectedItem of filter.value"
         class="selected-filter-value"
       >
         {{ selectedItem }}
         <div
-          class="remove-selected-filter"
+          class="remove-selected-filter text-r100"
           (click)="removeCurrentFilterForModal(selectedItem)"
         >
           <span>-</span>
@@ -171,10 +182,16 @@
   </div>
   <div class="modal-footer">
     <div>
-      <button class="btn btn-primary confirm-filter" (click)="applyFilters()">
+      <button
+        class="btn confirm-filter bg-b100 text-s0 body-l"
+        (click)="applyFilters()"
+      >
         Confirm
       </button>
-      <button class="btn btn-default cancel-filter" (click)="cancelModal()">
+      <button
+        class="btn cancel-filter bg-s0 text-c300 body-l"
+        (click)="cancelModal()"
+      >
         Cancel
       </button>
     </div>

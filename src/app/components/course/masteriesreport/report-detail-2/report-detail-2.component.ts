@@ -93,8 +93,10 @@ export class ReportDetail2Component implements OnInit {
   constructor(
     private _location: Location,
     private _service: appService,
-    private _data: DataService,
-    private modalService: NgbModal
+    private dataservice: DataService,
+    private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -454,7 +456,12 @@ export class ReportDetail2Component implements OnInit {
     graph.on('click', function(params) {
       // console.log(params);
       if (params.componentType === 'yAxis') {
-        console.log(' _self', _self);
+        console.log(
+          'on click mastery',
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.value)
+          ]
+        );
         var id =
           _self.reportItems[
             _self.plotDetailOption.yAxis.data.indexOf(params.value)
@@ -462,10 +469,18 @@ export class ReportDetail2Component implements OnInit {
         console.log('onClickmasteryId', id);
         _self.openModal(id);
       } else if (params.componentType === 'series') {
-        console.log(params.dataIndex);
-        console.log(
-          _self.masteriesReports[0].masteries[params.dataIndex].question
-        );
+        let selectedMastery =
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.name)
+          ];
+        console.log('on click series', selectedMastery);
+        _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+        // _self.dataservice.setMasteryData(selectedMastery)
+        localStorage.setItem('userMastery', JSON.stringify(selectedMastery));
+        // console.log(params.dataIndex);
+        // console.log(
+        //   _self.masteriesReports[0].masteries[params.dataIndex].question
+        // );
         // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
         // localStorage.setItem(
         //   'mastery_itemId',

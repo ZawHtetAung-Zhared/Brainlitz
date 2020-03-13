@@ -5,13 +5,6 @@
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 
-.regular {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
-.font-semi {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
 .addborderTop {
   border-top: 1px solid #edeff0 !important;
 }
@@ -809,10 +802,7 @@ input:checked + .slider:before {
   cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
-p.mastery-title {
-  font-size: 24px;
-  color: #363f4d;
-}
+
 p.anno-txt {
   color: #5c6773;
   font-size: 20px;

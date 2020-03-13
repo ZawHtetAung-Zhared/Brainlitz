@@ -270,7 +270,7 @@
       <div class="student-lists row " *ngIf="loading == false">
         <div
           *ngFor="let user of activeCourseInfo.CUSTOMER"
-          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xl-3"
         >
           <!-- {{user.attendance}} -->
           <div
@@ -292,15 +292,15 @@
             <div class="single-user-info d-flex">
               <p *ngIf="user.preferredName" class="text-c100 body-m">
                 {{
-                  user.preferredName.length > 20
-                    ? (user.preferredName | slice: 0:20) + '...'
+                  user.preferredName.length > 13
+                    ? (user.preferredName | slice: 0:13) + '...'
                     : user.preferredName
                 }}
               </p>
               <p *ngIf="user.preferredName == ''" class="text-c100 body-m">
                 {{
-                  user.email.length > 15
-                    ? (user.email | slice: 0:15) + '...'
+                  user.email.length > 13
+                    ? (user.email | slice: 0:13) + '...'
                     : user.email
                 }}
               </p>

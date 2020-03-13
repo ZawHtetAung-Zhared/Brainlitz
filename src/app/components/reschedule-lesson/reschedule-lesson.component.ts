@@ -476,7 +476,8 @@ export class RescheduleLessonComponent implements OnInit {
 
   closeDropdown(event, type, datePicker?) {
     if (event.target.className.includes('dropD')) {
-      console.log('dropD');
+      console.log('dropD', event);
+      datePicker.toggle();
     } else {
       if (type == 'start' || type == 'end') {
         if (event.target.offsetParent == null) {
@@ -488,6 +489,10 @@ export class RescheduleLessonComponent implements OnInit {
         }
       }
     }
+  }
+  testOpen(datePicker?) {
+    datePicker.open();
+    console.log('open datepicker!!');
   }
 
   durationProgress($event) {
