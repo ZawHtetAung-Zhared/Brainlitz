@@ -685,7 +685,7 @@ export class TimetableComponent implements OnInit {
     this.DateCalculate();
     this.getStaffListperWeek();
   }
-  public activeId: any;
+  public activeId: any = 'w00';
 
   activeblue(event) {
     this.activeId = event.target.id;
@@ -695,6 +695,11 @@ export class TimetableComponent implements OnInit {
     blue.setAttribute('style', 'background: #0065F2;');
     white.setAttribute('style', 'color: #fff;');
   }
+  onScrollDown() {
+    console.log('down');
+    this.getCatList();
+  }
+
   //zha function
 
   ngAfterViewInit() {
