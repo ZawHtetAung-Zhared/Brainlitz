@@ -685,7 +685,16 @@ export class TimetableComponent implements OnInit {
     this.DateCalculate();
     this.getStaffListperWeek();
   }
+  public activeId: any;
 
+  activeblue(event) {
+    this.activeId = event.target.id;
+    var temp = 'p' + this.activeId;
+    let blue: HTMLElement = document.getElementById(this.activeId);
+    let white: HTMLElement = document.getElementById(temp);
+    blue.setAttribute('style', 'background: #0065F2;');
+    white.setAttribute('style', 'color: #fff;');
+  }
   //zha function
 
   ngAfterViewInit() {
@@ -2385,6 +2394,12 @@ export class TimetableComponent implements OnInit {
     // this.disabledScroll = false;
     // this.renderer.removeClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.removeClass(document.body, 'modal-open');
+
+    var temp = 'p' + this.activeId;
+    let blue: HTMLElement = document.getElementById(this.activeId);
+    let white: HTMLElement = document.getElementById(temp);
+    blue.removeAttribute('style');
+    white.removeAttribute('style');
   }
 
   goCourseDetails(id) {

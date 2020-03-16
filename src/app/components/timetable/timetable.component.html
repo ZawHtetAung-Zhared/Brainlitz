@@ -94,11 +94,13 @@
       <div
         *ngFor="let schedule of staff.schedules; let j = index"
         class="white"
-        (click)="showPopUpFunc(staff, schedule)"
+        id="w{{ i }}{{ j }}"
+        (click)="showPopUpFunc(staff, schedule); activeblue($event)"
       >
         <!---Absent All Day -->
         <div
           class="pad-left text-c200"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'DAY'"
         >
           <div style="display: inline;">
@@ -109,6 +111,7 @@
         <!---Absent AM -->
         <div
           class="pad-left text-c200"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'AM'"
         >
           <div>
@@ -117,7 +120,10 @@
             </div>
             <div style="display: inline;">Absent</div>
           </div>
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span *ngIf="count.start.meridiem == 'PM'"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
@@ -129,6 +135,7 @@
         <!---Absent PM -->
         <div
           class="pad-left text-c200"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'PM'"
         >
           <div>
@@ -137,7 +144,10 @@
             </div>
             <div style="display: inline;">Absent</div>
           </div>
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span *ngIf="count.start.meridiem == 'AM'"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
@@ -149,9 +159,13 @@
         <!--No Absent-->
         <div
           class="pad-left text-c200"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.absent != true"
         >
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
