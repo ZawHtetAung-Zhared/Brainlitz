@@ -64,6 +64,7 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       yAxis: {
+        triggerEvent: true,
         data: [],
         type: 'category',
         inverse: true,
@@ -212,6 +213,19 @@ export class MasteriesreportComponent implements OnInit {
     $(window).on('resize', function() {
       if (graph != null && graph != undefined) {
         graph.resize();
+      }
+    });
+    graph.on('mousemove', function(params) {
+      if (params.componentType == 'yAxis') {
+        console.log(params);
+        var offsetX = params.event.offsetX;
+        var offsetY = params.event.offsetY + 20;
+        graph.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex: 0,
+          position: [offsetX, offsetY]
+        });
       }
     });
   }

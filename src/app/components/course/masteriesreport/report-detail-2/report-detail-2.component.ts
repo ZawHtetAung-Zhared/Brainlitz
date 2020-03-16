@@ -129,11 +129,15 @@ export class ReportDetail2Component implements OnInit {
           console.log(err);
         }
       );
+    document.addEventListener('click', function(event) {
+      console.log(event);
+    });
   }
 
   ngAfterViewInit() {}
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
+    $('#mastery_hover').html('');
     if (window.pageYOffset > 81) {
       this.isSticky = true;
     } else {
@@ -489,6 +493,52 @@ export class ReportDetail2Component implements OnInit {
         //   _self.masteriesReports[0].masteries[params.dataIndex].masteryId
         //   // _self.masteriesReports[0].data[params.dataIndex].id
         // );
+      }
+    });
+
+    // graph.on('mouseover', function (params) {
+    //   console.log('hi')
+    //   if(params.componentType =='yAxis'){
+    //     console.log(params);
+    //     var offsetX =params.event.offsetX;
+    //     var offsetY =params.event.offsetY+20;
+    //     graph.dispatchAction({
+    //       type: 'showTip',
+    //       seriesIndex: 0,
+    //       dataIndex: 0,
+    //       position:[offsetX,offsetY]
+    //     });
+    //   }
+    // });
+
+    graph.on('mousemove', function(params) {
+      if (params.componentType == 'yAxis') {
+        let hoverItem =
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.value)
+          ];
+
+        // $('#mastery_hover')
+        // this.d1.nativeElement.insertAdjacentHTML('beforeend', '<div class="two">two</div>');
+        let hover_html =
+          '<div class="tooltip-wrap bg-c100" style="left:' +
+          params.event.offsetX +
+          'px; top: ' +
+          (params.event.event.clientY + 25) +
+          'px;"><div class="h5-strong text-s10">' +
+          hoverItem.shortMasteryName +
+          '</div>' +
+          '<div class="small text-s0">' +
+          hoverItem.descriptionStudent +
+          '</div>';
+        '</div>';
+        $('#mastery_hover').html(hover_html);
+      }
+    });
+
+    graph.on('mouseout', function(params) {
+      if (params.componentType == 'yAxis') {
+        $('#mastery_hover').html('');
       }
     });
   }
