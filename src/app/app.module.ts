@@ -128,6 +128,7 @@ import { RemainingLessonDatePipe } from './service/pipe/remaining-lesson-date.pi
 import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import {
   CourseComponent,
@@ -289,6 +290,7 @@ import {
     BrowserModule,
     RouterTestingModule,
     NgbModalStackModule.forRoot(),
+    InfiniteScrollModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
