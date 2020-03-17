@@ -75,7 +75,6 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
-    canActivate: [LoggedInGuard],
     children: [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       {
