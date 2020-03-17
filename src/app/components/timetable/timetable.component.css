@@ -177,7 +177,7 @@
   }
 }
 
-@media only screen and (min-width: 1368px) {
+@media only screen and (min-width: 1366px) {
   .heading {
     grid-template-columns: 240px repeat(7, 1fr);
   }
@@ -198,6 +198,12 @@
   }
   .white {
     font-size: 13px;
+  }
+  .full {
+    display: block !important;
+  }
+  .abbre {
+    display: none !important;
   }
 }
 
@@ -330,7 +336,12 @@
 .remove-outline {
   background: none;
 }
-
+.full {
+  display: none;
+}
+.abbre {
+  display: block;
+}
 /* .................................................................................................................................................................................................... */
 
 /* apo */
