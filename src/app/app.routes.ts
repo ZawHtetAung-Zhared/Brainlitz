@@ -49,6 +49,15 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import {
+  AverageRatingsComponent,
+  CourseActivitiesReport,
+  StaffPerformanceReport,
+  StudentEnrollmentReport,
+  MonthlyActiveStudentsReport,
+  StaffTeachingScheduleReport
+} from './components/report/index';
+import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -196,7 +205,38 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'invoice-report', pathMatch: 'full' },
+      {
+        path: 'invoice-report',
+        component: InvoiceReportComponent
+      },
+      {
+        path: 'average-rating',
+        component: AverageRatingsComponent
+      },
+      {
+        path: 'staff-performance',
+        component: StaffPerformanceReport
+      },
+      {
+        path: 'course-activities',
+        component: CourseActivitiesReport
+      },
+      {
+        path: 'student-enrollment',
+        component: StudentEnrollmentReport
+      },
+      {
+        path: 'monthly-active',
+        component: MonthlyActiveStudentsReport
+      },
+      {
+        path: 'teaching-schedule',
+        component: StaffTeachingScheduleReport
+      }
+    ]
   },
   {
     path: 'review',

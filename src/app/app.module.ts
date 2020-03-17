@@ -47,18 +47,6 @@ import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule, SortableModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
-import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
-import { StaffReportGraph } from './components/report/staffPerformance/graph/staffGraph.component';
-import { CourseActivitiesReportGraph } from './components/report/courseActivities/graph/courseGraph.component';
-import { StdEnrolmentReportGraph } from './components/report/studentEnrollment/graph/stdEnrolment.component';
-import { MonthlyActiveStdReportGraph } from './components/report/monthlyActiveStudents/graph/masGraph.component';
-import { StaffTeachingReportGraph } from './components/report/staffTeachingSchedule/graph/staffTeachingGraph.component';
-
-import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
-import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
-import { MonthlyActiveStudentsReport } from './components/report/monthlyActiveStudents/mas.component';
-import { StaffTeachingScheduleReport } from './components/report/staffTeachingSchedule/staffTeaching.component';
-
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
@@ -165,7 +153,19 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
-import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import {
+  AverageRatingsComponent,
+  CourseActivitiesReportGraph,
+  CourseActivitiesReport,
+  StaffPerformanceReport,
+  StaffReportGraph,
+  StudentEnrollmentReport,
+  StdEnrolmentReportGraph,
+  MonthlyActiveStudentsReport,
+  MonthlyActiveStdReportGraph,
+  StaffTeachingScheduleReport,
+  StaffTeachingReportGraph
+} from './components/report/index';
 
 @NgModule({
   declarations: [

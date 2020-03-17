@@ -62,7 +62,7 @@ export class ReportComponent implements OnInit {
 
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
-        if (this.router.url === '/report') {
+        if (this.router.url.includes('/report')) {
           this.permissionType = data;
           this.checkPermission();
         }
