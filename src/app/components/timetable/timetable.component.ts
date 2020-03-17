@@ -445,10 +445,10 @@ export class TimetableComponent implements OnInit {
             this.staffdone = false;
           }
           this.stafflist = this.stafflist.concat(res.staffList);
-          this.staffcount = this.stafflist.length;
-          if (this.staffcount > 10) {
-            this.extracount = ['1', '1', '1'];
-          }
+          // this.staffcount = this.stafflist.length;
+          // if (this.staffcount > 10) {
+          //   this.extracount = ['1', '1', '1'];
+          // }
           console.log('SL', this.stafflist);
           this.getTimetables(
             res.staffList.toString(),
