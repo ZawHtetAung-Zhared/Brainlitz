@@ -1,7 +1,11 @@
 <app-header [ngClass]="{ stick: isSticky == true }"></app-header>
 <div class="d-flex flex-row h-100 w-100">
   <side-menu>
-    <side-block [linkName]="'notification'" [isdropDown]="'true'">
+    <side-block
+      [linkName]="'notification'"
+      [isdropDown]="'true'"
+      (click)="isDisplay = !isDisplay"
+    >
       <side-img>
         <svg
           xmlns="http://www.w3.org/2000/svg"
