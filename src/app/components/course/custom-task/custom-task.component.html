@@ -91,7 +91,7 @@
             *ngIf="!loading1"
             class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
           >
-            <div class="choice-block">
+            <div class="choice-block activeMode">
               <p class="choice-title h4-strong text-c300">
                 {{ customObj?.title }}
               </p>
@@ -281,9 +281,7 @@
             Manage tasks
           </p>
           <p class="template-description2 text-c100 body-l">
-            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
-            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
-            elit cillum dolore.
+            You can further customize each task in next screen.
           </p>
           <p class="h3-strong text-c300">
             All tasks - {{ taskLists.length }} Tasks
@@ -758,7 +756,7 @@
                             </div>
                           </div>
 
-                          <p class="mastery-name body-l">
+                          <p class="mastery-name body-l mb-0">
                             {{ mastery.shortMasteryName }}
                           </p>
                         </div>
@@ -892,12 +890,11 @@
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper">
           <p class="h1-strong text-c300">
-            Assigning mode
+            Assigning
           </p>
-          <p class="template-description2  text-c100 body-l">
-            Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
-            ex culpa incididunt quis nostrud sunt incididunt veniam tempor enim
-            elit cillum dolore.
+          <p class="template-description2 mr-0 text-c100 body-l">
+            You can further customize how you want your students to attempt this
+            task.Pick one below and assign.
           </p>
           <div class="d-flex flex-wrap mode-wrapper" *ngIf="!loading5">
             <div
