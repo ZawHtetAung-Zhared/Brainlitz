@@ -143,9 +143,12 @@ button.btn.btn-comfirm {
 .choice-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  background: #fff !important;
   padding: 20px;
   cursor: pointer;
+}
+
+.choice-block {
+  background: #fff !important;
 }
 
 .choice-description {
@@ -156,7 +159,7 @@ button.btn.btn-comfirm {
 }
 
 .activeMode {
-  background: #edeef0 !important;
+  background: #e8e9eb !important;
 }
 /* end */
 /* start progress bar */
@@ -1091,7 +1094,7 @@ i.fa.fa-check.checkIcon {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 12px 12px 23px 12px;
-  height: 88px;
+  height: 100px;
   overflow: overlay;
 }
 p.masteries-box {
