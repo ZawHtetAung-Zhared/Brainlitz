@@ -165,6 +165,12 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import { SettingsComponent } from './components/settings/settings.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 
 @NgModule({
   declarations: [
@@ -283,7 +289,13 @@ import {
     UserStaffDetailComponent,
     CreateUserStaffComponent,
     CourseSearchComponent,
-    SampleQuestionComponent
+    SampleQuestionComponent,
+    SettingsComponent,
+    GeneralComponent,
+    LocationsComponent,
+    CustomFieldsComponent,
+    ScheduleSettingEditComponent,
+    InvoiceSettingEditComponent
   ],
   imports: [
     ContentLoaderModule,
