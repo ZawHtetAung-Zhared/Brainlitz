@@ -165,6 +165,7 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
 
 @NgModule({
   declarations: [
@@ -283,7 +284,8 @@ import {
     UserStaffDetailComponent,
     CreateUserStaffComponent,
     CourseSearchComponent,
-    SampleQuestionComponent
+    SampleQuestionComponent,
+    AverageRatingsComponent
   ],
   imports: [
     ContentLoaderModule,
