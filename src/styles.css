@@ -291,7 +291,8 @@ app-report,
 app-review,
 app-course,
 app-course-list,
-app-assign-task {
+app-assign-task,
+app-main-block {
   display: flex;
   flex-direction: column;
   height: 100%;

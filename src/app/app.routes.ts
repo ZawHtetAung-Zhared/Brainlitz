@@ -21,7 +21,11 @@ import { ReviewComponent } from './components/review/review.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
 import { CourseSearchComponent } from './components/course/course-search/course-search.component';
-
+import {
+  MainToolComponent,
+  NotificationComponent,
+  TrackingModuleComponent
+} from './components/tool/index';
 import {
   CourseComponent,
   AssignTaskComponent,
@@ -217,6 +221,21 @@ export const routes: Routes = [
     path: 'timetable',
     component: TimetableComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'tool-test',
+    component: MainToolComponent,
+    children: [
+      { path: '', redirectTo: 'notification', pathMatch: 'full' },
+      {
+        path: 'notification',
+        component: NotificationComponent
+      },
+      {
+        path: 'tracking-module',
+        component: TrackingModuleComponent
+      }
+    ]
   },
   {
     path: '**',

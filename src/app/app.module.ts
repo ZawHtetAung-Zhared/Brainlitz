@@ -165,6 +165,14 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import {
+  MainBlockComponent,
+  ContentBlockComponent
+} from './components/sidemenu/index';
+import { NotificationComponent } from './components/tool/notification/notification.component';
+import { MainToolComponent } from './components/tool/main-tool/main-tool.component';
+import { SideImgComponent } from './components/sidemenu/side-img/side-img.component';
+import { TrackingModuleComponent } from './components/tool/tracking-module/tracking-module.component';
 
 @NgModule({
   declarations: [
@@ -283,7 +291,13 @@ import {
     UserStaffDetailComponent,
     CreateUserStaffComponent,
     CourseSearchComponent,
-    SampleQuestionComponent
+    SampleQuestionComponent,
+    MainBlockComponent,
+    ContentBlockComponent,
+    NotificationComponent,
+    MainToolComponent,
+    SideImgComponent,
+    TrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,
