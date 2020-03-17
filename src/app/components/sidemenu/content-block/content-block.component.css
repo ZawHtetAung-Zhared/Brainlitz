@@ -9,6 +9,8 @@ a.nav-link.active {
   fill: #ffffff !important;
 }
 
-a.nav-link.active svg {
-  fill: #ffffff !important;
+a.nav-link {
+  fill: #475466;
+  padding: 10px 26px;
+  margin-bottom: 12px;
 }
