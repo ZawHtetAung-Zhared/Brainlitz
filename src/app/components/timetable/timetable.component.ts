@@ -678,12 +678,13 @@ export class TimetableComponent implements OnInit {
     this.getStaffListperWeek();
   }
   public activeId: any = 'w00';
-
+  public tempcolor: any;
   activeblue(event) {
     this.activeId = event.target.id;
     var temp = 'p' + this.activeId;
     let blue: HTMLElement = document.getElementById(this.activeId);
     let white: HTMLElement = document.getElementById(temp);
+    this.tempcolor = white.getAttribute('style');
     blue.setAttribute('style', 'background: #0065F2;');
     white.setAttribute('style', 'color: #fff;');
   }
@@ -2401,6 +2402,7 @@ export class TimetableComponent implements OnInit {
     let white: HTMLElement = document.getElementById(temp);
     blue.removeAttribute('style');
     white.removeAttribute('style');
+    white.setAttribute('style', this.tempcolor);
   }
 
   goCourseDetails(id) {
