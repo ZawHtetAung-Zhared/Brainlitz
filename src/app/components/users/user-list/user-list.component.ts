@@ -26,6 +26,7 @@ export class UserListComponent implements OnInit {
   private searchword: any;
   public customerLoading: boolean = true;
   public customerListLoading: boolean = false;
+  public searchKeyword: any;
 
   constructor(
     private _service: appService,
@@ -149,12 +150,14 @@ export class UserListComponent implements OnInit {
   }
 
   userSearch_input(keyword) {
+    this.searchKeyword = keyword;
     if (keyword.length == 0) {
       this.userSearch(keyword, 'customer', '', '');
     }
   }
 
   userSearch(searchWord, userType, limit, skip) {
+    this.searchKeyword = searchWord;
     this.customerListLoading = true;
     this.searchword = searchWord;
     console.log('hi hello');
@@ -196,6 +199,7 @@ export class UserListComponent implements OnInit {
         this.customerLists = [];
         this.getAllUsers('customer', 20, 0);
         this.isSearch = false;
+        this.searchKeyword = '';
       }, 300);
     }
   }

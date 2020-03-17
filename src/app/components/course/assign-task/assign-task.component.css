@@ -143,9 +143,12 @@ button.btn.btn-comfirm {
 .choice-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  background: #fff !important;
   padding: 20px;
   cursor: pointer;
+}
+
+.choice-block {
+  background: #fff !important;
 }
 
 .choice-description {
@@ -156,7 +159,7 @@ button.btn.btn-comfirm {
 }
 
 .activeMode {
-  background: #edeef0 !important;
+  background: #e8e9eb !important;
 }
 /* end */
 /* start progress bar */
@@ -346,16 +349,18 @@ a.adisabled:active {
 .task-search-input {
   border: 1px solid #eee;
   border-right: none;
-  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5;
+  /* background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5; */
   background-size: 16px;
   background-position-y: center;
   background-position-x: 99%;
   padding: 12px 18px !important;
   border-radius: 4px;
+  background: #f2f4f5;
 }
 
 .simple-search {
   margin-bottom: 22px;
+  background: #f2f4f5;
 }
 
 /* step 1 */
@@ -1091,7 +1096,7 @@ i.fa.fa-check.checkIcon {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
   padding: 12px 12px 23px 12px;
-  height: 88px;
+  height: 100px;
   overflow: overlay;
 }
 p.masteries-box {

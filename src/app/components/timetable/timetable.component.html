@@ -1,18 +1,6 @@
 <div *ngIf="showTimetable == true">
   <!-- zha -->
-  <!-- <div class="setting d-flex">
 
-    <div class="category" (click)="toggledropdown()">
-      <span class="pl-3">All category</span>
-      <i *ngIf="clist != true" class="fa fa-chevron-down dropdown-arrow"></i>
-      <i *ngIf="clist == true" class="fa fa-chevron-up dropdown-arrow"></i>
-      <div *ngIf="clist == true" class="category-list"></div>
-    </div>
-
-  </div>
-  <div>
-
-  </div> -->
   <div class="setting d-flex">
     <div
       class="d-flex"
@@ -44,7 +32,16 @@
         <span class="pl-3 dropdown-arrow">{{ selected }}</span>
         <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
         <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
-        <div *ngIf="clist == true" class="category-list">
+        <div
+          infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollUpDistance]="2"
+          [infiniteScrollThrottle]="150"
+          (scrolled)="onScrollDown()"
+          [scrollWindow]="false"
+          *ngIf="clist == true"
+          class="category-list"
+        >
           <ul class="cat-ul">
             <li (click)="CategorySelected('', 'all', true)">All Category</li>
             <li
@@ -53,13 +50,9 @@
             >
               {{ cat.name }}
             </li>
-            <li
-              *ngIf="catdone == true"
-              (click)="getCatList()"
-              class="text-b100"
-            >
+            <!-- <li *ngIf="catdone == true" (click)="getCatList()" class="text-b100">
               Load More ...
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -72,33 +65,51 @@
         ><span>staffs</span>
       </div>
     </div>
-    <div class="dates" *ngFor="let date of indexWeek">
+    <div class="dates" *ngFor="let date of indexWeek; let d = index">
       <div class="active-cover">
-        <span *ngIf="date == today" class="active-blue"></span>
+        <span *ngIf="date == today" class="active-blue" id="{{ d }}"></span>
       </div>
       <div [ngClass]="{ 'text-b100': date == today }" class="active-date">
         {{ date | date: 'EEE, d MMM' }}
       </div>
     </div>
   </div>
-  <div class="schedule-container">
+  <div
+    infiniteScroll
+    [infiniteScrollDistance]="1"
+    [infiniteScrollThrottle]="500"
+    (scrolled)="onScrollDown2()"
+    class="schedule-container"
+  >
     <div class="schedule" *ngFor="let staff of timetablelist; let i = index">
       <div class="staff">
         <div class="staffpic-container">
           <div class="staff-pic">
             <img class="pic" src="{{ staff.profilePic }}" />
           </div>
-          {{ staff.staffpreferredName }}
+          <span class="abbre">
+            {{ staff.staffpreferredName | slice: 0:7
+            }}{{ staff.staffpreferredName.length > 7 ? '...' : '' }}
+          </span>
+          <span class="full">
+            {{ staff.staffpreferredName }}
+          </span>
         </div>
       </div>
       <div
         *ngFor="let schedule of staff.schedules; let j = index"
         class="white"
-        (click)="showPopUpFunc(staff, schedule)"
+        id="w{{ i }}{{ j }}"
+        (click)="showPopUpFunc(staff, schedule); activeblue($event)"
       >
         <!---Absent All Day -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'DAY'"
         >
           <div style="display: inline;">
@@ -109,6 +120,11 @@
         <!---Absent AM -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'AM'"
         >
           <div>
@@ -117,7 +133,10 @@
             </div>
             <div style="display: inline;">Absent</div>
           </div>
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span *ngIf="count.start.meridiem == 'PM'"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
@@ -129,6 +148,11 @@
         <!---Absent PM -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'PM'"
         >
           <div>
@@ -137,7 +161,10 @@
             </div>
             <div style="display: inline;">Absent</div>
           </div>
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span *ngIf="count.start.meridiem == 'AM'"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
@@ -149,9 +176,17 @@
         <!--No Absent-->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
+          id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.absent != true"
         >
-          <div *ngFor="let count of schedule.timetables; let k = index">
+          <div
+            class="pt-1 pb-1"
+            *ngFor="let count of schedule.timetables; let k = index"
+          >
             <span
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
               >{{ count.start.min }} {{ count.start.meridiem }} -
@@ -161,14 +196,14 @@
           </div>
         </div>
       </div>
-      <div *ngIf="staffdone == true" class="load-more body-m text-b100 bg-s0">
+      <!-- <div *ngIf="staffdone == true" class="load-more body-m text-b100 bg-s0">
         <button
           class="btn remove-outline text-b100 bg-s0"
           (click)="getStaffListperWeek()"
         >
           load more
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="extra">
@@ -187,7 +222,7 @@
 <!-- zha -->
 <!-- apo -->
 
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message"></block-ui> -->
 
 <div class="modal-wrapper" *ngIf="showPopUp" (click)="clickOverlay()">
   <div id="my-modal" class="my-modal" *ngIf="showPopUp == true">
@@ -477,7 +512,7 @@
   class="category-content"
   *ngIf="isCourseCreate == true"
 ></app-coursecreate>
-<block-ui message="Deafult Message"></block-ui>
+<!-- <block-ui message="Deafult Message"></block-ui> -->
 <div *ngIf="addNewCoursePlan == true" class="disabledScroll">
   <div
     class="d-flex justify-content-center"

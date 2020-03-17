@@ -2095,6 +2095,7 @@ label.room-name::before {
   border-radius: 4px !important;
   color: #788796;
   cursor: pointer;
+  outline: none;
 }
 
 .btn-submit {

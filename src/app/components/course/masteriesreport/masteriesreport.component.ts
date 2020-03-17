@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, HostListener } from '@angular/core';
 import sampleData from './sampleData';
 import { appService } from '../../../service/app.service';
 import { DataService } from '../../../service/data.service';
@@ -64,6 +64,7 @@ export class MasteriesreportComponent implements OnInit {
         }
       },
       yAxis: {
+        triggerEvent: true,
         data: [],
         type: 'category',
         inverse: true,
@@ -182,7 +183,7 @@ export class MasteriesreportComponent implements OnInit {
     let diffData = [];
     let index = 0;
     this.reportItems.forEach(function(item) {
-      yAxisData.push(++index);
+      yAxisData.push(++index + '');
       strugglingData.push(item.userMasteries.STRUGGLE.percentage);
       easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
       diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
@@ -195,29 +196,59 @@ export class MasteriesreportComponent implements OnInit {
     this.plotOption.series[2].data = inprogressData;
     this.plotOption.series[3].data = diffData;
     this.plotOption.series[4].data = easeData;
-    this.plotGraph(idx);
+    this.plotGraph(idx, this.plotOption.yAxis.data);
   }
 
-  plotGraph(index) {
-    var elem = document.getElementById(this.masteriesReports[index]._id);
+  plotGraph(index, data) {
+    var _self = this;
+    var elem = document.getElementById(_self.masteriesReports[index]._id);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
-    if (this.reportItems.length > 10)
-      elem.style.height = this.reportItems.length * 50 + 'px';
-    else if (this.reportItems.length >= 5)
-      elem.style.height = this.reportItems.length * 60 + 'px';
-    else elem.style.height = this.reportItems.length * 70 + 'px';
-    let graph = this.echarts.init(elem);
-    graph.setOption(this.plotOption);
+    if (_self.reportItems.length > 10)
+      elem.style.height = _self.reportItems.length * 40 + 'px';
+    else if (_self.reportItems.length >= 5)
+      elem.style.height = _self.reportItems.length * 60 + 'px';
+    else elem.style.height = _self.reportItems.length * 70 + 'px';
+    let graph = _self.echarts.init(elem);
+    graph.setOption(_self.plotOption);
     $(window).on('resize', function() {
       if (graph != null && graph != undefined) {
         graph.resize();
+      }
+    });
+    graph.on('mousemove', function(params) {
+      if (params.componentType == 'yAxis') {
+        let hoverItem =
+          _self.masteriesReports[index].masteries[data.indexOf(params.value)];
+        let hover_html =
+          '<div class="tooltip-wrap bg-c100" style="left:' +
+          params.event.event.clientX +
+          'px; top: ' +
+          (params.event.event.clientY + 25) +
+          'px;"><div class="h5-strong text-s10">' +
+          hoverItem.shortMasteryName +
+          '</div>' +
+          '<div class="small text-s0">' +
+          hoverItem.descriptionStudent +
+          '</div>';
+        '</div>';
+        $('#mastery_hover').html(hover_html);
+      }
+    });
+
+    graph.on('mouseout', function(params) {
+      if (params.componentType == 'yAxis') {
+        $('#mastery_hover').html('');
       }
     });
   }
 
   ngOnInit() {
     this.getAllGraph();
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    $('#mastery_hover').html(''); //clear hover tag when scroll
   }
 
   ngAfterViewInit() {}
