@@ -61,17 +61,21 @@
               {{ count }}
             </label>
           </div>
-          <div class="circle">
-            <img src="./assets/icons/journal.svg" />
-          </div>
+          <span placement="bottom" ngbTooltip="Review">
+            <div class="circle">
+              <img src="./assets/icons/journal.svg" />
+            </div>
+          </span>
         </div>
         <div
           class="cursor-on d-flex flex-column justify-content-center dropdown-wrap"
         >
-          <div (click)="dropDown($event, 'profile')" class="circle">
-            <img src="./assets/images/Vector.svg" />
-            <span class="caret"></span>
-          </div>
+          <span placement="bottom" ngbTooltip="{{ userData.name }}">
+            <div (click)="dropDown($event, 'profile')" class="circle">
+              <img src="./assets/images/Vector.svg" />
+              <span class="caret"></span>
+            </div>
+          </span>
           <div *ngIf="dropMenuShow">
             <ul class="dropdown-box bg-s0 text-c300">
               <!-- <li>Profile</li> -->
