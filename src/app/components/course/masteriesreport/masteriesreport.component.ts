@@ -222,7 +222,7 @@ export class MasteriesreportComponent implements OnInit {
           _self.masteriesReports[index].masteries[data.indexOf(params.value)];
         let hover_html =
           '<div class="tooltip-wrap bg-c100" style="left:' +
-          params.event.offsetX +
+          params.event.event.clientX +
           'px; top: ' +
           (params.event.event.clientY + 25) +
           'px;"><div class="h5-strong text-s10">' +
