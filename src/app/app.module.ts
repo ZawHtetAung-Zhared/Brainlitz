@@ -171,6 +171,7 @@ import { LocationsComponent } from './components/settings/locations/locations.co
 import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
+import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
 
 @NgModule({
   declarations: [
@@ -295,7 +296,8 @@ import { InvoiceSettingEditComponent } from './components/settings/general/invoi
     LocationsComponent,
     CustomFieldsComponent,
     ScheduleSettingEditComponent,
-    InvoiceSettingEditComponent
+    InvoiceSettingEditComponent,
+    AverageRatingsComponent
   ],
   imports: [
     ContentLoaderModule,
