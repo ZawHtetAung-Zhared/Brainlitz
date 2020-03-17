@@ -51,6 +51,7 @@ export class TimetableComponent implements OnInit {
   public sk: any = 0;
   public staffskip: any = 0;
   public staffdone: boolean = true;
+  // public todayIndex: any = 0;
   //zha variable
 
   //apo variable
@@ -444,10 +445,10 @@ export class TimetableComponent implements OnInit {
             this.staffdone = false;
           }
           this.stafflist = this.stafflist.concat(res.staffList);
-          this.staffcount = this.stafflist.length;
-          if (this.staffcount > 10) {
-            this.extracount = ['1', '1', '1'];
-          }
+          // this.staffcount = this.stafflist.length;
+          // if (this.staffcount > 10) {
+          //   this.extracount = ['1', '1', '1'];
+          // }
           console.log('SL', this.stafflist);
           this.getTimetables(
             res.staffList.toString(),
@@ -528,9 +529,10 @@ export class TimetableComponent implements OnInit {
           .weekday(i)
           .format('YYYY-MM-DD')
       );
-      if (moment(date).weekday(i) == this.today) {
-        console.log('Today is', this.today);
-      }
+      // if (this.indexWeek[i] == this.today) {
+      //   this.todayIndex = i;
+      //   console.log("Today Index", this.todayIndex);
+      // }
     }
     console.log('Show Week', this.indexWeek);
   }
@@ -676,12 +678,13 @@ export class TimetableComponent implements OnInit {
     this.getStaffListperWeek();
   }
   public activeId: any = 'w00';
-
+  public tempcolor: any;
   activeblue(event) {
     this.activeId = event.target.id;
     var temp = 'p' + this.activeId;
     let blue: HTMLElement = document.getElementById(this.activeId);
     let white: HTMLElement = document.getElementById(temp);
+    this.tempcolor = white.getAttribute('style');
     blue.setAttribute('style', 'background: #0065F2;');
     white.setAttribute('style', 'color: #fff;');
   }
@@ -2399,6 +2402,7 @@ export class TimetableComponent implements OnInit {
     let white: HTMLElement = document.getElementById(temp);
     blue.removeAttribute('style');
     white.removeAttribute('style');
+    white.setAttribute('style', this.tempcolor);
   }
 
   goCourseDetails(id) {
