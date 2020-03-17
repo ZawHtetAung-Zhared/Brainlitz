@@ -1,6 +1,6 @@
 <app-header [ngClass]="{ stick: isSticky == true }"></app-header>
 <side-menu>
-  <side-block [linkName]="'notification'">
+  <side-block [linkName]="'notification'" [isdropDown]="'true'">
     <side-img>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@
     </p>
   </side-block>
 
-  <side-block [linkName]="'tracking-module'">
+  <side-block [linkName]="'tracking-module'" [isdropDown]="'false'">
     <side-img>
       <svg
         xmlns="http://www.w3.org/2000/svg"
