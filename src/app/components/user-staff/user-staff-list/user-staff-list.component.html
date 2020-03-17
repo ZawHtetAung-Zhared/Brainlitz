@@ -47,7 +47,7 @@
     >
       <div class="input-group col-md-12 p-0">
         <input
-          class="form-control py-2 input-search-bg bg-s20 text-b200 light-body-m"
+          class="form-control py-2 input-search-bg bg-s20 body-l"
           type="search"
           placeholder="Search staff here"
           id="staff-search-input"
@@ -55,11 +55,11 @@
           (keyup.enter)="userSearch($event.target.value, 'staff', '', '')"
           autocomplete="off"
         />
-        <span class="input-group-append">
-          <button
-            class="bt btn-design bg-s20 btn-outline-secondary"
-            type="button"
-          >
+        <span
+          class="input-group-append"
+          (click)="userSearch(searchword, 'staff', '', '')"
+        >
+          <button class="btn btn-design bg-s20 cursor-on" type="button">
             <i class="fa fa-search search-size text-c75 body-xl"></i>
           </button>
         </span>

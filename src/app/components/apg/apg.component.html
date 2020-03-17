@@ -82,7 +82,11 @@
         autocomplete="off"
         > -->
     <span class="input-group-append">
-      <button class="bt btn-design btn-outline-secondary" type="button">
+      <button
+        class="btn btn-design btn-outline-secondary"
+        type="button"
+        (click)="apgListSearch(keyword, 'APG', '', '')"
+      >
         <i class="fa fa-search search-size"></i>
       </button>
     </span>
@@ -1584,7 +1588,11 @@
             autocomplete="off"
           />
           <span class="input-group-append">
-            <button class="bt btn-design btn-outline-secondary" type="button">
+            <button
+              class="btn btn-design btn-outline-secondary"
+              type="button"
+              (click)="sharedApgSearch(keyword, '', '')"
+            >
               <i class="fa fa-search search-size"></i>
             </button>
           </span>
