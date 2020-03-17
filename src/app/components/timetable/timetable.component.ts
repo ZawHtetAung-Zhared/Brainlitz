@@ -51,6 +51,7 @@ export class TimetableComponent implements OnInit {
   public sk: any = 0;
   public staffskip: any = 0;
   public staffdone: boolean = true;
+  // public todayIndex: any = 0;
   //zha variable
 
   //apo variable
@@ -528,9 +529,10 @@ export class TimetableComponent implements OnInit {
           .weekday(i)
           .format('YYYY-MM-DD')
       );
-      if (moment(date).weekday(i) == this.today) {
-        console.log('Today is', this.today);
-      }
+      // if (this.indexWeek[i] == this.today) {
+      //   this.todayIndex = i;
+      //   console.log("Today Index", this.todayIndex);
+      // }
     }
     console.log('Show Week', this.indexWeek);
   }

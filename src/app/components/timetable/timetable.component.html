@@ -105,6 +105,10 @@
         <!---Absent All Day -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
           id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'DAY'"
         >
@@ -116,6 +120,10 @@
         <!---Absent AM -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
           id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'AM'"
         >
@@ -140,6 +148,10 @@
         <!---Absent PM -->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
           id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.meridian == 'PM'"
         >
@@ -164,6 +176,10 @@
         <!--No Absent-->
         <div
           class="pad-left text-c200"
+          [ngStyle]="{
+            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
+            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
+          }"
           id="pw{{ i }}{{ j }}"
           *ngIf="schedule.leaveInfo.absent != true"
         >
