@@ -1,6 +1,6 @@
 .side-bar-wrap {
   background: #f2f4f5;
-  position: fixed;
+  position: relative;
   width: inherit;
   height: 100%;
   z-index: 10;
@@ -8,34 +8,6 @@
   /*transition: height 300ms linear, transform 300ms linear;*/
   transition: 0.5s all ease-out;
   padding: 10px;
+  width: unset;
   /* top: 147px; */
-}
-
-.noti-sidebar {
-  /*padding-top: 149px;*/
-  padding-right: 0;
-  padding-left: 0;
-  border-right: 1px solid #dedede;
-  -ms-transition: 300ms linear;
-  transition: 300ms linear;
-  width: 25%;
-}
-
-/*Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) and (max-width: 1199px) {
-  .noti-sidebar {
-    width: 25%;
-  }
-}
-
-/*Extra large devices (large desktops, 1200px and up)*/
-@media (min-width: 1200px) and (max-width: 1999px) {
-  .noti-sidebar {
-    width: 18%;
-  }
-}
-@media (min-width: 2000px) {
-  .noti-sidebar {
-    width: 15%;
-  }
 }
