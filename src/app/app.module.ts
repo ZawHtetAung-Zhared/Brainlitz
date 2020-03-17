@@ -154,7 +154,6 @@ import {
   CreateUserStaffComponent
 } from './components/user-staff/index';
 import {
-  AverageRatingsComponent,
   CourseActivitiesReportGraph,
   CourseActivitiesReport,
   StaffPerformanceReport,
@@ -167,6 +166,21 @@ import {
   StaffTeachingReportGraph
 } from './components/report/index';
 
+import { NotificationComponent } from './components/tool/notification/notification.component';
+import { MainToolComponent } from './components/tool/main-tool/main-tool.component';
+import { SideImgComponent } from './components/sidemenu/side-img/side-img.component';
+import { TrackingModuleComponent } from './components/tool/tracking-module/tracking-module.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
+import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import {
+  ContentBlockComponent,
+  MainBlockComponent
+} from './components/sidemenu/index';
 @NgModule({
   declarations: [
     AppComponent,
@@ -285,6 +299,18 @@ import {
     CreateUserStaffComponent,
     CourseSearchComponent,
     SampleQuestionComponent,
+    MainBlockComponent,
+    ContentBlockComponent,
+    NotificationComponent,
+    MainToolComponent,
+    SideImgComponent,
+    TrackingModuleComponent,
+    SettingsComponent,
+    GeneralComponent,
+    LocationsComponent,
+    CustomFieldsComponent,
+    ScheduleSettingEditComponent,
+    InvoiceSettingEditComponent,
     AverageRatingsComponent
   ],
   imports: [

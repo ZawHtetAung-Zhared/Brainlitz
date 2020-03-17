@@ -7,9 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ContentBlockComponent implements OnInit {
   @Input() linkName;
+  @Input() isdropDown;
+
+  public isDisplay: boolean = false;
+
   constructor() {}
 
   ngOnInit() {
     console.log(this.linkName);
+    console.log(this.isdropDown);
   }
 }

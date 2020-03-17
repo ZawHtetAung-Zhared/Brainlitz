@@ -45,6 +45,8 @@
         *ngIf="locationSidebar.length > 0"
         [ngClass]="{ active: menuType == 'location' }"
         class="tab-wrap"
+        routerLink="location"
+        routerLinkActive="active"
       >
         <button
           type="button"
@@ -444,13 +446,11 @@
                                 [(ngModel)]="erangeMin"
                                 step="5"
                               />
-                              <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
                             </label>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <!-- <hr style="padding:0;"> -->
 
                     <div class="timezone-wrap">
                       <div class="title-wrap">
@@ -504,7 +504,7 @@
                         </div>
                       </div>
                     </div>
-                    <!--Testing-->
+
                     <div class="d-flex" *ngIf="isEdit">
                       <div class="toggle-wrap">
                         <label class="switch">
@@ -1733,7 +1733,7 @@
     </div>
   </div>
   <div *ngIf="menuType == 'location'" class="large-col pl-zero">
-    <app-location></app-location>
+    <!-- <app-location></app-location> -->
   </div>
   <div
     *ngIf="menuType == 'customfield'"
@@ -1747,5 +1747,6 @@
   >
     <app-emailtemplate></app-emailtemplate>
   </div>
+  <router-outlet></router-outlet>
 </div>
 <!-- <block-ui message="Deafult Message" *ngIf="!singleLoading"></block-ui> -->

@@ -14,3 +14,32 @@ a.nav-link {
   padding: 10px 26px;
   margin-bottom: 12px;
 }
+
+.noti-dropdown.down {
+  margin-top: 0 !important;
+}
+ul.noti-dropdown {
+  list-style: none;
+  display: block;
+  margin: 0;
+  -ms-transition: 300ms linear;
+  transition: 300ms linear;
+  display: none;
+}
+ul.noti-dropdown li:last-child {
+  border-bottom: 1px solid #e3e4e6;
+}
+ul.noti-dropdown li {
+  cursor: pointer;
+  margin-left: 23px;
+  border-top: 1px solid #e3e4e6;
+  padding: 16px 0;
+  margin-right: 20px;
+}
+ul.noti-dropdown li.activetab {
+  color: #4292f1;
+}
+
+.show {
+  display: block !important;
+}

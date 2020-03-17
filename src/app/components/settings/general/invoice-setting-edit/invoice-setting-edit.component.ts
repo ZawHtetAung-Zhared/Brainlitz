@@ -1,0 +1,610 @@
+import {
+  Component,
+  OnInit,
+  ViewContainerRef,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
+import { appService } from '../../../../service/app.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ISubscription } from 'rxjs/Subscription';
+import * as moment from 'moment-timezone';
+import * as currency from 'currency-symbol-map/map';
+
+@Component({
+  selector: 'app-invoice-setting-edit',
+  templateUrl: './invoice-setting-edit.component.html',
+  styleUrls: ['./invoice-setting-edit.component.css']
+})
+export class InvoiceSettingEditComponent implements OnInit {
+  @ViewChild('fileLabel') elementView: ElementRef;
+  @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
+  @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
+  @BlockUI('auto-enrol-setting') blockUIAutoEnrol: NgBlockUI;
+  private permissionSubscription: ISubscription;
+  public orgLogo;
+  public srangeHr;
+  public srangeMin;
+  public sisSelected;
+  public erangeHr;
+  public erangeMin;
+  public logo;
+  public imagePath;
+  public imgURL: any;
+  public message: string;
+  public eisSelected;
+
+  public showFormat;
+  public selectedHrRange;
+  public selectedMinRange;
+  public selected;
+  public isChecked: boolean = true;
+  public sprogressSlider: boolean = false;
+  public eprogressslider: boolean = false;
+  public regionId = localStorage.getItem('regionId');
+  public token: any;
+  public type: any;
+  public admin: any;
+  public permissionType: Array<any> = [];
+  public navIsFixed: boolean = false;
+  public isMidStick: boolean = false;
+  public operationStart: any = '';
+  public operationEnd: any = '';
+  public item: any = {
+    name: '',
+    timezone: '',
+    url: '',
+    logo: '',
+    operatingHour: {},
+    notificationSettings: {},
+    journalApprove: ''
+  };
+
+  // public menuType:any = "location";
+
+  public menuType: any = 'general';
+  public checkedModule = [];
+  public allModule;
+  public emptyModule: boolean = false;
+  public isEdit: boolean = false;
+  public isUrlEdit: boolean = false;
+  public temp: any;
+  public urlTemp: any;
+  public generalSidebar: any = [];
+  public generalDemo: any = [];
+  public locationSidebar: any = [];
+  public customSidebar: any = [];
+  public option: any;
+  public invoice: any = {};
+
+  public isOnline: boolean = false;
+  public CreEmail: any;
+  public JourApp: any;
+  public showDropdown: boolean = false;
+  public showProvider: boolean = false;
+  public online: any = {};
+  public currency_symbol: any;
+  public providers: any;
+  public providerTemp: any = {};
+  public providerArray: Array<any> = [];
+  public newCurrency: any = {};
+  public objectKeys: any;
+  public selectedCurrency: any;
+  public selectedProvider: any = '';
+  public selectedFlag: any;
+  public invoiceData: any = {
+    companyName: '',
+    address: '',
+    email: '',
+    prefix: '',
+    currencySign: '',
+    invoiceNote: ''
+  };
+  public payment: any = {};
+  public paymentData: any = {
+    tax: {
+      rate: '',
+      name: ''
+    },
+    paymentProviders: [
+      {
+        id: 0,
+        name: ''
+      }
+    ],
+    currencyCode: ''
+  };
+  public emptyPaymentData: boolean = false;
+  public emptyInvoiceData: boolean = false;
+  public startT: any;
+  public endT: any;
+  public flags = [
+    'aed',
+    'afn',
+    'all',
+    'amd',
+    'ang',
+    'aoa',
+    'ars',
+    'aud',
+    'awg',
+    'azn',
+    'bam',
+    'bbd',
+    'bdt',
+    'bgn',
+    'bhd',
+    'bif',
+    'bmd',
+    'bnd',
+    'bob',
+    'brl',
+    'bsd',
+    'btn',
+    'bwp',
+    'byn',
+    'bzd',
+    'cad',
+    'cdf',
+    'chf',
+    'clp',
+    'cny',
+    'cop',
+    'crc',
+    'cup',
+    'cve',
+    'czk',
+    'djf',
+    'dkk',
+    'dop',
+    'dzd',
+    'egp',
+    'ern',
+    'etb',
+    'eur',
+    'fjd',
+    'fkp',
+    'gbp',
+    'gel',
+    'ghs',
+    'gip',
+    'gmd',
+    'gnf',
+    'gtq',
+    'gyd',
+    'hkd',
+    'hnl',
+    'hrk',
+    'htg',
+    'huf',
+    'idr',
+    'ils',
+    'inr',
+    'iqd',
+    'irr',
+    'isk',
+    'jmd',
+    'jod',
+    'jpy',
+    'kes',
+    'kgs',
+    'khr',
+    'kmf',
+    'kpw',
+    'krw',
+    'kwd',
+    'kyd',
+    'kzt',
+    'lak',
+    'lbp',
+    'lkr',
+    'lrd',
+    'ltl',
+    'lyd',
+    'mad',
+    'mdl',
+    'mga',
+    'mkd',
+    'mmk',
+    'mnt',
+    'mop',
+    'mro',
+    'mur',
+    'mvr',
+    'mwk',
+    'mxn',
+    'myr',
+    'mzn',
+    'nad',
+    'ngn',
+    'nio',
+    'nok',
+    'npr',
+    'nzd',
+    'omr',
+    'pen',
+    'pgk',
+    'php',
+    'pkr',
+    'pln',
+    'pyg',
+    'qar',
+    'ron',
+    'rsd',
+    'rub',
+    'rwf',
+    'sar',
+    'sbd',
+    'scr',
+    'sek',
+    'sgd',
+    'shp',
+    'sll',
+    'sos',
+    'srd',
+    'std',
+    'svc',
+    'syp',
+    'szl',
+    'thb',
+    'tjs',
+    'tnd',
+    'top',
+    'try',
+    'ttd',
+    'twd',
+    'tzs',
+    'uah',
+    'ugx',
+    'usd',
+    'uyu',
+    'uzs',
+    'vef',
+    'vnd',
+    'vuv',
+    'wst',
+    'xaf',
+    'xcd',
+    'xof',
+    'xpf',
+    'yer',
+    'zar',
+    'zmw'
+  ];
+  public isAcceptPaynow = false;
+  public isQRChanged = false;
+
+  @BlockUI() blockUI: NgBlockUI;
+  private isConnected;
+  private isRegionLoading: boolean = false;
+  private isAppLoading: boolean = false;
+  public isNetwork: boolean;
+
+  constructor(
+    private _service: appService,
+    public toastr: ToastrService,
+    vcr: ViewContainerRef,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    console.log('here in general');
+    this.item = {
+      name: '',
+      timezone: '',
+      url: '',
+      logo: '',
+      operatingHour: {
+        start: {
+          hr: '',
+          min: '',
+          meridiem: ''
+        },
+        end: {
+          hr: '',
+          min: '',
+          meridiem: ''
+        }
+      },
+      notificationSettings: {
+        sendEmailNoti: null,
+        sendAppNoti: null
+      },
+      journalApprove: ''
+    };
+    console.log(localStorage.getItem('locationId'));
+    console.log(this.router.url);
+    if (localStorage.getItem('locationId') == null) {
+      console.log('hi');
+      this.permissionType = [];
+      this.checkPermission();
+      localStorage.setItem('permission', JSON.stringify([]));
+    }
+    this.permissionSubscription = this._service.permissionList.subscribe(
+      data => {
+        this.permissionType = data;
+        console.log(this.permissionType);
+        this.checkPermission();
+        localStorage.setItem('permission', JSON.stringify(data));
+      }
+    );
+
+    this.getInvoiceSetting('invoiceSettings');
+    console.log('invoice return');
+    this.orgLogo = localStorage.getItem('OrgLogo');
+  }
+  checkPermission() {
+    console.log(this.permissionType);
+    this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
+
+    this.generalSidebar = this.generalSidebar.filter(
+      value => -1 !== this.permissionType.indexOf(value)
+    );
+
+    this.generalDemo['regional'] = this.generalSidebar.includes(
+      'UPDATEREGIONALSETTINGS'
+    )
+      ? 'UPDATEREGIONALSETTINGS'
+      : '';
+    this.generalDemo['appsetting'] = this.generalSidebar.includes(
+      'UPDATEAPPSETTINGS'
+    )
+      ? 'UPDATEAPPSETTINGS'
+      : '';
+
+    if (this.generalSidebar.includes('UPDATEREGIONALSETTINGS')) {
+      this.getAdministrator();
+    } else if (this.generalSidebar.includes('UPDATEAPPSETTINGS')) {
+      this.isModuleList();
+    } else {
+      console.log('permission deny');
+    }
+  }
+  getInvoiceSetting(type) {
+    this._service.invoiceSetting(this.regionId, type).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.invoiceData = res;
+
+        console.log('this.invoiceData', this.invoiceData);
+        console.log(Object.keys(this.invoiceData).length);
+
+        this.emptyInvoiceData =
+          Object.keys(this.invoiceData).length == 0 ? true : false;
+
+        if (Object.keys(this.invoiceData).length == 0) {
+          this.invoiceData = {
+            companyName: '',
+            registration: '',
+            address: '',
+            city: '',
+            email: '',
+            prefix: '',
+            currencySign: undefined,
+            currencyCode: undefined
+          };
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+  enroll = 0;
+  getAdministrator() {
+    console.log('getAdministrator works');
+    this.token = localStorage.getItem('token');
+    this.type = localStorage.getItem('tokenType');
+    this._service
+      .getRegionalAdministrator(this.regionId, this.token, this.type)
+      .subscribe(
+        (res: any) => {
+          console.log('res admin', res);
+          this.admin = res;
+          this.item.name = res.name;
+          this.item.timezone = res.timezone;
+          this.item.url = res.url;
+          this.item.logo = res.logo;
+          // notificationSettings: {sendEmailNoti: true, sendAppNoti: true}
+
+          this.item.notificationSettings.sendAppNoti =
+            res.notificationSettings.sendAppNoti != undefined
+              ? res.notificationSettings.sendAppNoti
+              : true;
+          this.item.notificationSettings.sendEmailNoti =
+            res.notificationSettings.sendEmailNoti != undefined
+              ? res.notificationSettings.sendEmailNoti
+              : true;
+          console.log('zhazha', this.item.notificationSettings.sendEmailNoti);
+          this.CreEmail = res.notificationSettings.sendEmailNoti;
+          console.log('journal approve get test', res.journalApprove);
+          this.item.journalApprove = res.journalApprove;
+          this.JourApp = res.journalApprove;
+          this.enroll = res.autoEnrolDay;
+          if (res.operatingHour == undefined) {
+            this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };
+            this.item.operatingHour.end = { hr: 0, min: 0, meridiem: 'PM' };
+          } else {
+            this.item.operatingHour = res.operatingHour;
+          }
+          console.log('~~~', this.item);
+          localStorage.setItem('timezone', this.item.timezone);
+          // let test=moment().tz("Singapore").format();
+          // console.log(test)
+          const offset = moment.tz('Asia/Singapore').utcOffset();
+          console.log(offset);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  isModuleList() {
+    this._service.getAllModule(this.regionId).subscribe((res: any) => {
+      this.allModule = res;
+      if (this.allModule.length > 0) {
+        this.emptyModule = false;
+      } else {
+        this.emptyModule = true;
+      }
+    });
+  }
+  updateInvoice(data, type) {
+    console.log(data);
+    var body;
+    if (this.selectedFlag === 'sgd') {
+      this.selectedCurrency = 'S$';
+    }
+    data['currencyCode'] = this.selectedFlag;
+    data['currencySign'] = this.selectedCurrency;
+    if (type == 'invoice') {
+      console.log('if');
+      this.paymentData['currencyCode'] = this.selectedFlag;
+      this.paymentData['currencySign'] = this.selectedCurrency;
+
+      this.paymentData = this.emptyPaymentData == true ? {} : this.paymentData;
+      console.log(this.paymentData);
+      body = {
+        invoiceSettings: data,
+        paymentSettings: this.paymentData
+      };
+    } else {
+      console.log('else');
+      this.invoiceData['currencyCode'] = this.selectedFlag;
+      this.invoiceData['currencySign'] = this.selectedCurrency;
+      if (this.isOnline == true) {
+        console.log(this.payment);
+        if (this.providerTemp.length > 0) {
+          console.log('no', this.providerTemp);
+          for (var k = 0; k < this.providerTemp.length; k++) {
+            for (var l = 0; l < this.providers.length; l++) {
+              if (this.providerTemp[k].name == this.providers[l].name) {
+                // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                for (var m in this.providers[l].requiredField) {
+                  // console.log("req",this.providers[j].requiredField[m])
+                  let reqName = this.providers[l].requiredField[m].name;
+                  this.providerTemp[k][reqName] = this.providers[
+                    l
+                  ].requiredField[m].value;
+                }
+              }
+            }
+          }
+          data.paymentProviders = this.providerTemp;
+          console.log('Providers update', data.paymentProviders);
+        } else {
+          console.log('no provider at first', this.providerTemp);
+          if (this.payment.hasOwnProperty('name') == true) {
+            for (var i in this.providers) {
+              if (this.providers[i].name == this.payment.name) {
+                console.log('same name', this.payment);
+                for (var j in this.providers[i].requiredField) {
+                  console.log(
+                    'provider field',
+                    this.providers[i].requiredField[j]
+                  );
+                  this.payment[
+                    this.providers[i].requiredField[j].name
+                  ] = this.providers[i].requiredField[j].value;
+                }
+              }
+            }
+            data.paymentProviders.push(this.payment);
+          } else {
+            data.paymentProviders = [];
+          }
+        }
+      } else {
+        data.paymentProviders = [];
+      }
+
+      data['currencyCode'] = this.selectedFlag;
+      data['currencySign'] = this.selectedCurrency;
+
+      this.invoiceData = this.emptyInvoiceData == true ? {} : this.invoiceData;
+      console.log(this.invoiceData);
+      console.log(data);
+
+      body = {
+        invoiceSettings: this.invoiceData,
+        paymentSettings: data
+      };
+
+      var qrFormData = new FormData();
+      qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
+      if (this.isAcceptPaynow == true) {
+        qrFormData.append('qrcode', this.getQR('qrURL'));
+      }
+    }
+
+    console.log(body);
+    //this.blockUI.start('Loading...');
+    // this._service.updatePayNowPayment(this.regionId, paynowData).subscribe((res:any)=>{
+    //   console.log(res)
+    // });
+
+    this._service.updateInvoiceSetting(this.regionId, body).subscribe(
+      (res1: any) => {
+        //this.blockUI.stop();
+        console.error(res1);
+        this._service
+          .updatePayNowPayment(this.regionId, qrFormData)
+          .subscribe((res2: any) => {
+            console.log('*******', res2);
+            this.invoiceData = res1.invoiceSettings;
+            this.paymentData = res1.paymentSettings;
+            let currency = {
+              invCurrencyCode: res1.invoiceSettings.currencyCode,
+              invCurrencySign: res1.invoiceSettings.currencySign
+            };
+            console.log(currency);
+            localStorage.setItem('currency', JSON.stringify(currency));
+            this.cancel();
+          });
+      },
+      err => {
+        //this.blockUI.stop();
+        console.log(err);
+      }
+    );
+  }
+  cancel() {
+    this.option = '';
+    this.payment = {};
+    this.invoice = {};
+    this.online = {};
+    this.isOnline = false;
+    this.selectedProvider = '';
+    // this.providerField = [];
+    this.getInvoiceSetting('invoiceSettings');
+    // this.getPaymentSetting('paymentSettings');
+  }
+  getQR(url) {
+    console.log(url, 'url');
+    console.log('is qr change', this.isQRChanged);
+    if (this.isQRChanged) {
+      let logo = document.getElementById(url).getAttribute('src');
+
+      return this.dataURItoBlob(logo);
+    } else {
+      return null;
+    }
+  }
+  dataURItoBlob(dataURI: String) {
+    console.warn(dataURI, 'data uri');
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI
+      .split(',')[0]
+      .split(':')[1]
+      .split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+}

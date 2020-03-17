@@ -2,8 +2,22 @@
   class="nav-link body-l text-c200"
   routerLinkActive="active"
   routerLink="{{ linkName }}"
+  (click)="isDisplay = !isDisplay"
 >
   <div class="d-flex flex-row">
     <ng-content></ng-content>
   </div>
 </a>
+
+<ul
+  *ngIf="isdropDown == 'true'"
+  class="noti-dropdown"
+  [ngClass]="{ show: isDisplay == true }"
+>
+  <li class="body-m text-c300">
+    Send notification
+  </li>
+  <li class="body-m text-c300">
+    Sent history
+  </li>
+</ul>
