@@ -29,12 +29,9 @@ export class TimetableComponent implements OnInit {
   public timetablelist: any = [];
   public clist: boolean = false;
   public thisStart: any;
-  public thisStart2: any;
   public thisEnd: any;
-  public thisEnd2: any;
   public indexWeek: any = [];
   public today: any;
-  public today2: any;
   public catList: any = [];
   public staffcount: any = 0;
   public extracount: any = [
@@ -54,7 +51,6 @@ export class TimetableComponent implements OnInit {
   public sk: any = 0;
   public staffskip: any = 0;
   public staffdone: boolean = true;
-
   //zha variable
 
   //apo variable
@@ -615,9 +611,6 @@ export class TimetableComponent implements OnInit {
       );
 
       this.getStaffListperWeek();
-
-      this.thisStart2 = this.NS;
-      this.thisEnd2 = this.NE;
     }
 
     if (when == 'prev') {
@@ -664,9 +657,6 @@ export class TimetableComponent implements OnInit {
       );
 
       this.getStaffListperWeek();
-
-      this.thisStart2 = this.PS;
-      this.thisEnd2 = this.PE;
     }
     this.indexWeek = [];
     for (var i = 0; i < 7; i++) {
@@ -698,6 +688,10 @@ export class TimetableComponent implements OnInit {
   onScrollDown() {
     console.log('down');
     this.getCatList();
+  }
+  onScrollDown2() {
+    console.log('down');
+    this.getStaffListperWeek();
   }
 
   //zha function
