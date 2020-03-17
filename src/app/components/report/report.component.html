@@ -37,7 +37,7 @@
         <button
           class="btn noti-tab w-100 body-l"
           [ngClass]="reportType != 'averageRating' ? 'text-c300' : 'text-s0'"
-          (click)="reportType = 'averageRating'; back()"
+          (click)="reportType = 'averageRating'"
         >
           <div class="d-flex">
             <span class="btnSpan">
@@ -198,7 +198,7 @@
   <div
     class="heading-margin d-flex justify-content-center no-padding large-col"
   >
-    <div
+    <!-- <div
       class="d-flex flex-column w-100 h-100 main-wrapper"
       *ngIf="reportType == 'averageRating'"
     >
@@ -272,18 +272,6 @@
             <i class="fa fa-angle-left body-xl text-c200"></i>
             <p>Average ratings</p>
           </div>
-          <!-- <div class="dropdown custom-dropdown">
-                      <button class="btn btn-design" type="button" (click)="dropDown()">
-                          Export <i class="fa fa-chevron-down dropdown-arrow"></i>
-                      <span class="caret"></span></button>
-                      <div class="bg-box">
-                          <div id="rectangle"></div>
-                          <ul class="dropdown-menu">
-                            <li>Export as CSV</li>
-                            <li>Export as PDF</li>
-                          </ul>
-                      </div>
-                  </div> -->
         </div>
         <div class="col-md-12 flex-show">
           <div class="col-md-6 flex-show left-side">
@@ -377,7 +365,14 @@
           load more
         </button>
       </div>
+    </div> -->
+    <div
+      class="d-flex flex-column w-100 h-100 main-wrapper"
+      *ngIf="reportType == 'averageRating'"
+    >
+      <app-average-ratings></app-average-ratings>
     </div>
+
     <div
       class="d-flex flex-column w-100 h-100 main-wrapper"
       *ngIf="reportType == 'invoiceReport'"

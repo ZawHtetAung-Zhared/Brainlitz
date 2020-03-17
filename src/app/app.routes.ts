@@ -1,3 +1,8 @@
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+
+import { SettingsComponent } from './components/settings/settings.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
@@ -70,6 +75,25 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    children: [
+      { path: '', redirectTo: 'general', pathMatch: 'full' },
+      {
+        path: 'general',
+        component: GeneralComponent
+      },
+      {
+        path: 'locations',
+        component: LocationsComponent
+      },
+      {
+        path: 'customfields',
+        component: CustomFieldsComponent
+      }
+    ]
   },
   {
     path: 'login',
