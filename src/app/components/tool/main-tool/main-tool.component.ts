@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-tool.component.css']
 })
 export class MainToolComponent implements OnInit {
+  public isDisplay: boolean = false;
+
   constructor() {}
 
   ngOnInit() {}
