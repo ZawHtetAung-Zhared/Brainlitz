@@ -1640,4 +1640,5 @@ button.toast-close-button {
   position: fixed;
   border-radius: 4px;
   padding: 12px 16px;
+  z-index: 10;
 }
