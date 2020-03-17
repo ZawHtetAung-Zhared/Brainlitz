@@ -9,8 +9,6 @@ export class ContentBlockComponent implements OnInit {
   @Input() linkName;
   @Input() isdropDown;
 
-  public isDisplay: boolean = false;
-
   constructor() {}
 
   ngOnInit() {

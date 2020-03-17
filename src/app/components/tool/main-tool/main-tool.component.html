@@ -20,7 +20,14 @@
         Notification
       </p>
     </side-block>
-
+    <ul [ngClass]="{ show: isDisplay == true }" class="noti-dropdown">
+      <li class="body-m text-c300">
+        Send notification
+      </li>
+      <li class="body-m text-c300">
+        Sent history
+      </li>
+    </ul>
     <side-block [linkName]="'tracking-module'" [isdropDown]="'false'">
       <side-img>
         <svg
