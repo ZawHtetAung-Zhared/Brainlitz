@@ -1,0 +1,14 @@
+ul {
+  list-style: none;
+}
+
+a.nav-link.active {
+  color: #fff;
+  background-color: #0065f2;
+  border-radius: 4px;
+  fill: #ffffff !important;
+}
+
+a.nav-link.active svg {
+  fill: #ffffff !important;
+}
