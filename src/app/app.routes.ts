@@ -29,7 +29,9 @@ import { CourseSearchComponent } from './components/course/course-search/course-
 import {
   MainToolComponent,
   NotificationComponent,
-  TrackingModuleComponent
+  TrackingModuleComponent,
+  SendHistoryComponent,
+  SendNotificationComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -293,7 +295,18 @@ export const routes: Routes = [
       { path: '', redirectTo: 'notification', pathMatch: 'full' },
       {
         path: 'notification',
-        component: NotificationComponent
+        component: NotificationComponent,
+        children: [
+          { path: '', redirectTo: 'send-notification', pathMatch: 'full' },
+          {
+            path: 'send-notification',
+            component: SendNotificationComponent
+          },
+          {
+            path: 'send-history',
+            component: SendHistoryComponent
+          }
+        ]
       },
       {
         path: 'tracking-module',
