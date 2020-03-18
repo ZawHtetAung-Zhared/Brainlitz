@@ -2421,6 +2421,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
 
   sharedApgSearch2(keyword, limit, skip) {
+    this.keyword = keyword;
     if (keyword.length == 0) {
       this.sharedApgSearch(keyword, limit, skip);
     }
@@ -2460,10 +2461,12 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.templateList = [];
       this.getAllTemplate(20, 0);
       this.isSearch = false;
+      this.keyword = '';
       // }, 100);
     }
   }
   apgListSearch2(searchWord, type, limit, skip) {
+    this.keyword = searchWord;
     if (searchWord.length == 0) {
       this.apgListSearch(searchWord, type, limit, skip);
     }
@@ -2517,6 +2520,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       this.clearAPGTypeArr();
       this.getAllAPG(limit, skip);
       this.isSearch = false;
+      this.keyword = '';
       // }, 100);
     }
   }

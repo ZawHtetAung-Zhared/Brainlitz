@@ -86,7 +86,7 @@
                 coursePlan._id,
                 coursePlan.name,
                 this.searchKeyword,
-                'onclick'
+                'down'
               )
             "
           >
@@ -253,6 +253,82 @@
             <span class="p-4 no-course">There is no courses.</span>
           </div>
           <div>
+            <div *ngIf="courseListLoading && page == 1">
+              <div class="class-block">
+                <div class="course-title">
+                  <content-loader>
+                    <svg:rect
+                      x="0"
+                      y="0"
+                      rx="3"
+                      ry="3"
+                      width="100"
+                      height="5"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="10"
+                      rx="3"
+                      ry="3"
+                      width="350"
+                      height="30"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="50"
+                      rx="3"
+                      ry="3"
+                      width="250"
+                      height="10"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="70"
+                      rx="3"
+                      ry="3"
+                      width="330"
+                      height="10"
+                    />
+                  </content-loader>
+                </div>
+                <div class="course-title">
+                  <content-loader>
+                    <svg:rect
+                      x="0"
+                      y="0"
+                      rx="3"
+                      ry="3"
+                      width="100"
+                      height="5"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="10"
+                      rx="3"
+                      ry="3"
+                      width="350"
+                      height="30"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="50"
+                      rx="3"
+                      ry="3"
+                      width="250"
+                      height="10"
+                    />
+                    <svg:rect
+                      x="0"
+                      y="70"
+                      rx="3"
+                      ry="3"
+                      width="330"
+                      height="10"
+                    />
+                  </content-loader>
+                </div>
+              </div>
+            </div>
             <div *ngFor="let course of courses">
               <div class="card d-flex flex-column ml-4 mr-4 mt-4 course-wrap">
                 <div
@@ -505,6 +581,84 @@
                         Enroll customer
                       </button>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="courseListLoading">
+              <div class="course-list-wrapper">
+                <div class="class-block">
+                  <div class="course-title">
+                    <content-loader>
+                      <svg:rect
+                        x="0"
+                        y="0"
+                        rx="3"
+                        ry="3"
+                        width="100"
+                        height="5"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="10"
+                        rx="3"
+                        ry="3"
+                        width="350"
+                        height="30"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="50"
+                        rx="3"
+                        ry="3"
+                        width="250"
+                        height="10"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="70"
+                        rx="3"
+                        ry="3"
+                        width="330"
+                        height="10"
+                      />
+                    </content-loader>
+                  </div>
+                  <div class="course-title">
+                    <content-loader>
+                      <svg:rect
+                        x="0"
+                        y="0"
+                        rx="3"
+                        ry="3"
+                        width="100"
+                        height="5"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="10"
+                        rx="3"
+                        ry="3"
+                        width="350"
+                        height="30"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="50"
+                        rx="3"
+                        ry="3"
+                        width="250"
+                        height="10"
+                      />
+                      <svg:rect
+                        x="0"
+                        y="70"
+                        rx="3"
+                        ry="3"
+                        width="330"
+                        height="10"
+                      />
+                    </content-loader>
                   </div>
                 </div>
               </div>

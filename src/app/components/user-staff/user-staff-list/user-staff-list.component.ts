@@ -121,6 +121,7 @@ export class UserStaffListComponent implements OnInit {
 
   userSearch2(searchWord, userType, limit, skip) {
     console.log('I am in 2');
+    this.searchword = searchWord;
     if (searchWord.length == 0) {
       this.userSearch(searchWord, userType, limit, skip);
     }
@@ -172,6 +173,7 @@ export class UserStaffListComponent implements OnInit {
         this.staffLists = [];
         this.getAllUsers('staff', 20, 0);
         this.isSearch = false;
+        this.searchword = '';
       }, 300);
     }
   }
