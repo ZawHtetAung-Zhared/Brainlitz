@@ -180,6 +180,8 @@ import { CustomFieldsComponent } from './components/settings/custom-fields/custo
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import { SendHistoryComponent } from './components/tool/send-history/send-history.component';
+import { SendNotificationComponent } from './components/tool/send-notification/send-notification.component';
 
 @NgModule({
   declarations: [
@@ -311,7 +313,9 @@ import { AverageRatingsComponent } from './components/report/average-ratings/ave
     CustomFieldsComponent,
     ScheduleSettingEditComponent,
     InvoiceSettingEditComponent,
-    AverageRatingsComponent
+    AverageRatingsComponent,
+    SendHistoryComponent,
+    SendNotificationComponent
   ],
   imports: [
     ContentLoaderModule,

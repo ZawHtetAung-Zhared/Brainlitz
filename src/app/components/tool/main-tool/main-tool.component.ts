@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainToolComponent implements OnInit {
   public isDisplay: boolean = false;
-
+  public type: any = 'send-notification';
   constructor() {}
 
   ngOnInit() {}
