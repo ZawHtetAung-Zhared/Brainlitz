@@ -1,3 +1,6 @@
+import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
+import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
+import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
 import { LocationsComponent } from './components/settings/locations/locations.component';
 import { GeneralComponent } from './components/settings/general/general.component';
@@ -29,7 +32,9 @@ import { CourseSearchComponent } from './components/course/course-search/course-
 import {
   MainToolComponent,
   NotificationComponent,
-  TrackingModuleComponent
+  TrackingModuleComponent,
+  SendHistoryComponent,
+  SendNotificationComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -92,7 +97,22 @@ export const routes: Routes = [
       { path: '', redirectTo: 'general', pathMatch: 'full' },
       {
         path: 'general',
-        component: GeneralComponent
+        component: GeneralComponent,
+        children: [
+          { path: '', redirectTo: 'general-overview', pathMatch: 'full' },
+          {
+            path: 'general-overview',
+            component: GeneralOverviewComponent
+          },
+          {
+            path: 'invoice-setting-edit',
+            component: InvoiceSettingEditComponent
+          },
+          {
+            path: 'payment-setting-edit',
+            component: PaymentSettingEditComponent
+          }
+        ]
       },
       {
         path: 'locations',
@@ -293,7 +313,18 @@ export const routes: Routes = [
       { path: '', redirectTo: 'notification', pathMatch: 'full' },
       {
         path: 'notification',
-        component: NotificationComponent
+        component: NotificationComponent,
+        children: [
+          { path: '', redirectTo: 'send-notification', pathMatch: 'full' },
+          {
+            path: 'send-notification',
+            component: SendNotificationComponent
+          },
+          {
+            path: 'send-history',
+            component: SendHistoryComponent
+          }
+        ]
       },
       {
         path: 'tracking-module',

@@ -1,3 +1,5 @@
+import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -177,10 +179,15 @@ import { CustomFieldsComponent } from './components/settings/custom-fields/custo
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
+
+import { SendHistoryComponent } from './components/tool/send-history/send-history.component';
+import { SendNotificationComponent } from './components/tool/send-notification/send-notification.component';
 import {
   ContentBlockComponent,
   MainBlockComponent
 } from './components/sidemenu/index';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -310,8 +317,12 @@ import {
     LocationsComponent,
     CustomFieldsComponent,
     ScheduleSettingEditComponent,
+    PaymentSettingEditComponent,
     InvoiceSettingEditComponent,
-    AverageRatingsComponent
+    AverageRatingsComponent,
+    GeneralOverviewComponent,
+    SendHistoryComponent,
+    SendNotificationComponent
   ],
   imports: [
     ContentLoaderModule,

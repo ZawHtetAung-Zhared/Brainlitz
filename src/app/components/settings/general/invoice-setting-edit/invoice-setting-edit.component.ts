@@ -291,6 +291,7 @@ export class InvoiceSettingEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.option = 'Invoice';
     console.log('here in general');
     this.item = {
       name: '',
@@ -571,6 +572,9 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     );
   }
+  // backToGeneral(){
+  //   this.router.navigateByUrl('/settings')
+  // }
   cancel() {
     this.option = '';
     this.payment = {};
