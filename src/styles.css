@@ -291,12 +291,18 @@ app-report,
 app-review,
 app-course,
 app-course-list,
-app-assign-task {
+app-assign-task,
+app-main-block,
+app-main-tool,
+side-menu {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
+side-menu {
+  width: 25%;
+}
 .rating {
   justify-content: left !important;
   margin-top: 2px !important;

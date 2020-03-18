@@ -1,3 +1,8 @@
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+
+import { SettingsComponent } from './components/settings/settings.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
@@ -21,7 +26,11 @@ import { ReviewComponent } from './components/review/review.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
 import { CourseSearchComponent } from './components/course/course-search/course-search.component';
-
+import {
+  MainToolComponent,
+  NotificationComponent,
+  TrackingModuleComponent
+} from './components/tool/index';
 import {
   CourseComponent,
   AssignTaskComponent,
@@ -49,6 +58,15 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import {
+  AverageRatingsComponent,
+  CourseActivitiesReport,
+  StaffPerformanceReport,
+  StudentEnrollmentReport,
+  MonthlyActiveStudentsReport,
+  StaffTeachingScheduleReport
+} from './components/report/index';
+import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -66,6 +84,25 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    children: [
+      { path: '', redirectTo: 'general', pathMatch: 'full' },
+      {
+        path: 'general',
+        component: GeneralComponent
+      },
+      {
+        path: 'locations',
+        component: LocationsComponent
+      },
+      {
+        path: 'customfields',
+        component: CustomFieldsComponent
+      }
+    ]
   },
   {
     path: 'login',
@@ -196,7 +233,38 @@ export const routes: Routes = [
   {
     path: 'report',
     component: ReportComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'invoice-report', pathMatch: 'full' },
+      {
+        path: 'invoice-report',
+        component: InvoiceReportComponent
+      },
+      {
+        path: 'average-rating',
+        component: AverageRatingsComponent
+      },
+      {
+        path: 'staff-performance',
+        component: StaffPerformanceReport
+      },
+      {
+        path: 'course-activities',
+        component: CourseActivitiesReport
+      },
+      {
+        path: 'student-enrollment',
+        component: StudentEnrollmentReport
+      },
+      {
+        path: 'monthly-active',
+        component: MonthlyActiveStudentsReport
+      },
+      {
+        path: 'teaching-schedule',
+        component: StaffTeachingScheduleReport
+      }
+    ]
   },
   {
     path: 'review',
@@ -217,6 +285,21 @@ export const routes: Routes = [
     path: 'timetable',
     component: TimetableComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'tool-test',
+    component: MainToolComponent,
+    children: [
+      { path: '', redirectTo: 'notification', pathMatch: 'full' },
+      {
+        path: 'notification',
+        component: NotificationComponent
+      },
+      {
+        path: 'tracking-module',
+        component: TrackingModuleComponent
+      }
+    ]
   },
   {
     path: '**',
