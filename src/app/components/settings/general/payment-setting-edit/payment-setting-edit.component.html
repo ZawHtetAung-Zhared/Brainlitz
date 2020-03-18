@@ -1,3 +1,269 @@
-<p>
-  payment-setting-edit works!
-</p>
+<div class="inner-wrapper">
+  <div class="back-wrap d-flex">
+    <div class="back-to" (click)="cancel()">
+      <i class="fa fa-angle-left"></i>
+      <p class="light-body-l text-300">General</p>
+    </div>
+  </div>
+  <div class="setting-edit-wrap">
+    <h3 class="h1-strong text-300">{{ option }} setting</h3>
+    <form novalidate #paymentForm="ngForm" class="form-wrap">
+      <div class="col-md-8 input-wrap">
+        <div class="form-group">
+          <div class="currency-wrap">
+            <label class="h3-strong text-c300" for="code">Currency Code</label>
+            <div
+              (click)="showCurrencyBox('currency', $event)"
+              class="current-currency d-flex justify-content-between"
+            >
+              <div class="d-flex">
+                <div
+                  class="currency-flag currency-flag-{{
+                    selectedFlag
+                  }} flag-wrap"
+                ></div>
+                <div class="c-input">
+                  {{ selectedFlag | uppercase }}
+                </div>
+              </div>
+              <span
+                class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+              ></span>
+            </div>
+            <div *ngIf="showDropdown" class="currency-dropdown">
+              <input
+                type="text"
+                name=""
+                class="form-control"
+                (click)="showCurrencyBox('currency', $event)"
+                (input)="search($event.target.value)"
+              />
+              <div class="currency-list">
+                <div
+                  class="sectionTitle h4-strong text-c300 d-flex"
+                  (click)="selectCurrency(newCurrency[key], key)"
+                  *ngFor="let key of objectKeys(newCurrency)"
+                >
+                  <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                    <div class="currency-flag currency-flag-{{ key }}"></div>
+                    <div class="c-sign h4-strong text-c300">
+                      {{ key | uppercase }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="h3-strong text-c300" for="tax">Tax setting</label>
+          <div class="row">
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control tax-input"
+                placeholder="E.g. GST"
+                name="taxname"
+                [(ngModel)]="paymentData.tax.name"
+                #name="ngModel"
+              />
+            </div>
+            <div class="col-md-6 d-flex">
+              <input
+                type="number"
+                class="form-control tax-input"
+                placeholder="0"
+                name="taxamount"
+                min="0"
+                (keypress)="numberOnly($event, 'tax')"
+                [(ngModel)]="paymentData.tax.rate"
+                #name="ngModel"
+              />
+              <div class="tax-option">%</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex">
+            <div class="toggle-wrap" (click)="onlinePayment()">
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  (change)="onlinePayment()"
+                  [checked]="isOnline"
+                />
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <label class="switch-label text-c300 body-xl" for="online"
+              >Accept online payment</label
+            >
+          </div>
+          <div *ngIf="isOnline" class="online-wrap">
+            <div
+              *ngIf="providerTemp.length > 0"
+              class="d-flex flex-nowrap provider-group"
+            >
+              <div
+                *ngFor="let provider of providerTemp"
+                class="single-provider d-flex flex-row"
+              >
+                <span>{{ provider.name }}</span>
+                <div
+                  (click)="removeTempData(provider.id)"
+                  class="remove-data d-flex justify-content-end"
+                ></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="provider-wrap">
+                <label class="body-xl text-c300 mb-0" for="merchant"
+                  >Payment provider</label
+                >
+                <div
+                  (click)="showCurrencyBox('provider', $event)"
+                  class="current-currency d-flex justify-content-between"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="selected provider"
+                    name="name"
+                    [(ngModel)]="payment.name"
+                    #name="ngModel"
+                    readonly
+                  />
+                  <span
+                    class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+                  ></span>
+                </div>
+                <div
+                  *ngIf="showProvider"
+                  class="currency-dropdown payment-provider"
+                >
+                  <div class="provider-listing">
+                    <div
+                      class="sectionTitle h4-strong text-c300 d-flex"
+                      (click)="selectProvider(item.id, item.name)"
+                      *ngFor="let item of providers"
+                    >
+                      {{ item.name }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- {{providers|json}} -->
+            <div *ngFor="let provider of providers">
+              <div *ngIf="selectedProvider == provider.name">
+                <div *ngFor="let reqField of provider.requiredField">
+                  <div class="form-group req-field">
+                    <div class="d-flex justify-content-between">
+                      <label class="body-xl text-c300 mb-0" for="merchant">{{
+                        reqField.name
+                      }}</label>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control create-input"
+                      placeholder="Type {{ reqField.name }}"
+                      name="{{ reqField.name }}"
+                      [(ngModel)]="reqField.value"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- {{providers.requiredField|json}} -->
+            <!-- <div *ngFor="let reqField of providerField">
+                  <div class="form-group req-field">
+                    <div class="d-flex justify-content-between">
+                      <label class="h3-strong text-c300 mb-0" for="merchant">{{reqField.name}}</label>
+                    </div>
+                    <input type="text" class="form-control create-input" placeholder="Type {{reqField.name}}" name="merchant" [(ngModel)]="reqField.value" #merchant="ngModel">
+                  </div>
+                </div> -->
+
+            <!-- <div class="form-group">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label" for="merchant">Merchant ID</label>
+                  </div>
+                  <input type="text" class="form-control create-input" placeholder="Type merchant ID here" name="merchant" [(ngModel)]="payment.Mcptid" #merchant="ngModel">
+                </div>
+                <div class="form-group no-border">
+                  <div class="d-flex justify-content-between">
+                    <label class="input-label" for="apikey">API key</label>
+                  </div>
+                  <input type="text" class="form-control create-input" placeholder="Type api key here" name="apikey" [(ngModel)]="payment.Apikey" #apikey="ngModel">
+                </div> -->
+          </div>
+        </div>
+        <div class="form-group">
+          <div>
+            <div class="d-flex">
+              <div class="toggle-wrap">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (change)="acceptPaynow()"
+                    [checked]="isAcceptPaynow"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <label class="switch-label text-c300 body-xl" for="online"
+                >Accept paynow payment</label
+              >
+            </div>
+            <div *ngIf="isAcceptPaynow" class="form-group qr-input-wrap">
+              <div class="qr-input-group">
+                <div class="d-flex">
+                  <div class="input-group-prepend">
+                    <span
+                      class="input-group-text upload-text"
+                      id="inputGroupFileAddon01"
+                      >Upload</span
+                    >
+                  </div>
+                  <div class="custom-file">
+                    <input
+                      #qrcode
+                      type="file"
+                      class="custom-file-input"
+                      id="inputGroupFile01"
+                      aria-describedby="inputGroupFileAddon01"
+                      accept="image/*"
+                      (change)="handleQRInput(qrcode.files, $event.target)"
+                    />
+                    <label
+                      #fileLabel
+                      class="custom-file-label"
+                      for="inputGroupFile01"
+                      >Choose file</label
+                    >
+                  </div>
+                </div>
+                <span class="error-message" *ngIf="message">{{ message }}</span>
+                <div class="qr-preview pt-3" *ngIf="qrURL">
+                  <img class="img-fluid inner-img" id="qrURL" [src]="qrURL" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end form-footer">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit"
+          (click)="updateInvoice(paymentData, 'payment')"
+        >
+          Done
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

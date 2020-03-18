@@ -337,6 +337,7 @@ export class InvoiceSettingEditComponent implements OnInit {
     console.log('invoice return');
     this.orgLogo = localStorage.getItem('OrgLogo');
   }
+
   checkPermission() {
     console.log(this.permissionType);
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
@@ -364,6 +365,7 @@ export class InvoiceSettingEditComponent implements OnInit {
       console.log('permission deny');
     }
   }
+
   getInvoiceSetting(type) {
     this._service.invoiceSetting(this.regionId, type).subscribe(
       (res: any) => {
@@ -394,6 +396,7 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     );
   }
+
   enroll = 0;
   getAdministrator() {
     console.log('getAdministrator works');
@@ -443,6 +446,7 @@ export class InvoiceSettingEditComponent implements OnInit {
         }
       );
   }
+
   isModuleList() {
     this._service.getAllModule(this.regionId).subscribe((res: any) => {
       this.allModule = res;
@@ -453,6 +457,43 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     });
   }
+
+  selectCurrency(data, key) {
+    console.log(key);
+    console.log(data);
+    this.selectedCurrency = data;
+    this.selectedFlag = key;
+  }
+
+  search(val) {
+    console.log(val);
+    this.getCurrency();
+    var words = this.objectKeys(this.newCurrency);
+    const result = words.filter(word => word.includes(val));
+    var tempObj = {};
+    if (val.length > 0) {
+      for (let index = 0; index < result.length; index++) {
+        if (this.newCurrency.hasOwnProperty(result[index])) {
+          var keyObj = result[index];
+          tempObj[keyObj] = this.newCurrency[keyObj];
+        }
+      }
+      this.newCurrency = tempObj;
+    } else {
+      this.getCurrency();
+    }
+
+    console.log(this.newCurrency.hasOwnProperty(val));
+    // if (val.length > 0) {
+    //   if (this.newCurrency.hasOwnProperty(val)) {
+    //     var keyObj = val;
+    //     this.newCurrency = { [keyObj]: this.newCurrency[val] };
+    //   }
+    // } else {
+    //   this.getCurrency();
+    // }
+  }
+
   updateInvoice(data, type) {
     console.log(data);
     var body;
@@ -563,7 +604,8 @@ export class InvoiceSettingEditComponent implements OnInit {
             };
             console.log(currency);
             localStorage.setItem('currency', JSON.stringify(currency));
-            this.cancel();
+            this.router.navigateByUrl('settings');
+            // this.cancel();
           });
       },
       err => {
@@ -572,20 +614,37 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     );
   }
-  // backToGeneral(){
-  //   this.router.navigateByUrl('/settings')
-  // }
-  cancel() {
-    this.option = '';
-    this.payment = {};
-    this.invoice = {};
-    this.online = {};
-    this.isOnline = false;
-    this.selectedProvider = '';
-    // this.providerField = [];
-    this.getInvoiceSetting('invoiceSettings');
-    // this.getPaymentSetting('paymentSettings');
+
+  getCurrency() {
+    this.objectKeys = Object.keys;
+    console.warn(Object.keys);
+    this.currency_symbol = currency;
+    var key,
+      keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
+    var n = keys.length;
+    var i = 0;
+    var newobj = {};
+
+    while (i <= n - 1) {
+      key = keys[i];
+      this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
+    }
   }
+
+  showCurrencyBox(type, $event: Event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('hiii');
+    if (type == 'currency') {
+      this.showDropdown = true;
+      this.getCurrency();
+    } else {
+      this.showProvider = true;
+    }
+  }
+
   getQR(url) {
     console.log(url, 'url');
     console.log('is qr change', this.isQRChanged);
@@ -597,6 +656,7 @@ export class InvoiceSettingEditComponent implements OnInit {
       return null;
     }
   }
+
   dataURItoBlob(dataURI: String) {
     console.warn(dataURI, 'data uri');
     const byteString = atob(dataURI.split(',')[1]);

@@ -1210,28 +1210,29 @@ export class GeneralOverviewComponent implements OnInit {
     );
   }
 
-  // saveQR(){
-  //   let qrFormData = new FormData();
-  //   if (this.isQRChanged == true) {
-  //     var paynowData;
-  //     console.log('isQRChanged~~~~', this.isLogoChanged);
-  //     // var payNowQr = this.getLogo('qrURL')
+  saveQR() {
+    let qrFormData = new FormData();
+    if (this.isQRChanged == true) {
+      var paynowData;
+      console.log('isQRChanged~~~~', this.isLogoChanged);
+      // var payNowQr = this.getLogo('qrURL')
 
-  //     paynowData = {
-  //       "acceptPayNow": this.isAcceptPaynow,
-  //       "payNowQr": this.getLogo('qrURL')
-  //     }
-  //     qrFormData.append('qrcode', this.getLogo('qrURL'));
-  //     qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow))
-  //     // console.log("paynowData",paynowData)
-  //   }
-  //   setTimeout(()=>{
-  //     this._service.updatePayNowPayment(this.regionId, qrFormData).subscribe((res:any)=>{
-  //       console.log("*******",res)
-  //     });
-  //   },200)
-
-  // }
+      paynowData = {
+        acceptPayNow: this.isAcceptPaynow,
+        payNowQr: this.getLogo('qrURL')
+      };
+      qrFormData.append('qrcode', this.getLogo('qrURL'));
+      qrFormData.append('acceptPayNow', JSON.stringify(this.isAcceptPaynow));
+      // console.log("paynowData",paynowData)
+    }
+    setTimeout(() => {
+      this._service
+        .updatePayNowPayment(this.regionId, qrFormData)
+        .subscribe((res: any) => {
+          console.log('*******', res);
+        });
+    }, 200);
+  }
 
   cancel() {
     this.option = '';
