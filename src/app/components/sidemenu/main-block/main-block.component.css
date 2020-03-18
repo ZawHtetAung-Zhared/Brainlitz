@@ -8,6 +8,12 @@
   /*transition: height 300ms linear, transform 300ms linear;*/
   transition: 0.5s all ease-out;
   padding: 10px;
-  width: unset;
-  /* top: 147px; */
+  position: fixed;
+  width: 240px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .side-bar-wrap {
+    width: 320px;
+  }
 }
