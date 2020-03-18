@@ -72,6 +72,7 @@ import {
   StaffTeachingScheduleReport
 } from './components/report/index';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
+import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -111,6 +112,10 @@ export const routes: Routes = [
           {
             path: 'payment-setting-edit',
             component: PaymentSettingEditComponent
+          },
+          {
+            path: 'schedule-setting-edit',
+            component: ScheduleSettingEditComponent
           }
         ]
       },
