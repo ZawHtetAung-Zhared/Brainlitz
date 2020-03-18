@@ -43,6 +43,7 @@
 .main-wrapper {
   /*display: block;*/
   padding: 0px 15px;
+  overflow: auto;
 }
 
 @keyframes slideInFromLeft {
