@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
+import { createIf } from 'typescript';
 
 @Component({
   selector: 'app-course-list',
@@ -47,6 +48,7 @@ export class CourseListComponent implements OnInit {
   private skip = 0;
   private courseLoading: boolean;
   private coursePlanLoading: boolean = false;
+  private courseListLoading: boolean = false;
   private iscourseSearch: boolean = false;
   private searchVal = '';
   public isoutSideClick: boolean = false;
@@ -141,8 +143,14 @@ export class CourseListComponent implements OnInit {
   scrollToActiveElement(activePlan) {
     console.log('scrollToActiveElement', activePlan);
     setTimeout(() => {
-      if (activePlan != null || activePlan != undefined) {
-        console.log(document.getElementById(activePlan));
+      var activeplanElement = document.getElementById(activePlan);
+      if (
+        activePlan != null ||
+        activePlan != undefined ||
+        activeplanElement != null ||
+        activeplanElement != undefined
+      ) {
+        console.log(activeplanElement);
         var topPos = document.getElementById(activePlan).offsetTop;
         console.log(topPos);
         document.getElementById('sidenav-wrap').scrollTop = topPos - 155;
@@ -176,23 +184,14 @@ export class CourseListComponent implements OnInit {
           // console.log('call next page');
           this.page = this.page + 1;
           this.skip = this.courseCollection.courses.length;
-          if (this.searchKeyword == null || this.searchKeyword == undefined) {
-            this.getCoursesPerPlan(
-              this.selectedPlan,
-              this.limit,
-              this.skip,
-              this.page,
-              'next-page'
-            );
-          } else {
-            this.simpleCourseSearchPerPlan(
-              this.selectedPlan,
-              this.limit,
-              this.skip,
-              this.page,
-              this.searchKeyword
-            );
-          }
+          this.getCoursesPerPlan(
+            this.selectedPlan,
+            this.limit,
+            this.skip,
+            this.page,
+            this.searchKeyword,
+            'down'
+          );
         } else {
           // console.log('call next plan');
           // this.getCoursesForNextPlan();
@@ -229,7 +228,7 @@ export class CourseListComponent implements OnInit {
           nextPlanId,
           nextPlanName,
           this.searchKeyword,
-          'next-plan'
+          'down'
         );
         break;
       }
@@ -249,7 +248,7 @@ export class CourseListComponent implements OnInit {
           ',previousPlanName',
           prevPlanName
         );
-        this.getCourseswithPlanId(prevPlanId, prevPlanName, null, 'prev-plan');
+        this.getCourseswithPlanId(prevPlanId, prevPlanName, null, 'up');
         break;
       }
     }
@@ -363,11 +362,7 @@ export class CourseListComponent implements OnInit {
       // this.courseList = [];
       // this.getCourseLists(20, 0);
       this.coursePlanCollection = [];
-      if (this.searchKeyword == null || this.searchKeyword == '') {
-        this.getAllCourseplan();
-      } else {
-        this.simpleCoursePlanSearch(this.searchKeyword);
-      }
+      this.getAllCourseplan(this.searchKeyword);
     } else {
       console.log('permission deny');
       // this.courseList = [];
@@ -375,67 +370,72 @@ export class CourseListComponent implements OnInit {
     }
   }
 
-  getCourseLists(limit, skip) {
-    this._service
-      .getAllCourse(this.regionId, this.locationID, limit, skip)
-      .subscribe((res: any) => {
-        this.courseList = this.courseList.concat(res);
-        console.log('course list', this.courseList);
-        if (this.courseList.length > 0) {
-          // this.getCourseswithPlanId(0, '');
-          this.emptyCourse = false;
-          for (var i in this.courseList) {
-            let duration = this.courseList[i].coursePlan.lesson.duration;
-            for (var j in this.courseList[i].courses) {
-              let date = this.courseList[i].courses[j].startDate;
-              if (date) {
-                let starttime = date.substring(
-                  date.search('T') + 1,
-                  date.search('Z') - 7
-                );
-                let piece = starttime.split(':');
-                let mins = piece[0] * 60 + +piece[1] + +duration;
-                let endtime =
-                  this.D(((mins % (24 * 60)) / 60) | 0) +
-                  ':' +
-                  this.D(mins % 60);
-                this.courseList[i].courses[j].courseDuration = {
-                  starttime: starttime,
-                  endtime: endtime
-                };
-              }
-            }
-          }
-        } else {
-          this.emptyCourse = true;
-        }
-      });
+  getCourseswithPlanId(courseplanId, planName, keyword, scrollType) {
+    this.courseCollection = null;
+    this.skip = 0;
+    this.page = 1;
+    this.courses = [];
+    console.log('courseplanId:', courseplanId, '& planName:', planName);
+    this.selectedPlan = courseplanId;
+    this.getCoursesPerPlan(
+      this.selectedPlan,
+      this.limit,
+      this.skip,
+      this.page,
+      keyword,
+      scrollType
+    );
   }
 
-  getAllCourseplan() {
+  getAllCourseplan(keyword) {
+    console.log(keyword);
     this.coursePlanLoading = true;
+
+    if (keyword == undefined || keyword == null || keyword == '') {
+      this.searchKeyword = null;
+      this.searchVal = null;
+      this.iswordcount = false;
+    } else {
+      keyword = keyword.match(/^\s*$/) != null ? '' : keyword;
+      if (keyword.match(/^\s*$/) != null) {
+        this.searchKeyword = null;
+        this.searchVal = null;
+        this.iswordcount = false;
+      }
+    }
+
     this._service
-      .getCourseplanCollection(this.regionId, this.locationID, null)
+      .getCourseplanCollection(this.regionId, this.locationID, keyword)
       .subscribe(
         (res: any) => {
           this.coursePlanLoading = false;
+          this.iscourseSearch = false;
           this.coursePlanCollection = res;
           let autoSelectedPlanId;
           let autoSelectedPlanName;
-          if (this.activePlanId == '' || this.activePlanId == null) {
-            autoSelectedPlanId = this.coursePlanCollection[0]._id;
-            autoSelectedPlanName = this.coursePlanCollection[0].name;
+          if (this.coursePlanCollection.length > 0) {
+            if (
+              this.activePlanId == '' ||
+              this.activePlanId == null ||
+              this.activePlanId == undefined
+            ) {
+              autoSelectedPlanId = this.coursePlanCollection[0]._id;
+              autoSelectedPlanName = this.coursePlanCollection[0].name;
+            } else {
+              autoSelectedPlanId = this.activePlanId;
+              autoSelectedPlanName = '';
+            }
+            this.getCourseswithPlanId(
+              autoSelectedPlanId,
+              autoSelectedPlanName,
+              keyword,
+              'down'
+            );
+            this.scrollToActiveElement(autoSelectedPlanId);
           } else {
-            autoSelectedPlanId = this.activePlanId;
-            autoSelectedPlanName = '';
+            //for no course plan
+            this.courseCollection = null;
           }
-          this.getCourseswithPlanId(
-            autoSelectedPlanId,
-            autoSelectedPlanName,
-            null,
-            'auto-call'
-          );
-          this.scrollToActiveElement(autoSelectedPlanId);
         },
         err => {
           console.log(err);
@@ -445,12 +445,14 @@ export class CourseListComponent implements OnInit {
       );
   }
 
-  getCoursesPerPlan(courseplanId, limit, skip, page, scrollType) {
-    this.scrollType = scrollType;
+  private firstPageLoading: boolean = false;
+  getCoursesPerPlan(courseplanId, limit, skip, page, keyword, scrollType) {
+    // this.scrollType = scrollType;
     console.log('call getCoursesPerPlan from', scrollType);
     console.log(limit, skip, page);
     this.courseLoading = true;
-    let scrollDirection = scrollType == 'prev-plan' ? 'up' : 'down';
+    this.courseListLoading = true;
+    // let scrollDirection = scrollType == 'prev-plan' ? 'up' : 'down';
     this._service
       .getCoursesPerPlan(
         this.regionId,
@@ -459,12 +461,13 @@ export class CourseListComponent implements OnInit {
         limit,
         skip,
         page,
-        scrollDirection,
-        null
+        scrollType,
+        keyword
       )
       .subscribe(
         (res: any) => {
           this.courseLoading = false;
+          this.courseListLoading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
             this.coursesResLength = res.courses.length;
@@ -508,31 +511,6 @@ export class CourseListComponent implements OnInit {
     return (data < 10 ? '0' : '') + data;
   }
 
-  getCourseswithPlanId(courseplanId, planName, keyword, scrollType) {
-    this.courseCollection = null;
-    this.skip = 0;
-    this.page = 1;
-    this.courses = [];
-    console.log('courseplanId:', courseplanId, '& planName:', planName);
-    this.selectedPlan = courseplanId;
-    if (keyword == null || keyword == undefined) {
-      this.getCoursesPerPlan(
-        this.selectedPlan,
-        this.limit,
-        this.skip,
-        this.page,
-        scrollType
-      );
-    } else {
-      this.simpleCourseSearchPerPlan(
-        this.selectedPlan,
-        this.limit,
-        this.skip,
-        this.page,
-        keyword
-      );
-    }
-  }
   changeRoute() {
     this.goBackCat = false;
     this.isCategory = true;
@@ -635,11 +613,11 @@ export class CourseListComponent implements OnInit {
 
   searchStart(e, limit, skip) {
     if (e.keyCode == 13) {
+      this.activePlanId = '';
       this.courseList = [];
       this.recentLists.unshift(e.target.value);
       this.searchKeyword = e.target.value;
       this.dataservice.setCourseSearchWord(this.searchKeyword);
-      this.simpleCoursePlanSearch(e.target.value);
       if (this.recentLists.length > 3) {
         console.log(this.recentLists);
         this.recentLists = this.recentLists.slice(0, 3);
@@ -648,97 +626,8 @@ export class CourseListComponent implements OnInit {
         'recentSearchLists',
         JSON.stringify(this.recentLists)
       );
+      this.getAllCourseplan(this.searchKeyword);
     }
-  }
-
-  simpleCoursePlanSearch(keyword) {
-    console.log(
-      'keyword',
-      keyword,
-      keyword.length,
-      keyword,
-      keyword.match(/^\s*$/)
-    );
-    keyword = keyword.match(/^\s*$/) != null ? '' : keyword;
-    this.coursePlanLoading = true;
-    if (
-      keyword == undefined ||
-      keyword == null ||
-      keyword == '' ||
-      keyword.match(/^\s*$/) != null
-    ) {
-      this.searchKeyword = null;
-      this.searchVal = null;
-      this.iswordcount = false;
-    }
-    this._service
-      .getCourseplanCollection(this.regionId, this.locationID, keyword)
-      .subscribe(
-        (res: any) => {
-          this.coursePlanLoading = false;
-          this.iscourseSearch = false;
-          this.coursePlanCollection = res;
-          let autoSelectedPlanId;
-          let autoSelectedPlanName;
-          if (this.coursePlanCollection.length > 0) {
-            if (this.activePlanId == '' || this.activePlanId == null) {
-              autoSelectedPlanId = this.coursePlanCollection[0]._id;
-              autoSelectedPlanName = this.coursePlanCollection[0].name;
-            } else {
-              autoSelectedPlanId = this.activePlanId;
-              autoSelectedPlanName = '';
-            }
-            this.getCourseswithPlanId(
-              autoSelectedPlanId,
-              autoSelectedPlanName,
-              keyword,
-              'auto-call'
-            );
-            this.scrollToActiveElement(autoSelectedPlanId);
-          } else {
-            //for no course plan
-            this.courseCollection = null;
-          }
-        },
-        err => {
-          this.coursePlanLoading = true;
-          console.log(err);
-          this.toastr.error('Get Course Plan Fail');
-        }
-      );
-  }
-
-  simpleCourseSearchPerPlan(courseplanId, limit, skip, page, keyword) {
-    this.courseLoading = true;
-    this._service
-      .getCoursesPerPlan(
-        this.regionId,
-        this.locationID,
-        courseplanId,
-        limit,
-        skip,
-        page,
-        'down',
-        keyword
-      )
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.courseLoading = false;
-          if (res != null) {
-            this.courses = this.courses.concat(res.courses);
-            this.courseCollection = res;
-            this.courseCollection.courses = this.courses;
-            console.log('courseCollection', this.courseCollection);
-            this.checkCoursesLength();
-          }
-        },
-        err => {
-          console.log(err);
-          this.courseLoading = true;
-          this.toastr.error('Get Courses Fail');
-        }
-      );
   }
 
   clearSearch() {
@@ -747,9 +636,9 @@ export class CourseListComponent implements OnInit {
     this.isoutSideClick = false;
     this.searchVal = '';
     this.searchKeyword = null;
-    this.activePlanId = null;
+    this.activePlanId = '';
     this.clearSearchHistory();
-    this.getAllCourseplan();
+    this.getAllCourseplan(this.searchKeyword);
   }
 
   clearSearchHistory() {
@@ -772,8 +661,8 @@ export class CourseListComponent implements OnInit {
     this.searchVal = val;
     this.searchKeyword = val;
     this.iswordcount = true;
-    this.activePlanId = null;
+    this.activePlanId = '';
     this.dataservice.setCourseSearchWord(this.searchVal);
-    this.simpleCoursePlanSearch(this.searchVal);
+    this.getAllCourseplan(this.searchVal);
   }
 }

@@ -8,6 +8,10 @@
 .addborderTop {
   border-top: 1px solid #edeff0 !important;
 }
+
+.bg-active {
+  background: #0065f2;
+}
 .main-wrapper {
   background: #ffffff;
   margin-top: 4px;
@@ -349,16 +353,18 @@ a.adisabled:active {
 .task-search-input {
   border: 1px solid #eee;
   border-right: none;
-  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5;
+  /* background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5; */
   background-size: 16px;
   background-position-y: center;
   background-position-x: 99%;
   padding: 12px 18px !important;
   border-radius: 4px;
+  background: #f2f4f5;
 }
 
 .simple-search {
   margin-bottom: 22px;
+  background: #f2f4f5;
 }
 
 /* step 1 */

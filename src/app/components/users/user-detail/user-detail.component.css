@@ -417,6 +417,7 @@ h5 {
 
 .input-search-bg:focus {
   box-shadow: none;
+  background-color: #f2f3f5;
 }
 
 .input-search-bg:focus {
