@@ -48,6 +48,7 @@ export class CourseListComponent implements OnInit {
   private skip = 0;
   private courseLoading: boolean;
   private coursePlanLoading: boolean = false;
+  private courseListLoading: boolean = false;
   private iscourseSearch: boolean = false;
   private searchVal = '';
   public isoutSideClick: boolean = false;
@@ -444,11 +445,13 @@ export class CourseListComponent implements OnInit {
       );
   }
 
+  private firstPageLoading: boolean = false;
   getCoursesPerPlan(courseplanId, limit, skip, page, keyword, scrollType) {
     // this.scrollType = scrollType;
     console.log('call getCoursesPerPlan from', scrollType);
     console.log(limit, skip, page);
     this.courseLoading = true;
+    this.courseListLoading = true;
     // let scrollDirection = scrollType == 'prev-plan' ? 'up' : 'down';
     this._service
       .getCoursesPerPlan(
@@ -464,6 +467,7 @@ export class CourseListComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.courseLoading = false;
+          this.courseListLoading = false;
           if (res != null) {
             this.courses = this.courses.concat(res.courses);
             this.coursesResLength = res.courses.length;
