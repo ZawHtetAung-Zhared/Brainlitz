@@ -1,3 +1,214 @@
-<p>
-  invoice-setting-edit works!
-</p>
+<div class="inner-wrapper">
+  <div class="back-wrap d-flex">
+    <div class="back-to" routerLink="/settings">
+      <i class="fa fa-angle-left"></i>
+      <p class="light-body-l text-300">General</p>
+    </div>
+  </div>
+
+  <div class="setting-edit-wrap">
+    <h3 class="h1-strong text-300">{{ option }} setting</h3>
+    <form
+      *ngIf="option == 'Invoice'"
+      novalidate
+      #invoiceForm="ngForm"
+      class="form-wrap"
+    >
+      <div class="col-md-8 input-wrap">
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Company name</label
+            >
+          </div>
+          <input
+            type="text"
+            class="form-control create-input"
+            placeholder="Type company name here"
+            name="companyName"
+            [(ngModel)]="invoiceData.companyName"
+            #name="ngModel"
+          />
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0" for="name">Prefix</label>
+          </div>
+          <input
+            type="text"
+            class="form-control create-input"
+            placeholder="Type company name here"
+            name="prefix"
+            [(ngModel)]="invoiceData.prefix"
+            #prefix="ngModel"
+          />
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Registration number</label
+            >
+          </div>
+          <input
+            type="text"
+            class="form-control create-input"
+            placeholder="Type registration number here"
+            name="registration"
+            [(ngModel)]="invoiceData.registration"
+            #registration="ngModel"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0" for="name">Address</label>
+          </div>
+          <textarea
+            class="form-control create-textarea"
+            rows="3"
+            placeholder="Street"
+            name="street"
+            [(ngModel)]="invoiceData.address"
+            #street="ngModel"
+          ></textarea>
+          <div class="row">
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control tax-input"
+                placeholder="City"
+                name="city"
+                [(ngModel)]="invoiceData.city"
+                #city="ngModel"
+              />
+            </div>
+            <div class="col-md-6">
+              <input
+                type="text"
+                class="form-control tax-input"
+                placeholder="Postal code"
+                name="postal"
+                [(ngModel)]="invoiceData.postal"
+                #postal="ngModel"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Contact email</label
+            >
+          </div>
+          <input
+            type="email"
+            class="form-control create-input"
+            placeholder="Type email address here"
+            name="email"
+            [(ngModel)]="invoiceData.email"
+            #email="ngModel"
+          />
+        </div>
+        <div class="form-group">
+          <div class="currency-wrap">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Currency sign</label
+            >
+            <div
+              (click)="showCurrencyBox('currency', $event)"
+              class="current-currency d-flex justify-content-between"
+            >
+              <div class="d-flex">
+                <div
+                  class="currency-flag currency-flag-{{
+                    selectedFlag
+                  }} flag-wrap"
+                ></div>
+                <div
+                  class="sectionTitle h4-strong text-c300"
+                  *ngIf="selectedFlag == 'sgd' && selectedCurrency == '$'"
+                >
+                  S
+                </div>
+                <div class="c-input text-c300 h4-strong">
+                  {{ selectedCurrency }}
+                </div>
+              </div>
+              <span
+                class="fa fa-angle-down d-flex justify-content-center flex-column icon"
+              ></span>
+            </div>
+            <div *ngIf="showDropdown" class="currency-dropdown">
+              <input
+                type="text"
+                name=""
+                class="form-control"
+                (input)="search($event.target.value)"
+                (click)="showCurrencyBox('currency', $event)"
+              />
+              <div class="currency-list">
+                <div
+                  class="sectionTitle h4-strong text-c300 d-flex"
+                  (click)="selectCurrency(newCurrency[key], key)"
+                  *ngFor="let key of objectKeys(newCurrency)"
+                >
+                  <div *ngIf="flags.indexOf(key) > -1" class="d-flex flag-wrap">
+                    <div class="currency-flag currency-flag-{{ key }}"></div>
+                    <div class="c-sign text-c300 h4-strong">
+                      <div
+                        class="pull-left"
+                        *ngIf="key == 'sgd' && newCurrency[key] == '$'"
+                      >
+                        S
+                      </div>
+                      {{ newCurrency[key] }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0">Invoice note</label>
+          </div>
+          <textarea
+            class="form-control create-textarea"
+            rows="3"
+            placeholder="Invoice note"
+            name="invnote"
+            [(ngModel)]="invoiceData.invoiceNote"
+            #invnote="ngModel"
+          ></textarea>
+        </div>
+        <div class="form-group mb-45">
+          <div class="d-flex justify-content-between">
+            <label class="body-xl text-c300 mb-0">Invoice validity(days)</label>
+          </div>
+          <input
+            type="number"
+            class="form-control create-textarea"
+            placeholder="Invoice duration"
+            name="invDuration"
+            [(ngModel)]="invoiceData.dueDateCount"
+            #invDuration="ngModel"
+          />
+        </div>
+      </div>
+      <div class="d-flex justify-content-end form-footer">
+        <button type="button" class="btn btn-cancel" (click)="cancel()">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit"
+          [disabled]="invoiceData.registration.length <= 0"
+          (click)="updateInvoice(invoiceData, 'invoice')"
+        >
+          Done
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
