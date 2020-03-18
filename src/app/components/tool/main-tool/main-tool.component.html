@@ -1,11 +1,7 @@
 <app-header [ngClass]="{ stick: isSticky == true }"></app-header>
 <div class="d-flex flex-row h-100 w-100">
   <side-menu>
-    <side-block
-      [linkName]="'notification'"
-      [isdropDown]="'true'"
-      (click)="isDisplay = !isDisplay"
-    >
+    <side-block [linkName]="'notification'" (click)="isDisplay = !isDisplay">
       <side-img>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,14 +21,23 @@
       </p>
     </side-block>
     <ul [ngClass]="{ show: isDisplay == true }" class="noti-dropdown">
-      <li class="body-m text-c300">
+      <li
+        class="body-m text-c300"
+        routerLinkActive="active"
+        routerLink="notification/send-notification"
+      >
         Send notification
       </li>
-      <li class="body-m text-c300">
+      <li
+        class="body-m text-c300"
+        routerLinkActive="active"
+        routerLink="notification/send-history"
+      >
         Sent history
       </li>
     </ul>
-    <side-block [linkName]="'tracking-module'" [isdropDown]="'false'">
+
+    <side-block [linkName]="'tracking-module'">
       <side-img>
         <svg
           xmlns="http://www.w3.org/2000/svg"
