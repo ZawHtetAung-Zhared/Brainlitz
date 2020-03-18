@@ -1,6 +1,6 @@
 <app-header [ngClass]="{ stick: navIsFixed == true }"></app-header>
-<div class="d-flex flex-row h-100 w-100 content-wrapper">
-  <side-menu>
+<div class="d-flex flex-row w-100 content-wrapper">
+  <side-menu *ngIf="reportPermission.length != 0">
     <side-block [linkName]="'/report/invoice-report'">
       <side-img>
         <svg
@@ -141,8 +141,12 @@
       </p>
     </side-block>
   </side-menu>
-  <div class="d-flex flex-column w-100 h-100 main-wrapper">
-    <router-outlet></router-outlet>
+  <div
+    class="heading-margin d-flex justify-content-center no-padding large-col"
+  >
+    <div class="d-flex flex-column w-100 h-100 main-wrapper">
+      <router-outlet></router-outlet>
+    </div>
   </div>
   <!-- <div class="noti-sidebar h-100">
     <div
