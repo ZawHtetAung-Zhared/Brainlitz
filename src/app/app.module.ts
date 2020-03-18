@@ -1,3 +1,4 @@
+import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -180,6 +181,7 @@ import { CustomFieldsComponent } from './components/settings/custom-fields/custo
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
 
 @NgModule({
   declarations: [
@@ -309,9 +311,11 @@ import { AverageRatingsComponent } from './components/report/average-ratings/ave
     GeneralComponent,
     LocationsComponent,
     CustomFieldsComponent,
+    PaymentSettingEditComponent,
     ScheduleSettingEditComponent,
     InvoiceSettingEditComponent,
-    AverageRatingsComponent
+    AverageRatingsComponent,
+    GeneralOverviewComponent
   ],
   imports: [
     ContentLoaderModule,
