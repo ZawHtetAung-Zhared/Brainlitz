@@ -8,6 +8,10 @@
 .addborderTop {
   border-top: 1px solid #edeff0 !important;
 }
+
+.bg-active {
+  background: #0065f2;
+}
 .main-wrapper {
   background: #ffffff;
   margin-top: 4px;
