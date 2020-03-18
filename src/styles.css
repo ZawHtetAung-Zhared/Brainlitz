@@ -300,9 +300,6 @@ side-menu {
   height: 100%;
 }
 
-side-menu {
-  width: 25%;
-}
 .rating {
   justify-content: left !important;
   margin-top: 2px !important;
