@@ -206,6 +206,7 @@ import { LocationComponent } from './components/location/location.component';
 import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
 
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
+import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
 @NgModule({
   declarations: [
@@ -356,7 +357,8 @@ import { ResourceListComponent } from './components/tool/resource-list/resource-
     BadgeContentComponent,
     ProgressContentComponent,
     SingleFooterComponent,
-    ResourceListComponent
+    ResourceListComponent,
+    SelfAssessmentContentComponent
   ],
   imports: [
     ContentLoaderModule,

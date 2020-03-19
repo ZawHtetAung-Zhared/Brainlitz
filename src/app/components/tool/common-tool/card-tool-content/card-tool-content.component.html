@@ -23,6 +23,11 @@
             [singleData]="data"
             [viewFor]="viewFor"
           ></data-content>
+          <self-assessment-content
+            *ngSwitchCase="5"
+            [singleSelfAssessment]="data"
+            [viewFor]="viewFor"
+          ></self-assessment-content>
           <grade-content
             *ngSwitchCase="6"
             [singleGrade]="data"
