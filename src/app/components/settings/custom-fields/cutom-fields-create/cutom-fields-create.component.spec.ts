@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationsComponent } from './locations.component';
+import { CutomFieldsCreateComponent } from './cutom-fields-create.component';
 
-describe('LocationsComponent', () => {
-  let component: LocationsComponent;
-  let fixture: ComponentFixture<LocationsComponent>;
+describe('CutomFieldsCreateComponent', () => {
+  let component: CutomFieldsCreateComponent;
+  let fixture: ComponentFixture<CutomFieldsCreateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LocationsComponent]
+      declarations: [CutomFieldsCreateComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LocationsComponent);
+    fixture = TestBed.createComponent(CutomFieldsCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

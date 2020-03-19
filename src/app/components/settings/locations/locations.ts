@@ -1,4 +1,4 @@
-export class Location {
+export class Locations {
   name: string;
   address: string;
   phoneNumber: {

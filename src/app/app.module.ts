@@ -184,7 +184,6 @@ import {
 
 import { SettingsComponent } from './components/settings/settings.component';
 import { GeneralComponent } from './components/settings/general/general.component';
-import { LocationsComponent } from './components/settings/locations/locations.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
@@ -195,6 +194,12 @@ import {
   SideImgComponent
 } from './components/sidemenu/index';
 import { LocationComponent } from './components/location/location.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CutomFieldsCreateComponent } from './components/settings/custom-fields/cutom-fields-create/cutom-fields-create.component';
 
 @NgModule({
   declarations: [
@@ -322,7 +327,6 @@ import { LocationComponent } from './components/location/location.component';
     TrackingModuleComponent,
     SettingsComponent,
     GeneralComponent,
-    LocationsComponent,
     ScheduleSettingEditComponent,
     PaymentSettingEditComponent,
     InvoiceSettingEditComponent,
@@ -336,7 +340,13 @@ import { LocationComponent } from './components/location/location.component';
     AssessmentComponent,
     DataComponent,
     SelfAssessmentComponent,
-    GradingComponent
+    GradingComponent,
+    LocationsComponent,
+    LocationListComponent,
+    LocationCreateComponent,
+    CustomFieldsComponent,
+    CustomFieldsListComponent,
+    CutomFieldsCreateComponent
   ],
   imports: [
     ContentLoaderModule,

@@ -1,3 +1,8 @@
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
 import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
@@ -79,7 +84,6 @@ import {
 } from './components/report/index';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
-import { LocationsComponent } from './components/settings/locations/locations.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -128,11 +132,41 @@ export const routes: Routes = [
       },
       {
         path: 'locations',
-        component: LocationsComponent
+        component: LocationsComponent,
+        children: [
+          { path: '', redirectTo: 'location-list', pathMatch: 'full' },
+          {
+            path: 'location-list',
+            component: LocationListComponent
+          },
+          {
+            path: 'location-update/:id',
+            component: LocationCreateComponent
+          },
+          {
+            path: 'location-create',
+            component: LocationCreateComponent
+          }
+        ]
       },
       {
         path: 'customfields',
-        component: CustomfieldComponent
+        component: CustomFieldsComponent,
+        children: [
+          { path: '', redirectTo: 'custom-fields-list', pathMatch: 'full' },
+          {
+            path: 'custom-fields-list',
+            component: CustomFieldsListComponent
+          },
+          {
+            path: 'custom-fields-update/:id',
+            component: LocationCreateComponent
+          },
+          {
+            path: 'custom-fields-create',
+            component: LocationCreateComponent
+          }
+        ]
       }
     ]
   },

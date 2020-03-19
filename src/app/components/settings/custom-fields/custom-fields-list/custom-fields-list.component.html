@@ -1,0 +1,349 @@
+<div *ngIf="!showForm" class="content-wrapper mx-auto">
+  <div class="d-flex justify-content-between header-wrap">
+    <div class="mr-auto pl-15">
+      <h3 class="h1-strong font-semi text-c300 m-0">Custom field</h3>
+    </div>
+    <button
+      type="button"
+      class="btn btn-create bg-b100 text-s0 body-l mr-15 font-medium"
+      (click)="showCreateForm()"
+    >
+      Add new field
+    </button>
+  </div>
+  <div class="field-wrapper card-columns">
+    <div class="card" *ngFor="let field of fieldLists">
+      <div class="single-field">
+        <div class="field-info">
+          <h5 class="body-l text-c300 font-semi">{{ field.name }}</h5>
+          <div>
+            <p class="mb-0 text-c100 body-m">
+              {{ field.description }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between btn-section">
+          <div class="text-b100 bg-b25 show-type font-semi">
+            <!-- <span *ngIf="field.dataType == 'String'">Text</span>
+            <span *ngIf="field.dataType != 'String'">{{ field.dataType }}</span> -->
+            <span class="small" *ngIf="field.controlType != 'Radio'">{{
+              field.controlType
+            }}</span>
+            <span class="small" *ngIf="field.controlType == 'Radio'"
+              >Choice</span
+            >
+
+            <span
+              class="small"
+              style="padding-left: 3px;"
+              *ngIf="
+                field.controlType == 'Textarea' ||
+                field.controlType == 'Datepicker' ||
+                field.controlType == 'Select'
+              "
+              >field</span
+            >
+          </div>
+          <div class="d-flex font-medium">
+            <button
+              class="btn-action body-m text-y100 cursor-on"
+              (click)="editField(field)"
+            >
+              Edit
+            </button>
+            <span class="dot font-semi">.</span>
+            <button
+              class="btn-action body-m text-r100 cursor-on"
+              (click)="deleteModal(field, alertDelete)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showForm" class="content-wrapper mx-auto">
+  <div class="back-wrap d-flex">
+    <div class="d-flex back cursor-on" (click)="cancel()">
+      <i class="fa fa-angle-left"></i>
+      <p class="mb-0 font-medium light-body-l text-c200">Custom field</p>
+    </div>
+  </div>
+  <div class="form-wrap">
+    <h3 *ngIf="!isUpdate" class="text-c300 h1-strong font-semi m-bottom">
+      Create custom field
+    </h3>
+    <h3 *ngIf="isUpdate" class="text-c300 h1-strong font-semi m-bottom">
+      Update custom field
+    </h3>
+    <form novalidate #fieldForm="ngForm">
+      <div class="col-md-8 p-0">
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="form-title body-l text-c300 font-semi" for="name"
+              >Field name</label
+            >
+            <div class="limit-wordcount">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div>
+          <input
+            type="text"
+            name="name"
+            class="input-field"
+            placeholder="Type field name"
+            maxlength="60"
+            (focus)="focusMethod($event, 'name', $event.target.value)"
+            (blur)="blurMethod($event, 'name')"
+            (input)="changeMethod($event.target.value)"
+            [(ngModel)]="model.name"
+            required
+            #name="ngModel"
+          />
+          <div
+            *ngIf="name.errors && (name.dirty || name.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!name.errors.required">
+              Name is required!
+            </div>
+          </div>
+        </div>
+        <div class="form-group formfield-wrap">
+          <div class="d-flex justify-content-between">
+            <label class="form-title body-l text-c300 font-semi mb-0" for="name"
+              >Description</label
+            >
+            <div class="limit-wordcount1">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div>
+          <!-- <div class="font-medium recomend-msg">
+            We recomend field name alternative sentence.
+          </div> -->
+          <input
+            type="text"
+            class="form-control input-field"
+            placeholder="Type description"
+            name="description"
+            maxlength="60"
+            (focus)="focusMethod($event, 'sub', $event.target.value)"
+            (blur)="blurMethod($event, 'sub')"
+            (input)="changeMethod($event.target.value)"
+            [(ngModel)]="model.description"
+            #description="ngModel"
+          />
+        </div>
+        <div>
+          <label class="body-l text-c300 font-semi">
+            Input type
+          </label>
+          <div class="d-flex tool-box">
+            <div
+              class="form-check form-check-inline tool-checked"
+              *ngFor="let list of testLists"
+            >
+              <label
+                [ngClass]="{ selected: isChecked == list }"
+                class="form-check-label cursor-on"
+              >
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="type"
+                  value="{{ list }}"
+                  [(ngModel)]="model.type"
+                  #type="ngModel"
+                  [checked]="true"
+                  (click)="chooseType(list)"
+                />
+                <span *ngIf="list == 'String'">Text</span>
+                <!-- <span *ngIf="list == 'Radio'">Choice</span> -->
+                <span *ngIf="list != 'String' && list != 'Radio'">{{
+                  list
+                }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="d-flex justify-content-between col-md-8 p-0"
+        *ngIf="isChecked == 'Selection'"
+      >
+        <p class="body-l text-c200">Allow multiple selection</p>
+        <div class="toggle-wrap" (click)="choiceMultiple()">
+          <label class="switch">
+            <input
+              type="checkbox"
+              (change)="choiceMultiple()"
+              [checked]="isMultipleSelection"
+            />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+      <div
+        class="container dataList"
+        dragula="HANDLES"
+        [(dragulaModel)]="checkFieldArr"
+        style="margin-bottom:5rem"
+      >
+        <!-- <div class="col-md-8 d-flex justify-content-end">
+          <div class="limit-wordcount2">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+        </div> -->
+        <div
+          *ngFor="let cobj of checkFieldArr; let idx = index"
+          class="col-md-8  p-0 m-0"
+        >
+          <!-- <div class="d-flex justify-content-end pr-3">
+            <div class="limit-wordcount2" [ngClass]="'wordcount' + idx">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div> -->
+          <div class="d-flex">
+            <span class="handle">
+              <img
+                class="handle"
+                src="../../../assets/images/disable-holder.svg"
+              />
+            </span>
+            <input
+              type="text"
+              name="name"
+              class="input-field choice"
+              placeholder="Type field name"
+              maxlength="60"
+              (focus)="
+                focusMethod($event, 'wordcount' + idx, $event.target.value)
+              "
+              (blur)="blurMethod($event, 'wordcount' + idx)"
+              (input)="this.checkFieldArr[idx].name = $event.target.value"
+              (keypress)="addcheckboxField($event, idx)"
+              [value]="cobj.name"
+              required
+            />
+
+            <div
+              class="close-search"
+              *ngIf="checkFieldArr?.length > 1"
+              (click)="removeFeeOption(idx)"
+            ></div>
+          </div>
+        </div>
+        <p
+          class="col-md-4 text-b100 body-l"
+          *ngIf="isChecked == 'Selection'"
+          (click)="addNewItem()"
+        >
+          Add New Selection
+        </p>
+      </div>
+      <div class="d-flex justify-content-end form-footer mt-5">
+        <button
+          type="button"
+          class="btn-cancel body-l bg-s20 cursor-on"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+        <div class="d-none" *ngIf="isChecked == 'Selection'">
+          {{ validateForm() }}
+        </div>
+
+        <div *ngIf="isChecked == 'Selection'">
+          <button
+            *ngIf="!isUpdate"
+            type="button"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
+            (click)="createField(this.model, '')"
+            [disabled]="!isCustomeValid || !fieldForm.form.valid"
+          >
+            Create
+          </button>
+        </div>
+        <div
+          *ngIf="
+            isChecked == 'String' ||
+            isChecked == 'Number' ||
+            isChecked == 'Date'
+          "
+        >
+          <button
+            *ngIf="!isUpdate"
+            type="button"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
+            (click)="createField(this.model, '')"
+            [disabled]="!fieldForm.form.valid"
+          >
+            Create
+          </button>
+        </div>
+        <div *ngIf="isChecked == 'Selection'">
+          <button
+            *ngIf="isUpdate"
+            type="button"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
+            (click)="createField(this.model, this.model._id)"
+            [disabled]="!isCustomeValid || !fieldForm.form.valid"
+          >
+            Update
+          </button>
+        </div>
+        <div
+          *ngIf="
+            isChecked == 'String' ||
+            isChecked == 'Number' ||
+            isChecked == 'Date'
+          "
+        >
+          <button
+            *ngIf="isUpdate"
+            type="button"
+            class="btn-submit cursor-on bg-b100 body-l"
+            (click)="createField(this.model, this.model._id)"
+            [disabled]="!fieldForm.form.valid"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<ng-template #alertDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Confirm delete?</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      	<span aria-hidden="true">&times;</span>
+    	</button> -->
+  </div>
+  <div class="modal-body field-confirm">
+    <p>
+      Are You sure you want to delete
+      <span class="target">"{{ deleteObj.name }}"</span>?
+      <!-- <span style="color: red;">"{{deleteAPG}}"</span> -->
+      <!-- {{deleteObj.id}} -->
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn"
+      (click)="c('Close click')"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn"
+      (click)="deleteField(deleteObj.id)"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>
