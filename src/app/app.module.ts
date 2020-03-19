@@ -194,6 +194,13 @@ import {
   MainBlockComponent,
   SideImgComponent
 } from './components/sidemenu/index';
+import { MainToolContentComponent } from './components/tool/common-tool/main-tool-content/main-tool-content.component';
+import { CardToolContentComponent } from './components/tool/common-tool/card-tool-content/card-tool-content.component';
+import { DataContentComponent } from './components/tool/common-tool/data-content/data-content.component';
+import { GradeContentComponent } from './components/tool/common-tool/grade-content/grade-content.component';
+import { AssessmentContentComponent } from './components/tool/common-tool/assessment-content/assessment-content.component';
+import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
+import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
 
 @NgModule({
@@ -336,7 +343,14 @@ import { LocationComponent } from './components/location/location.component';
     AssessmentComponent,
     DataComponent,
     SelfAssessmentComponent,
-    GradingComponent
+    GradingComponent,
+    MainToolContentComponent,
+    CardToolContentComponent,
+    DataContentComponent,
+    GradeContentComponent,
+    AssessmentContentComponent,
+    BadgeContentComponent,
+    ProgressContentComponent
   ],
   imports: [
     ContentLoaderModule,
