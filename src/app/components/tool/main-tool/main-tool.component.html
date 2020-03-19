@@ -23,6 +23,7 @@
     <ul [ngClass]="{ show: isDisplay == true }" class="noti-dropdown">
       <li
         class="body-m text-c300"
+        style="outline: none;"
         routerLinkActive="active"
         routerLink="notification/send-notification"
       >
@@ -30,6 +31,7 @@
       </li>
       <li
         class="body-m text-c300"
+        style="outline: none;"
         routerLinkActive="active"
         routerLink="notification/send-history"
       >
@@ -58,7 +60,7 @@
     </side-block>
   </side-menu>
 
-  <div class="main-content">
+  <div class="main-content w-100">
     <router-outlet></router-outlet>
   </div>
 </div>

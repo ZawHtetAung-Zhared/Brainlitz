@@ -167,10 +167,21 @@ import {
   StaffTeachingReportGraph
 } from './components/report/index';
 
-import { NotificationComponent } from './components/tool/notification/notification.component';
-import { MainToolComponent } from './components/tool/main-tool/main-tool.component';
-import { SideImgComponent } from './components/sidemenu/side-img/side-img.component';
-import { TrackingModuleComponent } from './components/tool/tracking-module/tracking-module.component';
+import {
+  NotificationComponent,
+  MainToolComponent,
+  TrackingModuleComponent,
+  SendHistoryComponent,
+  SendNotificationComponent,
+  GradingComponent,
+  DataComponent,
+  AssessmentComponent,
+  SelfAssessmentComponent,
+  BadgeComponent,
+  ProgressComponent,
+  AllTrackingModuleComponent
+} from './components/tool/index';
+
 import { SettingsComponent } from './components/settings/settings.component';
 import { GeneralComponent } from './components/settings/general/general.component';
 import { LocationsComponent } from './components/settings/locations/locations.component';
@@ -178,12 +189,10 @@ import { ScheduleSettingEditComponent } from './components/settings/general/sche
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
 import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
-
-import { SendHistoryComponent } from './components/tool/send-history/send-history.component';
-import { SendNotificationComponent } from './components/tool/send-notification/send-notification.component';
 import {
   ContentBlockComponent,
-  MainBlockComponent
+  MainBlockComponent,
+  SideImgComponent
 } from './components/sidemenu/index';
 import { LocationComponent } from './components/location/location.component';
 
@@ -320,7 +329,14 @@ import { LocationComponent } from './components/location/location.component';
     AverageRatingsComponent,
     GeneralOverviewComponent,
     SendHistoryComponent,
-    SendNotificationComponent
+    SendNotificationComponent,
+    AllTrackingModuleComponent,
+    ProgressComponent,
+    BadgeComponent,
+    AssessmentComponent,
+    DataComponent,
+    SelfAssessmentComponent,
+    GradingComponent
   ],
   imports: [
     ContentLoaderModule,

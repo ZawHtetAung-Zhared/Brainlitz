@@ -33,7 +33,14 @@ import {
   NotificationComponent,
   TrackingModuleComponent,
   SendHistoryComponent,
-  SendNotificationComponent
+  SendNotificationComponent,
+  AllTrackingModuleComponent,
+  ProgressComponent,
+  BadgeComponent,
+  AssessmentComponent,
+  DataComponent,
+  SelfAssessmentComponent,
+  GradingComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -333,7 +340,39 @@ export const routes: Routes = [
       },
       {
         path: 'tracking-module',
-        component: TrackingModuleComponent
+        component: TrackingModuleComponent,
+        children: [
+          { path: '', redirectTo: 'all', pathMatch: 'full' },
+          {
+            path: 'all',
+            component: AllTrackingModuleComponent
+          },
+          {
+            path: '1/:id',
+            component: ProgressComponent
+          },
+          {
+            path: '2/:id',
+            component: BadgeComponent
+          },
+          {
+            path: '3/:id',
+            component: AssessmentComponent
+          },
+
+          {
+            path: '4/:id',
+            component: DataComponent
+          },
+          {
+            path: '5/:id',
+            component: SelfAssessmentComponent
+          },
+          {
+            path: '6/:id',
+            component: GradingComponent
+          }
+        ]
       }
     ]
   },

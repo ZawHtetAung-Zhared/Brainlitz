@@ -260,6 +260,7 @@
   border-radius: 4px !important;
   color: #788796;
   cursor: pointer;
+  outline: none;
 }
 
 .title-heading {
@@ -947,6 +948,13 @@ div.ap-wrapper:last-child {
 }
 
 .input-search-bg:focus {
+  outline: none;
+  box-shadow: none;
+  background: #f2f3f5;
+}
+
+.btn-design:focus,
+.btn-design:active {
   outline: none;
   box-shadow: none;
 }

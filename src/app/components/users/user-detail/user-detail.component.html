@@ -1891,7 +1891,17 @@
                   )
                 "
               />
-              <span class="input-group-append">
+              <span
+                class="input-group-append"
+                (click)="
+                  changeSearch(
+                    searchData.searchText,
+                    custDetail.user.userId,
+                    '',
+                    ''
+                  )
+                "
+              >
                 <button
                   class="bt btn-design btn-outline-secondary btn-right-radius"
                   type="button"

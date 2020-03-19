@@ -82,6 +82,7 @@ export class CustomTaskComponent implements OnInit {
   public rangeMin: any;
   public rangeHr: any;
   public showFormat: any;
+  public searchword: any;
 
   public test =
     "<text index=0 value='\"The diagram below shows a paper cup filled with ice cubes. The paper cup was then left in the classroom.\n' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg' ><text index=2 value='\nWhat can be done to make the ice melt faster?\nBlowing into the cup.\nReplacing the paper cup with a metal cup.\nWrapping his hands around the paper cup. \nPlacing a lid to cover the opening of the paper cup.' ></text>";
@@ -567,7 +568,16 @@ export class CustomTaskComponent implements OnInit {
     return arr;
   }
 
+  searchTemplateInput(value) {
+    this.searchword = value;
+    if (value.length == 0) {
+      this.searchword = '';
+      this.getTemplateLists(null);
+    }
+  }
+
   searchTemplate(value) {
+    this.searchword = value;
     console.log(value);
     this.getTemplateLists(value);
   }

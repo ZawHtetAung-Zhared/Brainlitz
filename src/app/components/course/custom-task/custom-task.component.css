@@ -96,6 +96,16 @@ div#answer-block {
 .show-anno {
   height: 180px !important;
 }
+
+.btn-search {
+  color: #788796;
+  cursor: pointer;
+  background: #f2f4f5;
+  border: none;
+  outline: none;
+  line-height: 2.5;
+}
+
 @media only screen and (min-width: 1365px) {
   .mastery-scroll {
     overflow: overlay;

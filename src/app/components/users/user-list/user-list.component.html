@@ -56,7 +56,10 @@
           (keyup.enter)="userSearch($event.target.value, 'customer', '', '')"
           autocomplete="off"
         />
-        <span class="btn-design btn-outline-secondary">
+        <span
+          class="btn-design btn-outline-secondary"
+          (click)="userSearch(searchKeyword, 'customer', '', '')"
+        >
           <i class="fa fa-search search-size body-xl"></i>
         </span>
       </div>
