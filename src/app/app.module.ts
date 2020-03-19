@@ -195,6 +195,7 @@ import {
   SideImgComponent
 } from './components/sidemenu/index';
 import { LocationComponent } from './components/location/location.component';
+import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 
 @NgModule({
   declarations: [
@@ -336,7 +337,8 @@ import { LocationComponent } from './components/location/location.component';
     AssessmentComponent,
     DataComponent,
     SelfAssessmentComponent,
-    GradingComponent
+    GradingComponent,
+    ResourceListComponent
   ],
   imports: [
     ContentLoaderModule,

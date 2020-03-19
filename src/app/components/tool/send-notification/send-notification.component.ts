@@ -124,8 +124,11 @@ export class SendNotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log();
+    console.log('oninit send-noti');
     this.locationId = localStorage.getItem('locationId');
+    this.locationName = localStorage.getItem('locationName');
+    this.gtxtColor = localStorage.getItem('txtColor');
+    this.gbgColor = localStorage.getItem('backgroundColor');
     this.setDefaultSelected();
     this.item.sendType = 'app';
 
