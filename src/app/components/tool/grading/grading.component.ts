@@ -72,9 +72,8 @@ export class GradingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.error('result :::::::: ', res);
-          this.apgList = [];
           this.result = res;
-          this.apgList = res;
+          this.apgList = this.apgList.concat(res);
           // if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
           //   this.usergradingAPG = this.usergradingAPG.concat(res);
           //   this.apgList = this.usergradingAPG;
@@ -85,5 +84,16 @@ export class GradingComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+  showmore(type, skip: any) {
+    console.log('Not user search ' + type);
+    this.getAllAPG(20, skip);
+    // if (this.isSearch == true) {
+    //   console.log('User Search');
+    //   this.apgListSearch(this.keyword, type, 20, skip);
+    // } else {
+    //   console.log('Not user search');
+    //   this.getAllAPG(20, skip);
+    // }
   }
 }
