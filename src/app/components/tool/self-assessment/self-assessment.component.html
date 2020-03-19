@@ -1,3 +1,13 @@
-<p>
-  self-assessment works!
-</p>
+<main-tool-content>
+  <card-tool-content [dataList]="apgList" [viewFor]="'self-assessment'">
+  </card-tool-content>
+</main-tool-content>
+
+<div *ngIf="result.length >= 20" class="load-more bg-s0">
+  <button
+    class="btn remove-outline body-m text-b100 "
+    (click)="showmore('apg', apgList.length)"
+  >
+    load more
+  </button>
+</div>
