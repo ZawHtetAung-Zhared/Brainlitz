@@ -7,8 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AssessmentContentComponent implements OnInit {
   @Input() singleAssessment;
+  @Input() viewFor;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.singleAssessment);
+    console.log(this.viewFor);
+  }
 }

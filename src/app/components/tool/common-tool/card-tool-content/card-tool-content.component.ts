@@ -7,9 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CardToolContentComponent implements OnInit {
   @Input() dataList;
+  @Input() viewFor;
   constructor() {}
 
   ngOnInit() {
     console.log(this.dataList);
+    console.log(this.viewFor);
   }
 }

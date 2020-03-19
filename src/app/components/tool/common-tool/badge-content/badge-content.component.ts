@@ -7,9 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BadgeContentComponent implements OnInit {
   @Input() singleBadge;
+  @Input() viewFor;
   constructor() {}
 
   ngOnInit() {
     console.log(this.singleBadge);
+    console.log(this.viewFor);
   }
 }

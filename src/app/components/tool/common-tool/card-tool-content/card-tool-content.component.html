@@ -5,14 +5,28 @@
         <progress-content
           *ngSwitchCase="1"
           [singleProgress]="data"
+          [viewFor]="viewFor"
         ></progress-content>
-        <badge-content *ngSwitchCase="2" [singleBadge]="data"></badge-content>
+        <badge-content
+          *ngSwitchCase="2"
+          [singleBadge]="data"
+          [viewFor]="viewFor"
+        ></badge-content>
         <assessment-content
           *ngSwitchCase="3"
           [singleAssessment]="data"
+          [viewFor]="viewFor"
         ></assessment-content>
-        <data-content *ngSwitchCase="4" [singleData]="data"></data-content>
-        <grade-content *ngSwitchCase="6" [singleGrade]="data"></grade-content>
+        <data-content
+          *ngSwitchCase="4"
+          [singleData]="data"
+          [viewFor]="viewFor"
+        ></data-content>
+        <grade-content
+          *ngSwitchCase="6"
+          [singleGrade]="data"
+          [viewFor]="viewFor"
+        ></grade-content>
       </div>
     </div>
   </div>

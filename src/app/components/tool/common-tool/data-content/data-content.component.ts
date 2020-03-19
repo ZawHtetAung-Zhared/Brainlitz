@@ -7,9 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DataContentComponent implements OnInit {
   @Input() singleData;
+  @Input() viewFor;
   constructor() {}
 
   ngOnInit() {
     console.log(this.singleData);
+    console.log(this.viewFor);
   }
 }

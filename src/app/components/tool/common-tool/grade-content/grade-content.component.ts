@@ -7,9 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class GradeContentComponent implements OnInit {
   @Input() singleGrade;
+  @Input() viewFor;
   constructor() {}
 
   ngOnInit() {
     console.log(this.singleGrade);
+    console.log(this.viewFor);
   }
 }
