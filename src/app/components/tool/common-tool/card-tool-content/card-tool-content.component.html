@@ -1,0 +1,14 @@
+<ng-template ngFor let-data [ngForOf]="dataList" let-i="index">
+  <div class="card">
+    <div class="single-apg">
+      <div [ngSwitch]="data?.module.type">
+        <!-- <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="hero"></app-happy-hero>
+        <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="hero"></app-sad-hero>
+        <app-confused-hero *ngSwitchCase="'confused'" [hero]="hero"></app-confused-hero>
+        <app-unknown-hero  *ngSwitchDefault           [hero]="hero"></app-unknown-hero> -->
+      </div>
+      <!-- <ng-template [ngIf]="obj.module.type==1"></ng-template>
+      <ng-content></ng-content> -->
+    </div>
+  </div>
+</ng-template>
