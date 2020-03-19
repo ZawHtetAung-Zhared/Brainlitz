@@ -229,7 +229,7 @@ export class MasteriesreportComponent implements OnInit {
           hoverItem.shortMasteryName +
           '</div>' +
           '<div class="small text-s0">' +
-          hoverItem.descriptionStudent +
+          hoverItem.infoForEducator +
           '</div>';
         '</div>';
         $('#mastery_hover').html(hover_html);
