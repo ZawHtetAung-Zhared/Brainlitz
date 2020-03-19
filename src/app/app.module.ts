@@ -194,7 +194,7 @@ import {
   MainBlockComponent,
   SideImgComponent
 } from './components/sidemenu/index';
-import { MainToolContentComponent } from './components/tool/common-tool/main-tool-content/main-tool-content.component';
+
 import { CardToolContentComponent } from './components/tool/common-tool/card-tool-content/card-tool-content.component';
 import { DataContentComponent } from './components/tool/common-tool/data-content/data-content.component';
 import { GradeContentComponent } from './components/tool/common-tool/grade-content/grade-content.component';
@@ -348,7 +348,7 @@ import { ResourceListComponent } from './components/tool/resource-list/resource-
     DataComponent,
     SelfAssessmentComponent,
     GradingComponent,
-    MainToolContentComponent,
+
     CardToolContentComponent,
     DataContentComponent,
     GradeContentComponent,

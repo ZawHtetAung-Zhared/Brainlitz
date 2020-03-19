@@ -296,8 +296,7 @@ app-main-block,
 app-main-tool,
 side-menu,
 app-tracking-module,
-app-all-tracking-module,
-main-tool-content {
+app-all-tracking-module {
   display: flex;
   flex-direction: column;
   height: 100%;
