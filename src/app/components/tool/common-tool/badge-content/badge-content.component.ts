@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'badge-content',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./badge-content.component.css']
 })
 export class BadgeContentComponent implements OnInit {
+  @Input() singleBadge;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.singleBadge);
+  }
 }

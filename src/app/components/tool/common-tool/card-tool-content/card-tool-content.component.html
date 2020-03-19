@@ -2,13 +2,18 @@
   <div class="card">
     <div class="single-apg">
       <div [ngSwitch]="data?.module.type">
-        <!-- <app-happy-hero    *ngSwitchCase="'happy'"    [hero]="hero"></app-happy-hero>
-        <app-sad-hero      *ngSwitchCase="'sad'"      [hero]="hero"></app-sad-hero>
-        <app-confused-hero *ngSwitchCase="'confused'" [hero]="hero"></app-confused-hero>
-        <app-unknown-hero  *ngSwitchDefault           [hero]="hero"></app-unknown-hero> -->
+        <progress-content
+          *ngSwitchCase="1"
+          [singleProgress]="data"
+        ></progress-content>
+        <badge-content *ngSwitchCase="2" [singleBadge]="data"></badge-content>
+        <assessment-content
+          *ngSwitchCase="3"
+          [singleAssessment]="data"
+        ></assessment-content>
+        <data-content *ngSwitchCase="4" [singleData]="data"></data-content>
+        <grade-content *ngSwitchCase="6" [singleGrade]="data"></grade-content>
       </div>
-      <!-- <ng-template [ngIf]="obj.module.type==1"></ng-template>
-      <ng-content></ng-content> -->
     </div>
   </div>
 </ng-template>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'data-content',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-content.component.css']
 })
 export class DataContentComponent implements OnInit {
+  @Input() singleData;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.singleData);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'progress-content',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./progress-content.component.css']
 })
 export class ProgressContentComponent implements OnInit {
+  @Input() singleProgress;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.singleProgress);
+  }
 }

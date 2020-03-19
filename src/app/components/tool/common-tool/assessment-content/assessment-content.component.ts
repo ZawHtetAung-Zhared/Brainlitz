@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'assessment-content',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assessment-content.component.css']
 })
 export class AssessmentContentComponent implements OnInit {
+  @Input() singleAssessment;
+
   constructor() {}
 
   ngOnInit() {}
