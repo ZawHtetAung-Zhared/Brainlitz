@@ -295,7 +295,9 @@ app-assign-task,
 app-main-block,
 app-main-tool,
 side-menu,
-app-tracking-module {
+app-tracking-module,
+app-all-tracking-module,
+main-tool-content {
   display: flex;
   flex-direction: column;
   height: 100%;

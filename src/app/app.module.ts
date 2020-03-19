@@ -202,6 +202,7 @@ import { AssessmentContentComponent } from './components/tool/common-tool/assess
 import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
+import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
 
 @NgModule({
   declarations: [
@@ -350,7 +351,8 @@ import { LocationComponent } from './components/location/location.component';
     GradeContentComponent,
     AssessmentContentComponent,
     BadgeContentComponent,
-    ProgressContentComponent
+    ProgressContentComponent,
+    SingleFooterComponent
   ],
   imports: [
     ContentLoaderModule,
