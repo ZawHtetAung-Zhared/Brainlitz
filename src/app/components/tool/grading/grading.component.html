@@ -1,108 +1,11 @@
-<div class="apg-wrapper card-columns">
-  <div class="card" *ngFor="let apg of apgList; let i = index">
-    <div
-      class="single-apg"
-      [ngStyle]="{
-        'max-height': 360 + 'px'
-      }"
-    >
-      <div class="info-section">
-        <div class="noBg-apg-header">
-          <p class="mb-0 small text-c100" *ngIf="apg.module">
-            {{
-              apg.module.name.toLowerCase() == 'user grading'
-                ? 'Grade'
-                : apg.module.name
-            }}
-          </p>
-          <p class="mb-0 small text-c100" *ngIf="!apg.module">-</p>
-          <p class="body-m text-c300 mb-0">{{ apg.name }}</p>
-        </div>
-        <div class="apg-scroll" style="margin-top: 14px; max-height: 220px">
-          <div class="padding-lr">
-            <div>
-              <div *ngFor="let ap of apg.accessPoints">
-                <div
-                  class="d-flex"
-                  *ngFor="let grade of ap.data.grades; let j = index"
-                >
-                  <div
-                    class="d-flex justify-content-center"
-                    [ngStyle]="{
-                      background: ap.data.sepalColor.background,
-                      color: ap.data.sepalColor.text
-                    }"
-                    [ngClass]="{
-                      'test-circle': grade.point.length == 1,
-                      circle: grade.point.length > 1
-                    }"
-                  >
-                    <span>
-                      {{ grade.point }}
-                    </span>
-                  </div>
+<card-tool-content [dataList]="apgList" [viewFor]="'user grading'">
+</card-tool-content>
 
-                  <div
-                    class="detail-line apg-grade body-m text-c300 w-100"
-                    [ngClass]="{
-                      'hide-border': ap.data.grades?.length == j + 1
-                    }"
-                  >
-                    <p class="gradename body-m text-c300">{{ grade.name }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-between btn-section">
-        <div class="d-flex">
-          <div
-            *ngIf="tempSharedApgId == apg._id && apg.share.status == true"
-            class="status-wrapper-share ml-2"
-            [ngClass]="{ 'apg-status': apg.share.status == true }"
-          >
-            <span><img src="../../../assets/images/shared.png " alt=""/></span>
-          </div>
-          <div
-            *ngIf="tempSharedApgId != apg._id && apg.share.status == true"
-            class="status-wrapper-share ml-2"
-          >
-            <span *ngIf="apg.share.status == true"
-              ><img src="../../../assets/images/shared.png " alt=""
-            /></span>
-          </div>
-          <div *ngIf="apg.share.status == true" class="circle-apg">
-            <!-- <ul class="bullet-list-style">
-              <li></li>
-            </ul> -->
-          </div>
-          <div>
-            <button
-              class="apg-share remove-outline text-b100 body-m text-b100 body-m"
-              (click)="apgPublicShare(apg._id)"
-            >
-              Share
-            </button>
-          </div>
-        </div>
-        <div>
-          <button
-            class="btn-action remove-outline light-body-m text-y100"
-            (click)="onclickUpdate(apg._id, apg)"
-          >
-            Edit
-          </button>
-          <span class="small-line"></span>
-          <button
-            class="btn-action remove-outline light-body-m text-r100"
-            (click)="onclickDelete(apg._id, alertDelete)"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div *ngIf="result.length >= 20" class="load-more bg-s0">
+  <button
+    class="btn remove-outline body-m text-b100 "
+    (click)="showmore('apg', apgList.length)"
+  >
+    load more
+  </button>
 </div>

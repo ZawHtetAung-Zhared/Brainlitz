@@ -1,89 +1,93 @@
-<div
-  class="heading-margin d-flex flex-column align-items-center no-padding large-col h-100"
->
-  <div class="d-flex flex-column main-wrapper w-100 h-100">
-    <div id="mainapg">
-      <div
-        *ngIf="apgPermission.length > 0"
-        class="d-flex justify-content-between heading-margin"
-      >
-        <h2 class="title-heading h1-strong text-c300">Tracking module</h2>
+<div class="main-wrapper">
+  <div
+    class="heading-margin d-flex flex-column align-items-center no-padding large-col h-100"
+  >
+    <div class="d-flex flex-column main-wrapper w-100 h-100">
+      <div id="mainapg">
+        <div
+          *ngIf="apgPermission.length > 0"
+          class="d-flex justify-content-between heading-margin"
+        >
+          <h2 class="title-heading h1-strong text-c300">Tracking module</h2>
 
-        <div style="position: relative;">
-          <button
-            class="btn-exportAll text-b100 bg-s0 body-l"
-            (click)="showExportOption($event, 'exportOpt')"
-          >
-            Export
-            <i class="fa fa-chevron-down dpIcon"></i>
-          </button>
-          <div *ngIf="showDp" class="option-dp">
-            <div *ngFor="let module of moduleList">
-              <div
-                *ngIf="
-                  module.name.toLowerCase() == 'assessment' ||
-                  module.name.toLowerCase() == 'evaluation'
-                "
-                class="inv-opt"
-                (click)="exportCSV('all')"
-              >
-                {{ module.name }}
+          <div style="position: relative;">
+            <button
+              class="btn-exportAll text-b100 bg-s0 body-l"
+              (click)="showExportOption($event, 'exportOpt')"
+            >
+              Export
+              <i class="fa fa-chevron-down dpIcon"></i>
+            </button>
+            <div *ngIf="showDp" class="option-dp">
+              <div *ngFor="let module of moduleList">
+                <div
+                  *ngIf="
+                    module.name.toLowerCase() == 'assessment' ||
+                    module.name.toLowerCase() == 'evaluation'
+                  "
+                  class="inv-opt"
+                  (click)="exportCSV('all')"
+                >
+                  {{ module.name }}
+                </div>
               </div>
             </div>
+            <button
+              *ngIf="apgDemo.addAPG != ''"
+              type="button"
+              class="btn btn-create text-s0 bg-b100 body-l"
+              (click)="addNewAPG()"
+            >
+              Add new tracking module
+            </button>
           </div>
+        </div>
+
+        <div class="input-group col-md-12 mt-30">
+          <input
+            class="form-control py-2 input-search-bg bg-s20"
+            type="search"
+            placeholder="Search tracking module"
+            id="example-search-input"
+            (input)="apgListSearch2($event.target.value, 'APG', '', '')"
+            (keyup.enter)="apgListSearch($event.target.value, 'APG', '', '')"
+            autocomplete="off"
+          />
+          <span class="input-group-append">
+            <button
+              class="bt btn-design btn-outline-secondary bg-s20 text-c100"
+              type="button"
+            >
+              <i class="fa fa-search search-size"></i>
+            </button>
+          </span>
+        </div>
+
+        <div class="d-flex tabs-wrapper tab-name">
           <button
-            *ngIf="apgDemo.addAPG != ''"
-            type="button"
-            class="btn btn-create text-s0 bg-b100 body-l"
-            (click)="addNewAPG()"
+            class="modal-tab body-m text-c300 bg-s0"
+            routerLinkActive="active"
+            routerLink="all"
           >
-            Add new tracking module
+            All
+          </button>
+          <button
+            class="modal-tab body-m text-c300 bg-s0"
+            *ngFor="let module of moduleList"
+            routerLinkActive="active"
+            [routerLink]="['./', module.type, module._id]"
+          >
+            {{
+              module.name.toLowerCase() == 'user grading'
+                ? 'Grade'
+                : module.name
+            }}
           </button>
         </div>
       </div>
-
-      <div class="input-group col-md-12 mt-30">
-        <input
-          class="form-control py-2 input-search-bg bg-s20"
-          type="search"
-          placeholder="Search tracking module"
-          id="example-search-input"
-          (input)="apgListSearch2($event.target.value, 'APG', '', '')"
-          (keyup.enter)="apgListSearch($event.target.value, 'APG', '', '')"
-          autocomplete="off"
-        />
-        <span class="input-group-append">
-          <button
-            class="bt btn-design btn-outline-secondary bg-s20 text-c100"
-            type="button"
-          >
-            <i class="fa fa-search search-size"></i>
-          </button>
-        </span>
+      <div class="h-100">
+        <router-outlet></router-outlet>
       </div>
-
-      <div class="d-flex tabs-wrapper tab-name">
-        <button
-          class="modal-tab body-m text-c300 bg-s0"
-          routerLinkActive="active"
-          routerLink="all"
-        >
-          All
-        </button>
-        <button
-          class="modal-tab body-m text-c300 bg-s0"
-          *ngFor="let module of moduleList"
-          routerLinkActive="active"
-          [routerLink]="['./', module.type, module._id]"
-        >
-          {{
-            module.name.toLowerCase() == 'user grading' ? 'Grade' : module.name
-          }}
-        </button>
-      </div>
-    </div>
-    <div class="h-100">
-      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

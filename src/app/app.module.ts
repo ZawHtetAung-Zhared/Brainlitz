@@ -194,7 +194,7 @@ import {
   MainBlockComponent,
   SideImgComponent
 } from './components/sidemenu/index';
-import { MainToolContentComponent } from './components/tool/common-tool/main-tool-content/main-tool-content.component';
+
 import { CardToolContentComponent } from './components/tool/common-tool/card-tool-content/card-tool-content.component';
 import { DataContentComponent } from './components/tool/common-tool/data-content/data-content.component';
 import { GradeContentComponent } from './components/tool/common-tool/grade-content/grade-content.component';
@@ -202,8 +202,12 @@ import { AssessmentContentComponent } from './components/tool/common-tool/assess
 import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
+
+import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
+
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
 @NgModule({
   declarations: [
@@ -346,7 +350,7 @@ import { CreateResourceComponent } from './components/tool/create-resource/creat
     DataComponent,
     SelfAssessmentComponent,
     GradingComponent,
-    MainToolContentComponent,
+
     CardToolContentComponent,
     DataContentComponent,
     GradeContentComponent,
@@ -354,7 +358,10 @@ import { CreateResourceComponent } from './components/tool/create-resource/creat
     BadgeContentComponent,
     ProgressContentComponent,
     ResourceListComponent,
-    CreateResourceComponent
+    CreateResourceComponent,
+    SingleFooterComponent,
+    ResourceListComponent,
+    SelfAssessmentContentComponent
   ],
   imports: [
     ContentLoaderModule,

@@ -1,33 +1,40 @@
-<ng-template ngFor let-data [ngForOf]="dataList" let-i="index">
-  <div class="card">
-    <div class="single-apg">
-      <div [ngSwitch]="data?.module.type">
-        <progress-content
-          *ngSwitchCase="1"
-          [singleProgress]="data"
-          [viewFor]="viewFor"
-        ></progress-content>
-        <badge-content
-          *ngSwitchCase="2"
-          [singleBadge]="data"
-          [viewFor]="viewFor"
-        ></badge-content>
-        <assessment-content
-          *ngSwitchCase="3"
-          [singleAssessment]="data"
-          [viewFor]="viewFor"
-        ></assessment-content>
-        <data-content
-          *ngSwitchCase="4"
-          [singleData]="data"
-          [viewFor]="viewFor"
-        ></data-content>
-        <grade-content
-          *ngSwitchCase="6"
-          [singleGrade]="data"
-          [viewFor]="viewFor"
-        ></grade-content>
+<div class="apg-wrapper card-columns h-100">
+  <ng-template ngFor let-data [ngForOf]="dataList" let-i="index">
+    <div class="card">
+      <div class="single-apg">
+        <div [ngSwitch]="data?.module.type">
+          <progress-content
+            *ngSwitchCase="1"
+            [singleProgress]="data"
+            [viewFor]="viewFor"
+          ></progress-content>
+          <badge-content
+            *ngSwitchCase="2"
+            [singleBadge]="data"
+            [viewFor]="viewFor"
+          ></badge-content>
+          <assessment-content
+            *ngSwitchCase="3"
+            [singleAssessment]="data"
+            [viewFor]="viewFor"
+          ></assessment-content>
+          <data-content
+            *ngSwitchCase="4"
+            [singleData]="data"
+            [viewFor]="viewFor"
+          ></data-content>
+          <self-assessment-content
+            *ngSwitchCase="5"
+            [singleSelfAssessment]="data"
+            [viewFor]="viewFor"
+          ></self-assessment-content>
+          <grade-content
+            *ngSwitchCase="6"
+            [singleGrade]="data"
+            [viewFor]="viewFor"
+          ></grade-content>
+        </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+</div>

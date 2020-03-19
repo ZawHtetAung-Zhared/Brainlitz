@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between btn-section">
+  <div class="d-flex">
+    <div
+      *ngIf="singleData.share.status"
+      class="status-wrapper-share ml-2"
+      [ngClass]="{ 'apg-status': singleData.share.status == true }"
+    >
+      <span><img src="../../../../../assets/images/shared.png " alt=""/></span>
+    </div>
+    <!-- <div
+      *ngIf="tempSharedApgId != apg._id && apg.share.status == true"
+      class="status-wrapper ml-2"
+    >
+      <span *ngIf="apg.share.status == true"
+        ><img src="../../../../../assets/images/shared.png " alt=""
+      /></span>
+    </div> -->
+    <div *ngIf="singleData.share.status == true" class="circle-apg"></div>
+    <div>
+      <button
+        class="apg-share remove-outline text-b100 body-m text-b100 body-m"
+        (click)="apgPublicShare(singleData._id)"
+      >
+        Share
+      </button>
+    </div>
+  </div>
+  <div>
+    <button
+      class="btn-action remove-outline light-body-m text-y100"
+      (click)="onclickUpdate(singleData._id, singleData)"
+    >
+      Edit
+    </button>
+    <span class="small-line"></span>
+    <button class="btn-action remove-outline light-body-m text-r100">
+      Delete
+    </button>
+  </div>
+</div>

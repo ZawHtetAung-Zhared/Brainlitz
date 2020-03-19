@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { appService } from '../../../service/app.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-grading',
@@ -13,6 +14,7 @@ export class GradingComponent implements OnInit {
   public permissionType: any;
   public apgPermission: any = [];
   public apgDemo: any = [];
+  private permissionSubscription: ISubscription;
 
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
@@ -32,8 +34,19 @@ export class GradingComponent implements OnInit {
       this.permissionType = localStorage.getItem('permission');
       this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
       console.log(this.selectedApgId);
-      this.checkPermission();
+      this.getAllAPG(20, 0);
+      // this.permissionSubscription = this._service.permissionList.subscribe(
+      //   data => {
+      //     console.log('work');
+      //     this.permissionType = data;
+      //     this.checkPermission();
+      //   }
+      // );
     }
+  }
+
+  ngOnDestroy() {
+    // this.permissionSubscription.unsubscribe();
   }
 
   checkPermission() {
@@ -72,9 +85,8 @@ export class GradingComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.error('result :::::::: ', res);
-          this.apgList = [];
           this.result = res;
-          this.apgList = res;
+          this.apgList = this.apgList.concat(res);
           // if (this.selectedAPGTab.name.toLowerCase() == 'user grading') {
           //   this.usergradingAPG = this.usergradingAPG.concat(res);
           //   this.apgList = this.usergradingAPG;
@@ -85,5 +97,16 @@ export class GradingComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+  showmore(type, skip: any) {
+    console.log('Not user search ' + type);
+    this.getAllAPG(20, skip);
+    // if (this.isSearch == true) {
+    //   console.log('User Search');
+    //   this.apgListSearch(this.keyword, type, 20, skip);
+    // } else {
+    //   console.log('Not user search');
+    //   this.getAllAPG(20, skip);
+    // }
   }
 }
