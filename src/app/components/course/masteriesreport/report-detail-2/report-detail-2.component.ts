@@ -287,7 +287,7 @@ export class ReportDetail2Component implements OnInit {
         }
       },
       grid: {
-        left: 300,
+        left: 340,
         right: 1
       },
       textStyle: {
@@ -425,7 +425,7 @@ export class ReportDetail2Component implements OnInit {
     this.plotDetailOption.series[4].data = diffData;
     this.plotDetailOption.series[5].data = easeData;
 
-    this.plotDetailOption.yAxis.axisLabel.rich.f1.width = 260;
+    this.plotDetailOption.yAxis.axisLabel.rich.f1.width = 300;
     this.plotDetailOption.yAxis.axisLabel.rich.f2.backgroundColor.image =
       './assets/icons/mastery-question.svg';
 
@@ -529,7 +529,7 @@ export class ReportDetail2Component implements OnInit {
           hoverItem.shortMasteryName +
           '</div>' +
           '<div class="small text-s0">' +
-          hoverItem.descriptionStudent +
+          hoverItem.infoForEducator +
           '</div>';
         '</div>';
         $('#mastery_hover').html(hover_html);

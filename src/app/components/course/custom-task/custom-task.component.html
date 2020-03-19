@@ -89,13 +89,13 @@
 
           <div
             *ngIf="!loading1"
-            class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
+            class="col-md-6 p-0 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
           >
             <div class="choice-block activeMode">
-              <p class="choice-title h4-strong text-c300">
+              <p class="choice-title h4-strong text-s0">
                 {{ customObj?.title }}
               </p>
-              <p class="choice-description  body-m text-c100">
+              <p class="choice-description light-body-m text-s0">
                 {{ customObj?.description }}
               </p>
             </div>
@@ -922,8 +922,8 @@
                     mode.id == createCustom?.template?.distributionMode?.id
                 }"
               >
-                <p class="h3-strong text-c300">{{ mode.title }}</p>
-                <p class="choice-description text-c100 body-l">
+                <p class="h3-strong text-s0">{{ mode.title }}</p>
+                <p class="choice-description text-s0 body-l">
                   {{ mode.description }}
                 </p>
               </div>

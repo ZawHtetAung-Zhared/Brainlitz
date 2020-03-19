@@ -13,19 +13,20 @@ import {
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from './quizwerkz';
+import { quizWerkzForm } from '../resource-list/quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-resource-list',
-  templateUrl: './resource-list.component.html',
-  styleUrls: ['./resource-list.component.css']
+  selector: 'app-create-resource',
+  templateUrl: './create-resource.component.html',
+  styleUrls: ['./create-resource.component.css']
 })
-export class ResourceListComponent implements OnInit {
+export class CreateResourceComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('pdfForm') form: any;
   formField: quizWerkzForm = new quizWerkzForm();
@@ -49,12 +50,15 @@ export class ResourceListComponent implements OnInit {
   public pdfPermission: any = [];
   public pdfDemo: any = [];
 
+  public gotocreate: boolean = false;
+
   constructor(
     private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
-    private router: Router
+    private router: Router,
+    private _location: Location
   ) {
     this._service.locationID.subscribe(data => {
       if (this.router.url === '/tools') {
@@ -111,10 +115,7 @@ export class ResourceListComponent implements OnInit {
   }
 
   cancel() {
-    this.pdfList = [];
-    this.iscreate = false;
-    this.formField = new quizWerkzForm();
-    this.getAllPdf(20, 0);
+    this.router.navigateByUrl(`tool-test/resource-list`);
   }
 
   creatnew() {
