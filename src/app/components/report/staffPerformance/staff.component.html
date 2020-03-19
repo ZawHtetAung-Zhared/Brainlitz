@@ -1,199 +1,201 @@
-<h3 class="pd-lft-15 h1-strong text-c300">Staff performance</h3>
-<div class="pd-lft-15 report-content">
-  <div class="row">
-    <div class="report-time-range d-flex flex-column col-md-4">
-      <div class="rpt-input-title h3-strong text-c100">
-        Time
+<div class="main-wrapper">
+  <h3 class="pd-lft-15 h1-strong text-c300">Staff performance</h3>
+  <div class="pd-lft-15 report-content">
+    <div class="row">
+      <div class="report-time-range d-flex flex-column col-md-4">
+        <div class="rpt-input-title h3-strong text-c100">
+          Time
+        </div>
+        <div style="padding-top: 15px;position:relative;">
+          <!--<input name="reportTimeRange" placeholder="Hola" style="width:360px" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">-->
+          <!--<ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">-->
+          <!--</ngb-datepicker>-->
+          <span class="fa fa-calendar" id="calendarIcon"></span>
+          <input
+            type="text"
+            name="daterangeInput"
+            daterangepicker
+            [options]="options"
+            (applyDaterangepicker)="applyDateRange($event, daterange)"
+            (cancelDaterangepicker)="calendarCanceled($event)"
+            (showDaterangepicker)="togglePicker($event)"
+            (hideDaterangepicker)="togglePicker($event)"
+            style="padding-left:30px;width:100%;"
+            class="body-l text-c300"
+          />
+        </div>
       </div>
-      <div style="padding-top: 15px;position:relative;">
-        <!--<input name="reportTimeRange" placeholder="Hola" style="width:360px" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">-->
-        <!--<ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">-->
-        <!--</ngb-datepicker>-->
-        <span class="fa fa-calendar" id="calendarIcon"></span>
-        <input
-          type="text"
-          name="daterangeInput"
-          daterangepicker
-          [options]="options"
-          (applyDaterangepicker)="applyDateRange($event, daterange)"
-          (cancelDaterangepicker)="calendarCanceled($event)"
-          (showDaterangepicker)="togglePicker($event)"
-          (hideDaterangepicker)="togglePicker($event)"
-          style="padding-left:30px;width:100%;"
-          class="body-l text-c300"
-        />
+      <div class="report-location-input d-flex flex-column col-md-8">
+        <div class="rpt-input-title h3-strong text-c100">
+          Group by
+        </div>
+        <div style="padding-top: 15px">
+          <select
+            id="staffGroupBy"
+            class="form-control rpt-groupBy-opt body-l bg-s0"
+            name="staffGroupBy"
+            (change)="updateGraphUsingGroupBy($event)"
+          >
+            <option
+              [selected]="0"
+              *ngFor="let staffGroupBy of staffGroupByList; let i = index"
+              value="{{ staffGroupBy }}"
+              >{{ staffGroupBy }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="report-location-input d-flex flex-column col-md-8">
-      <div class="rpt-input-title h3-strong text-c100">
-        Group by
+    <div
+      class="d-flex flex-column w-100 h-100"
+      style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 30px;"
+      *ngIf="reportData.length"
+    >
+      <div style="padding:15px;">
+        <button
+          class="btn btn-filter body-l bg-s0 text-b100"
+          (click)="showFilterModal(filterFields)"
+        >
+          Filter fields
+        </button>
       </div>
-      <div style="padding-top: 15px">
+      <div
+        class="selected-filter-content bg-s20 body-l text-c300"
+        style="padding: 15px 0;"
+        *ngIf="filter.value.length"
+      >
+        <div style="padding:15px;padding: 15px;width: 100%;height: 50px;">
+          <div style="float:left;">
+            <span style="text-transform: capitalize">{{ filter.type }} </span>is
+          </div>
+          <div
+            style="float:right;"
+            class="remove-selected-filter text-r100 remove-all-filters"
+            (click)="removeAllFilters()"
+          >
+            <span>-</span>
+          </div>
+        </div>
+        <div
+          *ngFor="let selectedItem of filter.value"
+          class="selected-filter-value bg-s0 text-c300"
+          style="display:inline-block;"
+        >
+          {{ selectedItem }}
+          <div
+            class="remove-selected-filter text-r100"
+            (click)="removeCurrentFilter(selectedItem)"
+          >
+            <span>-</span>
+          </div>
+        </div>
+      </div>
+      <div class="rpt-content">
+        <div *ngFor="let reportItem of reportData; let i = index">
+          <staff-graph [reportItem]="reportItem"></staff-graph>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex flex-column w-100 h-100 body-l text-c300"
+      style="margin-top: 30px;"
+      *ngIf="!reportData.length"
+    >
+      No data
+    </div>
+  </div>
+
+  <ng-template #filterFields let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title h1-strong text-c300" id="modal-basic-title">
+        Filter fields
+      </h3>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="cancelModal()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="slt-rpt-filter rpt-input-title h3-strong text-c100">
+        Select filter
+      </div>
+      <div class="pd-top-15">
         <select
-          id="staffGroupBy"
-          class="form-control rpt-groupBy-opt body-l bg-s0"
-          name="staffGroupBy"
-          (change)="updateGraphUsingGroupBy($event)"
+          id="filterType"
+          class="form-control body-l bg-s0 text-c300"
+          name="filterType"
+          [(ngModel)]="filterModel"
+          (change)="updateFilterType($event.target.value)"
         >
           <option
-            [selected]="0"
-            *ngFor="let staffGroupBy of staffGroupByList; let i = index"
-            value="{{ staffGroupBy }}"
-            >{{ staffGroupBy }}
+            *ngFor="let filter of filterList; let i = index"
+            value="{{ filter }}"
+            >{{ filter }}
           </option>
         </select>
       </div>
-    </div>
-  </div>
-  <div
-    class="d-flex flex-column w-100 h-100"
-    style="box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);margin-top: 30px;"
-    *ngIf="reportData.length"
-  >
-    <div style="padding:15px;">
-      <button
-        class="btn btn-filter body-l bg-s0 text-b100"
-        (click)="showFilterModal(filterFields)"
-      >
-        Filter fields
-      </button>
-    </div>
-    <div
-      class="selected-filter-content bg-s20 body-l text-c300"
-      style="padding: 15px 0;"
-      *ngIf="filter.value.length"
-    >
-      <div style="padding:15px;padding: 15px;width: 100%;height: 50px;">
-        <div style="float:left;">
-          <span style="text-transform: capitalize">{{ filter.type }} </span>is
-        </div>
+      <div class="input-group col-md-12" style="padding:15px 0;">
+        <input
+          class="form-control py-2 input-search-bg body-l text-c300 bg-s20"
+          type="search"
+          placeholder="Search"
+          id="staff-filter-search-input"
+          (focusout)="clearSearch($event)"
+          (input)="filterSearch($event.target.value)"
+          autocomplete="off"
+        />
+        <span class="input-group-append">
+          <button
+            class="bt btn-design btn-outline-secondary bg-s20 text-c75"
+            type="button"
+          >
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+      <div class="search-result-box bg-s0" *ngIf="searchResult.show == true">
         <div
-          style="float:right;"
-          class="remove-selected-filter text-r100 remove-all-filters"
-          (click)="removeAllFilters()"
+          class="single-result body-l text-c300"
+          *ngFor="let suggestedItem of searchResult.value"
+          (click)="selectFilter(suggestedItem)"
         >
-          <span>-</span>
+          {{ suggestedItem }}
         </div>
       </div>
-      <div
-        *ngFor="let selectedItem of filter.value"
-        class="selected-filter-value bg-s0 text-c300"
-        style="display:inline-block;"
-      >
-        {{ selectedItem }}
-        <div
-          class="remove-selected-filter text-r100"
-          (click)="removeCurrentFilter(selectedItem)"
+      <div class="selected-filter-content body-l text-c300">
+        <span
+          *ngFor="let selectedItem of filter.value"
+          class="selected-filter-value"
         >
-          <span>-</span>
-        </div>
+          {{ selectedItem }}
+          <div
+            class="remove-selected-filter text-r100"
+            (click)="removeCurrentFilterForModal(selectedItem)"
+          >
+            <span>-</span>
+          </div>
+        </span>
       </div>
     </div>
-    <div class="rpt-content">
-      <div *ngFor="let reportItem of reportData; let i = index">
-        <staff-graph [reportItem]="reportItem"></staff-graph>
-      </div>
-    </div>
-  </div>
-  <div
-    class="d-flex flex-column w-100 h-100 body-l text-c300"
-    style="margin-top: 30px;"
-    *ngIf="!reportData.length"
-  >
-    No data
-  </div>
-</div>
-
-<ng-template #filterFields let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title h1-strong text-c300" id="modal-basic-title">
-      Filter fields
-    </h3>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="cancelModal()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="slt-rpt-filter rpt-input-title h3-strong text-c100">
-      Select filter
-    </div>
-    <div class="pd-top-15">
-      <select
-        id="filterType"
-        class="form-control body-l bg-s0 text-c300"
-        name="filterType"
-        [(ngModel)]="filterModel"
-        (change)="updateFilterType($event.target.value)"
-      >
-        <option
-          *ngFor="let filter of filterList; let i = index"
-          value="{{ filter }}"
-          >{{ filter }}
-        </option>
-      </select>
-    </div>
-    <div class="input-group col-md-12" style="padding:15px 0;">
-      <input
-        class="form-control py-2 input-search-bg body-l text-c300 bg-s20"
-        type="search"
-        placeholder="Search"
-        id="staff-filter-search-input"
-        (focusout)="clearSearch($event)"
-        (input)="filterSearch($event.target.value)"
-        autocomplete="off"
-      />
-      <span class="input-group-append">
+    <div class="modal-footer">
+      <div>
         <button
-          class="bt btn-design btn-outline-secondary bg-s20 text-c75"
-          type="button"
+          class="btn confirm-filter bg-b100 text-s0 body-l"
+          (click)="applyFilters()"
         >
-          <i class="fa fa-search"></i>
+          Confirm
         </button>
-      </span>
-    </div>
-    <div class="search-result-box bg-s0" *ngIf="searchResult.show == true">
-      <div
-        class="single-result body-l text-c300"
-        *ngFor="let suggestedItem of searchResult.value"
-        (click)="selectFilter(suggestedItem)"
-      >
-        {{ suggestedItem }}
+        <button
+          class="btn cancel-filter bg-s0 text-c300 body-l"
+          (click)="cancelModal()"
+        >
+          Cancel
+        </button>
       </div>
     </div>
-    <div class="selected-filter-content body-l text-c300">
-      <span
-        *ngFor="let selectedItem of filter.value"
-        class="selected-filter-value"
-      >
-        {{ selectedItem }}
-        <div
-          class="remove-selected-filter text-r100"
-          (click)="removeCurrentFilterForModal(selectedItem)"
-        >
-          <span>-</span>
-        </div>
-      </span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button
-        class="btn confirm-filter bg-b100 text-s0 body-l"
-        (click)="applyFilters()"
-      >
-        Confirm
-      </button>
-      <button
-        class="btn cancel-filter bg-s0 text-c300 body-l"
-        (click)="cancelModal()"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-</ng-template>
+  </ng-template>
+</div>

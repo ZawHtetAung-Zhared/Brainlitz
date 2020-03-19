@@ -336,7 +336,9 @@ export class InvoiceSettingEditComponent implements OnInit {
     this.getInvoiceSetting('invoiceSettings');
     console.log('invoice return');
     this.orgLogo = localStorage.getItem('OrgLogo');
+    this.editSetting('Invoice');
   }
+
   checkPermission() {
     console.log(this.permissionType);
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
@@ -364,6 +366,58 @@ export class InvoiceSettingEditComponent implements OnInit {
       console.log('permission deny');
     }
   }
+
+  editSetting(type) {
+    console.log('hi');
+    this.isQRChanged = false;
+    this.option = type;
+    this.getCurrency();
+    this.selectedCurrency = this.invoiceData.currencySign;
+    this.selectedFlag = this.invoiceData.currencyCode;
+
+    this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
+    this.isAcceptPaynow = this.paymentData.acceptPayNow;
+    this.qrURL = this.paymentData.payNowQr;
+    // if(this.isOnline == true){
+    //   this.selectedProvider = this.paymentData.paymentProviders.name;
+    // }
+    if (this.isOnline == true && this.option == 'Payment') {
+      this._service.paymentProvider().subscribe(
+        (res: any) => {
+          console.log(res);
+          this.providers = res;
+          if (this.providerTemp.length > 0) {
+            for (var i = 0; i < this.providerTemp.length; i++) {
+              for (var j = 0; j < this.providers.length; j++) {
+                if (this.providerTemp[i].name == this.providers[j].name) {
+                  // console.log("same provider name",Object.keys(this.providerTemp[i]));
+                  for (var m in this.providers[j].requiredField) {
+                    console.log('req', this.providers[j].requiredField[m]);
+                    let reqName = this.providers[j].requiredField[m].name;
+                    var reqVal = this.providerTemp[i][reqName];
+                    console.log('req VAl', reqVal);
+                    this.providers[j].requiredField[m].value = reqVal;
+                    console.log(
+                      'req field',
+                      this.providers[j].requiredField[m]
+                    );
+                    // console.log(this.providerTemp[i].hasOwnProperty(reqName));
+                    // if(this.providerTemp[i].hasOwnProperty(reqName) == true){
+
+                    // }
+                  }
+                }
+              }
+            }
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+  }
+
   getInvoiceSetting(type) {
     this._service.invoiceSetting(this.regionId, type).subscribe(
       (res: any) => {
@@ -394,6 +448,7 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     );
   }
+
   enroll = 0;
   getAdministrator() {
     console.log('getAdministrator works');
@@ -443,6 +498,7 @@ export class InvoiceSettingEditComponent implements OnInit {
         }
       );
   }
+
   isModuleList() {
     this._service.getAllModule(this.regionId).subscribe((res: any) => {
       this.allModule = res;
@@ -453,6 +509,43 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     });
   }
+
+  selectCurrency(data, key) {
+    console.log(key);
+    console.log(data);
+    this.selectedCurrency = data;
+    this.selectedFlag = key;
+  }
+
+  search(val) {
+    console.log(val);
+    this.getCurrency();
+    var words = this.objectKeys(this.newCurrency);
+    const result = words.filter(word => word.includes(val));
+    var tempObj = {};
+    if (val.length > 0) {
+      for (let index = 0; index < result.length; index++) {
+        if (this.newCurrency.hasOwnProperty(result[index])) {
+          var keyObj = result[index];
+          tempObj[keyObj] = this.newCurrency[keyObj];
+        }
+      }
+      this.newCurrency = tempObj;
+    } else {
+      this.getCurrency();
+    }
+
+    console.log(this.newCurrency.hasOwnProperty(val));
+    // if (val.length > 0) {
+    //   if (this.newCurrency.hasOwnProperty(val)) {
+    //     var keyObj = val;
+    //     this.newCurrency = { [keyObj]: this.newCurrency[val] };
+    //   }
+    // } else {
+    //   this.getCurrency();
+    // }
+  }
+
   updateInvoice(data, type) {
     console.log(data);
     var body;
@@ -563,7 +656,8 @@ export class InvoiceSettingEditComponent implements OnInit {
             };
             console.log(currency);
             localStorage.setItem('currency', JSON.stringify(currency));
-            this.cancel();
+            this.router.navigateByUrl('settings');
+            // this.cancel();
           });
       },
       err => {
@@ -572,20 +666,40 @@ export class InvoiceSettingEditComponent implements OnInit {
       }
     );
   }
-  // backToGeneral(){
-  //   this.router.navigateByUrl('/settings')
-  // }
-  cancel() {
-    this.option = '';
-    this.payment = {};
-    this.invoice = {};
-    this.online = {};
-    this.isOnline = false;
-    this.selectedProvider = '';
-    // this.providerField = [];
-    this.getInvoiceSetting('invoiceSettings');
-    // this.getPaymentSetting('paymentSettings');
+
+  getCurrency() {
+    this.objectKeys = Object.keys;
+    console.warn(Object.keys);
+    this.currency_symbol = currency;
+    var key,
+      keys = Object.keys(this.currency_symbol);
+    console.warn(keys, 'keys');
+    var n = keys.length;
+    var i = 0;
+    var newobj = {};
+
+    while (i <= n - 1) {
+      key = keys[i];
+      this.newCurrency[key.toLowerCase()] = this.currency_symbol[key];
+      i++;
+    }
   }
+
+  showCurrencyBox(type, $event: Event) {
+    console.log(type);
+    $event.preventDefault();
+    $event.stopPropagation();
+    console.log('hiii');
+    if (type == 'currency') {
+      console.log('in loop');
+      this.showDropdown = true;
+      this.getCurrency();
+    } else {
+      this.showProvider = true;
+    }
+    console.log(this.showDropdown);
+  }
+
   getQR(url) {
     console.log(url, 'url');
     console.log('is qr change', this.isQRChanged);
@@ -597,6 +711,84 @@ export class InvoiceSettingEditComponent implements OnInit {
       return null;
     }
   }
+
+  onlinePayment() {
+    this.isOnline = !this.isOnline;
+    if (this.isOnline == true) {
+      this._service.paymentProvider().subscribe(
+        (res: any) => {
+          console.log(res);
+          this.providers = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    } else {
+      this.payment = {};
+    }
+  }
+
+  qrURL: any;
+  handleQRInput(files: FileList, $event) {
+    this.isQRChanged = true;
+    console.log('handleqrInput~~~');
+    var qrPath;
+    console.log(files);
+    this.elementView.nativeElement.innerText = files[0].name;
+    this.message = '';
+    var qr = files.item(0);
+    // this.item.logo = this.logo;
+    const reader = new FileReader();
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = 'Only images are supported.';
+      return;
+    }
+
+    if (qr.size >= 1048576) {
+      this.message = 'Upload image file size should not be exceed 1MB.';
+    } else {
+      qrPath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = _event => {
+        this.qrURL = reader.result;
+      };
+    }
+  }
+
+  numberOnly(event, type) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+  }
+
+  providerField = [];
+  selectProvider(id, name) {
+    console.log(id, '-', name);
+    this.selectedProvider = name;
+    this.payment.name = name;
+    // this.providerField = [];
+    // for(var i in this.providers){
+    //   if(this.providers[i].name == this.selectedProvider){
+    //     this.providerField = this.providers[i].requiredField;
+    //   }
+    // }
+  }
+
+  acceptPaynow() {
+    this.isAcceptPaynow = !this.isAcceptPaynow;
+  }
+
   dataURItoBlob(dataURI: String) {
     console.warn(dataURI, 'data uri');
     const byteString = atob(dataURI.split(',')[1]);

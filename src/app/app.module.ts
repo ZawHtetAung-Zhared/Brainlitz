@@ -23,7 +23,6 @@ import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { appService } from './service/app.service';
@@ -186,7 +185,6 @@ import {
 import { SettingsComponent } from './components/settings/settings.component';
 import { GeneralComponent } from './components/settings/general/general.component';
 import { LocationsComponent } from './components/settings/locations/locations.component';
-import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
@@ -203,6 +201,7 @@ import { GradeContentComponent } from './components/tool/common-tool/grade-conte
 import { AssessmentContentComponent } from './components/tool/common-tool/assessment-content/assessment-content.component';
 import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
+import { LocationComponent } from './components/location/location.component';
 
 @NgModule({
   declarations: [
@@ -331,7 +330,6 @@ import { ProgressContentComponent } from './components/tool/common-tool/progress
     SettingsComponent,
     GeneralComponent,
     LocationsComponent,
-    CustomFieldsComponent,
     ScheduleSettingEditComponent,
     PaymentSettingEditComponent,
     InvoiceSettingEditComponent,
