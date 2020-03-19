@@ -1821,6 +1821,8 @@ export class AttendanceComponent implements OnInit {
             this.activeCourseInfo = res;
             console.log('Testing lower case');
             console.log(this.activeCourseInfo.CUSTOMER);
+            this.presentStudent = 0;
+            this.absentStudent = 0;
             for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
               if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
                 this.presentStudent += 1;
