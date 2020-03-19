@@ -202,7 +202,10 @@ import { AssessmentContentComponent } from './components/tool/common-tool/assess
 import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
+
 import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
+
+import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 
 @NgModule({
   declarations: [

@@ -80,6 +80,7 @@ import {
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { LocationsComponent } from './components/settings/locations/locations.component';
+import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -373,7 +374,8 @@ export const routes: Routes = [
             component: GradingComponent
           }
         ]
-      }
+      },
+      { path: 'resource-list', component: ResourceListComponent }
     ]
   },
   {
