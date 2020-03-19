@@ -303,6 +303,10 @@ main-tool-content {
   height: 100%;
 }
 
+app-tracking-module {
+  width: 100%;
+}
+
 .rating {
   justify-content: left !important;
   margin-top: 2px !important;
