@@ -1,7 +1,5 @@
-<main-tool-content>
-  <card-tool-content [dataList]="apgList" [viewFor]="'self-assessment'">
-  </card-tool-content>
-</main-tool-content>
+<card-tool-content [dataList]="apgList" [viewFor]="'self-assessment'">
+</card-tool-content>
 
 <div *ngIf="result.length >= 20" class="load-more bg-s0">
   <button
