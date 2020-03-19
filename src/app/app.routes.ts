@@ -1,8 +1,7 @@
+import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
 import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
-import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
-import { LocationsComponent } from './components/settings/locations/locations.component';
 import { GeneralComponent } from './components/settings/general/general.component';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -73,6 +72,7 @@ import {
 } from './components/report/index';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -125,7 +125,7 @@ export const routes: Routes = [
       },
       {
         path: 'customfields',
-        component: CustomFieldsComponent
+        component: CustomfieldComponent
       }
     ]
   },
