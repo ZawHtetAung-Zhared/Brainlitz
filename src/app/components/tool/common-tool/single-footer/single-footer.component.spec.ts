@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainToolContentComponent } from './main-tool-content.component';
+import { SingleFooterComponent } from './single-footer.component';
 
-describe('MainToolContentComponent', () => {
-  let component: MainToolContentComponent;
-  let fixture: ComponentFixture<MainToolContentComponent>;
+describe('SingleFooterComponent', () => {
+  let component: SingleFooterComponent;
+  let fixture: ComponentFixture<SingleFooterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MainToolContentComponent]
+      declarations: [SingleFooterComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MainToolContentComponent);
+    fixture = TestBed.createComponent(SingleFooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

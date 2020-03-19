@@ -1,3 +1,16 @@
-<p>
-  progress-content works!
-</p>
+<div class="info-section padding-lr">
+  <p class="mb-0 small text-c100">
+    {{ singleProgress.module ? singleProgress.module.name : '-' }}
+  </p>
+  <p class="body-m text-c300 mb-0">{{ singleProgress.name }}</p>
+
+  <div class="progress-info">
+    <p class=" body-m text-c100 text-justify">
+      {{ singleProgress.description }}
+    </p>
+  </div>
+</div>
+<single-footer
+  [singleData]="singleProgress"
+  *ngIf="viewFor.toLowerCase() != 'share'"
+></single-footer>
