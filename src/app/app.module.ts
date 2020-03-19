@@ -355,7 +355,8 @@ import { ResourceListComponent } from './components/tool/resource-list/resource-
     AssessmentContentComponent,
     BadgeContentComponent,
     ProgressContentComponent,
-    SingleFooterComponent
+    SingleFooterComponent,
+    ResourceListComponent
   ],
   imports: [
     ContentLoaderModule,
