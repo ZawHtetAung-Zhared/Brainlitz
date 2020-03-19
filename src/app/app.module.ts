@@ -203,6 +203,7 @@ import { BadgeContentComponent } from './components/tool/common-tool/badge-conte
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
+import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 
 @NgModule({
   declarations: [
@@ -352,7 +353,8 @@ import { ResourceListComponent } from './components/tool/resource-list/resource-
     AssessmentContentComponent,
     BadgeContentComponent,
     ProgressContentComponent,
-    ResourceListComponent
+    ResourceListComponent,
+    CreateResourceComponent
   ],
   imports: [
     ContentLoaderModule,
