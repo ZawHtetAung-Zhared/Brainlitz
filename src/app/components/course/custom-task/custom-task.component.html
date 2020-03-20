@@ -89,13 +89,13 @@
 
           <div
             *ngIf="!loading1"
-            class="col-md-6 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
+            class="col-md-6 p-0 mx-auto d-flex justify-content-center align-items-center scrollable-wrapper step1-content"
           >
             <div class="choice-block activeMode">
-              <p class="choice-title h4-strong text-c300">
+              <p class="choice-title h4-strong text-s0">
                 {{ customObj?.title }}
               </p>
-              <p class="choice-description  body-m text-c100">
+              <p class="choice-description light-body-m text-s0">
                 {{ customObj?.description }}
               </p>
             </div>
@@ -142,7 +142,7 @@
           <p class="h1-strong text-c300">
             Choose a template to assign scheduled tasks.
           </p>
-          <div class="simple-search input-group">
+          <!-- <div class="simple-search input-group">
             <input
               class="form-control py-2 task-search-input body-l text-c100 data-name"
               type="text"
@@ -150,6 +150,19 @@
               (input)="searchTemplate($event.target.value)"
               autocomplete="off"
             />
+          </div> -->
+          <div class="d-flex simple-search input-group">
+            <input
+              class="form-control py-2 task-search-input body-l text-c100 data-name"
+              type="text"
+              placeholder="Search template"
+              (input)="searchTemplateInput($event.target.value)"
+              (keyup.enter)="searchTemplate($event.target.value)"
+              autocomplete="off"
+            />
+            <span class="btn btn-search" (click)="searchTemplate(searchword)">
+              <i class="fa fa-search search-size body-xl"></i>
+            </span>
           </div>
           <p class="h3-strong text-c300">All templates</p>
           <div class="scrollable-wrapper">
@@ -909,8 +922,8 @@
                     mode.id == createCustom?.template?.distributionMode?.id
                 }"
               >
-                <p class="h3-strong text-c300">{{ mode.title }}</p>
-                <p class="choice-description text-c100 body-l">
+                <p class="h3-strong text-s0">{{ mode.title }}</p>
+                <p class="choice-description text-s0 body-l">
                   {{ mode.description }}
                 </p>
               </div>

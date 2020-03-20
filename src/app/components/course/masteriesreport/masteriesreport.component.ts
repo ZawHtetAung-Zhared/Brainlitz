@@ -15,6 +15,7 @@ export class MasteriesreportComponent implements OnInit {
   barColor: any;
   reportItems: any = sampleData;
   masteriesReports: any;
+  enrolledStudentCount: Number;
   public isExpand: boolean = false;
   public noData: boolean = true;
   // public
@@ -229,7 +230,7 @@ export class MasteriesreportComponent implements OnInit {
           hoverItem.shortMasteryName +
           '</div>' +
           '<div class="small text-s0">' +
-          hoverItem.descriptionStudent +
+          hoverItem.infoForEducator +
           '</div>';
         '</div>';
         $('#mastery_hover').html(hover_html);
@@ -274,6 +275,7 @@ export class MasteriesreportComponent implements OnInit {
         if (res.data.masteryReport) {
           this.noData = false;
           this.masteriesReports = res.data.masteryReport;
+          this.enrolledStudentCount = res.data.enrolledStudentCount;
           console.log(this.masteriesReports);
           setTimeout(() => {
             for (var i = 0; i < this.masteriesReports.length; i++) {

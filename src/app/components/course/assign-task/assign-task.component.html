@@ -49,10 +49,10 @@
           <div class="d-flex standard-wrapper" *ngIf="!loading">
             <div
               class="standard-block bg-s0 body-l"
-              *ngFor="let standard of standardList"
-              (click)="checkStandard(standard._id)"
+              *ngFor="let standard of standardList; let idx = index"
+              (click)="checkStandard(standard._id, idx)"
               [ngClass]="{
-                'bg-b100 text-s0':
+                'bg-active text-s0':
                   createassignTask.standard.standardId == standard._id
               }"
             >
@@ -150,7 +150,7 @@
               <p>Back</p>
             </div>
             <button
-              class="btn btn-comfirm medium"
+              class="btn btn-comfirm medium bg-b100 text-s0"
               (click)="goToCustom()"
               [disabled]="!createassignTask?.standard?.classLevelId"
             >
