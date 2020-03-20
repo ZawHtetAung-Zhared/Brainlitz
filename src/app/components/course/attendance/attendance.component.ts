@@ -4260,18 +4260,24 @@ export class AttendanceComponent implements OnInit {
       }, 1000);
     }).then(() => {
       setTimeout(() => {
-        console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        // console.log(this.detailLists.lessons[this.currentLessonIdx]);
         this.attendanceList.lessons.map((item, index) => {
-          // console.log("item",item)
+          console.log('item', item);
           // console.log("index",index)
-          if (item._id == this.lastSelectedObj._id) {
+          // console.log(item._id,',',this.lastSelectedObj._id,item.startDate,',',this.lastSelectedObj.startDate)
+          if (
+            item._id == this.lastSelectedObj._id &&
+            item.startDate == this.lastSelectedObj.startDate
+          ) {
             this.attendanceList.lessons[index] = this.detailLists.lessons[
               this.currentLessonIdx
             ];
             console.log('attendance list', this.attendanceList.lessons);
+            this.checkForRelief(
+              this.detailLists.lessons[this.currentLessonIdx]
+            );
           }
         });
-        this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
       }, 300);
     });
   }

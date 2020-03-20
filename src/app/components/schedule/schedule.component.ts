@@ -1981,9 +1981,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(this.courseDetail.lessons);
     if (this.courseDetail.lessons != undefined) {
       this.courseDetail.lessons.map(lesson => {
-        console.log(lesson.startDate);
+        // console.log(lesson.startDate);
         var lessondate = lesson.startDate.split('T')[0];
-        console.log(lessondate);
+        // console.log(lessondate);
         var m =
           this.lessonD.month < 10
             ? '0' + this.lessonD.month
@@ -1991,7 +1991,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         var d =
           this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
         var tempDate = this.lessonD.year + '-' + m + '-' + d;
-        console.log('tempDate', tempDate);
+        // console.log('tempDate', tempDate);
         if (lessondate == tempDate) {
           this.selectedLesson = lesson;
           console.log('selected lesson', this.selectedLesson);

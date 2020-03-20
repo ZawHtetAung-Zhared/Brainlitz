@@ -1658,6 +1658,7 @@ export class EnrollUserComponent implements OnInit {
         setTimeout(() => {
           this.toastr.success('Assistant successfully assigned.');
         }, 100);
+        this._location.back();
         // this.toastr.success("Assistant successfully assigned.");
         //this.modalReference.close();
         if (this.isvalidID == 'inside') {
@@ -1677,7 +1678,6 @@ export class EnrollUserComponent implements OnInit {
         console.log(err);
       }
     );
-    this._location.back();
   }
 
   getSelectedUserId() {
