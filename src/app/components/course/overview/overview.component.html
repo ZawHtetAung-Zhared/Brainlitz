@@ -1,7 +1,7 @@
 <div
   class="mastery-view"
   [ngClass]="{ hide: !sparkwerkz, 'no-m': Nomasteryflag }"
-  *ngIf="loadingMastery == false"
+  *ngIf="loadingMastery == false && masteryStudentCount > 0"
 >
   <div class="mastery-view-head" [ngClass]="{ 'no-mh': Nomasteryflag }">
     <h3 class="h3-strong text-c300 mr-1">Masteries reports</h3>

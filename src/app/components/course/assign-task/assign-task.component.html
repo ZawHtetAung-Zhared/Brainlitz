@@ -49,8 +49,8 @@
           <div class="d-flex standard-wrapper" *ngIf="!loading">
             <div
               class="standard-block bg-s0 body-l"
-              *ngFor="let standard of standardList"
-              (click)="checkStandard(standard._id)"
+              *ngFor="let standard of standardList; let idx = index"
+              (click)="checkStandard(standard._id, idx)"
               [ngClass]="{
                 'bg-active text-s0':
                   createassignTask.standard.standardId == standard._id

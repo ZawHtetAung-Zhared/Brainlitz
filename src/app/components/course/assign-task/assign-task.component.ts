@@ -123,8 +123,13 @@ export class AssignTaskComponent implements OnInit {
     );
   }
 
-  checkStandard(id) {
-    this.createassignTask.standard.standardId = id;
+  checkStandard(id, index) {
+    console.log('choice standard', id);
+    if (this.createassignTask.standard.standardId != id) {
+      this.createassignTask.standard.classLevelId = null;
+      this.createassignTask.standard.standardId = id;
+      this.classList = this.standardList[index].classLevelId;
+    }
   }
 
   choiceClass(id) {

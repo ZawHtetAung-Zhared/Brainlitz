@@ -1,3 +1,71 @@
-<p>
-  data-content works!
-</p>
+<div class="data-height">
+  <div class="info-section">
+    <div class="noBg-apg-header">
+      <p class="mb-0 small text-c100" *ngIf="singleData.module">
+        {{
+          singleData.module.name.toLowerCase() == 'user grading'
+            ? 'Grade'
+            : singleData.module.name
+        }}
+      </p>
+      <p class="mb-0  small text-c100" *ngIf="!singleData.module">-</p>
+      <p class="body-m text-c300 mb-0">{{ singleData.name }}</p>
+    </div>
+    <div class="apg-scroll">
+      <div class="padding-lr">
+        <div *ngFor="let ap of singleData.accessPoints">
+          <div
+            *ngIf="
+              ap.data.inputType == 'RANGE' || ap.data.inputType == 'NUMBER'
+            "
+          >
+            <div class="d-flex flex-row justify-content-between list-dot-wrap">
+              <div class="d-flex flex-row body-l">
+                <span class="textUnitName text-c100">Unit:</span
+                ><span class="textUnit pl-2 text-c300 ">{{
+                  ap.data.unit
+                }}</span>
+              </div>
+              <div class="showType">
+                <img
+                  *ngIf="ap.data.inputType == 'NUMBER'"
+                  src="../../../assets/img/input-icon.png"
+                  class="inputIcon"
+                />
+                <img
+                  *ngIf="ap.data.inputType == 'RANGE'"
+                  src="../../../assets/img/slider-icon.png"
+                  class="inputIcon"
+                />
+                <span class="body-m text-c100">
+                  {{ ap.data.inputType == 'RANGE' ? 'Slider' : 'Input box' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="ap.data.inputType == 'RADIO'">
+            <div
+              class="d-flex flex-row"
+              *ngFor="
+                let option of ap.data.inputTypeProperties.options;
+                let oIdx = index
+              "
+            >
+              <span class="detail-dot"></span>
+              <div
+                class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
+                [ngClass]="{
+                  'hide-border':
+                    ap.data.inputTypeProperties.options?.length == oIdx + 1
+                }"
+              >
+                {{ option }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <single-footer [singleData]="singleData"></single-footer>
+</div>

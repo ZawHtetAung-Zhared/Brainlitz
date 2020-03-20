@@ -66,33 +66,3 @@
 .gradename {
   padding-left: 16px;
 }
-.btn-section {
-  border-top: 1px solid #edeff0;
-  padding: 10px;
-}
-
-.status-wrapper-share {
-  display: inline;
-}
-.apg-status {
-  display: inline !important;
-  animation-name: example;
-  animation-duration: 1.5s;
-}
-
-.apg-share,
-.btn-action {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.remove-outline:focus {
-  outline: none;
-  box-shadow: none;
-  background: none;
-}
-
-.remove-outline {
-  background: none;
-}

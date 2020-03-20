@@ -4,12 +4,15 @@
     <span class="sw-wrap"> <img src="./assets/img/tiny-brainlitz.svg"/></span>
   </div>
   <div
-    *ngIf="!masteriesReports && !noData"
+    *ngIf="(!masteriesReports && !noData) || enrolledStudentCount == 0"
     class="d-flex justify-content-center pt-5 mt-5 body-l text-c300"
   >
     Not enough data to generate reports.
   </div>
-  <div *ngIf="masteriesReports && !noData" class="d-flex flex-column">
+  <div
+    *ngIf="masteriesReports && !noData && enrolledStudentCount > 0"
+    class="d-flex flex-column"
+  >
     <div *ngFor="let report of masteriesReports; let i = index">
       <div class="d-flex justify-content-between align-items-center mt-4">
         <div class="d-flex flex-column">

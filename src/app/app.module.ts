@@ -206,6 +206,7 @@ import { LocationComponent } from './components/location/location.component';
 import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
 
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
+import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
 @NgModule({
@@ -356,6 +357,8 @@ import { SelfAssessmentContentComponent } from './components/tool/common-tool/se
     AssessmentContentComponent,
     BadgeContentComponent,
     ProgressContentComponent,
+    ResourceListComponent,
+    CreateResourceComponent,
     SingleFooterComponent,
     ResourceListComponent,
     SelfAssessmentContentComponent
