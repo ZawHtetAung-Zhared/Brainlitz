@@ -17,7 +17,10 @@ import { DataService } from '../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-
+export enum KEY_CODE {
+  RIGHT_ARROW = 39,
+  LEFT_ARROW = 37
+}
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
@@ -48,10 +51,12 @@ export class TimetableComponent implements OnInit {
     '1',
     '1'
   ];
+  public schedules: any = ['0', '0', '0', '0', '0', '0', '0'];
   public sk: any = 0;
   public staffskip: any = 0;
   public staffdone: boolean = true;
   // public todayIndex: any = 0;
+  public key: any;
   //zha variable
 
   //apo variable
@@ -366,6 +371,8 @@ export class TimetableComponent implements OnInit {
 
     this.getCatList();
 
+    window.scrollTo(0, 0);
+
     //zha ngOnInit
 
     this.renderer.removeClass(document.body, 'modal-open');
@@ -420,6 +427,20 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+
+    if (event.keyCode === KEY_CODE.RIGHT_ARROW) {
+      this.weekCalculate('next');
+    }
+
+    if (event.keyCode === KEY_CODE.LEFT_ARROW) {
+      console.log('left');
+      this.weekCalculate('prev');
+    }
+  }
+
   toggledropdown() {
     if (this.showOverLay == false) {
       this.renderer.addClass(document.body, 'modal-open');
@@ -445,10 +466,8 @@ export class TimetableComponent implements OnInit {
             this.staffdone = false;
           }
           this.stafflist = this.stafflist.concat(res.staffList);
-          // this.staffcount = this.stafflist.length;
-          // if (this.staffcount > 10) {
-          //   this.extracount = ['1', '1', '1'];
-          // }
+          this.staffcount = res.total;
+
           console.log('SL', this.stafflist);
           this.getTimetables(
             res.staffList.toString(),
@@ -467,25 +486,7 @@ export class TimetableComponent implements OnInit {
     this._service.getTimetableList(list, start, end, id).subscribe(
       (res: any) => {
         this.timetablelist = this.timetablelist.concat(res);
-        this.staffcount = this.timetablelist.length;
-        if (this.staffcount > 10) {
-          this.extracount = ['1', '1', '1'];
-        } else {
-          this.extracount = [
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1'
-          ];
-        }
+
         console.log('timetable list', this.timetablelist);
         // var startOfWeek = moment().startOf('week').toDate();
         // var endOfWeek = moment().endOf('week').toDate();
@@ -2320,72 +2321,37 @@ export class TimetableComponent implements OnInit {
   public mDate: any;
   // public disabledScroll = false;
 
-  showPopUpFunc(staff, schedule) {
-    // this.renderer.addClass(this.elmRef.nativeElement, 'modal-open');
+  showPopUpFunc(staff, schedule, i) {
+    console.log('Clicked Date', this.indexWeek[i]);
     this.renderer.addClass(document.body, 'modal-open');
-    // this.disabledScroll = true;
     this.selectedStaff = staff;
     this.schedule = schedule;
-    //this.timetables =this.selectedStaff.schedules.timetables;
-    this.leaveInfo = schedule.leaveInfo;
-    //console.log(this.timetables)
-    //console.log(this.absent,this.timetables.length)
+    this.mDate = this.indexWeek[i];
     this.getAllCoursePlan('0', '20');
-    //this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
-
-    var d = new Date(schedule.date);
+    var d = new Date(this.indexWeek[i]);
     var sDate = {
       year: d.getFullYear(),
       month: d.getMonth() + 1,
       day: d.getDate()
     };
-    console.log(sDate);
-
-    this.mDate = d;
-
-    //var weekday = d.getUTCDay();
-    var day = [];
-    day.push(d.getUTCDay());
-    console.log(day);
-    // switch (weekday) {
-    //   case 'Sun':
-    //     day.push(0);
-    //     break;
-    //   case 'Mon':
-    //     day.push(1);
-    //     break;
-    //   case 'Tue':
-    //     day.push(2);
-    //     break;
-    //   case 'Wed':
-    //     day.push(3);
-    //     break;
-    //   case 'Thu':
-    //     day.push(4);
-    //     break;
-    //   case 'Fri':
-    //     day.push(5);
-    //     break;
-    //   case 'Sat':
-    //     day.push(6);
-    // }
-
     var time = {
       hr: 0,
       min: 0,
       meridiem: 'AM'
     };
+    console.log(sDate);
+    var day = [];
+    day.push(d.getUTCDay());
+    console.log(day);
     console.log(this.selectedStaff);
     this.scheduleObj['repeatDays'] = day;
     this.scheduleObj['date'] = sDate;
     this.scheduleObj['teacher'] = this.selectedStaff;
-    console.log(this.scheduleObj['teacher']);
     this.scheduleObj['time'] = time;
-
-    //this.scheduleObj['repeatDays'] = day;
-    //this.scheduleObj['date'] = sDate;
-    //this.scheduleObj['teacher'] = this.selectedStaff; //give selected teacher
-    //this.scheduleObj['time'] = time;
+    console.log(this.scheduleObj['teacher']);
+    if (this.schedule !== undefined) {
+      this.leaveInfo = schedule.leaveInfo;
+    }
     this.showPopUp = true;
   }
 

@@ -34,6 +34,7 @@
 
 .category {
   width: 280px;
+  font-weight: 500;
   text-align: c;
   height: 40px;
   line-height: 40px;
@@ -96,13 +97,14 @@
   background: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  cursor: pointer;
 }
 
 .white:hover {
@@ -552,14 +554,15 @@
   overflow: hidden;
 }
 
-.my-modal-body .schedule-wrap:first-child {
-  padding: 26px 0px 26px 0px;
+.first {
   border: none;
+}
+.notfirst {
+  border-top: 1px solid #edeff0;
 }
 
 .schedule-wrap {
   padding: 26px 0px 26px 0px;
-  border-top: 1px solid #edeff0;
 }
 
 .flex-column {
