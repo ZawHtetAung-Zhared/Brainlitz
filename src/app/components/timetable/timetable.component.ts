@@ -2301,43 +2301,26 @@ export class TimetableComponent implements OnInit {
   public mDate: any;
   // public disabledScroll = false;
 
-  showPopUpFunc(staff, schedule) {
+  showPopUpFunc(staff, schedule, i) {
+    console.log('Clicked Date', this.indexWeek[i]);
     this.renderer.addClass(document.body, 'modal-open');
     this.selectedStaff = staff;
     this.schedule = schedule;
-    console.log(this.schedule, 'this.schedule');
-    this.mDate = null;
-    /// case for no schedule
-    if (this.schedule !== undefined) {
+    this.mDate = this.indexWeek[i];
+    if (this.schedule === undefined) {
       this.leaveInfo = schedule.leaveInfo;
       this.getAllCoursePlan('0', '20');
-      var d = new Date(schedule.date);
+      var d = new Date(this.indexWeek[i]);
       var sDate = {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate()
       };
       console.log(sDate);
-
-      this.mDate = d;
       var day = [];
       day.push(d.getUTCDay());
       console.log(day);
-
-      var time = {
-        hr: 0,
-        min: 0,
-        meridiem: 'AM'
-      };
-      console.log(this.selectedStaff);
-      this.scheduleObj['repeatDays'] = day;
-      this.scheduleObj['date'] = sDate;
-      this.scheduleObj['teacher'] = this.selectedStaff;
-      console.log(this.scheduleObj['teacher']);
-      this.scheduleObj['time'] = time;
     }
-    /// case for no schedule
-
     this.showPopUp = true;
   }
 

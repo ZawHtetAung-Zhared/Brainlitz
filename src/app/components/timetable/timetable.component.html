@@ -104,7 +104,9 @@
         *ngFor="let schedule of schedules; let j = index"
         class="white"
         id="w{{ i }}{{ j }}"
-        (click)="showPopUpFunc(staff, staff.schedules[j]); activeblue($event)"
+        (click)="
+          showPopUpFunc(staff, staff.schedules[j], j); activeblue($event)
+        "
       >
         <!-- Empty Schedule -->
         <div style="pointer-events: none;" *ngIf="staff.schedules == ''"></div>
