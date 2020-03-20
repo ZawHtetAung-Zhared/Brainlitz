@@ -2302,71 +2302,42 @@ export class TimetableComponent implements OnInit {
   // public disabledScroll = false;
 
   showPopUpFunc(staff, schedule) {
-    // this.renderer.addClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.addClass(document.body, 'modal-open');
-    // this.disabledScroll = true;
     this.selectedStaff = staff;
     this.schedule = schedule;
-    //this.timetables =this.selectedStaff.schedules.timetables;
-    this.leaveInfo = schedule.leaveInfo;
-    //console.log(this.timetables)
-    //console.log(this.absent,this.timetables.length)
-    this.getAllCoursePlan('0', '20');
-    //this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
+    console.log(this.schedule, 'this.schedule');
+    this.mDate = null;
+    /// case for no schedule
+    if (this.schedule !== undefined) {
+      this.leaveInfo = schedule.leaveInfo;
+      this.getAllCoursePlan('0', '20');
+      var d = new Date(schedule.date);
+      var sDate = {
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate()
+      };
+      console.log(sDate);
 
-    var d = new Date(schedule.date);
-    var sDate = {
-      year: d.getFullYear(),
-      month: d.getMonth() + 1,
-      day: d.getDate()
-    };
-    console.log(sDate);
+      this.mDate = d;
+      var day = [];
+      day.push(d.getUTCDay());
+      console.log(day);
 
-    this.mDate = d;
+      var time = {
+        hr: 0,
+        min: 0,
+        meridiem: 'AM'
+      };
+      console.log(this.selectedStaff);
+      this.scheduleObj['repeatDays'] = day;
+      this.scheduleObj['date'] = sDate;
+      this.scheduleObj['teacher'] = this.selectedStaff;
+      console.log(this.scheduleObj['teacher']);
+      this.scheduleObj['time'] = time;
+    }
+    /// case for no schedule
 
-    //var weekday = d.getUTCDay();
-    var day = [];
-    day.push(d.getUTCDay());
-    console.log(day);
-    // switch (weekday) {
-    //   case 'Sun':
-    //     day.push(0);
-    //     break;
-    //   case 'Mon':
-    //     day.push(1);
-    //     break;
-    //   case 'Tue':
-    //     day.push(2);
-    //     break;
-    //   case 'Wed':
-    //     day.push(3);
-    //     break;
-    //   case 'Thu':
-    //     day.push(4);
-    //     break;
-    //   case 'Fri':
-    //     day.push(5);
-    //     break;
-    //   case 'Sat':
-    //     day.push(6);
-    // }
-
-    var time = {
-      hr: 0,
-      min: 0,
-      meridiem: 'AM'
-    };
-    console.log(this.selectedStaff);
-    this.scheduleObj['repeatDays'] = day;
-    this.scheduleObj['date'] = sDate;
-    this.scheduleObj['teacher'] = this.selectedStaff;
-    console.log(this.scheduleObj['teacher']);
-    this.scheduleObj['time'] = time;
-
-    //this.scheduleObj['repeatDays'] = day;
-    //this.scheduleObj['date'] = sDate;
-    //this.scheduleObj['teacher'] = this.selectedStaff; //give selected teacher
-    //this.scheduleObj['time'] = time;
     this.showPopUp = true;
   }
 
