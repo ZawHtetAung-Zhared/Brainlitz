@@ -1,3 +1,63 @@
-<p>
-  assessment-content works!
-</p>
+<div class="info-section">
+  <div class="bg-apg-header">
+    <p class="mb-0 small text-c100" *ngIf="singleAssessment.module">
+      {{ singleAssessment.module.name ? singleAssessment.module.name : '-' }}
+    </p>
+    <p class="body-m text-c300 mb-0">{{ singleAssessment.name }}</p>
+  </div>
+  <div class="apg-scroll">
+    <div>
+      <div
+        class="ap-wrapper"
+        *ngFor="let ap of singleAssessment.accessPoints; let ind = index"
+      >
+        <!-- <div>{{ap.accessPoints.isExpand}}</div> -->
+        <div class="d-flex flex-row justify-content-between">
+          <p
+            class="mb-0 ev-apgName body-l text-c300"
+            [ngClass]="{ changeColor: ap.isExpand }"
+          >
+            {{ ap.name }}
+          </p>
+          <span
+            class="lists-down-arrow"
+            [ngClass]="{ 'transform-y': ap.isExpand }"
+            (click)="expandAccessPoint(i, ind)"
+          >
+            <i
+              class="fa fa-angle-down"
+              style="font-size: 25px;color: #007fff;"
+            ></i>
+          </span>
+        </div>
+        <div *ngIf="!ap.isExpand" class="d-flex flex-row list-dot-wrap">
+          <span
+            class="dot"
+            *ngFor="let detail of ap.data.evaluation.details"
+          ></span>
+        </div>
+        <div *ngIf="ap.isExpand">
+          <div
+            class="d-flex flex-row"
+            *ngFor="let detail of ap.data.evaluation.details; let idx = index"
+          >
+            <span class="detail-dot"></span>
+            <div
+              class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
+              [ngClass]="{
+                'hide-border': ap.data.evaluation.details?.length == idx + 1
+              }"
+            >
+              {{ detail.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<single-footer
+  [singleData]="singleAssessment"
+  *ngIf="viewFor.toLowerCase() != 'share'"
+></single-footer>

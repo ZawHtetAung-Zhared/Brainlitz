@@ -1,3 +1,10 @@
-<p>
-  assessment works!
-</p>
+<card-tool-content [dataList]="apgList" [viewFor]="'all'"> </card-tool-content>
+
+<div *ngIf="result.length >= 20" class="load-more bg-s0">
+  <button
+    class="btn remove-outline body-m text-b100 "
+    (click)="showmore('apg', apgList.length)"
+  >
+    load more
+  </button>
+</div>

@@ -15,4 +15,9 @@ export class AssessmentContentComponent implements OnInit {
     console.log(this.singleAssessment);
     console.log(this.viewFor);
   }
+
+  expandAccessPoint(i, ind) {
+    this.singleAssessment.accessPoints[ind].isExpand = !this.singleAssessment
+      .accessPoints[ind].isExpand;
+  }
 }
