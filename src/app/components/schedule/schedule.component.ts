@@ -2661,7 +2661,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else {
       height = 160;
     }
-    if ($(document).height() - this.yPosition < height) {
+    // if ($(document).height() - this.yPosition < height) {
+    if ($(window).height() - this.yPosition < height) {
       this.yPosition = $(event.target).offset().top - height;
       this.arrTop = this.yPosition + height;
       this.arrClasses = {
@@ -2990,10 +2991,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.arrTop = this.yPosition - 41;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
-      if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
+      // if($(document).height() - (this.yPosition+80) < this.popUpHeight){
+      if ($(window).height() - this.yPosition < this.popUpHeight) {
         console.log('I found u');
+        this.arrTop = this.yPosition - 34;
         this.yPosition = this.yPosition - this.popUpHeight - 20;
-        this.arrTop = this.yPosition + this.popUpHeight - 10;
+        // this.arrTop = this.yPosition + this.popUpHeight - 10;
         this.arrClasses = {
           'arr-down': true
         };
@@ -3120,9 +3123,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       } else {
         height = 160;
       }
-      if ($(document).height() - (this.yPosition + height - 20) < height) {
+      // if ($(document).height() - (this.yPosition + height - 20) < height) {
+      if ($(window).height() - this.yPosition < height) {
         this.yPosition = $(event.target).offset().top - height;
-        this.arrTop = this.yPosition + height;
+        this.arrTop = this.yPosition + height - 1;
         this.arrClasses = {
           'arr-box': true,
           'arr-down': true
@@ -3399,6 +3403,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public overlapYLeft;
   public overlap = false;
   caculatePosition(e) {
+    console.log(
+      'claculatePosition>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>'
+    );
     this.overlap = true;
     // e.preventDefault();
     // e.stopPropagation();
@@ -3437,7 +3444,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       };
     }
 
-    if ($(document).height() - (YPosition + 112) < 56) {
+    // if ($(document).height() - (YPosition + 112) < 56) {
+    if ($(window).height() - (YPosition + 50) < 56) {
       this.overlapXTop = YPosition - 56 + 'px';
       this.overlapClasses = {
         top: YPosition - 56 + 'px',
