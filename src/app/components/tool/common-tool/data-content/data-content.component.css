@@ -66,38 +66,3 @@ span.textapgType.selected {
   border-bottom: none;
   margin-bottom: 0px !important;
 }
-
-.btn-section {
-  border-top: 1px solid #edeff0;
-  padding: 10px;
-}
-
-.status-wrapper-share {
-  display: inline;
-  /* position: absolute;
-    left: -100px; */
-}
-.circle-apg {
-  background: #e3e4e6;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  margin: 10px 0px 10px 10px;
-}
-
-.apg-share,
-.btn-action {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.remove-outline:focus {
-  outline: none;
-  box-shadow: none;
-  background: none;
-}
-
-.remove-outline {
-  background: none;
-}

@@ -1,0 +1,9 @@
+.progress-info {
+  max-height: 63px;
+  margin-top: 14px;
+  overflow: overlay;
+}
+
+.padding-lr {
+  padding: 15px 20px;
+}
