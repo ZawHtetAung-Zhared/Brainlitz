@@ -39,10 +39,10 @@ export class AssignReliefComponent implements OnInit {
     this.courseInfo.assistants.map(assistant => {
       this.assistantArr.push(assistant.userId);
     });
-    // this.lessonInfo['lessonDate'] = this.lessonInfo.startDate.substr(
-    //   0,
-    //   this.lessonInfo.startDate.search('T')
-    // );
+    this.lessonInfo['lessonDate'] = this.lessonInfo.startDate.substr(
+      0,
+      this.lessonInfo.startDate.search('T')
+    );
   }
 
   searchMethod2(keyword, usertype) {

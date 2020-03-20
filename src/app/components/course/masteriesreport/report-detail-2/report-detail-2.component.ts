@@ -201,11 +201,29 @@ export class ReportDetail2Component implements OnInit {
   }
 
   plotGraph(masteryId) {
+    var _self = this;
     var elem = document.getElementById(masteryId);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    graph.on('click', function(params) {
+      if (params.componentType === 'series') {
+        for (var i = 0; i < _self.reportItems.length; i++) {
+          // console.log(_self.reportItems[i])
+          if (_self.reportItems[i].masteryId == masteryId) {
+            console.log('selected', _self.reportItems[i]);
+            let selectedMastery = _self.reportItems[i];
+            var id = selectedMastery._id;
+            _self.router.navigate([`../studentlist/${id}`], {
+              relativeTo: _self.route
+            });
+            _self.dataservice.setMasteryData(selectedMastery);
+            break;
+          }
+        }
+      }
+    });
     $(window).on('resize', function() {
       if (graph != null && graph != undefined) {
         graph.resize();

@@ -4262,9 +4262,6 @@ export class AttendanceComponent implements OnInit {
       setTimeout(() => {
         // console.log(this.detailLists.lessons[this.currentLessonIdx]);
         this.attendanceList.lessons.map((item, index) => {
-          console.log('item', item);
-          // console.log("index",index)
-          // console.log(item._id,',',this.lastSelectedObj._id,item.startDate,',',this.lastSelectedObj.startDate)
           if (
             item._id == this.lastSelectedObj._id &&
             item.startDate == this.lastSelectedObj.startDate
@@ -4272,7 +4269,7 @@ export class AttendanceComponent implements OnInit {
             this.attendanceList.lessons[index] = this.detailLists.lessons[
               this.currentLessonIdx
             ];
-            console.log('attendance list', this.attendanceList.lessons);
+            console.log('check for relief');
             this.checkForRelief(
               this.detailLists.lessons[this.currentLessonIdx]
             );
