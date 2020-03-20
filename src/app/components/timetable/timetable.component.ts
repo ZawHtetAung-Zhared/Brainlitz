@@ -2301,7 +2301,9 @@ export class TimetableComponent implements OnInit {
   public mDate: any;
   // public disabledScroll = false;
 
-  showPopUpFunc(staff, schedule) {
+  showPopUpFunc(staff, schedule, i) {
+    console.log('Clicked Date', this.indexWeek[i]);
+
     // this.renderer.addClass(this.elmRef.nativeElement, 'modal-open');
     this.renderer.addClass(document.body, 'modal-open');
     // this.disabledScroll = true;
@@ -2314,7 +2316,7 @@ export class TimetableComponent implements OnInit {
     this.getAllCoursePlan('0', '20');
     //this.selectedTeacher.id = '5e194245f813ae005e6ab4f9';
 
-    var d = new Date(schedule.date);
+    var d = new Date(this.indexWeek[i]);
     var sDate = {
       year: d.getFullYear(),
       month: d.getMonth() + 1,
@@ -2322,7 +2324,7 @@ export class TimetableComponent implements OnInit {
     };
     console.log(sDate);
 
-    this.mDate = d;
+    this.mDate = this.indexWeek[i];
 
     //var weekday = d.getUTCDay();
     var day = [];

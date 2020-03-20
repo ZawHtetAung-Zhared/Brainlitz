@@ -96,13 +96,14 @@
   background: white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   font-feature-settings: 'tnum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
   font-family: 'Inter-UI-Regular', Arial, sans-serif;
+  cursor: pointer;
 }
 
 .white:hover {
