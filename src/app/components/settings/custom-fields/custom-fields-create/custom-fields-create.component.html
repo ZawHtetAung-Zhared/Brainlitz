@@ -1,6 +1,6 @@
 <div class="content-wrapper mx-auto">
   <div class="back-wrap d-flex">
-    <div class="d-flex back cursor-on" (click)="cancel()">
+    <div class="d-flex back cursor-on" (click)="goToCustomFields()">
       <i class="fa fa-angle-left"></i>
       <p class="mb-0 font-medium light-body-l text-c200">Custom field</p>
     </div>
@@ -181,7 +181,7 @@
         <button
           type="button"
           class="btn-cancel body-l bg-s20 cursor-on"
-          (click)="cancel()"
+          (click)="goToCustomFields()"
         >
           Cancel
         </button>
@@ -238,7 +238,7 @@
           <button
             *ngIf="isUpdate"
             type="button"
-            class="btn-submit cursor-on bg-b100 body-l"
+            class="btn-submit cursor-on bg-b100 body-l text-s0"
             (click)="createField(this.model, this.model._id)"
             [disabled]="!fieldForm.form.valid"
           >

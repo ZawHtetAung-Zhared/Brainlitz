@@ -15,11 +15,11 @@ import { Subscription } from 'rxjs';
 import { appService } from '../../../../service/app.service';
 declare var $: any;
 @Component({
-  selector: 'app-cutom-fields-create',
-  templateUrl: './cutom-fields-create.component.html',
-  styleUrls: ['./cutom-fields-create.component.css']
+  selector: 'app-custom-fields-create',
+  templateUrl: './custom-fields-create.component.html',
+  styleUrls: ['./custom-fields-create.component.css']
 })
-export class CutomFieldsCreateComponent implements OnInit {
+export class CustomFieldsCreateComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public fieldLists: any = [];
   public showForm: boolean = false;
@@ -79,18 +79,21 @@ export class CutomFieldsCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/settings/custom-fields/custom-fields-create') {
+    if (this.router.url === '/settings/customfields/customfields-create') {
       this.isUpdate = false;
+      this.isChecked = this.testLists[0];
     } else {
+      console.log('id is ', this.route.snapshot.params.id);
+      this.editField(this.route.snapshot.params.id);
       this.isUpdate = true;
-      console.log(
-        this.route.snapshot.paramMap.get('id'),
-        'location is blah blah '
-      );
       // this.singleLocation(this.route.snapshot.paramMap.get('id'));
     }
-    this.getAllCustomfields();
+    //this.getAllCustomfields();
     this.defineType(this.isChecked);
+  }
+
+  goToCustomFields() {
+    this.router.navigateByUrl('/settings/customfields');
   }
 
   focusMethod(e, status, word) {
@@ -123,33 +126,6 @@ export class CutomFieldsCreateComponent implements OnInit {
 
   changeMethod(val: string) {
     this.wordLength = val.length;
-  }
-
-  getAllCustomfields() {
-    this.checkFieldArr = [];
-    //this.blockUI.start('Loading...');
-    this._service.getAllFields(this.regionID).subscribe((res: any) => {
-      console.log(res);
-      this.fieldLists = res.userInfoPermitted;
-      console.log(this.fieldLists);
-      //this.blockUI.stop();
-    });
-  }
-
-  showCreateForm() {
-    this.showForm = true;
-    this.model = {};
-    this.isChecked = this.testLists[0];
-    this.defineType(this.isChecked);
-    this.isUpdate = false;
-  }
-
-  cancel() {
-    this.showForm = false;
-    this.model = {};
-    this.isUpdate = false;
-    this.isChecked = false;
-    this.getAllCustomfields();
   }
 
   chooseType(item) {
@@ -278,7 +254,8 @@ export class CutomFieldsCreateComponent implements OnInit {
           this.showForm = false;
           this.toastr.success('Successfully Created.');
           //this.blockUI.stop();
-          this.getAllCustomfields();
+          //this.getAllCustomfields();
+          this.router.navigateByUrl('/settings/customfields/customfields-list');
         },
         err => {
           console.log(err);
@@ -294,8 +271,9 @@ export class CutomFieldsCreateComponent implements OnInit {
           this.model = {};
           this.toastr.success('Successfully Updated.');
           //this.blockUI.stop();
-          this.getAllCustomfields();
-          this.showForm = false;
+          //this.getAllCustomfields();
+          this.router.navigateByUrl('/settings/customfields/customfields-list');
+          //this.showForm = false;
         },
         err => {
           console.log(err);
@@ -306,74 +284,42 @@ export class CutomFieldsCreateComponent implements OnInit {
     }
   }
 
-  editField(field) {
+  editField(id) {
     this.checkFieldArr = [];
-    console.log('edit field', field);
-    this.showForm = true;
-    this.isUpdate = true;
-    this.model = field;
-    this.model.type = this.model.dataType;
-    console.log('model type', this.model.type);
+    this._service.getSingleField(this.regionID, id).subscribe((data: any) => {
+      console.log(data);
+      this.showForm = true;
+      this.isUpdate = true;
+      this.model = data.userInfoPermitted;
+      console.log(this.model.name, 'this.model');
+      this.model.type = this.model.dataType;
+      console.log('model type', this.model.type);
+      console.log('length', this.model.inputValues.length);
+      this.isChecked = this.model.controlType;
+      // this.defineType(this.isChecked);
+      console.log(this.model.controlType);
+      if (this.model.inputValues.length != 0) {
+        if (this.model.controlType == 'Radio') {
+          this.isChecked = 'Selection';
+          this.isMultipleSelection = false;
+        } else {
+          this.isChecked = 'Selection';
+          this.isMultipleSelection = true;
+        }
 
-    this.isChecked = this.model.contr;
-    // this.defineType(this.isChecked);
-    console.log(field.controlType);
-    if (field.inputValues.length != 0) {
-      if (field.controlType == 'Radio') {
-        this.isChecked = 'Selection';
-        this.isMultipleSelection = false;
+        for (let i = 0; i < this.model.inputValues.length; i++) {
+          let obj = {
+            name: this.model.inputValues[i]
+          };
+          this.checkFieldArr.push(obj);
+        }
       } else {
-        this.isChecked = 'Selection';
-        this.isMultipleSelection = true;
+        this.isChecked = this.model.dataType;
+        this.defineType(this.isChecked);
       }
-
-      for (let i = 0; i < field.inputValues.length; i++) {
-        let obj = {
-          name: field.inputValues[i]
-        };
-        this.checkFieldArr.push(obj);
-      }
-    } else {
-      this.isChecked = field.dataType;
-      this.defineType(this.isChecked);
-    }
-    console.log(field.inputValues);
-    console.log('model type', this.isChecked);
-    // if(this.model.type == 'String'){
-    // 	console.log("String")
-    // 	this.isChecked = 'Text';
-    // }else{
-    // 	console.log("Other")
-    // 	this.isChecked = this.model.type;
-    // }
-  }
-
-  deleteModal(data, alertDelete) {
-    console.log(data);
-    this.deleteObj['id'] = data._id;
-    this.deleteObj['name'] = data.name;
-
-    console.log('delete data', this.deleteObj);
-    this.modalReference = this.modalService.open(alertDelete, {
-      backdrop: 'static',
-      windowClass:
-        'deleteModal d-flex justify-content-center align-items-center'
+      console.log(this.model.inputValues);
+      console.log('model type', this.isChecked);
     });
-  }
-
-  deleteField(id) {
-    //this.blockUI.start('Loading...');
-    this._service.deleteCustomField(this.regionID, id).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.modalReference.close();
-        this.toastr.success('Successfully Deleted.');
-        this.getAllCustomfields();
-      },
-      err => {
-        console.log(err);
-      }
-    );
   }
 
   checkFieldArr: any = [];
@@ -419,15 +365,18 @@ export class CutomFieldsCreateComponent implements OnInit {
     }
   }
 
+  getSingleField(field) {
+    console.log(field._id, 'field id');
+    this._service
+      .getSingleField(this.regionID, field._id)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
+  }
+
   ngOnDestroy() {
     this.subs.unsubscribe();
     this.dragulaService.destroy('HANDLES');
     // this.dragulaService.destroy('COLUMNS');
   }
-
-  // ngOnDestroy() {
-
-  //   for (var i = 0; i < this.groupNumber; i++)
-  //     var dd = this.dragulaService.find(String(i));
-  // }
 }

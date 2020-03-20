@@ -84,6 +84,7 @@ import {
 } from './components/report/index';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -111,21 +112,21 @@ export const routes: Routes = [
         path: 'general',
         component: GeneralComponent,
         children: [
-          { path: '', redirectTo: 'general-overview', pathMatch: 'full' },
+          { path: '', redirectTo: 'generaloverview', pathMatch: 'full' },
           {
-            path: 'general-overview',
+            path: 'generaloverview',
             component: GeneralOverviewComponent
           },
           {
-            path: 'invoice-setting-edit',
+            path: 'invoicesetting-edit',
             component: InvoiceSettingEditComponent
           },
           {
-            path: 'payment-setting-edit',
+            path: 'paymentsetting-edit',
             component: PaymentSettingEditComponent
           },
           {
-            path: 'schedule-setting-edit',
+            path: 'schedulesetting-edit',
             component: ScheduleSettingEditComponent
           }
         ]
@@ -153,18 +154,18 @@ export const routes: Routes = [
         path: 'customfields',
         component: CustomFieldsComponent,
         children: [
-          { path: '', redirectTo: 'custom-fields-list', pathMatch: 'full' },
+          { path: '', redirectTo: 'customfields-list', pathMatch: 'full' },
           {
-            path: 'custom-fields-list',
+            path: 'customfields-list',
             component: CustomFieldsListComponent
           },
           {
-            path: 'custom-fields-update/:id',
-            component: LocationCreateComponent
+            path: 'customfields-update/:id',
+            component: CustomFieldsCreateComponent
           },
           {
-            path: 'custom-fields-create',
-            component: LocationCreateComponent
+            path: 'customfields-create',
+            component: CustomFieldsCreateComponent
           }
         ]
       }

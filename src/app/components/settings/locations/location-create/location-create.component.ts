@@ -21,7 +21,10 @@ import { appService } from '../../../../service/app.service';
 @Component({
   selector: 'app-location-create',
   templateUrl: './location-create.component.html',
-  styleUrls: ['./location-create.component.css']
+  styleUrls: [
+    './location-create.component.css',
+    '../location-list/location-list.component.css'
+  ]
 })
 export class LocationCreateComponent implements OnInit {
   public limitno: Location;

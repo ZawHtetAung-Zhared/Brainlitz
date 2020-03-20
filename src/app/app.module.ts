@@ -199,7 +199,7 @@ import { LocationListComponent } from './components/settings/locations/location-
 import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
 import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
 import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
-import { CutomFieldsCreateComponent } from './components/settings/custom-fields/cutom-fields-create/cutom-fields-create.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
 
 @NgModule({
   declarations: [
@@ -346,7 +346,7 @@ import { CutomFieldsCreateComponent } from './components/settings/custom-fields/
     LocationCreateComponent,
     CustomFieldsComponent,
     CustomFieldsListComponent,
-    CutomFieldsCreateComponent
+    CustomFieldsCreateComponent
   ],
   imports: [
     ContentLoaderModule,

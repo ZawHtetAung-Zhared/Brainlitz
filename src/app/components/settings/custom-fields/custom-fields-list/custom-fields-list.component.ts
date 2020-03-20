@@ -297,40 +297,11 @@ export class CustomFieldsListComponent implements OnInit {
   }
 
   editField(field) {
-    this.router.navigate([
-      '/settings/custom-fields/custom-fields-update',
-      field
-    ]);
-    // this.checkFieldArr = [];
-    // console.log('edit field', field);
-    // this.showForm = true;
-    // this.isUpdate = true;
-    // this.model = field;
-    // this.model.type = this.model.dataType;
-    // console.log('model type', this.model.type);
-    // this.isChecked = this.model.contr;
-    // console.log(field.controlType);
-    // if (field.inputValues.length != 0) {
-    //   if (field.controlType == 'Radio') {
-    //     this.isChecked = 'Selection';
-    //     this.isMultipleSelection = false;
-    //   } else {
-    //     this.isChecked = 'Selection';
-    //     this.isMultipleSelection = true;
-    //   }
-
-    //   for (let i = 0; i < field.inputValues.length; i++) {
-    //     let obj = {
-    //       name: field.inputValues[i]
-    //     };
-    //     this.checkFieldArr.push(obj);
-    //   }
-    // } else {
-    //   this.isChecked = field.dataType;
-    //   this.defineType(this.isChecked);
-    // }
-    // console.log(field.inputValues);
-    // console.log('model type', this.isChecked);
+    console.log(field._id, 'field id is ');
+    // this.router.navigate(['/settings/customfields/customfields-update/',field._id]);
+    this.router.navigateByUrl(
+      '/settings/customfields/customfields-update/' + field._id
+    );
   }
 
   deleteModal(data, alertDelete) {

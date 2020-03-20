@@ -2784,6 +2784,20 @@ export class appService {
     });
   }
 
+  getSingleField(regionid: string, id: string) {
+    let apiUrl = this.baseUrl + '/regions/' + regionid + '/custom-field/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
   createCustomField(regionid: string, data: object): Observable<any> {
     console.log(data);
     let apiUrl = this.baseUrl + '/' + regionid + '/setting/user-info';
