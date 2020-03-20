@@ -165,6 +165,7 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import { LogPipe } from './service/pipe/log';
 
 @NgModule({
   declarations: [
@@ -219,6 +220,7 @@ import {
     ttMonthPipe,
     ttTimePipe,
     AmPmPipe,
+    LogPipe,
     ReadmoreComponent,
     UserStaffComponent,
     HomeComponent,

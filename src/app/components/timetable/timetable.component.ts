@@ -48,6 +48,7 @@ export class TimetableComponent implements OnInit {
     '1',
     '1'
   ];
+  public schedules: any = ['0', '0', '0', '0', '0', '0', '0'];
   public sk: any = 0;
   public staffskip: any = 0;
   public staffdone: boolean = true;
@@ -445,10 +446,8 @@ export class TimetableComponent implements OnInit {
             this.staffdone = false;
           }
           this.stafflist = this.stafflist.concat(res.staffList);
-          // this.staffcount = this.stafflist.length;
-          // if (this.staffcount > 10) {
-          //   this.extracount = ['1', '1', '1'];
-          // }
+          this.staffcount = res.total;
+
           console.log('SL', this.stafflist);
           this.getTimetables(
             res.staffList.toString(),
@@ -467,25 +466,7 @@ export class TimetableComponent implements OnInit {
     this._service.getTimetableList(list, start, end, id).subscribe(
       (res: any) => {
         this.timetablelist = this.timetablelist.concat(res);
-        this.staffcount = this.timetablelist.length;
-        if (this.staffcount > 10) {
-          this.extracount = ['1', '1', '1'];
-        } else {
-          this.extracount = [
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1',
-            '1'
-          ];
-        }
+
         console.log('timetable list', this.timetablelist);
         // var startOfWeek = moment().startOf('week').toDate();
         // var endOfWeek = moment().endOf('week').toDate();
