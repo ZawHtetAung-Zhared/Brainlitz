@@ -6,7 +6,7 @@
       class="d-flex"
       style="margin-left: 20px; height: 40px;align-items: center;"
     >
-      <button class="btn tdy-btn body-m" (click)="TodayCalculate()">
+      <button class="btn tdy-btn body-m text-c300" (click)="TodayCalculate()">
         Today
       </button>
       <span class="arrow" (click)="weekCalculate('prev')"
@@ -15,7 +15,7 @@
       <span class="arrow" (click)="weekCalculate('next')"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
-      <span class="setting-date"
+      <span class="setting-date text-c300"
         >{{ thisStart | date: 'd MMM' }} '{{ thisStart | date: 'yy' }} -
         {{ thisEnd | date: 'd MMM' }} '{{ thisEnd | date: 'yy' }}</span
       >
