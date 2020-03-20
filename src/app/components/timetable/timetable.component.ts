@@ -17,7 +17,10 @@ import { DataService } from '../../service/data.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-
+export enum KEY_CODE {
+  RIGHT_ARROW = 39,
+  LEFT_ARROW = 37
+}
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
@@ -53,6 +56,7 @@ export class TimetableComponent implements OnInit {
   public staffskip: any = 0;
   public staffdone: boolean = true;
   // public todayIndex: any = 0;
+  public key: any;
   //zha variable
 
   //apo variable
@@ -367,6 +371,8 @@ export class TimetableComponent implements OnInit {
 
     this.getCatList();
 
+    window.scrollTo(0, 0);
+
     //zha ngOnInit
 
     this.renderer.removeClass(document.body, 'modal-open');
@@ -421,6 +427,20 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+
+    if (event.keyCode === KEY_CODE.RIGHT_ARROW) {
+      this.weekCalculate('next');
+    }
+
+    if (event.keyCode === KEY_CODE.LEFT_ARROW) {
+      console.log('left');
+      this.weekCalculate('prev');
+    }
+  }
+
   toggledropdown() {
     if (this.showOverLay == false) {
       this.renderer.addClass(document.body, 'modal-open');
