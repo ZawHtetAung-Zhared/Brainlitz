@@ -2018,11 +2018,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         (res: any) => {
           // //this.blockUI.stop();
           console.log(res);
+          console.log(this.selectedSeat); //zzkz
           this.studentLists = res.CUSTOMER;
           this.selectedSeat.taken = this.studentLists.length;
-          this.selectedSeat.left =
-            this.selectedSeat.total - this.selectedSeat.taken;
-          console.log(this.selectedSeat);
+          if (this.selectedSeat.left != null)
+            this.selectedSeat.left =
+              this.selectedSeat.total - this.selectedSeat.taken;
 
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
@@ -2862,6 +2863,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // Call cancel class api service
     // //this.blockUI.start('Loading...');
     // this.isGlobal
+
     this._service
       .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
@@ -2878,7 +2880,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.isGlobal = false;
           // this.disableCancel = true;
           // this.getCourseDetail(this.courseId);
-          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+          if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              '0,1,2,3,4,5,6'
+            );
+          } else
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              this.selectedDay.toString()
+            );
           // Close Dialog box
           // Show the canceled users
           this.reasonValue = '';
@@ -2898,6 +2909,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickCourse(course, lesson, e, date, list, type) {
     console.error('here onclickcourse');
+    console.log(course);
     this.isFousCategory = false;
     this.overlap = false;
     this.tempTeacher = course.teacher[0];
@@ -3377,7 +3389,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.showPayment = false;
         this.showOneInvoice(this.invoice);
       });
-    this.getUserInCourse();
+    // this.getUserInCourse();
+    if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
+      this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+    } else
+      this.getStaffTimetable(
+        this.selectedTeacher.userId,
+        this.selectedDay.toString()
+      );
     //add lesson
     console.log(this.checkobjArr);
   }
