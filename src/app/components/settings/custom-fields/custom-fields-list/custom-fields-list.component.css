@@ -556,3 +556,6 @@ input:checked + .slider:before {
   margin-bottom: 0px;
   cursor: pointer;
 }
+button:focus {
+  outline: 0;
+}
