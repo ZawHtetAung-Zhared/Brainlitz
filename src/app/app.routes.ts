@@ -85,6 +85,9 @@ import {
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+// import { LocationsComponent } from './components/settings/locations/locations.component';
+import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
+import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -406,6 +409,17 @@ export const routes: Routes = [
           {
             path: '6/:id',
             component: GradingComponent
+          }
+        ]
+      },
+      {
+        path: 'resource-list',
+        component: ResourceListComponent,
+        children: [
+          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
+          {
+            path: 'resourcecreate/:type/:userid',
+            component: CreateResourceComponent
           }
         ]
       }

@@ -1,0 +1,16 @@
+<div class="info-section padding-lr">
+  <p class="mb-0 small text-c100">
+    {{ singleBadge.module ? singleBadge.module.name : '-' }}
+  </p>
+  <p class="body-m text-c300 mb-0">{{ singleBadge.name }}</p>
+
+  <div class="progress-info">
+    <p class=" body-m text-c100 text-justify">
+      {{ singleBadge.description }}
+    </p>
+  </div>
+</div>
+<single-footer
+  [singleData]="singleBadge"
+  *ngIf="viewFor.toLowerCase() != 'share'"
+></single-footer>

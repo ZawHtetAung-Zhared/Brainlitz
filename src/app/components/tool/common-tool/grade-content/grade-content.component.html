@@ -1,0 +1,53 @@
+<div class="data-height">
+  <div class="info-section">
+    <div class="noBg-apg-header">
+      <p class="mb-0 small text-c100" *ngIf="singleGrade.module">
+        {{
+          singleGrade.module.name.toLowerCase() == 'user grading'
+            ? 'Grade'
+            : singleGrade.module.name
+        }}
+      </p>
+      <p class="mb-0 small text-c100" *ngIf="!singleGrade.module">-</p>
+      <p class="body-m text-c300 mb-0">{{ singleGrade.name }}</p>
+    </div>
+    <div class="apg-scroll" style="margin-top: 14px; max-height: 220px">
+      <div class="padding-lr">
+        <div>
+          <div *ngFor="let ap of singleGrade.accessPoints">
+            <div
+              class="d-flex"
+              *ngFor="let grade of ap.data.grades; let j = index"
+            >
+              <div
+                class="d-flex justify-content-center"
+                [ngStyle]="{
+                  background: ap.data.sepalColor.background,
+                  color: ap.data.sepalColor.text
+                }"
+                [ngClass]="{
+                  'test-circle': grade.point.length == 1,
+                  circle: grade.point.length > 1
+                }"
+              >
+                <span>
+                  {{ grade.point }}
+                </span>
+              </div>
+
+              <div
+                class="detail-line apg-grade body-m text-c300 w-100"
+                [ngClass]="{
+                  'hide-border': ap.data.grades?.length == j + 1
+                }"
+              >
+                <p class="gradename body-m text-c300">{{ grade.name }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <single-footer [singleData]="singleGrade"></single-footer>
+</div>

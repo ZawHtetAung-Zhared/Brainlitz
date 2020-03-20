@@ -193,6 +193,13 @@ import {
   MainBlockComponent,
   SideImgComponent
 } from './components/sidemenu/index';
+
+import { CardToolContentComponent } from './components/tool/common-tool/card-tool-content/card-tool-content.component';
+import { DataContentComponent } from './components/tool/common-tool/data-content/data-content.component';
+import { GradeContentComponent } from './components/tool/common-tool/grade-content/grade-content.component';
+import { AssessmentContentComponent } from './components/tool/common-tool/assessment-content/assessment-content.component';
+import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
+import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
 import { LocationsComponent } from './components/settings/locations/locations.component';
 import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
@@ -200,6 +207,12 @@ import { LocationCreateComponent } from './components/settings/locations/locatio
 import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
 import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
 import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+
+import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
+
+import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
+import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
 @NgModule({
   declarations: [
@@ -346,7 +359,19 @@ import { CustomFieldsCreateComponent } from './components/settings/custom-fields
     LocationCreateComponent,
     CustomFieldsComponent,
     CustomFieldsListComponent,
-    CustomFieldsCreateComponent
+    CustomFieldsCreateComponent,
+
+    CardToolContentComponent,
+    DataContentComponent,
+    GradeContentComponent,
+    AssessmentContentComponent,
+    BadgeContentComponent,
+    ProgressContentComponent,
+    ResourceListComponent,
+    CreateResourceComponent,
+    SingleFooterComponent,
+    ResourceListComponent,
+    SelfAssessmentContentComponent
   ],
   imports: [
     ContentLoaderModule,
