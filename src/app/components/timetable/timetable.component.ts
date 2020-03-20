@@ -2307,19 +2307,30 @@ export class TimetableComponent implements OnInit {
     this.selectedStaff = staff;
     this.schedule = schedule;
     this.mDate = this.indexWeek[i];
-    if (this.schedule === undefined) {
+    this.getAllCoursePlan('0', '20');
+    var d = new Date(this.indexWeek[i]);
+    var sDate = {
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate()
+    };
+    var time = {
+      hr: 0,
+      min: 0,
+      meridiem: 'AM'
+    };
+    console.log(sDate);
+    var day = [];
+    day.push(d.getUTCDay());
+    console.log(day);
+    console.log(this.selectedStaff);
+    this.scheduleObj['repeatDays'] = day;
+    this.scheduleObj['date'] = sDate;
+    this.scheduleObj['teacher'] = this.selectedStaff;
+    this.scheduleObj['time'] = time;
+    console.log(this.scheduleObj['teacher']);
+    if (this.schedule !== undefined) {
       this.leaveInfo = schedule.leaveInfo;
-      this.getAllCoursePlan('0', '20');
-      var d = new Date(this.indexWeek[i]);
-      var sDate = {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-      };
-      console.log(sDate);
-      var day = [];
-      day.push(d.getUTCDay());
-      console.log(day);
     }
     this.showPopUp = true;
   }
