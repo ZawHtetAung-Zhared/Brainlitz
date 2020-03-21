@@ -292,8 +292,8 @@
 }
 
 .dropdown-arrow {
-  width: 250px;
   display: inline-block;
+  pointer-events: none;
 }
 
 .pad-left {
@@ -344,6 +344,20 @@
 .abbre {
   display: block;
 }
+.cat-arrow {
+  width: 10px;
+  height: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+  pointer-events: none;
+}
+.cat-div {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* .................................................................................................................................................................................................... */
 
 /* apo */

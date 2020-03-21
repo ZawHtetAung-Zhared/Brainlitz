@@ -1,4 +1,4 @@
-<div *ngIf="showTimetable == true">
+<div *ngIf="showTimetable == true" id="maindiv">
   <!-- zha -->
 
   <div class="setting d-flex">
@@ -29,9 +29,19 @@
         (click)="toggledropdown()"
         [ngClass]="{ 'category-bottom-border': showOverLay == false }"
       >
-        <span class="pl-3 dropdown-arrow">{{ selected }}</span>
-        <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
-        <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
+        <div class="cat-div" id="c-div">
+          <span class="pl-3 dropdown-arrow">{{ selected }}</span>
+          <img
+            class="cat-arrow"
+            *ngIf="clist != true"
+            src="../../../assets/img/downcategory.png"
+          />
+          <img
+            class="cat-arrow"
+            *ngIf="clist == true"
+            src="../../../assets/img/upcategory.png"
+          />
+        </div>
         <div
           infiniteScroll
           [infiniteScrollDistance]="2"
@@ -109,7 +119,9 @@
         "
       >
         <!-- Empty Schedule -->
-        <div style="pointer-events: none;" *ngIf="staff.schedules == ''"></div>
+        <div style="pointer-events: none;" *ngIf="staff.schedules == ''">
+          <div class="pad-left text-c200" id="pw{{ i }}{{ j }}"></div>
+        </div>
         <!-- Not Empty Schedule -->
         <div style="pointer-events: none;" *ngIf="staff.schedules != ''">
           <!---Absent All Day -->
