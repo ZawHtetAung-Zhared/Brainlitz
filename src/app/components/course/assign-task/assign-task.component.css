@@ -625,10 +625,7 @@ min-width: 40px;
 /* end */
 
 /* step 3 */
-.task-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .task-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;

@@ -20,7 +20,9 @@
           'disable-add': timeline.startDate > todayDate,
           'disable-cursor': isRescheduleLesson || isNewLesson,
           'day-highlight':
-            lastSelectedObj != null && lastSelectedObj._id == timeline._id
+            lastSelectedObj != null &&
+            lastSelectedObj._id == timeline._id &&
+            lastSelectedObj.startDate == timeline.startDate
         }"
       >
         <!-- <pre>{{timeline | json}}</pre> -->

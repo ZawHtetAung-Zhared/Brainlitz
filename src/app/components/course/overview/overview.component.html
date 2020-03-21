@@ -1,5 +1,5 @@
 <div
-  class="mastery-view"
+  class="mastery-view mt-4"
   [ngClass]="{ hide: !sparkwerkz, 'no-m': Nomasteryflag }"
   *ngIf="loadingMastery == false && masteryStudentCount > 0"
 >
@@ -229,7 +229,12 @@
         <div class="d-flex justify-content-between mb-4">
           <div>
             <h3 class="h3-strong text-c300">{{ enrolledcount }}</h3>
-            <span class="body-m  text-c100">customers currently enrolled</span>
+            <span *ngIf="enrolledcount > 1" class="body-m  text-c100"
+              >customers currently enrolled</span
+            >
+            <span *ngIf="enrolledcount == 1" class="body-m  text-c100"
+              >customer currently enrolled</span
+            >
           </div>
           <div
             class="d-flex flex-column c-unpaid h2-strong text-c300"
