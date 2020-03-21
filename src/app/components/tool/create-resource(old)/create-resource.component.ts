@@ -13,7 +13,7 @@ import {
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { appService } from '../../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from '../resource-list/quizwerkz';
+import { quizWerkzForm } from '../resource-listold/quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';

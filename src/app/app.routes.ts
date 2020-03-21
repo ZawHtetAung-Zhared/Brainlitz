@@ -86,8 +86,10 @@ import { InvoiceReportComponent } from './components/invoice-report/invoice-repo
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
 // import { LocationsComponent } from './components/settings/locations/locations.component';
-import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
-import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { CreateResourceComponent } from './components/tool/create-resource(old)/create-resource.component';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -377,6 +379,21 @@ export const routes: Routes = [
         ]
       },
       {
+        path: 'resource',
+        component: ResourceComponent,
+        children: [
+          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
+          {
+            path: 'resource-list',
+            component: ResourceListComponent
+          },
+          {
+            path: 'resource-list/resource-create/:type/:id',
+            component: ResourceCreateComponent
+          }
+        ]
+      },
+      {
         path: 'tracking-module',
         component: TrackingModuleComponent,
         children: [
@@ -409,17 +426,6 @@ export const routes: Routes = [
           {
             path: '6/:id',
             component: GradingComponent
-          }
-        ]
-      },
-      {
-        path: 'resource-list',
-        component: ResourceListComponent,
-        children: [
-          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
-          {
-            path: 'resourcecreate/:type/:userid',
-            component: CreateResourceComponent
           }
         ]
       }
