@@ -116,7 +116,15 @@ div#answer-block {
     height: auto;
   }
 }
-@media only screen and (max-width: 1365px) {
+
+@media only screen and (max-height: 768px) {
+  .mastery-block {
+    overflow: overlay;
+    height: 300px;
+  }
+}
+
+@media only screen and (min-height: 769px) {
   .mastery-block {
     overflow: overlay;
     height: 600px;
@@ -136,5 +144,11 @@ div#answer-block {
 
   .mode-wrapper {
     height: 400px;
+  }
+
+  .mastery-block {
+    overflow: unset;
+    height: unset;
+    padding: unset;
   }
 }
