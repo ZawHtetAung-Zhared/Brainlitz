@@ -290,109 +290,116 @@
     <div *ngIf="activeStep == '3'" class="div_step">
       <div class="d-flex justify-content-center">
         <div class="inside-data-wrapper">
-          <p class="h1-strong text-c300">
-            Manage tasks
-          </p>
-          <p class="template-description2 text-c100 body-l">
-            You can further customize each task in next screen.
-          </p>
-          <p class="h3-strong text-c300">
-            All tasks - {{ taskLists.length }} Tasks
-          </p>
-          <div class="task-wrapper" *ngIf="!loading3">
+          <div class="manage-task-wrapper">
+            <p class="h1-strong text-c300">
+              Manage tasks
+            </p>
+            <p class="template-description2 text-c100 body-l">
+              You can further customize each task in next screen.
+            </p>
+            <p class="h3-strong text-c300">
+              All tasks - {{ taskLists.length }} Tasks
+            </p>
             <div
-              class="col-md-4  pl-1"
-              *ngFor="let task of taskLists; let i = index"
-              (click)="checkTask(task)"
+              class="task-list-wrapper d-flex flex-wrap justify-content-between"
+              *ngIf="!loading3"
             >
               <div
-                class="task-block p-0"
-                [ngClass]="{
-                  selectedBorder: task._id == singleSelectedTask._id
-                }"
+                class="task-block-wrapper"
+                *ngFor="let task of taskLists; let i = index"
+                (click)="checkTask(task)"
               >
                 <div
-                  class="d-flex justify-content-center align-items-center img-block"
+                  class="manage-task-block p-0"
+                  [ngClass]="{
+                    selectedBorder: task._id == singleSelectedTask._id
+                  }"
                 >
-                  <img src="{{ task.posterImageUrl }}" />
+                  <div
+                    class="d-flex justify-content-center align-items-center img-block"
+                  >
+                    <img src="{{ task.posterImageUrl }}" />
+                  </div>
+                  <span class="mastery-count  bg-c200 small text-s0">{{
+                    task.masteryCount == 1
+                      ? task.masteryCount + ' Mastery'
+                      : task.masteryCount + ' Masteries'
+                  }}</span>
+
+                  <p class="task-name light-body-m text-c300">
+                    {{ task.name }}
+                  </p>
                 </div>
-                <span class="mastery-count  bg-c200 small text-s0">{{
-                  task.masteryCount == 1
-                    ? task.masteryCount + ' Mastery'
-                    : task.masteryCount + ' Masteries'
-                }}</span>
+              </div>
+            </div>
 
-                <p class="task-name light-body-m text-c300">{{ task.name }}</p>
+            <div class="task-list-wrapper" *ngIf="loading3">
+              <div class="col-md-4  pl-1">
+                <div
+                  class="task-block-loading p-0"
+                  style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+                padding: 10px !important;
+                height: 120px;"
+                >
+                  <content-loader>
+                    <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  </content-loader>
+                </div>
+              </div>
+              <div class="col-md-4  pl-1">
+                <div
+                  class="task-block-loading p-0"
+                  style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+                padding: 10px !important;
+                height: 120px;"
+                >
+                  <content-loader>
+                    <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  </content-loader>
+                </div>
+              </div>
+              <div class="col-md-4  pl-1">
+                <div
+                  class="task-block-loading p-0"
+                  style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
+                padding: 10px !important;
+                height: 120px;"
+                >
+                  <content-loader>
+                    <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                    <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
+                  </content-loader>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="task-wrapper" *ngIf="loading3">
-            <div class="col-md-4  pl-1">
+            <div class="button-wrapper">
               <div
-                class="task-block p-0"
-                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
-              padding: 10px !important;
-              height: 120px;"
+                class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
               >
-                <content-loader>
-                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                </content-loader>
+                <div class="back-modal " (click)="backToPrevStep(2, 3)">
+                  <i class="fa fa-angle-left"></i>
+                  <p class="text-c300 body-l">Back</p>
+                </div>
+                <button
+                  class="btn btn-comfirm  bg-b100 body-l text-s0"
+                  [disabled]="!singleSelectedTask._id || loading3"
+                  (click)="goToStep4($event, '4')"
+                >
+                  Continue
+                </button>
               </div>
-            </div>
-            <div class="col-md-4  pl-1">
-              <div
-                class="task-block p-0"
-                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
-              padding: 10px !important;
-              height: 120px;"
-              >
-                <content-loader>
-                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                </content-loader>
-              </div>
-            </div>
-            <div class="col-md-4  pl-1">
-              <div
-                class="task-block p-0"
-                style="box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08) !important;
-              padding: 10px !important;
-              height: 120px;"
-              >
-                <content-loader>
-                  <svg:rect x="0" y="20" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="50" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="80" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                  <svg:rect x="0" y="110" rx="10" width="100%" height="12" />
-                </content-loader>
-              </div>
-            </div>
-          </div>
-
-          <div class="button-wrapper">
-            <div
-              class="d-flex justify-content-between inner-wrapper1 footer-wrapper"
-            >
-              <div class="back-modal " (click)="backToPrevStep(2, 3)">
-                <i class="fa fa-angle-left"></i>
-                <p class="text-c300 body-l">Back</p>
-              </div>
-              <button
-                class="btn btn-comfirm  bg-b100 body-l text-s0"
-                [disabled]="!singleSelectedTask._id || loading3"
-                (click)="goToStep4($event, '4')"
-              >
-                Continue
-              </button>
             </div>
           </div>
         </div>
