@@ -155,7 +155,6 @@
   border-radius: 50%;
   margin: 0 3px 0 4px;
   text-align: -webkit-center;
-  line-height: 40px;
   background-color: #edeef0;
 }
 .propic > img {
@@ -163,6 +162,11 @@
   height: 100%;
   border-radius: 50%;
 }
+
+.text-l-height {
+  line-height: 3;
+}
+
 .enroll {
   position: relative;
   top: 8px;

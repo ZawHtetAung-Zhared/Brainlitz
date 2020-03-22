@@ -7,28 +7,48 @@ span.mastery-count {
   padding: 0 3px;
 }
 
+/*~~~ 16:9 ratio ~~~*/
 .img-block {
-  height: 132px;
+  /* height: 132px;
+  width: 100%; */
   width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding-top: 56.25%;
+  position: relative;
+  border-radius: 8px 8px 0px 0px;
 }
 
 .img-block img {
-  object-fit: contain;
+  /* object-fit: contain;
   width: 100%;
-  height: 100%;
+  height: 100%; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+/*~~~ 16:9 ratio ~~~*/
+
+.manage-task-block,
+.task-block-loading {
+  background: #ffffff !important;
+  width: 304px;
+  height: 245px;
+  margin-left: 0;
+  border-radius: 9px 9px 16px 16px;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
 }
 
-.task-block {
-  background: #ffffff !important;
-  width: 235px;
-  height: 172px;
-  margin-left: 0 !important;
-  border-radius: 4px !important;
-  box-shadow: unset !important;
+.manage-task-block {
+  position: relative;
+  cursor: pointer;
 }
 
 p.task-name {
-  padding: 8px;
+  padding: 14px 16px;
 }
 
 .selectedBorder {
@@ -116,8 +136,27 @@ div#answer-block {
     height: auto;
   }
 }
-@media only screen and (max-width: 1365px) {
+
+@media only screen and (max-height: 768px) {
   .mastery-block {
+    overflow: overlay;
+    height: 300px;
+  }
+
+  .task-list-wrapper {
+    overflow: overlay;
+    height: 300px;
+  }
+}
+
+@media only screen and (min-height: 769px) {
+  .mastery-block {
+    overflow: overlay;
+    height: 600px;
+    padding-bottom: 120px;
+  }
+
+  .task-list-wrapper {
     overflow: overlay;
     height: 600px;
     padding-bottom: 120px;
@@ -136,5 +175,35 @@ div#answer-block {
 
   .mode-wrapper {
     height: 400px;
+  }
+
+  .mastery-block {
+    overflow: unset;
+    height: unset;
+    padding: unset;
+  }
+
+  .task-list-wrapper {
+    height: 380px;
+    overflow: overlay;
+    padding-bottom: unset;
+  }
+
+  .manage-task-block {
+    width: 290px;
+    height: 230px;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1365px) {
+  .manage-task-wrapper {
+    width: 1004px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .manage-task-wrapper {
+    width: unset;
   }
 }

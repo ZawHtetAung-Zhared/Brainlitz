@@ -57,6 +57,7 @@ export class TimetableComponent implements OnInit {
   public staffdone: boolean = true;
   // public todayIndex: any = 0;
   public key: any;
+  public fired: boolean = false;
   //zha variable
 
   //apo variable
@@ -427,6 +428,22 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  @HostListener('wheel', ['$event'])
+  public HorizontalScroll(event) {
+    if (this.fired == false) {
+      if (event.deltaX > 100) {
+        console.log('next', event.deltaX);
+        this.fired = true;
+        this.weekCalculate('next');
+      }
+      if (event.deltaX < -100) {
+        console.log('prev', event.deltaX);
+        this.fired = true;
+        this.weekCalculate('prev');
+      }
+    }
+  }
+
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     console.log(event);
@@ -491,6 +508,7 @@ export class TimetableComponent implements OnInit {
         // var startOfWeek = moment().startOf('week').toDate();
         // var endOfWeek = moment().endOf('week').toDate();
         // console.log("MMMM", startOfWeek, "MMMM", endOfWeek, "Next Week", endOfWeek);
+        this.fired = false;
       },
       err => {
         console.log(err);
@@ -683,11 +701,13 @@ export class TimetableComponent implements OnInit {
   activeblue(event) {
     this.activeId = event.target.id;
     var temp = 'p' + this.activeId;
+    console.log('active ID', this.activeId, 'temp ID', temp);
+
     let blue: HTMLElement = document.getElementById(this.activeId);
     let white: HTMLElement = document.getElementById(temp);
     this.tempcolor = white.getAttribute('style');
     blue.setAttribute('style', 'background: #0065F2;');
-    white.setAttribute('style', 'color: #fff;');
+    white.setAttribute('style', 'color: #ffffff;');
   }
   onScrollDown() {
     console.log('down');
