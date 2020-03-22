@@ -33,7 +33,7 @@
             class="step"
             id="astep1"
             [class.adisabled]="!clickableSteps.includes('1')"
-            (click)="stepClick($event, '1')"
+            (click)="stepClick($event, '1', 'step-click')"
           >
             <span>1</span>
           </a>
@@ -43,7 +43,7 @@
             class="step"
             id="astep2"
             [class.adisabled]="!clickableSteps.includes('2')"
-            (click)="stepClick($event, '2')"
+            (click)="stepClick($event, '2', 'step-click')"
           >
             <span>2</span>
           </a>
@@ -53,7 +53,7 @@
             class="step"
             id="astep3"
             [class.adisabled]="!clickableSteps.includes('3')"
-            (click)="stepClick($event, '3')"
+            (click)="stepClick($event, '3', 'step-click')"
           >
             <span>3</span>
           </a>
@@ -63,7 +63,7 @@
             class="step"
             id="astep4"
             [class.adisabled]="!clickableSteps.includes('4')"
-            (click)="stepClick($event, '4')"
+            (click)="stepClick($event, '4', 'step-click')"
           >
             <span>4</span>
           </a>
@@ -73,7 +73,7 @@
             class="step"
             id="astep5"
             [class.adisabled]="!clickableSteps.includes('5')"
-            (click)="stepClick($event, '5')"
+            (click)="stepClick($event, '5', 'step-click')"
           >
             <span>5</span>
           </a>
@@ -126,7 +126,7 @@
               </div>
               <button
                 class="btn btn-comfirm  bg-b100 body-l text-s0"
-                (click)="goToStep2($event, '2')"
+                (click)="goToStep2($event, '2', 'continue')"
                 [disabled]="loading"
               >
                 Continue
@@ -278,7 +278,7 @@
               <button
                 class="btn btn-comfirm  bg-b100 body-l text-s0"
                 [disabled]="!createCustom?.template?.taskTemplateId"
-                (click)="goToStep3($event, '3')"
+                (click)="goToStep3($event, '3', 'continue')"
               >
                 Continue
               </button>
@@ -395,7 +395,7 @@
                 <button
                   class="btn btn-comfirm  bg-b100 body-l text-s0"
                   [disabled]="!singleSelectedTask._id || loading3"
-                  (click)="goToStep4($event, '4')"
+                  (click)="goToStep4($event, '4', 'continue')"
                 >
                   Continue
                 </button>
@@ -895,7 +895,7 @@
               </div>
               <button
                 class="btn btn-comfirm  bg-b100 body-l text-s0"
-                (click)="goToStep5($event, '5')"
+                (click)="goToStep5($event, '5', 'continue')"
                 [disabled]="this.createCustom.template.tasks[0].masteries == 0"
               >
                 Continue
