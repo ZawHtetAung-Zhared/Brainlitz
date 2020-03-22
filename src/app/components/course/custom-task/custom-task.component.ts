@@ -133,12 +133,15 @@ export class CustomTaskComponent implements OnInit {
     this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
   }
 
-  stepClick(event, step) {
+  stepClick(event, step, type) {
     console.log(this.clickableSteps);
     if (this.clickableSteps.includes(step)) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
       this.addOrRemoveClassOfStep($(event.target));
+      if (type == 'step-click') {
+        this.checkUpdateForStep(event, step);
+      }
     }
     console.log('active step', this.activeStep);
   }
@@ -167,16 +170,35 @@ export class CustomTaskComponent implements OnInit {
     if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
   }
 
-  goToStep2(event, step) {
+  checkUpdateForStep(event, step) {
+    switch (step) {
+      case '2':
+        this.goToStep2(event, step, 'step-click');
+        break;
+      case '3':
+        this.goToStep3(event, step, 'step-click');
+        break;
+      case '4':
+        this.goToStep4(event, step, 'step-click');
+        break;
+      case '5':
+        this.goToStep5(event, step, 'step-click');
+        break;
+    }
+  }
+
+  goToStep2(event, step, type) {
     console.log(step, 'step');
     this.loading2 = true;
     this.getTemplateLists(null);
-    this.clickableSteps.push(step);
-    this.stepClick(event, step);
-    this.addActiveBar(1, 2);
+    if (type == 'continue') {
+      this.clickableSteps.push(step);
+      this.stepClick(event, step, type);
+      this.addActiveBar(1, 2);
+    }
   }
 
-  goToStep3(event, step) {
+  goToStep3(event, step, type) {
     this.loading3 = true;
     this.isSelectedTime = 'AM';
     this._service
@@ -190,9 +212,11 @@ export class CustomTaskComponent implements OnInit {
           this.taskLists = res;
           // this.selectedTaskLists = res.slice();
           // this.selectedTaskLists = res.slice();
-          this.clickableSteps.push(step);
-          this.addActiveBar(2, 3);
-          this.stepClick(event, step);
+          if (type == 'continue') {
+            this.clickableSteps.push(step);
+            this.addActiveBar(2, 3);
+            this.stepClick(event, step, type);
+          }
           this.loading3 = false;
         },
         err => {
@@ -202,7 +226,7 @@ export class CustomTaskComponent implements OnInit {
       );
   }
 
-  goToStep4($event, step) {
+  goToStep4($event, step, type) {
     this.loading4 = true;
     let temp = [];
 
@@ -224,10 +248,12 @@ export class CustomTaskComponent implements OnInit {
           this.masteryList = res.masteries.slice();
 
           console.log(res);
-          this.clickableSteps.push(step);
-          this.activeStep = 1;
-          this.addActiveBar(3, 4);
-          this.stepClick($event, step);
+          if (type == 'continue') {
+            this.clickableSteps.push(step);
+            this.addActiveBar(3, 4);
+            this.stepClick($event, step, type);
+          }
+          // this.activeStep = 1;
           this.loading4 = false;
         },
         err => {
@@ -237,7 +263,7 @@ export class CustomTaskComponent implements OnInit {
       );
   }
 
-  goToStep5($event, step) {
+  goToStep5($event, step, type) {
     this.loading5 = true;
     let annDate;
     this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
@@ -271,8 +297,10 @@ export class CustomTaskComponent implements OnInit {
         this.assignModeList = res;
         this.createCustom.template.distributionMode = res[0];
 
-        this.clickableSteps.push(step);
-        this.stepClick($event, step);
+        if (type == 'continue') {
+          this.clickableSteps.push(step);
+          this.stepClick($event, step, type);
+        }
         this.loading5 = false;
       },
       err => {
@@ -334,6 +362,7 @@ export class CustomTaskComponent implements OnInit {
 
   checkTask(obj) {
     this.singleSelectedTask = obj;
+    console.log('checkTask', this.singleSelectedTask);
   }
 
   durationProgress($event) {
