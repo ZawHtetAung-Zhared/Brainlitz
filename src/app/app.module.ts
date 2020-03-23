@@ -208,7 +208,7 @@ import { SingleFooterComponent } from './components/tool/common-tool/single-foot
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
-
+import { ToolCommunicationService } from '../app/components/tool/tool-communication.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -410,6 +410,7 @@ import { SelfAssessmentContentComponent } from './components/tool/common-tool/se
     DataService,
     LoggedInGuard,
     EnrollUserComponent,
+    ToolCommunicationService,
     Title,
     {
       provide: HTTP_INTERCEPTORS,

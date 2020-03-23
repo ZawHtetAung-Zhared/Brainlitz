@@ -14,4 +14,8 @@ export class CardToolContentComponent implements OnInit {
     console.log(this.dataList);
     console.log(this.viewFor);
   }
+  searchData(lst) {
+    console.log(lst);
+    this.dataList = lst;
+  }
 }
