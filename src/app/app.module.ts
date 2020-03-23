@@ -210,11 +210,14 @@ import { CustomFieldsCreateComponent } from './components/settings/custom-fields
 
 import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
 
-import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
-import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
 import { LogPipe } from './service/pipe/log';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
 
 @NgModule({
   declarations: [
@@ -371,10 +374,12 @@ import { LogPipe } from './service/pipe/log';
     BadgeContentComponent,
     ProgressContentComponent,
     ResourceListComponent,
-    CreateResourceComponent,
+    ResourceCreateComponent,
     SingleFooterComponent,
-    ResourceListComponent,
-    SelfAssessmentContentComponent
+    SelfAssessmentContentComponent,
+    ResourceComponent,
+    HolidayCalendarComponent,
+    CalendarListComponent
   ],
   imports: [
     ContentLoaderModule,

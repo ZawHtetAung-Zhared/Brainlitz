@@ -11,7 +11,7 @@
         type="button"
         class="btn btn-create bg-b100 text-s0 body-l"
         routerLinkActive="active"
-        routerLink="resourcecreate/create/0"
+        routerLink="resource-create/create/0"
       >
         Add new resources
       </button>
@@ -35,7 +35,7 @@
                   *ngIf="pdfDemo.editPdf != ''"
                   class="btn-action light-body-m remove-outline"
                   routerLinkActive="active"
-                  routerLink="resourceEdit/Edit/pdf._id"
+                  routerLink="resource-create/edit/{{ pdf._id }}"
                 >
                   Edit
                 </button>

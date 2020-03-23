@@ -11,22 +11,21 @@ import {
   NgbModalRef
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
-import { appService } from '../../../service/app.service';
+import { appService } from '../../../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from '../resource-list/quizwerkz';
+import { quizWerkzForm } from '../quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-create-resource',
-  templateUrl: './create-resource.component.html',
-  styleUrls: ['./create-resource.component.css']
+  selector: 'app-resource-list',
+  templateUrl: './resource-list.component.html',
+  styleUrls: ['./resource-list.component.css']
 })
-export class CreateResourceComponent implements OnInit {
+export class ResourceListComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('pdfForm') form: any;
   formField: quizWerkzForm = new quizWerkzForm();
@@ -50,18 +49,15 @@ export class CreateResourceComponent implements OnInit {
   public pdfPermission: any = [];
   public pdfDemo: any = [];
 
-  public gotocreate: boolean = false;
-
   constructor(
     private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
-    private router: Router,
-    private _location: Location
+    private router: Router
   ) {
     this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tools') {
+      if (this.router.url === '/tool-test/resource/resource-list') {
         this._service.permissionList.subscribe(data => {
           console.log('from quizwerkz');
           this.permissionType = data;
@@ -74,7 +70,7 @@ export class CreateResourceComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/tool-test/resource-list') {
+    if (this.router.url === '/tool-test/resource/resource-list') {
       this.permissionType = localStorage.getItem('permission');
       this.checkPermission();
     }
@@ -115,7 +111,10 @@ export class CreateResourceComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigateByUrl(`tool-test/resource-list`);
+    this.pdfList = [];
+    this.iscreate = false;
+    this.formField = new quizWerkzForm();
+    this.getAllPdf(20, 0);
   }
 
   creatnew() {
