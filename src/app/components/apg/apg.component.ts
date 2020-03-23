@@ -2566,7 +2566,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //this.blockUI.start('Loading...');
     console.warn(this.selectedAPGTab);
     this._service
-      .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
+      .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip, null)
       .subscribe(
         (res: any) => {
           this.apgList = [];

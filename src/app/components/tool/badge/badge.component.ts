@@ -32,7 +32,7 @@ export class BadgeComponent implements OnInit {
 
   getAllAPG(limit, skip) {
     this._service
-      .getAllAPG(this.regionID, this.selectedApgId, limit, skip)
+      .getAllAPG(this.regionID, this.selectedApgId, limit, skip, null)
       .subscribe(
         (res: any) => {
           console.error('result :::::::: ', res);

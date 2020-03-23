@@ -12,6 +12,11 @@ import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
 import { KeyedWrite } from '@angular/compiler';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalOptions
+} from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Injectable()
@@ -80,7 +85,8 @@ export class appService {
   constructor(
     private httpClient: HttpClient,
     private _http: Http,
-    private _router: Router
+    private _router: Router,
+    private modalService: NgbModal
   ) {
     let isToken = localStorage.getItem('token');
     this.accessToken = localStorage.getItem('token');
@@ -2530,10 +2536,12 @@ export class appService {
     });
   }
 
-  getAllAPG(id: string, moduleId: string, limit: number, skip: number) {
+  getAllAPG(id: string, moduleId: string, limit: number, skip: number, value) {
     // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
     console.log('APG limit skip', limit, skip);
-    if (moduleId == '') {
+    console.log(moduleId == '');
+    console.log(!value);
+    if (moduleId == '' && !value) {
       console.log('no moduleID');
       var apiUrl =
         this.baseUrl +
@@ -2543,13 +2551,36 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else {
+    } else if (moduleId == '' || value != '') {
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/search?keyword=' +
+        value +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId || !value) {
       console.log('has moduleID');
       var apiUrl =
         this.baseUrl +
         '/' +
         id +
         '/access-point-group?moduleId=' +
+        moduleId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId || value) {
+      console.log('has moduleID');
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/moduleId=' +
         moduleId +
         '&limit=' +
         limit +
@@ -4779,5 +4810,19 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+
+  public modalReference: any;
+  openDeleteApgModal(modal, data) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+    this.modalReference.componentInstance.deleteApg = data;
+  }
+
+  closeDeleteApgModal() {
+    this.modalReference.close();
   }
 }

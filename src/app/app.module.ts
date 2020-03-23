@@ -1,4 +1,3 @@
-import { AddTrackingModuleComponent } from './components/tool/add-tracking-module/add-tracking-module.component';
 import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
 
 import { NgModule } from '@angular/core';
@@ -180,7 +179,9 @@ import {
   SelfAssessmentComponent,
   BadgeComponent,
   ProgressComponent,
-  AllTrackingModuleComponent
+  AllTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  AddTrackingModuleComponent
 } from './components/tool/index';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -214,11 +215,15 @@ import { SingleFooterComponent } from './components/tool/common-tool/single-foot
 import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
+import { ToolCommunicationService } from '../app/components/tool/tool-communication.service';
+import { DeleteApgModalComponent } from './components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
 
 import { LogPipe } from './service/pipe/log';
 import { ResourceComponent } from './components/tool/resource/resource.component';
 import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
 import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 
 @NgModule({
   declarations: [
@@ -377,11 +382,18 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     ResourceListComponent,
     ResourceCreateComponent,
     SingleFooterComponent,
+    ResourceListComponent,
+    SelfAssessmentContentComponent,
+    DeleteApgModalComponent,
     SelfAssessmentContentComponent,
     ResourceComponent,
     HolidayCalendarComponent,
     CalendarListComponent,
-    AddTrackingModuleComponent
+    AddTrackingModuleComponent,
+    MainTrackingModuleComponent,
+    AddTrackingModuleComponent,
+    CalendarCreateComponent,
+    CalendarDetailComponent
   ],
   imports: [
     ContentLoaderModule,
@@ -430,6 +442,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     DataService,
     LoggedInGuard,
     EnrollUserComponent,
+    ToolCommunicationService,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
@@ -438,6 +451,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     },
     TodayDatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteApgModalComponent]
 })
 export class AppModule {}

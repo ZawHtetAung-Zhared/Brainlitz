@@ -1,0 +1,28 @@
+<!-- <ng-template #alertDelete let-c="close" let-d="dismiss"> -->
+<div class="modal-header">
+  <h3 class="modal-title body-xl text-c300">Confirm delete?</h3>
+</div>
+<div class="modal-body">
+  <p class="text-c100 light-body-m">
+    Are You sure you want to delete
+    <span class="text-r100 body-m">"{{ deleteApg.name }}"</span>
+    ? You won't back it return.
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn modal-cancel-btn body-l bg-s0 text-c300"
+    (click)="closeDeleteModal()"
+  >
+    Cancel
+  </button>
+  <button
+    type="submit"
+    class="btn modal-delete-btn body-l text-s0 bg-r100"
+    (click)="apgDelete(deleteId)"
+  >
+    Delete
+  </button>
+</div>
+<!-- </ng-template> -->

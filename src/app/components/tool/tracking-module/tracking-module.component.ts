@@ -1,14 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewChildren,
+  ContentChild
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { appService } from '../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
+
+import { ToolCommunicationService } from '../tool-communication.service';
+import { AllTrackingModuleComponent } from '../all-tracking-module/all-tracking-module.component';
+import { ProgressComponent } from '../progress/progress.component';
 @Component({
   selector: 'app-tracking-module',
   templateUrl: './tracking-module.component.html',
-  styleUrls: ['./tracking-module.component.css']
+  styleUrls: ['./tracking-module.component.css'],
+  providers: [AllTrackingModuleComponent, ProgressComponent]
 })
 export class TrackingModuleComponent implements OnInit {
+  @ContentChild(AllTrackingModuleComponent)
+  private allModule: AllTrackingModuleComponent;
+
+  @ContentChild(ProgressComponent) private progressModule: ProgressComponent;
+
   // arrary
   public apgPermission: any = [];
   public apgDemo: any = [];
@@ -25,7 +41,8 @@ export class TrackingModuleComponent implements OnInit {
   constructor(
     private _service: appService,
     public toastr: ToastrService,
-    private _route: Router
+    private _route: Router,
+    private _toolCommunication: ToolCommunicationService
   ) {}
 
   ngOnInit() {
@@ -55,7 +72,7 @@ export class TrackingModuleComponent implements OnInit {
     console.log(this.apgPermission.length);
     if (this.apgPermission.length > 0) {
       this.getAllModule();
-      this.getAllAPG(20, 0);
+      this.getAllAPG(20, 0, null);
     } else {
       this.apgList = [];
     }
@@ -178,9 +195,9 @@ export class TrackingModuleComponent implements OnInit {
     return str;
   }
 
-  getAllAPG(limit, skip) {
+  getAllAPG(limit, skip, value) {
     //this.blockUI.start('Loading...');
-    this._service.getAllAPG(this.regionID, null, limit, skip).subscribe(
+    this._service.getAllAPG(this.regionID, null, limit, skip, value).subscribe(
       (res: any) => {
         this.apgList = [];
 
@@ -198,6 +215,12 @@ export class TrackingModuleComponent implements OnInit {
 
   public addTrackingModule = false;
   public trackingModuleType = false;
+
+  apgListSearch(value) {
+    console.log(this.allModule, 'sad');
+    console.log(value);
+    this._toolCommunication.searchDataInput({ searchData: value });
+  }
   addNewAPG() {
     this.addTrackingModule = true;
   }
