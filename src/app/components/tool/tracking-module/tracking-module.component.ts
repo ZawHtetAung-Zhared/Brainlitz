@@ -11,20 +11,13 @@ import { appService } from '../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
 
 import { ToolCommunicationService } from '../tool-communication.service';
-import { AllTrackingModuleComponent } from '../all-tracking-module/all-tracking-module.component';
-import { ProgressComponent } from '../progress/progress.component';
+
 @Component({
   selector: 'app-tracking-module',
   templateUrl: './tracking-module.component.html',
-  styleUrls: ['./tracking-module.component.css'],
-  providers: [AllTrackingModuleComponent, ProgressComponent]
+  styleUrls: ['./tracking-module.component.css']
 })
 export class TrackingModuleComponent implements OnInit {
-  @ContentChild(AllTrackingModuleComponent)
-  private allModule: AllTrackingModuleComponent;
-
-  @ContentChild(ProgressComponent) private progressModule: ProgressComponent;
-
   // arrary
   public apgPermission: any = [];
   public apgDemo: any = [];
@@ -33,6 +26,7 @@ export class TrackingModuleComponent implements OnInit {
   // string or any
   public permissionType: any;
   public tempRoute: any;
+
   // boolean
   showDp: boolean = false;
 
@@ -42,11 +36,13 @@ export class TrackingModuleComponent implements OnInit {
     private _service: appService,
     public toastr: ToastrService,
     private _route: Router,
-    private _toolCommunication: ToolCommunicationService
+    private _toolCommunication: ToolCommunicationService,
+    private _activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.permissionType = localStorage.getItem('permission');
+
     this.checkPermission();
   }
 
@@ -217,9 +213,13 @@ export class TrackingModuleComponent implements OnInit {
   public trackingModuleType = false;
 
   apgListSearch(value) {
-    console.log(this.allModule, 'sad');
     console.log(value);
-    this._toolCommunication.searchDataInput({ searchData: value });
+    console.log(this._route.url);
+    console.log(this._activeRoute.snapshot.firstChild.url[0].path);
+    this._toolCommunication.searchDataInput({
+      searchData: value,
+      type: this._activeRoute.snapshot.firstChild.url[0].path
+    });
   }
   addNewAPG() {
     this.addTrackingModule = true;
