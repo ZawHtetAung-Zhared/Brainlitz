@@ -179,7 +179,9 @@ import {
   SelfAssessmentComponent,
   BadgeComponent,
   ProgressComponent,
-  AllTrackingModuleComponent
+  AllTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  AddTrackingModuleComponent
 } from './components/tool/index';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -384,7 +386,9 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     SelfAssessmentContentComponent,
     ResourceComponent,
     HolidayCalendarComponent,
-    CalendarListComponent
+    CalendarListComponent,
+    MainTrackingModuleComponent,
+    AddTrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,
