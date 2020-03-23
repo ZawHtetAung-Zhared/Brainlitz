@@ -2538,6 +2538,7 @@ export class appService {
     console.log('APG limit skip', limit, skip);
     console.log(moduleId == '');
     console.log(!value);
+    console.log(moduleId != '');
     if (moduleId == '' && !value) {
       console.log('no moduleID');
       var apiUrl =
@@ -2548,7 +2549,7 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else if (moduleId == '' || value != '') {
+    } else if (moduleId == '' && value != '') {
       var apiUrl =
         this.baseUrl +
         '/' +
@@ -2559,7 +2560,7 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else if (moduleId || !value) {
+    } else if (moduleId != '' && value == '') {
       console.log('has moduleID');
       var apiUrl =
         this.baseUrl +
@@ -2571,13 +2572,15 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else if (moduleId || value) {
-      console.log('has moduleID');
+    } else if (moduleId != '' && value != '') {
+      console.log('has moduleID2');
       var apiUrl =
         this.baseUrl +
         '/' +
         id +
-        '/access-point-group/moduleId=' +
+        '/access-point-group/search?keyword=' +
+        value +
+        '&moduleId=' +
         moduleId +
         '&limit=' +
         limit +

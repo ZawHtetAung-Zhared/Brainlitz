@@ -25,8 +25,7 @@ export class AllTrackingModuleComponent implements OnInit {
   ) {
     _toolCommunication.searchEmitted$.subscribe(data => {
       console.log(data);
-
-      this.getAllAPG(20, 0, data.searchData);
+      if (data.type == 'all') this.getAllAPG(20, 0, data.searchData);
     });
   }
 
