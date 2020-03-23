@@ -152,21 +152,9 @@ export class CustomTaskComponent implements OnInit {
     if (this.activeStep < max) {
       var activeIdx = this.clickableSteps.indexOf(this.activeStep);
       var removeCount = this.clickableSteps.length - (activeIdx + 1);
-      console.log(
-        'activeIdx',
-        activeIdx,
-        ',count~~~',
-        this.clickableSteps.length - (activeIdx + 1)
-      );
       this.clickableSteps.splice(activeIdx + 1, removeCount);
       console.log('this.clickableSteps', this.clickableSteps);
-      let myFish = ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
-      let removed = myFish.splice(3, 2);
-      console.log('remove', myFish);
-      // var test = [1,2,3,4,5]
-      // console.log("splice",test.splice(0,3))
     }
-    console.log('~~~', max);
     ele.parents('li').removeClass('done');
     ele
       .parents('li')
