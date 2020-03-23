@@ -91,6 +91,8 @@ import { ResourceComponent } from './components/tool/resource/resource.component
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
 import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -402,11 +404,15 @@ export const routes: Routes = [
           {
             path: 'calendar-list',
             component: CalendarListComponent
+          },
+          {
+            path: 'calendar-create',
+            component: CalendarCreateComponent
+          },
+          {
+            path: 'calendar-detail/:id',
+            component: CalendarDetailComponent
           }
-          // {
-          //   path: 'resource-list/resource-create/:type/:id',
-          //   component: ResourceCreateComponent
-          // }
         ]
       },
       {
