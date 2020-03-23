@@ -625,10 +625,7 @@ min-width: 40px;
 /* end */
 
 /* step 3 */
-.task-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .task-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -1100,9 +1097,17 @@ i.fa.fa-check.checkIcon {
   border-radius: 4px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
-  padding: 12px 12px 23px 12px;
+  padding: 12px;
   height: 100px;
   overflow: overlay;
+}
+.multine-ellipsis {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 p.masteries-box {
   padding-left: 16px;

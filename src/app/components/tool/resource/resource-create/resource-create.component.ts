@@ -11,21 +11,22 @@ import {
   NgbModalRef
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormControl } from '@angular/forms';
-import { appService } from '../../../service/app.service';
+import { appService } from '../../../../service/app.service';
 import { Observable } from 'rxjs/Rx';
-import { quizWerkzForm } from './quizwerkz';
+import { quizWerkzForm } from '../quizwerkz';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-resource-list',
-  templateUrl: './resource-list.component.html',
-  styleUrls: ['./resource-list.component.css']
+  selector: 'app-resource-create',
+  templateUrl: './resource-create.component.html',
+  styleUrls: ['./resource-create.component.css']
 })
-export class ResourceListComponent implements OnInit {
+export class ResourceCreateComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @ViewChild('pdfForm') form: any;
   formField: quizWerkzForm = new quizWerkzForm();
@@ -48,73 +49,33 @@ export class ResourceListComponent implements OnInit {
   public permissionType: any;
   public pdfPermission: any = [];
   public pdfDemo: any = [];
+  public type: any;
+  public gotocreate: boolean = false;
+  public updateId: any;
 
   constructor(
     private modalService: NgbModal,
     private _service: appService,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
-    private router: Router
-  ) {
-    this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tools') {
-        this._service.permissionList.subscribe(data => {
-          console.log('from quizwerkz');
-          this.permissionType = data;
-          this.checkPermission();
-        });
-      } else {
-        console.log('====', this.router.url);
-      }
-    });
-  }
+    private _Activatedroute: ActivatedRoute,
+    private router: Router,
+    private _location: Location
+  ) {}
 
   ngOnInit() {
-    if (this.router.url === '/tool-test/resource-list') {
-      this.permissionType = localStorage.getItem('permission');
-      this.checkPermission();
-    }
-  }
-
-  checkPermission() {
-    console.log(this.permissionType);
-    this.pdfPermission = [
-      'VIEWQUIZWERKZ',
-      'CREATEQUIZWERKZ',
-      'EDITQUIZWERKZ',
-      'DELETEQUIZWERKZ'
-    ];
-    if (this.permissionType && this.permissionType.length > 0) {
-      this.pdfPermission = this.pdfPermission.filter(
-        value => -1 !== this.permissionType.indexOf(value)
-      );
-
-      this.pdfDemo['viewPdf'] = this.pdfPermission.includes('VIEWQUIZWERKZ')
-        ? 'VIEWQUIZWERKZ'
-        : '';
-      this.pdfDemo['addPdf'] = this.pdfPermission.includes('CREATEQUIZWERKZ')
-        ? 'CREATEQUIZWERKZ'
-        : '';
-      this.pdfDemo['editPdf'] = this.pdfPermission.includes('EDITQUIZWERKZ')
-        ? 'EDITQUIZWERKZ'
-        : '';
-      this.pdfDemo['deletePdf'] = this.pdfPermission.includes('DELETEQUIZWERKZ')
-        ? 'DELETEQUIZWERKZ'
-        : '';
-    }
-
-    if (this.pdfPermission.length > 0) {
-      this.getAllPdf(20, 0);
-    } else {
+    this.type = this._Activatedroute.snapshot.paramMap.get('type');
+    this.isEdit = this.type === 'edit';
+    if (this.isEdit) {
       this.pdfList = [];
+      this.updateId = this._Activatedroute.snapshot.paramMap.get('id');
+      this.getSingleQuizwerkz(this.updateId);
     }
+    console.log('Type', this.type);
   }
 
   cancel() {
-    this.pdfList = [];
-    this.iscreate = false;
-    this.formField = new quizWerkzForm();
-    this.getAllPdf(20, 0);
+    this.router.navigateByUrl(`tool-test/resource`);
   }
 
   creatnew() {
@@ -304,8 +265,7 @@ export class ResourceListComponent implements OnInit {
           console.log(res);
           this.toastr.success('Successfully edited.');
           //this.blockUI.stop();
-          this.getAllPdf(20, 0);
-          this.iscreate = false;
+          this.cancel();
         },
         err => {
           this.toastr.error('Edit fail');

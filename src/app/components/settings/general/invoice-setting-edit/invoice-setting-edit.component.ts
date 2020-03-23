@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewContainerRef,
   ViewChild,
-  ElementRef
+  ElementRef,
+  HostListener
 } from '@angular/core';
 import { appService } from '../../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +18,10 @@ import * as currency from 'currency-symbol-map/map';
 @Component({
   selector: 'app-invoice-setting-edit',
   templateUrl: './invoice-setting-edit.component.html',
-  styleUrls: ['./invoice-setting-edit.component.css']
+  styleUrls: [
+    './invoice-setting-edit.component.css',
+    '../general-overview/general-overview.component.css'
+  ]
 })
 export class InvoiceSettingEditComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
@@ -336,7 +340,6 @@ export class InvoiceSettingEditComponent implements OnInit {
     this.getInvoiceSetting('invoiceSettings');
     console.log('invoice return');
     this.orgLogo = localStorage.getItem('OrgLogo');
-    this.editSetting('Invoice');
   }
 
   checkPermission() {
@@ -423,7 +426,6 @@ export class InvoiceSettingEditComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.invoiceData = res;
-
         console.log('this.invoiceData', this.invoiceData);
         console.log(Object.keys(this.invoiceData).length);
 
@@ -442,11 +444,16 @@ export class InvoiceSettingEditComponent implements OnInit {
             currencyCode: undefined
           };
         }
+        this.editSetting('Invoice');
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  goToSettings() {
+    this.router.navigateByUrl('/settings');
   }
 
   enroll = 0;
@@ -497,6 +504,45 @@ export class InvoiceSettingEditComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    if (this.showDropdown != true) {
+      $('.currency-dropdown').css({ display: 'none' });
+    } else {
+      $('.currency-dropdown').css({ display: 'block' });
+      $('.currency-dropdown').click(function(event) {
+        event.stopPropagation();
+      });
+    }
+    this.showDropdown = false;
+    if (this.showProvider != true) {
+      $('.payment-provider').css({ display: 'none' });
+    } else {
+      $('.payment-provider').css({ display: 'block' });
+      $('.payment-provider').click(function(event) {
+        event.stopPropagation();
+      });
+    }
+    this.showProvider = false;
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
+      this.navIsFixed = true;
+      this.isMidStick = false;
+    } else {
+      console.log('less than 15');
+      this.navIsFixed = false;
+    }
+    this.isMidStick =
+      window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
   }
 
   isModuleList() {
@@ -656,7 +702,7 @@ export class InvoiceSettingEditComponent implements OnInit {
             };
             console.log(currency);
             localStorage.setItem('currency', JSON.stringify(currency));
-            this.router.navigateByUrl('settings');
+            this.router.navigateByUrl('/settings');
             // this.cancel();
           });
       },

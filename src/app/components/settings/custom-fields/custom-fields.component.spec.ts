@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateResourceComponent } from './create-resource.component';
+import { CustomFieldsComponent } from './custom-fields.component';
 
-describe('CreateResourceComponent', () => {
-  let component: CreateResourceComponent;
-  let fixture: ComponentFixture<CreateResourceComponent>;
+describe('CustomFieldsComponent', () => {
+  let component: CustomFieldsComponent;
+  let fixture: ComponentFixture<CustomFieldsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateResourceComponent]
+      declarations: [CustomFieldsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateResourceComponent);
+    fixture = TestBed.createComponent(CustomFieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

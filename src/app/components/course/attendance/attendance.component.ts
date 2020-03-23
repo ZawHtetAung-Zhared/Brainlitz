@@ -1821,6 +1821,8 @@ export class AttendanceComponent implements OnInit {
             this.activeCourseInfo = res;
             console.log('Testing lower case');
             console.log(this.activeCourseInfo.CUSTOMER);
+            this.presentStudent = 0;
+            this.absentStudent = 0;
             for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
               if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
                 this.presentStudent += 1;
@@ -4258,18 +4260,21 @@ export class AttendanceComponent implements OnInit {
       }, 1000);
     }).then(() => {
       setTimeout(() => {
-        console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        // console.log(this.detailLists.lessons[this.currentLessonIdx]);
         this.attendanceList.lessons.map((item, index) => {
-          // console.log("item",item)
-          // console.log("index",index)
-          if (item._id == this.lastSelectedObj._id) {
+          if (
+            item._id == this.lastSelectedObj._id &&
+            item.startDate == this.lastSelectedObj.startDate
+          ) {
             this.attendanceList.lessons[index] = this.detailLists.lessons[
               this.currentLessonIdx
             ];
-            console.log('attendance list', this.attendanceList.lessons);
+            console.log('check for relief');
+            this.checkForRelief(
+              this.detailLists.lessons[this.currentLessonIdx]
+            );
           }
         });
-        this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
       }, 300);
     });
   }

@@ -1,3 +1,106 @@
-<p>
-  schedule-setting-edit works!
-</p>
+<div class="d-flex justify-content-center">
+  <div class="d-flex flex-column h-100 setting-wrapper">
+    <div class="back-wrap d-flex">
+      <div class="back-to" (click)="goToSettings()">
+        <i class="fa fa-angle-left"></i>
+        <p>General</p>
+      </div>
+    </div>
+    <div class="setting-edit-wrap">
+      <h3 class="heading-h3">Schedule setting</h3>
+      <form novalidate #invoiceForm="ngForm" class="form-wrap">
+        <div class="col-md-10 input-wrap">
+          <div class="form-group">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Send payment reminder notification for invoice</label
+            >
+            <div class="d-flex align-items-center justify-content-between">
+              <input
+                type="number"
+                class="form-control create-input due-input"
+                placeholder="Before due"
+                name="invBeforedue"
+                [(ngModel)]="invoiceData.beforeDue"
+                #invBeforedue="ngModel"
+              />
+              <label for="name" class="labelTitle day-color body-m"
+                >days before due date</label
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="body-xl text-c300 mb-0" for="name"
+              >Send payment overdue notification for invoice</label
+            >
+            <div class="d-flex align-items-center justify-content-between">
+              <input
+                type="number"
+                class="form-control create-input due-input"
+                placeholder="Overdue"
+                name="invOverdue"
+                [(ngModel)]="invoiceData.overDue"
+                #invOverdue="ngModel"
+              />
+              <label for="name" class="labelTitle day-color body-m"
+                >days after due date</label
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="d-flex">
+              <div class="toggle-wrap" (click)="autoEnrollSwitch()">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (change)="autoEnrollSwitch()"
+                    [checked]="isAuto"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <label class="switch-label text-c300 body-xl" for="name"
+                >Auto-enrollment</label
+              >
+            </div>
+            <div *ngIf="isAuto">
+              <label class="body-xl text-c300 mb-0" for="name"
+                >Auto-enrollment will start if the last lesson is within</label
+              >
+              <div class="d-flex align-items-center justify-content-between">
+                <input
+                  type="number"
+                  class="form-control create-input"
+                  placeholder="Enter auto-enrollment day"
+                  name="enrol"
+                  [(ngModel)]="enroll"
+                  #enrol="ngModel"
+                  required
+                />
+                <label for="day" class="labelTitle day-color body-m"
+                  >days</label
+                >
+              </div>
+              <div
+                *ngIf="enrol.errors && (enrol.dirty || enrol.touched)"
+                class="alert alert-danger"
+              >
+                <div [hidden]="!enrol.errors.required">
+                  This is required!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="goToSettings()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-submit" (click)="updateEnroll()">
+            Done
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<block-ui message="Deafult Message"></block-ui>

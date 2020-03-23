@@ -1,3 +1,8 @@
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
 import { CustomfieldComponent } from './components/customfield/customfield.component';
 import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
 import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
@@ -79,9 +84,13 @@ import {
 } from './components/report/index';
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
-import { LocationsComponent } from './components/settings/locations/locations.component';
-import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
-import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+// import { LocationsComponent } from './components/settings/locations/locations.component';
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -109,32 +118,62 @@ export const routes: Routes = [
         path: 'general',
         component: GeneralComponent,
         children: [
-          { path: '', redirectTo: 'general-overview', pathMatch: 'full' },
+          { path: '', redirectTo: 'generaloverview', pathMatch: 'full' },
           {
-            path: 'general-overview',
+            path: 'generaloverview',
             component: GeneralOverviewComponent
           },
           {
-            path: 'invoice-setting-edit',
+            path: 'invoicesetting-edit',
             component: InvoiceSettingEditComponent
           },
           {
-            path: 'payment-setting-edit',
+            path: 'paymentsetting-edit',
             component: PaymentSettingEditComponent
           },
           {
-            path: 'schedule-setting-edit',
+            path: 'schedulesetting-edit',
             component: ScheduleSettingEditComponent
           }
         ]
       },
       {
         path: 'locations',
-        component: LocationsComponent
+        component: LocationsComponent,
+        children: [
+          { path: '', redirectTo: 'location-list', pathMatch: 'full' },
+          {
+            path: 'location-list',
+            component: LocationListComponent
+          },
+          {
+            path: 'location-update/:id',
+            component: LocationCreateComponent
+          },
+          {
+            path: 'location-create',
+            component: LocationCreateComponent
+          }
+        ]
       },
       {
         path: 'customfields',
-        component: CustomfieldComponent
+        component: CustomFieldsComponent,
+        children: [
+          { path: '', redirectTo: 'customfields-list', pathMatch: 'full' },
+          {
+            path: 'customfields-list',
+            component: CustomFieldsListComponent
+          },
+          {
+            path: 'customfields-update/:id',
+            component: CustomFieldsCreateComponent
+          },
+          {
+            path: 'customfields-create',
+            component: CustomFieldsCreateComponent
+          }
+        ]
       }
     ]
   },
@@ -341,6 +380,36 @@ export const routes: Routes = [
         ]
       },
       {
+        path: 'resource',
+        component: ResourceComponent,
+        children: [
+          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
+          {
+            path: 'resource-list',
+            component: ResourceListComponent
+          },
+          {
+            path: 'resource-list/resource-create/:type/:id',
+            component: ResourceCreateComponent
+          }
+        ]
+      },
+      {
+        path: 'holiday-calendar',
+        component: HolidayCalendarComponent,
+        children: [
+          { path: '', redirectTo: 'calendar-list', pathMatch: 'full' },
+          {
+            path: 'calendar-list',
+            component: CalendarListComponent
+          }
+          // {
+          //   path: 'resource-list/resource-create/:type/:id',
+          //   component: ResourceCreateComponent
+          // }
+        ]
+      },
+      {
         path: 'tracking-module',
         component: TrackingModuleComponent,
         children: [
@@ -373,17 +442,6 @@ export const routes: Routes = [
           {
             path: '6/:id',
             component: GradingComponent
-          }
-        ]
-      },
-      {
-        path: 'resource-list',
-        component: ResourceListComponent,
-        children: [
-          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
-          {
-            path: 'resourcecreate/:type/:userid',
-            component: CreateResourceComponent
           }
         ]
       }

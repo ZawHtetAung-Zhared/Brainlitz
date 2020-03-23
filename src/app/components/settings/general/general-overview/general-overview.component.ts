@@ -25,7 +25,7 @@ export class GeneralOverviewComponent implements OnInit {
   @BlockUI('region-info') blockUIRegionInfo: NgBlockUI;
   @BlockUI('app-setting') blockUIAppSetting: NgBlockUI;
   @BlockUI('auto-enrol-setting') blockUIAutoEnrol: NgBlockUI;
-  private permissionSubscription: ISubscription;
+  //private permissionSubscription: ISubscription;
   public orgLogo;
   public srangeHr;
   public srangeMin;
@@ -343,14 +343,22 @@ export class GeneralOverviewComponent implements OnInit {
       this.checkPermission();
       localStorage.setItem('permission', JSON.stringify([]));
     }
-    this.permissionSubscription = this._service.permissionList.subscribe(
-      data => {
+    this._service
+      .getPermission(localStorage.getItem('locationId'))
+      .subscribe((data: any) => {
         this.permissionType = data;
         console.log(this.permissionType);
         this.checkPermission();
         localStorage.setItem('permission', JSON.stringify(data));
-      }
-    );
+      });
+    // this.permissionSubscription = this._service.permissionList.subscribe(
+    //   data => {
+    //     this.permissionType = data;
+    //     console.log(this.permissionType);
+    //     this.checkPermission();
+    //     localStorage.setItem('permission', JSON.stringify(data));
+    //   }
+    // );
 
     this.getInvoiceSetting('invoiceSettings');
     console.log('invoice return');
@@ -359,7 +367,7 @@ export class GeneralOverviewComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.permissionSubscription.unsubscribe();
+    // this.permissionSubscription.unsubscribe();
   }
 
   // valueChanged() {

@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  ViewContainerRef
+  ViewContainerRef,
+  HostListener
 } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ISubscription } from 'rxjs/Subscription';
@@ -16,7 +17,10 @@ import * as currency from 'currency-symbol-map/map';
 @Component({
   selector: 'app-schedule-setting-edit',
   templateUrl: './payment-setting-edit.component.html',
-  styleUrls: ['./payment-setting-edit.component.css']
+  styleUrls: [
+    './payment-setting-edit.component.css',
+    '../general-overview/general-overview.component.css'
+  ]
 })
 export class PaymentSettingEditComponent implements OnInit {
   @ViewChild('fileLabel') elementView: ElementRef;
@@ -333,9 +337,9 @@ export class PaymentSettingEditComponent implements OnInit {
     );
 
     this.getInvoiceSetting('invoiceSettings');
+    this.getPaymentSetting('paymentSettings');
     console.log('invoice return');
     this.orgLogo = localStorage.getItem('OrgLogo');
-    this.editSetting('Payment');
   }
 
   editSetting(type) {
@@ -345,8 +349,12 @@ export class PaymentSettingEditComponent implements OnInit {
     this.getCurrency();
     this.selectedCurrency = this.invoiceData.currencySign;
     this.selectedFlag = this.invoiceData.currencyCode;
-
+    console.log(
+      this.paymentData.paymentProviders.length,
+      'this.paymentData.paymentProviders.length'
+    );
     this.isOnline = this.paymentData.paymentProviders.length > 0 ? true : false;
+    console.log(this.isOnline, 'this.isOnline');
     this.isAcceptPaynow = this.paymentData.acceptPayNow;
     this.qrURL = this.paymentData.payNowQr;
     // if(this.isOnline == true){
@@ -389,6 +397,10 @@ export class PaymentSettingEditComponent implements OnInit {
     }
   }
 
+  goToSettings() {
+    this.router.navigateByUrl('/settings');
+  }
+
   checkPermission() {
     console.log(this.permissionType);
     this.generalSidebar = ['UPDATEREGIONALSETTINGS', 'UPDATEAPPSETTINGS'];
@@ -415,6 +427,45 @@ export class PaymentSettingEditComponent implements OnInit {
     } else {
       console.log('permission deny');
     }
+  }
+
+  getPaymentSetting(type) {
+    this._service.invoiceSetting(this.regionId, type).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.paymentData = res;
+        this.editSetting('Payment');
+        console.log('this.paymentData', this.paymentData);
+        this.emptyPaymentData =
+          Object.keys(this.paymentData).length == 0 ? true : false;
+
+        if (Object.keys(this.paymentData).length == 0) {
+          this.paymentData = {
+            tax: {
+              rate: '',
+              name: ''
+            },
+            paymentProviders: [],
+            currencyCode: undefined,
+            currencySign: undefined
+          };
+        }
+
+        this.providerTemp = this.paymentData.paymentProviders;
+        console.log('provider Temp', this.providerTemp);
+        if (this.providerTemp.length > 0) {
+          this.providerArray = [];
+          for (let j = 0; j < this.providerTemp.length; j++) {
+            this.providerArray.push(this.providerTemp[j].name);
+          }
+        } else {
+          this.providerArray = [];
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   getInvoiceSetting(type) {
@@ -685,18 +736,54 @@ export class PaymentSettingEditComponent implements OnInit {
   }
 
   showCurrencyBox(type, $event: Event) {
-    console.log(type);
     $event.preventDefault();
     $event.stopPropagation();
     console.log('hiii');
     if (type == 'currency') {
-      console.log('in loop');
       this.showDropdown = true;
       this.getCurrency();
     } else {
       this.showProvider = true;
     }
-    console.log(this.showDropdown);
+  }
+
+  @HostListener('document:click', ['$event'])
+  public test(event): void {
+    if (this.showDropdown != true) {
+      $('.currency-dropdown').css({ display: 'none' });
+    } else {
+      $('.currency-dropdown').css({ display: 'block' });
+      $('.currency-dropdown').click(function(event) {
+        event.stopPropagation();
+      });
+    }
+    this.showDropdown = false;
+    if (this.showProvider != true) {
+      $('.payment-provider').css({ display: 'none' });
+    } else {
+      $('.payment-provider').css({ display: 'block' });
+      $('.payment-provider').click(function(event) {
+        event.stopPropagation();
+      });
+    }
+    this.showProvider = false;
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      console.log('greater than 40');
+      var element = document.getElementById('notibar2');
+      if (typeof element == 'undefined' || element == null) {
+        $('.p-top').css({ 'padding-top': '0px' });
+      }
+      this.navIsFixed = true;
+      this.isMidStick = false;
+    } else {
+      console.log('less than 15');
+      this.navIsFixed = false;
+    }
+    this.isMidStick =
+      window.pageYOffset > 45 && window.pageYOffset < 81 ? true : false;
   }
 
   getQR(url) {

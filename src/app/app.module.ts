@@ -184,7 +184,6 @@ import {
 
 import { SettingsComponent } from './components/settings/settings.component';
 import { GeneralComponent } from './components/settings/general/general.component';
-import { LocationsComponent } from './components/settings/locations/locations.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
 import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
@@ -202,13 +201,24 @@ import { AssessmentContentComponent } from './components/tool/common-tool/assess
 import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
 import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
 import { LocationComponent } from './components/location/location.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
 
 import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
 
-import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
-import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 import { ToolCommunicationService } from '../app/components/tool/tool-communication.service';
+import { LogPipe } from './service/pipe/log';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -262,6 +272,7 @@ import { ToolCommunicationService } from '../app/components/tool/tool-communicat
     ttMonthPipe,
     ttTimePipe,
     AmPmPipe,
+    LogPipe,
     ReadmoreComponent,
     UserStaffComponent,
     HomeComponent,
@@ -335,7 +346,6 @@ import { ToolCommunicationService } from '../app/components/tool/tool-communicat
     TrackingModuleComponent,
     SettingsComponent,
     GeneralComponent,
-    LocationsComponent,
     ScheduleSettingEditComponent,
     PaymentSettingEditComponent,
     InvoiceSettingEditComponent,
@@ -350,6 +360,12 @@ import { ToolCommunicationService } from '../app/components/tool/tool-communicat
     DataComponent,
     SelfAssessmentComponent,
     GradingComponent,
+    LocationsComponent,
+    LocationListComponent,
+    LocationCreateComponent,
+    CustomFieldsComponent,
+    CustomFieldsListComponent,
+    CustomFieldsCreateComponent,
 
     CardToolContentComponent,
     DataContentComponent,
@@ -358,10 +374,12 @@ import { ToolCommunicationService } from '../app/components/tool/tool-communicat
     BadgeContentComponent,
     ProgressContentComponent,
     ResourceListComponent,
-    CreateResourceComponent,
+    ResourceCreateComponent,
     SingleFooterComponent,
-    ResourceListComponent,
-    SelfAssessmentContentComponent
+    SelfAssessmentContentComponent,
+    ResourceComponent,
+    HolidayCalendarComponent,
+    CalendarListComponent
   ],
   imports: [
     ContentLoaderModule,
