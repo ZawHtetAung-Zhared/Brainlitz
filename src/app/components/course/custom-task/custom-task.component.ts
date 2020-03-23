@@ -134,8 +134,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   stepClick(event, step, type) {
-    console.log(this.clickableSteps);
-    if (this.clickableSteps.includes(step)) {
+    if (this.clickableSteps.includes(step) && this.activeStep != step) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
       this.addOrRemoveClassOfStep($(event.target));
@@ -152,28 +151,42 @@ export class CustomTaskComponent implements OnInit {
     if (this.activeStep < max) {
       var activeIdx = this.clickableSteps.indexOf(this.activeStep);
       var removeCount = this.clickableSteps.length - (activeIdx + 1);
-      this.clickableSteps.splice(activeIdx + 1, removeCount);
+      let removeSteps = this.clickableSteps.splice(activeIdx + 1, removeCount);
       console.log('this.clickableSteps', this.clickableSteps);
+      console.log('emoveSteps', removeSteps);
+      ele.parents('li').removeClass('done');
+      console.log('#step' + this.clickableSteps[activeIdx]);
+      // $('#step' + this.clickableSteps[activeIdx]).removeClass('done')
+      for (var i = 0; i < removeSteps.length; i++) {
+        console.log(removeSteps[i]);
+        $('#step' + removeSteps[i]).removeClass('active');
+        $('#step' + removeSteps[i]).removeClass('done');
+        $('#step' + removeSteps[i])
+          .children('a')
+          .css('background-color', '#e3e4e6');
+      }
+    } else {
+      ele.parents('li').removeClass('done');
+      ele
+        .parents('li')
+        .prevAll('li')
+        .addClass('done');
+      ele
+        .parents('li')
+        .prevAll('li')
+        .removeClass('active');
+      ele
+        .parents('li')
+        .nextAll('li')
+        .removeClass('active');
+      for (var i = 0; i < this.clickableSteps.length; i++) {
+        $('#step' + this.clickableSteps[i])
+          .children('a')
+          .css('background-color', '#0080ff');
+      }
+      if (max != ele.parents('li').attr('id'))
+        ele.parents('li').addClass('done');
     }
-    ele.parents('li').removeClass('done');
-    ele
-      .parents('li')
-      .prevAll('li')
-      .addClass('done');
-    ele
-      .parents('li')
-      .prevAll('li')
-      .removeClass('active');
-    ele
-      .parents('li')
-      .nextAll('li')
-      .removeClass('active');
-    for (var i = 0; i < this.clickableSteps.length; i++) {
-      $('#step' + this.clickableSteps[i])
-        .children('a')
-        .css('background-color', '#0080ff');
-    }
-    if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
   }
 
   checkUpdateForStep(event, step) {
@@ -326,11 +339,15 @@ export class CustomTaskComponent implements OnInit {
   }
 
   backToPrevStep(prev, next) {
+    this.clickableSteps.splice(prev, 1);
+    console.log(this.clickableSteps);
     this.activeStep = prev;
     $('#step' + prev).addClass('active');
-
-    $('#astep' + next).addClass('finishdone');
+    $('#step' + prev).removeClass('done');
+    // $('#astep' + next).addClass('finishdone');
+    $('#astep' + next).css('background-color', '#e3e4e6');
     $('#step' + next).removeClass('active');
+    $('#step' + next).removeClass('done');
   }
 
   getTemplateLists(searchValue) {
