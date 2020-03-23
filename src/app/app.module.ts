@@ -214,6 +214,8 @@ import { ResourceListComponent } from './components/tool/resource-list/resource-
 import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 
+import { LogPipe } from './service/pipe/log';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -267,6 +269,7 @@ import { SelfAssessmentContentComponent } from './components/tool/common-tool/se
     ttMonthPipe,
     ttTimePipe,
     AmPmPipe,
+    LogPipe,
     ReadmoreComponent,
     UserStaffComponent,
     HomeComponent,

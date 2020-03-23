@@ -1,5 +1,5 @@
 <div
-  class="mastery-view"
+  class="mastery-view mt-4"
   [ngClass]="{ hide: !sparkwerkz, 'no-m': Nomasteryflag }"
   *ngIf="loadingMastery == false && masteryStudentCount > 0"
 >
@@ -229,7 +229,12 @@
         <div class="d-flex justify-content-between mb-4">
           <div>
             <h3 class="h3-strong text-c300">{{ enrolledcount }}</h3>
-            <span class="body-m  text-c100">customers currently enrolled</span>
+            <span *ngIf="enrolledcount > 1" class="body-m  text-c100"
+              >customers currently enrolled</span
+            >
+            <span *ngIf="enrolledcount == 1" class="body-m  text-c100"
+              >customer currently enrolled</span
+            >
           </div>
           <div
             class="d-flex flex-column c-unpaid h2-strong text-c300"
@@ -243,27 +248,34 @@
           </div>
         </div>
         <div>
-          <div *ngIf="!on" class="d-flex ml-3 overflow">
-            <span
-              ngbTooltip="{{ ppl.fullName }}"
-              *ngFor="let ppl of customerlist"
-              class="propic"
-            >
-              <img
-                *ngIf="ppl.fullName != ''"
-                [ngClass]="{ hide: !ppl.profilePic }"
+          <div *ngIf="!on" class="d-flex overflow">
+            <div class="d-flex">
+              <span
                 ngbTooltip="{{ ppl.fullName }}"
-                src="{{ ppl.profilePic }}"
-              />
-              <img
-                *ngIf="ppl.fullName == ''"
-                ngbTooltip="{{ ppl.email }}"
-                src="{{ ppl.profilePic }}"
-              />
-            </span>
-            <span *ngIf="pplLists.length > 8" class="propic">
-              + {{ seat_taken - 8 }}
-            </span>
+                *ngFor="let ppl of customerlist"
+                class="propic"
+              >
+                <img
+                  *ngIf="ppl.fullName != ''"
+                  [ngClass]="{ hide: !ppl.profilePic }"
+                  ngbTooltip="{{ ppl.fullName }}"
+                  src="{{ ppl.profilePic }}"
+                />
+                <img
+                  *ngIf="ppl.fullName == ''"
+                  ngbTooltip="{{ ppl.email }}"
+                  src="{{ ppl.profilePic }}"
+                />
+              </span>
+            </div>
+            <div class="d-flex">
+              <span
+                *ngIf="pplLists.length > 8"
+                class="propic text-c100 small text-l-height"
+              >
+                +{{ seat_taken - 8 }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
