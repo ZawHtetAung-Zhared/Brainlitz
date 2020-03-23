@@ -179,7 +179,10 @@ import {
   SelfAssessmentComponent,
   BadgeComponent,
   ProgressComponent,
-  AllTrackingModuleComponent
+  AllTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  AddTrackingModuleComponent,
+  ShareTrackingModuleComponent
 } from './components/tool/index';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -388,9 +391,12 @@ import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test
     ResourceComponent,
     HolidayCalendarComponent,
     CalendarListComponent,
+    MainTrackingModuleComponent,
+    AddTrackingModuleComponent,
     CalendarCreateComponent,
     CalendarDetailComponent,
-    TestWerkzToolsComponent
+    TestWerkzToolsComponent,
+    ShareTrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,

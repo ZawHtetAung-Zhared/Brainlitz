@@ -11,3 +11,5 @@ export * from './grading/grading.component';
 export * from './progress/progress.component';
 export * from './self-assessment/self-assessment.component';
 export * from './add-tracking-module/add-tracking-module.component';
+export * from './main-tracking-module/main-tracking-module.component';
+export * from './share-tracking-module/share-tracking-module.component';
