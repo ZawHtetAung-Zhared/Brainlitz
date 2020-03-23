@@ -215,6 +215,8 @@ import { ResourceCreateComponent } from './components/tool/resource/resource-cre
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
 import { LogPipe } from './service/pipe/log';
 import { ResourceComponent } from './components/tool/resource/resource.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
 
 @NgModule({
   declarations: [
@@ -374,7 +376,9 @@ import { ResourceComponent } from './components/tool/resource/resource.component
     ResourceCreateComponent,
     SingleFooterComponent,
     SelfAssessmentContentComponent,
-    ResourceComponent
+    ResourceComponent,
+    HolidayCalendarComponent,
+    CalendarListComponent
   ],
   imports: [
     ContentLoaderModule,

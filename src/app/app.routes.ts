@@ -89,6 +89,8 @@ import { CustomFieldsCreateComponent } from './components/settings/custom-fields
 import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
 import { ResourceComponent } from './components/tool/resource/resource.component';
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -390,6 +392,21 @@ export const routes: Routes = [
             path: 'resource-list/resource-create/:type/:id',
             component: ResourceCreateComponent
           }
+        ]
+      },
+      {
+        path: 'holiday-calendar',
+        component: HolidayCalendarComponent,
+        children: [
+          { path: '', redirectTo: 'calendar-list', pathMatch: 'full' },
+          {
+            path: 'calendar-list',
+            component: CalendarListComponent
+          }
+          // {
+          //   path: 'resource-list/resource-create/:type/:id',
+          //   component: ResourceCreateComponent
+          // }
         ]
       },
       {
