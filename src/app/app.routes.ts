@@ -87,7 +87,6 @@ import { ScheduleSettingEditComponent } from './components/settings/general/sche
 import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
 // import { LocationsComponent } from './components/settings/locations/locations.component';
 import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
-import { CreateResourceComponent } from './components/tool/create-resource(old)/create-resource.component';
 import { ResourceComponent } from './components/tool/resource/resource.component';
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 
