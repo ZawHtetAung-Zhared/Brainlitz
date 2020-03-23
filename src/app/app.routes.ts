@@ -45,7 +45,8 @@ import {
   AssessmentComponent,
   DataComponent,
   SelfAssessmentComponent,
-  GradingComponent
+  GradingComponent,
+  AddTrackingModuleComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -85,6 +86,7 @@ import {
 import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
 import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
 import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+// imtport { LocationsComponent } from './components/settings/locations/locations.component';
 // import { LocationsComponent } from './components/settings/locations/locations.component';
 import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
 import { ResourceComponent } from './components/tool/resource/resource.component';
