@@ -37,7 +37,9 @@ export class BadgeComponent implements OnInit {
     }
   }
 
+  searchValue = '';
   getAllAPG(limit, skip, val) {
+    this.searchValue = val;
     this._service
       .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
@@ -63,7 +65,7 @@ export class BadgeComponent implements OnInit {
   showmore(type, skip: any) {
     console.log('Not user search ' + type);
     this.clickmore = true;
-    this.getAllAPG(20, skip, '');
+    this.getAllAPG(20, skip, this.searchValue);
     // if (this.isSearch == true) {
     //   console.log('User Search');
     //   this.apgListSearch(this.keyword, type, 20, skip);
