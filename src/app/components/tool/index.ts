@@ -10,3 +10,4 @@ export * from './data/data.component';
 export * from './grading/grading.component';
 export * from './progress/progress.component';
 export * from './self-assessment/self-assessment.component';
+export * from './add-tracking-module/add-tracking-module.component';

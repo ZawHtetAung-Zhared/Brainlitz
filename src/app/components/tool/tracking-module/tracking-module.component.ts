@@ -195,4 +195,160 @@ export class TrackingModuleComponent implements OnInit {
   onClickApgTab(type, id) {
     this._route.navigateByUrl('tool-test/tracking-module/' + type + '/' + id);
   }
+
+  public addTrackingModule = false;
+  public trackingModuleType = false;
+  addNewAPG() {
+    this.addTrackingModule = true;
+  }
+  goToAll() {
+    this.addTrackingModule = false;
+  }
+  public ischecked: any;
+  apgType: any;
+  chooseModuleType(val, name) {
+    // console.log('ModuleId --->', val);
+    // this.isCreateStatus = true;
+    this.apgType = name;
+    // console.log('ModuleName --->', name);
+    this.ischecked = val;
+    this.addTrackingModule = false;
+    this.trackingModuleType = true;
+    // this.moduleID = val;
+    // this.pickedMType.name = name;
+    // this.pickedMType.id = val;
+    // localStorage.setItem('moduleID', val);
+    // setTimeout(() => {
+    //   this.ismodule = false;
+    //   this.isshare = true;
+    //   if (name == 'Assessment') {
+    //     this.apCreate = true;
+    //   }
+    //   console.log('...');
+    // }, 300);
+  }
+  goToAddTrackingModule() {
+    this.trackingModuleType = false;
+    this.addTrackingModule = true;
+  }
+
+  createNewAPG(status, name) {
+    console.log('Create new APg', name);
+    name = name.toLowerCase();
+    // this.optionsArray = [''];
+    if (status == 'create') {
+      // this.iscreate = true;
+      this._route.navigateByUrl(
+        'tool-test/tracking-module/' + status + '/' + name
+      );
+      if (name == 'Assessment' || name == 'Evaluation') {
+        // this.ismodule = false;
+        // this.apCreate = true;
+        // this.dataApCreate = false;
+        // const templateAccessPoint = {
+        //   name: '',
+        //   description: '',
+        //   moduleId: '',
+        //   options: false,
+        //   upDownOptions: false,
+        //   upOptions: false,
+        //   DownOptions: false,
+        //   data: {
+        //     evaluation: {
+        //       allowZero: false,
+        //       passMark: '',
+        //       details: [
+        //         {
+        //           name: '',
+        //           options: ['']
+        //         }
+        //       ]
+        //     }
+        //   }
+        // };
+        // this.templateAccessPointGroup.push(templateAccessPoint);
+        // if (this.templateAccessPointGroup.length > 0) {
+        //   this.formObj['skillName0'] = '';
+        //   this.formObj['requirement00'] = '';
+        //   console.log('formObj~~~', this.formObj);
+        //   this.checkProperties(this.formObj);
+        // }
+        // this.iscreate = false;
+        // this.apCreate = true;
+        // ismodule == false && iscreate == false && isshare == false && shareAPG == false
+      } else if (name == 'Data') {
+        // this.templateAccessPointGroup = {};
+        // this.selectedRadio = 'NUMBER';
+        // var moduleId = localStorage.getItem('moduleID');
+        // this.templateAccessPoint = {
+        //   "name": "",
+        //   "description": "",
+        //   "moduleId": moduleId,
+        //   "data": {
+        //     "sectionType": "DATA",
+        //     "unit": "",
+        //     "inputType": this.selectedRadio,
+        //     "inputTypeProperties": {
+        //       "name": "",
+        //       "min": "",
+        //       "max": "",
+        //       "options": [
+        //         ""
+        //     ]
+        //    }
+        //   }
+        // }
+        // const templateAccessPoint = {
+        //   name: '',
+        //   description: '',
+        //   moduleId: moduleId,
+        //   data: {
+        //     sectionType: 'DATA',
+        //     unit: '',
+        //     inputType: this.selectedRadio,
+        //     inputTypeProperties: {
+        //       name: '',
+        //       min: '0',
+        //       max: '',
+        //       options: []
+        //     }
+        //   }
+        // };
+        // this.templateAccessPointGroup = templateAccessPoint;
+        // this.dataApCreate = true;
+        // this.ismodule = false;
+        // this.apCreate = false;
+        // this.emptymax = true;
+        // this.emptymin = true;
+        // this.overmin = true;
+      } else if (name === 'User Grading') {
+        // this.userGradingAp = true;
+        // this.dataApCreate = false;
+        // this.iscreate = true;
+        // this.isshare = false;
+        // this.apCreate = false;
+      } else {
+        // this.model = {};
+        // this.userGradingAp = false;
+        // this.dataApCreate = false;
+        // this.iscreate = true;
+        // this.isshare = false;
+        // this.apCreate = false;
+        // this.ismodule = false;
+      }
+    } else {
+      this._route.navigateByUrl(
+        'tool-test/tracking-module/' + status + '/' + name
+      );
+      // console.log('Create new APg', name);
+
+      // console.log('hi');
+      // this.sharechecked = '';
+      // this.shareAPG = true;
+      // this.apCreate = false;
+      // this.templateList = [];
+      // this.getAllTemplate(20, 0);
+    }
+    // this.isshare = false;
+  }
 }

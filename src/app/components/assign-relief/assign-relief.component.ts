@@ -93,14 +93,20 @@ export class AssignReliefComponent implements OnInit {
   }
 
   onSelectTeacher(data) {
+    console.log('lessonInfo~~~~~~~~~', this.lessonInfo);
     this.selectedTeacher = data;
     this.conflictLessonArr = [];
     console.log('selected Teacher', data);
+    let lessonDate = this.lessonInfo.startDate.substr(
+      0,
+      this.lessonInfo.startDate.search('T')
+    );
+    console.log('lesson date~~~~', lessonDate);
     this._service
       .getClassCheckAvailable(
         this.regionID,
         this.selectedTeacher.userId,
-        this.lessonInfo.lessonDate,
+        lessonDate,
         'DAY'
       )
       .subscribe(

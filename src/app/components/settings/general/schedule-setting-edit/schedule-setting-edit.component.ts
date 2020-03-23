@@ -475,7 +475,6 @@ export class ScheduleSettingEditComponent implements OnInit {
 
     if (this.generalSidebar.includes('UPDATEREGIONALSETTINGS')) {
       this.getAdministrator();
-      this.editEnroll('value');
     } else if (this.generalSidebar.includes('UPDATEAPPSETTINGS')) {
       this.isModuleList();
     } else {
@@ -514,6 +513,7 @@ export class ScheduleSettingEditComponent implements OnInit {
           this.JourApp = res.journalApprove;
           this.enroll = res.autoEnrolDay;
           console.log(this.enroll, 'enroll output');
+          this.editEnroll('value');
           this.tempSchedule.enroll = this.enroll;
           if (res.operatingHour == undefined) {
             this.item.operatingHour.start = { hr: 0, min: 0, meridiem: 'AM' };

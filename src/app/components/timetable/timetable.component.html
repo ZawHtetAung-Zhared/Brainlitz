@@ -1,4 +1,4 @@
-<div *ngIf="showTimetable == true">
+<div *ngIf="showTimetable == true" id="maindiv">
   <!-- zha -->
 
   <div class="setting d-flex">
@@ -6,7 +6,7 @@
       class="d-flex"
       style="margin-left: 20px; height: 40px;align-items: center;"
     >
-      <button class="btn tdy-btn body-m" (click)="TodayCalculate()">
+      <button class="btn tdy-btn body-m text-c300" (click)="TodayCalculate()">
         Today
       </button>
       <span class="arrow" (click)="weekCalculate('prev')"
@@ -15,7 +15,7 @@
       <span class="arrow" (click)="weekCalculate('next')"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
-      <span class="setting-date"
+      <span class="setting-date text-c300"
         >{{ thisStart | date: 'd MMM' }} '{{ thisStart | date: 'yy' }} -
         {{ thisEnd | date: 'd MMM' }} '{{ thisEnd | date: 'yy' }}</span
       >
@@ -29,9 +29,19 @@
         (click)="toggledropdown()"
         [ngClass]="{ 'category-bottom-border': showOverLay == false }"
       >
-        <span class="pl-3 dropdown-arrow">{{ selected }}</span>
-        <i *ngIf="clist != true" class="fa fa-chevron-down"></i>
-        <i *ngIf="clist == true" class="fa fa-chevron-up "></i>
+        <div class="cat-div" id="c-div">
+          <span class="pl-3 dropdown-arrow">{{ selected }}</span>
+          <img
+            class="cat-arrow"
+            *ngIf="clist != true"
+            src="../../../assets/img/downcategory.png"
+          />
+          <img
+            class="cat-arrow"
+            *ngIf="clist == true"
+            src="../../../assets/img/upcategory.png"
+          />
+        </div>
         <div
           infiniteScroll
           [infiniteScrollDistance]="2"
@@ -69,7 +79,11 @@
       <div class="active-cover">
         <span *ngIf="date == today" class="active-blue" id="{{ d }}"></span>
       </div>
-      <div [ngClass]="{ 'text-b100': date == today }" class="active-date">
+      <div
+        [ngClass]="{ 'text-b100': date == today }"
+        id="day{{ d }}"
+        class="active-date"
+      >
         {{ date | date: 'EEE, d MMM' }}
       </div>
     </div>
@@ -97,102 +111,122 @@
         </div>
       </div>
       <div
-        *ngFor="let schedule of staff.schedules; let j = index"
+        *ngFor="let schedule of schedules; let j = index"
         class="white"
         id="w{{ i }}{{ j }}"
-        (click)="showPopUpFunc(staff, schedule); activeblue($event)"
+        (click)="
+          showPopUpFunc(staff, staff.schedules[j], j); activeblue($event)
+        "
       >
-        <!---Absent All Day -->
-        <div
-          class="pad-left text-c200"
-          [ngStyle]="{
-            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
-            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
-          }"
-          id="pw{{ i }}{{ j }}"
-          *ngIf="schedule.leaveInfo.meridian == 'DAY'"
-        >
-          <div style="display: inline;">
-            <img src="../../../assets/icons/Ellipse 2.svg" />
-          </div>
-          <div style="display: inline;">Absent</div>
+        <!-- Empty Schedule -->
+        <div style="pointer-events: none;" *ngIf="staff.schedules == ''">
+          <div class="pad-left text-c200" id="pw{{ i }}{{ j }}"></div>
         </div>
-        <!---Absent AM -->
-        <div
-          class="pad-left text-c200"
-          [ngStyle]="{
-            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
-            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
-          }"
-          id="pw{{ i }}{{ j }}"
-          *ngIf="schedule.leaveInfo.meridian == 'AM'"
-        >
-          <div>
+        <!-- Not Empty Schedule -->
+        <div style="pointer-events: none;" *ngIf="staff.schedules != ''">
+          <!---Absent All Day -->
+          <div
+            class="pad-left text-c200"
+            [ngStyle]="{
+              color:
+                today == staff.schedules[j].date.slice(0, 10) ? '#363F4D' : '',
+              'font-weight':
+                today == staff.schedules[j].date.slice(0, 10) ? 'bold' : ''
+            }"
+            id="pw{{ i }}{{ j }}"
+            *ngIf="staff.schedules[j].leaveInfo.meridian == 'DAY'"
+          >
             <div style="display: inline;">
-              <img src="../../../assets/icons/am.svg" />
+              <img src="../../../assets/icons/Ellipse 2.svg" />
             </div>
             <div style="display: inline;">Absent</div>
           </div>
+          <!---Absent AM -->
           <div
-            class="pt-1 pb-1"
-            *ngFor="let count of schedule.timetables; let k = index"
+            class="pad-left text-c200"
+            [ngStyle]="{
+              color:
+                today == staff.schedules[j].date.slice(0, 10) ? '#363F4D' : '',
+              'font-weight':
+                today == staff.schedules[j].date.slice(0, 10) ? 'bold' : ''
+            }"
+            id="pw{{ i }}{{ j }}"
+            *ngIf="staff.schedules[j].leaveInfo.meridian == 'AM'"
           >
-            <span *ngIf="count.start.meridiem == 'PM'"
-              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
-              >{{ count.start.min }} {{ count.start.meridiem }} -
-              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
-              >{{ count.end.min }} {{ count.end.meridiem }}</span
-            >
-          </div>
-        </div>
-        <!---Absent PM -->
-        <div
-          class="pad-left text-c200"
-          [ngStyle]="{
-            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
-            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
-          }"
-          id="pw{{ i }}{{ j }}"
-          *ngIf="schedule.leaveInfo.meridian == 'PM'"
-        >
-          <div>
-            <div style="display: inline;">
-              <img src="../../../assets/icons/PM.svg" />
+            <div>
+              <div style="display: inline;">
+                <img src="../../../assets/icons/am.svg" />
+              </div>
+              <div style="display: inline;">Absent</div>
             </div>
-            <div style="display: inline;">Absent</div>
-          </div>
-          <div
-            class="pt-1 pb-1"
-            *ngFor="let count of schedule.timetables; let k = index"
-          >
-            <span *ngIf="count.start.meridiem == 'AM'"
-              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
-              >{{ count.start.min }} {{ count.start.meridiem }} -
-              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
-              >{{ count.end.min }} {{ count.end.meridiem }}</span
+            <div
+              class="pt-1 pb-1"
+              *ngFor="let count of staff.schedules[j].timetables; let k = index"
             >
+              <span *ngIf="count.start.meridiem == 'PM'"
+                >{{ count.start.hour }}:<span *ngIf="count.start.min < 10"
+                  >0</span
+                >{{ count.start.min }} {{ count.start.meridiem }} -
+                {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+                >{{ count.end.min }} {{ count.end.meridiem }}</span
+              >
+            </div>
           </div>
-        </div>
-        <!--No Absent-->
-        <div
-          class="pad-left text-c200"
-          [ngStyle]="{
-            color: today == schedule.date.slice(0, 10) ? '#363F4D' : '',
-            'font-weight': today == schedule.date.slice(0, 10) ? 'bold' : ''
-          }"
-          id="pw{{ i }}{{ j }}"
-          *ngIf="schedule.leaveInfo.absent != true"
-        >
+          <!---Absent PM -->
           <div
-            class="pt-1 pb-1"
-            *ngFor="let count of schedule.timetables; let k = index"
+            class="pad-left text-c200"
+            [ngStyle]="{
+              color:
+                today == staff.schedules[j].date.slice(0, 10) ? '#363F4D' : '',
+              'font-weight':
+                today == staff.schedules[j].date.slice(0, 10) ? 'bold' : ''
+            }"
+            id="pw{{ i }}{{ j }}"
+            *ngIf="staff.schedules[j].leaveInfo.meridian == 'PM'"
           >
-            <span
-              >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
-              >{{ count.start.min }} {{ count.start.meridiem }} -
-              {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
-              >{{ count.end.min }} {{ count.end.meridiem }}</span
+            <div>
+              <div style="display: inline;">
+                <img src="../../../assets/icons/PM.svg" />
+              </div>
+              <div style="display: inline;">Absent</div>
+            </div>
+            <div
+              class="pt-1 pb-1"
+              *ngFor="let count of staff.schedules[j].timetables; let k = index"
             >
+              <span *ngIf="count.start.meridiem == 'AM'"
+                >{{ count.start.hour }}:<span *ngIf="count.start.min < 10"
+                  >0</span
+                >{{ count.start.min }} {{ count.start.meridiem }} -
+                {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+                >{{ count.end.min }} {{ count.end.meridiem }}</span
+              >
+            </div>
+          </div>
+          <!--No Absent-->
+          <div
+            class="pad-left text-c200"
+            [ngStyle]="{
+              color:
+                today == staff.schedules[j].date.slice(0, 10) ? '#363F4D' : '',
+              'font-weight':
+                today == staff.schedules[j].date.slice(0, 10) ? 'bold' : ''
+            }"
+            id="pw{{ i }}{{ j }}"
+            *ngIf="staff.schedules[j].leaveInfo.absent != true"
+          >
+            <div
+              class="pt-1 pb-1"
+              *ngFor="let count of staff.schedules[j].timetables; let k = index"
+            >
+              <span
+                >{{ count.start.hour }}:<span *ngIf="count.start.min < 10"
+                  >0</span
+                >{{ count.start.min }} {{ count.start.meridiem }} -
+                {{ count.end.hour }}:<span *ngIf="count.end.min < 10">0</span
+                >{{ count.end.min }} {{ count.end.meridiem }}</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -307,9 +341,17 @@
 
     <div
       class="my-modal-body"
-      *ngIf="!leaveInfo.absent && schedule.timetables.length != 0"
+      *ngIf="
+        schedule !== undefined &&
+        !leaveInfo.absent &&
+        schedule.timetables.length != 0
+      "
     >
-      <div class="schedule-wrap " *ngFor="let count of schedule.timetables">
+      <div
+        class="schedule-wrap "
+        *ngFor="let count of schedule.timetables; first as isFirst"
+        [ngClass]="{ notfirst: !isFirst }"
+      >
         <div class="d-flex flex-column">
           <span class="body-m text-c300"
             >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
@@ -343,7 +385,9 @@
 
     <div
       class="my-modal-body"
-      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'AM'"
+      *ngIf="
+        schedule !== undefined && leaveInfo.absent && leaveInfo.meridian == 'AM'
+      "
     >
       <div class="schedule-wrap">
         <div class="d-flex flex-column">
@@ -367,8 +411,11 @@
           }}</span>
         </div>
       </div>
-      <div *ngFor="let count of schedule.timetables">
-        <div class="schedule-wrap " *ngIf="count.start.meridiem == 'PM'">
+      <div
+        class="schedule-wrap notfirst"
+        *ngFor="let count of schedule.timetables"
+      >
+        <div *ngIf="count.start.meridiem == 'PM'">
           <div class="d-flex flex-column">
             <span class="body-m text-c300"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
@@ -405,10 +452,16 @@
 
     <div
       class="my-modal-body"
-      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'PM'"
+      *ngIf="
+        schedule !== undefined && leaveInfo.absent && leaveInfo.meridian == 'PM'
+      "
     >
-      <div *ngFor="let count of schedule.timetables">
-        <div class="schedule-wrap " *ngIf="count.start.meridiem == 'AM'">
+      <div
+        class="schedule-wrap "
+        *ngFor="let count of schedule.timetables"
+        [ngClass]="{ notfirst: !isFirst }"
+      >
+        <div *ngIf="count.start.meridiem == 'AM'">
           <div class="d-flex flex-column">
             <span class="body-m text-c300"
               >{{ count.start.hour }}:<span *ngIf="count.start.min < 10">0</span
@@ -441,7 +494,7 @@
           </div>
         </div>
       </div>
-      <div class="schedule-wrap">
+      <div class="schedule-wrap notfirst">
         <div class="d-flex flex-column">
           <div class="d-flex align-items-center">
             <div
@@ -465,7 +518,11 @@
 
     <div
       class="my-modal-body"
-      *ngIf="leaveInfo.absent && leaveInfo.meridian == 'DAY'"
+      *ngIf="
+        schedule !== undefined &&
+        leaveInfo.absent &&
+        leaveInfo.meridian == 'DAY'
+      "
     >
       <div class="schedule-wrap d-flex flex-column">
         <div class="d-flex align-items-center">
@@ -489,7 +546,7 @@
 
     <div
       class="my-modal-body d-flex justify-content-center align-items-center"
-      *ngIf="schedule.timetables.length == 0"
+      *ngIf="schedule === undefined || schedule.timetables.length == 0"
     >
       <span class="body-m text-c300">There is no lesson yet.</span>
     </div>

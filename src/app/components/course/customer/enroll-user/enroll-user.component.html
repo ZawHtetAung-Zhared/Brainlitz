@@ -3,7 +3,7 @@
   <div class="d-flex inner-wrapper align-items-center justify-content-between">
     <div class="back-to body-l text-c300" [routerLink]="backToCourse">
       <i class="fa fa-angle-left"></i>
-      <p>Back to {{ detailLists.name }}</p>
+      <p>{{ detailLists.name }}</p>
     </div>
     <!-- <div class="back-to" [routerLink]="clickCancel"> -->
     <div class="back-to body-l text-c300" (click)="clickCancel()">
@@ -413,7 +413,7 @@
         *ngIf="userType == 'customer'"
         class="btn btn-submit body-l bg-b100 text-s0"
         [disabled]="
-          (enrollUserList | json) == '{}' || isDisabledBtn || noSetting == true
+          enrollUserList.length == 0 || isDisabledBtn || noSetting == true
         "
         (click)="
           addCustomer(detailLists._id, userType, invoiceAlert, invoiceModal)
