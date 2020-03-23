@@ -46,7 +46,9 @@ import {
   DataComponent,
   SelfAssessmentComponent,
   GradingComponent,
-  AddTrackingModuleComponent
+  AddTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  ShareTrackingModuleComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -93,6 +95,8 @@ import { ResourceComponent } from './components/tool/resource/resource.component
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
 import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -404,46 +408,66 @@ export const routes: Routes = [
           {
             path: 'calendar-list',
             component: CalendarListComponent
+          },
+          {
+            path: 'calendar-create',
+            component: CalendarCreateComponent
+          },
+          {
+            path: 'calendar-detail/:id',
+            component: CalendarDetailComponent
           }
-          // {
-          //   path: 'resource-list/resource-create/:type/:id',
-          //   component: ResourceCreateComponent
-          // }
         ]
       },
       {
         path: 'tracking-module',
-        component: TrackingModuleComponent,
+        component: MainTrackingModuleComponent,
+        // component: TrackingModuleComponent,
         children: [
-          { path: '', redirectTo: 'all', pathMatch: 'full' },
+          { path: '', redirectTo: 'lists', pathMatch: 'full' },
           {
-            path: 'all',
-            component: AllTrackingModuleComponent
-          },
-          {
-            path: '1/:id',
-            component: ProgressComponent
-          },
-          {
-            path: '2/:id',
-            component: BadgeComponent
-          },
-          {
-            path: '3/:id',
-            component: AssessmentComponent
-          },
+            path: 'lists',
+            component: TrackingModuleComponent,
+            children: [
+              { path: '', redirectTo: 'all', pathMatch: 'full' },
+              {
+                path: 'all',
+                component: AllTrackingModuleComponent
+              },
+              {
+                path: '1/:id',
+                component: ProgressComponent
+              },
+              {
+                path: '2/:id',
+                component: BadgeComponent
+              },
+              {
+                path: '3/:id',
+                component: AssessmentComponent
+              },
 
-          {
-            path: '4/:id',
-            component: DataComponent
+              {
+                path: '4/:id',
+                component: DataComponent
+              },
+              {
+                path: '5/:id',
+                component: SelfAssessmentComponent
+              },
+              {
+                path: '6/:id',
+                component: GradingComponent
+              }
+            ]
           },
           {
-            path: '5/:id',
-            component: SelfAssessmentComponent
+            path: 'create/:name',
+            component: AddTrackingModuleComponent
           },
           {
-            path: '6/:id',
-            component: GradingComponent
+            path: 'share/:name',
+            component: ShareTrackingModuleComponent
           }
         ]
       }

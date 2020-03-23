@@ -12,8 +12,11 @@ import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
 import { KeyedWrite } from '@angular/compiler';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteApgModalComponent } from '../components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalOptions
+} from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Injectable()
@@ -4813,11 +4816,16 @@ export class appService {
   }
 
   public modalReference: any;
-  openDeleteModal(modal) {
+  openDeleteApgModal(modal, data) {
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
         'deleteModal d-flex justify-content-center align-items-center'
     });
+    this.modalReference.componentInstance.deleteApg = data;
+  }
+
+  closeDeleteApgModal() {
+    this.modalReference.close();
   }
 }

@@ -179,7 +179,10 @@ import {
   SelfAssessmentComponent,
   BadgeComponent,
   ProgressComponent,
-  AllTrackingModuleComponent
+  AllTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  AddTrackingModuleComponent,
+  ShareTrackingModuleComponent
 } from './components/tool/index';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -220,6 +223,8 @@ import { LogPipe } from './service/pipe/log';
 import { ResourceComponent } from './components/tool/resource/resource.component';
 import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
 import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 
 @NgModule({
   declarations: [
@@ -384,7 +389,12 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     SelfAssessmentContentComponent,
     ResourceComponent,
     HolidayCalendarComponent,
-    CalendarListComponent
+    CalendarListComponent,
+    MainTrackingModuleComponent,
+    AddTrackingModuleComponent,
+    CalendarCreateComponent,
+    CalendarDetailComponent,
+    ShareTrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,
@@ -442,6 +452,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     },
     TodayDatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteApgModalComponent]
 })
 export class AppModule {}
