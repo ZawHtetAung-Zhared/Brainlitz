@@ -46,7 +46,7 @@ export class ProgressComponent implements OnInit {
         (res: any) => {
           console.error('result :::::::: ', res);
           this.result = res;
-          this.apgList = this.apgList.concat(res);
+          this.apgList = res;
           console.log('APG lists', this.apgList);
         },
         err => {
