@@ -34,7 +34,7 @@ export class GradingComponent implements OnInit {
       this.permissionType = localStorage.getItem('permission');
       this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
       console.log(this.selectedApgId);
-      this.getAllAPG(20, 0);
+      this.getAllAPG(20, 0, null);
       // this.permissionSubscription = this._service.permissionList.subscribe(
       //   data => {
       //     console.log('work');
@@ -73,15 +73,15 @@ export class GradingComponent implements OnInit {
     if (this.apgPermission.length > 0) {
       console.log('permission allow!!!');
       // this.getAllModule();
-      this.getAllAPG(20, 0);
+      this.getAllAPG(20, 0, null);
     } else {
       this.apgList = [];
     }
   }
 
-  getAllAPG(limit, skip) {
+  getAllAPG(limit, skip, val) {
     this._service
-      .getAllAPG(this.regionID, this.selectedApgId, limit, skip)
+      .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
         (res: any) => {
           console.error('result :::::::: ', res);
@@ -100,7 +100,7 @@ export class GradingComponent implements OnInit {
   }
   showmore(type, skip: any) {
     console.log('Not user search ' + type);
-    this.getAllAPG(20, skip);
+    this.getAllAPG(20, skip, null);
     // if (this.isSearch == true) {
     //   console.log('User Search');
     //   this.apgListSearch(this.keyword, type, 20, skip);

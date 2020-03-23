@@ -24,12 +24,12 @@ export class SelfAssessmentComponent implements OnInit {
 
   ngOnInit() {
     this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
-    this.getAllAPG(20, 0);
+    this.getAllAPG(20, 0, null);
   }
 
-  getAllAPG(limit, skip) {
+  getAllAPG(limit, skip, val) {
     this._service
-      .getAllAPG(this.regionID, this.selectedApgId, limit, skip)
+      .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
         (res: any) => {
           this.result = res;

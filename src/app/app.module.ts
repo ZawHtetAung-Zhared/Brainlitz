@@ -213,6 +213,7 @@ import { SingleFooterComponent } from './components/tool/common-tool/single-foot
 import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
 import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
+import { ToolCommunicationService } from '../app/components/tool/tool-communication.service';
 import { DeleteApgModalComponent } from './components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
 
 import { LogPipe } from './service/pipe/log';
@@ -432,6 +433,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     DataService,
     LoggedInGuard,
     EnrollUserComponent,
+    ToolCommunicationService,
     Title,
     {
       provide: HTTP_INTERCEPTORS,

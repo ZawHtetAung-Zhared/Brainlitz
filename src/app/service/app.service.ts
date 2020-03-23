@@ -2536,10 +2536,12 @@ export class appService {
     });
   }
 
-  getAllAPG(id: string, moduleId: string, limit: number, skip: number) {
+  getAllAPG(id: string, moduleId: string, limit: number, skip: number, value) {
     // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
     console.log('APG limit skip', limit, skip);
-    if (moduleId == '') {
+    console.log(moduleId == '');
+    console.log(!value);
+    if (moduleId == '' && !value) {
       console.log('no moduleID');
       var apiUrl =
         this.baseUrl +
@@ -2549,13 +2551,36 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else {
+    } else if (moduleId == '' || value != '') {
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/search?keyword=' +
+        value +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId || !value) {
       console.log('has moduleID');
       var apiUrl =
         this.baseUrl +
         '/' +
         id +
         '/access-point-group?moduleId=' +
+        moduleId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId || value) {
+      console.log('has moduleID');
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/moduleId=' +
         moduleId +
         '&limit=' +
         limit +
