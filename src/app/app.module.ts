@@ -440,6 +440,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     },
     TodayDatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteApgModalComponent]
 })
 export class AppModule {}

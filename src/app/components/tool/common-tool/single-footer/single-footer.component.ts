@@ -99,20 +99,7 @@ export class SingleFooterComponent implements OnInit {
     this.callParentComp.emit(true);
   }
 
-  onclickDelete(id, alertDelete) {
-    // this._service.openDeleteModal(DeleteApgModalComponent);
-    this._service.openDeleteModal(alertDelete);
-    // console.log(alertDelete);
-    // this.deleteId = id;
-    // for (var i in this.apgList) {
-    //   if (this.apgList[i]._id == id) {
-    //     this.deleteAPG = this.apgList[i].name;
-    //   }
-    // }
-    // this.modalReference = this.modalService.open(alertDelete, {
-    //   backdrop: 'static',
-    //   windowClass:
-    //     'deleteModal d-flex justify-content-center align-items-center'
-    // });
+  onclickDelete() {
+    this._service.openDeleteApgModal(DeleteApgModalComponent, this.singleData);
   }
 }
