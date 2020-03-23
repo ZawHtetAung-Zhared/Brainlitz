@@ -11,8 +11,5 @@ export class ProgressContentComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.singleProgress);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
 }

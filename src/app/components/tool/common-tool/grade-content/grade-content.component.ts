@@ -10,8 +10,5 @@ export class GradeContentComponent implements OnInit {
   @Input() viewFor;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.singleGrade);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
 }

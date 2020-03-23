@@ -25,6 +25,10 @@ export class ProgressComponent implements OnInit {
       console.log(data);
       if (data.type == '1') this.getAllAPG(20, 0, data.searchData);
     });
+    _toolCommunication.refreshList$.subscribe(data => {
+      console.log(data);
+      this.getAllAPG(20, 0, '');
+    });
   }
 
   private data: any;

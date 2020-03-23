@@ -10,10 +10,7 @@ export class CardToolContentComponent implements OnInit {
   @Input() viewFor;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.dataList);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
   searchData(lst) {
     console.log(lst);
     this.dataList = lst;

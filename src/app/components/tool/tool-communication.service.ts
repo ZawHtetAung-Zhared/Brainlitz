@@ -5,10 +5,16 @@ import { Subject } from 'rxjs/Subject';
 export class ToolCommunicationService {
   constructor() {}
   private searchInput = new Subject<any>();
+  private refreshAPGList = new Subject<any>();
 
   searchEmitted$ = this.searchInput.asObservable();
+  refreshList$ = this.refreshAPGList.asObservable();
 
   searchDataInput(data: {}) {
     this.searchInput.next(data);
+  }
+
+  refreshApgList() {
+    this.refreshAPGList.next(true);
   }
 }

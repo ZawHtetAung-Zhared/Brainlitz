@@ -11,10 +11,7 @@ export class AssessmentContentComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.singleAssessment);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
 
   expandAccessPoint(i, ind) {
     this.singleAssessment.accessPoints[ind].isExpand = !this.singleAssessment
