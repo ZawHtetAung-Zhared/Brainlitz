@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
 import { KeyedWrite } from '@angular/compiler';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteApgModalComponent } from '../components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
 declare var $: any;
 
 @Injectable()
@@ -80,7 +82,8 @@ export class appService {
   constructor(
     private httpClient: HttpClient,
     private _http: Http,
-    private _router: Router
+    private _router: Router,
+    private modalService: NgbModal
   ) {
     let isToken = localStorage.getItem('token');
     this.accessToken = localStorage.getItem('token');
@@ -4779,5 +4782,14 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+
+  public modalReference: any;
+  openDeleteModal(modal) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
   }
 }

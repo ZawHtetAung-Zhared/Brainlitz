@@ -213,6 +213,7 @@ import { SingleFooterComponent } from './components/tool/common-tool/single-foot
 import { ResourceListComponent } from './components/tool/resource-list/resource-list.component';
 import { CreateResourceComponent } from './components/tool/create-resource/create-resource.component';
 import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
+import { DeleteApgModalComponent } from './components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
 
 @NgModule({
   declarations: [
@@ -371,7 +372,8 @@ import { SelfAssessmentContentComponent } from './components/tool/common-tool/se
     CreateResourceComponent,
     SingleFooterComponent,
     ResourceListComponent,
-    SelfAssessmentContentComponent
+    SelfAssessmentContentComponent,
+    DeleteApgModalComponent
   ],
   imports: [
     ContentLoaderModule,
