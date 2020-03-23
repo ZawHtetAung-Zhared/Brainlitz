@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { appService } from '../../../service/app.service';
-
+import { ToolCommunicationService } from '../tool-communication.service';
 @Component({
   selector: 'app-progress',
   templateUrl: './progress.component.html',
@@ -18,8 +18,14 @@ export class ProgressComponent implements OnInit {
   constructor(
     private router: Router,
     private _service: appService,
-    private _Activatedroute: ActivatedRoute
-  ) {}
+    private _Activatedroute: ActivatedRoute,
+    private _toolCommunication: ToolCommunicationService
+  ) {
+    _toolCommunication.searchEmitted$.subscribe(data => {
+      console.log(data);
+      if (data.type == '1') this.getAllAPG(20, 0, data.searchData);
+    });
+  }
 
   private data: any;
   ngOnInit() {
@@ -28,7 +34,8 @@ export class ProgressComponent implements OnInit {
       this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
       console.log(this.selectedApgId);
       console.log(this.data);
-      this.getAllAPG(20, 0, null);
+
+      this.getAllAPG(20, 0, '');
     }
   }
 
@@ -50,7 +57,7 @@ export class ProgressComponent implements OnInit {
 
   showmore(type, skip: any) {
     console.log('Not user search ' + type);
-    this.getAllAPG(20, skip, null);
+    this.getAllAPG(20, skip, '');
     // if (this.isSearch == true) {
     //   console.log('User Search');
     //   this.apgListSearch(this.keyword, type, 20, skip);

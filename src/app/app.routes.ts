@@ -97,6 +97,7 @@ import { HolidayCalendarComponent } from './components/tool/holiday-calendar/hol
 import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
 import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
 import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
+import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -418,6 +419,10 @@ export const routes: Routes = [
             component: CalendarDetailComponent
           }
         ]
+      },
+      {
+        path: 'testwerkztools',
+        component: TestWerkzToolsComponent
       },
       {
         path: 'tracking-module',

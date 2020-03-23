@@ -1,3 +1,1618 @@
-<p>
-  add-tracking-module works!
-</p>
+<div class="back-wrap">
+  <div class="d-flex justify-content-between">
+    <div class="back-to" (click)="goToBack('share')">
+      <i class="fa fa-angle-left"></i>
+      <p class="body-l text-c300">
+        Creating {{ apgType.toLowerCase() }} tracking module
+      </p>
+    </div>
+    <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
+    <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+  </div>
+  <div
+    class="d-flex justify-content-between"
+    *ngIf="shareAPG == true && isUpdate == false"
+  >
+    <div class="back-to" (click)="goToBack('share')">
+      <i class="fa fa-angle-left"></i>
+      <p class="body-l text-c300">
+        Creating {{ apgType.toLowerCase() }} tracking module
+      </p>
+    </div>
+    <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
+    <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+  </div>
+</div>
+<div class="location-group">
+  <h3
+    *ngIf="isshare == true && isUpdate == false"
+    class="title-heading h1-strong text-c300"
+  >
+    Creating {{ apgType.toLowerCase() }} tracking module
+  </h3>
+  <h3
+    *ngIf="iscreate == true && isUpdate == false"
+    class="title-heading h1-strong text-c300"
+  >
+    Create {{ apgType.toLowerCase() }} tracking module
+  </h3>
+  <h3
+    *ngIf="iscreate == true && isUpdate == true"
+    class="title-heading h1-strong text-c300"
+  >
+    Update {{ apgType.toLowerCase() }} tracking module
+  </h3>
+  <h3
+    *ngIf="shareAPG == true && isUpdate == false"
+    class="title-heading h1-strong text-c300"
+  >
+    Shared {{ apgType.toLowerCase() }} tracking module
+  </h3>
+</div>
+<div class="apg-form">
+  <!-- <form #createDataApgForm="ngForm"> -->
+  <div *ngIf="iscreate == true && apCreate == true">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-row">
+        <div class="d-flex flex-column">
+          <label class="evaluation-Name body-l text-c300">
+            Evaluation Name</label
+          >
+          <div class="limit-wordcount ml-auto">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Type skill name here"
+            class="evaluation-name light-body-l"
+            name="name"
+            required
+            maxlength="60"
+            (focus)="focusMethod($event, 'name', $event.target.value)"
+            (blur)="blurMethod($event, 'name')"
+            (input)="changeMethod($event.target.value)"
+            [(ngModel)]="model.name"
+            #name="ngModel"
+          />
+          <div
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!name.errors.required">
+              Name is required!
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inform-wrapper">
+        <p class="icon"><span class="icon">i</span></p>
+        <span class="body-m text-c100"
+          >Some information about how do skill and requirement create with
+          multiple lines</span
+        >
+      </div>
+      <div
+        dragula="COLUMNS"
+        class="requirements-wrapper"
+        [(dragulaModel)]="templateAccessPointGroup"
+        drag-scroll
+      >
+        <div
+          class="skill-requirement-wrapper mb-3"
+          *ngFor="let item of templateAccessPointGroup; let i = index"
+          id="skill-requirement-id-{{ i }}"
+        >
+          <div
+            class="d-flex flex-column skill-header"
+            style="background:#f2f4f5;"
+            id="skillHeader{{ i }}"
+          >
+            <div class="d-flex flex-row justify-content-between">
+              <div class="d-flex">
+                <span class="img-wrapper group-handle-wrapper">
+                  <img
+                    class="group-handle"
+                    src="../../../assets/images/disable-holder.svg"
+                  />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Type skill name here"
+                  class="skill-name"
+                  name=" {{ 'skillName' + i }}"
+                  required
+                  [(ngModel)]="item.name"
+                  (input)="addInputValue()"
+                  required
+                />
+                <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center"
+                style="padding-right: 10px"
+              >
+                <span
+                  class="remove-btn"
+                  *ngIf="
+                    isUpdate == false &&
+                    templateAccessPointGroup &&
+                    templateAccessPointGroup.length > 1
+                  "
+                  (click)="mainAccessPointClear(item, i, 'skillName', 'create')"
+                  ><i class="fa fa-remove"></i
+                ></span>
+                <span
+                  class="remove-btn"
+                  *ngIf="
+                    isUpdate == true &&
+                    templateAccessPointGroup &&
+                    templateAccessPointGroup.length > 1
+                  "
+                  (click)="mainAccessPointClear(item, i, 'skillName', 'update')"
+                  ><i class="fa fa-remove"></i
+                ></span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="toggle-wrap">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (click)="allowZeroToggle(item)"
+                    [checked]="item.data.evaluation.allowZero"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <p style="padding-left:12px;" class="pass-mark body-m text-c100">
+                allow zero
+              </p>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="toggle-wrap">
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    (click)="checkMarkToggle(item, i)"
+                    [checked]="item.options"
+                  />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+              <p style="padding-left:12px;" class="pass-mark body-m text-c100">
+                Use passing mark
+              </p>
+            </div>
+            <div
+              class=" pb-3"
+              [ngClass]="{ 'd-none': !item.options }"
+              id="passMark{{ i }}"
+            >
+              <input
+                type="number"
+                placeholder="0"
+                class="pass-mark-input"
+                (input)="minAndMax($event, item.data.evaluation.passMark, i)"
+                name="{{ 'passMark' + i }}"
+                [(ngModel)]="item.data.evaluation.passMark"
+              />
+              <label class="pl-2 pass-label">% to pass</label>
+            </div>
+          </div>
+          <div
+            id="requirement-inner-box-{{ i }}"
+            class="requirement-inner-box"
+            (scroll)="requirementInnerBox($event, i)"
+            dragula="{{ i }}"
+            [(dragulaModel)]="item.data.evaluation.details"
+          >
+            <!-- {{item.data.evaluation.details | json}} -->
+            <div
+              class="d-flex container requirement"
+              *ngFor="let test of item.data.evaluation.details; let x = index"
+              style="padding-left:40px;"
+              id="requirement{{ i }}{{ x }}"
+            >
+              <!-- {{test.name}} -->
+              <span class="img-wrapper">
+                <img
+                  class="move-sign"
+                  *ngIf="item.data.evaluation.details.length > 1"
+                  src="../../../assets/images/disable-holder.svg"
+                />
+                <img
+                  class="move-sign"
+                  *ngIf="item.data.evaluation.details.length == 1"
+                  src="../../../assets/images/single-holder.svg"
+                />
+              </span>
+              <textarea
+                rows="1"
+                type="text"
+                id="{{ 'box' + x + i }}"
+                name="{{ 'requirement' + x + i }}"
+                placeholder="Type requirement here"
+                class="requirement-name"
+                [(ngModel)]="test.name"
+                required
+                (input)="autoResize(item, $event, i, 'requirement', x)"
+              ></textarea>
+              <!-- <span class="pr-3"></span> <textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
+              <div
+                *ngIf="
+                  item.data.evaluation.details &&
+                  item.data.evaluation.details.length > 1
+                "
+                class="close-search"
+                (click)="subAccessPointClear(test, item, i, x, 'requirement')"
+              ></div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex align-items-center cursor-on"
+            id="skillFooter{{ i }}"
+          >
+            <div *ngIf="item.upDownOptions" id="downupArrow{{ i }}">
+              <div
+                *ngIf="item.upOptions"
+                class="downIcon"
+                (click)="pushUpClick(i)"
+              >
+                <img class="downIcon" src="./assets/images/push-up.png" />
+              </div>
+              <div
+                *ngIf="item.DownOptions"
+                class="downIcon"
+                (click)="pushDownClick(i)"
+              >
+                <img class="downIcon" src="./assets/images/push-down.png" />
+              </div>
+            </div>
+            <button
+              class="add-requirement body-l text-b100"
+              (click)="subAccessPointAdd(item, i)"
+              [disabled]="item.name == ''"
+              [ngClass]="{ 'no-pl': item.upDownOptions }"
+            >
+              Add new requirement
+            </button>
+          </div>
+
+          <!-- {{isScroll}} -->
+        </div>
+
+        <p
+          class="add-new-skill cursor-on body-l text-b100"
+          (click)="mainAccessPointAdd()"
+        >
+          Add new Skill
+        </p>
+        <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
+        <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
+      </div>
+      <div class="d-flex justify-content-end form-footer">
+        <button
+          type="button"
+          class="btn btn-cancel bg-s20 text-c300"
+          (click)="cancelapg()"
+        >
+          Cancel
+        </button>
+        <button
+          *ngIf="isUpdate == false"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          (click)="createEvaluateApgs(model, false)"
+          [disabled]="!model.name || isEmpty == true"
+        >
+          Create
+        </button>
+        <button
+          *ngIf="isUpdate == true"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          (click)="editAccessmentApg()"
+          [disabled]="!model.name || isEmpty == true"
+        >
+          Update
+        </button>
+      </div>
+      <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
+    </div>
+    <!--  <div class="d-flex justify-content-end form-footer">
+            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
+              [disabled]="!model.name || isEmpty == true">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
+          </div> -->
+  </div>
+  <!-- end Assemenent -->
+  <!-- </form> -->
+  <!-- Start Data -->
+  <div
+    *ngIf="iscreate == true && dataApCreate == true"
+    style="padding-bottom: 80px;"
+  >
+    <div class="col-md-12 col-lg-8 input-wrap">
+      <div class="form-group ">
+        <div class="d-flex justify-content-between">
+          <label class="form-title input-label body-l text-c300" for="address"
+            >Data name</label
+          >
+          <div class="limit-wordcount">
+            <span>{{ wordLength }}/60characters</span>
+          </div>
+        </div>
+        <div class="d-flex flex-row pl-2">
+          <input
+            type="text"
+            class="form-control create-input data-name"
+            placeholder="Type preffered name here"
+            name="name"
+            maxlength="60"
+            [(ngModel)]="model.name"
+            (focus)="focusMethod($event, 'name', $event.target.value)"
+            (blur)="blurMethod($event, 'name')"
+            (input)="changeMethod($event.target.value)"
+            required
+            #name="ngModel"
+            [ngStyle]="{
+              background: selectedDataColor.background,
+              color: selectedDataColor.text
+            }"
+          />
+          <div class="color-box" (click)="showColorPicker($event)">
+            <span class="icon-img">
+              <img src="../../../assets/img/Vector.png" />
+            </span>
+            <div
+              *ngIf="isShowPicker"
+              class="carret-box"
+              [ngClass]="arrClasses"
+            ></div>
+            <!--      [ngStyle]="colorArrClasses" -->
+          </div>
+          <div
+            id="colorPletteBox"
+            *ngIf="isShowPicker"
+            (clickOutside)="closePopUp($event)"
+          >
+            <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+
+            <!--  [ngClass]="arrClasses"
+            [ngStyle]="colorArrClasses" -->
+            <p class="color-title mb-0 pb-0 small text-c300">Color</p>
+            <div class="color-section d-flex flex-wrap">
+              <div
+                class="color-circle"
+                *ngFor="let item of sepalColor; let i = index"
+                [style.background]="item.color.background"
+                (click)="selectColor(i, item)"
+                [ngClass]="{
+                  addBorder:
+                    item.color.background == selectedDataColor.background
+                }"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched)"
+          class="alert alert-danger"
+        >
+          <div [hidden]="!name.errors.required">
+            Name is required!
+          </div>
+        </div>
+      </div>
+      <div class="form-group radio-form-group">
+        <div class="d-flex justify-content-between">
+          <label class="form-title input-label body-l text-c300" for="address"
+            >Input type</label
+          >
+
+          <!-- <div class="limit-wordcount1">
+                  <span>{{wordLength}}/280characters</span>
+                </div>
+              </div>
+              <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+                [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+                (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
+          <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+                <div [hidden]="!description.errors.required">
+                  Description is required!
+                </div>
+              </div> -->
+        </div>
+        <div class="radio-group">
+          <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
+
+          <button
+            class="type-input cousorAdd p-0"
+            [class.activeRadio]="selectedRadio == 'NUMBER'"
+            (click)="radioSelect('NUMBER')"
+            [disabled]="iscreate == true && isUpdate == true"
+          >
+            <div class="radio-wrapper">
+              <div class="label-checked"></div>
+
+              <input
+                type="radio"
+                class="form-radio"
+                name="radio"
+                [(ngModel)]="selectedRadio"
+                value="input-box"
+              />
+
+              <div class="huey text-c300 body-m">Input box</div>
+              <div class="huey-child small text-c100">Number</div>
+            </div>
+          </button>
+
+          <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
+          <button
+            class="type-input cousorAdd p-0"
+            [class.activeRadio]="selectedRadio == 'RANGE'"
+            (click)="radioSelect('RANGE')"
+            [disabled]="iscreate == true && isUpdate == true"
+          >
+            <div class="radio-wrapper">
+              <div class="label-checked"></div>
+
+              <input
+                type="radio"
+                class="form-radio"
+                name="radio"
+                [(ngModel)]="selectedRadio"
+                value="slider"
+              />
+
+              <div class="huey">Slider</div>
+              <div class="huey-child">Number</div>
+            </div>
+          </button>
+          <button
+            class="type-input cousorAdd p-0"
+            [class.activeRadio]="selectedRadio == 'RADIO'"
+            (click)="radioSelect('RADIO')"
+            [disabled]="iscreate == true && isUpdate == true"
+          >
+            <div class="radio-wrapper">
+              <div class="label-checked"></div>
+              <input
+                type="radio"
+                name="radio"
+                class="form-radio"
+                [(ngModel)]="selectedRadio"
+                value="selection"
+              />
+
+              <label class="huey">Selection</label>
+              <br />
+              <div class="huey-child">Text</div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="input-result">
+        <div *ngIf="selectedRadio == 'NUMBER'">
+          <div class="form-group ">
+            <div class="d-flex justify-content-between">
+              <label
+                class="form-title input-label body-l text-c300"
+                for="address"
+                >Measurement unit</label
+              >
+              <div class="limit-type-wordcount">
+                <span>{{ wordLength }}/6characters</span>
+              </div>
+            </div>
+            <input
+              type="text"
+              class="form-control create-input"
+              placeholder="E.g. cm or mm"
+              name="input-method"
+              maxlength="6"
+              [(ngModel)]="this.templateAccessPointGroup.data.unit"
+              (focus)="focusMethod($event, 'input_method', $event.target.value)"
+              autocomplete="off"
+              (blur)="blurMethod($event, 'input_method')"
+              (input)="changeMethod($event.target.value)"
+              required
+              #input_method="ngModel"
+            />
+            <div
+              *ngIf="
+                input_method.invalid &&
+                (input_method.dirty || input_method.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div [hidden]="!input_method.errors.required">
+                Measurement unit is required!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="selectedRadio == 'RANGE'">
+          <div class="form-group slider-form">
+            <div class="d-flex justify-content-between">
+              <label
+                class="form-title input-label body-l text-c300"
+                for="address"
+                >Measurement unit</label
+              >
+              <div class="limit-type-wordcount">
+                <span>{{ wordLength }}/6characters</span>
+              </div>
+            </div>
+            <input
+              type="text"
+              class="form-control create-input"
+              placeholder="E.g. cm or mm"
+              name="input-method"
+              autocomplete="off"
+              maxlength="6"
+              [(ngModel)]="this.templateAccessPointGroup.data.unit"
+              (focus)="focusMethod($event, 'input_method', $event.target.value)"
+              (blur)="blurMethod($event, 'input_method')"
+              (input)="changeMethod($event.target.value)"
+              required
+              #input_method="ngModel"
+            />
+            <div
+              *ngIf="
+                input_method.invalid &&
+                (input_method.dirty || input_method.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div [hidden]="!input_method.errors.required">
+                Measurement unit is required!
+              </div>
+            </div>
+          </div>
+          <div class="gap-box">
+            <div class="d-flex">
+              <div class="d-flex flex-column">
+                <label class="minlbl">Min</label>
+                <input
+                  type="number"
+                  class="min_input"
+                  value="0"
+                  [(ngModel)]="
+                    templateAccessPointGroup.data.inputTypeProperties.min
+                  "
+                  (keypress)="numberOnly($event)"
+                  (input)="chkValue($event.target.value, 'min')"
+                  required
+                  #min_method="ngModel"
+                />
+              </div>
+
+              <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                       <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
+
+              <div
+                class="divslider"
+                *ngIf="
+                  emptymin == false && emptymax == false && overmin == false
+                "
+              >
+                <input
+                  *ngIf="
+                    emptymin == false && emptymax == false && overmin == false
+                  "
+                  type="range"
+                  class="max-range-box"
+                  min="{{
+                    templateAccessPointGroup.data.inputTypeProperties.min
+                  }}"
+                  max="{{
+                    templateAccessPointGroup.data.inputTypeProperties.max
+                  }}"
+                  value="{{
+                    templateAccessPointGroup.data.inputTypeProperties.min
+                  }}"
+                  id="apg_rangeId2"
+                  (input)="ChangedTimeValue($event.target.value)"
+                />
+                <output class="box arrow-top" id="arrowBox">{{
+                  exitValue
+                }}</output>
+              </div>
+              <div
+                class="divslider"
+                *ngIf="emptymin == true || emptymax == true || overmin == true"
+              >
+                <input
+                  type="range"
+                  class="max-range-box"
+                  min="0"
+                  max="100"
+                  disabled="true"
+                  value="0"
+                  id="apg_rangeId"
+                />
+              </div>
+
+              <div class="d-flex flex-column">
+                <label class="minlbl" *ngIf="maxExit">Max</label>
+                <label
+                  class="floating-label"
+                  *ngIf="!maxExit"
+                  [ngClass]="{ addOpacity: emptymax == false }"
+                  >Max</label
+                >
+                <input
+                  type="number"
+                  class="max_input"
+                  [(ngModel)]="
+                    templateAccessPointGroup.data.inputTypeProperties.max
+                  "
+                  (keypress)="numberOnly($event)"
+                  (focus)="maxFocus($event)"
+                  (focusout)="maxFocusout($event)"
+                  [ngClass]="{ noPaddingInmax: maxExit == false }"
+                  (input)="chkValue($event.target.value, 'max')"
+                  required
+                  #max_method="ngModel"
+                />
+              </div>
+            </div>
+            <div
+              class="justify-content-between showMsg"
+              *ngIf="emptymin == true || emptymax == true || overmin == true"
+            >
+              <img
+                src="../../../assets/img/min-max-explain.png"
+                class="max-min-exp-img"
+              />
+              <img
+                src="../../../assets/img/highlight-arrow.png"
+                class="arrow-img"
+              />
+            </div>
+            <div
+              class="d-flex flex-column"
+              *ngIf="emptymin == true || emptymax == true || overmin == true"
+              style="height:200px;"
+            >
+              <p class="display-txt">
+                Add your
+                <input type="text" class="min_input_show" value="Max" />
+                number to ready the slider.
+              </p>
+              <p class="display-txt">
+                Min number is on us. You can adjust Max and Min numbers to
+                whaterever you want.
+              </p>
+            </div>
+          </div>
+          <!-- <div class="gap-box">
+                  <label class="d-flex">
+                    <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
+                      (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
+                    <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
+                      min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                    <div class="divslider">
+                      <div class="box arrow-top" id="arrowBox">{{exitValue}}</div>
+                      <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" id="apg_rangeId"
+                        min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
+                        >
+                    <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
+                      (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                    </div>
+                    </label>
+                </div> -->
+        </div>
+        <div *ngIf="selectedRadio == 'RADIO'" class="mb-90">
+          <h4 class="data-list-title">Data list</h4>
+          <div
+            dragula="data_COLUMNS"
+            class="data-wrapper"
+            [(dragulaModel)]="valueArray"
+          >
+            <div
+              *ngFor="let dataValue of valueArray; let i = index"
+              class="one-selection-wrapper"
+            >
+              <div class="d-flex selection-wrapper">
+                <span class="img-wrapper">
+                  <img
+                    class="move-sign"
+                    *ngIf="valueArray.length > 1"
+                    src="../../../assets/images/disable-holder.svg"
+                  />
+                  <img
+                    class="move-sign"
+                    *ngIf="valueArray.length == 1"
+                    src="../../../assets/images/single-holder.svg"
+                    style="pointer-events: none"
+                  />
+                </span>
+                <div class="form-group input-wrapper" id="data-input{{ i }}">
+                  <input
+                    type="text"
+                    class="form-control data-value"
+                    placeholder="Type data value here"
+                    [(ngModel)]="dataValue.name"
+                    name="{{ 'dataValue' + i }}"
+                    id="{{ 'valueInput' + i }}"
+                    autocomplete="off"
+                    required
+                  />
+                </div>
+                <div
+                  class="data-close"
+                  *ngIf="valueArray.length > 1"
+                  (click)="dataValueClear(i, $event)"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <span class="newValue cousorAdd" (click)="addDataValue('newData')"
+            >Add new data value
+          </span>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end form-footer">
+        <button type="button" class="btn btn-cancel" (click)="cancelapg()">
+          Cancel
+        </button>
+        <button
+          *ngIf="isUpdate == false"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          (click)="createDataApg()"
+          [disabled]="
+            model.name == undefined ||
+            model.name.length == 0 ||
+            checkValidation(valueArray) ||
+            valid == false
+          "
+        >
+          Create
+        </button>
+        <button
+          *ngIf="isUpdate == true"
+          type="button"
+          class="btn btn-submit bg-b20 text-c300"
+          [disabled]="
+            model.name == undefined ||
+            model.name.length == 0 ||
+            checkValidation(valueArray) ||
+            valid == false
+          "
+          (click)="
+            updateAp(
+              model.accessPoints,
+              this.templateAccessPointGroup,
+              model._id
+            )
+          "
+        >
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      iscreate == true &&
+      userGradingAp == true &&
+      !isCreateStatus &&
+      UserGradeApg != undefined
+    "
+    style="width: 480px;"
+  >
+    <app-user-grading
+      (cancelGrade)="cancelGrading($event)"
+      (createGrade)="createUserGrade($event)"
+      [UserGradeObj]="UserGradeApg"
+      [isCreateStatus]="isCreateStatus"
+    ></app-user-grading>
+  </div>
+  <div
+    *ngIf="iscreate == true && userGradingAp == true && isCreateStatus"
+    style="width: 480px;"
+  >
+    <app-user-grading
+      (cancelGrade)="cancelGrading($event)"
+      (createGrade)="createUserGrade($event)"
+      [UserGradeObj]="UserGradeApg"
+      [isCreateStatus]="isCreateStatus"
+    ></app-user-grading>
+  </div>
+  <!-- End Data -->
+  <form novalidate #createapgForm="ngForm">
+    <div class="row" *ngIf="ismodule == true">
+      <div
+        *ngFor="let module of moduleList; let i = index"
+        class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
+        [ngClass]="{ 'disable-click': module.name == 'Badge' }"
+      >
+        <label
+          class="form-check-label text-c300 body-l"
+          [ngClass]="{ selected: ischecked == module._id }"
+        >
+          <div class="module-img">
+            <img
+              *ngIf="ischecked != module._id"
+              class="setting-icon"
+              src="./assets/icons/{{
+                module.name.toLowerCase() == 'assessment'
+                  ? 'evaluation'
+                  : module.name.toLowerCase()
+              }}-type.png"
+              class="img-fluid"
+            />
+            <img
+              *ngIf="ischecked == module._id"
+              class="setting-icon"
+              src="./assets/icons/{{
+                module.name.toLowerCase() == 'assessment'
+                  ? 'evaluation'
+                  : module.name.toLowerCase()
+              }}-type-a.png"
+              class="img-fluid"
+            />
+          </div>
+          <div class="label-checked"></div>
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="module._id"
+            value="{{ module.name }}"
+            (click)="chooseModuleType(module._id, module.name)"
+          />
+          {{ module.name }}
+        </label>
+      </div>
+      <!-- <div (click)="chooseModuleType('123','selfAssessment')">Button</div> -->
+    </div>
+    <div *ngIf="iscreate == false && isshare == true">
+      <div class="d-flex flex-row">
+        <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+          <div
+            (click)="createNewAPG('create', apgType)"
+            class="d-flex apg-box justify-content-center flex-column"
+          >
+            <div class="d-flex flex-row">
+              <div class="stoke-wrap">
+                <div class="stoke-1"></div>
+                <div class="stoke-2"></div>
+              </div>
+              <div class="icon-apg"></div>
+            </div>
+            <label
+              class="form-title input-label  text-c300 body-l"
+              for="address"
+              >Create new {{ apgType.toLowerCase() }} tracking module</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+          <div
+            (click)="createNewAPG('share', apgType)"
+            class="d-flex apg-box justify-content-center flex-column"
+          >
+            <div class="d-flex flex-row">
+              <div class="stoke-wrap">
+                <div class="stoke-1"></div>
+                <div class="d-flex flex-row justify-content-between">
+                  <span class="stoke-2-first"></span>
+                  <span class="stoke-2-sec"></span>
+                </div>
+              </div>
+              <div class="icon-apg"></div>
+            </div>
+            <label class="form-title input-label body-l text-c300" for="address"
+              >Create using publicly shared {{ apgType.toLowerCase() }} tracking
+              module</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="
+        iscreate == true &&
+        apCreate == false &&
+        dataApCreate == false &&
+        userGradingAp == false
+      "
+    >
+      <div class="col-md-8 input-wrap">
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label body-l text-c300" for="address"
+              >Tracking module name</label
+            >
+            <div class="limit-wordcount">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div>
+          <p class="body-m text-c100">
+            We recommend to set tracking module name as same as Course name.
+          </p>
+          <input
+            type="text"
+            class="form-control create-input"
+            placeholder="Type preffered name here"
+            name="name"
+            maxlength="60"
+            [(ngModel)]="model.name"
+            (focus)="focusMethod($event, 'name', $event.target.value)"
+            (blur)="blurMethod($event, 'name')"
+            (input)="changeMethod($event.target.value)"
+            required
+            #name="ngModel"
+          />
+          <div
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!name.errors.required">
+              Name is required!
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label body-l text-c300" for="address"
+              >Description</label
+            >
+            <div class="limit-wordcount1">
+              <span>{{ wordLength }}/280characters</span>
+            </div>
+          </div>
+          <textarea
+            class="form-control create-input"
+            rows="3"
+            placeholder="Type description here"
+            name="description"
+            [(ngModel)]="model.description"
+            (focus)="focusMethod($event, 'msg', $event.target.value)"
+            (blur)="blurMethod($event, 'msg')"
+            (input)="changeMethod($event.target.value)"
+            maxlength="280"
+            #description="ngModel"
+          ></textarea>
+          <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+                  <div [hidden]="!description.errors.required">
+                    Description is required!
+                  </div>
+                </div> -->
+        </div>
+      </div>
+      <div class="d-flex justify-content-end form-footer">
+        <button type="button" class="btn btn-cancel" (click)="cancelapg()">
+          Cancel
+        </button>
+        <button
+          *ngIf="isUpdate == false"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          (click)="createapgs(model, false)"
+          [disabled]="!createapgForm.valid"
+        >
+          Create
+        </button>
+        <button
+          *ngIf="isUpdate == true"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          [disabled]="!createapgForm.valid"
+          (click)="createapgs(model, true, currentID)"
+        >
+          Update
+        </button>
+      </div>
+    </div>
+    <div *ngIf="shareAPG == true">
+      <div class="input-group w-100">
+        <input
+          class="form-control py-2 input-search-bg bg-s20"
+          type="search"
+          placeholder="Search tracking module"
+          id="template-search-input"
+          (input)="sharedApgSearch2($event.target.value, '', '')"
+          (keyup.enter)="sharedApgSearch($event.target.value, '', '')"
+          autocomplete="off"
+        />
+        <span class="input-group-append">
+          <button
+            class="btn btn-design btn-outline-secondary"
+            type="button"
+            (click)="sharedApgSearch(keyword, '', '')"
+          >
+            <i class="fa fa-search search-size"></i>
+          </button>
+        </span>
+      </div>
+      <!-- Here data -->
+      <div class="apg-share-content" *ngIf="apgType == 'Data'">
+        <div class="col1">
+          <div
+            *ngFor="let temp of templateList | slice: 0:half; let i = index"
+            class="assement-shared-apg share-input body-xl text-c300"
+          >
+            <label
+              class="form-check-label"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+            >
+              <div class="d-flex justify-content-between apgBoxHead">
+                <span
+                  class="textapgType small text-c100"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ apgType }}</span
+                >
+                <div class="label-checked"></div>
+              </div>
+
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="temp._id"
+                value="{{ temp.name }}"
+                (click)="chooseShareAPG(temp._id, temp.name)"
+              />
+              <span
+                class="textTempName body-xl text-c300"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+                >{{ temp.name }}</span
+              >
+              <div class="apgBoxFooter" *ngFor="let tobj of temp.accessPoints">
+                <!-- {{tobj.data.inputType}} -->
+                <div
+                  class="d-flex justify-content-between numberType"
+                  *ngIf="tobj.data.inputType == 'NUMBER'"
+                >
+                  <div class="body-l">
+                    <span
+                      class="textUnitName text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                      >Unit:</span
+                    ><span
+                      class="textUnit text-c300"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      {{ tobj.data.unit }}</span
+                    >
+                  </div>
+                  <div
+                    class="showType"
+                    *ngIf="
+                      tobj.data.inputTypeProperties.min == null &&
+                      tobj.data.inputTypeProperties.max == null
+                    "
+                  >
+                    <img
+                      src="../../../assets/img/input-icon.png"
+                      class="inputIcon"
+                    />
+                    <span
+                      class="inputText body-m text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      Input box
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between rangeType"
+                  *ngIf="tobj.data.inputType == 'RANGE'"
+                >
+                  <div class="body-l">
+                    <span
+                      class="textUnitName text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                      >Unit:</span
+                    ><span
+                      class="textUnit text-c300"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      {{ tobj.data.unit }}</span
+                    >
+                  </div>
+
+                  <div
+                    class="showType"
+                    *ngIf="
+                      tobj.data.inputTypeProperties.min != null &&
+                      tobj.data.inputTypeProperties.max != null
+                    "
+                  >
+                    <img
+                      src="../../../assets/img/slider-icon.png"
+                      class="inputIcon"
+                    />
+                    <span
+                      class="inputText body-m text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      Slider
+                    </span>
+                  </div>
+                </div>
+
+                <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                  <div
+                    class="d-flex flex-row listGroup"
+                    *ngFor="
+                      let option of tobj.data.inputTypeProperties.options;
+                      let j = index
+                    "
+                    [ngClass]="{ selected: sharechecked == temp._id }"
+                  >
+                    <span class="detail-dot"></span>
+                    <div
+                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist body-m text-c100"
+                      [ngClass]="{
+                        'hide-border':
+                          tobj.data.inputTypeProperties.options.length == j + 1,
+                        selected: sharechecked == temp._id
+                      }"
+                    >
+                      {{ option }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </label>
+          </div>
+        </div>
+        <div class="col2">
+          <div
+            *ngFor="let temp of templateList | slice: half; let i2 = index"
+            class="assement-shared-apg share-input share-input"
+          >
+            <label
+              class="form-check-label"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+            >
+              <div class="d-flex justify-content-between apgBoxHead">
+                <span
+                  class="textapgType small text-c100"
+                  [ngClass]="{ selected: sharechecked == temp._id }"
+                  >{{ apgType }}</span
+                >
+                <div class="label-checked"></div>
+              </div>
+
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="temp._id"
+                value="{{ temp.name }}"
+                (click)="chooseShareAPG(temp._id, temp.name)"
+              />
+              <span
+                class="textTempName body-xl text-c300"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+                >{{ temp.name }}</span
+              >
+              <div class="apgBoxFooter" *ngFor="let tobj of temp.accessPoints">
+                <!-- {{tobj.data.inputType}} -->
+                <div
+                  class="d-flex justify-content-between numberType"
+                  *ngIf="tobj.data.inputType == 'NUMBER'"
+                >
+                  <div class="body-l">
+                    <span
+                      class="textUnitName text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                      >Unit:</span
+                    ><span
+                      class="textUnit text-c300"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      {{ tobj.data.unit }}</span
+                    >
+                  </div>
+                  <div
+                    class="showType"
+                    *ngIf="
+                      tobj.data.inputTypeProperties.min == null &&
+                      tobj.data.inputTypeProperties.max == null
+                    "
+                  >
+                    <img
+                      src="../../../assets/img/input-icon.png"
+                      class="inputIcon"
+                    />
+                    <span
+                      class="inputText body-m text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      Input box
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  class="d-flex justify-content-between rangeType"
+                  *ngIf="tobj.data.inputType == 'RANGE'"
+                >
+                  <div class="body-l">
+                    <span
+                      class="textUnitName text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                      >Unit:</span
+                    ><span
+                      class="textUnit text-c300"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      {{ tobj.data.unit }}</span
+                    >
+                  </div>
+
+                  <div
+                    class="showType bg-s20"
+                    *ngIf="
+                      tobj.data.inputTypeProperties.min != null &&
+                      tobj.data.inputTypeProperties.max != null
+                    "
+                  >
+                    <img
+                      src="../../../assets/img/slider-icon.png"
+                      class="inputIcon"
+                    />
+                    <span
+                      class="inputText body-m text-c100"
+                      [ngClass]="{ selected: sharechecked == temp._id }"
+                    >
+                      Slider
+                    </span>
+                  </div>
+                </div>
+
+                <div class="radioType" *ngIf="tobj.data.inputType == 'RADIO'">
+                  <div
+                    class="d-flex flex-row listGroup"
+                    *ngFor="
+                      let option of tobj.data.inputTypeProperties.options;
+                      let j = index
+                    "
+                    [ngClass]="{ selected: sharechecked == temp._id }"
+                  >
+                    <span class="detail-dot"></span>
+                    <div
+                      class="mb-0 list-dot-wrap detail-line apg-desc w-100 optionlist body-m text-c100"
+                      [ngClass]="{
+                        'hide-border':
+                          tobj.data.inputTypeProperties.options.length == j + 1,
+                        selected: sharechecked == temp._id
+                      }"
+                    >
+                      {{ option }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </label>
+          </div>
+        </div>
+
+        <!-- </label> -->
+      </div>
+      <!-- user grading module -->
+      <div class="card-columns" *ngIf="apgType == 'User Grading'">
+        <div
+          *ngFor="let temp of templateList; let i = index"
+          class="card card-wrap share-input "
+        >
+          <label
+            class="form-check-label"
+            [ngClass]="{ selected: sharechecked == temp._id }"
+          >
+            <div class="d-flex justify-content-between apgBoxHead">
+              <span
+                class="textapgType small text-c100"
+                [ngClass]="{ selected: sharechecked == temp._id }"
+                >{{ apgType }}</span
+              >
+              <div class="label-checked"></div>
+            </div>
+
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="temp._id"
+              value="{{ temp.name }}"
+              (click)="chooseShareAPG(temp._id, temp.name)"
+            />
+            <span
+              class="textTempName text-c300 body-l"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+              >{{ temp.name }}</span
+            >
+            <div style="margin-top: 14px">
+              <div>
+                <div *ngFor="let accessPoint of temp.accessPoints">
+                  <div
+                    *ngFor="let grade of accessPoint.data.grades; let j = index"
+                    class="d-flex"
+                  >
+                    <div
+                      class="b-white justify-content-center d-flex"
+                      [style.background]="
+                        accessPoint.data.sepalColor.background
+                      "
+                      [ngClass]="{
+                        'test-circle': grade.point.length == 1,
+                        circle: grade.point.length > 1
+                      }"
+                    >
+                      <span [style.color]="accessPoint.data.sepalColor.text">
+                        {{ grade.point }}
+                      </span>
+                    </div>
+                    <div
+                      class="detail-line w-100"
+                      [ngClass]="{
+                        'hide-border': accessPoint.data.grades.length == j + 1
+                      }"
+                      style="margin-bottom: 16px"
+                    >
+                      <p
+                        class="gradename body-m text-c300"
+                        [ngClass]="{
+                          'grade-selected': sharechecked == temp._id
+                        }"
+                      >
+                        {{ grade.name }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div
+        class="apg-share-content"
+        *ngIf="apgType == 'Assessment' || apgType == 'Evaluation'"
+      >
+        <div class="col1">
+          <div
+            *ngFor="let template of templateList | slice: 0:half; let i = index"
+            class="assement-shared-apg share-input"
+          >
+            <div
+              class="header"
+              [ngClass]="{ selected: sharechecked == template._id }"
+            >
+              <label class="form-check-label data">
+                <span class="eval-name small text-c100">Evaluation</span>
+                <span class="temp-name body-xl text-c300">{{
+                  template.name
+                }}</span>
+                <div class="label-checked data" style="float:right"></div>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ template.name }}"
+                  (click)="chooseShareAPG(template._id, template.name)"
+                />
+              </label>
+            </div>
+            <div class="accesspoint-name-wrapper">
+              <div
+                *ngFor="
+                  let accessPoint of template.accessPoints;
+                  let ind = index
+                "
+                class="accesspoint-name"
+              >
+                <div
+                  class="head"
+                  [ngClass]="{
+                    'no-mb': ind == template.accessPoints.length - 1
+                  }"
+                >
+                  <span [ngClass]="{ changeColor: accessPoint.isExpand }">{{
+                    accessPoint.name
+                  }}</span>
+                  <span
+                    class="down-arrow"
+                    [ngClass]="{ 'transform-y': accessPoint.isExpand }"
+                    (click)="expandAccessPoint(i, ind)"
+                  >
+                    <i class="fa fa-angle-down" style="font-size: 25px;"></i>
+                    <!-- <img src="../../../assets/images/system-icons-down.png"> -->
+                  </span>
+                  <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
+                  <!-- <span class="down-arrow">Up</span> -->
+                  <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
+                    <span
+                      class="dot"
+                      *ngFor="let dot of accessPoint.data.evaluation.details"
+                    ></span>
+                  </div>
+                  <div class="after-expand" *ngIf="accessPoint.isExpand">
+                    <div
+                      class="d-flex flex-row"
+                      *ngFor="
+                        let dot of accessPoint.data.evaluation.details;
+                        let id = index
+                      "
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
+                        [ngClass]="{
+                          'hide-border':
+                            accessPoint.data.evaluation.details?.length ==
+                            id + 1
+                        }"
+                      >
+                        {{ dot.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col2">
+          <div
+            *ngFor="let template of templateList | slice: half; let i2 = index"
+            class="assement-shared-apg share-input"
+          >
+            <div
+              class="header"
+              [ngClass]="{ selected: sharechecked == template._id }"
+            >
+              <label class="form-check-label data">
+                <span class="eval-name small text-c100">Evaluation</span>
+                <span class="temp-name body-xl text-c300">{{
+                  template.name
+                }}</span>
+                <div class="label-checked data" style="float:right"></div>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="temp._id"
+                  value="{{ template.name }}"
+                  (click)="chooseShareAPG(template._id, template.name)"
+                />
+              </label>
+            </div>
+            <div class="accesspoint-name-wrapper">
+              <div
+                *ngFor="
+                  let accessPoint of template.accessPoints;
+                  let ind = index
+                "
+                class="accesspoint-name"
+              >
+                <div
+                  class="head"
+                  [ngClass]="{
+                    'no-mb': ind == template.accessPoints.length - 1
+                  }"
+                >
+                  <span [ngClass]="{ changeColor: accessPoint.isExpand }">{{
+                    accessPoint.name
+                  }}</span>
+                  <span
+                    class="down-arrow"
+                    [ngClass]="{ 'transform-y': accessPoint.isExpand }"
+                    (click)="expandAccessPoint(i2 + half, ind)"
+                  >
+                    <i class="fa fa-angle-down" style="font-size: 25px;"></i>
+                    <!-- <img src="../../../assets/images/system-icons-down.png"> -->
+                  </span>
+                  <!-- <span class="down-arrow"  *ngIf="!accessPoint.isExpand" (click)="expandAccessPoint(i,ind)">Up</span> -->
+                  <!-- <span class="down-arrow">Up</span> -->
+                  <div class="dot-wrapper" *ngIf="!accessPoint.isExpand">
+                    <span
+                      class="dot"
+                      *ngFor="let dot of accessPoint.data.evaluation.details"
+                    ></span>
+                  </div>
+                  <div class="after-expand" *ngIf="accessPoint.isExpand">
+                    <div
+                      class="d-flex flex-row"
+                      *ngFor="
+                        let dot of accessPoint.data.evaluation.details;
+                        let id = index
+                      "
+                    >
+                      <span class="detail-dot"></span>
+                      <div
+                        class="mb-0 list-dot-wrap detail-line apg-desc w-100 body-m text-c100"
+                        [ngClass]="{
+                          'hide-border':
+                            accessPoint.data.evaluation.details?.length ==
+                            id + 1
+                        }"
+                      >
+                        {{ dot.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row apg-share-content" *ngIf="apgType == 'Progress'">
+        <div
+          *ngFor="let temp of templateList; let i = index"
+          class="share-input col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xxl"
+        >
+          <div class="">
+            <label
+              class="form-check-label"
+              [ngClass]="{ selected: sharechecked == temp._id }"
+            >
+              <div class="label-checked"></div>
+              <input
+                class="form-check-input"
+                type="radio"
+                name="inlineRadioOptions"
+                id="temp._id"
+                value="{{ temp.name }}"
+                (click)="chooseShareAPG(temp._id, temp.name)"
+              />
+              {{ temp.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end apg-share-bottom">
+        <div class=" align-self-end ">
+          <button
+            [disabled]="
+              sharechecked == null ||
+              sharechecked == '' ||
+              sharechecked == undefined
+            "
+            *ngIf="isUpdate == false"
+            type="button"
+            class="btn btn-submit bg-b100 text-s0"
+            (click)="setShareAPG(temp)"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center shareApgLoadMore loadMore1">
+        <div
+          *ngIf="templateList.length >= 20 && result.length == 20"
+          class="load-more1 bg-s0"
+        >
+          <button
+            class="btn remove-outline body-m text-b100 "
+            (click)="showMoreShareApg(templateList.length)"
+          >
+            load more
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
