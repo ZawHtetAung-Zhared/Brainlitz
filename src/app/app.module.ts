@@ -391,6 +391,7 @@ import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test
     ResourceComponent,
     HolidayCalendarComponent,
     CalendarListComponent,
+    AddTrackingModuleComponent,
     MainTrackingModuleComponent,
     AddTrackingModuleComponent,
     CalendarCreateComponent,

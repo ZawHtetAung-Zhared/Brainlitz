@@ -261,6 +261,8 @@ export class TrackingModuleComponent implements OnInit {
     // this.optionsArray = [''];
     if (status == 'create') {
       // this.iscreate = true;
+      this.addTrackingModule = false;
+      this.trackingModuleType = false;
       this._route.navigateByUrl(
         'tool-test/tracking-module/' + status + '/' + name
       );
@@ -360,6 +362,8 @@ export class TrackingModuleComponent implements OnInit {
         // this.ismodule = false;
       }
     } else {
+      this.addTrackingModule = false;
+      this.trackingModuleType = false;
       this._route.navigateByUrl(
         'tool-test/tracking-module/' + status + '/' + name
       );
