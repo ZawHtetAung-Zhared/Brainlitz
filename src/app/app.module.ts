@@ -1,3 +1,4 @@
+import { AddTrackingModuleComponent } from './components/tool/add-tracking-module/add-tracking-module.component';
 import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
 
 import { NgModule } from '@angular/core';
@@ -379,7 +380,8 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
     SelfAssessmentContentComponent,
     ResourceComponent,
     HolidayCalendarComponent,
-    CalendarListComponent
+    CalendarListComponent,
+    AddTrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,

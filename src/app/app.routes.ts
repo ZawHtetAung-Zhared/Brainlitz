@@ -444,6 +444,10 @@ export const routes: Routes = [
           {
             path: '6/:id',
             component: GradingComponent
+          },
+          {
+            path: 'create/:name',
+            component: AddTrackingModuleComponent
           }
         ]
       }
