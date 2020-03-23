@@ -321,11 +321,11 @@
       <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
     </div>
     <!--  <div class="d-flex justify-content-end form-footer">
-        <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
-        <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
-          [disabled]="!model.name || isEmpty == true">Create</button>
-        <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
-      </div> -->
+            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
+              [disabled]="!model.name || isEmpty == true">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
+          </div> -->
   </div>
   <!-- end Assemenent -->
   <!-- </form> -->
@@ -381,7 +381,7 @@
             <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
 
             <!--  [ngClass]="arrClasses"
-        [ngStyle]="colorArrClasses" -->
+            [ngStyle]="colorArrClasses" -->
             <p class="color-title mb-0 pb-0 small text-c300">Color</p>
             <div class="color-section d-flex flex-wrap">
               <div
@@ -413,17 +413,17 @@
           >
 
           <!-- <div class="limit-wordcount1">
-              <span>{{wordLength}}/280characters</span>
-            </div>
-          </div>
-          <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
-            [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
-            (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
+                  <span>{{wordLength}}/280characters</span>
+                </div>
+              </div>
+              <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+                [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+                (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
           <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
-            <div [hidden]="!description.errors.required">
-              Description is required!
-            </div>
-          </div> -->
+                <div [hidden]="!description.errors.required">
+                  Description is required!
+                </div>
+              </div> -->
         </div>
         <div class="radio-group">
           <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
@@ -593,7 +593,7 @@
               </div>
 
               <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
-                   <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
+                       <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
 
               <div
                 class="divslider"
@@ -692,21 +692,21 @@
             </div>
           </div>
           <!-- <div class="gap-box">
-              <label class="d-flex">
-                <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
-                  (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
-                <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
-                  min="0" max="100" disabled=true value="0" id="apg_rangeId">
-                <div class="divslider">
-                  <div class="box arrow-top" id="arrowBox">{{exitValue}}</div>
-                  <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" id="apg_rangeId"
-                    min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
-                    >
-                <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
-                  (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
-                </div>
-                </label>
-            </div> -->
+                  <label class="d-flex">
+                    <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
+                      (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
+                    <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
+                      min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                    <div class="divslider">
+                      <div class="box arrow-top" id="arrowBox">{{exitValue}}</div>
+                      <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" id="apg_rangeId"
+                        min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
+                        >
+                    <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
+                      (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+                    </div>
+                    </label>
+                </div> -->
         </div>
         <div *ngIf="selectedRadio == 'RADIO'" class="mb-90">
           <h4 class="data-list-title">Data list</h4>
@@ -985,10 +985,10 @@
             #description="ngModel"
           ></textarea>
           <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
-              <div [hidden]="!description.errors.required">
-                Description is required!
-              </div>
-            </div> -->
+                  <div [hidden]="!description.errors.required">
+                    Description is required!
+                  </div>
+                </div> -->
         </div>
       </div>
       <div class="d-flex justify-content-end form-footer">

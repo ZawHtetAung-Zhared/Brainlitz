@@ -181,7 +181,8 @@ import {
   ProgressComponent,
   AllTrackingModuleComponent,
   MainTrackingModuleComponent,
-  AddTrackingModuleComponent
+  AddTrackingModuleComponent,
+  ShareTrackingModuleComponent
 } from './components/tool/index';
 
 import { SettingsComponent } from './components/settings/settings.component';
@@ -393,7 +394,8 @@ import { CalendarDetailComponent } from './components/tool/holiday-calendar/cale
     MainTrackingModuleComponent,
     AddTrackingModuleComponent,
     CalendarCreateComponent,
-    CalendarDetailComponent
+    CalendarDetailComponent,
+    ShareTrackingModuleComponent
   ],
   imports: [
     ContentLoaderModule,

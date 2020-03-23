@@ -47,7 +47,8 @@ import {
   SelfAssessmentComponent,
   GradingComponent,
   AddTrackingModuleComponent,
-  MainTrackingModuleComponent
+  MainTrackingModuleComponent,
+  ShareTrackingModuleComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -463,6 +464,10 @@ export const routes: Routes = [
           {
             path: 'create/:name',
             component: AddTrackingModuleComponent
+          },
+          {
+            path: 'share/:name',
+            component: ShareTrackingModuleComponent
           }
         ]
       }
