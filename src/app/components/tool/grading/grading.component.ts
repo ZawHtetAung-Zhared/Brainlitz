@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { ISubscription } from 'rxjs/Subscription';
+import { ToolCommunicationService } from '../tool-communication.service';
 
 @Component({
   selector: 'app-grading',
@@ -26,8 +27,13 @@ export class GradingComponent implements OnInit {
   constructor(
     private router: Router,
     private _service: appService,
-    private _Activatedroute: ActivatedRoute
-  ) {}
+    private _Activatedroute: ActivatedRoute,
+    private _toolCommunication: ToolCommunicationService
+  ) {
+    _toolCommunication.refreshList$.subscribe(data => {
+      console.log(data);
+    });
+  }
 
   ngOnInit() {
     if (this.router.url.includes('/tool-test/tracking-module')) {

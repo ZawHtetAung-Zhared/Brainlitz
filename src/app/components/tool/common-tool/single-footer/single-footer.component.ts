@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { appService } from '../../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, NavigationEnd } from '@angular/router';
 import { DeleteApgModalComponent } from '../delete-apg-modal/delete-apg-modal.component';
+import { ToolCommunicationService } from '../../tool-communication.service';
 
 @Component({
   selector: 'single-footer',
@@ -12,7 +13,6 @@ import { DeleteApgModalComponent } from '../delete-apg-modal/delete-apg-modal.co
 })
 export class SingleFooterComponent implements OnInit {
   @Input() singleData;
-  @Output() callParentComp = new EventEmitter<any>();
 
   public regionID = localStorage.getItem('regionId');
   public model: any = {};
@@ -20,12 +20,11 @@ export class SingleFooterComponent implements OnInit {
   constructor(
     private _service: appService,
     public toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private _toolCommunication: ToolCommunicationService
   ) {}
 
-  ngOnInit() {
-    console.log(this.singleData);
-  }
+  ngOnInit() {}
 
   apgPublicShare(apgID) {
     console.log(apgID);
@@ -77,26 +76,19 @@ export class SingleFooterComponent implements OnInit {
   }
 
   publicAPG(data) {
-    console.log('public share', data);
     data.public = true;
-    this.callParent();
 
-    // this._service.updateSingleTemplate(this.regionID, data).subscribe(
-    //   (res: any) => {
-    //     console.log(res);
-    //     // this.clearAPGTypeArr();
-    //     // this.getAllAPG(20, 0);
-    //     this.toastr.success('Successfully shared to public.');
-    //   },
-    //   err => {
-    //     this.toastr.success(status + ' Fail.');
-    //     console.log(err);
-    //   }
-    // );
-  }
-
-  callParent() {
-    this.callParentComp.emit(true);
+    this._service.updateSingleTemplate(this.regionID, data).subscribe(
+      (res: any) => {
+        console.log(res);
+        this._toolCommunication.refreshApgList();
+        this.toastr.success('Successfully shared to public.');
+      },
+      err => {
+        this.toastr.success(status + ' Fail.');
+        console.log(err);
+      }
+    );
   }
 
   onclickDelete() {
