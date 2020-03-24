@@ -24,12 +24,18 @@ export class AllTrackingModuleComponent implements OnInit {
   ) {
     _toolCommunication.searchEmitted$.subscribe(data => {
       console.log(data);
-      if (data.type == 'all') this.getAllAPG(20, 0, data.searchData);
+      this.searchData(data);
+    });
+    _toolCommunication.refreshList$.subscribe(data => {
+      console.log('tool communication:::\n:::::\n::::', data);
+      this.ngOnInit();
     });
   }
 
   ngOnInit() {
-    this.getAllAPG(20, 0, null);
+    this.allList = [];
+    this.searchValue = '';
+    this.getAllAPG(20, 0, '');
   }
   result: any = [];
   public searchValue;
@@ -68,5 +74,16 @@ export class AllTrackingModuleComponent implements OnInit {
     //   console.log('Not user search');
     //   this.getAllAPG(20, skip);
     // }
+  }
+
+  searchData(data) {
+    if (data.type == 'all') {
+      if (data.searchData == '') this.ngOnInit();
+      else {
+        this.searchValue = data.searchData;
+        this.getAllAPG(20, 0, this.searchValue);
+        this.clickmore = false;
+      }
+    }
   }
 }

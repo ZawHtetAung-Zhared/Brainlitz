@@ -34,15 +34,15 @@ export class ProgressComponent implements OnInit {
 
   private data: any;
   ngOnInit() {
-    if (this.router.url.includes('/tool-test/tracking-module')) {
-      this.permissionType = localStorage.getItem('permission');
-      this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
-      console.log(this.selectedApgId);
-      console.log(this.data);
-      this.apgList = [];
-      this.searchValue = '';
-      this.getAllAPG(20, 0, '');
-    }
+    // if (this.router.url.includes('/tool-test/tracking-module')) {
+    //   this.permissionType = localStorage.getItem('permission');
+    this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
+    //   console.log(this.selectedApgId);
+    //   console.log(this.data);
+    this.apgList = [];
+    this.searchValue = '';
+    this.getAllAPG(20, 0, '');
+    // }
   }
   getAllAPG(limit, skip, val) {
     console.log('search value::::"' + val + '"');
