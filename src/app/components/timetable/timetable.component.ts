@@ -607,6 +607,7 @@ export class TimetableComponent implements OnInit {
   public NE: any;
 
   weekCalculate(when) {
+    window.scrollTo(0, 0);
     this.stafflist = [];
     this.staffskip = 0;
     this.timetablelist = [];
@@ -710,6 +711,7 @@ export class TimetableComponent implements OnInit {
     }
   }
   TodayCalculate() {
+    window.scrollTo(0, 0);
     this.stafflist = [];
     this.staffskip = 0;
     this.timetablelist = [];
