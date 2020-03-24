@@ -1,170 +1,172 @@
-<div class="main-wrapper " *ngIf="isHoliday == true">
-  <div
-    class="back-wrap d-flex justify-content-between"
-    [ngClass]="{ blury: isfocus == true }"
-  >
-    <div class="back-to" (click)="cancel()">
-      <i class="fa fa-angle-left"></i>
-      <p>Calendar</p>
-    </div>
-    <a class="edit-calnedar-btn cursor body-l text-c300" (click)="editOn()"
-      >Edit calendar</a
-    >
-  </div>
-  <div class="calendar-form-wrap">
+<div class="d-flex justify-content-center">
+  <div class="main-wrapper " *ngIf="isHoliday == true">
     <div
+      class="back-wrap d-flex justify-content-between"
       [ngClass]="{ blury: isfocus == true }"
-      class="yearDropdown-wrap"
-      style="padding: 0px 15px"
     >
-      <!-- <div>
-          <select>
-            <option *ngFor="let year of yearLists">{{year}}</option>
-          </select>
-        </div> -->
-      <div class="show-dropdown" (click)="dropDown()">
-        <span class="body-l text-b100">{{ selectedYear }}</span>
-        <i class="fa fa-chevron-down dropdown-arrow text-b100 small"></i>
-        <span class="caret"></span>
+      <div class="back-to" (click)="cancel()">
+        <i class="fa fa-angle-left"></i>
+        <p>Calendar</p>
+      </div>
+      <a class="edit-calnedar-btn cursor body-l text-c300" (click)="editOn()"
+        >Edit calendar</a
+      >
+    </div>
+    <div class="calendar-form-wrap">
+      <div
+        [ngClass]="{ blury: isfocus == true }"
+        class="yearDropdown-wrap"
+        style="padding: 0px 15px"
+      >
+        <!-- <div>
+            <select>
+              <option *ngFor="let year of yearLists">{{year}}</option>
+            </select>
+          </div> -->
+        <div class="show-dropdown" (click)="dropDown()">
+          <span class="body-l text-b100">{{ selectedYear }}</span>
+          <i class="fa fa-chevron-down dropdown-arrow text-b100 small"></i>
+          <span class="caret"></span>
+        </div>
+        <div>
+          <ul class="year-dropdown">
+            <li *ngFor="let year of yearLists" (click)="onClickYear(year)">
+              <span class="text-c200">{{ year }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div>
-        <ul class="year-dropdown">
-          <li *ngFor="let year of yearLists" (click)="onClickYear(year)">
-            <span class="text-c200">{{ year }}</span>
-          </li>
-        </ul>
+        <h3
+          *ngIf="isNameEdit == false"
+          class="title-heading pt-7 h3-strong text-c300"
+        >
+          {{ calendarName }}
+        </h3>
+        <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
+          <!-- <form novalidate #editForm="ngForm">
+              <div class="d-flex justify-content-end">
+                <div class="limit-wordcount">
+                  <span>{{wordLength}}/80characters</span>
+                </div>
+              </div>
+              <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
+              [(ngModel)]="formField.name" 
+              (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" maxlength="80" required #name="ngModel">
+              <div class="edit-section">
+                <button type="submit" class="btn" (click)="editOff()">
+                  <span class="closemark">
+                      <div class="closemark_stem"></div>
+                      <div class="closemark_kick"></div>
+                  </span>
+                </button>
+                <button type="submit" class="btn" (click)="editSingleCalendar(currentID)" [disabled]="!editForm.valid">
+                  <span class="checkmark">
+                      <div class="checkmark_stem"></div>
+                      <div class="checkmark_kick"></div>
+                  </span>
+                </button>
+              </div>
+            </form> -->
+
+          <div class="limit-wordcount1 text-b100">
+            <span>{{ wordLength }}/80characters</span>
+          </div>
+          <input
+            type="text"
+            class="form-control create-input mb-zero body-l text-c300"
+            placeholder="Type full name here"
+            name="name"
+            [(ngModel)]="formField.name"
+            (focus)="focusMethod($event, $event.target.value)"
+            (blur)="blurMethod($event)"
+            maxlength="80"
+            (input)="changeMethod($event.target.value)"
+            required
+            #name="ngModel"
+          />
+
+          <div class="edit-section">
+            <button type="submit" class="btn" (click)="editOff()">
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+            </button>
+            <button
+              type="submit"
+              class="btn"
+              (click)="editSingleCalendar(currentID)"
+              [disabled]="formField.name == ''"
+            >
+              <span class="checkmark">
+                <div class="checkmark_stem"></div>
+                <div class="checkmark_kick"></div>
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <h3
-        *ngIf="isNameEdit == false"
-        class="title-heading pt-7 h3-strong text-c300"
-      >
-        {{ calendarName }}
-      </h3>
-      <div *ngIf="isNameEdit == true" class="col-md-8 edit-input-wrap">
-        <!-- <form novalidate #editForm="ngForm">
-            <div class="d-flex justify-content-end">
-              <div class="limit-wordcount">
-                <span>{{wordLength}}/80characters</span>
+      <div [ngClass]="{ blury: isfocus == true }" style="padding: 0px 15px">
+        <!-- <div class="d-flex justify-content-between holiday-wrap">
+            <div>
+              <div class="semi-16">{{this.showYear.start}}</div>
+              <div class="semi-day-12">Mon</div>
+            </div>
+            <div class="d-flex flex-column justify-content-center medium-16">
+              Memorial day
+            </div>
+            <div class="d-flex flex-column justify-content-center btn-edit">
+              Edit
+            </div>
+          </div> -->
+        <div
+          class="d-flex justify-content-between holiday-wrap"
+          *ngFor="let item of holidaysArr"
+        >
+          <div class="d-flex child1">
+            <div>
+              <div class="light-body-l text-c300">
+                {{ item.start | utcDate }}
+              </div>
+              <div class="small text-c200">
+                {{ item.start | TTday }}
               </div>
             </div>
-            <input type="text" class="form-control create-input mb-zero" placeholder="Type full name here" name="name" 
-            [(ngModel)]="formField.name" 
-            (focus)="focusMethod($event, $event.target.value)" (blur)="blurMethod($event)" (input)="changeMethod($event.target.value)" maxlength="80" required #name="ngModel">
-            <div class="edit-section">
-              <button type="submit" class="btn" (click)="editOff()">
-                <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
-                </span>
-              </button>
-              <button type="submit" class="btn" (click)="editSingleCalendar(currentID)" [disabled]="!editForm.valid">
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-              </button>
+            <span class="span-dash" *ngIf="!item.sameDate">-</span>
+            <div *ngIf="!item.sameDate">
+              <div class="light-body-l text-c300">
+                {{ item.end | utcDate }}
+              </div>
+              <div class="small text-c200">
+                {{ item.end | TTday }}
+              </div>
             </div>
-          </form> -->
-
-        <div class="limit-wordcount1 text-b100">
-          <span>{{ wordLength }}/80characters</span>
-        </div>
-        <input
-          type="text"
-          class="form-control create-input mb-zero body-l text-c300"
-          placeholder="Type full name here"
-          name="name"
-          [(ngModel)]="formField.name"
-          (focus)="focusMethod($event, $event.target.value)"
-          (blur)="blurMethod($event)"
-          maxlength="80"
-          (input)="changeMethod($event.target.value)"
-          required
-          #name="ngModel"
-        />
-
-        <div class="edit-section">
-          <button type="submit" class="btn" (click)="editOff()">
-            <span class="closemark">
-              <div class="closemark_stem"></div>
-              <div class="closemark_kick"></div>
-            </span>
-          </button>
-          <button
-            type="submit"
-            class="btn"
-            (click)="editSingleCalendar(currentID)"
-            [disabled]="formField.name == ''"
+          </div>
+          <div
+            class="d-flex flex-column justify-content-center edit-calnedar-btn  light-body-l text-c100 child2"
           >
-            <span class="checkmark">
-              <div class="checkmark_stem"></div>
-              <div class="checkmark_kick"></div>
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div [ngClass]="{ blury: isfocus == true }" style="padding: 0px 15px">
-      <!-- <div class="d-flex justify-content-between holiday-wrap">
-          <div>
-            <div class="semi-16">{{this.showYear.start}}</div>
-            <div class="semi-day-12">Mon</div>
+            {{ item.name }}
           </div>
-          <div class="d-flex flex-column justify-content-center medium-16">
-            Memorial day
-          </div>
-          <div class="d-flex flex-column justify-content-center btn-edit">
-            Edit
-          </div>
-        </div> -->
-      <div
-        class="d-flex justify-content-between holiday-wrap"
-        *ngFor="let item of holidaysArr"
-      >
-        <div class="d-flex child1">
-          <div>
-            <div class="light-body-l text-c300">
-              {{ item.start | utcDate }}
-            </div>
-            <div class="small text-c200">
-              {{ item.start | TTday }}
-            </div>
-          </div>
-          <span class="span-dash" *ngIf="!item.sameDate">-</span>
-          <div *ngIf="!item.sameDate">
-            <div class="light-body-l text-c300">
-              {{ item.end | utcDate }}
-            </div>
-            <div class="small text-c200">
-              {{ item.end | TTday }}
-            </div>
+          <div
+            *ngIf="calendarDemo.editHoliday != ''"
+            class="d-flex flex-column justify-content-center btn-edit body-m child3"
+            (click)="editHolidays(item._id, contentCreate)"
+          >
+            <span>Edit</span>
           </div>
         </div>
+        <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">
+            {{item.key}}:{{item.val}}
+          </div> -->
         <div
-          class="d-flex flex-column justify-content-center edit-calnedar-btn  light-body-l text-c100 child2"
+          *ngIf="calendarDemo.addHoliday != ''"
+          class="holiday-create d-flex align-items-center"
+          (click)="onClickCreate(contentCreate)"
         >
-          {{ item.name }}
+          <div class="circle1 plus"></div>
+          <span class="btn-span">Creating new holiday</span>
         </div>
-        <div
-          *ngIf="calendarDemo.editHoliday != ''"
-          class="d-flex flex-column justify-content-center btn-edit body-m child3"
-          (click)="editHolidays(item._id, contentCreate)"
-        >
-          <span>Edit</span>
-        </div>
-      </div>
-      <!--  <div *ngFor="let item of calendarHolidays | mapToIterable">
-          {{item.key}}:{{item.val}}
-        </div> -->
-      <div
-        *ngIf="calendarDemo.addHoliday != ''"
-        class="holiday-create d-flex align-items-center"
-        (click)="onClickCreate(contentCreate)"
-      >
-        <div class="circle1 plus"></div>
-        <span class="btn-span">Creating new holiday</span>
       </div>
     </div>
   </div>
