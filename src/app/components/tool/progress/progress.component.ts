@@ -14,6 +14,7 @@ export class ProgressComponent implements OnInit {
   apgList: Array<any> = [];
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public searchValue;
 
   constructor(
     private router: Router,
@@ -23,11 +24,11 @@ export class ProgressComponent implements OnInit {
   ) {
     _toolCommunication.searchEmitted$.subscribe(data => {
       console.log(data);
-      if (data.type == '1') this.getAllAPG(20, 0, data.searchData);
+      this.searchData(data);
     });
     _toolCommunication.refreshList$.subscribe(data => {
-      console.log(data);
-      this.getAllAPG(20, 0, '');
+      console.log('tool communication:::\n:::::\n::::', data);
+      this.ngOnInit();
     });
   }
 
@@ -38,13 +39,13 @@ export class ProgressComponent implements OnInit {
       this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
       console.log(this.selectedApgId);
       console.log(this.data);
-
+      this.apgList = [];
+      this.searchValue = '';
       this.getAllAPG(20, 0, '');
     }
   }
-
-  public searchValue;
   getAllAPG(limit, skip, val) {
+    console.log('search value::::"' + val + '"');
     this._service
       .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
@@ -82,7 +83,14 @@ export class ProgressComponent implements OnInit {
     // }
   }
 
-  searchData(value) {
-    console.log(value);
+  searchData(data) {
+    if (data.type == '1') {
+      if (data.searchData == '') this.ngOnInit();
+      else {
+        this.searchValue = data.searchData;
+        this.getAllAPG(20, 0, this.searchValue);
+        this.clickmore = false;
+      }
+    }
   }
 }
