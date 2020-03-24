@@ -10,8 +10,5 @@ export class SelfAssessmentContentComponent implements OnInit {
   @Input() viewFor;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.singleSelfAssessment);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
 }

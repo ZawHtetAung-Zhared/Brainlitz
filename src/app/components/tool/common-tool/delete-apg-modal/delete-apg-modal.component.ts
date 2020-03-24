@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { appService } from '../../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
+import { ToolCommunicationService } from '../../tool-communication.service';
 
 @Component({
   selector: 'app-delete-apg-modal',
@@ -13,7 +14,11 @@ export class DeleteApgModalComponent implements OnInit {
 
   @Input() public deleteApg;
 
-  constructor(private _service: appService, public toastr: ToastrService) {}
+  constructor(
+    private _service: appService,
+    public toastr: ToastrService,
+    private _toolCommunication: ToolCommunicationService
+  ) {}
 
   ngOnInit() {
     console.log(this.deleteApg);
@@ -28,7 +33,7 @@ export class DeleteApgModalComponent implements OnInit {
       (res: any) => {
         console.log('deleteapg', res);
         this.toastr.success('Successfully APG deleted.');
-        // this.getAllAPG(20, 0); //call parent functions
+        this._toolCommunication.refreshApgList();
       },
       err => {
         this.toastr.error('Fail to delete APG!');

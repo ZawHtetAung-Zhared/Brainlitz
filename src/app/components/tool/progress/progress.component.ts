@@ -25,6 +25,10 @@ export class ProgressComponent implements OnInit {
       console.log(data);
       if (data.type == '1') this.getAllAPG(20, 0, data.searchData);
     });
+    _toolCommunication.refreshList$.subscribe(data => {
+      console.log(data);
+      this.getAllAPG(20, 0, '');
+    });
   }
 
   private data: any;
@@ -39,15 +43,22 @@ export class ProgressComponent implements OnInit {
     }
   }
 
+  public searchValue;
   getAllAPG(limit, skip, val) {
     this._service
       .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
         (res: any) => {
-          console.error('result :::::::: ', res);
           this.result = res;
-          this.apgList = res;
-          console.log('APG lists', this.apgList);
+
+          if (val == '' || this.clickmore == true) {
+            console.log('if');
+            this.apgList = this.apgList.concat(res);
+          } else {
+            console.log('reach else');
+            this.apgList = res;
+          }
+          console.log(this.apgList.length);
         },
         err => {
           console.log(err);
@@ -55,9 +66,13 @@ export class ProgressComponent implements OnInit {
       );
   }
 
+  clickmore: boolean = false;
   showmore(type, skip: any) {
+    console.log(this.apgList.length);
     console.log('Not user search ' + type);
-    this.getAllAPG(20, skip, '');
+    this.clickmore = true;
+    console.log(this.searchValue);
+    this.getAllAPG(20, skip, this.searchValue);
     // if (this.isSearch == true) {
     //   console.log('User Search');
     //   this.apgListSearch(this.keyword, type, 20, skip);

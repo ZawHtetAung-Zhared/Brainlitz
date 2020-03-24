@@ -10,8 +10,5 @@ export class BadgeContentComponent implements OnInit {
   @Input() viewFor;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.singleBadge);
-    console.log(this.viewFor);
-  }
+  ngOnInit() {}
 }
