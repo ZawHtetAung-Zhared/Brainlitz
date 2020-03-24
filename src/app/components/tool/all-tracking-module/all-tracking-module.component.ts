@@ -17,7 +17,6 @@ export class AllTrackingModuleComponent implements OnInit {
   public allList: any = [];
 
   public isSearch: boolean = false;
-  public searchValue;
 
   constructor(
     private _service: appService,
@@ -33,7 +32,7 @@ export class AllTrackingModuleComponent implements OnInit {
     this.getAllAPG(20, 0, null);
   }
   result: any = [];
-
+  public searchValue;
   getAllAPG(limit, skip, val) {
     this.searchValue = val;
     this._service.getAllAPG(this.regionID, '', limit, skip, val).subscribe(

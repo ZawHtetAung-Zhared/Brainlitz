@@ -24,7 +24,7 @@ export class BadgeComponent implements OnInit {
   ) {
     _toolCommunication.searchEmitted$.subscribe(data => {
       console.log(data);
-      if (data.type == '') this.getAllAPG(20, 0, data.searchData);
+      if (data.type == '2') this.getAllAPG(20, 0, data.searchData);
     });
   }
 
