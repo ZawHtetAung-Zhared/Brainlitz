@@ -13,3 +13,4 @@ export * from './self-assessment/self-assessment.component';
 export * from './add-tracking-module/add-tracking-module.component';
 export * from './main-tracking-module/main-tracking-module.component';
 export * from './share-tracking-module/share-tracking-module.component';
+export * from './select-module/select-module.component';
