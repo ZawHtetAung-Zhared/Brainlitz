@@ -223,6 +223,7 @@ export class TrackingModuleComponent implements OnInit {
   }
   addNewAPG() {
     this.addTrackingModule = true;
+    this._route.navigateByUrl('tool-test/tracking-module/selected-module');
   }
   goToAll() {
     this.addTrackingModule = false;
