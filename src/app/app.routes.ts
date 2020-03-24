@@ -472,6 +472,10 @@ export const routes: Routes = [
             component: SelectModuleComponent
           },
           {
+            path: 'create',
+            component: AddTrackingModuleComponent
+          },
+          {
             path: 'share/:id',
             component: ShareTrackingModuleComponent
           }

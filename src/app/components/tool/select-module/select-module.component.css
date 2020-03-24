@@ -96,3 +96,74 @@
   -webkit-box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
   box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
 }
+
+.apg-box .input-label {
+  cursor: pointer;
+}
+
+.apg-box {
+  padding: 24px;
+  min-height: 180px;
+  cursor: pointer;
+}
+
+.apg-box,
+.single-apg {
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: 0.3s all ease-out;
+}
+
+.apg-box:hover,
+.single-apg:hover {
+  -webkit-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  -ms-box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stoke-wrap {
+  margin-right: 20px;
+  margin-bottom: 32px;
+}
+
+.stoke-1,
+.stoke-2,
+.icon-apg,
+.stoke-2-first,
+.stoke-2-sec {
+  background: #edeff0;
+}
+
+.stoke-1 {
+  padding: 4px;
+  width: 96px;
+}
+
+.stoke-2,
+.stoke-2-first,
+.stoke-2-sec {
+  margin-top: 12px;
+  padding: 8px;
+}
+
+.stoke-2 {
+  width: 128px;
+}
+
+.stoke-2-first,
+.stoke-2-sec {
+  width: 58px;
+}
+
+.stoke-2-first {
+  margin-right: 12px;
+}
+
+.icon-apg {
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+}
