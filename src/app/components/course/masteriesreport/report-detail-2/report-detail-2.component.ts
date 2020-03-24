@@ -315,7 +315,7 @@ export class ReportDetail2Component implements OnInit {
       },
       title: {
         text: 'Mastery status progress (percentage of students)',
-        left: 'center',
+        left: 335,
         textStyle: {
           fontSize: 17,
           color: '#5C6773'
