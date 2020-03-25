@@ -58,6 +58,8 @@ export class TimetableComponent implements OnInit {
   // public todayIndex: any = 0;
   public key: any;
   public fired: boolean = false;
+  public lower: boolean = false;
+  public stoploader: boolean = false;
   //zha variable
 
   //apo variable
@@ -374,6 +376,11 @@ export class TimetableComponent implements OnInit {
 
     window.scrollTo(0, 0);
 
+    if (window.screen.width < 1366) {
+      // 768px portrait
+      this.lower = true;
+    }
+
     //zha ngOnInit
 
     this.renderer.removeClass(document.body, 'modal-open');
@@ -428,6 +435,15 @@ export class TimetableComponent implements OnInit {
   }
 
   //zha function
+  @HostListener('window:resize', ['$event'])
+  Viewport(event) {
+    if (event.target.innerWidth < 1366) {
+      this.lower = true;
+    } else {
+      this.lower = false;
+    }
+  }
+
   @HostListener('wheel', ['$event'])
   public HorizontalScroll(event) {
     if (this.fired == false) {
@@ -469,6 +485,7 @@ export class TimetableComponent implements OnInit {
     // console.log('clist', this.clist);
   }
   getStaffListperWeek() {
+    this.stoploader = false;
     this._service
       .getStaffList(
         this.thisStart,
@@ -500,6 +517,7 @@ export class TimetableComponent implements OnInit {
     this.staffskip += 20;
   }
   getTimetables(list, start, end, id) {
+    this.stoploader = false;
     this._service.getTimetableList(list, start, end, id).subscribe(
       (res: any) => {
         this.timetablelist = this.timetablelist.concat(res);
@@ -509,6 +527,9 @@ export class TimetableComponent implements OnInit {
         // var endOfWeek = moment().endOf('week').toDate();
         // console.log("MMMM", startOfWeek, "MMMM", endOfWeek, "Next Week", endOfWeek);
         this.fired = false;
+        if (res == '') {
+          this.stoploader = true;
+        }
       },
       err => {
         console.log(err);
@@ -586,6 +607,7 @@ export class TimetableComponent implements OnInit {
   public NE: any;
 
   weekCalculate(when) {
+    window.scrollTo(0, 0);
     this.stafflist = [];
     this.staffskip = 0;
     this.timetablelist = [];
@@ -689,6 +711,7 @@ export class TimetableComponent implements OnInit {
     }
   }
   TodayCalculate() {
+    window.scrollTo(0, 0);
     this.stafflist = [];
     this.staffskip = 0;
     this.timetablelist = [];

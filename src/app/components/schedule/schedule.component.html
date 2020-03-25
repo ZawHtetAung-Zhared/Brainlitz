@@ -72,7 +72,7 @@
       </div>
       <div class="input-group mt-3 gg">
         <input
-          class="form-control py-2 input-search-bg"
+          class="form-control py-2 input-search-bg category-search"
           type="search"
           autocomplete="off"
           placeholder="Search category"
@@ -81,14 +81,14 @@
           #itemID="ngModel"
           required
           id="example-search-input"
+          (input)="inputCategory($event.target.value)"
           (focus)="focusSearch($event, 'category')"
-          (focusout)="hideSearch($event)"
-          (blur)="hideSearch($event)"
           (keyup.enter)="searchCategoryList($event.target.value, 'category')"
         />
-        <span class="input-group-append">
+        <span class="input-group-append category-search">
           <button
-            class="btn fa fa-search search-size btn-design btn-outline-secondary"
+            class="btn fa fa-search search-size btn-design btn-outline-secondary category-search"
+            (click)="searchCategoryList(searchCategory, 'category')"
             type="button"
           ></button>
         </span>
@@ -2223,28 +2223,29 @@
         <form nonvalidate #custForm="ngForm">
           <div class="modal-body confirm-text modal-body-padding">
             <div class="d-flex flex-column" style="position: relative;">
-              <div class="search-wrap d-flex">
+              <div class="enroll-search search-wrap d-flex">
                 <input
-                  class="form-control py-2 input-search-bg enroll-modal-input"
+                  class="form-control py-2 input-search-bg enroll-modal-input enroll-search"
                   type="search"
                   placeholder="Search customers"
-                  id="example-search-input"
+                  id="enroll-search-input"
                   name="search"
                   #search="ngModel"
                   [(ngModel)]="formData.searchText"
-                  (focus)="focusMethod($event, 'customer')"
-                  (focusout)="hideFocus($event)"
-                  (blur)="hideFocus($event)"
+                  (input)="focusMethod($event, 'customer')"
                   (keyup.enter)="changeMethod($event.target.value, 'customer')"
                   autocomplete="off"
                 />
                 <!-- (document:click)="closeDropdown($event,'search')" -->
-                <span class="input-group-append">
+                <span
+                  class="input-group-append enroll-search"
+                  (click)="changeMethod(formData.searchText, 'customer')"
+                >
                   <button
-                    class="bt btn-design btn-outline-secondary enroll-modal-input"
+                    class="bt btn-design btn-outline-secondary enroll-modal-input enroll-search"
                     type="button"
                   >
-                    <i class="fa fa-search"></i>
+                    <i class="fa fa-search enroll-search"></i>
                   </button>
                 </span>
               </div>
@@ -2355,7 +2356,7 @@
               Cancel
             </button>
             <button
-              type="submit"
+              type="button"
               class="btn btn-submit"
               [disabled]="
                 (selectedCustomer | json) == '{}' ||
