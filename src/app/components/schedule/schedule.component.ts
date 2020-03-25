@@ -826,6 +826,15 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.slotM = '';
     this.slotIdx = '';
     this.slotJidx = '';
+    if (
+      $event.target.className != null &&
+      $event.target.className.includes('enroll-search') == false
+    ) {
+      console.log('~~~~', $event.target.className.includes('enroll-search'));
+      this.showList = false;
+      this.formData.searchText = '';
+    }
+    // if(event.target.offset.)
   }
 
   @HostListener('window:resize', ['$event'])
@@ -2039,11 +2048,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // console.log(e)
     console.log(userType);
     this.isFous = true;
+    this.formData.searchText = e.target.value;
     this.userLists = [];
+    if (e.target.value.length == 0) {
+      this.showList = false;
+    }
     // this.getAllUsers(userType);
   }
 
   hideFocus(e) {
+    console.log(e.target);
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;
@@ -2051,7 +2065,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.formData = {};
   }
 
+  searchText = '';
   changeMethod(searchWord, userType) {
+    console.log(searchWord);
+    // this.searchText = searchWord;
     // let courseId = "5beb8c7d1f893164fff2c31d";
 
     userType = userType == 'teacher' ? 'staff' : userType;
@@ -2079,6 +2096,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else if (searchWord.length == 0) {
       this.userLists = [];
       this.showList = false;
+      this.formData.searchText = '';
     }
   }
 
