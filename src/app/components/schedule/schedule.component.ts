@@ -203,6 +203,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isDisabledBtn = false;
   stdArr = [];
   showcb: boolean = false;
+  searchCategory = '';
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
   >;
@@ -830,11 +831,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       $event.target.className != null &&
       $event.target.className.includes('enroll-search') == false
     ) {
-      console.log('~~~~', $event.target.className.includes('enroll-search'));
       this.showList = false;
       this.formData.searchText = '';
     }
-    // if(event.target.offset.)
   }
 
   @HostListener('window:resize', ['$event'])
@@ -1262,8 +1261,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   // Search Category
 
+  inputCategory(val) {
+    if (val.length == 0) {
+      this.searchCategory = '';
+      this.getAllCategory();
+    } else {
+      this.searchCategory = val;
+    }
+  }
+
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.searchCategory = val;
     //this.blockUI.start('Loading...');
     if (val.length > 0) {
       // //this.blockUI.start('Loading...');
@@ -1292,38 +1301,28 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else if (val.length <= 0) {
       // //this.blockUI.start('Loading...');
-      this._service.getCategory(this.regionId, 20, 0).subscribe(
-        (res: any) => {
-          console.log(res);
-          console.log(this.categoryList.name);
-          res.unshift({ name: 'All category', _id: 'all' });
-          this.categoryList = res;
-          //this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-          //this.blockUI.stop();
-        }
-      );
+      this.getAllCategory();
     }
   }
   // Focus Search
   focusSearch(val, type) {
+    this.getAllCategory();
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFousCategory = true;
+  }
+
+  getAllCategory() {
     this._service.getCategory(this.regionId, 20, 0).subscribe(
       (res: any) => {
         console.log(res);
         res.unshift({ name: 'All category', _id: 'all' });
         this.categoryList = res;
-        console.log(val, 'OK');
       },
       err => {
         console.log(err);
       }
     );
-
-    val.preventDefault();
-    val.stopPropagation();
-    this.isFousCategory = true;
   }
 
   focusSearch2(val, tye) {
@@ -2065,10 +2064,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.formData = {};
   }
 
-  searchText = '';
   changeMethod(searchWord, userType) {
     console.log(searchWord);
-    // this.searchText = searchWord;
     // let courseId = "5beb8c7d1f893164fff2c31d";
 
     userType = userType == 'teacher' ? 'staff' : userType;

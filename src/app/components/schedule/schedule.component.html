@@ -72,7 +72,7 @@
       </div>
       <div class="input-group mt-3 gg">
         <input
-          class="form-control py-2 input-search-bg"
+          class="form-control py-2 input-search-bg category-search"
           type="search"
           autocomplete="off"
           placeholder="Search category"
@@ -81,14 +81,14 @@
           #itemID="ngModel"
           required
           id="example-search-input"
+          (input)="inputCategory($event.target.value)"
           (focus)="focusSearch($event, 'category')"
-          (focusout)="hideSearch($event)"
-          (blur)="hideSearch($event)"
           (keyup.enter)="searchCategoryList($event.target.value, 'category')"
         />
-        <span class="input-group-append">
+        <span class="input-group-append category-search">
           <button
-            class="btn fa fa-search search-size btn-design btn-outline-secondary"
+            class="btn fa fa-search search-size btn-design btn-outline-secondary category-search"
+            (click)="searchCategoryList(searchCategory, 'category')"
             type="button"
           ></button>
         </span>
