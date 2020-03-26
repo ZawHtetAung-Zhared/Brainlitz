@@ -72,9 +72,14 @@ export class SelectModuleComponent implements OnInit {
         this.selectedModule._id
     );
   }
-  // goToAll() {
-  //   this.router.navigate(['../'], { relativeTo: this.route });
-  // }
+  goToAll() {
+    this._router.navigateByUrl(
+      'tool-test/tracking-module/lists/' +
+        this.selectedModule.type +
+        '/' +
+        this.selectedModule._id
+    );
+  }
 
   // createNewAPG(type) {
   //   if (type == 'create') {
@@ -83,7 +88,7 @@ export class SelectModuleComponent implements OnInit {
   //   } else console.log('link to share', this.selectedModule);
   // }
 
-  goToAddTrackingModule() {
+  goTotrackingModuleType() {
     this.isCreateShareOpt = false;
   }
 }
