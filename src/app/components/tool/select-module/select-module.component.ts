@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { appService } from '../../../service/app.service';
 @Component({
   selector: 'app-select-module',
@@ -9,9 +10,13 @@ export class SelectModuleComponent implements OnInit {
   moduleList: any = [];
   public selectedModule: any = {};
   public regionID = localStorage.getItem('regionId');
-  constructor(public _service: appService) {}
+  public addTrackingModule: boolean = false;
+  public trackingModuleType: boolean = false;
+
+  constructor(public _service: appService, private _router: Router) {}
 
   ngOnInit() {
+    this.addTrackingModule = true;
     this.getAllModule();
   }
 
@@ -34,14 +39,14 @@ export class SelectModuleComponent implements OnInit {
   chooseModuleType(module) {
     console.log(module);
     this.selectedModule = module;
-
+    this.addTrackingModule = false;
+    this.trackingModuleType = true;
     // console.log('ModuleId --->', val);
     // this.isCreateStatus = true;
     // this.apgType = name;
     // console.log('ModuleName --->', name);
     // this.ischecked = val;
-    // this.addTrackingModule = false;
-    // this.trackingModuleType = true;
+
     // this.moduleID = val;
     // this.pickedMType.name = name;
     // this.pickedMType.id = val;
@@ -54,5 +59,15 @@ export class SelectModuleComponent implements OnInit {
     //   }
     //   console.log('...');
     // }, 300);
+  }
+
+  createNewAPG() {
+    console.log(this.selectedModule);
+    this._router.navigateByUrl(
+      'tool-test/tracking-module/create/' +
+        this.selectedModule.type +
+        '/' +
+        this.selectedModule._id
+    );
   }
 }

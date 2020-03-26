@@ -22,12 +22,12 @@
         Progress Bar or Badges.
       </p>
       <h3 *ngIf="trackingModuleType" class="title-heading h1-strong text-c300">
-        Creating {{ apgType.toLowerCase() }} tracking module
+        Creating {{ selectedModule.name.toLowerCase() }} tracking module
       </h3>
     </div>
     <!-- apgform -->
     <form novalidate #createapgForm="ngForm">
-      <div class="row">
+      <div class="row" *ngIf="addTrackingModule">
         <div
           *ngFor="let module of moduleList; let i = index"
           class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
@@ -76,7 +76,7 @@
         <div class="d-flex flex-row">
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
             <div
-              (click)="createNewAPG('create', apgType)"
+              (click)="createNewAPG()"
               class="d-flex apg-box justify-content-center flex-column"
             >
               <div class="d-flex flex-row">
@@ -89,7 +89,8 @@
               <label
                 class="form-title input-label  text-c300 body-l"
                 for="address"
-                >Create new {{ apgType.toLowerCase() }} tracking module</label
+                >Create new {{ selectedModule.name.toLowerCase() }} tracking
+                module</label
               >
             </div>
           </div>
@@ -112,7 +113,7 @@
                 class="form-title input-label body-l text-c300"
                 for="address"
                 >Create using publicly shared
-                {{ apgType.toLowerCase() }} tracking module</label
+                {{ selectedModule.name.toLowerCase() }} tracking module</label
               >
             </div>
           </div>

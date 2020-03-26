@@ -227,6 +227,7 @@ import { CalendarCreateComponent } from './components/tool/holiday-calendar/cale
 import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
 import { SelectModuleComponent } from './components/tool/select-module/select-module.component';
+import { CreateProgressComponent } from './components/tool/create-progress/create-progress.component';
 
 @NgModule({
   declarations: [
@@ -399,7 +400,8 @@ import { SelectModuleComponent } from './components/tool/select-module/select-mo
     CalendarDetailComponent,
     TestWerkzToolsComponent,
     ShareTrackingModuleComponent,
-    SelectModuleComponent
+    SelectModuleComponent,
+    CreateProgressComponent
   ],
   imports: [
     ContentLoaderModule,
