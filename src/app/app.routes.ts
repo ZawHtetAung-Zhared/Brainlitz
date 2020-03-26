@@ -100,6 +100,7 @@ import { CalendarListComponent } from './components/tool/holiday-calendar/calend
 import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
 import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
+import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -477,8 +478,8 @@ export const routes: Routes = [
             component: CreateProgressComponent
           },
           {
-            path: 'share/:id',
-            component: ShareTrackingModuleComponent
+            path: 'share/1/:id',
+            component: SharedProgressComponent
           }
         ]
       }
