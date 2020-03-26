@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { appService } from '../../../service/app.service';
+
 @Component({
   selector: 'app-select-module',
   templateUrl: './select-module.component.html',
@@ -9,6 +10,7 @@ import { appService } from '../../../service/app.service';
 export class SelectModuleComponent implements OnInit {
   moduleList: any = [];
   public selectedModule: any = {};
+  public isCreateShareOpt: boolean = false;
   public regionID = localStorage.getItem('regionId');
   public addTrackingModule: boolean = false;
   public trackingModuleType: boolean = false;
@@ -69,5 +71,19 @@ export class SelectModuleComponent implements OnInit {
         '/' +
         this.selectedModule._id
     );
+  }
+  // goToAll() {
+  //   this.router.navigate(['../'], { relativeTo: this.route });
+  // }
+
+  // createNewAPG(type) {
+  //   if (type == 'create') {
+  //     console.log('link to create', this.selectedModule);
+  //     this.router.navigate(['../create'], { relativeTo: this.route });
+  //   } else console.log('link to share', this.selectedModule);
+  // }
+
+  goToAddTrackingModule() {
+    this.isCreateShareOpt = false;
   }
 }

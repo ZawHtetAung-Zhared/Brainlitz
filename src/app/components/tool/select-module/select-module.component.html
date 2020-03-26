@@ -1,21 +1,22 @@
 <div class="d-flex flex-column main-wrapper w-100 h-100">
   <div class="back-wrap">
-    <div class="d-flex back-to" (click)="goToAll()">
+    <div *ngIf="!isCreateShareOpt" class="d-flex back-to" (click)="goToAll()">
       <i class="fa fa-angle-left"></i>
       <p class="body-l text-c300">Tracking module</p>
     </div>
-    <!-- <div
-    class="d-flex back-to"
-    (click)="goToAddTrackingModule()"
-  >
-    <i class="fa fa-angle-left"></i>
-    <p class="body-l text-c300">Pick a tracking module type</p>
-  </div> -->
+    <div
+      *ngIf="isCreateShareOpt"
+      class="d-flex back-to"
+      (click)="goToAddTrackingModule()"
+    >
+      <i class="fa fa-angle-left"></i>
+      <p class="body-l text-c300">Pick a tracking module type</p>
+    </div>
     <div class="location-group">
-      <h3 class="title-heading h1-strong text-c300">
+      <h3 *ngIf="!isCreateShareOpt" class="title-heading h1-strong text-c300">
         Pick tracking module type
       </h3>
-      <p class=" body-m text-c100">
+      <p *ngIf="!isCreateShareOpt" class=" body-m text-c100">
         Tracking module is where a Teacher will be able to mark the progress or
         improvement of each student. Tracking module serves as a central point
         to view the student’s progress by all parties. It can be in the form of
@@ -72,7 +73,7 @@
           </label>
         </div>
       </div>
-      <div *ngIf="trackingModuleType">
+      <div *ngIf="trackingModuleType" class="mt-4">
         <div class="d-flex flex-row">
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
             <div
@@ -87,7 +88,7 @@
                 <div class="icon-apg"></div>
               </div>
               <label
-                class="form-title input-label  text-c300 body-l"
+                class="form-title input-label  mb-0 text-c300 body-l"
                 for="address"
                 >Create new {{ selectedModule.name.toLowerCase() }} tracking
                 module</label
@@ -96,7 +97,7 @@
           </div>
           <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
             <div
-              (click)="createNewAPG('share', apgType)"
+              (click)="createNewAPG('share')"
               class="d-flex apg-box justify-content-center flex-column"
             >
               <div class="d-flex flex-row">
@@ -110,7 +111,7 @@
                 <div class="icon-apg"></div>
               </div>
               <label
-                class="form-title input-label body-l text-c300"
+                class="form-title input-label mb-0 body-l text-c300"
                 for="address"
                 >Create using publicly shared
                 {{ selectedModule.name.toLowerCase() }} tracking module</label

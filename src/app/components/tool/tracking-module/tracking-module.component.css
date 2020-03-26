@@ -17,6 +17,13 @@
   cursor: pointer;
 }
 
+.btn-design:hover,
+.btn-design:focus,
+.btn-design:active {
+  outline: none;
+  box-shadow: none;
+}
+
 .title-heading {
   padding-left: 15px;
 }

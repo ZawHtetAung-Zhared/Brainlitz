@@ -203,6 +203,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isDisabledBtn = false;
   stdArr = [];
   showcb: boolean = false;
+  searchCategory = '';
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
   >;
@@ -826,6 +827,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.slotM = '';
     this.slotIdx = '';
     this.slotJidx = '';
+    if (
+      $event.target.className != null &&
+      $event.target.className.includes('enroll-search') == false
+    ) {
+      this.showList = false;
+      this.formData.searchText = '';
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -1253,8 +1261,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   // Search Category
 
+  inputCategory(val) {
+    if (val.length == 0) {
+      this.searchCategory = '';
+      this.getAllCategory();
+    } else {
+      this.searchCategory = val;
+    }
+  }
+
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.searchCategory = val;
     //this.blockUI.start('Loading...');
     if (val.length > 0) {
       // //this.blockUI.start('Loading...');
@@ -1283,38 +1301,28 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else if (val.length <= 0) {
       // //this.blockUI.start('Loading...');
-      this._service.getCategory(this.regionId, 20, 0).subscribe(
-        (res: any) => {
-          console.log(res);
-          console.log(this.categoryList.name);
-          res.unshift({ name: 'All category', _id: 'all' });
-          this.categoryList = res;
-          //this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-          //this.blockUI.stop();
-        }
-      );
+      this.getAllCategory();
     }
   }
   // Focus Search
   focusSearch(val, type) {
+    this.getAllCategory();
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFousCategory = true;
+  }
+
+  getAllCategory() {
     this._service.getCategory(this.regionId, 20, 0).subscribe(
       (res: any) => {
         console.log(res);
         res.unshift({ name: 'All category', _id: 'all' });
         this.categoryList = res;
-        console.log(val, 'OK');
       },
       err => {
         console.log(err);
       }
     );
-
-    val.preventDefault();
-    val.stopPropagation();
-    this.isFousCategory = true;
   }
 
   focusSearch2(val, tye) {
@@ -2039,11 +2047,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // console.log(e)
     console.log(userType);
     this.isFous = true;
+    this.formData.searchText = e.target.value;
     this.userLists = [];
+    if (e.target.value.length == 0) {
+      this.showList = false;
+    }
     // this.getAllUsers(userType);
   }
 
   hideFocus(e) {
+    console.log(e.target);
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;
@@ -2052,6 +2065,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   changeMethod(searchWord, userType) {
+    console.log(searchWord);
     // let courseId = "5beb8c7d1f893164fff2c31d";
 
     userType = userType == 'teacher' ? 'staff' : userType;
@@ -2079,6 +2093,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else if (searchWord.length == 0) {
       this.userLists = [];
       this.showList = false;
+      this.formData.searchText = '';
     }
   }
 

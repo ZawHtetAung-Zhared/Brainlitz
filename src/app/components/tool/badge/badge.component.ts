@@ -15,6 +15,7 @@ export class BadgeComponent implements OnInit {
   apgList: Array<any> = [];
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public searchValue;
 
   constructor(
     private router: Router,
@@ -24,35 +25,41 @@ export class BadgeComponent implements OnInit {
   ) {
     _toolCommunication.searchEmitted$.subscribe(data => {
       console.log(data);
-      if (data.type == '2') this.getAllAPG(20, 0, data.searchData);
+      this.searchData(data);
+    });
+    _toolCommunication.refreshList$.subscribe(data => {
+      console.log('tool communication:::\n:::::\n::::', data);
+      this.ngOnInit();
     });
   }
 
   ngOnInit() {
-    if (this.router.url.includes('/tool-test/tracking-module')) {
-      this.permissionType = localStorage.getItem('permission');
-      this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
-      console.log(this.selectedApgId);
-      this.getAllAPG(20, 0, '');
-    }
+    // if (this.router.url.includes('/tool-test/tracking-module')) {
+    //   this.permissionType = localStorage.getItem('permission');
+    this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
+    //   console.log(this.selectedApgId);
+    //   console.log(this.data);
+    this.apgList = [];
+    this.searchValue = '';
+    this.getAllAPG(20, 0, '');
+    // }
   }
-
-  searchValue = '';
   getAllAPG(limit, skip, val) {
-    this.searchValue = val;
+    console.log('search value::::"' + val + '"');
     this._service
       .getAllAPG(this.regionID, this.selectedApgId, limit, skip, val)
       .subscribe(
         (res: any) => {
-          console.error('result :::::::: ', res);
           this.result = res;
+
           if (val == '' || this.clickmore == true) {
+            console.log('if');
             this.apgList = this.apgList.concat(res);
           } else {
+            console.log('reach else');
             this.apgList = res;
           }
-
-          console.log('APG lists', this.apgList);
+          console.log(this.apgList.length);
         },
         err => {
           console.log(err);
@@ -61,10 +68,11 @@ export class BadgeComponent implements OnInit {
   }
 
   clickmore: boolean = false;
-
   showmore(type, skip: any) {
+    console.log(this.apgList.length);
     console.log('Not user search ' + type);
     this.clickmore = true;
+    console.log(this.searchValue);
     this.getAllAPG(20, skip, this.searchValue);
     // if (this.isSearch == true) {
     //   console.log('User Search');
@@ -73,5 +81,16 @@ export class BadgeComponent implements OnInit {
     //   console.log('Not user search');
     //   this.getAllAPG(20, skip);
     // }
+  }
+
+  searchData(data) {
+    if (data.type == '2') {
+      if (data.searchData == '') this.ngOnInit();
+      else {
+        this.searchValue = data.searchData;
+        this.getAllAPG(20, 0, this.searchValue);
+        this.clickmore = false;
+      }
+    }
   }
 }

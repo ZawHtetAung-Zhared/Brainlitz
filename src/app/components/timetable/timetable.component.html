@@ -242,14 +242,75 @@
   </div>
   <div class="extra">
     <div *ngFor="let ex of extracount" class="schedule">
-      <div class="staff"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="white"></div>
+      <div class="staff">
+        <div style="height: 100%;">
+          <content-loader *ngIf="!lower && !stoploader">
+            <svg:circle
+              *ngIf="!lower"
+              x="80"
+              y="20"
+              cx="80"
+              cy="30"
+              r="30"
+              width="50%"
+            />
+            <svg:rect
+              *ngIf="!lower"
+              x="120"
+              y="20"
+              rx="0"
+              ry="0"
+              width="45%"
+              height="20px"
+            />
+          </content-loader>
+          <content-loader *ngIf="lower && !stoploader" height="500" width="500">
+            <svg:circle *ngIf="lower" x="0" y="0" cx="45%" cy="100" r="100" />
+          </content-loader>
+        </div>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
+      <div class="white">
+        <content-loader *ngIf="!stoploader">
+          <svg:rect x="30" y="20" rx="0" ry="0" width="350px" height="25px" />
+          <svg:rect x="30" y="80" rx="0" ry="0" width="350px" height="25px" />
+        </content-loader>
+      </div>
     </div>
   </div>
 </div>

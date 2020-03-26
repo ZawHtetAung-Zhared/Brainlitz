@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   ViewChildren,
-  ContentChild
+  ContentChild,
+  HostListener
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -44,6 +45,10 @@ export class TrackingModuleComponent implements OnInit {
     this.permissionType = localStorage.getItem('permission');
 
     this.checkPermission();
+  }
+
+  @HostListener('document:click', ['$event']) clickout($event) {
+    this.showDp = false;
   }
 
   checkPermission() {
