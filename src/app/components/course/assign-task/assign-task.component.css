@@ -1139,15 +1139,14 @@ button.btn.modal-cancel-btn {
     padding: 10px 143px;
     height: 4.4em;
   }
-  .inside-data-wrapper {
+  /*.inside-data-wrapper {
     border-radius: 8px;
-    /* -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1); */
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     padding: 45px 45px 0px 45px;
     height: 672px;
     width: 1004px;
-  }
+  }*/
   .button-wrapper {
     position: unset;
     left: unset;
@@ -1232,4 +1231,74 @@ button.btn.modal-cancel-btn {
     display: flex;
     flex-direction: column;
   }
+}
+
+@media (min-height: 941px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 672px;
+    width: 1004px;
+  }
+}
+
+@media (max-height: 940px) and (min-height: 769px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 570px;
+    min-height: 570px;
+    overflow-y: scroll;
+    width: 1004px;
+  }
+
+  .div_step {
+    padding-top: 40px;
+  }
+
+  .button-wrapper {
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-height: 768px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 400px;
+    min-height: 400px;
+    overflow-y: scroll;
+    width: 1004px;
+  }
+
+  .div_step {
+    padding-top: 32px;
+  }
+
+  .button-wrapper {
+    padding-bottom: 24px;
+  }
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
 }
