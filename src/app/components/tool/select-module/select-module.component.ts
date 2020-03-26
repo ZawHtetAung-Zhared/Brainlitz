@@ -18,7 +18,7 @@ export class SelectModuleComponent implements OnInit {
   constructor(public _service: appService, private _router: Router) {}
 
   ngOnInit() {
-    this.addTrackingModule = true;
+    this.trackingModuleType = true;
     this.getAllModule();
   }
 
@@ -41,8 +41,8 @@ export class SelectModuleComponent implements OnInit {
   chooseModuleType(module) {
     console.log(module);
     this.selectedModule = module;
-    this.addTrackingModule = false;
-    this.trackingModuleType = true;
+    this.trackingModuleType = false;
+    this.isCreateShareOpt = true;
     // console.log('ModuleId --->', val);
     // this.isCreateStatus = true;
     // this.apgType = name;
@@ -72,9 +72,14 @@ export class SelectModuleComponent implements OnInit {
         this.selectedModule._id
     );
   }
-  // goToAll() {
-  //   this.router.navigate(['../'], { relativeTo: this.route });
-  // }
+  goToAll() {
+    this._router.navigateByUrl(
+      'tool-test/tracking-module/lists/' +
+        this.selectedModule.type +
+        '/' +
+        this.selectedModule._id
+    );
+  }
 
   // createNewAPG(type) {
   //   if (type == 'create') {
@@ -83,7 +88,7 @@ export class SelectModuleComponent implements OnInit {
   //   } else console.log('link to share', this.selectedModule);
   // }
 
-  goToAddTrackingModule() {
+  goTotrackingModuleType() {
     this.isCreateShareOpt = false;
   }
 }
