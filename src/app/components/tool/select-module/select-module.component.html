@@ -4,123 +4,124 @@
       <i class="fa fa-angle-left"></i>
       <p class="body-l text-c300">Tracking module</p>
     </div>
+
     <div
       *ngIf="isCreateShareOpt"
       class="d-flex back-to"
-      (click)="goToAddTrackingModule()"
+      (click)="goTotrackingModuleType()"
     >
       <i class="fa fa-angle-left"></i>
       <p class="body-l text-c300">Pick a tracking module type</p>
     </div>
-    <div class="location-group">
-      <h3 *ngIf="!isCreateShareOpt" class="title-heading h1-strong text-c300">
-        Pick tracking module type
-      </h3>
-      <p *ngIf="!isCreateShareOpt" class=" body-m text-c100">
-        Tracking module is where a Teacher will be able to mark the progress or
-        improvement of each student. Tracking module serves as a central point
-        to view the student’s progress by all parties. It can be in the form of
-        Progress Bar or Badges.
-      </p>
-      <h3 *ngIf="trackingModuleType" class="title-heading h1-strong text-c300">
-        Creating {{ selectedModule.name.toLowerCase() }} tracking module
-      </h3>
-    </div>
-    <!-- apgform -->
-    <form novalidate #createapgForm="ngForm">
-      <div class="row" *ngIf="addTrackingModule">
-        <div
-          *ngFor="let module of moduleList; let i = index"
-          class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
-          [ngClass]="{ 'disable-click': module.name == 'Badge' }"
-        >
-          <label
-            class="form-check-label text-c300 body-l"
-            [ngClass]="{ selected: selectedModule._id == module._id }"
-          >
-            <div class="module-img">
-              <img
-                *ngIf="selectedModule._id != module._id"
-                class="setting-icon"
-                src="./assets/icons/{{
-                  module.name.toLowerCase() == 'assessment'
-                    ? 'evaluation'
-                    : module.name.toLowerCase()
-                }}-type.png"
-                class="img-fluid"
-              />
-              <img
-                *ngIf="selectedModule._id == module._id"
-                class="setting-icon"
-                src="./assets/icons/{{
-                  module.name.toLowerCase() == 'assessment'
-                    ? 'evaluation'
-                    : module.name.toLowerCase()
-                }}-type-a.png"
-                class="img-fluid"
-              />
-            </div>
-            <div class="label-checked"></div>
-            <input
-              class="form-check-input"
-              type="radio"
-              name="inlineRadioOptions"
-              id="module._id"
-              value="{{ module.name }}"
-              (click)="chooseModuleType(module)"
-            />
-            {{ module.name }}
-          </label>
-        </div>
-      </div>
-      <div *ngIf="trackingModuleType" class="mt-4">
-        <div class="d-flex flex-row">
-          <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
-            <div
-              (click)="createNewAPG()"
-              class="d-flex apg-box justify-content-center flex-column"
-            >
-              <div class="d-flex flex-row">
-                <div class="stoke-wrap">
-                  <div class="stoke-1"></div>
-                  <div class="stoke-2"></div>
-                </div>
-                <div class="icon-apg"></div>
-              </div>
-              <label
-                class="form-title input-label  mb-0 text-c300 body-l"
-                for="address"
-                >Create new {{ selectedModule.name.toLowerCase() }} tracking
-                module</label
-              >
-            </div>
-          </div>
-          <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
-            <div
-              (click)="createNewAPG('share')"
-              class="d-flex apg-box justify-content-center flex-column"
-            >
-              <div class="d-flex flex-row">
-                <div class="stoke-wrap">
-                  <div class="stoke-1"></div>
-                  <div class="d-flex flex-row justify-content-between">
-                    <span class="stoke-2-first"></span>
-                    <span class="stoke-2-sec"></span>
-                  </div>
-                </div>
-                <div class="icon-apg"></div>
-              </div>
-              <label
-                class="form-title input-label mb-0 body-l text-c300"
-                for="address"
-                >Create using publicly shared
-                {{ selectedModule.name.toLowerCase() }} tracking module</label
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-    <!-- apgform -->
   </div>
+  <div class="location-group">
+    <h3 *ngIf="!isCreateShareOpt" class="h1-strong text-c300">
+      Pick tracking module type
+    </h3>
+    <p *ngIf="!isCreateShareOpt" class=" body-m text-c100">
+      Tracking module is where a Teacher will be able to mark the progress or
+      improvement of each student. Tracking module serves as a central point to
+      view the student’s progress by all parties. It can be in the form of
+      Progress Bar or Badges.
+    </p>
+    <h3 *ngIf="isCreateShareOpt" class="h1-strong text-c300">
+      Creating {{ selectedModule.name.toLowerCase() }} tracking module
+    </h3>
+  </div>
+  <!-- apgform -->
+  <form novalidate #createapgForm="ngForm">
+    <div class="row" *ngIf="!isCreateShareOpt">
+      <div
+        *ngFor="let module of moduleList; let i = index"
+        class="module-input col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl"
+        [ngClass]="{ 'disable-click': module.name == 'Badge' }"
+      >
+        <label
+          class="form-check-label text-c300 body-l"
+          [ngClass]="{ selected: selectedModule._id == module._id }"
+        >
+          <div class="module-img">
+            <img
+              *ngIf="selectedModule._id != module._id"
+              class="setting-icon"
+              src="./assets/icons/{{
+                module.name.toLowerCase() == 'assessment'
+                  ? 'evaluation'
+                  : module.name.toLowerCase()
+              }}-type.png"
+              class="img-fluid"
+            />
+            <img
+              *ngIf="selectedModule._id == module._id"
+              class="setting-icon"
+              src="./assets/icons/{{
+                module.name.toLowerCase() == 'assessment'
+                  ? 'evaluation'
+                  : module.name.toLowerCase()
+              }}-type-a.png"
+              class="img-fluid"
+            />
+          </div>
+          <div class="label-checked"></div>
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="module._id"
+            value="{{ module.name }}"
+            (click)="chooseModuleType(module)"
+          />
+          {{ module.name }}
+        </label>
+      </div>
+    </div>
+    <div *ngIf="isCreateShareOpt" class="mt-4">
+      <div class="d-flex flex-row">
+        <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+          <div
+            (click)="createNewAPG()"
+            class="d-flex apg-box justify-content-center flex-column"
+          >
+            <div class="d-flex flex-row">
+              <div class="stoke-wrap">
+                <div class="stoke-1"></div>
+                <div class="stoke-2"></div>
+              </div>
+              <div class="icon-apg"></div>
+            </div>
+            <label
+              class="form-title input-label  mb-0 text-c300 body-l"
+              for="address"
+              >Create new {{ selectedModule.name.toLowerCase() }} tracking
+              module</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-4 col-md-5 col-lg-5 col-xxl">
+          <div
+            (click)="createNewAPG('share')"
+            class="d-flex apg-box justify-content-center flex-column"
+          >
+            <div class="d-flex flex-row">
+              <div class="stoke-wrap">
+                <div class="stoke-1"></div>
+                <div class="d-flex flex-row justify-content-between">
+                  <span class="stoke-2-first"></span>
+                  <span class="stoke-2-sec"></span>
+                </div>
+              </div>
+              <div class="icon-apg"></div>
+            </div>
+            <label
+              class="form-title input-label mb-0 body-l text-c300"
+              for="address"
+              >Create using publicly shared
+              {{ selectedModule.name.toLowerCase() }} tracking module</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- apgform -->
 </div>
