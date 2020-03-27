@@ -63,10 +63,12 @@ export class SelectModuleComponent implements OnInit {
     // }, 300);
   }
 
-  createNewAPG() {
+  createNewAPG(type) {
     console.log(this.selectedModule);
     this._router.navigateByUrl(
-      'tool-test/tracking-module/create/' +
+      'tool-test/tracking-module/' +
+        type +
+        '/' +
         this.selectedModule.type +
         '/' +
         this.selectedModule._id
