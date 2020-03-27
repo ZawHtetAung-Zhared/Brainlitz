@@ -228,6 +228,9 @@ import { CalendarDetailComponent } from './components/tool/holiday-calendar/cale
 import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
 import { SelectModuleComponent } from './components/tool/select-module/select-module.component';
 import { CreateProgressComponent } from './components/tool/create-progress/create-progress.component';
+
+import { CreateDataComponent } from './components/tool/create-data/create-data.component';
+
 import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
 
 @NgModule({
@@ -403,6 +406,7 @@ import { SharedProgressComponent } from './components/tool/shared-progress/share
     ShareTrackingModuleComponent,
     SelectModuleComponent,
     CreateProgressComponent,
+    CreateDataComponent,
     SharedProgressComponent
   ],
   imports: [

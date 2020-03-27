@@ -15,3 +15,4 @@ export * from './main-tracking-module/main-tracking-module.component';
 export * from './share-tracking-module/share-tracking-module.component';
 export * from './select-module/select-module.component';
 export * from './create-progress/create-progress.component';
+export * from './create-data/create-data.component';
