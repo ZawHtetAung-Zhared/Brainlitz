@@ -1724,6 +1724,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       if (this.selectedRadio == 'RADIO') {
         this.convertObjToArray();
       }
+      console.log(this.templateAccessPoint);
       this._service
         .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe(
@@ -1747,6 +1748,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log('create data ap');
     this.createDataAccessPoint()
       .then(apId => {
+        console.error(apId);
         var moduleId = localStorage.getItem('moduleID');
         var apg = {
           name: this.model.name,

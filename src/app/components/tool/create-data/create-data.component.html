@@ -14,7 +14,7 @@
     <h3 class="h1-strong text-c300">
       Creating data tracking module
     </h3>
-    <div style="padding-bottom: 80px;">
+    <div style="padding-bottom: 80px;" class="apg-form">
       <div class="col-md-12 col-lg-8 input-wrap">
         <div class="form-group ">
           <div class="d-flex justify-content-between">
@@ -195,7 +195,7 @@
                 placeholder="E.g. cm or mm"
                 name="input-method"
                 maxlength="6"
-                [(ngModel)]="model.unit"
+                [(ngModel)]="this.templateAccessPointGroup.data.unit"
                 (focus)="
                   focusMethod($event, 'input_method', $event.target.value)
                 "
@@ -238,7 +238,7 @@
                 name="input-method"
                 autocomplete="off"
                 maxlength="6"
-                [(ngModel)]="unit"
+                [(ngModel)]="this.templateAccessPointGroup.data.unit"
                 (focus)="
                   focusMethod($event, 'input_method', $event.target.value)
                 "
@@ -262,7 +262,7 @@
             <div class="gap-box">
               <div class="d-flex">
                 <div class="d-flex flex-column">
-                  <label class="minlbl">Min</label>
+                  <label class="minlbl light-body-m">Min</label>
                   <input
                     type="number"
                     class="min_input"
@@ -367,12 +367,12 @@
                 *ngIf="emptymin == true || emptymax == true || overmin == true"
                 style="height:200px;"
               >
-                <p class="display-txt">
+                <p class="display-txt light-body-m text-c100">
                   Add your
                   <input type="text" class="min_input_show" value="Max" />
                   number to ready the slider.
                 </p>
-                <p class="display-txt">
+                <p class="display-txt light-body-m text-c100">
                   Min number is on us. You can adjust Max and Min numbers to
                   whaterever you want.
                 </p>
