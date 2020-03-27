@@ -102,6 +102,8 @@ import { CalendarCreateComponent } from './components/tool/holiday-calendar/cale
 import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
 import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
 import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
+import { CreateAssessmentComponent } from './components/tool/create-assessment/create-assessment.component';
+import { CreateSelfassessmentComponent } from './components/tool/create-selfassessment/create-selfassessment.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -485,6 +487,14 @@ export const routes: Routes = [
           {
             path: 'share/1/:id',
             component: SharedProgressComponent
+          },
+          {
+            path: 'create/3/:id',
+            component: CreateAssessmentComponent
+          },
+          {
+            path: 'create/5/:id',
+            component: CreateSelfassessmentComponent
           }
         ]
       }

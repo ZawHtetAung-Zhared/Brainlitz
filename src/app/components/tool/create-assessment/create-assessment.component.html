@@ -1,0 +1,316 @@
+<div class="d-flex justify-content-center">
+  <div class="main-wrapper mt-4">
+    <form novalidate #createapgForm="ngForm">
+      <div class="d-flex justify-content-between">
+        <div class="back-to" (click)="goToBack()">
+          <i class="fa fa-angle-left"></i>
+          <p class="body-l text-c300">
+            Creating assessment tracking module
+          </p>
+        </div>
+        <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
+        <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+      </div>
+      <h3 class="mt-3 h1-strong text-c300">
+        Create assessment tracking module
+      </h3>
+
+      <div>
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+              <label class="evaluation-Name body-l text-c300">
+                Evaluation Name</label
+              >
+              <div class="limit-wordcount ml-auto">
+                <span>{{ wordLength }}/60characters</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Type skill name here"
+                class="evaluation-name light-body-l"
+                name="name"
+                required
+                maxlength="60"
+                (focus)="focusMethod($event, 'name', $event.target.value)"
+                (blur)="blurMethod($event, 'name')"
+                (input)="changeMethod($event.target.value)"
+                [(ngModel)]="model.name"
+                #name="ngModel"
+              />
+              <div
+                *ngIf="name.invalid && (name.dirty || name.touched)"
+                class="alert alert-danger"
+              >
+                <div [hidden]="!name.errors.required">
+                  Name is required!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inform-wrapper">
+            <p class="icon"><span class="icon">i</span></p>
+            <span class="body-m text-c100"
+              >Some information about how do skill and requirement create with
+              multiple lines</span
+            >
+          </div>
+          <div
+            dragula="COLUMNS"
+            class="requirements-wrapper"
+            [(dragulaModel)]="templateAccessPointGroup"
+            drag-scroll
+          >
+            <div
+              class="skill-requirement-wrapper mb-3"
+              *ngFor="let item of templateAccessPointGroup; let i = index"
+              id="skill-requirement-id-{{ i }}"
+            >
+              <div
+                class="d-flex flex-column skill-header"
+                style="background:#f2f4f5;"
+                id="skillHeader{{ i }}"
+              >
+                <!-- <div *ngIf="isUpdate == false && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
+                    (click)="mainAccessPointClear(item,i,'skillName','create')"></div>
+                  <div *ngIf=" isUpdate == true && templateAccessPointGroup && templateAccessPointGroup.length > 1" class="close-search1"
+                    (click)="mainAccessPointClear(item,i,'skillName','update')"></div> -->
+                <div class="d-flex flex-row justify-content-between">
+                  <div class="d-flex">
+                    <span class="img-wrapper group-handle-wrapper">
+                      <img
+                        class="group-handle"
+                        src="../../../assets/images/disable-holder.svg"
+                      />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Type skill name here"
+                      class="skill-name"
+                      name=" {{ 'skillName' + i }}"
+                      required
+                      [(ngModel)]="item.name"
+                      (input)="addInputValue()"
+                      required
+                    />
+                    <!-- <input type="text" placeholder="Type skill name here" class="skill-name" name="skillName" required [(ngModel)]="item.name" #skillName="ngModel" required> -->
+                  </div>
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                    style="padding-right: 10px"
+                  >
+                    <span
+                      class="remove-btn"
+                      *ngIf="
+                        isUpdate == false &&
+                        templateAccessPointGroup &&
+                        templateAccessPointGroup.length > 1
+                      "
+                      (click)="
+                        mainAccessPointClear(item, i, 'skillName', 'create')
+                      "
+                      ><i class="fa fa-remove"></i
+                    ></span>
+                    <span
+                      class="remove-btn"
+                      *ngIf="
+                        isUpdate == true &&
+                        templateAccessPointGroup &&
+                        templateAccessPointGroup.length > 1
+                      "
+                      (click)="
+                        mainAccessPointClear(item, i, 'skillName', 'update')
+                      "
+                      ><i class="fa fa-remove"></i
+                    ></span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="toggle-wrap">
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        (click)="allowZeroToggle(item)"
+                        [checked]="item.data.evaluation.allowZero"
+                      />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <p
+                    style="padding-left:12px;"
+                    class="pass-mark body-m text-c100"
+                  >
+                    allow zero
+                  </p>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="toggle-wrap">
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        (click)="checkMarkToggle(item, i)"
+                        [checked]="item.options"
+                      />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <p
+                    style="padding-left:12px;"
+                    class="pass-mark body-m text-c100"
+                  >
+                    Use passing mark
+                  </p>
+                </div>
+                <div
+                  class=" pb-3"
+                  [ngClass]="{ 'd-none': !item.options }"
+                  id="passMark{{ i }}"
+                >
+                  <input
+                    type="number"
+                    placeholder="0"
+                    class="pass-mark-input"
+                    (input)="
+                      minAndMax($event, item.data.evaluation.passMark, i)
+                    "
+                    name="{{ 'passMark' + i }}"
+                    [(ngModel)]="item.data.evaluation.passMark"
+                  />
+                  <label class="pl-2 pass-label">% to pass</label>
+                </div>
+              </div>
+              <div
+                id="requirement-inner-box-{{ i }}"
+                class="requirement-inner-box"
+                (scroll)="requirementInnerBox($event, i)"
+                dragula="{{ i }}"
+                [(dragulaModel)]="item.data.evaluation.details"
+              >
+                <!-- {{item.data.evaluation.details | json}} -->
+                <div
+                  class="d-flex container requirement"
+                  *ngFor="
+                    let test of item.data.evaluation.details;
+                    let x = index
+                  "
+                  style="padding-left:40px;"
+                  id="requirement{{ i }}{{ x }}"
+                >
+                  <!-- {{test.name}} -->
+                  <span class="img-wrapper">
+                    <img
+                      class="move-sign"
+                      *ngIf="item.data.evaluation.details.length > 1"
+                      src="../../../assets/images/disable-holder.svg"
+                    />
+                    <img
+                      class="move-sign"
+                      *ngIf="item.data.evaluation.details.length == 1"
+                      src="../../../assets/images/single-holder.svg"
+                    />
+                  </span>
+                  <textarea
+                    rows="1"
+                    type="text"
+                    id="{{ 'box' + x + i }}"
+                    name="{{ 'requirement' + x + i }}"
+                    placeholder="Type requirement here"
+                    class="requirement-name"
+                    [(ngModel)]="test.name"
+                    required
+                    (input)="autoResize(item, $event, i, 'requirement', x)"
+                  ></textarea>
+                  <!-- <span class="pr-3"></span> <textarea type="text" name="requirement" placeholder="Type requirement here" class="requirement-name" [(ngModel)]="test.requirement" #requirement="ngModel" required></textarea> -->
+                  <div
+                    *ngIf="
+                      item.data.evaluation.details &&
+                      item.data.evaluation.details.length > 1
+                    "
+                    class="close-search"
+                    (click)="
+                      subAccessPointClear(test, item, i, x, 'requirement')
+                    "
+                  ></div>
+                </div>
+              </div>
+
+              <div
+                class="d-flex align-items-center cursor-on"
+                id="skillFooter{{ i }}"
+              >
+                <div *ngIf="item.upDownOptions" id="downupArrow{{ i }}">
+                  <div
+                    *ngIf="item.upOptions"
+                    class="downIcon"
+                    (click)="pushUpClick(i)"
+                  >
+                    <img class="downIcon" src="./assets/images/push-up.png" />
+                  </div>
+                  <div
+                    *ngIf="item.DownOptions"
+                    class="downIcon"
+                    (click)="pushDownClick(i)"
+                  >
+                    <img class="downIcon" src="./assets/images/push-down.png" />
+                  </div>
+                </div>
+                <button
+                  class="add-requirement body-l text-b100"
+                  (click)="subAccessPointAdd(item, i)"
+                  [disabled]="item.name == ''"
+                  [ngClass]="{ 'no-pl': item.upDownOptions }"
+                >
+                  Add new requirement
+                </button>
+              </div>
+
+              <!-- {{isScroll}} -->
+            </div>
+
+            <p
+              class="add-new-skill cursor-on body-l text-b100"
+              (click)="mainAccessPointAdd()"
+            >
+              Add new Skill
+            </p>
+            <!-- <div>{{scrollCalculation(0,"create")}}</div> -->
+            <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
+          </div>
+          <div class="d-flex justify-content-end form-footer">
+            <button
+              type="button"
+              class="btn btn-cancel bg-s20 text-c300"
+              (click)="cancelapg()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-submit bg-b100 text-s0"
+              (click)="createEvaluateApgs(model, false)"
+              [disabled]="!model.name || isEmpty == true"
+            >
+              Create
+            </button>
+            <!-- <button
+              *ngIf="isUpdate == true"
+              type="button"
+              class="btn btn-submit bg-b100 text-s0"
+              (click)="editAccessmentApg()"
+              [disabled]="!model.name || isEmpty == true"
+            >
+              Update
+            </button> -->
+          </div>
+          <!-- <p class="add-new-skill" (click)="mainAccessPointAdd()">Add new Skill</p> -->
+        </div>
+        <!--  <div class="d-flex justify-content-end form-footer">
+            <button type="button" class="btn btn-cancel" (click)="cancelapg()">Cancel</button>
+            <button *ngIf="isUpdate == false" type="button" class="btn btn-submit" (click)="createEvaluateApgs(model, false)"
+              [disabled]="!model.name || isEmpty == true">Create</button>
+            <button *ngIf="isUpdate == true" type="button" class="btn btn-submit" (click)="editAccessmentApg()" [disabled]="!model.name || isEmpty == true">Update</button>
+          </div> -->
+      </div>
+    </form>
+  </div>
+</div>
