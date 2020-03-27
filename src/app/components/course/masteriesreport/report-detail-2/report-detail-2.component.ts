@@ -404,7 +404,7 @@ export class ReportDetail2Component implements OnInit {
         data: [
           { name: 'Struggling', textStyle: {} },
           'Not started',
-          'In conslusive',
+          'Inconclusive',
           'Mastered w/ difficulties',
           'Mastered w/ ease'
         ]
