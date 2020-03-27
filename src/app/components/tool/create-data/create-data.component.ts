@@ -10,23 +10,36 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateDataComponent implements OnInit {
   wordLength: any = 0;
   public model: any = {};
-  public isShowPicker: boolean = false;
+
   public selectedRadio = '';
   public colorArrClasses = {};
   public colorPopUpX;
   public colorPopUpLeft;
-  public arrClasses: any;
-  public templateAccessPointGroup: any = {};
-  public unit: any;
+
+  public templateAccessPointGroup: any = [];
+
   public valueArray: any = [];
+
+  // any
+  exitValue: any;
+  public unit: any;
+  public arrClasses: any;
+  public modelId: any;
+  public tempDataValue: any;
+
+  public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
+
+  // boolean
+  maxExit: boolean = false;
   emptymin: boolean = true;
   emptymax: boolean = true;
   overmin: boolean = true;
   showDp: boolean = false;
+  public isShowPicker: boolean = false;
   public valid: boolean;
-  public regionID = localStorage.getItem('regionId');
-  public locationID = localStorage.getItem('locationId');
-  public modelId: any;
+  public stillDrag: boolean = false;
+
   public selectedDataColor = {
     text: '#544600',
     background: '#FFE04D'
@@ -146,6 +159,31 @@ export class CreateDataComponent implements OnInit {
         this.selectedDataColor.text +
         ' !important; opacity:1;}</style>'
     );
+
+    const templateAccessPoint = {
+      name: '',
+      description: '',
+      moduleId: this.modelId,
+      data: {
+        sectionType: 'DATA',
+        unit: '',
+        inputType: this.selectedRadio,
+        inputTypeProperties: {
+          name: '',
+          min: '0',
+          max: '',
+          options: []
+        }
+      }
+    };
+
+    this.templateAccessPointGroup = templateAccessPoint;
+    // this.dataApCreate = true;
+    // this.ismodule = false;
+    // this.apCreate = false;
+    this.emptymax = true;
+    this.emptymin = true;
+    this.overmin = true;
   }
 
   focusMethod(e, status, word) {
@@ -247,6 +285,7 @@ export class CreateDataComponent implements OnInit {
   }
 
   radioSelect(type) {
+    console.log('radio selected');
     this.selectedRadio = type;
     this.templateAccessPointGroup.data.inputType = type;
     if (type == 'RADIO') {
@@ -308,6 +347,7 @@ export class CreateDataComponent implements OnInit {
     var apgName = this.model.name;
     // console.log(apgName)
     var tempArr = [];
+    console.log(this.selectedRadio);
     if (this.selectedRadio == 'RADIO' || apgName.length == 0) {
       for (var i = 0; i < arr.length; i++) {
         tempArr.push(arr[i].name);
@@ -318,7 +358,7 @@ export class CreateDataComponent implements OnInit {
         this.valid = true;
       }
     } else if (this.selectedRadio == 'NUMBER' || apgName.length == 0) {
-      if (this.model.unit == '') {
+      if (this.templateAccessPointGroup.data.unit == '') {
         this.valid = false;
       } else {
         this.valid = true;
@@ -326,6 +366,7 @@ export class CreateDataComponent implements OnInit {
     } else {
       var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
       var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
+
       if (
         min === '' ||
         max === '' ||
@@ -341,36 +382,40 @@ export class CreateDataComponent implements OnInit {
   }
 
   createDataApg() {
-    console.log(this.model);
-    var apg: any = {
-      name: this.model.name,
-      description: '',
-      moduleId: this.modelId
-    };
-    apg.data = {
-      selectionType: 'DATA',
-      unit: this.model.unit,
-      inputType: this.selectedRadio,
-      color: this.selectedDataPattel,
-      sepalColor: this.selectedDataColor
-    };
-    console.log(apg);
-    this._service
-      .createAPG(this.regionID, this.locationID, apg, null, this.model)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          // setTimeout(() => {
-          // this.cancelapg();
-          // }, 200);
-          this.toastr.success('APG successfully Created.');
-          // this.setSelectedTab(this.pickedMType);
-          // this.optionsArray = [];
-        },
-        err => {
-          this.toastr.error('Created APG Fail');
-        }
-      );
+    this.createDataAccessPoint()
+      .then(apId => {
+        console.error(apId);
+        var apg = {
+          name: this.model.name,
+          description: '',
+          moduleId: this.modelId,
+          accessPoints: [apId],
+          color: this.selectedDataPattel,
+          sepalColor: this.selectedDataColor
+        };
+        console.log(apId);
+        console.log(apg);
+        this._service
+          .createAPG(this.regionID, this.locationID, apg, null, this.modelId)
+          .subscribe(
+            (res: any) => {
+              console.log(res);
+              // setTimeout(() => {
+              // }, 200);
+              this.goToAll();
+              this.toastr.success('APG successfully Created.');
+
+              // this.setSelectedTab(this.pickedMType);
+              // this.optionsArray = [];
+            },
+            err => {
+              this.toastr.error('Created APG Fail');
+            }
+          );
+      })
+      .catch(err => {
+        console.log(err); // never called
+      });
   }
 
   goToAll() {
@@ -381,5 +426,125 @@ export class CreateDataComponent implements OnInit {
 
   backtoselected() {
     this._router.navigateByUrl('tool-test/tracking-module/selected-module');
+  }
+
+  createDataAccessPoint() {
+    return new Promise((resolve, reject) => {
+      if (this.selectedRadio == 'RADIO') {
+        this.convertObjToArray();
+      }
+      console.log(this);
+      this._service
+        .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
+        .subscribe(
+          (res: any) => {
+            //  resolve(this.AccessPoint = res._id )
+            resolve(res._id);
+            console.log(res._id);
+          },
+          err => {
+            this.toastr.error('Created AP Fail');
+            reject(err);
+            console.log(err);
+          }
+        );
+    });
+  }
+
+  convertObjToArray() {
+    console.log(this.valueArray);
+    console.log(this.templateAccessPointGroup);
+    this.templateAccessPointGroup.data.inputTypeProperties.options = [];
+    for (var i = 0; i < this.valueArray.length; i++) {
+      var item = this.valueArray[i].name;
+      this.templateAccessPointGroup.data.inputTypeProperties.options.push(item);
+    }
+    console.log(this.templateAccessPointGroup.data.inputTypeProperties.options);
+  }
+
+  maxFocus(e) {
+    console.log('here max focus');
+    this.maxExit = true;
+  }
+  maxFocusout(e) {
+    console.log('here max focus out');
+    this.maxExit = false;
+  }
+
+  numberOnly(event, type) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    if (event.target.value.search(/^0/) != -1) {
+      event.target.value = '';
+    }
+  }
+
+  ChangedTimeValue(obj) {
+    console.log(obj);
+    // var range = this.maxValue - this.minValue;
+    var range =
+      this.templateAccessPointGroup.data.inputTypeProperties.max -
+      this.templateAccessPointGroup.data.inputTypeProperties.min;
+    // var position = ((obj - this.minValue) / range) * 100;
+    var position =
+      ((obj - this.templateAccessPointGroup.data.inputTypeProperties.min) /
+        range) *
+      100;
+    var positionOffset = Math.round((20 * position) / 100) - 20 / 2;
+    this.exitValue = obj;
+    const box: HTMLElement = document.getElementById('arrowBox');
+
+    if (
+      this.templateAccessPointGroup.data.inputTypeProperties.max <
+      this.templateAccessPointGroup.data.inputTypeProperties.min
+    ) {
+      box.setAttribute('style', 'display:none');
+    } else {
+      box.setAttribute(
+        'style',
+        'margin-left:calc(' + position + '% - ' + positionOffset + 'px)'
+      );
+    }
+    console.log(this.templateAccessPointGroup);
+  }
+
+  addDataValue(data, i) {
+    this.tempDataValue = data;
+    const newValue = '';
+    const newObj = { name: '' };
+    this.valueArray.push(newObj);
+    // this.convertObjToArray()
+    // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    // this.optionsArray.push(newValue)
+    document.addEventListener(
+      'click',
+      (this.testFunct = () => {
+        if (this.tempDataValue == 'newData') {
+          var windowHeight = $(document).height();
+          window.scrollBy({
+            top: window.innerHeight,
+            left: 0,
+            behavior: 'smooth'
+          });
+          console.log(windowHeight);
+        }
+      }),
+      false
+    );
+    setTimeout(() => {
+      var a = this.valueArray.length - 1;
+      console.log(a);
+      document.getElementById('valueInput' + a).focus();
+      this.tempDataValue = '';
+    }, 300);
+  }
+
+  testFunct() {
+    var stillDragInTestFunc = this.stillDrag;
+    var templategroug = this.templateAccessPointGroup;
+    // return this.stillDrag;
+    // return this.stillDrag;
   }
 }
