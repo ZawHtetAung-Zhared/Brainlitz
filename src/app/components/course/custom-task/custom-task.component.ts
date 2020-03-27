@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostListener,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ISubscription } from 'rxjs/Subscription';
@@ -12,6 +19,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { parse } from 'querystring';
 
 declare var $: any;
 
@@ -39,7 +47,7 @@ export class CustomTaskComponent implements OnInit {
   // get data from parent component
   @Input() courseDetail;
   @Input() selectStandard;
-
+  @Output() backAssign: EventEmitter<boolean> = new EventEmitter();
   // lists && obj
   public customObj: any = {};
   public scheduletemplateList: any = [];
@@ -51,7 +59,11 @@ export class CustomTaskComponent implements OnInit {
   // boolean
   public isShowAnnoBlock: boolean = false;
   public progressSlider: boolean = false;
-  public loading: boolean = false;
+  public loading1: boolean = false;
+  public loading2: boolean = false;
+  public loading3: boolean = false;
+  public loading4: boolean = false;
+  public loading5: boolean = false;
 
   // other
   public annoTaskDate: any;
@@ -70,6 +82,7 @@ export class CustomTaskComponent implements OnInit {
   public rangeMin: any;
   public rangeHr: any;
   public showFormat: any;
+  public searchword: any;
 
   public test =
     "<text index=0 value='\"The diagram below shows a paper cup filled with ice cubes. The paper cup was then left in the classroom.\n' ></text><image index=1 src='https://brainlitz-dev.s3.amazonaws.com/SparkWerkz-API/PD/HEY-12-01/Assets/questionsAssets/hey-12-01-01.jpg' ><text index=2 value='\nWhat can be done to make the ice melt faster?\nBlowing into the cup.\nReplacing the paper cup with a metal cup.\nWrapping his hands around the paper cup. \nPlacing a lid to cover the opening of the paper cup.' ></text>";
@@ -82,7 +95,7 @@ export class CustomTaskComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loading = true;
+    this.loading1 = true;
     console.log(this.courseDetail);
     console.log(this.selectStandard);
     this.createCustom.standard = this.selectStandard;
@@ -105,12 +118,12 @@ export class CustomTaskComponent implements OnInit {
       (res: any) => {
         this.customObj = res[0];
         this.createCustom.taskType = res[0];
-        this.loading = false;
+        this.loading1 = false;
         console.log(this.createCustom);
         console.log(res, 'assign task');
       },
       err => {
-        this.loading = false;
+        this.loading1 = false;
         console.log(err);
       }
     );
@@ -120,12 +133,14 @@ export class CustomTaskComponent implements OnInit {
     this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
   }
 
-  stepClick(event, step) {
-    console.log(this.clickableSteps);
-    if (this.clickableSteps.includes(step)) {
+  stepClick(event, step, type) {
+    if (this.clickableSteps.includes(step) && this.activeStep != step) {
       $('#' + 'step' + step).addClass('active');
       this.activeStep = step;
       this.addOrRemoveClassOfStep($(event.target));
+      if (type == 'step-click') {
+        this.checkUpdateForStep(event, step);
+      }
     }
     console.log('active step', this.activeStep);
   }
@@ -133,37 +148,77 @@ export class CustomTaskComponent implements OnInit {
   addOrRemoveClassOfStep(ele) {
     console.log(ele);
     var max = this.clickableSteps[this.clickableSteps.length - 1];
-    ele.parents('li').removeClass('done');
-    ele
-      .parents('li')
-      .prevAll('li')
-      .addClass('done');
-    ele
-      .parents('li')
-      .prevAll('li')
-      .removeClass('active');
-    ele
-      .parents('li')
-      .nextAll('li')
-      .removeClass('active');
-    for (var i = 0; i < this.clickableSteps.length; i++) {
-      $('#step' + this.clickableSteps[i])
-        .children('a')
-        .css('background-color', '#0080ff');
+    if (this.activeStep < max) {
+      var activeIdx = this.clickableSteps.indexOf(this.activeStep);
+      var removeCount = this.clickableSteps.length - (activeIdx + 1);
+      let removeSteps = this.clickableSteps.splice(activeIdx + 1, removeCount);
+      console.log('this.clickableSteps', this.clickableSteps);
+      console.log('emoveSteps', removeSteps);
+      ele.parents('li').removeClass('done');
+      console.log('#step' + this.clickableSteps[activeIdx]);
+      // $('#step' + this.clickableSteps[activeIdx]).removeClass('done')
+      for (var i = 0; i < removeSteps.length; i++) {
+        console.log(removeSteps[i]);
+        $('#step' + removeSteps[i]).removeClass('active');
+        $('#step' + removeSteps[i]).removeClass('done');
+        $('#step' + removeSteps[i])
+          .children('a')
+          .css('background-color', '#e3e4e6');
+      }
+    } else {
+      ele.parents('li').removeClass('done');
+      ele
+        .parents('li')
+        .prevAll('li')
+        .addClass('done');
+      ele
+        .parents('li')
+        .prevAll('li')
+        .removeClass('active');
+      ele
+        .parents('li')
+        .nextAll('li')
+        .removeClass('active');
+      for (var i = 0; i < this.clickableSteps.length; i++) {
+        $('#step' + this.clickableSteps[i])
+          .children('a')
+          .css('background-color', '#0080ff');
+      }
+      if (max != ele.parents('li').attr('id'))
+        ele.parents('li').addClass('done');
     }
-    if (max != ele.parents('li').attr('id')) ele.parents('li').addClass('done');
   }
 
-  goToStep2(event, step) {
+  checkUpdateForStep(event, step) {
+    switch (step) {
+      case '2':
+        this.goToStep2(event, step, 'step-click');
+        break;
+      case '3':
+        this.goToStep3(event, step, 'step-click');
+        break;
+      case '4':
+        this.goToStep4(event, step, 'step-click');
+        break;
+      case '5':
+        this.goToStep5(event, step, 'step-click');
+        break;
+    }
+  }
+
+  goToStep2(event, step, type) {
     console.log(step, 'step');
+    this.loading2 = true;
     this.getTemplateLists(null);
-    this.clickableSteps.push(step);
-    this.stepClick(event, step);
-    this.addActiveBar(1, 2);
+    if (type == 'continue') {
+      this.clickableSteps.push(step);
+      this.stepClick(event, step, type);
+      this.addActiveBar(1, 2);
+    }
   }
 
-  goToStep3(event, step) {
-    this.loading = true;
+  goToStep3(event, step, type) {
+    this.loading3 = true;
     this.isSelectedTime = 'AM';
     this._service
       .getTaskBytemplate(
@@ -176,20 +231,28 @@ export class CustomTaskComponent implements OnInit {
           this.taskLists = res;
           // this.selectedTaskLists = res.slice();
           // this.selectedTaskLists = res.slice();
-          this.clickableSteps.push(step);
-          this.addActiveBar(2, 3);
-          this.stepClick(event, step);
-          this.loading = false;
+          if (type == 'continue') {
+            this.clickableSteps.push(step);
+            this.addActiveBar(2, 3);
+            this.stepClick(event, step, type);
+          }
+          this.loading3 = false;
         },
         err => {
-          this.loading = false;
+          this.loading3 = false;
           console.log(err);
         }
       );
   }
 
-  goToStep4($event, step) {
+  goToStep4($event, step, type) {
+    this.loading4 = true;
     let temp = [];
+
+    this.singleSelectedTask.announcementDate = this.singleSelectedTask
+      .announcementDate
+      ? this.singleSelectedTask.announcementDate
+      : new Date();
     temp.push(this.singleSelectedTask);
     this.createCustom.template.tasks = temp;
     console.log(this.createCustom);
@@ -202,22 +265,25 @@ export class CustomTaskComponent implements OnInit {
         (res: any) => {
           this.createCustom.template.tasks[0].masteries = res.masteries;
           this.masteryList = res.masteries.slice();
+
           console.log(res);
-          this.clickableSteps.push(step);
-          this.activeStep = 1;
-          this.addActiveBar(3, 4);
-          this.stepClick($event, step);
-          this.loading = false;
+          if (type == 'continue') {
+            this.clickableSteps.push(step);
+            this.addActiveBar(3, 4);
+            this.stepClick($event, step, type);
+          }
+          // this.activeStep = 1;
+          this.loading4 = false;
         },
         err => {
-          this.loading = false;
+          this.loading4 = false;
           console.log(err);
         }
       );
   }
 
-  goToStep5($event, step) {
-    this.loading = true;
+  goToStep5($event, step, type) {
+    this.loading5 = true;
     let annDate;
     this.createCustom.template.tasks[0].taskStartDate = this.taskStartDate
       ? this.changeObjDateFormat(this.taskStartDate)
@@ -237,6 +303,10 @@ export class CustomTaskComponent implements OnInit {
           )
         : this.showFormat
     );
+
+    console.log(this.createCustom.template.tasks[0].taskStartDate);
+    console.log(this.createCustom.template.tasks[0].taskEndDate);
+
     this.createCustom.template.tasks[0].announcementDate = annDate;
 
     this._service.getassignMode(this.createCustom.taskType.id).subscribe(
@@ -244,13 +314,17 @@ export class CustomTaskComponent implements OnInit {
         console.log(res, 'assign mode');
         this.addActiveBar(4, 5);
         this.assignModeList = res;
-        this.clickableSteps.push(step);
-        this.stepClick($event, step);
-        this.loading = false;
+        this.createCustom.template.distributionMode = res[0];
+
+        if (type == 'continue') {
+          this.clickableSteps.push(step);
+          this.stepClick($event, step, type);
+        }
+        this.loading5 = false;
       },
       err => {
         console.log(err);
-        this.loading = false;
+        this.loading5 = false;
       }
     );
     console.log(this.createCustom);
@@ -265,15 +339,19 @@ export class CustomTaskComponent implements OnInit {
   }
 
   backToPrevStep(prev, next) {
+    this.clickableSteps.splice(prev, 1);
+    console.log(this.clickableSteps);
     this.activeStep = prev;
     $('#step' + prev).addClass('active');
-
-    $('#astep' + next).addClass('finishdone');
+    $('#step' + prev).removeClass('done');
+    // $('#astep' + next).addClass('finishdone');
+    $('#astep' + next).css('background-color', '#e3e4e6');
     $('#step' + next).removeClass('active');
+    $('#step' + next).removeClass('done');
   }
 
   getTemplateLists(searchValue) {
-    this.loading = true;
+    this.loading2 = true;
     this._service
       .getTemplateLists(
         this.selectStandard.standardId,
@@ -284,10 +362,10 @@ export class CustomTaskComponent implements OnInit {
         (res: any) => {
           console.log(res, 'template list');
           this.scheduletemplateList = res;
-          this.loading = false;
+          this.loading2 = false;
         },
         err => {
-          this.loading = false;
+          this.loading2 = false;
         }
       );
   }
@@ -307,6 +385,7 @@ export class CustomTaskComponent implements OnInit {
 
   checkTask(obj) {
     this.singleSelectedTask = obj;
+    console.log('checkTask', this.singleSelectedTask);
   }
 
   durationProgress($event) {
@@ -409,7 +488,7 @@ export class CustomTaskComponent implements OnInit {
 
   showMasteryDetail(obj, masteryModal, e) {
     console.log(obj);
-    this.loading = true;
+    // this.loading = true;
     this._service
       .getQuestionbymastery(this.courseDetail._id, obj.masteryId)
       .subscribe(
@@ -422,10 +501,10 @@ export class CustomTaskComponent implements OnInit {
             windowClass:
               'jouranlModal d-flex justify-content-center align-items-center'
           });
-          this.loading = false;
+          // this.loading = false;
         },
         err => {
-          this.loading = false;
+          // this.loading = false;
           console.log(err);
         }
       );
@@ -441,24 +520,32 @@ export class CustomTaskComponent implements OnInit {
   }
 
   createAssign() {
-    this.loading = true;
+    // this.loading = true;
     this.createCustom.template.tasks[0].taskId = this.createCustom.template.tasks[0]._id;
+    delete this.createCustom.template.tasks[0]._id;
     console.log('final obj', this.createCustom);
     this._service
       .createAssigntask(this.courseDetail._id, this.createCustom)
       .subscribe(
         (res: any) => {
           console.log(res);
-          this._route.navigateByUrl('coursedetail/' + this.courseDetail._id);
-          this.loading = false;
+          this._route.navigateByUrl(
+            'coursedetail/' + this.courseDetail._id + '/tasks'
+          );
+          // this.loading = false;
           this.toastr.success('Success Custom Task Create');
         },
         err => {
-          this.loading = false;
+          // this.loading = false;
           this.toastr.error(err.error.message);
           console.log(err);
         }
       );
+  }
+
+  backtoassignTask() {
+    if (this.courseDetail.sparkWerkz.standardSelected) this.backCourseDetail();
+    else this.backAssign.emit(false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -476,7 +563,13 @@ export class CustomTaskComponent implements OnInit {
 
   changeObjDateFormat(date) {
     console.log(date);
-    let sdate = date.year + '-' + date.month + '-' + date.day;
+    let sdate =
+      date.year +
+      '-' +
+      (date.month >= 10 ? date.month : '0' + date.month) +
+      '-' +
+      (date.day >= 10 ? date.day : '0' + date.day);
+    console.log(sdate);
     return new Date(sdate).toISOString();
   }
 
@@ -527,7 +620,16 @@ export class CustomTaskComponent implements OnInit {
     return arr;
   }
 
+  searchTemplateInput(value) {
+    this.searchword = value;
+    if (value.length == 0) {
+      this.searchword = '';
+      this.getTemplateLists(null);
+    }
+  }
+
   searchTemplate(value) {
+    this.searchword = value;
     console.log(value);
     this.getTemplateLists(value);
   }

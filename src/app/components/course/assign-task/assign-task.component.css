@@ -5,15 +5,12 @@
   font-family: 'Inter-UI-Bold', Arial, sans-serif;
 }
 
-.regular {
-  font-family: 'Inter-UI-Regular', Arial, sans-serif;
-}
-.font-semi {
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
-}
-
 .addborderTop {
   border-top: 1px solid #edeff0 !important;
+}
+
+.bg-active {
+  background: #0065f2;
 }
 .main-wrapper {
   background: #ffffff;
@@ -43,8 +40,6 @@
 }
 
 .back-modal {
-  font-size: 16px;
-  color: #2e3d4d !important;
   padding-left: 0 !important;
   cursor: pointer;
   padding-top: 10px;
@@ -66,14 +61,7 @@
   text-align: center;
   padding-top: 17px;
   padding-bottom: 17px;
-  font-size: 24px;
-  color: #363f4d;
   margin-bottom: 0;
-}
-
-p.title {
-  color: #363f4d;
-  font-size: 20px;
 }
 
 /* start standard block */
@@ -82,16 +70,9 @@ p.title {
 }
 .standard-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
-  background: #ffffff;
   border-radius: 20px;
   padding: 6px 12px;
   margin-right: 16px;
-  font-weight: 500;
-  font-size: 17px;
-}
-.standard-block.active {
-  background: #0065f2 !important;
-  color: #ffffff !important;
 }
 /* end standard block */
 /* start class block */
@@ -150,11 +131,7 @@ button.btn.btn-back {
   font-size: 16px;
 }
 button.btn.btn-comfirm {
-  background: #007fff;
   border-radius: 3px;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 16px;
   padding: 8px 10px;
 }
 
@@ -170,26 +147,24 @@ button.btn.btn-comfirm {
 .choice-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  background: #fff !important;
   padding: 20px;
   cursor: pointer;
 }
 
-.choice-title {
-  color: #363f4d;
-  font-size: 20px;
+.choice-block {
+  background: #fff !important;
 }
+
 .choice-description {
-  color: #5c6773;
-  font-size: 15px;
   word-break: break-all;
 }
 .choice-block:hover {
-  background: #edeef0 !important;
+  /* background: #edeef0 !important; */
+  background: #0065f2 !important;
 }
 
 .activeMode {
-  background: #edeef0 !important;
+  background: #0065f2 !important;
 }
 /* end */
 /* start progress bar */
@@ -369,42 +344,35 @@ a.adisabled:active {
   color: #363f4d;
 }
 /* end */
-button.btn.sticky-cancel {
-  background: #ffffff;
-}
 /* end progress bar */
 
 /* start step */
-.step-title {
-  color: #363f4d;
-  font-size: 28px;
-}
+
 .task-search-input:focus {
   box-shadow: none;
 }
 .task-search-input {
   border: 1px solid #eee;
   border-right: none;
-  background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5;
+  /* background: url(../../../../assets/img/search-ico@2x.png) no-repeat #f2f4f5; */
   background-size: 16px;
   background-position-y: center;
   background-position-x: 99%;
   padding: 12px 18px !important;
-  line-height: 20px;
   border-radius: 4px;
-  color: #788796;
-  font-size: 17px;
+  background: #f2f4f5;
 }
 
 .simple-search {
   margin-bottom: 22px;
+  background: #f2f4f5;
 }
 
 /* step 1 */
 .template-wrapper {
   margin-bottom: 0px;
 }
-.template-name,
+
 .task-title {
   font-size: 20px;
   color: #363f4d;
@@ -429,7 +397,7 @@ path.template-icon.active {
   margin-bottom: 24px;
   margin-left: 3px;
 }
-p.template-description,
+
 p.task-description {
   color: #5c6773;
   font-size: 15px;
@@ -456,8 +424,6 @@ p.task-description {
   margin-bottom: 20px;
 }
 .template-description2 {
-  color: #5c6773;
-  font-size: 17px;
   word-break: break-all;
   margin-right: 70px;
   padding-right: 10px;
@@ -659,10 +625,7 @@ min-width: 40px;
 /* end */
 
 /* step 3 */
-.task-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .task-block {
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -804,9 +767,7 @@ input:checked + .slider:before {
 
 /* mastery modal */
 .input-title {
-  color: #363f4d;
   margin-bottom: 0;
-  font-size: 17px;
 }
 .input-wrap {
   margin: 13px 0px;
@@ -835,10 +796,7 @@ input:checked + .slider:before {
   cursor: pointer;
   background: url('../../../../assets/icons/crossClose.svg');
 }
-p.mastery-title {
-  font-size: 24px;
-  color: #363f4d;
-}
+
 p.anno-txt {
   color: #5c6773;
   font-size: 20px;
@@ -1139,13 +1097,19 @@ i.fa.fa-check.checkIcon {
   border-radius: 4px;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   background: #ffffff;
-  padding: 12px 12px 23px 12px;
-  height: 88px;
+  padding: 12px;
+  height: 100px;
   overflow: overlay;
 }
+.multine-ellipsis {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
 p.masteries-box {
-  color: #5c6773;
-  font-size: 17px;
   padding-left: 16px;
   margin-bottom: 6px;
 }
@@ -1175,15 +1139,14 @@ button.btn.modal-cancel-btn {
     padding: 10px 143px;
     height: 4.4em;
   }
-  .inside-data-wrapper {
+  /*.inside-data-wrapper {
     border-radius: 8px;
-    /* -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1); */
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     background-color: #ffffff;
     padding: 45px 45px 0px 45px;
     height: 672px;
     width: 1004px;
-  }
+  }*/
   .button-wrapper {
     position: unset;
     left: unset;
@@ -1268,4 +1231,74 @@ button.btn.modal-cancel-btn {
     display: flex;
     flex-direction: column;
   }
+}
+
+@media (min-height: 941px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 672px;
+    width: 1004px;
+  }
+}
+
+@media (max-height: 940px) and (min-height: 769px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 570px;
+    min-height: 570px;
+    overflow-y: scroll;
+    width: 1004px;
+  }
+
+  .div_step {
+    padding-top: 40px;
+  }
+
+  .button-wrapper {
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-height: 768px) and (min-width: 1366px) {
+  /* CSS stuff */
+  .inside-data-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 45px 45px 0px 45px;
+    height: 400px;
+    min-height: 400px;
+    overflow-y: scroll;
+    width: 1004px;
+  }
+
+  .div_step {
+    padding-top: 32px;
+  }
+
+  .button-wrapper {
+    padding-bottom: 24px;
+  }
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
 }

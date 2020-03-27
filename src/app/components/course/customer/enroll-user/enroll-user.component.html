@@ -1,12 +1,12 @@
 <div class="overlayModal" *ngIf="showcb" (click)="clickOverlay()"></div>
 <div class="customer-nav">
   <div class="d-flex inner-wrapper align-items-center justify-content-between">
-    <div class="back-to" [routerLink]="backToCourse">
+    <div class="back-to body-l text-c300" [routerLink]="backToCourse">
       <i class="fa fa-angle-left"></i>
-      <p>Back to {{ detailLists.name }}</p>
+      <p>{{ detailLists.name }}</p>
     </div>
     <!-- <div class="back-to" [routerLink]="clickCancel"> -->
-    <div class="back-to" (click)="clickCancel()">
+    <div class="back-to body-l text-c300" (click)="clickCancel()">
       <p>Cancel</p>
     </div>
   </div>
@@ -54,8 +54,11 @@
             (keyup.enter)="changeMethod($event.target.value, userType)"
             autocomplete="off"
           />
-          <span class="input-group-append">
-            <button class="bt btn-design btn-outline-secondary" type="button">
+          <span
+            class="input-group-append"
+            (click)="changeMethod(formData.searchText, userType)"
+          >
+            <button class="btn btn-design btn-outline-secondary" type="button">
               <i class="fa fa-search search-size"></i>
             </button>
           </span>
@@ -76,11 +79,26 @@
                   <img src="{{ user.profilePic }}" />
                 </div>
                 <div
+                  *ngIf="user.preferredName !== ''"
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>
+                  <h4 class="body-l text-c300">
                     {{
-                      user.preferredName == '' ? user.email : user.preferredName
+                      user.preferredName.length > 20
+                        ? (user.preferredName | slice: 0:20) + '...'
+                        : user.preferredName
+                    }}
+                  </h4>
+                </div>
+                <div
+                  *ngIf="user.preferredName == ''"
+                  class="single-user-info d-flex flex-column justify-content-center"
+                >
+                  <h4 class="body-l text-c300">
+                    {{
+                      user.email.length > 12
+                        ? (user.email | slice: 0:12) + '...'
+                        : user.email
                     }}
                   </h4>
                 </div>
@@ -189,7 +207,7 @@
                 <div
                   class="single-user-info d-flex flex-column justify-content-center"
                 >
-                  <h4>{{ teacher.preferredName }}</h4>
+                  <h4 class="body-l text-c300">{{ teacher.preferredName }}</h4>
                 </div>
                 <div class="ml-auto remover-wrap">
                   <div
@@ -257,7 +275,7 @@
         </button> -->
         <button
           type="button"
-          class="btn btn-submit"
+          class="btn btn-submit body-l bg-b100 text-s0"
           [disabled]="
             enrollUserList.length == 0 || (found == 0 && seatLeft == 0)
           "
@@ -277,13 +295,13 @@
       enroll UI
      -->
     <div class="d-flex mt-3">
-      <h3 *ngIf="userType == 'staff'" class="modal-title d-flex mr-auto">
+      <h3 *ngIf="userType == 'staff'" class="d-flex mr-auto body-xl text-c300 ">
         Confirm assistant
         <span *ngIf="userLists.length <= 1"> teacher </span>
         <span *ngIf="userLists.length > 1"> teachers </span>
       </h3>
       <div *ngIf="userType == 'customer'">
-        <h3 class="modal-title d-flex mr-auto">
+        <h3 class="d-flex mr-auto body-xl text-c300">
           Confirm customer
         </h3>
         <span *ngIf="userLists.length <= 1"
@@ -295,7 +313,10 @@
         <span>selected</span>
       </div>
 
-      <h3 *ngIf="userType == 'teacher'" class="modal-title d-flex mr-auto">
+      <h3
+        *ngIf="userType == 'teacher'"
+        class="d-flex mr-auto body-xl text-c300"
+      >
         Confirm teacher
       </h3>
     </div>
@@ -314,11 +335,26 @@
                 <img src="{{ user.profilePic }}" />
               </div>
               <div
+                *ngIf="user.preferredName !== ''"
                 class="single-user-info d-flex flex-column justify-content-center"
               >
-                <h4>
+                <h4 class="body-l text-c300">
                   {{
-                    user.preferredName == '' ? user.email : user.preferredName
+                    user.preferredName.length > 12
+                      ? (user.preferredName | slice: 0:12) + '...'
+                      : user.preferredName
+                  }}
+                </h4>
+              </div>
+              <div
+                *ngIf="user.preferredName == ''"
+                class="single-user-info d-flex flex-column justify-content-center"
+              >
+                <h4 class="body-l text-c300">
+                  {{
+                    user.email.length > 12
+                      ? (user.email | slice: 0:12) + '...'
+                      : user.email
                   }}
                 </h4>
               </div>
@@ -347,7 +383,7 @@
               <div
                 class="single-user-info d-flex flex-column justify-content-center"
               >
-                <h4>{{ teacher.preferredName }}</h4>
+                <h4 class="body-l text-c300">{{ teacher.preferredName }}</h4>
               </div>
             </div>
           </div>
@@ -367,7 +403,7 @@
     <div class="d-flex justify-content-end">
       <button
         type="button"
-        class="btn modal-cancel-btn"
+        class="btn modal-cancel-btn body-l text-c300 "
         (click)="cancelModal()"
       >
         Cancel
@@ -375,9 +411,9 @@
       <button
         type="button"
         *ngIf="userType == 'customer'"
-        class="btn btn-submit"
+        class="btn btn-submit body-l bg-b100 text-s0"
         [disabled]="
-          (enrollUserList | json) == '{}' || isDisabledBtn || noSetting == true
+          enrollUserList.length == 0 || isDisabledBtn || noSetting == true
         "
         (click)="
           addCustomer(detailLists._id, userType, invoiceAlert, invoiceModal)
@@ -388,7 +424,7 @@
       <button
         *ngIf="userType == 'staff'"
         type="button"
-        class="btn btn-submit"
+        class="btn btn-submit body-l bg-b100 text-s0"
         [disabled]="enrollUserList.length == 0 || noSetting == true"
         (click)="enrollUserToCourse(detailLists._id, userType)"
       >
@@ -397,7 +433,7 @@
       <button
         *ngIf="userType == 'teacher'"
         type="button"
-        class="btn btn-submit"
+        class="btn btn-submit body-l bg-b100 text-s0"
         [disabled]="enrollUserList.length == 0"
         (click)="swapTeacherToCourse(detailLists._id, enrollUserList[0].userId)"
       >
@@ -413,7 +449,7 @@
 
   <ng-template #invoiceAlert>
     <div class="modal-header">
-      <h3 class="modal-title">Generate invoice</h3>
+      <h3 class="body-xl text-c300">Generate invoice</h3>
       <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button> -->
@@ -492,7 +528,7 @@
   </div>
   <div
     class="modal-footer d-flex position-fixed"
-    style="padding: 18px 25px 18px 25px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
+    style="padding: 18px 20px 18px 20px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
   >
     <div class="d-flex justify-content-between inner-wrapper">
       <div class="d-flex flex-column">
@@ -535,7 +571,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-submit"
+          class="btn btn-submit body-l bg-b100 text-s0"
           [disabled]="checkobjArr.length == 0"
           (click)="flexicomfirm(invoiceAlert)"
         >

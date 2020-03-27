@@ -243,6 +243,8 @@ export class AttendanceComponent implements OnInit {
   public defineType: any;
   public gtxtColor: any;
   public gbgColor: any;
+  private addExtraLesson = false;
+  private showReliefPopup = false;
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
@@ -575,6 +577,17 @@ export class AttendanceComponent implements OnInit {
     if (e.target.parentNode != null) {
       if (e.target.parentNode.id != 'divToHide') {
         this.attdBox = false;
+      }
+    }
+  }
+
+  closeReliefDropdown(e) {
+    // console.log("closeReliefDropdown~~~")
+    var divToHide = document.getElementById('relief-popup');
+    if (e.target.parentNode != null) {
+      if (e.target.parentNode.id != 'relief-popup') {
+        console.log('closeReliefDropdown~~~', e);
+        this.showReliefPopup = false;
       }
     }
   }
@@ -1785,13 +1798,8 @@ export class AttendanceComponent implements OnInit {
       console.log(this.LASD);
       // this.lastSelectedObj = null;
 
-      // ACD = activeCourseDate/Month/Year
-      let ACD = new Date(this.LASD).getUTCDate();
-      let ACM = new Date(this.LASD).getUTCMonth() + 1;
-      let ACY = new Date(this.LASD).getUTCFullYear();
-      console.log('ACD', ACD);
-      console.log('ACM', ACM);
-      console.log('ACY', ACY);
+      let activeDateObj = this.getDateMonthYear(this.LASD);
+      console.log('activeDateObj~~~', activeDateObj);
       console.log(
         'this.regionId ' +
           this.regionId +
@@ -1799,7 +1807,13 @@ export class AttendanceComponent implements OnInit {
           this.currentCourse
       );
       this._service
-        .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
+        .getAssignUser(
+          this.regionId,
+          this.currentCourse,
+          activeDateObj.day,
+          activeDateObj.month,
+          activeDateObj.year
+        )
         .subscribe(
           (res: any) => {
             console.log(res);
@@ -1807,6 +1821,8 @@ export class AttendanceComponent implements OnInit {
             this.activeCourseInfo = res;
             console.log('Testing lower case');
             console.log(this.activeCourseInfo.CUSTOMER);
+            this.presentStudent = 0;
+            this.absentStudent = 0;
             for (let j = 0; j < this.activeCourseInfo.CUSTOMER.length; j++) {
               if (this.activeCourseInfo.CUSTOMER[j].attendance == true) {
                 this.presentStudent += 1;
@@ -1980,11 +1996,16 @@ export class AttendanceComponent implements OnInit {
     this.presentStudent = 0;
     this.absentStudent = 0;
     this.noStudent = 0;
-    let ACD = new Date(targetDate).getUTCDate();
-    let ACM = new Date(targetDate).getUTCMonth() + 1;
-    let ACY = new Date(targetDate).getUTCFullYear();
+    let activeDateObj = this.getDateMonthYear(targetDate);
+    console.log('activeDateObj', activeDateObj);
     this._service
-      .getAssignUser(this.regionId, this.currentCourse, ACD, ACM, ACY)
+      .getAssignUser(
+        this.regionId,
+        this.currentCourse,
+        activeDateObj.day,
+        activeDateObj.month,
+        activeDateObj.year
+      )
       .subscribe(
         (res: any) => {
           this.presentStudent = 0;
@@ -2384,34 +2405,62 @@ export class AttendanceComponent implements OnInit {
 
     // Call cancel class api service
     //this.blockUI.start('Loading...');
-    this._service
-      .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
-      .subscribe(
-        (res: any) => {
-          // Success function
-          //this.blockUI.stop();
-          this.cancelUI = false;
-          this.cancelUi = false;
-          console.info('cancle user from class api calling is done');
-          console.log(res);
-          this.isGlobal = false;
-          this.disableCancel = true;
-          this.getCourseDetail(this.courseId);
-          this.getAttendance();
-          this.studentArray = [];
-          this.modalClose();
-          // Close Dialog box
-          // Show the canceled users
-        },
-        err => {
-          // Error function
-          this.isGlobal = false;
-          console.log('cancle user from class has got error', err);
-          // Do something
-        }
-      );
+    if (this.addExtraLesson == true) {
+      let data = {
+        lessonDate: this.LASD,
+        excludedUserIds: []
+      };
+      console.log(data);
+      this._service
+        .extraLessonForCancelClass(this.regionId, this.courseId, data)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            // Success function
+            this.reloadAttendance();
+          },
+          err => {
+            // Error function
+            this.isGlobal = false;
+            console.log('cancle user from class has got error', err);
+            // Do something
+          }
+        );
+    } else {
+      this._service
+        .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
+        .subscribe(
+          (res: any) => {
+            // Success function
+            this.reloadAttendance();
+          },
+          err => {
+            // Error function
+            this.isGlobal = false;
+            console.log('cancle user from class has got error', err);
+            // Do something
+          }
+        );
+    }
+
     this.cancelUItext = false;
     this.ngOnInit();
+  }
+
+  reloadAttendance() {
+    // Success function
+    this.cancelUI = false;
+    this.cancelUi = false;
+    console.info('cancle user from class api calling is done');
+    this.isGlobal = false;
+    this.addExtraLesson = false;
+    this.disableCancel = true;
+    this.getCourseDetail(this.courseId);
+    this.getAttendance();
+    this.studentArray = [];
+    this.modalClose();
+    // Close Dialog box
+    // Show the canceled users
   }
 
   modalClose() {
@@ -3796,7 +3845,12 @@ export class AttendanceComponent implements OnInit {
     this.yPosition = e.layerY;
     this.uId = uID;
     this.reScheduleUId = uID;
-    this.attdBox = true;
+    if (
+      (this.detailLists.type === 'REGULAR' || this.detailLists.type === null) &&
+      this.disableCancel
+    )
+      this.attdBox = false;
+    else this.attdBox = true;
     console.log('showAttendanceBox Works', this.uId);
   }
   public modalType;
@@ -4150,6 +4204,12 @@ export class AttendanceComponent implements OnInit {
     this.modalReference.close();
   }
 
+  onClickReliefDropdown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.showReliefPopup = true;
+  }
+
   onClickAssignRelief(reliefModal, lesson) {
     this.modalReference = this.modalService.open(reliefModal, {
       backdrop: 'static',
@@ -4179,24 +4239,44 @@ export class AttendanceComponent implements OnInit {
 
   cancelReliefModal() {
     console.log('cancel relirf~~~');
+    this.showReliefPopup = false;
     this.modalReference.close();
-    return new Promise((resolve, reject) => {
-      this.getCourseDetail(this.detailLists._id);
-      resolve();
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
-    }).then(() => {
-      setTimeout(() => {
-        console.log(this.detailLists.lessons[this.currentLessonIdx]);
-        this.checkForRelief(this.detailLists.lessons[this.currentLessonIdx]);
-      }, 300);
-    });
+    this.updateForRelief();
     // this._service
     //   .editProfile(this.regionId, this.selectedLesson.teacherId)
     //   .subscribe((res: any) => {
     //     console.log(res);
     //   });
+  }
+
+  updateForRelief() {
+    return new Promise((resolve, reject) => {
+      // this.getAttendance()
+      console.log('lastSelectedObj', this.lastSelectedObj);
+      this.getCourseDetail(this.detailLists._id);
+      setTimeout(() => {
+        resolve();
+        this.loading = false;
+      }, 1000);
+    }).then(() => {
+      setTimeout(() => {
+        // console.log(this.detailLists.lessons[this.currentLessonIdx]);
+        this.attendanceList.lessons.map((item, index) => {
+          if (
+            item._id == this.lastSelectedObj._id &&
+            item.startDate == this.lastSelectedObj.startDate
+          ) {
+            this.attendanceList.lessons[index] = this.detailLists.lessons[
+              this.currentLessonIdx
+            ];
+            console.log('check for relief');
+            this.checkForRelief(
+              this.detailLists.lessons[this.currentLessonIdx]
+            );
+          }
+        });
+      }, 300);
+    });
   }
 
   viewSingleInvoice(id) {
@@ -4300,5 +4380,53 @@ export class AttendanceComponent implements OnInit {
 
   checkLessonCount(data) {
     this.checkobjArr = data;
+  }
+
+  switchForCancelLesson(type) {
+    switch (type) {
+      case 'issue-makeup':
+        if (this.addExtraLesson == true) {
+          event.preventDefault();
+        } else {
+          this.isGlobal = !this.isGlobal;
+        }
+        break;
+      default:
+        if (this.isGlobal == true) {
+          event.preventDefault();
+        } else {
+          this.addExtraLesson = !this.addExtraLesson;
+        }
+    }
+    // if(type == 'issue-makeup' && this.addExtraLesson == false){
+    //   this.isGlobal = !this.isGlobal;
+    // }else if(type == 'add-extra' && this.isGlobal == false){
+    //   this.addExtraLesson = !this.addExtraLesson;
+    // }
+  }
+
+  getDateMonthYear(LASD) {
+    // ACD = activeCourseDate/Month/Year
+    let ACD = new Date(LASD).getUTCDate();
+    let ACM = new Date(LASD).getUTCMonth() + 1;
+    let ACY = new Date(LASD).getUTCFullYear();
+    let obj = {
+      day: ACD,
+      month: ACM,
+      year: ACY
+    };
+    return obj;
+  }
+
+  withdrawReliefTeacher(staffId) {
+    console.log('withdraw relief teacher', staffId);
+    let dateObj = this.getDateMonthYear(this.LASD);
+    this._service
+      .withdrawReliefTeacher(this.regionId, this.courseId, staffId, dateObj)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.showReliefPopup = false;
+        this.updateForRelief();
+      });
   }
 }

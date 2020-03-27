@@ -96,8 +96,19 @@ export class StaffTeachingReportGraph implements OnInit {
         normal: {
           position: 'center',
           formatter: function(params) {
-            let value = '{a|' + totalHours.toFixed(2) + ' Hours}\n \n';
-            value += '{b|' + totalStaff + ' teachers}';
+            let totalhr, hr_st, teacher_st;
+            Number.isInteger(totalHours)
+              ? (totalhr = totalHours)
+              : (totalhr = totalHours.toFixed(2));
+
+            totalhr > 1
+              ? (hr_st = totalhr + ' Hours')
+              : (hr_st = totalhr + ' Hour');
+            totalStaff > 1
+              ? (teacher_st = totalStaff + ' teachers')
+              : (teacher_st = totalStaff + ' teacher');
+            let value = '{a|' + hr_st + '}\n \n';
+            value += '{b|' + teacher_st + '}';
             return value;
           },
           rich: {
@@ -127,5 +138,10 @@ export class StaffTeachingReportGraph implements OnInit {
     var elem = document.getElementById('staffTeachingGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
 }

@@ -13,15 +13,20 @@
               [ngClass]="{ stickywrap: navIsFixed == true }"
             >
               <div class="mr-auto p-2 pl-0 pb-0">
-                <div class="back-modal" (click)="backCourseDetail()">
+                <button
+                  class="btn back-modal"
+                  (click)="backCourseDetail()"
+                  [disabled]="loading"
+                >
                   <i class="fa fa-angle-left"></i>
                   <p>{{ courseDetail?.name }}</p>
-                </div>
+                </button>
               </div>
               <div class="ml-auto">
                 <button
                   type="button"
-                  class="btn sticky-cancel"
+                  class="btn sticky-cancel bg-s0 body-l text-c300"
+                  [disabled]="loading"
                   (click)="backCourseDetail()"
                 >
                   Cancel
@@ -41,20 +46,57 @@
       <div class="d-flex jusitfy-content-center main-wrapper">
         <div class="inner-wrapper pt-3">
           <p class="title bold">Standard</p>
-          <div class="d-flex standard-wrapper">
+          <div class="d-flex standard-wrapper" *ngIf="!loading">
             <div
-              class="standard-block medium"
-              *ngFor="let standard of standardList"
-              (click)="checkStandard(standard._id)"
+              class="standard-block bg-s0 body-l"
+              *ngFor="let standard of standardList; let idx = index"
+              (click)="checkStandard(standard._id, idx)"
               [ngClass]="{
-                active: createassignTask.standard.standardId == standard._id
+                'bg-active text-s0':
+                  createassignTask.standard.standardId == standard._id
               }"
             >
               {{ standard.name }}
             </div>
           </div>
+          <div class="d-flex flex-wrap standard-wrapper" *ngIf="loading">
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+            <div
+              class="col-md-2 standard-block bg-s0 body-l"
+              style="height: 40px;"
+            >
+              <content-loader>
+                <svg:rect x="5" y="35" rx="10" width="90%" height="20" />
+              </content-loader>
+            </div>
+          </div>
+
           <p class="title bold mb-0">Class level</p>
-          <div class="d-flex class-wrapper">
+          <div class="d-flex class-wrapper" *ngIf="!loading">
             <div
               class="col-md-4 ml-0 pl-0 mt-0 pt-0"
               *ngFor="let class of classList"
@@ -71,6 +113,33 @@
               </div>
             </div>
           </div>
+
+          <div class="d-flex class-wrapper" *ngIf="loading">
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
+              </div>
+            </div>
+            <div class="col-md-4 ml-0 pl-0 mt-0 pt-0">
+              <div class=" class-block" style="height: 80px;">
+                <content-loader>
+                  <svg:circle x="0" y="1" cx="16" cy="16" r="16" width="10%" />
+                  <svg:rect x="40" y="4" rx="10" width="80%" height="16" />
+                </content-loader>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="footer">
           <div
@@ -81,7 +150,7 @@
               <p>Back</p>
             </div>
             <button
-              class="btn btn-comfirm medium"
+              class="btn btn-comfirm medium bg-b100 text-s0"
               (click)="goToCustom()"
               [disabled]="!createassignTask?.standard?.classLevelId"
             >
@@ -109,7 +178,7 @@
               <div class="ml-auto">
                 <button
                   type="button"
-                  class="btn sticky-cancel"
+                  class="btn sticky-cancel bg-s0 body-l text-c300"
                   (click)="backCourseDetail()"
                 >
                   Cancel
@@ -135,7 +204,7 @@
               (click)="goToScheduleTask(assign)"
               *ngFor="let assign of assignTaskList"
             >
-              <div class="choice-block">
+              <div class="choice-block bg-s40">
                 <p class="choice-title bold">{{ assign.title }}</p>
                 <p class="choice-description medium">
                   {{ assign.description }}
@@ -170,7 +239,7 @@
             <div class="ml-auto">
               <button
                 type="button"
-                class="btn sticky-cancel"
+                class="btn sticky-cancel bg-s0 body-l text-c300"
                 (click)="backCourseDetail()"
               >
                 Cancel
@@ -233,7 +302,7 @@
             </p>
             <div class="simple-search input-group">
               <input
-                class="form-control py-2 task-search-input bold data-name"
+                class="form-control py-2 task-search-input body-l text-c100 data-name"
                 type="search"
                 placeholder="Search template"
                 autocomplete="off"
@@ -525,9 +594,8 @@
               Manage tasks
             </p>
             <p class="template-description2 medium">
-              Ut sit quis proident Lorem dolore est sint ea adipisicing amet. Ex
-              ex culpa incididunt quis nostrud sunt incididunt veniam tempor
-              enim elit cillum dolore.
+              All tasks will be assigned to class.You can customize each task's
+              announcement information.
             </p>
             <p class="title bold">All tasks - {{ taskLists.length }} Tasks</p>
             <div class="task-wrapper">
@@ -612,7 +680,7 @@
                 (click)="choicemode(mode)"
               >
                 <div
-                  class="choice-block"
+                  class="choice-block bg-s40"
                   [ngClass]="{
                     activeMode:
                       mode.id ==
@@ -655,7 +723,9 @@
     *ngIf="isCustom"
     [(courseDetail)]="courseDetail"
     [(selectStandard)]="createassignTask.standard"
-  ></custom-task>
+    (backAssign)="backFromCustom($event)"
+  >
+  </custom-task>
 
   <div id="placeholder_color"></div>
 </div>

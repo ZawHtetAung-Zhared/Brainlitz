@@ -1030,8 +1030,8 @@ export class CustomerComponent implements OnInit {
     // localStorage.setItem("courseCustomer",id)
     console.log('*-------*', id);
 
-    this.router.navigate(['/customer']);
-    this.dataservice.nevigateCustomer(id);
+    this.router.navigate(['/customer/customerdetail', id]);
+    // this.dataservice.nevigateCustomer(id);
   }
 
   openRemoveModal(id, deleteModal, n) {
@@ -1277,15 +1277,15 @@ export class CustomerComponent implements OnInit {
     this.formData = {};
   }
 
-  comparer(otherArray) {
-    return function(current) {
-      return (
-        otherArray.filter(function(other) {
-          return (
-            other.value == current.value && other.display == current.display
-          );
-        }).length == 0
-      );
-    };
-  }
+  // comparer(otherArray) {
+  //   return function(current) {
+  //     return (
+  //       otherArray.filter(function(other) {
+  //         return (
+  //           other.value == current.value && other.display == current.display
+  //         );
+  //       }).length == 0
+  //     );
+  //   };
+  // }
 }

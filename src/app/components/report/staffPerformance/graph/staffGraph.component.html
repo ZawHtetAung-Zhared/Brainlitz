@@ -3,16 +3,14 @@
     class="col-md-4"
     style="min-height:175px;padding-top:30px;position:relative;"
   >
-    <div style="font-size: 20px;font-weight: 600;color:#2e3d4d;">
+    <div class="h3-strong text-c300">
       {{ reportItem.groupTypeValue }}
     </div>
-    <h3 style="font-weight: 600;color:#2e3d4d;" *ngIf="reportItem.filterValue">
+    <h3 class="h1-strong text-c300" *ngIf="reportItem.filterValue">
       {{ reportItem.filterValue }}
     </h3>
     <div class="d-flex half">
-      <h3
-        style="margin: 0;font-family: Inter-UI-Medium;color:#64707d;padding-top:5px;"
-      >
+      <h3 class="h1-strong text-c100" style="margin: 0;padding-top:5px;">
         {{ reportItem.averageRating }}
       </h3>
       <div style="display: block;">
@@ -21,7 +19,7 @@
           [starType]="'svg'"
           [rating]="reportItem.averageRating"
         ></star-rating-comp>
-        <div class="average-rating-font">
+        <div class="average-rating-font small text-c100">
           {{ reportItem.totalRating }}
           <span *ngIf="reportItem.totalRating > 1">ratings</span
           ><span *ngIf="reportItem.totalRating == 1">rating</span>

@@ -203,6 +203,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   isDisabledBtn = false;
   stdArr = [];
   showcb: boolean = false;
+  searchCategory = '';
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
   >;
@@ -826,6 +827,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.slotM = '';
     this.slotIdx = '';
     this.slotJidx = '';
+    if (
+      $event.target.className != null &&
+      $event.target.className.includes('enroll-search') == false
+    ) {
+      this.showList = false;
+      this.formData.searchText = '';
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -1253,8 +1261,18 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   // Search Category
 
+  inputCategory(val) {
+    if (val.length == 0) {
+      this.searchCategory = '';
+      this.getAllCategory();
+    } else {
+      this.searchCategory = val;
+    }
+  }
+
   searchCategoryList(val, type) {
     console.log(val, type);
+    this.searchCategory = val;
     //this.blockUI.start('Loading...');
     if (val.length > 0) {
       // //this.blockUI.start('Loading...');
@@ -1283,38 +1301,28 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         );
     } else if (val.length <= 0) {
       // //this.blockUI.start('Loading...');
-      this._service.getCategory(this.regionId, 20, 0).subscribe(
-        (res: any) => {
-          console.log(res);
-          console.log(this.categoryList.name);
-          res.unshift({ name: 'All category', _id: 'all' });
-          this.categoryList = res;
-          //this.blockUI.stop();
-        },
-        err => {
-          console.log(err);
-          //this.blockUI.stop();
-        }
-      );
+      this.getAllCategory();
     }
   }
   // Focus Search
   focusSearch(val, type) {
+    this.getAllCategory();
+    val.preventDefault();
+    val.stopPropagation();
+    this.isFousCategory = true;
+  }
+
+  getAllCategory() {
     this._service.getCategory(this.regionId, 20, 0).subscribe(
       (res: any) => {
         console.log(res);
         res.unshift({ name: 'All category', _id: 'all' });
         this.categoryList = res;
-        console.log(val, 'OK');
       },
       err => {
         console.log(err);
       }
     );
-
-    val.preventDefault();
-    val.stopPropagation();
-    this.isFousCategory = true;
   }
 
   focusSearch2(val, tye) {
@@ -1981,9 +1989,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     console.log(this.courseDetail.lessons);
     if (this.courseDetail.lessons != undefined) {
       this.courseDetail.lessons.map(lesson => {
-        console.log(lesson.startDate);
+        // console.log(lesson.startDate);
         var lessondate = lesson.startDate.split('T')[0];
-        console.log(lessondate);
+        // console.log(lessondate);
         var m =
           this.lessonD.month < 10
             ? '0' + this.lessonD.month
@@ -1991,7 +1999,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         var d =
           this.lessonD.day < 10 ? '0' + this.lessonD.day : this.lessonD.day;
         var tempDate = this.lessonD.year + '-' + m + '-' + d;
-        console.log('tempDate', tempDate);
+        // console.log('tempDate', tempDate);
         if (lessondate == tempDate) {
           this.selectedLesson = lesson;
           console.log('selected lesson', this.selectedLesson);
@@ -2018,11 +2026,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         (res: any) => {
           // //this.blockUI.stop();
           console.log(res);
+          console.log(this.selectedSeat); //zzkz
           this.studentLists = res.CUSTOMER;
           this.selectedSeat.taken = this.studentLists.length;
-          this.selectedSeat.left =
-            this.selectedSeat.total - this.selectedSeat.taken;
-          console.log(this.selectedSeat);
+          if (this.selectedSeat.left != null)
+            this.selectedSeat.left =
+              this.selectedSeat.total - this.selectedSeat.taken;
 
           res.CUSTOMER.map(customer => {
             this.studentArray.push(customer.userId);
@@ -2038,11 +2047,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // console.log(e)
     console.log(userType);
     this.isFous = true;
+    this.formData.searchText = e.target.value;
     this.userLists = [];
+    if (e.target.value.length == 0) {
+      this.showList = false;
+    }
     // this.getAllUsers(userType);
   }
 
   hideFocus(e) {
+    console.log(e.target);
     setTimeout(() => {
       this.isFous = false;
       this.showList = false;
@@ -2051,6 +2065,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   changeMethod(searchWord, userType) {
+    console.log(searchWord);
     // let courseId = "5beb8c7d1f893164fff2c31d";
 
     userType = userType == 'teacher' ? 'staff' : userType;
@@ -2078,6 +2093,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else if (searchWord.length == 0) {
       this.userLists = [];
       this.showList = false;
+      this.formData.searchText = '';
     }
   }
 
@@ -2569,6 +2585,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   testTop;
   testLeft;
+
   getSlotNumber(hr, min, ampm, e, i, j, date, weekday) {
     this.isFousCategory = false;
     const ele = document.getElementById('overlap-wrapper');
@@ -2660,7 +2677,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     } else {
       height = 160;
     }
-    if ($(document).height() - this.yPosition < height) {
+    // if ($(document).height() - this.yPosition < height) {
+    if ($(window).height() - this.yPosition < height) {
       this.yPosition = $(event.target).offset().top - height;
       this.arrTop = this.yPosition + height;
       this.arrClasses = {
@@ -2860,6 +2878,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     // Call cancel class api service
     // //this.blockUI.start('Loading...');
     // this.isGlobal
+
     this._service
       .cancelUsersFromClass(this.courseId, cancelData, this.isGlobal)
       .subscribe(
@@ -2876,7 +2895,16 @@ export class ScheduleComponent implements OnInit, OnDestroy {
           this.isGlobal = false;
           // this.disableCancel = true;
           // this.getCourseDetail(this.courseId);
-          this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+          if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              '0,1,2,3,4,5,6'
+            );
+          } else
+            this.getStaffTimetable(
+              this.selectedTeacher.userId,
+              this.selectedDay.toString()
+            );
           // Close Dialog box
           // Show the canceled users
           this.reasonValue = '';
@@ -2896,6 +2924,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   onClickCourse(course, lesson, e, date, list, type) {
     console.error('here onclickcourse');
+    console.log(course);
     this.isFousCategory = false;
     this.overlap = false;
     this.tempTeacher = course.teacher[0];
@@ -2989,10 +3018,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.arrTop = this.yPosition - 41;
       this.xPosition = e.x - 40;
       this.arrLeft = e.x - 10;
-      if ($(document).height() - (this.yPosition + 80) < this.popUpHeight) {
+      // if($(document).height() - (this.yPosition+80) < this.popUpHeight){
+      if ($(window).height() - this.yPosition < this.popUpHeight) {
         console.log('I found u');
+        this.arrTop = this.yPosition - 34;
         this.yPosition = this.yPosition - this.popUpHeight - 20;
-        this.arrTop = this.yPosition + this.popUpHeight - 10;
+        // this.arrTop = this.yPosition + this.popUpHeight - 10;
         this.arrClasses = {
           'arr-down': true
         };
@@ -3119,9 +3150,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       } else {
         height = 160;
       }
-      if ($(document).height() - (this.yPosition + height - 20) < height) {
+      // if ($(document).height() - (this.yPosition + height - 20) < height) {
+      if ($(window).height() - this.yPosition < height) {
         this.yPosition = $(event.target).offset().top - height;
-        this.arrTop = this.yPosition + height;
+        this.arrTop = this.yPosition + height - 1;
         this.arrClasses = {
           'arr-box': true,
           'arr-down': true
@@ -3372,7 +3404,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
         this.showPayment = false;
         this.showOneInvoice(this.invoice);
       });
-    this.getUserInCourse();
+    // this.getUserInCourse();
+    if (this.selectedDay.length == 0 || this.selectedDay.length < 0) {
+      this.getStaffTimetable(this.selectedTeacher.userId, '0,1,2,3,4,5,6');
+    } else
+      this.getStaffTimetable(
+        this.selectedTeacher.userId,
+        this.selectedDay.toString()
+      );
     //add lesson
     console.log(this.checkobjArr);
   }
@@ -3398,6 +3437,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   public overlapYLeft;
   public overlap = false;
   caculatePosition(e) {
+    console.log(
+      'claculatePosition>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>'
+    );
     this.overlap = true;
     // e.preventDefault();
     // e.stopPropagation();
@@ -3436,7 +3478,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       };
     }
 
-    if ($(document).height() - (YPosition + 112) < 56) {
+    // if ($(document).height() - (YPosition + 112) < 56) {
+    if ($(window).height() - (YPosition + 50) < 56) {
       this.overlapXTop = YPosition - 56 + 'px';
       this.overlapClasses = {
         top: YPosition - 56 + 'px',

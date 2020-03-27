@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 @Component({
   selector: 'course-graph',
-  templateUrl: './courseGraph.component.html',
-  styles: [
-    '.average-rating-font {color: #64707d;padding-left: 10px;font-size: 12px;font-family: Inter-UI-Medium, Arial,sans-serif;line-height: 0.5;}'
-  ]
+  templateUrl: './courseGraph.component.html'
 })
 export class CourseActivitiesReportGraph implements OnInit {
   @Input() reportItems: any;
@@ -106,7 +103,7 @@ export class CourseActivitiesReportGraph implements OnInit {
           type: 'bar',
           stack: 'courseActivities',
           itemStyle: {
-            normal: { color: '#91f2ba' }
+            normal: { color: '#91F2BA' }
           },
           symbolSize: 5,
           data: []
@@ -116,7 +113,7 @@ export class CourseActivitiesReportGraph implements OnInit {
           type: 'bar',
           stack: 'courseActivities',
           itemStyle: {
-            normal: { color: '#ffaaa6' }
+            normal: { color: '#FF9E99' }
           },
           data: []
         },
@@ -125,7 +122,7 @@ export class CourseActivitiesReportGraph implements OnInit {
           type: 'bar',
           stack: 'courseActivities',
           itemStyle: {
-            normal: { color: '#edeff0' }
+            normal: { color: '#EDEEF0' }
           },
           emphasis: {
             itemStyle: {
@@ -159,6 +156,11 @@ export class CourseActivitiesReportGraph implements OnInit {
     elem.style.height = this.reportItems.length * 125 + 'px';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
   ngOnInit() {}
 }

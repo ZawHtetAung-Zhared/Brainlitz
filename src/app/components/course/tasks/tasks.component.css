@@ -1,3 +1,5 @@
+@import '../../../../assets/css/main.min.css';
+
 body {
   font-family: 'Inter-UI-Regular', Arial, sans-serif !important;
 }
@@ -5,7 +7,7 @@ body {
 .task-holder {
   margin-bottom: 1.8em;
   width: 476px;
-  /* height: 180px; */
+  min-height: 340px;
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
@@ -30,12 +32,12 @@ body {
 
 .cardbody {
   padding: 10px 10px 10px 10px;
-  min-height: 120px;
-  background: #fffc;
+  min-height: 128px;
 }
 
 .cardfooter {
   padding: 24px 24px 24px 24px;
+  max-height: 100px;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -56,10 +58,16 @@ body {
   color: #5c6773;
 }
 
+.task-length {
+  font-style: normal;
+  font-size: 17px;
+  line-height: 28px;
+  font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
+    'ss03' on, 'case' on;
+  color: #5c6773;
+}
+
 .btn-create {
-  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
-  color: #fff;
-  background-color: #1682fb;
   border: none;
   padding: 8px 20px;
   border-radius: 3px;
@@ -67,9 +75,6 @@ body {
 }
 
 .btn-normal {
-  font-family: 'Inter-UI-Light', 'Arial', sans-serif;
-  color: #000;
-  background-color: #fff;
   border: none;
   padding: 8px 20px;
   border-radius: 3px;
@@ -106,13 +111,8 @@ body {
 
 .custom-or-schedule {
   /* font-family: Inter; */
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 24px;
   font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-  color: #fff;
   background: rgba(124, 131, 139, 0.8);
   padding: 8px;
   border-radius: 10px;
@@ -134,19 +134,13 @@ body {
 
 .count-text {
   /* font-family: Inter; */
-  font-style: normal;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 28px;
   display: flex;
   align-items: center;
   font-feature-settings: 'tum' on, 'lnum' on, 'ss01' on, 'zero' on, 'ss02' on,
     'ss03' on, 'case' on;
-  color: #5c6773;
 }
 
 .masteries-count {
-  background-color: #f2f4f5;
   border-radius: 25px;
   padding: 8px 10px 8px 10px;
   text-align: center;

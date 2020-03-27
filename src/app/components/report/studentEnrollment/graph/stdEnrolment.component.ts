@@ -28,7 +28,7 @@ export class StdEnrolmentReportGraph implements OnInit {
         type: 'scroll',
         axis: 'right',
         top: 10,
-        right: 0,
+        right: 30,
         avoidLabelOverlap: true,
         data: [],
         textStyle: {
@@ -90,6 +90,11 @@ export class StdEnrolmentReportGraph implements OnInit {
     var elem = document.getElementById('stdEnrolmentGraph');
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    $(window).on('resize', function() {
+      if (graph != null && graph != undefined) {
+        graph.resize();
+      }
+    });
   }
   ngOnInit() {}
 }

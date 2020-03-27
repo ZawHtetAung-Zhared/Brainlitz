@@ -155,8 +155,10 @@ export class CategoryComponent implements OnInit {
 
     setTimeout(() => {
       console.log('--waiting--');
-      this._service.gotoplan();
-      this.goBackCat = true;
+      if (this.ischecked != undefined) {
+        this._service.gotoplan();
+        this.goBackCat = true;
+      }
     }, 300);
   }
 

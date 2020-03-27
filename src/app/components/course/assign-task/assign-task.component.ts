@@ -88,7 +88,7 @@ export class AssignTaskComponent implements OnInit {
 
   // custom task
   public isCustom: boolean = false;
-
+  public loading: boolean = false;
   constructor(
     private datePipe: DatePipe,
     private modalService: NgbModal,
@@ -99,6 +99,7 @@ export class AssignTaskComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
     this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
@@ -122,8 +123,13 @@ export class AssignTaskComponent implements OnInit {
     );
   }
 
-  checkStandard(id) {
-    this.createassignTask.standard.standardId = id;
+  checkStandard(id, index) {
+    console.log('choice standard', id);
+    if (this.createassignTask.standard.standardId != id) {
+      this.createassignTask.standard.classLevelId = null;
+      this.createassignTask.standard.standardId = id;
+      this.classList = this.standardList[index].classLevelId;
+    }
   }
 
   choiceClass(id) {
@@ -533,7 +539,7 @@ export class AssignTaskComponent implements OnInit {
       this.createassignTask.standard = temp;
 
       this.classList = res[0].classLevelId;
-
+      this.loading = false;
       console.log(this.createassignTask);
       console.log(this.classList, 'class list');
       console.log(this.standardList, 'standard list');
@@ -561,6 +567,11 @@ export class AssignTaskComponent implements OnInit {
     this.isScheduleTask = false;
     this.isStart = true;
     this.createassignTask.template = {};
+  }
+
+  backFromCustom(e) {
+    console.log(e);
+    this.isCustom = e;
   }
   // end back to
 

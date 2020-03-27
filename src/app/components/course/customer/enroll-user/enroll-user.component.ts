@@ -41,11 +41,6 @@ export class EnrollUserComponent implements OnInit {
   //public clickCancel: any;
   public seatLeft = 0;
   ngOnInit(): void {
-    // this.route.paramMap.subscribe(params => {
-    //   //this.courseId = params['id']; //undefined
-    //  // this.courseId=params.get('id'); // null
-    // });
-    //this.courseId = this.route.snapshot.params.id;
     console.log(this.userLists.length);
     this.enrollUserList = [];
     this.userType = localStorage.getItem('userType');
@@ -54,8 +49,6 @@ export class EnrollUserComponent implements OnInit {
     );
     this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
-    //this.clickCancel = `/coursedetail/${this.courseId}/customers`;
-    //this.clickCancel=this._location.back();
     console.log(' I got Id : ' + this.courseId);
     this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
@@ -65,11 +58,6 @@ export class EnrollUserComponent implements OnInit {
         this.checkPermission();
       }
     );
-    //console.log(this.courseDemo.assignStudent + ' assign student');
-
-    //mytest
-
-    //mytest
   }
 
   ngOnDestroy() {
@@ -1670,6 +1658,7 @@ export class EnrollUserComponent implements OnInit {
         setTimeout(() => {
           this.toastr.success('Assistant successfully assigned.');
         }, 100);
+        this._location.back();
         // this.toastr.success("Assistant successfully assigned.");
         //this.modalReference.close();
         if (this.isvalidID == 'inside') {
@@ -1689,7 +1678,6 @@ export class EnrollUserComponent implements OnInit {
         console.log(err);
       }
     );
-    this._location.back();
   }
 
   getSelectedUserId() {

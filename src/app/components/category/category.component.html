@@ -1,133 +1,208 @@
 <div class="inner-wrapper" *ngIf="!goBackCat" (scroll)="onScroll($event)">
-  <div [ngClass]="{'overlay': isfocus == true || iseditfocus == true}"></div>
-  
-  <header [ngClass]="{'blury': isfocus == true || iseditfocus == true}" style="height: 115px;">
-    <div class="d-flex d-wrapper" [ngClass]="{'stickywrap' : navIsFixed == true}">
+  <div [ngClass]="{ overlay: isfocus == true || iseditfocus == true }"></div>
+
+  <header
+    [ngClass]="{ blury: isfocus == true || iseditfocus == true }"
+    style="height: 115px;"
+  >
+    <div
+      class="d-flex d-wrapper"
+      [ngClass]="{ stickywrap: navIsFixed == true }"
+    >
       <div class="mr-auto p-2 pl-0 pb-0">
-        <div class="back-to" (click)="backtoCourses()">
+        <div class="back-to text-c300 " (click)="backtoCourses()">
           <i class="fa fa-angle-left"></i>
-          <p>Back</p>
+          <p class="body-l">Back</p>
         </div>
-      </div> 
+      </div>
       <div>
-        <button *ngIf="isEditComplete == false" class="btn category-edit" (click)="edit()">Edit</button>
-        <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+        <button
+          *ngIf="isEditComplete == false"
+          class="btn category-edit text-c300 body-l bg-s0"
+          (click)="edit()"
+        >
+          Edit
+        </button>
+        <button
+          *ngIf="isEditComplete == true"
+          class="btn category-done body-l bg-b100 text-s0"
+          (click)="editComplete()"
+        >
+          Done
+        </button>
       </div>
     </div>
-    <h3 class="category-h3" [ngClass]="{'stickywrap' : navIsFixed == true}">Pick category</h3>
+    <h3
+      class="category-h3 h3-strong text-c300 "
+      [ngClass]="{ stickywrap: navIsFixed == true }"
+    >
+      Pick category
+    </h3>
   </header>
-  <div class="sticky-menu" [ngClass]="{'sticky' : navIsFixed == true}">
+  <div class="sticky-menu" [ngClass]="{ sticky: navIsFixed == true }">
     <div class="d-flex">
       <div class="mr-auto p-2 pl-0 pb-0">
         <div class="back-to" (click)="backtoCourses()">
           <i class="fa fa-angle-left"></i>
           <p>Back</p>
         </div>
-      </div> 
+      </div>
       <div class="mr-auto p-2 pb-0">
         <h5 class="category-h5">Pick category</h5>
-      </div> 
+      </div>
       <div>
-        <button *ngIf="isEditComplete == false" class="btn category-edit1" (click)="edit()">Edit</button>
-        <button *ngIf="isEditComplete == true" class="btn category-done" (click)="editComplete()">Done</button>
+        <button
+          *ngIf="isEditComplete == false"
+          class="btn category-edit1"
+          (click)="edit()"
+        >
+          Edit
+        </button>
+        <button
+          *ngIf="isEditComplete == true"
+          class="btn category-done"
+          (click)="editComplete()"
+        >
+          Done
+        </button>
       </div>
     </div>
   </div>
-  
+
   <div>
     <!-- <p class="card-text" [style.display]="'none'">hola</p> -->
     <div class="row justify-content-start mb-20">
-      <div class="col-md-4 category-btn">
+      <div class="col-md-4 category-btn  body-l">
         <form novalidate #categoryForm="ngForm">
           <div class="d-flex justify-content-between">
             <div class="limit-word">
-              <span>{{wordLength}}/60characters</span>
+              <span>{{ wordLength }}/60characters</span>
             </div>
           </div>
-          <input 
-            type="text" id="inp"
-            [ngClass]="{'onfocus': isfocus == true}"
-            class="form-control create-btn" 
-            placeholder="+ Create new category" 
-            name="name" 
-            [(ngModel)]="item.name" 
-            required 
+          <input
+            type="text"
+            id="inp"
+            [ngClass]="{ onfocus: isfocus == true }"
+            class="form-control create-btn body-l text-c300 bg-s20"
+            placeholder="+ Create new category"
+            name="name"
+            [(ngModel)]="item.name"
+            required
             #name="ngModel"
-            (focus)="focusFunction('create','', $event.target.value )" 
+            (focus)="focusFunction('create', '', $event.target.value)"
             (blur)="blurMethod($event, 'create')"
             (input)="changeMethod($event.target.value)"
             *ngIf="isEditComplete == false"
-            maxlength="60">
-            <input 
-            type="text" id="inp"
-            [ngClass]="{'onfocus': isfocus == true, 'blury': iseditfocus == true}"
-            class="form-control" 
-            placeholder="+ Create new category" 
-            name="name" 
+            maxlength="60"
+          />
+          <input
+            type="text"
+            id="inp"
+            [ngClass]="{ onfocus: isfocus == true, blury: iseditfocus == true }"
+            class="form-control"
+            placeholder="+ Create new category"
+            name="name"
             (focus)="focusFunction('create')"
-            *ngIf="isEditComplete == true" 
-            disabled>
-          <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': isfocus == true}"> 
+            *ngIf="isEditComplete == true"
+            disabled
+          />
+          <div
+            class="d-flex justify-content-end category-btn-group"
+            [ngClass]="{ showbtns: isfocus == true }"
+          >
             <button type="submit" class="btn" (click)="close('create')">
               <span class="closemark">
-                  <div class="closemark_stem"></div>
-                  <div class="closemark_kick"></div>
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
               </span>
             </button>
-            <button type="submit" class="btn" (click)="createCategory(item)" [disabled]="!categoryForm.valid">
+            <button
+              type="submit"
+              class="btn"
+              (click)="createCategory(item)"
+              [disabled]="!categoryForm.valid"
+            >
               <span class="checkmark">
-                  <div class="checkmark_stem"></div>
-                  <div class="checkmark_kick"></div>
+                <div class="checkmark_stem"></div>
+                <div class="checkmark_kick"></div>
               </span>
             </button>
           </div>
         </form>
       </div>
-      <div class="col-md-4 cagetory-item" *ngFor="let category of categoryList; let i = index">
+      <div
+        class="col-md-4 cagetory-item"
+        *ngFor="let category of categoryList; let i = index"
+      >
         <form novalidate #categoryForm="ngForm">
           <div *ngIf="isEditComplete == false" class="form-check">
-            <label class="form-check-label cat-label d-flex flex-column justify-content-center" [ngClass]="{'selected': ischecked == category._id, 'blury': isfocus == true}">
+            <label
+              class="form-check-label cat-label d-flex flex-column justify-content-center"
+              [ngClass]="{
+                selected: ischecked == category._id,
+                blury: isfocus == true
+              }"
+            >
               <div>
-                  <div class="label-checked"></div>
-                  <input class="form-check-input"
-                      type="radio" 
-                      name="inlineRadioOptions" 
-                      id="category._id"                                         
-                      (click)="somethingChanged(category._id, category.name)"
-                      value="{{category.name}}"> {{category.name}}
+                <div class="label-checked"></div>
+                <input
+                  class="form-check-input bg-s0 text-c300 body-l"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="category._id"
+                  (click)="somethingChanged(category._id, category.name)"
+                  value="{{ category.name }}"
+                />
+                {{ category.name }}
               </div>
             </label>
           </div>
           <div *ngIf="isEditComplete == true" class="editcategory-item">
             <div class="d-flex justify-content-between">
-              <div class="limit-word limit-{{category._id}}">
-                <span>{{wordLength}}/60characters</span>
+              <div class="limit-word limit-{{ category._id }}">
+                <span>{{ wordLength }}/60characters</span>
               </div>
-            </div>          
+            </div>
             <input
-              type="text" 
+              type="text"
               id="category._id"
-              class="form-control" 
-              [ngClass]="{'onfocus': editValue == category._id, 'blury': (iseditfocus == true && editValue != category._id)}"            
-              name="name" 
-              [(ngModel)]="category.name" 
-              required 
+              class="form-control"
+              [ngClass]="{
+                onfocus: editValue == category._id,
+                blury: iseditfocus == true && editValue != category._id
+              }"
+              name="name"
+              [(ngModel)]="category.name"
+              required
               #name="ngModel"
-              (focus)="focusFunction('edit',category._id, $event.target.value)"
+              (focus)="focusFunction('edit', category._id, $event.target.value)"
               (blur)="blurMethod($event, 'create')"
               (input)="changeMethod($event.target.value)"
-              maxlength="60">
-            <div class="d-flex justify-content-end category-btn-group" [ngClass]="{'showbtns': editValue == category._id}"> 
-              <button type="submit" class="btn" (click)="close('edit', category._id)">
+              maxlength="60"
+            />
+            <div
+              class="d-flex justify-content-end category-btn-group"
+              [ngClass]="{ showbtns: editValue == category._id }"
+            >
+              <button
+                type="submit"
+                class="btn"
+                (click)="close('edit', category._id)"
+              >
                 <span class="closemark">
-                    <div class="closemark_stem"></div>
-                    <div class="closemark_kick"></div>
+                  <div class="closemark_stem"></div>
+                  <div class="closemark_kick"></div>
                 </span>
               </button>
-              <button type="submit" class="btn" (click)="updateCategory(item, category.name)" [disabled]="!categoryForm.valid">
+              <button
+                type="submit"
+                class="btn"
+                (click)="updateCategory(item, category.name)"
+                [disabled]="!categoryForm.valid"
+              >
                 <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
+                  <div class="checkmark_stem"></div>
+                  <div class="checkmark_kick"></div>
                 </span>
               </button>
             </div>
@@ -137,8 +212,16 @@
     </div>
   </div>
 
-  <div *ngIf="categoryList.length >= 20 && result.length != 0" class="d-flex justify-content-center load-more">
-    <button class="btn" (click)="showMore(categoryList.length)">load more</button>
+  <div
+    *ngIf="categoryList.length >= 20 && result.length != 0"
+    class="d-flex justify-content-center load-more bg-s0 text-b100 "
+  >
+    <button
+      class="btn text-b100 body-l"
+      (click)="showMore(categoryList.length)"
+    >
+      load more
+    </button>
   </div>
   <block-ui message="Deafult Message"></block-ui>
 </div>

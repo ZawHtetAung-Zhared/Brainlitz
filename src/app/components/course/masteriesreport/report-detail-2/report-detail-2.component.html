@@ -1,20 +1,20 @@
-<div class="cust-bg" *ngIf="challengeData">
+<div class="cust-bg">
   <div class="cust-hg">
     <div class="pt-4 pb-4 inner-wrapper">
       <div (click)="backTo()" class="d-flex align-items-center">
         <i class="fa fa-angle-left"></i>
-        <span class="back-txt">
+        <span class="back-txt body-l text-c300">
           Mastery reports
         </span>
       </div>
     </div>
 
-    <div class="inner-wrapper">
+    <div *ngIf="!loadingDetail && challengeData" class="inner-wrapper pb-100">
       <div class="mastery-box white-bg d-flex flex-column">
         <div class="d-flex justify-content-between">
           <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
-              <span class="mastery-title">
+              <span class="h3-strong text-c300">
                 Top 5 challenging {{ challengeData.name }} masteries for this
                 class
               </span>
@@ -22,32 +22,40 @@
                 <img src="./assets/img/tiny-brainlitz.svg" />
               </span>
             </div>
-            <div class="pl-4 light-txt2 light-txt">What are masteries?</div>
+            <div class="pl-4 body-m text-c100">What are masteries?</div>
           </div>
         </div>
         <!-- loop start -->
         <div
           *ngFor="
-            let challenge of challengeData.masteries;
+            let challenge of challengeData.challengingMasteries;
             let i = index;
             let lastcall = last
           "
           class="mt-4 d-flex flex-column"
         >
           <div class="no-circle">{{ i + 1 }}</div>
-          <div class="mastery-body mb-4">
-            {{ challenge.descriptionStudent }}
+          <div class="mastery-body body-m text-c300 mb-4 pr-2">
+            <!-- {{ challenge.descriptionStudent }} -->
+            {{ challenge.infoForEducator }}
+            <span>
+              <img
+                src="./assets/icons/mastery-question.svg"
+                class="p-0 btn"
+                (click)="openModal(challenge.masteryId)"
+              />
+            </span>
           </div>
-          <div calss="d-flex mastery-body">
+          <!-- <div calss="d-flex mastery-body body-m text-c300">
             <span>Info for educator :</span>
             <img
               src="./assets/icons/mastery-question.svg"
               class="pr-0 pl-2 btn"
-              (click)="getQuestion(challenge.masteryId)"
+              (click)="openModal(challenge.masteryId)"
             />
             <span> {{ challenge.infoForEducator }} </span>
-          </div>
-          <div class="mastery-body txt-bold mt-3">
+          </div> -->
+          <div class="mastery-body h5-strong text-c300 mt-3">
             {{ challenge.challengingPercentage }} % of students have yet to meet
             the expectation of this mastery.
           </div>
@@ -62,38 +70,61 @@
         <!-- loop end -->
       </div>
     </div>
-
-    <!-- <div class="mb-4 white-bg">
-      <div class="inner-wrapper w-100">
-        <div
-          id="mastery_detail"
-          class="pt-4"
-          style="width:100%; min-height: 200px;"
-        ></div>
+    <!-- loading start -->
+    <div *ngIf="loadingDetail" class="inner-wrapper">
+      <div class="mastery-box white-bg d-flex flex-column">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="200px" height="10px" />
+          <svg:rect x="300" y="0" rx="3" ry="3" width="100px" height="10px" />
+          <svg:rect x="0" y="20" rx="50" ry="50" width="15px" height="15px" />
+          <svg:rect x="0" y="40" rx="3" ry="3" width="100%" height="20px" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="90" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="105" rx="3" ry="3" width="100%" height="15px" />
+        </content-loader>
+        <content-loader>
+          <svg:rect x="0" y="20" rx="50" ry="50" width="15px" height="15px" />
+          <svg:rect x="0" y="40" rx="3" ry="3" width="100%" height="20px" />
+          <svg:rect x="0" y="65" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="90" rx="3" ry="3" width="100%" height="10px" />
+          <svg:rect x="0" y="105" rx="3" ry="3" width="100%" height="15px" />
+        </content-loader>
       </div>
-    </div> -->
+    </div>
+    <!-- loading end -->
+  </div>
+
+  <div class="white-bg" style="margin-bottom: 80px;">
+    <div class="inner-wrapper w-100">
+      <div
+        id="mastery_detail"
+        class="pt-4"
+        style="width:100%; min-height: 200px;"
+      ></div>
+      <div id="mastery_hover"></div>
+    </div>
   </div>
 
   <div class="footer white-gb d-flex justify-content-center align-items-center">
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #BF2926;"></div>
-      <span class="color-txt"> Struggling </span>
+      <span class="color-txt small text-c300"> Struggling </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #EDEEF0;"></div>
-      <span class="color-txt"> Not started </span>
+      <span class="color-txt small text-c300"> Not started </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #D4D5D6;"></div>
-      <span class="color-txt"> Inconclusive </span>
+      <span class="color-txt small text-c300"> Inconclusive </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #6DC000;"></div>
-      <span class="color-txt"> Mastered w/ difficulties </span>
+      <span class="color-txt small text-c300"> Mastered w/ difficulties </span>
     </div>
     <div class="d-flex color-wrap">
       <div class="color-box" style="background: #4FDD00;"></div>
-      <span class="color-txt"> Mastered w/ ease </span>
+      <span class="color-txt small text-c300"> Mastered w/ ease </span>
     </div>
   </div>
 </div>
@@ -102,7 +133,7 @@
   <div class="d-flex flex-column modal-body">
     <div class="d-flex flex-column header-question">
       <div class="d-flex w-100">
-        <span class="sample-txt f-20"> Sample Question </span>
+        <span class="h3-strong text-c100"> Sample Question </span>
         <button
           (click)="cancelModal()"
           aria-label="Close"
@@ -114,17 +145,34 @@
           </span>
         </button>
       </div>
-      <h3 class="modal-title d-flex mr-auto">
+      <h3
+        *ngIf="samplexml"
+        class="modal-title d-flex mr-auto h2-strong"
+        [ngClass]="{ hide: loadingQuestion }"
+      >
         {{ samplexml.data.mastery.shortMasteryName }}
       </h3>
+      <!-- loading header -->
+      <h3 *ngIf="loadingQuestion" style="height: 40px;">
+        <content-loader>
+          <svg:rect x="0" y="0" rx="3" ry="3" width="80%" height="20px" />
+        </content-loader>
+      </h3>
+      <!-- end loading header -->
     </div>
-    <div class="modal-hg sample-txt f-17">
+    <div
+      *ngIf="samplexml"
+      class="modal-hg  h4-strong text-c100"
+      [ngClass]="{ hide: loadingQuestion }"
+    >
       <div id="Question" class="mastery-question"></div>
       <div
         *ngFor="let ans of samplexml.data.quiz.answers"
         class="mt-4 ml-2 mr-2"
       >
-        <span *ngIf="ans.correctness" class="green-txt"> Correct answer </span>
+        <span *ngIf="ans.correctness" class="text-g100 body-m">
+          Correct answer
+        </span>
         <div
           id="{{ ans._id }}"
           class="ans-box mastery-answer"
@@ -132,5 +180,21 @@
         ></div>
       </div>
     </div>
+    <!-- loading body -->
+    <div *ngIf="loadingQuestion" class="modal-hg">
+      <content-loader>
+        <svg:rect x="0" y="0" rx="3" ry="3" width="100%" height="20px" />
+        <svg:rect x="0" y="40" rx="3" ry="3" width="70%" height="15px" />
+        <svg:rect x="0" y="60" rx="3" ry="3" width="100%" height="30px" />
+        <svg:rect x="0" y="100" rx="3" ry="3" width="70%" height="25px" />
+      </content-loader>
+      <content-loader>
+        <svg:rect x="0" y="0" rx="3" ry="3" width="100%" height="20px" />
+        <svg:rect x="0" y="40" rx="3" ry="3" width="70%" height="15px" />
+        <svg:rect x="0" y="60" rx="3" ry="3" width="100%" height="30px" />
+        <svg:rect x="0" y="100" rx="3" ry="3" width="70%" height="25px" />
+      </content-loader>
+    </div>
+    <!-- end loading body -->
   </div>
 </ng-template>

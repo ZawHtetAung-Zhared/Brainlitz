@@ -23,6 +23,9 @@ export class ReportDetail2Component implements OnInit {
   echarts: any;
   reportItems: any;
   masteriesReports: any;
+  public loadingDetail: boolean = true;
+  public loadingQuestion: boolean = true;
+  public plotDetailOption: any;
   public seriesData: any = [
     {
       type: 'bar',
@@ -90,8 +93,10 @@ export class ReportDetail2Component implements OnInit {
   constructor(
     private _location: Location,
     private _service: appService,
-    private _data: DataService,
-    private modalService: NgbModal
+    private dataservice: DataService,
+    private modalService: NgbModal,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -101,22 +106,38 @@ export class ReportDetail2Component implements OnInit {
         (res: any) => {
           console.log(res);
           this.challengeData = res.data.masteryReport;
+          this.reportItems = this.challengeData.masteries;
+          // this.setupDetailOption(this.isExpand, this.isAdvance);
           // this.challengeData = Data.data.masteryReport;
           setTimeout(() => {
-            for (var i = 0; i < this.challengeData.masteries.length; i++) {
-              this.setupOption(this.challengeData.masteries[i]);
-            }
-          }, 200);
+            this.loadingDetail = false;
+            setTimeout(() => {
+              for (
+                var i = 0;
+                i < this.challengeData.challengingMasteries.length;
+                i++
+              ) {
+                this.setupOption(this.challengeData.challengingMasteries[i]);
+              }
+            }, 100);
+            setTimeout(() => {
+              this.setupDetailOption();
+            }, 200);
+          }, 1000);
         },
         err => {
           console.log(err);
         }
       );
+    document.addEventListener('click', function(event) {
+      console.log(event);
+    });
   }
 
   ngAfterViewInit() {}
 
   @HostListener('window:scroll', ['$event']) onScroll($event) {
+    $('#mastery_hover').html('');
     if (window.pageYOffset > 81) {
       this.isSticky = true;
     } else {
@@ -180,11 +201,29 @@ export class ReportDetail2Component implements OnInit {
   }
 
   plotGraph(masteryId) {
+    var _self = this;
     var elem = document.getElementById(masteryId);
     elem.removeAttribute('_echarts_instance_');
     elem.innerHTML = '';
     let graph = this.echarts.init(elem);
     graph.setOption(this.plotOption);
+    graph.on('click', function(params) {
+      if (params.componentType === 'series') {
+        for (var i = 0; i < _self.reportItems.length; i++) {
+          // console.log(_self.reportItems[i])
+          if (_self.reportItems[i].masteryId == masteryId) {
+            console.log('selected', _self.reportItems[i]);
+            let selectedMastery = _self.reportItems[i];
+            var id = selectedMastery._id;
+            _self.router.navigate([`../studentlist/${id}`], {
+              relativeTo: _self.route
+            });
+            _self.dataservice.setMasteryData(selectedMastery);
+            break;
+          }
+        }
+      }
+    });
     $(window).on('resize', function() {
       if (graph != null && graph != undefined) {
         graph.resize();
@@ -196,9 +235,15 @@ export class ReportDetail2Component implements OnInit {
     this._service.getMasteryQuestion(masteryId).subscribe(
       (res: any) => {
         console.log(res);
-        // this.samplexml = res.data;
         this.samplexml = res;
-        this.openModal(this.questionModal);
+        setTimeout(() => {
+          this.loadingQuestion = false;
+        }, 1000);
+
+        setTimeout(() => {
+          this.setupQuiz();
+          this.setupAnswer();
+        }, 100);
       },
       err => {
         console.log(err);
@@ -207,21 +252,18 @@ export class ReportDetail2Component implements OnInit {
   }
 
   cancelModal() {
-    console.log('....');
     this.modalReference.close();
   }
 
   @ViewChild('questionModal') questionModal: any;
-  openModal(modal) {
-    this.modalReference = this.modalService.open(modal, {
+  openModal(masteryId) {
+    this.loadingQuestion = true;
+    this.modalReference = this.modalService.open(this.questionModal, {
       backdrop: 'static',
       windowClass:
         'jouranlModal d-flex justify-content-center align-items-center'
     });
-    this.setupQuiz();
-    setTimeout(() => {
-      this.setupAnswer();
-    }, 200);
+    this.getQuestion(masteryId);
   }
 
   setupQuiz() {
@@ -233,6 +275,7 @@ export class ReportDetail2Component implements OnInit {
         '<div class="pt-4">' + $(textElems[j]).attr('value') + '</div>'
       );
     }
+    console.log('>>>>>>>>>>>>>>>setup Quiz<<<<<<<<<<<<<<<<');
   }
 
   setupAnswer() {
@@ -243,6 +286,277 @@ export class ReportDetail2Component implements OnInit {
         $(textElems[j]).html(
           '<div>' + $(textElems[j]).attr('value') + '</div>'
         );
+      }
+    });
+  }
+
+  setupDetailOption() {
+    this.echarts = require('echarts');
+    this.plotDetailOption = {
+      tooltip: {
+        formatter: function(params) {
+          let value =
+            '<div style="padding:5px 10px;">' +
+            params.seriesName +
+            ' : ' +
+            params.value +
+            '</div>';
+          return value;
+        }
+      },
+      grid: {
+        left: 340,
+        right: 1
+      },
+      textStyle: {
+        fontFamily: "'Inter-UI-Medium',Arial,sans-serif",
+        fontSize: 12,
+        color: '#64707d'
+      },
+      title: {
+        text: 'Mastery status progress (percentage of students)',
+        left: 470,
+        textStyle: {
+          fontSize: 17,
+          color: '#5C6773'
+        }
+      },
+      yAxis: {
+        data: [],
+        type: 'category',
+        inverse: true,
+        silent: false,
+        triggerEvent: true,
+        color: '#64707d',
+        axisTick: { show: false },
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: '#edeff0'
+          },
+          align: 'center'
+        },
+        axisLabel: {
+          show: true,
+          textStyle: {
+            fontSize: 12,
+            lineHeight: 16,
+            color: '#64707d'
+          },
+          margin: 10,
+          formatter: function(value) {
+            var count = 40;
+            return (
+              '{f1|' +
+              value.slice(0, count) +
+              (value.length > count ? '...' : '') +
+              '}\t{f2|}'
+            );
+          },
+          rich: {
+            f1: {
+              color: '#363F4D',
+              fontWeight: 600,
+              align: 'left',
+              width: 10
+            },
+            f2: {
+              height: 20,
+              backgroundColor: {
+                image: ''
+              }
+            }
+          }
+        },
+        splitLine: { show: false },
+        left: 'left'
+      },
+      xAxis: {
+        silent: false,
+        position: 'top',
+        axisLabel: {
+          show: true,
+          formatter: '{value} % ',
+          align: 'right'
+        },
+        axisTick: {
+          show: true,
+          length: 30,
+          lineStyle: {
+            color: '#E8E9EB'
+          }
+        },
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: '#edeff0'
+          }
+        },
+        splitLine: { show: true, lineStyle: { color: '#E8E9EB' } }
+      },
+      barWidth: 20,
+      legend: {
+        show: false,
+        bottom: 0,
+        itemWidth: 16,
+        itemHeight: 16,
+        itemGap: 20,
+        data: [
+          { name: 'Struggling', textStyle: {} },
+          'Not started',
+          'Inconclusive',
+          'Mastered w/ difficulties',
+          'Mastered w/ ease'
+        ]
+      },
+      series: this.seriesData
+    };
+    let yAxisData = [];
+    let strugglingData = [];
+    let inprogressData = [];
+    let notTakenData = [];
+    let easeData = [];
+    let diffData = [];
+    let index = 0;
+    this.reportItems.forEach(function(item) {
+      // if (expandOn == true) yAxisData.push(++index + ' ' + item.groupTypeValue);
+      // else yAxisData.push(++index);
+      // strugglingData.push(item.lessons.present);
+      // diffData.push(item.lessons.diff);
+      // easeData.push(item.lessons.ease);
+      // inprogressData.push(item.lessons.absent);
+      // notTakenData.push(item.lessons.notTaken);
+
+      // if (expandOn == true)
+      yAxisData.push(++index + ' ' + item.shortMasteryName);
+      // else yAxisData.push(++index);
+      strugglingData.push(item.userMasteries.STRUGGLE.percentage);
+      diffData.push(item.userMasteries.MASTERED_WITH_DIFFICULT.percentage);
+      easeData.push(item.userMasteries.MASTERED_WITH_EASE.percentage);
+      inprogressData.push(item.userMasteries.INPROGRESS.percentage);
+      notTakenData.push(item.userMasteries.NEW.percentage);
+    });
+    this.plotDetailOption.yAxis.data = yAxisData;
+    this.plotDetailOption.series[1].data = strugglingData;
+    this.plotDetailOption.series[2].data = notTakenData;
+    this.plotDetailOption.series[3].data = inprogressData;
+    this.plotDetailOption.series[4].data = diffData;
+    this.plotDetailOption.series[5].data = easeData;
+
+    this.plotDetailOption.yAxis.axisLabel.rich.f1.width = 300;
+    this.plotDetailOption.yAxis.axisLabel.rich.f2.backgroundColor.image =
+      './assets/icons/mastery-question.svg';
+
+    this.plotDetailGraph();
+  }
+
+  plotDetailGraph() {
+    var _self = this;
+    var detailElem = document.getElementById('mastery_detail');
+    detailElem.removeAttribute('_echarts_instance_');
+    detailElem.innerHTML = '';
+    if (this.reportItems.length > 10)
+      detailElem.style.height = this.reportItems.length * 40 + 'px';
+    else if (this.reportItems.length > 5)
+      detailElem.style.height = this.reportItems.length * 60 + 'px';
+    else detailElem.style.height = this.reportItems.length * 80 + 'px';
+    // if (expandOn) {
+    //   if (this.reportItems.length > 10)
+    //     detailElem.style.height = this.reportItems.length * 70 + 'px';
+    //   else if (this.reportItems.length > 5)
+    //     detailElem.style.height = this.reportItems.length * 80 + 'px';
+    //   else detailElem.style.height = this.reportItems.length * 90 + 'px';
+    // } else {
+    //   if (this.reportItems.length > 10)
+    //     detailElem.style.height = this.reportItems.length * 40 + 'px';
+    //   else if (this.reportItems.length > 5)
+    //     detailElem.style.height = this.reportItems.length * 60 + 'px';
+    //   else detailElem.style.height = this.reportItems.length * 80 + 'px';
+    // }
+    let graph = this.echarts.init(detailElem);
+    graph.setOption(this.plotDetailOption);
+    graph.on('click', function(params) {
+      // console.log(params);
+      if (params.componentType === 'yAxis') {
+        console.log(
+          'on click mastery',
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.value)
+          ]
+        );
+        var id =
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.value)
+          ].masteryId;
+        console.log('onClickmasteryId', id);
+        _self.openModal(id);
+      } else if (params.componentType === 'series') {
+        let selectedMastery =
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.name)
+          ];
+        console.log('on click series', selectedMastery);
+        var id = selectedMastery._id;
+        _self.router.navigate([`../studentlist/${id}`], {
+          relativeTo: _self.route
+        });
+        _self.dataservice.setMasteryData(selectedMastery);
+        // console.log(params.dataIndex);
+        // console.log(
+        //   _self.masteriesReports[0].masteries[params.dataIndex].question
+        // );
+        // _self.router.navigate(['../studentlist'], { relativeTo: _self.route });
+        // localStorage.setItem(
+        //   'mastery_itemId',
+        //   _self.masteriesReports[0].masteries[params.dataIndex].masteryId
+        //   // _self.masteriesReports[0].data[params.dataIndex].id
+        // );
+      }
+    });
+
+    // graph.on('mouseover', function (params) {
+    //   console.log('hi')
+    //   if(params.componentType =='yAxis'){
+    //     console.log(params);
+    //     var offsetX =params.event.offsetX;
+    //     var offsetY =params.event.offsetY+20;
+    //     graph.dispatchAction({
+    //       type: 'showTip',
+    //       seriesIndex: 0,
+    //       dataIndex: 0,
+    //       position:[offsetX,offsetY]
+    //     });
+    //   }
+    // });
+
+    graph.on('mousemove', function(params) {
+      if (params.componentType == 'yAxis') {
+        let hoverItem =
+          _self.reportItems[
+            _self.plotDetailOption.yAxis.data.indexOf(params.value)
+          ];
+
+        // $('#mastery_hover')
+        // this.d1.nativeElement.insertAdjacentHTML('beforeend', '<div class="two">two</div>');
+        let hover_html =
+          '<div class="tooltip-wrap bg-c100" style="left:' +
+          params.event.event.clientX +
+          'px; top: ' +
+          (params.event.event.clientY + 25) +
+          'px;"><div class="h5-strong text-s10">' +
+          hoverItem.shortMasteryName +
+          '</div>' +
+          '<div class="small text-s0">' +
+          hoverItem.infoForEducator +
+          '</div>';
+        '</div>';
+        $('#mastery_hover').html(hover_html);
+      }
+    });
+
+    graph.on('mouseout', function(params) {
+      if (params.componentType == 'yAxis') {
+        $('#mastery_hover').html('');
       }
     });
   }
