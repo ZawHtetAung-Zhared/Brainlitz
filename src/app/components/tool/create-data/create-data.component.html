@@ -1,0 +1,471 @@
+<div class="d-flex justify-content-between align-items-center">
+  <div class="main-wrapper ">
+    <div class="back-wrap">
+      <div class="d-flex justify-content-between">
+        <div class="back-to" (click)="backtoselected()">
+          <i class="fa fa-angle-left"></i>
+          <p class="body-l text-c300">
+            Creating data tracking module
+          </p>
+        </div>
+        <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+      </div>
+    </div>
+    <h3 class="h1-strong text-c300">
+      Creating data tracking module
+    </h3>
+    <div style="padding-bottom: 80px;">
+      <div class="col-md-12 col-lg-8 input-wrap">
+        <div class="form-group ">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label body-l text-c300" for="address"
+              >Data name</label
+            >
+            <div class="limit-wordcount text-b100 caption">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div>
+          <div class="d-flex flex-row pl-2">
+            <input
+              type="text"
+              class="form-control create-input data-name"
+              placeholder="Type preffered name here"
+              name="name"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              (focus)="focusMethod($event, 'name', $event.target.value)"
+              (blur)="blurMethod($event, 'name')"
+              (input)="changeMethod($event.target.value)"
+              required
+              #name="ngModel"
+              [ngStyle]="{
+                background: selectedDataColor.background,
+                color: selectedDataColor.text
+              }"
+            />
+            <div class="color-box" (click)="showColorPicker($event)">
+              <span class="icon-img">
+                <img src="../../../../assets/img/Vector.png" />
+              </span>
+              <div
+                *ngIf="isShowPicker"
+                class="carret-box"
+                [ngClass]="arrClasses"
+              ></div>
+              <!--      [ngStyle]="colorArrClasses" -->
+            </div>
+            <div
+              id="colorPletteBox"
+              *ngIf="isShowPicker"
+              (clickOutside)="closePopUp($event)"
+            >
+              <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+
+              <!--  [ngClass]="arrClasses"
+      [ngStyle]="colorArrClasses" -->
+              <p class="color-title mb-0 pb-0 small text-c300">Color</p>
+              <div class="color-section d-flex flex-wrap">
+                <div
+                  class="color-circle"
+                  *ngFor="let item of sepalColor; let i = index"
+                  [style.background]="item.color.background"
+                  (click)="selectColor(i, item)"
+                  [ngClass]="{
+                    addBorder:
+                      item.color.background == selectedDataColor.background
+                  }"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="alert alert-danger"
+          >
+            <div [hidden]="!name.errors.required">
+              Name is required!
+            </div>
+          </div>
+        </div>
+        <div class="form-group radio-form-group">
+          <div class="d-flex justify-content-between">
+            <label class="form-title input-label body-l text-c300" for="address"
+              >Input type</label
+            >
+
+            <!-- <div class="limit-wordcount1">
+            <span>{{wordLength}}/280characters</span>
+          </div>
+        </div>
+        <textarea class="form-control create-input" rows="3" placeholder="Type description here" name="description"
+          [(ngModel)]="model.description" (focus)="focusMethod($event,'msg', $event.target.value)" (blur)="blurMethod($event,'msg')"
+          (input)="changeMethod($event.target.value)" maxlength="280" #description="ngModel"></textarea> -->
+            <!-- <div *ngIf="description.invalid && (description.dirty || description.touched)" class="alert alert-danger">
+          <div [hidden]="!description.errors.required">
+            Description is required!
+          </div>
+        </div> -->
+          </div>
+          <div class="radio-group">
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'input-box'" (click)="radioSelect('input-box')"> -->
+
+            <button
+              class="type-input cousorAdd p-0"
+              [class.activeRadio]="selectedRadio == 'NUMBER'"
+              (click)="radioSelect('NUMBER')"
+              [disabled]="iscreate == true && isUpdate == true"
+            >
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+
+                <input
+                  type="radio"
+                  class="form-radio"
+                  name="radio"
+                  [(ngModel)]="selectedRadio"
+                  value="input-box"
+                />
+
+                <div class="huey text-c300 body-m">Input box</div>
+                <div class="huey-child small text-c100">Number</div>
+              </div>
+            </button>
+
+            <!-- <div class="type-input" [class.activeRadio]="selectedRadio == 'slider'" (click)="radioSelect('slider')"> -->
+            <button
+              class="type-input cousorAdd p-0"
+              [class.activeRadio]="selectedRadio == 'RANGE'"
+              (click)="radioSelect('RANGE')"
+              [disabled]="iscreate == true && isUpdate == true"
+            >
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+
+                <input
+                  type="radio"
+                  class="form-radio"
+                  name="radio"
+                  [(ngModel)]="selectedRadio"
+                  value="slider"
+                />
+
+                <div class="huey">Slider</div>
+                <div class="huey-child">Number</div>
+              </div>
+            </button>
+            <button
+              class="type-input cousorAdd p-0"
+              [class.activeRadio]="selectedRadio == 'RADIO'"
+              (click)="radioSelect('RADIO')"
+              [disabled]="iscreate == true && isUpdate == true"
+            >
+              <div class="radio-wrapper">
+                <div class="label-checked"></div>
+                <input
+                  type="radio"
+                  name="radio"
+                  class="form-radio"
+                  [(ngModel)]="selectedRadio"
+                  value="selection"
+                />
+
+                <label class="huey">Selection</label>
+                <br />
+                <div class="huey-child">Text</div>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="input-result">
+          <div *ngIf="selectedRadio == 'NUMBER'">
+            <div class="form-group ">
+              <div class="d-flex justify-content-between">
+                <label
+                  class="form-title input-label body-l text-c300"
+                  for="address"
+                  >Measurement unit</label
+                >
+                <div class="limit-type-wordcount caption text-b100">
+                  <span>{{ wordLength }}/6characters</span>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="E.g. cm or mm"
+                name="input-method"
+                maxlength="6"
+                [(ngModel)]="model.unit"
+                (focus)="
+                  focusMethod($event, 'input_method', $event.target.value)
+                "
+                autocomplete="off"
+                (blur)="blurMethod($event, 'input_method')"
+                (input)="changeMethod($event.target.value)"
+                required
+                #input_method="ngModel"
+              />
+              <div
+                *ngIf="
+                  input_method.invalid &&
+                  (input_method.dirty || input_method.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div [hidden]="!input_method.errors.required">
+                  Measurement unit is required!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="selectedRadio == 'RANGE'">
+            <div class="form-group slider-form">
+              <div class="d-flex justify-content-between">
+                <label
+                  class="form-title input-label body-l text-c300"
+                  for="address"
+                  >Measurement unit</label
+                >
+                <div class="limit-type-wordcount caption text-b100">
+                  <span>{{ wordLength }}/6characters</span>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control create-input"
+                placeholder="E.g. cm or mm"
+                name="input-method"
+                autocomplete="off"
+                maxlength="6"
+                [(ngModel)]="unit"
+                (focus)="
+                  focusMethod($event, 'input_method', $event.target.value)
+                "
+                (blur)="blurMethod($event, 'input_method')"
+                (input)="changeMethod($event.target.value)"
+                required
+                #input_method="ngModel"
+              />
+              <div
+                *ngIf="
+                  input_method.invalid &&
+                  (input_method.dirty || input_method.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div [hidden]="!input_method.errors.required">
+                  Measurement unit is required!
+                </div>
+              </div>
+            </div>
+            <div class="gap-box">
+              <div class="d-flex">
+                <div class="d-flex flex-column">
+                  <label class="minlbl">Min</label>
+                  <input
+                    type="number"
+                    class="min_input"
+                    value="0"
+                    [(ngModel)]="
+                      templateAccessPointGroup.data.inputTypeProperties.min
+                    "
+                    (keypress)="numberOnly($event)"
+                    (input)="chkValue($event.target.value, 'min')"
+                    required
+                    #min_method="ngModel"
+                  />
+                </div>
+
+                <!-- <input *ngIf="(minValue=='' || maxValue=='') || (minValue == undefined || maxValue== undefined)" type="range" class="max-range-box" min="0" max="100" disabled=true value="0" id="apg_rangeId">
+                 <input *ngIf="(minValue!='' && maxValue!='') || (minValue != undefined && maxValue!= undefined)" type="range" class="max-range-box" min="{{minValue}}" max="{{maxValue}}"  value="{{minValue}}" id="apg_rangeId2" (input)="ChangedTimeValue($event.target.value)" [(ngModel)]="rangeHr"> -->
+
+                <div
+                  class="divslider"
+                  *ngIf="
+                    emptymin == false && emptymax == false && overmin == false
+                  "
+                >
+                  <input
+                    *ngIf="
+                      emptymin == false && emptymax == false && overmin == false
+                    "
+                    type="range"
+                    class="max-range-box"
+                    min="{{
+                      templateAccessPointGroup.data.inputTypeProperties.min
+                    }}"
+                    max="{{
+                      templateAccessPointGroup.data.inputTypeProperties.max
+                    }}"
+                    value="{{
+                      templateAccessPointGroup.data.inputTypeProperties.min
+                    }}"
+                    id="apg_rangeId2"
+                    (input)="ChangedTimeValue($event.target.value)"
+                  />
+                  <output class="box arrow-top" id="arrowBox">{{
+                    exitValue
+                  }}</output>
+                </div>
+                <div
+                  class="divslider"
+                  *ngIf="
+                    emptymin == true || emptymax == true || overmin == true
+                  "
+                >
+                  <input
+                    type="range"
+                    class="max-range-box"
+                    min="0"
+                    max="100"
+                    disabled="true"
+                    value="0"
+                    id="apg_rangeId"
+                  />
+                </div>
+
+                <div class="d-flex flex-column">
+                  <label class="minlbl" *ngIf="maxExit">Max</label>
+                  <label
+                    class="floating-label"
+                    *ngIf="!maxExit"
+                    [ngClass]="{ addOpacity: emptymax == false }"
+                    >Max</label
+                  >
+                  <input
+                    type="number"
+                    class="max_input"
+                    [(ngModel)]="
+                      templateAccessPointGroup.data.inputTypeProperties.max
+                    "
+                    (keypress)="numberOnly($event)"
+                    (focus)="maxFocus($event)"
+                    (focusout)="maxFocusout($event)"
+                    [ngClass]="{ noPaddingInmax: maxExit == false }"
+                    (input)="chkValue($event.target.value, 'max')"
+                    required
+                    #max_method="ngModel"
+                  />
+                </div>
+              </div>
+              <div
+                class="justify-content-between showMsg"
+                *ngIf="emptymin == true || emptymax == true || overmin == true"
+              >
+                <img
+                  src="../../../assets/img/min-max-explain.png"
+                  class="max-min-exp-img"
+                />
+                <img
+                  src="../../../assets/img/highlight-arrow.png"
+                  class="arrow-img"
+                />
+              </div>
+              <div
+                class="d-flex flex-column"
+                *ngIf="emptymin == true || emptymax == true || overmin == true"
+                style="height:200px;"
+              >
+                <p class="display-txt">
+                  Add your
+                  <input type="text" class="min_input_show" value="Max" />
+                  number to ready the slider.
+                </p>
+                <p class="display-txt">
+                  Min number is on us. You can adjust Max and Min numbers to
+                  whaterever you want.
+                </p>
+              </div>
+            </div>
+            <!-- <div class="gap-box">
+            <label class="d-flex">
+              <input type="number" class="min_input" placeholder="Min" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.min"
+                (input)="chkValue($event.target.value,'min')"  required #min_method="ngModel">
+              <input *ngIf="emptymin == true || emptymax ==true || overmin==true" type="range" class="max-range-box"
+                min="0" max="100" disabled=true value="0" id="apg_rangeId">
+              <div class="divslider">
+                <div class="box arrow-top" id="arrowBox">{{exitValue}}</div>
+                <input *ngIf="emptymin == false && emptymax ==false && overmin==false" type="range" class="max-range-box" id="apg_rangeId"
+                  min="{{templateAccessPointGroup.data.inputTypeProperties.min}}" max="{{templateAccessPointGroup.data.inputTypeProperties.max}}"
+                  >
+              <input type="number" class="max_input" placeholder="Max" [(ngModel)]="templateAccessPointGroup.data.inputTypeProperties.max"
+                (input)="chkValue($event.target.value,'max')" required #max_method="ngModel">
+              </div>
+              </label>
+          </div> -->
+          </div>
+          <div *ngIf="selectedRadio == 'RADIO'" class="mb-90">
+            <h4 class="data-list-title">Data list</h4>
+            <div
+              dragula="data_COLUMNS"
+              class="data-wrapper"
+              [(dragulaModel)]="valueArray"
+            >
+              <div
+                *ngFor="let dataValue of valueArray; let i = index"
+                class="one-selection-wrapper"
+              >
+                <div class="d-flex selection-wrapper">
+                  <span class="img-wrapper">
+                    <img
+                      class="move-sign"
+                      *ngIf="valueArray.length > 1"
+                      src="../../../assets/images/disable-holder.svg"
+                    />
+                    <img
+                      class="move-sign"
+                      *ngIf="valueArray.length == 1"
+                      src="../../../assets/images/single-holder.svg"
+                      style="pointer-events: none"
+                    />
+                  </span>
+                  <div class="form-group input-wrapper" id="data-input{{ i }}">
+                    <input
+                      type="text"
+                      class="form-control data-value"
+                      placeholder="Type data value here"
+                      [(ngModel)]="dataValue.name"
+                      name="{{ 'dataValue' + i }}"
+                      id="{{ 'valueInput' + i }}"
+                      autocomplete="off"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="data-close"
+                    *ngIf="valueArray.length > 1"
+                    (click)="dataValueClear(i, $event)"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <span class="newValue cousorAdd" (click)="addDataValue('newData')"
+              >Add new data value
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end form-footer">
+          <button type="button" class="btn btn-cancel" (click)="goToAll()">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-submit bg-b100 text-s0"
+            (click)="createDataApg()"
+            [disabled]="
+              model.name == undefined ||
+              model.name.length == 0 ||
+              checkValidation(valueArray) ||
+              valid == false
+            "
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="placeholder_color"></div>
