@@ -76,10 +76,10 @@ export class SelectModuleComponent implements OnInit {
   }
   goToAll() {
     this._router.navigateByUrl(
-      'tool-test/tracking-module/lists/' +
-        this.selectedModule.type +
-        '/' +
-        this.selectedModule._id
+      'tool-test/tracking-module/lists/all'
+      // this.selectedModule.type +
+      // '/' +
+      // this.selectedModule._id
     );
   }
 
