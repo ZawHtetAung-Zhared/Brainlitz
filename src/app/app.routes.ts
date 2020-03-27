@@ -104,6 +104,7 @@ import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test
 import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
 import { CreateAssessmentComponent } from './components/tool/create-assessment/create-assessment.component';
 import { CreateSelfassessmentComponent } from './components/tool/create-selfassessment/create-selfassessment.component';
+import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -495,6 +496,10 @@ export const routes: Routes = [
           {
             path: 'create/5/:id',
             component: CreateSelfassessmentComponent
+          },
+          {
+            path: 'share/5/:id',
+            component: SharedSelfassessmentComponent
           }
         ]
       }
