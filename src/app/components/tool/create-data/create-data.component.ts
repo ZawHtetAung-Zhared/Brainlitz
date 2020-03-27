@@ -25,6 +25,7 @@ export class CreateDataComponent implements OnInit {
   public unit: any;
   public arrClasses: any;
   public modelId: any;
+  public tempDataValue: any;
 
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
@@ -37,6 +38,7 @@ export class CreateDataComponent implements OnInit {
   showDp: boolean = false;
   public isShowPicker: boolean = false;
   public valid: boolean;
+  public stillDrag: boolean = false;
 
   public selectedDataColor = {
     text: '#544600',
@@ -174,6 +176,7 @@ export class CreateDataComponent implements OnInit {
         }
       }
     };
+
     this.templateAccessPointGroup = templateAccessPoint;
     // this.dataApCreate = true;
     // this.ismodule = false;
@@ -505,5 +508,43 @@ export class CreateDataComponent implements OnInit {
       );
     }
     console.log(this.templateAccessPointGroup);
+  }
+
+  addDataValue(data, i) {
+    this.tempDataValue = data;
+    const newValue = '';
+    const newObj = { name: '' };
+    this.valueArray.push(newObj);
+    // this.convertObjToArray()
+    // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
+    // this.optionsArray.push(newValue)
+    document.addEventListener(
+      'click',
+      (this.testFunct = () => {
+        if (this.tempDataValue == 'newData') {
+          var windowHeight = $(document).height();
+          window.scrollBy({
+            top: window.innerHeight,
+            left: 0,
+            behavior: 'smooth'
+          });
+          console.log(windowHeight);
+        }
+      }),
+      false
+    );
+    setTimeout(() => {
+      var a = this.valueArray.length - 1;
+      console.log(a);
+      document.getElementById('valueInput' + a).focus();
+      this.tempDataValue = '';
+    }, 300);
+  }
+
+  testFunct() {
+    var stillDragInTestFunc = this.stillDrag;
+    var templategroug = this.templateAccessPointGroup;
+    // return this.stillDrag;
+    // return this.stillDrag;
   }
 }

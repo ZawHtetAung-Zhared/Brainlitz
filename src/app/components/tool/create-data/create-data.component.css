@@ -683,3 +683,53 @@ label.floating-label {
 .addOpacity {
   opacity: 0;
 }
+
+/* selection text */
+.input-wrap .form-group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.img-wrapper {
+  width: 32px;
+  position: relative;
+  bottom: 5px;
+}
+.move-sign {
+  margin: 0;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: all-scroll;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.one-selection-wrapper {
+  width: 400px;
+}
+
+.data-value {
+  border-radius: 0.25rem;
+  border: none;
+  margin-bottom: 15px;
+  padding: 0.6rem 0.75rem;
+  margin-left: -0.75rem;
+  margin-top: 4px;
+  padding-bottom: 0px;
+  padding-top: 20px;
+}
+
+.newValue {
+  width: 151px;
+  padding-top: 20px;
+  padding-left: 44px;
+}
+
+.data-list-title {
+  width: 72px;
+}
