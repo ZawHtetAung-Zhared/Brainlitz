@@ -5,11 +5,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-shared-progress',
-  templateUrl: './shared-progress.component.html',
-  styleUrls: ['./shared-progress.component.css']
+  selector: 'app-shared-usergrading',
+  templateUrl: './shared-usergrading.component.html',
+  styleUrls: ['./shared-usergrading.component.css']
 })
-export class SharedProgressComponent implements OnInit {
+export class SharedUsergradingComponent implements OnInit {
   public templateList: Array<any> = [];
   public module_id: any;
   public regionID = localStorage.getItem('regionId');
