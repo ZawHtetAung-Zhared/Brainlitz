@@ -51,7 +51,8 @@ import {
   ShareTrackingModuleComponent,
   SelectModuleComponent,
   CreateProgressComponent,
-  CreateDataComponent
+  CreateDataComponent,
+  SharedDataComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -483,6 +484,10 @@ export const routes: Routes = [
           {
             path: 'create/4/:id',
             component: CreateDataComponent
+          },
+          {
+            path: 'share/4/:id',
+            component: SharedDataComponent
           },
           {
             path: 'share/1/:id',
