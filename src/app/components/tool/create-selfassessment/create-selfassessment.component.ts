@@ -55,10 +55,10 @@ export class CreateSelfassessmentComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  goToBack() {
-    this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
-  }
   cancelapg() {
+    this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+  }
+  goToBack() {
     this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
   }
   createapgs(data, update) {

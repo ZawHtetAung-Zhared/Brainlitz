@@ -120,6 +120,9 @@ export class SharedUsergradingComponent implements OnInit {
   }
 
   cancelapg() {
+    this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+  }
+  goToBack() {
     this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
   }
 
