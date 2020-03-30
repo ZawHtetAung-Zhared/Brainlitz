@@ -105,6 +105,7 @@ import { SharedProgressComponent } from './components/tool/shared-progress/share
 import { CreateAssessmentComponent } from './components/tool/create-assessment/create-assessment.component';
 import { CreateSelfassessmentComponent } from './components/tool/create-selfassessment/create-selfassessment.component';
 import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
+import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -500,6 +501,10 @@ export const routes: Routes = [
           {
             path: 'share/5/:id',
             component: SharedSelfassessmentComponent
+          },
+          {
+            path: 'create/6/:id',
+            component: CreateUsergradingComponent
           }
         ]
       }

@@ -10,13 +10,15 @@ import {
 import { appService } from '../../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 declare var $: any;
+
 @Component({
-  selector: 'app-user-grading',
-  templateUrl: './user-grading.component.html',
-  styleUrls: ['./user-grading.component.css']
+  selector: 'app-create-usergrading',
+  templateUrl: './create-usergrading.component.html',
+  styleUrls: ['./create-usergrading.component.css']
 })
-export class UserGradingComponent implements OnInit {
+export class CreateUsergradingComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
   @Output() cancelGrade = new EventEmitter();
   @Output() createGrade = new EventEmitter();
@@ -127,11 +129,13 @@ export class UserGradingComponent implements OnInit {
     }
   ];
 
-  constructor(private _service: appService, public toastr: ToastrService) {}
+  constructor(
+    private _service: appService,
+    public toastr: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    console.log(this.UserGradeObj, ' and ', this.isCreateStatus);
-
     this.userGradeData = {
       name: '',
       description: '',
@@ -153,6 +157,8 @@ export class UserGradingComponent implements OnInit {
         ]
       }
     };
+    console.log('usergradedata', this.userGradeData);
+    this.isCreateStatus = true;
     if (!this.isCreateStatus) {
       //this.blockUI.start('Loading');
       this.userGradeData = this.UserGradeObj;
@@ -278,7 +284,7 @@ export class UserGradingComponent implements OnInit {
       )
       .subscribe(
         res => {
-          // this.toastr.success("Successfully Create")
+          this.toastr.success('APG successfully created.');
           this.cancelGrade.emit(true);
           this.createGrade.emit(true);
         },
@@ -287,6 +293,7 @@ export class UserGradingComponent implements OnInit {
           console.error(err);
         }
       );
+    this.cancelapg();
   }
 
   public colorWrapper = {};
@@ -432,5 +439,11 @@ export class UserGradingComponent implements OnInit {
   public scrollHeight = 0;
   @HostListener('window:scroll', ['$event']) onScroll($event) {
     this.scrollHeight = $event.target.scrollingElement.scrollTop;
+  }
+  cancelapg() {
+    this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+  }
+  goToBack() {
+    this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
   }
 }
