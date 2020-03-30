@@ -156,4 +156,14 @@ export class SharedDataComponent implements OnInit {
       // }, 100);
     }
   }
+
+  showMoreShareApg(skip) {
+    if (this.isSearch == true) {
+      console.log('User Search');
+      this.sharedApgSearch(this.keyword, 20, skip);
+    } else {
+      console.log('Not user search');
+      this.getAllTemplate(20, skip);
+    }
+  }
 }
