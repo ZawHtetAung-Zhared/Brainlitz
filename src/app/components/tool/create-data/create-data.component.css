@@ -159,6 +159,10 @@ p.color-title {
   border: none;
   background: none;
 }
+.radio-group button:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.65;
+}
 
 .activeRadio {
   background: #007fff !important;
@@ -732,4 +736,10 @@ label.floating-label {
 
 .data-list-title {
   width: 72px;
+}
+.data-wrapper {
+  max-height: 500px;
+  max-width: 800px;
+  overflow: auto;
+  width: 500px;
 }

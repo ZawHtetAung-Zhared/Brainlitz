@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-create-data',
   templateUrl: './create-data.component.html',
@@ -22,13 +24,16 @@ export class CreateDataComponent implements OnInit {
 
   // any
   exitValue: any;
+  public isUpdate: boolean = false;
   public unit: any;
   public arrClasses: any;
   public modelId: any;
   public tempDataValue: any;
+  public accessPointArrayString: any = [];
 
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
+  public moduleID: any;
 
   // boolean
   maxExit: boolean = false;
@@ -139,17 +144,24 @@ export class CreateDataComponent implements OnInit {
       }
     }
   ];
+  public apgobj: any;
 
   constructor(
     private _service: appService,
     private _activeRoute: ActivatedRoute,
     public toastr: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private _location: Location
   ) {}
 
   ngOnInit() {
     this.selectedRadio = 'NUMBER';
     this.modelId = this._activeRoute.snapshot.paramMap.get('id');
+    this.moduleID = this._activeRoute.snapshot.paramMap.get('mid');
+
+    this.apgobj = this._service.GetApgObj();
+    console.log('passed apbobj', this.apgobj);
+
     $('#placeholder_color').append(
       "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
         this.selectedDataColor.text +
@@ -184,6 +196,15 @@ export class CreateDataComponent implements OnInit {
     this.emptymax = true;
     this.emptymin = true;
     this.overmin = true;
+
+    if (this._activeRoute.snapshot.url[0].path == 'edit') {
+      this.isUpdate = true;
+      console.log('2', this._activeRoute.snapshot.url[0].path);
+      this.onclickUpdate(this.modelId, this.apgobj);
+      setTimeout(() => {
+        //this.blockUI.stop();
+      }, 300);
+    }
   }
 
   focusMethod(e, status, word) {
@@ -347,7 +368,7 @@ export class CreateDataComponent implements OnInit {
     var apgName = this.model.name;
     // console.log(apgName)
     var tempArr = [];
-    console.log(this.selectedRadio);
+    // console.log(this.selectedRadio);
     if (this.selectedRadio == 'RADIO' || apgName.length == 0) {
       for (var i = 0; i < arr.length; i++) {
         tempArr.push(arr[i].name);
@@ -426,6 +447,12 @@ export class CreateDataComponent implements OnInit {
 
   backtoselected() {
     this._router.navigateByUrl('tool-test/tracking-module/selected-module');
+  }
+  cancelapg() {
+    this._router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+  }
+  goToBack() {
+    this._location.back();
   }
 
   createDataAccessPoint() {
@@ -546,5 +573,183 @@ export class CreateDataComponent implements OnInit {
     var templategroug = this.templateAccessPointGroup;
     // return this.stillDrag;
     // return this.stillDrag;
+  }
+
+  testArr: any = [];
+  onclickUpdate(id, apgName) {
+    console.log('testapg', apgName, 'id', id);
+
+    if (apgName.module.name == 'Data') {
+      // this.iscreate = true;
+      var moduleId = localStorage.getItem('moduleID');
+      const templateAccessPoint = {
+        name: '',
+        description: '',
+        moduleId: moduleId,
+        data: {
+          sectionType: 'DATA',
+          unit: ' ',
+          inputType: this.selectedRadio,
+          inputTypeProperties: {
+            name: '',
+            min: '',
+            max: '',
+            options: ['']
+          }
+        }
+      };
+      this.templateAccessPointGroup = templateAccessPoint;
+
+      // this.dataApCreate = true;
+      // this.ismodule = false;
+      // this.userGradingAp = false;
+      // this.apCreate = false;
+    }
+    return new Promise((resolve, reject) => {
+      this.singleAPG()
+        .then(apId => {
+          console.log('apid===>', apId);
+          this.moduleID = this.model.moduleId;
+          resolve(apId);
+        })
+        .catch(err => {
+          console.log(err); // never called1
+        });
+    })
+      .then(accespointId => {
+        console.log('accespointId===>', accespointId);
+        this.getEditAccessPoint(
+          this.regionID,
+          accespointId,
+          apgName.module.name
+        )
+          .then(dataCollection => {
+            console.log('successs', dataCollection);
+            let tempArr = [];
+            this.templateAccessPointGroup = dataCollection;
+
+            this.accessPointArrayString = JSON.stringify(dataCollection);
+            this.testArr = dataCollection;
+            console.log(apgName.module.name);
+
+            if (apgName.module.name.toLowerCase() == 'data') {
+              this.sliderMinMax(dataCollection);
+            }
+          })
+          .catch(err => {
+            console.log(err); // never called
+          });
+
+        // this.templateAccessPointGroup.push(res)
+        // this.accessPointArrayString.push(JSON.stringify(res));
+      })
+      .catch(err => {
+        console.log(err); // never called
+      });
+  }
+
+  singleAPG() {
+    //this.blockUI.start('Loading...');
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this._service.getSingleAPG(this.regionID, this.modelId).subscribe(
+          (res: any) => {
+            //this.blockUI.stop();
+            console.log('editapg', res);
+            this.model = res;
+            console.log('resolve res.accessPoints', res.accessPoints);
+            resolve(res.accessPoints);
+          },
+          err => {
+            //this.blockUI.stop();
+            console.log(err);
+          }
+        );
+      }, 300);
+    });
+  }
+
+  sliderMinMax(obj) {
+    console.log('here input focus>>', obj.data.inputTypeProperties.min);
+    this.chkValue(String(obj.data.inputTypeProperties.min), 'min');
+    this.chkValue(String(obj.data.inputTypeProperties.max), 'max');
+  }
+
+  getEditAccessPoint(reginId, accesPointId, apgName) {
+    console.log(apgName, '<<<<<<<<<========');
+    if (apgName == 'Data') {
+      return new Promise((resolve, reject) => {
+        this._service.getAccessPoint(reginId, accesPointId).subscribe(
+          (res: any) => {
+            console.log(res);
+            this.templateAccessPointGroup = res;
+            // this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
+            this.selectedRadio = this.templateAccessPointGroup.data.inputType;
+            // this.tempRadioType = this.templateAccessPointGroup.data.inputType;
+            this.convertArrayToObj();
+            this.chkValue('val', 'type');
+            // console.log(this.optionsArray)
+            resolve(res);
+            // this.setInputValueFromObject(this.optionsArray)
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      });
+    }
+  }
+
+  convertArrayToObj() {
+    for (
+      var i = 0;
+      i < this.templateAccessPointGroup.data.inputTypeProperties.options.length;
+      i++
+    ) {
+      var item = { name: '' };
+      item.name = this.templateAccessPointGroup.data.inputTypeProperties.options[
+        i
+      ];
+      this.valueArray.push(item);
+    }
+    console.log(this.templateAccessPointGroup.data.inputTypeProperties.options);
+    console.log(this.valueArray);
+  }
+
+  updateAp(apId, ap, apgId) {
+    console.log('For data', apId, ' ### ', ap, ' ### ', apgId);
+    if (this.selectedRadio == 'RADIO') {
+      this.convertObjToArray();
+    } else {
+      console.log('not data apg');
+    }
+    console.log('model', this.model);
+    // ap.data.inputTypeProperties.options = this.optionsArray;
+    return new Promise((resolve, reject) => {
+      this._service.updateAP(this.regionID, apId, ap).subscribe((res: any) => {
+        console.log(res);
+        resolve(res._id);
+      }),
+        err => {
+          console.log(err);
+        };
+    })
+      .then(accespointId => {
+        this._service
+          .updateAPG(this.regionID, apgId, this.model, null)
+          .subscribe((res: any) => {
+            this.toastr.success('APG successfully updated');
+            console.log(res);
+            this.cancelapg();
+          }),
+          err => {
+            console.log(err);
+            this.toastr.success('APG update fail');
+          };
+      })
+      .catch(err => {
+        console.log(err); // never called
+      });
   }
 }

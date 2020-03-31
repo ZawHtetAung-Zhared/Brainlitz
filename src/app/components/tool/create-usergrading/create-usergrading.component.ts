@@ -465,23 +465,6 @@ export class CreateUsergradingComponent implements OnInit {
   goToBack() {
     this._location.back();
   }
-  //   singleAPG(){
-  //     this._service.getSingleAPG(this.regionID, this.id).subscribe(
-  //          (res: any) => {
-  //            //this.blockUI.stop();
-  //            console.log('editapg', res);
-  //           //  this.model = res;
-  //            console.log('resolve res.accessPoints', res.accessPoints);
-  //            this.accesspoint = res.accessPoints[0];
-  //            this.Accesspoint();
-
-  //          },
-  //          err => {
-  //            //this.blockUI.stop();
-  //            console.log(err);
-  //          }
-  //     );
-  //  }
 
   singleAPG() {
     //this.blockUI.start('Loading...');

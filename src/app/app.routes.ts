@@ -488,6 +488,10 @@ export const routes: Routes = [
             component: CreateProgressComponent
           },
           {
+            path: 'edit/4/:mid/:id',
+            component: CreateDataComponent
+          },
+          {
             path: 'edit/5/:mid/:id',
             component: CreateSelfassessmentComponent
           },
