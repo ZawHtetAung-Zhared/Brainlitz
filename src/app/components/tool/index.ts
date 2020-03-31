@@ -17,3 +17,4 @@ export * from './select-module/select-module.component';
 export * from './create-progress/create-progress.component';
 export * from './create-data/create-data.component';
 export * from './shared-data/shared-data.component';
+export * from './share-assessment/share-assessment.component';

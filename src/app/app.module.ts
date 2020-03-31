@@ -238,6 +238,7 @@ import { SharedDataComponent } from './components/tool/shared-data/shared-data.c
 import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
 import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
 import { SharedUsergradingComponent } from './components/tool/shared-usergrading/shared-usergrading.component';
+import { ShareAssessmentComponent } from './components/tool/share-assessment/share-assessment.component';
 
 @NgModule({
   declarations: [
@@ -419,7 +420,8 @@ import { SharedUsergradingComponent } from './components/tool/shared-usergrading
     SharedDataComponent,
     SharedSelfassessmentComponent,
     CreateUsergradingComponent,
-    SharedUsergradingComponent
+    SharedUsergradingComponent,
+    ShareAssessmentComponent
   ],
   imports: [
     ContentLoaderModule,
