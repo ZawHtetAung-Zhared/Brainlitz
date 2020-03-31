@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-progress',
@@ -15,17 +16,27 @@ export class CreateProgressComponent implements OnInit {
   public locationID = localStorage.getItem('locationId');
   public module_id: any;
   public model: any = {};
+  public isUpdate: boolean = false;
+  public id: any;
 
   constructor(
     private modalService: NgbModal,
     private _Activatedroute: ActivatedRoute,
     private _service: appService,
     public toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private _location: Location
   ) {}
 
   ngOnInit() {
-    this.module_id = this._Activatedroute.snapshot.paramMap.get('id');
+    this.module_id = this._Activatedroute.snapshot.paramMap.get('mid');
+    console.log('module id', this.module_id);
+    this.id = this._Activatedroute.snapshot.paramMap.get('id');
+    if (this._Activatedroute.snapshot.url[0].path == 'edit') {
+      this.isUpdate = true;
+      console.log('2', this._Activatedroute.snapshot.url[0].path);
+      this.singleAPG();
+    }
   }
 
   focusMethod(e, status, word) {
@@ -56,7 +67,7 @@ export class CreateProgressComponent implements OnInit {
   }
 
   goToBack() {
-    this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
+    this._location.back();
   }
   cancelapg() {
     this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
@@ -123,5 +134,19 @@ export class CreateProgressComponent implements OnInit {
           }
         );
     }
+  }
+  singleAPG() {
+    this._service.getSingleAPG(this.regionID, this.id).subscribe(
+      (res: any) => {
+        //this.blockUI.stop();
+        console.log('editapg', res);
+        this.model = res;
+        console.log('resolve res.accessPoints', res.accessPoints);
+      },
+      err => {
+        //this.blockUI.stop();
+        console.log(err);
+      }
+    );
   }
 }

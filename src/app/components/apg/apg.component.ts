@@ -1901,6 +1901,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    console.log('zhapg', apgName, 'id', id);
+
     this.UserGradeApg = undefined;
     this.isCreateStatus = false;
     this.apgType = apgName.module.name;

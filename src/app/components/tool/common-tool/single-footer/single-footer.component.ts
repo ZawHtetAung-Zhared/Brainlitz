@@ -94,4 +94,16 @@ export class SingleFooterComponent implements OnInit {
   onclickDelete() {
     this._service.openDeleteApgModal(DeleteApgModalComponent, this.singleData);
   }
+  onclickUpdate(singleData) {
+    console.log('data', singleData);
+    this._service.SetApgObj(singleData);
+    this.router.navigateByUrl(
+      `tool-test/tracking-module/edit/` +
+        singleData.module.type +
+        `/` +
+        singleData.module._id +
+        `/` +
+        singleData._id
+    );
+  }
 }
