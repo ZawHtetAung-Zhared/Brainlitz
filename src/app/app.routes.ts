@@ -484,6 +484,18 @@ export const routes: Routes = [
             component: CreateProgressComponent
           },
           {
+            path: 'edit/1/:mid/:id',
+            component: CreateProgressComponent
+          },
+          {
+            path: 'edit/5/:mid/:id',
+            component: CreateSelfassessmentComponent
+          },
+          {
+            path: 'edit/6/:mid/:id',
+            component: CreateUsergradingComponent
+          },
+          {
             path: 'create/4/:id',
             component: CreateDataComponent
           },

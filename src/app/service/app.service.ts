@@ -33,6 +33,7 @@ export class appService {
   public tokenType = localStorage.getItem('tokenType');
   public defaultSkipValue = '0';
   public defaultLimit = '20';
+  public apgobj: any;
   locationID: Observable<any>;
   private getLocationID = new Subject<any>();
 
@@ -4827,5 +4828,12 @@ export class appService {
 
   closeDeleteApgModal() {
     this.modalReference.close();
+  }
+
+  SetApgObj(obj) {
+    this.apgobj = obj;
+  }
+  GetApgObj() {
+    return this.apgobj;
   }
 }

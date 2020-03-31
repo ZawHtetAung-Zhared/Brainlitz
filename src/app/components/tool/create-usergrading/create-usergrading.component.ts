@@ -11,6 +11,8 @@ import { appService } from '../../../service/app.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 declare var $: any;
 
 @Component({
@@ -24,10 +26,15 @@ export class CreateUsergradingComponent implements OnInit {
   @Output() createGrade = new EventEmitter();
   @Input() UserGradeObj;
   @Input() isCreateStatus;
+  public isUpdate: boolean = false;
+  public apgobj: any;
   public userGradeData;
   public gradeName;
   public selectedIndex;
   public showPopUp = false;
+  public id: any;
+  public accesspoint: any;
+  public model: any;
   public selectedSepalColor = {
     text: '#6E2D00',
     background: '#FFCBA6'
@@ -39,7 +46,7 @@ export class CreateUsergradingComponent implements OnInit {
   public isFocus;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
-  public moduleID = localStorage.getItem('moduleID');
+  public moduleID: any;
   public blockColors = [
     {
       name: '1',
@@ -132,10 +139,18 @@ export class CreateUsergradingComponent implements OnInit {
   constructor(
     private _service: appService,
     public toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private _location: Location,
+    private _Activatedroute: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.moduleID = this._Activatedroute.snapshot.paramMap.get('mid');
+    console.log('module id', this.moduleID);
+    this.id = this._Activatedroute.snapshot.paramMap.get('id');
+    this.apgobj = this._service.GetApgObj();
+    console.log('passed apbobj', this.apgobj);
+
     this.userGradeData = {
       name: '',
       description: '',
@@ -157,17 +172,18 @@ export class CreateUsergradingComponent implements OnInit {
         ]
       }
     };
-    console.log('usergradedata', this.userGradeData);
-    this.isCreateStatus = true;
-    if (!this.isCreateStatus) {
-      //this.blockUI.start('Loading');
-      this.userGradeData = this.UserGradeObj;
+    if (this._Activatedroute.snapshot.url[0].path == 'edit') {
+      this.isUpdate = true;
+      console.log('2', this._Activatedroute.snapshot.url[0].path);
+      this.onclickUpdate(this.id, this.apgobj);
       setTimeout(() => {
         //this.blockUI.stop();
       }, 300);
     }
-    this.checkValidation();
+    console.log('usergradedata', this.userGradeData);
   }
+
+  ngAfterViewInit() {}
 
   addLevel(i) {
     const tempObj = {
@@ -370,20 +386,20 @@ export class CreateUsergradingComponent implements OnInit {
     editAP['description'] = this.userGradeData.description;
     editAP['moduleId'] = this.userGradeData.moduleId;
     editAP['data'] = this.userGradeData.data;
-    this._service
-      .updateAP(this.regionID, this.userGradeData.accessPoints[0], editAP)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.updateApg();
-          this.cancelGrade.emit(true);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    console.log('check1', editAP, this.accesspoint);
+    this._service.updateAP(this.regionID, this.accesspoint, editAP).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.updateApg();
+        this.cancelGrade.emit(true);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   updateApg() {
+    console.log('check2', this.userGradeData._id, this.userGradeData);
     this._service
       .updateAPG(
         this.regionID,
@@ -401,6 +417,7 @@ export class CreateUsergradingComponent implements OnInit {
           console.log(err);
         }
       );
+    this.cancelapg();
   }
   cancelUserGrade() {
     this.cancelGrade.emit(true);
@@ -420,6 +437,8 @@ export class CreateUsergradingComponent implements OnInit {
   }
   public isValid = false;
   checkValidation() {
+    console.log('validating');
+
     let tempNameArr = [];
     let tempPointArr = [];
     this.userGradeData.data.grades.map(grade => {
@@ -444,6 +463,114 @@ export class CreateUsergradingComponent implements OnInit {
     this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
   }
   goToBack() {
-    this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
+    this._location.back();
+  }
+  //   singleAPG(){
+  //     this._service.getSingleAPG(this.regionID, this.id).subscribe(
+  //          (res: any) => {
+  //            //this.blockUI.stop();
+  //            console.log('editapg', res);
+  //           //  this.model = res;
+  //            console.log('resolve res.accessPoints', res.accessPoints);
+  //            this.accesspoint = res.accessPoints[0];
+  //            this.Accesspoint();
+
+  //          },
+  //          err => {
+  //            //this.blockUI.stop();
+  //            console.log(err);
+  //          }
+  //     );
+  //  }
+
+  singleAPG() {
+    //this.blockUI.start('Loading...');
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this._service.getSingleAPG(this.regionID, this.id).subscribe(
+          (res: any) => {
+            //this.blockUI.stop();
+            console.log('editapg', res);
+            this.model = res;
+            console.log('resolve res.accessPoints', res.accessPoints);
+            resolve(res.accessPoints);
+          },
+          err => {
+            //this.blockUI.stop();
+            console.log(err);
+          }
+        );
+      }, 300);
+    });
+  }
+
+  onclickUpdate(id, apgName) {
+    console.log('zhapg', id, apgName);
+    return new Promise((resolve, reject) => {
+      this.singleAPG()
+        .then(apId => {
+          console.log('apid===>', apId);
+          this.moduleID = this.model.moduleId;
+          resolve(apId);
+        })
+        .catch(err => {
+          console.log(err); // never called1
+        });
+    })
+      .then(accespointId => {
+        console.log('accespointId===>', accespointId);
+        this.getEditAccessPoint(
+          this.regionID,
+          accespointId,
+          apgName.module.name
+        )
+          .then(dataCollection => {
+            if (apgName.module.name == 'User Grading') {
+              console.log('successs', dataCollection);
+              this.model.data = (dataCollection[0] as any).data;
+              this.userGradeData = this.model;
+              console.log('userGradeData', this.userGradeData);
+
+              this.accesspoint = this.userGradeData.accessPoints[0];
+              this.checkValidation();
+            }
+          })
+          .catch(err => {
+            console.log(err); // never called
+          });
+
+        // this.templateAccessPointGroup.push(res)
+        // this.accessPointArrayString.push(JSON.stringify(res));
+      })
+      .catch(err => {
+        console.log(err); // never called
+      });
+  }
+
+  getEditAccessPoint(reginId, accesPointId, apgName) {
+    console.log(apgName, '<<<<<<<<<========');
+
+    console.log('asss ==========>>>');
+    // this.templateAccessPointGroup = [];
+    // this.checkProperties(this.formObj);
+    return Promise.all(
+      accesPointId.map(accesPoint => {
+        return new Promise((resolve, reject) => {
+          this._service.getAccessPoint(reginId, accesPoint).subscribe(
+            (res: any) => {
+              console.log(res);
+              resolve(res);
+              // this.templateAccessPointGroup.push(res)
+              // this.accessPointArrayString.push(JSON.stringify(res));
+            },
+            err => {
+              console.log(err);
+              reject(err);
+            }
+          );
+        });
+      })
+    );
   }
 }

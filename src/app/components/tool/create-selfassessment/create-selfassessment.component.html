@@ -83,6 +83,7 @@
           Cancel
         </button>
         <button
+          *ngIf="isUpdate == false"
           type="button"
           class="btn btn-submit bg-b100 text-s0"
           (click)="createapgs(model, false)"
@@ -90,15 +91,15 @@
         >
           Create
         </button>
-        <!-- <button
-            *ngIf="isUpdate == true"
-            type="button"
-            class="btn btn-submit bg-b100 text-s0"
-            [disabled]="!createapgForm.valid"
-            (click)="createapgs(model, true, currentID)"
-          >
-            Update
-          </button> -->
+        <button
+          *ngIf="isUpdate == true"
+          type="button"
+          class="btn btn-submit bg-b100 text-s0"
+          [disabled]="!createapgForm.valid"
+          (click)="createapgs(model, true, currentID)"
+        >
+          Update
+        </button>
       </div>
     </form>
   </div>
