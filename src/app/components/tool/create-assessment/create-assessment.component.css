@@ -179,6 +179,18 @@
   padding-bottom: 16px;
   padding-top: 16px;
 }
+
+.requirement-name {
+  resize: none;
+  border: none;
+  border-bottom: 1px solid #edeff0;
+  width: 396px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow: hidden;
+  resize: none;
+}
+
 .skill-name:focus,
 .evaluation-name:focus,
 .requirement-name:focus,
@@ -193,6 +205,11 @@
   height: 18px;
   line-height: 1;
   text-align: center;
+}
+
+.remove-btn i {
+  font-size: 12px;
+  color: #fff;
 }
 .toggle-wrap {
   padding-left: 40px;
@@ -405,4 +422,16 @@ input:checked + .slider:before {
   padding: 20px;
   right: 0;
   background: #fff;
+}
+
+.btn-submit,
+.btn-cancel {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 100px;
+}
+
+.btn-submit {
+  margin-left: 15px;
 }

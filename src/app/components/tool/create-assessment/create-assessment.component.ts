@@ -21,7 +21,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/takeUntil';
 declare var $: any;
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
 import { csLocale } from 'ngx-bootstrap';
@@ -36,11 +36,6 @@ import { InvokeFunctionExpr } from '@angular/compiler';
 })
 export class CreateAssessmentComponent implements OnInit {
   // temp value to selected radio
-  public userGradingAp = false;
-  public tempDataValue: any;
-  public tempSharedApgId: any;
-  public valueArray: any = [];
-  public tempRadioType: any;
   public valid: boolean;
   public moduleID: any;
   public accessPointArrayString: any = [];
@@ -164,95 +159,6 @@ export class CreateAssessmentComponent implements OnInit {
   public colorPopUpLeft;
   public arrClasses: any;
   // colour group
-  public sepalColor = [
-    {
-      name: '1',
-      color: {
-        text: '#6E2D00',
-        background: '#FFCBA6'
-      }
-    },
-    {
-      name: '2',
-      color: {
-        text: '#544600',
-        background: '#FFE04D'
-      }
-    },
-    {
-      name: '3',
-      color: {
-        text: '#005733',
-        background: '#80FFCA'
-      }
-    },
-    {
-      name: '4',
-      color: {
-        text: '#003E7D',
-        background: '#B3D8FF'
-      }
-    },
-    {
-      name: '5',
-      color: {
-        text: '#5000A1',
-        background: '#DFBFFF'
-      }
-    },
-    {
-      name: '6',
-      color: {
-        text: '#7A0052',
-        background: '#FFBFE9'
-      }
-    }
-  ];
-
-  public colorPalette = [
-    {
-      name: '1',
-      color: {
-        text: '#803500',
-        background: '#ffe9d9'
-      }
-    },
-    {
-      name: '2',
-      color: {
-        text: '#594a00',
-        background: '#fff4bf'
-      }
-    },
-    {
-      name: '3',
-      color: {
-        text: '#005934',
-        background: '#ccffea'
-      }
-    },
-    {
-      name: '4',
-      color: {
-        text: '#004080',
-        background: '#cce6ff'
-      }
-    },
-    {
-      name: '5',
-      color: {
-        text: '#6600cc',
-        background: '#f2e6ff'
-      }
-    },
-    {
-      name: '6',
-      color: {
-        text: '#990066',
-        background: '#ffe6f6'
-      }
-    }
-  ];
 
   constructor(
     private modalService: NgbModal,
@@ -260,7 +166,8 @@ export class CreateAssessmentComponent implements OnInit {
     public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private _activeRoute: ActivatedRoute
   ) {
     console.log(this.templateAccessPointGroup);
     dragulaService.cloned().subscribe(({ clone, original, cloneType }) => {
@@ -318,8 +225,37 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedAPGTab.name = 'All';
-    this.selectedAPGTab.id = '';
+    this.moduleId = this._activeRoute.snapshot.paramMap.get('id');
+    const templateAccessPoint = {
+      name: '',
+      description: '',
+      moduleId: '',
+      options: false,
+      upDownOptions: false,
+      upOptions: false,
+      DownOptions: false,
+      data: {
+        evaluation: {
+          allowZero: false,
+          passMark: '',
+          details: [
+            {
+              name: '',
+              options: ['']
+            }
+          ]
+        }
+      }
+    };
+
+    this.templateAccessPointGroup.push(templateAccessPoint);
+    if (this.templateAccessPointGroup.length > 0) {
+      this.formObj['skillName0'] = '';
+      this.formObj['requirement00'] = '';
+      console.log('formObj~~~', this.formObj);
+      this.checkProperties(this.formObj);
+    }
+
     this.dragulaService.drag('COLUMNS').subscribe(({ name, el, source }) => {
       this.stillDrag = true;
       // var _this = this;
@@ -335,27 +271,6 @@ export class CreateAssessmentComponent implements OnInit {
       }
       // this.msg = `Dragging the ${value[1].innerText}!`;
     });
-
-    // remove group
-    // if (this.dragulaService.find("data_COLUMNS") == undefined)
-    //   this.dragulaService.createGroup("data_COLUMNS", {
-    //     direction: 'vertical',
-    //     moves: (el, source, handle) => handle.className === "move-sign",
-    //     // invalid: function (el, handle) {
-    //     //   return false; // don't prevent any drags from initiating by default
-    //     // }
-    //     // revertOnSpill
-    //     // accepts : (el,target) => console.log(el,target)
-    //   });
-    // this.dragulaService.createGroup("data_COLUMNS", {
-    //   direction: 'vertical',
-
-    // // invalid: function (el, handle) {
-    // //    return false; // don't prevent any drags from initiating by default
-    //  // }
-    //   // revertOnSpill
-    //   // accepts : (el,target) => console.log(el,target)
-    // });
 
     this.dragulaService
       .cloned('data_COLUMNS')
@@ -671,7 +586,6 @@ export class CreateAssessmentComponent implements OnInit {
         );
       // console.log( $(clone).children(".img-wrapper").children())
     });
-
     for (var i = 0; i < this.templateAccessPointGroup.length; i++) {
       this.dragulaService
         .drag(this.templateAccessPointGroup[i].name)
@@ -744,36 +658,6 @@ export class CreateAssessmentComponent implements OnInit {
     this.wordLength = val.length;
   }
 
-  cancelapg() {
-    this.userGradingAp = false;
-    this.apgList = [];
-    this.clearAPGTypeArr();
-    this.model = {};
-    this.apCreate = false;
-    this.iscreate = false;
-    this.dataApCreate = false;
-    this.ismodule = false;
-    this.isUpdate = false;
-    this.userGradingAp = false;
-    this.shareAPG = false;
-    this.isshare = false;
-    this.isGlobal = false;
-    this.selectedRadio = '';
-    //for evaluation APG
-    this.templateAccessPointGroup = [];
-    this.optionsArray = [''];
-    this.valueArray = [];
-    this.getAllAPG(20, 0);
-    this.formObj = {};
-    // for tempValue
-    this.tempRadioType = '';
-    this.idArr = [];
-  }
-  cancelGrading(e) {
-    if (e) {
-      this.cancelapg();
-    }
-  }
   // cancelAp() {
   //   this.apgList = [];
   //   this.model = {};
@@ -790,31 +674,17 @@ export class CreateAssessmentComponent implements OnInit {
   //   this.getAllAPG(20, 0);
   // }
 
-  goToBack(status) {
-    console.log(this.isScroll);
-    console.log(status);
-    if (status == 'type') {
-      console.log('type');
-      localStorage.removeItem('moduleID');
-      this.cancelapg();
-    } else if (status == 'create') {
-      this.iscreate = false;
-      this.isshare = false;
-      this.ismodule = true;
-      this.apCreate = false;
-      this.shareAPG = false;
-      this.model = {};
-    } else {
-      this.isshare = true;
-      this.shareAPG = false;
-      this.iscreate = false;
-      this.userGradingAp = false;
-    }
-    this.templateAccessPointGroup = [];
+  goToBack() {
+    this.router.navigateByUrl('tool-test/tracking-module/selected-module');
+  }
+
+  cancelapg() {
+    this.router.navigateByUrl(
+      'tool-test/tracking-module/lists/3/' + this.moduleId
+    );
   }
 
   addNewAPG() {
-    this.tempSharedApgId = '';
     localStorage.removeItem('moduleID');
     this.ischecked = '';
     this.model = {};
@@ -849,162 +719,8 @@ export class CreateAssessmentComponent implements OnInit {
   trackByFn(index, item) {
     return index;
   }
-  addDataValue(data, i) {
-    this.tempDataValue = data;
-    const newValue = '';
-    const newObj = { name: '' };
-    this.valueArray.push(newObj);
-    // this.convertObjToArray()
-    // this.templateAccessPointGroup.data.inputTypeProperties.options.push(newValue)
-    // this.optionsArray.push(newValue)
-    document.addEventListener(
-      'click',
-      (this.testFunct = () => {
-        if (this.tempDataValue == 'newData') {
-          var windowHeight = $(document).height();
-          window.scrollBy({
-            top: window.innerHeight,
-            left: 0,
-            behavior: 'smooth'
-          });
-          console.log(windowHeight);
-        }
-      }),
-      false
-    );
-    setTimeout(() => {
-      var a = this.valueArray.length - 1;
-      console.log(a);
-      document.getElementById('valueInput' + a).focus();
-      this.tempDataValue = '';
-    }, 300);
-  }
-  dataValueClear(item, e?) {
-    // this.optionsArray.splice(item, 1)
-    this.valueArray.splice(item, 1);
-    // console.log(this.optionsArray)
-    // console.error(this.templateAccessPointGroup.data.inputTypeProperties.options)
-    // console.log($(".data-wrapper").children())
-    // console.log($(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input"))
-    // var tempArr = $(".one-selection-wrapper").children(".selection-wrapper").children(".form-group").children("input");
-    // for (var i = 0; i < this.optionsArray.length; i++)
-    //   $(tempArr[i]).val(this.optionsArray[i])
-  }
 
   formObj = {};
-  createNewAPG(status, name) {
-    console.log('Create new APg', name);
-    this.optionsArray = [''];
-    if (status == 'create') {
-      this.iscreate = true;
-      if (name == 'Assessment' || name == 'Evaluation') {
-        this.ismodule = false;
-        this.apCreate = true;
-        this.dataApCreate = false;
-        const templateAccessPoint = {
-          name: '',
-          description: '',
-          moduleId: '',
-          options: false,
-          upDownOptions: false,
-          upOptions: false,
-          DownOptions: false,
-          data: {
-            evaluation: {
-              allowZero: false,
-              passMark: '',
-              details: [
-                {
-                  name: '',
-                  options: ['']
-                }
-              ]
-            }
-          }
-        };
-
-        this.templateAccessPointGroup.push(templateAccessPoint);
-        if (this.templateAccessPointGroup.length > 0) {
-          this.formObj['skillName0'] = '';
-          this.formObj['requirement00'] = '';
-          console.log('formObj~~~', this.formObj);
-          this.checkProperties(this.formObj);
-        }
-        // this.iscreate = false;
-        this.apCreate = true;
-        // ismodule == false && iscreate == false && isshare == false && shareAPG == false
-      } else if (name == 'Data') {
-        this.templateAccessPointGroup = {};
-        this.selectedRadio = 'NUMBER';
-        var moduleId = localStorage.getItem('moduleID');
-        // this.templateAccessPoint = {
-        //   "name": "",
-        //   "description": "",
-        //   "moduleId": moduleId,
-        //   "data": {
-        //     "sectionType": "DATA",
-        //     "unit": "",
-        //     "inputType": this.selectedRadio,
-        //     "inputTypeProperties": {
-        //       "name": "",
-        //       "min": "",
-        //       "max": "",
-        //       "options": [
-        //         ""
-        //     ]
-        //    }
-        //   }
-        // }
-        const templateAccessPoint = {
-          name: '',
-          description: '',
-          moduleId: moduleId,
-          data: {
-            sectionType: 'DATA',
-            unit: '',
-            inputType: this.selectedRadio,
-            inputTypeProperties: {
-              name: '',
-              min: '0',
-              max: '',
-              options: []
-            }
-          }
-        };
-        this.templateAccessPointGroup = templateAccessPoint;
-        this.dataApCreate = true;
-        this.ismodule = false;
-        this.apCreate = false;
-        this.emptymax = true;
-        this.emptymin = true;
-        this.overmin = true;
-      } else if (name === 'User Grading') {
-        this.userGradingAp = true;
-        this.dataApCreate = false;
-        this.iscreate = true;
-        this.isshare = false;
-        this.apCreate = false;
-      } else {
-        this.model = {};
-        this.userGradingAp = false;
-        this.dataApCreate = false;
-        this.iscreate = true;
-        this.isshare = false;
-        this.apCreate = false;
-        this.ismodule = false;
-      }
-    } else {
-      console.log('Create new APg', name);
-
-      console.log('hi');
-      this.sharechecked = '';
-      this.shareAPG = true;
-      this.apCreate = false;
-      this.templateList = [];
-      this.getAllTemplate(20, 0);
-    }
-    this.isshare = false;
-  }
 
   getsingleTemplate(id) {
     this._service.getSingleTemplate(this.regionID, id).subscribe(
@@ -1018,40 +734,6 @@ export class CreateAssessmentComponent implements OnInit {
     );
   }
 
-  setShareAPG(obj) {
-    // console.log('set share',this.singleCheckedAPG)
-
-    let data = this.singleCheckedAPG;
-    console.log(obj);
-    let emptyObj = {};
-    this.dataVal = this.singleCheckedAPG;
-
-    console.log('~~~~', this.dataVal);
-    this._service
-      .createAPG(
-        this.regionID,
-        this.locationID,
-        emptyObj,
-        this.dataVal._id,
-        this.dataVal.moduleId
-      )
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.toastr.success('APG successfully created.');
-          //this.blockUI.stop();
-          setTimeout(() => {
-            this.cancelapg();
-          }, 200);
-          this.setSelectedTab(this.pickedMType);
-        },
-        err => {
-          this.toastr.error(status + ' Fail.');
-          //this.blockUI.stop();
-          console.log(err);
-        }
-      );
-  }
   pickedMType = {
     name: '',
     id: ''
@@ -1451,37 +1133,6 @@ export class CreateAssessmentComponent implements OnInit {
 
   callCreateAPI() {}
 
-  callEditAPI() {}
-
-  // This function has two array, One is CreatedDataCollection, Another is EditedDataCollection
-  idArr = [];
-  editAccessmentApg() {
-    var id;
-    console.log('templateAPGroup', this.templateAccessPointGroup);
-    console.log('testArr', this.testArr);
-    return new Promise((resolve, reject) => {
-      this.templateAccessPointGroup.forEach((item, index) => {
-        console.log(item, index);
-        setTimeout(() => {
-          if (item._id == undefined) {
-            this.createAPonly(item, this.model.moduleId);
-          } else {
-            console.log('update ap');
-            this.updateAPOnly(item._id, item);
-            this.idArr.push(item._id);
-          }
-        }, 200);
-      });
-      resolve();
-    }).then(() => {
-      console.log('idArr', this.idArr);
-      setTimeout(() => {
-        this.updateEVApgOnly(this.idArr);
-      }, 1000);
-      // this.updateEVApgOnly(idArr)
-    });
-  }
-
   updateAPOnly(apId, ap) {
     console.log('update AP only', ap);
     var editap = {};
@@ -1506,53 +1157,8 @@ export class CreateAssessmentComponent implements OnInit {
     );
   }
 
-  createAPonly(ap, moduleId) {
-    console.log('Create Ap', ap);
-    var createap = {};
-    createap['name'] = ap.name;
-    createap['description'] = ap.description;
-    createap['moduleId'] = moduleId;
-    createap['data'] = {
-      evaluation: {
-        allowZero: ap.data.evaluation.allowZero,
-        passMark: ap.data.evaluation.passMark,
-        details: ap.data.evaluation.details
-      }
-    };
-    console.log(createap);
-    this._service.createAP(this.regionID, this.locationID, createap).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.idArr.push(res._id);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  updateEVApgOnly(idArray) {
-    // setTimeout(() => {
-    console.log('UPDATE');
-    console.log(idArray);
-    this.model.accessPoints = idArray;
-    this._service
-      .updateAPG(this.regionID, this.model._id, this.model, null)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          this.cancelapg();
-        },
-        err => {
-          console.log(err);
-        }
-      );
-    // }, 200);
-  }
-
   createEvaluateApgs(nameparam) {
     this.templateAccessPointGroup;
-    var moduleId = localStorage.getItem('moduleID');
     var arr;
 
     var apg = {
@@ -1568,18 +1174,16 @@ export class CreateAssessmentComponent implements OnInit {
       .then(res => {
         apg.name = nameparam.name;
         apg.accessPoints = res;
-        apg.moduleId = moduleId;
+        console.log(this.moduleId);
+        apg.moduleId = this.moduleId;
 
         this._service
-          .createAPG2(this.regionID, this.locationID, apg, moduleId)
+          .createAPG2(this.regionID, this.locationID, apg, this.moduleId)
           .subscribe(
             (res: any) => {
               this.toastr.success('APG successfully Created.');
               console.log(res);
-              // setTimeout(() => {
               this.cancelapg();
-              // }, 200);
-              // this.setSelectedTab(this.pickedMType);
             },
             err => {
               this.toastr.error('Created APG Fail');
@@ -1612,7 +1216,6 @@ export class CreateAssessmentComponent implements OnInit {
       }
     };
 
-    var moduleId = localStorage.getItem('moduleID');
     var APIdarr = [];
 
     return Promise.all(
@@ -1623,10 +1226,11 @@ export class CreateAssessmentComponent implements OnInit {
         // }
 
         apArr.name = ap.name;
-        apArr.moduleId = this.moduleID;
+        apArr.moduleId = this.moduleId;
         // apArr.moduleId = moduleId;
-        console.log('module ID :', moduleId);
+        console.log('module ID :', this.moduleId);
         apArr.data.evaluation = ap.data.evaluation;
+        console.log(apArr);
         return new Promise((resolve, reject) => {
           this._service
             .createAP(this.regionID, this.locationID, apArr)
@@ -1644,202 +1248,6 @@ export class CreateAssessmentComponent implements OnInit {
       })
     );
   }
-  convertObjToArray() {
-    console.log(this.valueArray);
-    console.log(this.templateAccessPointGroup);
-    this.templateAccessPointGroup.data.inputTypeProperties.options = [];
-    for (var i = 0; i < this.valueArray.length; i++) {
-      var item = this.valueArray[i].name;
-      this.templateAccessPointGroup.data.inputTypeProperties.options.push(item);
-    }
-    console.log(this.templateAccessPointGroup.data.inputTypeProperties.options);
-  }
-
-  convertArrayToObj() {
-    for (
-      var i = 0;
-      i < this.templateAccessPointGroup.data.inputTypeProperties.options.length;
-      i++
-    ) {
-      var item = { name: '' };
-      item.name = this.templateAccessPointGroup.data.inputTypeProperties.options[
-        i
-      ];
-      this.valueArray.push(item);
-    }
-    console.log(this.templateAccessPointGroup.data.inputTypeProperties.options);
-    console.log(this.valueArray);
-  }
-  createDataAccessPoint() {
-    return new Promise((resolve, reject) => {
-      if (this.selectedRadio == 'RADIO') {
-        this.convertObjToArray();
-      }
-      this._service
-        .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
-        .subscribe(
-          (res: any) => {
-            //  resolve(this.AccessPoint = res._id )
-            resolve(res._id);
-            console.log(res._id);
-          },
-          err => {
-            this.toastr.error('Created AP Fail');
-            reject(err);
-            console.log(err);
-          }
-        );
-    });
-  }
-  //  create Data Apg
-  createDataApg() {
-    // this.templateAccessPointGroup.data.inputTypeProperties.options = this.optionsArray;
-    // this.optionsArray = [];
-    console.log('create data ap');
-    this.createDataAccessPoint()
-      .then(apId => {
-        var moduleId = localStorage.getItem('moduleID');
-        var apg = {
-          name: this.model.name,
-          description: '',
-          moduleId: moduleId,
-          accessPoints: [apId],
-          color: this.selectedDataPattel,
-          sepalColor: this.selectedDataColor
-        };
-        this._service
-          .createAPG(this.regionID, this.locationID, apg, null, moduleId)
-          .subscribe(
-            (res: any) => {
-              console.log(res);
-              // setTimeout(() => {
-              this.cancelapg();
-              // }, 200);
-              this.toastr.success('APG successfully Created.');
-              console.warn(this.selectedAPGTab);
-              // this.setSelectedTab(this.pickedMType);
-              // this.optionsArray = [];
-            },
-            err => {
-              this.toastr.error('Created APG Fail');
-            }
-          );
-      })
-      .catch(err => {
-        console.log(err); // never called
-      });
-  }
-  //model._Id
-  updateAp(apId, ap, apgId) {
-    if (this.selectedRadio == 'RADIO') {
-      this.convertObjToArray();
-    } else {
-      console.log('not data apg');
-    }
-    console.log('model', this.model);
-    // ap.data.inputTypeProperties.options = this.optionsArray;
-    return new Promise((resolve, reject) => {
-      this._service.updateAP(this.regionID, apId, ap).subscribe((res: any) => {
-        console.log(res);
-        resolve(res._id);
-      }),
-        err => {
-          console.log(err);
-        };
-    })
-      .then(accespointId => {
-        this._service
-          .updateAPG(this.regionID, apgId, this.model, null)
-          .subscribe((res: any) => {
-            this.toastr.success('APG successfully updated');
-            console.log(res);
-            this.cancelapg();
-          }),
-          err => {
-            console.log(err);
-            this.toastr.success('APG update fail');
-          };
-      })
-      .catch(err => {
-        console.log(err); // never called
-      });
-  }
-  updateFunction(dataCollection) {
-    return Promise.all(
-      dataCollection.map(item => {
-        return this.updateAp(item._id, item, this.model._id);
-      })
-    );
-  }
-
-  createapgs(data, update) {
-    console.log(update);
-    var templateID;
-    console.log(data);
-    if (update == false) {
-      console.log('create');
-      var moduleId = localStorage.getItem('moduleID');
-      data['moduleId'] = moduleId;
-      this._service.createAP(this.regionID, this.locationID, data).subscribe(
-        (res: any) => {
-          // this.toastr.success('Successfully AP Created.');
-          data['accessPoints'] = [res._id];
-          console.log(data);
-          this._service
-            .createAPG(
-              this.regionID,
-              this.locationID,
-              data,
-              templateID,
-              moduleId
-            )
-            .subscribe(
-              (res: any) => {
-                setTimeout(() => {
-                  this.cancelapg();
-                }, 200);
-                this.toastr.success('APG successfully Created.');
-                console.log(res);
-                console.warn(this.pickedMType, 'pick m type');
-                // this.setSelectedTab(this.pickedMType);
-                // this.cancelapg();
-              },
-              err => {
-                this.toastr.error('Created APG Fail');
-                console.log(err);
-              }
-            );
-        },
-        err => {
-          this.toastr.error('Created AP Fail');
-          console.log(err);
-        }
-      );
-    } else {
-      console.log('update');
-      console.log(data);
-      //this.blockUI.start('Loading...');
-      this._service
-        .updateAPG(this.regionID, data._id, data, templateID)
-        .subscribe(
-          (res: any) => {
-            console.log('success update', res);
-            this.toastr.success('Successfully APG Updated.');
-            this.cancelapg();
-            //this.blockUI.stop();
-          },
-          err => {
-            this.toastr.error('Updated APG Fail');
-            console.log(err);
-          }
-        );
-    }
-  }
-
-  setSelectedTab(apgType) {
-    this.selectedAPGTab.name = apgType.name;
-    this.selectedAPGTab.id = apgType.id;
-  }
 
   apgPublicShare(apgID) {
     console.log(apgID);
@@ -1848,124 +1256,6 @@ export class CreateAssessmentComponent implements OnInit {
   public UserGradeApg;
   public isCreateStatus;
   testArr: any = [];
-  onclickUpdate(id, apgName) {
-    this.UserGradeApg = undefined;
-    this.isCreateStatus = false;
-    this.apgType = apgName.module.name;
-    console.log(id);
-    this.maxExit = true;
-    this.apgList = [];
-    this.iscreate = false;
-    this.isUpdate = true;
-    this.userGradingAp = false;
-    if (apgName.module.name == 'Data') {
-      this.iscreate = true;
-      var moduleId = localStorage.getItem('moduleID');
-      const templateAccessPoint = {
-        name: '',
-        description: '',
-        moduleId: moduleId,
-        data: {
-          sectionType: 'DATA',
-          unit: ' ',
-          inputType: this.selectedRadio,
-          inputTypeProperties: {
-            name: '',
-            min: '',
-            max: '',
-            options: ['']
-          }
-        }
-      };
-      this.templateAccessPointGroup = templateAccessPoint;
-
-      this.dataApCreate = true;
-      this.ismodule = false;
-      this.userGradingAp = false;
-      this.apCreate = false;
-    } else if (
-      apgName.module.name == 'Assessment' ||
-      apgName.module.name == 'Evaluation'
-    ) {
-      this.iscreate = true;
-      this.apCreate = true;
-      this.userGradingAp = false;
-    } else if (apgName.module.name == 'User Grading') {
-      this.apCreate = false;
-      this.dataApCreate = false;
-      this.ismodule = false;
-      this.userGradingAp = true;
-      this.iscreate = true;
-    } else {
-      this.iscreate = true;
-    }
-    return new Promise((resolve, reject) => {
-      this.singleAPG(id, 'update')
-        .then(apId => {
-          console.log('apid===>', apId);
-          this.moduleID = this.model.moduleId;
-          resolve(apId);
-        })
-        .catch(err => {
-          console.log(err); // never called1
-        });
-    })
-      .then(accespointId => {
-        console.log('accespointId===>', accespointId);
-        this.getEditAccessPoint(
-          this.regionID,
-          accespointId,
-          apgName.module.name
-        )
-          .then(dataCollection => {
-            if (apgName.module.name == 'User Grading') {
-              this.model.data = dataCollection[0].data;
-              this.UserGradeApg = this.model;
-            }
-            console.log('successs', dataCollection);
-            let tempArr = [];
-            this.templateAccessPointGroup = dataCollection;
-            if (
-              apgName.module.name == 'Evaluation' ||
-              apgName.module.name == 'Assessment'
-            ) {
-              this.templateAccessPointGroup.map(item => {
-                if (item.data.evaluation.passMark > 0) {
-                  item.options = true;
-                } else {
-                  item.options = false;
-                }
-                tempArr.push(item);
-                this.templateAccessPointGroup = tempArr;
-              });
-            }
-            this.accessPointArrayString = JSON.stringify(dataCollection);
-            this.testArr = dataCollection;
-            console.log(apgName.module.name);
-            if (
-              apgName.module.name.toLowerCase() == 'assessment' ||
-              apgName.module.name.toLowerCase() == 'evaluation'
-            ) {
-              console.log('evaluation~~~');
-              setTimeout(() => {
-                this.scrollCalculationAfter(this.templateAccessPointGroup);
-              }, 10);
-            }
-            if (apgName.module.name.toLowerCase() == 'data') {
-              this.sliderMinMax(dataCollection);
-            }
-          })
-          .catch(err => {
-            console.log(err); // never called
-          });
-
-        // this.templateAccessPointGroup.push(res)
-        // this.accessPointArrayString.push(JSON.stringify(res));
-      })
-      .catch(err => {
-        console.log(err); // never called
-      });
-  }
 
   singleAPG(id, state) {
     //this.blockUI.start('Loading...');
@@ -2673,7 +1963,7 @@ export class CreateAssessmentComponent implements OnInit {
     let data = {
       name: apgName
     };
-    this.tempSharedApgId = id;
+    // this.tempSharedApgId = id;
     console.log(data, id);
     //this.blockUI.start('Loading...');
     this._service.convertApgTemplate(id, data).subscribe(
@@ -2735,138 +2025,30 @@ export class CreateAssessmentComponent implements OnInit {
 
     this.addInputValue();
   }
-  minAndMax(e, value, index) {
-    console.log(e);
-    console.log(value);
-    if (value < 0) value = 0;
-    else if (value > 100) value = 100;
-    this.templateAccessPointGroup[index].data.evaluation.passMark = value;
-    e.target.value = value;
-    console.log(value);
-    console.log(index);
-  }
-  radioSelect(type) {
-    this.selectedRadio = type;
-    this.templateAccessPointGroup.data.inputType = type;
-    if (type == 'RADIO') {
-      // this.optionsArray = ['']
-      this.valueArray = [{ name: '' }];
-      console.log(this.valueArray);
-      this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
-      this.templateAccessPointGroup.data.inputTypeProperties.max = '';
-    } else if (type == 'NUMBER') {
-      // console.log(this.optionsArray)
-      // this.templateAccessPointGroup.data.inputTypeProperties.options = [""];
-      // this.templateAccessPointGroup.data.inputTypeProperties.options[0] = [''];
-      // this.optionsArray = ['']
-      this.templateAccessPointGroup.data.unit = '';
-      this.templateAccessPointGroup.data.inputTypeProperties.min = '0';
-      this.templateAccessPointGroup.data.inputTypeProperties.max = '';
-    } else {
-      // this.optionsArray = ['']
-      this.templateAccessPointGroup.data.unit = '';
-    }
 
-    this.chkValue('val', 'type');
-  }
-
-  checkValidation(arr) {
-    var apgName = this.model.name;
-    // console.log(apgName)
-    var tempArr = [];
-    if (this.selectedRadio == 'RADIO' || apgName.length == 0) {
-      for (var i = 0; i < arr.length; i++) {
-        tempArr.push(arr[i].name);
-      }
-      if (tempArr.includes('')) {
-        this.valid = false;
-      } else {
-        this.valid = true;
-      }
-    } else if (this.selectedRadio == 'NUMBER' || apgName.length == 0) {
-      if (this.templateAccessPointGroup.data.unit == '') {
-        this.valid = false;
-      } else {
-        this.valid = true;
-      }
-    } else {
-      var min = this.templateAccessPointGroup.data.inputTypeProperties.min;
-      var max = this.templateAccessPointGroup.data.inputTypeProperties.max;
-      if (
-        min === '' ||
-        max === '' ||
-        min >= max ||
-        apgName.length == 0 ||
-        this.templateAccessPointGroup.data.unit == ''
-      ) {
-        this.valid = false;
-      } else {
-        this.valid = true;
-      }
-    }
-  }
-  setInputValueFromObject(arr) {
-    setTimeout(() => {
-      console.log($('.data-wrapper').children());
-      console.log(
-        $('.one-selection-wrapper')
-          .children('.selection-wrapper')
-          .children('.form-group')
-          .children('input')
-      );
-      var tempArr = $('.one-selection-wrapper')
-        .children('.selection-wrapper')
-        .children('.form-group')
-        .children('input');
-      for (var i = 0; i < arr.length; i++) $(tempArr[i]).val(arr[i]);
-    }, 100);
-  }
   getEditAccessPoint(reginId, accesPointId, apgName) {
     console.log(apgName, '<<<<<<<<<========');
-    if (apgName == 'Data') {
-      return new Promise((resolve, reject) => {
-        this._service.getAccessPoint(reginId, accesPointId).subscribe(
-          (res: any) => {
-            console.log(res);
-            this.templateAccessPointGroup = res;
-            // this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
-            this.selectedRadio = this.templateAccessPointGroup.data.inputType;
-            this.tempRadioType = this.templateAccessPointGroup.data.inputType;
-            this.convertArrayToObj();
-            this.chkValue('val', 'type');
-            // console.log(this.optionsArray)
-            resolve(res);
-            // this.setInputValueFromObject(this.optionsArray)
-          },
-          err => {
-            console.log(err);
-          }
-        );
-      });
-    } else {
-      console.log('asss ==========>>>');
-      this.templateAccessPointGroup = [];
-      this.checkProperties(this.formObj);
-      return Promise.all(
-        accesPointId.map(accesPoint => {
-          return new Promise((resolve, reject) => {
-            this._service.getAccessPoint(reginId, accesPoint).subscribe(
-              (res: any) => {
-                console.log(res);
-                resolve(res);
-                // this.templateAccessPointGroup.push(res)
-                // this.accessPointArrayString.push(JSON.stringify(res));
-              },
-              err => {
-                console.log(err);
-                reject(err);
-              }
-            );
-          });
-        })
-      );
-    }
+    console.log('asss ==========>>>');
+    this.templateAccessPointGroup = [];
+    this.checkProperties(this.formObj);
+    return Promise.all(
+      accesPointId.map(accesPoint => {
+        return new Promise((resolve, reject) => {
+          this._service.getAccessPoint(reginId, accesPoint).subscribe(
+            (res: any) => {
+              console.log(res);
+              resolve(res);
+              // this.templateAccessPointGroup.push(res)
+              // this.accessPointArrayString.push(JSON.stringify(res));
+            },
+            err => {
+              console.log(err);
+              reject(err);
+            }
+          );
+        });
+      })
+    );
   }
 
   ChangedTimeValue(obj) {
@@ -3186,27 +2368,5 @@ export class CreateAssessmentComponent implements OnInit {
   closePopUp(e) {
     this.isShowPicker = false;
     $('body').css('overflow', 'overlay');
-  }
-
-  selectColor(i, item) {
-    console.log(i, '<i>');
-    console.log(item, 'item');
-    this.selectedDataColor.background = item.color.background;
-    this.selectedDataColor.text = item.color.text;
-    this.selectedDataPattel.background = this.colorPalette[i].color.background;
-    this.selectedDataPattel.text = this.colorPalette[i].color.text;
-
-    this.isShowPicker = false;
-
-    $('#feedback').remove();
-    $('#placeholder_color').append(
-      "<style id='feedback'>.data-name::-webkit-input-placeholder{color:" +
-        this.selectedDataColor.text +
-        ' !important;} .data-name::-moz-placeholder{color: ' +
-        this.selectedDataColor.text +
-        ' !important; opacity:1;} .data-name:-moz-placeholder{color: ' +
-        this.selectedDataColor.text +
-        ' !important; opacity:1;}</style>'
-    );
   }
 }
