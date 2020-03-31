@@ -51,7 +51,9 @@ import {
   ShareTrackingModuleComponent,
   SelectModuleComponent,
   CreateProgressComponent,
-  CreateDataComponent
+  CreateDataComponent,
+  SharedDataComponent,
+  ShareAssessmentComponent
 } from './components/tool/index';
 import {
   CourseComponent,
@@ -315,7 +317,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'tools',
+    path: 'tools-test',
     component: ToolsComponent,
     canActivate: [LoggedInGuard]
   },
@@ -376,7 +378,7 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
-    path: 'tool-test',
+    path: 'tools',
     component: MainToolComponent,
     children: [
       { path: '', redirectTo: 'notification', pathMatch: 'full' },
@@ -504,12 +506,20 @@ export const routes: Routes = [
             component: CreateDataComponent
           },
           {
+            path: 'share/4/:id',
+            component: SharedDataComponent
+          },
+          {
             path: 'share/1/:id',
             component: SharedProgressComponent
           },
           {
             path: 'create/3/:id',
             component: CreateAssessmentComponent
+          },
+          {
+            path: 'share/3/:id',
+            component: ShareAssessmentComponent
           },
           {
             path: 'create/5/:id',

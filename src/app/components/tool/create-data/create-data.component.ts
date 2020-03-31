@@ -440,13 +440,11 @@ export class CreateDataComponent implements OnInit {
   }
 
   goToAll() {
-    this._router.navigateByUrl(
-      'tool-test/tracking-module/lists/4/' + this.modelId
-    );
+    this._router.navigateByUrl('tools/tracking-module/lists/4/' + this.modelId);
   }
 
   backtoselected() {
-    this._router.navigateByUrl('tool-test/tracking-module/selected-module');
+    this._router.navigateByUrl('tools/tracking-module/selected-module');
   }
   cancelapg() {
     this._router.navigateByUrl(`tool-test/tracking-module/lists/all`);

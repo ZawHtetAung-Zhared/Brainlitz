@@ -75,7 +75,7 @@ export class ResourceCreateComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigateByUrl(`tool-test/resource`);
+    this.router.navigateByUrl(`tools/resource`);
   }
 
   creatnew() {

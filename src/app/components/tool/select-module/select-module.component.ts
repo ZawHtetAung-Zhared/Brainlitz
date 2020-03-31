@@ -66,7 +66,7 @@ export class SelectModuleComponent implements OnInit {
   createNewAPG(type) {
     console.log(this.selectedModule);
     this._router.navigateByUrl(
-      'tool-test/tracking-module/' +
+      'tools/tracking-module/' +
         type +
         '/' +
         this.selectedModule.type +
@@ -76,7 +76,7 @@ export class SelectModuleComponent implements OnInit {
   }
   goToAll() {
     this._router.navigateByUrl(
-      'tool-test/tracking-module/lists/all'
+      'tools/tracking-module/lists/all'
       // this.selectedModule.type +
       // '/' +
       // this.selectedModule._id

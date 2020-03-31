@@ -142,7 +142,7 @@ export class CalendarDetailComponent implements OnInit {
     // this.calendarLists = [];
     // this.getAllHolidaysCalendar(20, 0);
     // this.formField = new calendarField();
-    this.router.navigateByUrl(`tool-test/holiday-calendar/calendar-list`);
+    this.router.navigateByUrl(`tools/holiday-calendar/calendar-list`);
   }
 
   focusMethod(e, word) {

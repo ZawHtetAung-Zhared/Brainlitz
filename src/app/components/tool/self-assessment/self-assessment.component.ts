@@ -37,7 +37,7 @@ export class SelfAssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.router.url.includes('/tool-test/tracking-module')) {
+    // if (this.router.url.includes('/tools/tracking-module')) {
     //   this.permissionType = localStorage.getItem('permission');
     this.selectedApgId = this._Activatedroute.snapshot.paramMap.get('id');
     //   console.log(this.selectedApgId);

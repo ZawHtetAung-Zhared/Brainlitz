@@ -57,7 +57,7 @@ export class ResourceListComponent implements OnInit {
     private router: Router
   ) {
     this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tool-test/resource/resource-list') {
+      if (this.router.url === '/tools/resource/resource-list') {
         this._service.permissionList.subscribe(data => {
           console.log('from quizwerkz');
           this.permissionType = data;
@@ -70,7 +70,7 @@ export class ResourceListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/tool-test/resource/resource-list') {
+    if (this.router.url === '/tools/resource/resource-list') {
       this.permissionType = localStorage.getItem('permission');
       this.checkPermission();
     }

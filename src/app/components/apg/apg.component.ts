@@ -562,6 +562,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           'mousemove',
           (this.testFunct = () => {
             if (stillDrag) {
+              console.log('mouse move');
               // event.preventDefault();
               // console.log($(event.target).parents(".requirement"))
               // console.log(event.pageY)
