@@ -126,12 +126,12 @@ export class ShareAssessmentComponent implements OnInit {
 
   backToList() {
     this._router.navigateByUrl(
-      'tool-test/tracking-module/lists/3/' + this.moduleId
+      'tools/tracking-module/lists/3/' + this.moduleId
     );
   }
 
   goToback() {
-    this._router.navigateByUrl('tool-test/tracking-module/selected-module');
+    this._router.navigateByUrl('tools/tracking-module/selected-module');
   }
   showMoreShareApg(skip) {
     if (this.isSearch == true) {

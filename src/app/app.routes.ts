@@ -317,7 +317,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'tools',
+    path: 'tools-test',
     component: ToolsComponent,
     canActivate: [LoggedInGuard]
   },
@@ -378,7 +378,7 @@ export const routes: Routes = [
     canActivate: [LoggedInGuard]
   },
   {
-    path: 'tool-test',
+    path: 'tools',
     component: MainToolComponent,
     children: [
       { path: '', redirectTo: 'notification', pathMatch: 'full' },

@@ -96,7 +96,7 @@ export class SharedDataComponent implements OnInit {
           console.log(res);
           this.toastr.success('APG successfully created.');
           this._router.navigateByUrl(
-            'tool-test/tracking-module/lists/4/' + this.moduleId
+            'tools/tracking-module/lists/4/' + this.moduleId
           );
         },
         err => {
@@ -108,7 +108,7 @@ export class SharedDataComponent implements OnInit {
   }
 
   goToBack() {
-    this._router.navigateByUrl('tool-test/tracking-module/selected-module');
+    this._router.navigateByUrl('tools/tracking-module/selected-module');
   }
 
   sharedApgSearch2(keyword, limit, skip) {

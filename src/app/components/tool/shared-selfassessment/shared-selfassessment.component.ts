@@ -120,10 +120,10 @@ export class SharedSelfassessmentComponent implements OnInit {
   }
 
   cancelapg() {
-    this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
   }
   goToBack() {
-    this.router.navigateByUrl(`tool-test/tracking-module/selected-module`);
+    this.router.navigateByUrl(`tools/tracking-module/selected-module`);
   }
 
   sharedApgSearch(keyword, limit, skip) {

@@ -110,7 +110,7 @@ export class SendHistoryComponent implements OnInit {
     private router: Router
   ) {
     this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tool-test/notification/send-history') {
+      if (this.router.url === '/tools/notification/send-history') {
         console.log('~~~~', this.router.url);
         console.log(this.locationId);
         this.locationId = data;
@@ -131,7 +131,7 @@ export class SendHistoryComponent implements OnInit {
 
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
-        if (this.router.url === '/tool-test/notification/send-history') {
+        if (this.router.url === '/tools/notification/send-history') {
           this.permissionType = data;
           console.log(this.permissionType);
           this.checkPermission();

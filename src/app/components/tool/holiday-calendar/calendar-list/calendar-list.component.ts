@@ -90,7 +90,7 @@ export class CalendarListComponent implements OnInit {
   ) {
     // this.toastr.setRootViewContainerRef(vcr);
     this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tool-test/holiday-calendar/calendar-list') {
+      if (this.router.url === '/tools/holiday-calendar/calendar-list') {
         this._service.permissionList.subscribe(data => {
           console.log('from calendar');
           this.permissionType = data;
@@ -103,7 +103,7 @@ export class CalendarListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/tool-test/holiday-calendar/calendar-list') {
+    if (this.router.url === '/tools/holiday-calendar/calendar-list') {
       this.permissionType = localStorage.getItem('permission');
       this.checkPermission();
     }

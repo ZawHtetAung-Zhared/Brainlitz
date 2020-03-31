@@ -211,7 +211,7 @@ export class TrackingModuleComponent implements OnInit {
   }
 
   onClickApgTab(type, id) {
-    this._route.navigateByUrl('tool-test/tracking-module/' + type + '/' + id);
+    this._route.navigateByUrl('tools/tracking-module/' + type + '/' + id);
   }
 
   public addTrackingModule = false;
@@ -228,7 +228,7 @@ export class TrackingModuleComponent implements OnInit {
   }
   addNewAPG() {
     this.addTrackingModule = true;
-    this._route.navigateByUrl('tool-test/tracking-module/selected-module');
+    this._route.navigateByUrl('tools/tracking-module/selected-module');
   }
   goToAll() {
     this.addTrackingModule = false;
@@ -269,9 +269,7 @@ export class TrackingModuleComponent implements OnInit {
       // this.iscreate = true;
       this.addTrackingModule = false;
       this.trackingModuleType = false;
-      this._route.navigateByUrl(
-        'tool-test/tracking-module/' + status + '/' + name
-      );
+      this._route.navigateByUrl('tools/tracking-module/' + status + '/' + name);
       if (name == 'Assessment' || name == 'Evaluation') {
         // this.ismodule = false;
         // this.apCreate = true;
@@ -370,9 +368,7 @@ export class TrackingModuleComponent implements OnInit {
     } else {
       this.addTrackingModule = false;
       this.trackingModuleType = false;
-      this._route.navigateByUrl(
-        'tool-test/tracking-module/' + status + '/' + name
-      );
+      this._route.navigateByUrl('tools/tracking-module/' + status + '/' + name);
       // console.log('Create new APg', name);
 
       // console.log('hi');

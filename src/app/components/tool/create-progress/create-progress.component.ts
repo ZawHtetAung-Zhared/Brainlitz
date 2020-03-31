@@ -70,7 +70,7 @@ export class CreateProgressComponent implements OnInit {
     this._location.back();
   }
   cancelapg() {
-    this.router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
   }
   createapgs(data, update) {
     console.log(update);

@@ -98,7 +98,7 @@ export class SingleFooterComponent implements OnInit {
     console.log('data', singleData);
     this._service.SetApgObj(singleData);
     this.router.navigateByUrl(
-      `tool-test/tracking-module/edit/` +
+      `tools/tracking-module/edit/` +
         singleData.module.type +
         `/` +
         singleData.module._id +

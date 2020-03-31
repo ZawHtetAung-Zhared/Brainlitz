@@ -110,7 +110,7 @@ export class SendNotificationComponent implements OnInit {
     private router: Router
   ) {
     this._service.locationID.subscribe(data => {
-      if (this.router.url === '/tool-test/notification/send-notification') {
+      if (this.router.url === '/tools/notification/send-notification') {
         console.log('~~~~', this.router.url);
         console.log(this.locationId);
         this.locationId = data;
@@ -134,7 +134,7 @@ export class SendNotificationComponent implements OnInit {
 
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
-        if (this.router.url === '/tool-test/notification/send-notification') {
+        if (this.router.url === '/tools/notification/send-notification') {
           this.permissionType = data;
           console.log(this.permissionType);
           this.checkPermission();

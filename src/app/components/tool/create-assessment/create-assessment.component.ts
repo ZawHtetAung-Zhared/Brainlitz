@@ -675,13 +675,11 @@ export class CreateAssessmentComponent implements OnInit {
   // }
 
   goToBack() {
-    this.router.navigateByUrl('tool-test/tracking-module/selected-module');
+    this.router.navigateByUrl('tools/tracking-module/selected-module');
   }
 
   cancelapg() {
-    this.router.navigateByUrl(
-      'tool-test/tracking-module/lists/3/' + this.moduleId
-    );
+    this.router.navigateByUrl('tools/tracking-module/lists/3/' + this.moduleId);
   }
 
   addNewAPG() {
