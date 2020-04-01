@@ -2736,7 +2736,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       (res: any) => {
         console.log(res);
         let returnData = JSON.parse(res._body);
-        this.singleAPG(returnData._id, 'public');
+        // this.singleAPG(returnData._id, 'public');
       },
       err => {
         console.log(err);

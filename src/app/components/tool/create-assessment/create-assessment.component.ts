@@ -132,37 +132,37 @@ export class CreateAssessmentComponent implements OnInit {
       this.isCreate = false;
     } else {
       this.isCreate = true;
+      const templateAccessPoint = {
+        name: '',
+        description: '',
+        moduleId: '',
+        options: false,
+        upDownOptions: false,
+        upOptions: false,
+        DownOptions: false,
+        data: {
+          evaluation: {
+            allowZero: false,
+            passMark: '',
+            details: [
+              {
+                name: '',
+                options: ['']
+              }
+            ]
+          }
+        }
+      };
+
+      this.templateAccessPointGroup.push(templateAccessPoint);
+      if (this.templateAccessPointGroup.length > 0) {
+        this.formObj['skillName0'] = '';
+        this.formObj['requirement00'] = '';
+        console.log('formObj~~~', this.formObj);
+        this.checkProperties(this.formObj);
+      }
     }
     console.log(this.assessmentId);
-    const templateAccessPoint = {
-      name: '',
-      description: '',
-      moduleId: '',
-      options: false,
-      upDownOptions: false,
-      upOptions: false,
-      DownOptions: false,
-      data: {
-        evaluation: {
-          allowZero: false,
-          passMark: '',
-          details: [
-            {
-              name: '',
-              options: ['']
-            }
-          ]
-        }
-      }
-    };
-
-    this.templateAccessPointGroup.push(templateAccessPoint);
-    if (this.templateAccessPointGroup.length > 0) {
-      this.formObj['skillName0'] = '';
-      this.formObj['requirement00'] = '';
-      console.log('formObj~~~', this.formObj);
-      this.checkProperties(this.formObj);
-    }
 
     this.dragulaService.drag('COLUMNS').subscribe(({ name, el, source }) => {
       this.stillDrag = true;
@@ -1156,13 +1156,14 @@ export class CreateAssessmentComponent implements OnInit {
     //this.blockUI.start('Loading...');
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this._service.getSingleAPG(this.regionID, this.moduleId).subscribe(
+        this._service.getSingleAPG(this.regionID, this.assessmentId).subscribe(
           (res: any) => {
             //this.blockUI.stop();
             console.log('editapg', res);
             this.model = res;
             console.log('resolve res.accessPoints', res.accessPoints);
             resolve(res.accessPoints);
+            // this.convertTemplate(res, res._id, res.name);
           },
           err => {
             //this.blockUI.stop();
