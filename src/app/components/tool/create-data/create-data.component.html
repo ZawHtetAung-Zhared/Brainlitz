@@ -2,13 +2,13 @@
   <div class="main-wrapper ">
     <div class="back-wrap">
       <div class="d-flex justify-content-between">
-        <div class="back-to" (click)="backtoselected()">
+        <div class="back-to" (click)="goToBack()">
           <i class="fa fa-angle-left"></i>
           <p class="body-l text-c300">
             Creating data tracking module
           </p>
         </div>
-        <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+        <a class="cancel-back body-l text-c300" (click)="goToBack()">Cancel</a>
       </div>
     </div>
     <h3 class="h1-strong text-c300">
@@ -113,7 +113,7 @@
               class="type-input cousorAdd p-0"
               [class.activeRadio]="selectedRadio == 'NUMBER'"
               (click)="radioSelect('NUMBER')"
-              [disabled]="iscreate == true && isUpdate == true"
+              [disabled]="isUpdate == true"
             >
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
@@ -136,7 +136,7 @@
               class="type-input cousorAdd p-0"
               [class.activeRadio]="selectedRadio == 'RANGE'"
               (click)="radioSelect('RANGE')"
-              [disabled]="iscreate == true && isUpdate == true"
+              [disabled]="isUpdate == true"
             >
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
@@ -157,7 +157,7 @@
               class="type-input cousorAdd p-0"
               [class.activeRadio]="selectedRadio == 'RADIO'"
               (click)="radioSelect('RADIO')"
-              [disabled]="iscreate == true && isUpdate == true"
+              [disabled]="isUpdate == true"
             >
               <div class="radio-wrapper">
                 <div class="label-checked"></div>
@@ -448,10 +448,11 @@
           </div>
         </div>
         <div class="d-flex justify-content-end form-footer">
-          <button type="button" class="btn btn-cancel" (click)="goToAll()">
+          <button type="button" class="btn btn-cancel" (click)="cancelapg()">
             Cancel
           </button>
           <button
+            *ngIf="isUpdate == false"
             type="button"
             class="btn btn-submit bg-b100 text-s0"
             (click)="createDataApg()"
@@ -463,6 +464,25 @@
             "
           >
             Create
+          </button>
+          <button
+            class="btn btn-submit text-s0 bg-b100 body-l"
+            (click)="
+              updateAp(
+                model.accessPoints,
+                this.templateAccessPointGroup,
+                model._id
+              )
+            "
+            *ngIf="isUpdate == true"
+            [disabled]="
+              model.name == undefined ||
+              model.name.length == 0 ||
+              checkValidation(valueArray) ||
+              valid == false
+            "
+          >
+            Update
           </button>
         </div>
       </div>

@@ -1,40 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { appService } from '../../../service/app.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-shared-data',
-  templateUrl: './shared-data.component.html',
-  styleUrls: ['./shared-data.component.css']
+  selector: 'app-shared-badge',
+  templateUrl: './shared-badge.component.html',
+  styleUrls: ['./shared-badge.component.css']
 })
-export class SharedDataComponent implements OnInit {
+export class SharedBadgeComponent implements OnInit {
+  public templateList: Array<any> = [];
+  public module_id: any;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
-  public sharechecked: any;
-  public moduleId: any;
-  public singleCheckedAPG: boolean = false;
+  public result: any = [];
   public isSearch: boolean = false;
+  public sharechecked: any;
+  public singleCheckedAPG: boolean = false;
   public dataVal: any = {};
   public keyword: any;
-  // array
-  result: any = [];
-  templateList: Array<any> = [];
+
   constructor(
     private _service: appService,
-    private _activeRoute: ActivatedRoute,
+    private _Activatedroute: ActivatedRoute,
     public toastr: ToastrService,
-    public _router: Router
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.moduleId = this._activeRoute.snapshot.paramMap.get('id');
+    this.module_id = this._Activatedroute.snapshot.paramMap.get('id');
     this.getAllTemplate(20, 0);
   }
 
   getAllTemplate(limit, skip) {
+    // console.log(this.apgType);
+    var moduleId = this.module_id;
+    console.log(moduleId);
+    //this.blockUI.start('Loading');
     this._service
-      .getAllTemplate(this.regionID, limit, skip, this.moduleId)
+      .getAllTemplate(this.regionID, limit, skip, moduleId)
       .subscribe(
         (res: any) => {
           console.log('templateLists', res);
@@ -52,12 +58,20 @@ export class SharedDataComponent implements OnInit {
       );
   }
 
+  showMoreShareApg(skip) {
+    if (this.isSearch == true) {
+      console.log('User Search');
+      // this.sharedApgSearch(this.keyword, 20, skip);
+    } else {
+      console.log('Not user search');
+      this.getAllTemplate(20, skip);
+    }
+  }
   chooseShareAPG(val, name) {
     console.log(val);
     this.sharechecked = val;
     this.getsingleTemplate(this.sharechecked);
   }
-
   getsingleTemplate(id) {
     this._service.getSingleTemplate(this.regionID, id).subscribe(
       (res: any) => {
@@ -68,10 +82,6 @@ export class SharedDataComponent implements OnInit {
         console.log(err);
       }
     );
-  }
-
-  public get half(): number {
-    return Math.ceil(this.templateList.length / 2);
   }
 
   setShareAPG(obj) {
@@ -95,9 +105,11 @@ export class SharedDataComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.toastr.success('APG successfully created.');
-          this._router.navigateByUrl(
-            'tools/tracking-module/lists/4/' + this.moduleId
-          );
+          //this.blockUI.stop();
+          setTimeout(() => {
+            this.cancelapg();
+          }, 200);
+          // this.setSelectedTab(this.pickedMType);
         },
         err => {
           this.toastr.error(status + ' Fail.');
@@ -107,15 +119,11 @@ export class SharedDataComponent implements OnInit {
       );
   }
 
-  goToBack() {
-    this._router.navigateByUrl('tools/tracking-module/selected-module');
+  cancelapg() {
+    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
   }
-
-  sharedApgSearch2(keyword, limit, skip) {
-    this.keyword = keyword;
-    if (keyword.length == 0) {
-      this.sharedApgSearch(keyword, limit, skip);
-    }
+  goToBack() {
+    this.router.navigateByUrl(`tools/tracking-module/selected-module`);
   }
 
   sharedApgSearch(keyword, limit, skip) {
@@ -128,7 +136,7 @@ export class SharedDataComponent implements OnInit {
     }
     if (keyword.length != 0) {
       this._service
-        .getSearchTemplate(this.regionID, limit, skip, this.moduleId, keyword)
+        .getSearchTemplate(this.regionID, limit, skip, this.module_id, keyword)
         .subscribe(
           (res: any) => {
             console.log('templateLists', res);
@@ -157,16 +165,10 @@ export class SharedDataComponent implements OnInit {
     }
   }
 
-  showMoreShareApg(skip) {
-    if (this.isSearch == true) {
-      console.log('User Search');
-      this.sharedApgSearch(this.keyword, 20, skip);
-    } else {
-      console.log('Not user search');
-      this.getAllTemplate(20, skip);
+  sharedApgSearch2(keyword, limit, skip) {
+    this.keyword = keyword;
+    if (keyword.length == 0) {
+      this.sharedApgSearch(keyword, limit, skip);
     }
-  }
-  cancelapg() {
-    this._router.navigateByUrl(`tools/tracking-module/lists/all`);
   }
 }

@@ -1783,6 +1783,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
+    console.log('For data', apId, ' ### ', ap, ' ### ', apgId);
+
     if (this.selectedRadio == 'RADIO') {
       this.convertObjToArray();
     } else {
@@ -1901,7 +1903,7 @@ export class ApgComponent implements OnInit, OnDestroy {
   public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
-    console.log('zhapg', apgName, 'id', id);
+    console.log('testapg', apgName, 'id', id);
 
     this.UserGradeApg = undefined;
     this.isCreateStatus = false;

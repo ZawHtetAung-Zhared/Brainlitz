@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-main-tool',
@@ -7,8 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainToolComponent implements OnInit {
   public isDisplay: boolean = false;
+  isSticky: boolean = false;
+  showBtn: boolean = false;
   public type: any = 'send-notification';
   constructor() {}
 
   ngOnInit() {}
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      this.isSticky = true;
+
+      this.showBtn = true;
+    } else {
+      this.isSticky = false;
+      this.showBtn = false;
+    }
+  }
 }

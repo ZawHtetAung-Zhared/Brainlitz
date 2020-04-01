@@ -239,6 +239,8 @@ import { SharedSelfassessmentComponent } from './components/tool/shared-selfasse
 import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
 import { SharedUsergradingComponent } from './components/tool/shared-usergrading/shared-usergrading.component';
 import { ShareAssessmentComponent } from './components/tool/share-assessment/share-assessment.component';
+import { CreateBadgeComponent } from './components/tool/create-badge/create-badge.component';
+import { SharedBadgeComponent } from './components/tool/shared-badge/shared-badge.component';
 
 @NgModule({
   declarations: [
@@ -421,7 +423,9 @@ import { ShareAssessmentComponent } from './components/tool/share-assessment/sha
     SharedSelfassessmentComponent,
     CreateUsergradingComponent,
     SharedUsergradingComponent,
-    ShareAssessmentComponent
+    ShareAssessmentComponent,
+    CreateBadgeComponent,
+    SharedBadgeComponent
   ],
   imports: [
     ContentLoaderModule,

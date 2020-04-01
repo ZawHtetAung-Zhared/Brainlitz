@@ -161,7 +161,7 @@
       <button
         class="btn btn-submit text-s0 bg-b100 body-l"
         (click)="createUserGradeApg(userGradeData)"
-        *ngIf="this.isCreateStatus"
+        *ngIf="isUpdate == false"
         [disabled]="!isValid"
       >
         Create
@@ -169,7 +169,7 @@
       <button
         class="btn btn-submit text-s0 bg-b100 body-l"
         (click)="updateAP(userGradeData)"
-        *ngIf="!this.isCreateStatus"
+        *ngIf="isUpdate == true"
         [disabled]="!isValid"
       >
         Update

@@ -145,9 +145,8 @@ export class CreateUsergradingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.moduleID = this._Activatedroute.snapshot.paramMap.get('mid');
+    this.moduleID = this._Activatedroute.snapshot.paramMap.get('id');
     console.log('module id', this.moduleID);
-    this.id = this._Activatedroute.snapshot.paramMap.get('id');
     this.apgobj = this._service.GetApgObj();
     console.log('passed apbobj', this.apgobj);
 
@@ -173,6 +172,9 @@ export class CreateUsergradingComponent implements OnInit {
       }
     };
     if (this._Activatedroute.snapshot.url[0].path == 'edit') {
+      this.moduleID = this._Activatedroute.snapshot.paramMap.get('mid');
+      console.log('module id', this.moduleID);
+      this.id = this._Activatedroute.snapshot.paramMap.get('id');
       this.isUpdate = true;
       console.log('2', this._Activatedroute.snapshot.url[0].path);
       this.onclickUpdate(this.id, this.apgobj);
@@ -465,23 +467,6 @@ export class CreateUsergradingComponent implements OnInit {
   goToBack() {
     this._location.back();
   }
-  //   singleAPG(){
-  //     this._service.getSingleAPG(this.regionID, this.id).subscribe(
-  //          (res: any) => {
-  //            //this.blockUI.stop();
-  //            console.log('editapg', res);
-  //           //  this.model = res;
-  //            console.log('resolve res.accessPoints', res.accessPoints);
-  //            this.accesspoint = res.accessPoints[0];
-  //            this.Accesspoint();
-
-  //          },
-  //          err => {
-  //            //this.blockUI.stop();
-  //            console.log(err);
-  //          }
-  //     );
-  //  }
 
   singleAPG() {
     //this.blockUI.start('Loading...');

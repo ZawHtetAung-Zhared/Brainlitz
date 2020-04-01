@@ -6,11 +6,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-create-progress',
-  templateUrl: './create-progress.component.html',
-  styleUrls: ['./create-progress.component.css']
+  selector: 'app-create-badge',
+  templateUrl: './create-badge.component.html',
+  styleUrls: ['./create-badge.component.css']
 })
-export class CreateProgressComponent implements OnInit {
+export class CreateBadgeComponent implements OnInit {
   public wordLength: any = 0;
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
