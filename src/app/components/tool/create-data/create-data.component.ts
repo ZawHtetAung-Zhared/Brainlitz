@@ -447,7 +447,7 @@ export class CreateDataComponent implements OnInit {
     this._router.navigateByUrl('tools/tracking-module/selected-module');
   }
   cancelapg() {
-    this._router.navigateByUrl(`tool-test/tracking-module/lists/all`);
+    this._router.navigateByUrl(`tools/tracking-module/lists/all`);
   }
   goToBack() {
     this._location.back();

@@ -18,7 +18,9 @@
   padding-left: 0 !important;
   cursor: pointer;
 }
-
+.cancel-back {
+  cursor: pointer;
+}
 .back-to i {
   float: left;
   font-size: 23px;

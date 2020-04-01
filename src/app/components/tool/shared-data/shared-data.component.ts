@@ -166,4 +166,7 @@ export class SharedDataComponent implements OnInit {
       this.getAllTemplate(20, skip);
     }
   }
+  cancelapg() {
+    this._router.navigateByUrl(`tools/tracking-module/lists/all`);
+  }
 }
