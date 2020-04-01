@@ -29,10 +29,12 @@ export class CreateSelfassessmentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.module_id = this._Activatedroute.snapshot.paramMap.get('mid');
+    this.module_id = this._Activatedroute.snapshot.paramMap.get('id');
     console.log('module id', this.module_id);
-    this.id = this._Activatedroute.snapshot.paramMap.get('id');
     if (this._Activatedroute.snapshot.url[0].path == 'edit') {
+      this.module_id = this._Activatedroute.snapshot.paramMap.get('mid');
+      console.log('module id', this.module_id);
+      this.id = this._Activatedroute.snapshot.paramMap.get('id');
       this.isUpdate = true;
       console.log('2', this._Activatedroute.snapshot.url[0].path);
       this.singleAPG();

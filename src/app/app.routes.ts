@@ -109,6 +109,8 @@ import { CreateSelfassessmentComponent } from './components/tool/create-selfasse
 import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
 import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
 import { SharedUsergradingComponent } from './components/tool/shared-usergrading/shared-usergrading.component';
+import { CreateBadgeComponent } from './components/tool/create-badge/create-badge.component';
+import { SharedBadgeComponent } from './components/tool/shared-badge/shared-badge.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -486,8 +488,16 @@ export const routes: Routes = [
             component: CreateProgressComponent
           },
           {
+            path: 'create/2/:id',
+            component: CreateBadgeComponent
+          },
+          {
             path: 'edit/1/:mid/:id',
             component: CreateProgressComponent
+          },
+          {
+            path: 'edit/2/:mid/:id',
+            component: CreateBadgeComponent
           },
           {
             path: 'edit/4/:mid/:id',
@@ -512,6 +522,10 @@ export const routes: Routes = [
           {
             path: 'share/1/:id',
             component: SharedProgressComponent
+          },
+          {
+            path: 'share/2/:id',
+            component: SharedBadgeComponent
           },
           {
             path: 'create/3/:id',
