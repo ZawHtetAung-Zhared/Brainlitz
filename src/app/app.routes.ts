@@ -524,11 +524,15 @@ export const routes: Routes = [
             component: SharedProgressComponent
           },
           {
+            path: 'create/3/:mid',
+            component: CreateAssessmentComponent
+          },
+          {
             path: 'share/2/:id',
             component: SharedBadgeComponent
           },
           {
-            path: 'create/3/:id',
+            path: 'edit/3/:mid/:id',
             component: CreateAssessmentComponent
           },
           {
