@@ -11,10 +11,12 @@
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
         <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
       </div>
-      <h3 class="mt-3 h1-strong text-c300">
+      <h3 class="mt-3 h1-strong text-c300" *ngIf="isCreate">
         Create assessment tracking module
       </h3>
-
+      <h3 class="mt-3 h1-strong text-c300" *ngIf="!isCreate">
+        Update assessment tracking module
+      </h3>
       <div>
         <div class="d-flex flex-column">
           <div class="d-flex flex-row">
@@ -288,9 +290,19 @@
               type="button"
               class="btn btn-submit bg-b100 text-s0"
               (click)="createEvaluateApgs(model, false)"
+              *ngIf="isCreate"
               [disabled]="!model.name || isEmpty == true"
             >
               Create
+            </button>
+            <button
+              type="button"
+              *ngIf="!isCreate"
+              class="btn btn-submit bg-b100 text-s0"
+              (click)="editAccessmentApg()"
+              [disabled]="!model.name || isEmpty == true"
+            >
+              Update
             </button>
             <!-- <button
               *ngIf="isUpdate == true"
