@@ -1,6 +1,7 @@
 import { CropPosition } from 'ng2-img-cropper/src/model/cropPosition';
 import { cloneWithOffset } from 'ngx-bootstrap/chronos/units/offset';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { Location } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -72,6 +73,7 @@ export class CreateAssessmentComponent implements OnInit {
     public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private router: Router,
+    private _location: Location,
     private dragulaService: DragulaService,
     private _activeRoute: ActivatedRoute
   ) {
@@ -582,8 +584,11 @@ export class CreateAssessmentComponent implements OnInit {
   //   this.getAllAPG(20, 0);
   // }
 
+  // goToBack() {
+  //   this.router.navigateByUrl('tools/tracking-module/selected-module');
+  // }
   goToBack() {
-    this.router.navigateByUrl('tools/tracking-module/selected-module');
+    this._location.back();
   }
 
   cancelapg() {
@@ -1249,7 +1254,7 @@ export class CreateAssessmentComponent implements OnInit {
         console.log(item, index);
         setTimeout(() => {
           if (item._id == undefined) {
-            this.createAPonly(item, this.model.moduleId);
+            this.createAPonly(item, (this.model as any).moduleId);
           } else {
             console.log('update ap');
             this.updateAPOnly(item._id, item);
@@ -1296,9 +1301,9 @@ export class CreateAssessmentComponent implements OnInit {
     // setTimeout(() => {
     console.log('UPDATE');
     console.log(idArray);
-    this.model.accessPoints = idArray;
+    (this.model as any).accessPoints = idArray;
     this._service
-      .updateAPG(this.regionID, this.model._id, this.model, null)
+      .updateAPG(this.regionID, (this.model as any)._id, this.model, null)
       .subscribe(
         (res: any) => {
           console.log(res);

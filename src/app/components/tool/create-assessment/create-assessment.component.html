@@ -4,8 +4,11 @@
       <div class="d-flex justify-content-between">
         <div class="back-to" (click)="goToBack()">
           <i class="fa fa-angle-left"></i>
-          <p class="body-l text-c300">
+          <p *ngIf="isCreate" class="body-l text-c300">
             Creating assessment tracking module
+          </p>
+          <p *ngIf="!isCreate" class="body-l text-c300">
+            Tracking module
           </p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
