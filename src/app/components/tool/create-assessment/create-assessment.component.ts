@@ -32,7 +32,7 @@ export class CreateAssessmentComponent implements OnInit {
   public accessPointArrayString: any = [];
   public templateAccessPointGroup: any = [];
   public templateAccessPoint: {};
-  public model = {};
+  public model: any = {};
   public tempSharedApgId: any;
 
   // public accessPoint:any = {};
@@ -1161,6 +1161,7 @@ export class CreateAssessmentComponent implements OnInit {
             //this.blockUI.stop();
             console.log('editapg', res);
             this.model = res;
+            console.log(this.model, 'model');
             console.log('resolve res.accessPoints', res.accessPoints);
             resolve(res.accessPoints);
             // this.convertTemplate(res, res._id, res.name);
