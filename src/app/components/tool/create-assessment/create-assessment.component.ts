@@ -128,7 +128,7 @@ export class CreateAssessmentComponent implements OnInit {
     this.assessmentId = this._activeRoute.snapshot.paramMap.get('id');
     if (this.assessmentId) {
       console.error('is edit');
-      this.singleAPG();
+      this.getSingleAPG();
       this.isCreate = false;
     } else {
       this.isCreate = true;
@@ -1238,5 +1238,76 @@ export class CreateAssessmentComponent implements OnInit {
         });
       })
     );
+  }
+  idArr = [];
+  editAccessmentApg() {
+    var id;
+    console.log('templateAPGroup', this.templateAccessPointGroup);
+    console.log('testArr', this.testArr);
+    return new Promise((resolve, reject) => {
+      this.templateAccessPointGroup.forEach((item, index) => {
+        console.log(item, index);
+        setTimeout(() => {
+          if (item._id == undefined) {
+            this.createAPonly(item, this.model.moduleId);
+          } else {
+            console.log('update ap');
+            this.updateAPOnly(item._id, item);
+            this.idArr.push(item._id);
+          }
+        }, 200);
+      });
+      resolve();
+    }).then(() => {
+      console.log('idArr', this.idArr);
+      setTimeout(() => {
+        this.updateEVApgOnly(this.idArr);
+      }, 1000);
+      // this.updateEVApgOnly(idArr)
+    });
+  }
+
+  createAPonly(ap, moduleId) {
+    console.log('Create Ap', ap);
+    var createap = {};
+    createap['name'] = ap.name;
+    createap['description'] = ap.description;
+    createap['moduleId'] = moduleId;
+    createap['data'] = {
+      evaluation: {
+        allowZero: ap.data.evaluation.allowZero,
+        passMark: ap.data.evaluation.passMark,
+        details: ap.data.evaluation.details
+      }
+    };
+    console.log(createap);
+    this._service.createAP(this.regionID, this.locationID, createap).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.idArr.push(res._id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  updateEVApgOnly(idArray) {
+    // setTimeout(() => {
+    console.log('UPDATE');
+    console.log(idArray);
+    this.model.accessPoints = idArray;
+    this._service
+      .updateAPG(this.regionID, this.model._id, this.model, null)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.cancelapg();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    // }, 200);
   }
 }
