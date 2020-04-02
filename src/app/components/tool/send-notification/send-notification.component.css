@@ -89,9 +89,6 @@ img.setting-icon {
 .btnSpan span {
   margin-left: 5px;
 }
-.main-wrapper {
-  padding: 0 15px;
-}
 .no-padding {
   padding: 0;
 }
@@ -843,14 +840,6 @@ hr {
     width: 82%;
   }
 }
-@media only screen and (min-width: 1366px) {
-  .main-wrapper {
-    width: 960px !important;
-  }
-  /* .control-apg{
-     width:960px!important;
-   } */
-}
 
 .remove-outline:focus {
   outline: none;
@@ -858,4 +847,24 @@ hr {
 }
 .remove-outline {
   background: none;
+}
+
+.main-wrapper {
+  padding: 0 15px;
+  width: 550px;
+}
+@media (min-width: 1024px) {
+  .main-wrapper {
+    width: 650px;
+  }
+}
+@media (min-width: 1024px) {
+  .main-wrapper {
+    width: 750px;
+  }
+}
+@media (min-width: 1200px) {
+  .main-wrapper {
+    width: 960px;
+  }
 }
