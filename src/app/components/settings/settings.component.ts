@@ -21,6 +21,9 @@ import * as currency from 'currency-symbol-map/map';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  isSticky: boolean = false;
+  showBtn: boolean = false;
+
   ngOnInit() {
     console.log('here in setting');
   }
@@ -28,4 +31,15 @@ export class SettingsComponent implements OnInit {
   ngOnDestroy() {}
 
   ngAfterViewInit() {}
+
+  @HostListener('window:scroll', ['$event']) onScroll($event) {
+    if (window.pageYOffset > 81) {
+      this.isSticky = true;
+
+      this.showBtn = true;
+    } else {
+      this.isSticky = false;
+      this.showBtn = false;
+    }
+  }
 }

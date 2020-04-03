@@ -8,7 +8,7 @@ ul.noti-dropdown {
   margin: 0;
   -ms-transition: 300ms linear;
   transition: 300ms linear;
-  display: none;
+  /* display: none; */
 }
 ul.noti-dropdown li:last-child {
   border-bottom: 1px solid #e3e4e6;
