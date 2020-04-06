@@ -107,7 +107,7 @@
                     <span
                       class="remove-btn"
                       *ngIf="
-                        isUpdate == false &&
+                        !isCreate &&
                         templateAccessPointGroup &&
                         templateAccessPointGroup.length > 1
                       "
@@ -119,7 +119,7 @@
                     <span
                       class="remove-btn"
                       *ngIf="
-                        isUpdate == true &&
+                        isCreate &&
                         templateAccessPointGroup &&
                         templateAccessPointGroup.length > 1
                       "
