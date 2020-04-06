@@ -196,7 +196,7 @@ export class CreateDataComponent implements OnInit {
     this.emptymax = true;
     this.emptymin = true;
     this.overmin = true;
-
+    console.log(this.modelId, 'module Id');
     if (this._activeRoute.snapshot.url[0].path == 'edit') {
       this.isUpdate = true;
       console.log('2', this._activeRoute.snapshot.url[0].path);
@@ -416,6 +416,7 @@ export class CreateDataComponent implements OnInit {
         };
         console.log(apId);
         console.log(apg);
+
         this._service
           .createAPG(this.regionID, this.locationID, apg, null, this.modelId)
           .subscribe(
@@ -458,7 +459,10 @@ export class CreateDataComponent implements OnInit {
       if (this.selectedRadio == 'RADIO') {
         this.convertObjToArray();
       }
-      console.log(this);
+      console.log(this.templateAccessPointGroup);
+      this.templateAccessPointGroup.data.text = this.selectedDataColor.text;
+      this.templateAccessPointGroup.data.background = this.selectedDataColor.background;
+      console.log(this.templateAccessPointGroup);
       this._service
         .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe(
@@ -579,11 +583,10 @@ export class CreateDataComponent implements OnInit {
 
     if (apgName.module.name == 'Data') {
       // this.iscreate = true;
-      var moduleId = localStorage.getItem('moduleID');
       const templateAccessPoint = {
         name: '',
         description: '',
-        moduleId: moduleId,
+        moduleId: this.moduleID,
         data: {
           sectionType: 'DATA',
           unit: ' ',
@@ -682,6 +685,9 @@ export class CreateDataComponent implements OnInit {
           (res: any) => {
             console.log(res);
             this.templateAccessPointGroup = res;
+            this.selectedDataColor.text = res.data.sepalColor.text;
+            this.selectedDataColor.background = res.data.sepalColor.background;
+
             // this.optionsArray = this.templateAccessPointGroup.data.inputTypeProperties.options;
             this.selectedRadio = this.templateAccessPointGroup.data.inputType;
             // this.tempRadioType = this.templateAccessPointGroup.data.inputType;
@@ -716,7 +722,13 @@ export class CreateDataComponent implements OnInit {
   }
 
   updateAp(apId, ap, apgId) {
-    console.log('For data', apId, ' ### ', ap, ' ### ', apgId);
+    console.log('For data', apId, ' ### ', apgId);
+
+    console.log(ap, 'is ap');
+    console.log(this.selectedDataColor);
+    ap.data.sepalColor.text = this.selectedDataColor.text;
+    ap.data.sepalColor.background = this.selectedDataColor.background;
+
     if (this.selectedRadio == 'RADIO') {
       this.convertObjToArray();
     } else {

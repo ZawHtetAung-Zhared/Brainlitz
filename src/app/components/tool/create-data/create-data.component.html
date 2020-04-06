@@ -12,7 +12,11 @@
       </div>
     </div>
     <h3 class="h1-strong text-c300">
-      Creating data tracking module
+      {{
+        !isUpdate
+          ? 'Creating data tracking module'
+          : 'Update data tracking module'
+      }}
     </h3>
     <div style="padding-bottom: 80px;" class="apg-form">
       <div class="col-md-12 col-lg-8 input-wrap">
