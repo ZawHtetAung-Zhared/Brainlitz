@@ -72,7 +72,11 @@ export class CreateSelfassessmentComponent implements OnInit {
     this._location.back();
   }
   cancelapg() {
-    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
+    if (this.isUpdate == false) {
+      window.history.go(-2);
+    } else {
+      window.history.go(-1);
+    }
   }
   createapgs(data, update) {
     console.log(update);

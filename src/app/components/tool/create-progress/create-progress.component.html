@@ -4,15 +4,21 @@
       <div class="d-flex justify-content-between">
         <div class="back-to" (click)="goToBack()">
           <i class="fa fa-angle-left"></i>
-          <p class="body-l text-c300">
+          <p *ngIf="isUpdate == false" class="body-l text-c300">
             Creating progress tracking module
+          </p>
+          <p *ngIf="isUpdate == true" class="body-l text-c300">
+            Tracking module
           </p>
         </div>
         <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
         <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
       </div>
-      <h3 class="mt-3 h1-strong text-c300">
+      <h3 *ngIf="isUpdate == false" class="mt-3 h1-strong text-c300">
         Create progress tracking module
+      </h3>
+      <h3 *ngIf="isUpdate == true" class="mt-3 h1-strong text-c300">
+        Update progress tracking module
       </h3>
 
       <div class="col-md-8 input-wrap">

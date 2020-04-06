@@ -15,6 +15,10 @@ a.nav-link {
   margin-bottom: 12px;
 }
 
+a:hover {
+  color: #475466;
+}
+
 .noti-dropdown.down {
   margin-top: 0 !important;
 }

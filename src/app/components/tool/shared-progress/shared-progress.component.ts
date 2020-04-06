@@ -120,7 +120,7 @@ export class SharedProgressComponent implements OnInit {
   }
 
   cancelapg() {
-    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
+    window.history.go(-2);
   }
   goToBack() {
     this.router.navigateByUrl(`tools/tracking-module/selected-module`);
