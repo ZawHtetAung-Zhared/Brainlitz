@@ -410,12 +410,10 @@ export class CreateDataComponent implements OnInit {
           name: this.model.name,
           description: '',
           moduleId: this.modelId,
-          accessPoints: [apId],
-          color: this.selectedDataPattel,
-          sepalColor: this.selectedDataColor
+          accessPoints: [apId]
         };
         console.log(apId);
-        console.log(apg);
+        console.error(apg);
 
         this._service
           .createAPG(this.regionID, this.locationID, apg, null, this.modelId)
@@ -460,8 +458,8 @@ export class CreateDataComponent implements OnInit {
         this.convertObjToArray();
       }
       console.log(this.templateAccessPointGroup);
-      this.templateAccessPointGroup.data.text = this.selectedDataColor.text;
-      this.templateAccessPointGroup.data.background = this.selectedDataColor.background;
+
+      this.templateAccessPointGroup.data.sepalColor = this.selectedDataColor;
       console.log(this.templateAccessPointGroup);
       this._service
         .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
