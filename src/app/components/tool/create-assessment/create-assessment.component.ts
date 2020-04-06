@@ -592,7 +592,11 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   cancelapg() {
-    this.router.navigateByUrl('tools/tracking-module/lists/3/' + this.moduleId);
+    if (this.isCreate == true) {
+      window.history.go(-2);
+    } else {
+      window.history.go(-1);
+    }
   }
 
   mainAccessPointAdd() {

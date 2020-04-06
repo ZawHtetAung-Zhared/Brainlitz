@@ -462,7 +462,11 @@ export class CreateUsergradingComponent implements OnInit {
     this.scrollHeight = $event.target.scrollingElement.scrollTop;
   }
   cancelapg() {
-    this.router.navigateByUrl(`tools/tracking-module/lists/all`);
+    if (this.isUpdate == false) {
+      window.history.go(-2);
+    } else {
+      window.history.go(-1);
+    }
   }
   goToBack() {
     this._location.back();

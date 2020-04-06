@@ -113,7 +113,7 @@ export class ShareAssessmentComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.toastr.success('APG successfully created.');
-          this.backToList();
+          this.cancelapg();
           //this.blockUI.stop();
         },
         err => {
@@ -187,5 +187,9 @@ export class ShareAssessmentComponent implements OnInit {
     if (keyword.length == 0) {
       this.sharedApgSearch(keyword, limit, skip);
     }
+  }
+
+  cancelapg() {
+    window.history.go(-2);
   }
 }
