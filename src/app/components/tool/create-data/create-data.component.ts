@@ -303,6 +303,8 @@ export class CreateDataComponent implements OnInit {
         this.selectedDataColor.text +
         ' !important; opacity:1;}</style>'
     );
+
+    $('body').css('overflow', 'overlay');
   }
 
   radioSelect(type) {
@@ -424,7 +426,7 @@ export class CreateDataComponent implements OnInit {
               console.log(res);
               // setTimeout(() => {
               // }, 200);
-              this.goToAll();
+              this.cancelapg();
               this.toastr.success('APG successfully Created.');
 
               // this.setSelectedTab(this.pickedMType);
@@ -448,7 +450,11 @@ export class CreateDataComponent implements OnInit {
     this._router.navigateByUrl('tools/tracking-module/selected-module');
   }
   cancelapg() {
-    this._router.navigateByUrl(`tools/tracking-module/lists/all`);
+    if (this.isUpdate == false) {
+      window.history.go(-2);
+    } else {
+      window.history.go(-1);
+    }
   }
   goToBack() {
     this._location.back();
