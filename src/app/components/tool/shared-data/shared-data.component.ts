@@ -95,9 +95,7 @@ export class SharedDataComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.toastr.success('APG successfully created.');
-          this._router.navigateByUrl(
-            'tools/tracking-module/lists/4/' + this.moduleId
-          );
+          this.cancelapg();
         },
         err => {
           this.toastr.error(status + ' Fail.');
@@ -167,6 +165,6 @@ export class SharedDataComponent implements OnInit {
     }
   }
   cancelapg() {
-    this._router.navigateByUrl(`tools/tracking-module/lists/all`);
+    window.history.go(-2);
   }
 }
