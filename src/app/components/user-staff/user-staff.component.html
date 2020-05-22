@@ -304,7 +304,7 @@
                 Display name
               </label>
               <div class="limit-wordcount">
-                <span>{{ wordLength }}/15characters</span>
+                <span>{{ wordLength }}/unlimitedcharacters</span>
               </div>
             </div>
             <input
@@ -316,7 +316,6 @@
               #preferredName="ngModel"
               (focus)="focusMethod($event, 'name', $event.target.value)"
               (blur)="blurMethod($event, 'name')"
-              maxlength="15"
               (input)="changeMethod($event.target.value)"
               required
             />
@@ -336,7 +335,7 @@
             <div class="d-flex justify-content-between">
               <label for="firstname" class="label-txt">Full name</label>
               <div class="limit-wordcount2">
-                <span>{{ wordLength }}/60characters</span>
+                <span>{{ wordLength }}/unlimitedcharacters</span>
               </div>
             </div>
             <input
@@ -348,7 +347,6 @@
               #fullName="ngModel"
               (focus)="focusMethod($event, 'fullname', $event.target.value)"
               (blur)="blurMethod($event, 'fullname')"
-              maxlength="60"
               (input)="changeMethod($event.target.value)"
               required
             />
