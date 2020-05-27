@@ -88,3 +88,15 @@
     width: 960px;
   }
 }
+
+.btn-submit,
+.btn-cancel {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 100px;
+}
+
+.btn-submit {
+  margin-left: 15px;
+}
