@@ -747,3 +747,7 @@ label.floating-label {
 .btn-submit {
   margin-left: 15px;
 }
+
+.input-wrap {
+  padding-left: 0;
+}

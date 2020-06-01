@@ -22,3 +22,9 @@
   border: none;
   cursor: pointer;
 }
+
+.btn-action:focus,
+.btn-action:active {
+  outline: none;
+  box-shadow: none;
+}
