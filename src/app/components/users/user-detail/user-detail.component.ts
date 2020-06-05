@@ -1390,4 +1390,48 @@ export class UserDetailComponent implements OnInit {
   }
 
   //end course functions
+
+  public editMakeUpDate: any;
+  public makeupId: any;
+  oneditMakeup(editMakeup, list) {
+    console.log(list);
+    this.editMakeUpDate = list.expirationDate;
+    this.makeupId = list.passId;
+    this.modalReference = this.modalService.open(editMakeup, {
+      backdrop: 'static',
+      windowClass: 'holidayModal'
+    });
+  }
+
+  closeDropdown(event, type, datePicker?) {
+    console.log('close');
+  }
+
+  makeupModalClose() {
+    this.modalReference.close();
+    this.editMakeUpDate = undefined;
+    this.makeupId = undefined;
+  }
+
+  editMakeupDate() {
+    console.log(this.editMakeUpDate);
+    let temp = {
+      expiredDate: this.editMakeUpDate
+    };
+    this._service
+      .editMakeupDate(temp, this.makeupId, this.regionID)
+      .subscribe(res => {
+        console.log(res);
+        this.makeupModalClose();
+        this.callMakeupLists();
+      });
+  }
+
+  deleteMakeUp() {
+    this._service.deleteMakeup(this.regionID, this.makeupId).subscribe(res => {
+      console.log(res);
+      this.makeupModalClose();
+      this.callMakeupLists();
+    });
+  }
 }
