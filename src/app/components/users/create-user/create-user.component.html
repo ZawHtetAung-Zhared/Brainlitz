@@ -40,7 +40,7 @@
                   Display name
                 </label>
                 <div class="limit-wordcount body-m text-b100">
-                  <span>{{ wordLength }}/15characters</span>
+                  <span>{{ wordLength }}/unlimited</span>
                 </div>
               </div>
               <input
@@ -53,7 +53,6 @@
                 (focus)="focusMethod($event, 'name', $event.target.value)"
                 (blur)="blurMethod($event, 'name')"
                 (input)="changeMethod($event.target.value)"
-                maxlength="15"
                 required
               />
               <div
@@ -74,7 +73,7 @@
                   >Full name</label
                 >
                 <div class="limit-wordcount2 body-m text-b100">
-                  <span>{{ wordLength }}/60characters</span>
+                  <span>{{ wordLength }}/unlimited</span>
                 </div>
               </div>
               <input
@@ -87,7 +86,6 @@
                 (focus)="focusMethod($event, 'fullname', $event.target.value)"
                 (blur)="blurMethod($event, 'fullname')"
                 (input)="changeMethod($event.target.value)"
-                maxlength="60"
                 required
               />
               <div
