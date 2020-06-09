@@ -562,6 +562,7 @@ export class ApgComponent implements OnInit, OnDestroy {
           'mousemove',
           (this.testFunct = () => {
             if (stillDrag) {
+              console.log('mouse move');
               // event.preventDefault();
               // console.log($(event.target).parents(".requirement"))
               // console.log(event.pageY)
@@ -1724,6 +1725,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       if (this.selectedRadio == 'RADIO') {
         this.convertObjToArray();
       }
+      console.log(this.templateAccessPoint);
       this._service
         .createAP(this.regionID, this.locationID, this.templateAccessPointGroup)
         .subscribe(
@@ -1747,6 +1749,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     console.log('create data ap');
     this.createDataAccessPoint()
       .then(apId => {
+        console.error(apId);
         var moduleId = localStorage.getItem('moduleID');
         var apg = {
           name: this.model.name,
@@ -1780,6 +1783,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   }
   //model._Id
   updateAp(apId, ap, apgId) {
+    console.log('For data', apId, ' ### ', ap, ' ### ', apgId);
+
     if (this.selectedRadio == 'RADIO') {
       this.convertObjToArray();
     } else {
@@ -1898,6 +1903,8 @@ export class ApgComponent implements OnInit, OnDestroy {
   public isCreateStatus;
   testArr: any = [];
   onclickUpdate(id, apgName) {
+    console.log('testapg', apgName, 'id', id);
+
     this.UserGradeApg = undefined;
     this.isCreateStatus = false;
     this.apgType = apgName.module.name;
@@ -2566,7 +2573,7 @@ export class ApgComponent implements OnInit, OnDestroy {
     //this.blockUI.start('Loading...');
     console.warn(this.selectedAPGTab);
     this._service
-      .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip)
+      .getAllAPG(this.regionID, this.selectedAPGTab.id, limit, skip, null)
       .subscribe(
         (res: any) => {
           this.apgList = [];
@@ -2729,7 +2736,7 @@ export class ApgComponent implements OnInit, OnDestroy {
       (res: any) => {
         console.log(res);
         let returnData = JSON.parse(res._body);
-        this.singleAPG(returnData._id, 'public');
+        // this.singleAPG(returnData._id, 'public');
       },
       err => {
         console.log(err);

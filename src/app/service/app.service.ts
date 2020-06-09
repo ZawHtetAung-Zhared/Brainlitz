@@ -12,6 +12,11 @@ import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
 import { KeyedWrite } from '@angular/compiler';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalOptions
+} from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Injectable()
@@ -28,6 +33,7 @@ export class appService {
   public tokenType = localStorage.getItem('tokenType');
   public defaultSkipValue = '0';
   public defaultLimit = '20';
+  public apgobj: any;
   locationID: Observable<any>;
   private getLocationID = new Subject<any>();
 
@@ -80,7 +86,8 @@ export class appService {
   constructor(
     private httpClient: HttpClient,
     private _http: Http,
-    private _router: Router
+    private _router: Router,
+    private modalService: NgbModal
   ) {
     let isToken = localStorage.getItem('token');
     this.accessToken = localStorage.getItem('token');
@@ -2530,10 +2537,13 @@ export class appService {
     });
   }
 
-  getAllAPG(id: string, moduleId: string, limit: number, skip: number) {
+  getAllAPG(id: string, moduleId: string, limit: number, skip: number, value) {
     // url = this.baseUrl+ '/' + id + '/user?type=customer&limit=' + limit + '&skip=' + skip;
     console.log('APG limit skip', limit, skip);
-    if (moduleId == '') {
+    console.log(moduleId == '');
+    console.log(!value);
+    console.log(moduleId != '');
+    if (moduleId == '' && !value) {
       console.log('no moduleID');
       var apiUrl =
         this.baseUrl +
@@ -2543,13 +2553,38 @@ export class appService {
         limit +
         '&skip=' +
         skip;
-    } else {
+    } else if (moduleId == '' && value != '') {
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/search?keyword=' +
+        value +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId != '' && value == '') {
       console.log('has moduleID');
       var apiUrl =
         this.baseUrl +
         '/' +
         id +
         '/access-point-group?moduleId=' +
+        moduleId +
+        '&limit=' +
+        limit +
+        '&skip=' +
+        skip;
+    } else if (moduleId != '' && value != '') {
+      console.log('has moduleID2');
+      var apiUrl =
+        this.baseUrl +
+        '/' +
+        id +
+        '/access-point-group/search?keyword=' +
+        value +
+        '&moduleId=' +
         moduleId +
         '&limit=' +
         limit +
@@ -2772,6 +2807,20 @@ export class appService {
 
   getAllFields(regionid: string) {
     let apiUrl = this.baseUrl + '/' + regionid + '/setting/user-info';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      return result;
+    });
+  }
+
+  getSingleField(regionid: string, id: string) {
+    let apiUrl = this.baseUrl + '/regions/' + regionid + '/custom-field/' + id;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4765,5 +4814,26 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+
+  public modalReference: any;
+  openDeleteApgModal(modal, data) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+    this.modalReference.componentInstance.deleteApg = data;
+  }
+
+  closeDeleteApgModal() {
+    this.modalReference.close();
+  }
+
+  SetApgObj(obj) {
+    this.apgobj = obj;
+  }
+  GetApgObj() {
+    return this.apgobj;
   }
 }

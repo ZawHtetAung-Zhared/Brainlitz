@@ -1,0 +1,9 @@
+<card-tool-content [dataList]="allList" [viewFor]="'all'"> </card-tool-content>
+<div *ngIf="result.length >= 20" class="load-more bg-s0">
+  <button
+    class="btn remove-outline body-m text-b100 "
+    (click)="showmore('apg', allList.length)"
+  >
+    load more
+  </button>
+</div>

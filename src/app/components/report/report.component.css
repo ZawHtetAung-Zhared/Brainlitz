@@ -42,7 +42,8 @@
 }
 .main-wrapper {
   /*display: block;*/
-  padding: 0px 15px;
+  padding: 15px;
+  overflow: auto;
 }
 
 @keyframes slideInFromLeft {
@@ -871,3 +872,12 @@ ul.scedule-data-listing li.disabled {
   padding-left: 10px;
 } */
 /* end staff teaching schedule group by teacher name css */
+.main-content {
+  margin-left: 240px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .main-content {
+    margin-left: 320px;
+  }
+}

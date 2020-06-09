@@ -1,0 +1,30 @@
+.btn-section {
+  border-top: 1px solid #edeff0;
+  padding: 10px;
+}
+.apg-status {
+  display: inline !important;
+  animation-name: example;
+  animation-duration: 1.5s;
+}
+
+.circle-apg {
+  background: #e3e4e6;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin: 10px 0px 10px 10px;
+}
+
+.apg-share,
+.btn-action {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-action:focus,
+.btn-action:active {
+  outline: none;
+  box-shadow: none;
+}

@@ -1,0 +1,333 @@
+.main-wrapper {
+  padding: 0 15px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .main-wrapper {
+    width: 960px !important;
+  }
+}
+.back-wrap {
+  padding: 23px 15px 15px;
+}
+
+.back-to {
+  padding-left: 0 !important;
+  cursor: pointer;
+}
+
+.back-to i,
+.back-to p {
+  float: left;
+}
+
+.cancel-back {
+  cursor: pointer;
+}
+
+.back-to i {
+  float: left;
+  font-size: 23px;
+}
+
+.back-to p {
+  float: left;
+  margin-bottom: 0;
+  line-height: 1.6;
+  margin-left: 4px;
+}
+
+.input-search-bg {
+  padding: 12px 0 12px 12px !important;
+  border: none;
+  z-index: auto !important;
+}
+
+.input-group-append {
+  margin-left: -1px;
+}
+
+.col1 {
+  margin-right: 10px;
+}
+.col2 {
+  margin-left: 10px;
+}
+.col2,
+.col1 {
+  max-width: 50%;
+  flex: 50%;
+}
+
+.btn-design {
+  padding: 12px;
+  background: #f2f4f5;
+  border: none;
+  border-radius: 4px !important;
+  color: #788796;
+  cursor: pointer;
+  outline: none;
+}
+
+.apg-share-content {
+  margin-top: 20px;
+  padding-bottom: 30px;
+  display: flex;
+}
+
+.share-input {
+  border: none;
+  background-clip: padding-box;
+}
+
+.assement-shared-apg {
+  max-height: 360px;
+  margin-bottom: 20px;
+}
+
+.header {
+  -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  background: #f2f4f5;
+  -webkit-box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+  box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
+}
+
+.header > label {
+  -webkit-box-shadow: unset;
+  box-shadow: unset !important;
+}
+
+.header.selected > label > div > div > span {
+  color: white;
+}
+.heder.selected > * {
+  color: white !important;
+}
+
+.share-input .label-checked {
+  /* background: #fff; */
+  border: 2px solid #3d5266;
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  float: left;
+}
+
+.label-checked {
+  background: #fff;
+  border: 2px solid #3d5266;
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  float: left;
+}
+
+.label-checked.data {
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0px;
+  margin-right: 0px !important;
+}
+
+.accesspoint-name-wrapper {
+  max-height: 284px;
+  overflow-y: auto;
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-border-bottom-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.accesspoint-name {
+  padding: 20px;
+  padding-top: 16px;
+  padding-bottom: 0px;
+}
+
+.accesspoint-name > .head {
+  border-bottom: 1px solid #edeff0;
+}
+
+.accesspoint-name > .head > .down-arrow,
+.lists-down-arrow {
+  float: right;
+  color: #007fff;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  transition: -webkit-transform 0.5s ease-in-out;
+  -o-transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+}
+
+.dot,
+.detail-dot {
+  height: 10px;
+  width: 10px;
+  background-color: #e3e4e6;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.form-check-label.data {
+  height: 76px;
+  margin-bottom: 0px !important;
+}
+
+.module-input input[type='radio'],
+.share-input input[type='radio'] {
+  display: none;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.share-input label {
+  cursor: pointer;
+  width: 100%;
+  padding: 15px 20px;
+  text-align: left;
+  -moz-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.7em;
+  border-radius: 3px;
+  max-height: 312px;
+  overflow: overlay;
+  /*border:solid 1px rgba(0, 0, 0, 0.05);   */
+  /* card box shadow for safari */
+}
+
+.dot-wrapper {
+  margin-top: 12px;
+  padding-bottom: 16px;
+  display: flex;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  -ms-transition: -ms-transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+}
+
+.dot-wrapper.after-expand {
+  flex-direction: column;
+}
+
+.dot-wrapper.after-expand > div {
+  height: 50px;
+  border-bottom: solid 1px #edeff0;
+}
+
+.transform-y {
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Safari */
+  transform: rotate(180deg);
+  /* Standard syntax */
+}
+
+.detail-line {
+  border-bottom: 1px solid #edeff0;
+}
+
+.list-dot-wrap {
+  padding: 17px 0px;
+}
+
+.single-apg .apg-desc,
+.apg-desc {
+  text-align: justify;
+}
+
+.detail-dot {
+  margin-top: 22px;
+}
+
+.changeColor {
+  color: #0080ff !important;
+}
+
+.header.selected {
+  background: #0066cc;
+  color: #fff;
+}
+
+.selected > .form-check-label.data > .label-checked {
+  border: 2px solid #fff;
+  -webkit-box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+  box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+}
+
+.header.selected + div {
+  background: #007fff;
+  color: white !important;
+}
+.header.selected + div > .accesspoint-name > .head > span {
+  color: white !important;
+}
+
+.eval-name {
+  margin-top: 4px;
+  display: block;
+  /* position: absolute; */
+}
+
+.temp-name {
+  /* margin-top: 20px; */
+  display: block;
+}
+
+.apg-share-bottom {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  border-top: 1px solid #eee;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  background: #fff;
+}
+
+.btn-submit,
+.btn-cancel {
+  border: none;
+  height: 45px;
+  border-radius: 3px;
+  width: 100px;
+}
+
+.btn-submit {
+  margin-left: 15px;
+}
+
+.loadMore1 {
+  bottom: 65px;
+  background: white;
+  width: 110%;
+  position: -webkit-sticky;
+  position: sticky;
+  margin-left: -50px;
+}
+
+.input-search-bg:focus {
+  outline: none;
+  box-shadow: none;
+  background: #f2f3f5;
+}
+
+.selected > .form-check-label.data > div > div > .label-checked {
+  border: 2px solid #fff;
+  -webkit-box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+  box-shadow: inset 0 0px 0px 2px rgb(22, 131, 251);
+}

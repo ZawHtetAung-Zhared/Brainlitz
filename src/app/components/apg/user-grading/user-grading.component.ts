@@ -130,6 +130,8 @@ export class UserGradingComponent implements OnInit {
   constructor(private _service: appService, public toastr: ToastrService) {}
 
   ngOnInit() {
+    console.log(this.UserGradeObj, ' and ', this.isCreateStatus);
+
     this.userGradeData = {
       name: '',
       description: '',
@@ -186,6 +188,8 @@ export class UserGradingComponent implements OnInit {
   }
 
   colorpalettePopUp(index, e, data) {
+    console.log('index', index, 'e', e, 'data', data);
+
     e.preventDefault();
     e.stopPropagation();
     let tempData = data;
@@ -359,6 +363,7 @@ export class UserGradingComponent implements OnInit {
     editAP['description'] = this.userGradeData.description;
     editAP['moduleId'] = this.userGradeData.moduleId;
     editAP['data'] = this.userGradeData.data;
+    console.log('check1', editAP, this.userGradeData.accessPoints[0]);
     this._service
       .updateAP(this.regionID, this.userGradeData.accessPoints[0], editAP)
       .subscribe(
@@ -373,6 +378,7 @@ export class UserGradingComponent implements OnInit {
       );
   }
   updateApg() {
+    console.log('check2', this.userGradeData._id, this.userGradeData);
     this._service
       .updateAPG(
         this.regionID,
@@ -409,6 +415,8 @@ export class UserGradingComponent implements OnInit {
   }
   public isValid = false;
   checkValidation() {
+    console.log('validating');
+
     let tempNameArr = [];
     let tempPointArr = [];
     this.userGradeData.data.grades.map(grade => {

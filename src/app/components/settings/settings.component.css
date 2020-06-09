@@ -1,0 +1,9 @@
+.main-content {
+  margin-left: 240px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .main-content {
+    margin-left: 320px;
+  }
+}

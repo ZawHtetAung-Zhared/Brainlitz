@@ -1,0 +1,24 @@
+ul {
+  list-style: none;
+}
+
+a.nav-link.active {
+  color: #fff;
+  background-color: #0065f2;
+  border-radius: 4px;
+  fill: #ffffff !important;
+}
+
+a.nav-link {
+  fill: #475466;
+  padding: 10px 26px;
+  margin-bottom: 12px;
+}
+
+a:hover {
+  color: #475466;
+}
+
+.noti-dropdown.down {
+  margin-top: 0 !important;
+}

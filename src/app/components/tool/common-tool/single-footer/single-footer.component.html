@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-between btn-section">
+  <div class="d-flex">
+    <div
+      *ngIf="singleData.share.status"
+      class="status-wrapper-share ml-2"
+      [ngClass]="{ 'apg-status': singleData.share.status == true }"
+    >
+      <span><img src="../../../../../assets/images/shared.png " alt=""/></span>
+    </div>
+    <!-- <div
+      *ngIf="tempSharedApgId != apg._id && apg.share.status == true"
+      class="status-wrapper ml-2"
+    >
+      <span *ngIf="apg.share.status == true"
+        ><img src="../../../../../assets/images/shared.png " alt=""
+      /></span>
+    </div> -->
+    <div *ngIf="singleData.share.status == true" class="circle-apg"></div>
+    <div>
+      <button
+        class="apg-share remove-outline text-b100 body-m text-b100 body-m"
+        (click)="apgPublicShare(singleData._id)"
+      >
+        Share
+      </button>
+    </div>
+  </div>
+  <div>
+    <button
+      class="btn-action remove-outline light-body-m text-y100"
+      (click)="onclickUpdate(singleData)"
+    >
+      Edit
+    </button>
+    <span class="small-line"></span>
+    <button
+      class="btn-action remove-outline light-body-m text-r100"
+      (click)="onclickDelete()"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+
+<!-- <ng-template #alertDelete let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title body-xl text-c300">Confirm delete?</h3>
+  </div>
+  <div class="modal-body">
+    <p class="text-c100 light-body-m">
+      Are You sure you want to delete
+      <span class="text-r100 body-m">"{{ deleteAPG }}"</span>
+      ? You won't back it return.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn body-l bg-s0 text-c300"
+      (click)="closeDeleteModal()"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn body-l text-s0 bg-r100"
+      (click)="apgDelete(deleteId)"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template> -->

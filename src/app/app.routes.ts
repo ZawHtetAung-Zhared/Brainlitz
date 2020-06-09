@@ -1,3 +1,15 @@
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { CustomfieldComponent } from './components/customfield/customfield.component';
+import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
+import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
+import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+
+import { SettingsComponent } from './components/settings/settings.component';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { Component } from '@angular/core';
@@ -21,7 +33,28 @@ import { ReviewComponent } from './components/review/review.component';
 import { CoursecreateComponent } from './components/coursecreate/coursecreate.component';
 import { TodayLessonsComponent } from './components/today-lessons/today-lessons.component';
 import { CourseSearchComponent } from './components/course/course-search/course-search.component';
-
+import {
+  MainToolComponent,
+  NotificationComponent,
+  TrackingModuleComponent,
+  SendHistoryComponent,
+  SendNotificationComponent,
+  AllTrackingModuleComponent,
+  ProgressComponent,
+  BadgeComponent,
+  AssessmentComponent,
+  DataComponent,
+  SelfAssessmentComponent,
+  GradingComponent,
+  AddTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  ShareTrackingModuleComponent,
+  SelectModuleComponent,
+  CreateProgressComponent,
+  CreateDataComponent,
+  SharedDataComponent,
+  ShareAssessmentComponent
+} from './components/tool/index';
 import {
   CourseComponent,
   AssignTaskComponent,
@@ -49,6 +82,35 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import {
+  AverageRatingsComponent,
+  CourseActivitiesReport,
+  StaffPerformanceReport,
+  StudentEnrollmentReport,
+  MonthlyActiveStudentsReport,
+  StaffTeachingScheduleReport
+} from './components/report/index';
+import { InvoiceReportComponent } from './components/invoice-report/invoice-report.component';
+import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+// imtport { LocationsComponent } from './components/settings/locations/locations.component';
+// import { LocationsComponent } from './components/settings/locations/locations.component';
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
+import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
+import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
+import { CreateAssessmentComponent } from './components/tool/create-assessment/create-assessment.component';
+import { CreateSelfassessmentComponent } from './components/tool/create-selfassessment/create-selfassessment.component';
+import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
+import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
+import { SharedUsergradingComponent } from './components/tool/shared-usergrading/shared-usergrading.component';
+import { CreateBadgeComponent } from './components/tool/create-badge/create-badge.component';
+import { SharedBadgeComponent } from './components/tool/shared-badge/shared-badge.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/region', pathMatch: 'full' },
@@ -66,6 +128,74 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    children: [
+      { path: '', redirectTo: 'general', pathMatch: 'full' },
+      {
+        path: 'general',
+        component: GeneralComponent,
+        children: [
+          { path: '', redirectTo: 'generaloverview', pathMatch: 'full' },
+          {
+            path: 'generaloverview',
+            component: GeneralOverviewComponent
+          },
+          {
+            path: 'invoicesetting-edit',
+            component: InvoiceSettingEditComponent
+          },
+          {
+            path: 'paymentsetting-edit',
+            component: PaymentSettingEditComponent
+          },
+          {
+            path: 'schedulesetting-edit',
+            component: ScheduleSettingEditComponent
+          }
+        ]
+      },
+      {
+        path: 'locations',
+        component: LocationsComponent,
+        children: [
+          { path: '', redirectTo: 'location-list', pathMatch: 'full' },
+          {
+            path: 'location-list',
+            component: LocationListComponent
+          },
+          {
+            path: 'location-update/:id',
+            component: LocationCreateComponent
+          },
+          {
+            path: 'location-create',
+            component: LocationCreateComponent
+          }
+        ]
+      },
+      {
+        path: 'customfields',
+        component: CustomFieldsComponent,
+        children: [
+          { path: '', redirectTo: 'customfields-list', pathMatch: 'full' },
+          {
+            path: 'customfields-list',
+            component: CustomFieldsListComponent
+          },
+          {
+            path: 'customfields-update/:id',
+            component: CustomFieldsCreateComponent
+          },
+          {
+            path: 'customfields-create',
+            component: CustomFieldsCreateComponent
+          }
+        ]
+      }
+    ]
   },
   {
     path: 'login',
@@ -189,14 +319,45 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'tools',
+    path: 'tools-test',
     component: ToolsComponent,
     canActivate: [LoggedInGuard]
   },
   {
     path: 'report',
     component: ReportComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuard],
+    children: [
+      { path: '', redirectTo: 'invoice-report', pathMatch: 'full' },
+      {
+        path: 'invoice-report',
+        component: InvoiceReportComponent
+      },
+      {
+        path: 'average-rating',
+        component: AverageRatingsComponent
+      },
+      {
+        path: 'staff-performance',
+        component: StaffPerformanceReport
+      },
+      {
+        path: 'course-activities',
+        component: CourseActivitiesReport
+      },
+      {
+        path: 'student-enrollment',
+        component: StudentEnrollmentReport
+      },
+      {
+        path: 'monthly-active',
+        component: MonthlyActiveStudentsReport
+      },
+      {
+        path: 'teaching-schedule',
+        component: StaffTeachingScheduleReport
+      }
+    ]
   },
   {
     path: 'review',
@@ -217,6 +378,186 @@ export const routes: Routes = [
     path: 'timetable',
     component: TimetableComponent,
     canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'tools',
+    component: MainToolComponent,
+    children: [
+      { path: '', redirectTo: 'notification', pathMatch: 'full' },
+      {
+        path: 'notification',
+        component: NotificationComponent,
+        children: [
+          { path: '', redirectTo: 'send-notification', pathMatch: 'full' },
+          {
+            path: 'send-notification',
+            component: SendNotificationComponent
+          },
+          {
+            path: 'send-history',
+            component: SendHistoryComponent
+          }
+        ]
+      },
+      {
+        path: 'resource',
+        component: ResourceComponent,
+        children: [
+          { path: '', redirectTo: 'resource-list', pathMatch: 'full' },
+          {
+            path: 'resource-list',
+            component: ResourceListComponent
+          },
+          {
+            path: 'resource-list/resource-create/:type/:id',
+            component: ResourceCreateComponent
+          }
+        ]
+      },
+      {
+        path: 'holiday-calendar',
+        component: HolidayCalendarComponent,
+        children: [
+          { path: '', redirectTo: 'calendar-list', pathMatch: 'full' },
+          {
+            path: 'calendar-list',
+            component: CalendarListComponent
+          },
+          {
+            path: 'calendar-create',
+            component: CalendarCreateComponent
+          },
+          {
+            path: 'calendar-detail/:id',
+            component: CalendarDetailComponent
+          }
+        ]
+      },
+      {
+        path: 'testwerkztools',
+        component: TestWerkzToolsComponent
+      },
+      {
+        path: 'tracking-module',
+        component: MainTrackingModuleComponent,
+        // component: TrackingModuleComponent,
+        children: [
+          { path: '', redirectTo: 'lists', pathMatch: 'full' },
+          {
+            path: 'lists',
+            component: TrackingModuleComponent,
+            children: [
+              { path: '', redirectTo: 'all', pathMatch: 'full' },
+              {
+                path: 'all',
+                component: AllTrackingModuleComponent
+              },
+              {
+                path: '1/:id',
+                component: ProgressComponent
+              },
+              {
+                path: '2/:id',
+                component: BadgeComponent
+              },
+              {
+                path: '3/:id',
+                component: AssessmentComponent
+              },
+
+              {
+                path: '4/:id',
+                component: DataComponent
+              },
+              {
+                path: '5/:id',
+                component: SelfAssessmentComponent
+              },
+              {
+                path: '6/:id',
+                component: GradingComponent
+              }
+            ]
+          },
+          {
+            path: 'selected-module',
+            component: SelectModuleComponent
+          },
+          {
+            path: 'create/1/:id',
+            component: CreateProgressComponent
+          },
+          {
+            path: 'create/2/:id',
+            component: CreateBadgeComponent
+          },
+          {
+            path: 'edit/1/:mid/:id',
+            component: CreateProgressComponent
+          },
+          {
+            path: 'edit/2/:mid/:id',
+            component: CreateBadgeComponent
+          },
+          {
+            path: 'edit/4/:mid/:id',
+            component: CreateDataComponent
+          },
+          {
+            path: 'edit/5/:mid/:id',
+            component: CreateSelfassessmentComponent
+          },
+          {
+            path: 'edit/6/:mid/:id',
+            component: CreateUsergradingComponent
+          },
+          {
+            path: 'create/4/:id',
+            component: CreateDataComponent
+          },
+          {
+            path: 'share/4/:id',
+            component: SharedDataComponent
+          },
+          {
+            path: 'share/1/:id',
+            component: SharedProgressComponent
+          },
+          {
+            path: 'create/3/:mid',
+            component: CreateAssessmentComponent
+          },
+          {
+            path: 'share/2/:id',
+            component: SharedBadgeComponent
+          },
+          {
+            path: 'edit/3/:mid/:id',
+            component: CreateAssessmentComponent
+          },
+          {
+            path: 'share/3/:id',
+            component: ShareAssessmentComponent
+          },
+          {
+            path: 'create/5/:id',
+            component: CreateSelfassessmentComponent
+          },
+          {
+            path: 'share/5/:id',
+            component: SharedSelfassessmentComponent
+          },
+          {
+            path: 'create/6/:id',
+            component: CreateUsergradingComponent
+          },
+          {
+            path: 'share/6/:id',
+            component: SharedUsergradingComponent
+          }
+        ]
+      }
+    ]
   },
   {
     path: '**',

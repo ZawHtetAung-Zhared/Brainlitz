@@ -1,0 +1,214 @@
+<div class="d-flex justify-content-center">
+  <div class="min-scroll main-wrapper">
+    <div [ngClass]="{ overlay: isfocus == true }"></div>
+    <div
+      *ngIf="
+        iscreate == false && isHoliday == false && calendarPermission.length > 0
+      "
+    >
+      <div class="d-flex justify-content-between heading-margin">
+        <div class="mr-auto">
+          <div class="d-flex flex-row">
+            <h2 class="title-heading h3-strong text-c300">Calendar</h2>
+          </div>
+        </div>
+        <button
+          *ngIf="calendarDemo.createCalendar != ''"
+          type="button"
+          class="btn btn-create bg-b100 text-s0 body-l"
+          routerLink="/tools/holiday-calendar/calendar-create"
+        >
+          Add new calendar
+        </button>
+      </div>
+      <div class="row calendar-group">
+        <div
+          class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-3"
+          *ngFor="let calendar of calendarLists"
+        >
+          <div
+            class="d-flex flex-column single-calendar"
+            routerLink="/tools/holiday-calendar/calendar-detail/{{
+              calendar._id
+            }}"
+          >
+            <ul class="calendar-year">
+              <li *ngFor="let year of calendar.year" class="body-m text-c75">
+                {{ year }}
+              </li>
+              <li
+                class="noliststyle"
+                *ngIf="calendar.year == null || calendar.year == ''"
+              >
+                -
+              </li>
+            </ul>
+            <div class="d-flex justify-content-between calendar-lbr">
+              <h4 class="h3-strong text-c300">{{ calendar.name }}</h4>
+              <div class="right-arrow">
+                <i class="fa fa-angle-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="
+      calendarLists.length >= 20 &&
+      iscreate == false &&
+      isHoliday == false >= 20 &&
+      result.length != 0
+    "
+    class="d-flex justify-content-center load-more"
+  >
+    <button
+      class="btn load-more-btn body-m text-b100"
+      (click)="showMore(calendarLists.length)"
+    >
+      load more
+    </button>
+  </div>
+  <ng-template #contentCreate let-c="close" let-d="dismiss">
+    <div class="modal-body modal-wrap">
+      <h3 class="input-label text-c300 body-xl" *ngIf="!isEdit">
+        Create holiday
+      </h3>
+      <h3 class="input-label text-c300 body-xl" *ngIf="isEdit">
+        Update holiday
+      </h3>
+      <form #holidayForm="ngForm">
+        <div class="input-wrap">
+          <label class="body-l text-c100">Date</label>
+          <!-- <div class="input-group input-daterange">
+              <input type="text" class="form-control" value="2012-04-05">
+              <div class="input-group-addon">to</div>
+              <input type="text" class="form-control" value="2012-04-19">
+          </div> -->
+          <div class="datepicker-wrap d-flex">
+            <div class="xxx-start">
+              <input
+                id="dpStart"
+                class="input-day text-container text-c300 bg-s20"
+                type="text"
+                placeholder="First Day"
+                name="start"
+                required
+                [(ngModel)]="model.start"
+                (focus)="openDatePicker(start)"
+                (clickOutside)="closefix($event, start)"
+                (ngModelChange)="setMinDate($event)"
+                [maxDate]="maxDate"
+                (navigate)="currentMonth($event)"
+                [autoClose]="true"
+                ngbDatepicker
+                (dateSelect)="onDateSelect($event)"
+                #start="ngbDatepicker"
+                readonly
+              />
+            </div>
+            <!-- <span *ngIf="showText" [ngClass]="{'show':showText}" id="clearBtn1" class="clearBtn">First Day</span> -->
+            <span class="center-span"> To</span>
+            <div class="xxx-end">
+              <input
+                id="dpEnd"
+                class="input-day text-container text-c300 bg-s20"
+                type="test"
+                placeholder="Last Day"
+                required
+                (ngModelChange)="setMaxDate($event)"
+                [minDate]="minDate"
+                [autoClose]="true"
+                name="end"
+                [(ngModel)]="model.end"
+                (focus)="openDatePicker(end)"
+                (clickOutside)="closefix($event, end)"
+                ngbDatepicker
+                #end="ngbDatepicker"
+                (navigate)="currentMonth($event)"
+                readonly
+              />
+            </div>
+          </div>
+        </div>
+        <div class="input-wrap">
+          <div class="d-flex justify-content-between">
+            <label class="light-body-l text-c100">Holiday name</label>
+            <div class="limit-wordcount text-b100 body-m">
+              <span>{{ wordLength }}/60characters</span>
+            </div>
+          </div>
+          <div>
+            <input
+              class="input-name text-c300 body-l"
+              type="text"
+              placeholder="Type holiday name"
+              name="name"
+              (focus)="focusMethod($event, $event.target.value)"
+              (blur)="blurMethod($event)"
+              (input)="changeMethod($event.target.value)"
+              maxlength="60"
+              [(ngModel)]="model.name"
+              required
+              #holidayName="ngModel"
+            />
+            <div
+              *ngIf="
+                holidayName.invalid &&
+                (holidayName.dirty || holidayName.touched)
+              "
+              class="alert alert-danger mb-0"
+            >
+              <div [hidden]="!holidayName.errors.required">
+                Display name is required!
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btns-wrap d-flex">
+          <div>
+            <button
+              class="btn-delete"
+              *ngIf="isEdit && calendarDemo.deleteHoliday != ''"
+              (click)="deleteHoliday(this.model._id)"
+            >
+              Delete
+            </button>
+          </div>
+          <div class="btn-inner-wrap">
+            <button
+              type="button"
+              class="btn btn-cancel text-c300 bg-s20"
+              (click)="cancelModal()"
+            >
+              Cancel
+            </button>
+            <button
+              *ngIf="!isEdit"
+              type="submit"
+              class="btn btn-Primary btnC bg-b100 text-s0"
+              (click)="createHoliday()"
+              [disabled]="!holidayForm.form.valid"
+            >
+              Create
+            </button>
+            <button
+              *ngIf="isEdit"
+              type="submit"
+              class="btn btn-Primary btnC bg-b100 text-s0"
+              (click)="updateHolidays()"
+              [disabled]="!holidayForm.form.valid"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- <div class="modal-footer">
+      <button type="button" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
+      <button type="submit" class="btn btn-danger">Create</button>
+    </div> -->
+  </ng-template>
+</div>

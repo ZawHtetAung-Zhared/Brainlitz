@@ -1,0 +1,971 @@
+<div class="d-flex justify-content-center">
+  <div class="d-flex flex-column h-100 setting-wrapper">
+    <div *ngIf="option != 'Invoice' && option != 'Payment' && !isEnrollEdit">
+      <div *ngIf="generalSidebar.length > 0" class="header-wrap">
+        <h3 class="h1-strong text-c300">General</h3>
+      </div>
+      <div class="card-columns">
+        <div *blockUI="'region-info'">
+          <div
+            [ngClass]="{
+              showZindex: isEdit,
+              blur: isUrlEdit
+            }"
+            *ngIf="generalDemo.appsetting != ''"
+            class="card card-wrap region-wrap"
+          >
+            <div class="title bg-c100 text-s0 text-s0 body-xl">
+              Regional settings
+            </div>
+            <div class="region-info">
+              <div>
+                <div class="title-wrap">
+                  <div id="parent" class="bg-s30">
+                    <img src="./assets/images/map.png" />
+                  </div>
+                  <label class="labelTitle text-c100 body-m">Region name</label>
+                </div>
+                <label class="labelName text-c300 body-l">{{
+                  item.name
+                }}</label>
+              </div>
+              <div class="timezone-wrap ease" *ngIf="!isEdit">
+                <div>
+                  <div class="title-wrap">
+                    <div id="parent" class="bg-s30">
+                      <img src="./assets/images/time_zone.png" />
+                    </div>
+                    <label class="labelTitle text-c100 body-m">Time zone</label>
+                  </div>
+                </div>
+                <div class="picker-wrap">
+                  <ng2-timezone-picker
+                    class="newpick"
+                    [(timezone)]="item.timezone"
+                    showOffset="true"
+                  >
+                  </ng2-timezone-picker>
+                </div>
+              </div>
+              <div class="timezone-wrap" *ngIf="isEdit">
+                <div>
+                  <label class="labelTitle text-c100 body-m">Time zone</label>
+                </div>
+                <div>
+                  <ng2-timezone-picker
+                    class="editTimezone"
+                    [(timezone)]="item.timezone"
+                    showOffset="true"
+                  >
+                  </ng2-timezone-picker>
+                </div>
+              </div>
+
+              <!-- Operation Hour -->
+              <div class="timezone-wrap ease">
+                <div class="title-wrap">
+                  <div id="parent" class="bg-s30">
+                    <img src="./assets/images/map.png" />
+                  </div>
+                  <label class="labelTitle text-c100 body-m"
+                    >Operating hour</label
+                  >
+                </div>
+                <label *ngIf="!isEdit" class="operatingTime text-c300 body-l"
+                  ><span *ngIf="item && item.operatingHour.start.hr < 10"
+                    >0</span
+                  >{{ item.operatingHour.start.hr }}:<span
+                    *ngIf="item && item.operatingHour.start.min < 10"
+                    >0</span
+                  >{{ item.operatingHour.start.min }}
+                  {{ item.operatingHour.start.meridiem }}
+                </label>
+                <span *ngIf="!isEdit" class="timedash"> </span>
+                <label *ngIf="!isEdit" class="operatingTime1 text-c300 body-l"
+                  ><span *ngIf="item.operatingHour.end.hr < 10">0</span
+                  >{{ item.operatingHour.end.hr }}:<span
+                    *ngIf="item.operatingHour.end.min < 10"
+                    >0</span
+                  >{{ item.operatingHour.end.min }}
+                  {{ item.operatingHour.end.meridiem }}
+                </label>
+                <div class="timezone-wrap">
+                  <div class="title-wrap" *ngIf="!isEdit">
+                    <div id="parent" class="bg-s30">
+                      <img src="./assets/images/home.png" />
+                    </div>
+                    <label class="labelTitle text-c100 body-m"
+                      >Organization logo</label
+                    >
+                  </div>
+                  <div class="preview" *ngIf="!isEdit">
+                    <img
+                      class="img-fluid outter-img"
+                      id="org-logo"
+                      [src]="orgLogo"
+                    />
+                  </div>
+                  <!--Testing-->
+                  <div class="d-flex timezone-wrap" *ngIf="!isEdit">
+                    <div class="toggle-wrap">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          (change)="SendCreEmail()"
+                          disabled="disabled"
+                          [checked]="item.notificationSettings.sendEmailNoti"
+                        />
+                        <span class="slider round nocur"></span>
+                      </label>
+                    </div>
+                    <label
+                      class="switch-label cre-email text-c300 body-xl"
+                      for="online"
+                      >Send Credential Emails upon user registration</label
+                    >
+                  </div>
+
+                  <div class="d-flex" *ngIf="!isEdit">
+                    <div class="toggle-wrap">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          (change)="JourApprov()"
+                          disabled="disabled"
+                          [checked]="item.journalApprove"
+                        />
+                        <span class="slider round nocur"></span>
+                      </label>
+                    </div>
+                    <label
+                      class="switch-label cre-email text-c300 body-xl"
+                      for="online"
+                      >Require journal approval</label
+                    >
+                  </div>
+                </div>
+
+                <form novalidate #dashboradForm="ngForm" *ngIf="isEdit">
+                  <div class="form-group url-edit d-flex flex-row">
+                    <div
+                      class="time-box-wrap s-time-box-wrap ml-2 col-md-6 col-lg-5 col-xl-4"
+                    >
+                      <label class="labelTitle text-c100 body-m">
+                        Start Time
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Start time"
+                        class="form-control time-picker timepicker stimepicker"
+                        name="starttime"
+                        required
+                        [ngModel]="startT"
+                        readonly
+                        (click)="durationProgress($event, 'start')"
+                        style="background: none;"
+                      />
+                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                      <div
+                        class="bg-box s-bg-box duration-progress timepicker stimepicker"
+                        *ngIf="sprogressSlider"
+                      >
+                        <div id="rectangle" class="srectangle"></div>
+                        <div class="time-wrapper d-flex justify-content-center">
+                          <div
+                            class="flex-column justify-content-center showTime font-medium"
+                          >
+                            <span *ngIf="srangeHr < 10">0</span
+                            ><span class="hr">{{ srangeHr }}</span>
+                            :
+                            <span *ngIf="srangeMin < 10">0</span
+                            ><span class="min">{{ srangeMin }}</span>
+                            <span class="smedrii">{{ sisSelected }}</span>
+                          </div>
+                          <div>
+                            <div class="time-box">
+                              <label
+                                [ngClass]="{ selected: sisSelected == 'AM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('AM', 'start')"
+                                />
+                                AM
+                              </label>
+                              <label
+                                [ngClass]="{ selected: sisSelected == 'PM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('PM', 'start')"
+                                />
+                                PM
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="gap-box">
+                          <label>
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input
+                              class="max-range-box"
+                              type="range"
+                              id="hrDuration"
+                              name="pointsHr"
+                              min="0"
+                              max="12"
+                              [(ngModel)]="srangeHr"
+                            />
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label>
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input
+                              class="min-range-box"
+                              type="range"
+                              id="minDuration"
+                              name="pointsMin"
+                              min="0"
+                              max="55"
+                              step="5"
+                              [(ngModel)]="srangeMin"
+                            />
+                            <!-- <p *ngIf="overDurationHr" class="alert-duration"> has only 12, so can not choose minute. </p> -->
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="time-box-wrap  ml-2 col-md-6 col-lg-5 col-xl-4"
+                      (document:click)="documentclick($event)"
+                    >
+                      <label class="labelTitle text-c100 body-m fix-text"
+                        >End Time</label
+                      >
+                      <input
+                        type="text"
+                        placeholder="End time"
+                        class="form-control time-picker timepicker etimepicker"
+                        name="endtime"
+                        required
+                        [ngModel]="endT"
+                        readonly
+                        (click)="durationProgress($event)"
+                        style="background: none;"
+                      />
+                      <!-- <input *ngIf="isEdit == true" type="text" placeholder="Start time" class="input-day" name="starttime" required [(ngModel)]="model.startT" readonly style="background: none;"> -->
+                      <div
+                        class="bg-box e-bg-box duration-progress timepicker etimepicker"
+                        *ngIf="eprogressslider"
+                      >
+                        <div id="rectangle" class="erectangle"></div>
+                        <div class="time-wrapper d-flex justify-content-center">
+                          <div
+                            class="flex-column justify-content-center showTime font-medium"
+                          >
+                            <span *ngIf="erangeHr < 10">0</span
+                            ><span class="hr">{{ erangeHr }}</span>
+                            :
+                            <span *ngIf="erangeMin < 10">0</span
+                            ><span class="min">{{ erangeMin }}</span>
+                            <span class="emedrii">{{ eisSelected }}</span>
+                          </div>
+                          <div>
+                            <div class="time-box">
+                              <label
+                                [ngClass]="{ selected: eisSelected == 'AM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('AM', 'end')"
+                                />
+                                AM
+                              </label>
+                              <label
+                                [ngClass]="{ selected: eisSelected == 'PM' }"
+                                class="mb-0 font-semi"
+                              >
+                                <input
+                                  type="radio"
+                                  name="prop"
+                                  (click)="chooseTimeOpt('PM', 'end')"
+                                />
+                                PM
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="gap-box">
+                          <label>
+                            <div class="col-md-4 max-range">Hour</div>
+                            <input
+                              class="max-range-box"
+                              type="range"
+                              id="hrDuration"
+                              name="pointsHr"
+                              min="1"
+                              max="12"
+                              [(ngModel)]="erangeHr"
+                            />
+                          </label>
+                        </div>
+                        <div class="gap-range-min">
+                          <label>
+                            <div class="col-md-4 min-range">Minute</div>
+                            <input
+                              class="min-range-box"
+                              type="range"
+                              id="minDuration"
+                              name="pointsMin"
+                              min="0"
+                              max="55"
+                              [(ngModel)]="erangeMin"
+                              step="5"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="timezone-wrap">
+                    <div class="title-wrap">
+                      <div id="parent">
+                        <img src="./assets/images/home.png" />
+                      </div>
+                      <label class="labelTitle text-c100 body-m"
+                        >Organization logo</label
+                      >
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="d-flex">
+                          <div class="input-group-prepend">
+                            <span
+                              class="input-group-text upload-text"
+                              id="inputGroupFileAddon01"
+                              >Upload</span
+                            >
+                          </div>
+                          <div class="custom-file">
+                            <input
+                              #logo
+                              type="file"
+                              class="custom-file-input"
+                              id="inputGroupFile01"
+                              aria-describedby="inputGroupFileAddon01"
+                              accept="image/*"
+                              (change)="
+                                handleFileInput(logo.files, $event.target)
+                              "
+                            />
+                            <label
+                              #fileLabel
+                              class="custom-file-label"
+                              for="inputGroupFile01"
+                              >Choose file</label
+                            >
+                          </div>
+                        </div>
+                        <span class="error-message" *ngIf="message">{{
+                          message
+                        }}</span>
+                        <div class="preview" *ngIf="imgURL">
+                          <img
+                            class="img-fluid inner-img"
+                            id="imgURL"
+                            [src]="imgURL"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex" *ngIf="isEdit">
+                    <div class="toggle-wrap">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          (change)="SendCreEmail()"
+                          [checked]="item.notificationSettings.sendEmailNoti"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <label
+                      class="switch-label cre-email text-c300 body-l"
+                      for="online"
+                      >Send Credential Emails upon user registration</label
+                    >
+                  </div>
+
+                  <div class="d-flex" *ngIf="isEdit">
+                    <div class="toggle-wrap">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          (change)="JourApprov()"
+                          [checked]="item.journalApprove"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <label
+                      class="switch-label cre-email text-c300 body-l"
+                      for="online"
+                      >Require journal approval</label
+                    >
+                  </div>
+
+                  <div
+                    class="editBtns  d-flex justify-content-end "
+                    *ngIf="isEdit"
+                  >
+                    <button
+                      class="cancel btn remove-bg text-c300 body-m"
+                      (click)="cancelUpdate()"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      class="btn updateButton remove-bg text-b100 body-m"
+                      (click)="updateRegionalInfo(item, 'timezone')"
+                      [disabled]="!dashboradForm.valid || updateBtnDisabled()"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- Operation Hour Close -->
+            </div>
+            <div *ngIf="!isEdit">
+              <a class="link-btn small" (click)="editRegion()">Edit</a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          [ngClass]="{ blur: isEdit || isUrlEdit }"
+          *ngIf="generalDemo.appsetting != ''"
+          class="card card-wrap region-wrap"
+        >
+          <div class="title bg-c100 text-s0 body-xl">
+            Invoice settings
+          </div>
+          <div class="region-info">
+            <div>
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img src="./assets/images/profile.png" />
+                </div>
+                <label class="labelTitle text-c100 body-m">Company name</label>
+              </div>
+              <label
+                *ngIf="invoiceData.companyName != ''"
+                class="labelName text-c300 body-l"
+                >{{ invoiceData.companyName }}</label
+              >
+              <label
+                *ngIf="invoiceData.companyName == ''"
+                class="labelName text-c300 body-l"
+                >-</label
+              >
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <p class="dot">...</p>
+                </div>
+                <label class="labelTitle text-c100 body-m"
+                  >Registration number</label
+                >
+              </div>
+              <label
+                *ngIf="invoiceData.registration != ''"
+                class="labelName text-c300 body-l"
+                >{{ invoiceData.registration }}</label
+              >
+              <label
+                *ngIf="invoiceData.registration == ''"
+                class="labelName text-c300 body-l"
+                >-</label
+              >
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img src="./assets/images/map.png" />
+                </div>
+                <label class="labelTitle text-c100 body-m">Address</label>
+              </div>
+              <label
+                *ngIf="invoiceData.address != '' || invoiceData.city != ''"
+                class="labelName text-c300 body-l"
+                >{{ invoiceData.address }} {{ invoiceData.city }}</label
+              >
+              <label
+                *ngIf="invoiceData.address == '' && invoiceData.city == ''"
+                class="labelName text-c300 body-l"
+                >-</label
+              >
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img src="./assets/images/email.png" />
+                </div>
+                <label class="labelTitle text-c100 body-m">Contact email</label>
+              </div>
+              <label
+                *ngIf="invoiceData.email != ''"
+                class="labelName text-c300 body-l"
+                >{{ invoiceData.email }}</label
+              >
+              <label
+                *ngIf="invoiceData.email == ''"
+                class="labelName text-c300 body-l"
+                >-</label
+              >
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <p class="currency">$</p>
+                </div>
+                <label class="labelTitle text-c100 body-m">Currency sign</label>
+              </div>
+              <div
+                *ngIf="
+                  invoiceData.currencyCode != undefined &&
+                  invoiceData.currencySign != undefined
+                "
+                class="labelName text-c300 body-l d-flex"
+              >
+                <div
+                  class="currency-flag currency-flag-{{
+                    invoiceData.currencyCode
+                  }}"
+                ></div>
+                <div class="c-sign h4-strong text-c">
+                  <div
+                    class="pull-left"
+                    *ngIf="
+                      invoiceData.currencyCode == 'sgd' &&
+                      invoiceData.currencySign == '$'
+                    "
+                  >
+                    S
+                  </div>
+                  {{ invoiceData.currencySign }}
+                </div>
+              </div>
+              <div
+                *ngIf="
+                  invoiceData.currencyCode == undefined &&
+                  invoiceData.currencySign == undefined
+                "
+                class="labelName text-c300 body-l d-flex"
+              >
+                -
+              </div>
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img
+                    style="width: 60%"
+                    src="./assets/images/sidebar-quizwerkz@2x.png"
+                  />
+                </div>
+                <label class="labelTitle text-c100 body-m">Invoice note</label>
+              </div>
+              <div
+                *ngIf="invoiceData.invoiceNote != ''"
+                class="labelName text-c300 body-l inv-note"
+              >
+                {{ invoiceData.invoiceNote }}
+              </div>
+              <label *ngIf="invoiceData.invoiceNote == ''">
+                -
+              </label>
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img
+                    style="width: 60%"
+                    src="./assets/images/sidebar-quizwerkz@2x.png"
+                  />
+                </div>
+                <label class="labelTitle text-c100 body-m"
+                  >Invoice validity(days)</label
+                >
+              </div>
+              <input
+                *ngIf="invoiceData.dueDateCount != ''"
+                name="settingIdueDateCount"
+                id="settingInvNote"
+                class="labelName text-c300 body-l readonly-note"
+                [(ngModel)]="invoiceData.dueDateCount"
+                readonly
+              />
+              <!-- ∂</input> -->
+              <label *ngIf="invoiceData.dueDateCount == ''">
+                -
+              </label>
+            </div>
+          </div>
+          <div>
+            <a
+              class="link-btn small"
+              routerLink="/settings/general/invoicesetting-edit"
+              >Edit</a
+            >
+          </div>
+        </div>
+
+        <div *blockUI="'app-setting'">
+          <div
+            [ngClass]="{
+              blur: isEdit,
+              showZindex: isUrlEdit
+            }"
+            *ngIf="generalDemo.regional != ''"
+            class="card card-wrap"
+          >
+            <div class="title bg-c100 text-s0 body-xl">
+              App settings
+            </div>
+            <div class="setting-container">
+              <div class="setting-info" [ngClass]="{ blur: isUrlEdit }">
+                <div class="link-wrap">
+                  <div class="title-wrap">
+                    <div id="parent" class="bg-s30">
+                      <img src="./assets/images/home.png" />
+                    </div>
+                    <label class="labelTitle text-c100 body-m"
+                      >Home page URL</label
+                    >
+                    <div class="urlEdit">
+                      <a class="link-btn small" (click)="editUrl()">Edit</a>
+                    </div>
+                  </div>
+                  <p class="input-recommend">
+                    This is the URL your customers will see on their device.
+                  </p>
+                  <label class="labelName text-c300 body-l">{{
+                    item.url
+                  }}</label>
+                </div>
+                <div class="timezone-wrap d-none">
+                  <div>
+                    <div class="title-wrap">
+                      <div id="parent">
+                        <img src="./assets/images/filter.png" />
+                      </div>
+                      <label class="labelTitle text-c100 body-m"
+                        >Widget type visibility</label
+                      >
+                    </div>
+                    <p class="input-recommend">
+                      Turning on widget type visibility such as ‘Progress’ or
+                      ‘Badge’ will allow parents or students to see their
+                      progress on the ‘Profile’ page.
+                    </p>
+                  </div>
+                  <div class="module-container">
+                    <app-module></app-module>
+                  </div>
+                </div>
+              </div>
+              <div class="overlay" *ngIf="isUrlEdit">
+                <div class="text">
+                  <form novalidate #dashboradForm="ngForm">
+                    <div class="form-group url-edit">
+                      <label class="labelTitle text-c100 body-m"
+                        >Home Page Url</label
+                      >
+                      <input
+                        type="url"
+                        class="form-control"
+                        placeholder="enter URl link"
+                        name="url"
+                        [(ngModel)]="item.url"
+                        #url="ngModel"
+                        required
+                      />
+                      <!-- pattern="https?://.+" -->
+                      <div
+                        *ngIf="url.errors && (url.dirty || url.touched)"
+                        class="alert alert-danger"
+                      >
+                        <div [hidden]="!url.errors.required">
+                          URL is required!
+                        </div>
+                        <div [hidden]="!url.errors.pattern">
+                          Must be a valid URL!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="overlayBtns">
+                      <button type="submit" class="btn" (click)="closeEdit()">
+                        <span class="closemark">
+                          <div class="closemark_stem"></div>
+                          <div class="closemark_kick"></div>
+                        </span>
+                      </button>
+                      <button
+                        type="submit"
+                        class="btn"
+                        (click)="updateRegionalInfo(item, 'url')"
+                        [disabled]="!dashboradForm.valid"
+                      >
+                        <span class="checkmark">
+                          <div
+                            [ngClass]="{ colorD: !dashboradForm.valid }"
+                            class="checkmark_stem"
+                          ></div>
+                          <div
+                            [ngClass]="{ colorD: !dashboradForm.valid }"
+                            class="checkmark_kick"
+                          ></div>
+                        </span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          [ngClass]="{ blur: isEdit || isUrlEdit }"
+          *ngIf="generalDemo.appsetting != ''"
+          class="card card-wrap region-wrap"
+        >
+          <div class="title bg-c100 text-s0 body-xl">
+            Payment settings
+          </div>
+          <div class="region-info">
+            <div>
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img src="./assets/images/currency.png" />
+                </div>
+                <label class="labelTitle text-c100 body-m">Currency code</label>
+              </div>
+              <div>
+                <div
+                  *ngIf="paymentData.currencyCode != undefined"
+                  class="labelName text-c300 body-l d-flex"
+                >
+                  <div
+                    class="currency-flag currency-flag-{{
+                      paymentData.currencyCode
+                    }}"
+                  ></div>
+                  <div class="c-sign h4-strong text-c300">
+                    {{ paymentData.currencyCode | uppercase }}
+                  </div>
+                </div>
+                <div
+                  *ngIf="paymentData.currencyCode == undefined"
+                  class="labelName text-c300 body-l d-flex"
+                >
+                  -
+                </div>
+              </div>
+            </div>
+            <div class="timezone-wrap ease">
+              <div class="title-wrap">
+                <div id="parent" class="bg-s30">
+                  <img src="./assets/images/currency-sign.png" />
+                </div>
+                <label class="labelTitle text-c100 body-m">Tax setting</label>
+              </div>
+              <label
+                *ngIf="emptyPaymentData == false"
+                class="labelName text-c300 body-l"
+              >
+                <span *ngIf="paymentData.tax.name != ''"
+                  >{{ paymentData.tax.name }}
+                </span>
+                <span *ngIf="paymentData.tax.name == ''">- </span>
+                <span *ngIf="paymentData.tax.rate != null"
+                  >( {{ paymentData.tax.rate }}% )</span
+                >
+                <span *ngIf="paymentData.tax.rate == null">(-)</span>
+              </label>
+              <label
+                *ngIf="emptyPaymentData == true"
+                class="labelName text-c300 body-l"
+              >
+                <span>-</span>
+              </label>
+            </div>
+            <div class="sectionWrap">
+              <label class="sectionTitle h4-strong text-c300 "
+                >Online payment</label
+              >
+              <div *ngIf="paymentData.paymentProviders.length > 0">
+                <div
+                  class="provider-list"
+                  *ngFor="let provider of paymentData.paymentProviders"
+                >
+                  <span class="small text-c100" *ngIf="provider.name != ''">{{
+                    provider.name
+                  }}</span>
+                  <span class="small text-c100" *ngIf="provider.name == ''"
+                    >-</span
+                  >
+                </div>
+              </div>
+              <div *ngIf="paymentData.paymentProviders.length == 0">
+                <div class="provider-list small text-c100">none</div>
+              </div>
+            </div>
+            <div class="sectionWrap">
+              <label class="sectionTitle h4-strong text-c300"
+                >Pay Now Payment</label
+              >
+              <div *ngIf="paymentData.acceptPayNow">
+                <div class="qr-preview">
+                  <img
+                    class="img-fluid inner-img"
+                    *ngIf="paymentData.payNowQr"
+                    [src]="paymentData.payNowQr"
+                  />
+                </div>
+              </div>
+              <div *ngIf="!paymentData.acceptPayNow">
+                <div class="provider-list">none</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              class="link-btn small"
+              routerLink="/settings/general/paymentsetting-edit"
+              >Edit</a
+            >
+          </div>
+        </div>
+
+        <!-- for test setting -->
+        <!-- [ngClass]="{
+                showZindex: isEnrollEdit,
+                blur: isEdit || isUrlEdit
+              }" -->
+        <!-- <div *blockUI="'auto-enrol-setting'"> -->
+        <div
+          [ngClass]="{ blur: isEdit || isUrlEdit }"
+          *ngIf="generalDemo.appsetting != ''"
+          class="card card-wrap region-wrap"
+        >
+          <div class="title bg-c100 text-s0 body-xl">
+            Schedule settings
+          </div>
+          <div class="setting-container">
+            <div class="schedule-setting">
+              <div class="ease">
+                <div class="title-wrap">
+                  <div id="parent" class="schedule-img bg-s30">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle text-c100 body-m"
+                    >Send payment reminder notification for invoice</label
+                  >
+                </div>
+                <div class="d-flex">
+                  <input
+                    *ngIf="invoiceData.beforeDue != ''"
+                    name="settingIdueDateCount"
+                    id="settingInvBeforeD"
+                    class="labelName text-c300 body-l readonly-note"
+                    [(ngModel)]="invoiceData.beforeDue"
+                    readonly
+                  />
+                  <label *ngIf="invoiceData.beforeDue == ''">
+                    -
+                  </label>
+                  <label class="labelTitle day-color body-m">
+                    days before due date
+                  </label>
+                </div>
+              </div>
+              <div class="timezone-wrap ease">
+                <div class="title-wrap">
+                  <div id="parent" class="schedule-img bg-s30">
+                    <img
+                      style="width: 60%"
+                      src="./assets/images/sidebar-quizwerkz@2x.png"
+                    />
+                  </div>
+                  <label class="labelTitle text-c100 body-m"
+                    >Send payment overdue notification for invoice</label
+                  >
+                </div>
+                <div class="d-flex">
+                  <input
+                    *ngIf="invoiceData.overDue != ''"
+                    name="settingIdueDateCount"
+                    id="settingInvOverD"
+                    class="labelName text-c300 body-l readonly-note"
+                    [(ngModel)]="invoiceData.overDue"
+                    readonly
+                  />
+                  <label *ngIf="invoiceData.overDue == ''">
+                    -
+                  </label>
+                  <label class="labelTitle day-color body-m">
+                    days after due date
+                  </label>
+                </div>
+              </div>
+              <div class="timezone-wrap ease">
+                <div class="title-wrap">
+                  <div id="parent" class="schedule-img bg-s30">
+                    <img src="./assets/images/profile.png" />
+                  </div>
+                  <label class="labelTitle text-c100 body-m"
+                    >Auto-enrollment will start if the last lesson is
+                    within(days)</label
+                  >
+                </div>
+                <input
+                  name="settingIdueDateCount"
+                  id="settingAutoEnroll"
+                  class="labelName text-c300 body-l readonly-note"
+                  [(ngModel)]="enroll"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <a
+              class="link-btn small"
+              routerLink="/settings/general/schedulesetting-edit"
+              >Edit</a
+            >
+          </div>
+        </div>
+        <!-- </div> -->
+        <!-- end for test setting -->
+      </div>
+    </div>
+  </div>
+</div>
+<block-ui message="Deafult Message"></block-ui>

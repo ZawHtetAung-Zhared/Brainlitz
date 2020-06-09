@@ -291,10 +291,19 @@ app-report,
 app-review,
 app-course,
 app-course-list,
-app-assign-task {
+app-assign-task,
+app-main-block,
+app-main-tool,
+side-menu,
+app-tracking-module,
+app-all-tracking-module {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+app-tracking-module {
+  width: 100%;
 }
 
 .rating {
@@ -1641,4 +1650,8 @@ button.toast-close-button {
   border-radius: 4px;
   padding: 12px 16px;
   z-index: 10;
+}
+app-main-tracking-module,
+app-shared-data {
+  width: 100%;
 }

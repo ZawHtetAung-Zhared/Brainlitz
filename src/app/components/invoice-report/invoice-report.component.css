@@ -23,6 +23,16 @@
 .header-wrapper {
   border-bottom: 1px solid #edeff0;
 }
+.main-wrapper {
+  /*display: block;*/
+  padding: 0px 15px;
+  overflow: auto;
+}
+@media only screen and (min-width: 1366px) {
+  .main-wrapper {
+    width: 960px !important;
+  }
+}
 
 .invList {
   border-bottom: 1px solid #edeff0;

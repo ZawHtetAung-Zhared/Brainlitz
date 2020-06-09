@@ -1,3 +1,5 @@
+import { PaymentSettingEditComponent } from './components/settings/general/payment-setting-edit/payment-setting-edit.component';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -21,7 +23,6 @@ import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LocationComponent } from './components/location/location.component';
 import { UsersComponent } from './components/users/users.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { appService } from './service/app.service';
@@ -47,18 +48,6 @@ import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { TimepickerModule, SortableModule } from 'ngx-bootstrap';
 import { ReportComponent } from './components/report/report.component';
-import { StaffPerformanceReport } from './components/report/staffPerformance/staff.component';
-import { StaffReportGraph } from './components/report/staffPerformance/graph/staffGraph.component';
-import { CourseActivitiesReportGraph } from './components/report/courseActivities/graph/courseGraph.component';
-import { StdEnrolmentReportGraph } from './components/report/studentEnrollment/graph/stdEnrolment.component';
-import { MonthlyActiveStdReportGraph } from './components/report/monthlyActiveStudents/graph/masGraph.component';
-import { StaffTeachingReportGraph } from './components/report/staffTeachingSchedule/graph/staffTeachingGraph.component';
-
-import { CourseActivitiesReport } from './components/report/courseActivities/course.component';
-import { StudentEnrollmentReport } from './components/report/studentEnrollment/enrollment.component';
-import { MonthlyActiveStudentsReport } from './components/report/monthlyActiveStudents/mas.component';
-import { StaffTeachingScheduleReport } from './components/report/staffTeachingSchedule/staffTeaching.component';
-
 import { ApgComponent } from './components/apg/apg.component';
 import { TemplateComponent } from './components/template/template.component';
 import { ModuleComponent } from './components/module/module.component';
@@ -165,7 +154,93 @@ import {
   UserStaffDetailComponent,
   CreateUserStaffComponent
 } from './components/user-staff/index';
+import {
+  CourseActivitiesReportGraph,
+  CourseActivitiesReport,
+  StaffPerformanceReport,
+  StaffReportGraph,
+  StudentEnrollmentReport,
+  StdEnrolmentReportGraph,
+  MonthlyActiveStudentsReport,
+  MonthlyActiveStdReportGraph,
+  StaffTeachingScheduleReport,
+  StaffTeachingReportGraph
+} from './components/report/index';
+
+import {
+  NotificationComponent,
+  MainToolComponent,
+  TrackingModuleComponent,
+  SendHistoryComponent,
+  SendNotificationComponent,
+  GradingComponent,
+  DataComponent,
+  AssessmentComponent,
+  SelfAssessmentComponent,
+  BadgeComponent,
+  ProgressComponent,
+  AllTrackingModuleComponent,
+  MainTrackingModuleComponent,
+  AddTrackingModuleComponent,
+  ShareTrackingModuleComponent
+} from './components/tool/index';
+
+import { SettingsComponent } from './components/settings/settings.component';
+import { GeneralComponent } from './components/settings/general/general.component';
+import { ScheduleSettingEditComponent } from './components/settings/general/schedule-setting-edit/schedule-setting-edit.component';
+import { InvoiceSettingEditComponent } from './components/settings/general/invoice-setting-edit/invoice-setting-edit.component';
+import { AverageRatingsComponent } from './components/report/average-ratings/average-ratings.component';
+import { GeneralOverviewComponent } from './components/settings/general/general-overview/general-overview.component';
+import {
+  ContentBlockComponent,
+  MainBlockComponent,
+  SideImgComponent
+} from './components/sidemenu/index';
+
+import { CardToolContentComponent } from './components/tool/common-tool/card-tool-content/card-tool-content.component';
+import { DataContentComponent } from './components/tool/common-tool/data-content/data-content.component';
+import { GradeContentComponent } from './components/tool/common-tool/grade-content/grade-content.component';
+import { AssessmentContentComponent } from './components/tool/common-tool/assessment-content/assessment-content.component';
+import { BadgeContentComponent } from './components/tool/common-tool/badge-content/badge-content.component';
+import { ProgressContentComponent } from './components/tool/common-tool/progress-content/progress-content.component';
+import { LocationComponent } from './components/location/location.component';
+import { LocationsComponent } from './components/settings/locations/locations.component';
+import { LocationListComponent } from './components/settings/locations/location-list/location-list.component';
+import { LocationCreateComponent } from './components/settings/locations/location-create/location-create.component';
+import { CustomFieldsComponent } from './components/settings/custom-fields/custom-fields.component';
+import { CustomFieldsListComponent } from './components/settings/custom-fields/custom-fields-list/custom-fields-list.component';
+import { CustomFieldsCreateComponent } from './components/settings/custom-fields/custom-fields-create/custom-fields-create.component';
+
+import { SingleFooterComponent } from './components/tool/common-tool/single-footer/single-footer.component';
+
+import { ResourceListComponent } from './components/tool/resource/resource-list/resource-list.component';
+import { ResourceCreateComponent } from './components/tool/resource/resource-create/resource-create.component';
+import { SelfAssessmentContentComponent } from './components/tool/common-tool/self-assessment-content/self-assessment-content.component';
+import { ToolCommunicationService } from '../app/components/tool/tool-communication.service';
+import { DeleteApgModalComponent } from './components/tool/common-tool/delete-apg-modal/delete-apg-modal.component';
+
 import { LogPipe } from './service/pipe/log';
+import { ResourceComponent } from './components/tool/resource/resource.component';
+import { HolidayCalendarComponent } from './components/tool/holiday-calendar/holiday-calendar.component';
+import { CalendarListComponent } from './components/tool/holiday-calendar/calendar-list/calendar-list.component';
+import { CalendarCreateComponent } from './components/tool/holiday-calendar/calendar-create/calendar-create.component';
+import { CalendarDetailComponent } from './components/tool/holiday-calendar/calendar-detail/calendar-detail.component';
+import { TestWerkzToolsComponent } from './components/tool/test-werkz-tools/test-werkz-tools.component';
+import { SelectModuleComponent } from './components/tool/select-module/select-module.component';
+import { CreateProgressComponent } from './components/tool/create-progress/create-progress.component';
+
+import { CreateDataComponent } from './components/tool/create-data/create-data.component';
+
+import { SharedProgressComponent } from './components/tool/shared-progress/shared-progress.component';
+import { CreateAssessmentComponent } from './components/tool/create-assessment/create-assessment.component';
+import { CreateSelfassessmentComponent } from './components/tool/create-selfassessment/create-selfassessment.component';
+import { SharedDataComponent } from './components/tool/shared-data/shared-data.component';
+import { SharedSelfassessmentComponent } from './components/tool/shared-selfassessment/shared-selfassessment.component';
+import { CreateUsergradingComponent } from './components/tool/create-usergrading/create-usergrading.component';
+import { SharedUsergradingComponent } from './components/tool/shared-usergrading/shared-usergrading.component';
+import { ShareAssessmentComponent } from './components/tool/share-assessment/share-assessment.component';
+import { CreateBadgeComponent } from './components/tool/create-badge/create-badge.component';
+import { SharedBadgeComponent } from './components/tool/shared-badge/shared-badge.component';
 
 @NgModule({
   declarations: [
@@ -285,7 +360,72 @@ import { LogPipe } from './service/pipe/log';
     UserStaffDetailComponent,
     CreateUserStaffComponent,
     CourseSearchComponent,
-    SampleQuestionComponent
+    SampleQuestionComponent,
+    MainBlockComponent,
+    ContentBlockComponent,
+    NotificationComponent,
+    MainToolComponent,
+    SideImgComponent,
+    TrackingModuleComponent,
+    SettingsComponent,
+    GeneralComponent,
+    ScheduleSettingEditComponent,
+    PaymentSettingEditComponent,
+    InvoiceSettingEditComponent,
+    AverageRatingsComponent,
+    GeneralOverviewComponent,
+    SendHistoryComponent,
+    SendNotificationComponent,
+    AllTrackingModuleComponent,
+    ProgressComponent,
+    BadgeComponent,
+    AssessmentComponent,
+    DataComponent,
+    SelfAssessmentComponent,
+    GradingComponent,
+    LocationsComponent,
+    LocationListComponent,
+    LocationCreateComponent,
+    CustomFieldsComponent,
+    CustomFieldsListComponent,
+    CustomFieldsCreateComponent,
+
+    CardToolContentComponent,
+    DataContentComponent,
+    GradeContentComponent,
+    AssessmentContentComponent,
+    BadgeContentComponent,
+    ProgressContentComponent,
+    ResourceListComponent,
+    ResourceCreateComponent,
+    SingleFooterComponent,
+    ResourceListComponent,
+    SelfAssessmentContentComponent,
+    DeleteApgModalComponent,
+    SelfAssessmentContentComponent,
+    ResourceComponent,
+    HolidayCalendarComponent,
+    CalendarListComponent,
+    AddTrackingModuleComponent,
+    MainTrackingModuleComponent,
+    AddTrackingModuleComponent,
+    CalendarCreateComponent,
+    CalendarDetailComponent,
+    TestWerkzToolsComponent,
+    ShareTrackingModuleComponent,
+    SelectModuleComponent,
+    CreateProgressComponent,
+    CreateDataComponent,
+    SharedProgressComponent,
+    CreateAssessmentComponent,
+    CreateSelfassessmentComponent,
+    SharedDataComponent,
+    SharedSelfassessmentComponent,
+    CreateUsergradingComponent,
+    SharedUsergradingComponent,
+    ShareAssessmentComponent,
+    CreateBadgeComponent,
+    SharedBadgeComponent
   ],
   imports: [
     ContentLoaderModule,
@@ -334,6 +474,7 @@ import { LogPipe } from './service/pipe/log';
     DataService,
     LoggedInGuard,
     EnrollUserComponent,
+    ToolCommunicationService,
     Title,
     {
       provide: HTTP_INTERCEPTORS,
@@ -342,6 +483,7 @@ import { LogPipe } from './service/pipe/log';
     },
     TodayDatePipe
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteApgModalComponent]
 })
 export class AppModule {}

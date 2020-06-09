@@ -1,0 +1,13 @@
+<div class="info-section padding-lr">
+  <p class="mb-0 small text-c100">
+    {{ singleSelfAssessment.module ? singleSelfAssessment.module.name : '-' }}
+  </p>
+  <p class="body-m text-c300 mb-0">{{ singleSelfAssessment.name }}</p>
+
+  <div class="progress-info">
+    <p class=" body-m text-c100 text-justify">
+      {{ singleSelfAssessment.description }}
+    </p>
+  </div>
+</div>
+<single-footer [singleData]="singleSelfAssessment"></single-footer>

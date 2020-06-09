@@ -1,0 +1,110 @@
+<div class="d-flex justify-content-center">
+  <div class="min-scroll main-wrapper">
+    <div *ngIf="pdfPermission.length > 0">
+      <div class="d-flex justify-content-between heading-margin">
+        <div class="mr-auto">
+          <div class="d-flex flex-row">
+            <h2 class="title-heading h3-strong text-c300">Resources</h2>
+          </div>
+        </div>
+        <button
+          *ngIf="pdfDemo.addPdf != ''"
+          type="button"
+          class="btn btn-create bg-b100 text-s0 body-l"
+          routerLinkActive="active"
+          routerLink="resource-create/create/0"
+        >
+          Add new resources
+        </button>
+      </div>
+      <div *ngIf="pdfDemo.viewPdf != ''" class="row quizwerkz-group">
+        <div
+          class="col-sm-6 col-md-6 col-lg-6 col-xl-6"
+          *ngFor="let pdf of pdfList"
+        >
+          <div class="d-flex single-quizwerkz">
+            <div class="coverq">
+              <img src="{{ pdf.cover }}" class="book-cover-img" />
+            </div>
+            <div style="flex: 1;">
+              <div class="d-flex flex-column h-100">
+                <div class="book-title">
+                  <h4 class="h3-strong text-c200">{{ pdf.name }}</h4>
+                </div>
+                <div class="btn-section d-flex justify-content-end">
+                  <button
+                    *ngIf="pdfDemo.editPdf != ''"
+                    class="btn-action light-body-m remove-outline"
+                    routerLinkActive="active"
+                    routerLink="resource-create/edit/{{ pdf._id }}"
+                  >
+                    Edit
+                  </button>
+                  <span class="line-between"></span>
+                  <button
+                    *ngIf="pdfDemo.deletePdf != ''"
+                    class="btn-action light-body-m remove-outline"
+                    (click)="onClickDelete(pdf._id, deletemodal)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        pdfList.length >= 20 &&
+        iscreate == false &&
+        result.length != 0 &&
+        pdfDemo.viewPdf != ''
+      "
+      class="d-flex justify-content-center load-more bg-s0"
+    >
+      <button
+        class="btn remove-outline text-b100 body-m"
+        (click)="showMore(pdfList.length)"
+      >
+        load more
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #deletemodal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Confirm delete?</h3>
+    <!-- <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div class="modal-body pdf-confirm">
+    <p>
+      Are You sure you want to delete
+      <span class="target">"{{ selectQw }}"</span>?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn modal-cancel-btn"
+      (click)="c('Close click')"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn"
+      (click)="quizwerkzDelete(currentID)"
+    >
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<div class="main-wrapper">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,185 @@
+<div class="d-flex justify-content-center">
+  <div class="main-wrapper mt-4">
+    <div class="d-flex justify-content-between">
+      <div class="back-to" (click)="goToBack()">
+        <i class="fa fa-angle-left"></i>
+        <p *ngIf="isUpdate == false" class="body-l text-c300">
+          Creating grading tracking module
+        </p>
+        <p *ngIf="isUpdate == true" class="body-l text-c300">
+          Tracking module
+        </p>
+      </div>
+      <!-- <a class="back-to" (click)="goToBack('share')">< Creating progress APG</a> -->
+      <a class="cancel-back body-l text-c300" (click)="cancelapg()">Cancel</a>
+    </div>
+    <h3 *ngIf="isUpdate == false" class="mt-3 h1-strong text-c300">
+      Create grading tracking module
+    </h3>
+    <h3 *ngIf="isUpdate == true" class="mt-3 h1-strong text-c300">
+      Update grading tracking module
+    </h3>
+
+    <div class="d-flex flex-row w-100">
+      <div class="d-flex flex-column w-100">
+        <label class="evaluation-Name body-l text-c300"> Grade Name</label>
+        <div class="limit-wordcount ml-auto">
+          <span>{{ wordLength }}/12characters</span>
+        </div>
+        <input
+          type="text"
+          placeholder="Type Grade name here"
+          class=" create-input w-100 grade-name-input"
+          name="name"
+          required
+          maxlength="12"
+          (focus)="focusMethod($event, 'name', $event.target.value)"
+          (blur)="blurMethod($event, 'name')"
+          (input)="changeMethod($event.target.value)"
+          [(ngModel)]="userGradeData.name"
+          #name="ngModel"
+        />
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched)"
+          class="alert alert-danger"
+        >
+          <div [hidden]="!name.errors.required">
+            Name is required!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column pb-5" *ngIf="userGradeData != undfined">
+      <h4 class="body-l text-c300">Level</h4>
+      <div
+        class="d-flex level-wrapper"
+        *ngFor="let grade of userGradeData.data.grades; let i = index"
+      >
+        <div
+          class="d-flex align-items-center sepalColor-wrapper justify-content-between"
+        >
+          <div
+            class="grade-icon body-m d-flex justify-content-center align-items-center"
+            [ngClass]="{ 'ml-1': grade.point && grade.point.length != 2 }"
+            [style.background]="userGradeData.data.sepalColor.background"
+            (click)="colorpalettePopUp(i, $event, userGradeData.data)"
+            [ngStyle]="{
+              width: grade.point && grade.point.length > 1 ? '32px' : '24px'
+            }"
+          >
+            <span
+              [style.color]="userGradeData.data.sepalColor.text"
+              class="grade-point"
+            >
+              {{ grade.point }}</span
+            >
+          </div>
+          <div class="pl-2 down-icon">
+            <img
+              src="../.././../../assets/icons/popup.svg"
+              alt=""
+              (click)="colorpalettePopUp(i, $event, userGradeData.data)"
+            />
+          </div>
+        </div>
+        <div
+          id="colorPletteBox"
+          *ngIf="showPopUp && selectedIndex == i"
+          (clickOutside)="closePopUp($event, i)"
+        >
+          <!--   [ngStyle]="{ top: colorPopUpX, left: colorPopUpLeft }" -->
+          <div class="carret-box" [ngClass]="arrClasses"></div>
+          <div class="input-section ">
+            <p class="pb-0 mb-0 body-m text-s70">2 characters max</p>
+            <input
+              type="text"
+              class="lvl-name-input bg-s20 body-l text-c300"
+              maxlength="2"
+              (focus)="onFocus()"
+              (focusout)="onFocusOut()"
+              [(ngModel)]="gradeName"
+              #gradename="ngModel"
+              (input)="checkValidation()"
+            />
+            <button
+              class="btn apply-btn text-b50 bg-s0"
+              [ngClass]="{
+                'remove-boxshadow': isFocus,
+                'focus-background': gradename.dirty
+              }"
+              (click)="applyGradeName()"
+              [disabled]="!gradename.dirty || gradeName.length < 1"
+            >
+              Apply
+            </button>
+          </div>
+          <p class="color-title mb-0 pb-0">Color</p>
+          <div class="color-section d-flex flex-wrap">
+            <div
+              class="color-circle"
+              *ngFor="let item of sepalColor; let i = index"
+              [style.background]="item.color.background"
+              [ngClass]="{
+                addBorder:
+                  item.color.background == selectedSepalColor.background
+              }"
+              (click)="selectColor(i, item)"
+            ></div>
+          </div>
+        </div>
+        <div
+          class="flex-grow-1 d-flex grade-name-wrapper ml-3 align-items-center"
+        >
+          <div class="w-100">
+            <input
+              type="text"
+              class="form-control create-input m-0"
+              placeholder="Type level name here"
+              name="name"
+              maxlength="12"
+              [(ngModel)]="grade.name"
+              #name="ngModel"
+              (input)="checkValidation()"
+              id="{{ 'level-input' + i }}"
+            />
+          </div>
+          <div class="remove-icon" *ngIf="userGradeData.data.grades.length > 1">
+            <img
+              src="../../../../assets/icons/clear.svg"
+              alt=""
+              (click)="removeLevel(i)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="add-new-lvl text-b100 body-l" (click)="addLevel(i)">
+        Add new level
+      </div>
+    </div>
+    <div class="btn-wrapper d-flex justify-content-end w-100">
+      <button
+        class="btn  btn-cancel body-l text-c300 bg-s20"
+        (click)="cancelapg()"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn btn-submit text-s0 bg-b100 body-l"
+        (click)="createUserGradeApg(userGradeData)"
+        *ngIf="isUpdate == false"
+        [disabled]="!isValid"
+      >
+        Create
+      </button>
+      <button
+        class="btn btn-submit text-s0 bg-b100 body-l"
+        (click)="updateAP(userGradeData)"
+        *ngIf="isUpdate == true"
+        [disabled]="!isValid"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>

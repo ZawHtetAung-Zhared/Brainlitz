@@ -1,0 +1,23 @@
+.side-bar-wrap {
+  background: #f2f4f5;
+  position: relative;
+  width: inherit;
+  height: 100%;
+  z-index: 10;
+  border-right: 1px solid #dedede;
+  /*transition: height 300ms linear, transform 300ms linear;*/
+  transition: 0.5s all ease-out;
+  padding: 10px;
+  position: fixed;
+  width: 240px;
+}
+
+@media only screen and (min-width: 1366px) {
+  .side-bar-wrap {
+    width: 320px;
+  }
+}
+
+.mid-top {
+  top: 70px;
+}
