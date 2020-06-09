@@ -101,7 +101,6 @@ export class AssignTaskComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.getCourseDetail(this._activeRoute.snapshot.paramMap.get('id'));
-    this.getStandardClass();
     console.log(this.sparkWerkz, 'sparkWerkz');
   }
 
@@ -111,6 +110,14 @@ export class AssignTaskComponent implements OnInit {
         this.courseDetail = res;
         console.log('here details list', this.courseDetail);
         this.sparkWerkz = this.courseDetail.sparkWerkz;
+        console.log(this.sparkWerkz);
+        if (this.courseDetail.sparkWerkz.standardSelected) {
+          let temp = {
+            standardId: this.sparkWerkz.standardId
+          };
+          this.createassignTask.standard = temp;
+        } else this.getStandardClass();
+
         this.isCustom = this.courseDetail.sparkWerkz.standardSelected
           ? true
           : false;
