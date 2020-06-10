@@ -751,3 +751,10 @@ label.floating-label {
 .input-wrap {
   padding-left: 0;
 }
+
+input#apg_rangeId2:active + #arrowBox {
+  display: block;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}

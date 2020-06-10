@@ -233,7 +233,9 @@ input:checked + .slider:before {
 .infoGp-wrap {
   padding: 10px 0px;
 }
-
+.infoGp-wrap h5 {
+  word-break: break-all;
+}
 .info-p {
   /* font-size: 20px;
   color: #2e3e4d;
