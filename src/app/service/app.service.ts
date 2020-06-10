@@ -4836,4 +4836,33 @@ export class appService {
   GetApgObj() {
     return this.apgobj;
   }
+  editMakeupDate(date, id, regionId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/makeup-pass/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, date, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  deleteMakeup(regionid, tempid) {
+    console.log(regionid);
+    console.log(tempid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/makeup-pass/' + tempid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }

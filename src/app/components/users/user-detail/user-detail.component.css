@@ -1038,9 +1038,6 @@ h5 {
   margin-top: 16px;
 }
 
-.class-body-two {
-}
-
 .mt-16 {
   margin-top: 16px;
 }
@@ -2963,4 +2960,36 @@ p.grade-txt {
 
 .btn-group {
   margin-top: 15px;
+}
+
+.btn-pencil {
+  background-image: url(../../../../assets/images/pencil.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+}
+
+.dp-icon2 {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
+.input-day2 {
+  background: #f7f9fa;
+  border: 2px solid #e8e9eb;
+  border-radius: 12px;
+  padding: 8px 15px;
+  width: 100%;
+}
+
+.btn-makeup {
+  padding: 8px 16px;
+  border-radius: 8px;
+  width: 96px;
+  height: 40px;
 }
