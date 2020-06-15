@@ -4,6 +4,14 @@
   font-size: 14px;
 }
 
+.hint-text {
+  font-size: 13px;
+  margin-top: 12px;
+  margin-left: 12px;
+  font-weight: 400;
+  color: #7a8a99;
+}
+
 .seat-wrapper {
   list-style-type: disc;
   padding-left: 30px;
