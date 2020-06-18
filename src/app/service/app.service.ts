@@ -4796,4 +4796,18 @@ export class appService {
       return res;
     });
   }
+
+  getAPGList(regionId, idStr) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/access-point-group-list?id=' + idStr;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }

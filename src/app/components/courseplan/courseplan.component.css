@@ -1509,10 +1509,6 @@ ul.search-apg {
   padding: 15px 20px;
 }
 
-.wrap-height {
-  height: 380px;
-}
-
 .group-text {
   cursor: pointer;
   padding: 16px 0px;
@@ -1970,10 +1966,6 @@ ul.search-apg {
     overflow: overlay;
   }
 
-  .wrap-height {
-    height: 250px;
-  }
-
   .div_step1,
   .div_step2,
   .div_step3,
@@ -2096,7 +2088,7 @@ ul.search-apg {
   }
 }
 
-@media screen and (max-height: 768px) {
+/* @media screen and (max-height: 768px) {
   .wrap-height {
     height: 250px;
   }
@@ -2106,7 +2098,7 @@ ul.search-apg {
   .wrap-height {
     height: 250px;
   }
-}
+} */
 
 /* Step of progress disabled properties */
 a.adisabled {

@@ -848,7 +848,7 @@
               <div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
                 <div
                   class="wrap-height"
-                  dragula="data_COLUMNS"
+                  dragula="drag-columns"
                   [(dragulaModel)]="createdAPGstore"
                 >
                   <div *ngFor="let cAPG of createdAPGstore">
@@ -871,6 +871,7 @@
                       <div class="d-flex">
                         <div class="drag-icon">
                           <img
+                            class="handle-icon"
                             src="../../../assets/images/disable-holder.svg"
                           />
                         </div>
