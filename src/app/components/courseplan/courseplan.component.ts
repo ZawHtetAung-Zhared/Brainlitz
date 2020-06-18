@@ -24,6 +24,7 @@ import {
   map
 } from 'rxjs/operators';
 import { feeOption } from './courseplan';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 
 declare var $: any;
 
@@ -39,7 +40,8 @@ export class CourseplanComponent implements OnInit {
     public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
-    private _router: Router
+    private _router: Router,
+    private dragulaService: DragulaService
   ) {}
 
   public tempDuration: any;
@@ -584,7 +586,12 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
-    console.log(this.selectedAPGidArray);
+    console.log('createdAPGStore~~~~~~~~~~~', this.createdAPGstore);
+    var selectedAPGArray = [];
+    this.createdAPGstore.map(apg => {
+      selectedAPGArray.push(apg._id);
+    });
+    console.log('selectedAPGArray~~~', selectedAPGArray);
     console.log(formData);
     console.log(this.optArray);
     this.formatDataForTaxOption(this.optArray);
@@ -629,7 +636,7 @@ export class CourseplanComponent implements OnInit {
       },
       quizwerkz: this.pdfId,
       holidayCalendarId: this.formField.holidayCalendarId,
-      accessPointGroup: this.selectedAPGidArray,
+      accessPointGroup: selectedAPGArray,
       assessmentPlans: this.selectedAPidList,
       dueDateCount: this.formField.dueDateCount
     };

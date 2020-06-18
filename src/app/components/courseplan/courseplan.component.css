@@ -1480,13 +1480,16 @@ ul.search-apg {
 }
 
 .btn-apg {
-  width: 100%;
   text-align: left;
   border: none;
   cursor: pointer;
   background: none;
-  padding: 16px 0px;
+  /* padding: 16px 0px; */
   /*padding: 0;*/
+}
+
+.drag-icon {
+  width: 30px;
 }
 
 .remove-aplan {
@@ -1512,6 +1515,7 @@ ul.search-apg {
 
 .group-text {
   cursor: pointer;
+  padding: 16px 0px;
 }
 
 .aPlan-group-text {
