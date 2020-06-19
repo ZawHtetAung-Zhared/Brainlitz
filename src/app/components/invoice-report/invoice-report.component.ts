@@ -94,6 +94,7 @@ export class InvoiceReportComponent implements OnInit {
       });
   }
   public csvData;
+
   downloadFile(res, type) {
     this.csvData = this.convertToCSV(res, type);
     var a = document.createElement('a');
@@ -113,8 +114,8 @@ export class InvoiceReportComponent implements OnInit {
     var row = '';
     row =
       type == 'UNPAID'
-        ? 'Invoice Due date,Invoice#,Name,Amount'
-        : 'Payment date,Invoice#,Name,Method,Amount';
+        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Registration Fee'
+        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Registration Fee';
     str += row + '\r\n';
     // var invObj = {
     //   paymentDate: '',
@@ -125,13 +126,16 @@ export class InvoiceReportComponent implements OnInit {
     // };
     var invObj = {};
     var objArr = [];
-
     for (var i = 0; i < array.length; i++) {
       if (type == 'UNPAID') {
         invObj['dueDate'] = this.dateFormat(array[i].dueDate);
         invObj['invoiceId'] = array[i].refInvoiceId;
+        //console.log(array[i].userDetails.preferredName,'MLLL')
         invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
+        invObj['discount'] = array[i].totalDiscount.amount;
+        invObj['courseFee'] = array[i].courseFee.fee;
+        invObj['registrationFee'] = array[i].registrationFee.fee;
         console.log(invObj);
         var line = '';
         for (var index in invObj) {
@@ -140,6 +144,7 @@ export class InvoiceReportComponent implements OnInit {
         }
         str += line + '\r\n';
       } else {
+        //console.log(typeof(array[i].registrationFee[0]),typeof(array[i].registrationFee[1]),array[i].registrationFee[2],'MSSD')
         for (var idx = 0; idx < array[i].payments.length; idx++) {
           var payment = array[i].payments[idx];
           invObj['paymentDate'] = this.dateFormat(payment.updatedDate);
@@ -151,6 +156,9 @@ export class InvoiceReportComponent implements OnInit {
             invObj['method'] = payment.paymentMethodDetails.name;
           }
           invObj['amount'] = array[i].payments[idx].amount;
+          invObj['discount'] = array[i].totalDiscount.amount;
+          invObj['courseFee'] = array[i].courseFee.fee;
+          invObj['registrationFee'] = array[i].registrationFee.fee;
           console.log(invObj);
           var line = '';
           for (var index in invObj) {
