@@ -97,7 +97,6 @@ export class InvoiceReportComponent implements OnInit {
 
   downloadFile(res, type) {
     this.csvData = this.convertToCSV(res, type);
-    console.log(this.csvData, 'BLAH ');
     var a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -131,7 +130,10 @@ export class InvoiceReportComponent implements OnInit {
       if (type == 'UNPAID') {
         invObj['dueDate'] = this.dateFormat(array[i].dueDate);
         invObj['invoiceId'] = array[i].refInvoiceId;
-        if (array[i].userDetails.preferredName == '') {
+        if (
+          array[i].userDetails == null ||
+          array[i].userDetails.preferredName == null
+        ) {
           invObj['name'] = array[i].user.email;
         } else invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
@@ -150,8 +152,12 @@ export class InvoiceReportComponent implements OnInit {
           var payment = array[i].payments[idx];
           invObj['paymentDate'] = this.dateFormat(payment.updatedDate);
           invObj['invoiceId'] = array[i].refInvoiceId;
-          if (array[i].userDetails.preferredName == '') console.log('HELSDL');
-          invObj['name'] = array[i].userDetails.preferredName;
+          if (
+            array[i].userDetails == null ||
+            array[i].userDetails.preferredName == null
+          )
+            invObj['name'] = array[i].user.email;
+          else invObj['name'] = array[i].userDetails.preferredName;
           if (payment.paymentMethodDetails == undefined) {
             invObj['method'] = '-';
           } else {
