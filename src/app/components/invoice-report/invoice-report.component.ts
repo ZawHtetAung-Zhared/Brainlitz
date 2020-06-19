@@ -131,7 +131,12 @@ export class InvoiceReportComponent implements OnInit {
         invObj['dueDate'] = this.dateFormat(array[i].dueDate);
         invObj['invoiceId'] = array[i].refInvoiceId;
         //console.log(array[i].userDetails.preferredName,'MLLL')
-        invObj['name'] = array[i].userDetails.preferredName;
+        if (
+          array[i].userDetails.preferredName != '' ||
+          array[i].userDetails.preferredName != null
+        )
+          invObj['name'] = array[i].userDetails.preferredName;
+        else invObj['email'] = array[i].user.email;
         invObj['amount'] = array[i].total;
         invObj['discount'] = array[i].totalDiscount.amount;
         invObj['courseFee'] = array[i].courseFee.fee;
@@ -149,7 +154,12 @@ export class InvoiceReportComponent implements OnInit {
           var payment = array[i].payments[idx];
           invObj['paymentDate'] = this.dateFormat(payment.updatedDate);
           invObj['invoiceId'] = array[i].refInvoiceId;
-          invObj['name'] = array[i].userDetails.preferredName;
+          if (
+            array[i].userDetails.preferredName != null ||
+            array[i].userDetails.preferredName != ''
+          )
+            invObj['name'] = array[i].userDetails.preferredName;
+          else invObj['email'] = array[i].user.email;
           if (payment.paymentMethodDetails == undefined) {
             invObj['method'] = '-';
           } else {
