@@ -846,23 +846,53 @@
                 </div>
               </div>
               <div *ngIf="selectedAPGlists == true" class="col-md-12 pl-zero">
-                <div class="wrap-height">
+                <div
+                  class="wrap-height"
+                  dragula="drag-columns"
+                  [(dragulaModel)]="createdAPGstore"
+                >
                   <div *ngFor="let cAPG of createdAPGstore">
                     <div class="group-text">
                       <!-- {{cAPG|json}} -->
-                      <button
+                      <!-- <button
                         type="button"
                         class="bt btn-apg"
                         (click)="removeSelectedAPG(cAPG)"
                       >
                         <div class="circle2 minus"></div>
+                        <div><img src="../../../assets/icons/remove-circle-minus.svg"></div>
                         <div class="body-l text-c300 wordBreak">
                           {{ cAPG.name }}
                         </div>
                         <div class="text-c100 module-type">
                           {{ cAPG.module.name }}
                         </div>
-                      </button>
+                      </button> -->
+                      <div class="d-flex">
+                        <div class="drag-icon">
+                          <img
+                            class="handle-icon"
+                            src="../../../assets/images/disable-holder.svg"
+                          />
+                        </div>
+                        <div class="d-flex justify-content-between w-100">
+                          <div class="body-l text-c300 wordBreak">
+                            {{ cAPG.name }}
+                          </div>
+                          <button
+                            type="button"
+                            class="btn-apg"
+                            (click)="removeSelectedAPG(cAPG)"
+                          >
+                            <img
+                              src="../../../assets/icons/remove-circle-minus.svg"
+                            />
+                          </button>
+                        </div>
+                      </div>
+                      <div class="text-c100 module-type">
+                        {{ cAPG.module.name }}
+                      </div>
                     </div>
                     <hr class="hr-style" />
                   </div>

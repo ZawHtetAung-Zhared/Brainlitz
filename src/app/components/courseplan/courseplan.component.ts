@@ -24,6 +24,7 @@ import {
   map
 } from 'rxjs/operators';
 import { feeOption } from './courseplan';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 
 declare var $: any;
 
@@ -39,8 +40,17 @@ export class CourseplanComponent implements OnInit {
     public toastr: ToastrService,
     public vcr: ViewContainerRef,
     private eRef: ElementRef,
-    private _router: Router
-  ) {}
+    private _router: Router,
+    private dragulaService: DragulaService
+  ) {
+    if (this.dragulaService.find('drag-columns') === undefined) {
+      console.log('drag-columns working');
+      this.dragulaService.createGroup('drag-columns', {
+        direction: 'vertical',
+        moves: (el, source, handle) => handle.className == 'handle-icon'
+      });
+    }
+  }
 
   public tempDuration: any;
   public optionFee: boolean = false;
@@ -300,10 +310,12 @@ export class CourseplanComponent implements OnInit {
 
         if (this.formField.accessPointGroup.length > 0) {
           this.selectedAPGlists = true;
-          for (var x = 0; x < this.formField.accessPointGroup.length; x++) {
-            console.log('selectedAPG', this.formField.accessPointGroup[x]);
-            this.singleAPG(this.formField.accessPointGroup[x]);
-          }
+          var apgIdStr = this.formField.accessPointGroup.join();
+          this.getSelectedAPGLists(apgIdStr);
+          console.log(
+            'this.formField.accessPointGroup~~~',
+            this.formField.accessPointGroup.join()
+          );
         }
 
         if (this.formField.paymentPolicy.deposit) {
@@ -322,6 +334,21 @@ export class CourseplanComponent implements OnInit {
           }, 300);
         }
       });
+  }
+
+  getSelectedAPGLists(idList) {
+    this._service.getAPGList(this.regionID, idList).subscribe(
+      (res: any) => {
+        console.log('getSelectedAPGLists', res);
+        this.createdAPGstore = res;
+        this.createdAPGstore.map(apg => {
+          this.selectedAPGidArray.push(apg._id);
+        });
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   enableClickAllStep() {
@@ -584,7 +611,12 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
-    console.log(this.selectedAPGidArray);
+    console.log('createdAPGStore~~~~~~~~~~~', this.createdAPGstore);
+    var selectedAPGArray = [];
+    this.createdAPGstore.map(apg => {
+      selectedAPGArray.push(apg._id);
+    });
+    console.log('selectedAPGArray~~~', selectedAPGArray);
     console.log(formData);
     console.log(this.optArray);
     this.formatDataForTaxOption(this.optArray);
@@ -629,7 +661,7 @@ export class CourseplanComponent implements OnInit {
       },
       quizwerkz: this.pdfId,
       holidayCalendarId: this.formField.holidayCalendarId,
-      accessPointGroup: this.selectedAPGidArray,
+      accessPointGroup: selectedAPGArray,
       assessmentPlans: this.selectedAPidList,
       dueDateCount: this.formField.dueDateCount
     };
