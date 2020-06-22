@@ -926,4 +926,9 @@ export class ToolsComponent implements OnInit {
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
   }
+
+  closeModal(type) {
+    this.showUserList = false;
+    this.modalReference.close();
+  }
 }

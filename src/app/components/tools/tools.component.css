@@ -271,9 +271,10 @@ img.setting-icon {
 
 .student-card {
   border-radius: 28px;
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
-  padding: 6px;
+  /*-webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);*/
+  padding: 7px;
+  background: #f2f3f5;
   margin-bottom: 10px;
   height: 48px;
 }

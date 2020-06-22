@@ -137,7 +137,12 @@ export class InvoiceReportComponent implements OnInit {
           invObj['name'] = array[i].user.email;
         } else invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
-        invObj['discount'] = array[i].totalDiscount.amount;
+        if (array[i].totalDiscount || array[i].totalDiscount.amount) {
+          invObj['discount'] = array[i].totalDiscount.amount;
+        } else {
+          invObj['discount'] = '';
+        }
+
         invObj['courseFee'] = array[i].courseFee.fee;
         invObj['registrationFee'] = array[i].registrationFee.fee;
         console.log(invObj);
@@ -164,7 +169,11 @@ export class InvoiceReportComponent implements OnInit {
             invObj['method'] = payment.paymentMethodDetails.name;
           }
           invObj['amount'] = array[i].payments[idx].amount;
-          invObj['discount'] = array[i].totalDiscount.amount;
+          if (array[i].totalDiscount || array[i].totalDiscount.amount) {
+            invObj['discount'] = array[i].totalDiscount.amount;
+          } else {
+            invObj['discount'] = '';
+          }
           invObj['courseFee'] = array[i].courseFee.fee;
           invObj['registrationFee'] = array[i].registrationFee.fee;
           console.log(invObj);
