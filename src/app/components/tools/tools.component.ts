@@ -409,10 +409,13 @@ export class ToolsComponent implements OnInit {
 
   selectData(id, name, type) {
     this.userList = [];
-    for (let i = 0; i < this.userLists.length; i++) {
-      if (this.userLists[i].preferredName == name)
-        this.userList[0] = this.userLists[i];
+    if (this.userLists) {
+      for (let i = 0; i < this.userLists.length; i++) {
+        if (this.userLists[i].preferredName == name)
+          this.userList[0] = this.userLists[i];
+      }
     }
+
     /*this.userList[0] = {
       email: "mary4@test.com",
       fullName: "Stanhope Student",
