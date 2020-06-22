@@ -611,12 +611,14 @@ export class CourseplanComponent implements OnInit {
     //   console.log(formData.deposit)
     //   formData.deposit = '';
     // }
+    //sorting selected apg id array
     console.log('createdAPGStore~~~~~~~~~~~', this.createdAPGstore);
     var selectedAPGArray = [];
-    this.createdAPGstore.map(apg => {
-      selectedAPGArray.push(apg._id);
+    selectedAPGArray = this.createdAPGstore.map(apg => {
+      return apg._id;
     });
     console.log('selectedAPGArray~~~', selectedAPGArray);
+    //sorting selected apg id array
     console.log(formData);
     console.log(this.optArray);
     this.formatDataForTaxOption(this.optArray);
