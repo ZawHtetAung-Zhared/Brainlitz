@@ -633,12 +633,16 @@
           <div
             class="flex-column user-count-outer"
             (click)="openUserList(showUserListModal)"
+            *ngIf="userCount != 0"
           >
             <div class="user-count-info flex-column">
               <div class="user-number">
-                200
+                {{ userCount }}
               </div>
-              <div class="user-text">
+              <div class="user-text" *ngIf="userCount == 1">
+                USER
+              </div>
+              <div class="user-text" *ngIf="userCount > 1">
                 USERS
               </div>
             </div>
@@ -647,13 +651,13 @@
             </div>
           </div>
 
-          <div class="flex-column user-count-outer">
+          <div class="flex-column user-count-outer" *ngIf="userCount == 0">
             <div class="user-count-info flex-column">
               <div class="user-number-zero">
                 0
               </div>
               <div class="user-text-zero">
-                USERS
+                USER
               </div>
             </div>
             <div class="eye-icon">
@@ -833,7 +837,20 @@
         <div>
           <h3 class="modal-title text-c300 d-flex mr-auto">
             All staffs:
-            <span class="text-b100" style="padding-left: 8px"> 20 users</span>
+            <span
+              class="text-b100"
+              style="padding-left: 8px"
+              *ngIf="userCount == 1"
+            >
+              {{ userCount }} user</span
+            >
+            <span
+              class="text-b100"
+              style="padding-left: 8px"
+              *ngIf="userCount > 1"
+            >
+              {{ userCount }} users</span
+            >
           </h3>
         </div>
       </div>
@@ -842,23 +859,25 @@
           <div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
+            *ngFor="let users of userList"
           >
             <div class="student-card d-flex flex-row">
               <div class="img-div">
                 <div class="img-wrap">
-                  <img
-                    _ngcontent-c18=""
-                    src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
-                  />
+                  <img _ngcontent-c18="" [src]="users.profilePic" />
                 </div>
               </div>
               <div class="student-name">
-                Jane Cooper
+                {{
+                  users.fullName.length > 20
+                    ? (users.preferredName | slice: 0:15) + '...'
+                    : users.preferredName
+                }}
               </div>
             </div>
           </div>
 
-          <div
+          <!--<div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
           >
@@ -875,9 +894,9 @@
                 Jane Cooper
               </div>
             </div>
-          </div>
+          </div>-->
 
-          <div
+          <!--<div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
           >
@@ -894,9 +913,9 @@
                 Jane Cooper
               </div>
             </div>
-          </div>
+          </div>-->
 
-          <div
+          <!--<div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
           >
@@ -913,9 +932,9 @@
                 Jane Cooper
               </div>
             </div>
-          </div>
+          </div>-->
 
-          <div
+          <!--<div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
           >
@@ -932,7 +951,7 @@
                 Jane Cooper
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
 
         <div class="d-flex modal-footer">

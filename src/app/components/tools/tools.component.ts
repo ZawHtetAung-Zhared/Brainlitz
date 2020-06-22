@@ -81,6 +81,7 @@ export class ToolsComponent implements OnInit {
     // { name: 'Email', type: 'email', checked: false },
     { name: 'App notification', type: 'noti', checked: false }
   ];
+  public userList: any = [];
   public checkedType: any = [];
   public today;
   public yesterday;
@@ -407,6 +408,19 @@ export class ToolsComponent implements OnInit {
   }
 
   selectData(id, name, type) {
+    this.userList = [];
+    for (let i = 0; i < this.userLists.length; i++) {
+      if (this.userLists[i].preferredName == name)
+        this.userList[0] = this.userLists[i];
+    }
+    /*this.userList[0] = {
+      email: "mary4@test.com",
+      fullName: "Stanhope Student",
+      preferredName: "Stanhope",
+      profilePic: "https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/158191543906534333255_original.jpg",
+      _id: "5e4a1d2fae72c50013c87904"
+    }*/
+
     console.log(id, name, type);
     this.checkActive = true;
     console.log('~~~~~', this.active.length);
@@ -440,8 +454,11 @@ export class ToolsComponent implements OnInit {
     console.log('=====', dataObj);
     this._service.userCount(dataObj).subscribe(
       (res: any) => {
+        this.userList = [];
         console.log(res);
         console.log(res.count);
+        this.userList = res.users;
+        console.log('MKSDF', this.userList);
         this.userCount = res.count;
         console.log(this.userCount);
       },
@@ -571,6 +588,9 @@ export class ToolsComponent implements OnInit {
 
     this._service.userCount(dataObj).subscribe(
       (res: any) => {
+        this.userList = [];
+        this.userList = res.users;
+        console.log('setDefaultSelected', this.userList);
         console.log(res.count);
         this.userCount = res.count;
         // if(this.userCount == 0){
@@ -719,7 +739,10 @@ export class ToolsComponent implements OnInit {
     console.log(obj);
     this._service.userCount(obj).subscribe(
       (res: any) => {
+        this.userList = [];
         console.log(res.count);
+        this.userList = res.users;
+        console.log('userCountCalc', this.userList);
         this.userCount = res.count;
       },
       err => {
@@ -784,7 +807,10 @@ export class ToolsComponent implements OnInit {
     if (type != 'user') {
       this._service.userCount(dataObj).subscribe(
         (res: any) => {
+          this.userList = [];
           console.log(res);
+          this.userList = res.users;
+          console.log('valueChange', this.userList);
           console.log(res.count);
           this.userCount = res.count;
           console.log(this.userCount);
