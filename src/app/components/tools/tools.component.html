@@ -623,12 +623,45 @@
           </form>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          <div
+          <!--<div
             class="user-count bg-g25 text-g100"
             [ngClass]="userCount == 0 ? 'no-user' : ''"
           >
             <h4 class="h1-strong">{{ userCount }}</h4>
-            <label class="body-m">users</label>
+            <label class="body-m">ယူဆာများ</label>
+          </div>-->
+          <div
+            class="flex-column user-count-outer"
+            (click)="openUserList(showUserListModal)"
+          >
+            <div class="user-count-info flex-column">
+              <div class="user-number">
+                200
+              </div>
+              <div class="user-text">
+                USERS
+              </div>
+            </div>
+            <div class="eye-icon">
+              <img style="padding: 10px" src="assets/icons/eye-open-icon.svg" />
+            </div>
+          </div>
+
+          <div class="flex-column user-count-outer">
+            <div class="user-count-info flex-column">
+              <div class="user-number-zero">
+                0
+              </div>
+              <div class="user-text-zero">
+                USERS
+              </div>
+            </div>
+            <div class="eye-icon">
+              <img
+                style="padding: 10px"
+                src="assets/icons/eye-close-icon.svg"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -773,3 +806,189 @@
 </div>
 <!-- </div> -->
 <block-ui message="Deafult Message"></block-ui>
+
+<ng-template #showUserListModal let-c="close" let-d="dismiss">
+  <div *ngIf="showUserList == true">
+    <div class="d-flex flex-column justify-content-between">
+      <div
+        class="d-flex flex-column justify-content-between"
+        style="padding: 32px 32px 0 32px !important;"
+      >
+        <div class="d-flex justify-content-between">
+          <div>Send to</div>
+          <div>
+            <button
+              (click)="closeModal('close')"
+              aria-label="Close"
+              class="modal-close ml-auto"
+              type="button"
+            >
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="modal-title text-c300 d-flex mr-auto">
+            All staffs: <span class="text-b100"> 20 users</span>
+          </h3>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row mt-3 mb3">
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+          >
+            <div class="student-card d-flex flex-row">
+              <div class="img-div">
+                <div class="img-wrap">
+                  <img
+                    _ngcontent-c18=""
+                    src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                  />
+                </div>
+              </div>
+              <div class="student-name">
+                Jane Cooper
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+          >
+            <div class="student-card d-flex flex-row">
+              <div class="img-div">
+                <div class="img-wrap">
+                  <img
+                    _ngcontent-c18=""
+                    src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                  />
+                </div>
+              </div>
+              <div class="student-name">
+                Jane Cooper
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+          >
+            <div class="student-card d-flex flex-row">
+              <div class="img-div">
+                <div class="img-wrap">
+                  <img
+                    _ngcontent-c18=""
+                    src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                  />
+                </div>
+              </div>
+              <div class="student-name">
+                Jane Cooper
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+        >
+          <div class="student-card d-flex flex-row">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img
+                  _ngcontent-c18=""
+                  src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                />
+              </div>
+            </div>
+            <div class="student-name">
+              Jane Cooper
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+        >
+          <div class="student-card d-flex flex-row">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img
+                  _ngcontent-c18=""
+                  src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                />
+              </div>
+            </div>
+            <div class="student-name">
+              Jane Cooper
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+        >
+          <div class="student-card d-flex flex-row">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img
+                  _ngcontent-c18=""
+                  src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                />
+              </div>
+            </div>
+            <div class="student-name">
+              Jane Cooper
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+        >
+          <div class="student-card d-flex flex-row">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img
+                  _ngcontent-c18=""
+                  src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                />
+              </div>
+            </div>
+            <div class="student-name">
+              Jane Cooper
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3 d-flex flex-row"
+        >
+          <div class="student-card d-flex flex-row">
+            <div class="img-div">
+              <div class="img-wrap">
+                <img
+                  _ngcontent-c18=""
+                  src="https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/157890551400962126859_original.jpg"
+                />
+              </div>
+            </div>
+            <div class="student-name">
+              Jane Cooper
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex modal-footer">
+          <button class="btn font-medium button-done">
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -50,10 +50,12 @@ export class ToolsComponent implements OnInit {
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   public checkActive = true;
+  modalReference: any;
   public isMidStick: boolean = false;
   public isSticky: boolean = false;
   public isFixed: boolean = true;
   public item: any = {};
+  public showUserList: boolean = false;
   public regionID = localStorage.getItem('regionId');
   public locationId: any;
   public isChecked: any;
@@ -105,6 +107,7 @@ export class ToolsComponent implements OnInit {
     private _service: appService,
     public toastr: ToastrService,
     vcr: ViewContainerRef,
+    private modalService: NgbModal,
     private elementRef: ElementRef,
     private datePipe: DatePipe,
     private router: Router
@@ -914,4 +917,13 @@ export class ToolsComponent implements OnInit {
     // this.isCollapsed = false;
   }
   // testing
+
+  openUserList(showUserListModal) {
+    this.showUserList = true;
+    this.modalReference = this.modalService.open(showUserListModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
 }
