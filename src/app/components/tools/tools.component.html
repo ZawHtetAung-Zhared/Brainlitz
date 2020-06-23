@@ -864,10 +864,23 @@
           >
             <div class="student-card d-flex flex-row" *ngIf="users">
               <div class="img-div">
-                <div class="img-wrap" *ngIf="users.profilePic">
+                <div
+                  class="img-wrap"
+                  *ngIf="
+                    users.profilePic &&
+                    users.profilePic != undefined &&
+                    users.profilePic != 'undefined'
+                  "
+                >
                   <img [src]="users.profilePic" />
                 </div>
-                <div class="img-wrap" *ngIf="users.profilePic == undefined">
+                <div
+                  class="img-wrap"
+                  *ngIf="
+                    users.profilePic == undefined ||
+                    users.profilePic == 'undefined'
+                  "
+                >
                   <img
                     src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
                   />
