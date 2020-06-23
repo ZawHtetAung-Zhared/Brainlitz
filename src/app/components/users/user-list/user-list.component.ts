@@ -27,6 +27,7 @@ export class UserListComponent implements OnInit {
   public customerLoading: boolean = true;
   public customerListLoading: boolean = false;
   public searchKeyword: any;
+  public showDp = false;
 
   constructor(
     private _service: appService,
@@ -148,6 +149,14 @@ export class UserListComponent implements OnInit {
       this.getAllUsers(type, 20, skip);
     }
   }
+
+  showExportOption($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.showDp = state == 'paid' ? !this.showDp : false;
+  }
+
+  exportCSV() {}
 
   userSearch_input(keyword) {
     this.searchKeyword = keyword;
