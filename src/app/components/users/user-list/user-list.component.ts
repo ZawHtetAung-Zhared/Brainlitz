@@ -159,12 +159,12 @@ export class UserListComponent implements OnInit {
       else invObj['fullName'] = '';
       console.log(array[i].guardianEmail);
       if (
-        array[i].guardianEmail != undefined ||
-        array[i].guardianEmail.length != 0 ||
-        array[i].guardianEmail != 'undefined'
+        array[i].guardianEmail == undefined ||
+        array[i].guardianEmail.length == 0 ||
+        array[i].guardianEmail == 'undefined'
       )
-        invObj['guardianEmail'] = array[i].guardianEmail[0];
-      else invObj['guardianEmail'] = '';
+        invObj['guardianEmail'] = '';
+      else invObj['guardianEmail'] = array[i].guardianEmail[0];
       console.log(invObj);
       var line = '';
       for (var index in invObj) {
