@@ -119,7 +119,6 @@ export class UserListComponent implements OnInit {
   getAllUsersForExport() {
     console.log('call for all usres');
     this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
-      console.log(res, 'AnoNyMous');
       this.downloadFile(res);
     });
   }
@@ -157,7 +156,6 @@ export class UserListComponent implements OnInit {
       if (array[i].fullName != undefined)
         invObj['fullName'] = array[i].fullName;
       else invObj['fullName'] = '';
-      console.log(array[i].guardianEmail);
       if (
         array[i].guardianEmail == undefined ||
         array[i].guardianEmail.length == 0 ||
@@ -165,7 +163,6 @@ export class UserListComponent implements OnInit {
       )
         invObj['guardianEmail'] = '';
       else invObj['guardianEmail'] = array[i].guardianEmail[0];
-      console.log(invObj);
       var line = '';
       for (var index in invObj) {
         if (line != '') line += ',';
