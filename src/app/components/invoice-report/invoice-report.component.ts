@@ -28,7 +28,7 @@ export class InvoiceReportComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
-    this.getInvoiceList(20, 0);
+    +-this.getInvoiceList(20, 0);
   }
 
   getInvoiceList(limit, skip) {

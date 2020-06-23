@@ -247,3 +247,10 @@ h5 {
   outline: none !important;
   box-shadow: none !important;
 }
+
+.btn-export {
+  margin: 5px;
+  border-radius: 4px;
+  position: relative;
+  width: 50%;
+}
