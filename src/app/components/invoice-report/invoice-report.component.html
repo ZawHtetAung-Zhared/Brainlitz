@@ -12,7 +12,7 @@
         <div class="inv-opt bottom-border" (click)="exportInvoiceLists('PAID')">
           Paid
         </div>
-        <div class="inv-opt" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
+        <div class="" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
         <!-- <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
           Paid partial
         </div> -->
@@ -60,7 +60,7 @@
                 ? 'text-g100'
                 : invoice.status == 'UNPAID'
                 ? 'text-r100'
-                : '#F26500'
+                : 'text-partial'
             "
           >
             {{

@@ -623,12 +623,50 @@
           </form>
         </div>
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-          <div
+          <!--<div
             class="user-count bg-g25 text-g100"
             [ngClass]="userCount == 0 ? 'no-user' : ''"
           >
             <h4 class="h1-strong">{{ userCount }}</h4>
-            <label class="body-m">users</label>
+            <label class="body-m">ယူဆာများ</label>
+          </div>-->
+          <div
+            class="flex-column user-count-outer"
+            style="cursor: pointer;"
+            (click)="openUserList(showUserListModal)"
+            *ngIf="userCount != 0"
+          >
+            <div class="user-count-info flex-column">
+              <div class="user-number">
+                {{ userCount }}
+              </div>
+              <div class="user-text" *ngIf="userCount == 1">
+                USER
+              </div>
+              <div class="user-text" *ngIf="userCount > 1">
+                USERS
+              </div>
+            </div>
+            <div class="eye-icon">
+              <img style="padding: 10px" src="assets/icons/eye-open-icon.svg" />
+            </div>
+          </div>
+
+          <div class="flex-column user-count-outer" *ngIf="userCount == 0">
+            <div class="user-count-info flex-column">
+              <div class="user-number-zero">
+                0
+              </div>
+              <div class="user-text-zero">
+                USER
+              </div>
+            </div>
+            <div class="eye-icon">
+              <img
+                style="padding: 10px"
+                src="assets/icons/eye-close-icon.svg"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -773,3 +811,111 @@
 </div>
 <!-- </div> -->
 <block-ui message="Deafult Message"></block-ui>
+
+<ng-template #showUserListModal let-c="close" let-d="dismiss">
+  <div *ngIf="showUserList == true">
+    <div class="d-flex flex-column justify-content-between">
+      <div
+        class="d-flex flex-column justify-content-between"
+        style="padding: 32px 32px 0 32px !important;"
+      >
+        <div class="d-flex justify-content-between">
+          <div>Send to</div>
+          <div>
+            <button
+              (click)="closeModal('close')"
+              aria-label="Close"
+              class="modal-close ml-auto"
+              type="button"
+            >
+              <span class="closemark">
+                <div class="closemark_stem"></div>
+                <div class="closemark_kick"></div>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="modal-title text-c300 d-flex mr-auto">
+            All staffs:
+            <span
+              class="text-b100"
+              style="padding-left: 8px"
+              *ngIf="userCount == 1"
+            >
+              {{ userCount }} user</span
+            >
+            <span
+              class="text-b100"
+              style="padding-left: 8px"
+              *ngIf="userCount > 1"
+            >
+              {{ userCount }} users</span
+            >
+          </h3>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row mt-3 mb3 list-scroll" style="padding: 32px">
+          <div
+            class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
+            style="padding: 0px 10px 15px 10px !important;"
+            *ngFor="let users of userList"
+          >
+            <div class="student-card d-flex flex-row" *ngIf="users">
+              <div class="img-div">
+                <div
+                  class="img-wrap"
+                  *ngIf="
+                    users.profilePic &&
+                    users.profilePic != undefined &&
+                    users.profilePic != 'undefined'
+                  "
+                >
+                  <img [src]="users.profilePic" />
+                </div>
+                <div
+                  class="img-wrap"
+                  *ngIf="
+                    users.profilePic == undefined ||
+                    users.profilePic == 'undefined'
+                  "
+                >
+                  <img
+                    src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+                  />
+                </div>
+              </div>
+              <div class="student-name" *ngIf="users.preferredName">
+                {{
+                  users.preferredName.length > 15
+                    ? (users.preferredName | slice: 0:15) + '...'
+                    : users.preferredName
+                }}
+              </div>
+              <div
+                class="student-name"
+                *ngIf="users.preferredName == undefined && users.fullName"
+              >
+                {{
+                  users.fullName.length > 15
+                    ? (users.fullName | slice: 0:15) + '...'
+                    : users.fullName
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex modal-footer">
+          <button
+            class="btn font-medium button-done"
+            (click)="closeModal('close')"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
