@@ -36,6 +36,7 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getAllUsersForExport();
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
@@ -113,6 +114,13 @@ export class UserListComponent implements OnInit {
       console.log('permission deny');
       this.customerLists = [];
     }
+  }
+
+  getAllUsersForExport() {
+    console.log('call for all usres');
+    this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
+      console.log(res, 'AnoNyMous');
+    });
   }
 
   getAllUsers(type, limit, skip) {
