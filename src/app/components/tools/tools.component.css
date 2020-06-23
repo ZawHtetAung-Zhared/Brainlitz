@@ -232,8 +232,11 @@ img.setting-icon {
 
 .modal-footer {
   position: fixed;
+  background: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   bottom: 0;
-  width: 100%;
+  width: 958px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -242,6 +245,13 @@ img.setting-icon {
   justify-content: flex-end;
   padding: 1rem;
   border-top: 1px solid #e9ecef;
+}
+
+.list-scroll {
+  overflow: auto;
+  overflow-x: hidden;
+  width: 100%;
+  max-height: 680px;
 }
 
 .button-done {
@@ -305,7 +315,7 @@ img.setting-icon {
 .closemark_kick {
   position: absolute;
   width: 2px;
-  height: 13px;
+  height: 20px;
   background-color: #425568;
   left: 5px;
   top: 3px;

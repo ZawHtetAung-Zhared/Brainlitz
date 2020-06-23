@@ -127,6 +127,7 @@ export class InvoiceReportComponent implements OnInit {
     var invObj = {};
     var objArr = [];
     for (var i = 0; i < array.length; i++) {
+      console.log(i);
       if (type == 'UNPAID') {
         invObj['dueDate'] = this.dateFormat(array[i].dueDate);
         invObj['invoiceId'] = array[i].refInvoiceId;
@@ -137,10 +138,15 @@ export class InvoiceReportComponent implements OnInit {
           invObj['name'] = array[i].user.email;
         } else invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
-        if (array[i].totalDiscount || array[i].totalDiscount.amount) {
-          invObj['discount'] = array[i].totalDiscount.amount;
-        } else {
+        if (
+          array[i].totalDiscount == undefined ||
+          array[i].totalDiscount != undefined ||
+          array[i].totalDiscount.amount == undefined ||
+          array[i].totalDiscount.amount == undefined
+        ) {
           invObj['discount'] = '';
+        } else {
+          invObj['discount'] = array[i].totalDiscount.amount;
         }
 
         invObj['courseFee'] = array[i].courseFee.fee;
@@ -169,10 +175,15 @@ export class InvoiceReportComponent implements OnInit {
             invObj['method'] = payment.paymentMethodDetails.name;
           }
           invObj['amount'] = array[i].payments[idx].amount;
-          if (array[i].totalDiscount || array[i].totalDiscount.amount) {
-            invObj['discount'] = array[i].totalDiscount.amount;
-          } else {
+          if (
+            array[i].totalDiscount == undefined ||
+            array[i].totalDiscount != undefined ||
+            array[i].totalDiscount.amount == undefined ||
+            array[i].totalDiscount.amount == undefined
+          ) {
             invObj['discount'] = '';
+          } else {
+            invObj['discount'] = array[i].totalDiscount.amount;
           }
           invObj['courseFee'] = array[i].courseFee.fee;
           invObj['registrationFee'] = array[i].registrationFee.fee;
