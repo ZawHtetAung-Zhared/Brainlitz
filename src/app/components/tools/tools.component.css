@@ -232,6 +232,9 @@ img.setting-icon {
 
 .modal-footer {
   position: fixed;
+  background: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   bottom: 0;
   width: 100%;
   display: -ms-flexbox;
@@ -242,6 +245,13 @@ img.setting-icon {
   justify-content: flex-end;
   padding: 1rem;
   border-top: 1px solid #e9ecef;
+}
+
+.list-scroll {
+  overflow: auto;
+  overflow-x: hidden;
+  width: 100%;
+  height: 680px;
 }
 
 .button-done {

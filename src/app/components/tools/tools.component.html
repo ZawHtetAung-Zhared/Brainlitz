@@ -856,23 +856,38 @@
         </div>
       </div>
       <div class="modal-body">
-        <div class="row mt-3 mb3" style="padding: 32px">
+        <div class="row mt-3 mb3 list-scroll" style="padding: 32px">
           <div
             class="col-xs-6 col-sm-4 col-md-4 col-lg-3 col-xs-3"
             style="padding: 0px 10px 15px 10px !important;"
             *ngFor="let users of userList"
           >
-            <div class="student-card d-flex flex-row">
+            <div class="student-card d-flex flex-row" *ngIf="users">
               <div class="img-div">
-                <div class="img-wrap">
-                  <img _ngcontent-c18="" [src]="users.profilePic" />
+                <div class="img-wrap" *ngIf="users.profilePic">
+                  <img [src]="users.profilePic" />
+                </div>
+                <div class="img-wrap" *ngIf="users.profilePic == undefined">
+                  <img
+                    src="https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png"
+                  />
                 </div>
               </div>
-              <div class="student-name">
+              <div class="student-name" *ngIf="users.preferredName">
                 {{
-                  users.fullName.length > 20
+                  users.preferredName.length > 15
                     ? (users.preferredName | slice: 0:15) + '...'
                     : users.preferredName
+                }}
+              </div>
+              <div
+                class="student-name"
+                *ngIf="users.preferredName == undefined && users.fullName"
+              >
+                {{
+                  users.fullName.length > 15
+                    ? (users.fullName | slice: 0:15) + '...'
+                    : users.fullName
                 }}
               </div>
             </div>
