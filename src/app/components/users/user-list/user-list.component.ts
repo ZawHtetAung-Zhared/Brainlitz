@@ -120,7 +120,60 @@ export class UserListComponent implements OnInit {
     console.log('call for all usres');
     this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
       console.log(res, 'AnoNyMous');
+      this.downloadFile(res);
     });
+  }
+  public csvData;
+  downloadFile(res) {
+    this.csvData = this.convertToCSV(res);
+    var a = document.createElement('a');
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([this.csvData], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    var filename = new Date().toISOString();
+    a.download = 'studentInfo' + filename + '.csv';
+    a.click();
+  }
+
+  convertToCSV(objArray) {
+    console.log(objArray, 'lskdf');
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+    var row = '';
+    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email';
+    str += row + '\r\n';
+    var invObj = {};
+    var objArr = [];
+    for (var i = 0; i < array.length; i++) {
+      invObj['id'] = array[i].userId;
+      if (array[i].email != undefined || array[i].email != 'undefined')
+        invObj['email'] = array[i].email;
+      else invObj['email'] = '';
+      if (array[i].preferredName != undefined)
+        invObj['preferredName'] = array[i].preferredName;
+      else invObj['preferredName'] = '';
+      if (array[i].fullName != undefined)
+        invObj['fullName'] = array[i].fullName;
+      else invObj['fullName'] = '';
+      console.log(array[i].guardianEmail);
+      if (
+        array[i].guardianEmail != undefined ||
+        array[i].guardianEmail.length != 0 ||
+        array[i].guardianEmail != 'undefined'
+      )
+        invObj['guardianEmail'] = array[i].guardianEmail[0];
+      else invObj['guardianEmail'] = '';
+      console.log(invObj);
+      var line = '';
+      for (var index in invObj) {
+        if (line != '') line += ',';
+        line += invObj[index];
+      }
+      str += line + '\r\n';
+    }
+    return str;
   }
 
   getAllUsers(type, limit, skip) {
