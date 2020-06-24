@@ -36,7 +36,7 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getAllUsersForExport();
+    //this.getAllUsersForExport();
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
@@ -211,10 +211,8 @@ export class UserListComponent implements OnInit {
   showExportOption($event: Event, state) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.showDp = state == 'paid' ? !this.showDp : false;
+    this.showDp = state == 'click' ? !this.showDp : false;
   }
-
-  exportCSV() {}
 
   userSearch_input(keyword) {
     this.searchKeyword = keyword;

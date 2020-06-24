@@ -39,7 +39,7 @@
           type="button"
           class="Export-btn"
           style="margin: 5px; border-radius: 4px; width: 100px; height: 35px;"
-          (click)="showExportOption($event, 'paid')"
+          (click)="showExportOption($event, 'click')"
         >
           <img
             src="assets/images/Customer_CSV.svg"
@@ -49,7 +49,7 @@
         <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
           <div
             class="inv-opt bottom-border"
-            (click)="exportCSV()"
+            (click)="getAllUsersForExport()"
             style="font-size: 15px;"
           >
             Export as CSV
