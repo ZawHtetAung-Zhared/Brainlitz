@@ -208,6 +208,10 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  @HostListener('document:click', ['$event']) clickout($event) {
+    this.showDp = false;
+  }
+
   showExportOption($event: Event, state) {
     $event.preventDefault();
     $event.stopPropagation();

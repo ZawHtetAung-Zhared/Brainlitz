@@ -27,7 +27,7 @@
   cursor: pointer;
   min-width: 100px;
   text-align: center;
-  top: 47px;
+  top: 55px;
   box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
   border: none;
   cursor: pointer;
@@ -39,7 +39,8 @@
   height: 0;
   position: absolute;
   bottom: 100%;
-  right: 15px;
+  right: 35px;
+  top: -6px;
   border-width: 0 6px 6px 6px;
   border-style: solid;
   border-color: #fff transparent;
@@ -277,27 +278,4 @@ h5 {
   border-radius: 4px;
   position: relative;
   width: 50%;
-}
-option-dp {
-  position: absolute;
-  z-index: 99;
-  cursor: pointer;
-  min-width: 100px;
-  text-align: center;
-  top: 47px;
-  box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
-  border: none;
-  cursor: pointer;
-}
-
-.option-dp:after {
-  content: '';
-  width: 0;
-  height: 0;
-  position: absolute;
-  bottom: 100%;
-  right: 15px;
-  border-width: 0 6px 6px 6px;
-  border-style: solid;
-  border-color: #fff transparent;
 }
