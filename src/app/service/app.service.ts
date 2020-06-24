@@ -732,7 +732,7 @@ export class appService {
         this.baseUrl +
         '/' +
         id +
-        '/user?type=customer&limit=' +
+        '/users?type=customer&limit=' +
         limit +
         '&skip=' +
         skip;
@@ -741,12 +741,12 @@ export class appService {
         this.baseUrl +
         '/' +
         id +
-        '/user?type=staff&limit=' +
+        '/users?type=staff&limit=' +
         limit +
         '&skip=' +
         skip;
     } else {
-      url = this.baseUrl + '/' + id + '/user';
+      url = this.baseUrl + '/' + id + '/users';
     }
     const httpOptions = {
       headers: new HttpHeaders({
