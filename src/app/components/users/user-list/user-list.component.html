@@ -92,98 +92,115 @@
         </span>
       </div>
     </div>
-    <div class="row display-flex user-group">
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
-        *ngFor="let customer of customerLists; let i = index"
-      >
+    <div class="d-flex flex-column justify-content-center">
+      <div class="row display-flex" style="padding-bottom: 24px">
         <div
-          class="box-design d-flex flex-row align-items-center"
-          (click)="showDetails(customer.userId, 'class')"
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+          *ngFor="let customer of customerLists; let i = index"
         >
-          <div class="profileimg-wrap">
-            <div class="circular-image">
-              <img
-                *ngIf="customer.profilePic == 'undefined'"
-                src="assets/img/user.svg"
-              />
-              <img
-                *ngIf="customer.profilePic != 'undefined'"
-                src="{{ customer.profilePic }}"
-              />
-            </div>
-            <div
-              class="user-grade"
-              *ngIf="(customer.userGrading.grade | json) != '{}'"
-            >
+          <div
+            class="box-design d-flex flex-row align-items-center"
+            (click)="showDetails(customer.userId, 'class')"
+          >
+            <div class="profileimg-wrap">
+              <div class="circular-image">
+                <img
+                  *ngIf="customer.profilePic == 'undefined'"
+                  src="assets/img/user.svg"
+                />
+                <img
+                  *ngIf="customer.profilePic != 'undefined'"
+                  src="{{ customer.profilePic }}"
+                />
+              </div>
               <div
-                *ngIf="
-                  customer.userGrading.grade.point != undefined &&
-                  customer.userGrading != undefined &&
-                  customer.userGrading.grade.point != null
-                "
-                class="b-white justify-content-center d-flex small"
-                [style.background]="customer.userGrading.sepalColor.background"
-                [ngClass]="{
-                  'test-circle': customer.userGrading.grade.point.length == 1,
-                  circle: customer.userGrading.grade.point.length > 1
-                }"
+                class="user-grade"
+                *ngIf="(customer.userGrading.grade | json) != '{}'"
               >
-                <span [style.color]="customer.userGrading.sepalColor.text">
-                  {{ customer.userGrading.grade.point }}
-                </span>
+                <div
+                  *ngIf="
+                    customer.userGrading.grade.point != undefined &&
+                    customer.userGrading != undefined &&
+                    customer.userGrading.grade.point != null
+                  "
+                  class="b-white justify-content-center d-flex small"
+                  [style.background]="
+                    customer.userGrading.sepalColor.background
+                  "
+                  [ngClass]="{
+                    'test-circle': customer.userGrading.grade.point.length == 1,
+                    circle: customer.userGrading.grade.point.length > 1
+                  }"
+                >
+                  <span [style.color]="customer.userGrading.sepalColor.text">
+                    {{ customer.userGrading.grade.point }}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="info-side d-flex flex-column justify-content-center">
-            <h5
-              *ngIf="customer.preferredName"
-              class="body-xl text-c300"
-              style="margin-bottom: 0px"
+            <div class="info-side d-flex flex-column justify-content-center">
+              <h5
+                *ngIf="customer.preferredName"
+                class="body-xl text-c300"
+                style="margin-bottom: 0px"
+              >
+                {{
+                  customer.preferredName.length > 20
+                    ? (customer.preferredName | slice: 0:20) + '...'
+                    : customer.preferredName
+                }}
+              </h5>
+              <p class="info-mail mb-0 body-m text-c100">
+                {{ customer.email }}
+              </p>
+              <p
+                class="info-about body-m text-c300"
+                *ngIf="customer.about == 'undefined'"
+              >
+                -
+              </p>
+              <p
+                class="info-about body-m text-c300"
+                *ngIf="customer.about != 'undefined'"
+              >
+                {{
+                  customer.about.length > 25
+                    ? (customer.about | slice: 0:25) + '...'
+                    : customer.about
+                }}
+              </p>
+            </div>
+            <div
+              *ngIf="customerDemo.viewCustomer != ''"
+              class="ml-auto right-arrow h1-strong text-s60"
             >
-              {{
-                customer.preferredName.length > 20
-                  ? (customer.preferredName | slice: 0:20) + '...'
-                  : customer.preferredName
-              }}
-            </h5>
-            <p class="info-mail mb-0 body-m text-c100">
-              {{ customer.email }}
-            </p>
-            <p
-              class="info-about body-m text-c300"
-              *ngIf="customer.about == 'undefined'"
-            >
-              -
-            </p>
-            <p
-              class="info-about body-m text-c300"
-              *ngIf="customer.about != 'undefined'"
-            >
-              {{
-                customer.about.length > 25
-                  ? (customer.about | slice: 0:25) + '...'
-                  : customer.about
-              }}
-            </p>
-          </div>
-          <div
-            *ngIf="customerDemo.viewCustomer != ''"
-            class="ml-auto right-arrow h1-strong text-s60"
-          >
-            <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right"></i>
+            </div>
           </div>
         </div>
-      </div>
 
+        <div
+          *ngIf="customerListLoading"
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+        >
+          <content-loader>
+            <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
+            <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+          </content-loader>
+        </div>
+      </div>
       <div
-        *ngIf="customerListLoading"
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+        *ngIf="result?.length > 0"
+        class="d-flex justify-content-center bg-s0"
+        style="padding-bottom: 20px;"
       >
-        <content-loader>
-          <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
-          <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
-        </content-loader>
+        <button
+          type="button"
+          class="btn body-m load-more text-b100"
+          (click)="showMore('customer', customerLists.length)"
+        >
+          load more
+        </button>
       </div>
     </div>
   </div>
@@ -215,19 +232,6 @@
       <svg:rect x="0" y="80" rx="2" ry="2" width="100%" height="60" />
     </content-loader>
   </div>
-</div>
-
-<div
-  *ngIf="customerLists.length >= 20 && result?.length > 0"
-  class="d-flex justify-content-center load-more bg-s0"
->
-  <button
-    type="button"
-    class="btn body-m text-b100"
-    (click)="showMore('customer', customerLists.length)"
-  >
-    load more
-  </button>
 </div>
 
 <!-- <block-ui message="Deafult Message"></block-ui> -->
