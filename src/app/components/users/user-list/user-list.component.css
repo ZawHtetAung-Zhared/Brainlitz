@@ -22,9 +22,9 @@
 }
 
 .Export-btn {
-  width: 60%;
-  height: 100%;
-  margin-left: 30px;
+  width: 40px;
+  height: 40px;
+  margin-left: 16px;
   background: #ffffff;
   border: 1px solid #edeef0;
   box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
@@ -32,13 +32,14 @@
 }
 
 .option-dp {
-  padding-top: 5px;
+  padding: 10px;
   position: absolute;
   z-index: 99;
   cursor: pointer;
   min-width: 100px;
   text-align: center;
   top: 55px;
+  right: -20px;
   border-radius: 8px;
   box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
   border: none;
@@ -81,9 +82,11 @@ h5 {
 
 .create-button-pos {
   word-wrap: break-word;
+  width: 185px;
+  height: 40px;
+  text-align: center;
   cursor: pointer;
   float: right;
-  padding: 9px 13px !important;
   letter-spacing: 0.5px;
 }
 
