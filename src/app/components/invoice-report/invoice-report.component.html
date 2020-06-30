@@ -86,13 +86,14 @@
 </div>
 <div
   *ngIf="invlistsResult.length >= 20"
-  class="d-flex justify-content-center load-more bg-s0"
+  class="d-flex justify-content-center bg-s0"
+  style="padding-bottom: 20px;"
 >
   <button
-    class="btn remove-outline text-b100 body-m"
+    class="btn remove-outline load-more text-b100 body-m"
     (click)="showMore(invoiceList.length)"
   >
-    load more
+    Load more
   </button>
 </div>
 <ng-template #classEnrollModal let-c="close" let-d="dismiss">
