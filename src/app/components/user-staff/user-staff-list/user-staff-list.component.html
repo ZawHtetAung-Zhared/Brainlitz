@@ -65,73 +65,88 @@
         </span>
       </div>
     </div>
-    <div class="row display-flex user-group">
-      <div
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
-        *ngFor="let staff of staffLists; let i = index"
-      >
+
+    <div class="d-flex flex-column justify-content-center">
+      <div class="row display-flex user-group">
         <div
-          class="box-design d-flex flex-row align-items-center"
-          (click)="showDetails(staff, staff.userId)"
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+          *ngFor="let staff of staffLists; let i = index"
         >
-          <div class="profileimg-wrap">
-            <div class="circular-image">
-              <img
-                *ngIf="staff.profilePic == 'undefined'"
-                src="assets/img/user.svg"
-              />
-              <img
-                *ngIf="staff.profilePic != 'undefined'"
-                src="{{ staff.profilePic }}"
-              />
+          <div
+            class="box-design d-flex flex-row align-items-center"
+            (click)="showDetails(staff, staff.userId)"
+          >
+            <div class="profileimg-wrap">
+              <div class="circular-image">
+                <img
+                  *ngIf="staff.profilePic == 'undefined'"
+                  src="assets/img/user.svg"
+                />
+                <img
+                  *ngIf="staff.profilePic != 'undefined'"
+                  src="{{ staff.profilePic }}"
+                />
+              </div>
             </div>
-          </div>
-          <div class="info-side d-flex flex-column justify-content-center">
-            <div>
-              <label
-                class="staff-label small text-c300"
-                *ngIf="staff.permission"
-                >{{ staff.permission.name }}</label
+            <div class="info-side d-flex flex-column justify-content-center">
+              <div>
+                <label
+                  class="staff-label small text-c300"
+                  *ngIf="staff.permission"
+                  >{{ staff.permission.name }}</label
+                >
+              </div>
+              <h5 class="body-xl text-c300">
+                {{
+                  staff.preferredName.length > 20
+                    ? (staff.preferredName | slice: 0:20) + '...'
+                    : staff.preferredName
+                }}
+              </h5>
+              <p class="info-mail body-m text-c100">{{ staff.email }}</p>
+              <p class="info-about" *ngIf="staff.about == 'undefined'">
+                -
+              </p>
+              <p
+                class="info-about body-m text-c100"
+                *ngIf="staff.about != 'undefined'"
               >
+                <!-- <span>{{staff.about}}</span> -->
+                {{
+                  staff.about.length > 48
+                    ? (staff.about | slice: 0:48) + '...'
+                    : staff.about
+                }}
+              </p>
             </div>
-            <h5 class="body-xl text-c300">
-              {{
-                staff.preferredName.length > 20
-                  ? (staff.preferredName | slice: 0:20) + '...'
-                  : staff.preferredName
-              }}
-            </h5>
-            <p class="info-mail body-m text-c100">{{ staff.email }}</p>
-            <p class="info-about" *ngIf="staff.about == 'undefined'">
-              -
-            </p>
-            <p
-              class="info-about body-m text-c100"
-              *ngIf="staff.about != 'undefined'"
-            >
-              <!-- <span>{{staff.about}}</span> -->
-              {{
-                staff.about.length > 48
-                  ? (staff.about | slice: 0:48) + '...'
-                  : staff.about
-              }}
-            </p>
-          </div>
-          <div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
-            <i class="fa fa-angle-right text-c75"></i>
+            <div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
+              <i class="fa fa-angle-right text-c75"></i>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div
-        *ngIf="staffListLoading"
-        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
-      >
-        <content-loader>
-          <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
-          <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
-        </content-loader>
+        <div
+          *ngIf="staffListLoading"
+          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+        >
+          <content-loader>
+            <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
+            <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+          </content-loader>
+        </div>
       </div>
+    </div>
+    <div
+      *ngIf="result?.length > 0"
+      class="d-flex justify-content-center  bg-s0"
+    >
+      <button
+        class="text-b100 body-m load-more bg-s0"
+        style="border:none;outline: none;cursor: pointer;"
+        (click)="showMore('staff', staffLists.length)"
+      >
+        load more
+      </button>
     </div>
   </div>
 
@@ -161,18 +176,5 @@
       <svg:rect x="0" y="10" rx="2" ry="2" width="100%" height="60" />
       <svg:rect x="0" y="80" rx="2" ry="2" width="100%" height="60" />
     </content-loader>
-  </div>
-
-  <div
-    *ngIf="staffLists.length >= 20 && result?.length > 0"
-    class="d-flex justify-content-center load-more bg-s0"
-  >
-    <button
-      class="text-b100 body-m bg-s0"
-      style="border:none;outline: none;cursor: pointer;"
-      (click)="showMore('staff', staffLists.length)"
-    >
-      load more
-    </button>
   </div>
 </div>

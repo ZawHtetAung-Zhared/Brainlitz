@@ -28,7 +28,7 @@ export class InvoiceReportComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
-    this.getInvoiceList(20, 0);
+    +-this.getInvoiceList(20, 0);
   }
 
   getInvoiceList(limit, skip) {
@@ -94,6 +94,7 @@ export class InvoiceReportComponent implements OnInit {
       });
   }
   public csvData;
+
   downloadFile(res, type) {
     this.csvData = this.convertToCSV(res, type);
     var a = document.createElement('a');
@@ -113,8 +114,8 @@ export class InvoiceReportComponent implements OnInit {
     var row = '';
     row =
       type == 'UNPAID'
-        ? 'Invoice Due date,Invoice#,Name,Amount'
-        : 'Payment date,Invoice#,Name,Method,Amount';
+        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Registration Fee'
+        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Registration Fee';
     str += row + '\r\n';
     // var invObj = {
     //   paymentDate: '',
@@ -125,13 +126,31 @@ export class InvoiceReportComponent implements OnInit {
     // };
     var invObj = {};
     var objArr = [];
-
     for (var i = 0; i < array.length; i++) {
+      console.log(i);
       if (type == 'UNPAID') {
         invObj['dueDate'] = this.dateFormat(array[i].dueDate);
         invObj['invoiceId'] = array[i].refInvoiceId;
-        invObj['name'] = array[i].userDetails.preferredName;
+        if (
+          array[i].userDetails == null ||
+          array[i].userDetails.preferredName == null
+        ) {
+          invObj['name'] = array[i].user.email;
+        } else invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
+        if (
+          array[i].totalDiscount == undefined ||
+          array[i].totalDiscount != undefined ||
+          array[i].totalDiscount.amount == undefined ||
+          array[i].totalDiscount.amount == undefined
+        ) {
+          invObj['discount'] = '';
+        } else {
+          invObj['discount'] = array[i].totalDiscount.amount;
+        }
+
+        invObj['courseFee'] = array[i].courseFee.fee;
+        invObj['registrationFee'] = array[i].registrationFee.fee;
         console.log(invObj);
         var line = '';
         for (var index in invObj) {
@@ -144,13 +163,30 @@ export class InvoiceReportComponent implements OnInit {
           var payment = array[i].payments[idx];
           invObj['paymentDate'] = this.dateFormat(payment.updatedDate);
           invObj['invoiceId'] = array[i].refInvoiceId;
-          invObj['name'] = array[i].userDetails.preferredName;
+          if (
+            array[i].userDetails == null ||
+            array[i].userDetails.preferredName == null
+          )
+            invObj['name'] = array[i].user.email;
+          else invObj['name'] = array[i].userDetails.preferredName;
           if (payment.paymentMethodDetails == undefined) {
             invObj['method'] = '-';
           } else {
             invObj['method'] = payment.paymentMethodDetails.name;
           }
           invObj['amount'] = array[i].payments[idx].amount;
+          if (
+            array[i].totalDiscount == undefined ||
+            array[i].totalDiscount != undefined ||
+            array[i].totalDiscount.amount == undefined ||
+            array[i].totalDiscount.amount == undefined
+          ) {
+            invObj['discount'] = '';
+          } else {
+            invObj['discount'] = array[i].totalDiscount.amount;
+          }
+          invObj['courseFee'] = array[i].courseFee.fee;
+          invObj['registrationFee'] = array[i].registrationFee.fee;
           console.log(invObj);
           var line = '';
           for (var index in invObj) {

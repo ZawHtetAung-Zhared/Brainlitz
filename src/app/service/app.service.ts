@@ -316,6 +316,21 @@ export class appService {
     });
   }
 
+  getAllUsersForExport(regionId) {
+    let url = this.baseUrl + '/' + regionId + '/download-students';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result, 'AnoNyMous');
+      return result;
+    });
+  }
+
   getPermission(locationId: string) {
     let url = this.baseUrl + '/user-location-permission/' + locationId;
     const httpOptions = {
@@ -717,7 +732,7 @@ export class appService {
         this.baseUrl +
         '/' +
         id +
-        '/user?type=customer&limit=' +
+        '/users?type=customer&limit=' +
         limit +
         '&skip=' +
         skip;
@@ -726,12 +741,12 @@ export class appService {
         this.baseUrl +
         '/' +
         id +
-        '/user?type=staff&limit=' +
+        '/users?type=staff&limit=' +
         limit +
         '&skip=' +
         skip;
     } else {
-      url = this.baseUrl + '/' + id + '/user';
+      url = this.baseUrl + '/' + id + '/users';
     }
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4765,5 +4780,49 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+
+  editMakeupDate(date, id, regionId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/makeup-pass/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, date, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  deleteMakeup(regionid, tempid) {
+    console.log(regionid);
+    console.log(tempid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/makeup-pass/' + tempid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getAPGList(regionId, idStr) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/access-point-group-list?id=' + idStr;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
   }
 }

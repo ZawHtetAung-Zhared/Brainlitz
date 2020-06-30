@@ -27,6 +27,7 @@ export class UserListComponent implements OnInit {
   public customerLoading: boolean = true;
   public customerListLoading: boolean = false;
   public searchKeyword: any;
+  public showDp = false;
 
   constructor(
     private _service: appService,
@@ -35,6 +36,7 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    //this.getAllUsersForExport();
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
@@ -114,6 +116,63 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  getAllUsersForExport() {
+    console.log('call for all usres');
+    this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
+      this.downloadFile(res);
+    });
+  }
+  public csvData;
+  downloadFile(res) {
+    this.csvData = this.convertToCSV(res);
+    var a = document.createElement('a');
+    a.setAttribute('style', 'display:none;');
+    document.body.appendChild(a);
+    var blob = new Blob([this.csvData], { type: 'text/csv' });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    var filename = new Date().toISOString();
+    a.download = 'studentInfo' + filename + '.csv';
+    a.click();
+  }
+
+  convertToCSV(objArray) {
+    console.log(objArray, 'lskdf');
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var str = '';
+    var row = '';
+    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email';
+    str += row + '\r\n';
+    var invObj = {};
+    var objArr = [];
+    for (var i = 0; i < array.length; i++) {
+      invObj['id'] = array[i].userId;
+      if (array[i].email != undefined || array[i].email != 'undefined')
+        invObj['email'] = array[i].email;
+      else invObj['email'] = '';
+      if (array[i].preferredName != undefined)
+        invObj['preferredName'] = array[i].preferredName;
+      else invObj['preferredName'] = '';
+      if (array[i].fullName != undefined)
+        invObj['fullName'] = array[i].fullName;
+      else invObj['fullName'] = '';
+      if (
+        array[i].guardianEmail == undefined ||
+        array[i].guardianEmail.length == 0 ||
+        array[i].guardianEmail == 'undefined'
+      )
+        invObj['guardianEmail'] = '';
+      else invObj['guardianEmail'] = array[i].guardianEmail[0];
+      var line = '';
+      for (var index in invObj) {
+        if (line != '') line += ',';
+        line += invObj[index];
+      }
+      str += line + '\r\n';
+    }
+    return str;
+  }
+
   getAllUsers(type, limit, skip) {
     // this.customerLoading = true;
     console.log('calling all users ....');
@@ -147,6 +206,16 @@ export class UserListComponent implements OnInit {
       console.log('Not user search');
       this.getAllUsers(type, 20, skip);
     }
+  }
+
+  @HostListener('document:click', ['$event']) clickout($event) {
+    this.showDp = false;
+  }
+
+  showExportOption($event: Event, state) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.showDp = state == 'click' ? !this.showDp : false;
   }
 
   userSearch_input(keyword) {

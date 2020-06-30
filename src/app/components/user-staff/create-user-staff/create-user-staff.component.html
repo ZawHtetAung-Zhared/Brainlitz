@@ -71,7 +71,7 @@
                 >Full name</label
               >
               <div class="limit-wordcount2 body-m text-b100">
-                <span>{{ wordLength }}/60characters</span>
+                <span>{{ wordLength }}/unlimited</span>
               </div>
             </div>
             <input
@@ -83,7 +83,6 @@
               #fullName="ngModel"
               (focus)="focusMethod($event, 'fullname', $event.target.value)"
               (blur)="blurMethod($event, 'fullname')"
-              maxlength="60"
               (input)="changeMethod($event.target.value)"
               required
             />

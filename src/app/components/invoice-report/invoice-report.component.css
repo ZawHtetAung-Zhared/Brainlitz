@@ -116,6 +116,10 @@ table td {
   border-bottom: 1px solid #e3e4e6;
 }
 
+.text-partial {
+  color: #f26500;
+}
+
 @media only screen and (max-width: 768px) {
   .inv-table {
     width: 728px;

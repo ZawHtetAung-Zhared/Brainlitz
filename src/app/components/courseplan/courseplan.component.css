@@ -396,9 +396,6 @@ input:-webkit-input-placeholder {
   .taxOpt-dropdown {
     overflow: auto;
   }
-  .wrap-height {
-    overflow-y: auto;
-  }
   .duration-progress input::-moz-range-track {
     background: #0080ff;
     content: '';
@@ -1483,13 +1480,16 @@ ul.search-apg {
 }
 
 .btn-apg {
-  width: 100%;
   text-align: left;
   border: none;
   cursor: pointer;
   background: none;
-  padding: 12px 0px;
+  /* padding: 16px 0px; */
   /*padding: 0;*/
+}
+
+.drag-icon {
+  width: 30px;
 }
 
 .remove-aplan {
@@ -1509,14 +1509,9 @@ ul.search-apg {
   padding: 15px 20px;
 }
 
-.wrap-height {
-  overflow-y: overlay;
-  height: 380px;
-}
-
 .group-text {
-  padding: 15px 20px 0 20px;
   cursor: pointer;
+  padding: 16px 0px;
 }
 
 .aPlan-group-text {
@@ -1890,6 +1885,12 @@ ul.search-apg {
   word-break: break-word;
 }
 
+.module-type {
+  padding-left: 30px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 @media only screen and (max-width: 768px) {
   .down-arrow1 {
     bottom: 45px;
@@ -1958,18 +1959,10 @@ ul.search-apg {
     .overlay-wrapper {
       overflow: auto;
     }
-    .wrap-height {
-      overflow: auto;
-    }
   }
 
   .overlay-wrapper {
     height: 520px;
-    overflow: overlay;
-  }
-
-  .wrap-height {
-    height: 250px;
     overflow: overlay;
   }
 
@@ -2095,19 +2088,17 @@ ul.search-apg {
   }
 }
 
-@media screen and (max-height: 768px) {
+/* @media screen and (max-height: 768px) {
   .wrap-height {
     height: 250px;
-    overflow-y: overlay;
   }
 }
 
 @media (min-height: 769px) and (max-height: 877px) {
   .wrap-height {
     height: 250px;
-    overflow-y: overlay;
   }
-}
+} */
 
 /* Step of progress disabled properties */
 a.adisabled {
