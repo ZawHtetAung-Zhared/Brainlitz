@@ -2758,8 +2758,8 @@ p.grade-txt {
 
 .journal_delete {
   cursor: pointer;
-  background: url(../../../../assets/icons/dustbin.svg);
-  background-size: 100%;
+  /*background: url(../../../../assets/icons/dustbin.svg);
+  background-size: 100%;*/
   width: 24px;
   height: 24px;
 }
