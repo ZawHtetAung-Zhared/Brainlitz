@@ -88,6 +88,9 @@
   height: 44px;
   border-radius: 3px;
 }
+.btn-edit {
+  background-color: #ffffff;
+}
 
 .pl-0 {
   padding-left: 0 !important;
