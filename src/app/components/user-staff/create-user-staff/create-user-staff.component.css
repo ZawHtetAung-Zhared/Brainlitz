@@ -498,3 +498,15 @@ span.capitalize {
 .hide {
   display: none !important;
 }
+.btn-delete {
+  position: absolute;
+  width: 128px;
+  height: 48px;
+  left: 20px;
+  background: #fff;
+  border: 1px solid #edeff0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  color: #e63c39;
+}
