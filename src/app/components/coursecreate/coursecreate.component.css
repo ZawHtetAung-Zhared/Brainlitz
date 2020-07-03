@@ -1434,6 +1434,7 @@ input:checked + .slider:before {
 .disabled-chk {
   opacity: 0.5;
   cursor: not-allowed !important;
+  pointer-events: none !important;
 }
 
 .switch-label {

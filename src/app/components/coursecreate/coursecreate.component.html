@@ -705,7 +705,8 @@
                   [ngClass]="{
                     'active-label bg-b100 text-s0':
                       selectedDay.indexOf(d.val) != -1,
-                    'm-0': i + 1 == days.length
+                    'm-0': i + 1 == days.length,
+                    'disabled-chk': isEdit == true
                   }"
                 >
                   <div
