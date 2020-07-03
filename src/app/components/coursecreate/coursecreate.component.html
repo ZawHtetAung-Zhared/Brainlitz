@@ -1408,7 +1408,11 @@
           >
           Cancel
           </button>-->
-        <button class="btn btn-delete" type="button">
+        <button
+          class="btn btn-delete"
+          type="button"
+          (click)="courseDeleteModal(course_delete)"
+        >
           Delete
         </button>
       </div>
@@ -1492,5 +1496,41 @@
       [course]="courseDetails"
       (closed)="cancelInvoiceModal()"
     ></app-invoice>
+  </div>
+</ng-template>
+
+<ng-template #course_delete class="course-delete-modal">
+  <h3 class="modal-title enroll_title h3-strong text-c300">
+    Confirm delete?
+  </h3>
+  <div class="autoEnroll-body">
+    <p class="light-body-l text-c300">
+      Are you sure you want to delete? You won’t back it return.
+    </p>
+  </div>
+  <div class="modal-footer autoEnroll-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn body-l bg-s0 text-c300"
+      (click)="cancelAutoEnroll()"
+    >
+      Cancel
+    </button>
+    <button
+      *ngIf="deleteGradeId == null"
+      type="submit"
+      class="btn modal-delete-btn bg-r100 text-s0 body-l"
+      (click)="confirmJournalDelete()"
+    >
+      Delete
+    </button>
+    <button
+      *ngIf="deleteGradeId != null"
+      type="submit"
+      class="btn modal-delete-btn bg-r100 text-s0 body-l"
+      (click)="deleteGrade()"
+    >
+      Yes
+    </button>
   </div>
 </ng-template>

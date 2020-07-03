@@ -1648,3 +1648,9 @@ input:checked + .slider:before {
   box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
   color: #e63c39;
 }
+.course-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+}
