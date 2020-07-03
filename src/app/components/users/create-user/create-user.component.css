@@ -88,6 +88,25 @@ h3 {
   width: 103%;
 }
 
+.customer-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+
+.modal-title {
+  position: absolute;
+  width: 157px;
+  height: 24px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  color: #363f4d;
+}
+
 .form-wrap textarea:focus,
 .form-wrap input:focus {
   -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
