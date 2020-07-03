@@ -5,6 +5,7 @@ import { appService } from '../../../service/app.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
 import { Croppie } from 'croppie';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-user-staff',
@@ -43,13 +44,25 @@ export class CreateUserStaffComponent implements OnInit {
   public ulFile: any;
   input: any;
   public returnProfile = false;
+  public isCustomer_delete = false;
+  public autoEnrollModal;
 
   constructor(
     private _service: appService,
     private router: Router,
     private _Activatedroute: ActivatedRoute,
+    private modalService: NgbModal,
     public toastr: ToastrService
   ) {}
+
+  staffDeleteModal(modal) {
+    this.isCustomer_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal customer-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
 
   ngOnInit() {
     this.permissionSubscription = this._service.permissionList.subscribe(
