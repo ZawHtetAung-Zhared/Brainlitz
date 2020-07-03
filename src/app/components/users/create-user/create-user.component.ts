@@ -67,6 +67,12 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isCustomer_delete = false;
+  }
+
   ngOnInit() {
     this.type = this._Activatedroute.snapshot.paramMap.get('type');
     this.isupdate = this.type === 'edit';

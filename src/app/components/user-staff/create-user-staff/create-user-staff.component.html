@@ -426,6 +426,7 @@
       </div>
       <div class="d-flex justify-content-end button-group">
         <button
+          *ngIf="isupdate == true"
           class="btn btn-delete"
           type="button"
           (click)="staffDeleteModal(staff_delete)"
