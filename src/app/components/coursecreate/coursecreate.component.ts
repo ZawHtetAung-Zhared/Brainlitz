@@ -139,6 +139,8 @@ export class CoursecreateComponent implements OnInit {
   public modalReference: any;
   public courseType: any;
   public sparkWerkzCourse: boolean = false;
+  public isCourse_delete = false;
+  public autoEnrollModal;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -2441,4 +2443,12 @@ export class CoursecreateComponent implements OnInit {
   //      this.isValid = true;
   //    }
   //  }
+  courseDeleteModal(modal) {
+    this.isCourse_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal course-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
 }
