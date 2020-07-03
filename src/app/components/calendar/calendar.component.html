@@ -49,6 +49,23 @@
         </div>
       </div>
     </div>
+    <div
+      *ngIf="
+        calendarLists.length >= 20 &&
+        iscreate == false &&
+        isHoliday == false >= 20 &&
+        result.length != 0
+      "
+      class="d-flex justify-content-center "
+      style="padding-bottom: 20px;"
+    >
+      <button
+        class="btn load-more load-more-btn body-m text-b100"
+        (click)="showMore(calendarLists.length)"
+      >
+        Load more
+      </button>
+    </div>
   </div>
 
   <div *ngIf="iscreate == true" style="height: 600px;">
@@ -314,22 +331,6 @@
       </div>
     </div>
   </div>
-</div>
-<div
-  *ngIf="
-    calendarLists.length >= 20 &&
-    iscreate == false &&
-    isHoliday == false >= 20 &&
-    result.length != 0
-  "
-  class="d-flex justify-content-center load-more"
->
-  <button
-    class="btn load-more-btn body-m text-b100"
-    (click)="showMore(calendarLists.length)"
-  >
-    load more
-  </button>
 </div>
 
 <ng-template #contentCreate let-c="close" let-d="dismiss">

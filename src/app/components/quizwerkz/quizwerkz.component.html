@@ -61,6 +61,23 @@
         </div>
       </div>
     </div>
+    <div
+      *ngIf="
+        pdfList.length >= 20 &&
+        iscreate == false &&
+        result.length != 0 &&
+        pdfDemo.viewPdf != ''
+      "
+      class="d-flex  bg-s0"
+      style="padding-bottom: 20px;"
+    >
+      <button
+        class="btn remove-outline load-more text-b100 body-m"
+        (click)="showMore(pdfList.length)"
+      >
+        Load more
+      </button>
+    </div>
   </div>
   <div *ngIf="iscreate == true">
     <div class="d-flex back-wrap">
@@ -205,23 +222,7 @@
     </div>
   </div>
 </div>
-<div
-  *ngIf="
-    pdfList.length >= 20 &&
-    iscreate == false &&
-    result.length != 0 &&
-    pdfDemo.viewPdf != ''
-  "
-  class="d-flex load-more bg-s0"
-  style="padding-bottom: 20px;"
->
-  <button
-    class="btn remove-outline text-b100 body-m"
-    (click)="showMore(pdfList.length)"
-  >
-    Load more
-  </button>
-</div>
+
 <ng-template #deletemodal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title">Confirm delete?</h3>
