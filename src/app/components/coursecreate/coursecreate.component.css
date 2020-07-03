@@ -1654,3 +1654,62 @@ input:checked + .slider:before {
   background: #ffffff;
   border-radius: 4px;
 }
+.enroll_title {
+  padding: 24px 24px 0px 24px;
+}
+
+.h3-strong {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.text-c300 {
+  color: #363f4d;
+}
+
+.modal-title {
+  margin-bottom: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.light-body-l {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+
+.autoEnroll-footer {
+  border: none;
+}
+
+.modal-footer {
+  /*padding: 24px 32px;*/
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-cancel-btn {
+  border-radius: 3px;
+  height: 44px;
+  cursor: pointer;
+  min-width: 90px;
+  padding: 6px 12px;
+  margin: 0px 4px 0px 0px;
+}
+
+.modal-delete-btn {
+  border-radius: 3px;
+  height: 44px;
+  cursor: pointer;
+  min-width: 90px;
+  padding: 6px 12px;
+  margin: 0px 0px 0px 4px;
+}

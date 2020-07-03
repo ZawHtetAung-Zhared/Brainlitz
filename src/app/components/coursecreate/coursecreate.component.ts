@@ -2451,4 +2451,9 @@ export class CoursecreateComponent implements OnInit {
         'deleteModal course-delete-modal d-flex justify-content-center align-items-center'
     });
   }
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isCourse_delete = false;
+  }
 }
