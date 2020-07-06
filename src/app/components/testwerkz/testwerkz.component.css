@@ -110,12 +110,10 @@
 }
 
 .load-more {
-  position: fixed;
   width: 100%;
-  bottom: 0;
   padding: 20px;
-  right: 0;
   background: #fff;
+  justify-content: center;
 }
 
 .load-more button:focus {
@@ -123,10 +121,14 @@
 }
 
 .load-more button {
-  background: #fff;
+  width: 420px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
   color: #0080ff;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  justify-content: center;
 }
 
 .load-more button:focus {
@@ -1892,21 +1894,8 @@ div.pdLine-wrap:last-child {
 
 /* concept loadmore */
 .load-more {
-  position: fixed;
-  z-index: 1;
-  width: 85%;
   background: #fff;
-  border-top: 1px solid #eee;
-  padding: 10px;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-}
-
-.load-more button {
-  color: #0080ff;
-  font-size: 14px;
-  font-family: 'Inter-UI-Semibold', Arial, sans-serif;
+  padding-bottom: 20px;
 }
 
 /* start collection */

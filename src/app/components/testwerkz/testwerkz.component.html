@@ -183,15 +183,15 @@
         </div>
       </div>
     </div>
-    <div *ngIf="conceptsArr.length == this.pageConcept * 20" class="load-more">
-      <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
-      <button
-        class="btn remove-outline"
-        (click)="showmoreConcept(conceptsArr.length)"
-      >
-        Load more
-      </button>
-    </div>
+  </div>
+  <div *ngIf="conceptsArr.length == this.pageConcept * 20" class="load-more">
+    <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
+    <button
+      class="btn remove-outline"
+      (click)="showmoreConcept(conceptsArr.length)"
+    >
+      Load more
+    </button>
   </div>
 </div>
 
@@ -283,15 +283,15 @@
     <!-- {{collectionarr.length}}
     {{pageCollection}}
     {{pageCollection*20}} -->
-    <div *ngIf="collectionarr.length == pageCollection * 20" class="load-more">
-      <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
-      <button
-        class="btn remove-outline"
-        (click)="showmoreCollection(conceptsArr.length)"
-      >
-        Load more
-      </button>
-    </div>
+  </div>
+  <div *ngIf="collectionarr.length == pageCollection * 20" class="load-more">
+    <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
+    <button
+      class="btn remove-outline"
+      (click)="showmoreCollection(conceptsArr.length)"
+    >
+      Load more
+    </button>
   </div>
 </div>
 
