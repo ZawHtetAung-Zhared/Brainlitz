@@ -38,15 +38,18 @@
   cursor: pointer;
   padding: 7px 0;
 }
+
 .load-more {
-  position: fixed;
-  z-index: 9;
-  width: 85%;
-  border-top: 1px solid #eee;
-  padding: 10px;
-  bottom: 0;
-  right: 0;
-  text-align: center;
+  width: 420px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.btn-div {
+  padding-bottom: 20px;
 }
 
 .sub-title {
