@@ -1409,7 +1409,8 @@
           Cancel
           </button>-->
         <button
-          class="btn btn-delete"
+          *ngIf="isEdit == true && flexiOn == false"
+          class="btn btn-delete body-l"
           type="button"
           (click)="courseDeleteModal(course_delete)"
         >
@@ -1460,6 +1461,12 @@
           Publish
         </button>
         <button
+          class="cancel-button bg-s0 text-c300 body-l"
+          (click)="backToCourses('back', '')"
+        >
+          Cancel
+        </button>
+        <button
           *ngIf="isEdit == true && flexiOn == false"
           type="button"
           class="btn button-submit body-l bg-b100 text-s0"
@@ -1480,6 +1487,7 @@
         >
           Save
         </button>
+
         <!-- for flexible  -->
         <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>

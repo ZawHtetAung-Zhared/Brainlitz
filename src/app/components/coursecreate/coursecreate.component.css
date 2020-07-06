@@ -1640,7 +1640,7 @@ input:checked + .slider:before {
   position: absolute;
   width: 128px;
   height: 48px;
-  left: 20px;
+  left: 50px;
   background: #fff;
   border: 1px solid #edeff0;
   border-radius: 12px;
@@ -1712,4 +1712,14 @@ input:checked + .slider:before {
   min-width: 90px;
   padding: 6px 12px;
   margin: 0px 0px 0px 4px;
+}
+.cancel-button {
+  background: #f2f4f5;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  padding: 10px 20px !important;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 32px;
 }
