@@ -186,7 +186,7 @@
   </div>
   <div
     *ngIf="conceptsArr.length == this.pageConcept * 20"
-    class="load-more justify-content-center"
+    class="load-more justify-content-center d-flex"
   >
     <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
     <button
@@ -287,7 +287,10 @@
     {{pageCollection}}
     {{pageCollection*20}} -->
   </div>
-  <div *ngIf="collectionarr.length == pageCollection * 20" class="load-more">
+  <div
+    *ngIf="collectionarr.length == pageCollection * 20"
+    class="load-more justify-content-center d-flex"
+  >
     <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
     <button
       class="btn remove-outline"

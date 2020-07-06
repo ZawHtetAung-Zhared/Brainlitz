@@ -1932,7 +1932,7 @@ div.pdLine-wrap:last-child {
 
 .collection-wrapper.card-columns,
 .collection-wrapper.card-columns1 {
-  padding: 0px 15px;
+  padding: 0px 15px 20px;
   column-count: 2;
 }
 
@@ -1996,8 +1996,8 @@ span.tagName {
 
 .collection-wrapper1 {
   padding-top: 20px;
-  margin-bottom: 33px;
-  padding-bottom: 60px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 .single-collection1 {
   /* width: 428px !important; */
