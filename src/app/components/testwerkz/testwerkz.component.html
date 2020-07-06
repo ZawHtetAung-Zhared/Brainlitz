@@ -184,7 +184,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="conceptsArr.length == this.pageConcept * 20" class="load-more">
+  <div
+    *ngIf="conceptsArr.length == this.pageConcept * 20"
+    class="load-more justify-content-center"
+  >
     <!-- <div *ngIf="apgList.length >=20 && ismodule == false && iscreate == false && isshare == false && shareAPG == false && result != 0 && apgDemo.viewAPG != ''" class="load-more"> -->
     <button
       class="btn remove-outline"
