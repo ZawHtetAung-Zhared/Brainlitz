@@ -2459,19 +2459,21 @@ export class CoursecreateComponent implements OnInit {
   }
 
   confimDeleteCourse() {
-    this._service.deleteCourseDetail(this.courseId).subscribe(
-      (res: any) => {
-        console.log('Success', res);
-        this.toastr.success('Successfully Deleted');
-        this.autoEnrollModal.close();
-        this.backToCourses('', res.body.courseId);
-      },
-      err => {
-        console.log(err);
-        this.toastr.error('Failed Delete!!!');
-        this.autoEnrollModal.close();
-        this.backToCourses('', '');
-      }
-    );
+    this._service
+      .deleteCourseDetail(this.courseId, this.currentLocation)
+      .subscribe(
+        (res: any) => {
+          console.log('Success', res);
+          this.toastr.success('Successfully Deleted');
+          this.autoEnrollModal.close();
+          this.router.navigate(['/course']);
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Failed Delete!!!');
+          this.autoEnrollModal.close();
+          this.backToCourses('', '');
+        }
+      );
   }
 }

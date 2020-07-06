@@ -2037,12 +2037,11 @@ export class appService {
       return result;
     });
   }
-
-  deleteCourseDetail(courseId) {
+  deleteCourseDetail(courseId, locationID) {
     console.log(courseId);
     console.log(locationID);
     let apiUrl =
-      this.baseUrl + 'location/' + locationID + '/course/' + courseId;
+      this.baseUrl + '/course/' + courseId + '?locationId=' + locationID;
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
