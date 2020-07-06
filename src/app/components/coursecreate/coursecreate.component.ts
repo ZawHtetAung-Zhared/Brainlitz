@@ -2456,4 +2456,5 @@ export class CoursecreateComponent implements OnInit {
     this.autoEnrollModal.close();
     this.isCourse_delete = false;
   }
+  confirmdeleteCourse() {}
 }

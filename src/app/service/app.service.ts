@@ -2038,6 +2038,21 @@ export class appService {
     });
   }
 
+  deleteCourseDetail(id) {
+    console.log(id);
+    let apiUrl = this.baseUrl + '/course/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
   getQuizwerkzForCourse(courseid) {
     this.getLocalstorage();
     console.log('QuizwerkzForCourse', courseid);
