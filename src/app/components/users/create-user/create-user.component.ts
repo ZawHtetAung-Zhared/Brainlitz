@@ -73,6 +73,23 @@ export class CreateUserComponent implements OnInit {
     this.isCustomer_delete = false;
   }
 
+  confirmCustomerDelete() {
+    this._service.deleteCustomer(this.regionID, this.updateUserId).subscribe(
+      (res: any) => {
+        console.log('Success', res);
+        this.toastr.success('Successfully Deleted');
+        this.autoEnrollModal.close();
+        this.backToCustomer();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed Delete!!!');
+        this.autoEnrollModal.close();
+        this.backToCustomer();
+      }
+    );
+  }
+
   ngOnInit() {
     this.type = this._Activatedroute.snapshot.paramMap.get('type');
     this.isupdate = this.type === 'edit';
