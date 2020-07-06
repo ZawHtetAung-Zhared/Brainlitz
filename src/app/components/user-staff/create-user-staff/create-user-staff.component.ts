@@ -70,6 +70,23 @@ export class CreateUserStaffComponent implements OnInit {
     this.isStaff_delete = false;
   }
 
+  confirmStaffDelete() {
+    this._service.deleteStaff(this.regionID, this.userId).subscribe(
+      (res: any) => {
+        console.log('Success', res);
+        this.toastr.success('Successfully Deleted');
+        this.autoEnrollModal.close();
+        this.back();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed Delete!!!');
+        this.autoEnrollModal.close();
+        this.back();
+      }
+    );
+  }
+
   ngOnInit() {
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {

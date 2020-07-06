@@ -4812,6 +4812,36 @@ export class appService {
     });
   }
 
+  deleteCustomer(regionid, customerid) {
+    console.log(regionid);
+    console.log(customerid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/users/' + customerid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  deleteStaff(regionid, staffid) {
+    console.log(regionid);
+    console.log(staffid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/users/' + staffid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
   getAPGList(regionId, idStr) {
     let apiUrl =
       this.baseUrl + '/' + regionId + '/access-point-group-list?id=' + idStr;
