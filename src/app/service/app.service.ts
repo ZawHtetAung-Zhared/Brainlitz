@@ -2038,9 +2038,11 @@ export class appService {
     });
   }
 
-  deleteCourseDetail(id) {
-    console.log(id);
-    let apiUrl = this.baseUrl + '/course/' + id;
+  deleteCourseDetail(courseId) {
+    console.log(courseId);
+    console.log(locationID);
+    let apiUrl =
+      this.baseUrl + 'location/' + locationID + '/course/' + courseId;
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken

@@ -46,6 +46,7 @@ export class CoursecreateComponent implements OnInit {
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public course = JSON.parse(localStorage.getItem('courseID'));
+  public courseId = localStorage.getItem('course_id');
   public currency = JSON.parse(localStorage.getItem('currency'));
   public scheduleObj = JSON.parse(localStorage.getItem('scheduleObj'));
   @BlockUI() blockUI: NgBlockUI;
@@ -2456,5 +2457,21 @@ export class CoursecreateComponent implements OnInit {
     this.autoEnrollModal.close();
     this.isCourse_delete = false;
   }
-  confirmdeleteCourse() {}
+
+  confimDeleteCourse() {
+    this._service.deleteCourseDetail(this.courseId).subscribe(
+      (res: any) => {
+        console.log('Success', res);
+        this.toastr.success('Successfully Deleted');
+        this.autoEnrollModal.close();
+        this.backToCourses('', res.body.courseId);
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed Delete!!!');
+        this.autoEnrollModal.close();
+        this.backToCourses('', '');
+      }
+    );
+  }
 }

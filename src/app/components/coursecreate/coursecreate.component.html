@@ -1461,6 +1461,7 @@
           Publish
         </button>
         <button
+          *ngIf="isEdit == true && flexiOn == false"
           class="cancel-button bg-s0 text-c300 body-l"
           (click)="backToCourses('back', '')"
         >
@@ -1525,20 +1526,19 @@
       Cancel
     </button>
     <button
-      *ngIf="deleteGradeId == null"
       type="submit"
       class="btn modal-delete-btn bg-r100 text-s0 body-l"
-      (click)="confirmJournalDelete()"
+      (click)="confimDeleteCourse()"
     >
       Delete
     </button>
-    <button
+    <!--<button
       *ngIf="deleteGradeId != null"
       type="submit"
       class="btn modal-delete-btn bg-r100 text-s0 body-l"
       (click)="deleteGrade()"
     >
       Yes
-    </button>
+    </button>-->
   </div>
 </ng-template>
