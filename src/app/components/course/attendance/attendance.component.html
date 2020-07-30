@@ -641,8 +641,15 @@
                   </span>
                   <input
                     type="text"
+                    name="expire"
+                    required
                     placeholder="Starting date"
                     class="input-day body-l text-c300"
+                    ngbDatepicker
+                    #expire="ngbDatepicker"
+                    (ngModelChange)="setExpirationDate($event)"
+                    [(ngModel)]="expirationDate"
+                    (click)="expire.toggle()"
                     readonly
                   />
                 </div>
