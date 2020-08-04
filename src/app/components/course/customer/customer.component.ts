@@ -321,6 +321,7 @@ export class CustomerComponent implements OnInit {
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
+  public expirationDate: any = { year: '', month: '', day: '' };
 
   //
   currentLessonIdx: any = null;
@@ -994,7 +995,7 @@ export class CustomerComponent implements OnInit {
   public modalType;
 
   issuePass(obj, userId) {
-    console.log(obj);
+    console.log('make up', obj);
     console.log(userId);
     console.log(this.detailLists._id);
     this.showStudentOption = '';
@@ -1288,4 +1289,10 @@ export class CustomerComponent implements OnInit {
   //     );
   //   };
   // }
+
+  setExpirationDate(event) {
+    this.makeupForm.expirationDate = event;
+    console.log(' exp date test', event);
+    console.log(' expirationDate', this.makeupForm.expirationDate);
+  }
 }

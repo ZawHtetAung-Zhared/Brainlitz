@@ -248,7 +248,6 @@ export class AttendanceComponent implements OnInit {
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
-  public expirationDate: any = { year: '', month: '', day: '' };
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -2354,7 +2353,7 @@ export class AttendanceComponent implements OnInit {
           console.log('obj', obj);
           this._service.makeupPassIssue(obj, this.courseId, userId).subscribe(
             (res: any) => {
-              console.log(res);
+              console.log('makeup pass', res);
               //this.blockUI.stop();
               this.modalReference.close();
               // this.activeTab = 'People';
@@ -4429,11 +4428,5 @@ export class AttendanceComponent implements OnInit {
         this.showReliefPopup = false;
         this.updateForRelief();
       });
-  }
-
-  setExpirationDate(event) {
-    this.expirationDate = event;
-    console.log(' exp date test', event);
-    console.log(' expirationDate', this.expirationDate);
   }
 }

@@ -628,33 +628,6 @@
                 required
               ></textarea>
             </div>
-
-            <div
-              *ngIf="isGlobal && this.modalType == 'absent'"
-              class="mb-0 mt-2 form-group"
-            >
-              <label for="name" class="input-label">Expire date</label>
-              <div class="input-wrap">
-                <div style="position: relative;">
-                  <span class="dp-icon">
-                    <img src="./assets/img/course-dp.png" />
-                  </span>
-                  <input
-                    type="text"
-                    name="expire"
-                    required
-                    placeholder="Starting date"
-                    class="input-day body-l text-c300"
-                    ngbDatepicker
-                    #expire="ngbDatepicker"
-                    (ngModelChange)="setExpirationDate($event)"
-                    [(ngModel)]="expirationDate"
-                    (click)="expire.toggle()"
-                    readonly
-                  />
-                </div>
-              </div>
-            </div>
           </div>
           <div
             *ngIf="

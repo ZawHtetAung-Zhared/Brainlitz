@@ -4372,20 +4372,3 @@ button.today-button {
 .disabledSwitch {
   cursor: not-allowed;
 }
-.input-day {
-  border: 0;
-  padding: 8px 15px;
-  /*width: 90%;*/
-  outline: none;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  width: 100%;
-}
-.input-wrap {
-  margin: 13px 0px;
-}
-.dp-icon {
-  position: absolute;
-  top: 7px;
-  right: 13px;
-}
