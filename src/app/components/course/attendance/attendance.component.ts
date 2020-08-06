@@ -2469,6 +2469,7 @@ export class AttendanceComponent implements OnInit {
     this.cancelUI = false;
     this.reasonValue = '';
     this.textAreaOption = false;
+    this.makeupForm = {};
     this.modalReference.close();
     // this.currentDateObj = '';
   }
@@ -4428,5 +4429,10 @@ export class AttendanceComponent implements OnInit {
         this.showReliefPopup = false;
         this.updateForRelief();
       });
+  }
+  setExpirationDate(event) {
+    this.makeupForm.expirationDate = event;
+    console.log(' exp date test', event);
+    console.log(' expirationDate', this.makeupForm.expirationDate);
   }
 }
