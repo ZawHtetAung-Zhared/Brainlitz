@@ -12,7 +12,7 @@
 
 /* @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:700&display=swap'); */
 /* @font-face {
-  
+
   font-family: 'Inter-UI-Light';
   src:  url('assets/fonts/Inter-UI-Light.ttf') format('truetype');
 }
@@ -1641,4 +1641,8 @@ button.toast-close-button {
   border-radius: 4px;
   padding: 12px 16px;
   z-index: 10;
+}
+
+.ex-div > .dropdown-menu.show {
+  margin-bottom: 100px;
 }

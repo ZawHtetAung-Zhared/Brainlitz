@@ -4347,7 +4347,6 @@ button.today-button {
 }
 .input-wrap {
   margin: 13px 0px;
-  z-index: 9999;
 }
 .dp-icon {
   position: absolute;
