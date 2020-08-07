@@ -497,7 +497,8 @@
                   #expire="ngbDatepicker"
                   (ngModelChange)="setExpirationDate($event)"
                   [(ngModel)]="makeupForm.expirationDate"
-                  (click)="expire.toggle()"
+                  (click)="expire.toggle(); $event.stopPropagation()"
+                  (document:click)="closeCalendar(expire, $event)"
                   readonly
                 />
               </div>
