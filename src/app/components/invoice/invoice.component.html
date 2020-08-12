@@ -1038,7 +1038,7 @@
                 <div class="d-flex">
                   <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
                   <!-- <div style="width: 55px;">
-            
+
                     <i class="fa fa-credit-card" style="font-size: 30px;"></i>
                   </div> -->
                   <div
@@ -1056,25 +1056,25 @@
                     class="c-label body-l text-c100"
                     *ngIf="payment.paymentMethod == 0"
                   >
-                    Cash
+                    {{ paymentList[0].name }}
                   </div>
                   <div
                     class="c-label body-l text-c100"
                     *ngIf="payment.paymentMethod == 1"
                   >
-                    Credit/Debit card
+                    {{ paymentList[1].name }}
                   </div>
                   <div
                     class="c-label body-l text-c100"
                     *ngIf="payment.paymentMethod == 2"
                   >
-                    Cheque
+                    {{ paymentList[2].name }}
                   </div>
                   <div
                     class="c-label body-l text-c100"
                     *ngIf="payment.paymentMethod == 3"
                   >
-                    Others
+                    {{ paymentList[3].name }}
                   </div>
                 </div>
               </div>
@@ -1676,7 +1676,7 @@
               <div class="d-flex">
                 <!-- <img style="width: 100%;" src="../assets/img/mastercardlogo.jpg"> -->
                 <!-- <div style="width: 55px;">
-              
+
                 <i class="fa fa-credit-card" style="font-size: 30px;"></i>
               </div> -->
                 <div
@@ -1694,25 +1694,25 @@
                   class="c-label body-l text-c100"
                   *ngIf="payment.paymentMethod == 0"
                 >
-                  Cash
+                  {{ paymentList[0].name }}
                 </div>
                 <div
                   class="c-label body-l text-c100"
                   *ngIf="payment.paymentMethod == 1"
                 >
-                  Cheque
+                  {{ paymentList[1].name }}
                 </div>
                 <div
                   class="c-label body-l text-c100"
                   *ngIf="payment.paymentMethod == 2"
                 >
-                  Credit/Debit card
+                  {{ paymentList[2].name }}
                 </div>
                 <div
                   class="c-label body-l text-c100"
                   *ngIf="payment.paymentMethod == 3"
                 >
-                  Others
+                  {{ paymentList[3].name }}
                 </div>
               </div>
             </div>
@@ -1723,9 +1723,9 @@
           </div>
         </div>
       </div>
-      <div class="invnote-readonly  body-m text-c100 pb-3">
+      <!-- <div class="invnote-readonly  body-m text-c100 pb-3">
         {{ invoiceInfo.invoiceNote }}
-      </div>
+      </div> -->
     </div>
 
     <div class="modal-footer justify-content-end">
