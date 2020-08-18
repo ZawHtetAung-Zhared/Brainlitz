@@ -160,7 +160,9 @@ export class InvoiceReportComponent implements OnInit {
             for (var j = 0; j < array[i].additionalFees.length; j++) {
               //loop the array
               invObj['Others'] +=
-                'newFee => ' + array[i].additionalFees[j].amount; //all data
+                array[i].additionalFees[j].name +
+                ' => ' +
+                array[i].additionalFees[j].amount; //all data
               if (j != array[i].additionalFees.length - 1) {
                 //check if last
                 invObj['Others'] += '\n'; //next line if last
@@ -220,7 +222,9 @@ export class InvoiceReportComponent implements OnInit {
               for (var j = 0; j < array[i].additionalFees.length; j++) {
                 //loop the array
                 invObj['Others'] +=
-                  'newFee => ' + array[i].additionalFees[j].amount; //all data
+                  array[i].additionalFees[j].name +
+                  ' => ' +
+                  array[i].additionalFees[j].amount; //all data
                 if (j != array[i].additionalFees.length - 1) {
                   //check if last
                   invObj['Others'] += '\n'; //next line if last
