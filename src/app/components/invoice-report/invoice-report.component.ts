@@ -114,8 +114,8 @@ export class InvoiceReportComponent implements OnInit {
     var row = '';
     row =
       type == 'UNPAID'
-        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Registration Fee,Others'
-        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Registration Fee,Others';
+        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Others'
+        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Others';
     str += row + '\r\n';
     // var invObj = {
     //   paymentDate: '',
@@ -150,7 +150,7 @@ export class InvoiceReportComponent implements OnInit {
         }
 
         invObj['courseFee'] = array[i].courseFee.fee;
-        invObj['registrationFee'] = array[i].registrationFee.fee;
+        // invObj['registrationFee'] = array[i].registrationFee.fee;
         invObj['Others'] = ''; //clear first
         if (array[i].additionalFees) {
           //check if exists or not
@@ -212,7 +212,7 @@ export class InvoiceReportComponent implements OnInit {
             invObj['discount'] = array[i].totalDiscount.amount;
           }
           invObj['courseFee'] = array[i].courseFee.fee;
-          invObj['registrationFee'] = array[i].registrationFee.fee;
+          // invObj['registrationFee'] = array[i].registrationFee.fee;
           invObj['Others'] = ''; //clear first
           if (array[i].additionalFees) {
             //check if exists or not
