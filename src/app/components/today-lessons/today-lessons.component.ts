@@ -35,6 +35,7 @@ export class TodayLessonsComponent implements OnInit {
   public reasonValue: any;
   public textAreaOption = false;
   public isSticky = false;
+  public expirationDate: any = { year: '', month: '', day: '' };
 
   @Output() courseDetail = new EventEmitter();
 
@@ -354,5 +355,19 @@ export class TodayLessonsComponent implements OnInit {
           }
         );
     }
+  }
+  setExpirationDate(event) {
+    this.makeupForm.expirationDate = event;
+    console.log(' exp date test', event);
+    console.log(' expirationDate', this.makeupForm.expirationDate);
+  }
+  closeCalendar(datePicker, event) {
+    // console.log("closeCalendar", datePicker);
+    // console.log("class input-wrap", event.target.className.includes('input-wrap'));
+    // console.log("offset", event.target.offsetParent);
+
+    if (event.target.offsetParent == null) datePicker.close();
+    else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
+      datePicker.close();
   }
 }
