@@ -10,42 +10,37 @@ trigger:
   batch: true
   branches:
     include:
-    - dev
+      - release/*
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.15.3'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        npm install
+        npm run build:dev
 
-- task: DownloadSecureFile@1
-  name: shellScript
-  displayName: 'Download shellScript file'
-  inputs:
-    secureFile: 'brainlitz_web_deploy.sh'
-
-- script: |
-    npm install
-    npm run build:dev
-  displayName: 'npm install and build'
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(System.DefaultWorkingDirectory)/dist.zip'
-    replaceExistingArchive: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish dist.zip to System default working directory'
-  inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/dist.zip'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish shellScript to System default working directory'
-  inputs:
-    PathtoPublish: '$(shellScript.secureFilePath)'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: './dist'
+      archiveType: 'zip'
+      archiveFile: './blz-web.zip'
+      replaceExistingArchive: true
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: './'
+      Contents: 'blz-web.zip'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      OverWrite: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
