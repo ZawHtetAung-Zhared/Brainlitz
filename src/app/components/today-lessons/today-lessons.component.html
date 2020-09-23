@@ -97,7 +97,7 @@
                     </div>
                   </div>
 
-                  <!-- 
+                  <!--
                   <div
                     class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
                   > -->
@@ -294,6 +294,32 @@
                 required
               ></textarea>
             </div>
+            <div *ngIf="isGlobal" class="mb-0 mt-2 form-group">
+              <label for="name" class="input-label body-xl text-c300"
+                >Expire date</label
+              >
+              <div class="input-wrap mt-2">
+                <div style="position: relative;" class="ex-div">
+                  <span class="dp-icon" style="pointer-events: none;">
+                    <img src="./assets/img/course-dp.png" />
+                  </span>
+                  <input
+                    type="text"
+                    name="expire"
+                    required
+                    placeholder="Starting date"
+                    class="input-day body-l text-c300"
+                    ngbDatepicker
+                    #expire="ngbDatepicker"
+                    (ngModelChange)="setExpirationDate($event)"
+                    [(ngModel)]="makeupForm.expirationDate"
+                    (click)="expire.toggle(); $event.stopPropagation()"
+                    (document:click)="closeCalendar(expire, $event)"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <!-- <form class="form-wrap" novalidate #makeupF="ngForm" style="width:80%">
             <div class="modal-body">
@@ -310,7 +336,7 @@
                 </div>
               </div>
             </div>
-       
+
           </form> -->
           <div
             *ngIf="makeupLists.length > 0"
@@ -488,7 +514,11 @@
           *ngIf="isGlobal"
           class="btn btn-submit body-l bg-b100 text-s0"
           (click)="issuePass(makeupForm, studentDetail._id)"
-          [disabled]="makeupForm.reason == null || makeupForm.name == null"
+          [disabled]="
+            makeupForm.reason == null ||
+            makeupForm.name == null ||
+            makeupForm.expirationDate == null
+          "
         >
           Confirm
         </button>

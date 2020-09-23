@@ -101,6 +101,7 @@ export class InvoiceComponent implements OnInit {
   public defult_totalTax: any;
   public default_disTotal: any;
   public defult_disTotalTax: any;
+  public paymentList: any = [{ id: null, name: null }];
 
   ngOnInit() {
     // this.taxRate = this.course.invoice.tax.rate;
@@ -138,6 +139,10 @@ export class InvoiceComponent implements OnInit {
     // } else {
     //   console.log('no invoice id');
     // }
+    this._service.getPaymentMethod().subscribe((res: any) => {
+      console.log('paymentList', res);
+      this.paymentList = res;
+    });
     console.log(this.invoiceInfo);
   }
 

@@ -627,6 +627,28 @@
                 #reason="ngModel"
                 required
               ></textarea>
+              <label for="name" class="input-label">Expire date</label>
+              <div class="input-wrap">
+                <div style="position: relative;">
+                  <span class="dp-icon" style="pointer-events: none;">
+                    <img src="./assets/img/course-dp.png" />
+                  </span>
+                  <input
+                    type="text"
+                    name="expire"
+                    required
+                    placeholder="Starting date"
+                    class="input-day body-l text-c300"
+                    ngbDatepicker
+                    #expire="ngbDatepicker"
+                    (ngModelChange)="setExpirationDate($event)"
+                    [(ngModel)]="makeupForm.expirationDate"
+                    (click)="expire.toggle(); $event.stopPropagation()"
+                    (document:click)="closeCalendar(expire, $event)"
+                    readonly
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div
