@@ -35,7 +35,6 @@ steps:
       replaceExistingArchive: true
   - task: CopyFiles@2
     inputs:
-      SourceFolder: './'
       Contents: 'blz-web.zip'
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
       OverWrite: true
