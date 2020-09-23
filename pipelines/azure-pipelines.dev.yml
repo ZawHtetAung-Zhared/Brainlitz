@@ -27,6 +27,10 @@ steps:
         npm install
         npm run build:dev
 
+  - task: CmdLine@2
+    inputs:
+      script: 'rm -rf node_modules -y'
+
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: './dist/'
