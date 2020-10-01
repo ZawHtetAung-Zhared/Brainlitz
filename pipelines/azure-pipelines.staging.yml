@@ -22,7 +22,7 @@ steps:
       targetType: 'inline'
       script: |
         npm install
-        npm run build:dev
+        npm run build:staging
 
   - task: CmdLine@2
     inputs:
