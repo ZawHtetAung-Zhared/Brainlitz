@@ -4,37 +4,40 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
--master
-
-pool:
-  vmImage: 'ubuntu-latest'
+  batch: true
+  branches:
+    include:
+      - master
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.15.3'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "12.x"
+    displayName: "Install Node.js"
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: |
+        npm install
+        npm run build:dev
 
-- script: |
-    npm install
-    npm run build:master
-  displayName: 'npm install and build'
+  - task: CmdLine@2
+    inputs:
+      script: "rm -rf node_modules"
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(System.DefaultWorkingDirectory)/dist.zip'
-    replaceExistingArchive: true
-
-# - task: CopyFiles@2
-#   displayName: 'Copy /dist folder to Artifact directory'
-#   inputs:
-#     SourceFolder: '$(System.DefaultWorkingDirectory)/dist'
-#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish dist.zip to System default working directory'
-  inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/dist.zip'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: "./dist/"
+      archiveType: "zip"
+      archiveFile: "./blz-web.zip"
+      replaceExistingArchive: true
+  - task: CopyFiles@2
+    inputs:
+      Contents: "blz-web.zip"
+      TargetFolder: "$(Build.ArtifactStagingDirectory)"
+      OverWrite: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "drop"
+      publishLocation: "Container"
