@@ -321,6 +321,7 @@ export class CustomerComponent implements OnInit {
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
+  public expirationDate: any = { year: '', month: '', day: '' };
 
   //
   currentLessonIdx: any = null;
@@ -994,7 +995,7 @@ export class CustomerComponent implements OnInit {
   public modalType;
 
   issuePass(obj, userId) {
-    console.log(obj);
+    console.log('make up', obj);
     console.log(userId);
     console.log(this.detailLists._id);
     this.showStudentOption = '';
@@ -1288,4 +1289,19 @@ export class CustomerComponent implements OnInit {
   //     );
   //   };
   // }
+
+  setExpirationDate(event) {
+    this.makeupForm.expirationDate = event;
+    console.log(' exp date test', event);
+    console.log(' expirationDate', this.makeupForm.expirationDate);
+  }
+  closeCalendar(datePicker, event) {
+    // console.log("closeCalendar", datePicker);
+    // console.log("class input-wrap", event.target.className.includes('input-wrap'));
+    // console.log("offset", event.target.offsetParent);
+
+    if (event.target.offsetParent == null) datePicker.close();
+    else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
+      datePicker.close();
+  }
 }

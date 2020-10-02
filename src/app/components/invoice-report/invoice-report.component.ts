@@ -114,8 +114,8 @@ export class InvoiceReportComponent implements OnInit {
     var row = '';
     row =
       type == 'UNPAID'
-        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Registration Fee'
-        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Registration Fee';
+        ? 'Invoice Due date,Invoice#,Name,Amount,Discount,Course Fee,Others'
+        : 'Payment date,Invoice#,Name,Method,Amount,Discount,Course Fee,Others';
     str += row + '\r\n';
     // var invObj = {
     //   paymentDate: '',
@@ -150,7 +150,33 @@ export class InvoiceReportComponent implements OnInit {
         }
 
         invObj['courseFee'] = array[i].courseFee.fee;
-        invObj['registrationFee'] = array[i].registrationFee.fee;
+        // invObj['registrationFee'] = array[i].registrationFee.fee;
+        invObj['Others'] = ''; //clear first
+        if (array[i].additionalFees) {
+          //check if exists or not
+          if (array[i].additionalFees.length > 0) {
+            //if exists check array
+            invObj['Others'] += '"'; // next line format start
+            for (var j = 0; j < array[i].additionalFees.length; j++) {
+              //loop the array
+              invObj['Others'] +=
+                array[i].additionalFees[j].name +
+                ' => ' +
+                array[i].additionalFees[j].amount; //all data
+              if (j != array[i].additionalFees.length - 1) {
+                //check if last
+                invObj['Others'] += '\n'; //next line if last
+              }
+            }
+            invObj['Others'] += '"'; //next line format end
+          } else {
+            //if length zero
+            invObj['Others'] = '-';
+          }
+        } else {
+          //if doesn't exist at all
+          invObj['Others'] = '-';
+        }
         console.log(invObj);
         var line = '';
         for (var index in invObj) {
@@ -186,7 +212,33 @@ export class InvoiceReportComponent implements OnInit {
             invObj['discount'] = array[i].totalDiscount.amount;
           }
           invObj['courseFee'] = array[i].courseFee.fee;
-          invObj['registrationFee'] = array[i].registrationFee.fee;
+          // invObj['registrationFee'] = array[i].registrationFee.fee;
+          invObj['Others'] = ''; //clear first
+          if (array[i].additionalFees) {
+            //check if exists or not
+            if (array[i].additionalFees.length > 0) {
+              //if exists check array
+              invObj['Others'] += '"'; // next line format start
+              for (var j = 0; j < array[i].additionalFees.length; j++) {
+                //loop the array
+                invObj['Others'] +=
+                  array[i].additionalFees[j].name +
+                  ' => ' +
+                  array[i].additionalFees[j].amount; //all data
+                if (j != array[i].additionalFees.length - 1) {
+                  //check if last
+                  invObj['Others'] += '\n'; //next line if last
+                }
+              }
+              invObj['Others'] += '"'; //next line format end
+            } else {
+              //if length zero
+              invObj['Others'] = '-';
+            }
+          } else {
+            //if doesn't exist at all
+            invObj['Others'] = '-';
+          }
           console.log(invObj);
           var line = '';
           for (var index in invObj) {
