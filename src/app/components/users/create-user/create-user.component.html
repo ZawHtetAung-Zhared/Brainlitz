@@ -422,55 +422,65 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-end button-group bg-s0">
+        <div class="d-flex justify-content-between button-group bg-s0">
           <button
-            *ngIf="isupdate == false"
+            *ngIf="isupdate == true"
             type="button"
-            class="btn cancel-button body-l text-c300 bg-s20"
+            class="btn delete-button body-l text-r100 bg-s0"
             (click)="backToCustomer()"
           >
-            Cancel
+            Delete
           </button>
-          <button
-            *ngIf="isupdate == true"
-            type="button"
-            class="btn cancel-button body-l text-c300 bg-s20"
-            (click)="backToDetails()"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            *ngIf="isupdate == false"
-            type="submit"
-            (click)="createUser(formFieldc, 'create')"
-            class="btn create-button body-l text-s0 bg-b100"
-            [disabled]="
-              !customerForm.valid ||
-              emailAlert ||
-              guardianAlert ||
-              sameMail ||
-              imgDemoSlider
-            "
-          >
-            Create
-          </button>
-          <button
-            type="button"
-            *ngIf="isupdate == true"
-            type="submit"
-            (click)="createUser(formFieldc, 'edit')"
-            class="btn create-button body-l text-s0 bg-b100"
-            [disabled]="
-              !customerForm.valid ||
-              emailAlert ||
-              guardianAlert ||
-              sameMail ||
-              imgDemoSlider
-            "
-          >
-            Update
-          </button>
+          <div>
+            <button
+              *ngIf="isupdate == false"
+              type="button"
+              class="btn cancel-button body-l text-c300 bg-s20"
+              (click)="backToCustomer()"
+            >
+              Cancel
+            </button>
+            <button
+              *ngIf="isupdate == true"
+              type="button"
+              class="btn cancel-button body-l text-c300 bg-s20"
+              (click)="backToDetails()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              *ngIf="isupdate == false"
+              type="submit"
+              (click)="createUser(formFieldc, 'create')"
+              class="btn create-button body-l text-s0 bg-b100"
+              [disabled]="
+                !customerForm.valid ||
+                emailAlert ||
+                guardianAlert ||
+                sameMail ||
+                imgDemoSlider
+              "
+            >
+              Create
+            </button>
+            <button
+              type="button"
+              *ngIf="isupdate == true"
+              type="submit"
+              (click)="createUser(formFieldc, 'edit')"
+              class="btn create-button body-l text-s0 bg-b100"
+              [disabled]="
+                !customerForm.valid ||
+                emailAlert ||
+                guardianAlert ||
+                sameMail ||
+                imgDemoSlider
+              "
+            >
+              Update
+            </button>
+          </div>
         </div>
       </form>
     </div>
