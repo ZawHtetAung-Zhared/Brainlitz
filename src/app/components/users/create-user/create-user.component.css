@@ -37,11 +37,16 @@ h3 {
   border: none;
   cursor: pointer;
   margin-right: 32px;
+
+  border-radius: 12px;
+  width: 128px;
 }
 
 .create-button {
   padding: 10px 20px !important;
   border: none;
+  border-radius: 12px;
+  width: 128px;
 }
 
 .back-staff-txt {
