@@ -1647,3 +1647,6 @@ button.toast-close-button {
   /* margin-bottom: 100px; */
   z-index: 9999;
 }
+.borderless .modal-content {
+  border: none;
+}

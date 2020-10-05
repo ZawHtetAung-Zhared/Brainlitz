@@ -83,6 +83,7 @@ export class InvoiceComponent implements OnInit {
     amount: 0.0,
     isDefault: false
   };
+  public actionFlag: boolean = false;
 
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
@@ -1192,5 +1193,9 @@ export class InvoiceComponent implements OnInit {
     }
 
     return true;
+  }
+
+  openActions() {
+    this.actionFlag = !this.actionFlag;
   }
 }

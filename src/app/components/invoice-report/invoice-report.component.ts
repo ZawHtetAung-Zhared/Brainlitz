@@ -61,7 +61,7 @@ export class InvoiceReportComponent implements OnInit {
     this.modalReference = this.modalService.open(classEnrollModal, {
       backdrop: 'static',
       windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+        'modal-xl borderless modal-inv d-flex justify-content-center align-items-center'
     });
     setTimeout(() => {
       //this.blockUI.stop();
