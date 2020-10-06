@@ -46,6 +46,7 @@ export class CoursecreateComponent implements OnInit {
   public locationName = localStorage.getItem('locationName');
   public coursePlan = JSON.parse(localStorage.getItem('cPlan'));
   public course = JSON.parse(localStorage.getItem('courseID'));
+  public courseId = localStorage.getItem('course_id');
   public currency = JSON.parse(localStorage.getItem('currency'));
   public scheduleObj = JSON.parse(localStorage.getItem('scheduleObj'));
   @BlockUI() blockUI: NgBlockUI;
@@ -139,6 +140,8 @@ export class CoursecreateComponent implements OnInit {
   public modalReference: any;
   public courseType: any;
   public sparkWerkzCourse: boolean = false;
+  public isCourse_delete = false;
+  public autoEnrollModal;
 
   @ViewChild('start') nameInputRef: ElementRef;
   @ViewChild('end') name1InputRef: ElementRef;
@@ -2441,4 +2444,36 @@ export class CoursecreateComponent implements OnInit {
   //      this.isValid = true;
   //    }
   //  }
+  courseDeleteModal(modal) {
+    this.isCourse_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal course-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isCourse_delete = false;
+  }
+
+  confimDeleteCourse() {
+    this._service
+      .deleteCourseDetail(this.courseId, this.currentLocation)
+      .subscribe(
+        (res: any) => {
+          console.log('Success', res);
+          this.toastr.success('Successfully Deleted');
+          this.autoEnrollModal.close();
+          this.router.navigate(['/course']);
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Failed Delete!!!');
+          this.autoEnrollModal.close();
+          this.backToCourses('', '');
+        }
+      );
+  }
 }

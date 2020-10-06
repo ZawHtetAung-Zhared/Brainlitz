@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormStyle } from '@angular/common';
 import { isBoolean } from 'util';
 import { tryParse } from 'selenium-webdriver/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-invoice',
@@ -83,6 +84,7 @@ export class InvoiceComponent implements OnInit {
     amount: 0.0,
     isDefault: false
   };
+  public actionFlag: boolean = false;
 
   // public total:any;
   @BlockUI() blockUI: NgBlockUI;
@@ -90,6 +92,7 @@ export class InvoiceComponent implements OnInit {
     private _service: appService,
     public toastr: ToastrService,
     private router: Router,
+    private modalService: NgbModal,
     private dataService: DataService
   ) {}
   @Input() custDetail;
@@ -102,6 +105,7 @@ export class InvoiceComponent implements OnInit {
   public default_disTotal: any;
   public defult_disTotalTax: any;
   public paymentList: any = [{ id: null, name: null }];
+  public invoiceDelete;
 
   ngOnInit() {
     // this.taxRate = this.course.invoice.tax.rate;
@@ -1192,5 +1196,38 @@ export class InvoiceComponent implements OnInit {
     }
 
     return true;
+  }
+
+  openActions() {
+    this.actionFlag = !this.actionFlag;
+  }
+
+  deleteInvoice() {
+    console.log(this.invoiceId);
+    this._service.deleteInvoice(this.invoiceId).subscribe(
+      (res: any) => {
+        this.toastr.success('Invoice successfully deleted.');
+        console.log(res);
+        this.closeModal('inv');
+        this.cancelInvoiceDelete();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed to delete please try again later.');
+        this.cancelInvoiceDelete();
+      }
+    );
+  }
+
+  invoiceDeleteModal(modal) {
+    this.invoiceDelete = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal invoice-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelInvoiceDelete() {
+    this.invoiceDelete.close();
   }
 }

@@ -769,16 +769,15 @@
           </div>
         </div>
       </div>
-
       <div
         *ngIf="notiLists.length >= 20"
-        class="load-more body-m text-b100 bg-s0"
+        class="body-m btn-div text-b100 bg-s0 justify-content-center d-flex"
       >
         <button
-          class="btn remove-outline text-b100 bg-s0"
+          class="btn load-more remove-outline text-b100 bg-s0"
           (click)="showMore(notiLists.length)"
         >
-          load more
+          Load more
         </button>
       </div>
     </div>

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { appService } from '../../../service/app.service';
 import { Croppie } from 'croppie';
 import { ToastrService } from 'ngx-toastr';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-user',
@@ -37,11 +39,14 @@ export class CreateUserComponent implements OnInit {
   public img: any;
   public ulFile: any;
   public returnProfile: boolean = false;
+  public isCustomer_delete = false;
+  public autoEnrollModal;
 
   constructor(
     private router: Router,
     private _service: appService,
     private _Activatedroute: ActivatedRoute,
+    private modalService: NgbModal,
     public toastr: ToastrService
   ) {}
 
@@ -51,6 +56,38 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.isCreateFix = false;
     }
+  }
+
+  customerDeleteModal(modal) {
+    this.isCustomer_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal customer-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isCustomer_delete = false;
+  }
+
+  confirmCustomerDelete() {
+    this._service.deleteCustomer(this.regionID, this.updateUserId).subscribe(
+      (res: any) => {
+        console.log('Success', res);
+        this.toastr.success('Successfully Deleted');
+        this.autoEnrollModal.close();
+        this.backToCustomer();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed Delete!!!');
+        this.autoEnrollModal.close();
+        this.backToCustomer();
+      }
+    );
   }
 
   ngOnInit() {

@@ -53,7 +53,7 @@
         <div class="location-footer d-flex justify-content-end">
           <button
             *ngIf="locationDemo.editLocation != ''"
-            class="btn text-y100"
+            class="btn text-y100 btn-edit"
             (click)="getSingleLocation(location._id)"
           >
             Edit
@@ -67,10 +67,14 @@
     *ngIf="
       locationLists.length >= 20 && iscreate == false && result.length != 0
     "
-    class="d-flex justify-content-center load-more"
+    class="d-flex justify-content-center"
+    style="padding-bottom: 20px;"
   >
-    <button class="btn" (click)="showMore(locationLists.length)">
-      load more
+    <button
+      class="btn load-more body-m text-b100"
+      (click)="showMore(locationLists.length)"
+    >
+      Load more
     </button>
   </div>
 

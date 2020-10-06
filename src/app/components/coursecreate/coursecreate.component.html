@@ -9,7 +9,7 @@
     <div>
       <div>
         <h3 class="mb-0 nav-title text-c300 h3-strong text-center">
-          Create course
+          Update course
         </h3>
       </div>
       <div class="d-flex flex-row text-c100 light-body-m">
@@ -1401,15 +1401,21 @@
     <!-- <hr class="hr-line"> -->
     <div class="d-flex justify-content-between form-footer">
       <div class="d-flex justify-content-center flex-column">
-        <div class="body-l">
-          <button
+        <!--<button
             type="button"
             class="btn-cancel bg-s0 text-c300 body-l"
             (click)="backToCourses('back', '')"
           >
-            Cancel
-          </button>
-        </div>
+          Cancel
+          </button>-->
+        <button
+          *ngIf="isEdit == true && flexiOn == false"
+          class="btn btn-delete body-l"
+          type="button"
+          (click)="courseDeleteModal(course_delete)"
+        >
+          Delete
+        </button>
       </div>
       <div>
         <button
@@ -1456,6 +1462,13 @@
         </button>
         <button
           *ngIf="isEdit == true && flexiOn == false"
+          class="cancel-button bg-s0 text-c300 body-l"
+          (click)="backToCourses('back', '')"
+        >
+          Cancel
+        </button>
+        <button
+          *ngIf="isEdit == true && flexiOn == false"
           type="button"
           class="btn button-submit body-l bg-b100 text-s0"
           [disabled]="
@@ -1475,6 +1488,7 @@
         >
           Save
         </button>
+
         <!-- for flexible  -->
         <!-- <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-savedraft font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == '' || !model.lessonCount && !model.end" (click)="saveDraft()">Save Draft</button>
 		        <button *ngIf="isEdit == false && flexiOn == true" type="button" class="btn button-submit font-medium" [disabled]="!courseForm.form.valid || selectedTeacher == ''|| !model.lessonCount && !model.end" (click)="publishCourse()">Publish</button>
@@ -1491,5 +1505,40 @@
       [course]="courseDetails"
       (closed)="cancelInvoiceModal()"
     ></app-invoice>
+  </div>
+</ng-template>
+
+<ng-template #course_delete class="course-delete-modal">
+  <h3 class="modal-title enroll_title h3-strong text-c300">
+    Confirm delete?
+  </h3>
+  <div class="autoEnroll-body">
+    <p class="light-body-l text-c300">
+      Are you sure you want to delete? You won’t back it return.
+    </p>
+  </div>
+  <div class="modal-footer autoEnroll-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn body-l bg-s0 text-c300"
+      (click)="cancelAutoEnroll()"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn bg-r100 text-s0 body-l"
+      (click)="confimDeleteCourse()"
+    >
+      Delete
+    </button>
+    <!--<button
+      *ngIf="deleteGradeId != null"
+      type="submit"
+      class="btn modal-delete-btn bg-r100 text-s0 body-l"
+      (click)="deleteGrade()"
+    >
+      Yes
+    </button>-->
   </div>
 </ng-template>

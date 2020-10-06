@@ -1,5 +1,5 @@
 .invoice-container {
-  padding-top: 40px;
+  padding-top: 80px;
 }
 .inv-payment-container {
   padding: 40px;
@@ -282,6 +282,14 @@ input[type='number']::-webkit-outer-spin-button {
 .paid-header {
   text-align: center;
   padding: 5px 0px;
+  position: fixed;
+  width: 100%;
+  border-radius: 8px 8px 0px 0px;
+  height: 48px;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .cash-input {
@@ -476,7 +484,7 @@ i.fa.fa-chevron-down.downIcon {
   text-align: right !important;
   display: unset !important;
 }
-/* 
+/*
 .new-item{
   padding-top: 15px;
 }
@@ -523,7 +531,7 @@ button.newdiscount-btn {
   color: #64707d;
   font-size: 16px;
 }
-/* 
+/*
 .discount-name-txt {
   color: #007fff;
   font-size: 16px;
@@ -557,4 +565,67 @@ span.removeDis {
   ul.taxOpt-dropdown {
     overflow: auto;
   }
+}
+.close-btn {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+}
+.action {
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  width: 114px;
+  height: 44px;
+  width: 114px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 32px;
+  cursor: pointer;
+}
+.action-dropdown {
+  width: 148px;
+  height: 96px;
+  background: #ffffff;
+  border-radius: 8px;
+  position: absolute;
+  top: -50px;
+  left: 120px;
+  padding: 16px;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cursor {
+  cursor: pointer;
+}
+.invoice-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.modal-title {
+  margin-bottom: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.enroll_title {
+  padding: 24px 24px 0px 24px;
+}
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+.autoEnroll-footer {
+  border: none;
+}
+.invoice-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
 }

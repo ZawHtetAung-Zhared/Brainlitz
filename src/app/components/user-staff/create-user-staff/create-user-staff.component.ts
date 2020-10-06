@@ -5,6 +5,7 @@ import { appService } from '../../../service/app.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { ToastrService } from 'ngx-toastr';
 import { Croppie } from 'croppie';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-user-staff',
@@ -43,13 +44,48 @@ export class CreateUserStaffComponent implements OnInit {
   public ulFile: any;
   input: any;
   public returnProfile = false;
+  public isStaff_delete = false;
+  public autoEnrollModal;
 
   constructor(
     private _service: appService,
     private router: Router,
     private _Activatedroute: ActivatedRoute,
+    private modalService: NgbModal,
     public toastr: ToastrService
   ) {}
+
+  staffDeleteModal(modal) {
+    this.isStaff_delete = true;
+    this.autoEnrollModal = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal customer-delete-modal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelAutoEnroll() {
+    console.error('object');
+    this.autoEnrollModal.close();
+    this.isStaff_delete = false;
+  }
+
+  confirmStaffDelete() {
+    this._service.deleteStaff(this.regionID, this.userId).subscribe(
+      (res: any) => {
+        console.log('Success', res);
+        this.toastr.success('Successfully Deleted');
+        this.autoEnrollModal.close();
+        this.back();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed Delete!!!');
+        this.autoEnrollModal.close();
+        this.back();
+      }
+    );
+  }
 
   ngOnInit() {
     this.permissionSubscription = this._service.permissionList.subscribe(

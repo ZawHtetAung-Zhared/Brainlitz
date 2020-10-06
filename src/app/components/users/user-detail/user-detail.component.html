@@ -697,6 +697,18 @@
                         (click)="oneditMakeup(editMakeup, list)"
                       ></button>
                     </div>
+                    <div
+                      *ngIf="activePass == 'claimed' || activePass == 'expired'"
+                      style="width: 100%;"
+                      class="d-flex justify-content-end"
+                    >
+                      <button
+                        class="btn btn-pencil"
+                        placement="left"
+                        ngbTooltip="Edit valid date"
+                        (click)="oneditMakeup(editMakeup, list)"
+                      ></button>
+                    </div>
                     <div class="makeup-body">
                       <h5 class="makeup-title body-l text-c300">
                         {{ list.name }}
@@ -1547,7 +1559,8 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                      ></span>
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail body-l text-c300">
@@ -1594,7 +1607,8 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                      ></span>
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail body-l text-c300">
@@ -1637,7 +1651,8 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                      ></span>
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail body-l text-c300">
@@ -1680,7 +1695,8 @@
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
-                      ></span>
+                        >Delete</span
+                      >
                     </div>
                   </div>
                   <div class="journal-detail body-l text-c300">
@@ -1725,7 +1741,7 @@
                 (click)="jLoadMore()"
               >
                 <span style="margin-left:auto; margin-right: auto"
-                  >load more</span
+                  >Load more</span
                 >
               </div>
             </div>
@@ -2640,7 +2656,7 @@
         class="btn modal-delete-btn bg-r100 text-s0 body-l"
         (click)="confirmJournalDelete()"
       >
-        Yes
+        Delete
       </button>
       <button
         *ngIf="deleteGradeId != null"
@@ -2741,6 +2757,8 @@
           <img src="../../../../assets/img/course-dp.png" />
         </span>
         <input
+          [disabled]="activePass == 'claimed'"
+          [ngClass]="activePass == 'claimed' ? 'not-allowed' : ''"
           type="text"
           placeholder="Edit date"
           class="input-day2 dropD startInput body-m text-c300"
@@ -2773,6 +2791,7 @@
       <button
         class="btn bg-b100 text-s0 body-m btn-makeup"
         (click)="editMakeupDate()"
+        [disabled]="activePass == 'claimed'"
       >
         Edit
       </button>

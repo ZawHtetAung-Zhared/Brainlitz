@@ -16,7 +16,23 @@
     >
       <!-- PAID[PARTIAL] -->
       Partially paid
+      <img
+        (click)="closeModal()"
+        class="close-btn"
+        src="assets/img/removeIcon.png"
+      />
     </div>
+    <div
+      *ngIf="invStatus != 'PAID[PARTIAL]'"
+      class="paid-header h2-strong bg-s20 text-g200"
+    >
+      <img
+        (click)="closeModal()"
+        class="close-btn"
+        src="assets/img/removeIcon.png"
+      />
+    </div>
+
     <div class="invoice-container">
       <div class="d-flex justify-content-between mb-2 inv-margin">
         <div>
@@ -1107,13 +1123,33 @@
     </div>
     <div class="modal-footer justify-content-between">
       <div class="d-flex">
-        <button
+        <!-- <button
           type="button"
           class="btn invModal-cancel text-c300 body-l bg-s0"
           (click)="closeModal('closeInv')"
         >
           Close
-        </button>
+        </button> -->
+        <div style="position: relative;">
+          <div (click)="openActions()" class="action text-c300">
+            Actions
+            <img
+              style="margin-left: 8px;"
+              src="../../../assets/icons/drop-down.svg"
+            />
+          </div>
+          <div *ngIf="actionFlag" class="action-dropdown">
+            <div (click)="closeModal()" class="body-m text-c300 cursor">
+              Close
+            </div>
+            <div
+              (click)="invoiceDeleteModal(invoice_delete)"
+              class="body-m text-r100 cursor"
+            >
+              Delete invoice
+            </div>
+          </div>
+        </div>
         <div class="l-border">
           <button
             class="btn btn-print cursor-on"
@@ -1177,7 +1213,14 @@
       "
       class="overlayInv"
     ></div>
-    <div class="paid-header h2-strong bg-g25 text-g200">PAID</div>
+    <div class="paid-header h2-strong bg-g25 text-g200">
+      PAID
+      <img
+        (click)="closeModal()"
+        class="close-btn"
+        src="assets/img/removeIcon.png"
+      />
+    </div>
     <div class="invoice-container">
       <div class="d-flex justify-content-between mb-2 inv-margin">
         <div>
@@ -1728,7 +1771,38 @@
       </div> -->
     </div>
 
-    <div class="modal-footer justify-content-end">
+    <div class="modal-footer justify-content-between">
+      <div class="d-flex">
+        <div style="position: relative;">
+          <div (click)="openActions()" class="action text-c300">
+            Actions
+            <img
+              style="margin-left: 8px;"
+              src="../../../assets/icons/drop-down.svg"
+            />
+          </div>
+          <div *ngIf="actionFlag" class="action-dropdown">
+            <div (click)="closeModal()" class="body-m text-c300 cursor">
+              Close
+            </div>
+            <div
+              (click)="invoiceDeleteModal(invoice_delete)"
+              class="body-m text-r100 cursor"
+            >
+              Delete invoice
+            </div>
+          </div>
+        </div>
+        <div class="l-border">
+          <button
+            class="btn btn-print cursor-on"
+            (click)="printInvoice()"
+            [disabled]="isEditInv == true"
+          >
+            <img src="./assets/images/print@2x.png" />
+          </button>
+        </div>
+      </div>
       <button
         class="btn btn-submit body-l bg-b100 text-s0"
         (click)="closeModal()"
@@ -1738,6 +1812,28 @@
     </div>
   </div>
   <div *ngIf="showPayment == true">
+    <div
+      *ngIf="invStatus == 'PAID[PARTIAL]'"
+      class="paid-header h2-strong bg-g25 text-g200"
+    >
+      <!-- PAID[PARTIAL] -->
+      Partially paid
+      <img
+        (click)="closeModal()"
+        class="close-btn"
+        src="assets/img/removeIcon.png"
+      />
+    </div>
+    <div
+      *ngIf="invStatus != 'PAID[PARTIAL]'"
+      class="paid-header h2-strong bg-s20 text-g200"
+    >
+      <img
+        (click)="closeModal()"
+        class="close-btn"
+        src="assets/img/removeIcon.png"
+      />
+    </div>
     <div class="inv-payment-container">
       <div class="logo-wrapper mb-3">
         <img src="{{ logo }}" />
@@ -1857,3 +1953,33 @@
     </div>
   </div>
 </div>
+<ng-template #invoice_delete>
+  <div class="invoice-delete-modal">
+    <h3 class="modal-title enroll_title h3-strong text-c300">
+      Confirm delete?
+    </h3>
+    <div class="autoEnroll-body">
+      <p class="light-body-l text-c100">
+        Are you sure you want to delete? You won’t back it return.
+      </p>
+    </div>
+    <div
+      class="autoEnroll-footer d-flex justify-content-end align-items-center pr-3"
+    >
+      <button
+        type="button"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300 mr-2"
+        (click)="cancelInvoiceDelete()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
+        (click)="deleteInvoice()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</ng-template>

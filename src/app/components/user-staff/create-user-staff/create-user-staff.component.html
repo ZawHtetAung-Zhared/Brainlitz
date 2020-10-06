@@ -426,6 +426,14 @@
       </div>
       <div class="d-flex justify-content-end button-group">
         <button
+          *ngIf="isupdate == true"
+          class="btn btn-delete"
+          type="button"
+          (click)="staffDeleteModal(staff_delete)"
+        >
+          Delete
+        </button>
+        <button
           *ngIf="isupdate == false"
           type="button"
           class="bt cancel-button"
@@ -468,5 +476,43 @@
     </form>
   </div>
 </div>
+
+<ng-template #staff_delete class="staff-delete-modal">
+  <div class="staff-delete-modal">
+    <h3 class="modal-title enroll_title h3-strong text-c300">
+      Confirm delete?
+    </h3>
+    <div class="autoEnroll-body">
+      <p class="light-body-l text-c300">
+        Are you sure you want to delete? You won’t back it return.
+      </p>
+    </div>
+    <div class="modal-footer autoEnroll-footer">
+      <button
+        type="button"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
+        (click)="cancelAutoEnroll()"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="deleteGradeId == null"
+        type="submit"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
+        (click)="confirmStaffDelete()"
+      >
+        Delete
+      </button>
+      <button
+        *ngIf="deleteGradeId != null"
+        type="submit"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
+        (click)="deleteGrade()"
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+</ng-template>
 
 <block-ui message="Deafult Message"></block-ui>

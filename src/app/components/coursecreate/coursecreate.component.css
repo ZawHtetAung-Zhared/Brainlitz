@@ -205,7 +205,7 @@ textarea:focus {
 .input-day,
 .input-lesson {
   /*color: #2e3d4d;*/
-  /*font-size: 16px; 
+  /*font-size: 16px;
   font-family: 'Inter-UI-Semibold',Arial,sans-serif;*/
 }
 
@@ -575,6 +575,8 @@ textarea:focus {
   height: 45px;
   border-radius: 3px;
   width: 100px;
+  border-radius: 12px;
+  width: 128px;
 }
 
 .button-savedraft {
@@ -582,6 +584,8 @@ textarea:focus {
   border-radius: 3px;
   margin-right: 20px;
   border: solid 2px #007fff;
+  border-radius: 12px;
+  width: 128px;
 }
 .form-footer {
   padding: 20px 15px;
@@ -1635,4 +1639,93 @@ input:checked + .slider:before {
       239px 0 0 -6px #e3e4e6, 240px 0 0 -6px #e3e4e6;
     margin-top: -6px;
   }
+}
+.btn-delete {
+  /* position: absolute; */
+  width: 128px;
+  height: 48px;
+  left: 50px;
+  background: #fff;
+  border: 1px solid #edeff0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  color: #e63c39;
+}
+.course-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+}
+.enroll_title {
+  padding: 24px 24px 0px 24px;
+}
+
+.h3-strong {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.text-c300 {
+  color: #363f4d;
+}
+
+.modal-title {
+  margin-bottom: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.light-body-l {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+
+.autoEnroll-footer {
+  border: none;
+}
+
+.modal-footer {
+  /*padding: 24px 32px;*/
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.modal-cancel-btn {
+  border-radius: 3px;
+  height: 44px;
+  cursor: pointer;
+  min-width: 90px;
+  padding: 6px 12px;
+  margin: 0px 4px 0px 0px;
+}
+
+.modal-delete-btn {
+  border-radius: 3px;
+  height: 44px;
+  cursor: pointer;
+  min-width: 90px;
+  padding: 6px 12px;
+  margin: 0px 0px 0px 4px;
+}
+.cancel-button {
+  background: #f2f4f5;
+  color: #2e3d4d;
+  font-family: 'Inter-UI-Medium', Arial, sans-serif;
+  padding: 10px 20px !important;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 32px;
+  border-radius: 12px;
+  width: 128px;
 }

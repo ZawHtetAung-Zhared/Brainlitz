@@ -2037,6 +2037,22 @@ export class appService {
       return result;
     });
   }
+  deleteCourseDetail(courseId, locationID) {
+    console.log(courseId);
+    console.log(locationID);
+    let apiUrl =
+      this.baseUrl + '/course/' + courseId + '?locationId=' + locationID;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
 
   getQuizwerkzForCourse(courseid) {
     this.getLocalstorage();
@@ -4812,6 +4828,36 @@ export class appService {
     });
   }
 
+  deleteCustomer(regionid, customerid) {
+    console.log(regionid);
+    console.log(customerid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/users/' + customerid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  deleteStaff(regionid, staffid) {
+    console.log(regionid);
+    console.log(staffid);
+    let apiUrl = this.baseUrl + '/' + regionid + '/users/' + staffid;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
   getAPGList(regionId, idStr) {
     let apiUrl =
       this.baseUrl + '/' + regionId + '/access-point-group-list?id=' + idStr;
@@ -4822,6 +4868,20 @@ export class appService {
       })
     };
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  deleteInvoice(id) {
+    console.log(id);
+    let apiUrl = this.baseUrl + '/' + 'invoices/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
   }
