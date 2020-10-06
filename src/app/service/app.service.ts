@@ -4874,7 +4874,7 @@ export class appService {
 
   deleteInvoice(id) {
     console.log(id);
-    let apiUrl = this.baseUrl + '/' + '/invoices/' + id;
+    let apiUrl = this.baseUrl + '/' + 'invoices/' + id;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

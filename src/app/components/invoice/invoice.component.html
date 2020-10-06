@@ -1142,7 +1142,10 @@
             <div (click)="closeModal()" class="body-m text-c300 cursor">
               Close
             </div>
-            <div (click)="deleteInvoice()" class="body-m text-r100 cursor">
+            <div
+              (click)="invoiceDeleteModal(invoice_delete)"
+              class="body-m text-r100 cursor"
+            >
               Delete invoice
             </div>
           </div>
@@ -1782,7 +1785,10 @@
             <div (click)="closeModal()" class="body-m text-c300 cursor">
               Close
             </div>
-            <div (click)="deleteInvoice()" class="body-m text-r100 cursor">
+            <div
+              (click)="invoiceDeleteModal(invoice_delete)"
+              class="body-m text-r100 cursor"
+            >
               Delete invoice
             </div>
           </div>
@@ -1947,3 +1953,33 @@
     </div>
   </div>
 </div>
+<ng-template #invoice_delete>
+  <div class="invoice-delete-modal">
+    <h3 class="modal-title enroll_title h3-strong text-c300">
+      Confirm delete?
+    </h3>
+    <div class="autoEnroll-body">
+      <p class="light-body-l text-c100">
+        Are you sure you want to delete? You won’t back it return.
+      </p>
+    </div>
+    <div
+      class="autoEnroll-footer d-flex justify-content-end align-items-center pr-3"
+    >
+      <button
+        type="button"
+        class="btn modal-cancel-btn body-l bg-s0 text-c300"
+        (click)="cancelInvoiceDelete()"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn modal-delete-btn bg-r100 text-s0 body-l"
+        (click)="deleteInvoice()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</ng-template>

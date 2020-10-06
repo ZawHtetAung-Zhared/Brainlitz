@@ -2757,12 +2757,8 @@
           <img src="../../../../assets/img/course-dp.png" />
         </span>
         <input
-          [disabled]="activePass == 'claimed' || activePass == 'expired'"
-          [ngClass]="
-            activePass == 'claimed' || activePass == 'expired'
-              ? 'not-allowed'
-              : ''
-          "
+          [disabled]="activePass == 'claimed'"
+          [ngClass]="activePass == 'claimed' ? 'not-allowed' : ''"
           type="text"
           placeholder="Edit date"
           class="input-day2 dropD startInput body-m text-c300"
@@ -2795,7 +2791,7 @@
       <button
         class="btn bg-b100 text-s0 body-m btn-makeup"
         (click)="editMakeupDate()"
-        [disabled]="activePass == 'claimed' || activePass == 'expired'"
+        [disabled]="activePass == 'claimed'"
       >
         Edit
       </button>

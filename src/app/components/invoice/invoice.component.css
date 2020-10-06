@@ -601,3 +601,31 @@ span.removeDis {
 .cursor {
   cursor: pointer;
 }
+.invoice-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.modal-title {
+  margin-bottom: 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.enroll_title {
+  padding: 24px 24px 0px 24px;
+}
+.autoEnroll-body {
+  padding: 20px 24px 0px 24px;
+}
+.autoEnroll-footer {
+  border: none;
+}
+.invoice-delete-modal {
+  width: 320px;
+  height: 212px;
+  background: #ffffff;
+  border-radius: 4px;
+}
