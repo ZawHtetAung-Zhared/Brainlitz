@@ -697,6 +697,18 @@
                         (click)="oneditMakeup(editMakeup, list)"
                       ></button>
                     </div>
+                    <div
+                      *ngIf="activePass == 'claimed' || activePass == 'expired'"
+                      style="width: 100%;"
+                      class="d-flex justify-content-end"
+                    >
+                      <button
+                        class="btn btn-pencil"
+                        placement="left"
+                        ngbTooltip="Edit valid date"
+                        (click)="oneditMakeup(editMakeup, list)"
+                      ></button>
+                    </div>
                     <div class="makeup-body">
                       <h5 class="makeup-title body-l text-c300">
                         {{ list.name }}
@@ -2745,6 +2757,12 @@
           <img src="../../../../assets/img/course-dp.png" />
         </span>
         <input
+          [disabled]="activePass == 'claimed' || activePass == 'expired'"
+          [ngClass]="
+            activePass == 'claimed' || activePass == 'expired'
+              ? 'not-allowed'
+              : ''
+          "
           type="text"
           placeholder="Edit date"
           class="input-day2 dropD startInput body-m text-c300"
@@ -2777,6 +2795,7 @@
       <button
         class="btn bg-b100 text-s0 body-m btn-makeup"
         (click)="editMakeupDate()"
+        [disabled]="activePass == 'claimed' || activePass == 'expired'"
       >
         Edit
       </button>
