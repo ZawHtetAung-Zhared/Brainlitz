@@ -1142,7 +1142,9 @@
             <div (click)="closeModal()" class="body-m text-c300 cursor">
               Close
             </div>
-            <div class="body-m text-r100 cursor">Delete invoice</div>
+            <div (click)="deleteInvoice()" class="body-m text-r100 cursor">
+              Delete invoice
+            </div>
           </div>
         </div>
         <div class="l-border">
@@ -1767,19 +1769,32 @@
     </div>
 
     <div class="modal-footer justify-content-between">
-      <div style="position: relative;">
-        <div (click)="openActions()" class="action text-c300">
-          Actions
-          <img
-            style="margin-left: 8px;"
-            src="../../../assets/icons/drop-down.svg"
-          />
-        </div>
-        <div *ngIf="actionFlag" class="action-dropdown">
-          <div (click)="closeModal()" class="body-m text-c300 cursor">
-            Close
+      <div class="d-flex">
+        <div style="position: relative;">
+          <div (click)="openActions()" class="action text-c300">
+            Actions
+            <img
+              style="margin-left: 8px;"
+              src="../../../assets/icons/drop-down.svg"
+            />
           </div>
-          <div class="body-m text-r100 cursor">Delete invoice</div>
+          <div *ngIf="actionFlag" class="action-dropdown">
+            <div (click)="closeModal()" class="body-m text-c300 cursor">
+              Close
+            </div>
+            <div (click)="deleteInvoice()" class="body-m text-r100 cursor">
+              Delete invoice
+            </div>
+          </div>
+        </div>
+        <div class="l-border">
+          <button
+            class="btn btn-print cursor-on"
+            (click)="printInvoice()"
+            [disabled]="isEditInv == true"
+          >
+            <img src="./assets/images/print@2x.png" />
+          </button>
         </div>
       </div>
       <button

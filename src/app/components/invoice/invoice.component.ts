@@ -1198,4 +1198,18 @@ export class InvoiceComponent implements OnInit {
   openActions() {
     this.actionFlag = !this.actionFlag;
   }
+
+  deleteInvoice() {
+    console.log(this.invoiceId);
+    this._service.deleteInvoice(this.invoiceId).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.closeModal('inv');
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Failed to delete please try again later.');
+      }
+    );
+  }
 }

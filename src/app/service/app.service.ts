@@ -4871,4 +4871,18 @@ export class appService {
       return res;
     });
   }
+
+  deleteInvoice(id) {
+    console.log(id);
+    let apiUrl = this.baseUrl + '/' + '/invoices/' + id;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }

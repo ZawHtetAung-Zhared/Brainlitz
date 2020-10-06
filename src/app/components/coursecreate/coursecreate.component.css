@@ -1641,7 +1641,7 @@ input:checked + .slider:before {
   }
 }
 .btn-delete {
-  position: absolute;
+  /* position: absolute; */
   width: 128px;
   height: 48px;
   left: 50px;
