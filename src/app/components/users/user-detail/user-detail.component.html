@@ -564,7 +564,9 @@
                                     invoice.courseDuration.startDate | utcDate
                                   }}
                                   -
-                                  {{ invoice.courseDuration.endDate | utcDate }}
+                                  {{
+                                    invoice.courseDuration.startDate | utcDate
+                                  }}
                                 </span>
                                 <label class="payment body-m text-c100"
                                   >Payment date</label
