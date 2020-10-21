@@ -2763,6 +2763,10 @@ p.grade-txt {
   width: 24px;
   height: 24px;
 }
+.grade-bin {
+  background: url(../../../../assets/icons/dustbin.svg);
+  background-size: 100%;
+}
 
 .journal_delete_dotted {
   content: '';
