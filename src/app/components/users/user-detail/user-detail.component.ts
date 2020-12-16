@@ -140,6 +140,7 @@ export class UserDetailComponent implements OnInit {
   public detailLoading: boolean = true;
   public tabLoading: boolean = false;
   public makeupLoading: boolean = false;
+  public moreOpt: any = {};
 
   constructor(
     private _service: appService,
