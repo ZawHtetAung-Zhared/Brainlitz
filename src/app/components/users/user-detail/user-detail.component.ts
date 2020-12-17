@@ -598,6 +598,20 @@ export class UserDetailComponent implements OnInit {
     });
     this.getAC(20, 0, userId);
   }
+  callTransferModal(transferModal, userId) {
+    console.log(userId);
+    console.log(transferModal);
+    //this.blockUI.start('Loading...');
+    this.showInvoice = false;
+    this.showPaidInvoice = false;
+    console.log(this.showInvoice, this.showPaidInvoice);
+    this.modalReference = this.modalService.open(transferModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.getAC(20, 0, userId);
+  }
 
   getAC(limit, skip, userId) {
     console.log('limit,skip,userId', limit, skip, userId);

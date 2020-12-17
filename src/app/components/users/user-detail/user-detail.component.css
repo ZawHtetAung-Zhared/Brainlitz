@@ -3009,6 +3009,8 @@ p.grade-txt {
   border-radius: 8px;
   margin-right: 24px;
   cursor: pointer;
+  float: right;
+  position: relative;
 }
 .more-option:hover {
   background: #f2f3f5;
@@ -3019,7 +3021,7 @@ p.grade-txt {
   width: 200px;
   padding: 16px;
   position: absolute;
-  right: 24px;
+  right: 0;
   bottom: 55px;
 }
 .more-popup::after {
