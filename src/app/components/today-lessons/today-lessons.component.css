@@ -767,3 +767,38 @@ input:checked + .slider:before {
   height: 72px;
   border-bottom: 1px solid #e8e9eb;
 }
+.setting {
+  width: 100%;
+  height: 56px;
+  background: #f7f9fa;
+  align-items: center;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 10;
+}
+.arrow {
+  margin: 0 10px 0 10px;
+  cursor: pointer;
+}
+.tdy-btn {
+  width: 84px;
+  height: 40px;
+  background: #f7f9fa;
+  border: 1px solid #d4d5d6;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin: 0 10px 0 10px;
+}
+.quit-today {
+  width: 36px;
+  height: 36px;
+  background: white;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 32px;
+  margin-left: 24px;
+  margin-right: 10px;
+}
+.cursor {
+  cursor: pointer;
+}
