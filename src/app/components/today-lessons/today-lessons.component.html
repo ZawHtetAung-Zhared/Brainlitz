@@ -1,5 +1,3 @@
-<app-header [ngClass]="{ stick: isSticky == true }"></app-header>
-
 <div class="d-flex flex-column justify-content-center align-items-center">
   <div class="inner-wrapper w-100">
     <div class="today-container">
@@ -88,128 +86,125 @@
                 </div>
               </div>
             </div>
-            <div class="expand-list">
-              <div class="d-flex teacher-box mb-4">
-                <div class="d-flex align-items-center">
+            <div class="d-flex">
+              <div class="teacher-div">
+                <div class="caption-u text-c100 mb-16">Teacher</div>
+                <div
+                  class="d-flex align-items-center"
+                  style="margin-bottom: 32px;"
+                >
                   <div>
                     <div class="img-wrap align-self-center">
                       <img src="{{ tcourse.teacher.profilePic }}" />
                     </div>
                   </div>
-
-                  <!--
-                  <div
-                    class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
-                  > -->
-                  <!-- <p class="positon">Senior Teacher</p> -->
                   <div>
                     <p class="teacher-name pl-2 pt-2 body-m text-c300">
                       {{ tcourse.teacher.fullName }}
                     </p>
                   </div>
-
-                  <!-- </div> -->
                 </div>
+                <div class="caption-u text-c100 mb-16">assistants</div>
                 <div
-                  class="d-flex ml-3 align-items-center"
+                  class="d-flex align-items-center mb-16"
                   *ngFor="let assTeacher of tcourse.assistants"
                 >
-                  <div>
+                  <div class="mr-16">
                     <div class="img-wrap align-self-center">
                       <img src="{{ assTeacher.userDetails.profilePic }}" />
                     </div>
                   </div>
-
-                  <!-- <div
-                    class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
-                  > -->
-                  <!-- <p class="positon">Senior Teacher</p> -->
                   <div>
                     <p class="teacher-name pl-2 pt-2">
                       {{ assTeacher.userDetails.fullName }}
                     </p>
                   </div>
-
-                  <!-- </div> -->
+                </div>
+                <div
+                  *ngIf="
+                    tcourse.assistants.length == 0 ||
+                    tcourse.assistants.length == null
+                  "
+                >
+                  ---
                 </div>
               </div>
-              <div class="card-columns student-list ">
+              <div class="student-div">
+                <div class="caption-u text-c100">Students</div>
+
                 <div
-                  class="card  mb-4"
+                  class="d-flex student-list justify-content-between"
                   *ngFor="let student of tcourse.students; let j = index"
                 >
-                  <div
-                    class="d-flex justify-content-between student-box align-items-center"
-                  >
-                    <div class="d-flex libr">
-                      <div>
-                        <div class="img-wrap align-self-center">
-                          <img src="{{ student.userDetails.profilePic }}" />
-                        </div>
+                  <div class="d-flex libr">
+                    <div class="mr-16 d-flex">
+                      <div class="img-wrap align-self-center">
+                        <img src="{{ student.userDetails.profilePic }}" />
                       </div>
-
-                      <p class="student-name mb-0 body-l text-c300">
-                        {{ student.userDetails.fullName }}
-                      </p>
                     </div>
-                    <div class="d-flex" id="divToHide">
-                      <div
-                        id="divToHide"
-                        class="present-wrap"
-                        [ngClass]="{
-                          'attendance-radio':
-                            student.todayLesson.attendance == true
-                        }"
-                      >
-                        <label id="divToHide" class="radio-present mb-0 ">
-                          <p
-                            class="mb-0 body-m"
-                            [ngClass]="{
-                              'present-text': student.todayLesson.attendance
-                            }"
-                          >
-                            Present
-                          </p>
-                          <input
-                            type="radio"
-                            name="radio{{ i }}{{ j }}"
-                            (click)="onClickRadio(null, 'present', student, i)"
-                            [checked]="student.todayLesson.attendance == true"
-                          />
-                          <span class="checkmark"></span>
-                        </label>
-                      </div>
-                      <div
-                        id="divToHide"
-                        class="absent-wrap"
-                        [ngClass]="{
-                          'absent-radio':
-                            student.todayLesson.attendance == false
-                        }"
-                      >
-                        <label id="divToHide" class="radio-absent mb-0">
-                          <p
-                            class="mb-0 body-m"
-                            [ngClass]="{
-                              'absent-text':
-                                student.todayLesson.attendance == false
-                            }"
-                          >
-                            Absent
-                          </p>
-                          <input
-                            type="radio"
-                            name="radio{{ i }}{{ j }}"
-                            (click)="
-                              onClickRadio(makeupModal, 'absent', student, i)
-                            "
-                            [checked]="student.todayLesson.attendance == false"
-                          />
-                          <span class="checkmark"></span>
-                        </label>
-                      </div>
+
+                    <p class="student-name mb-0 body-l text-c300">
+                      {{ student.userDetails.fullName }}
+                    </p>
+                  </div>
+                  <!--  -->
+                  <div class="d-flex align-items-center">
+                    <div
+                      id="divToHide"
+                      class="present-wrap"
+                      [ngClass]="{
+                        'attendance-radio':
+                          student.todayLesson.attendance == true
+                      }"
+                    >
+                      <label id="divToHide" class="radio-present mb-0 ">
+                        <p
+                          class="mb-0 body-m"
+                          [ngClass]="{
+                            'present-text': student.todayLesson.attendance
+                          }"
+                        >
+                          Present
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}{{ j }}"
+                          (click)="onClickRadio(null, 'present', student, i)"
+                          [checked]="student.todayLesson.attendance == true"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div
+                      id="divToHide"
+                      class="absent-wrap"
+                      [ngClass]="{
+                        'absent-radio': student.todayLesson.attendance == false
+                      }"
+                    >
+                      <label id="divToHide" class="radio-absent mb-0">
+                        <p
+                          class="mb-0 body-m"
+                          [ngClass]="{
+                            'absent-text':
+                              student.todayLesson.attendance == false
+                          }"
+                        >
+                          Absent
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}{{ j }}"
+                          (click)="
+                            onClickRadio(makeupModal, 'absent', student, i)
+                          "
+                          [checked]="student.todayLesson.attendance == false"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
                     </div>
                   </div>
+                  <!--  -->
                 </div>
               </div>
             </div>
