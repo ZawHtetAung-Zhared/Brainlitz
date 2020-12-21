@@ -802,3 +802,82 @@ input:checked + .slider:before {
 .cursor {
   cursor: pointer;
 }
+.cancel-modal {
+  padding: 32px;
+}
+.lesson-list {
+  max-width: 912px;
+  height: 48px;
+  background: #f7f9fa;
+  box-shadow: 0px 1px 0px #e3e4e5;
+  border-radius: 12px 12px 0px 0px;
+}
+.left-div {
+  width: 60%;
+  align-items: center;
+}
+.right-div {
+  width: 40%;
+  align-items: center;
+}
+.lesson-cb {
+  width: 20px;
+  height: 20px;
+}
+.temp-icon {
+  width: 40px;
+  height: 40px;
+  background: #ffdb26;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn {
+  width: 130px;
+  height: 40px;
+  background: #f2f3f5;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.cancel-btn {
+  width: 130px;
+  height: 40px;
+  background: #e63c39;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.lesson-footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: 72px;
+  background: #ffffff;
+  box-shadow: 1px -2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 0px 0px 16px 16px;
+  align-items: center;
+  padding: 16px 32px;
+}
+.lesson-title {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+}
+.lessons {
+  box-shadow: 0px 1px 0px #e3e4e5;
+  height: 88px;
+}
+.lessons:hover {
+  background: #f7f9fa;
+}

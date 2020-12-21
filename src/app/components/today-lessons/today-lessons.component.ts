@@ -370,4 +370,12 @@ export class TodayLessonsComponent implements OnInit {
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
   }
+  cancelMultiple(modal) {
+    console.log('new modal', modal);
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
 }
