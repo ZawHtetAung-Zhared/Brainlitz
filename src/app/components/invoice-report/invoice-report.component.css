@@ -124,3 +124,67 @@ table td {
     width: 728px;
   }
 }
+.filter-btn {
+  width: 113px;
+  background: #ffffff;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-right: 24px;
+  align-items: center;
+  cursor: pointer;
+}
+.invoice {
+  cursor: pointer;
+}
+.filter-div {
+  padding: 20px;
+}
+.filter-cb {
+  width: 16px;
+  height: 16px;
+  margin-right: 16px;
+}
+.box-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 32px;
+}
+.btn-design {
+  padding: 12px;
+  background: #f2f4f5;
+  border: none;
+  border-radius: 4px !important;
+  color: #788796;
+  cursor: pointer;
+  outline: none;
+}
+.btn-design:focus,
+.btn-design:active {
+  outline: none;
+  box-shadow: none;
+}
+.footer {
+  justify-content: flex-end;
+  border-top: 1px solid #edeff0;
+  padding-top: 20px;
+}
+.cancel-btn {
+  width: 90px;
+  height: 44px;
+  background: #ffffff;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  margin-right: 12px;
+  cursor: pointer;
+}
+.confirm-btn {
+  width: 90px;
+  height: 44px;
+  background: #007fff;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

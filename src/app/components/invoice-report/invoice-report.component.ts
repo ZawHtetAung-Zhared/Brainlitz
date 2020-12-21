@@ -259,4 +259,10 @@ export class InvoiceReportComponent implements OnInit {
     // console.log("~~~",date,dFormat)
     return dFormat;
   }
+  filterField(modal) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+  }
 }

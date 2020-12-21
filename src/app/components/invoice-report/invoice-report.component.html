@@ -1,28 +1,41 @@
 <div>
   <div class=" d-flex title-div justify-content-between">
     <h2 class="h1-strong text-c300">Invoice reports</h2>
-    <div style="position: relative;">
-      <button
-        class="btn-export body-l bg-b100 text-s0"
-        (click)="showExportOption($event, 'paid')"
+    <div class="d-flex">
+      <div
+        class="filter-btn body-m text-b100 d-flex justify-content-center"
+        (click)="filterField(filterReport)"
       >
-        <span>Export</span><i class="fa fa-chevron-down downIcon small"></i>
-      </button>
-      <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
-        <div class="inv-opt bottom-border" (click)="exportInvoiceLists('PAID')">
-          Paid
+        Filter fields
+      </div>
+      <div style="position: relative;">
+        <button
+          class="btn-export body-l bg-b100 text-s0"
+          (click)="showExportOption($event, 'paid')"
+        >
+          <span>Export</span><i class="fa fa-chevron-down downIcon small"></i>
+        </button>
+        <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
+          <div
+            class="inv-opt bottom-border"
+            (click)="exportInvoiceLists('PAID')"
+          >
+            Paid
+          </div>
+          <div class="" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
+          <!-- <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
+              Paid partial
+            </div> -->
         </div>
-        <div class="" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
-        <!-- <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
-          Paid partial
-        </div> -->
       </div>
     </div>
   </div>
   <div class="table-wrapper">
     <table class="inv-table">
       <tr class="header-wrapper body-l text-c300">
-        <td>Invoice#</td>
+        <td class="invoice">
+          Invoice# <i class="fa fa-chevron-down downIcon small"></i>
+        </td>
         <td>To</td>
         <td>Date</td>
         <td>Due date</td>
@@ -106,3 +119,48 @@
   ></app-invoice>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
+<ng-template #filterReport let-c="close" let-d="dismiss">
+  <div class="filter-div">
+    <div class="h1-strong text-c300" style="margin-bottom: 36px;">
+      Filter field
+    </div>
+    <div class="body-l text-c75">Status</div>
+    <div class="d-flex" style="margin-top: 12px;margin-bottom: 32px;">
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" />
+        <span>Unpaid</span>
+      </div>
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" />
+        <span>Paid</span>
+      </div>
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" />
+        <span>Partial paid</span>
+      </div>
+    </div>
+    <div class="body-l text-c75" style="margin-bottom: 12px;">
+      Filter by name
+    </div>
+    <div class="input-group col-md-12" style="padding:15px 0;">
+      <input
+        style="border: none;"
+        class="form-control body-l text-c300 bg-s20"
+        type="search"
+        placeholder="Search"
+        id="staff-filter-search-input"
+        autocomplete="off"
+      />
+      <span>
+        <button class="btn-design bg-s20 text-c75" type="button">
+          <i class="fa fa-search"></i>
+        </button>
+      </span>
+    </div>
+    <div class="body-l text-c75" style="margin-bottom: 32px;">Invoice date</div>
+    <div class="footer d-flex">
+      <button class="cancel-btn body-m text-c300">Cancel</button>
+      <button class="confirm-btn body-m text-s0">Confirm</button>
+    </div>
+  </div>
+</ng-template>
