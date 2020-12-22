@@ -25,6 +25,7 @@ export class InvoiceReportComponent implements OnInit {
   public invlistsResult = [];
   public showDp = false;
   public invoiceID2: any;
+  public makeupForm: any = {};
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
@@ -264,5 +265,15 @@ export class InvoiceReportComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+  }
+  setExpirationDate(event) {
+    this.makeupForm.expirationDate = event;
+    console.log(' exp date test', event);
+    console.log(' expirationDate', this.makeupForm.expirationDate);
+  }
+  closeCalendar(datePicker, event) {
+    if (event.target.offsetParent == null) datePicker.close();
+    else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
+      datePicker.close();
   }
 }

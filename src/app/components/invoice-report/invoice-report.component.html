@@ -158,6 +158,27 @@
       </span>
     </div>
     <div class="body-l text-c75" style="margin-bottom: 32px;">Invoice date</div>
+    <div class="mt-2">
+      <div style="position: relative;">
+        <span class="dp-icon" style="pointer-events: none;">
+          <img src="./assets/img/course-dp.png" />
+        </span>
+        <input
+          type="text"
+          name="expire"
+          required
+          placeholder="Starting date"
+          class="input-day body-l text-c300"
+          ngbDatepicker
+          #expire="ngbDatepicker"
+          (ngModelChange)="setExpirationDate($event)"
+          [(ngModel)]="makeupForm.expirationDate"
+          (click)="expire.toggle(); $event.stopPropagation()"
+          (document:click)="closeCalendar(expire, $event)"
+          readonly
+        />
+      </div>
+    </div>
     <div class="footer d-flex">
       <button class="cancel-btn body-m text-c300">Cancel</button>
       <button class="confirm-btn body-m text-s0">Confirm</button>
