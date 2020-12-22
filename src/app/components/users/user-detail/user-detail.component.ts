@@ -135,12 +135,14 @@ export class UserDetailComponent implements OnInit {
   public disableInvoice;
   searchData: any = {};
   public passForm: any = {};
+  public transferFlag: boolean = false;
 
   //for loading
   public detailLoading: boolean = true;
   public tabLoading: boolean = false;
   public makeupLoading: boolean = false;
   public moreOpt: any = {};
+  public clickedCourseID: any = null;
 
   constructor(
     private _service: appService,
@@ -585,6 +587,7 @@ export class UserDetailComponent implements OnInit {
 
   //start course functions
   callEnrollModal(enrollModal, userId) {
+    this.transferFlag = false;
     console.log(userId);
     console.log(enrollModal);
     //this.blockUI.start('Loading...');
@@ -598,9 +601,12 @@ export class UserDetailComponent implements OnInit {
     });
     this.getAC(20, 0, userId);
   }
-  callTransferModal(transferModal, userId) {
+
+  callTransferModal(transferModal, userId, course) {
+    this.transferFlag = true;
     console.log(userId);
     console.log(transferModal);
+    this.clickedCourseID = course._id;
     //this.blockUI.start('Loading...');
     this.showInvoice = false;
     this.showPaidInvoice = false;
@@ -749,7 +755,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   lessionObjArr(e) {
-    console.log(e);
+    console.log('lesson lesson', e);
     this.checkobjArr = e;
   }
   flexicomfirm(invoiceAlert) {
@@ -766,6 +772,7 @@ export class UserDetailComponent implements OnInit {
     let body = {
       courseId: this.selectedCourse._id,
       userId: this.custDetail.user.userId,
+      fromCourseId: this.clickedCourseID,
       userType: 'customer',
       lessons: this.checkobjArr,
       disableInvoice: this.disableInvoice,
@@ -773,6 +780,7 @@ export class UserDetailComponent implements OnInit {
         allowProrated: this.isProrated
       }
     };
+    if (!this.transferFlag) delete body.fromCourseId; //if not transfer course
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);

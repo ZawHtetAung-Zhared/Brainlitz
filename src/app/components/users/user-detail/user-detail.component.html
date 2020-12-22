@@ -518,7 +518,7 @@
                                   callTransferModal(
                                     classTransferModal,
                                     custDetail.user.userId,
-                                    'enroll'
+                                    course
                                   )
                                 "
                                 class="body-m text-s0 cursor-on"
@@ -2867,6 +2867,7 @@
         </button>
       </div>
       <app-flexi
+        [transfer]="true"
         [flexyarr]="flexyarr"
         [selectedCustomer]="selectedCustomer"
         [course]="selectedCourse"

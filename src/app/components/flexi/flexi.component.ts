@@ -45,6 +45,7 @@ export class FlexiComponent implements OnInit {
   @Input() course;
   @Input() selectedCustomer;
   @Input() ctype;
+  @Input() transfer = false;
   lessonsObj: any = [];
   lessionIdArr: any = [];
   lessonObjArr: any = [];
@@ -53,7 +54,7 @@ export class FlexiComponent implements OnInit {
   @Output() passDataconflictBoxShow = new EventEmitter();
 
   ngOnInit() {
-    console.log('I am in flexi');
+    console.log('I am in flexi', this.transfer);
     this.lessionIdArr = [];
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;

@@ -1,5 +1,6 @@
 <div class="" style="margin:0px 40px 0px 32px;">
-  <p class="h1-strong text-c300">Enroll lesson</p>
+  <p class="h1-strong text-c300" *ngIf="!transfer">Enroll lesson</p>
+  <p class="h1-strong text-c300" *ngIf="transfer">Transfer class</p>
   <div class="d-flex">
     <div class="col-md-4 p-0">
       <div class="d-flex">
