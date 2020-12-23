@@ -13,7 +13,16 @@
       <span class="arrow"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
-      <span class="setting-date">16 Dec 2020</span>
+      <span class="setting-date"
+        >{{ dateModal }}<i class="fa fa-chevron-down downIcon small"></i>
+        <ngb-datepicker
+          (ngModelChange)="onDateSelect($event)"
+          class="datePicker"
+          #dp
+          [(ngModel)]="dateModal"
+          (navigate)="date = $event.next"
+        ></ngb-datepicker>
+      </span>
     </div>
     <div class="d-flex align-items-center">
       <span
@@ -23,6 +32,7 @@
       >
       <div
         class="quit-today d-flex justify-content-center align-items-center cursor"
+        (click)="closeTab()"
       >
         <img style="width: 12px;" src="../../../assets/img/removeIcon.png" />
       </div>

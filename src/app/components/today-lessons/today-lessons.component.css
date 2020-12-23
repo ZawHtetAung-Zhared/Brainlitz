@@ -778,8 +778,16 @@ input:checked + .slider:before {
   z-index: 10;
 }
 .arrow {
-  margin: 0 10px 0 10px;
   cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.arrow:hover {
+  background: white;
 }
 .tdy-btn {
   width: 84px;
@@ -880,4 +888,13 @@ input:checked + .slider:before {
 }
 .lessons:hover {
   background: #f7f9fa;
+}
+.datePicker {
+  position: absolute;
+  background: white;
+  top: 40px;
+  left: -20px;
+}
+.setting-date {
+  position: relative;
 }

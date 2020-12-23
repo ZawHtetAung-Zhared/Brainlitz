@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import {
   NgbModal,
   ModalDismissReasons,
+  NgbDateAdapter,
   NgbDatepickerConfig,
   NgbCalendar,
   NgbDateStruct
@@ -36,6 +37,7 @@ export class TodayLessonsComponent implements OnInit {
   public textAreaOption = false;
   public isSticky = false;
   public expirationDate: any = { year: '', month: '', day: '' };
+  public dateModal: any = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -57,6 +59,7 @@ export class TodayLessonsComponent implements OnInit {
   ngOnInit() {
     this.todayDate = new Date();
     this.getTodayLesson();
+    console.log('abcd', typeof this.dateModal);
   }
 
   getTodayLesson() {
@@ -377,5 +380,16 @@ export class TodayLessonsComponent implements OnInit {
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+  }
+  closeTab() {
+    window.close();
+  }
+  onDateSelect(event) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;
+    let day = event.day <= 9 ? '0' + event.day : event.day;
+    // this.dateModal = new Date(year + "-" + month + "-" + day).toUTCString;
+    // console.log("####", this.dateModal);
+    // console.log("~~~~", typeof(this.dateModal));
   }
 }
