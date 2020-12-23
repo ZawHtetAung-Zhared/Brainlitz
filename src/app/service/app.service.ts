@@ -1363,7 +1363,8 @@ export class appService {
     val: string,
     userId: string,
     limit: number,
-    skip: number
+    skip: number,
+    courseplanid: string
   ) {
     let apiUrl =
       this.baseUrl +
@@ -1377,6 +1378,9 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    if (courseplanid != null) {
+      apiUrl += '&coursePlanId=' + courseplanid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1393,7 +1397,8 @@ export class appService {
     regionId: string,
     userId: string,
     limit: number,
-    skip: number
+    skip: number,
+    courseplanid: string
   ) {
     this.getLocalstorage();
     let url =
@@ -1406,6 +1411,9 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    if (courseplanid != null) {
+      url += '&coursePlanId=' + courseplanid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken

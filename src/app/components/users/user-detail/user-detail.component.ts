@@ -143,6 +143,7 @@ export class UserDetailComponent implements OnInit {
   public makeupLoading: boolean = false;
   public moreOpt: any = {};
   public clickedCourseID: any = null;
+  public coursePlanID: any = null;
 
   constructor(
     private _service: appService,
@@ -607,6 +608,9 @@ export class UserDetailComponent implements OnInit {
     console.log(userId);
     console.log(transferModal);
     this.clickedCourseID = course._id;
+    this.coursePlanID = course.coursePlan._id;
+    console.log('courseplan', course);
+
     //this.blockUI.start('Loading...');
     this.showInvoice = false;
     this.showPaidInvoice = false;
@@ -621,8 +625,9 @@ export class UserDetailComponent implements OnInit {
 
   getAC(limit, skip, userId) {
     console.log('limit,skip,userId', limit, skip, userId);
+    var courseplanid = this.transferFlag ? this.coursePlanID : null;
     this._service
-      .getAvailabelCourse(this.regionID, userId, limit, skip)
+      .getAvailabelCourse(this.regionID, userId, limit, skip, courseplanid)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -686,13 +691,15 @@ export class UserDetailComponent implements OnInit {
     }
     if (searchWord.length != 0) {
       this.isACSearch = true;
+      var courseplanid = this.transferFlag ? this.coursePlanID : null;
       this._service
         .getSearchAvailableCourse(
           this.regionID,
           searchWord,
           userId,
           limit,
-          skip
+          skip,
+          courseplanid
         )
         .subscribe(
           (res: any) => {

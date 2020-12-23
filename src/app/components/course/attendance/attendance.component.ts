@@ -3652,7 +3652,8 @@ export class AttendanceComponent implements OnInit {
         this.regionId,
         this.singleUserData.userId,
         limit,
-        skip
+        skip,
+        null
       )
       .subscribe((res: any) => {
         // console.log("Available C",res);
@@ -3696,7 +3697,8 @@ export class AttendanceComponent implements OnInit {
           searchWord,
           userId,
           limit,
-          skip
+          skip,
+          null
         )
         .subscribe(
           (res: any) => {
