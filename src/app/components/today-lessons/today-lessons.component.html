@@ -14,13 +14,13 @@
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date"
-        >{{ dateModal }}<i class="fa fa-chevron-down downIcon small"></i>
+        >{{ todayModal | date
+        }}<i class="fa fa-chevron-down downIcon small"></i>
         <ngb-datepicker
           (ngModelChange)="onDateSelect($event)"
           class="datePicker"
           #dp
           [(ngModel)]="dateModal"
-          (navigate)="date = $event.next"
         ></ngb-datepicker>
       </span>
     </div>

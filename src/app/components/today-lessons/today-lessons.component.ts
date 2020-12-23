@@ -17,6 +17,7 @@ import {
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-today-lessons',
@@ -37,7 +38,7 @@ export class TodayLessonsComponent implements OnInit {
   public textAreaOption = false;
   public isSticky = false;
   public expirationDate: any = { year: '', month: '', day: '' };
-  public dateModal: any = new Date();
+  public dateModal: Date = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -384,12 +385,15 @@ export class TodayLessonsComponent implements OnInit {
   closeTab() {
     window.close();
   }
+  public todayModal: Date = new Date();
   onDateSelect(event) {
     let year = event.year;
     let month = event.month <= 9 ? '0' + event.month : event.month;
     let day = event.day <= 9 ? '0' + event.day : event.day;
-    // this.dateModal = new Date(year + "-" + month + "-" + day).toUTCString;
-    // console.log("####", this.dateModal);
+    let final = new Date(year + '-' + month + '-' + day);
+    var momentToday = moment(final).toDate();
+    console.log('####', momentToday);
+    this.todayModal = momentToday;
     // console.log("~~~~", typeof(this.dateModal));
   }
 }
