@@ -39,6 +39,9 @@ export class TodayLessonsComponent implements OnInit {
   public isSticky = false;
   public expirationDate: any = { year: '', month: '', day: '' };
   public dateModal: Date = new Date();
+  public showCalendar: boolean = false;
+  public checkboxFlag: any = {};
+  public selectAllFlag: boolean;
 
   @Output() courseDetail = new EventEmitter();
 
@@ -378,8 +381,7 @@ export class TodayLessonsComponent implements OnInit {
     console.log('new modal', modal);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
-      windowClass:
-        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      windowClass: 'modal-xl modal-inv'
     });
   }
   closeTab() {
@@ -395,5 +397,54 @@ export class TodayLessonsComponent implements OnInit {
     console.log('####', momentToday);
     this.todayModal = momentToday;
     // console.log("~~~~", typeof(this.dateModal));
+  }
+  calendarToggle() {
+    this.showCalendar = !this.showCalendar;
+  }
+  closeCancelModal() {
+    this.modalReference.close();
+  }
+  checkLesson(i) {
+    console.log('~~~~~~', this.checkboxFlag);
+    if (this.checkboxFlag[i] != true) {
+      this.checkboxFlag[i] = true;
+    } else this.checkboxFlag[i] = false;
+  }
+  selectAll() {
+    this.selectAllFlag = !this.selectAllFlag;
+    for (var k = 0; k < this.todayCourse.courses.length; k++) {
+      this.checkboxFlag[k] = this.selectAllFlag ? true : false;
+    }
+  }
+  cancelClasses() {
+    console.log('cancel classes', this.checkboxFlag);
+    var lessons = [];
+    for (var k = 0; k < this.todayCourse.courses.length; k++) {
+      if (this.checkboxFlag[k] == true) {
+        console.log('####', this.todayCourse.courses[k]);
+        lessons.push({
+          courseId: this.todayCourse.courses[k]._id,
+          lessonId: this.todayCourse.courses[k].todayLesson._id
+        });
+      }
+    }
+    var body = {
+      lessons: lessons
+    };
+    console.log('body', body);
+
+    this._service.cancelLesson(body).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.toastr.success('Classes cancelled successfully');
+        this.closeCancelModal();
+        this.getTodayLesson();
+      },
+      err => {
+        console.log(err);
+        this.toastr.warning(err);
+        this.closeCancelModal();
+      }
+    );
   }
 }

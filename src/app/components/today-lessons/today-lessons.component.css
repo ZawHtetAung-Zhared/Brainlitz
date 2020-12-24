@@ -831,6 +831,7 @@ input:checked + .slider:before {
 .lesson-cb {
   width: 20px;
   height: 20px;
+  pointer-events: none;
 }
 .temp-icon {
   width: 40px;
@@ -885,6 +886,8 @@ input:checked + .slider:before {
 .lessons {
   box-shadow: 0px 1px 0px #e3e4e5;
   height: 88px;
+  margin-bottom: 1px;
+  cursor: pointer;
 }
 .lessons:hover {
   background: #f7f9fa;
@@ -897,4 +900,26 @@ input:checked + .slider:before {
 }
 .setting-date {
   position: relative;
+  margin-left: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.downIcon {
+  margin-left: 8px;
+}
+.setting-date:hover {
+  background: white;
+}
+.checked-lesson {
+  background: #f2f3f5 !important;
+}
+.left-div > div {
+  margin-left: 20px;
+}
+.lesson-container {
+  padding-bottom: 20%;
+  max-height: 700px;
+  overflow: auto;
 }

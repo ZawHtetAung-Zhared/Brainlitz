@@ -4885,4 +4885,19 @@ export class appService {
       return res;
     });
   }
+
+  cancelLesson(body) {
+    let apiUrl = this.baseUrl + '/lessons/cancel';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }
