@@ -42,6 +42,7 @@ export class TodayLessonsComponent implements OnInit {
   public showCalendar: boolean = false;
   public checkboxFlag: any = {};
   public selectAllFlag: boolean;
+  public selectedDate: Date = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -63,21 +64,23 @@ export class TodayLessonsComponent implements OnInit {
   ngOnInit() {
     this.todayDate = new Date();
     this.getTodayLesson();
-    console.log('abcd', typeof this.dateModal);
+    console.log('abcd', this.selectedDate.toISOString());
   }
 
   getTodayLesson() {
-    this._service.gettodayLesson(this.regionId, this.locationID).subscribe(
-      (res: any) => {
-        console.log(this.todayCourse);
+    this._service
+      .gettodayLesson(this.regionId, this.locationID, this.todayModal)
+      .subscribe(
+        (res: any) => {
+          console.log(this.todayCourse);
 
-        this.todayCourse = res;
-        console.log('tday lessons', this.todayCourse);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          this.todayCourse = res;
+          console.log('tday lessons', this.todayCourse);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
   backToCourse() {
     // this._service.backCourse();
@@ -396,7 +399,8 @@ export class TodayLessonsComponent implements OnInit {
     var momentToday = moment(final).toDate();
     console.log('####', momentToday);
     this.todayModal = momentToday;
-    // console.log("~~~~", typeof(this.dateModal));
+    console.log('iso format', this.todayModal.toISOString());
+    this.getTodayLesson();
   }
   calendarToggle() {
     this.showCalendar = !this.showCalendar;
@@ -446,5 +450,28 @@ export class TodayLessonsComponent implements OnInit {
         this.closeCancelModal();
       }
     );
+  }
+  prevDate() {
+    console.log('prevDate', this.todayModal);
+    var temp = moment(this.todayModal).subtract(1, 'days');
+    this.todayModal = temp.toDate();
+    this.dateModal = this.todayModal;
+    this.getTodayLesson();
+  }
+  nextDate() {
+    console.log('prevDate', this.todayModal);
+    var temp = moment(this.todayModal).add(1, 'days');
+    this.todayModal = temp.toDate();
+    this.dateModal = this.todayModal;
+    this.getTodayLesson();
+  }
+  getTodayDate() {
+    var today = new Date();
+    this.todayModal = moment(today).toDate();
+    this.dateModal = this.todayModal;
+    this.getTodayLesson();
+  }
+  stopEvent(e) {
+    e.stopPropagation();
   }
 }

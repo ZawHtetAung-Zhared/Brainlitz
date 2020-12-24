@@ -4,19 +4,20 @@
       class="d-flex"
       style="margin-left: 20px; height: 40px;align-items: center;"
     >
-      <button class="btn tdy-btn body-m">
+      <button class="btn tdy-btn body-m" (click)="getTodayDate()">
         Today
       </button>
-      <span class="arrow"
+      <span class="arrow" (click)="prevDate()"
         ><img src="../../../assets/img/chevron-right-s.png"
       /></span>
-      <span class="arrow"
+      <span class="arrow" (click)="nextDate()"
         ><img src="../../../assets/img/chevron-left-s.png"
       /></span>
       <span class="setting-date" (click)="calendarToggle()"
         >{{ todayModal | date: 'dd LLL yyyy'
         }}<i class="fa fa-chevron-down downIcon small"></i>
         <ngb-datepicker
+          (click)="stopEvent($event)"
           *ngIf="showCalendar"
           (ngModelChange)="onDateSelect($event)"
           class="datePicker"
