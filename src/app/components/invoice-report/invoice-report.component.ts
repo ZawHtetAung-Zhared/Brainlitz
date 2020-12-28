@@ -10,6 +10,7 @@ import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import * as moment from 'moment';
+declare var $: any;
 
 @Component({
   selector: 'app-invoice-report',
@@ -51,6 +52,8 @@ export class InvoiceReportComponent implements OnInit {
   public makeupForm: any = {};
   public startDate: any;
   public endDate: any;
+  public startDateDue: any;
+  public endDateDue: any;
   public options: any;
 
   @BlockUI() blockUI: NgBlockUI;
@@ -298,6 +301,9 @@ export class InvoiceReportComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
+    setTimeout(() => {
+      $('.daterangepicker').addClass('center-datepicker');
+    }, 500);
   }
   setExpirationDate(event) {
     this.makeupForm.expirationDate = event;
@@ -317,6 +323,22 @@ export class InvoiceReportComponent implements OnInit {
       evt.picker.startDate.format('YYYY-MM-DD')
     ).toISOString();
     this.endDate = new Date(
+      new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+    console.log('#########', this.startDate, '~~', this.endDate);
+  }
+  applyDateRangeDue(evt) {
+    // this.startDate = new Date(evt.picker.startDate).toISOString();
+    // this.endDate = new Date(evt.picker.endDate).toISOString();
+    this.startDateDue = new Date(
+      evt.picker.startDate.format('YYYY-MM-DD')
+    ).toISOString();
+    this.endDateDue = new Date(
       new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
         23,
         59,

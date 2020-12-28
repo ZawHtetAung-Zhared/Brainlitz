@@ -174,6 +174,23 @@
       />
     </div>
 
+    <div class="body-l text-c75" style="margin-bottom: 12px;">Due date</div>
+    <div style="padding-top: 15px;position:relative;">
+      <span class="fa fa-calendar" id="calendarIcon"></span>
+      <input
+        type="text"
+        name="daterangeInput"
+        daterangepicker
+        [options]="options"
+        (applyDaterangepicker)="applyDateRangeDue($event, daterange)"
+        (cancelDaterangepicker)="calendarCanceled($event)"
+        (showDaterangepicker)="togglePicker($event)"
+        (hideDaterangepicker)="togglePicker($event)"
+        style="padding-left:30px;width:100%;"
+        class="body-l text-c300 filter-invoice"
+      />
+    </div>
+
     <div class="footer d-flex">
       <button class="cancel-btn body-m text-c300">Cancel</button>
       <button class="confirm-btn body-m text-s0">Confirm</button>
