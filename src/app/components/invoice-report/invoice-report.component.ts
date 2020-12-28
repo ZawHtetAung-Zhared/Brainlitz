@@ -1,9 +1,16 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { Router } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbCalendar
+} from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { DaterangepickerConfig } from 'ng2-daterangepicker';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-invoice-report',
   templateUrl: './invoice-report.component.html',
@@ -16,8 +23,24 @@ export class InvoiceReportComponent implements OnInit {
     private _service: appService,
     private router: Router,
     public modalService: NgbModal,
-    public toastr: ToastrService
-  ) {}
+    public toastr: ToastrService,
+    private daterangepickerOptions: DaterangepickerConfig,
+    calendar: NgbCalendar
+  ) {
+    this.daterangepickerOptions.settings = {
+      locale: { format: 'd m YYYY' },
+      alwaysShowCalendars: true,
+      ranges: {
+        Today: [moment()],
+        Yesterday: [moment().subtract(1, 'days'), moment()],
+        'Last Month': [moment().subtract(1, 'month'), moment()],
+        'Last 3 Months': [moment().subtract(3, 'month'), moment()],
+        'Last 6 Months': [moment().subtract(6, 'month'), moment()],
+        'Last 12 Months': [moment().subtract(12, 'month'), moment()],
+        'Last 18 Months': [moment().subtract(18, 'month'), moment()]
+      }
+    };
+  }
   public custDetail: any = {};
   public selectedCourse: any = {};
   public modalReference: any;
@@ -26,10 +49,20 @@ export class InvoiceReportComponent implements OnInit {
   public showDp = false;
   public invoiceID2: any;
   public makeupForm: any = {};
+  public startDate: any;
+  public endDate: any;
+  public options: any;
+
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
     +-this.getInvoiceList(20, 0);
+    this.options = {
+      startDate: moment().startOf('hour'),
+      endDate: moment().startOf('hour'),
+      locale: { format: 'ddd, DD MMM YYYY' },
+      alwaysShowCalendars: true
+    };
   }
 
   getInvoiceList(limit, skip) {
@@ -275,5 +308,30 @@ export class InvoiceReportComponent implements OnInit {
     if (event.target.offsetParent == null) datePicker.close();
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
+  }
+
+  applyDateRange(evt) {
+    // this.startDate = new Date(evt.picker.startDate).toISOString();
+    // this.endDate = new Date(evt.picker.endDate).toISOString();
+    this.startDate = new Date(
+      evt.picker.startDate.format('YYYY-MM-DD')
+    ).toISOString();
+    this.endDate = new Date(
+      new Date(evt.picker.endDate.format('YYYY-MM-DD')).setUTCHours(
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+    console.log('#########', this.startDate, '~~', this.endDate);
+  }
+  calendarCanceled(e: any) {
+    console.log(e);
+    // e.event
+    // e.picker
+  }
+  togglePicker(e: any) {
+    console.log(e.event.type);
   }
 }

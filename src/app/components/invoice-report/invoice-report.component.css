@@ -168,6 +168,7 @@ table td {
   justify-content: flex-end;
   border-top: 1px solid #edeff0;
   padding-top: 20px;
+  margin-top: 80px;
 }
 .cancel-btn {
   width: 90px;
@@ -203,4 +204,22 @@ table td {
   width: 100%;
   -webkit-appearance: none;
   -webkit-box-shadow: 0 1px 3px 2px rgba(213, 213, 213, 0.3);
+}
+#calendarIcon {
+  position: absolute;
+  top: 28px;
+  left: 10px;
+}
+.filter-invoice {
+  border-radius: 4px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 0;
+  padding: 0;
+  height: 44px;
+}
+.filter-invoice:focus {
+  outline: none;
+  border: 0;
+  padding: 0;
 }
