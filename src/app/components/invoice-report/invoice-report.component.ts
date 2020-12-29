@@ -50,16 +50,33 @@ export class InvoiceReportComponent implements OnInit {
   public showDp = false;
   public invoiceID2: any;
   public makeupForm: any = {};
-  public startDate: any;
-  public endDate: any;
-  public startDateDue: any;
-  public endDateDue: any;
+  public startDate: any = null;
+  public endDate: any = null;
+  public startDateDue: any = null;
+  public endDateDue: any = null;
   public options: any;
+  public filterOn: boolean = false;
+  public status: any = {
+    unpaid: false,
+    paid: false,
+    partial: false
+  };
+  public searchKeyword: any;
+  private searchword: any;
 
   @BlockUI() blockUI: NgBlockUI;
 
   ngOnInit() {
-    +-this.getInvoiceList(20, 0);
+    this.getInvoiceList(
+      20,
+      0,
+      this.status,
+      this.startDate,
+      this.endDate,
+      this.startDateDue,
+      this.endDateDue,
+      this.selectedCustomerList
+    );
     this.options = {
       startDate: moment().startOf('hour'),
       endDate: moment().startOf('hour'),
@@ -68,10 +85,20 @@ export class InvoiceReportComponent implements OnInit {
     };
   }
 
-  getInvoiceList(limit, skip) {
+  getInvoiceList(limit, skip, status, start, end, startDue, endDue, cusList) {
     //this.blockUI.start('Loading');
     this._service
-      .getAllInvoices(this.regionID, limit, skip)
+      .getAllInvoices(
+        this.regionID,
+        limit,
+        skip,
+        status,
+        start,
+        end,
+        startDue,
+        endDue,
+        cusList
+      )
       // .getAllInvoices(this.regionID, limit, skip)
       .subscribe((res: any) => {
         console.log(res);
@@ -84,7 +111,16 @@ export class InvoiceReportComponent implements OnInit {
 
   showMore(skip) {
     console.log('showmore');
-    this.getInvoiceList(20, skip);
+    this.getInvoiceList(
+      20,
+      skip,
+      this.status,
+      this.startDate,
+      this.endDate,
+      this.startDateDue,
+      this.endDateDue,
+      this.selectedCustomerList
+    );
   }
   openModal(invoice, classEnrollModal) {
     //this.blockUI.start('Loading');
@@ -109,11 +145,21 @@ export class InvoiceReportComponent implements OnInit {
     this.modalReference.close();
     this.invoiceList = [];
     this.invlistsResult = [];
-    this.getInvoiceList(20, 0);
+    this.getInvoiceList(
+      20,
+      0,
+      this.status,
+      this.startDate,
+      this.endDate,
+      this.startDateDue,
+      this.endDateDue,
+      this.selectedCustomerList
+    );
   }
 
   @HostListener('document:click', ['$event']) clickout($event) {
     this.showDp = false;
+    this.searchFlag = false;
   }
 
   showExportOption($event: Event, state) {
@@ -355,5 +401,105 @@ export class InvoiceReportComponent implements OnInit {
   }
   togglePicker(e: any) {
     console.log(e.event.type);
+  }
+  closeFModal() {
+    this.modalReference.close();
+  }
+  public searchResult: any;
+  public searchFlag: boolean = false;
+  userSearch(searchWord, userType, limit, skip) {
+    this.searchKeyword = searchWord;
+    this.searchword = searchWord;
+
+    if (searchWord.length != 0) {
+      this.searchFlag = true;
+      this._service
+        .getSearchUser(this.regionID, searchWord, userType, limit, skip, '')
+        .subscribe(
+          (res: any) => {
+            console.log('search test', res);
+            this.searchResult = res;
+          },
+          err => {
+            console.log(err);
+          }
+        );
+    } else {
+      console.log('zero', searchWord.length);
+    }
+  }
+  userSearch_input(keyword) {
+    this.searchKeyword = keyword;
+    if (keyword.length == 0) {
+      this.searchFlag = false;
+    }
+  }
+  confirmFilter() {
+    console.log('checkbox', this.status);
+    console.log('customer', this.selectedCustomerList);
+    console.log('invoice date', this.startDate, this.endDate);
+    console.log('Due date', this.startDateDue, this.endDateDue);
+    this.filterOn = true;
+    this._service
+      .getAllInvoices(
+        this.regionID,
+        20,
+        0,
+        this.status,
+        this.startDate,
+        this.endDate,
+        this.startDateDue,
+        this.endDateDue,
+        this.selectedCustomerList
+      )
+      // .getAllInvoices(this.regionID, limit, skip)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.invlistsResult = res;
+        this.invoiceList = res;
+        console.log(this.invoiceList);
+        //this.blockUI.stop();
+      });
+    this.closeFModal();
+  }
+  public selectedCustomerList: any = [];
+  selectCustomer(customer, $event) {
+    this.selectedCustomerList.push(customer);
+    // $event.stopPropagation();
+  }
+  removeFilter() {
+    this.filterOn = false;
+    this.status = {
+      unpaid: false,
+      paid: false,
+      partial: false
+    };
+    this.selectedCustomerList = [];
+    this.startDate = null;
+    this.endDate = null;
+    this.startDateDue = null;
+    this.endDateDue = null;
+  }
+  removeCustomer(customer) {
+    this.selectedCustomerList.splice(
+      this.selectedCustomerList.findIndex(x => x == customer),
+      1
+    );
+    console.log('@@@@', this.selectedCustomerList);
+    this.checkFilter();
+  }
+  checkFilter() {
+    if (
+      this.status.paid == false &&
+      this.status.unpaid == false &&
+      this.status.partial == false &&
+      this.startDate == null &&
+      this.endDate == null &&
+      this.startDateDue == null &&
+      this.endDateDue == null &&
+      this.selectedCustomerList.length == 0
+    ) {
+      this.filterOn = false;
+    }
   }
 }
