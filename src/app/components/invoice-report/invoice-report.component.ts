@@ -20,6 +20,7 @@ declare var $: any;
 export class InvoiceReportComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public invoiceList: any = [];
+  public searchword: any;
   constructor(
     private _service: appService,
     private router: Router,
@@ -62,7 +63,8 @@ export class InvoiceReportComponent implements OnInit {
     partial: false
   };
   public searchKeyword: any;
-  private searchword: any;
+  public sortColumn: any = 'createdDate';
+  public sortDirection: any = 'desc';
 
   @BlockUI() blockUI: NgBlockUI;
 
@@ -75,7 +77,9 @@ export class InvoiceReportComponent implements OnInit {
       this.endDate,
       this.startDateDue,
       this.endDateDue,
-      this.selectedCustomerList
+      this.selectedCustomerList,
+      this.sortColumn,
+      this.sortDirection
     );
     this.options = {
       startDate: moment().startOf('hour'),
@@ -85,7 +89,18 @@ export class InvoiceReportComponent implements OnInit {
     };
   }
 
-  getInvoiceList(limit, skip, status, start, end, startDue, endDue, cusList) {
+  getInvoiceList(
+    limit,
+    skip,
+    status,
+    start,
+    end,
+    startDue,
+    endDue,
+    cusList,
+    sortcol,
+    sortdir
+  ) {
     //this.blockUI.start('Loading');
     this._service
       .getAllInvoices(
@@ -97,7 +112,9 @@ export class InvoiceReportComponent implements OnInit {
         end,
         startDue,
         endDue,
-        cusList
+        cusList,
+        sortcol,
+        sortdir
       )
       // .getAllInvoices(this.regionID, limit, skip)
       .subscribe((res: any) => {
@@ -119,7 +136,9 @@ export class InvoiceReportComponent implements OnInit {
       this.endDate,
       this.startDateDue,
       this.endDateDue,
-      this.selectedCustomerList
+      this.selectedCustomerList,
+      this.sortColumn,
+      this.sortDirection
     );
   }
   openModal(invoice, classEnrollModal) {
@@ -153,7 +172,9 @@ export class InvoiceReportComponent implements OnInit {
       this.endDate,
       this.startDateDue,
       this.endDateDue,
-      this.selectedCustomerList
+      this.selectedCustomerList,
+      this.sortColumn,
+      this.sortDirection
     );
   }
 
@@ -440,26 +461,7 @@ export class InvoiceReportComponent implements OnInit {
     console.log('invoice date', this.startDate, this.endDate);
     console.log('Due date', this.startDateDue, this.endDateDue);
     this.filterOn = true;
-    this._service
-      .getAllInvoices(
-        this.regionID,
-        20,
-        0,
-        this.status,
-        this.startDate,
-        this.endDate,
-        this.startDateDue,
-        this.endDateDue,
-        this.selectedCustomerList
-      )
-      // .getAllInvoices(this.regionID, limit, skip)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.invlistsResult = res;
-        this.invoiceList = res;
-        console.log(this.invoiceList);
-        //this.blockUI.stop();
-      });
+    this.refreshInvoiceList();
     this.closeFModal();
   }
   public selectedCustomerList: any = [];
@@ -479,6 +481,7 @@ export class InvoiceReportComponent implements OnInit {
     this.endDate = null;
     this.startDateDue = null;
     this.endDateDue = null;
+    this.checkFilter();
   }
   removeCustomer(customer) {
     this.selectedCustomerList.splice(
@@ -501,5 +504,35 @@ export class InvoiceReportComponent implements OnInit {
     ) {
       this.filterOn = false;
     }
+    this.refreshInvoiceList();
+  }
+  refreshInvoiceList() {
+    this._service
+      .getAllInvoices(
+        this.regionID,
+        20,
+        0,
+        this.status,
+        this.startDate,
+        this.endDate,
+        this.startDateDue,
+        this.endDateDue,
+        this.selectedCustomerList,
+        this.sortColumn,
+        this.sortDirection
+      )
+      // .getAllInvoices(this.regionID, limit, skip)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.invlistsResult = res;
+        this.invoiceList = res;
+        console.log(this.invoiceList);
+        //this.blockUI.stop();
+      });
+  }
+  sortBy(obj) {
+    this.sortDirection = this.sortDirection == 'desc' ? 'asc' : 'desc';
+    this.sortColumn = obj;
+    this.refreshInvoiceList();
   }
 }

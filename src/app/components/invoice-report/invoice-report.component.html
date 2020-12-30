@@ -97,15 +97,65 @@
   <div class="table-wrapper">
     <table class="inv-table">
       <tr class="header-wrapper body-l text-c300">
-        <td class="invoice">
-          Invoice# <i class="fa fa-chevron-down downIcon small"></i>
+        <td class="invoice" (click)="sortBy('refInvoiceId')">
+          Invoice#
+          <i
+            *ngIf="sortDirection == 'desc' && sortColumn == 'refInvoiceId'"
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'refInvoiceId'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
         </td>
-        <td>To</td>
-        <td>Date</td>
-        <td>Due date</td>
-        <td>Last send date</td>
-        <td>Status</td>
-        <td>Action</td>
+        <td class="invoice" (click)="sortBy('userDetails_preferredName')">
+          To<i
+            *ngIf="
+              sortDirection == 'desc' &&
+              sortColumn == 'userDetails_preferredName'
+            "
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="
+              sortDirection == 'asc' &&
+              sortColumn == 'userDetails_preferredName'
+            "
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice" (click)="sortBy('createdDate')">
+          Date<i
+            *ngIf="sortDirection == 'desc' && sortColumn == 'createdDate'"
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'createdDate'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice" (click)="sortBy('dueDate')">
+          Due date<i
+            *ngIf="sortDirection == 'desc' && sortColumn == 'dueDate'"
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'dueDate'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice">Last send date</td>
+        <td class="invoice" (click)="sortBy('status')">
+          Status<i
+            *ngIf="sortDirection == 'desc' && sortColumn == 'status'"
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'status'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice">Action</td>
       </tr>
       <tr class="invList body-m" *ngFor="let invoice of invoiceList">
         <td class="text-c300">
@@ -160,6 +210,13 @@
             View invoice
           </button>
         </td>
+      </tr>
+      <tr
+        class="invList body-m"
+        *ngIf="invoiceList.length == 0"
+        style="text-align: center;"
+      >
+        -
       </tr>
     </table>
   </div>

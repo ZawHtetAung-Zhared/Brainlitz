@@ -3107,7 +3107,9 @@ export class appService {
     end,
     startDue,
     endDue,
-    cusList
+    cusList,
+    sortcol,
+    sortdir
   ) {
     let apiUrl =
       this.baseUrl +
@@ -3141,6 +3143,7 @@ export class appService {
         }
       }
     }
+    apiUrl += '&sortDirection=' + sortdir + '&sortColumn=' + sortcol;
 
     const httpOptions = {
       headers: new HttpHeaders({
