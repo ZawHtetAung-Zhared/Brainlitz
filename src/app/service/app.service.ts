@@ -4165,13 +4165,15 @@ export class appService {
   }
 
   // today lesson
-  gettodayLesson(regionId, locationid) {
+  gettodayLesson(regionId, locationid, date) {
     let url =
       this.baseUrl +
       '/regions/' +
       regionId +
       '/courses/today-lessons?locationId=' +
-      locationid;
+      locationid +
+      '&date=' +
+      date;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4892,5 +4894,20 @@ export class appService {
     return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
+  }
+
+  cancelLesson(body) {
+    let apiUrl = this.baseUrl + '/lessons/cancel';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }

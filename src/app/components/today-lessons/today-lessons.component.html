@@ -1,6 +1,45 @@
-<app-header [ngClass]="{ stick: isSticky == true }"></app-header>
-
 <div class="d-flex flex-column justify-content-center align-items-center">
+  <div class="setting d-flex justify-content-between">
+    <div
+      class="d-flex"
+      style="margin-left: 20px; height: 40px;align-items: center;"
+    >
+      <button class="btn tdy-btn body-m" (click)="getTodayDate()">
+        Today
+      </button>
+      <span class="arrow" (click)="prevDate()"
+        ><img src="../../../assets/img/chevron-right-s.png"
+      /></span>
+      <span class="arrow" (click)="nextDate()"
+        ><img src="../../../assets/img/chevron-left-s.png"
+      /></span>
+      <span class="setting-date" (click)="calendarToggle()"
+        >{{ todayModal | date: 'dd LLL yyyy'
+        }}<i class="fa fa-chevron-down downIcon small"></i>
+        <ngb-datepicker
+          (click)="stopEvent($event)"
+          *ngIf="showCalendar"
+          (ngModelChange)="onDateSelect($event)"
+          class="datePicker"
+          #dp
+          [(ngModel)]="dateModal"
+        ></ngb-datepicker>
+      </span>
+    </div>
+    <div class="d-flex align-items-center">
+      <span
+        class="body-m text-r100 cursor"
+        (click)="cancelMultiple(cancelLesson)"
+        >Cancel lesson</span
+      >
+      <div
+        class="quit-today d-flex justify-content-center align-items-center cursor"
+        (click)="closeTab()"
+      >
+        <img style="width: 12px;" src="../../../assets/img/removeIcon.png" />
+      </div>
+    </div>
+  </div>
   <div class="inner-wrapper w-100">
     <div class="today-container">
       <!-- <button
@@ -88,128 +127,125 @@
                 </div>
               </div>
             </div>
-            <div class="expand-list">
-              <div class="d-flex teacher-box mb-4">
-                <div class="d-flex align-items-center">
+            <div class="d-flex">
+              <div class="teacher-div">
+                <div class="caption-u text-c100 mb-16">Teacher</div>
+                <div
+                  class="d-flex align-items-center"
+                  style="margin-bottom: 32px;"
+                >
                   <div>
                     <div class="img-wrap align-self-center">
                       <img src="{{ tcourse.teacher.profilePic }}" />
                     </div>
                   </div>
-
-                  <!--
-                  <div
-                    class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
-                  > -->
-                  <!-- <p class="positon">Senior Teacher</p> -->
                   <div>
                     <p class="teacher-name pl-2 pt-2 body-m text-c300">
                       {{ tcourse.teacher.fullName }}
                     </p>
                   </div>
-
-                  <!-- </div> -->
                 </div>
+                <div class="caption-u text-c100 mb-16">assistants</div>
                 <div
-                  class="d-flex ml-3 align-items-center"
+                  class="d-flex align-items-center mb-16"
                   *ngFor="let assTeacher of tcourse.assistants"
                 >
-                  <div>
+                  <div class="mr-16">
                     <div class="img-wrap align-self-center">
                       <img src="{{ assTeacher.userDetails.profilePic }}" />
                     </div>
                   </div>
-
-                  <!-- <div
-                    class="d-flex flex-wrap flex-column justify-content-center pl-2 pt-1"
-                  > -->
-                  <!-- <p class="positon">Senior Teacher</p> -->
                   <div>
                     <p class="teacher-name pl-2 pt-2">
                       {{ assTeacher.userDetails.fullName }}
                     </p>
                   </div>
-
-                  <!-- </div> -->
+                </div>
+                <div
+                  *ngIf="
+                    tcourse.assistants.length == 0 ||
+                    tcourse.assistants.length == null
+                  "
+                >
+                  ---
                 </div>
               </div>
-              <div class="card-columns student-list ">
+              <div class="student-div">
+                <div class="caption-u text-c100">Students</div>
+
                 <div
-                  class="card  mb-4"
+                  class="d-flex student-list justify-content-between"
                   *ngFor="let student of tcourse.students; let j = index"
                 >
-                  <div
-                    class="d-flex justify-content-between student-box align-items-center"
-                  >
-                    <div class="d-flex libr">
-                      <div>
-                        <div class="img-wrap align-self-center">
-                          <img src="{{ student.userDetails.profilePic }}" />
-                        </div>
+                  <div class="d-flex libr">
+                    <div class="mr-16 d-flex">
+                      <div class="img-wrap align-self-center">
+                        <img src="{{ student.userDetails.profilePic }}" />
                       </div>
-
-                      <p class="student-name mb-0 body-l text-c300">
-                        {{ student.userDetails.fullName }}
-                      </p>
                     </div>
-                    <div class="d-flex" id="divToHide">
-                      <div
-                        id="divToHide"
-                        class="present-wrap"
-                        [ngClass]="{
-                          'attendance-radio':
-                            student.todayLesson.attendance == true
-                        }"
-                      >
-                        <label id="divToHide" class="radio-present mb-0 ">
-                          <p
-                            class="mb-0 body-m"
-                            [ngClass]="{
-                              'present-text': student.todayLesson.attendance
-                            }"
-                          >
-                            Present
-                          </p>
-                          <input
-                            type="radio"
-                            name="radio{{ i }}{{ j }}"
-                            (click)="onClickRadio(null, 'present', student, i)"
-                            [checked]="student.todayLesson.attendance == true"
-                          />
-                          <span class="checkmark"></span>
-                        </label>
-                      </div>
-                      <div
-                        id="divToHide"
-                        class="absent-wrap"
-                        [ngClass]="{
-                          'absent-radio':
-                            student.todayLesson.attendance == false
-                        }"
-                      >
-                        <label id="divToHide" class="radio-absent mb-0">
-                          <p
-                            class="mb-0 body-m"
-                            [ngClass]="{
-                              'absent-text':
-                                student.todayLesson.attendance == false
-                            }"
-                          >
-                            Absent
-                          </p>
-                          <input
-                            type="radio"
-                            name="radio{{ i }}{{ j }}"
-                            (click)="
-                              onClickRadio(makeupModal, 'absent', student, i)
-                            "
-                            [checked]="student.todayLesson.attendance == false"
-                          />
-                          <span class="checkmark"></span>
-                        </label>
-                      </div>
+
+                    <p class="student-name mb-0 body-l text-c300">
+                      {{ student.userDetails.fullName }}
+                    </p>
+                  </div>
+                  <!--  -->
+                  <div class="d-flex align-items-center">
+                    <div
+                      id="divToHide"
+                      class="present-wrap"
+                      [ngClass]="{
+                        'attendance-radio':
+                          student.todayLesson.attendance == true
+                      }"
+                    >
+                      <label id="divToHide" class="radio-present mb-0 ">
+                        <p
+                          class="mb-0 body-m"
+                          [ngClass]="{
+                            'present-text': student.todayLesson.attendance
+                          }"
+                        >
+                          Present
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}{{ j }}"
+                          (click)="onClickRadio(null, 'present', student, i)"
+                          [checked]="student.todayLesson.attendance == true"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
+                    </div>
+                    <div
+                      id="divToHide"
+                      class="absent-wrap"
+                      [ngClass]="{
+                        'absent-radio': student.todayLesson.attendance == false
+                      }"
+                    >
+                      <label id="divToHide" class="radio-absent mb-0">
+                        <p
+                          class="mb-0 body-m"
+                          [ngClass]="{
+                            'absent-text':
+                              student.todayLesson.attendance == false
+                          }"
+                        >
+                          Absent
+                        </p>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}{{ j }}"
+                          (click)="
+                            onClickRadio(makeupModal, 'absent', student, i)
+                          "
+                          [checked]="student.todayLesson.attendance == false"
+                        />
+                        <span class="checkmark"></span>
+                      </label>
                     </div>
                   </div>
+                  <!--  -->
                 </div>
               </div>
             </div>
@@ -530,6 +566,100 @@
         >
           Confirm
         </button>
+      </div>
+    </ng-template>
+    <ng-template #cancelLesson let-c="close" let-d="dismiss">
+      <div class="cancel-modal">
+        <div class="d-flex justify-content-between" style="margin-bottom: 4px;">
+          <div class="body-m text-c100">Today, 16 Dec 2020</div>
+          <div style="cursor: pointer;" (click)="closeCancelModal()">
+            <img
+              style="width: 16px;"
+              src="../../../assets/icons/crossClose.svg"
+            />
+          </div>
+        </div>
+        <div class="h1-strong text-c300" style="margin-bottom: 24px;">
+          Cancel lesson
+        </div>
+        <div class="lesson-container">
+          <div class="lesson-list d-flex">
+            <div style="width: 60%;" class="caption-u text-c100 lesson-title">
+              Courses
+            </div>
+            <div style="width: 40%;" class="caption-u text-c100 lesson-title">
+              Teacher
+            </div>
+          </div>
+          <div
+            (click)="checkLesson(i)"
+            class="d-flex lessons"
+            *ngFor="let tcourse of todayCourse.courses; let i = index"
+            [ngClass]="{
+              'checked-lesson': checkboxFlag[i] == true
+            }"
+          >
+            <div class="left-div d-flex">
+              <div class="d-flex" style="align-items: center;">
+                <input
+                  class="lesson-cb"
+                  type="checkbox"
+                  [(ngModel)]="checkboxFlag[i]"
+                />
+                <div style="margin-left: 16px;">
+                  <div class="h4-strong text-c300">
+                    {{ tcourse.name | slice: 0:40
+                    }}{{ tcourse.name.length > 40 ? '...' : '' }}
+                  </div>
+                  <div class="small text-c100">
+                    <span
+                      >{{ tcourse.lessonDuration.startDate | utcTime }} -{{
+                        tcourse.lessonDuration.endDate | utcTime
+                      }}</span
+                    >
+                    <span> {{ tcourse.lessonDuration | lessonDuration }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="right-div d-flex">
+              <div>
+                <img class="temp-icon" src="{{ tcourse.teacher.profilePic }}" />
+              </div>
+              <div class="light-body-m text-c100" style="margin-left: 8px;">
+                {{ tcourse.teacher.fullName }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-footer d-flex justify-content-between">
+          <div
+            (click)="selectAll()"
+            class="d-flex"
+            style="align-items: center;cursor: pointer;"
+          >
+            <input
+              class="lesson-cb"
+              type="checkbox"
+              [(ngModel)]="selectAllFlag"
+            />
+            <span class="text-c300 body-m" style="margin-left: 16px;"
+              >Select all</span
+            >
+          </div>
+          <div class="d-flex">
+            <button
+              class="close-btn body-m text-c100"
+              style="margin-right: 20px;"
+              (click)="closeCancelModal()"
+            >
+              Close
+            </button>
+            <button (click)="cancelClasses()" class="cancel-btn body-m text-s0">
+              Cancel
+            </button>
+          </div>
+        </div>
       </div>
     </ng-template>
   </div>

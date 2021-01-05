@@ -665,6 +665,11 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
 
   onClickTodayLesson() {
-    this._router.navigateByUrl('/today-lesson');
+    // this._router.navigateByUrl('/today-lesson');
+    window.open(
+      window.location.origin + '/#/today-lesson',
+      '_blank',
+      'noopener'
+    );
   }
 }
