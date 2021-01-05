@@ -111,22 +111,8 @@
             class="fa fa-chevron-up downIcon small"
           ></i>
         </td>
-        <td class="invoice" (click)="sortBy('userDetails_preferredName')">
-          To<i
-            *ngIf="
-              (sortDirection == 'desc' &&
-                sortColumn == 'userDetails_preferredName') ||
-              sortColumn != 'userDetails_preferredName'
-            "
-            class="fa fa-chevron-down downIcon small"
-          ></i
-          ><i
-            *ngIf="
-              sortDirection == 'asc' &&
-              sortColumn == 'userDetails_preferredName'
-            "
-            class="fa fa-chevron-up downIcon small"
-          ></i>
+        <td class="invoice">
+          To
         </td>
         <td class="invoice" (click)="sortBy('createdDate')">
           Date<i
