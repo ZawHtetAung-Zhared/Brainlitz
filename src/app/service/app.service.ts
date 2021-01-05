@@ -3106,7 +3106,19 @@ export class appService {
       });
   }
 
-  getAllInvoices(regionId: string, limit: number, skip: number) {
+  getAllInvoices(
+    regionId: string,
+    limit: number,
+    skip: number,
+    status,
+    start,
+    end,
+    startDue,
+    endDue,
+    cusList,
+    sortcol,
+    sortdir
+  ) {
     let apiUrl =
       this.baseUrl +
       '/' +
@@ -3115,6 +3127,31 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    var Status = '';
+    Status += status.paid ? '-PAID' : '';
+    Status += status.unpaid ? '-UNPAID' : '';
+    Status += status.partial ? '-PAID[PARTIAL]' : '';
+    Status = Status.slice(1, Status.length);
+
+    if (Status != '') {
+      apiUrl += '&status=' + Status;
+    }
+    if (start != null && end != null) {
+      apiUrl += '&startDate=' + start + '&endDate=' + end;
+    }
+    if (startDue != null && endDue != null) {
+      apiUrl += '&dueDateStart=' + startDue + '&dueDateEnd=' + endDue;
+    }
+    if (cusList.length > 0) {
+      apiUrl += '&users=';
+      for (var i = 0; i < cusList.length; i++) {
+        apiUrl += cusList[i].userId;
+        if (i != cusList.length - 1) {
+          apiUrl += ',';
+        }
+      }
+    }
+    apiUrl += '&sortDirection=' + sortdir + '&sortColumn=' + sortcol;
 
     const httpOptions = {
       headers: new HttpHeaders({

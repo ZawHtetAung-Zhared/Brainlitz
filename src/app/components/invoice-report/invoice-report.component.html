@@ -1,45 +1,174 @@
 <div>
   <div class=" d-flex title-div justify-content-between">
     <h2 class="h1-strong text-c300">Invoice reports</h2>
-    <div style="position: relative;">
-      <button
-        class="btn-export body-l bg-b100 text-s0"
-        (click)="showExportOption($event, 'paid')"
+    <div class="d-flex">
+      <div
+        class="filter-btn body-m text-b100 d-flex justify-content-center"
+        (click)="filterField(filterReport)"
       >
-        <span>Export</span><i class="fa fa-chevron-down downIcon small"></i>
-      </button>
-      <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
-        <div class="inv-opt bottom-border" (click)="exportInvoiceLists('PAID')">
-          Paid
+        Filter fields
+      </div>
+      <div style="position: relative;">
+        <button
+          class="btn-export body-l bg-b100 text-s0"
+          (click)="showExportOption($event, 'paid')"
+        >
+          <span>Export</span><i class="fa fa-chevron-down downIcon small"></i>
+        </button>
+        <div *ngIf="showDp" class="option-dp body-l text-c300 bg-s0">
+          <div
+            class="inv-opt bottom-border"
+            (click)="exportInvoiceLists('PAID')"
+          >
+            Paid
+          </div>
+          <div class="" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
+          <!-- <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
+              Paid partial
+            </div> -->
         </div>
-        <div class="" (click)="exportInvoiceLists('UNPAID')">Unpaid</div>
-        <!-- <div class="inv-opt" (click)="exportInvoiceLists('PAID[PARTIAL]')">
-          Paid partial
-        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="filters" *ngIf="filterOn">
+    <div class="h4-strong text-c300 d-flex justify-content-between">
+      Filters
+      <img
+        (click)="removeFilter()"
+        style="cursor: pointer;"
+        src="../../../assets/img/minus.svg"
+      />
+    </div>
+    <div class="paid-filter">
+      <div class="filter-name" *ngIf="status.paid">
+        Paid
+        <img
+          (click)="status.paid = false; checkFilter()"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
+      </div>
+      <div class="filter-name" *ngIf="status.unpaid">
+        Unpaid
+        <img
+          (click)="status.unpaid = false; checkFilter()"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
+      </div>
+      <div class="filter-name" *ngIf="status.partial">
+        Partial paid
+        <img
+          (click)="status.partial = false; checkFilter()"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
+      </div>
+    </div>
+    <div class="time-filter">
+      <div *ngIf="startDate != null" class="filter-name">
+        Invoice date {{ startDate | dateFormat }} - {{ endDate | dateFormat
+        }}<img
+          (click)="startDate = null; endDate = null; checkFilter()"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
+      </div>
+      <div *ngIf="startDateDue != null" class="filter-name">
+        Due date {{ startDateDue | dateFormat }} - {{ endDateDue | dateFormat
+        }}<img
+          (click)="startDateDue = null; endDateDue = null; checkFilter()"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
+      </div>
+    </div>
+    <div class="customer-filter">
+      <div class="filter-name" *ngFor="let customer of selectedCustomerList">
+        {{ customer.fullName.length > 0 ? customer.fullName : customer.email
+        }}<img
+          (click)="removeCustomer(customer)"
+          class="selectedFilter"
+          src="../../../assets/img/minus.svg"
+        />
       </div>
     </div>
   </div>
   <div class="table-wrapper">
     <table class="inv-table">
       <tr class="header-wrapper body-l text-c300">
-        <td>Invoice#</td>
-        <td>To</td>
-        <td>Date</td>
-        <td>Due date</td>
-        <td>Last send date</td>
-        <td>Status</td>
-        <td>Action</td>
+        <td class="invoice" (click)="sortBy('refInvoiceId')">
+          Invoice#
+          <i
+            *ngIf="
+              (sortDirection == 'desc' && sortColumn == 'refInvoiceId') ||
+              sortColumn != 'refInvoiceId'
+            "
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'refInvoiceId'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice">
+          To
+        </td>
+        <td class="invoice" (click)="sortBy('createdDate')">
+          Date<i
+            *ngIf="
+              (sortDirection == 'desc' && sortColumn == 'createdDate') ||
+              sortColumn != 'createdDate'
+            "
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'createdDate'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice" (click)="sortBy('dueDate')">
+          Due date<i
+            *ngIf="
+              (sortDirection == 'desc' && sortColumn == 'dueDate') ||
+              sortColumn != 'dueDate'
+            "
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'dueDate'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice">Last send date</td>
+        <td class="invoice" (click)="sortBy('status')">
+          Status<i
+            *ngIf="
+              (sortDirection == 'desc' && sortColumn == 'status') ||
+              sortColumn != 'status'
+            "
+            class="fa fa-chevron-down downIcon small"
+          ></i
+          ><i
+            *ngIf="sortDirection == 'asc' && sortColumn == 'status'"
+            class="fa fa-chevron-up downIcon small"
+          ></i>
+        </td>
+        <td class="invoice">Action</td>
       </tr>
       <tr class="invList body-m" *ngFor="let invoice of invoiceList">
         <td class="text-c300">
           {{ invoice.refInvoiceId }}
         </td>
         <td class="text-c300">
-          {{
-            invoice.userDetails.preferredName == ''
-              ? invoice.user.email
-              : invoice.userDetails.preferredName
-          }}
+          <span *ngIf="invoice.userDetails">
+            {{
+              invoice.userDetails.preferredName == ''
+                ? invoice.user.email
+                : invoice.userDetails.preferredName
+            }}</span
+          >
+          <span *ngIf="invoice.userDetails == undefined">-</span>
         </td>
         <td class="text-c300">
           {{ invoice.updatedDate | dateFormat }}
@@ -81,6 +210,13 @@
           </button>
         </td>
       </tr>
+      <tr
+        class="invList body-m"
+        *ngIf="invoiceList.length == 0"
+        style="text-align: center;"
+      >
+        -
+      </tr>
     </table>
   </div>
 </div>
@@ -106,3 +242,117 @@
   ></app-invoice>
 </ng-template>
 <block-ui message="Deafult Message"></block-ui>
+<ng-template #filterReport let-c="close" let-d="dismiss">
+  <div class="filter-div">
+    <div
+      class="h1-strong text-c300"
+      style="margin-bottom: 36px; position: relative;"
+    >
+      Filter field
+      <img
+        (click)="closeFModal()"
+        class="close-x"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div class="body-l text-c75">Status</div>
+    <div class="d-flex" style="margin-top: 12px;margin-bottom: 32px;">
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" [(ngModel)]="status.unpaid" />
+        <span>Unpaid</span>
+      </div>
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" [(ngModel)]="status.paid" />
+        <span>Paid</span>
+      </div>
+      <div class="box-type">
+        <input class="filter-cb" type="checkbox" [(ngModel)]="status.partial" />
+        <span>Partial paid</span>
+      </div>
+    </div>
+    <div class="body-l text-c75" style="margin-bottom: 12px;">
+      Filter by name
+    </div>
+    <div class="input-group col-md-12" style="padding:15px 0;">
+      <input
+        style="border: none;"
+        class="form-control body-l text-c300 bg-s20"
+        type="search"
+        placeholder="Search"
+        id="staff-filter-search-input"
+        (input)="userSearch_input($event.target.value)"
+        (keyup.enter)="userSearch($event.target.value, 'customer', 20, 0)"
+        autocomplete="off"
+        autocomplete="off"
+      />
+      <span>
+        <button
+          class="btn-design bg-s20 text-c75"
+          type="button"
+          (click)="userSearch($event.target.value, 'customer', 20, 0)"
+        >
+          <i class="fa fa-search"></i>
+        </button>
+      </span>
+      <div class="search-list" *ngIf="searchFlag">
+        <div
+          (click)="selectCustomer(customer, $event)"
+          class="search-res"
+          *ngFor="let customer of searchResult"
+        >
+          {{
+            customer.fullName.length > 0 ? customer.fullName : customer.email
+          }}
+        </div>
+      </div>
+    </div>
+    <div style="margin: 0 -14px;">
+      <div class="filter-name" *ngFor="let customer of selectedCustomerList">
+        {{ customer.fullName.length > 0 ? customer.fullName : customer.email
+        }}<img class="selectedFilter" src="../../../assets/img/minus.svg" />
+      </div>
+    </div>
+    <div class="body-l text-c75" style="margin-bottom: 12px;">Invoice date</div>
+    <div style="padding-top: 15px;position:relative;">
+      <span class="fa fa-calendar" id="calendarIcon"></span>
+      <input
+        type="text"
+        name="daterangeInput"
+        daterangepicker
+        [options]="options"
+        (applyDaterangepicker)="applyDateRange($event, daterange)"
+        (cancelDaterangepicker)="calendarCanceled($event)"
+        (showDaterangepicker)="togglePicker($event)"
+        (hideDaterangepicker)="togglePicker($event)"
+        style="padding-left:30px;width:100%;"
+        class="body-l text-c300 filter-invoice"
+      />
+    </div>
+
+    <div class="body-l text-c75" style="margin: 12px 0px">Due date</div>
+    <div style="padding-top: 15px;position:relative;">
+      <span class="fa fa-calendar" id="calendarIcon"></span>
+      <input
+        type="text"
+        name="daterangeInput"
+        daterangepicker
+        [options]="options"
+        (applyDaterangepicker)="applyDateRangeDue($event, daterange)"
+        (cancelDaterangepicker)="calendarCanceled($event)"
+        (showDaterangepicker)="togglePicker($event)"
+        (hideDaterangepicker)="togglePicker($event)"
+        style="padding-left:30px;width:100%;"
+        class="body-l text-c300 filter-invoice"
+      />
+    </div>
+
+    <div class="footer d-flex">
+      <button (click)="closeFModal()" class="cancel-btn body-m text-c300">
+        Cancel
+      </button>
+      <button (click)="confirmFilter()" class="confirm-btn body-m text-s0">
+        Confirm
+      </button>
+    </div>
+  </div>
+</ng-template>

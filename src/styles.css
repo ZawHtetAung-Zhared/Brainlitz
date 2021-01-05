@@ -1650,3 +1650,8 @@ button.toast-close-button {
 .borderless .modal-content {
   border: none;
 }
+.center-datepicker {
+  top: calc(50% - 306px) !important;
+  overflow: hidden;
+  left: calc(50% - 398px) !important;
+}
