@@ -825,10 +825,14 @@ export class UserDetailComponent implements OnInit {
         }
         this.invoice = res.body.invoice;
 
-        this.showInvoice = true;
+        if (!this.transferFlag) this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
+        if (this.transferFlag) {
+          this.showDetails(this.editId, 'class');
+          this.closeModal('close');
+        }
         //this.blockUI.stop();
         // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
@@ -933,10 +937,14 @@ export class UserDetailComponent implements OnInit {
             }
             this.invoice = res.body.invoice;
             this.invoiceID2 = this.invoice[0]._id;
-            this.showInvoice = true;
+            if (!this.transferFlag) this.showInvoice = true;
 
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
+            if (this.transferFlag) {
+              this.showDetails(this.editId, 'class');
+              this.closeModal('close');
+            }
           } else {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.showInvoice = false;

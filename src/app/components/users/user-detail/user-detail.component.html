@@ -2919,7 +2919,7 @@
           type="submit"
           class="btn btn-submit body-l bg-b100 text-s0"
           *ngIf="checkobjArr.length != 0"
-          (click)="flexicomfirm(invoiceAlert)"
+          (click)="flexicomfirm(undefined)"
         >
           Confirm
         </button>
@@ -3188,7 +3188,7 @@
                   <button
                     type="button"
                     class="btn body-m text-b100"
-                    (click)="enrollUser(course, course.type, invoiceAlert)"
+                    (click)="enrollUser(course, course.type, undefined)"
                     [disabled]="course.isDisabled || noSetting == true"
                   >
                     Transfer to this course
