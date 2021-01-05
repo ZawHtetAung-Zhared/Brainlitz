@@ -407,6 +407,7 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = momentToday;
     console.log('iso format', this.todayModal.toISOString());
     this.todayDate = this.todayModal;
+    this.showCalendar = false;
     this.getTodayLesson();
   }
   calendarToggle() {

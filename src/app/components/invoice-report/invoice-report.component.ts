@@ -535,4 +535,15 @@ export class InvoiceReportComponent implements OnInit {
     this.sortColumn = obj;
     this.refreshInvoiceList();
   }
+  filterToggle(cb) {
+    if (cb == 'paid') {
+      this.status.paid = !this.status.paid;
+    }
+    if (cb == 'unpaid') {
+      this.status.unpaid = !this.status.unpaid;
+    }
+    if (cb == 'partial') {
+      this.status.partial = !this.status.partial;
+    }
+  }
 }

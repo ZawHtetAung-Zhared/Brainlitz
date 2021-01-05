@@ -143,12 +143,14 @@ table td {
   width: 16px;
   height: 16px;
   margin-right: 16px;
+  pointer-events: none;
 }
 .box-type {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 32px;
+  cursor: pointer;
 }
 .btn-design {
   padding: 12px;
