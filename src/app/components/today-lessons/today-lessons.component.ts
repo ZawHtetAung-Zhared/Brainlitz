@@ -386,6 +386,7 @@ export class TodayLessonsComponent implements OnInit {
       datePicker.close();
   }
   cancelMultiple(modal) {
+    this.checkboxFlag = {};
     console.log('new modal', modal);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
