@@ -60,6 +60,11 @@ export class TodayLessonsComponent implements OnInit {
       this.isSticky = false;
     }
   }
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className != 'setting-date') {
+      this.showCalendar = false;
+    }
+  }
 
   ngOnInit() {
     this.todayDate = new Date();
@@ -400,6 +405,7 @@ export class TodayLessonsComponent implements OnInit {
     console.log('####', momentToday);
     this.todayModal = momentToday;
     console.log('iso format', this.todayModal.toISOString());
+    this.todayDate = this.todayModal;
     this.getTodayLesson();
   }
   calendarToggle() {
@@ -456,6 +462,7 @@ export class TodayLessonsComponent implements OnInit {
     var temp = moment(this.todayModal).subtract(1, 'days');
     this.todayModal = temp.toDate();
     this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
     this.getTodayLesson();
   }
   nextDate() {
@@ -463,12 +470,14 @@ export class TodayLessonsComponent implements OnInit {
     var temp = moment(this.todayModal).add(1, 'days');
     this.todayModal = temp.toDate();
     this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
     this.getTodayLesson();
   }
   getTodayDate() {
     var today = new Date();
     this.todayModal = moment(today).toDate();
     this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
     this.getTodayLesson();
   }
   stopEvent(e) {

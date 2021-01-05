@@ -571,7 +571,7 @@
     <ng-template #cancelLesson let-c="close" let-d="dismiss">
       <div class="cancel-modal">
         <div class="d-flex justify-content-between" style="margin-bottom: 4px;">
-          <div class="body-m text-c100">Today, 16 Dec 2020</div>
+          <div class="body-m text-c100">{{ todayDate | utcDateAndDay }}</div>
           <div style="cursor: pointer;" (click)="closeCancelModal()">
             <img
               style="width: 16px;"
