@@ -4446,4 +4446,20 @@ export class AttendanceComponent implements OnInit {
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
   }
+  public settingFlag: boolean = false;
+  settingToggle() {
+    this.settingFlag = !this.settingFlag;
+  }
+
+  public manageFlag: boolean = false;
+  public dummy: any;
+  manageToggle(obj) {
+    this.manageFlag = !this.manageFlag;
+    this.dummy = obj;
+  }
+
+  assignAssistant() {
+    localStorage.setItem('userType', 'staff');
+    this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
+  }
 }

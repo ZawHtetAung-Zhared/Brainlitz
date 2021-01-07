@@ -16,7 +16,7 @@
     class="inner-wrapper w-100"
     *ngIf="!showSelectedUserView && !showFlexyBox"
   >
-    <!-- 
+    <!--
       enroll UI
      -->
     <form novalidate #cfees="ngForm">
@@ -290,12 +290,12 @@
       </div>
     </form>
 
-    <!-- 
+    <!--
       enroll UI
      -->
   </div>
   <div class="inner-wrapper w-100" *ngIf="showSelectedUserView">
-    <!-- 
+    <!--
       enroll UI
      -->
     <div class="d-flex mt-3">
@@ -445,7 +445,7 @@
       </button>
     </div>
 
-    <!-- 
+    <!--
       enroll UI
      -->
   </div>
@@ -493,7 +493,7 @@
     >
       <div class="innerFlexiModal">
         <!-- <div class="d-flex" >
-        
+
         <div class="d-flex back" (click)="backtoCustomer()">
           <i class="fa fa-angle-left flexiBackicon"></i>
           <p class="mb-0 font-medium ">Add customer</p>
@@ -508,7 +508,7 @@
             <div class="closemark_stem"></div>
             <div class="closemark_kick"></div>
           </span>
-         
+
         </button>
       </div> -->
         <app-flexi
@@ -535,7 +535,10 @@
     style="padding: 18px 20px 18px 20px;box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.08);"
   >
     <div class="d-flex justify-content-between inner-wrapper">
-      <div class="d-flex flex-column">
+      <div
+        class="d-flex flex-column"
+        [ngClass]="{ hidden: userType == 'staff' }"
+      >
         <div class="d-flex">
           <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
             <label class="switch">

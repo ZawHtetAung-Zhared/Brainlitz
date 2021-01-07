@@ -4389,3 +4389,25 @@ button.today-button {
   top: 7px;
   right: 13px;
 }
+.class-setting {
+  width: auto;
+  height: 40px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.settingDropDown {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 8px;
+  top: 50px;
+  z-index: 1;
+  width: max-content;
+  padding: 16px;
+}
+.setting-list {
+  padding: 12px 0px;
+}
+.setting-list:hover {
+  background: #f2f3f5;
+}
