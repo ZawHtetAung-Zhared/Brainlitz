@@ -13,7 +13,7 @@ import { Subscription, ISubscription } from 'rxjs/Subscription';
 export class CoursedetailComponent implements OnInit {
   public loading = true;
   private permissionSubscription: ISubscription;
-  private courseId: any;
+  public courseId: any;
   public locationID: any = localStorage.getItem('locationId');
   public locationName: any = localStorage.getItem('locationName');
   public detailLists: any = {};

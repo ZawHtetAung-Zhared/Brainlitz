@@ -77,7 +77,7 @@ export class OverviewComponent implements OnInit {
   // toggle() {
   //   this.on = !this.on;
   // }
-  private masteryStudentCount: any;
+  public masteryStudentCount: any;
   mastery: any = [
     {
       id: '5dda85cfb1c96001c43267bc',

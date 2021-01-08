@@ -1,148 +1,271 @@
 <div class="mb-30">
-	<button type="button" class="btn btn-primary " (click)="open(content, isEdit=false)">+ create Template</button>
+  <button type="button" class="btn btn-primary " (click)="open(content)">
+    + create Template
+  </button>
 </div>
 <ng-template #content let-c="close" let-d="dismiss">
-	<div class="modal-header">
+  <div class="modal-header">
     <h4 *ngIf="isUpdate == false" class="modal-title">Create Template</h4>
     <h4 *ngIf="isUpdate == true" class="modal-title">Update Template</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <form novalidate #templateForm="ngForm">
-  	<div class="modal-body">
-  		<div class="form-group">
-  			<label for="name">Name</label>   
-  			<input type="text" class="form-control" placeholder="Template name" name="name" [(ngModel)]="item.name" required #name="ngModel">
-        <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Template name"
+          name="name"
+          [(ngModel)]="item.name"
+          required
+          #name="ngModel"
+        />
+        <div
+          *ngIf="name.errors && (name.dirty || name.touched)"
+          class="alert alert-danger"
+        >
           <div [hidden]="!name.errors.required">
             Name is required!
           </div>
         </div>
-  		</div>
-  		<div class="form-group">
-  			<label for="description">Description</label>   
-  			<textarea class="form-control" rows="3" placeholder="Description" name="description" [(ngModel)]="item.description" #description="ngModel"></textarea>
-  		</div>
+      </div>
       <div class="form-group">
-        <label for="desc">Choose module <span class="star-include">*</span></label>  
-        <div> 
-          <div class="form-check form-check-inline" *ngFor="let module of moduleLists; let i = index">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          placeholder="Description"
+          name="description"
+          [(ngModel)]="item.description"
+          #description="ngModel"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="desc"
+          >Choose module <span class="star-include">*</span></label
+        >
+        <div>
+          <div
+            class="form-check form-check-inline"
+            *ngFor="let module of moduleLists; let i = index"
+          >
             <label *ngIf="module._id != null" class="form-check-label">
-              <input class="form-check-input" 
-                type="radio" 
-                name="moduleId" 
-                value="{{module._id}}" 
+              <input
+                class="form-check-input"
+                type="radio"
+                name="moduleId"
+                value="{{ module._id }}"
                 [(ngModel)]="item.moduleId"
                 #moduleId="ngModel"
                 (click)="getAllAp(module._id)"
-                required> {{module.name}}
+                required
+              />
+              {{ module.name }}
             </label>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="desc">Access point lists</label>   
+        <label for="desc">Access point lists</label>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" 
-              type="radio" 
-              name="isAP" 
-              value="new" 
-              (click)="chooseAPType('new')"> Create new AP
+            <input
+              class="form-check-input"
+              type="radio"
+              name="isAP"
+              value="new"
+              (click)="chooseAPType('new')"
+            />
+            Create new AP
           </label>
         </div>
-        
+
         <div class="form-group" *ngIf="isAP == 'new'">
-          <div *ngFor="let newAP of newAPs; let i = index" style="padding: 20px 40px 0;">
+          <div
+            *ngFor="let newAP of newAPs; let i = index"
+            style="padding: 20px 40px 0;"
+          >
             <label class="form-check-label">
-                <input class="form-check-input" 
-                type="checkbox" 
-                name="AP" 
-                value="{{newAP.name}}" 
-                [checked]= true 
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="AP"
+                value="{{ newAP.name }}"
+                [checked]="true"
                 (change)="checkedaps(newAP, $event)"
-                required> {{newAP.name}}
+                required
+              />
+              {{ newAP.name }}
             </label>
           </div>
-          <form novalidate #apForm="ngForm" style="padding: 20px;" (ngSubmit)="createAP(Template, item.moduleId)">
+          <form
+            novalidate
+            #apForm="ngForm"
+            style="padding: 20px;"
+            (ngSubmit)="createAP(Template, item.moduleId)"
+          >
             <div class="form-group">
-              <label for="name">Name <span class="star-include">*</span></label>   
-              <input type="text" class="form-control" placeholder="Enter AP name" name="name" [(ngModel)]="Template.name" required #name="ngModel">
-              
-                <!-- <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
+              <label for="name">Name <span class="star-include">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter AP name"
+                name="name"
+                [(ngModel)]="Template.name"
+                required
+                #name="ngModel"
+              />
+
+              <!-- <div *ngIf="name.errors && (name.dirty || name.touched)" class="alert alert-danger">
                   <div [hidden]="!name.errors.required">
                     Name is required!
                   </div>
                 </div> -->
-              </div>
-            
+            </div>
+
             <div class="form-group">
-              <label for="description">Description <span class="star-include">*</span></label>   
-              <textarea class="form-control" rows="3" placeholder="Enter AP description" name="description" [(ngModel)]="Template.description" #description="ngModel" required></textarea>
-              
-                <!-- <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+              <label for="description"
+                >Description <span class="star-include">*</span></label
+              >
+              <textarea
+                class="form-control"
+                rows="3"
+                placeholder="Enter AP description"
+                name="description"
+                [(ngModel)]="Template.description"
+                #description="ngModel"
+                required
+              ></textarea>
+
+              <!-- <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
                   <div [hidden]="!description.errors.required">
                     Description is required!
                   </div>
                 </div> -->
-              
             </div>
-            <p class="danger" *ngIf="!item.moduleId">Inorder to create new AP, you must choose a module.</p>
-            <button type="submit" class="btn btn-primary" [disabled]="!apForm.valid || !item.moduleId">Create AP</button>
+            <p class="danger" *ngIf="!item.moduleId">
+              Inorder to create new AP, you must choose a module.
+            </p>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!apForm.valid || !item.moduleId"
+            >
+              Create AP
+            </button>
           </form>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" 
-              type="radio" 
-              name="isAP" 
-              value="existing" 
-              [checked]= "isUpdate"
-              (click)="chooseAPType('existing', item.moduleId)"> Choose existing AP
+            <input
+              class="form-check-input"
+              type="radio"
+              name="isAP"
+              value="existing"
+              [checked]="isUpdate"
+              (click)="chooseAPType('existing', item.moduleId)"
+            />
+            Choose existing AP
           </label>
         </div>
       </div>
-  		<div class="form-group" *ngIf="isAP == 'existing'">
-        <p class="danger" *ngIf="!item.moduleId">You have to choose a module first to get access point lists.</p>
+      <div class="form-group" *ngIf="isAP == 'existing'">
+        <p class="danger" *ngIf="!item.moduleId">
+          You have to choose a module first to get access point lists.
+        </p>
         <!-- <p class="danger" *ngIf="apLists.length == 0">You have no access points to choose. </p> -->
         <div class="apscroll" *ngIf="item.moduleId">
           <!-- <p class="danger" *ngIf="apLists.length == 0">You don't have access point to create template.</p> -->
-  				<div class="form-check form-check-inline" *ngFor="let aplist of apLists; let i = index">
-  				  <label class="form-check-label">
-                <input class="form-check-input" 
-                type="checkbox" 
-                name="AP" 
-                value="{{aplist.name}}" 
+          <div
+            class="form-check form-check-inline"
+            *ngFor="let aplist of apLists; let i = index"
+          >
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="AP"
+                value="{{ aplist.name }}"
                 [checked]="aplist.checked"
                 (change)="checkedOptions(aplist, $event)"
-                required> {{aplist.name}}
-  				  </label>
-  				</div>
-  			</div>
-  		</div>
-  	</div>
-  	<div class="modal-footer">
-  	  <button type="submit" class="btn btn-light1" (click)="c('Close click')">Close</button>
-  	  <button *ngIf="isUpdate == false" type="submit" class="btn btn-primary" (click)="createTemplate(item, false)" [disabled]="!templateForm.valid || (checkedAP.length == 0 && newcheckedAP.length == 0)">Create</button>
-  	  <button *ngIf="isUpdate == true" type="submit" class="btn btn-primary" (click)="createTemplate(item, true, currentId)" [disabled]="!templateForm.valid || (checkedAP.length == 0 && newcheckedAP.length == 0)">Update</button>
-  	</div>
+                required
+              />
+              {{ aplist.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-light1" (click)="c('Close click')">
+        Close
+      </button>
+      <button
+        *ngIf="isUpdate == false"
+        type="submit"
+        class="btn btn-primary"
+        (click)="createTemplate(item, false)"
+        [disabled]="
+          !templateForm.valid ||
+          (checkedAP.length == 0 && newcheckedAP.length == 0)
+        "
+      >
+        Create
+      </button>
+      <button
+        *ngIf="isUpdate == true"
+        type="submit"
+        class="btn btn-primary"
+        (click)="createTemplate(item, true, currentId)"
+        [disabled]="
+          !templateForm.valid ||
+          (checkedAP.length == 0 && newcheckedAP.length == 0)
+        "
+      >
+        Update
+      </button>
+    </div>
   </form>
 </ng-template>
 
 <ng-template #deletemodal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 *ngIf="isUpdate == false" class="modal-title">Delete Template</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <p>Are you sure you want to delete <span class="bold-text">"{{templateName}}"</span></p>
+    <p>
+      Are you sure you want to delete
+      <span class="bold-text">"{{ templateName }}"</span>
+    </p>
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-    <button type="submit" class="btn btn-primary" (click)="deleteTemplate(currentID)" >Delete</button>
+    <button type="submit" class="btn btn-light1" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="deleteTemplate(currentID)"
+    >
+      Delete
+    </button>
   </div>
 </ng-template>
 
@@ -150,46 +273,79 @@
   <div class="modal-header">
     <h4 *ngIf="ispublic == false" class="modal-title">Share Template</h4>
     <h4 *ngIf="ispublic == true" class="modal-title">Unshare Template</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <form novalidate #shareForm="ngForm">
     <div class="modal-body">
-      <p *ngIf="ispublic != true">Are you sure you want to share the following template to public</p>
-      <p *ngIf="ispublic == true">You have already shared this template to public. Do you want to unshare the template.</p>
+      <p *ngIf="ispublic != true">
+        Are you sure you want to share the following template to public
+      </p>
+      <p *ngIf="ispublic == true">
+        You have already shared this template to public. Do you want to unshare
+        the template.
+      </p>
       <div>
-        <p>Template Name - {{singleTemplateName}}</p>
-        <p *ngIf="singleTemplateDesc != ''">Template Description -{{singleTemplateDesc}}</p>
+        <p>Template Name - {{ singleTemplateName }}</p>
+        <p *ngIf="singleTemplateDesc != ''">
+          Template Description -{{ singleTemplateDesc }}
+        </p>
       </div>
       <div class="form-group">
         <div class="form-check">
-            <label class="form-check-label" *ngIf="ispublic != true">
-              <input type="checkbox" class="form-check-input" 
-                name="public" 
-                [(ngModel)]="item.public"
-                [checked]="item.public" 
-                #public="ngModel"
-                >
-              Enable public to share this template
-            </label>
-            <label class="form-check-label" *ngIf="ispublic == true">
-              <input type="checkbox" class="form-check-input" 
-                name="public" 
-                [(ngModel)]="item.public"
-                [checked]="item.public" 
-                #public="ngModel"
-                disabled 
-                >
-              Enable public to share this template
-            </label>
-        </div> 
+          <label class="form-check-label" *ngIf="ispublic != true">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              name="public"
+              [(ngModel)]="item.public"
+              [checked]="item.public"
+              #public="ngModel"
+            />
+            Enable public to share this template
+          </label>
+          <label class="form-check-label" *ngIf="ispublic == true">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              name="public"
+              [(ngModel)]="item.public"
+              [checked]="item.public"
+              #public="ngModel"
+              disabled
+            />
+            Enable public to share this template
+          </label>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-light1" (click)="c('Close click')">Cancel</button>
-      <button *ngIf="ispublic != true" type="submit" class="btn btn-primary" (click)="shareTemplate(item, true)" [disabled]="!shareForm.valid || item.public == false">Share</button>
-      <button *ngIf="ispublic == true" type="submit" class="btn btn-primary" (click)="shareTemplate(item, false)">Unshare</button>
+      <button type="submit" class="btn btn-light1" (click)="c('Close click')">
+        Cancel
+      </button>
+      <button
+        *ngIf="ispublic != true"
+        type="submit"
+        class="btn btn-primary"
+        (click)="shareTemplate(item, true)"
+        [disabled]="!shareForm.valid || item.public == false"
+      >
+        Share
+      </button>
+      <button
+        *ngIf="ispublic == true"
+        type="submit"
+        class="btn btn-primary"
+        (click)="shareTemplate(item, false)"
+      >
+        Unshare
+      </button>
     </div>
   </form>
 </ng-template>
@@ -198,14 +354,39 @@
 
 <div class="scrollable container">
   <h2 *ngIf="isempty == true">No template has created yet</h2>
-	<ul class="list-group-flush">
+  <ul class="list-group-flush">
     <li class="list-group-item" *ngFor="let temp of tempLists; let i = index">
-      {{i+1}}- {{temp.name}}
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="deleteModal(deletemodal, temp._id, temp.name)">Delete</button>
-      <button type="button" class="btn btn-secondary float-right btn-sm margin-left" (click)="editTemplate(temp._id, temp.moduleId, content)">Edit</button>
-      <button *ngIf="temp.public == false" type="button" class="btn btn-secondary float-right share-btn btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Share</button>
-      <button *ngIf="temp.public == true" type="button" class="btn btn-secondary float-right share-btn btn-sm margin-left" (click)="shareModal(sharemodal, temp._id)">Unshare</button>
+      {{ i + 1 }}- {{ temp.name }}
+      <button
+        type="button"
+        class="btn btn-secondary float-right btn-sm margin-left"
+        (click)="deleteModal(deletemodal, temp._id, temp.name)"
+      >
+        Delete
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary float-right btn-sm margin-left"
+        (click)="editTemplate(temp._id, temp.moduleId, content)"
+      >
+        Edit
+      </button>
+      <button
+        *ngIf="temp.public == false"
+        type="button"
+        class="btn btn-secondary float-right share-btn btn-sm margin-left"
+        (click)="shareModal(sharemodal, temp._id)"
+      >
+        Share
+      </button>
+      <button
+        *ngIf="temp.public == true"
+        type="button"
+        class="btn btn-secondary float-right share-btn btn-sm margin-left"
+        (click)="shareModal(sharemodal, temp._id)"
+      >
+        Unshare
+      </button>
     </li>
-   
   </ul>
 </div>

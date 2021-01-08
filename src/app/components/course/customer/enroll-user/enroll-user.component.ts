@@ -117,7 +117,8 @@ export class EnrollUserComponent implements OnInit {
     type: '',
     _id: '',
     lessons: [],
-    locationId: ''
+    locationId: '',
+    name: ''
   };
 
   //copy

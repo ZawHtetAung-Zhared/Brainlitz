@@ -1,6 +1,6 @@
 <div id="courseWrapper">
   <app-header
-    *ngIf="!isCategory && !isPlan && !isCourseCreate && !isTodayLesson"
+    *ngIf="!isCategory && !isPlan && !isCourseCreate"
     [ngClass]="{ stick: isSticky == true }"
     (newItemEvent)="reviewToggle($event)"
   ></app-header>
