@@ -124,14 +124,21 @@
             </span>
           </div>
           <!--  *ngIf="showCancelButton == true" -->
-          <div class="d-flex">
+          <div class="d-flex align-items-center" style="margin-bottom: 32px;">
             <div
               class="d-flex class-setting"
               style="position: relative;"
               *ngIf="reliefTeacher == null && !disableCancel"
             >
-              <div class="text-c100" (click)="settingToggle()">
+              <div
+                class="text-c100 d-flex align-items-center"
+                (click)="settingToggle()"
+              >
                 Class Setting
+                <span
+                  class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3"
+                  style="margin-left: 12px;"
+                ></span>
               </div>
               <div *ngIf="settingFlag" class="settingDropDown">
                 <div
@@ -212,7 +219,11 @@
                 </div>
               </div>
             </div>
-            <div class="class-setting text-c100" (click)="assignAssistant()">
+            <div
+              class="class-setting text-c100"
+              style="margin-left: 24px;"
+              (click)="assignAssistant()"
+            >
               Assign assistant teacher
             </div>
           </div>
@@ -251,19 +262,25 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="caption-u text-c100">assistants</div>
-        <div class="d-flex">
+      <div style="border-bottom: 1px solid #d3d3d3;">
+        <div class="caption-u text-c100" style="margin-bottom: 16px;">
+          assistants
+        </div>
+        <div class="d-flex flex-wrap">
           <div
-            class="single-student"
-            style="position: relative;"
-            *ngFor="let staff of activeCourseInfo.STAFF"
+            class="single-student d-flex align-items-center"
+            style="position: relative;margin-right: 24px;"
+            *ngFor="let staff of activeCourseInfo.CURRENT_DATE_LESSON_STAFF"
             (click)="manageToggle(staff.userId)"
           >
-            <img class="std-img-wrap" src="{{ staff.profilePic }}" />
-            <span>{{ staff.preferredName }}</span>
+            <img class="std-img-wrap ml-2" src="{{ staff.profilePic }}" />
+            <span class="single-user-info">{{ staff.preferredName }}</span>
+            <span
+              class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3 ml-auto pr-3"
+            ></span>
             <div
               class="settingDropDown"
+              style="top: 65px;"
               *ngIf="manageFlag && dummy == staff.userId"
             >
               <div class="setting-list">Manage lesson</div>
@@ -271,6 +288,7 @@
           </div>
         </div>
       </div>
+      <div class="caption-u text-c100" style="margin: 16px 0px;">students</div>
       <div class="student-lists row " *ngIf="loading == false">
         <div
           *ngFor="let user of activeCourseInfo.CUSTOMER"

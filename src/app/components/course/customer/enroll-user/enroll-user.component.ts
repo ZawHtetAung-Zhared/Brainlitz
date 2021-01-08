@@ -1673,37 +1673,36 @@ export class EnrollUserComponent implements OnInit {
         );
       this.showSelectedUserView = false;
       this.showFlexyBox = true;
+    } else {
+      this.blockUI.start('Loading...');
+      this._service.assignUser(this.regionId, body, this.locationID).subscribe(
+        (res: any) => {
+          console.log(res);
+          //this.blockUI.stop();
+          setTimeout(() => {
+            this.toastr.success('Assistant successfully assigned.');
+          }, 100);
+          this._location.back();
+          // this.toastr.success("Assistant successfully assigned.");
+          //this.modalReference.close();
+          if (this.isvalidID == 'inside') {
+            console.log('hi');
+            // this.getCourseDetail(courseId)
+            //this.getUsersInCourse(courseId);
+          } else {
+            console.log('else hi');
+            this.cancel();
+            // this.getUsersInCourse(courseId);
+          }
+        },
+        err => {
+          //this.modalReference.close();
+          //this.blockUI.stop();
+          this.toastr.error('Assign teacher failed.');
+          console.log(err);
+        }
+      );
     }
-
-    console.log('~~~~', body);
-    //this.blockUI.start('Loading...');
-    // this._service.assignUser(this.regionId, body, this.locationID).subscribe(
-    //   (res: any) => {
-    //     console.log(res);
-    //     //this.blockUI.stop();
-    //     setTimeout(() => {
-    //       this.toastr.success('Assistant successfully assigned.');
-    //     }, 100);
-    //     this._location.back();
-    //     // this.toastr.success("Assistant successfully assigned.");
-    //     //this.modalReference.close();
-    //     if (this.isvalidID == 'inside') {
-    //       console.log('hi');
-    //       // this.getCourseDetail(courseId)
-    //       //this.getUsersInCourse(courseId);
-    //     } else {
-    //       console.log('else hi');
-    //       this.cancel();
-    //       // this.getUsersInCourse(courseId);
-    //     }
-    //   },
-    //   err => {
-    //     //this.modalReference.close();
-    //     //this.blockUI.stop();
-    //     this.toastr.error('Assign teacher failed.');
-    //     console.log(err);
-    //   }
-    // );
   }
 
   getSelectedUserId() {
@@ -2061,4 +2060,43 @@ export class EnrollUserComponent implements OnInit {
     this.checkobjArr = e;
   }
   // end flexy
+  flexicomfirmStaff() {
+    console.log('confirm staff flexii');
+    console.log('selected lesson dates', this.checkobjArr);
+
+    this.getSelectedUserId();
+    let body = {
+      courseId: this.courseId,
+      userId: '',
+      userType: 'staff',
+      lessons: this.checkobjArr
+    };
+    this.enrollUserList.map(item => {
+      if (body.userId == '') {
+        body.userId = item.userId;
+      } else {
+        body.userId += ',' + item.userId;
+      }
+    });
+
+    this._service.assignUser(this.regionId, body, this.locationID).subscribe(
+      (res: any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.toastr.success('Assistant successfully assigned.');
+        }, 100);
+        this._location.back();
+        if (this.isvalidID == 'inside') {
+          console.log('hi');
+        } else {
+          console.log('else hi');
+          this.cancel();
+        }
+      },
+      err => {
+        this.toastr.error('Assign teacher failed.');
+        console.log(err);
+      }
+    );
+  }
 }

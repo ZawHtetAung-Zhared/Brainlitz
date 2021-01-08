@@ -561,6 +561,8 @@ export class AttendanceComponent implements OnInit {
     //   })
     //   this.attdBox = false;
     // }
+
+    console.log('~~~', event.target.className);
   }
 
   // @HostListener('document:click', ['$event']) clickedOutside($event){
@@ -4449,6 +4451,7 @@ export class AttendanceComponent implements OnInit {
   public settingFlag: boolean = false;
   settingToggle() {
     this.settingFlag = !this.settingFlag;
+    console.log('set flag', this.settingFlag);
   }
 
   public manageFlag: boolean = false;

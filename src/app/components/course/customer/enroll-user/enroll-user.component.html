@@ -580,7 +580,17 @@
           type="button"
           class="btn btn-submit body-l bg-b100 text-s0"
           [disabled]="checkobjArr.length == 0"
+          *ngIf="userType == 'customer'"
           (click)="flexicomfirm(invoiceAlert)"
+        >
+          Confirm
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit body-l bg-b100 text-s0"
+          [disabled]="checkobjArr.length == 0"
+          *ngIf="userType == 'staff'"
+          (click)="flexicomfirmStaff()"
         >
           Confirm
         </button>
