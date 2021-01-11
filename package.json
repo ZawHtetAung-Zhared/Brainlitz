@@ -9,6 +9,7 @@
     "start:staging": "ng serve --env=staging",
     "start:dev": "ng serve --env=dev",
     "build": "ng build --prod=true --env=local --aot=false",
+    "build:enable_aot": "ng build --prod=true --env=local --aot=true",
     "build:master": "ng build --prod=true --env=master --aot=false",
     "build:staging": "ng build --prod=true --env=staging --aot=false",
     "build:dev": "ng build --prod=true --env=dev --aot=false",
