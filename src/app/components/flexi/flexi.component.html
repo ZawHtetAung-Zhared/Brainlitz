@@ -87,7 +87,11 @@
       <div
         class="lessonbox-inner"
         (click)="lessonCheck(obj.id, obj)"
-        *ngIf="obj.hasConflict == false && obj.isEnrolled == false"
+        *ngIf="
+          (obj.hasConflict == false && obj.isEnrolled == false) ||
+          (obj.hasConflict == false && obj.isAssigned == false) ||
+          (obj.hasConflict == false && obj.isAssigned == true)
+        "
         [ngStyle]="
           lessionIdArr.indexOf(obj.id) != -1
             ? { background: ' #007FFF' }

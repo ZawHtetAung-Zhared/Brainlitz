@@ -4465,4 +4465,61 @@ export class AttendanceComponent implements OnInit {
     localStorage.setItem('userType', 'staff');
     this.router.navigateByUrl(`/coursedetail/${this.courseId}/enroll`);
   }
+  public selectedStaff: any;
+  openManageLesson(modal, staff) {
+    console.log('staff staff staff', staff);
+    this.selectedStaff = staff;
+    console.log('list list list', this.detailLists);
+
+    let startDate;
+    let endDate;
+    this._service
+      .getFlexi(this.courseId, staff.userId, startDate, endDate)
+      .subscribe(
+        (res: any) => {
+          console.log(' flexi flexi flexi', res);
+          this.flexyarr = res;
+          this.modalReference = this.modalService.open(modal, {
+            backdrop: 'static',
+            windowClass:
+              'modal-xl modal-inv d-flex justify-content-center align-items-center'
+          });
+          //this.blockUI.stop();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  cancelManage() {
+    this.modalReference.close();
+  }
+
+  manageConfirm() {
+    console.log('confirm staff flexii');
+    console.log('selected lesson dates', this.checkobjArr);
+
+    this.getSelectedUserId();
+    let body = {
+      courseId: this.courseId,
+      userId: this.selectedStaff.userId,
+      userType: 'staff',
+      appendLesson: true,
+      lessons: this.checkobjArr
+    };
+
+    this._service.assignUser(this.regionId, body, this.locationID).subscribe(
+      (res: any) => {
+        console.log(res);
+        setTimeout(() => {
+          this.toastr.success('Assistant successfully assigned.');
+        }, 100);
+        this.cancelManage();
+      },
+      err => {
+        this.toastr.error('Assign teacher failed.');
+        console.log(err);
+      }
+    );
+  }
 }

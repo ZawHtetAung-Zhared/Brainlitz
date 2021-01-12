@@ -274,7 +274,9 @@
             (click)="manageToggle(staff.userId)"
           >
             <img class="std-img-wrap ml-2" src="{{ staff.profilePic }}" />
-            <span class="single-user-info">{{ staff.preferredName }}</span>
+            <span class="single-user-info" style="width: 55%;overflow: auto;">{{
+              staff.preferredName
+            }}</span>
             <span
               class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3 ml-auto pr-3"
             ></span>
@@ -283,7 +285,12 @@
               style="top: 65px;"
               *ngIf="manageFlag && dummy == staff.userId"
             >
-              <div class="setting-list">Manage lesson</div>
+              <div
+                class="setting-list"
+                (click)="openManageLesson(ManageLesson, staff)"
+              >
+                Manage lesson
+              </div>
             </div>
           </div>
         </div>
@@ -1132,3 +1139,28 @@
     </div>
   </div>
 </div>
+<ng-template #ManageLesson let-c="close" let-d="dismiss">
+  <div class="manage-lesson">
+    <app-flexi
+      [flexyarr]="flexyarr"
+      [selectedCustomer]="selectedStaff"
+      [course]="detailLists"
+      [showcb]="showcb"
+      (passDataconflictBoxShow)="conflictBoxShow($event)"
+      (checkObjArr)="lessionObjArr($event)"
+    ></app-flexi>
+    <div class="d-flex justify-content-between manage-footer">
+      <div class="lesson-count body-m text-b300">
+        Selected lessons: {{ checkobjArr.length }}
+      </div>
+      <div>
+        <button class="btn modal-cancel-btn" (click)="cancelManage()">
+          Cancel
+        </button>
+        <button class="btn btn-submit" (click)="manageConfirm()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
