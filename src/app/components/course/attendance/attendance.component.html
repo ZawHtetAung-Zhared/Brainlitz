@@ -132,7 +132,7 @@
             >
               <div
                 class="text-c100 d-flex align-items-center"
-                (click)="settingToggle()"
+                (click)="settingToggle($event)"
               >
                 Class Setting
                 <span
@@ -271,7 +271,7 @@
             class="single-student d-flex align-items-center"
             style="position: relative;margin-right: 24px;"
             *ngFor="let staff of activeCourseInfo.CURRENT_DATE_LESSON_STAFF"
-            (click)="manageToggle(staff.userId)"
+            (click)="manageToggle(staff.userId, $event)"
           >
             <img class="std-img-wrap ml-2" src="{{ staff.profilePic }}" />
             <span class="single-user-info" style="width: 55%;overflow: auto;">{{

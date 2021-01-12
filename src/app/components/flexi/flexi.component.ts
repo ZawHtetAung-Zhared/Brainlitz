@@ -316,6 +316,7 @@ export class FlexiComponent implements OnInit {
           //   this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
           // }
           console.log(this.lessionIdArr, '###', this.lessonObjArr);
+          this.emittedObjArray(this.lessonObjArr);
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
@@ -428,6 +429,7 @@ export class FlexiComponent implements OnInit {
           }
           console.log(this.lessionIdArr, '###', this.lessonObjArr);
           console.log(this.lessonsObj);
+          this.emittedObjArray(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
           //this.blockUI.stop();

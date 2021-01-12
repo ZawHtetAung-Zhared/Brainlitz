@@ -561,7 +561,8 @@ export class AttendanceComponent implements OnInit {
     //   })
     //   this.attdBox = false;
     // }
-
+    this.manageFlag = false;
+    this.settingFlag = false;
     console.log('~~~', event.target.className);
   }
 
@@ -4449,16 +4450,18 @@ export class AttendanceComponent implements OnInit {
       datePicker.close();
   }
   public settingFlag: boolean = false;
-  settingToggle() {
+  settingToggle(e) {
     this.settingFlag = !this.settingFlag;
     console.log('set flag', this.settingFlag);
+    e.stopPropagation();
   }
 
   public manageFlag: boolean = false;
   public dummy: any;
-  manageToggle(obj) {
+  manageToggle(obj, $event) {
     this.manageFlag = !this.manageFlag;
     this.dummy = obj;
+    $event.stopPropagation();
   }
 
   assignAssistant() {
@@ -4482,7 +4485,7 @@ export class AttendanceComponent implements OnInit {
           this.modalReference = this.modalService.open(modal, {
             backdrop: 'static',
             windowClass:
-              'modal-xl modal-inv d-flex justify-content-center align-items-center'
+              'manage-modal modal-inv d-flex justify-content-center align-items-center'
           });
           //this.blockUI.stop();
         },
