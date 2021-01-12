@@ -546,4 +546,12 @@ export class InvoiceReportComponent implements OnInit {
       this.status.partial = !this.status.partial;
     }
   }
+  removeSelectedCustomer(customer) {
+    console.log('zha testing', this.selectedCustomerList);
+    console.log('~~~', customer);
+    this.selectedCustomerList = this.selectedCustomerList.filter(
+      ({ userId }) => userId !== customer.userId
+    );
+    console.log('after', this.selectedCustomerList);
+  }
 }

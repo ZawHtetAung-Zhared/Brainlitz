@@ -311,7 +311,11 @@
       </div>
     </div>
     <div style="margin: 0 -14px;">
-      <div class="filter-name" *ngFor="let customer of selectedCustomerList">
+      <div
+        class="filter-name"
+        *ngFor="let customer of selectedCustomerList"
+        (click)="removeSelectedCustomer(customer)"
+      >
         {{ customer.fullName.length > 0 ? customer.fullName : customer.email
         }}<img class="selectedFilter" src="../../../assets/img/minus.svg" />
       </div>
