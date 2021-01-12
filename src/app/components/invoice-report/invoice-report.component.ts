@@ -466,7 +466,13 @@ export class InvoiceReportComponent implements OnInit {
   }
   public selectedCustomerList: any = [];
   selectCustomer(customer, $event) {
+    for (var i = 0; i < this.selectedCustomerList.length; i++) {
+      if (this.selectedCustomerList[i].userId == customer.userId) {
+        this.selectedCustomerList.splice(i, 1);
+      }
+    }
     this.selectedCustomerList.push(customer);
+    console.log('sElEcTeD', this.selectedCustomerList);
     // $event.stopPropagation();
   }
   removeFilter() {
