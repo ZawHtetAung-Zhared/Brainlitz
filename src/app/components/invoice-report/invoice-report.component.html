@@ -300,6 +300,10 @@
           class="search-res"
           *ngFor="let customer of searchResult"
         >
+          <img
+            src="{{ customer.profilePic }}"
+            style="width: 40px;margin-right: 24px;border-radius: 50%;"
+          />
           {{
             customer.fullName.length > 0 ? customer.fullName : customer.email
           }}
