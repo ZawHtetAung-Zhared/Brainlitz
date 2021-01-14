@@ -124,114 +124,107 @@
             </span>
           </div>
           <!--  *ngIf="showCancelButton == true" -->
-          <div class="d-flex">
-            <button
-              class="d-flex btn assign_relief_button align-items-center body-m text-c100 bg-s0"
-              *ngIf="disableCancel == false && reliefTeacher == null"
-              (click)="onClickAssignRelief(reliefModal, selectedLesson)"
-              [disabled]="disableCancel == true"
-            >
-              <span
-                ><img
-                  src="../../../assets/icons/assignReliefIcon.svg"
-                  alt=""/></span
-              >Assign relief teacher
-            </button>
-            <button
-              class="d-flex btn reschedule_button align-items-center body-m text-c100 bg-s0"
-              *ngIf="disableCancel == false && reliefTeacher == null"
-              (click)="rescheduleLesson()"
-            >
-              <span><img src="../../../assets/icons/Calendar.svg" alt=""/></span
-              >Reschedule
-            </button>
-            <button
-              class="d-flex btn cancel_class_button align-items-center body-m text-c100 bg-s0"
-              *ngIf="
-                disableCancel == false &&
-                reliefTeacher == null &&
-                activeCourseInfo.CUSTOMER?.length > 0
-              "
-              (click)="cancelClass(content)"
-              [disabled]="disableCancel == true || reliefTeacher != null"
-            >
-              <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
-              >Cancel lesson
-            </button>
-            <button
-              class="d-flex btn cancel_class_button align-items-center body-m text-c100 bg-s0"
-              *ngIf="
-                activeCourseInfo.CUSTOMER?.length < 1 &&
-                disableCancel == false &&
-                reliefTeacher == null
-              "
-              (click)="deleteLesson(lessonDelete)"
-            >
-              <!--    (click)="deleteLesson()" -->
-              <span><img src="../../../assets/icons/Minus.svg" alt=""/></span
-              >Delete lesson
-            </button>
-          </div>
-          <!--   disableCancel == false && -->
-          <!--        showCancelButton == true -->
-          <div
-            (click)="onClickReliefDropdown($event)"
-            (document:click)="closeReliefDropdown($event)"
-            class="d-flex align-items-center justify-content-between relief-teacher-block"
-            *ngIf="reliefTeacher != null"
-          >
-            <div class="d-flex align-items-center justify-content-center">
-              <div class="relief-img-wrap ml-2">
-                <img src="{{ reliefTeacher?.profilePic }}" />
-              </div>
-              <div class="relief-name pl-3">
-                <label class="mb-0 body-m text-c100">Relief Teacher</label>
-                <h5 class="body-l text-c300">
-                  {{ reliefTeacher?.preferredName }}
-                </h5>
-              </div>
-            </div>
-            <div>
-              <span
-                class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3"
-              ></span>
-            </div>
+          <div class="d-flex align-items-center" style="margin-bottom: 32px;">
             <div
-              *ngIf="showReliefPopup"
-              class="popup pl-3 pr-3 body-l text-c300"
-              id="relief-popup"
+              class="d-flex class-setting"
+              style="position: relative;"
+              *ngIf="reliefTeacher == null && !disableCancel"
             >
-              <div _ngcontent-c4="" class="carret-box"></div>
               <div
-                class="pt-3 pb-2 br-bottom"
-                (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                class="text-c100 d-flex align-items-center"
+                (click)="settingToggle($event)"
               >
-                <label class="mb-0">Change relief teacher</label>
+                Class Setting
+                <span
+                  class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3"
+                  style="margin-left: 12px;"
+                ></span>
               </div>
-              <div class="pt-2 pb-3">
-                <label
-                  class="mb-0"
-                  (click)="withdrawReliefTeacher(reliefTeacher.userId)"
-                  >Withdraw relief teacher</label
+              <div *ngIf="settingFlag" class="settingDropDown">
+                <div
+                  class="setting-list"
+                  (click)="onClickAssignRelief(reliefModal, selectedLesson)"
                 >
-              </div>
-            </div>
-          </div>
-          <!-- &&
-              showCancelButton == true -->
-          <div
-            class="d-flex"
-            *ngIf="disableCancel == true && reliefTeacher == null"
-          >
-            <div class="d-flex align-items-center relief-name">
-              <h5 class="mb-0 body-l text-c300">Cancelled Class</h5>
-            </div>
-            <div class="d-flex justify-content-center align-items-center pl-2">
-              <div class="cc-icon-wrap">
-                <div class="icon-wrap">
-                  <img src="./assets/images/withdraw-ico@2x.png" />
+                  Assign relief teacher
+                </div>
+                <div class="setting-list" (click)="rescheduleLesson()">
+                  Reschedule
+                </div>
+                <div class="setting-list" (click)="cancelClass(content)">
+                  Cancel class
                 </div>
               </div>
+            </div>
+            <!--   disableCancel == false && -->
+            <!--        showCancelButton == true -->
+            <div
+              (click)="onClickReliefDropdown($event)"
+              (document:click)="closeReliefDropdown($event)"
+              class="d-flex align-items-center justify-content-between relief-teacher-block"
+              *ngIf="reliefTeacher != null"
+            >
+              <div class="d-flex align-items-center justify-content-center">
+                <div class="relief-img-wrap ml-2">
+                  <img src="{{ reliefTeacher?.profilePic }}" />
+                </div>
+                <div class="relief-name pl-3">
+                  <label class="mb-0 body-m text-c100">Relief Teacher</label>
+                  <h5 class="body-l text-c300">
+                    {{ reliefTeacher?.preferredName }}
+                  </h5>
+                </div>
+              </div>
+              <div>
+                <span
+                  class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3"
+                ></span>
+              </div>
+              <div
+                *ngIf="showReliefPopup"
+                class="popup pl-3 pr-3 body-l text-c300"
+                id="relief-popup"
+              >
+                <div _ngcontent-c4="" class="carret-box"></div>
+                <div
+                  class="pt-3 pb-2 br-bottom"
+                  (click)="onClickAssignRelief(reliefModal, selectedLesson)"
+                >
+                  <label class="mb-0">Change relief teacher</label>
+                </div>
+                <div class="pt-2 pb-3">
+                  <label
+                    class="mb-0"
+                    (click)="withdrawReliefTeacher(reliefTeacher.userId)"
+                    >Withdraw relief teacher</label
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- &&
+              showCancelButton == true -->
+            <div
+              class="d-flex"
+              *ngIf="disableCancel == true && reliefTeacher == null"
+            >
+              <div class="d-flex align-items-center relief-name">
+                <h5 class="mb-0 body-l text-c300">Cancelled Class</h5>
+              </div>
+              <div
+                class="d-flex justify-content-center align-items-center pl-2"
+              >
+                <div class="cc-icon-wrap">
+                  <div class="icon-wrap">
+                    <img src="./assets/images/withdraw-ico@2x.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="class-setting text-c100"
+              style="margin-left: 24px;"
+              (click)="assignAssistant()"
+            >
+              Assign assistant teacher
             </div>
           </div>
         </div>
@@ -269,6 +262,40 @@
           </div>
         </div>
       </div>
+      <div style="border-bottom: 1px solid #d3d3d3;">
+        <div class="caption-u text-c100" style="margin-bottom: 16px;">
+          assistants
+        </div>
+        <div class="d-flex flex-wrap">
+          <div
+            class="single-student d-flex align-items-center"
+            style="position: relative;margin-right: 24px;"
+            *ngFor="let staff of activeCourseInfo.CURRENT_DATE_LESSON_STAFF"
+            (click)="manageToggle(staff.userId, $event)"
+          >
+            <img class="std-img-wrap ml-2" src="{{ staff.profilePic }}" />
+            <span class="single-user-info" style="width: 55%;overflow: auto;">{{
+              staff.preferredName
+            }}</span>
+            <span
+              class="fa fa-angle-down d-flex justify-content-center flex-column icon user-down pr-3 ml-auto pr-3"
+            ></span>
+            <div
+              class="settingDropDown"
+              style="top: 65px;"
+              *ngIf="manageFlag && dummy == staff.userId"
+            >
+              <div
+                class="setting-list"
+                (click)="openManageLesson(ManageLesson, staff)"
+              >
+                Manage lesson
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption-u text-c100" style="margin: 16px 0px;">students</div>
       <div class="student-lists row " *ngIf="loading == false">
         <div
           *ngFor="let user of activeCourseInfo.CUSTOMER"
@@ -1112,3 +1139,28 @@
     </div>
   </div>
 </div>
+<ng-template #ManageLesson let-c="close" let-d="dismiss">
+  <div class="manage-lesson">
+    <app-flexi
+      [flexyarr]="flexyarr"
+      [selectedCustomer]="selectedStaff"
+      [course]="detailLists"
+      [showcb]="showcb"
+      (passDataconflictBoxShow)="conflictBoxShow($event)"
+      (checkObjArr)="lessionObjArr($event)"
+    ></app-flexi>
+    <div class="d-flex justify-content-between manage-footer">
+      <div class="lesson-count body-m text-b300">
+        Selected lessons: {{ checkobjArr.length }}
+      </div>
+      <div>
+        <button class="btn modal-cancel-btn" (click)="cancelManage()">
+          Cancel
+        </button>
+        <button class="btn btn-submit" (click)="manageConfirm()">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

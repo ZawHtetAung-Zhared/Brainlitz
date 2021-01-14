@@ -16,7 +16,7 @@
     class="inner-wrapper w-100"
     *ngIf="!showSelectedUserView && !showFlexyBox"
   >
-    <!-- 
+    <!--
       enroll UI
      -->
     <form novalidate #cfees="ngForm">
@@ -290,12 +290,12 @@
       </div>
     </form>
 
-    <!-- 
+    <!--
       enroll UI
      -->
   </div>
   <div class="inner-wrapper w-100" *ngIf="showSelectedUserView">
-    <!-- 
+    <!--
       enroll UI
      -->
     <div class="d-flex mt-3">
@@ -445,7 +445,7 @@
       </button>
     </div>
 
-    <!-- 
+    <!--
       enroll UI
      -->
   </div>
@@ -493,7 +493,7 @@
     >
       <div class="innerFlexiModal">
         <!-- <div class="d-flex" >
-        
+
         <div class="d-flex back" (click)="backtoCustomer()">
           <i class="fa fa-angle-left flexiBackicon"></i>
           <p class="mb-0 font-medium ">Add customer</p>
@@ -508,7 +508,7 @@
             <div class="closemark_stem"></div>
             <div class="closemark_kick"></div>
           </span>
-         
+
         </button>
       </div> -->
         <app-flexi
@@ -536,7 +536,7 @@
   >
     <div class="d-flex justify-content-between inner-wrapper">
       <div class="d-flex flex-column">
-        <div class="d-flex">
+        <div class="d-flex" [ngClass]="{ hidden: userType == 'staff' }">
           <div class="toggle-wrap" (click)="this.isProrated = !isProrated">
             <label class="switch">
               <input
@@ -565,7 +565,7 @@
   </div> -->
       </div>
 
-      <div class="">
+      <div class="d-flex align-items-center">
         <button
           type="button"
           class="btn modal-cancel-btn"
@@ -577,7 +577,17 @@
           type="button"
           class="btn btn-submit body-l bg-b100 text-s0"
           [disabled]="checkobjArr.length == 0"
+          *ngIf="userType == 'customer'"
           (click)="flexicomfirm(invoiceAlert)"
+        >
+          Confirm
+        </button>
+        <button
+          type="button"
+          class="btn btn-submit body-l bg-b100 text-s0"
+          [disabled]="checkobjArr.length == 0"
+          *ngIf="userType == 'staff'"
+          (click)="flexicomfirmStaff()"
         >
           Confirm
         </button>
