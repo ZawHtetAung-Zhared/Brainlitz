@@ -60,7 +60,7 @@ export class FlexiComponent implements OnInit {
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
     this.teacherDetail = this.flexyarr.teacherDetails;
-    if (this.flexyarr.lessons[0].isAssigned) {
+    if (this.flexyarr.lessons[0].isAssigned != undefined) {
       console.log('ASSISTANT FLEXI');
       this.flitterFlexyObjAssistant(this.flexyarr.lessons);
     } else {
