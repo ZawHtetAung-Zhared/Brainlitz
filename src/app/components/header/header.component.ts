@@ -672,4 +672,8 @@ export class HeaderComponent implements OnInit, OnChanges {
       'noopener'
     );
   }
+  onClickTimetable() {
+    // this._router.navigateByUrl('/today-lesson');
+    window.open(window.location.origin + '/#/timetable', '_blank', 'noopener');
+  }
 }

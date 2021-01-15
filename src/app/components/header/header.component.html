@@ -99,18 +99,12 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
-              class="nav-link text-c300 body-l"
+              class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
-              routerLink="/timetable"
               target="_blank"
-              (click)="onClickHeaderTab('schedule')"
+              (click)="onClickTimetable()"
               >Schedule
-              <div
-                class="border-design"
-                routerLinkActive="active"
-                target="_blank"
-                routerLink="/timetable"
-              ></div>
+              <div class="border-design" routerLinkActive="active"></div>
             </a>
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item">
@@ -256,11 +250,10 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link text-c300 body-l"
+              class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
-              routerLink="/timetable"
               target="_blank"
-              (click)="onClickHeaderTab('schedule')"
+              (click)="onClickTimetable()"
               >Schedule</a
             >
           </li>
