@@ -147,9 +147,17 @@ export class InvoiceReportComponent implements OnInit {
     this.selectedCourse.invoice = invoice;
     console.log(invoice);
     this.invoiceID2 = invoice._id;
-    this.custDetail.user = invoice.userDetails;
+    let dummy = {
+      email: '-',
+      fullName: '-',
+      guardianEmail: ['-'],
+      preferredName: '-',
+      profilePic: '-',
+      _id: '-'
+    };
+    this.custDetail.user = invoice.userDetails ? invoice.userDetails : dummy;
     if (invoice.user !== null || invoice.user !== undefined)
-      this.custDetail.user.email = invoice.user.email;
+      this.custDetail.user.email = invoice.user ? invoice.user.email : '-';
     this.modalReference = this.modalService.open(classEnrollModal, {
       backdrop: 'static',
       windowClass:
