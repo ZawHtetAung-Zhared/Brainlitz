@@ -1233,7 +1233,8 @@ export class UsersComponent implements OnInit {
           searchWord,
           userId,
           limit,
-          skip
+          skip,
+          null
         )
         .subscribe(
           (res: any) => {
@@ -1293,7 +1294,7 @@ export class UsersComponent implements OnInit {
   getAC(limit, skip, userId) {
     console.log('limit,skip,userId', limit, skip, userId);
     this._service
-      .getAvailabelCourse(this.regionID, userId, limit, skip)
+      .getAvailabelCourse(this.regionID, userId, limit, skip, null)
       .subscribe(
         (res: any) => {
           console.log(res);

@@ -202,6 +202,9 @@ main {
   max-width: 960px !important;
   width: 960px !important;
 }
+.manage-modal .modal-dialog {
+  min-width: 80% !important;
+}
 .video-modal .modal-dialog {
   width: 1024px !important;
   max-width: 1024px !important;
@@ -1649,4 +1652,9 @@ button.toast-close-button {
 }
 .borderless .modal-content {
   border: none;
+}
+.center-datepicker {
+  top: calc(50% - 306px) !important;
+  overflow: hidden;
+  left: calc(50% - 398px) !important;
 }

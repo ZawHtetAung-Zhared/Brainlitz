@@ -88,7 +88,7 @@
         <!-- <div>
             <button class="btn dropdown-toggle" type="button" (click)="logoff()">
               Admin
-            </button> 
+            </button>
           </div> -->
       </div>
     </div>
@@ -99,16 +99,12 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item">
             <a
-              class="nav-link text-c300 body-l"
+              class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
-              routerLink="/schedule"
-              (click)="onClickHeaderTab('schedule')"
+              target="_blank"
+              (click)="onClickTimetable()"
               >Schedule
-              <div
-                class="border-design"
-                routerLinkActive="active"
-                routerLink="/schedule"
-              ></div>
+              <div class="border-design" routerLinkActive="active"></div>
             </a>
           </li>
           <li *ngIf="courseMenu.length > 0" class="nav-item">
@@ -254,10 +250,10 @@
           <!-- <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/home">Home</a></li> -->
           <li *ngIf="customerMenu.length > 0" class="nav-item header2-nav-item">
             <a
-              class="nav-link text-c300 body-l"
+              class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
-              routerLink="/schedule"
-              (click)="onClickHeaderTab('schedule')"
+              target="_blank"
+              (click)="onClickTimetable()"
               >Schedule</a
             >
           </li>

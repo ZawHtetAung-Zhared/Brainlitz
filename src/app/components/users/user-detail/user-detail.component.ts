@@ -135,11 +135,15 @@ export class UserDetailComponent implements OnInit {
   public disableInvoice;
   searchData: any = {};
   public passForm: any = {};
+  public transferFlag: boolean = false;
 
   //for loading
   public detailLoading: boolean = true;
   public tabLoading: boolean = false;
   public makeupLoading: boolean = false;
+  public moreOpt: any = {};
+  public clickedCourseID: any = null;
+  public coursePlanID: any = null;
 
   constructor(
     private _service: appService,
@@ -584,6 +588,7 @@ export class UserDetailComponent implements OnInit {
 
   //start course functions
   callEnrollModal(enrollModal, userId) {
+    this.transferFlag = false;
     console.log(userId);
     console.log(enrollModal);
     //this.blockUI.start('Loading...');
@@ -598,10 +603,31 @@ export class UserDetailComponent implements OnInit {
     this.getAC(20, 0, userId);
   }
 
+  callTransferModal(transferModal, userId, course) {
+    this.transferFlag = true;
+    console.log(userId);
+    console.log(transferModal);
+    this.clickedCourseID = course._id;
+    this.coursePlanID = course.coursePlan._id;
+    console.log('courseplan', course);
+
+    //this.blockUI.start('Loading...');
+    this.showInvoice = false;
+    this.showPaidInvoice = false;
+    console.log(this.showInvoice, this.showPaidInvoice);
+    this.modalReference = this.modalService.open(transferModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.getAC(20, 0, userId);
+  }
+
   getAC(limit, skip, userId) {
     console.log('limit,skip,userId', limit, skip, userId);
+    var courseplanid = this.transferFlag ? this.coursePlanID : null;
     this._service
-      .getAvailabelCourse(this.regionID, userId, limit, skip)
+      .getAvailabelCourse(this.regionID, userId, limit, skip, courseplanid)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -665,13 +691,15 @@ export class UserDetailComponent implements OnInit {
     }
     if (searchWord.length != 0) {
       this.isACSearch = true;
+      var courseplanid = this.transferFlag ? this.coursePlanID : null;
       this._service
         .getSearchAvailableCourse(
           this.regionID,
           searchWord,
           userId,
           limit,
-          skip
+          skip,
+          courseplanid
         )
         .subscribe(
           (res: any) => {
@@ -734,7 +762,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   lessionObjArr(e) {
-    console.log(e);
+    console.log('lesson lesson', e);
     this.checkobjArr = e;
   }
   flexicomfirm(invoiceAlert) {
@@ -751,6 +779,7 @@ export class UserDetailComponent implements OnInit {
     let body = {
       courseId: this.selectedCourse._id,
       userId: this.custDetail.user.userId,
+      fromCourseId: this.clickedCourseID,
       userType: 'customer',
       lessons: this.checkobjArr,
       disableInvoice: this.disableInvoice,
@@ -758,6 +787,7 @@ export class UserDetailComponent implements OnInit {
         allowProrated: this.isProrated
       }
     };
+    if (!this.transferFlag) delete body.fromCourseId; //if not transfer course
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
@@ -795,10 +825,14 @@ export class UserDetailComponent implements OnInit {
         }
         this.invoice = res.body.invoice;
 
-        this.showInvoice = true;
+        if (!this.transferFlag) this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
+        if (this.transferFlag) {
+          this.showDetails(this.editId, 'class');
+          this.closeModal('close');
+        }
         //this.blockUI.stop();
         // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
@@ -903,10 +937,14 @@ export class UserDetailComponent implements OnInit {
             }
             this.invoice = res.body.invoice;
             this.invoiceID2 = this.invoice[0]._id;
-            this.showInvoice = true;
+            if (!this.transferFlag) this.showInvoice = true;
 
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
+            if (this.transferFlag) {
+              this.showDetails(this.editId, 'class');
+              this.closeModal('close');
+            }
           } else {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.showInvoice = false;

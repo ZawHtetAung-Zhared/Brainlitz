@@ -99,7 +99,7 @@
           <p class="mb-0 body-l">Back</p>
         </div>
         <!-- <div class="d-flex flex-row courseInfo font-medium">
-					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>		
+					<p class="mb-0">#{{ coursePlan.name }}</p><span class="sticky-dot">&#183;</span>
 					<h5 class="mb-0">Course</h5>
 				</div> -->
         <div class="body-l">
@@ -829,108 +829,7 @@
             </div>
           </div>
         </div>
-        <div>
-          <label
-            for="course_name"
-            class="text-c100 body-l"
-            [ngClass]="{ changeColor: userLists?.length > 0 == false }"
-            >Assistants</label
-          >
-          <div class="d-flex flex-column" style="position: relative;">
-            <div class="d-flex">
-              <input
-                class="form-control py-2 input-search-bg light-body-l text-c300 bg-s20"
-                type="search"
-                autocomplete="off"
-                placeholder="Add assistants by searching"
-                id="example-search-input"
-                name="search"
-                #search="ngModel"
-                [(ngModel)]="model.assistantSearch"
-                (focus)="focusInputMethod($event, 'staff', 'assistant')"
-                (focusout)="hideFocus($event, 'assistant')"
-                (input)="changeInputMethod($event.target.value)"
-              />
-              <!-- <input *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}"
-							  class="form-control py-2 input-search-bg" 
-							  type="search" 
-							  autocomplete="off"
-							  placeholder="Add assistants by searching" 
-							  id="example-search-input" 
-							  name="search" 
-							  #search="ngModel" 
-							  [(ngModel)]="model.assistantSearch"> -->
-              <span class="input-group-append">
-                <button
-                  class="bt btn-design btn-outline-secondary"
-                  type="button"
-                >
-                  <i class="fa fa-search search-size"></i>
-                </button>
-              </span>
-            </div>
-            <div
-              class="user-list-box bg-s0 text-c300 light-body-m"
-              *ngIf="isFocus == true"
-            >
-              <div
-                (click)="chooseUser(user, 'assistant')"
-                *ngFor="let user of userLists"
-                class="d-flex flex-row search-user justify-content-center align-items-center"
-                [ngClass]="{
-                  hideStaff: staffArrLists.indexOf(user.userId) > -1
-                }"
-              >
-                <div class="img-wrap">
-                  <img
-                    src="{{
-                      user.profilePic ||
-                        user.profilePic == 'undefine' ||
-                        './assets/img/user.svg'
-                    }}"
-                  />
-                </div>
-                <div
-                  class="single-user-info d-flex flex-column justify-content-center body-m text-c300"
-                >
-                  {{ user.preferredName }}
-                </div>
-                <div class="ml-auto remover-wrap">
-                  <div class="add-user d-flex justify-content-end"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-20">
-            <div class="d-flex flex-wrap" *ngIf="selectedUserLists.length > 0">
-              <div *ngFor="let user of selectedUserLists">
-                <div
-                  class="d-flex flex-row single-user justify-content-center align-items-center"
-                >
-                  <div class="img-wrap">
-                    <img
-                      src="{{ user.profilePic || './assets/img/user.svg' }}"
-                    />
-                  </div>
-                  <div
-                    class="single-user-info d-flex flex-column justify-content-center body-m text-c300"
-                  >
-                    <label class="mb-0">{{ user.preferredName }}</label>
-                  </div>
-                  <div
-                    class="ml-auto remover-wrap single-user-info body-m text-c300"
-                  >
-                    <div
-                      class="remove-user d-flex justify-content-end"
-                      (click)="removeSelectedUser(user.userId)"
-                    ></div>
-                    <!-- <div *ngIf="isEdit == true" [ngClass]="{'noCursor': isEdit== true}" class="remove-user d-flex justify-content-end"></div> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- removed assistant add at release/15-01-2021 -->
       </div>
     </div>
     <hr class="hr-line" />

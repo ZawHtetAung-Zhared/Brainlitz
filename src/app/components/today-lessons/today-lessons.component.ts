@@ -11,11 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 import {
   NgbModal,
   ModalDismissReasons,
+  NgbDateAdapter,
   NgbDatepickerConfig,
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-today-lessons',
@@ -36,6 +38,11 @@ export class TodayLessonsComponent implements OnInit {
   public textAreaOption = false;
   public isSticky = false;
   public expirationDate: any = { year: '', month: '', day: '' };
+  public dateModal: Date = new Date();
+  public showCalendar: boolean = false;
+  public checkboxFlag: any = {};
+  public selectAllFlag: boolean;
+  public selectedDate: Date = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -53,24 +60,32 @@ export class TodayLessonsComponent implements OnInit {
       this.isSticky = false;
     }
   }
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if ($event.target.className != 'setting-date') {
+      this.showCalendar = false;
+    }
+  }
 
   ngOnInit() {
     this.todayDate = new Date();
     this.getTodayLesson();
+    console.log('abcd', this.selectedDate.toISOString());
   }
 
   getTodayLesson() {
-    this._service.gettodayLesson(this.regionId, this.locationID).subscribe(
-      (res: any) => {
-        console.log(this.todayCourse);
+    this._service
+      .gettodayLesson(this.regionId, this.locationID, this.todayModal)
+      .subscribe(
+        (res: any) => {
+          console.log(this.todayCourse);
 
-        this.todayCourse = res;
-        console.log('tday lessons', this.todayCourse);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+          this.todayCourse = res;
+          console.log('tday lessons', this.todayCourse);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
   backToCourse() {
     // this._service.backCourse();
@@ -369,5 +384,106 @@ export class TodayLessonsComponent implements OnInit {
     if (event.target.offsetParent == null) datePicker.close();
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
+  }
+  cancelMultiple(modal) {
+    this.checkboxFlag = {};
+    console.log('new modal', modal);
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl modal-inv'
+    });
+  }
+  closeTab() {
+    window.close();
+  }
+  public todayModal: Date = new Date();
+  onDateSelect(event) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;
+    let day = event.day <= 9 ? '0' + event.day : event.day;
+    let final = new Date(year + '-' + month + '-' + day);
+    var momentToday = moment(final).toDate();
+    console.log('####', momentToday);
+    this.todayModal = momentToday;
+    console.log('iso format', this.todayModal.toISOString());
+    this.todayDate = this.todayModal;
+    // this.calendarToggle();
+    this.getTodayLesson();
+  }
+  calendarToggle() {
+    this.showCalendar = !this.showCalendar;
+    console.log('calendarToggle', this.showCalendar);
+  }
+  closeCancelModal() {
+    this.modalReference.close();
+  }
+  checkLesson(i) {
+    console.log('~~~~~~', this.checkboxFlag);
+    if (this.checkboxFlag[i] != true) {
+      this.checkboxFlag[i] = true;
+    } else this.checkboxFlag[i] = false;
+  }
+  selectAll() {
+    this.selectAllFlag = !this.selectAllFlag;
+    for (var k = 0; k < this.todayCourse.courses.length; k++) {
+      this.checkboxFlag[k] = this.selectAllFlag ? true : false;
+    }
+  }
+  cancelClasses() {
+    console.log('cancel classes', this.checkboxFlag);
+    var lessons = [];
+    for (var k = 0; k < this.todayCourse.courses.length; k++) {
+      if (this.checkboxFlag[k] == true) {
+        console.log('####', this.todayCourse.courses[k]);
+        lessons.push({
+          courseId: this.todayCourse.courses[k]._id,
+          lessonId: this.todayCourse.courses[k].todayLesson._id
+        });
+      }
+    }
+    var body = {
+      lessons: lessons
+    };
+    console.log('body', body);
+
+    this._service.cancelLesson(body).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.toastr.success('Classes cancelled successfully');
+        this.closeCancelModal();
+        this.getTodayLesson();
+      },
+      err => {
+        console.log(err);
+        this.toastr.warning(err);
+        this.closeCancelModal();
+      }
+    );
+  }
+  prevDate() {
+    console.log('prevDate', this.todayModal);
+    var temp = moment(this.todayModal).subtract(1, 'days');
+    this.todayModal = temp.toDate();
+    this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
+    this.getTodayLesson();
+  }
+  nextDate() {
+    console.log('prevDate', this.todayModal);
+    var temp = moment(this.todayModal).add(1, 'days');
+    this.todayModal = temp.toDate();
+    this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
+    this.getTodayLesson();
+  }
+  getTodayDate() {
+    var today = new Date();
+    this.todayModal = moment(today).toDate();
+    this.dateModal = this.todayModal;
+    this.todayDate = this.dateModal;
+    this.getTodayLesson();
+  }
+  stopEvent(e) {
+    e.stopPropagation();
   }
 }
