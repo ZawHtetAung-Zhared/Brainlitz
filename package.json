@@ -12,7 +12,8 @@
     "build:enable_aot": "ng build --prod=true --env=local --aot=true",
     "build:master": "ng build --prod=true --env=master --aot=false",
     "build:staging": "ng build --prod=true --env=staging --aot=false",
-    "build:dev": "ng build --prod=true --env=dev --aot=false",
+    "build:dev_old": "ng build --prod=true --env=dev --aot=false",
+    "build:dev": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -38,7 +39,7 @@
     "angular-highcharts": "^9.0.2",
     "angular-oauth2-oidc": "^3.1.4",
     "angular-sortablejs": "^2.6.0",
-    "angular-star-rating": "^2.0.0-rc.5",
+    "angular-star-rating": "^3.0.0",
     "angular2-cookie": "^1.2.6",
     "angular2-markdown": "^2.2.3",
     "angular2-medium-editor": "^1.3.1",
@@ -118,7 +119,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.9.2"
   },
   "husky": {
     "hooks": {
