@@ -9,6 +9,7 @@
 @import '../node_modules/medium-editor/dist/css/medium-editor.min.css';
 @import '../node_modules/medium-editor/dist/css/themes/beagle.css';
 @import '../node_modules/dragula/dist/dragula.css';
+@import '../node_modules/css-star-rating/css/star-rating.css';
 
 /* @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:700&display=swap'); */
 /* @font-face {
