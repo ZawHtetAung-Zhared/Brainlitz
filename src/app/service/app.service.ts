@@ -787,7 +787,8 @@ export class appService {
       '&limit=' +
       limit +
       '&skip=' +
-      skip;
+      skip +
+      '&disableUserGrade=1';
     // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
     const httpOptions = {
       headers: new HttpHeaders({
