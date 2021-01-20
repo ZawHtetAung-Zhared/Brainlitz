@@ -50,7 +50,7 @@ export class EnrollUserComponent implements OnInit {
     this.courseId = localStorage.getItem('COURSEID');
     this.backToCourse = `/coursedetail/${this.courseId}/customers`;
     console.log(' I got Id : ' + this.courseId);
-    this.getUsersInCourse(this.courseId);
+    // this.getUsersInCourse(this.courseId);
     this.getCourseDetail(this.courseId);
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
