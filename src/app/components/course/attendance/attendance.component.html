@@ -26,10 +26,7 @@
         }"
       >
         <!-- <pre>{{timeline | json}}</pre> -->
-        <div
-          *ngIf="timeline.startDate < todayDate"
-          (click)="checkAttendance(timeline.startDate, timeline, cancelUI, i)"
-        >
+        <div *ngIf="timeline.startDate < todayDate">
           <div
             *ngIf="
               (timeline.startDate | timelineDate) != (todayDate | timelineDate)
