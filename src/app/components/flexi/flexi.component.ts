@@ -52,10 +52,12 @@ export class FlexiComponent implements OnInit {
   @Output() checkObjArr: any = new EventEmitter<any>();
   @Output() checkIdArr = new EventEmitter<number>();
   @Output() passDataconflictBoxShow = new EventEmitter();
-
+  public assignFlag: boolean = false;
   ngOnInit() {
-    console.log('I am in flexi', this.transfer);
-
+    console.log('I am in flexi', this.selectedCustomer);
+    if (localStorage.getItem('userType') == 'staff') {
+      this.assignFlag = true;
+    }
     this.lessionIdArr = [];
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
