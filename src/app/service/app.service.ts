@@ -2146,9 +2146,10 @@ export class appService {
         regionid +
         '/course/user/' +
         courseid +
-        '?usergrade=1';
+        '?usergrade=1' +
+        '&attendanceMode=true';
     } else {
-      (url =
+      url =
         this.baseUrl +
         '/' +
         regionid +
@@ -2159,8 +2160,8 @@ export class appService {
         '&month=' +
         month +
         '&year=' +
-        year),
-        '&usergrade=1';
+        year +
+        '&usergrade=1&attendanceMode=true';
     }
 
     const httpOptions = {
