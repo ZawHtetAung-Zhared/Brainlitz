@@ -770,7 +770,7 @@ export class UserStaffComponent implements OnInit {
     // //this.blockUI.start('Loading...');
     this.showStaffDetail = true;
     this._service
-      .getUserDetail(this.regionID, data.userId, this.locationID)
+      .getUserDetail(this.regionID, data.userId, this.locationID, 'user')
       .subscribe(
         (res: any) => {
           this.staffDetail = res;

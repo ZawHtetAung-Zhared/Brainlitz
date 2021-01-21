@@ -1076,41 +1076,43 @@ export class UsersComponent implements OnInit {
     }
 
     //this.blockUI.start('Loading...');
-    this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
-      (res: any) => {
-        this.custDetail = res;
-        this.userArchive = res.user.isArchive;
-        res.user.details.map(info => {
-          if (info.controlType === 'Datepicker') {
-            info.value = moment(info.value).format('YYYY-MM-DD');
+    this._service
+      .getUserDetail(this.regionID, ID, this.locationID, null)
+      .subscribe(
+        (res: any) => {
+          this.custDetail = res;
+          this.userArchive = res.user.isArchive;
+          res.user.details.map(info => {
+            if (info.controlType === 'Datepicker') {
+              info.value = moment(info.value).format('YYYY-MM-DD');
 
-            const birthday = moment(info.value);
-            info.year = moment().diff(birthday, 'years');
-            // var month = moment().diff(birthday, 'months') - info.year * 12;
-            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
-            birthday.add(info.year, 'years'); // for years and days calculation
-            info.day = moment().diff(birthday, 'days');
+              const birthday = moment(info.value);
+              info.year = moment().diff(birthday, 'years');
+              // var month = moment().diff(birthday, 'months') - info.year * 12;
+              // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+              birthday.add(info.year, 'years'); // for years and days calculation
+              info.day = moment().diff(birthday, 'days');
+            }
+          });
+
+          console.log('CustDetail', res);
+          for (var i = 0; i < this.custDetail.ratings.length; i++) {
+            var tempData = this.custDetail.ratings[i].updatedDate;
+            var d = new Date(tempData);
+            console.log(this.custDetail.ratings[i].updatedDate);
+            this.custDetail.ratings[i].updatedDate = moment(d, format)
+              .tz(zone)
+              .format(format);
           }
-        });
-
-        console.log('CustDetail', res);
-        for (var i = 0; i < this.custDetail.ratings.length; i++) {
-          var tempData = this.custDetail.ratings[i].updatedDate;
-          var d = new Date(tempData);
-          console.log(this.custDetail.ratings[i].updatedDate);
-          this.custDetail.ratings[i].updatedDate = moment(d, format)
-            .tz(zone)
-            .format(format);
-        }
-        setTimeout(() => {
+          setTimeout(() => {
+            //this.blockUI.stop();
+          }, 300);
+        },
+        err => {
+          console.log(err);
           //this.blockUI.stop();
-        }, 300);
-      },
-      err => {
-        console.log(err);
-        //this.blockUI.stop();
-      }
-    );
+        }
+      );
   }
 
   backToCustomer() {

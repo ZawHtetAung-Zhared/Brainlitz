@@ -832,9 +832,8 @@ export class appService {
     });
   }
 
-  getUserDetail(id: string, userId: string, locationid: string) {
-    console.log(id);
-    console.log(userId);
+  getUserDetail(id: string, userId: string, locationid: string, requestedData) {
+    console.log('RD', requestedData);
     let apiUrl =
       this.baseUrl +
       '/user/' +
@@ -843,6 +842,9 @@ export class appService {
       id +
       '&locationId=' +
       locationid;
+    if (requestedData != null) {
+      apiUrl += '&requestedData=' + requestedData;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

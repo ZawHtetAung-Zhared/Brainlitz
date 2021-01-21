@@ -174,7 +174,7 @@ export class UserDetailComponent implements OnInit {
       }
     );
     this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
-    this.showDetails(this.editId, 'class');
+    this.showDetails(this.editId, 'class', 'user,courses');
   }
 
   ngOnDestroy() {
@@ -221,7 +221,7 @@ export class UserDetailComponent implements OnInit {
       : '';
   }
 
-  showDetails(ID, val) {
+  showDetails(ID, val, reqdata) {
     console.log(this.custDetail);
     this.activeTab = val;
     console.log(ID);
@@ -243,43 +243,45 @@ export class UserDetailComponent implements OnInit {
     }
 
     //this.blockUI.start('Loading...');
-    this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
-      (res: any) => {
-        this.custDetail = res;
-        this.userArchive = res.user.isArchive;
-        res.user.details.map(info => {
-          if (info.controlType === 'Datepicker') {
-            info.value = moment(info.value).format('YYYY-MM-DD');
+    this._service
+      .getUserDetail(this.regionID, ID, this.locationID, reqdata)
+      .subscribe(
+        (res: any) => {
+          this.custDetail = res;
+          this.userArchive = res.user.isArchive;
+          res.user.details.map(info => {
+            if (info.controlType === 'Datepicker') {
+              info.value = moment(info.value).format('YYYY-MM-DD');
 
-            const birthday = moment(info.value);
-            info.year = moment().diff(birthday, 'years');
-            // var month = moment().diff(birthday, 'months') - info.year * 12;
-            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
-            birthday.add(info.year, 'years'); // for years and days calculation
-            info.day = moment().diff(birthday, 'days');
+              const birthday = moment(info.value);
+              info.year = moment().diff(birthday, 'years');
+              // var month = moment().diff(birthday, 'months') - info.year * 12;
+              // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+              birthday.add(info.year, 'years'); // for years and days calculation
+              info.day = moment().diff(birthday, 'days');
+            }
+          });
+
+          console.log('CustDetail', res);
+          for (var i = 0; i < this.custDetail.ratings.length; i++) {
+            var tempData = this.custDetail.ratings[i].updatedDate;
+            var d = new Date(tempData);
+            console.log(this.custDetail.ratings[i].updatedDate);
+            this.custDetail.ratings[i].updatedDate = moment(d, format)
+              .tz(zone)
+              .format(format);
           }
-        });
-
-        console.log('CustDetail', res);
-        for (var i = 0; i < this.custDetail.ratings.length; i++) {
-          var tempData = this.custDetail.ratings[i].updatedDate;
-          var d = new Date(tempData);
-          console.log(this.custDetail.ratings[i].updatedDate);
-          this.custDetail.ratings[i].updatedDate = moment(d, format)
-            .tz(zone)
-            .format(format);
-        }
-        setTimeout(() => {
+          setTimeout(() => {
+            //this.blockUI.stop();
+            this.detailLoading = false;
+            this.tabLoading = false;
+          }, 2000);
+        },
+        err => {
+          console.log(err);
           //this.blockUI.stop();
-          this.detailLoading = false;
-          this.tabLoading = false;
-        }, 2000);
-      },
-      err => {
-        console.log(err);
-        //this.blockUI.stop();
-      }
-    );
+        }
+      );
   }
 
   showGuardian(ID) {
@@ -290,7 +292,7 @@ export class UserDetailComponent implements OnInit {
     setTimeout(() => {
       this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
       console.log(this.editId);
-      this.showDetails(this.editId, 'class');
+      this.showDetails(this.editId, 'class', 'user,courses');
     }, 100);
   }
 
@@ -372,8 +374,10 @@ export class UserDetailComponent implements OnInit {
     this.activePass = 'available';
     if (val == 'makeup') {
       this.callMakeupLists();
-    } else if (val == 'class' || val == 'activity') {
-      this.showDetails(this.custDetail.user.userId, val);
+    } else if (val == 'class') {
+      this.showDetails(this.custDetail.user.userId, val, 'user,courses');
+    } else if (val == 'activity') {
+      this.showDetails(this.custDetail.user.userId, val, 'user,ratings');
     } else if (val == 'achievements') {
       console.log('cos', this.carousel);
       console.log('achievements');
@@ -830,7 +834,7 @@ export class UserDetailComponent implements OnInit {
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
         if (this.transferFlag) {
-          this.showDetails(this.editId, 'class');
+          this.showDetails(this.editId, 'class', 'user,courses');
           this.closeModal('close');
         }
         //this.blockUI.stop();
@@ -942,7 +946,7 @@ export class UserDetailComponent implements OnInit {
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
             if (this.transferFlag) {
-              this.showDetails(this.editId, 'class');
+              this.showDetails(this.editId, 'class', 'user,courses');
               this.closeModal('close');
             }
           } else {
@@ -1078,7 +1082,7 @@ export class UserDetailComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId, 'class');
+        this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
       },
       err => {
         console.error(err);
@@ -1191,7 +1195,7 @@ export class UserDetailComponent implements OnInit {
     this.showflexyCourse = false;
 
     if (type == 'closeInv') {
-      this.showDetails(this.custDetail.user.userId, 'class');
+      this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
     }
     this.showflexyCourse = false;
   }
@@ -1218,7 +1222,7 @@ export class UserDetailComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId, 'class');
+        this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
       },
