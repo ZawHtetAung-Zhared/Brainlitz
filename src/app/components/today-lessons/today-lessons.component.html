@@ -1,42 +1,44 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-  <div class="setting d-flex justify-content-between">
-    <div
-      class="d-flex"
-      style="margin-left: 20px; height: 40px;align-items: center;"
-    >
-      <button class="btn tdy-btn body-m" (click)="getTodayDate()">
-        Today
-      </button>
-      <span class="arrow" (click)="prevDate()"
-        ><img src="../../../assets/img/chevron-right-s.png"
-      /></span>
-      <span class="arrow" (click)="nextDate()"
-        ><img src="../../../assets/img/chevron-left-s.png"
-      /></span>
-      <span class="setting-date" (click)="calendarToggle()"
-        >{{ todayModal | date: 'dd LLL yyyy'
-        }}<i class="fa fa-chevron-down downIcon small"></i>
-        <ngb-datepicker
-          (click)="stopEvent($event)"
-          *ngIf="showCalendar"
-          (ngModelChange)="onDateSelect($event)"
-          class="datePicker"
-          #dp
-          [(ngModel)]="dateModal"
-        ></ngb-datepicker>
-      </span>
-    </div>
-    <div class="d-flex align-items-center">
-      <span
-        class="body-m text-r100 cursor"
-        (click)="cancelMultiple(cancelLesson)"
-        >Cancel lesson</span
-      >
+  <div class="setting bg-s20">
+    <div class="setting-responsive d-flex justify-content-between">
       <div
-        class="quit-today d-flex justify-content-center align-items-center cursor"
-        (click)="closeTab()"
+        class="d-flex"
+        style="margin-left: 20px; height: 40px;align-items: center;"
       >
-        <img style="width: 12px;" src="../../../assets/img/removeIcon.png" />
+        <button class="btn tdy-btn body-m" (click)="getTodayDate()">
+          Today
+        </button>
+        <span class="arrow" (click)="prevDate()"
+          ><img src="../../../assets/img/chevron-right-s.png"
+        /></span>
+        <span class="arrow" (click)="nextDate()"
+          ><img src="../../../assets/img/chevron-left-s.png"
+        /></span>
+        <span class="setting-date" (click)="calendarToggle()"
+          >{{ todayModal | date: 'dd LLL yyyy'
+          }}<i class="fa fa-chevron-down downIcon small"></i>
+          <ngb-datepicker
+            (click)="stopEvent($event)"
+            *ngIf="showCalendar"
+            (ngModelChange)="onDateSelect($event)"
+            class="datePicker"
+            #dp
+            [(ngModel)]="dateModal"
+          ></ngb-datepicker>
+        </span>
+      </div>
+      <div class="d-flex align-items-center">
+        <span
+          class="body-m text-r100 cursor"
+          (click)="cancelMultiple(cancelLesson)"
+          >Cancel lesson</span
+        >
+        <div
+          class="quit-today d-flex justify-content-center align-items-center cursor"
+          (click)="closeTab()"
+        >
+          <img style="width: 12px;" src="../../../assets/img/removeIcon.png" />
+        </div>
       </div>
     </div>
   </div>
