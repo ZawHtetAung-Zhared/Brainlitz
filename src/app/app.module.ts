@@ -41,7 +41,7 @@ import { ToolsComponent } from './components/tools/tools.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule, ToastsManager } from 'ng5-toastr/ng5-toastr';
 import { ToastrModule } from 'ngx-toastr';
-// import { NgbModalStackModule } from 'ng-bootstrap-modal-stack';
+import { NgbModalStackModule } from 'ng-bootstrap-modal-stack';
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ToastOptions } from 'ng5-toastr';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -289,7 +289,7 @@ import {
     ContentLoaderModule,
     BrowserModule,
     RouterTestingModule,
-    // NgbModalStackModule.forRoot(),
+    NgbModalStackModule.forRoot(),
     InfiniteScrollModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
