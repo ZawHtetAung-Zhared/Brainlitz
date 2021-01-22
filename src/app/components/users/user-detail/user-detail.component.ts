@@ -135,11 +135,15 @@ export class UserDetailComponent implements OnInit {
   public disableInvoice;
   searchData: any = {};
   public passForm: any = {};
+  public transferFlag: boolean = false;
 
   //for loading
   public detailLoading: boolean = true;
   public tabLoading: boolean = false;
   public makeupLoading: boolean = false;
+  public moreOpt: any = {};
+  public clickedCourseID: any = null;
+  public coursePlanID: any = null;
 
   constructor(
     private _service: appService,
@@ -170,7 +174,7 @@ export class UserDetailComponent implements OnInit {
       }
     );
     this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
-    this.showDetails(this.editId, 'class');
+    this.showDetails(this.editId, 'class', 'user,courses');
   }
 
   ngOnDestroy() {
@@ -217,7 +221,7 @@ export class UserDetailComponent implements OnInit {
       : '';
   }
 
-  showDetails(ID, val) {
+  showDetails(ID, val, reqdata) {
     console.log(this.custDetail);
     this.activeTab = val;
     console.log(ID);
@@ -239,43 +243,45 @@ export class UserDetailComponent implements OnInit {
     }
 
     //this.blockUI.start('Loading...');
-    this._service.getUserDetail(this.regionID, ID, this.locationID).subscribe(
-      (res: any) => {
-        this.custDetail = res;
-        this.userArchive = res.user.isArchive;
-        res.user.details.map(info => {
-          if (info.controlType === 'Datepicker') {
-            info.value = moment(info.value).format('YYYY-MM-DD');
+    this._service
+      .getUserDetail(this.regionID, ID, this.locationID, reqdata)
+      .subscribe(
+        (res: any) => {
+          this.custDetail = res;
+          this.userArchive = res.user.isArchive;
+          res.user.details.map(info => {
+            if (info.controlType === 'Datepicker') {
+              info.value = moment(info.value).format('YYYY-MM-DD');
 
-            const birthday = moment(info.value);
-            info.year = moment().diff(birthday, 'years');
-            // var month = moment().diff(birthday, 'months') - info.year * 12;
-            // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
-            birthday.add(info.year, 'years'); // for years and days calculation
-            info.day = moment().diff(birthday, 'days');
+              const birthday = moment(info.value);
+              info.year = moment().diff(birthday, 'years');
+              // var month = moment().diff(birthday, 'months') - info.year * 12;
+              // birthday.add(info.year, 'years').add(month, 'months'); for years months and days calculation
+              birthday.add(info.year, 'years'); // for years and days calculation
+              info.day = moment().diff(birthday, 'days');
+            }
+          });
+
+          console.log('CustDetail', res);
+          for (var i = 0; i < this.custDetail.ratings.length; i++) {
+            var tempData = this.custDetail.ratings[i].updatedDate;
+            var d = new Date(tempData);
+            console.log(this.custDetail.ratings[i].updatedDate);
+            this.custDetail.ratings[i].updatedDate = moment(d, format)
+              .tz(zone)
+              .format(format);
           }
-        });
-
-        console.log('CustDetail', res);
-        for (var i = 0; i < this.custDetail.ratings.length; i++) {
-          var tempData = this.custDetail.ratings[i].updatedDate;
-          var d = new Date(tempData);
-          console.log(this.custDetail.ratings[i].updatedDate);
-          this.custDetail.ratings[i].updatedDate = moment(d, format)
-            .tz(zone)
-            .format(format);
-        }
-        setTimeout(() => {
+          setTimeout(() => {
+            //this.blockUI.stop();
+            this.detailLoading = false;
+            this.tabLoading = false;
+          }, 2000);
+        },
+        err => {
+          console.log(err);
           //this.blockUI.stop();
-          this.detailLoading = false;
-          this.tabLoading = false;
-        }, 2000);
-      },
-      err => {
-        console.log(err);
-        //this.blockUI.stop();
-      }
-    );
+        }
+      );
   }
 
   showGuardian(ID) {
@@ -286,7 +292,7 @@ export class UserDetailComponent implements OnInit {
     setTimeout(() => {
       this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
       console.log(this.editId);
-      this.showDetails(this.editId, 'class');
+      this.showDetails(this.editId, 'class', 'user,courses');
     }, 100);
   }
 
@@ -368,8 +374,10 @@ export class UserDetailComponent implements OnInit {
     this.activePass = 'available';
     if (val == 'makeup') {
       this.callMakeupLists();
-    } else if (val == 'class' || val == 'activity') {
-      this.showDetails(this.custDetail.user.userId, val);
+    } else if (val == 'class') {
+      this.showDetails(this.custDetail.user.userId, val, 'user,courses');
+    } else if (val == 'activity') {
+      this.showDetails(this.custDetail.user.userId, val, 'user,ratings');
     } else if (val == 'achievements') {
       console.log('cos', this.carousel);
       console.log('achievements');
@@ -584,6 +592,7 @@ export class UserDetailComponent implements OnInit {
 
   //start course functions
   callEnrollModal(enrollModal, userId) {
+    this.transferFlag = false;
     console.log(userId);
     console.log(enrollModal);
     //this.blockUI.start('Loading...');
@@ -598,10 +607,31 @@ export class UserDetailComponent implements OnInit {
     this.getAC(20, 0, userId);
   }
 
+  callTransferModal(transferModal, userId, course) {
+    this.transferFlag = true;
+    console.log(userId);
+    console.log(transferModal);
+    this.clickedCourseID = course._id;
+    this.coursePlanID = course.coursePlan._id;
+    console.log('courseplan', course);
+
+    //this.blockUI.start('Loading...');
+    this.showInvoice = false;
+    this.showPaidInvoice = false;
+    console.log(this.showInvoice, this.showPaidInvoice);
+    this.modalReference = this.modalService.open(transferModal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
+    this.getAC(20, 0, userId);
+  }
+
   getAC(limit, skip, userId) {
     console.log('limit,skip,userId', limit, skip, userId);
+    var courseplanid = this.transferFlag ? this.coursePlanID : null;
     this._service
-      .getAvailabelCourse(this.regionID, userId, limit, skip)
+      .getAvailabelCourse(this.regionID, userId, limit, skip, courseplanid)
       .subscribe(
         (res: any) => {
           console.log(res);
@@ -665,13 +695,15 @@ export class UserDetailComponent implements OnInit {
     }
     if (searchWord.length != 0) {
       this.isACSearch = true;
+      var courseplanid = this.transferFlag ? this.coursePlanID : null;
       this._service
         .getSearchAvailableCourse(
           this.regionID,
           searchWord,
           userId,
           limit,
-          skip
+          skip,
+          courseplanid
         )
         .subscribe(
           (res: any) => {
@@ -734,7 +766,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   lessionObjArr(e) {
-    console.log(e);
+    console.log('lesson lesson', e);
     this.checkobjArr = e;
   }
   flexicomfirm(invoiceAlert) {
@@ -751,6 +783,7 @@ export class UserDetailComponent implements OnInit {
     let body = {
       courseId: this.selectedCourse._id,
       userId: this.custDetail.user.userId,
+      fromCourseId: this.clickedCourseID,
       userType: 'customer',
       lessons: this.checkobjArr,
       disableInvoice: this.disableInvoice,
@@ -758,6 +791,7 @@ export class UserDetailComponent implements OnInit {
         allowProrated: this.isProrated
       }
     };
+    if (!this.transferFlag) delete body.fromCourseId; //if not transfer course
     this._service.assignUser(this.regionID, body, this.locationID).subscribe(
       (res: any) => {
         console.log(res);
@@ -795,10 +829,14 @@ export class UserDetailComponent implements OnInit {
         }
         this.invoice = res.body.invoice;
 
-        this.showInvoice = true;
+        if (!this.transferFlag) this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
         this.invoiceID2 = res.body.invoice[0]._id;
+        if (this.transferFlag) {
+          this.showDetails(this.editId, 'class', 'user,courses');
+          this.closeModal('close');
+        }
         //this.blockUI.stop();
         // this.showOneInvoice(this.selectedCourse, this.invoice);
       },
@@ -903,10 +941,14 @@ export class UserDetailComponent implements OnInit {
             }
             this.invoice = res.body.invoice;
             this.invoiceID2 = this.invoice[0]._id;
-            this.showInvoice = true;
+            if (!this.transferFlag) this.showInvoice = true;
 
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
+            if (this.transferFlag) {
+              this.showDetails(this.editId, 'class', 'user,courses');
+              this.closeModal('close');
+            }
           } else {
             this.toastr.success('TIMETABLE IS ALREADY EXISTED');
             this.showInvoice = false;
@@ -1040,7 +1082,7 @@ export class UserDetailComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId, 'class');
+        this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
       },
       err => {
         console.error(err);
@@ -1153,7 +1195,7 @@ export class UserDetailComponent implements OnInit {
     this.showflexyCourse = false;
 
     if (type == 'closeInv') {
-      this.showDetails(this.custDetail.user.userId, 'class');
+      this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
     }
     this.showflexyCourse = false;
   }
@@ -1180,7 +1222,7 @@ export class UserDetailComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
-        this.showDetails(this.custDetail.user.userId, 'class');
+        this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
       },

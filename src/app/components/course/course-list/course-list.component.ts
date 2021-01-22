@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component, OnInit, HostListener } from '@angular/core';
 
 import { appService } from '../../../service/app.service';
@@ -30,12 +31,12 @@ export class CourseListComponent implements OnInit {
   private type: any;
   private recentLists: Array<any> = [];
   private selectedPlan: any;
-  private isCategory: boolean = false;
+  public isCategory: boolean = false;
   private goBackCat: boolean = false;
-  private isPlan: boolean = false;
-  private isCourseCreate: boolean = false;
+  public isPlan: boolean = false;
+  public isCourseCreate: boolean = false;
   private editplanId: any;
-  private isCoursePlanDetail: boolean = false;
+  public isCoursePlanDetail: boolean = false;
   private singlePlanData: any = {};
   private planCategory: any;
   private isSticky = false;
@@ -49,7 +50,7 @@ export class CourseListComponent implements OnInit {
   private courseLoading: boolean;
   private coursePlanLoading: boolean = false;
   private courseListLoading: boolean = false;
-  private iscourseSearch: boolean = false;
+  public iscourseSearch: boolean = false;
   private searchVal = '';
   public isoutSideClick: boolean = false;
   public iswordcount: boolean = false;

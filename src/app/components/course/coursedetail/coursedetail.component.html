@@ -1,8 +1,4 @@
-<app-header
-  [ngClass]="{ stick: isSticky == true }"
-  (newItemEvent)="reviewToggle($event)"
-  [activeTab]="active"
->
+<app-header [ngClass]="{ stick: isSticky == true }" [activeTab]="active">
 </app-header>
 <!-- <div
   class="d-flex flex-column justify-content-center align-items-center cust-bg"

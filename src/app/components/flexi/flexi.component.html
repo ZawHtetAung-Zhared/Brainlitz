@@ -1,5 +1,6 @@
 <div class="" style="margin:0px 40px 0px 32px;">
-  <p class="h1-strong text-c300">Enroll lesson</p>
+  <p class="h1-strong text-c300" *ngIf="!transfer">Enroll lesson</p>
+  <p class="h1-strong text-c300" *ngIf="transfer">Transfer class</p>
   <div class="d-flex">
     <div class="col-md-4 p-0">
       <div class="d-flex">
@@ -83,10 +84,13 @@
         clickId == obj.id && showcb ? { 'z-index': '100' } : { 'z-index': '0' }
       "
     >
+      <!-- condition 1 -->
       <div
         class="lessonbox-inner"
         (click)="lessonCheck(obj.id, obj)"
-        *ngIf="obj.hasConflict == false && obj.isEnrolled == false"
+        *ngIf="
+          obj.hasConflict == false && obj.isEnrolled == false && !assignFlag
+        "
         [ngStyle]="
           lessionIdArr.indexOf(obj.id) != -1
             ? { background: ' #007FFF' }
@@ -123,10 +127,13 @@
           <p class="statusText">{{ obj?.enrolledStudentCount }} students</p>
         </div>
       </div>
+      <!-- condition 2 -->
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == false"
+        *ngIf="
+          obj.hasConflict && !obj.isEnrolled && showcb == false && !assignFlag
+        "
         [ngStyle]="
           lessionIdArr.indexOf(obj.id) != -1
             ? { background: ' #007FFF' }
@@ -178,10 +185,13 @@
           <p class="small">Skip: Conflict</p>
         </div>
       </div>
+      <!-- condition 3 -->
       <div
         class="lessonbox-conflict"
         id="lessonbox-conflict"
-        *ngIf="obj.hasConflict && !obj.isEnrolled && showcb == true"
+        *ngIf="
+          obj.hasConflict && !obj.isEnrolled && showcb == true && !assignFlag
+        "
         [ngStyle]="
           lessionIdArr.indexOf(obj.id) != -1
             ? { background: ' #007FFF' }
@@ -307,6 +317,7 @@
           <p class="statusText">Skip: {{ obj.status }}</p>
         </div>
       </div>
+      <!-- condition 4 -->
       <div class="lessonbox-enroll" *ngIf="obj.isEnrolled">
         <div class="d-flex pt-2">
           <div class="skippedIcon minus"></div>
@@ -320,6 +331,47 @@
         <div class="d-flex justify-content-center enrolled-statusBox">
           <i class="fa fa-check statusCheckIcon"></i>
           <p class="statusText">Enrolled</p>
+        </div>
+      </div>
+      <!-- condition 5 -->
+      <div
+        class="lessonbox-inner"
+        (click)="lessonCheck(obj.id, obj)"
+        *ngIf="assignFlag"
+        [ngStyle]="
+          lessionIdArr.indexOf(obj.id) != -1
+            ? { background: ' #007FFF' }
+            : { background: '#FFFFFF' }
+        "
+      >
+        <div class="d-flex pt-2">
+          <div class="checkBox" *ngIf="lessionIdArr.indexOf(obj.id) != -1">
+            <i class="fa fa-check checkIcon"></i>
+          </div>
+          <div
+            class="uncheckBox"
+            *ngIf="lessionIdArr.indexOf(obj.id) == -1"
+          ></div>
+          <div class="showDate">
+            <p
+              class="date text-c300 body-m"
+              [ngClass]="{ checkedDate: lessionIdArr.indexOf(obj.id) != -1 }"
+            >
+              {{ obj?.startDate | utcShortDate }}
+            </p>
+            <p
+              class="day text-c100 small"
+              [ngClass]="{ checkedDext: lessionIdArr.indexOf(obj.id) != -1 }"
+            >
+              {{ obj?.startDate | utcFullDay }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="statusBox"
+          [ngClass]="{ checkStudent: lessionIdArr.indexOf(obj.id) != -1 }"
+        >
+          <p class="statusText">{{ obj?.enrolledStudentCount }} students</p>
         </div>
       </div>
     </div>

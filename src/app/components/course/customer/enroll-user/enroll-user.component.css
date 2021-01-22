@@ -4407,3 +4407,6 @@ button.today-button {
   -webkit-animation-name: placeholderShimmer;
   -webkit-animation-timing-function: linear;
 }
+.hidden {
+  visibility: hidden;
+}

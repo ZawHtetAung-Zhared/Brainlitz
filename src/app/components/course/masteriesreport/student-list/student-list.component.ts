@@ -16,10 +16,10 @@ import { shallowEqual } from '@angular/router/src/utils/collection';
 export class StudentListComponent implements OnInit {
   private regionId = localStorage.getItem('regionId');
   private courseId = localStorage.getItem('course_id');
-  private selectedMastery: any; //= this.masteriesReports[localStorage.getItem('mastery_reportId')];
+  public selectedMastery: any; //= this.masteriesReports[localStorage.getItem('mastery_reportId')];
   private studentlist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   private isItemSelect: boolean = false;
-  private userList = {};
+  public userList = {};
   private showUserTypeArr = [];
   private modalReference;
   private loadingQuestion: boolean = false;

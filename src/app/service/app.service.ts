@@ -787,7 +787,8 @@ export class appService {
       '&limit=' +
       limit +
       '&skip=' +
-      skip;
+      skip +
+      '&disableUserGrade=1';
     // let apiUrl = this.baseUrl + '/' + regionID + '/user?type='+ userType  + '&keyword=' + val;
     const httpOptions = {
       headers: new HttpHeaders({
@@ -831,9 +832,8 @@ export class appService {
     });
   }
 
-  getUserDetail(id: string, userId: string, locationid: string) {
-    console.log(id);
-    console.log(userId);
+  getUserDetail(id: string, userId: string, locationid: string, requestedData) {
+    console.log('RD', requestedData);
     let apiUrl =
       this.baseUrl +
       '/user/' +
@@ -842,6 +842,9 @@ export class appService {
       id +
       '&locationId=' +
       locationid;
+    if (requestedData != null) {
+      apiUrl += '&requestedData=' + requestedData;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1363,7 +1366,8 @@ export class appService {
     val: string,
     userId: string,
     limit: number,
-    skip: number
+    skip: number,
+    courseplanid: string
   ) {
     let apiUrl =
       this.baseUrl +
@@ -1377,6 +1381,9 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    if (courseplanid != null) {
+      apiUrl += '&coursePlanId=' + courseplanid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1393,7 +1400,8 @@ export class appService {
     regionId: string,
     userId: string,
     limit: number,
-    skip: number
+    skip: number,
+    courseplanid: string
   ) {
     this.getLocalstorage();
     let url =
@@ -1406,6 +1414,9 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    if (courseplanid != null) {
+      url += '&coursePlanId=' + courseplanid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         authorization: this.tokenType + ' ' + this.accessToken
@@ -2137,9 +2148,10 @@ export class appService {
         regionid +
         '/course/user/' +
         courseid +
-        '?usergrade=1';
+        '?usergrade=1' +
+        '&attendanceMode=true';
     } else {
-      (url =
+      url =
         this.baseUrl +
         '/' +
         regionid +
@@ -2150,8 +2162,8 @@ export class appService {
         '&month=' +
         month +
         '&year=' +
-        year),
-        '&usergrade=1';
+        year +
+        '&usergrade=1&attendanceMode=true';
     }
 
     const httpOptions = {
@@ -3098,7 +3110,19 @@ export class appService {
       });
   }
 
-  getAllInvoices(regionId: string, limit: number, skip: number) {
+  getAllInvoices(
+    regionId: string,
+    limit: number,
+    skip: number,
+    status,
+    start,
+    end,
+    startDue,
+    endDue,
+    cusList,
+    sortcol,
+    sortdir
+  ) {
     let apiUrl =
       this.baseUrl +
       '/' +
@@ -3107,6 +3131,31 @@ export class appService {
       limit +
       '&skip=' +
       skip;
+    var Status = '';
+    Status += status.paid ? '-PAID' : '';
+    Status += status.unpaid ? '-UNPAID' : '';
+    Status += status.partial ? '-PAID[PARTIAL]' : '';
+    Status = Status.slice(1, Status.length);
+
+    if (Status != '') {
+      apiUrl += '&status=' + Status;
+    }
+    if (start != null && end != null) {
+      apiUrl += '&startDate=' + start + '&endDate=' + end;
+    }
+    if (startDue != null && endDue != null) {
+      apiUrl += '&dueDateStart=' + startDue + '&dueDateEnd=' + endDue;
+    }
+    if (cusList.length > 0) {
+      apiUrl += '&users=';
+      for (var i = 0; i < cusList.length; i++) {
+        apiUrl += cusList[i].userId;
+        if (i != cusList.length - 1) {
+          apiUrl += ',';
+        }
+      }
+    }
+    apiUrl += '&sortDirection=' + sortdir + '&sortColumn=' + sortcol;
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4157,13 +4206,15 @@ export class appService {
   }
 
   // today lesson
-  gettodayLesson(regionId, locationid) {
+  gettodayLesson(regionId, locationid, date) {
     let url =
       this.baseUrl +
       '/regions/' +
       regionId +
       '/courses/today-lessons?locationId=' +
-      locationid;
+      locationid +
+      '&date=' +
+      date;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4884,5 +4935,20 @@ export class appService {
     return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
+  }
+
+  cancelLesson(body) {
+    let apiUrl = this.baseUrl + '/lessons/cancel';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }

@@ -9,9 +9,13 @@
     "start:staging": "ng serve --env=staging",
     "start:dev": "ng serve --env=dev",
     "build": "ng build --prod=true --env=local --aot=false",
-    "build:master": "ng build --prod=true --env=master --aot=false",
-    "build:staging": "ng build --prod=true --env=staging --aot=false",
-    "build:dev": "ng build --prod=true --env=dev --aot=false",
+    "build:enable_aot": "ng build --prod=true --env=local --aot=true",
+    "build:master_old": "ng build --prod=true --env=master --aot=false",
+    "build:staging_old": "ng build --prod=true --env=staging --aot=false",
+    "build:dev_old": "ng build --prod=true --env=dev --aot=false",
+    "build:dev": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=dev --buildOptimizer=true",
+    "build:master": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=master --buildOptimizer=true",
+    "build:staging": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=staging --buildOptimizer=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -37,7 +41,7 @@
     "angular-highcharts": "^9.0.2",
     "angular-oauth2-oidc": "^3.1.4",
     "angular-sortablejs": "^2.6.0",
-    "angular-star-rating": "^2.0.0-rc.5",
+    "angular-star-rating": "^3.0.0",
     "angular2-cookie": "^1.2.6",
     "angular2-markdown": "^2.2.3",
     "angular2-medium-editor": "^1.3.1",
@@ -65,7 +69,7 @@
     "moment-timezone": "^0.5.21",
     "month-range-picker": "git+https://github.com/ahtisham848/month-range-picker.git#custom",
     "ng-block-ui": "^1.0.4",
-    "ng-bootstrap-modal-stack": "^1.0.6",
+    "ng-bootstrap-modal-stack": "1.0.5",
     "ng-circle-progress": "^1.0.0",
     "ng-click-outside": "^4.0.0",
     "ng-connection-service": "^1.0.4",
@@ -117,7 +121,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.6.2"
   },
   "husky": {
     "hooks": {
