@@ -930,3 +930,63 @@ input:checked + .slider:before {
   max-height: 700px;
   overflow: auto;
 }
+/* new radio design starts here */
+.default-rdo {
+  width: 102px;
+  height: 32px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  cursor: pointer;
+}
+.default-rdo > label > input {
+  visibility: hidden;
+  position: absolute;
+}
+.default-rdo > label {
+  margin: 0;
+}
+.rdo_ticks_present {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  background-image: url('../../../assets/icons/default_present_radio.svg');
+}
+.rdo_ticks_absent {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  background-image: url('../../../assets/icons/default_absent_radio.svg');
+}
+.present-rdo:hover,
+.present-rdo:hover .present-rdo > label > span {
+  background: #bfffda;
+  color: #007d49;
+}
+.present-rdo:hover .rdo_ticks_present {
+  background-image: url('../../../assets/icons/hover_present_radio.svg');
+}
+.absent-rdo:hover .rdo_ticks_absent {
+  background-image: url('../../../assets/icons/hover_absent_radio.svg');
+}
+.absent-rdo:hover,
+.absent-rdo:hover .absent-rdo > label > span {
+  background: #ffe7e6;
+  color: #e63c39;
+}
+.present-rdo-checked {
+  background: #00a653;
+  pointer-events: none;
+}
+.absent-rdo-checked {
+  background: #e63c39;
+  pointer-events: none;
+}
+.rdo_checked_present {
+  background-image: url('../../../assets/icons/checked_present_radio.svg');
+}
+.rdo_checked_absent {
+  background-image: url('../../../assets/icons/checked_absent_radio.svg');
+}
+/* new radio design ends here */
