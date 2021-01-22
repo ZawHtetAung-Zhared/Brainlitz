@@ -13,9 +13,9 @@
     "build:master_old": "ng build --prod=true --env=master --aot=false",
     "build:staging_old": "ng build --prod=true --env=staging --aot=false",
     "build:dev_old": "ng build --prod=true --env=dev --aot=false",
-    "build:dev": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=dev",
-    "build:master": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=master",
-    "build:staging": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=staging",
+    "build:dev": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=dev --buildOptimizer=true",
+    "build:master": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=master --buildOptimizer=true",
+    "build:staging": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build client --prod=true --aot=true --env=staging --buildOptimizer=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

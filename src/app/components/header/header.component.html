@@ -102,7 +102,7 @@
               class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
               target="_blank"
-              (click)="onClickTimetable()"
+              routerLink="/timetable"
               >Schedule
               <div class="border-design" routerLinkActive="active"></div>
             </a>
@@ -198,12 +198,11 @@
           </li>
         </ul>
         <div>
-          <button
-            class="btn btn-today-lesson body-m text-c300 bg-s20"
-            (click)="onClickTodayLesson()"
-          >
-            Today’s lessons
-          </button>
+          <a routerLink="/today-lesson" target="_blank">
+            <button class="btn btn-today-lesson body-m text-c300 bg-s20">
+              Today’s lessons
+            </button>
+          </a>
         </div>
       </div>
     </div>
@@ -253,7 +252,7 @@
               class="nav-link text-c300 body-l cursor-on"
               routerLinkActive="active"
               target="_blank"
-              (click)="onClickTimetable()"
+              routerLink="/timetable"
               >Schedule</a
             >
           </li>
@@ -314,12 +313,11 @@
           </li>
         </ul>
         <div class="pt-2">
-          <button
-            class="btn btn-today-lesson body-m text-c300 bg-s20"
-            (click)="onClickTodayLesson()"
-          >
-            Today’s lessons
-          </button>
+          <a routerLink="/today-lesson" target="_blank">
+            <button class="btn btn-today-lesson body-m text-c300 bg-s20">
+              Today’s lessons
+            </button>
+          </a>
         </div>
       </div>
     </div>
