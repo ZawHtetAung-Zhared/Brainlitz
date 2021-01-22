@@ -85,7 +85,7 @@ export class UserDetailComponent implements OnInit {
   public achievementGrade: any = [];
   public noSetting: boolean = false;
   isProrated: boolean = false;
-  claimCourses: any;
+  public claimCourses: Array<any> = [];
   public className: any;
   //flexy
   public flexyarr = [];
@@ -676,6 +676,10 @@ export class UserDetailComponent implements OnInit {
       this.getAC(20, skip, userId);
     }
   }
+  showMoreMakeup(skip) {
+    console.log('Makeup skip', skip);
+    this.getClaimCourses(this.currentPassObj.course.courseId, skip);
+  }
 
   changeSearch2(searchWord, userId) {
     if (searchWord.length == 0) {
@@ -1012,9 +1016,10 @@ export class UserDetailComponent implements OnInit {
     console.log('clicking course', course);
     this.router.navigate(['/coursedetail', course._id]);
   }
-
+  public mkSearchFlag: boolean = false;
   searchMakeup(keyword) {
     if (keyword.length > 0) {
+      this.mkSearchFlag = true;
       //this.blockUI.start('Loading...');
       this._service
         .searchMakeupCourse(keyword, this.currentPassObj.course.courseId, 20, 0)
@@ -1030,8 +1035,9 @@ export class UserDetailComponent implements OnInit {
           }
         );
     } else {
-      this.claimCourses = '';
-      this.getClaimCourses(this.currentPassObj.course.courseId);
+      this.claimCourses = [];
+      this.mkSearchFlag = false;
+      this.getClaimCourses(this.currentPassObj.course.courseId, 0);
     }
   }
 
@@ -1241,16 +1247,17 @@ export class UserDetailComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
-    this.getClaimCourses(this.currentPassObj.course.courseId);
+    this.getClaimCourses(this.currentPassObj.course.courseId, 0);
   }
-
-  getClaimCourses(id) {
+  public mkResult: any;
+  getClaimCourses(id, skip) {
     //this.blockUI.start('Loading...');
-    this._service.getClaimPassCourses(id).subscribe(
+    this._service.getClaimPassCourses(id, 20, skip).subscribe(
       (res: any) => {
         //this.blockUI.stop();
         console.log(res);
-        this.claimCourses = res;
+        this.mkResult = res;
+        this.claimCourses = this.claimCourses.concat(res);
       },
       err => {
         //this.blockUI.stop();
