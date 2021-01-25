@@ -147,7 +147,18 @@
                     </p>
                   </div>
                 </div>
-                <div class="caption-u text-c100 mb-16">assistants</div>
+                <div
+                  class="caption-u text-s70 mb-16"
+                  *ngIf="tcourse.assistants.length == 0"
+                >
+                  assistants
+                </div>
+                <div
+                  class="caption-u text-c100 mb-16"
+                  *ngIf="tcourse.assistants.length != 0"
+                >
+                  assistants
+                </div>
                 <div
                   class="d-flex align-items-center mb-16"
                   *ngFor="let assTeacher of tcourse.assistants"
@@ -164,6 +175,7 @@
                   </div>
                 </div>
                 <div
+                  class="text-s70"
                   *ngIf="
                     tcourse.assistants.length == 0 ||
                     tcourse.assistants.length == null
