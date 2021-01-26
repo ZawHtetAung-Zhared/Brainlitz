@@ -147,7 +147,18 @@
                     </p>
                   </div>
                 </div>
-                <div class="caption-u text-c100 mb-16">assistants</div>
+                <div
+                  class="caption-u text-s70 mb-16"
+                  *ngIf="tcourse.assistants.length == 0"
+                >
+                  assistants
+                </div>
+                <div
+                  class="caption-u text-c100 mb-16"
+                  *ngIf="tcourse.assistants.length != 0"
+                >
+                  assistants
+                </div>
                 <div
                   class="d-flex align-items-center mb-16"
                   *ngFor="let assTeacher of tcourse.assistants"
@@ -164,6 +175,7 @@
                   </div>
                 </div>
                 <div
+                  class="text-s70"
                   *ngIf="
                     tcourse.assistants.length == 0 ||
                     tcourse.assistants.length == null
@@ -190,35 +202,75 @@
                       {{ student.userDetails.fullName }}
                     </p>
                   </div>
-                  <!--  -->
+                  <!-- design changed on release/aot-enable -->
                   <div class="d-flex align-items-center">
                     <div
-                      id="divToHide"
-                      class="present-wrap"
+                      class="bg-s20 default-rdo present-rdo"
+                      style="margin-right: 16px;"
                       [ngClass]="{
-                        'attendance-radio':
+                        'present-rdo-checked':
                           student.todayLesson.attendance == true
                       }"
                     >
-                      <label id="divToHide" class="radio-present mb-0 ">
-                        <p
-                          class="mb-0 body-m"
+                      <div
+                        class="rdo_ticks_present"
+                        [ngClass]="{
+                          rdo_checked_present:
+                            student.todayLesson.attendance == true
+                        }"
+                      ></div>
+                      <label>
+                        <span
+                          class="text-c300 body-m cursor"
                           [ngClass]="{
-                            'present-text': student.todayLesson.attendance
+                            'text-s0': student.todayLesson.attendance == true
                           }"
                         >
                           Present
-                        </p>
+                        </span>
                         <input
                           type="radio"
                           name="radio{{ i }}{{ j }}"
                           (click)="onClickRadio(null, 'present', student, i)"
                           [checked]="student.todayLesson.attendance == true"
                         />
-                        <span class="checkmark"></span>
                       </label>
                     </div>
                     <div
+                      class="bg-s20 default-rdo absent-rdo"
+                      [ngClass]="{
+                        'absent-rdo-checked':
+                          student.todayLesson.attendance == false
+                      }"
+                    >
+                      <div
+                        class="rdo_ticks_absent"
+                        [ngClass]="{
+                          rdo_checked_absent:
+                            student.todayLesson.attendance == false
+                        }"
+                      ></div>
+                      <label>
+                        <span
+                          class="text-c300 body-m cursor"
+                          [ngClass]="{
+                            'text-s0': student.todayLesson.attendance == false
+                          }"
+                        >
+                          Absent
+                        </span>
+                        <input
+                          type="radio"
+                          name="radio{{ i }}{{ j }}"
+                          (click)="
+                            onClickRadio(makeupModal, 'absent', student, i)
+                          "
+                          [checked]="student.todayLesson.attendance == false"
+                        />
+                      </label>
+                    </div>
+
+                    <!-- <div
                       id="divToHide"
                       class="absent-wrap"
                       [ngClass]="{
@@ -245,7 +297,7 @@
                         />
                         <span class="checkmark"></span>
                       </label>
-                    </div>
+                    </div> -->
                   </div>
                   <!--  -->
                 </div>

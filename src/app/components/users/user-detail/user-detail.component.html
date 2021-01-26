@@ -2316,7 +2316,7 @@
           (keyup.enter)="searchMakeup($event.target.value)"
         />
       </div>
-      <div class="mt-20 class-group">
+      <div class="mt-20 class-group" style="margin-bottom: 20px;">
         <div class="card-columns pd-zero" *ngIf="claimCourses">
           <div class="card" *ngFor="let claim of claimCourses; let i = index">
             <div class="single-class">
@@ -2425,6 +2425,20 @@
             </div>
           </div>
         </div>
+      </div>
+      <div
+        *ngIf="
+          claimCourses?.length >= 20 && mkResult?.length > 0 && !mkSearchFlag
+        "
+        class="load-more1 bg-s0 d-flex justify-content-center"
+      >
+        <button
+          type="button"
+          class="btn body-m bg-s0 text-b100"
+          (click)="showMoreMakeup(claimCourses.length)"
+        >
+          load more
+        </button>
       </div>
     </div>
   </ng-template>

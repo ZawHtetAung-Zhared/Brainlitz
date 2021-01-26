@@ -1961,7 +1961,7 @@ export class UsersComponent implements OnInit {
 
   getClaimCourses(id) {
     //this.blockUI.start('Loading...');
-    this._service.getClaimPassCourses(id).subscribe(
+    this._service.getClaimPassCourses(id, 20, 0).subscribe(
       (res: any) => {
         //this.blockUI.stop();
         console.log(res);

@@ -203,8 +203,13 @@ export class TodayLessonsComponent implements OnInit {
           console.log(res, 'active course info');
           let activeCourse = res;
           for (let j = 0; j < activeCourse.CUSTOMER.length; j++) {
-            this.todayCourse.courses[index].students[j].todayLesson.attendance =
-              activeCourse.CUSTOMER[j].attendance;
+            this.todayCourse.courses[index].students[
+              j
+            ].todayLesson.attendance = activeCourse.CUSTOMER.find(
+              x =>
+                x.userId ==
+                this.todayCourse.courses[index].students[j].userDetails._id
+            ).attendance;
             if (activeCourse.CUSTOMER[j].attendance == true) {
               prsentCount += 1;
             } else if (activeCourse.CUSTOMER[j].attendance == false) {
@@ -237,7 +242,7 @@ export class TodayLessonsComponent implements OnInit {
     this.reasonValue = '';
     this.index = '';
     if (this.attan_type == 'absent') {
-      this.getTodayLesson();
+      // this.getTodayLesson();
       this.modalReference.close();
     }
     this.attan_type = '';

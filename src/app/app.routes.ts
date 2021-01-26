@@ -145,7 +145,7 @@ export const routes: Routes = [
     component: CoursedetailComponent,
     canActivate: [LoggedInGuard],
     children: [
-      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: '', redirectTo: 'customers', pathMatch: 'full' },
       {
         path: 'overview',
         component: OverviewComponent

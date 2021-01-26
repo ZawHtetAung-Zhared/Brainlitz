@@ -3260,8 +3260,16 @@ export class appService {
     });
   }
 
-  getClaimPassCourses(courseid: string) {
-    let apiUrl = this.baseUrl + '/' + courseid + '/makeup/lessons';
+  getClaimPassCourses(courseid: string, limit, skip) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      courseid +
+      '/makeup/lessons' +
+      '?limit=' +
+      limit +
+      '&skip=' +
+      skip;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
