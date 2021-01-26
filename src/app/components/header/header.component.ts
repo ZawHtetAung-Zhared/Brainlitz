@@ -348,10 +348,16 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     console.log('::::::\n:::::\n:::::::n:::::::\n:::::::::\n' + this.activeTab);
-    console.log('headerLocation work');
+    console.log('headerLocation work', this._service.getLocationCache());
     console.log('Org Log', this.orgLogo);
     this.getAdministrator();
-    this.getNotiList();
+    if (
+      this._router.url == '/course' ||
+      this._router.url == '/customer/customerlist' ||
+      this._router.url == '/staff/stafflist'
+    ) {
+      this.getNotiList();
+    }
 
     setTimeout(() => {
       this.userName = localStorage.getItem('userName');
@@ -370,22 +376,22 @@ export class HeaderComponent implements OnInit, OnChanges {
       console.log(this._router.url);
     }
   }
-
-  notiFrom() {
-    let temp = [];
-    let temp2 = [];
-    for (var i = 0; i < this.notis.length; i++) {
-      temp.push(this.notis[i].sender.preferredName);
-    }
-    // console.log("name test",temp.includes(this.notis[1].student.preferredName));
-    for (var j = 0; j < this.notis.length; j++) {
-      if (!temp2.includes(this.notis[j].sender.preferredName)) {
-        temp2.push(this.notis[j].sender.preferredName);
-      }
-    }
-    this.stuNames = temp2;
-    console.log('log test', this.notis);
-  }
+  //removed
+  // notiFrom() {
+  //   let temp = [];
+  //   let temp2 = [];
+  //   for (var i = 0; i < this.notis.length; i++) {
+  //     temp.push(this.notis[i].sender.preferredName);
+  //   }
+  //   // console.log("name test",temp.includes(this.notis[1].student.preferredName));
+  //   for (var j = 0; j < this.notis.length; j++) {
+  //     if (!temp2.includes(this.notis[j].sender.preferredName)) {
+  //       temp2.push(this.notis[j].sender.preferredName);
+  //     }
+  //   }
+  //   this.stuNames = temp2;
+  //   console.log('log test', this.notis);
+  // }
 
   getAdministrator() {
     console.log('getAdministrator works');
@@ -424,6 +430,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   getAllLocation() {
     this._service.getHeaderLocations(this.regionID, '', '', true).subscribe(
       (res: any) => {
+        this._service.setLocationCache(res);
         this.headerlocationLists = res;
         console.log(this.headerlocationLists.length);
 
@@ -651,12 +658,13 @@ export class HeaderComponent implements OnInit, OnChanges {
   }
   getNotiList() {
     console.log('HERE HERE');
-    this._service.getNotiList(this.regionID, this.status).subscribe(
+    this._service.getNotiList(this.regionID, this.status, true).subscribe(
       (res: any) => {
-        console.log('noti reciever', res.journalList);
-        this.notis = res.journalList;
-        this.count = this.notis.length;
-        this.notiFrom();
+        console.log('noti count', res.count);
+        // this.notis = res.journalList;
+        // this.count = this.notis.length;
+        this.count = res.count;
+        // this.notiFrom();
       },
       err => {
         console.log(err);
