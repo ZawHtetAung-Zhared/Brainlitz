@@ -372,7 +372,9 @@ export class UserDetailComponent implements OnInit {
     this.tabLoading = true;
     this.activeTab = val;
     this.activePass = 'available';
-    if (val == 'makeup') {
+    if (val == 'subscription') {
+      this.tabLoading = false;
+    } else if (val == 'makeup') {
       this.callMakeupLists();
     } else if (val == 'class') {
       this.showDetails(this.custDetail.user.userId, val, 'user,courses');
