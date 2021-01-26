@@ -2222,6 +2222,7 @@ button:disabled {
     padding-top: 12px; */
   margin-bottom: 24px;
   height: 56px;
+  width: 226px;
 }
 
 .single-student-modal {
@@ -4357,12 +4358,13 @@ button.today-button {
 .popup {
   position: absolute;
   background: #fff;
-  top: 65px;
+  top: 75px;
   /* left: 248px; */
   width: 230px;
   z-index: 99;
   box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  right: 0px;
 }
 
 .br-bottom {
@@ -4388,4 +4390,49 @@ button.today-button {
   position: absolute;
   top: 7px;
   right: 13px;
+}
+.class-setting {
+  width: auto;
+  height: 40px;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+}
+.settingDropDown {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 8px;
+  top: 50px;
+  right: 0px;
+  z-index: 1;
+  width: max-content;
+  padding: 16px;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
+}
+.setting-list {
+  padding: 12px 0px;
+  cursor: pointer;
+}
+.setting-list:hover {
+  background: #f2f3f5;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+.manage-lesson {
+  min-height: 672px;
+  padding: 32px;
+}
+.manage-footer {
+  background: white;
+  border-top: 1px solid #e3e4e5;
+  padding: 16px 32px 0 32px;
+  margin: 0 -32px -16px -32px;
+}
+.lesson-count {
+  background: #cce6ff;
+  border-radius: 27px;
+  padding: 8px;
 }

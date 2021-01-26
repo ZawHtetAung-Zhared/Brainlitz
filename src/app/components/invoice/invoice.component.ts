@@ -108,11 +108,11 @@ export class InvoiceComponent implements OnInit {
   public invoiceDelete;
 
   ngOnInit() {
+    console.warn(this.custDetail, 'cust detail');
     // this.taxRate = this.course.invoice.tax.rate;
     this.singleInv = [];
     this.getSingleinvoice();
     this.getRegionInfo();
-    console.warn(this.custDetail, 'cust detail');
     console.warn(this.invoiceId, 'inv id');
     // if (Array.isArray(this.course.invoice)) {
     //   if (this.course.invoice[0].status == 'PAID') {

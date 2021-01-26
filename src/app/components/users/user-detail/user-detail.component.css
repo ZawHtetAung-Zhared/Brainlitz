@@ -3000,3 +3000,36 @@ p.grade-txt {
 .not-allowed {
   cursor: not-allowed;
 }
+.more-option {
+  width: 101px;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  margin-right: 24px;
+  cursor: pointer;
+  float: right;
+  position: relative;
+}
+.more-option:hover {
+  background: #f2f3f5;
+}
+.more-popup {
+  background: #363f4d;
+  border-radius: 8px;
+  width: 200px;
+  padding: 16px;
+  position: absolute;
+  right: 0;
+  bottom: 55px;
+}
+.more-popup::after {
+  position: absolute;
+  content: '';
+  border-style: solid;
+  border-width: 12px 10px 0 10px;
+  border-color: #363f4d transparent transparent transparent;
+  bottom: -12px;
+  right: 40px;
+}

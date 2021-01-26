@@ -14,8 +14,8 @@ import { appService } from '../../../../service/app.service';
   styleUrls: ['./sample-question.component.css']
 })
 export class SampleQuestionComponent implements OnInit {
-  private loadingQuestion: boolean = false;
-  private samplexml: any;
+  public loadingQuestion: boolean = false;
+  public samplexml: any;
   @Input() masteryId;
   @Output() closed = new EventEmitter<boolean>();
   constructor(private _service: appService) {}

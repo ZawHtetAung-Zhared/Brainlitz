@@ -156,7 +156,7 @@ export class RescheduleComponent implements OnInit {
     console.log(this.lessonObjArr);
   }
 
-  loadmoreReschedule(courseId, uId, lessons) {
+  loadmoreReschedule() {
     let date = new Date(
       this.reScheduleLists[this.reScheduleLists.length - 1].startDate
     );

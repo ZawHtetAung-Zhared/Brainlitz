@@ -5,7 +5,8 @@ import {
   Input,
   HostListener,
   Output,
-  EventEmitter
+  EventEmitter,
+  ViewContainerRef
 } from '@angular/core';
 import {
   NgbModalRef,
@@ -139,8 +140,11 @@ export class LeaveDetailsComponent implements OnInit, OnDestroy {
     private modalSecondaryService: NgbModalSecondary,
     private datePipe: DatePipe,
     private toastr: ToastsManager,
-    private leaveService: LeaveService
-  ) {}
+    private leaveService: LeaveService,
+    vRef: ViewContainerRef
+  ) {
+    this.toastr.setRootViewContainerRef(vRef);
+  }
 
   ngOnInit() {
     console.log(this.staffObj);

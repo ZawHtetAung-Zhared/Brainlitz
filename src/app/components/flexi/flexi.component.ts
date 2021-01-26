@@ -45,20 +45,30 @@ export class FlexiComponent implements OnInit {
   @Input() course;
   @Input() selectedCustomer;
   @Input() ctype;
+  @Input() transfer = false;
   lessonsObj: any = [];
   lessionIdArr: any = [];
   lessonObjArr: any = [];
   @Output() checkObjArr: any = new EventEmitter<any>();
   @Output() checkIdArr = new EventEmitter<number>();
   @Output() passDataconflictBoxShow = new EventEmitter();
-
+  public assignFlag: boolean = false;
   ngOnInit() {
-    console.log('I am in flexi');
+    console.log('I am in flexi', this.selectedCustomer);
+    if (localStorage.getItem('userType') == 'staff') {
+      this.assignFlag = true;
+    }
     this.lessionIdArr = [];
     this.lessonObjArr = [];
     this.lessonsObj = this.flexyarr.lessons;
     this.teacherDetail = this.flexyarr.teacherDetails;
-    this.flitterFlexyObj(this.flexyarr.lessons);
+    if (this.flexyarr.lessons[0].isAssigned != undefined) {
+      console.log('ASSISTANT FLEXI');
+      this.flitterFlexyObjAssistant(this.flexyarr.lessons);
+    } else {
+      console.log('STUDENT FLEXI');
+      this.flitterFlexyObj(this.flexyarr.lessons);
+    }
     console.log(this.flexyarr);
   }
 
@@ -83,6 +93,31 @@ export class FlexiComponent implements OnInit {
       // this.checkObjArr.emit(this.lessonObjArr);
       this.lessonsObj[i].id = i;
       this.emittedObjArray(this.lessonObjArr);
+      console.log('zha testing', this.lessionIdArr, '~~', this.lessonObjArr);
+      // if (j === 10) {
+      //   return;
+      // }
+    }
+  }
+  flitterFlexyObjAssistant(obj) {
+    this.lessionIdArr = [];
+    var j = 0;
+    for (let i = 0; i < obj.length; i++) {
+      let tobj: any = {};
+      tobj = obj[i];
+      tobj.id = i;
+
+      if (tobj.isAssigned) {
+        this.lessionIdArr.push(i);
+        this.lessonObjArr.push(tobj);
+      }
+
+      this.checkIdArr.emit(this.lessionIdArr);
+      // this.checkObjArr.emit(this.lessonObjArr);
+      this.lessonsObj[i].id = i;
+      this.emittedObjArray(this.lessonObjArr);
+      console.log('zha testing', this.lessionIdArr, '~~', this.lessonObjArr);
+
       // if (j === 10) {
       //   return;
       // }
@@ -262,6 +297,10 @@ export class FlexiComponent implements OnInit {
               tempLesson.push(i);
               tempdata.push(res.lessons[i]);
             }
+            if (res.lessons[i].isAssigned) {
+              this.lessionIdArr.push(i + tempLength);
+              this.lessonObjArr.push(res.lessons[i]);
+            }
             // console.log(i+".........",res.lessons[i]);
             // this.lessonsObj.unshift(res.lessons[i]);
           }
@@ -278,7 +317,8 @@ export class FlexiComponent implements OnInit {
           // for (let x = 0; x < this.lessionIdArr.length; x++) {
           //   this.lessionIdArr[x] = this.lessionIdArr[x] + res.lessons.length;
           // }
-
+          console.log(this.lessionIdArr, '###', this.lessonObjArr);
+          this.emittedObjArray(this.lessonObjArr);
           console.log(this.lessonObjArr);
           console.log(tempflexy);
           console.log(tempdata);
@@ -383,10 +423,15 @@ export class FlexiComponent implements OnInit {
             //   this.lessionIdArr.push(tempLen);
             //   this.lessonObjArr.push(res.lessons[i]);
             // }
+            if (res.lessons[i].isAssigned) {
+              this.lessionIdArr.push(tempLen);
+              this.lessonObjArr.push(this.lessonsObj[tempLen]);
+            }
             tempLen += 1;
           }
-          console.log(this.lessionIdArr);
+          console.log(this.lessionIdArr, '###', this.lessonObjArr);
           console.log(this.lessonsObj);
+          this.emittedObjArray(this.lessonObjArr);
           // this.checkIdArr.emit(this.lessionIdArr);
           // this.checkObjArr.emit(this.lessonObjArr);
           //this.blockUI.stop();
@@ -457,6 +502,8 @@ export class FlexiComponent implements OnInit {
   }
 
   emittedObjArray(array) {
+    console.log('array test', array);
+
     let tempArray = [];
     array.map(item => {
       let tempObj: any = {};

@@ -98,7 +98,7 @@ export class ReviewComponent implements OnInit {
     console.log(this.activeIndex);
   }
 
-  clickMsgType() {
+  clickMsgType(msgType) {
     console.log(this.activeType);
     if (this.activeType == 'APPROVED') {
       this.getReviewList(this.activeType);

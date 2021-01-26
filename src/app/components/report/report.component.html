@@ -241,6 +241,7 @@
                       </h2>
                       <div style="display: block;">
                         <star-rating-comp
+                          [staticColor]="'default'"
                           [readOnly]="true"
                           [starType]="'svg'"
                           [rating]="staffRating.rating"
@@ -305,6 +306,7 @@
             </h3>
             <div style="display: block;">
               <star-rating-comp
+                [staticColor]="'default'"
                 [readOnly]="true"
                 [starType]="'svg'"
                 [rating]="teacherRating"
@@ -347,6 +349,7 @@
                         {{ detailVote.preferredName }}
                       </p>
                       <star-rating-comp
+                        [staticColor]="'default'"
                         [readOnly]="true"
                         [starType]="'svg'"
                         [rating]="detailVote.rating"

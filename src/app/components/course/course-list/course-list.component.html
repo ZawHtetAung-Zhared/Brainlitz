@@ -1,6 +1,6 @@
 <div id="courseWrapper">
   <app-header
-    *ngIf="!isCategory && !isPlan && !isCourseCreate && !isTodayLesson"
+    *ngIf="!isCategory && !isPlan && !isCourseCreate"
     [ngClass]="{ stick: isSticky == true }"
     (newItemEvent)="reviewToggle($event)"
   ></app-header>
@@ -382,7 +382,8 @@
                       class="font-15 light-color"
                       >-
                     </span>
-                    <div
+                    <!-- student list removed -->
+                    <!-- <div
                       class="d-flex align-items-center student-wrap"
                       *ngIf="course.students.earlyAttendees?.length > 0"
                     >
@@ -462,13 +463,15 @@
                             6
                         }}</span
                       >
-                    </div>
-                    <div
+                    </div> -->
+
+                    <!-- <div
                       class="font-15 no-cust"
                       *ngIf="course.students.earlyAttendees?.length == 0"
                     >
                       No customers added yet.
-                    </div>
+                    </div> -->
+                    <!-- student list removed -->
                   </div>
                   <div class="ctime-wrap mt-4 mr-4 mb-4">
                     <div class="d-flex time-box">

@@ -43,6 +43,7 @@ export class CustomTaskComponent implements OnInit {
   public isSelectedTime: any;
   public clickableSteps: Array<any> = ['1'];
   public singleSelectedTask: any = {};
+  public navIsFixed: any = false;
 
   // get data from parent component
   @Input() courseDetail;

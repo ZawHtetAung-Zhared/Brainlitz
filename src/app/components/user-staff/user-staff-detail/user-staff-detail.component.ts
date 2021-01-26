@@ -68,7 +68,7 @@ export class UserStaffDetailComponent implements OnInit {
     console.log('userArchive', this.userArchive);
     console.log('show Staff details', this.staffObj);
     this._service
-      .getUserDetail(this.regionID, this.userId, this.locationID)
+      .getUserDetail(this.regionID, this.userId, this.locationID, 'user')
       .subscribe(
         (res: any) => {
           this.staffDetail = res;
