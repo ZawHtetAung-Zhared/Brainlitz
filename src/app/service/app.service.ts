@@ -886,8 +886,11 @@ export class appService {
       return result;
     });
   }
-  getNotiList(id: string, status: string) {
+  getNotiList(id: string, status: string, count) {
     let apiUrl = this.baseUrl + '/regions/' + id + '/journals?status=' + status;
+    if (count) {
+      apiUrl += '&count=true';
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4958,5 +4961,12 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+  private locationCache: any = null;
+  setLocationCache(loc) {
+    this.locationCache = loc;
+  }
+  getLocationCache() {
+    return this.locationCache;
   }
 }

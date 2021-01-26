@@ -134,7 +134,7 @@ export class ReviewComponent implements OnInit {
     console.log(status, 'status');
     console.log(this.activeType);
     new Promise((resolve, reject) => {
-      this._service.getNotiList(this.regionId, status).subscribe(
+      this._service.getNotiList(this.regionId, status, false).subscribe(
         (res: any) => {
           console.log(res.journlaList);
 
