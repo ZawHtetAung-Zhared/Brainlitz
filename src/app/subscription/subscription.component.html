@@ -1,11 +1,101 @@
 <div class="sub-container">
   <div class="sub-header d-flex justify-content-between">
     <div class="h2-strong text-c300">Subscription</div>
-    <button class="btn bg-b100 body-m text-s0">Subscribe new plan</button>
+    <button class="btn bg-b100 body-m text-s0" (click)="newSubModal(subModal)">
+      Subscribe new plan
+    </button>
   </div>
   <div class="sub-body" style="margin-top: 40px;">
     <img src="../../assets/img/empty_subscription.png" />
     <div class="h4-strong text-c100">No subscription yet.</div>
-    <button class="btn bg-b100 body-m text-s0">Subscribe new plan</button>
+    <div
+      class="light-body-m text-c100"
+      style="margin-top: 8px; margin-bottom: 24px;"
+    >
+      Please subscribe a new plan to manage a subscription
+    </div>
+    <button class="btn bg-b100 body-m text-s0" (click)="newSubModal(subModal)">
+      Subscribe new plan
+    </button>
+  </div>
+  <div class="subplan">
+    <div class="caption-u text-c100" style="width: 35%;">Subscribed plan</div>
+    <div class="caption-u text-c100" style="width: 20%;">Expiry date</div>
+    <div class="caption-u text-c100" style="width: 15%;">Payment</div>
+    <div class="caption-u text-c100" style="width: 15%;">Subscribed date</div>
+    <div class="caption-u text-c100" style="width: 15%;">actions</div>
+  </div>
+  <div class="subscriptions">
+    <div style="width: 35%;">
+      <div class="body-m text-b100">Play Haux Semi Plan</div>
+      <div class="light-body-m text-c100">
+        <span class="h2-strong text-c300">5</span><b>/ 50</b> lessons enrolled
+      </div>
+    </div>
+    <div style="width: 20%;">
+      <div class="h5-strong text-c300">25 Apr 2021</div>
+      <div class="light-body-m text-c100">120 days left</div>
+    </div>
+    <div style="width: 15%;">
+      <div class="small text-r200 fat-arrow bg-r25">
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_red.svg"
+        />Unpaid
+      </div>
+      <div class="h4-strong text-r100">S$ 79.99</div>
+    </div>
+    <div style="width: 15%;" class="body-m text-c100">5 Jan 2021</div>
+    <div class="d-flex" style="width: 15%;">
+      <div class="sub-action cursor">
+        <img src="../../assets/img/sub_action_icon.svg" />
+      </div>
+      <div class="sub-arrow cursor" style="margin-left: 40px;">
+        <img src="../../assets/images/arrow-right.svg" />
+      </div>
+    </div>
   </div>
 </div>
+
+<ng-template #subModal let-c="close" let-d="dismiss">
+  <div class="submodal-container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+      <div class="h1-strong text-c300">Subscribe new plan</div>
+      <img
+        class="cursor"
+        (click)="d()"
+        style="width: 16px;height: 16px;"
+        src="../../../assets/img/removeIcon.png"
+      />
+    </div>
+    <div class="d-flex card-container">
+      <div class="sub-cards">
+        <div class="h4-strong text-y200">Play Haux Quarter Plan</div>
+        <div style="margin-top: 8px;" class="light-body-m text-c100">
+          <span class="h2-strong text-c300">30</span> lessons
+        </div>
+        <div class="light-body-m text-c300">
+          Available for 90 days,
+          <span class="h5-strong text-c300">17 Mar 2020</span>
+        </div>
+        <div class="light-body-m text-c100" style="margin-top: 16px;">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget eleifend
+          nibh convallis lacus, nec molestie sagittis, aenean risus.
+        </div>
+        <button
+          style="margin-top: 16px"
+          class="btn sub-btn bg-b100 body-m text-s0"
+        >
+          Subscribe<span style="position: absolute; right: 16px;"
+            >S$ 49.99</span
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="close-btn cursor body-m text-c100" (click)="d()">
+      Close
+    </div>
+  </div>
+</ng-template>

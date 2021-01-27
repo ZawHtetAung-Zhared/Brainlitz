@@ -1659,3 +1659,6 @@ button.toast-close-button {
   overflow: hidden;
   left: calc(50% - 398px) !important;
 }
+.cursor {
+  cursor: pointer;
+}
