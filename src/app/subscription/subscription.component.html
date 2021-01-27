@@ -1,4 +1,4 @@
-<div class="sub-container">
+<div *ngIf="!subDetail" class="sub-container">
   <div class="sub-header d-flex justify-content-between">
     <div class="h2-strong text-c300">Subscription</div>
     <button class="btn bg-b100 body-m text-s0" (click)="newSubModal(subModal)">
@@ -50,7 +50,11 @@
       <div class="sub-action cursor">
         <img src="../../assets/img/sub_action_icon.svg" />
       </div>
-      <div class="sub-arrow cursor" style="margin-left: 40px;">
+      <div
+        class="sub-arrow cursor"
+        style="margin-left: 40px;"
+        (click)="gotoDetail()"
+      >
         <img src="../../assets/images/arrow-right.svg" />
       </div>
     </div>
@@ -99,3 +103,7 @@
     </div>
   </div>
 </ng-template>
+<app-subscription-detail
+  *ngIf="subDetail"
+  (flag)="backClicked()"
+></app-subscription-detail>

@@ -15,6 +15,7 @@ import {
 })
 export class SubscriptionComponent implements OnInit {
   public modalReference: any;
+  public subDetail: boolean = false;
 
   constructor(private modalService: NgbModal) {}
 
@@ -26,5 +27,11 @@ export class SubscriptionComponent implements OnInit {
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+  }
+  gotoDetail() {
+    this.subDetail = true;
+  }
+  backClicked() {
+    this.subDetail = false;
   }
 }

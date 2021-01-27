@@ -166,6 +166,7 @@ import {
   CreateUserStaffComponent
 } from './components/user-staff/index';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { SubscriptionDetailComponent } from './subscription/index';
 
 @NgModule({
   declarations: [
@@ -285,7 +286,8 @@ import { SubscriptionComponent } from './subscription/subscription.component';
     CreateUserStaffComponent,
     CourseSearchComponent,
     SampleQuestionComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    SubscriptionDetailComponent
   ],
   imports: [
     ContentLoaderModule,

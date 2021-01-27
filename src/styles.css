@@ -1662,3 +1662,6 @@ button.toast-close-button {
 .cursor {
   cursor: pointer;
 }
+.align-item-center {
+  align-items: center;
+}

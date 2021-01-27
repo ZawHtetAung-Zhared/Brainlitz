@@ -1,0 +1,99 @@
+.detail-container {
+  width: 100%;
+  height: 100%;
+  padding: 32px 40px;
+}
+.Export-btn {
+  width: 40px;
+  height: 40px;
+  margin-left: 16px;
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.detail-info {
+  width: auto;
+  height: 92px;
+  background: #ffffff;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
+.fat-arrow {
+  border-radius: 0px 4px 4px 0px;
+  width: fit-content;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  position: relative;
+}
+.arrow-head {
+  position: absolute;
+  right: -7px;
+  transform: rotate(180deg);
+}
+.empty-lesson {
+  width: auto;
+  height: 354px;
+  background: #ffffff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.subplan {
+  display: flex;
+  height: 48px;
+  background: #ffffff;
+  border-radius: 16px 16px 0px 0px;
+  align-items: center;
+  padding: 14px 24px;
+}
+.subscriptions {
+  width: auto;
+  height: 88px;
+  background: #ffffff;
+  box-shadow: 0px -1px 0px #e3e4e5;
+  display: flex;
+  padding: 14px 24px;
+  align-items: center;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  background: #ffdb26;
+  border-radius: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dot {
+  width: 4px;
+  height: 4px;
+  background: #e3e4e6;
+  margin: 0 8px;
+  display: inline-block;
+  border-radius: 50%;
+}
+.absent {
+  width: 94px;
+  height: 32px;
+  background: #e63c39;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
