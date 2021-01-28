@@ -10,7 +10,10 @@
   <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
     <div class="h2-strong text-c300">Play Haux Semi Plan</div>
     <div>
-      <button class="btn bg-b100 body-m text-s0">
+      <button
+        class="btn bg-b100 body-m text-s0"
+        (click)="enrollLesson(enrollModal)"
+      >
         Enroll lesson
       </button>
       <button type="button" class="Export-btn">
@@ -56,7 +59,10 @@
     <div class="light-body-m text-c100" style="margin-bottom: 24px;">
       Please enroll new lessons to start
     </div>
-    <button class="btn bg-b100 body-m text-s0">
+    <button
+      class="btn bg-b100 body-m text-s0"
+      (click)="enrollLesson(enrollModal)"
+    >
       Enroll lesson
     </button>
   </div>
@@ -92,3 +98,96 @@
     </div>
   </div>
 </div>
+<ng-template #enrollModal let-c="close" let-d="dismiss">
+  <div class="lesson-container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+      <div class="h1-strong text-c300">Enroll lesson</div>
+      <div class="light-body-m text-c300 enroll-profile">
+        <div class="profile"></div>
+        Statman Dave
+      </div>
+      <img
+        class="cursor"
+        (click)="d()"
+        style="width: 16px;height: 16px;"
+        src="../../../assets/img/removeIcon.png"
+      />
+    </div>
+    <div class="d-flex justify-content-between" style="margin-bottom: 48px;">
+      <div
+        class="date body-m text-c300 justify-content-between"
+        style="margin-right: 20px;"
+      >
+        Wed, 31 Jan 2020
+        <img src="../../../assets/img/course-dp.png" />
+      </div>
+      <div class="simple-search input-group pd-zero">
+        <input
+          class="form-control input-csearch course-search-input body-l"
+          type="search"
+          placeholder="Search courses to enroll ..."
+          id="course-search"
+          (focus)="focusCourseSearch($event)"
+          autocomplete="off"
+          name="keyword"
+          (input)="searchCourse($event.target.value)"
+          (keyup)="searchStart($event, 10, 0)"
+          [(ngModel)]="searchVal"
+        />
+      </div>
+      <div
+        class="plan-filter body-m text-c300 justify-content-between"
+        style="margin-left: 20px;"
+      >
+        All course plan
+        <i class="fa fa-chevron-down dropdown-arrow"></i>
+      </div>
+    </div>
+    <div class="caption-u text-c100" style="margin-bottom: 16px;">
+      today’s lessons
+    </div>
+    <div class="course-container">
+      <div
+        class="course-list d-flex justify-content-between align-item-center cursor"
+      >
+        <div class="d-flex align-item-center">
+          <input type="radio" class="enroll-radio" />
+          <div>
+            <div class="body-l text-c300">Math Werkz Area and Perimeter 3</div>
+            <div class="light-body-m text-c100">
+              8:30 AM - 9:00 AM
+              <img src="../../../assets/img/location_small.svg" />
+              <span>Austin</span>
+            </div>
+          </div>
+        </div>
+        <div class="avail-les light-body-m text-y300 d-flex align-item-center">
+          5 lessons available
+        </div>
+        <div class="d-flex align-item-center">
+          <div class="profile" style="margin-right: 12px;">CW</div>
+          <div class="light-body-m text-c100" style="margin-left: 3.25px;">
+            Cameron Williamson
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="enroll-footer d-flex justify-content-between align-item-center">
+    <div class="light-body-m text-c100">
+      <span class="h2-strong text-c100">45</span> / 50 lessons left to enroll
+    </div>
+    <div class="d-flex">
+      <div
+        class="enroll-cancel d-flex justify-content-center align-item-center cursor"
+        style="margin-right: 20px;"
+        (click)="d()"
+      >
+        Cancel
+      </div>
+      <button class="btn enroll-btn bg-b100 body-m text-s0">
+        Enroll lesson
+      </button>
+    </div>
+  </div>
+</ng-template>
