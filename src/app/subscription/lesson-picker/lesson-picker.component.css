@@ -1,0 +1,47 @@
+.lesson-container {
+  height: 80px;
+}
+.course-list {
+  width: auto;
+  height: 88px;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+}
+.enroll-radio {
+  width: 20px;
+  height: 20px;
+  margin-right: 22px;
+}
+.avail-les {
+  height: 32px;
+  background: #fff2b3;
+  border: 2px solid #ffffff;
+  border-radius: 24px;
+  padding: 4px 10px;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  background: #ffdb26;
+  border-radius: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lesson-card {
+  width: 23%;
+  height: 40px;
+  background: #0065f2;
+  border-radius: 8px;
+  margin: 1% 1%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lesson-card-container {
+  flex-wrap: wrap;
+  height: 400px;
+  overflow: auto;
+}

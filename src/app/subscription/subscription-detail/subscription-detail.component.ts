@@ -17,6 +17,7 @@ export class SubscriptionDetailComponent implements OnInit {
   @Output() flag = new EventEmitter<any>();
 
   public modalReference: any;
+  public lessonFlag: boolean = false;
 
   constructor(private modalService: NgbModal) {}
 
@@ -32,5 +33,15 @@ export class SubscriptionDetailComponent implements OnInit {
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+  }
+
+  continue() {
+    this.lessonFlag = true;
+    console.log('zha testing', this.lessonFlag);
+  }
+
+  lessonbackClicked() {
+    this.lessonFlag = false;
+    console.log('zha testing', this.lessonFlag);
   }
 }
