@@ -20,7 +20,7 @@ export class ReviewComponent implements OnInit {
   public activeObj: any;
   public regionId: any = localStorage.getItem('regionId');
   public reviewList = [];
-  public newLength: any;
+  public newLength: any = 0;
   @Output() backto = new EventEmitter();
 
   constructor(private _location: Location, private _service: appService) {}
@@ -134,7 +134,7 @@ export class ReviewComponent implements OnInit {
     console.log(status, 'status');
     console.log(this.activeType);
     new Promise((resolve, reject) => {
-      this._service.getNotiList(this.regionId, status).subscribe(
+      this._service.getNotiList(this.regionId, status, false).subscribe(
         (res: any) => {
           console.log(res.journlaList);
 

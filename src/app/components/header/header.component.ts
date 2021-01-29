@@ -298,36 +298,36 @@ export class HeaderComponent implements OnInit, OnChanges {
   // ];
   public count: any;
 
-  public notizha: any = {
-    _id: '5df1ef3d31ce9f0014a15563',
-    title: 'Attendance',
-    type: 3,
-    isApproved: false,
-    teacherOnly: false,
-    message:
-      'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
-    type_detail: {
-      attendance: true,
-      date: '2019-12-12T09:41:49.000Z'
-    },
-    sender: {
-      preferredName: 'Arron Walm TEST',
-      profilePic:
-        'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
-      senderId: '5b063ee136f2e0f83cdbac8c'
-    },
-    student: {
-      preferredName: 'Rachel',
-      profilePic:
-        'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
-      studentId: '5de8ca0631f64d0013c2bd39'
-    },
-    course: {
-      courseCode: 'Yogayago',
-      name: 'Yoga Beginner Class',
-      courseId: '5de8caad31f64d0013c2bd40'
-    }
-  };
+  // public notizha: any = {
+  //   _id: '5df1ef3d31ce9f0014a15563',
+  //   title: 'Attendance',
+  //   type: 3,
+  //   isApproved: false,
+  //   teacherOnly: false,
+  //   message:
+  //     'Attendance confirmed for Yoga Beginner Class, December 12, 2019 8:00 PM;',
+  //   type_detail: {
+  //     attendance: true,
+  //     date: '2019-12-12T09:41:49.000Z'
+  //   },
+  //   sender: {
+  //     preferredName: 'Arron Walm TEST',
+  //     profilePic:
+  //       'https://brainlitz-dev.s3.amazonaws.com/profile/153024702410236101155153024710196819002479153024835851660964289153025062134548629028_original.jpg',
+  //     senderId: '5b063ee136f2e0f83cdbac8c'
+  //   },
+  //   student: {
+  //     preferredName: 'Rachel',
+  //     profilePic:
+  //       'https://brainlitz-dev.s3.amazonaws.com/development/stgbl-cw1/profile/15755371584864828423_original.jpg',
+  //     studentId: '5de8ca0631f64d0013c2bd39'
+  //   },
+  //   course: {
+  //     courseCode: 'Yogayago',
+  //     name: 'Yoga Beginner Class',
+  //     courseId: '5de8caad31f64d0013c2bd40'
+  //   }
+  // };
 
   constructor(
     private _router: Router,
@@ -348,10 +348,16 @@ export class HeaderComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     console.log('::::::\n:::::\n:::::::n:::::::\n:::::::::\n' + this.activeTab);
-    console.log('headerLocation work');
+    console.log('headerLocation work', this._service.getLocationCache());
     console.log('Org Log', this.orgLogo);
     this.getAdministrator();
-    this.getNotiList();
+    if (
+      this._router.url == '/course' ||
+      this._router.url == '/customer/customerlist' ||
+      this._router.url == '/staff/stafflist'
+    ) {
+      this.getNotiList();
+    }
 
     setTimeout(() => {
       this.userName = localStorage.getItem('userName');
@@ -359,7 +365,11 @@ export class HeaderComponent implements OnInit, OnChanges {
     this.accessToken = localStorage.getItem('token');
     if (this.accessToken != undefined) {
       console.log('!undefined');
-      this.getAllLocation();
+      if (this._service.getLocationCache() == null) {
+        this.getAllLocation();
+      } else {
+        this.getAllCacheLocation();
+      }
     }
 
     if (this._router.url != '/dashboard') {
@@ -370,22 +380,22 @@ export class HeaderComponent implements OnInit, OnChanges {
       console.log(this._router.url);
     }
   }
-
-  notiFrom() {
-    let temp = [];
-    let temp2 = [];
-    for (var i = 0; i < this.notis.length; i++) {
-      temp.push(this.notis[i].sender.preferredName);
-    }
-    // console.log("name test",temp.includes(this.notis[1].student.preferredName));
-    for (var j = 0; j < this.notis.length; j++) {
-      if (!temp2.includes(this.notis[j].sender.preferredName)) {
-        temp2.push(this.notis[j].sender.preferredName);
-      }
-    }
-    this.stuNames = temp2;
-    console.log('log test', this.notis);
-  }
+  //removed
+  // notiFrom() {
+  //   let temp = [];
+  //   let temp2 = [];
+  //   for (var i = 0; i < this.notis.length; i++) {
+  //     temp.push(this.notis[i].sender.preferredName);
+  //   }
+  //   // console.log("name test",temp.includes(this.notis[1].student.preferredName));
+  //   for (var j = 0; j < this.notis.length; j++) {
+  //     if (!temp2.includes(this.notis[j].sender.preferredName)) {
+  //       temp2.push(this.notis[j].sender.preferredName);
+  //     }
+  //   }
+  //   this.stuNames = temp2;
+  //   console.log('log test', this.notis);
+  // }
 
   getAdministrator() {
     console.log('getAdministrator works');
@@ -424,6 +434,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   getAllLocation() {
     this._service.getHeaderLocations(this.regionID, '', '', true).subscribe(
       (res: any) => {
+        this._service.setLocationCache(res);
         this.headerlocationLists = res;
         console.log(this.headerlocationLists.length);
 
@@ -647,16 +658,18 @@ export class HeaderComponent implements OnInit, OnChanges {
     // this._dataservice.defineCurrentTab(type);
   }
   switchRegion() {
+    this._service.setLocationCache(null);
     this._router.navigateByUrl('/region', { skipLocationChange: true });
   }
   getNotiList() {
     console.log('HERE HERE');
-    this._service.getNotiList(this.regionID, this.status).subscribe(
+    this._service.getNotiList(this.regionID, this.status, true).subscribe(
       (res: any) => {
-        console.log('noti reciever', res.journalList);
-        this.notis = res.journalList;
-        this.count = this.notis.length;
-        this.notiFrom();
+        console.log('noti count', res.count);
+        // this.notis = res.journalList;
+        // this.count = this.notis.length;
+        this.count = res.count;
+        // this.notiFrom();
       },
       err => {
         console.log(err);
@@ -675,5 +688,46 @@ export class HeaderComponent implements OnInit, OnChanges {
   onClickTimetable() {
     // this._router.navigateByUrl('/today-lesson');
     window.open(window.location.origin + '/#/timetable', '_blank', 'noopener');
+  }
+  getAllCacheLocation() {
+    this.headerlocationLists = this._service.getLocationCache();
+    console.log(this.headerlocationLists.length);
+
+    this.currentLocationID = localStorage.getItem('locationId');
+    console.log(this.currentLocationID);
+    localStorage.setItem('previousLID', this.currentLocationID);
+
+    if (this.headerlocationLists.length != 0) {
+      if (this.currentLocationID != null) {
+        console.log('current location is not null');
+        for (var i = 0; i < this.headerlocationLists.length; i++) {
+          if (this.headerlocationLists[i]._id == this.currentLocationID) {
+            this.headerlocationLists[i].selected = true;
+            localStorage.setItem('locationId', this.headerlocationLists[i]._id);
+            localStorage.setItem(
+              'locationName',
+              this.headerlocationLists[i].name
+            );
+            localStorage.setItem(
+              'txtColor',
+              this.headerlocationLists[i].textColorHex
+            );
+            localStorage.setItem(
+              'backgroundColor',
+              this.headerlocationLists[i].backgroundColorHex
+            );
+            this.selectedLocation['id'] = this.headerlocationLists[i]._id;
+            this.selectedLocation['name'] = this.headerlocationLists[i].name;
+            this.locationName = this.headerlocationLists[i].name;
+          }
+        }
+        this.setPermission(this.currentLocationID);
+      } else {
+        console.log('no location has choosen');
+        this.setLocation();
+      }
+    } else {
+      console.log('no location in this region');
+    }
   }
 }
