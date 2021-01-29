@@ -35,68 +35,13 @@
   </div>
 
   <div class="lesson-card-container d-flex" style="margin-top: 16px;">
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
-    </div>
-    <div class="lesson-card body-m text-s0">
-      Mon, 24 Jan 2020
+    <div
+      (click)="selectLesson(lesson)"
+      class="lesson-card body-m text-c300 cursor"
+      *ngFor="let lesson of mock.lessons"
+      [ngClass]="{ selected: enrollList.includes(lesson) }"
+    >
+      {{ lesson.startDate | date: 'EEE, dd LLL yyyy' }}
     </div>
   </div>
 </div>

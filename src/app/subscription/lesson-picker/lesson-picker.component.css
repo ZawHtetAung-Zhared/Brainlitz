@@ -32,7 +32,8 @@
 .lesson-card {
   width: 23%;
   height: 40px;
-  background: #0065f2;
+  background: #f2f3f5;
+  color: #363f4d;
   border-radius: 8px;
   margin: 1% 1%;
 
@@ -42,6 +43,10 @@
 }
 .lesson-card-container {
   flex-wrap: wrap;
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
+}
+.selected {
+  background: #0065f2 !important;
+  color: #ffffff !important;
 }
