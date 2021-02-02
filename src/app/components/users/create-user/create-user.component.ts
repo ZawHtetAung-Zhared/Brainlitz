@@ -299,10 +299,11 @@ export class CreateUserComponent implements OnInit {
   }
 
   isValidateEmail($email) {
-    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.])+\.([A-Za-z]{2,4})$/; //for test@amdon.com format
-    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9]{1,})$/; //for test@amdon format
+    var emailReg = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\.\-])+\.([A-Za-z\-]{2,4})$/; //for test@amdon.com format
+    var emailReg1 = /^([A-Za-z0-9\.\+\_\-])+\@([A-Za-z0-9\-]{1,})$/; //for test@amdon format
+    var dash = /^([\-])$/; // for dash only
     if ($email != '') {
-      if (emailReg1.test($email)) return true;
+      if (emailReg1.test($email) || dash.test($email)) return true;
       else return emailReg.test($email);
     } else {
       return true;
