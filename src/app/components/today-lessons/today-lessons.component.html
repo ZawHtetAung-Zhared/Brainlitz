@@ -211,6 +211,7 @@
                         'present-rdo-checked':
                           student.todayLesson.attendance == true
                       }"
+                      (click)="onClickRadio(null, 'present', student, i)"
                     >
                       <div
                         class="rdo_ticks_present"
@@ -228,12 +229,6 @@
                         >
                           Present
                         </span>
-                        <input
-                          type="radio"
-                          name="radio{{ i }}{{ j }}"
-                          (click)="onClickRadio(null, 'present', student, i)"
-                          [checked]="student.todayLesson.attendance == true"
-                        />
                       </label>
                     </div>
                     <div
@@ -242,6 +237,7 @@
                         'absent-rdo-checked':
                           student.todayLesson.attendance == false
                       }"
+                      (click)="onClickRadio(makeupModal, 'absent', student, i)"
                     >
                       <div
                         class="rdo_ticks_absent"
@@ -259,14 +255,6 @@
                         >
                           Absent
                         </span>
-                        <input
-                          type="radio"
-                          name="radio{{ i }}{{ j }}"
-                          (click)="
-                            onClickRadio(makeupModal, 'absent', student, i)
-                          "
-                          [checked]="student.todayLesson.attendance == false"
-                        />
                       </label>
                     </div>
 

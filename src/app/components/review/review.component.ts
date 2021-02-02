@@ -20,7 +20,7 @@ export class ReviewComponent implements OnInit {
   public activeObj: any;
   public regionId: any = localStorage.getItem('regionId');
   public reviewList = [];
-  public newLength: any;
+  public newLength: any = 0;
   @Output() backto = new EventEmitter();
 
   constructor(private _location: Location, private _service: appService) {}
