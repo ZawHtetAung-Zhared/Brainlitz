@@ -4470,6 +4470,7 @@ export class AttendanceComponent implements OnInit {
   }
   public selectedStaff: any;
   openManageLesson(modal, staff) {
+    localStorage.setItem('userType', 'staff');
     console.log('staff staff staff', staff);
     this.selectedStaff = staff;
     console.log('list list list', this.detailLists);
