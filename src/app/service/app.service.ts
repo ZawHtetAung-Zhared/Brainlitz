@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { unwatchFile } from 'fs';
 import { start } from 'repl';
 import { KeyedWrite } from '@angular/compiler';
+import { map } from 'rxjs/operators/map';
 declare var $: any;
 
 @Injectable()
@@ -754,10 +755,32 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
+
+    return this.httpClient.get(url, httpOptions).pipe(
+      map((res: Response) => {
+        // let result = res;
+        let data = [];
+        data.push(this.mapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  mapper(res) {
+    var data = res;
+    let re = /original/gi;
+
+    for (let i = 0; i < data.length; i++) {
+      if (
+        data[i].profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data[i].profilePic = data[i].profilePic.replace(re, 'l');
+      console.log('modify data', data[i].profilePic.replace(re, 'l'));
+    }
+    return data;
   }
 
   getSearchUser(
