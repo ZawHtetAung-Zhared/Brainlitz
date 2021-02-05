@@ -2101,9 +2101,27 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      return res;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.singleCourseMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  singleCourseMapper(data) {
+    let re = /original/gi;
+    if (
+      data.teacher.profilePic !=
+      'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+    )
+      data.teacher.profilePic = data.teacher.profilePic.replace(re, 'l');
+    console.log('###', data);
+
+    return data;
   }
 
   updateCourse(id, body, locationid) {
